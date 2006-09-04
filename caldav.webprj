@@ -1,0 +1,27 @@
+<!DOCTYPE webproject>
+<webproject>
+  <project type="Local" name="caldav" encoding="utf8" >
+    <upload/>
+    <author>Andrew McMillan</author>
+    <email>andrew@catalyst.net.nz</email>
+    <defaultDTD>-//W3C//DTD XHTML 1.0 Transitional//EN</defaultDTD>
+    <item url="" uploadstatus="1" />
+    <templates>templates/</templates>
+    <toolbars>toolbars/</toolbars>
+    <item url="htdocs/index.php" uploadstatus="1" />
+    <item url="htdocs/" uploadstatus="1" />
+    <annotations/>
+    <item url="inc/caldav-OPTIONS.php" uploadstatus="1" />
+    <item url="inc/" uploadstatus="1" />
+    <item url="inc/caldav-REPORT.php" uploadstatus="1" />
+    <item url="inc/iCalendar.php" uploadstatus="1" />
+    <item url="inc/always.php" uploadstatus="1" />
+    <item url="config/config.php" uploadstatus="1" />
+    <item url="config/" uploadstatus="1" />
+    <item url="inc/caldav-PUT.php" uploadstatus="1" />
+    <item url="dba/caldav.sql" />
+    <item url="dba/" />
+    <item url="dba/create-database.sh" />
+    <item url="dba/sample-data.sql" />
+  </project>
+</webproject>

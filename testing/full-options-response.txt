@@ -1,0 +1,7 @@
+HTTP/1.1 200 OK
+Allow: OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, COPY, MOVE
+Allow: PROPFIND, PROPPATCH, LOCK, UNLOCK, REPORT, ACL
+DAV: 1, 2, 3, access-control, calendar-access
+Date: Fri, 11 May 2006 09:32:12 GMT
+Content-Length: 0
+

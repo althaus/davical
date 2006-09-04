@@ -1,0 +1,77 @@
+PUT /?andrewmcmillan.ics/20060509T200223Z.ics HTTP/1.1
+Host: mycaldav
+Content-Length: 1049
+If-None-Match: *
+User-Agent: Evolution/1.6.1
+Content-Type: text/calendar
+
+BEGIN:VCALENDAR
+CALSCALE:GREGORIAN
+PRODID:-//Ximian//NONSGML Evolution Calendar//EN
+VERSION:2.0
+BEGIN:VEVENT
+UID:20060509T200218Z-7351-1000-1-9@ubu
+DTSTAMP:20060509T200218Z
+DTSTART;TZID=/softwarestudio.org/Olson_20011030_5/Pacific/Auckland:
+ 20060510T100000
+DTEND;TZID=/softwarestudio.org/Olson_20011030_5/Pacific/Auckland:
+ 20060510T110000
+SUMMARY:Alistair
+X-EVOLUTION-CALDAV-HREF:http:
+ //mycaldav/?andrewmcmillan.ics/20060509T200223Z.ics
+BEGIN:VALARM
+X-EVOLUTION-ALARM-UID:20060509T200218Z-10149-1000-1-48@ubu
+ACTION:DISPLAY
+TRIGGER;VALUE=DURATION;RELATED=START:-PT15M
+DESCRIPTION:Alistair
+END:VALARM
+END:VEVENT
+BEGIN:VTIMEZONE
+TZID:/softwarestudio.org/Olson_20011030_5/Pacific/Auckland
+X-LIC-LOCATION:Pacific/Auckland
+BEGIN:STANDARD
+TZOFFSETFROM:+1300
+TZOFFSETTO:+1200
+TZNAME:NZST
+DTSTART:19700315T030000
+RRULE:FREQ=YEARLY;INTERVAL=1;BYDAY=3SU;BYMONTH=3
+END:STANDARD
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+1200
+TZOFFSETTO:+1300
+TZNAME:NZDT
+DTSTART:19701004T020000
+RRULE:FREQ=YEARLY;INTERVAL=1;BYDAY=1SU;BYMONTH=10
+END:DAYLIGHT
+END:VTIMEZONE
+END:VCALENDAR
+HTTP/1.1 200 OK
+
+Date: Tue, 09 May 2006 20:02:23 GMT
+Server: Apache/2.0.55 (Debian) DAV/2 PHP/4.4.2-1+b1
+X-Powered-By: PHP/4.4.2-1+b1
+Transfer-Encoding: chunked
+Content-Type: text/html; charset=UTF-8
+
+0
+
+REPORT /?andrewmcmillan.ics HTTP/1.1
+Host: mycaldav
+Content-Length: 301
+Depth: 1
+User-Agent: Evolution/1.6.1
+Content-Type: text/xml
+
+<C:calendar-query xmlns:C="urn:ietf:params:xml:ns:caldav" xmlns:D="DAV:">
+  <D:prop>
+    <D:getetag/>
+  </D:prop>
+  <C:filter>
+    <C:comp-filter name="VCALENDAR">
+      <C:comp-filter name="VEVENT">
+        <C:is-defined/>
+      </C:comp-filter>
+    </C:comp-filter>
+  </C:filter>
+</C:calendar-query>
+
