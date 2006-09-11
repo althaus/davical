@@ -1,20 +1,17 @@
 <?php
-  error_log("caldav: DBG: REPORT method handler");
 
-include_once("iCalendar.php");
-
-error_reporting(E_ALL);
+dbg_error_log("REPORT method handler");
 
 $parser = xml_parser_create_ns('UTF-8');
 xml_parser_set_option ( $parser, XML_OPTION_SKIP_WHITE, 1 );
 
 function xml_start_callback( $parser, $el_name, $el_attrs ) {
-  error_log( "DBG: Parsing $el_name" );
+  dbg_error_log( "REPORT: Parsing $el_name" );
   dbg_log_array( "$el_name::attrs", $el_attrs, true );
 }
 
 function xml_end_callback( $parser, $el_name ) {
-  error_log( "DBG: Finished Parsing $el_name" );
+  dbg_error_log( "REPORT: Finished Parsing $el_name" );
 }
 
 xml_set_element_handler ( $parser, 'xml_start_callback', 'xml_end_callback' );
@@ -51,11 +48,11 @@ foreach( $rpt_request AS $k => $v ) {
           unset($report_properties);
         }
         else {
-          error_log( "DBG: Unexpected DAV::PROP type of ".$v['type'] );
+          dbg_error_log( "REPORT: Unexpected DAV::PROP type of ".$v['type'] );
         }
       }
       else {
-        error_log( "DBG: Unexpected DAV::PROP type of ".$v['type']." when no active report type.");
+        dbg_error_log( "REPORT: Unexpected DAV::PROP type of ".$v['type']." when no active report type.");
       }
       break;
 
@@ -68,40 +65,47 @@ foreach( $rpt_request AS $k => $v ) {
       break;
 
      default:
-       error_log("caldav: DBG: Unhandled tag >>".$v['tag']."<<");
+       dbg_error_log("REPORT: Unhandled tag >>".$v['tag']."<<");
   }
 }
 
-dbg_log_array( 'RPT', $rpt_request, true );
+// dbg_log_array( 'RPT', $rpt_request, true );
 
-dbg_log_array( 'REPORT', $report, true );
+// dbg_log_array( 'REPORT', $report, true );
 
-header("Content-type: text/xml");
+header("HTTP/1.1 207 Multi-Status");
+header("Content-type: text/xml;charset=UTF-8");
 
-echo <<<EOXML
+$response_tpl = <<<RESPONSETPL
+    <D:response>
+        <D:href>http://%s:%d%s%s</D:href>
+        <D:propstat>
+            <D:prop>
+                <D:getetag>"%s"</D:getetag>
+            </D:prop>
+            <D:status>HTTP/1.1 200 OK</D:status>
+        </D:propstat>
+    </D:response>
+
+RESPONSETPL;
+
+
+echo <<<REPORTHDR
 <?xml version="1.0" encoding="utf-8" ?>
 <D:multistatus xmlns:D="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
-  <D:response>
-    <D:href>http://mycaldav/?andrewmcmillan.ics</D:href>
-    <D:propstat>
-      <D:prop>
-        <D:getetag>"fffff-abcd1"</D:getetag>
-        <C:calendar-data>BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//Andrew's CalDAV Server//PHP//0.0.1
-EOXML;
 
-echo iCalendar::vTimeZone("Pacific/Auckland");
-$event = new vEvent( '20060517T150000Z', 'PT2H', 'andrew@catalyst.net.nz', '', 'A Test Event for Andrew' );
-echo $event->ToString();
+REPORTHDR;
+
+  $qry = new PgQuery( "SELECT * FROM ics_event_data;" );
+  if ( $qry->Exec() && $qry->rows > 0 ) {
+    while( $event = $qry->Fetch() ) {
+      printf( $response_tpl, $_SERVER['SERVER_NAME'], $_SERVER['SERVER_PORT'], $_SERVER['SCRIPT_NAME'], $event->ics_event_name, $event->ics_event_etag );
+      dbg_error_log("REPORT: ETag >>%s<< >>http://%s:%s%s%s<<", $event->ics_event_etag,
+                            $_SERVER['SERVER_NAME'], $_SERVER['SERVER_PORT'], $_SERVER['SCRIPT_NAME'], $event->ics_event_name);
+    }
+  }
 
 echo <<<EOXML
-END:VCALENDAR
-        </C:calendar-data>
-      </D:prop>
-      <D:status>HTTP/1.1 200 OK</D:status>
-    </D:propstat>
-  </D:response>
 </D:multistatus>
 EOXML;
 

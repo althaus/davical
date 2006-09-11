@@ -1,6 +1,6 @@
 <!DOCTYPE webproject>
 <webproject>
-  <project type="Local" name="caldav" encoding="utf8" >
+  <project type="Local" name="rscds" encoding="utf8" >
     <upload/>
     <author>Andrew McMillan</author>
     <email>andrew@catalyst.net.nz</email>
@@ -8,20 +8,26 @@
     <item url="" uploadstatus="1" />
     <templates>templates/</templates>
     <toolbars>toolbars/</toolbars>
-    <item url="htdocs/index.php" uploadstatus="1" />
     <item url="htdocs/" uploadstatus="1" />
     <annotations/>
     <item url="inc/caldav-OPTIONS.php" uploadstatus="1" />
     <item url="inc/" uploadstatus="1" />
     <item url="inc/caldav-REPORT.php" uploadstatus="1" />
-    <item url="inc/iCalendar.php" uploadstatus="1" />
     <item url="inc/always.php" uploadstatus="1" />
     <item url="config/config.php" uploadstatus="1" />
     <item url="config/" uploadstatus="1" />
     <item url="inc/caldav-PUT.php" uploadstatus="1" />
-    <item url="dba/caldav.sql" />
-    <item url="dba/" />
-    <item url="dba/create-database.sh" />
-    <item url="dba/sample-data.sql" />
+    <item url="dba/caldav.sql" uploadstatus="1" />
+    <item url="dba/" uploadstatus="1" />
+    <item url="dba/create-database.sh" uploadstatus="1" />
+    <item url="dba/sample-data.sql" uploadstatus="1" />
+    <item url="inc/caldav-GET.php" uploadstatus="1" />
+    <item url="inc/caldav-DELETE.php" uploadstatus="1" />
+    <item url="htdocs/caldav.php" uploadstatus="1" />
+    <item url="inc/BasicAuthSession.php" uploadstatus="1" />
+    <item url="inc/session-util.php" uploadstatus="1" />
+    <item url="inc/vEvent.php" uploadstatus="1" />
+    <item url="debian/" />
+    <item url="debian/rules" />
   </project>
 </webproject>

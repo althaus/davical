@@ -1,5 +1,8 @@
 <?php
-  $c->domainname = "mycaldav.andrew";
+//  $c->domainname = "mycaldav.andrew";
+//  $c->sysabbr     = 'rscds';
+//  $c->admin_email = 'andrew@catalyst.net.nz';
+//  $c->system_name = "Really Simple CalDAV Store";
 
   if ( ! $dbconn = pg_Connect("port=5433 dbname=caldav user=general") ) {
     if ( ! $dbconn = pg_Connect("port=5432 dbname=caldav user=general") ) {

@@ -1,0 +1,5 @@
+rscds (0.1.0) unstable; urgency=low
+
+  * Initial Debian packaging
+
+ -- Andrew McMillan <debian@mcmillan.net.nz>  Tue,  2 May 2006 07:43:59 +1200
