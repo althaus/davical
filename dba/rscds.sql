@@ -1,4 +1,4 @@
--- My CalDAV server - Database Schema
+-- Really Simple CalDAV Store - Database Schema
 --
 
 -- Use the usr, group and schema management stufffrom libawl-php
@@ -20,7 +20,8 @@ GRANT SELECT,INSERT,UPDATE,DELETE ON ics_event_data TO general;
 CREATE TABLE time_zones (
   tzid TEXT PRIMARY KEY,
   location TEXT,
-  tz_spec TEXT
+  tz_spec TEXT,
+  pgtz TEXT
 );
 GRANT SELECT,INSERT ON time_zones TO general;
 
@@ -30,7 +31,7 @@ CREATE TABLE ical_events (
   ics_event_name TEXT,
   ics_event_etag TEXT,
 
-  -- Extracted iCalendar event data
+  -- Extracted vEvent event data
   uid TEXT,
   dtstamp TEXT,
   dtstart TIMESTAMP,

@@ -2,12 +2,12 @@ Source: rscds
 Section: catalyst
 Priority: extra
 Maintainer: Andrew McMillan <andrew@catalyst.net.nz>
-Standards-Version: 3.5.9
+Standards-Version: 3.6.3
 Build-Depends: debhelper
 
 Package: rscds
 Architecture: all
-Depends: debconf (>= 1.0.32), php4 (>= 4:4.1), php4-pgsql(>= 3:4.1.0), postgresql-client (>= 7.2.1) | postgresql-client-8.0 | postgresql-client-8.1, libawl-php (>=0.1-1)
+Depends: debconf (>= 1.0.32), php4 (>= 4:4.3) | php5, php4-pgsql(>= 3:4.3.0) | php5-pgsql, postgresql-client-8.0 | postgresql-client-8.1, libawl-php (>=0.3-1)
 Description: Really Simple CalDAV Server
  The Really Simple CalDAV Server is designed to trivially store
  CalDAV calendars, such as those from Evolution, in a central

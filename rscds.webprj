@@ -17,7 +17,6 @@
     <item url="config/config.php" uploadstatus="1" />
     <item url="config/" uploadstatus="1" />
     <item url="inc/caldav-PUT.php" uploadstatus="1" />
-    <item url="dba/caldav.sql" uploadstatus="1" />
     <item url="dba/" uploadstatus="1" />
     <item url="dba/create-database.sh" uploadstatus="1" />
     <item url="dba/sample-data.sql" uploadstatus="1" />
@@ -27,7 +26,8 @@
     <item url="inc/BasicAuthSession.php" uploadstatus="1" />
     <item url="inc/session-util.php" uploadstatus="1" />
     <item url="inc/vEvent.php" uploadstatus="1" />
-    <item url="debian/" />
-    <item url="debian/rules" />
+    <item url="debian/" uploadstatus="1" />
+    <item url="debian/rules" uploadstatus="1" />
+    <item url="dba/rscds.sql" />
   </project>
 </webproject>

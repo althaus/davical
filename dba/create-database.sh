@@ -1,12 +1,12 @@
 #!/bin/sh
 #
-# Build the CalDAV database
+# Build the RSCDS database
 #
 
-DBNAME="${1:-caldav}"
+DBNAME="${1:-rscds}"
 
 createdb -E UTF8 "${DBNAME}"
 
-psql -f caldav.sql "${DBNAME}"
+psql -f rscds.sql "${DBNAME}"
 
 psql -f sample-data.sql "${DBNAME}"
