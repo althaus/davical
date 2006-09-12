@@ -26,10 +26,10 @@ switch ( $_SERVER['REQUEST_METHOD'] ) {
     break;
 
   default:
-    dbg_error_log( "Unhandled request method >>%s<<", $_SERVER['REQUEST_METHOD'] );
-    dbg_log_array( 'HEADERS', $raw_headers );
-    dbg_log_array( '_SERVER', $_SERVER, true );
-    dbg_error_log( "RAW: %s", str_replace("\n", "",str_replace("\r", "", $raw_post)) );
+    dbg_error_log( "caldav", "Unhandled request method >>%s<<", $_SERVER['REQUEST_METHOD'] );
+    dbg_log_array( "caldav", 'HEADERS', $raw_headers );
+    dbg_log_array( "caldav", '_SERVER', $_SERVER, true );
+    dbg_error_log( "caldav", "RAW: %s", str_replace("\n", "",str_replace("\r", "", $raw_post)) );
 }
 
 

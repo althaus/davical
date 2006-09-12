@@ -34,8 +34,8 @@ CREATE TABLE ical_events (
   -- Extracted vEvent event data
   uid TEXT,
   dtstamp TEXT,
-  dtstart TIMESTAMP,
-  dtend TIMESTAMP,
+  dtstart TIMESTAMP WITH TIME ZONE,
+  dtend TIMESTAMP WITH TIME ZONE,
   summary TEXT,
   location TEXT,
   class TEXT,

@@ -18,6 +18,8 @@ $c->domain_name = $_SERVER['SERVER_NAME'];
 // Kind of private configuration values
 $c->total_query_time = 0;
 
+$c->dbg = array( 'core' => 1 );
+
 if ( $debugging && isset($_GET['method']) ) {
   $_SERVER['REQUEST_METHOD'] = $_GET['method'];
 }
@@ -30,17 +32,20 @@ function dbg_error_log() {
   global $c;
   $argc = func_num_args();
   $args = func_get_args();
+  $component = array_shift($args);
+  if ( !isset($c->dbg[strtolower($component)]) ) return;
+
   if ( 2 <= $argc ) {
     $format = array_shift($args);
   }
   else {
     $format = "%s";
   }
-  error_log( $c->sysabbr.": DBG: ". vsprintf( $format, $args ) );
+  error_log( $c->sysabbr.": DBG: $component:". vsprintf( $format, $args ) );
 }
 
 
-dbg_error_log( "==========> method =%s= =%s:%d= =%s= =%s=",
+dbg_error_log( "core", "==========> method =%s= =%s:%d= =%s= =%s=",
             $_SERVER['REQUEST_METHOD'], $_SERVER['SERVER_NAME'], $_SERVER['SERVER_PORT'], $_SERVER['SCRIPT_NAME'], $_SERVER['PATH_INFO']);
 if ( file_exists("/etc/rscds/".$_SERVER['SERVER_NAME']."-conf.php") ) {
   include_once("/etc/rscds/".$_SERVER['SERVER_NAME']."-conf.php");
@@ -62,11 +67,11 @@ if ( !function_exists('apache_request_headers') ) {
   }
 }
 
-function dbg_log_array( $name, $arr, $recursive = false ) {
+function dbg_log_array( $component, $name, $arr, $recursive = false ) {
   foreach ($arr as $key => $value) {
-    dbg_error_log( "%s: >>%s<< = >>%s<<", $name, $key, $value);
+    dbg_error_log( $component, "%s: >>%s<< = >>%s<<", $name, $key, $value);
     if ( $recursive && (gettype($value) == 'array' || gettype($value) == 'object') ) {
-      dbg_log_array( "$name"."[$key]", $value, $recursive );
+      dbg_log_array( $component, "$name"."[$key]", $value, $recursive );
     }
   }
 }

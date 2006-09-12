@@ -19,7 +19,7 @@ if ( !function_exists("session_salted_md5") ) {
   */
   function session_salted_md5( $instr, $salt = "" ) {
     if ( $salt == "" ) $salt = substr( md5(rand(100000,999999)), 2, 8);
-    dbg_error_log( "Login: Making salted MD5: salt=$salt, instr=$instr, md5($salt$instr)=".md5($salt . $instr) );
+    dbg_error_log( "Login", "Making salted MD5: salt=$salt, instr=$instr, md5($salt$instr)=".md5($salt . $instr) );
     return ( sprintf("*%s*%s", $salt, md5($salt . $instr) ) );
   }
 }

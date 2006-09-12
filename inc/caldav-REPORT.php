@@ -1,17 +1,17 @@
 <?php
 
-dbg_error_log("REPORT method handler");
+dbg_error_log("REPORT", "method handler");
 
 $parser = xml_parser_create_ns('UTF-8');
 xml_parser_set_option ( $parser, XML_OPTION_SKIP_WHITE, 1 );
 
 function xml_start_callback( $parser, $el_name, $el_attrs ) {
-  dbg_error_log( "REPORT: Parsing $el_name" );
-  dbg_log_array( "$el_name::attrs", $el_attrs, true );
+  dbg_error_log( "REPORT", "Parsing $el_name" );
+  dbg_log_array( "REPORT", "$el_name::attrs", $el_attrs, true );
 }
 
 function xml_end_callback( $parser, $el_name ) {
-  dbg_error_log( "REPORT: Finished Parsing $el_name" );
+  dbg_error_log( "REPORT", "Finished Parsing $el_name" );
 }
 
 xml_set_element_handler ( $parser, 'xml_start_callback', 'xml_end_callback' );
@@ -48,11 +48,11 @@ foreach( $rpt_request AS $k => $v ) {
           unset($report_properties);
         }
         else {
-          dbg_error_log( "REPORT: Unexpected DAV::PROP type of ".$v['type'] );
+          dbg_error_log( "REPORT", "Unexpected DAV::PROP type of ".$v['type'] );
         }
       }
       else {
-        dbg_error_log( "REPORT: Unexpected DAV::PROP type of ".$v['type']." when no active report type.");
+        dbg_error_log( "REPORT", "Unexpected DAV::PROP type of ".$v['type']." when no active report type.");
       }
       break;
 
@@ -65,7 +65,7 @@ foreach( $rpt_request AS $k => $v ) {
       break;
 
      default:
-       dbg_error_log("REPORT: Unhandled tag >>".$v['tag']."<<");
+       dbg_error_log( "REPORT", "Unhandled tag >>".$v['tag']."<<");
   }
 }
 
@@ -100,7 +100,7 @@ REPORTHDR;
   if ( $qry->Exec() && $qry->rows > 0 ) {
     while( $event = $qry->Fetch() ) {
       printf( $response_tpl, $_SERVER['SERVER_NAME'], $_SERVER['SERVER_PORT'], $_SERVER['SCRIPT_NAME'], $event->ics_event_name, $event->ics_event_etag );
-      dbg_error_log("REPORT: ETag >>%s<< >>http://%s:%s%s%s<<", $event->ics_event_etag,
+      dbg_error_log("REPORT", "ETag >>%s<< >>http://%s:%s%s%s<<", $event->ics_event_etag,
                             $_SERVER['SERVER_NAME'], $_SERVER['SERVER_PORT'], $_SERVER['SCRIPT_NAME'], $event->ics_event_name);
     }
   }

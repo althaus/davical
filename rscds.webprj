@@ -29,5 +29,6 @@
     <item url="debian/" uploadstatus="1" />
     <item url="debian/rules" uploadstatus="1" />
     <item url="dba/rscds.sql" />
+    <item url="htdocs/freebusy.php" />
   </project>
 </webproject>

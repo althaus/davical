@@ -1,6 +1,6 @@
 <?php
 
-dbg_error_log("GET method handler");
+dbg_error_log("get", "GET method handler");
 
 // The GET method is not sent with any wrapping XML so we simply fetch it
 
@@ -17,7 +17,7 @@ if ( $qry->Exec("caldav-GET") && $qry->rows == 1 ) {
 
   print $event->ics_raw_data;
 
-  dbg_error_log( "GET: User: %d, ETag: %s, Path: %s", $session->user_no, $event->ics_event_etag, $get_path);
+  dbg_error_log( "GET", "User: %d, ETag: %s, Path: %s", $session->user_no, $event->ics_event_etag, $get_path);
 
 }
 else {

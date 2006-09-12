@@ -15,4 +15,9 @@
     }
   }
 
+  $c->dbg['vevent'] = 1;
+  $c->dbg['put'] = 1;
+  $c->dbg['report'] = 1;
+
+
 ?>

@@ -64,67 +64,8 @@ class BasicAuthSession {
       header( sprintf( 'WWW-Authenticate: Basic realm="%s"', $c->system_name) );
       header('HTTP/1.0 401 Unauthorized');
       echo 'Please log in for access to this system.';
-      dbg_error_log( "Login: User is not authorised" );
+      dbg_error_log( "Login", "User is not authorised" );
       exit;
-    }
-  }
-
-  /**
-  * Utility function to log stuff with printf expansion.
-  *
-  * This function could be expanded to log something identifying the session, but
-  * somewhat strangely this has not yet been done.
-  *
-  * @param string $whatever A log string
-  * @param mixed $whatever... Further parameters to be replaced into the log string a la printf
-  */
-  function Log( $whatever )
-  {
-    global $c;
-
-    $argc = func_num_args();
-    $format = func_get_arg(0);
-    if ( $argc == 1 || ($argc == 2 && func_get_arg(1) == "0" ) ) {
-      error_log( "$c->sysabbr: $format" );
-    }
-    else {
-      $args = array();
-      for( $i=1; $i < $argc; $i++ ) {
-        $args[] = func_get_arg($i);
-      }
-      error_log( "$c->sysabbr: " . vsprintf($format,$args) );
-    }
-  }
-
-  /**
-  * Utility function to log debug stuff with printf expansion, and the ability to
-  * enable it selectively.
-  *
-  * The enabling is done by setting a variable "$debuggroups[$group] = 1"
-  *
-  * @param string $group The name of an arbitrary debug group.
-  * @param string $whatever A log string
-  * @param mixed $whatever... Further parameters to be replaced into the log string a la printf
-  */
-  function Dbg( $whatever )
-  {
-    global $debuggroups, $c;
-
-    $argc = func_num_args();
-    $dgroup = func_get_arg(0);
-
-    if ( ! (isset($debuggroups[$dgroup]) && $debuggroups[$dgroup]) ) return;
-
-    $format = func_get_arg(1);
-    if ( $argc == 2 || ($argc == 3 && func_get_arg(2) == "0" ) ) {
-      error_log( "$c->sysabbr: DBG: $dgroup: $format" );
-    }
-    else {
-      $args = array();
-      for( $i=2; $i < $argc; $i++ ) {
-        $args[] = func_get_arg($i);
-      }
-      error_log( "$c->sysabbr: DBG: $dgroup: " . vsprintf($format,$args) );
     }
   }
 
@@ -137,7 +78,7 @@ class BasicAuthSession {
     $qry = new PgQuery( "SELECT * FROM usr WHERE lower(username) = ? ", $username );
     if ( $qry->Exec('BAS::CheckPassword',__LINE,__FILE__) && $qry->rows == 1 ) {
       $usr = $qry->Fetch();
-      dbg_error_log( "Login: Name:%s, Pass:%s, File:%s", $username, $password, $usr->password );
+      dbg_error_log( "Login", "Name:%s, Pass:%s, File:%s", $username, $password, $usr->password );
       if ( session_validate_password( $password, $usr->password ) ) {
         return $usr;
       }
