@@ -1,9 +1,8 @@
-Critical
+Desirable
  - accept the free/busy information as a PUT
-
-Important
  - Parse the normal PUT requests so we know when time is available
  - Understand the repeat frequencies so ditto...
 
-Nice
+Important
  - Some form of admin functionality
+ - Ability to group users, and to give read/write permission to groups / individuals

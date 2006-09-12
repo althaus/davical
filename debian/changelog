@@ -1,3 +1,9 @@
+rscds (0.1.1) unstable; urgency=low
+
+  * Time for a real-world-ish release.
+
+ -- Andrew McMillan <debian@mcmillan.net.nz>  Tue, 12 Sep 2006 05:10:32 -0500
+
 rscds (0.1.0) unstable; urgency=low
 
   * Initial Debian packaging

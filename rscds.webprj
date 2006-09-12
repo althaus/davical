@@ -30,5 +30,9 @@
     <item url="debian/rules" uploadstatus="1" />
     <item url="dba/rscds.sql" />
     <item url="htdocs/freebusy.php" />
+    <item url="htdocs/index.php" />
+    <item url="inc/RSCDSSession.php" />
+    <item url="inc/page-header.php" />
+    <item url="inc/page-footer.php" />
   </project>
 </webproject>

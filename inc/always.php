@@ -77,7 +77,5 @@ function dbg_log_array( $component, $name, $arr, $recursive = false ) {
 }
 
 include_once("PgQuery.php");
-include_once("BasicAuthSession.php");
-// include_once("iCalendar.php");
 
 ?>

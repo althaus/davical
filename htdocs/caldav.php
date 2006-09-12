@@ -1,5 +1,6 @@
 <?php
 require_once("always.php");
+require_once("BasicAuthSession.php");
 
 $raw_headers = apache_request_headers();
 $raw_post = file_get_contents ( 'php://input');
