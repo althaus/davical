@@ -1,3 +1,9 @@
+rscds (0.1.3) unstable; urgency=low
+
+  * Hopefully now fairly much ready to install.
+
+ -- Andrew McMillan <debian@mcmillan.net.nz>  Wed, 13 Sep 2006 14:10:31 +1200
+
 rscds (0.1.2) unstable; urgency=low
 
   * Add alternative depends on postgresql-client so we can install this on a

@@ -58,8 +58,29 @@ else {
   exit;
 }
 
-// In case this was forced in the configuration file
+/**
+* Attempt to connect to the configured connect strings
+*/
+$dbconn = false;
+foreach( $c->pg_connect AS $k => $v ) {
+  if ( !$dbconn ) $dbconn = pg_Connect($v);
+}
+if ( ! $dbconn ) {
+  echo <<<EOERRMSG
+<html><head><title>Database Error</title></head><body>
+<h1>Database Error</h1>
+<h3>Could not connect to PGPool or to Postgres</h3>
+</body>
+</html>
+EOERRMSG;
+  exit;
+}
+
+/**
+* Force the domain name to what was in the configuration file
+*/
 $_SERVER['SERVER_NAME'] = $c->domain_name;
+
 
 if ( !function_exists('apache_request_headers') ) {
   function apache_request_headers() {

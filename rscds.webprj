@@ -28,11 +28,14 @@
     <item url="inc/vEvent.php" uploadstatus="1" />
     <item url="debian/" uploadstatus="1" />
     <item url="debian/rules" uploadstatus="1" />
-    <item url="dba/rscds.sql" />
-    <item url="htdocs/freebusy.php" />
-    <item url="htdocs/index.php" />
-    <item url="inc/RSCDSSession.php" />
-    <item url="inc/page-header.php" />
-    <item url="inc/page-footer.php" />
+    <item url="dba/rscds.sql" uploadstatus="1" />
+    <item url="htdocs/freebusy.php" uploadstatus="1" />
+    <item url="htdocs/index.php" uploadstatus="1" />
+    <item url="inc/RSCDSSession.php" uploadstatus="1" />
+    <item url="inc/page-header.php" uploadstatus="1" />
+    <item url="inc/page-footer.php" uploadstatus="1" />
+    <item url="inc/rscds_configuration_missing.php" />
+    <item url="htdocs/client_configuration_help.php" />
+    <item url="htdocs/rscds.css" />
   </project>
 </webproject>

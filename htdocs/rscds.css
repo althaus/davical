@@ -1,0 +1,8 @@
+/* Basic overridable CSS for Really Simple CalDAV Store */
+
+span.prompt {
+  font-weight: bold;
+  width: 12em;
+  padding-right: 1em;
+  display: block;
+}
