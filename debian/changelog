@@ -1,3 +1,10 @@
+rscds (0.1.2) unstable; urgency=low
+
+  * Add alternative depends on postgresql-client so we can install this on a
+    machine running Sarge.
+
+ -- Andrew McMillan <debian@mcmillan.net.nz>  Wed, 13 Sep 2006 12:03:53 +1200
+
 rscds (0.1.1) unstable; urgency=low
 
   * Time for a real-world-ish release.
