@@ -52,4 +52,35 @@ if ( !function_exists("session_validate_password") ) {
 
   }
 }
+
+
+if ( !function_exists("replace_uri_params") ) {
+  /**
+  * Given a URL (presumably the current one) and a parameter, replace the value of parameter,
+  * extending the URL as necessary if the parameter is not already there.
+  * @param string $uri The URI we will be replacing parameters in.
+  * @param array $replacements An array of replacement pairs array( "replace_this" => "with this" )
+  * @return string The URI with the replacements done.
+  */
+  function replace_uri_params( $uri, $replacements ) {
+    $replaced = $uri;
+    foreach( $replacements AS $param => $new_value ) {
+      $rxp = preg_replace( '/([\[\]])/', '\\\\$1', $param );  // Some parameters may be arrays.
+      $regex = "/([&?])($rxp)=([^&]+)/";
+      dbg_error_log("core", "Looking for [%s] to replace with [%s] regex is %s and searching [%s]", $param, $new_value, $regex, $replaced );
+      if ( preg_match( $regex, $replaced ) )
+        $replaced = preg_replace( $regex, "\$1$param=$new_value", $replaced);
+      else
+        $replaced .= "&$param=$new_value";
+    }
+    if ( ! preg_match( '/\?/', $replaced  ) ) {
+      $replaced = preg_replace("/&(.+)$/", "?\$1", $replaced);
+    }
+    $replaced = str_replace("&amp;", "--AmPeRsAnD--", $replaced);
+    $replaced = str_replace("&", "&amp;", $replaced);
+    $replaced = str_replace("--AmPeRsAnD--", "&amp;", $replaced);
+    dbg_error_log("core", "URI <<$uri>> morphed to <<$replaced>>");
+    return $replaced;
+  }
+}
 ?>

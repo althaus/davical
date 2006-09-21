@@ -28,15 +28,15 @@ class vEvent {
 
   /**
   * An array of arbitrary properties
-  * @var props array
+  * @var properties array
   */
   var $properties;
 
   /**
-  * The typical name for the standard timezone
-  * @var tzname string
+  * The typical location name for the standard timezone such as "Pacific/Auckland"
+  * @var tz_locn string
   */
-  var $tzname;
+  var $tz_locn;
 
   /**#@-*/
 
@@ -49,7 +49,7 @@ class vEvent {
     global $c;
 
     // Probably a good idea to always have values for these things...
-    $this->properties['tzid']     = $c->local_tzid;
+    $this->properties['tz_id']    = $c->local_tzid;
     $this->properties['modified'] = time();
     $this->properties['sequence'] = 1;
     $this->properties['uid']      = sprintf( "%s@%s", time() * 1000 + rand(0,1000), $c->domain_name);
@@ -106,19 +106,16 @@ class vEvent {
       if ( $state == 'BEGIN:VEVENT' && $state != $v ) {
         list( $parameter, $value ) = preg_split('/:/', $v );
         if ( preg_match('/^DT[A-Z]+;TZID=/', $parameter) ) {
-          list( $parameter, $tzid ) = preg_split('/;/', $parameter );
-          $properties['TZID'] = $tzid;
+          list( $parameter, $tz_id ) = preg_split('/;/', $parameter );
+          $properties['TZID'] = $tz_id;
         }
         $properties[strtoupper($parameter)] = $value;
       }
       if ( $state == 'BEGIN:VTIMEZONE' ) {
         $vtimezone .= $v . "\n";
         list( $parameter, $value ) = preg_split('/:/', $v );
-        if ( !isset($this->tzname) && $parameter == 'TZNAME' ) {
-          $this->tzname = $value;
-        }
-        if ( !isset($this->tzlocn) && $parameter == 'X-LIC-LOCATION' ) {
-          $this->tzlocn = $value;
+        if ( !isset($this->tz_locn) && $parameter == 'X-LIC-LOCATION' ) {
+          $this->tz_locn = $value;
         }
       }
     }
@@ -136,19 +133,18 @@ class vEvent {
   * them into something that PostgreSQL can understand...
   */
   function DealWithTimeZones() {
-    $qry = new PgQuery( "SELECT pgtz, location FROM time_zones WHERE tzid = ?;", $this->properties['TZID'] );
+    $qry = new PgQuery( "SELECT tz_locn FROM time_zone WHERE tz_id = ?;", $this->properties['TZID'] );
     if ( $qry->Exec('vEvent') && $qry->rows == 1 ) {
       $row = $qry->Fetch();
-      $this->tzname = $row->pgtz;
-      $this->tzlocn = $row->location;
+      $this->tz_locn = $row->tz_locn;
     }
     else {
-      if ( !isset($this->tzlocn) ) {
+      if ( !isset($this->tz_locn) ) {
         // In case there was no X-LIC-LOCATION defined, let's hope there is something in the TZID
-        $this->tzlocn = preg_replace('/^.*([a-z]+\/[a-z]+)$/i','$1',$this->properties['TZID'] );
+        $this->tz_locn = preg_replace('/^.*([a-z]+\/[a-z]+)$/i','$1',$this->properties['TZID'] );
       }
-      $qry2 = new PgQuery( "INSERT INTO time_zones (tzid, location, tz_spec, pgtz) VALUES( ?, ?, ?, ? );",
-                                   $this->properties['TZID'], $this->tzlocn, $this->properties['VTIMEZONE'], $this->tzname );
+      $qry2 = new PgQuery( "INSERT INTO time_zone (tz_id, tz_locn, tz_spec) VALUES( ?, ?, ? );",
+                                   $this->properties['TZID'], $this->tz_locn, $this->properties['VTIMEZONE'] );
       $qry2->Exec("vEvent");
     }
   }

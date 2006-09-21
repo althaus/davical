@@ -9,8 +9,6 @@
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v2
 */
 
-require_once("session-util.php");
-
 /**
 * A Class for handling a session using HTTP Basic Authentication
 *

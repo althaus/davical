@@ -7,9 +7,9 @@ dbg_error_log("delete", "DELETE method handler");
 $get_path = $_SERVER['PATH_INFO'];
 $etag_none_match = str_replace('"','',$_SERVER["HTTP_IF_NONE_MATCH"]);
 
-$qry = new PgQuery( "SELECT * FROM ics_event_data WHERE user_no = ? AND ics_event_name = ? AND ics_event_etag = ?;", $session->user_no, $get_path, $etag_none_match );
+$qry = new PgQuery( "SELECT * FROM vevent_data WHERE user_no = ? AND vevent_name = ? AND vevent_etag = ?;", $session->user_no, $get_path, $etag_none_match );
 if ( $qry->Exec("caldav-DELETE") && $qry->rows == 1 ) {
-  $qry = new PgQuery( "DELETE FROM ics_event_data WHERE user_no = ? AND ics_event_name = ? AND ics_event_etag = ?;", $session->user_no, $get_path, $etag_none_match );
+  $qry = new PgQuery( "DELETE FROM vevent_data WHERE user_no = ? AND vevent_name = ? AND vevent_etag = ?;", $session->user_no, $get_path, $etag_none_match );
   if ( $qry->Exec("caldav-DELETE") ) {
     header("HTTP/1.1 200 OK");
     dbg_error_log( "delete", "DELETE: User: %d, ETag: %s, Path: %s", $session->user_no, $etag_none_match, $get_path);

@@ -17,49 +17,74 @@ $etag_match = str_replace('"','',$_SERVER["HTTP_IF_MATCH"]);
 dbg_log_array( "PUT", 'HEADERS', $raw_headers );
 dbg_log_array( "PUT", '_SERVER', $_SERVER, true );
 
-if ( $etag_match == '*' || $etag_match == '' ) {
-  $qry = new PgQuery( "INSERT INTO ics_event_data ( user_no, ics_event_name, ics_event_etag, ics_raw_data ) VALUES( ?, ?, ?, ?)", $session->user_no, $put_path, $etag, $raw_post);
-  $qry->Exec("caldav-PUT");
-
-  header("HTTP/1.1 201 Created");
-  header("ETag: $etag");
-}
-else {
-  $qry = new PgQuery( "UPDATE ics_event_data SET ics_raw_data=?, ics_event_etag=? WHERE user_no=? AND ics_event_name=? AND ics_event_etag=?",
-                                                        $raw_post, $etag, $session->user_no, $put_path, $etag_match );
-  $qry->Exec("caldav-PUT");
-
-  header("HTTP/1.1 201 Replaced");
-  header("ETag: $etag");
-}
-
 include_once("vEvent.php");
 $ev = new vEvent(array( 'vevent' => $raw_post ));
 
 dbg_log_array( "PUT", 'EVENT', $ev, true );
 
-$sql = "SET TIMEZONE TO ".qpg($ev->tzlocn).";";
+
+if ( $etag_match == '*' || $etag_match == '' ) {
+  /**
+  * If they didn't send an etag_match header, we need to check if the PUT object already exists
+  * and we are hence updating it.  And we just set our etag_match to that.
+  */
+  $qry = new PgQuery( "SELECT * FROM vevent_data WHERE user_no=? AND vevent_name=?", $session->user_no, $put_path );
+  $qry->Exec("PUT");
+  if ( $qry->rows > 1 ) {
+    header("HTTP/1.1 500 Infernal Server Error");
+    dbg_error_log("ERROR","Multiple events match replaced path for user %d, path %s", $session->user_no, $put_path );
+    exit(0);
+  }
+  elseif ( $qry->rows == 1 ) {
+    $event = $qry->Fetch();
+    $etag_match = $event->vevent_etag;
+  }
+}
+
+if ( $etag_match == '*' || $etag_match == '' ) {
+  /**
+  * If we got this far without an etag we must be inserting it.
+  */
+  $qry = new PgQuery( "INSERT INTO vevent_data ( user_no, vevent_name, vevent_etag, vevent_data, logged_user ) VALUES( ?, ?, ?, ?, ?)",
+                         $session->user_no, $put_path, $etag, $raw_post, $session->user_no );
+  $qry->Exec("PUT");
+
+  header("HTTP/1.1 201 Created");
+  header("ETag: $etag");
+  dbg_error_log( "PUT", "INSERT INTO vevent_data ( user_no, vevent_name, vevent_etag, vevent_data, logged_user ) VALUES( %d, '%s', '%s', '%s', %d)",
+                         $session->user_no, $put_path, $etag, $raw_post, $session->user_no );
+}
+else {
+  $qry = new PgQuery( "UPDATE vevent_data SET vevent_data=?, vevent_etag=?, logged_user=? WHERE user_no=? AND vevent_name=? AND vevent_etag=?",
+                                                        $raw_post, $etag, $session->user_no, $session->user_no, $put_path, $etag_match );
+  $qry->Exec("PUT");
+
+  header("HTTP/1.1 201 Replaced");
+  header("ETag: $etag");
+}
+
+$sql = "SET TIMEZONE TO ".qpg($ev->tz_locn).";";
 if ( $etag_match == '*' || $etag_match == '' ) {
   $sql .= <<<EOSQL
-INSERT INTO ical_events (user_no, ics_event_name, ics_event_etag, uid, dtstamp, dtstart, dtend, summary, location, class, transp, description, rrule, tzid)
+INSERT INTO event (user_no, vevent_name, vevent_etag, uid, dtstamp, dtstart, dtend, summary, location, class, transp, description, rrule, tz_id)
                  VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
 EOSQL;
 
   $qry = new PgQuery( $sql, $session->user_no, $put_path, $etag, $ev->Get('uid'), $ev->Get('dtstamp'),
                             $ev->Get('dtstart'), $ev->Get('dtend'), $ev->Get('summary'), $ev->Get('location'),
-                            $ev->Get('class'), $ev->Get('transp'), $ev->Get('description'), $ev->Get('rrule'), $ev->Get('tzid') );
-  $qry->Exec("caldav-PUT");
+                            $ev->Get('class'), $ev->Get('transp'), $ev->Get('description'), $ev->Get('rrule'), $ev->Get('tz_id') );
+  $qry->Exec("PUT");
 }
 else {
   $sql = <<<EOSQL
-UPDATE ical_events SET uid=?, dtstamp=?, dtstart=?, dtend=?, summary=?, location=?, class=?, transp=?, description=?, rrule=?, tzid=?
-                 WHERE user_no=? AND ics_event_name=? AND ics_event_etag=?
+UPDATE event SET uid=?, dtstamp=?, dtstart=?, dtend=?, summary=?, location=?, class=?, transp=?, description=?, rrule=?, tz_id=?
+                 WHERE user_no=? AND vevent_name=? AND vevent_etag=?
 EOSQL;
 
   $qry = new PgQuery( $sql, $ev->Get('uid'), $ev->Get('dtstamp'), $ev->Get('dtstart'), $ev->Get('dtend'), $ev->Get('summary'),
                             $ev->Get('location'), $ev->Get('class'), $ev->Get('transp'), $ev->Get('description'), $ev->Get('rrule'),
-                            $ev->Get('tzid'), $session->user_no, $put_path, $etag );
-  $qry->Exec("caldav-PUT");
+                            $ev->Get('tz_id'), $session->user_no, $put_path, $etag );
+  $qry->Exec("PUT");
 }
 
 dbg_error_log( "PUT", "User: %d, ETag: %s, Path: %s", $session->user_no, $etag, $put_path);

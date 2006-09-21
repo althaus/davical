@@ -1,8 +1,106 @@
 /* Basic overridable CSS for Really Simple CalDAV Store */
 
-span.prompt {
+body, p, li, td {
+  padding: 0;
+  margin: 0;
+  border: none;
+}
+
+.prompt {
   font-weight: bold;
-  width: 12em;
-  padding-right: 1em;
-  display: block;
+  padding: 1px 1em 1px 0.5em;
+  text-align: right;
+}
+
+.error {
+  /* font-weight: bold; */
+  font-size: 110%;
+  font-family: Bitstream Vera Sans, Vera Sans, sans-serif;
+  padding: 1px 0.3em;
+  background-color: #c00000;
+  color: #ffff00;
+}
+
+h1, h2, h3, h4, h5 {
+  font-weight: bold;
+  font-family: Bitstream Vera Sans, Vera Sans, sans-serif;
+  padding-left: 0.3em;
+  padding-right: 0.3em;
+  padding-bottom: 0.1em;
+}
+
+h1 {
+  font-size: 200%;
+  background-color: #30c050;
+  margin: 0;
+  padding: 0.3em;
+}
+
+h1:first-letter {
+  font-size: 120%;
+}
+
+h2 {
+  font-size: 160%;
+  background-color: #60e080;
+  margin: 0;
+  padding-top: 0.3em;
+  margin-top: 1px;
+}
+
+p {
+  padding: 0.1em 0.3em 0.2em;
+}
+
+input.text, input.password, label {
+  background-color: ffffe0;
+  color: navy;
+  border: thin solid #000000;
+  padding: 3px;
+}
+
+label {
+  padding: 2px;
+}
+
+#menu {
+  background-color: #084010;
+  color: white;
+  font-weight: bold;
+  padding: 2px 1px;
+  margin-bottom: 1px;
+}
+
+#menu a.menu, #menu a.menu:hover, #menu a.menu_active, #menu a.menu_active:hover {
+  color: white;
+  text-decoration: none;
+  background-color: #10a020;
+  padding: 1px 0.2em;
+  margin-right: 0.2em;
+}
+
+#menu a.menu:hover, #menu a.menu_active:hover {
+  color: yellow;
+  background-color: #088010;
+}
+
+#submenu {
+  background-color: #105020;
+  color: white;
+  font-weight: bold;
+  padding: 2px 1px;
+  margin-bottom: 1px;
+}
+
+#submenu a.submenu, #submenu a.submenu:hover, #submenu a.submenu_active, #submenu a.submenu_active:hover {
+  color: white;
+  text-decoration: none;
+  background-color: #20c040;
+  padding: 1px 0.2em;
+  margin-right: 0.2em;
+}
+
+#submenu a.submenu:hover, #submenu a.submenu_active:hover {
+  color: yellow;
+  background-color: #10a020;
 }

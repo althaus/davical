@@ -5,6 +5,10 @@ require_once("BasicAuthSession.php");
 $raw_headers = apache_request_headers();
 $raw_post = file_get_contents ( 'php://input');
 
+if ( $debugging && isset($_GET['method']) ) {
+  $_SERVER['REQUEST_METHOD'] = $_GET['method'];
+}
+
 switch ( $_SERVER['REQUEST_METHOD'] ) {
   case 'OPTIONS':
     include_once("caldav-OPTIONS.php");

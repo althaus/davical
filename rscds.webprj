@@ -34,8 +34,12 @@
     <item url="inc/RSCDSSession.php" uploadstatus="1" />
     <item url="inc/page-header.php" uploadstatus="1" />
     <item url="inc/page-footer.php" uploadstatus="1" />
-    <item url="inc/rscds_configuration_missing.php" />
-    <item url="htdocs/client_configuration_help.php" />
-    <item url="htdocs/rscds.css" />
+    <item url="inc/rscds_configuration_missing.php" uploadstatus="1" />
+    <item url="htdocs/rscds.css" uploadstatus="1" />
+    <item url="inc/interactive-page.php" uploadstatus="1" />
+    <item url="htdocs/users.php" uploadstatus="1" />
+    <item url="htdocs/help.php" uploadstatus="1" />
+    <item url="htdocs/roles.php" uploadstatus="1" />
+    <item url="htdocs/relationships.php" uploadstatus="1" />
   </project>
 </webproject>

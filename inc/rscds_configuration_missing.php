@@ -2,7 +2,7 @@
 include("page-header.php");
 
   echo <<<EOBODY
-<h1>WRMS Not Configured</h1>
+<h1>RSCDS Not Configured</h1>
 <h2>The Bad News</h2>
 <p>There is no configuration file present in <b>/etc/rscds/$_SERVER[SERVER_NAME]-conf.php</b> so
    your installation is not fully set up.</p>

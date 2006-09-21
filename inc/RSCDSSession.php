@@ -109,15 +109,58 @@ class RSCDSSession extends Session
   }
 
 
+  /**
+  * Internal function used to assign the session details to a user's new session.
+  * @param object $u The user+session object we (probably) read from the database.
+  */
+  function AssignSessionDetails( $u ) {
+    parent::AssignSessionDetails( $u );
+    $this->GetRoles();
+    $this->GetRelationships();
+  }
+
+
+  /**
+  * Method used to get the user's roles
+  */
+  function GetRoles () {
+    $this->roles = array();
+    $sql = 'SELECT role_name FROM roles JOIN role_member ON roles.role_no=role_member.role_no WHERE user_no = '.$this->user_no.';';
+    $qry = new PgQuery( $sql );
+    if ( $qry->Exec('RSCDSSession') && $qry->rows > 0 ) {
+      while( $role = $qry->Fetch() ) {
+        $this->roles[$role->role_name] = 1;
+      }
+    }
+  }
+
+
 /**
-* Checks that this user is logged in, and presents a login screen if they aren't.
-*
-* The function can optionally confirm whether they are a member of one of a list
-* of groups, and deny access if they are not a member of any of them.
-*
-* @param string $groups The list of groups that the user must be a member of one of to be allowed to proceed.
-* @return boolean Whether or not the user is logged in and is a member of one of the required groups.
+* Method used to get the user's relationships
 */
+  function GetRelationships () {
+    $this->relationships = array();
+    $sql = 'SELECT relationship.rt_id, rt_name, rt_isgroup, confers, prefix_match FROM relationship JOIN relationship_type USING (rt_id) WHERE from_user = '.$this->user_no.' UNION ';
+    $sql .= 'SELECT relationship_type.rt_id, rt_name, rt_isgroup, confers, prefix_match FROM relationship JOIN relationship_type ON (relationship.rt_id = relationship_type.rt_inverse) WHERE to_user = '.$this->user_no.';';
+    $qry = new PgQuery( $sql );
+    if ( $qry->Exec('RSCDSSession') && $qry->rows > 0 ) {
+      while( $relationship = $qry->Fetch() ) {
+        $this->relationships[$relationship->rt_id] = $relationship;
+        dbg_error_log( "RSCDSSession", "Relationships: %d - %s - %d - %s - %s -", $relationship->rt_id, $relationship->rt_name, $relationship->rt_isgroup, $relationship->confers, $relationship->prefix_match );
+      }
+    }
+  }
+
+
+  /**
+  * Checks that this user is logged in, and presents a login screen if they aren't.
+  *
+  * The function can optionally confirm whether they are a member of one of a list
+  * of groups, and deny access if they are not a member of any of them.
+  *
+  * @param string $groups The list of groups that the user must be a member of one of to be allowed to proceed.
+  * @return boolean Whether or not the user is logged in and is a member of one of the required groups.
+  */
   function LoginRequired( $groups = "" ) {
     global $c, $session, $main_menu, $sub_menu, $tab_menu;
 
@@ -129,6 +172,11 @@ class RSCDSSession extends Session
         local_index_not_logged_in();
       }
       else {
+        if ( $this->login_failed ) {
+          echo <<<EOHTML
+<p class="error">Invalid user name or password.</p>
+EOHTML;
+        }
         echo <<<EOHTML
 <h1>Log On Please</h1>
 <p>For access to the $c->system_name you should log on with

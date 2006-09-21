@@ -3,6 +3,8 @@ require_once("always.php");
 require_once("RSCDSSession.php");
 $session->LoginRequired();
 
+require_once("interactive-page.php");
+
 $c->title = "Really Simple CalDAV Store - Configuration Help";
 include("page-header.php");
 
@@ -22,6 +24,6 @@ echo <<<EOBODY
 </p>
 EOBODY;
 
-include("page-header.php");
+include("page-footer.php");
 
 ?>
