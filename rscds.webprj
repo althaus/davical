@@ -41,5 +41,6 @@
     <item url="htdocs/help.php" uploadstatus="1" />
     <item url="htdocs/roles.php" uploadstatus="1" />
     <item url="htdocs/relationships.php" uploadstatus="1" />
+    <item url="dba/caldav_functions.sql" />
   </project>
 </webproject>

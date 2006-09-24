@@ -28,7 +28,7 @@ if ( $etag_match == '*' || $etag_match == '' ) {
   * If they didn't send an etag_match header, we need to check if the PUT object already exists
   * and we are hence updating it.  And we just set our etag_match to that.
   */
-  $qry = new PgQuery( "SELECT * FROM vevent_data WHERE user_no=? AND vevent_name=?", $session->user_no, $put_path );
+  $qry = new PgQuery( "SELECT * FROM caldav_data WHERE user_no=? AND dav_name=?", $session->user_no, $put_path );
   $qry->Exec("PUT");
   if ( $qry->rows > 1 ) {
     header("HTTP/1.1 500 Infernal Server Error");
@@ -37,7 +37,7 @@ if ( $etag_match == '*' || $etag_match == '' ) {
   }
   elseif ( $qry->rows == 1 ) {
     $event = $qry->Fetch();
-    $etag_match = $event->vevent_etag;
+    $etag_match = $event->dav_etag;
   }
 }
 
@@ -45,45 +45,54 @@ if ( $etag_match == '*' || $etag_match == '' ) {
   /**
   * If we got this far without an etag we must be inserting it.
   */
-  $qry = new PgQuery( "INSERT INTO vevent_data ( user_no, vevent_name, vevent_etag, vevent_data, logged_user ) VALUES( ?, ?, ?, ?, ?)",
-                         $session->user_no, $put_path, $etag, $raw_post, $session->user_no );
+  $qry = new PgQuery( "INSERT INTO caldav_data ( user_no, dav_name, dav_etag, caldav_data, caldav_type, logged_user ) VALUES( ?, ?, ?, ?, ?, ?)",
+                         $session->user_no, $put_path, $etag, $raw_post, $ev->type, $session->user_no );
   $qry->Exec("PUT");
 
   header("HTTP/1.1 201 Created");
   header("ETag: $etag");
-  dbg_error_log( "PUT", "INSERT INTO vevent_data ( user_no, vevent_name, vevent_etag, vevent_data, logged_user ) VALUES( %d, '%s', '%s', '%s', %d)",
-                         $session->user_no, $put_path, $etag, $raw_post, $session->user_no );
 }
 else {
-  $qry = new PgQuery( "UPDATE vevent_data SET vevent_data=?, vevent_etag=?, logged_user=? WHERE user_no=? AND vevent_name=? AND vevent_etag=?",
-                                                        $raw_post, $etag, $session->user_no, $session->user_no, $put_path, $etag_match );
+  $qry = new PgQuery( "UPDATE caldav_data SET caldav_data=?, dav_etag=?, caldav_type=?, logged_user=? WHERE user_no=? AND dav_name=? AND dav_etag=?",
+                                              $raw_post, $etag, $ev->type, $session->user_no, $session->user_no, $put_path, $etag_match );
   $qry->Exec("PUT");
 
   header("HTTP/1.1 201 Replaced");
   header("ETag: $etag");
 }
 
-$sql = "SET TIMEZONE TO ".qpg($ev->tz_locn).";";
+if ( $ev->type == 'VEVENT' )     $table = 'event';
+elseif ( $ev->type == 'VTODO' )  $table = 'todo';
+
+$sql = ( $ev->tz_locn == '' ? '' : "SET TIMEZONE TO ".qpg($ev->tz_locn).";" );
+
 if ( $etag_match == '*' || $etag_match == '' ) {
   $sql .= <<<EOSQL
-INSERT INTO event (user_no, vevent_name, vevent_etag, uid, dtstamp, dtstart, dtend, summary, location, class, transp, description, rrule, tz_id)
-                 VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+INSERT INTO $table (user_no, dav_name, dav_etag, uid, dtstamp, dtstart, dtend, summary, location, class, transp,
+                    description, rrule, tz_id, last_modified, url, priority, created, due, percent_complete )
+                 VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
 EOSQL;
 
   $qry = new PgQuery( $sql, $session->user_no, $put_path, $etag, $ev->Get('uid'), $ev->Get('dtstamp'),
                             $ev->Get('dtstart'), $ev->Get('dtend'), $ev->Get('summary'), $ev->Get('location'),
-                            $ev->Get('class'), $ev->Get('transp'), $ev->Get('description'), $ev->Get('rrule'), $ev->Get('tz_id') );
+                            $ev->Get('class'), $ev->Get('transp'), $ev->Get('description'), $ev->Get('rrule'), $ev->Get('tz_id'),
+                            $ev->Get('last-modified'), $ev->Get('url'), $ev->Get('priority'), $ev->Get('created'),
+                            $ev->Get('due'), $ev->Get('percent-complete')
+                     );
   $qry->Exec("PUT");
 }
 else {
   $sql = <<<EOSQL
-UPDATE event SET uid=?, dtstamp=?, dtstart=?, dtend=?, summary=?, location=?, class=?, transp=?, description=?, rrule=?, tz_id=?
-                 WHERE user_no=? AND vevent_name=? AND vevent_etag=?
+UPDATE $table SET uid=?, dtstamp=?, dtstart=?, dtend=?, summary=?, location=?, class=?, transp=?, description=?, rrule=?,
+                  tz_id=?, last_modified=?, url=?, priority=?, dav_etag=?, due=?, percent_complete=?
+                 WHERE user_no=? AND dav_name=?
 EOSQL;
 
   $qry = new PgQuery( $sql, $ev->Get('uid'), $ev->Get('dtstamp'), $ev->Get('dtstart'), $ev->Get('dtend'), $ev->Get('summary'),
                             $ev->Get('location'), $ev->Get('class'), $ev->Get('transp'), $ev->Get('description'), $ev->Get('rrule'),
-                            $ev->Get('tz_id'), $session->user_no, $put_path, $etag );
+                            $ev->Get('tz_id'), $ev->Get('last-modified'), $ev->Get('url'), $ev->Get('priority'), $etag,
+                            $ev->Get('due'), $ev->Get('percent-complete'),
+                            $session->user_no, $put_path );
   $qry->Exec("PUT");
 }
 

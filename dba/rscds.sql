@@ -14,10 +14,10 @@ CREATE TABLE caldav_data (
   caldav_type TEXT,
   logged_user INT references usr(user_no),
 
-  PRIMARY KEY ( user_no, vevent_name, vevent_etag )
+  PRIMARY KEY ( user_no, dav_name )
 );
 
-GRANT SELECT,INSERT,UPDATE,DELETE ON vevent_data TO general;
+GRANT SELECT,INSERT,UPDATE,DELETE ON caldav_data TO general;
 
 -- Not particularly needed, perhaps, except as a way to collect
 -- a bunch of valid iCalendar time zone specifications... :-)
@@ -31,29 +31,83 @@ GRANT SELECT,INSERT ON time_zone TO general;
 -- The parsed event.  Here we have pulled those events apart somewhat.
 CREATE TABLE event (
   user_no INT references usr(user_no),
-  vevent_name TEXT,
-  vevent_etag TEXT,
+  dav_name TEXT,
+  dav_etag TEXT,
 
   -- Extracted vEvent event data
   uid TEXT,
-  dtstamp TEXT,
+  created TIMESTAMP,
+  last_modified TIMESTAMP,
+  dtstamp TIMESTAMP,
   dtstart TIMESTAMP WITH TIME ZONE,
   dtend TIMESTAMP WITH TIME ZONE,
+  due TIMESTAMP WITH TIME ZONE,
   summary TEXT,
   location TEXT,
+  description TEXT,
+  priority INT,
   class TEXT,
   transp TEXT,
-  description TEXT,
   rrule TEXT,
+  url TEXT,
+  percent_complete NUMERIC(7,2),
   tz_id TEXT REFERENCES time_zone( tz_id ),
 
-  -- Cascade updates / deletes from the vevent_data table
-  CONSTRAINT vevent_exists FOREIGN KEY ( user_no, vevent_name, vevent_etag )
-                REFERENCES vevent_data ( user_no, vevent_name, vevent_etag )
+  -- Cascade updates / deletes from the caldav_data table
+  CONSTRAINT caldav_exists FOREIGN KEY ( user_no, dav_name )
+                REFERENCES caldav_data ( user_no, dav_name )
                 MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE DEFERRABLE
 );
 
 GRANT SELECT,INSERT,UPDATE,DELETE ON event TO general;
+
+-- BEGIN:VTODO
+-- CREATED:20060921T035148Z
+-- LAST-MODIFIED:20060921T035301Z
+-- DTSTAMP:20060921T035301Z
+-- UID:9a495928-276c-406b-8acd-e0883dfe68e3
+-- SUMMARY:Something to do
+-- PRIORITY:0
+-- CLASS:PUBLIC
+-- DUE;TZID=/mozilla.org/20050126_1/Antarctica/McMurdo:20060922T155149
+-- X-MOZ-LOCATIONPATH:9a495928-276c-406b-8acd-e0883dfe68e3.ics
+-- LOCATION:At work...
+-- DESCRIPTION:This needs to be done.
+-- URL:http://mcmillan.net.nz/
+-- END:VTODO
+
+-- The parsed todo.  Here we have pulled those todos apart somewhat.
+CREATE TABLE todo (
+  user_no INT references usr(user_no),
+  dav_name TEXT,
+  dav_etag TEXT,
+
+  -- Extracted VTODO data
+  uid TEXT,
+  created TIMESTAMP,
+  last_modified TIMESTAMP,
+  dtstamp TIMESTAMP,
+  dtstart TIMESTAMP WITH TIME ZONE,
+  dtend TIMESTAMP WITH TIME ZONE,
+  due TIMESTAMP WITH TIME ZONE,
+  priority INT,
+  summary TEXT,
+  location TEXT,
+  description TEXT,
+  class TEXT,
+  transp TEXT,
+  rrule TEXT,
+  url TEXT,
+  percent_complete NUMERIC(7,2),
+  tz_id TEXT REFERENCES time_zone( tz_id ),
+
+  -- Cascade updates / deletes from the caldav_data table
+  CONSTRAINT caldav_exists FOREIGN KEY ( user_no, dav_name )
+                REFERENCES caldav_data ( user_no, dav_name )
+                MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE DEFERRABLE
+);
+
+GRANT SELECT,INSERT,UPDATE,DELETE ON todo TO general;
 
 -- Each user can be related to each other user.  This mechanism can also
 -- be used to define groups of users, since some relationships are transitive.

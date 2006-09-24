@@ -28,6 +28,18 @@ foreach( $rpt_request AS $k => $v ) {
 
   switch ( $v['tag'] ) {
 
+    case 'URN:IETF:PARAMS:XML:NS:CALDAV:CALENDAR-MULTIGET':
+      dbg_log_array( "REPORT", "CALENDAR-MULTIGET", $v, true );
+      $report[$reportnum]['multiget'] = 1;
+      if ( $v['type'] == "open" ) {
+        $multiget_names = array();
+      }
+      else if ( $v['type'] == "close" ) {
+        $report[$reportnum]['get_names'] = $multiget_names;
+        unset($multiget_names);
+      }
+      break;
+
     case 'URN:IETF:PARAMS:XML:NS:CALDAV:CALENDAR-DATA':
       dbg_log_array( "REPORT", "CALENDAR-DATA", $v, true );
       if ( $v['type'] == "complete" ) {
@@ -109,6 +121,12 @@ foreach( $rpt_request AS $k => $v ) {
       }
       break;
 
+    case 'DAV::HREF':
+      dbg_log_array( "REPORT", "DAV::HREF", $v, true );
+      if ( isset($report[$reportnum]['multiget']) ) {
+        $multiget_names[] = $v['value'];
+      }
+
      default:
        dbg_error_log( "REPORT", "Unhandled tag >>".$v['tag']."<<");
   }
@@ -172,29 +190,54 @@ REPORTHDR;
     if ( isset($report[$i]['calendar-event']) ) {
       if ( isset($report[$i]['include_href']) ) dbg_error_log( "REPORT", "Returning href event data" );
       if ( isset($report[$i]['include_data']) ) dbg_error_log( "REPORT", "Returning full event data" );
-      $sql = "SELECT * FROM vevent_data NATURAL JOIN event ";
+      $sql = "SELECT * FROM caldav_data NATURAL JOIN event WHERE caldav_type = 'VEVENT' ";
       $where = "";
       if ( isset( $report[$i]['start'] ) ) {
-        $where = "WHERE dtend >= ".qpg($report[$i]['start'])."::timestamp with time zone ";
+        $where = "AND (dtend >= ".qpg($report[$i]['start'])."::timestamp with time zone ";
+        $where .= "OR calculate_later_timestamp(".qpg($report[$i]['start'])."::timestamp with time zone,dtend,rrule) >= ".qpg($report[$i]['start'])."::timestamp with time zone) ";
       }
       if ( isset( $report[$i]['end'] ) ) {
-        if ( $where != "" ) $where .= "AND ";
-        $where .= "dtstart <= ".qpg($report[$i]['end'])."::timestamp with time zone ";
+        $where .= "AND dtstart <= ".qpg($report[$i]['end'])."::timestamp with time zone ";
       }
       $sql .= $where;
       $qry = new PgQuery( $sql );
       if ( $qry->Exec() && $qry->rows > 0 ) {
         while( $event = $qry->Fetch() ) {
-          $calhref = ( isset($report[$i]['include_href']) ? sprintf( $calendar_href_tpl, $_SERVER['SERVER_NAME'], $_SERVER['SERVER_PORT'], $_SERVER['SCRIPT_NAME'], $event->vevent_name ) : "" );
-          $caldata = ( isset($report[$i]['include_data']) ? sprintf( $calendar_data_tpl, $event->vevent_data ) : "" );
-          printf( $response_tpl, $calhref, $event->vevent_etag, $caldata );
-          dbg_error_log("REPORT", "ETag >>%s<< >>http://%s:%s%s%s<<", $event->vevent_etag,
-                                $_SERVER['SERVER_NAME'], $_SERVER['SERVER_PORT'], $_SERVER['SCRIPT_NAME'], $event->vevent_name);
+          $calhref = ( isset($report[$i]['include_href']) ? sprintf( $calendar_href_tpl, $_SERVER['SERVER_NAME'], $_SERVER['SERVER_PORT'], $_SERVER['SCRIPT_NAME'], $event->dav_name ) : "" );
+          $caldata = ( isset($report[$i]['include_data']) ? sprintf( $calendar_data_tpl, $event->caldav_data ) : "" );
+          printf( $response_tpl, $calhref, $event->dav_etag, $caldata );
+          dbg_error_log("REPORT", "ETag >>%s<< >>http://%s:%s%s%s<<", $event->dav_etag,
+                                $_SERVER['SERVER_NAME'], $_SERVER['SERVER_PORT'], $_SERVER['SCRIPT_NAME'], $event->dav_name);
         }
       }
     }
+
     if ( isset($report[$i]['calendar-todo']) ) {
-      if ( isset($report[$i]['include_data']) ) dbg_error_log( "REPORT", "FIXME: Not returning full todo data" );
+      /**
+      * Produce VTODO data.
+      */
+      if ( isset($report[$i]['include_href']) ) dbg_error_log( "REPORT", "Returning href event data" );
+      if ( isset($report[$i]['include_data']) ) dbg_error_log( "REPORT", "Returning full event data" );
+      $sql = "SELECT * FROM caldav_data NATURAL JOIN todo WHERE caldav_type = 'VTODO' ";
+      $where = "";
+      if ( isset( $report[$i]['start'] ) ) {
+        $where = "AND (dtend >= ".qpg($report[$i]['start'])."::timestamp with time zone ";
+        $where .= "OR calculate_later_timestamp(".qpg($report[$i]['start'])."::timestamp with time zone,dtend,rrule) >= ".qpg($report[$i]['start'])."::timestamp with time zone) ";
+      }
+      if ( isset( $report[$i]['end'] ) ) {
+        $where .= "AND dtstart <= ".qpg($report[$i]['end'])."::timestamp with time zone ";
+      }
+      $sql .= $where;
+      $qry = new PgQuery( $sql );
+      if ( $qry->Exec() && $qry->rows > 0 ) {
+        while( $event = $qry->Fetch() ) {
+          $calhref = ( isset($report[$i]['include_href']) ? sprintf( $calendar_href_tpl, $_SERVER['SERVER_NAME'], $_SERVER['SERVER_PORT'], $_SERVER['SCRIPT_NAME'], $event->dav_name ) : "" );
+          $caldata = ( isset($report[$i]['include_data']) ? sprintf( $calendar_data_tpl, $event->caldav_data ) : "" );
+          printf( $response_tpl, $calhref, $event->dav_etag, $caldata );
+          dbg_error_log("REPORT", "ETag >>%s<< >>http://%s:%s%s%s<<", $event->dav_etag,
+                                $_SERVER['SERVER_NAME'], $_SERVER['SERVER_PORT'], $_SERVER['SCRIPT_NAME'], $event->dav_name);
+        }
+      }
     }
     if ( isset($report[$i]['calendar-freebusy']) ) {
       if ( isset($report[$i]['include_data']) ) dbg_error_log( "REPORT", "FIXME: Not returning full freebusy data" );
