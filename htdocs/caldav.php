@@ -1,5 +1,6 @@
 <?php
 require_once("always.php");
+dbg_error_log( "caldav", " User agent: %s", $_SERVER['HTTP_USER_AGENT'] );
 require_once("BasicAuthSession.php");
 
 $raw_headers = apache_request_headers();
@@ -16,6 +17,10 @@ switch ( $_SERVER['REQUEST_METHOD'] ) {
 
   case 'REPORT':
     include_once("caldav-REPORT.php");
+    break;
+
+  case 'PROPFIND':
+    include_once("caldav-PROPFIND.php");
     break;
 
   case 'PUT':

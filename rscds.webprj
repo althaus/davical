@@ -41,6 +41,13 @@
     <item url="htdocs/help.php" uploadstatus="1" />
     <item url="htdocs/roles.php" uploadstatus="1" />
     <item url="htdocs/relationships.php" uploadstatus="1" />
-    <item url="dba/caldav_functions.sql" />
+    <item url="dba/caldav_functions.sql" uploadstatus="1" />
+    <item url="htdocs/user.php" uploadstatus="1" />
+    <item url="htdocs/role.php" uploadstatus="1" />
+    <item url="inc/Role.php" uploadstatus="1" />
+    <item url="inc/RSCDSUser.php" uploadstatus="1" />
+    <item url="inc/caldav-PROPFIND.php" />
+    <item url="inc/caldav-MKCALENDAR.php" />
+    <item url="inc/XMLElement.php" />
   </project>
 </webproject>

@@ -10,5 +10,7 @@ $relationship_menu = new MenuSet('submenu', 'submenu', 'submenu_active');
 $user_menu = new MenuSet('submenu', 'submenu', 'submenu_active');
 $role_menu = new MenuSet('submenu', 'submenu', 'submenu_active');
 
+$user_menu->AddOption("My Details","/user.php?user_no=$session->user_no","View my own user record", false, 700);
+
 $active_menu_pattern = '#^/(index.*)?$#'
 ?>

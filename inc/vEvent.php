@@ -2,7 +2,7 @@
 /**
 * A Class for handling vEvent data
 *
-* @package rscds
+* @package awl
 * @subpackage iCalendar
 * @author Andrew McMillan <andrew@catalyst.net.nz>
 * @copyright Catalyst IT Ltd
@@ -13,7 +13,7 @@
 /**
 * A Class for handling Events on a calendar
 *
-* @package rscds
+* @package awl
 */
 class vEvent {
   /**#@+

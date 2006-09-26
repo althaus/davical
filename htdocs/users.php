@@ -28,7 +28,7 @@ require_once("interactive-page.php");
 
   $c->page_title = "Calendar Users";
 
-//   if ( $session->AllowedTo("Support") )
+  if ( $session->AllowedTo("Admin") )
     $user_menu->AddOption("New User","/user.php?create","Add a new user", false, 10);
 
   $active_menu_pattern = "#^/user#";

@@ -62,7 +62,7 @@ class BasicAuthSession {
       header( sprintf( 'WWW-Authenticate: Basic realm="%s"', $c->system_name) );
       header('HTTP/1.0 401 Unauthorized');
       echo 'Please log in for access to this system.';
-      dbg_error_log( "Login", "User is not authorised" );
+      dbg_error_log( "BasicAuth", ":Session: User is not authorised" );
       exit;
     }
   }
@@ -74,9 +74,9 @@ class BasicAuthSession {
   */
   function CheckPassword( $username, $password ) {
     $qry = new PgQuery( "SELECT * FROM usr WHERE lower(username) = ? ", $username );
-    if ( $qry->Exec('BAS::CheckPassword',__LINE,__FILE__) && $qry->rows == 1 ) {
+    if ( $qry->Exec('BasicAuth',__LINE,__FILE__) && $qry->rows == 1 ) {
       $usr = $qry->Fetch();
-      dbg_error_log( "Login", "Name:%s, Pass:%s, File:%s", $username, $password, $usr->password );
+      dbg_error_log( "BasicAuth", ":CheckPassword: Name:%s, Pass:%s, File:%s", $username, $password, $usr->password );
       if ( session_validate_password( $password, $usr->password ) ) {
         return $usr;
       }
@@ -103,7 +103,7 @@ class BasicAuthSession {
   function GetRoles () {
     $this->roles = array();
     $qry = new PgQuery( 'SELECT role_name FROM role_member m join roles r ON r.role_no = m.role_no WHERE user_no = ? ', $this->user_no );
-    if ( $qry->Exec('BAS::GetRoles') && $qry->rows > 0 ) {
+    if ( $qry->Exec('BasicAuth') && $qry->rows > 0 ) {
       while( $role = $qry->Fetch() ) {
         $this->roles[$role->role_name] = true;
       }

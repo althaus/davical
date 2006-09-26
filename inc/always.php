@@ -16,6 +16,7 @@ $c->system_name = "Really Simple CalDAV Store";
 $c->domain_name = $_SERVER['SERVER_NAME'];
 $c->images      = "/images";
 $c->save_time_zone_defs = 1;
+$c->stylesheets = array( "/rscds.css" );
 
 // Kind of private configuration values
 $c->total_query_time = 0;

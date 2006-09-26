@@ -114,10 +114,12 @@ foreach( $rpt_request AS $k => $v ) {
       break;
 
     case 'DAV::GETETAG':
+    case 'DAV::GETCONTENTLENGTH':
+    case 'DAV::GETCONTENTTYPE':
+    case 'DAV::RESOURCETYPE':
       if ( isset($report_properties) ) {
-        if ( $v['type'] == "complete" ) {
-          $report_properties['GETETAG'] = 1;
-        }
+        $attribute = substr($v['tag'],5);
+        $report_properties[$attribute] = 1;
       }
       break;
 
@@ -157,14 +159,18 @@ header("Content-type: text/xml;charset=UTF-8");
 $response_tpl = <<<RESPONSETPL
     <D:response>%s
         <D:propstat>
-            <D:prop>
-                <D:getetag>"%s"</D:getetag>%s
+            <D:prop>%s
             </D:prop>
             <D:status>HTTP/1.1 200 OK</D:status>
         </D:propstat>
     </D:response>
 
 RESPONSETPL;
+
+$property_tpl = <<<PROPERTYTPL
+
+                <D:%s>"%s"</D:%s>
+PROPERTYTPL;
 
 $calendar_href_tpl = <<<CALDATATPL
 
@@ -187,7 +193,11 @@ REPORTHDR;
   for ( $i=0; $i <= $reportnum; $i++ ) {
     dbg_error_log("REPORT", "Report[%d] Start:%s, End: %s, Events: %d, Todos: %d, Freebusy: %d",
          $i, $report[$i]['start'], $report[$i]['end'], $report[$i]['calendar-event'], $report[$i]['calendar-todo'], $report[$i]['calendar-freebusy']);
+
     if ( isset($report[$i]['calendar-event']) ) {
+      /**
+      * Produce VEVENT data.
+      */
       if ( isset($report[$i]['include_href']) ) dbg_error_log( "REPORT", "Returning href event data" );
       if ( isset($report[$i]['include_data']) ) dbg_error_log( "REPORT", "Returning full event data" );
       $sql = "SELECT * FROM caldav_data NATURAL JOIN event WHERE caldav_type = 'VEVENT' ";
@@ -201,11 +211,21 @@ REPORTHDR;
       }
       $sql .= $where;
       $qry = new PgQuery( $sql );
-      if ( $qry->Exec() && $qry->rows > 0 ) {
+      if ( $qry->Exec("REPORT",__LINE__,__FILE__) && $qry->rows > 0 ) {
         while( $event = $qry->Fetch() ) {
           $calhref = ( isset($report[$i]['include_href']) ? sprintf( $calendar_href_tpl, $_SERVER['SERVER_NAME'], $_SERVER['SERVER_PORT'], $_SERVER['SCRIPT_NAME'], $event->dav_name ) : "" );
           $caldata = ( isset($report[$i]['include_data']) ? sprintf( $calendar_data_tpl, $event->caldav_data ) : "" );
-          printf( $response_tpl, $calhref, $event->dav_etag, $caldata );
+          $properties = "";
+          foreach( $report[$i]['properties'] AS $k => $v ) {
+            switch( $k ) {
+              case 'GETETAG':             $value = $event->dav_etag;                 break;
+              case 'GETCONTENTLENGTH':    $value = strlen($event->caldav_data);      break;
+              case 'GETCONTENTTYPE':      $value = "text/calendar";                  break;
+              case 'RESOURCETYPE':        $value = "VEVENT";                         break;
+            }
+            $value = sprintf( $property_tpl, strtolower($k), $value, strtolower($k));
+          }
+          printf( $response_tpl, $calhref, $value, $caldata );
           dbg_error_log("REPORT", "ETag >>%s<< >>http://%s:%s%s%s<<", $event->dav_etag,
                                 $_SERVER['SERVER_NAME'], $_SERVER['SERVER_PORT'], $_SERVER['SCRIPT_NAME'], $event->dav_name);
         }
@@ -229,7 +249,7 @@ REPORTHDR;
       }
       $sql .= $where;
       $qry = new PgQuery( $sql );
-      if ( $qry->Exec() && $qry->rows > 0 ) {
+      if ( $qry->Exec("REPORT",__LINE__,__FILE__) && $qry->rows > 0 ) {
         while( $event = $qry->Fetch() ) {
           $calhref = ( isset($report[$i]['include_href']) ? sprintf( $calendar_href_tpl, $_SERVER['SERVER_NAME'], $_SERVER['SERVER_PORT'], $_SERVER['SCRIPT_NAME'], $event->dav_name ) : "" );
           $caldata = ( isset($report[$i]['include_data']) ? sprintf( $calendar_data_tpl, $event->caldav_data ) : "" );
