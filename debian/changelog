@@ -1,3 +1,13 @@
+rscds (0.1.5) unstable; urgency=low
+
+  * Support for some parts of PROPFIND and MKCALENDAR now in an effort to
+    start to work with Mulberry.  Alas an unsuccessful one so far.
+  * User maintenance screens are now functional, although they still do not
+    allow for manipulation of relationships.  That's OK because they don't
+    work out the other end yet either!
+
+ -- Andrew McMillan <debian@mcmillan.net.nz>  Sun,  1 Oct 2006 20:46:55 +1300
+
 rscds (0.1.4) unstable; urgency=low
 
   * Now working with both Evolution and Lightning+Thunderbird(alpha)
