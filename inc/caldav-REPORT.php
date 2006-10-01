@@ -159,7 +159,7 @@ header("Content-type: text/xml;charset=UTF-8");
 $response_tpl = <<<RESPONSETPL
     <D:response>%s
         <D:propstat>
-            <D:prop>%s
+            <D:prop>%s%s
             </D:prop>
             <D:status>HTTP/1.1 200 OK</D:status>
         </D:propstat>
@@ -223,9 +223,9 @@ REPORTHDR;
               case 'GETCONTENTTYPE':      $value = "text/calendar";                  break;
               case 'RESOURCETYPE':        $value = "VEVENT";                         break;
             }
-            $value = sprintf( $property_tpl, strtolower($k), $value, strtolower($k));
+            $properties .= sprintf( $property_tpl, strtolower($k), $value, strtolower($k));
           }
-          printf( $response_tpl, $calhref, $value, $caldata );
+          printf( $response_tpl, $calhref, $properties, $caldata );
           dbg_error_log("REPORT", "ETag >>%s<< >>http://%s:%s%s%s<<", $event->dav_etag,
                                 $_SERVER['SERVER_NAME'], $_SERVER['SERVER_PORT'], $_SERVER['SCRIPT_NAME'], $event->dav_name);
         }

@@ -25,7 +25,6 @@
     <item url="htdocs/caldav.php" uploadstatus="1" />
     <item url="inc/BasicAuthSession.php" uploadstatus="1" />
     <item url="inc/session-util.php" uploadstatus="1" />
-    <item url="inc/vEvent.php" uploadstatus="1" />
     <item url="debian/" uploadstatus="1" />
     <item url="debian/rules" uploadstatus="1" />
     <item url="dba/rscds.sql" uploadstatus="1" />
@@ -47,9 +46,9 @@
     <item url="inc/caldav-PROPFIND.php" uploadstatus="1" />
     <item url="inc/caldav-MKCALENDAR.php" uploadstatus="1" />
     <item url="inc/XMLElement.php" uploadstatus="1" />
-    <item url="htdocs/js/" />
-    <item url="htdocs/js/browse.js" />
-    <item url="htdocs/css/browse.css" />
-    <item url="htdocs/css/" />
+    <item url="htdocs/js/" uploadstatus="1" />
+    <item url="htdocs/js/browse.js" uploadstatus="1" />
+    <item url="htdocs/css/browse.css" uploadstatus="1" />
+    <item url="htdocs/css/" uploadstatus="1" />
   </project>
 </webproject>

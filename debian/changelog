@@ -1,3 +1,9 @@
+rscds (0.1.6) unstable; urgency=low
+
+  * Fix some bugs in caldav-REPORT, which was not working with Lightning.
+
+ -- Andrew McMillan <debian@mcmillan.net.nz>  Sun,  1 Oct 2006 23:22:37 +1300
+
 rscds (0.1.5) unstable; urgency=low
 
   * Support for some parts of PROPFIND and MKCALENDAR now in an effort to
