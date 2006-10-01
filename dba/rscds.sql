@@ -109,6 +109,18 @@ CREATE TABLE todo (
 
 GRANT SELECT,INSERT,UPDATE,DELETE ON todo TO general;
 
+-- Something that can look like a filesystem hierarchy where we store stuff
+CREATE TABLE calendar (
+  user_no INT references usr(user_no),
+  dav_name TEXT,
+  dav_etag TEXT,
+  created TIMESTAMP WITH TIME ZONE,
+
+  PRIMARY KEY ( user_no, dav_name )
+);
+
+GRANT SELECT,INSERT,UPDATE,DELETE ON calendar TO general;
+
 -- Each user can be related to each other user.  This mechanism can also
 -- be used to define groups of users, since some relationships are transitive.
 CREATE TABLE relationship_type (

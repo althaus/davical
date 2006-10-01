@@ -10,6 +10,10 @@
 */
 
 require_once("User.php");
+require_once("classBrowser.php");
+
+$c->stylesheets[] = "css/browse.css";
+$c->scripts[] = "js/browse.js";
 
 /**
 * A class for viewing and maintaining RSCDS User records
@@ -53,6 +57,8 @@ class RSCDSUser extends User
 
     $html .= $this->RenderRoles($ef);
 
+    $html .= $this->RenderRelationships($ef);
+
     $html .= "</table>\n";
     $html .= "</div>";
 
@@ -62,6 +68,46 @@ class RSCDSUser extends User
       $html .= '</div>';
       $html .= $ef->EndForm();
     }
+
+    return $html;
+  }
+
+
+  /**
+  * Render the user's relationships to other users & resources
+  *
+  * @return string The string of html to be output
+  */
+  function RenderRelationships( $ef, $title = "User Relationships" ) {
+    global $session, $c;
+
+    $browser = new Browser("");
+
+    $browser->AddHidden( 'user_link', "'<a href=\"/user.php?user_no=' || user_no || '\">' || fullname || '</a>'" );
+    $browser->AddColumn( 'rt_name', 'Relationship' );
+    $browser->AddColumn( 'fullname', 'Linked To', 'left', '##user_link##' );
+    $browser->AddColumn( 'rt_isgroup', 'Group?' );
+    $browser->AddHidden( 'confers', 'Confers' );
+    $browser->AddColumn( 'email', 'EMail' );
+
+    $browser->SetJoins( 'relationship NATURAL JOIN relationship_type rt LEFT JOIN usr ON (to_user = user_no)' );
+    $browser->SetWhere( "from_user = $this->user_no" );
+
+    $browser->SetUnion("SELECT rt.rt_name, fullname, rt.rt_isgroup, email, '<a href=\"/user.php?user_no=' || user_no || '\">' || fullname || '</a>' AS user_link, rt.confers AS confers FROM relationship NATURAL JOIN relationship_type rt1 LEFT JOIN relationship_type rt ON (rt.rt_id = rt1.rt_inverse) LEFT JOIN usr ON (from_user = user_no) WHERE to_user = $this->user_no ");
+
+    if ( isset( $_GET['o']) && isset($_GET['d']) ) {
+      $browser->AddOrder( $_GET['o'], $_GET['d'] );
+    }
+    else
+      $browser->AddOrder( 'rt_name', 'A' );
+
+    $browser->RowFormat( "<tr onMouseover=\"LinkHref(this,1);\" title=\"Click to display that relationship\" class=\"r%d\">\n", "</tr>\n", '#even' );
+    $browser->DoQuery();
+
+    $html = ( $title == "" ? "" : $ef->BreakLine($title) );
+    $html .= "<tr><td>&nbsp;</td><td>\n";
+    $html .= $browser->Render();
+    $html .= "</td></tr>\n";
 
     return $html;
   }

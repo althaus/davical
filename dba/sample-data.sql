@@ -1,10 +1,16 @@
 -- Some sample data to prime the database...
 
+INSERT INTO roles ( role_no, role_name ) VALUES( 1, 'Admin');
+SELECT setval('roles_role_no_seq', 1);
+
 INSERT INTO usr ( user_no, active, email_ok, updated, username, password, fullname, email )
     VALUES( 1, TRUE, current_date, current_date, 'admin', '**nimda', 'Calendar Administrator', 'calendars@example.net' );
+INSERT INTO role_member (user_no, role_no) VALUES( 1, 1);
 
 INSERT INTO usr ( user_no, active, email_ok, updated, username, password, fullname, email )
     VALUES( 2, TRUE, current_date, current_date, 'andrew', '**x', 'Andrew McMillan', 'andrew@catalyst.net.nz' );
+INSERT INTO role_member (user_no, role_no) VALUES( 2, 1);
+
 
 INSERT INTO usr ( user_no, active, email_ok, updated, username, password, fullname, email )
     VALUES( 10, TRUE, current_date, current_date, 'user1', '**user1', 'User 1', 'user1@example.net' );
@@ -30,11 +36,6 @@ INSERT INTO usr ( user_no, active, email_ok, updated, username, password, fullna
 
 SELECT setval('usr_user_no_seq', 1000);
 
-INSERT INTO roles ( role_no, role_name ) VALUES( 1, 'Admin');
-
-SELECT setval('roles_role_no_seq', 1);
-
-INSERT INTO role_member (user_no, role_no) VALUES( 1, 1);
 
 INSERT INTO relationship_type ( rt_id, rt_name, rt_isgroup, rt_inverse, confers, prefix_match )
     VALUES( 1, 'Meeting Admin', TRUE, NULL, 'RW', '' );
@@ -46,7 +47,7 @@ INSERT INTO relationship_type ( rt_id, rt_name, rt_isgroup, rt_inverse, confers,
     VALUES( 3, 'Assistant to', FALSE, 2, 'RW', '' );
 
 INSERT INTO relationship_type ( rt_id, rt_name, rt_isgroup, rt_inverse, confers, prefix_match )
-    VALUES( 4, 'Team Member', FALSE, 4, 'R', '' );
+    VALUES( 4, 'Member of team', FALSE, 4, 'R', '' );
 
 INSERT INTO relationship_type ( rt_id, rt_name, rt_isgroup, rt_inverse, confers, prefix_match )
     VALUES( 5, 'Meeting Resource', TRUE, NULL, 'RW', '' );

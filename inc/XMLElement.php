@@ -23,6 +23,10 @@ class XMLElement {
 
   /**
   * Constructor - nothing fancy as yet.
+  *
+  * @param string The tag name of the new element
+  * @param mixed Either a string of content, or an array of sub-elements
+  * @param array An array of attribute name/value pairs
   */
   function XMLElement( $tagname, $content=false, $attributes=false ) {
     $this->tagname=$tagname;
@@ -61,6 +65,18 @@ class XMLElement {
   }
 
   /**
+  * Add a new sub-element
+  *
+  * @param string The tag name of the new element
+  * @param mixed Either a string of content, or an array of sub-elements
+  * @param array An array of attribute name/value pairs
+  */
+  function NewElement( $tagname, $content=false, $attributes=false ) {
+    if ( gettype($this->content) != "array" ) $this->content = array();
+    $this->content[] = new XMLElement($tagname,$content,$attributes);
+  }
+
+  /**
   * Render the document tree into (nicely formatted) XML
   *
   * @param int The indenting level for the pretty formatting of the element
@@ -72,7 +88,7 @@ class XMLElement {
       * Render the element attribute values
       */
       foreach( $this->attributes AS $k => $v ) {
-        $r .= sprintf( ' %s="%s"', $k, $v );
+        $r .= sprintf( ' %s="%s"', $k, htmlspecialchars($v) );
       }
     }
     if ( (is_array($this->content) && count($this->content) > 0) || strlen($this->content) > 0 ) {
@@ -95,7 +111,7 @@ class XMLElement {
         *
         * FIXME This should switch to CDATA in some situations.
         */
-        $r .= htmlspecialchars($this->content);
+        $r .= htmlspecialchars($this->content, ENT_NOQUOTES );
       }
       $r .= '</' . $this->tagname.">\n";
     }

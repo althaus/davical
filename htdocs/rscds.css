@@ -63,6 +63,40 @@ label {
   padding: 2px;
 }
 
+.prompt {
+ font-family: Arial Narrow, sans-serif;
+ background-color: #a0f0b0;
+ color: #003010;
+}
+
+.ph {
+ font-family:Bitstream Vera Sans, sans-serif;
+ color: #003010;
+ font-size: 120%;
+ background-color: #60e080;
+ text-align:left;
+ border-top: 2px white solid;
+ padding-top:3px;
+}
+
+
+#messages {
+ background-color: #602000;
+ color:white;
+ border:0;
+ padding:2px 6px;
+}
+
+ul.messages, li.messages {
+ font-family:Bitstream Vera Sans, sans-serif;
+ font-weight:700;
+ font-size: 1.1em;
+}
+
+li.messages {
+ display:inherit;
+}
+
 #menu {
   background-color: #084010;
   color: white;

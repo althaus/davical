@@ -23,6 +23,8 @@ xml_parse_into_struct( $parser, $raw_post, $rpt_request );
 xml_parser_free($parser);
 
 $find_path = $_SERVER['PATH_INFO'];
+list( $blank, $username, $calpath ) = split( '/', $find_path, 3);
+$calpath = "/".$calpath;
 $href_list = array();
 $attribute_list = array();
 
@@ -107,24 +109,42 @@ else {
   $url = sprintf("http://%s:%d%s%s", $_SERVER['SERVER_NAME'], $_SERVER['SERVER_PORT'], $_SERVER['SCRIPT_NAME'], $find_path );
   $url = $_SERVER['SCRIPT_NAME'] . $find_path ;
   $url = preg_replace( '#/$#', '', $url);
-  for ( $i=0; $i < 2; $i++ ) {
-    $props = array();
+
+  $sql = "SELECT * FROM calendar WHERE user_no = ? AND dav_name ~ ?;";
+  if ( $calpath == '' ) {
+    $sql = "SELECT user_no, '/' || username || '/' AS dav_name, md5( '/' || username || '/') AS dav_etag, updated AS created FROM usr WHERE user_no = $session->user_no UNION ".$sql;
+  }
+  $qry = new PgQuery($sql, $session->user_no, '^/'.$username.$calpath );
+  $qry->Exec("PROPFIND",__LINE,__FILE__);
+
+  while( $calendar = $qry->Fetch() ) {
+    $url = $_SERVER['SCRIPT_NAME'] . $calendar->dav_name;
+    $resourcetypes = array( new XMLElement("collection") );
+    $contentlength = false;
+    if ( $calendar->dav_name != "/$username/" ) {
+      $resourcetypes[] = new XMLElement("calendar", false, array("xmlns" => "urn:ietf:params:xml:ns:caldav"));
+      $lqry = new PgQuery("SELECT sum(length(caldav_data)) FROM caldav_data WHERE user_no = ? AND dav_name ~ ?;", $session->user_no, '^/'.$username.$calpath.'[^/]+$' );
+      if ( $lqry->Exec("PROPFIND",__LINE,__FILE__) && $row = $lqry->Fetch() ) {
+        $contentlength = $row->sum;
+      }
+    }
+    $prop = new XMLElement("prop");
     if ( isset($attribute_list['GETCONTENTLENGTH']) ) {
-      $props[] = new XMLElement("getcontentlength" );
+      $prop->NewElement("getcontentlength", $contentlength );
     }
     if ( isset($attribute_list['GETCONTENTTYPE']) ) {
-      $props[] = new XMLElement("getcontenttype", "httpd/unix-directory" );
+//      $prop->NewElement("getcontenttype", "text/calendar" );
+      $prop->NewElement("getcontenttype", "httpd/unix-directory" );
     }
     if ( isset($attribute_list['RESOURCETYPE']) ) {
-      $resourcetypes = array( new XMLElement("collection") );
-      if ( $i == 1 ) $resourcetypes[] = new XMLElement("calendar", false, array("xmlns" => "urn:ietf:params:xml:ns:caldav"));
-      $props[] = new XMLElement("resourcetype", $resourcetypes );
+      $prop->NewElement("resourcetype", $resourcetypes );
     }
-    $prop = new XMLElement("prop", $props );
+    if ( isset($attribute_list['GETETAG']) ) {
+      $prop->NewElement("getetag", '"'.$calendar->dav_etag.'"' );
+    }
     $status = new XMLElement("status", "HTTP/1.1 200 OK" );
 
     $propstat = new XMLElement( "propstat", array( $prop, $status) );
-    if ( $i == 1 ) $url .= "/calendar";
     $href = new XMLElement("href", $url );
 
     $responses[] = new XMLElement( "response", array($href,$propstat));
@@ -133,10 +153,16 @@ else {
   $multistatus = new XMLElement( "multistatus", $responses, array('xmlns'=>'DAV:') );
 }
 
+dbg_log_array( "PROPFIND", "XML", $multistatus, true );
+$xmldoc = $multistatus->Render();
+$etag = md5($xmldoc);
+
 header("HTTP/1.1 207 Multi-Status");
 header("Content-type: text/xml;charset=UTF-8");
+header("DAV: 1, 2, calendar-access, calendar-schedule");
+header("ETag: \"$etag\"");
 
 echo'<?xml version="1.0" encoding="UTF-8" ?>'."\n";
-echo $multistatus->Render();
+echo $xmldoc;
 
 ?>

@@ -8,12 +8,15 @@ require_once("interactive-page.php");
 
   require_once("classBrowser.php");
   $c->stylesheets[] = "css/browse.css";
+  $c->scripts[] = "js/browse.js";
 
   $browser = new Browser("Calendar Users");
 
-  $browser->AddColumn( 'user_no', 'No.', '', '##user_link##' );
+  $browser->AddColumn( 'user_no', 'No.', 'right', '##user_link##' );
   $browser->AddColumn( 'username', 'Name' );
   $browser->AddHidden( 'user_link', "'<a href=\"/user.php?user_no=' || user_no || '\">' || user_no || '</a>'" );
+  $browser->AddColumn( 'fullname', 'Full Name' );
+  $browser->AddColumn( 'email', 'EMail' );
 
   $browser->SetJoins( 'usr' );
 
@@ -23,7 +26,7 @@ require_once("interactive-page.php");
   else
     $browser->AddOrder( 'user_no', 'A' );
 
-  $browser->RowFormat( "<tr onMouseover=\"LinkHref(this,1);\" title=\"Click to Display Role Detail\" class=\"r%d\">\n", "</tr>\n", '#even' );
+  $browser->RowFormat( "<tr onMouseover=\"LinkHref(this,1);\" title=\"Click to Display User Detail\" class=\"r%d\">\n", "</tr>\n", '#even' );
   $browser->DoQuery();
 
   $c->page_title = "Calendar Users";

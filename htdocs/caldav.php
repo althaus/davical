@@ -23,6 +23,10 @@ switch ( $_SERVER['REQUEST_METHOD'] ) {
     include_once("caldav-PROPFIND.php");
     break;
 
+  case 'MKCALENDAR':
+    include_once("caldav-MKCALENDAR.php");
+    break;
+
   case 'PUT':
     include_once("caldav-PUT.php");
     break;
