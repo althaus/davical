@@ -12,7 +12,6 @@
     <annotations/>
     <item url="inc/caldav-OPTIONS.php" uploadstatus="1" />
     <item url="inc/" uploadstatus="1" />
-    <item url="inc/caldav-REPORT.php" uploadstatus="1" />
     <item url="inc/always.php" uploadstatus="1" />
     <item url="config/config.php" uploadstatus="1" />
     <item url="config/" uploadstatus="1" />
@@ -45,10 +44,44 @@
     <item url="inc/RSCDSUser.php" uploadstatus="1" />
     <item url="inc/caldav-PROPFIND.php" uploadstatus="1" />
     <item url="inc/caldav-MKCALENDAR.php" uploadstatus="1" />
-    <item url="inc/XMLElement.php" uploadstatus="1" />
     <item url="htdocs/js/" uploadstatus="1" />
     <item url="htdocs/js/browse.js" uploadstatus="1" />
     <item url="htdocs/css/browse.css" uploadstatus="1" />
     <item url="htdocs/css/" uploadstatus="1" />
+    <item url="inc/caldav-MKCOL.php" uploadstatus="1" />
+    <item url="testing/" uploadstatus="1" />
+    <item url="testing/dav_test" uploadstatus="1" />
+    <item url="testing/tests/chandler/" uploadstatus="1" />
+    <item url="testing/tests/" uploadstatus="1" />
+    <item url="testing/tests/chandler/PROPFIND.data" uploadstatus="1" />
+    <item url="testing/tests/chandler/PROPFIND.test" uploadstatus="1" />
+    <item url="testing/tests/chandler/PROPFIND1.test" uploadstatus="1" />
+    <item url="testing/tests/chandler/PROPFIND2.test" uploadstatus="1" />
+    <item url="testing/tests/chandler/privilege.data" uploadstatus="1" />
+    <item url="testing/tests/chandler/privilege.test" uploadstatus="1" />
+    <item url="inc/xxxXMLElement.php" uploadstatus="1" />
+    <item url="testing/tests/chandler/ticketdiscovery.test" uploadstatus="1" />
+    <item url="testing/tests/chandler/ticketdiscovery.data" uploadstatus="1" />
+    <item url="testing/tests/chandler/OPTIONS-top.test" uploadstatus="1" />
+    <item url="testing/tests/chandler/OPTIONS-dotchandler.test" uploadstatus="1" />
+    <item url="testing/tests/chandler/PROPFIND-dotchandler.test" uploadstatus="1" />
+    <item url="testing/tests/evolution/OPTIONS.test" uploadstatus="1" />
+    <item url="testing/tests/evolution/" uploadstatus="1" />
+    <item url="testing/tests/chandler/REPORT.test" uploadstatus="1" />
+    <item url="testing/tests/mulberry/" uploadstatus="1" />
+    <item url="testing/tests/mulberry/PROPFIND-mulberry.data" uploadstatus="1" />
+    <item url="testing/tests/mulberry/PROPFIND-mulberry.test" uploadstatus="1" />
+    <item url="testing/tests/mulberry/PROPFIND-initial.test" uploadstatus="1" />
+    <item url="testing/tests/mulberry/PROPFIND-initial.data" uploadstatus="1" />
+    <item url="testing/tests/mulberry/REPORT-1href.data" uploadstatus="1" />
+    <item url="testing/tests/evolution/REPORT.test" uploadstatus="1" />
+    <item url="testing/tests/evolution/REPORT.data" uploadstatus="1" />
+    <item url="testing/tests/mulberry/REPORT-1href.test" uploadstatus="1" />
+    <item url="inc/xxx-caldav-REPORT.php" uploadstatus="1" />
+    <item url="inc/caldav-REPORT.php" uploadstatus="1" />
+    <item url="testing/tests/mulberry/PUT1.data" />
+    <item url="testing/tests/mulberry/PUT2.data" />
+    <item url="testing/tests/mulberry/PUT2.test" />
+    <item url="testing/tests/mulberry/PUT1.test" />
   </project>
 </webproject>
