@@ -1,0 +1,7 @@
+#
+# After creating a calendar in Mulberry, we should be able
+# to do a PROPFIND and discover it.
+TYPE=PROPFIND
+URL=http://mycaldav/caldav.php/andrew/
+HEADER=Depth: 1
+HEADER=Content-Type: text/xml; charset=utf-8

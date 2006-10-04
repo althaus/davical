@@ -1,0 +1,8 @@
+#
+# Test the initial PROPFIND for the root.
+#
+TYPE=PROPFIND
+HEADER=Depth: 0
+URL=http://mycaldav/caldav.php/andrew/.chandler/
+HEADER=Content-Type: text/xml; charset="utf-8"
+DATA=PROPFIND

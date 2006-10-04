@@ -1,0 +1,7 @@
+#
+# Test the REPORT request
+#
+TYPE=REPORT
+URL=http://mycaldav/caldav.php/andrew/
+HEADER=Content-Type: text/xml
+HEAD

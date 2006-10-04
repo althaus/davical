@@ -1,0 +1,108 @@
+#!/usr/bin/perl -w
+#
+# Run a test
+#
+
+my $suite=$ARGV[0];
+my $test=$ARGV[1];
+
+usage() unless ( defined($suite) && defined($test) );
+
+my @arguments = ( "--basic", "--user", "andrew:x", "--proxy", "", "--silent" );
+push @arguments, "--verbose" if ( defined($ARGV[2]) );
+
+my $url;
+
+my $datafile = "tests/$suite/$test.data";
+
+open( TEST, '<', "tests/$suite/$test.test" ) or die "Can't open 'tests/$suite/$test.test'";
+while( <TEST> ) {
+  /^\s*(#|$)/ && next;
+
+  /^\s*HEAD\s*(#|$|=)/ && do {
+    push @arguments, "--include";
+  };
+
+  /^\s*DATA\s*=\s*(\S.*)$/ && do {
+    $datafile="tests/$suite/$1.data";
+  };
+
+  /^\s*VERBOSE\s*(#|$|=)/ && do {
+    push @arguments, "--verbose";
+  };
+
+  /^\s*TYPE\s*=\s*(\S.*)$/ && do {
+    push @arguments, "--request", $1;
+  };
+
+  /^\s*HEADER\s*=\s*(\S.*)$/ && do {
+    push @arguments, "--header", $1;
+  };
+
+  /^\s*URL\s*=\s*(\S.*)$/ && do {
+    $url=$1;
+  };
+
+}
+
+if ( !defined($url) ) {
+  print <<EOERROR ;
+The .test file must contain a URL.  It may also contain a TYPE line (to
+specify the request type, such as PROPFIND, MKCOL, PUT etc) and it may
+contain a number of HEADER lines to specify additional headers to send
+along with the request.
+EOERROR
+  exit (2);
+}
+
+if ( -f $datafile ) {
+  push @arguments, "--data-binary", "\@$datafile";
+  # print "Using datafile: ", $datafile,"\n";
+}
+else {
+  undef($datafile);
+}
+
+
+# print @arguments;
+# print "\n";
+push @arguments, $url;
+
+open RESULTS, "-|", "curl", @arguments;
+while( <RESULTS> ) {
+  print;
+}
+
+exit(0);
+
+sub usage {
+  print <<EOERROR ;
+
+Usage:   dav_test <testsuite> <testname>
+
+This program will read the file 'tests/<testsuite>/<testname>.test
+and follow the instructions there.  Those instructions will include
+lines defining the test like:
+=================================================
+# This is an example
+URL=http://mycaldav/caldav.php/andrew/
+HEADER=Depth: 0
+HEADER=Content-type: text/xml
+TYPE=PROPFIND
+VERBOSE
+DATA=OTHERTEST
+=================================================
+
+URL      The URL to request from.
+HEADER   An additional header for the request
+TYPE     The type of request (e.g. GET/PUT/POST/REPORT/...)
+HEAD     Whether to include the headers in the recorded response
+VERBOSE  Whether to provide the full request / response headers.
+DATA     The name of a different test in this suite to use data from.
+
+Additionally, if a file 'tests/<testsuite>/<testname>.data' exists
+the contents of that file will be sent in the body of the request.
+
+EOERROR
+  exit(1);
+}

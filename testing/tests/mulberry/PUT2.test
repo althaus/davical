@@ -1,0 +1,7 @@
+#
+# PUT a calendar entry into the Mulberry calendar
+#
+TYPE=PUT
+URL=http://mycaldav/caldav.php/andrew/mulberry/F91ACE37725E396C1A4BB87568CE36C0-0.ics
+HEADER=Content-Type: text/calendar; charset=utf-8
+HEAD
