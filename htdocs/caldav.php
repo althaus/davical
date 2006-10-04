@@ -11,33 +11,14 @@ if ( $debugging && isset($_GET['method']) ) {
 }
 
 switch ( $_SERVER['REQUEST_METHOD'] ) {
-  case 'OPTIONS':
-    include_once("caldav-OPTIONS.php");
-    break;
-
-  case 'REPORT':
-    include_once("caldav-REPORT.php");
-    break;
-
-  case 'PROPFIND':
-    include_once("caldav-PROPFIND.php");
-    break;
-
-  case 'MKCALENDAR':
-    include_once("caldav-MKCALENDAR.php");
-    break;
-
-  case 'PUT':
-    include_once("caldav-PUT.php");
-    break;
-
-  case 'GET':
-    include_once("caldav-GET.php");
-    break;
-
-  case 'DELETE':
-    include_once("caldav-DELETE.php");
-    break;
+  case 'OPTIONS':    include_once("caldav-OPTIONS.php");    break;
+  case 'REPORT':     include_once("caldav-REPORT.php");     break;
+  case 'PROPFIND':   include_once("caldav-PROPFIND.php");   break;
+  case 'MKCALENDAR': include_once("caldav-MKCALENDAR.php"); break;
+  case 'MKCOL':      include_once("caldav-MKCOL.php");      break;
+  case 'PUT':        include_once("caldav-PUT.php");        break;
+  case 'GET':        include_once("caldav-GET.php");        break;
+  case 'DELETE':     include_once("caldav-DELETE.php");     break;
 
   default:
     dbg_error_log( "caldav", "Unhandled request method >>%s<<", $_SERVER['REQUEST_METHOD'] );
