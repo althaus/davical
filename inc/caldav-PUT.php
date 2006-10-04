@@ -45,7 +45,7 @@ if ( $etag_match == '*' || $etag_match == '' ) {
   /**
   * If we got this far without an etag we must be inserting it.
   */
-  $qry = new PgQuery( "INSERT INTO caldav_data ( user_no, dav_name, dav_etag, caldav_data, caldav_type, logged_user ) VALUES( ?, ?, ?, ?, ?, ?)",
+  $qry = new PgQuery( "INSERT INTO caldav_data ( user_no, dav_name, dav_etag, caldav_data, caldav_type, logged_user, created, modified ) VALUES( ?, ?, ?, ?, ?, ?, current_timestamp, current_timestamp )",
                          $session->user_no, $put_path, $etag, $raw_post, $ev->type, $session->user_no );
   $qry->Exec("PUT");
 
@@ -53,7 +53,7 @@ if ( $etag_match == '*' || $etag_match == '' ) {
   header("ETag: $etag");
 }
 else {
-  $qry = new PgQuery( "UPDATE caldav_data SET caldav_data=?, dav_etag=?, caldav_type=?, logged_user=? WHERE user_no=? AND dav_name=? AND dav_etag=?",
+  $qry = new PgQuery( "UPDATE caldav_data SET caldav_data=?, dav_etag=?, caldav_type=?, logged_user=?, modified=current_timestamp WHERE user_no=? AND dav_name=? AND dav_etag=?",
                                               $raw_post, $etag, $ev->type, $session->user_no, $session->user_no, $put_path, $etag_match );
   $qry->Exec("PUT");
 
@@ -61,20 +61,31 @@ else {
   header("ETag: $etag");
 }
 
-if ( $ev->type == 'VEVENT' )     $table = 'event';
-elseif ( $ev->type == 'VTODO' )  $table = 'todo';
-
 $sql = ( $ev->tz_locn == '' ? '' : "SET TIMEZONE TO ".qpg($ev->tz_locn).";" );
+
+$dtstart = $ev->Get('dtstart');
+if ( (!isset($dtstart) || $dtstart == "") && $ev->Get('due') != "" ) {
+  $dtstart = $ev->Get('due');
+}
+$dtend = $ev->Get('dtend');
+if ( (!isset($dtend) || "$dtend" == "") && $ev->Get('duration') != "" AND $dtstart != "" ) {
+  $duration = preg_replace( '#[PT]#', ' ', $ev->Get('duration') );
+  $dtend = '('.qpg($dtstart).'::timestamp with time zone + '.qpg($duration).'::interval)';
+}
+else {
+  dbg_error_log( "PUT", " DTEND: '%s', DTSTART: '%s', DURATION: '%s'", $dtend, $dtstart, $ev->Get('duration') );
+  $dtend = qpg($dtend);
+}
 
 if ( $etag_match == '*' || $etag_match == '' ) {
   $sql .= <<<EOSQL
-INSERT INTO $table (user_no, dav_name, dav_etag, uid, dtstamp, dtstart, dtend, summary, location, class, transp,
+INSERT INTO calendar_item (user_no, dav_name, dav_etag, uid, dtstamp, dtstart, dtend, summary, location, class, transp,
                     description, rrule, tz_id, last_modified, url, priority, created, due, percent_complete )
-                 VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+                 VALUES ( ?, ?, ?, ?, ?, ?, $dtend, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
 EOSQL;
 
   $qry = new PgQuery( $sql, $session->user_no, $put_path, $etag, $ev->Get('uid'), $ev->Get('dtstamp'),
-                            $ev->Get('dtstart'), $ev->Get('dtend'), $ev->Get('summary'), $ev->Get('location'),
+                            $ev->Get('dtstart'), $ev->Get('summary'), $ev->Get('location'),
                             $ev->Get('class'), $ev->Get('transp'), $ev->Get('description'), $ev->Get('rrule'), $ev->Get('tz_id'),
                             $ev->Get('last-modified'), $ev->Get('url'), $ev->Get('priority'), $ev->Get('created'),
                             $ev->Get('due'), $ev->Get('percent-complete')
@@ -83,12 +94,12 @@ EOSQL;
 }
 else {
   $sql = <<<EOSQL
-UPDATE $table SET uid=?, dtstamp=?, dtstart=?, dtend=?, summary=?, location=?, class=?, transp=?, description=?, rrule=?,
+UPDATE calendar_item SET uid=?, dtstamp=?, dtstart=?, dtend=$dtend, summary=?, location=?, class=?, transp=?, description=?, rrule=?,
                   tz_id=?, last_modified=?, url=?, priority=?, dav_etag=?, due=?, percent_complete=?
                  WHERE user_no=? AND dav_name=?
 EOSQL;
 
-  $qry = new PgQuery( $sql, $ev->Get('uid'), $ev->Get('dtstamp'), $ev->Get('dtstart'), $ev->Get('dtend'), $ev->Get('summary'),
+  $qry = new PgQuery( $sql, $ev->Get('uid'), $ev->Get('dtstamp'), $ev->Get('dtstart'), $ev->Get('summary'),
                             $ev->Get('location'), $ev->Get('class'), $ev->Get('transp'), $ev->Get('description'), $ev->Get('rrule'),
                             $ev->Get('tz_id'), $ev->Get('last-modified'), $ev->Get('url'), $ev->Get('priority'), $etag,
                             $ev->Get('due'), $ev->Get('percent-complete'),
