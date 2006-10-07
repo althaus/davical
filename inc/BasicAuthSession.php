@@ -74,7 +74,7 @@ class BasicAuthSession {
   */
   function CheckPassword( $username, $password ) {
     $qry = new PgQuery( "SELECT * FROM usr WHERE lower(username) = ? ", $username );
-    if ( $qry->Exec('BasicAuth',__LINE,__FILE__) && $qry->rows == 1 ) {
+    if ( $qry->Exec('BasicAuth',__LINE__,__FILE__) && $qry->rows == 1 ) {
       $usr = $qry->Fetch();
       dbg_error_log( "BasicAuth", ":CheckPassword: Name:%s, Pass:%s, File:%s", $username, $password, $usr->password );
       if ( session_validate_password( $password, $usr->password ) ) {
