@@ -2,31 +2,11 @@
 
 dbg_error_log("REPORT", "method handler");
 
-$attributes = array();
-$parser = xml_parser_create_ns('UTF-8');
-xml_parser_set_option ( $parser, XML_OPTION_SKIP_WHITE, 1 );
-
-function xml_start_callback( $parser, $el_name, $el_attrs ) {
-//  dbg_error_log( "REPORT", "Parsing $el_name" );
-//  dbg_log_array( "REPORT", "$el_name::attrs", $el_attrs, true );
-  $attributes[$el_name] = $el_attrs;
-}
-
-function xml_end_callback( $parser, $el_name ) {
-//  dbg_error_log( "REPORT", "Finished Parsing $el_name" );
-}
-
-xml_set_element_handler ( $parser, 'xml_start_callback', 'xml_end_callback' );
-
-$rpt_request = array();
-xml_parse_into_struct( $parser, $raw_post, $rpt_request );
-xml_parser_free($parser);
-
 require_once("XMLElement.php");
 
 $reportnum = -1;
 $report = array();
-foreach( $rpt_request AS $k => $v ) {
+foreach( $xml_tags AS $k => $v ) {
 
   $fulltag = $v['tag'];
   if ( preg_match('/^(.*):([^:]+)$/', $fulltag, $matches) ) {
@@ -41,7 +21,7 @@ foreach( $rpt_request AS $k => $v ) {
   switch ( $fulltag ) {
 
     case 'URN:IETF:PARAMS:XML:NS:CALDAV:CALENDAR-QUERY':
-      dbg_error_log( "PROPFIND", ":Request: %s -> %s", $v['type'], $xmltag );
+      dbg_error_log( "REPORT", ":Request: %s -> %s", $v['type'], $xmltag );
       if ( $v['type'] == "open" ) {
         $reportnum++;
         $report[$reportnum]['type'] = $xmltag;
@@ -54,7 +34,7 @@ foreach( $rpt_request AS $k => $v ) {
       break;
 
     case 'URN:IETF:PARAMS:XML:NS:CALDAV:CALENDAR-MULTIGET':
-      dbg_error_log( "PROPFIND", ":Request: %s -> %s", $v['type'], $xmltag );
+      dbg_error_log( "REPORT", ":Request: %s -> %s", $v['type'], $xmltag );
       $report[$reportnum]['multiget'] = 1;
       if ( $v['type'] == "open" ) {
         $reportnum++;
@@ -68,7 +48,7 @@ foreach( $rpt_request AS $k => $v ) {
       break;
 
     case 'URN:IETF:PARAMS:XML:NS:CALDAV:FILTER':
-      dbg_error_log( "PROPFIND", ":Request: %s -> %s", $v['type'], $xmltag );
+      dbg_error_log( "REPORT", ":Request: %s -> %s", $v['type'], $xmltag );
       if ( $v['type'] == "open" ) {
         $filters = array();
       }
@@ -80,7 +60,7 @@ foreach( $rpt_request AS $k => $v ) {
 
     case 'URN:IETF:PARAMS:XML:NS:CALDAV:IS-DEFINED':
     case 'URN:IETF:PARAMS:XML:NS:CALDAV:COMP-FILTER':
-      dbg_error_log( "PROPFIND", ":Request: %s -> %s", $v['type'], $xmltag );
+      dbg_error_log( "REPORT", ":Request: %s -> %s", $v['type'], $xmltag );
       if ( $v['type'] == "close" ) {
         break;
       }
@@ -172,7 +152,7 @@ foreach( $rpt_request AS $k => $v ) {
 function calendar_to_xml( $properties, $item ) {
   global $session, $c;
 
-  dbg_error_log("PROPFIND","Building XML Response for item '%s'", $item->dav_name );
+  dbg_error_log("REPORT","Building XML Response for item '%s'", $item->dav_name );
 
   $url = sprintf( "%s://%s:%d%s%s", 'http', $_SERVER['SERVER_NAME'], $_SERVER['SERVER_PORT'], $_SERVER['SCRIPT_NAME'], $item->dav_name );
   $prop = new XMLElement("prop");
@@ -222,7 +202,7 @@ function calendar_to_xml( $properties, $item ) {
 
 
 
-if ( count($unsupported) > 0 ) {
+if ( isset($unsupported) && count($unsupported) > 0 ) {
 
   /**
   * That's a *BAD* request!
@@ -251,8 +231,8 @@ else {
   $responses = array();
 
   for ( $i=0; $i <= $reportnum; $i++ ) {
-    dbg_error_log("REPORT", "Report[%d] Start:%s, End: %s, Events: %d, Todos: %d, Freebusy: %d",
-         $i, $report[$i]['start'], $report[$i]['end'], $report[$i]['filters']['VEVENT'], $report[$i]['filters']['VTODO'], $report[$i]['filters']['VFREEBUSY']);
+//    dbg_error_log("REPORT", "Report[%d] Start:%s, End: %s, Events: %d, Todos: %d, Freebusy: %d",
+//         $i, $report[$i]['start'], $report[$i]['end'], $report[$i]['filters']['VEVENT'], $report[$i]['filters']['VTODO'], $report[$i]['filters']['VFREEBUSY']);
 
     $where = "";
     switch( $report[$i]['type'] ) {
@@ -301,7 +281,7 @@ else {
     $qry = new PgQuery( "SELECT * FROM caldav_data INNER JOIN calendar_item USING(user_no, dav_name)". $where );
     if ( $qry->Exec("REPORT",__LINE__,__FILE__) && $qry->rows > 0 ) {
       while( $calendar_object = $qry->Fetch() ) {
-        $responses[] = calendar_to_xml($report[$i]['properties'], $calendar_object );
+        $responses[] = calendar_to_xml( $report[$i]['properties'], $calendar_object );
       }
     }
   }
