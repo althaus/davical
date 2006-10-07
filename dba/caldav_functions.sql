@@ -1,4 +1,12 @@
--- Functions for CalDAV handling
+/**
+* PostgreSQL Functions for CalDAV handling
+*
+* @package rscds
+* @subpackage database
+* @author Andrew McMillan <andrew@catalyst.net.nz>
+* @copyright Catalyst IT Ltd
+* @license   http://gnu.org/copyleft/gpl.html GNU GPL v2
+*/
 
 CREATE or REPLACE FUNCTION apply_month_byday( TIMESTAMP WITH TIME ZONE, TEXT ) RETURNS TIMESTAMP WITH TIME ZONE AS '
 DECLARE
@@ -188,3 +196,16 @@ BEGIN
 
 END;
 ' LANGUAGE 'plpgsql' IMMUTABLE STRICT;
+
+CREATE or REPLACE FUNCTION get_permissions( INT, INT ) RETURNS TEXT AS '
+  SELECT rt.confers FROM relationship r1
+       JOIN relationship_type rt USING ( rt_id )
+      WHERE NOT rt.rt_isgroup
+        AND r1.from_user = $1 AND r1.to_user = $2
+UNION
+  SELECT rt.confers FROM relationship r1
+       JOIN relationship r2 ON ( r1.to_user = r2.from_user)
+       JOIN relationship_type rt ON (r2.rt_id = rt.rt_id)
+      WHERE rt.rt_isgroup
+        AND r1.from_user = $1 AND r2.to_user = $2;
+' LANGUAGE 'sql' IMMUTABLE STRICT;
