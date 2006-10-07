@@ -1,8 +1,20 @@
 rscds (0.1.6) unstable; urgency=low
 
   * Fix some bugs in caldav-REPORT, which was not working with Lightning.
+  * Complete work on PROPFIND so that Mulberry now works.
+  * Add MKCOL, which is based on MKCALENDAR, to support hierarchies of
+    collections better.
+  * Rewrite REPORT to use the new XML libraries.
+  * Commence support of relationships and permissions.
+  * Write new ics.php which allows export of the full repository (for an
+    admin), or a subset of the repository.
+  * That new ics.php allows webcal presentation of the calendars also, so that
+    even if evolution can't support tasks as CalDAV, it can at least refer to
+    tasks someone else puts there with (e.g.) Sunbird.
+  * Started development of a regression testing framework.
+  * Cleaned up code to remove as many warnings as possible.
 
- -- Andrew McMillan <debian@mcmillan.net.nz>  Sun,  1 Oct 2006 23:22:37 +1300
+ -- Andrew McMillan <debian@mcmillan.net.nz>  Sat,  7 Oct 2006 15:31:47 +1300
 
 rscds (0.1.5) unstable; urgency=low
 
