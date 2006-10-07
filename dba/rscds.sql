@@ -96,7 +96,9 @@ GRANT SELECT,INSERT,UPDATE,DELETE ON relationship_type TO general;
 CREATE TABLE relationship (
   from_user INT REFERENCES usr (user_no) ON UPDATE CASCADE,
   to_user INT REFERENCES usr (user_no) ON UPDATE CASCADE,
-  rt_id INT REFERENCES relationship_type (rt_id) ON UPDATE CASCADE
+  rt_id INT REFERENCES relationship_type (rt_id) ON UPDATE CASCADE,
+
+  PRIMARY KEY ( from_user, to_user, rt_id )
 );
 
 GRANT SELECT,INSERT,UPDATE,DELETE ON relationship TO general;
