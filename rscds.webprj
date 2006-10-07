@@ -83,5 +83,9 @@
     <item url="testing/tests/mulberry/PUT2.data" />
     <item url="testing/tests/mulberry/PUT2.test" />
     <item url="testing/tests/mulberry/PUT1.test" />
+    <item url="htdocs/ics.php" />
+    <item url="testing/tests/mulberry/GET1.test" />
+    <item url="testing/tests/evolution/PUT1.test" />
+    <item url="testing/tests/evolution/DELETE1.test" />
   </project>
 </webproject>
