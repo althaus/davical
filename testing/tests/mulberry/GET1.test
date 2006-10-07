@@ -1,0 +1,5 @@
+#
+# GET a calendar entry from the Mulberry calendar
+#
+TYPE=GET
+URL=http://mycaldav/caldav.php/andrew/mulberry/30A56217E5719B1453D1942F83106C7A-0.ics

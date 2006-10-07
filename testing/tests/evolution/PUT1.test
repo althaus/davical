@@ -1,0 +1,8 @@
+#
+# PUT a calendar entry into the Evolution calendar
+#
+TYPE=PUT
+URL=http://mycaldav/caldav.php/andrew/20061007T100911Z.ics
+HEADER=If-None-Match: *
+HEADER=Content-Type: text/calendar
+HEAD
