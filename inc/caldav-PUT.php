@@ -1,5 +1,13 @@
 <?php
-
+/**
+* CalDAV Server - handle PUT method
+*
+* @package   rscds
+* @subpackage   caldav
+* @author    Andrew McMillan <andrew@catalyst.net.nz>
+* @copyright Catalyst .Net Ltd
+* @license   http://gnu.org/copyleft/gpl.html GNU GPL v2
+*/
 dbg_error_log("PUT", "method handler");
 
 // The PUT method is not sent with any wrapping XML so we simply store it

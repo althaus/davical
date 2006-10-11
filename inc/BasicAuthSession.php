@@ -1,6 +1,6 @@
 <?php
 /**
-* A Class for handling BasicAuthSession data
+* A Class for handling HTTP Basic Authentication
 *
 * @package rscds
 * @subpackage BasicAuthSession

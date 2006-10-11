@@ -23,7 +23,6 @@
     <item url="inc/caldav-DELETE.php" uploadstatus="1" />
     <item url="htdocs/caldav.php" uploadstatus="1" />
     <item url="inc/BasicAuthSession.php" uploadstatus="1" />
-    <item url="inc/session-util.php" uploadstatus="1" />
     <item url="debian/" uploadstatus="1" />
     <item url="debian/rules" uploadstatus="1" />
     <item url="dba/rscds.sql" uploadstatus="1" />

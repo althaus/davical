@@ -1,5 +1,13 @@
 <?php
-
+/**
+* CalDAV Server - handle MKCOL method
+*
+* @package   rscds
+* @subpackage   caldav
+* @author    Andrew McMillan <andrew@catalyst.net.nz>
+* @copyright Catalyst .Net Ltd
+* @license   http://gnu.org/copyleft/gpl.html GNU GPL v2
+*/
 dbg_error_log("MKCOL", "method handler");
 
 dbg_log_array( "MKCOL", 'HEADERS', $raw_headers );

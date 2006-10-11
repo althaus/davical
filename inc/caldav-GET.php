@@ -1,5 +1,13 @@
 <?php
-
+/**
+* CalDAV Server - handle GET method
+*
+* @package   rscds
+* @subpackage   caldav
+* @author    Andrew McMillan <andrew@catalyst.net.nz>
+* @copyright Catalyst .Net Ltd
+* @license   http://gnu.org/copyleft/gpl.html GNU GPL v2
+*/
 dbg_error_log("get", "GET method handler");
 
 // The GET method is not sent with any wrapping XML so we simply fetch it

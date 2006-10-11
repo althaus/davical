@@ -1,4 +1,13 @@
 <?php
+/**
+* CalDAV Server - handle OPTIONS method
+*
+* @package   rscds
+* @subpackage   caldav
+* @author    Andrew McMillan <andrew@catalyst.net.nz>
+* @copyright Catalyst .Net Ltd
+* @license   http://gnu.org/copyleft/gpl.html GNU GPL v2
+*/
   dbg_error_log("OPTIONS", "method handler");
 
   header( "Content-type: text/plain" );
