@@ -72,6 +72,17 @@ xml_parser_set_option ( $xml_parser, XML_OPTION_SKIP_WHITE, 1 );
 xml_parse_into_struct( $xml_parser, $raw_post, $xml_tags );
 xml_parser_free($xml_parser);
 
+unset($etag_if_match);
+unset($etag_none_match);
+if ( isset($_SERVER["HTTP_IF_NONE_MATCH"]) ) {
+  $etag_none_match = str_replace('"','',$_SERVER["HTTP_IF_NONE_MATCH"]);
+  if ( $etag_none_match == '' ) unset($etag_none_match);
+}
+if ( isset($_SERVER["HTTP_IF_MATCH"]) ) {
+  $etag_if_match = str_replace('"','',$_SERVER["HTTP_IF_MATCH"]);
+  if ( $etag_if_match == '' ) unset($etag_if_match);
+}
+
 
 /**
 * We put the code for each type of request into a separate include file
@@ -93,5 +104,6 @@ switch ( $_SERVER['REQUEST_METHOD'] ) {
     dbg_error_log( "caldav", "RAW: %s", str_replace("\n", "",str_replace("\r", "", $raw_post)) );
 }
 
+exit(0);
 
 ?>
