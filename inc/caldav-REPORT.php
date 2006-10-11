@@ -154,7 +154,7 @@ function calendar_to_xml( $properties, $item ) {
 
   dbg_error_log("REPORT","Building XML Response for item '%s'", $item->dav_name );
 
-  $url = sprintf( "%s://%s:%d%s%s", 'http', $_SERVER['SERVER_NAME'], $_SERVER['SERVER_PORT'], $_SERVER['SCRIPT_NAME'], $item->dav_name );
+  $url = $c->protocol_server_port_script . $item->dav_name;
   $prop = new XMLElement("prop");
   if ( isset($properties['GETCONTENTLENGTH']) ) {
     $contentlength = strlen($item->caldav_data);
@@ -176,19 +176,7 @@ function calendar_to_xml( $properties, $item ) {
     $prop->NewElement("getetag", '"'.$item->dav_etag.'"' );
   }
   if ( isset($properties['CURRENT-USER-PRIVILEGE-SET']) ) {
-    /**
-    * FIXME: Fairly basic set of privileges at present.
-    */
-    if ( $session->AllowedTo("Admin") && preg_match("#/.+/.#", $item->dav_name) ) {
-      $privs = array("all");
-    }
-    else {
-      $privs = array("read");
-      if ( $session->user_no == $item->user_no || $session->AllowedTo("Admin") ) {
-        $privs[] = "write";
-      }
-    }
-    $prop->NewElement("current-user-privilege-set", privileges($privs) );
+    $prop->NewElement("current-user-privilege-set", privileges($GLOBALS['permissions']) );
   }
   $status = new XMLElement("status", "HTTP/1.1 200 OK" );
 
@@ -208,7 +196,7 @@ if ( isset($unsupported) && count($unsupported) > 0 ) {
   * That's a *BAD* request!
   */
 
-  header('HTTP/1.1 403 Forbidden');
+  header('HTTP/1.1 501 Not Implemented');
   header('Content-Type: application/xml; charset="utf-8"');
 
   $badprops = new XMLElement( "prop" );
