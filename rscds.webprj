@@ -79,13 +79,13 @@
     <item url="testing/tests/mulberry/REPORT-1href.test" uploadstatus="1" />
     <item url="inc/xxx-caldav-REPORT.php" uploadstatus="1" />
     <item url="inc/caldav-REPORT.php" uploadstatus="1" />
-    <item url="testing/tests/mulberry/PUT1.data" />
-    <item url="testing/tests/mulberry/PUT2.data" />
-    <item url="testing/tests/mulberry/PUT2.test" />
-    <item url="testing/tests/mulberry/PUT1.test" />
-    <item url="htdocs/ics.php" />
-    <item url="testing/tests/mulberry/GET1.test" />
-    <item url="testing/tests/evolution/PUT1.test" />
-    <item url="testing/tests/evolution/DELETE1.test" />
+    <item url="testing/tests/mulberry/PUT1.data" uploadstatus="1" />
+    <item url="testing/tests/mulberry/PUT2.data" uploadstatus="1" />
+    <item url="testing/tests/mulberry/PUT2.test" uploadstatus="1" />
+    <item url="testing/tests/mulberry/PUT1.test" uploadstatus="1" />
+    <item url="htdocs/ics.php" uploadstatus="1" />
+    <item url="testing/tests/mulberry/GET1.test" uploadstatus="1" />
+    <item url="testing/tests/evolution/PUT1.test" uploadstatus="1" />
+    <item url="testing/tests/evolution/DELETE1.test" uploadstatus="1" />
   </project>
 </webproject>
