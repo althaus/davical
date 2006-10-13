@@ -31,8 +31,7 @@ require_once("interactive-page.php");
   $browser->DoQuery();
 
 
-//   if ( $session->AllowedTo("Support") )
-    $relationship_menu->AddOption("New Relationship","/relationship.php?create","Add a new relationship", false, 10);
+  $user_menu->AddOption("Relationships","/relationship.php?user_no=$user_no","Relationships for this user", false, 10);
 
   $active_menu_pattern = "#^/relationship#";
 

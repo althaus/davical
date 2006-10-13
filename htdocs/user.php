@@ -18,20 +18,31 @@
   }
   $show = 0;
 
-  if ( !$session->just_logged_in && isset($_POST['submit']) ) {
+  if ( !$session->just_logged_in && (isset($_POST['submit']) || isset($_GET['action'])) ) {
     if ( $session->AllowedTo("Admin") || $session->AllowedTo("Support")
               || ($user->user_no > 0 && $user->user_no == $session->user_no) ) {
       $session->Log( "DBG: Record %s write type is %s.", $user->Table, $user->WriteType );
-      $user->PostToValues();
-      if ( $user->Validate() ) {
-        $user->Write();
-        $user = new User($user->user_no);
-        $user->EditMode = true;
-        if ( $user->user_no == 0 ) {
-          $c->page_title = ( $user_no != "" ? "User Unavailable" : "New User" );
+      if ( isset($_POST['submit']) ) {
+        $user->PostToValues();
+        if ( $user->Validate() ) {
+          $user->Write();
+          $user = new RSCDSUser($user->user_no);
+          $user->EditMode = true;
+          if ( $user->user_no == 0 ) {
+            $c->page_title = ( $user_no != "" ? "User Unavailable" : "New User" );
+          }
+          else {
+            $c->page_title = $user->Get("user_no"). " - " . $user->Get("fullname");
+          }
         }
         else {
-          $c->page_title = $user->Get("user_no"). " - " . $user->Get("fullname");
+          /**
+          * Handle any actions, such as 'delete_relation'
+          */
+          if ( $user->HandleAction($_GET['action']) ) {
+            $user = new RSCDSUser($user->user_no);
+            $user->EditMode = true;
+          }
         }
       }
     }
