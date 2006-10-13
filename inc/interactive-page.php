@@ -1,5 +1,4 @@
 <?php
-require_once("session-util.php");
 require_once("MenuSet.php");
 $page_menu = new MenuSet('menu', 'menu', 'menu_active');
 $page_menu->AddOption("Home","/","Browse all users", false, 3900 );

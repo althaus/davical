@@ -58,7 +58,6 @@
     <item url="testing/tests/chandler/PROPFIND2.test" uploadstatus="1" />
     <item url="testing/tests/chandler/privilege.data" uploadstatus="1" />
     <item url="testing/tests/chandler/privilege.test" uploadstatus="1" />
-    <item url="inc/xxxXMLElement.php" uploadstatus="1" />
     <item url="testing/tests/chandler/ticketdiscovery.test" uploadstatus="1" />
     <item url="testing/tests/chandler/ticketdiscovery.data" uploadstatus="1" />
     <item url="testing/tests/chandler/OPTIONS-top.test" uploadstatus="1" />
@@ -76,7 +75,6 @@
     <item url="testing/tests/evolution/REPORT.test" uploadstatus="1" />
     <item url="testing/tests/evolution/REPORT.data" uploadstatus="1" />
     <item url="testing/tests/mulberry/REPORT-1href.test" uploadstatus="1" />
-    <item url="inc/xxx-caldav-REPORT.php" uploadstatus="1" />
     <item url="inc/caldav-REPORT.php" uploadstatus="1" />
     <item url="testing/tests/mulberry/PUT1.data" uploadstatus="1" />
     <item url="testing/tests/mulberry/PUT2.data" uploadstatus="1" />
@@ -86,5 +84,7 @@
     <item url="testing/tests/mulberry/GET1.test" uploadstatus="1" />
     <item url="testing/tests/evolution/PUT1.test" uploadstatus="1" />
     <item url="testing/tests/evolution/DELETE1.test" uploadstatus="1" />
+    <item url="dba/base-data.sql" uploadstatus="1" />
+    <item url="dba/update-database.sh" uploadstatus="1" />
   </project>
 </webproject>
