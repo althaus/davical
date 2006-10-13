@@ -2,8 +2,10 @@ rscds (0.2.0) unstable; urgency=low
 
   * A code sanity review and clean up.  Much commenting of code and review for
     behaviour against the specification.
+  * Extend RSCDSUser to allow for addition/deletion of relationships.
+  * Adjust the dba scripts to do update, as well as create.
 
- -- Andrew McMillan <debian@mcmillan.net.nz>  Wed, 11 Oct 2006 14:16:31 +1300
+ -- Andrew McMillan <debian@mcmillan.net.nz>  Fri, 13 Oct 2006 18:19:18 +1300
 
 rscds (0.1.6) unstable; urgency=low
 
