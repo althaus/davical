@@ -86,5 +86,8 @@
     <item url="testing/tests/evolution/DELETE1.test" uploadstatus="1" />
     <item url="dba/base-data.sql" uploadstatus="1" />
     <item url="dba/update-database.sh" uploadstatus="1" />
+    <item url="htdocs/relationship_types.php" uploadstatus="1" />
+    <item url="dba/patches/0.99.1.sql" />
+    <item url="dba/patches/" />
   </project>
 </webproject>
