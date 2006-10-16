@@ -4,8 +4,10 @@ rscds (0.2.0) unstable; urgency=low
     behaviour against the specification.
   * Extend RSCDSUser to allow for addition/deletion of relationships.
   * Adjust the dba scripts to do update, as well as create.
+  * Develop page for list / delete / add relationship types.
+  * Split the data into base / sample so we know what is essential.
 
- -- Andrew McMillan <debian@mcmillan.net.nz>  Fri, 13 Oct 2006 18:19:18 +1300
+ -- Andrew McMillan <debian@mcmillan.net.nz>  Tue, 17 Oct 2006 10:55:12 +1300
 
 rscds (0.1.6) unstable; urgency=low
 
