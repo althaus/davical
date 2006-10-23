@@ -87,7 +87,7 @@
     <item url="dba/base-data.sql" uploadstatus="1" />
     <item url="dba/update-database.sh" uploadstatus="1" />
     <item url="htdocs/relationship_types.php" uploadstatus="1" />
-    <item url="dba/patches/0.99.1.sql" />
-    <item url="dba/patches/" />
+    <item url="dba/patches/0.99.1.sql" uploadstatus="1" />
+    <item url="dba/patches/" uploadstatus="1" />
   </project>
 </webproject>
