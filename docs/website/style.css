@@ -124,6 +124,11 @@ li {
   font-size: 90%;
   }
 
+code {
+  font-family: courier, courier new, fixed;
+  font-size: inherit;
+}
+
 pre {
   font-family: courier, courier new, fixed;
   font-size: 90%;
