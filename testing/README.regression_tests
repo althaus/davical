@@ -1,0 +1,24 @@
+Regression Testing
+==================
+
+At present these regression tests are basically written to work in my
+own environment.  While I am, of course, happy to see patches that make
+them more generic they are still very much a work in progress.
+
+At present the most demanding client to support is Mulberry, so the first
+regression tests imitate Mulberry taking RSCDS through it's paces:
+
+ - Initial OPTIONS request at the root
+ - Initial PROPFIND request at the root with Depth 1
+ - Second PROPFIND request at the second level
+ - MKCALENDAR request to create a calendar at /user1/home/
+ - Third PROPFIND request duplicating the Second one (but finding a calendar now).
+ - Fourth PROPFIND request solely looking for the new calendar, requesting 'getetag'
+ - Not that Mulberry would let us do this, but we try to MKCALENDAR again at /user1/home/ to check for the error we expect.
+ - PUT our first event into the calendar.
+ - PUT the same event a second time, which should not give an error, but should respond with 'Replaced' rather than 'Created'.
+
+=====>>>> We are up to here...
+
+ - PUT the same event a third time, but with an If-None-Match header, which /should/ give a 412 Precondition Failed error.
+

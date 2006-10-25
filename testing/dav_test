@@ -8,7 +8,7 @@ my $test=$ARGV[1];
 
 usage() unless ( defined($suite) && defined($test) );
 
-my @arguments = ( "--basic", "--user", "andrew:x", "--proxy", "", "--silent" );
+my @arguments = ( "--basic", "--user", "user1:user1", "--proxy", "", "--silent" );
 push @arguments, "--verbose" if ( defined($ARGV[2]) );
 
 my $url;

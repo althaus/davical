@@ -6,4 +6,3 @@ URL=http://mycaldav/caldav.php/
 HEADER=Depth: 1
 HEADER=Content-Type: text/xml; charset=utf-8
 HEAD
-VERBOSE

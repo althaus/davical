@@ -1,0 +1,5 @@
+#
+# Do an initial OPTIONS request
+TYPE=OPTIONS
+URL=http://mycaldav/caldav.php/
+HEAD

@@ -1,0 +1,8 @@
+#
+# Before creating a calendar in Mulberry, we should be able
+# to do a PROPFIND and it should not be there.
+TYPE=PROPFIND
+URL=http://mycaldav/caldav.php/user1/
+HEADER=Depth: 1
+HEADER=Content-Type: text/xml; charset=utf-8
+HEAD

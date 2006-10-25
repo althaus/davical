@@ -89,19 +89,31 @@
     <item url="htdocs/relationship_types.php" uploadstatus="1" />
     <item url="dba/patches/0.99.1.sql" uploadstatus="1" />
     <item url="dba/patches/" uploadstatus="1" />
-    <item url="INSTALL" />
-    <item url="README" />
-    <item url="TODO" />
-    <item url="docs/" />
-    <item url="docs/website/installation.php" />
-    <item url="docs/website/" />
-    <item url="docs/website/index.php" />
-    <item url="docs/website/inc/page-header.php" />
-    <item url="docs/website/inc/" />
-    <item url="docs/website/inc/page-footer.php" />
-    <item url="docs/website/style.css" />
-    <item url="docs/website/news.php" />
-    <item url="docs/website/background.php" />
-    <item url="docs/website/clients.php" />
+    <item url="INSTALL" uploadstatus="1" />
+    <item url="README" uploadstatus="1" />
+    <item url="TODO" uploadstatus="1" />
+    <item url="docs/" uploadstatus="1" />
+    <item url="docs/website/installation.php" uploadstatus="1" />
+    <item url="docs/website/" uploadstatus="1" />
+    <item url="docs/website/index.php" uploadstatus="1" />
+    <item url="docs/website/inc/page-header.php" uploadstatus="1" />
+    <item url="docs/website/inc/" uploadstatus="1" />
+    <item url="docs/website/inc/page-footer.php" uploadstatus="1" />
+    <item url="docs/website/style.css" uploadstatus="1" />
+    <item url="docs/website/clients.php" uploadstatus="1" />
+    <item url="testing/normalise_result" />
+    <item url="testing/run_regressions.sh" />
+    <item url="testing/watch-port-80.sh" />
+    <item url="testing/tests/regression-suite/" />
+    <item url="testing/tests/regression-suite/001-Mulberry-1.test" />
+    <item url="testing/tests/regression-suite/002-Mulberry-1.test" />
+    <item url="testing/tests/regression-suite/003-Mulberry-1.test" />
+    <item url="testing/tests/regression-suite/004-Mulberry-1.test" />
+    <item url="testing/tests/regression-suite/005-Mulberry-1.test" />
+    <item url="testing/tests/regression-suite/006-Mulberry-1.test" />
+    <item url="testing/tests/regression-suite/010-Mulberry-PUT-1.test" />
+    <item url="testing/README.regression_tests" />
+    <item url="testing/tests/regression-suite/007-Mulberry-1.test" />
+    <item url="testing/tests/regression-suite/011-Mulberry-PUT-1b.test" />
   </project>
 </webproject>

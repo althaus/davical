@@ -1,0 +1,7 @@
+#
+# After creating the calendar we should be able to get any URLs
+TYPE=PROPFIND
+URL=http://mycaldav/caldav.php/user1/home/
+HEADER=Depth: 1
+HEADER=Content-Type: text/xml; charset=utf-8
+HEAD
