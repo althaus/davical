@@ -13,14 +13,13 @@ experience through those client implementations.</p>
 
 <h1>Goals</h1>
 <p>CalDAV is a client-server protocol specific to managing and reporting on <em>collections</em> of <em>calendar resources</em>.</p>
-<p>As such, my intentions in developing this application are as follows:
+<p>As such, my intentions in developing this application are as follows:</p>
 <ul>
 <li>Simplicity of Prerequisites</li>
 <li>Simplicity of Setup</li>
 <li>Simplicity of Operation</li>
 <li>Web-based Administration</li>
 </ul>
-</p>
 
 <h2>Simplicity of Prerequisites</h2>
 <p>I have chosen to write this in PHP because I believe that PHP is a widely available web scripting language.</p>
@@ -53,7 +52,7 @@ works using the CalDAV protocol.</p>
 
 
 <h1>Your Name Here!</h1>
-<p>If you are interested in helping, there are several areas where I need help at the moment:
+<p>If you are interested in helping, there are several areas where I need help at the moment:</p>
 <ul>
 <li>The project needs a better name - feel free to suggest one!</li>
 <li>We need more documentation</li>
@@ -61,7 +60,6 @@ works using the CalDAV protocol.</p>
 <li>We need more documentation</li>
 <li>I need to find more CalDAV-capable calendar clients to interoperate with</li>
 </ul>
-</p>
 
 <?php
  include("inc/page-footer.php");

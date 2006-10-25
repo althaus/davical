@@ -23,13 +23,13 @@ on Andrew's Web Libraries (AWL) which is a set of useful
 PHP functions and objects written by Andrew McMillan over
 a number of years.</p>
 
-<p>The following other software is also needed:
+<p>The following other software is also needed:</p>
 <ul>
   <li>Apache: 1.3.x or 2.x.x</li>
   <li>PHP: 4.3 or greater, including PHP5</li>
   <li>PostgreSQL: 7.4 or greater</li>
 </ul>
-</p>
+
 <p>The PostgreSQL database may be installed on a server other
 than the web server, and that kind of situation is recommended
 if you want to increase the security or scalability of your
@@ -107,7 +107,7 @@ you need to configure RSCDS.</p>
 
 <h1>RSCDS Configuration</h1>
 
-<p>The RSCDS configuration generally resides in /etc/rscds/<domain>-conf.php
+<p>The RSCDS configuration generally resides in /etc/rscds/&lt;domain&gt;-conf.php
 and is a regular PHP file which sets (or overrides) some specific variables.</p>
 
 <pre>
