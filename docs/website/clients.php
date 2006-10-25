@@ -5,7 +5,7 @@
 <h1>Evolution</h1>
 <p>Novell Evolution is available in most Linux distributions.  The CalDAV support was supposedly written
 in a frenzy of hacking one day when the draft specification was at around revision 8.  As a result there
-was little in the way of a client available to test against until recently.</p>
+was little in the way of a repository available to test against until recently.</p>
 <ol>
 <li><span class="prompt">Type:</span>CalDAV</li>
 <li><span class="prompt">Name:</span>Give the calendar a local name</li>
