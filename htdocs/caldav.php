@@ -46,7 +46,7 @@ if ( !isset($path_split[1]) || $path_split[1] == '' ) {
   dbg_error_log( "caldav", "No useful path split possible" );
   unset($path_user_no);
   unset($path_username);
-  $permissions = array("read" => 1 );
+  $permissions = array("read" => 'read' );
 }
 else {
   $path_username = $path_split[1];
@@ -56,7 +56,7 @@ else {
     $path_user_no = $path_user_record->user_no;
   }
   if ( $session->AllowedTo("Admin") || $session->user_no == $path_user_no ) {
-    $permissions = array('read' => 1, "write" => 1 );
+    $permissions = array('read' => 'read', "write" => 'write' );
   }
   else if ( isset($path_user_no) ) {
     /**
@@ -66,8 +66,8 @@ else {
     if ( $qry->Exec("caldav") && $permission_result = $qry->Fetch() ) {
       $permission_result = "!".$permission_result->perm; // We prepend something to ensure we get a non-zero position.
       $permissions = array();
-      if ( strpos($permission_result,"R") )       $permissions['read'] = 1;
-      if ( strpos($permission_result,"W") )       $permissions['write'] = 1;
+      if ( strpos($permission_result,"R") )       $permissions['read'] = 'read';
+      if ( strpos($permission_result,"W") )       $permissions['write'] = 'write';
     }
   }
 }
