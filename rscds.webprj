@@ -89,5 +89,19 @@
     <item url="htdocs/relationship_types.php" uploadstatus="1" />
     <item url="dba/patches/0.99.1.sql" uploadstatus="1" />
     <item url="dba/patches/" uploadstatus="1" />
+    <item url="INSTALL" />
+    <item url="README" />
+    <item url="TODO" />
+    <item url="docs/" />
+    <item url="docs/website/installation.php" />
+    <item url="docs/website/" />
+    <item url="docs/website/index.php" />
+    <item url="docs/website/inc/page-header.php" />
+    <item url="docs/website/inc/" />
+    <item url="docs/website/inc/page-footer.php" />
+    <item url="docs/website/style.css" />
+    <item url="docs/website/news.php" />
+    <item url="docs/website/background.php" />
+    <item url="docs/website/clients.php" />
   </project>
 </webproject>

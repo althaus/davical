@@ -1,0 +1,161 @@
+<?php
+ $title = "Installation";
+ include("inc/page-header.php");
+?>
+<h1>Before Starting</h1>
+
+<p>Ideally you will be running a recent Debian release and will
+be able to add:</p>
+<pre>
+deb http://debian.mcmillan.net.nz/debian unstable awm
+</pre>
+<p>to your /etc/apt/sources.list.  Once you have done that you
+can use apt-get or synaptic or some other equivalent package
+manager to fetch and install rscds and all the dependencies.</p>
+
+<p>Skip to the "Database Setup" part if you have done that already.</p>
+
+
+<h1>Pre-requisites</h1>
+
+<p>RSCDS depends on a number of things.  Firstly, it depends
+on Andrew's Web Libraries (AWL) which is a set of useful
+PHP functions and objects written by Andrew McMillan over
+a number of years.</p>
+
+<p>The following other software is also needed:
+<ul>
+  <li>Apache: 1.3.x or 2.x.x</li>
+  <li>PHP: 4.3 or greater, including PHP5</li>
+  <li>PostgreSQL: 7.4 or greater</li>
+</ul>
+</p>
+<p>The PostgreSQL database may be installed on a server other
+than the web server, and that kind of situation is recommended
+if you want to increase the security or scalability of your
+installation.</p>
+
+<p>Since the CalDAV store takes over a significant amount of path
+hierarchy, it is designed to be installed in it's own virtual
+host.  If you want it to operate within the web root of some
+other application I will happily accept patches to make it do
+that, but I am pretty sure it won't work that way out of the
+box.</p>
+
+
+<h1>Database Setup</h1>
+
+<p>On your database server you will need to create a user called
+'general' which should not be able to create databases or users,
+and which will be granted minimum privileges for the application.</p>
+
+<p>To create the database itself, run the script:</p>
+<pre>
+dba/create_database.sh
+</pre>
+<p>Note that this script calls the AWL database scripts as part
+of itself and it expects them to be located in /usr/share/awl/dba
+which might be a reasonable place, but it might not be where you
+have put them.</p>
+
+<p>This script also expects to be running as a user who has rights
+to create a new database.</p>
+
+
+<h1>Apache VHost Configuration</h1>
+
+<p>Your Apache instance needs to be configured for Virtual Hosts.  If
+this is not already the case you may want to read some documentation
+about that, and you most likely will want to ensure that any existing
+site becomes the **default** virtual host, with RSCDS only being a
+single virtual host.</p>
+
+<p>I use a Virtual Host stanza like this:</p>
+<pre>
+#
+# Virtual Host def for Debian packaged RSCDS
+&lt;VirtualHost 123.4.56.78 >
+  DocumentRoot /usr/share/rscds/htdocs
+  DirectoryIndex index.php index.html
+  ServerName rscds.example.net
+  ServerAlias calendar.example.net
+  Alias /images/ /usr/share/rscds/htdocs/images/
+  php_value include_path /usr/share/rscds/inc:/usr/share/awl/inc
+  php_value magic_quotes_gpc 0
+  php_value register_globals 1
+&lt;/VirtualHost>
+</pre>
+
+<p>Replace 123.4.56.78 with your own IP address, of course (you can
+use a name, but your webserver may fail on restart if DNS happens
+to be borked at that time).</p>
+
+<p>At this point it is necessary to have register_globals enabled. All
+variables are sanitised before use, but some routines do assume
+this is turned on.</p>
+
+<p>The various paths and names need to be changed to reflect your
+own installation, although those are the recommended locations
+for the various pieces of the code (and are standard if you
+installed from a package.</p>
+
+<p>Once your VHost is installed an working correctly, you should be
+able to browse to that address and see a page telling you that
+you need to configure RSCDS.</p>
+
+
+
+<h1>RSCDS Configuration</h1>
+
+<p>The RSCDS configuration generally resides in /etc/rscds/<domain>-conf.php
+and is a regular PHP file which sets (or overrides) some specific variables.</p>
+
+<pre>
+&lt;?php
+//  $c->domainname = "calendar.example.net";
+//  $c->sysabbr     = 'rscds';
+//  $c->admin_email = 'admin@example.net';
+//  $c->system_name = "Really Simple CalDAV Store";
+//  $c->collections_always_exist = false;
+
+  $c->pg_connect[] = 'dbname=caldav port=5433 user=general';
+  $c->pg_connect[] = 'dbname=caldav port=5432 user=general';
+
+?>
+</pre>
+
+<p>Multiple values may be specified for the PostgreSQL connect string,
+so that you can (e.g.) use PGPool to cache the database connection
+but fall back to a raw database connection if it is not running.</p>
+
+<p>The "collections_always_exist" value defines whether a MKCALENDAR
+command is needed to create a calendar collection before calendar
+resources can be stored in it.  You will want to leave this to the
+default (true) if people will be using Evolution or Sunbird /
+Lightning against this because that software does not support the
+creation of calendar collections.</p>
+
+<p>You should set the 'domainname' and 'admin_email' as they are used
+within the system for constructing URLs, and for notifying some
+kinds of events.</p>
+
+
+<h1>Completed?</h1>
+
+<p>If all is going well you should now be able to browse to the admin
+pages and log in as 'admin' (the password is the bit after the '**'
+in the 'password' field of the 'usr' table so:</p>
+<pre>
+psql rscds -c 'select username, password from usr;'
+</pre>
+
+<p>should show you a list.  Note that once you change a password it
+won't be readable in this way - only the initial configuration
+leaves passwords readable like this for security reasons.</p>
+
+<p>If all is working then you should be ready to configure a client
+to use this, and the docs for that are elsewhere.</p>
+
+<?php
+ include("inc/page-footer.php");
+?>

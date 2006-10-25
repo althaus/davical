@@ -1,0 +1,214 @@
+* {
+  margin: 0px;
+  padding: 0px;
+  }
+
+body {
+  margin: 0px;
+  padding: 0px;
+  background-color: #FFFFFF;
+  color: #333333;
+  }
+
+hr {
+  height: 0.4em;
+  width: 100%;
+  background-color: #000000;
+  border: none;
+  color:#000000;
+  margin-bottom: 0.5em;
+  }
+
+#pageContainer {
+  width: 740px;
+  margin-left: auto;
+  margin-right: auto;
+  }
+
+#header {
+  width: 740px;
+  height: 80px;
+  background: url(images/logo.gif) #bb1f1f no-repeat center left;
+  margin-top: 10px;
+  border-bottom: #d2d2d2 solid 5px;
+  text-align: right;
+  margin-bottom: 20px;
+  }
+
+#headerLinks {
+  color: #FFFFFF;
+  font-family: helvetica, arial, sans-serif;
+  font-size: 8pt;
+  font-size: 80%;
+  padding-top: 60px;
+  padding-right: 5px;
+  }
+
+.hlink:link {
+  color: #FFFFFF;
+  font-family: helvetica, arial, sans-serif;
+  font-size: 8pt;
+  font-size: 80%;
+  text-decoration: none;
+  }
+
+.hlink:active {
+  color: #FFFFFF;
+  font-family: helvetica, arial, sans-serif;
+  font-size: 8pt;
+  font-size: 80%;
+  text-decoration: none;
+  }
+
+.hlink:hover {
+  color: #FFFFFF;
+  font-family: helvetica, arial, sans-serif;
+  font-size: 8pt;
+  font-size: 80%;
+  text-decoration: underline;
+  }
+
+.hlink:visited {
+  color: #FFFFFF;
+  font-family: helvetica, arial, sans-serif;
+  font-size: 8pt;
+  font-size: 80%;
+  text-decoration: none;
+  }
+
+#pageContent {
+  /* Not used for anything at present */
+  }
+
+h1 {
+  color: #600000;
+  font-family: helvetica, arial, sans-serif;
+  font-size: 130%;
+  margin-top: 1em;
+  margin-bottom: 0.3em;
+  }
+
+h2 {
+  color: black;
+  font-family: helvetica, arial, sans-serif;
+  font-size: 110%;
+  margin-top: 1em;
+  margin-bottom: 0.3em;
+  }
+
+.showcase {
+  margin: 2px;
+  padding: 2px;
+  border: 2px #000000 solid;
+  }
+
+p {
+  font-family: helvetica, arial, sans-serif;
+  font-size: 8pt;
+  font-size: 90%;
+  margin-bottom: 20px;
+  }
+
+ol, ul {
+  margin-bottom: 20px;
+}
+
+ul {
+  list-style-type: square;
+}
+
+li {
+  list-style-position: outside;
+  margin-left: 2em;
+  font-family: helvetica, arial, sans-serif;
+  font-size: 90%;
+  }
+
+pre {
+  font-family: courier, courier new, fixed;
+  font-size: 90%;
+  padding: 1em;
+  margin-bottom: 1em;
+  background-color: #eee;
+}
+
+#footer {
+  clear: both;
+  width: 740px;
+  font-family: helvetica, arial, sans-serif;
+  font-size: 8pt;
+  font-size: 80%;
+  border-top: 2px #000000 solid;
+  }
+
+#title {
+  float: left;
+  color: #FFFFFF;
+  padding-left: 100px;
+  margin-top: 10px;
+  font-family: helvetica, arial, sans-serif;
+  font-size: 24pt;
+  font-size: 200%;
+  }
+
+#subTitle {
+  float: left;
+  clear: left;
+  color: #FFFFFF;
+  padding-left: 102px;
+  font-family: helvetica, arial, sans-serif;
+  font-size: 8pt;
+  font-size: 80%;
+  }
+
+.right {
+  float: right;
+  margin: 0px;
+  }
+
+.left {
+  float: left;
+  margin: 0px;
+  }
+
+.flink:link {
+  color: #333333;
+  font-family: helvetica, arial, sans-serif;
+  font-size: 8pt;
+  font-size: 80%;
+  text-decoration: none;
+  vertical-align: text-top;
+  }
+
+.flink:active {
+  color: #333333;
+  font-family: helvetica, arial, sans-serif;
+  font-size: 8pt;
+  font-size: 80%;
+  text-decoration: none;
+  vertical-align: text-top;
+  }
+
+.flink:hover {
+  color: #333333;
+  font-family: helvetica, arial, sans-serif;
+  font-size: 8pt;
+  font-size: 80%;
+  text-decoration: underline;
+  vertical-align: text-top;
+  }
+
+.flink:visited {
+  color: #333333;
+  font-family: helvetica, arial, sans-serif;
+  font-size: 8pt;
+  font-size: 80%;
+  text-decoration: none;
+  vertical-align: text-top;
+  }
+
+.prompt {
+  font-weight: 700;
+  width: 4em;
+  }
+
