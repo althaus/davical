@@ -27,6 +27,7 @@ foreach( $xml_tags AS $k => $v ) {
       break;
 
     case 'HTTP://APACHE.ORG/DAV/PROPS/:EXECUTABLE':
+    case 'DAV::ACL':
     case 'DAV::CHECKED-OUT':
     case 'DAV::CHECKED-IN':
     case 'DAV::GETLASTMODIFIED':
@@ -35,6 +36,7 @@ foreach( $xml_tags AS $k => $v ) {
     case 'DAV::GETCONTENTLENGTH':
     case 'DAV::GETCONTENTTYPE':
     case 'DAV::RESOURCETYPE':
+    case 'DAV::SUPPORTED-PRIVILEGE-SET':
     case 'DAV::CURRENT-USER-PRIVILEGE-SET':
       $attribute = substr($v['tag'],5);
       $attribute_list[$attribute] = 1;
@@ -60,10 +62,10 @@ foreach( $xml_tags AS $k => $v ) {
 /**
 * Returns the array of privilege names converted into XMLElements
 */
-function privileges($privilege_names) {
+function privileges($privilege_names, $container="privilege") {
   $privileges = array();
   foreach( $privilege_names AS $k => $v ) {
-    $privileges[] = new XMLElement("privilege", new XMLElement($v));
+    $privileges[] = new XMLElement($container, new XMLElement($v));
   }
   return $privileges;
 }
@@ -109,6 +111,22 @@ function collection_to_xml( $collection ) {
   }
   if ( isset($attribute_list['CURRENT-USER-PRIVILEGE-SET']) ) {
     $prop->NewElement("current-user-privilege-set", privileges($GLOBALS['permissions']) );
+  }
+  if ( isset($attribute_list['ACL']) ) {
+    /**
+    * FIXME: This information is semantically valid but presents an incorrect picture.
+    */
+    $principal = new XMLElement("principal");
+    $principal->NewElement("authenticated");
+    $grant = new XMLElement( "grant", array(privileges($GLOBALS['permissions'])) );
+    $prop->NewElement("acl", new XMLElement( "ace", array( $principal, $grant ) ) );
+  }
+  if ( isset($attribute_list['SUPPORTED-PRIVILEGE-SET']) ) {
+    /**
+    * FIXME: This information is semantically valid and is correct, but could be extended
+    * if we allow clients such as Mulberry to manipulate these values.
+    */
+    $prop->NewElement("supported-privilege-set", privileges(array("read","write"), "supported-privilege") );
   }
   $status = new XMLElement("status", "HTTP/1.1 200 OK" );
 
