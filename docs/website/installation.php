@@ -4,17 +4,39 @@
 ?>
 <h1>Before Starting</h1>
 
+<h2>Debian Users</h2>
 <p>Ideally you will be running a recent Debian release and will
 be able to add:</p>
 <pre>
 deb http://debian.mcmillan.net.nz/debian unstable awm
 </pre>
-<p>to your /etc/apt/sources.list.  Once you have done that you
-can use apt-get or synaptic or some other equivalent package
-manager to fetch and install rscds and all the dependencies.</p>
+<p>to your <code>/etc/apt/sources.list</code>.  Once you have done that you
+can use <code>apt-get</code> or <code>synaptic</code> or some other equivalent package
+manager to fetch and install <code>rscds</code> and all the dependencies.</p>
 
 <p>Skip to the "Database Setup" part if you have done that already.</p>
 
+
+<h2>Other Linux Users</h2>
+
+<p>You will need to download the latest versions of the <code>rscds</code> and <code>awl</code> packages
+from the <a href="http://sourceforge.net/project/showfiles.php?group_id=179845">sourceforge download page for rscds</a>.</p>
+<p>You will need to untar these.  Preferably you will untar them from within the "<code>/usr/share</code>" directory and everything
+will be in it's expected location (well, except the docs, but it will at least be tidy and everything will be in one place).</p>
+
+<p>I would like to hear from non-Debian users regarding things I might have missed, or things you have
+learned about the system, so please post a message on the forums, or
+e-mail <a href="http://andrew.mcmillan.net.nz/">me</a> or something.</p>
+
+<h2>Non-Linux Users</h2>
+<p>I would really like to hear from you.  As far as I can see there is no reason why this
+can't all work on FreeBSD, Microsoft Windows, VMS, Mac OS or whatever else, as long as the
+pre-requisites are able to be installed.</p>
+<p>For Unix and unix-like operating systems the "Other Linux Users" instructions are likely
+to be reasonably close to what you need.  For other systems everything will need some
+adjustment, and in particular some of the path name and shell expectations coded into
+the database creation scripts are likely to need love.</p>
+<p>I'm available to answer questions, anyway :-)</p>
 
 <h1>Pre-requisites</h1>
 
