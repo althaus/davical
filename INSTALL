@@ -1,17 +1,50 @@
 Installation
 ============
 
-Ideally you will be running a recent Debian release and will
-be able to add:
+Debian Users
+------------
+
+Ideally you will be running a recent Debian release and will be able to add:
 
 deb http://debian.mcmillan.net.nz/debian unstable awm
 
-to your /etc/apt/sources.list.  Once you have done that you
-can use apt-get or synaptic or some other equivalent package
-manager to fetch and install rscds and all the dependencies.
+to your /etc/apt/sources.list. Once you have done that you can use apt-get
+or synaptic or some other equivalent package manager to fetch and install
+rscds and all the dependencies.
 
 Skip to the "Database Setup" part if you have done that already.
 
+
+Other Linux Users
+-----------------
+
+You will need to download the latest versions of the rscds and awl packages
+from the sourceforge download page for rscds.
+
+You will need to untar these. Preferably you will untar them from within
+the "/usr/share" directory and everything will be in it's expected location
+(well, except the docs, but it will at least be tidy and everything will be
+in one place).
+
+I would like to hear from non-Debian users regarding things I might have
+missed, or things you have learned about the system, so please post a
+message on the forums, or e-mail me or something.
+
+
+Non-Linux Users
+---------------
+
+I would really like to hear from you. As far as I can see there is no
+reason why this can't all work on FreeBSD, Microsoft Windows, VMS, Mac OS
+or whatever else, as long as the pre-requisites are able to be installed.
+
+For Unix and unix-like operating systems the "Other Linux Users"
+instructions are likely to be reasonably close to what you need. For other
+systems everything will need some adjustment, and in particular some of
+the path name and shell expectations coded into the database creation
+scripts are likely to need love.
+
+I'm available to answer questions, anyway :-)
 
 
 Pre-requisites
@@ -157,3 +190,9 @@ If all is working then you should be ready to configure a client
 to use this, and the docs for that are elsewhere.
 
 See:
+
+http://rscds.sourceforge.net/
+
+Which is the place where documentation will generally be kept up to
+date the most.
+
