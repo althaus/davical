@@ -17,5 +17,17 @@ INSERT INTO role_member (user_no, role_no) VALUES(1, 1);
 -- Set the insert sequence to the next number, with a minimum of 1000
 SELECT setval('usr_user_no_seq', (SELECT 1000 UNION SELECT user_no FROM usr ORDER BY 1 DESC LIMIT 1) );
 
+INSERT INTO relationship_type ( rt_id, rt_name, rt_isgroup, confers, prefix_match )
+    VALUES( 1, 'Administers Group', TRUE, 'RW', '' );
+
+INSERT INTO relationship_type ( rt_id, rt_name, rt_isgroup, confers, prefix_match )
+    VALUES( 2, 'Is Assisted by', FALSE, 'RW', '' );
+
+INSERT INTO relationship_type ( rt_id, rt_name, rt_isgroup, confers, prefix_match )
+    VALUES( 3, 'Is a member of group', FALSE, 'R', '' );
+
+INSERT INTO relationship_type ( rt_id, rt_name, rt_isgroup, confers, prefix_match )
+    VALUES( 4, 'Administers Resource', FALSE, 'RW', '' );
+
 -- Set the insert sequence to the next number, with a minimum of 1000
 SELECT setval('relationship_type_rt_id_seq', (SELECT 10 UNION SELECT rt_id FROM relationship_type ORDER BY 1 DESC LIMIT 1) );
