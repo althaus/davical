@@ -54,8 +54,7 @@ require_once("interactive-page.php");
   $browser = new Browser($c->page_title);
 
   $browser->AddColumn( 'rt_id', 'Id' );
-  $browser->AddColumn( 'rt_name', 'Name', '', '##rt_link##' );
-  $browser->AddHidden( 'rt_link', "'<a href=\"/relationship_type.php?rt_id=' || rt_id || '\">' || rt_name || '</a>'" );
+  $browser->AddColumn( 'rt_name', 'Name' );
   $browser->AddColumn( 'rt_isgroup', 'To Group?', '', '', "CASE WHEN rt_isgroup THEN 'Yes' ELSE 'No' END"  );
   $browser->AddColumn( 'confers', 'Rights' );
   $browser->AddColumn( 'prefix_match', "Prefix" );
@@ -69,7 +68,7 @@ require_once("interactive-page.php");
   else
     $browser->AddOrder( 'rt_name', 'A' );
 
-  $browser->RowFormat( "<tr onMouseover=\"LinkHref(this,1);\" title=\"Click to Display Relationship Type Detail\" class=\"r%d\">\n", "</tr>\n", '#even' );
+  $browser->RowFormat( "<tr class=\"r%d\">\n", "</tr>\n", '#even' );
   $browser->DoQuery();
 
   $rt_name_field = new EntryField( "text", "rt_name",
