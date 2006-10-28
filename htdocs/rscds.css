@@ -52,21 +52,43 @@ p {
   padding: 0.1em 0.3em 0.2em;
 }
 
-input.text, input.password, label {
-  background-color: ffffe0;
+input.text, input.password, label, input.fcheckbox,
+input.ftext, input.fpassword, input.fdate, input.ftimestamp, select.fselect, select.flookup {
+  background-color: #e8ffe0;
   color: navy;
-  border: thin solid #000000;
-  padding: 3px;
+  border: thin solid #c0c0c0;
 }
 
-label {
+input.text, input.password,
+input.ftext, input.fpassword, input.fdate, input.ftimestamp {
+  padding: 3px;
+  margin: 0;
+}
+
+label.fcheckbox {
   padding: 2px;
+  margin-right: 2px;
+}
+
+input.fcheckbox {
+  margin-top: 6px;
+  margin-bottom: 3px;
+  vertical-align:-4px;
+}
+
+select.fselect, select.flookup {
+  padding: 2px 0;
+  margin: 3px 0 0;
 }
 
 .prompt {
  font-family: Arial Narrow, sans-serif;
  background-color: #a0f0b0;
  color: #003010;
+}
+
+td.entry {
+  padding: 1px;
 }
 
 .ph {
