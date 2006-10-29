@@ -24,7 +24,7 @@ INSERT INTO relationship_type ( rt_id, rt_name, rt_isgroup, confers, prefix_matc
     VALUES( 2, 'Is Assisted by', FALSE, 'RW', '' );
 
 INSERT INTO relationship_type ( rt_id, rt_name, rt_isgroup, confers, prefix_match )
-    VALUES( 3, 'Is a member of group', FALSE, 'R', '' );
+    VALUES( 3, 'Is a member of group', TRUE, 'R', '' );
 
 INSERT INTO relationship_type ( rt_id, rt_name, rt_isgroup, confers, prefix_match )
     VALUES( 4, 'Administers Resource', FALSE, 'RW', '' );
