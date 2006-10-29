@@ -91,7 +91,7 @@ class RSCDSUser extends User
     $browser->AddHidden( 'confers', 'Confers' );
     $browser->AddColumn( 'email', 'EMail' );
     if ( $ef->EditMode ) { // && $session->AllowedTo("MaintainRelationships") ) {
-      $browser->AddColumn( 'delete', 'Delete', 'centre', '', "'<a class=\"\" href=\"/user.php?action=delete_relationsip&from_user=$this->user_no&to_user=' || user_no || '\">Delete</a>'" );
+      $browser->AddColumn( 'delete', 'Delete', 'centre', '', "'<a class=\"\" href=\"/user.php?edit=1&user_no=$this->user_no&action=delete_relationship&to_user=' || user_no || '\">Delete</a>'" );
     }
 
     $browser->SetJoins( 'relationship NATURAL JOIN relationship_type rt LEFT JOIN usr ON (to_user = user_no)' );
@@ -199,13 +199,16 @@ EOSQL;
   * Handle any unusual actions we might invent
   */
   function HandleAction( $action ) {
-    global $session;
+    global $session, $c;
+
+    dbg_error_log("User",":HandleAction: Action %s", $action );
 
     switch( $action ) {
-      case 'delete_relation':
+      case 'delete_relationship':
+        dbg_error_log("User",":HandleAction: Deleting relationship from %d to %d", $this->user_no, $_GET['to_user'] );
         if ( $this->AllowedTo("Admin") ) {
-          dbg_error_log("User",":HandleAction: Deleting relationship from %d to %d", $this->user_no, $_POST['to_user'] );
-          $qry = new PgQuery("DELETE FROM relationship WHERE from_user=? AND to_user=?;", $this->user_no, $_POST['to_user'] );
+          dbg_error_log("User",":HandleAction: Deleting relationship from %d to %d", $this->user_no, $_GET['to_user'] );
+          $qry = new PgQuery("DELETE FROM relationship WHERE from_user=? AND to_user=?;", $this->user_no, $_GET['to_user'] );
           if ( $qry->Exec() ) {
             $c->messages[] = "Relationship deleted";
           }
