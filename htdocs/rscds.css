@@ -140,6 +140,12 @@ li.messages {
   background-color: #088010;
 }
 
+#menu a.menu_active, #menu a.menu_active:hover {
+  color: white;
+  background-color: #30d090;
+}
+
+
 #submenu {
   background-color: #105020;
   color: white;
@@ -160,3 +166,9 @@ li.messages {
   color: yellow;
   background-color: #10a020;
 }
+
+#submenu a.submenu_active, #submenu a.submenu_active:hover {
+  color: white;
+  background-color: #30d090;
+}
+
