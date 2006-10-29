@@ -103,4 +103,4 @@ CREATE TABLE relationship (
 );
 
 GRANT SELECT,INSERT,UPDATE,DELETE ON relationship TO general;
-SELECT new_db_revision(1,1,1, 'January' );
+SELECT new_db_revision(1,1,3, 'March' );
