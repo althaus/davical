@@ -51,7 +51,7 @@
   if ( $session->AllowedTo("Admin") )
     $user_menu->AddOption("New User","/user.php?create","Add a new user", false, 10);
   if ( $user->user_no > 0 && $user->AllowedTo('update') ) {
-    $user_menu->AddOption("View","/user.php?user_no=$user->user_no","View this user record", !$user->EditMode );
+    $user_menu->AddOption("View","/user.php?user_no=$user->user_no","View this user record" );
     $user_menu->AddOption("Edit","/user.php?edit=1&user_no=$user->user_no","Edit this user record", $user->EditMode );
   }
 
