@@ -87,7 +87,6 @@
     <item url="dba/base-data.sql" uploadstatus="1" />
     <item url="dba/update-database.sh" uploadstatus="1" />
     <item url="htdocs/relationship_types.php" uploadstatus="1" />
-    <item url="dba/patches/0.99.1.sql" uploadstatus="1" />
     <item url="dba/patches/" uploadstatus="1" />
     <item url="INSTALL" uploadstatus="1" />
     <item url="README" uploadstatus="1" />
@@ -115,6 +114,8 @@
     <item url="testing/README.regression_tests" uploadstatus="1" />
     <item url="testing/tests/regression-suite/007-Mulberry-1.test" uploadstatus="1" />
     <item url="testing/tests/regression-suite/011-Mulberry-PUT-1b.test" uploadstatus="1" />
-    <item url="dba/patches/0.99.2.sql" />
+    <item url="dba/patches/1.1.2.sql" />
+    <item url="dba/patches/1.1.3.sql" />
+    <item url="dba/update-rscds-database" />
   </project>
 </webproject>

@@ -1,8 +1,21 @@
+rscds (0.2.2) unstable; urgency=low
+
+  * Improvements to styling of maintenance pages.
+  * Removed broken link from relationship_types browser.
+  * Fix bug deleting relationship from user.
+  * Better and more useful front page when you log on.
+  * Fix base data for relationship type of 'Is a member of group'
+  * Much improved (though still imperfect) script for applying updates to the
+    database.
+  * New release
+
+ -- Andrew McMillan <debian@mcmillan.net.nz>  Tue, 31 Oct 2006 11:40:32 +1300
+
 rscds (0.2.1) unstable; urgency=low
 
   * New release.
 
- -- Andrew McMillan <debian@mcmillan.net.nz>  Fri, 27 Oct 2006 12:05:44 +1300
+ -- Andrew McMillan <debian@mcmillan.net.nz>  Fri, 27 Oct 2006 12:09:10 +1300
 
 rscds (0.2.0) unstable; urgency=low
 
