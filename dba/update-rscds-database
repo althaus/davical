@@ -1,0 +1,189 @@
+#!/usr/bin/perl -w
+#
+# Update the RSCDS database by repeatedly applying patches to it
+# in the correct order.
+#
+
+use strict;
+
+use DBI;
+use POSIX qw(floor);
+use Getopt::Long qw(:config permute);  # allow mixed args.
+
+# Options variables
+my $debug  = 0;
+my $dbname = "rscds";
+my $dbport = 5432;
+my $dbuser = "";
+my $dbpass = "";
+my $dbhost = "";
+my $helpmeplease = 0;
+
+GetOptions ('debug!'    => \$debug,
+            'dbname=s'  => \$dbname,
+            'dbuser=s'  => \$dbuser,
+            'dbpass=s'  => \$dbpass,
+            'dbport=s'  => \$dbport,
+            'dbhost=s'  => \$dbhost,
+            'help'      => \$helpmeplease  );
+
+show_usage() if ( $helpmeplease );
+
+############################################################
+# Open database connection. Note that the standard PostgreSQL
+# environment variables will also work with DBD::Pg.
+############################################################
+my $dsn = "dbi:Pg:dbname=$dbname";
+$dsn .= ";host=$dbhost" if ( "$dbhost" eq "" );
+$dsn .= ";port=$dbport" if ( $dbport != 5432 );
+my $dbh = DBI->connect($dsn, $dbuser, $dbpass, { AutoCommit => 0 } ) or die "Can't connect to database $dbname";
+
+my $current_revision = get_current_revision();
+printf( "The database is currently at revision %d.%d.%d.\n", $current_revision->{'schema_major'}, $current_revision->{'schema_minor'}, $current_revision->{'schema_patch'} );
+
+my $patchdir = $0;
+$patchdir =~ s#/[^/]*$#/patches#;
+
+opendir( PATCHDIR, $patchdir ) or die "Can't open patch directory $patchdir";
+my @patches = grep { /^([0-9]+)\.([0-9]+)\.([0-9]+)\.sql$/ } readdir(PATCHDIR);
+closedir(PATCHDIR);
+
+@patches = sort { compare_revisions(revision_hash($a),revision_hash($b)); } @patches;
+
+my $applied = 0;
+
+for ( my $i=0; $i <= $#patches;  $i++ ) {
+  printf( "Looking at patches[%d] (%s)\n", $i, $patches[$i]) if ( $debug );
+  if ( compare_revisions(revision_hash($patches[$i]),$current_revision) > 0 ) {
+    print "Applying patch $patches[$i]\n";
+    last unless( apply_patch( $patches[$i] ) );
+    $applied++;
+  }
+  else {
+    print "Patch $patches[$i] has already been applied.\n" if ( $debug );
+  }
+}
+
+if ( $applied ) {
+  print "Successfully applied $applied patches.\n";
+}
+else {
+  print "No patches were applied.\n";
+}
+
+# The End!
+exit 0;
+
+
+
+
+############################################################
+# Revision Hash - we either have a single parameter,
+# which is of the form "1.2.3" or we have three parameters.
+############################################################
+sub revision_hash {
+  my $rev = +{};
+  my $first = shift;
+  if ( $first =~ /^([0-9]+)\.([0-9]+)\.([0-9]+)([^0-9]|$)/ ) {
+    $rev->{'schema_major'} = $1;
+    $rev->{'schema_minor'} = $2;
+    $rev->{'schema_patch'} = $3;
+  }
+  else {
+    $rev->{'schema_major'} = $first;
+    $rev->{'schema_minor'} = shift;
+    $rev->{'schema_patch'} = shift;
+  }
+  return $rev;
+}
+
+
+############################################################
+# Compare revisions
+############################################################
+sub compare_revisions {
+  my $a = shift;
+  my $b = shift;
+
+  return -1 if ( $a->{'schema_major'} < $b->{'schema_major'} );
+  return  1 if ( $a->{'schema_major'} > $b->{'schema_major'} );
+
+  return -1 if ( $a->{'schema_minor'} < $b->{'schema_minor'} );
+  return  1 if ( $a->{'schema_minor'} > $b->{'schema_minor'} );
+
+  return -1 if ( $a->{'schema_patch'} < $b->{'schema_patch'} );
+  return  1 if ( $a->{'schema_patch'} > $b->{'schema_patch'} );
+
+  return 0;
+
+}
+
+
+
+############################################################
+# Get the current revision
+############################################################
+sub get_current_revision {
+
+  my $current_revision = $dbh->prepare( <<EOQ  ) or die $dbh->errstr;
+  SELECT schema_major, schema_minor, schema_patch FROM awl_db_revision ORDER BY schema_id DESC LIMIT 1
+EOQ
+
+  if ( $current_revision->execute() ) {
+    return $current_revision->fetchrow_hashref();
+  }
+  else {
+    die "ERROR: Cannot read current revision from database.";
+  }
+}
+
+
+
+############################################################
+# Apply Patch
+############################################################
+sub apply_patch {
+
+  my $patch = shift;
+
+#  my @psql_opts = ( "psql", "-q", "-f", sprintf( "%s/%d.%d.%d.sql", $patchdir, $patch->{'schema_major'}, $patch->{'schema_minor'}, $patch->{'schema_patch'} ), $dbname );
+  my @psql_opts = ( "psql", "-q", "-f", $patchdir."/".$patch, $dbname );
+  push @psql_opts, "-h", $dbhost if ( $dbhost ne "" );
+  push @psql_opts, "-p", "$dbport" if ( $dbport != 5432 );
+  push @psql_opts, "-U", $dbuser if ( $dbuser ne "" );
+  $ENV{'PGPASS'} = $dbpass if ( $dbpass ne "" );
+
+  system( @psql_opts );
+
+  $current_revision = get_current_revision();
+  if ( compare_revisions($current_revision,revision_hash($patch)) != 0 ) {
+    printf( "Failed to apply revision %d.%d.%d to the database!\n", $patch->{'schema_major'}, $patch->{'schema_minor'}, $patch->{'schema_patch'} );
+    return 0;
+  }
+  return 1;  # Success
+}
+
+
+
+############################################################
+# Tell the nice user how we do things.  Short and sweet.
+############################################################
+sub show_usage {
+    print <<OPTHELP;
+
+update-rscds-database [options]
+
+Options are:
+    --debug       Turn on debugging
+    --dbname      The database to dig into
+    --dbuser      Connect to the database as this user.
+    --dbport      Connect to the database on this port.
+    --dbhost      Connect to the database on this host.
+
+The program will apply patches to the database which have
+not yet been applied.
+
+OPTHELP
+    exit 0;
+}
+
