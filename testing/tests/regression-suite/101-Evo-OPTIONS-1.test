@@ -1,0 +1,6 @@
+#
+# Do another OPTIONS request, this time with credentials
+TYPE=OPTIONS
+URL=http://mycaldav/caldav.php/user1/home/
+AUTH=user1:user1
+HEAD

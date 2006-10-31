@@ -1,0 +1,7 @@
+#
+# Now we GET the entry that was in the report.
+#
+TYPE=GET
+URL=http://mycaldav/caldav.php/user1/home/F56B49B10FC923D20FE2DC92D6580340-0.ics
+HEADER=User-Agent: Evolution/1.8.1
+HEAD
