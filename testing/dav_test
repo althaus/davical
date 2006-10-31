@@ -8,10 +8,11 @@ my $test=$ARGV[1];
 
 usage() unless ( defined($suite) && defined($test) );
 
-my @arguments = ( "--basic", "--user", "user1:user1", "--proxy", "", "--silent" );
+my @arguments = ( "--basic", "--proxy", "", "--silent" );
 push @arguments, "--verbose" if ( defined($ARGV[2]) );
 
 my $url;
+my @auth = ( "--user", "user1:user1" );
 
 my $datafile = "tests/$suite/$test.data";
 
@@ -21,6 +22,14 @@ while( <TEST> ) {
 
   /^\s*HEAD\s*(#|$|=)/ && do {
     push @arguments, "--include";
+  };
+
+  /^\s*NOAUTH\s*(#|$|=)/ && do {
+    @auth = ();
+  };
+
+  /^\s*AUTH\s*=\s*(\S.*)$/ && do {
+    @auth = ( "--user", $1 );
   };
 
   /^\s*DATA\s*=\s*(\S.*)$/ && do {
@@ -54,6 +63,8 @@ along with the request.
 EOERROR
   exit (2);
 }
+
+push @arguments, @auth;
 
 if ( -f $datafile ) {
   push @arguments, "--data-binary", "\@$datafile";
