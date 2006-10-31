@@ -93,6 +93,7 @@ input.fcheckbox {
   margin-top: 6px;
   margin-bottom: 3px;
   vertical-align:-4px;
+  border: none;
 }
 
 select.fselect, select.flookup {
