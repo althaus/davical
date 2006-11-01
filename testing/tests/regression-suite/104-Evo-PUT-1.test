@@ -1,0 +1,9 @@
+#
+# We PUT an appointment with Evolution
+TYPE=PUT
+URL=http://mycaldav/caldav.php/user1/home/20061101T073004Z.ics
+HEADER=If-None-Match: *
+HEADER=User-Agent: Evolution/1.8.1
+HEADER=Content-Type: text/calendar
+HEAD
+DATA=20061101T073004Z.ics
