@@ -85,7 +85,6 @@
     <item url="testing/tests/evolution/PUT1.test" uploadstatus="1" />
     <item url="testing/tests/evolution/DELETE1.test" uploadstatus="1" />
     <item url="dba/base-data.sql" uploadstatus="1" />
-    <item url="dba/update-database.sh" uploadstatus="1" />
     <item url="htdocs/relationship_types.php" uploadstatus="1" />
     <item url="dba/patches/" uploadstatus="1" />
     <item url="INSTALL" uploadstatus="1" />

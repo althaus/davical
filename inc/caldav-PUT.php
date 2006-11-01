@@ -18,14 +18,6 @@ fwrite($fh,$raw_post);
 fclose($fh);
 
 $etag = md5($raw_post);
-if ( preg_match('#Evolution/([0-9.]+)#', $_SERVER['HTTP_USER_AGENT'], $matches ) ) {
-  /**
-  * Evolution can't handle an ETag that doesn't change, so we give it a fake one
-  * first for the PUT reply and it'll figure it out in due course.  Sad but true.
-  *         - See http://bugzilla.gnome.org/show_bug.cgi?id=355659
-  */
-  $bogus_etag = "BogusEvolutionETagOnPUT".rand(7,2139876547);
-}
 
 include_once("iCalendar.php");
 $ic = new iCalendar(array( 'icalendar' => $raw_post ));
