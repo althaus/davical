@@ -116,5 +116,22 @@
     <item url="dba/patches/1.1.2.sql" />
     <item url="dba/patches/1.1.3.sql" />
     <item url="dba/update-rscds-database" />
+    <item url="testing/tests/regression-suite/100-Evo-OPTIONS-1.result" />
+    <item url="testing/tests/regression-suite/100-Evo-OPTIONS-1.test" />
+    <item url="testing/tests/regression-suite/101-Evo-OPTIONS-1.result" />
+    <item url="testing/tests/regression-suite/101-Evo-OPTIONS-1.test" />
+    <item url="testing/tests/regression-suite/102-Evo-REPORT-1.data" />
+    <item url="testing/tests/regression-suite/102-Evo-REPORT-1.result" />
+    <item url="testing/tests/regression-suite/102-Evo-REPORT-1.test" />
+    <item url="testing/tests/regression-suite/103-Evo-GET-1.result" />
+    <item url="testing/tests/regression-suite/103-Evo-GET-1.test" />
+    <item url="testing/tests/regression-suite/104-Evo-PUT-1.result" />
+    <item url="testing/tests/regression-suite/104-Evo-PUT-1.test" />
+    <item url="testing/tests/regression-suite/105-Evo-REPORT-1.data" />
+    <item url="testing/tests/regression-suite/105-Evo-REPORT-1.result" />
+    <item url="testing/tests/regression-suite/105-Evo-REPORT-1.test" />
+    <item url="testing/tests/regression-suite/106-Evo-GET-1.result" />
+    <item url="testing/tests/regression-suite/106-Evo-GET-1.test" />
+    <item url="testing/tests/regression-suite/20061101T073004Z.ics.data" />
   </project>
 </webproject>
