@@ -13,13 +13,6 @@ if ( isset($debugging) && isset($_GET['method']) ) {
 }
 
 /**
-* A variety of requests may set the "Depth" header to control recursion
-*/
-$query_depth = (isset($_SERVER['HTTP_DEPTH']) ? $_SERVER['HTTP_DEPTH'] : 0);
-if ( $query_depth == 'infinite' ) $query_depth = 99;
-$query_depth = intval($query_depth);
-
-/**
 * Our path is /<script name>/<user name>/<user controlled> if it ends in
 * a trailing '/' then it is referring to a DAV 'collection' but otherwise
 * it is referring to a DAV data item.
@@ -32,28 +25,36 @@ $query_depth = intval($query_depth);
 *  4. otherwise we query the defined relationships between users and use
 *     the maximum privileges returned from that analysis.
 */
-$path_split = preg_split('#/+#', $_SERVER['PATH_INFO'] );
-dbg_log_array("ics", "PATH", $path_split, true );
+$request_path = $_SERVER['PATH_INFO'];
+$path_split = preg_split('#/+#', $request_path );
 $permissions = array();
-unset($path_user_no);
-unset($path_username);
-if ( $session->AllowedTo("Admin") ) {
-  $permissions = array('read' => 1 );
+if ( !isset($path_split[1]) || $path_split[1] == '' ) {
+  dbg_error_log( "caldav", "No useful path split possible" );
+  unset($path_user_no);
+  unset($path_username);
+  $permissions = array("read" => 'read' );
 }
-if ( isset($path_split[1]) && $path_split[1] != '' ) {
+else {
   $path_username = $path_split[1];
-  dbg_error_log( "ics", "It appears that we have a reasonable path for this.", $path_username );
+  @dbg_error_log( "caldav", "Path split into at least /// %s /// %s /// %s", $path_split[1], $path_split[2], $path_split[3] );
   $qry = new PgQuery( "SELECT * FROM usr WHERE username = ?;", $path_username );
   if ( $qry->Exec("caldav") && $path_user_record = $qry->Fetch() ) {
     $path_user_no = $path_user_record->user_no;
   }
   if ( $session->AllowedTo("Admin") || $session->user_no == $path_user_no ) {
-    $permissions = array('read' => 1 );
+    $permissions = array('read' => 'read', "write" => 'write' );
   }
-  else {
+  else if ( isset($path_user_no) ) {
     /**
     * We need to query the database for permissions
     */
+    $qry = new PgQuery( "SELECT get_permissions( ?, ? ) AS perm;", $session->user_no, $path_user_no);
+    if ( $qry->Exec("caldav") && $permission_result = $qry->Fetch() ) {
+      $permission_result = "!".$permission_result->perm; // We prepend something to ensure we get a non-zero position.
+      $permissions = array();
+      if ( strpos($permission_result,"R") )       $permissions['read'] = 'read';
+      if ( strpos($permission_result,"W") )       $permissions['write'] = 'write';
+    }
   }
 }
 
