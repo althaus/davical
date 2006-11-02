@@ -25,6 +25,9 @@ require_once("interactive-page.php");
         }
         else {
           $c->messages[] = "Database Error.";
+          if ( preg_match("/violates foreign key constraint/", $qry->errorstring ) ) {
+            $c->messages[] = "That relationship type is being used. See ##RelationshipTypeUsed##";
+          }
         }
         break;
 
