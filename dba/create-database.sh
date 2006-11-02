@@ -22,4 +22,3 @@ psql -q -f "${DBADIR}/rscds.sql" "${DBNAME}" 2>&1 | egrep -v "(^CREATE |^GRANT|^
 psql -q -f "${DBADIR}/caldav_functions.sql" "${DBNAME}"
 
 psql -q -f "${DBADIR}/base-data.sql" "${DBNAME}"
-psql -q -f "${DBADIR}/sample-data.sql" "${DBNAME}"
