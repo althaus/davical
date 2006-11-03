@@ -31,3 +31,13 @@ INSERT INTO relationship_type ( rt_id, rt_name, rt_isgroup, confers, prefix_matc
 
 -- Set the insert sequence to the next number, with a minimum of 1000
 SELECT setval('relationship_type_rt_id_seq', (SELECT 10 UNION SELECT rt_id FROM relationship_type ORDER BY 1 DESC LIMIT 1) );
+
+-- I should be able to find people to translate into these base locales
+INSERT INTO supported_locales ( locale, locale_name_en, locale_name_locale )
+    VALUES( 'en', 'English', 'English' );
+INSERT INTO supported_locales ( locale, locale_name_en, locale_name_locale )
+    VALUES( 'de', 'German',  'Deutsch' );
+INSERT INTO supported_locales ( locale, locale_name_en, locale_name_locale )
+    VALUES( 'es', 'Spanish', 'Español' );
+INSERT INTO supported_locales ( locale, locale_name_en, locale_name_locale )
+    VALUES( 'fr', 'French',  'Français' );
