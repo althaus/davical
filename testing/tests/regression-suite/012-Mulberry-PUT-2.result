@@ -1,9 +1,7 @@
-HTTP/1.1 100 Continue
-
 HTTP/1.1 201 Created
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 Server: Apache/2.2.3 (Debian) DAV/2
-ETag: "c3658901fd4689d4a1e1d6f08601ef4f"
+ETag: "22158fc45876987b2b00749a3a1684d8"
 Content-length: 0
 Content-Type: text/html; charset=UTF-8
 

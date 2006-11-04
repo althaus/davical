@@ -1,9 +1,7 @@
-HTTP/1.1 100 Continue
-
-HTTP/1.1 201 Created
+HTTP/1.1 201 Replaced
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 Server: Apache/2.2.3 (Debian) DAV/2
-ETag: "c3658901fd4689d4a1e1d6f08601ef4f"
+ETag: "2c32a2f8aba853654eb17fe037a4db4d"
 Content-length: 0
 Content-Type: text/html; charset=UTF-8
 

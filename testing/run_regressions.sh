@@ -2,13 +2,15 @@
 #
 # Run the regression tests and display differences
 #
+DBNAME=caldav
 
 # Restart PGPool to ensure we can drop and recreate the database
 # FIXME: We should really drop everything *from* the database and create it
 # from that, so we don't need to do this.
 sudo /etc/init.d/pgpool restart
-dropdb caldav
-../dba/create-database.sh caldav
+dropdb ${DBNAME}
+../dba/create-database.sh ${DBNAME}
+psql -q -f "../dba/sample-data.sql" "${DBNAME}"
 
 for T in tests/regression-suite/*.test ; do
   TEST="`basename ${T} .test`"
