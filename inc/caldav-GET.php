@@ -12,7 +12,15 @@ dbg_error_log("get", "GET method handler");
 
 // The GET method is not sent with any wrapping XML so we simply fetch it
 
-$qry = new PgQuery( "SELECT * FROM caldav_data WHERE user_no = ? AND dav_name = ? ;", $session->user_no, $request_path);
+if ( ! isset($permissions['read']) ) {
+  header("HTTP/1.1 403 Forbidden");
+  header("Content-type: text/plain");
+  echo "You may not access that calendar.";
+  dbg_error_log("GET", "Access denied for User: %d, Path: %s", $session->user_no, $get_path);
+  return;
+}
+
+$qry = new PgQuery( "SELECT * FROM caldav_data WHERE dav_name = ? ;", $request_path);
 dbg_error_log("get", "%s", $qry->querystring );
 if ( $qry->Exec("GET") && $qry->rows == 1 ) {
   $event = $qry->Fetch();
