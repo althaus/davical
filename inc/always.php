@@ -19,13 +19,17 @@ $c->save_time_zone_defs = 1;
 $c->stylesheets = array( "/rscds.css" );
 $c->collections_always_exist = true;
 
-
 // Kind of private configuration values
 $c->total_query_time = 0;
 
 $c->dbg = array( );
 
 require_once("AWLUtilities.php");
+
+// Internationalisation framework
+require_once("Translation.php");
+init_gettext( 'rscds', '../locale' );
+
 
 /**
 * Calculate the simplest form of reference to this page, excluding the PATH_INFO following the script name.
