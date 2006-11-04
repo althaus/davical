@@ -16,7 +16,7 @@
 //  $c->dbg['ics'] = 1;
 //  $c->dbg['icalendar'] = 1;
 //  $c->dbg['vevent'] = 1;
-  $c->dbg['caldav'] = 1;
+//  $c->dbg['caldav'] = 1;
 //  $c->dbg['user'] = 1;
 
   $c->collections_always_exist = false;
