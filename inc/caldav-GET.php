@@ -20,7 +20,7 @@ if ( ! isset($permissions['read']) ) {
   return;
 }
 
-$qry = new PgQuery( "SELECT * FROM caldav_data WHERE dav_name = ? ;", $request_path);
+$qry = new PgQuery( "SELECT * FROM caldav_data WHERE user_no = ? AND dav_name = ? ;", $path_user_no, $request_path);
 dbg_error_log("get", "%s", $qry->querystring );
 if ( $qry->Exec("GET") && $qry->rows == 1 ) {
   $event = $qry->Fetch();
