@@ -17,6 +17,14 @@ $fh = fopen('/tmp/PUT.txt','w');
 fwrite($fh,$raw_post);
 fclose($fh);
 
+if ( ! isset($permissions['write']) ) {
+  header("HTTP/1.1 403 Forbidden");
+  header("Content-type: text/plain");
+  echo "You may not write to that calendar.";
+  dbg_error_log("ERROR", "PUT Access denied for User: %d, Path: %s", $session->user_no, $get_path);
+  return;
+}
+
 $etag = md5($raw_post);
 
 include_once("iCalendar.php");
@@ -29,7 +37,7 @@ dbg_log_array( "PUT", 'EVENT', $ic->properties['VCALENDAR'][0], true );
 * We read any existing object so we can check the ETag.
 */
 unset($put_action_type);
-$qry = new PgQuery( "SELECT * FROM caldav_data WHERE user_no=? AND dav_name=?", $session->user_no, $request_path );
+$qry = new PgQuery( "SELECT * FROM caldav_data WHERE user_no=? AND dav_name=?", $path_user_no, $request_path );
 if ( !$qry->Exec("PUT") || $qry->rows > 1 ) {
   header("HTTP/1.1 500 Infernal Server Error");
   dbg_error_log("ERROR","Query failure, or multiple events match replaced path for user %d, path %s", $session->user_no, $request_path );
@@ -88,7 +96,7 @@ elseif ( $qry->rows == 1 ) {
 
 if ( $put_action_type == 'INSERT' ) {
   $qry = new PgQuery( "INSERT INTO caldav_data ( user_no, dav_name, dav_etag, caldav_data, caldav_type, logged_user, created, modified ) VALUES( ?, ?, ?, ?, ?, ?, current_timestamp, current_timestamp )",
-                         $session->user_no, $request_path, $etag, $raw_post, $ic->type, $session->user_no );
+                         $path_user_no, $request_path, $etag, $raw_post, $ic->type, $session->user_no );
   $qry->Exec("PUT");
 
   header("HTTP/1.1 201 Created", true, 201);
