@@ -117,6 +117,9 @@ class RSCDSSession extends Session
     parent::AssignSessionDetails( $u );
     $this->GetRoles();
     $this->GetRelationships();
+    if ( function_exists("awl_set_locale") && isset($this->locale) && $this->locale != "" ) {
+      awl_set_locale($this->locale);
+    }
   }
 
 
