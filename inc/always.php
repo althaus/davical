@@ -18,7 +18,8 @@ $c->images      = "/images";
 $c->save_time_zone_defs = 1;
 $c->stylesheets = array( "/rscds.css" );
 $c->collections_always_exist = true;
-$c->default_locale = array('es_MX', 'es_MX.UTF-8', 'es');
+// $c->default_locale = array('es_MX', 'es_MX.UTF-8', 'es');
+$c->default_locale = "en_NZ";
 $c->base_directory = preg_replace("#/[^/]*$#", "", $_SERVER['DOCUMENT_ROOT']);
 
 // Kind of private configuration values
