@@ -34,10 +34,12 @@ SELECT setval('relationship_type_rt_id_seq', (SELECT 10 UNION SELECT rt_id FROM 
 
 -- I should be able to find people to translate into these base locales
 INSERT INTO supported_locales ( locale, locale_name_en, locale_name_locale )
-    VALUES( 'en', 'English', 'English' );
+    VALUES( 'en_NZ', 'English', 'English' );
 INSERT INTO supported_locales ( locale, locale_name_en, locale_name_locale )
-    VALUES( 'de', 'German',  'Deutsch' );
+    VALUES( 'de_DE', 'German',  'Deutsch' );
 INSERT INTO supported_locales ( locale, locale_name_en, locale_name_locale )
-    VALUES( 'es', 'Spanish', 'Español' );
+    VALUES( 'es_ES', 'Spanish (Spain)', 'Español (ES)' );
 INSERT INTO supported_locales ( locale, locale_name_en, locale_name_locale )
-    VALUES( 'fr', 'French',  'Français' );
+    VALUES( 'es_MX', 'Mexican Spanish', 'Español (MX)' );
+INSERT INTO supported_locales ( locale, locale_name_en, locale_name_locale )
+    VALUES( 'fr_FR', 'French',  'Français' );
