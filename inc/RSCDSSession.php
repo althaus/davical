@@ -169,24 +169,21 @@ class RSCDSSession extends Session
 
     if ( $this->logged_in && $groups == "" ) return;
     if ( ! $this->logged_in ) {
-      $c->messages[] = "You must log in to use this system.";
+      $c->messages[] = i18n("You must log in to use this system.");
       include_once("page-header.php");
       if ( function_exists("local_index_not_logged_in") ) {
         local_index_not_logged_in();
       }
       else {
         if ( $this->login_failed ) {
-          echo <<<EOHTML
-<p class="error">Invalid user name or password.</p>
-EOHTML;
+          $c->messages[] = i18n("Invalid user name or password.");
         }
-        echo <<<EOHTML
-<h1>Log On Please</h1>
-<p>For access to the $c->system_name you should log on with
-the username and password that have been issued to you.</p>
-
-<p>If you would like to request access, please e-mail $c->admin_email.</p>
-EOHTML;
+        echo "<h1>".translate("Log On Please")."</h1>\n";
+        echo "<p>".translate("For access to the")
+                  ." ".translate($c->system_name)." "
+                  .translate("you should log on with the username and password that have been issued to you.")
+            ."</p>\n";
+        echo "<p>".translate("If you would like to request access, please e-mail")." ".$c->admin_email."</p>\n";
         echo $this->RenderLoginPanel();
       }
     }
@@ -195,7 +192,7 @@ EOHTML;
       foreach( $valid_groups AS $k => $v ) {
         if ( $this->AllowedTo($v) ) return;
       }
-      $c->messages[] = "You are not authorised to use this function.";
+      $c->messages[] = i18n("You are not authorised to use this function.");
       include_once("page-header.php");
     }
 
