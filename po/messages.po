@@ -1,0 +1,136 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-11-05 21:37+1300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Browse all relationship types"
+msgstr ""
+
+msgid "Browse all users"
+msgstr ""
+
+msgid "Click to display that relationship"
+msgstr ""
+
+msgid "Confers"
+msgstr ""
+
+msgid "Create"
+msgstr ""
+
+msgid "Delete"
+msgstr ""
+
+msgid "EMail"
+msgstr ""
+
+msgid "For access to the"
+msgstr ""
+
+msgid "Group?"
+msgstr ""
+
+msgid "Help on something or other"
+msgstr ""
+
+msgid "Help"
+msgstr ""
+
+msgid "Home"
+msgstr ""
+
+msgid "If you would like to request access, please e-mail"
+msgstr ""
+
+msgid "Invalid user name or password."
+msgstr ""
+
+msgid "Linked From"
+msgstr ""
+
+msgid "Linked To"
+msgstr ""
+
+msgid "Log On Please"
+msgstr ""
+
+msgid "Log out of the"
+msgstr ""
+
+msgid "Logout"
+msgstr ""
+
+msgid "My Details"
+msgstr ""
+
+msgid "Really Simple CalDAV Store"
+msgstr ""
+
+msgid "Relationship added."
+msgstr ""
+
+msgid "Relationship deleted"
+msgstr ""
+
+msgid "Relationship"
+msgstr ""
+
+msgid "Relationships from this user"
+msgstr ""
+
+msgid "Relationships to this user"
+msgstr ""
+
+msgid "Relationships"
+msgstr ""
+
+msgid "Report Bug"
+msgstr ""
+
+msgid "Report a bug in the system"
+msgstr ""
+
+msgid "Select the type of relationship from this user"
+msgstr ""
+
+msgid "Select the user, resource or group to relate this user to"
+msgstr ""
+
+msgid "Show help on"
+msgstr ""
+
+msgid "There was an error writing to the database."
+msgstr ""
+
+msgid "Update"
+msgstr ""
+
+msgid "Users"
+msgstr ""
+
+msgid "View my own user record"
+msgstr ""
+
+msgid "You are not authorised to use this function."
+msgstr ""
+
+msgid "You must log in to use this system."
+msgstr ""
+
+msgid ""
+"you should log on with the username and password that have been issued to "
+"you."
+msgstr ""
