@@ -1,7 +1,7 @@
 <?php
 
 if ( !isset($c->title) ) {
-  $c->title = "Really Simple CalDAV Store";
+  $c->title = translate("Really Simple CalDAV Store");
 }
 
 function make_help_link($matches)
@@ -21,7 +21,7 @@ function make_help_link($matches)
   else {
     $display_url = "help";
   }
-  return " <a class=\"help\" href=\"/help.php?h=$help_topic\" title=\"Show help on '$help_topic'\" target=\"_new\">[$display_url]</a> ";
+  return " <a class=\"help\" href=\"/help.php?h=$help_topic\" title=\"".translate("Show help on")." '$help_topic'\" target=\"_new\">[$display_url]</a> ";
 }
 
 
@@ -65,8 +65,8 @@ EOHDR;
   echo "<div id=\"pageheader\">\n";
 
   if ( isset($page_menu) && is_object($page_menu) ) {
-    $page_menu->AddSubMenu( $relationship_menu, "Relationships", "/relationship_types.php", "Browse all relationship types", false, 4050 );
-    $page_menu->AddSubMenu( $user_menu, "Users", "/users.php", "Browse all users", false, 4100 );
+    $page_menu->AddSubMenu( $relationship_menu, translate("Relationships"), "/relationship_types.php", translate("Browse all relationship types"), false, 4050 );
+    $page_menu->AddSubMenu( $user_menu, translate("Users"), "/users.php", translate("Browse all users"), false, 4100 );
 //    $page_menu->AddSubMenu( $role_menu, "Roles", "/roles.php", "Browse all roles", false, 4300 );
     $page_menu->MakeSomethingActive($active_menu_pattern);
     echo $page_menu->Render();
@@ -78,7 +78,7 @@ EOHDR;
     echo "<div id=\"messages\"><ul class=\"messages\">\n";
     foreach( $c->messages AS $i => $msg ) {
       // ##HelpTextKey## gets converted to a "/help.phph=HelpTextKey" link
-      $msg = preg_replace_callback("/##([^#]+)##/", "make_help_link", $msg);
+      $msg = preg_replace_callback("/##([^#]+)##/", "make_help_link", translate($msg));
       echo "<li class=\"messages\">$msg</li>\n";
     }
     echo "</ul>\n</div>\n";

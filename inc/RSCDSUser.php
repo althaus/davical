@@ -65,7 +65,7 @@ class RSCDSUser extends User
 
     if ( $ef->EditMode ) {
       $html .= '<div id="footer">';
-      $html .= $ef->SubmitButton( "submit", (("insert" == $this->WriteType) ? "Create" : "Update") );
+      $html .= $ef->SubmitButton( "submit", (("insert" == $this->WriteType) ? i18n("Create") : i18n("Update")) );
       $html .= '</div>';
       $html .= $ef->EndForm();
     }
@@ -79,19 +79,21 @@ class RSCDSUser extends User
   *
   * @return string The string of html to be output
   */
-  function RenderRelationshipsFrom( $ef, $title = "Relationships from this user" ) {
+  function RenderRelationshipsFrom( $ef, $title = null ) {
     global $session, $c;
+
+    if ( $title == null ) $title = i18n("Relationships from this user");
 
     $browser = new Browser("");
 
     $browser->AddHidden( 'user_link', "'<a href=\"/user.php?user_no=' || user_no || '\">' || fullname || '</a>'" );
-    $browser->AddColumn( 'rt_name', 'Relationship' );
-    $browser->AddColumn( 'fullname', 'Linked To', 'left', '##user_link##' );
+    $browser->AddColumn( 'rt_name', translate('Relationship') );
+    $browser->AddColumn( 'fullname', translate('Linked To'), 'left', '##user_link##' );
 //    $browser->AddColumn( 'is_group', 'Group?', 'centre', '', "CASE WHEN rt_isgroup THEN 'Yes' ELSE 'No' END"  );
-    $browser->AddHidden( 'confers', 'Confers' );
-    $browser->AddColumn( 'email', 'EMail' );
+    $browser->AddHidden( 'confers', translate('Confers') );
+    $browser->AddColumn( 'email', translate('EMail') );
     if ( $ef->EditMode ) { // && $session->AllowedTo("MaintainRelationships") ) {
-      $browser->AddColumn( 'delete', 'Delete', 'centre', '', "'<a class=\"\" href=\"/user.php?edit=1&user_no=$this->user_no&action=delete_relationship&to_user=' || user_no || '\">Delete</a>'" );
+      $browser->AddColumn( 'delete', translate('Delete'), 'centre', '', "'<a class=\"\" href=\"/user.php?edit=1&user_no=$this->user_no&action=delete_relationship&to_user=' || user_no || '\">Delete</a>'" );
     }
 
     $browser->SetJoins( 'relationship NATURAL JOIN relationship_type rt LEFT JOIN usr ON (to_user = user_no)' );
@@ -103,7 +105,7 @@ class RSCDSUser extends User
     else
       $browser->AddOrder( 'rt_name', 'A' );
 
-    $browser->RowFormat( "<tr onMouseover=\"LinkHref(this,1);\" title=\"Click to display that relationship\" class=\"r%d\">\n", "</tr>\n", '#even' );
+    $browser->RowFormat( "<tr onMouseover=\"LinkHref(this,1);\" title=\"".translate("Click to display that relationship")."\" class=\"r%d\">\n", "</tr>\n", '#even' );
     $browser->DoQuery();
 
     /**
@@ -124,13 +126,13 @@ SELECT user_no, fullname FROM usr
        $group_target
 EOSQL;
       $person_selection = $ef->DataEntryField( "", "lookup", "relate_to",
-                                array("title" => "Select the user, resource or group to relate this user to",
+                                array("title" => translate("Select the user, resource or group to relate this user to"),
                                       "_null" => "--- select a user ".( isset($this->roles['Group Target']) ? '' : ', group ' ).'or resource ---',
                                       "_sql"  => $sql ) );
 
       $group_target = ( isset($this->roles['Group Target']) ? 'WHERE NOT rt_isgroup' : '' );
       $relationship_type_selection = $ef->DataEntryField( "", "lookup", "relate_as",
-                                array("title" => "Select the type of relationship from this user",
+                                array("title" => translate("Select the type of relationship from this user"),
                                       "_null" => "--- select a relationship type ---",
                                       "_sql"  => "SELECT rt_id, rt_name FROM relationship_type $group_target " ) );
 
@@ -141,7 +143,7 @@ EOSQL;
                      ) );
     }
 
-    $html = ( $title == "" ? "" : $ef->BreakLine($title) );
+    $html = translate(( $title == "" ? "" : $ef->BreakLine($title) ));
     $html .= "<tr><td>&nbsp;</td><td>\n";
     $html .= $browser->Render();
     $html .= "</td></tr>\n";
@@ -154,17 +156,18 @@ EOSQL;
   *
   * @return string The string of html to be output
   */
-  function RenderRelationshipsTo( $ef, $title = "Relationships to this user" ) {
+  function RenderRelationshipsTo( $ef, $title = null ) {
     global $session, $c;
 
+    if ( $title == null ) $title = i18n("Relationships to this user");
     $browser = new Browser("");
 
     $browser->AddHidden( 'user_link', "'<a href=\"/user.php?user_no=' || user_no || '\">' || fullname || '</a>'" );
-    $browser->AddColumn( 'fullname', 'Linked From', 'left', '##user_link##' );
-    $browser->AddColumn( 'rt_name', 'Relationship' );
-    $browser->AddColumn( 'is_group', 'Group?', 'centre', '', "CASE WHEN rt_isgroup THEN 'Yes' ELSE 'No' END"  );
-    $browser->AddHidden( 'confers', 'Confers' );
-    $browser->AddColumn( 'email', 'EMail' );
+    $browser->AddColumn( 'fullname', translate('Linked From'), 'left', '##user_link##' );
+    $browser->AddColumn( 'rt_name', translate('Relationship') );
+    $browser->AddColumn( 'is_group', translate('Group?'), 'centre', '', "CASE WHEN rt_isgroup THEN 'Yes' ELSE 'No' END"  );
+    $browser->AddHidden( 'confers', translate('Confers') );
+    $browser->AddColumn( 'email', translate('EMail') );
 
     $browser->SetJoins( 'relationship NATURAL JOIN relationship_type rt LEFT JOIN usr ON (from_user = user_no)' );
     $browser->SetWhere( "to_user = $this->user_no" );
@@ -175,10 +178,10 @@ EOSQL;
     else
       $browser->AddOrder( 'rt_name', 'A' );
 
-    $browser->RowFormat( "<tr onMouseover=\"LinkHref(this,1);\" title=\"Click to display that relationship\" class=\"r%d\">\n", "</tr>\n", '#even' );
+    $browser->RowFormat( "<tr onMouseover=\"LinkHref(this,1);\" title=\"".translate("Click to display that relationship")."\" class=\"r%d\">\n", "</tr>\n", '#even' );
     $browser->DoQuery();
 
-    $html = ( $title == "" ? "" : $ef->BreakLine($title) );
+    $html = translate( $title == "" ? "" : $ef->BreakLine($title) );
     $html .= "<tr><td>&nbsp;</td><td>\n";
     $html .= $browser->Render();
     $html .= "</td></tr>\n";
@@ -210,10 +213,10 @@ EOSQL;
           dbg_error_log("User",":HandleAction: Deleting relationship from %d to %d", $this->user_no, $_GET['to_user'] );
           $qry = new PgQuery("DELETE FROM relationship WHERE from_user=? AND to_user=?;", $this->user_no, $_GET['to_user'] );
           if ( $qry->Exec() ) {
-            $c->messages[] = "Relationship deleted";
+            $c->messages[] = i18n("Relationship deleted");
           }
           else {
-            $c->messages[] = "There was an error writing to the database.";
+            $c->messages[] = i18n("There was an error writing to the database.");
             return false;
           }
         }
@@ -236,10 +239,10 @@ EOSQL;
         dbg_error_log("User",":Write: Adding relationship as %d to %d", $_POST['relate_as'], isset($_POST['relate_to'] ) );
         $qry = new PgQuery("INSERT INTO relationship (from_user, to_user, rt_id ) VALUES( $this->user_no, ?, ? )", $_POST['relate_to'], $_POST['relate_as'] );
         if ( $qry->Exec() ) {
-          $c->messages[] = "Relationship added.";
+          $c->messages[] = i18n("Relationship added.");
         }
         else {
-          $c->messages[] = "There was an error writing to the database.";
+          $c->messages[] = i18n("There was an error writing to the database.");
           return false;
         }
       }

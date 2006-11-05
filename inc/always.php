@@ -18,18 +18,15 @@ $c->images      = "/images";
 $c->save_time_zone_defs = 1;
 $c->stylesheets = array( "/rscds.css" );
 $c->collections_always_exist = true;
+$c->default_locale = array('es_MX', 'es_MX.UTF-8', 'es');
+$c->base_directory = preg_replace("#/[^/]*$#", "", $_SERVER['DOCUMENT_ROOT']);
 
 // Kind of private configuration values
 $c->total_query_time = 0;
 
-$c->dbg = array( );
+$c->dbg = array( "i18n" => 1 );
 
 require_once("AWLUtilities.php");
-
-// Internationalisation framework
-require_once("Translation.php");
-init_gettext( 'rscds', '../locale' );
-
 
 /**
 * Calculate the simplest form of reference to this page, excluding the PATH_INFO following the script name.
@@ -45,6 +42,10 @@ $c->protocol_server_port_script = sprintf( "%s://%s%s%s", (isset($_SERVER['HTTPS
 
 dbg_error_log( "LOG", "==========> method =%s= =%s= =%s=", $_SERVER['REQUEST_METHOD'], $c->protocol_server_port_script, $_SERVER['PATH_INFO']);
 
+// Internationalisation framework
+require_once("Translation.php");
+init_gettext( 'rscds', $c->base_directory.'/locale' );
+
 if ( file_exists("/etc/rscds/".$_SERVER['SERVER_NAME']."-conf.php") ) {
   include_once("/etc/rscds/".$_SERVER['SERVER_NAME']."-conf.php");
 }
@@ -55,6 +56,12 @@ else {
   include_once("rscds_configuration_missing.php");
   exit;
 }
+
+/**
+* Now that we have loaded the configuration file we can switch to a
+* default site locale.  This may be overridden by each user.
+*/
+awl_set_locale($c->default_locale);
 
 /**
 * Figure our version from the changelog
