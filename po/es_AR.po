@@ -1,0 +1,136 @@
+﻿# Argentinian Spanish translation of RSCDS
+# Copyright (C) 2006 Andrew McMillan
+# This file is distributed under the same license as the RSCDS package.
+# Lorena Paoletti <andrew@mcmillan.net.nz>, 2006.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: RSCDS 0.2.3\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-11-05 21:37+1300\n"
+"PO-Revision-Date: 2006-11-06 17:12+1300\n"
+"Last-Translator: Lorena Paoletti <andrew@mcmillan.net.nz>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Browse all relationship types"
+msgstr "Mostrar todos los tipos de relaciones"
+
+msgid "Browse all users"
+msgstr "Mostrar todos los usuarios"
+
+msgid "Click to display that relationship"
+msgstr "Hacer clic para mostrar la relación"
+
+msgid "Confers"
+msgstr "Concede"
+
+msgid "Create"
+msgstr "Crear"
+
+msgid "Delete"
+msgstr "Borrar"
+
+msgid "EMail"
+msgstr "Correo Electrónico"
+
+msgid "For access to the"
+msgstr "Para acceder a"
+
+msgid "Group?"
+msgstr "Grupo?"
+
+msgid "Help on something or other"
+msgstr "Ayuda en"
+
+msgid "Help"
+msgstr "Ayuda"
+
+msgid "Home"
+msgstr "Página principal"
+
+msgid "If you would like to request access, please e-mail"
+msgstr "Para obtener acceso, enviar un correo electrónico"
+
+msgid "Invalid user name or password."
+msgstr "Usuario o contraseña incorrectos."
+
+msgid "Linked From"
+msgstr "Relacionado desde"
+
+msgid "Linked To"
+msgstr "Relacionado con"
+
+msgid "Log On Please"
+msgstr "Conectarse por favor"
+
+msgid "Log out of the"
+msgstr "Desconectarse de"
+
+msgid "Logout"
+msgstr "Desconectarse"
+
+msgid "My Details"
+msgstr "Mis Datos"
+
+msgid "Really Simple CalDAV Store"
+msgstr "Almacenamiento CalDAV realmente simple"
+
+msgid "Relationship added."
+msgstr "Relación incorporada"
+
+msgid "Relationship deleted"
+msgstr "Relación borrada"
+
+msgid "Relationship"
+msgstr "Relación"
+
+msgid "Relationships from this user"
+msgstr "Relaciones desde éste usuario"
+
+msgid "Relationships to this user"
+msgstr "Relaciones hacia éste usuario"
+
+msgid "Relationships"
+msgstr "Relaciones"
+
+msgid "Report Bug"
+msgstr "Reportar Error"
+
+msgid "Report a bug in the system"
+msgstr "Reportar un error en el sistema"
+
+msgid "Select the type of relationship from this user"
+msgstr "Seleccionar el tipo de relación de salida desde éste usuario"
+
+msgid "Select the user, resource or group to relate this user to"
+msgstr "Seleccionar el usuario, recurso o grupo con el cual relacionar a éste usuario"
+
+msgid "Show help on"
+msgstr "Mostrar ayuda sobre"
+
+msgid "There was an error writing to the database."
+msgstr "Hubo un error al escribir en la base de datos."
+
+msgid "Update"
+msgstr "Actualizar"
+
+msgid "Users"
+msgstr "Usuarios"
+
+msgid "View my own user record"
+msgstr "Mostrar mi registro de usuario"
+
+msgid "You are not authorised to use this function."
+msgstr "Usuario no autorizado a utilizar ésta función."
+
+msgid "You must log in to use this system."
+msgstr "Debe conectarte para usar el sistema."
+
+msgid ""
+"you should log on with the username and password that have been issued to "
+"you."
+msgstr "Para conectarse debe utilizar el nombre de usuario y contraseña que le ha sido asignado."

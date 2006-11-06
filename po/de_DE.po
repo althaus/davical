@@ -1,136 +1,135 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+﻿# Deutsch translation of RSCDS
+# Copyright (C) 2006 Andrew McMillan
+# This file is distributed under the same license as the RSCDS package.
+# Cristina Radalescu <andrew@mcmillan.net.nz>, 2006.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: RSCDS 0.2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-11-05 20:52+1300\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2006-11-05 21:37+1300\n"
+"PO-Revision-Date: 2006-11-06 17:24+1300\n"
+"Last-Translator: Cristina Radalescu <andrew@mcmillan.net.nz>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-msgid "Browse all relationship types"
-msgstr ""
+msgid "Browse all relationship types" 
+msgstr "Nach allen Verhältnistypen durchsuchen"
 
-msgid "Browse all users"
-msgstr ""
+msgid "Browse all users" 
+msgstr "Nach allen Benutzern durchsuchen"
 
-msgid "Click to display that relationship"
-msgstr ""
+msgid "Click to display that relationship" 
+msgstr "Hier klicken, um dieses Verhältnis anzuzeigen"
 
-msgid "Confers"
-msgstr ""
+msgid "Confers" 
+msgstr "Berechtigung"
 
-msgid "Create"
-msgstr ""
+msgid "Create" 
+msgstr "Erstellen"
 
-msgid "Delete"
-msgstr ""
+msgid "Delete" 
+msgstr "Löschen"
 
-msgid "EMail"
-msgstr ""
+msgid "EMail" 
+msgstr "E-mail"
 
-msgid "For access to the"
-msgstr ""
+msgid "For access to the" 
+msgstr "Fűr Zugriff auf"
 
-msgid "Group?"
-msgstr ""
+msgid "Group?" 
+msgstr "Gruppe?"
 
-msgid "Help on something or other"
-msgstr ""
+msgid "Help on something or other" 
+msgstr "Hilfestellung oder Sonstiges"
 
 msgid "Help"
-msgstr ""
+msgstr  "Hilfe"
 
-msgid "Home"
-msgstr ""
+msgid "Home" 
+msgstr "Startseite"
 
-msgid "If you would like to request access, please e-mail"
-msgstr ""
+msgid "If you would like to request access, please e-mail" 
+msgstr "Wenn Sie gern Zugriff anfordern wollen, bitte e-mailen"
 
-msgid "Invalid user name or password."
-msgstr ""
+msgid "Invalid user name or password." 
+msgstr "Ungűltiger Benutzername oder Passwort"
 
-msgid "Linked From"
-msgstr ""
+msgid "Linked From" 
+msgstr "Verlinkt von"
 
-msgid "Linked To"
-msgstr ""
+msgid "Linked To" 
+msgstr "Verlinkt zu(oder nach?)"
 
-msgid "Log On Please"
-msgstr ""
+msgid "Log On Please" 
+msgstr "Bitte Einloggen"
 
-msgid "Log out of the"
-msgstr ""
+msgid "Log out of the" 
+msgstr "Ausloggen von"
 
-msgid "Logout"
-msgstr ""
+msgid "Logout" 
+msgstr "Logout"
 
-msgid "My Details"
-msgstr ""
+msgid "My Details" 
+msgstr "Meine Angaben"
 
-msgid "Really Simple CalDAV Store"
-msgstr ""
+msgid "Really Simple CalDAV Store" 
+msgstr "Wirklich einfacher CalDAV Speicher"
 
-msgid "Relationship added."
-msgstr ""
+msgid "Relationship added." 
+msgstr "Verhältnis hinzugefuegt"
 
 msgid "Relationship deleted"
-msgstr ""
+msgstr "Verhältniss geloescht"
 
 msgid "Relationship"
-msgstr ""
+msgstr "Verhältnis"
 
 msgid "Relationships from this user"
-msgstr ""
+msgstr "Verhältnisse dieses Benutzers"
 
 msgid "Relationships to this user"
-msgstr ""
+msgstr "Verhältnisse zu diesem Benutzer"
 
 msgid "Relationships"
-msgstr ""
+msgstr "Verhältnisse"
 
-msgid "Report Bug"
-msgstr ""
+msgid "Report Bug" 
+msgstr "Fehler berichten"
 
 msgid "Report a bug in the system"
-msgstr ""
+msgstr "Fehler im System berichten"
 
-msgid "Select the type of relationship from this user"
-msgstr ""
+msgid "Select the type of relationship from this user" 
+msgstr "Verhältnisstyp dieses Nutzers auswaehlen"
 
-msgid "Select the user, resource or group to relate this user to"
-msgstr ""
+msgid "Select the user, resource or group to relate this user to" 
+msgstr "Wähle Benutzer, Ressource oder Gruppe zum Zuorden zu diesen Benutzer"
 
 msgid "Show help on"
-msgstr ""
+msgstr "Hilfe anzeigen zu"
 
 msgid "There was an error writing to the database."
-msgstr ""
+msgstr "Ein Fehler ist aufgetreten beim Schreiben im Datenverzeichnis"
 
 msgid "Update"
-msgstr ""
+msgstr "Aktualisieren"
 
-msgid "Users"
-msgstr ""
+msgid "Users" 
+msgstr "Benutzer"
 
-msgid "View my own user record"
-msgstr ""
+msgid "View my own user record" 
+msgstr "Meine eigenen Benutzerdaten anzeigen"
 
-msgid "You are not authorised to use this function."
-msgstr ""
+msgid "You are not authorised to use this function." 
+msgstr "Sie sind nicht berechtigt diese Funktion zu benutzen"
 
-msgid "You must log in to use this system."
-msgstr ""
+msgid "You must log in to use this system." 
+msgstr "Sie műssen sich in das System einloggen"
 
 msgid ""
-"you should log on with the username and password that have been issued to "
+"you should log on with the username and password that have been issued to " 
 "you."
-msgstr ""
+msgstr "Bitte loggen Sie sich mit den Ihnen zugeteilten Benutzernamen und Passwort ein"
