@@ -1,4 +1,4 @@
-﻿# Argentinian Spanish translation of RSCDS
+# Argentinian Spanish translation of RSCDS
 # Copyright (C) 2006 Andrew McMillan
 # This file is distributed under the same license as the RSCDS package.
 # Lorena Paoletti <andrew@mcmillan.net.nz>, 2006.
