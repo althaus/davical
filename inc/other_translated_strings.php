@@ -23,4 +23,7 @@ i18n("Resource");
 
 i18n("Relationship <!-- in the sense of a work relationship between people -->");
 
+i18n("No. <!-- short for 'Number' -->");
+i18n("No.");
+
 ?>

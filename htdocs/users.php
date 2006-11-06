@@ -10,13 +10,13 @@ require_once("interactive-page.php");
   $c->stylesheets[] = "css/browse.css";
   $c->scripts[] = "js/browse.js";
 
-  $browser = new Browser("Calendar Users");
+  $browser = new Browser(translate("Calendar Users"));
 
-  $browser->AddColumn( 'user_no', 'No.', 'right', '##user_link##' );
-  $browser->AddColumn( 'username', 'Name' );
+  $browser->AddColumn( 'user_no', translate('No.'), 'right', '##user_link##' );
+  $browser->AddColumn( 'username', translate('Name') );
   $browser->AddHidden( 'user_link', "'<a href=\"/user.php?user_no=' || user_no || '\">' || user_no || '</a>'" );
-  $browser->AddColumn( 'fullname', 'Full Name' );
-  $browser->AddColumn( 'email', 'EMail' );
+  $browser->AddColumn( 'fullname', translate('Full Name') );
+  $browser->AddColumn( 'email', translate('EMail') );
 
   $browser->SetJoins( 'usr' );
 
@@ -29,10 +29,10 @@ require_once("interactive-page.php");
   $browser->RowFormat( "<tr onMouseover=\"LinkHref(this,1);\" title=\"Click to Display User Detail\" class=\"r%d\">\n", "</tr>\n", '#even' );
   $browser->DoQuery();
 
-  $c->page_title = "Calendar Users";
+  $c->page_title = translate("Calendar Users");
 
   if ( $session->AllowedTo("Admin") )
-    $user_menu->AddOption("New User","/user.php?create","Add a new user", false, 10);
+    $user_menu->AddOption(translate("New User"),"/user.php?create",translate("Add a new user"), false, 10);
 
   $active_menu_pattern = "#^/user#";
 

@@ -27,6 +27,7 @@ $c->total_query_time = 0;
 
 $c->dbg = array( "i18n" => 1 );
 
+// Utilities
 require_once("AWLUtilities.php");
 
 /**
@@ -43,8 +44,6 @@ $c->protocol_server_port_script = sprintf( "%s://%s%s%s", (isset($_SERVER['HTTPS
 
 dbg_error_log( "LOG", "==========> method =%s= =%s= =%s=", $_SERVER['REQUEST_METHOD'], $c->protocol_server_port_script, $_SERVER['PATH_INFO']);
 
-// Internationalisation framework
-require_once("Translation.php");
 init_gettext( 'rscds', $c->base_directory.'/locale' );
 
 if ( file_exists("/etc/rscds/".$_SERVER['SERVER_NAME']."-conf.php") ) {

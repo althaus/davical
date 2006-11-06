@@ -65,7 +65,7 @@ class RSCDSUser extends User
 
     if ( $ef->EditMode ) {
       $html .= '<div id="footer">';
-      $html .= $ef->SubmitButton( "submit", (("insert" == $this->WriteType) ? i18n("Create") : i18n("Update")) );
+      $html .= $ef->SubmitButton( "submit", (("insert" == $this->WriteType) ? translate("Create") : translate("Update")) );
       $html .= '</div>';
       $html .= $ef->EndForm();
     }
@@ -90,7 +90,7 @@ class RSCDSUser extends User
     $browser->AddColumn( 'rt_name', translate('Relationship') );
     $browser->AddColumn( 'fullname', translate('Linked To'), 'left', '##user_link##' );
 //    $browser->AddColumn( 'is_group', 'Group?', 'centre', '', "CASE WHEN rt_isgroup THEN 'Yes' ELSE 'No' END"  );
-    $browser->AddHidden( 'confers', translate('Confers') );
+    $browser->AddHidden( 'confers' );
     $browser->AddColumn( 'email', translate('EMail') );
     if ( $ef->EditMode ) { // && $session->AllowedTo("MaintainRelationships") ) {
       $browser->AddColumn( 'delete', translate('Delete'), 'centre', '', "'<a class=\"\" href=\"/user.php?edit=1&user_no=$this->user_no&action=delete_relationship&to_user=' || user_no || '\">Delete</a>'" );
@@ -112,9 +112,9 @@ class RSCDSUser extends User
     * Present an extra editable row at the bottom of the browse.
     */
     if ( $ef->EditMode ) { // && $session->AllowedTo("MaintainRelationships") ) {
-      if ( isset($this->roles['Group Target']) ) {
+      if ( isset($this->roles['Group']) ) {
         /**
-        * We only allow individuals to link to group targets at this stage.
+        * We only allow individuals to link to groups at this stage.
         */
         $group_target = 'AND NOT EXISTS (SELECT 1 FROM role_member WHERE role_no = 2 AND user_no=usr.user_no)';
       }
@@ -127,10 +127,10 @@ SELECT user_no, fullname FROM usr
 EOSQL;
       $person_selection = $ef->DataEntryField( "", "lookup", "relate_to",
                                 array("title" => translate("Select the user, resource or group to relate this user to"),
-                                      "_null" => "--- select a user ".( isset($this->roles['Group Target']) ? '' : ', group ' ).'or resource ---',
+                                      "_null" => "--- select a user ".( isset($this->roles['Group']) ? '' : ', group ' ).'or resource ---',
                                       "_sql"  => $sql ) );
 
-      $group_target = ( isset($this->roles['Group Target']) ? 'WHERE NOT rt_isgroup' : '' );
+      $group_target = ( isset($this->roles['Group']) ? 'WHERE NOT rt_isgroup' : '' );
       $relationship_type_selection = $ef->DataEntryField( "", "lookup", "relate_as",
                                 array("title" => translate("Select the type of relationship from this user"),
                                       "_null" => "--- select a relationship type ---",
@@ -143,7 +143,7 @@ EOSQL;
                      ) );
     }
 
-    $html = translate(( $title == "" ? "" : $ef->BreakLine($title) ));
+    $html = ( $title == "" ? "" : $ef->BreakLine(translate($title)) );
     $html .= "<tr><td>&nbsp;</td><td>\n";
     $html .= $browser->Render();
     $html .= "</td></tr>\n";
@@ -166,7 +166,7 @@ EOSQL;
     $browser->AddColumn( 'fullname', translate('Linked From'), 'left', '##user_link##' );
     $browser->AddColumn( 'rt_name', translate('Relationship') );
     $browser->AddColumn( 'is_group', translate('Group?'), 'centre', '', "CASE WHEN rt_isgroup THEN 'Yes' ELSE 'No' END"  );
-    $browser->AddHidden( 'confers', translate('Confers') );
+    $browser->AddHidden( 'confers' );
     $browser->AddColumn( 'email', translate('EMail') );
 
     $browser->SetJoins( 'relationship NATURAL JOIN relationship_type rt LEFT JOIN usr ON (from_user = user_no)' );
@@ -181,7 +181,7 @@ EOSQL;
     $browser->RowFormat( "<tr onMouseover=\"LinkHref(this,1);\" title=\"".translate("Click to display that relationship")."\" class=\"r%d\">\n", "</tr>\n", '#even' );
     $browser->DoQuery();
 
-    $html = translate( $title == "" ? "" : $ef->BreakLine($title) );
+    $html = ( $title == "" ? "" : $ef->BreakLine(translate($title)) );
     $html .= "<tr><td>&nbsp;</td><td>\n";
     $html .= $browser->Render();
     $html .= "</td></tr>\n";

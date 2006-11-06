@@ -21,12 +21,12 @@ require_once("interactive-page.php");
       case 'delete':
         $qry = new PgQuery("DELETE FROM relationship_type WHERE rt_id = $rt_id;");
         if ( $qry->Exec() ) {
-          $c->messages[] = "Relationship Type Deleted.";
+          $c->messages[] = i18n("Relationship Type Deleted.");
         }
         else {
-          $c->messages[] = "Database Error.";
+          $c->messages[] = i18n("Database Error.");
           if ( preg_match("/violates foreign key constraint/", $qry->errorstring ) ) {
-            $c->messages[] = "That relationship type is being used. See ##RelationshipTypeUsed##";
+            $c->messages[] = i18n("That relationship type is being used. See ##RelationshipTypeUsed##");
           }
         }
         break;
@@ -34,34 +34,34 @@ require_once("interactive-page.php");
       case 'add':
         $rt->PostToValues();
         if ( $rt->Write() ) {
-          $c->messages[] = "Relationship Type Added.";
+          $c->messages[] = i18n("Relationship Type Added.");
         }
         else {
-          $c->messages[] = "Database Error.";
+          $c->messages[] = i18n("Database Error.");
         }
         break;
 
       case 'edit':
         $rt->PostToValues();
         if ( $rt->Write() ) {
-          $c->messages[] = "Relationship Type Updated.";
+          $c->messages[] = i18n("Relationship Type Updated.");
         }
         else {
-          $c->messages[] = "Database Error.";
+          $c->messages[] = i18n("Database Error.");
         }
         break;
     }
   }
 
-  $c->page_title = "Relationship Types";
+  $c->page_title = translate("Relationship Types");
   $browser = new Browser($c->page_title);
 
   $browser->AddColumn( 'rt_id', 'Id' );
-  $browser->AddColumn( 'rt_name', 'Name' );
-  $browser->AddColumn( 'rt_isgroup', 'To Group?', '', '', "CASE WHEN rt_isgroup THEN 'Yes' ELSE 'No' END"  );
-  $browser->AddColumn( 'confers', 'Rights' );
-  $browser->AddColumn( 'prefix_match', "Prefix" );
-  $browser->AddColumn( 'action', "Action", "", "", "'<a href=\"/relationship_types.php?action=delete&rt_id=' || rt_id || '\">Delete</a>'" );
+  $browser->AddColumn( 'rt_name', translate('Name') );
+  $browser->AddColumn( 'rt_isgroup', translate('To Group?'), '', '', "CASE WHEN rt_isgroup THEN 'Yes' ELSE 'No' END"  );
+  $browser->AddColumn( 'confers', translate('Rights') );
+  $browser->AddColumn( 'prefix_match', translate("Prefix") );
+  $browser->AddColumn( 'action', translate("Action"), "", "", "'<a href=\"/relationship_types.php?action=delete&rt_id=' || rt_id || '\">".translate("Delete")."</a>'" );
 
   $browser->SetJoins( 'relationship_type' );
 
@@ -75,18 +75,18 @@ require_once("interactive-page.php");
   $browser->DoQuery();
 
   $rt_name_field = new EntryField( "text", "rt_name",
-                            array("title" => "Enter the name for this resource type",
+                            array("title" => translate("Enter the name for this resource type"),
                                   "size" => "20") );
 
   $rt_isgroup_field = new EntryField( "checkbox", "rt_isgroup",
-                            array("title" => "Is the target of this relationship a group of access rights?") );
+                            array("title" => translate("Is the target of this relationship a group of access rights?")) );
 
   $confers_field = new EntryField( "text", "confers",
-                            array("title" => "Is this access read ('R') or Read and Write ('RW')?",
+                            array("title" => translate("Is this access read ('R') or Read and Write ('RW')?"),
                                   "size" => "5") );
 
   $prefix_match_field = new EntryField( "text", "hprefix_match",
-                            array("title" => "Restrict access to prefixes matching this pattern",
+                            array("title" => translate("Restrict access to prefixes matching this pattern"),
                                   "size" => "15") );
 
   $browser->AddRow( array(
@@ -96,7 +96,7 @@ require_once("interactive-page.php");
                   'rt_isgroup' => $rt_isgroup_field->Render(),
                   'confers' => $confers_field->Render(),
                   'prefix_match' => $prefix_match_field->Render(),
-                  'action' => '<input type="submit" name="submit" value="Add" class="fsubmit">'
+                  'action' => '<input type="submit" name="submit" value="'.translate("Add").'" class="fsubmit">'
                   ) );
 
   $active_menu_pattern = "#^/relationship#";
