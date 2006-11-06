@@ -38,6 +38,8 @@ INSERT INTO supported_locales ( locale, locale_name_en, locale_name_locale )
 INSERT INTO supported_locales ( locale, locale_name_en, locale_name_locale )
     VALUES( 'de_DE', 'German',  'Deutsch' );
 INSERT INTO supported_locales ( locale, locale_name_en, locale_name_locale )
+    VALUES( 'es_AR', 'Argentinian Spanish', 'Español (AR)' );
+INSERT INTO supported_locales ( locale, locale_name_en, locale_name_locale )
     VALUES( 'es_ES', 'Spanish (Spain)', 'Español (ES)' );
 INSERT INTO supported_locales ( locale, locale_name_en, locale_name_locale )
     VALUES( 'es_MX', 'Mexican Spanish', 'Español (MX)' );
