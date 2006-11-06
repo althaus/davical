@@ -12,7 +12,7 @@ PODIR="po"
 LOCALEDIR="locale"
 APPLICATION="rscds"
 
-${POTOOLS}/extract.pl htdocs inc > ${PODIR}/strings.raw
+${POTOOLS}/extract.pl htdocs inc ../awl/inc > ${PODIR}/strings.raw
 xgettext --keyword=_ -C --no-location --output=${PODIR}/messages.tmp ${PODIR}/strings.raw
 sed -e 's/CHARSET/UTF-8/' <${PODIR}/messages.tmp >${PODIR}/messages.po
 rm ${PODIR}/messages.tmp

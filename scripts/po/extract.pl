@@ -48,17 +48,18 @@ sub extract {
     # in single or double quotes including concatenated strings like 'one' . "two"
     while ($data =~
       /(translate|i18n)\(\s*(((\s*\.\s*)?('((\\')?[^']*)*[^\\]'|"((\\")?[^"]*)*[^\\]"))+)\s*\)/sg) {
-	# Call out to php to parse string..
-	my ($in, $out);
-	open2($in, $out, 'php -q');
-	print $out '<?php print ';
-	print $out $2;
-	print $out ' ?>';
-	close $out;
-	my $text = join('', <$in>);
-	close $in;
-	$text =~ s/\"/\\\"/sg;    # escape double-quotes
-	$strings{qq{gettext("$text")}}++;
+      # Call out to php to parse string..
+      my ($in, $out);
+      open2($in, $out, 'php -q');
+      print $out '<?php print ';
+      print $out $2;
+      print $out ' ?>';
+      close $out;
+      my $text = join('', <$in>);
+      close $in;
+      next if ( $text eq "" );
+      $text =~ s/\"/\\\"/sg;    # escape double-quotes
+      $strings{qq{gettext("$text")}}++;
     }
 
     # grab phrases of this format: translate(array('one' => '...', 'many' => '...'))
@@ -72,6 +73,7 @@ sub extract {
     # grab phrases of this format: translate(array('text' => '...', ...))
     while ($data =~ /translate\(\s*array\('text'\s*=>\s+'(.*?[^\\])'/sg) {
       my $text = $1;
+      next if ( $text eq "" );
       $text =~ s/\"/\\\"/sg;    # escape double-quotes
       $strings{qq{gettext("$text")}}++;
     }
