@@ -8,12 +8,30 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RSCDS: Admin 0.2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-11-05 21:05+1300\n"
+"POT-Creation-Date: 2006-11-07 10:34+1300\n"
 "PO-Revision-Date: 2006-11-05 19:55+1300\n"
 "Last-Translator: Andrew McMillan <andrew@mcmillan.net.nz>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+msgid "Action"
+msgstr ""
+
+msgid "Active"
+msgstr ""
+
+msgid "Add a new user"
+msgstr ""
+
+msgid "Add"
+msgstr ""
+
+msgid "Admin <!-- in the sense of 'systems admin' -->"
+msgstr ""
+
+msgid "Admin"
+msgstr ""
 
 msgid "Browse all relationship types"
 msgstr ""
@@ -21,23 +39,75 @@ msgstr ""
 msgid "Browse all users"
 msgstr ""
 
+msgid "Calendar Users"
+msgstr ""
+
 msgid "Click to display that relationship"
 msgstr ""
 
-msgid "Confers"
+msgid "Confirm the new password."
+msgstr ""
+
+msgid "Confirm"
 msgstr ""
 
 msgid "Create"
 msgstr "Crear"
 
+msgid "Database Error."
+msgstr ""
+
+msgid "Date Style"
+msgstr ""
+
 msgid "Delete"
 msgstr "Cancelación"
+
+msgid "Does the user have the right to perform this role?"
+msgstr ""
+
+#, fuzzy
+msgid "EMail OK"
+msgstr "Email"
 
 msgid "EMail"
 msgstr "Email"
 
+#, c-format
+msgid "ERROR: %s"
+msgstr ""
+
+msgid "ERROR: There was a database error writing the roles information!"
+msgstr ""
+
+msgid "Edit this user record"
+msgstr ""
+
+msgid "Edit"
+msgstr ""
+
+#, fuzzy
+msgid "Email"
+msgstr "Email"
+
+msgid "Enter the name for this resource type"
+msgstr ""
+
+msgid "European (d/m/y)"
+msgstr ""
+
 msgid "For access to the"
 msgstr ""
+
+msgid "Full Name"
+msgstr ""
+
+msgid "Group <!-- in the sense of a group of people -->"
+msgstr ""
+
+#, fuzzy
+msgid "Group"
+msgstr "¿Grupo?"
 
 msgid "Group?"
 msgstr "¿Grupo?"
@@ -51,10 +121,31 @@ msgstr "Ayuda"
 msgid "Home"
 msgstr "Comienzo"
 
+msgid "ISO Format (YYYY-MM-DD)"
+msgstr ""
+
 msgid "If you would like to request access, please e-mail"
 msgstr ""
 
 msgid "Invalid user name or password."
+msgstr ""
+
+msgid "Is the target of this relationship a group of access rights?"
+msgstr ""
+
+msgid "Is this access read ('R') or Read and Write ('RW')?"
+msgstr ""
+
+msgid "Is this user active?"
+msgstr ""
+
+msgid "Joined"
+msgstr ""
+
+msgid "Language"
+msgstr ""
+
+msgid "Last used"
 msgstr ""
 
 msgid "Linked From"
@@ -75,7 +166,49 @@ msgstr ""
 msgid "My Details"
 msgstr ""
 
+msgid "Name"
+msgstr ""
+
+msgid "New Password"
+msgstr ""
+
+msgid "New User"
+msgstr ""
+
+msgid "No. <!-- short for 'Number' -->"
+msgstr ""
+
+msgid "No."
+msgstr ""
+
+msgid "Please note the time and advise the administrator of your system."
+msgstr ""
+
+msgid "Prefix"
+msgstr ""
+
+msgid "Public <!-- in the sense of being available to all users -->"
+msgstr ""
+
+msgid "Public"
+msgstr ""
+
 msgid "Really Simple CalDAV Store"
+msgstr ""
+
+msgid "Relationship <!-- in the sense of a work relationship between people -->"
+msgstr ""
+
+msgid "Relationship Type Added."
+msgstr ""
+
+msgid "Relationship Type Deleted."
+msgstr ""
+
+msgid "Relationship Type Updated."
+msgstr ""
+
+msgid "Relationship Types"
 msgstr ""
 
 msgid "Relationship added."
@@ -102,6 +235,18 @@ msgstr ""
 msgid "Report a bug in the system"
 msgstr ""
 
+msgid "Resource <!-- a thing which might be booked: a room, a carpark, a projector... -->"
+msgstr ""
+
+msgid "Resource"
+msgstr ""
+
+msgid "Restrict access to prefixes matching this pattern"
+msgstr ""
+
+msgid "Rights"
+msgstr ""
+
 msgid "Select the type of relationship from this user"
 msgstr ""
 
@@ -111,16 +256,71 @@ msgstr ""
 msgid "Show help on"
 msgstr ""
 
+msgid "That relationship type is being used. See ##RelationshipTypeUsed##"
+msgstr ""
+
+msgid "The name this user can log into the system with."
+msgstr ""
+
+msgid "The preferred language for this person."
+msgstr ""
+
+msgid "The style of dates used for this person."
+msgstr ""
+
+msgid "The user's e-mail address."
+msgstr ""
+
+msgid "The user's full name."
+msgstr ""
+
+msgid "The user's password for logging in."
+msgstr ""
+
 msgid "There was an error writing to the database."
 msgstr ""
 
+#, fuzzy
+msgid "To Group?"
+msgstr "¿Grupo?"
+
+msgid "United States of America (m/d/y)"
+msgstr ""
+
 msgid "Update"
+msgstr ""
+
+msgid "Updated"
+msgstr ""
+
+msgid "User Details"
+msgstr ""
+
+msgid "User Name"
+msgstr ""
+
+msgid "User Roles"
+msgstr ""
+
+msgid "User is active"
+msgstr ""
+
+msgid "User record written."
 msgstr ""
 
 msgid "Users"
 msgstr ""
 
 msgid "View my own user record"
+msgstr ""
+
+msgid "View this user record"
+msgstr ""
+
+msgid "View"
+msgstr ""
+
+msgid "When the user's e-mail account was validated."
 msgstr ""
 
 msgid "You are not authorised to use this function."

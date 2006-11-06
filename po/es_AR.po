@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RSCDS 0.2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-11-05 21:37+1300\n"
+"POT-Creation-Date: 2006-11-07 10:34+1300\n"
 "PO-Revision-Date: 2006-11-06 17:12+1300\n"
 "Last-Translator: Lorena Paoletti <andrew@mcmillan.net.nz>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,29 +16,102 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+msgid "Action"
+msgstr ""
+
+msgid "Active"
+msgstr ""
+
+msgid "Add a new user"
+msgstr ""
+
+msgid "Add"
+msgstr ""
+
+msgid "Admin <!-- in the sense of 'systems admin' -->"
+msgstr ""
+
+msgid "Admin"
+msgstr ""
+
 msgid "Browse all relationship types"
 msgstr "Mostrar todos los tipos de relaciones"
 
 msgid "Browse all users"
 msgstr "Mostrar todos los usuarios"
 
+msgid "Calendar Users"
+msgstr ""
+
 msgid "Click to display that relationship"
 msgstr "Hacer clic para mostrar la relación"
 
-msgid "Confers"
+#, fuzzy
+msgid "Confirm the new password."
+msgstr "Usuario o contraseña incorrectos."
+
+#, fuzzy
+msgid "Confirm"
 msgstr "Concede"
 
 msgid "Create"
 msgstr "Crear"
 
+msgid "Database Error."
+msgstr ""
+
+msgid "Date Style"
+msgstr ""
+
 msgid "Delete"
 msgstr "Borrar"
+
+msgid "Does the user have the right to perform this role?"
+msgstr ""
+
+#, fuzzy
+msgid "EMail OK"
+msgstr "Correo Electrónico"
 
 msgid "EMail"
 msgstr "Correo Electrónico"
 
+#, c-format
+msgid "ERROR: %s"
+msgstr ""
+
+msgid "ERROR: There was a database error writing the roles information!"
+msgstr ""
+
+#, fuzzy
+msgid "Edit this user record"
+msgstr "Mostrar mi registro de usuario"
+
+msgid "Edit"
+msgstr ""
+
+#, fuzzy
+msgid "Email"
+msgstr "Correo Electrónico"
+
+msgid "Enter the name for this resource type"
+msgstr ""
+
+msgid "European (d/m/y)"
+msgstr ""
+
 msgid "For access to the"
 msgstr "Para acceder a"
+
+msgid "Full Name"
+msgstr ""
+
+msgid "Group <!-- in the sense of a group of people -->"
+msgstr ""
+
+#, fuzzy
+msgid "Group"
+msgstr "Grupo?"
 
 msgid "Group?"
 msgstr "Grupo?"
@@ -52,11 +125,32 @@ msgstr "Ayuda"
 msgid "Home"
 msgstr "Página principal"
 
+msgid "ISO Format (YYYY-MM-DD)"
+msgstr ""
+
 msgid "If you would like to request access, please e-mail"
 msgstr "Para obtener acceso, enviar un correo electrónico"
 
 msgid "Invalid user name or password."
 msgstr "Usuario o contraseña incorrectos."
+
+msgid "Is the target of this relationship a group of access rights?"
+msgstr ""
+
+msgid "Is this access read ('R') or Read and Write ('RW')?"
+msgstr ""
+
+msgid "Is this user active?"
+msgstr ""
+
+msgid "Joined"
+msgstr ""
+
+msgid "Language"
+msgstr ""
+
+msgid "Last used"
+msgstr ""
 
 msgid "Linked From"
 msgstr "Relacionado desde"
@@ -76,8 +170,55 @@ msgstr "Desconectarse"
 msgid "My Details"
 msgstr "Mis Datos"
 
+msgid "Name"
+msgstr ""
+
+msgid "New Password"
+msgstr ""
+
+#, fuzzy
+msgid "New User"
+msgstr "Usuarios"
+
+msgid "No. <!-- short for 'Number' -->"
+msgstr ""
+
+msgid "No."
+msgstr ""
+
+msgid "Please note the time and advise the administrator of your system."
+msgstr ""
+
+msgid "Prefix"
+msgstr ""
+
+msgid "Public <!-- in the sense of being available to all users -->"
+msgstr ""
+
+msgid "Public"
+msgstr ""
+
 msgid "Really Simple CalDAV Store"
 msgstr "Almacenamiento CalDAV realmente simple"
+
+msgid "Relationship <!-- in the sense of a work relationship between people -->"
+msgstr ""
+
+#, fuzzy
+msgid "Relationship Type Added."
+msgstr "Relación incorporada"
+
+#, fuzzy
+msgid "Relationship Type Deleted."
+msgstr "Relación borrada"
+
+#, fuzzy
+msgid "Relationship Type Updated."
+msgstr "Relación incorporada"
+
+#, fuzzy
+msgid "Relationship Types"
+msgstr "Relaciones"
 
 msgid "Relationship added."
 msgstr "Relación incorporada"
@@ -103,6 +244,18 @@ msgstr "Reportar Error"
 msgid "Report a bug in the system"
 msgstr "Reportar un error en el sistema"
 
+msgid "Resource <!-- a thing which might be booked: a room, a carpark, a projector... -->"
+msgstr ""
+
+msgid "Resource"
+msgstr ""
+
+msgid "Restrict access to prefixes matching this pattern"
+msgstr ""
+
+msgid "Rights"
+msgstr ""
+
 msgid "Select the type of relationship from this user"
 msgstr "Seleccionar el tipo de relación de salida desde éste usuario"
 
@@ -112,11 +265,60 @@ msgstr "Seleccionar el usuario, recurso o grupo con el cual relacionar a éste u
 msgid "Show help on"
 msgstr "Mostrar ayuda sobre"
 
+msgid "That relationship type is being used. See ##RelationshipTypeUsed##"
+msgstr ""
+
+msgid "The name this user can log into the system with."
+msgstr ""
+
+msgid "The preferred language for this person."
+msgstr ""
+
+msgid "The style of dates used for this person."
+msgstr ""
+
+msgid "The user's e-mail address."
+msgstr ""
+
+msgid "The user's full name."
+msgstr ""
+
+msgid "The user's password for logging in."
+msgstr ""
+
 msgid "There was an error writing to the database."
 msgstr "Hubo un error al escribir en la base de datos."
 
+#, fuzzy
+msgid "To Group?"
+msgstr "Grupo?"
+
+msgid "United States of America (m/d/y)"
+msgstr ""
+
 msgid "Update"
 msgstr "Actualizar"
+
+#, fuzzy
+msgid "Updated"
+msgstr "Actualizar"
+
+#, fuzzy
+msgid "User Details"
+msgstr "Mis Datos"
+
+msgid "User Name"
+msgstr ""
+
+#, fuzzy
+msgid "User Roles"
+msgstr "Usuarios"
+
+msgid "User is active"
+msgstr ""
+
+msgid "User record written."
+msgstr ""
 
 msgid "Users"
 msgstr "Usuarios"
@@ -124,13 +326,21 @@ msgstr "Usuarios"
 msgid "View my own user record"
 msgstr "Mostrar mi registro de usuario"
 
+#, fuzzy
+msgid "View this user record"
+msgstr "Mostrar mi registro de usuario"
+
+msgid "View"
+msgstr ""
+
+msgid "When the user's e-mail account was validated."
+msgstr ""
+
 msgid "You are not authorised to use this function."
 msgstr "Usuario no autorizado a utilizar ésta función."
 
 msgid "You must log in to use this system."
 msgstr "Debe conectarte para usar el sistema."
 
-msgid ""
-"you should log on with the username and password that have been issued to "
-"you."
+msgid "you should log on with the username and password that have been issued to you."
 msgstr "Para conectarse debe utilizar el nombre de usuario y contraseña que le ha sido asignado."
