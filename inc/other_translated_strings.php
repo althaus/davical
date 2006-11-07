@@ -26,4 +26,13 @@ i18n("Relationship <!-- in the sense of a work relationship between people -->")
 i18n("No. <!-- short for 'Number' -->");
 i18n("No.");
 
+i18n("Id <!-- short for 'Identifier' -->");
+i18n("Id");
+
+// The standard relationship names
+i18n("Administers Group");
+i18n("Administers Resource");
+i18n("Is Assisted by");
+i18n("Is a member of group");
+
 ?>

@@ -43,7 +43,7 @@ class RSCDSUser extends User
 
     $html = '<div id="entryform">';
     if ( $title != "" ) {
-      $html .= "<h1>$title</h1>\n";
+      $html .= sprintf("<h1>%s</h1>\n", translate($title));
     }
 
     if ( $ef->EditMode ) {
@@ -125,21 +125,25 @@ SELECT user_no, fullname FROM usr
                         OR (from_user = usr.user_no AND to_user = $this->user_no))
        $group_target
 EOSQL;
+      if ( isset($this->roles['Group']) )
+        $nullvalue = translate( "--- select a user, group or resource ---" );
+      else
+        $nullvalue = translate( "--- select a user or resource ---" );
       $person_selection = $ef->DataEntryField( "", "lookup", "relate_to",
                                 array("title" => translate("Select the user, resource or group to relate this user to"),
-                                      "_null" => "--- select a user ".( isset($this->roles['Group']) ? '' : ', group ' ).'or resource ---',
+                                      "_null" => $nullvalue,
                                       "_sql"  => $sql ) );
 
       $group_target = ( isset($this->roles['Group']) ? 'WHERE NOT rt_isgroup' : '' );
       $relationship_type_selection = $ef->DataEntryField( "", "lookup", "relate_as",
                                 array("title" => translate("Select the type of relationship from this user"),
-                                      "_null" => "--- select a relationship type ---",
+                                      "_null" => translate("--- select a relationship type ---"),
                                       "_sql"  => "SELECT rt_id, rt_name FROM relationship_type $group_target " ) );
 
       $browser->AddRow( array(
                       'rt_name' => $relationship_type_selection,  /* Since 'fullname' is formatted to display this value */
                       'user_link' => $person_selection,
-                      'delete' => '<input type="submit" name="submit" value="Add Relationship" class="fsubmit">'
+                      'delete' => sprintf('<input type="submit" name="submit" value="%s" class="fsubmit">', htmlspecialchars(translate("Add Relationship")))
                      ) );
     }
 

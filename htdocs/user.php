@@ -11,7 +11,7 @@
   $user_no = intval(isset($_POST['user_no']) ? $_POST['user_no'] : $_GET['user_no'] );
   $user = new RSCDSUser($user_no);
   if ( $user->user_no == 0 ) {
-    $c->page_title = ( $user_no != "" ? "User Unavailable" : "New User" );
+    $c->page_title = ( $user_no != "" ? i18n("User Unavailable") : i18n("New User") );
   }
   else {
     $c->page_title = sprintf("%s (%s)", $user->Get("fullname"), $user->Get("username"));
