@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RSCDS 0.2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-11-07 10:34+1300\n"
+"POT-Creation-Date: 2006-11-08 10:25+1300\n"
 "PO-Revision-Date: 2006-11-06 17:12+1300\n"
 "Last-Translator: Lorena Paoletti <andrew@mcmillan.net.nz>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -32,6 +32,12 @@ msgid "Admin <!-- in the sense of 'systems admin' -->"
 msgstr ""
 
 msgid "Admin"
+msgstr ""
+
+msgid "Administers Group"
+msgstr ""
+
+msgid "Administers Resource"
 msgstr ""
 
 msgid "Browse all relationship types"
@@ -128,11 +134,23 @@ msgstr "Página principal"
 msgid "ISO Format (YYYY-MM-DD)"
 msgstr ""
 
+msgid "Id <!-- short for 'Identifier' -->"
+msgstr ""
+
+msgid "Id"
+msgstr ""
+
 msgid "If you would like to request access, please e-mail"
 msgstr "Para obtener acceso, enviar un correo electrónico"
 
 msgid "Invalid user name or password."
 msgstr "Usuario o contraseña incorrectos."
+
+msgid "Is Assisted by"
+msgstr ""
+
+msgid "Is a member of group"
+msgstr ""
 
 msgid "Is the target of this relationship a group of access rights?"
 msgstr ""

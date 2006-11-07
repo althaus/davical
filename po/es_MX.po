@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RSCDS: Admin 0.2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-11-07 10:34+1300\n"
+"POT-Creation-Date: 2006-11-08 10:25+1300\n"
 "PO-Revision-Date: 2006-11-05 19:55+1300\n"
 "Last-Translator: Andrew McMillan <andrew@mcmillan.net.nz>\n"
 "MIME-Version: 1.0\n"
@@ -31,6 +31,12 @@ msgid "Admin <!-- in the sense of 'systems admin' -->"
 msgstr ""
 
 msgid "Admin"
+msgstr ""
+
+msgid "Administers Group"
+msgstr ""
+
+msgid "Administers Resource"
 msgstr ""
 
 msgid "Browse all relationship types"
@@ -124,10 +130,22 @@ msgstr "Comienzo"
 msgid "ISO Format (YYYY-MM-DD)"
 msgstr ""
 
+msgid "Id <!-- short for 'Identifier' -->"
+msgstr ""
+
+msgid "Id"
+msgstr ""
+
 msgid "If you would like to request access, please e-mail"
 msgstr ""
 
 msgid "Invalid user name or password."
+msgstr ""
+
+msgid "Is Assisted by"
+msgstr ""
+
+msgid "Is a member of group"
 msgstr ""
 
 msgid "Is the target of this relationship a group of access rights?"

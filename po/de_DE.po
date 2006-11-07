@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RSCDS 0.2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-11-07 10:34+1300\n"
+"POT-Creation-Date: 2006-11-08 10:25+1300\n"
 "PO-Revision-Date: 2006-11-06 17:24+1300\n"
 "Last-Translator: Cristina Radalescu <andrew@mcmillan.net.nz>\n"
 "MIME-Version: 1.0\n"
@@ -16,21 +16,27 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 msgid "Action"
-msgstr ""
+msgstr "Aktion"
 
 msgid "Active"
-msgstr ""
+msgstr "Aktiv"
 
 msgid "Add a new user"
-msgstr ""
+msgstr "Neuen Benutzer hinzufügen"
 
 msgid "Add"
-msgstr ""
+msgstr "Hinzufügen"
 
 msgid "Admin <!-- in the sense of 'systems admin' -->"
-msgstr ""
+msgstr "Systemadministrator"
 
 msgid "Admin"
+msgstr "Administrator"
+
+msgid "Administers Group"
+msgstr ""
+
+msgid "Administers Resource"
 msgstr ""
 
 msgid "Browse all relationship types"
@@ -40,77 +46,71 @@ msgid "Browse all users"
 msgstr "Nach allen Benutzern durchsuchen"
 
 msgid "Calendar Users"
-msgstr ""
+msgstr "Kalender Benutzer"
 
 msgid "Click to display that relationship"
 msgstr "Hier klicken, um dieses Verhältnis anzuzeigen"
 
-#, fuzzy
 msgid "Confirm the new password."
-msgstr "Ungűltiger Benutzername oder Passwort"
+msgstr "Neues Passwort bestätigen"
 
-#, fuzzy
 msgid "Confirm"
-msgstr "Berechtigung"
+msgstr "Bestätigung"
 
 msgid "Create"
 msgstr "Erstellen"
 
 msgid "Database Error."
-msgstr ""
+msgstr "Datenbank Error"
 
 msgid "Date Style"
-msgstr ""
+msgstr "Datumsformat"
 
 msgid "Delete"
 msgstr "Löschen"
 
 msgid "Does the user have the right to perform this role?"
-msgstr ""
+msgstr "Hat der Benutzer das Recht diese Rolle auszuüben? "
 
-#, fuzzy
 msgid "EMail OK"
-msgstr "E-mail"
+msgstr "E-mail OK"
 
 msgid "EMail"
 msgstr "E-mail"
 
 #, c-format
 msgid "ERROR: %s"
-msgstr ""
+msgstr "ERROR: %s"
 
 msgid "ERROR: There was a database error writing the roles information!"
-msgstr ""
+msgstr "Ein Datenbank Fehler ist beim Schreiben auf der Rolleninformation aufgetretten"
 
-#, fuzzy
 msgid "Edit this user record"
-msgstr "Meine eigenen Benutzerdaten anzeigen"
+msgstr "Benutzerdaten bearbeiten"
 
 msgid "Edit"
-msgstr ""
+msgstr "Bearbeiten"
 
-#, fuzzy
 msgid "Email"
 msgstr "E-mail"
 
 msgid "Enter the name for this resource type"
-msgstr ""
+msgstr "Den Namen fuer diesen Ressourcentyp eingeben"
 
 msgid "European (d/m/y)"
-msgstr ""
+msgstr "Europäisch (tt.mm.jjjj)"
 
 msgid "For access to the"
-msgstr "Fűr Zugriff auf"
+msgstr "Für Zugriff auf"
 
 msgid "Full Name"
-msgstr ""
+msgstr "Vollständiger Name"
 
 msgid "Group <!-- in the sense of a group of people -->"
-msgstr ""
+msgstr "Gruppe"
 
-#, fuzzy
 msgid "Group"
-msgstr "Gruppe?"
+msgstr "Gruppe"
 
 msgid "Group?"
 msgstr "Gruppe?"
@@ -125,37 +125,50 @@ msgid "Home"
 msgstr "Startseite"
 
 msgid "ISO Format (YYYY-MM-DD)"
+msgstr "ISO Format (JJJJ-MM-TT)"
+
+#, fuzzy
+msgid "Id <!-- short for 'Identifier' -->"
+msgstr "Nr."
+
+msgid "Id"
 msgstr ""
 
 msgid "If you would like to request access, please e-mail"
 msgstr "Wenn Sie gern Zugriff anfordern wollen, bitte e-mailen"
 
 msgid "Invalid user name or password."
-msgstr "Ungűltiger Benutzername oder Passwort"
+msgstr "Ungültiger Benutzername oder Passwort"
+
+msgid "Is Assisted by"
+msgstr ""
+
+msgid "Is a member of group"
+msgstr ""
 
 msgid "Is the target of this relationship a group of access rights?"
-msgstr ""
+msgstr "Ist das Ziel dieses Verhältnisses eine Gruppe von Zugriffsrechten?"
 
 msgid "Is this access read ('R') or Read and Write ('RW')?"
-msgstr ""
+msgstr "Ist dieser Zugriffsmodus Lesen ('R') oder Lesen und Schreiben ('RW')"
 
 msgid "Is this user active?"
-msgstr ""
+msgstr "Ist dieser Benutzer aktiv?"
 
 msgid "Joined"
-msgstr ""
+msgstr "Hinzugefügt"
 
 msgid "Language"
-msgstr ""
+msgstr "Sprache"
 
 msgid "Last used"
-msgstr ""
+msgstr "Zuletzt benutzt"
 
 msgid "Linked From"
 msgstr "Verlinkt von"
 
 msgid "Linked To"
-msgstr "Verlinkt zu(oder nach?)"
+msgstr "Verlinkt nach"
 
 msgid "Log On Please"
 msgstr "Bitte Einloggen"
@@ -170,54 +183,49 @@ msgid "My Details"
 msgstr "Meine Angaben"
 
 msgid "Name"
-msgstr ""
+msgstr "Name"
 
 msgid "New Password"
-msgstr ""
+msgstr "Neues Passwort"
 
-#, fuzzy
 msgid "New User"
-msgstr "Benutzer"
+msgstr "Neuer Benutzer"
 
 msgid "No. <!-- short for 'Number' -->"
-msgstr ""
+msgstr "Nr."
 
 msgid "No."
-msgstr ""
+msgstr "Nr."
 
 msgid "Please note the time and advise the administrator of your system."
-msgstr ""
+msgstr "Bitte notieren Sie sich die Zeit und benachrichtigen Sie Ihren Systemadministrator"
 
 msgid "Prefix"
-msgstr ""
+msgstr "Vorwahl"
 
 msgid "Public <!-- in the sense of being available to all users -->"
-msgstr ""
+msgstr "Öffentlich"
 
 msgid "Public"
-msgstr ""
+msgstr "Öffentlich"
 
 msgid "Really Simple CalDAV Store"
-msgstr "Wirklich einfacher CalDAV Speicher"
+msgstr "Wirklich einfacher CalDAV Store"
 
 msgid "Relationship <!-- in the sense of a work relationship between people -->"
-msgstr ""
+msgstr "Verhältnis"
 
-#, fuzzy
 msgid "Relationship Type Added."
-msgstr "Verhältnis hinzugefuegt"
+msgstr "Verhältnistyp hinzugefuegt"
 
-#, fuzzy
 msgid "Relationship Type Deleted."
-msgstr "Verhältniss geloescht"
+msgstr "Verhältnisstyp geloescht"
 
-#, fuzzy
 msgid "Relationship Type Updated."
-msgstr "Verhältnis hinzugefuegt"
+msgstr "Verhältnistyp aktualisiert"
 
-#, fuzzy
 msgid "Relationship Types"
-msgstr "Verhältnisse"
+msgstr "Verhältnistypen"
 
 msgid "Relationship added."
 msgstr "Verhältnis hinzugefuegt"
@@ -244,16 +252,16 @@ msgid "Report a bug in the system"
 msgstr "Fehler im System berichten"
 
 msgid "Resource <!-- a thing which might be booked: a room, a carpark, a projector... -->"
-msgstr ""
+msgstr "Ressource"
 
 msgid "Resource"
-msgstr ""
+msgstr "Ressource"
 
 msgid "Restrict access to prefixes matching this pattern"
-msgstr ""
+msgstr "Zugriff auf Praefixe beschraenken, die auf dieses Muster zutreffen"
 
 msgid "Rights"
-msgstr ""
+msgstr "Rechte"
 
 msgid "Select the type of relationship from this user"
 msgstr "Verhältnisstyp dieses Nutzers auswaehlen"
@@ -265,59 +273,55 @@ msgid "Show help on"
 msgstr "Hilfe anzeigen zu"
 
 msgid "That relationship type is being used. See ##RelationshipTypeUsed##"
-msgstr ""
+msgstr "Dieser Verhaeltnistyp wird bereits verwendet. Siehe ##Verhältnisstypbenutzung##"
 
 msgid "The name this user can log into the system with."
-msgstr ""
+msgstr "Der Name mit dem dieser Benutzer sich in dieses System einloggen kann"
 
 msgid "The preferred language for this person."
-msgstr ""
+msgstr "Bevorzugte Sprache für diese Person"
 
 msgid "The style of dates used for this person."
-msgstr ""
+msgstr "Das verwendete Datumsformat fuer diese Person"
 
 msgid "The user's e-mail address."
-msgstr ""
+msgstr "Die E-mail Adresse dieser Person"
 
 msgid "The user's full name."
-msgstr ""
+msgstr "Vollständiger Name dieses Benutzers"
 
 msgid "The user's password for logging in."
-msgstr ""
+msgstr "Passwort des Benutzers zum Einloggen"
 
 msgid "There was an error writing to the database."
 msgstr "Ein Fehler ist aufgetreten beim Schreiben im Datenverzeichnis"
 
-#, fuzzy
 msgid "To Group?"
-msgstr "Gruppe?"
+msgstr "Zur Gruppe?"
 
 msgid "United States of America (m/d/y)"
-msgstr ""
+msgstr "Vereinigte Staaten von America (M/T/J)"
 
 msgid "Update"
 msgstr "Aktualisieren"
 
-#, fuzzy
 msgid "Updated"
-msgstr "Aktualisieren"
+msgstr "Aktualisiert"
 
-#, fuzzy
 msgid "User Details"
-msgstr "Meine Angaben"
+msgstr "Benutzer Angaben"
 
 msgid "User Name"
-msgstr ""
+msgstr "Benutzer Name"
 
-#, fuzzy
 msgid "User Roles"
-msgstr "Benutzer"
+msgstr "Benutzerrollen"
 
 msgid "User is active"
-msgstr ""
+msgstr "Benutzer ist aktiv"
 
 msgid "User record written."
-msgstr ""
+msgstr "Benutzerdatensatz geschrieben"
 
 msgid "Users"
 msgstr "Benutzer"
@@ -325,21 +329,20 @@ msgstr "Benutzer"
 msgid "View my own user record"
 msgstr "Meine eigenen Benutzerdaten anzeigen"
 
-#, fuzzy
 msgid "View this user record"
-msgstr "Meine eigenen Benutzerdaten anzeigen"
+msgstr "Diesen Benutzerdatensatz anzeigen"
 
 msgid "View"
-msgstr ""
+msgstr "Anzeigen"
 
 msgid "When the user's e-mail account was validated."
-msgstr ""
+msgstr "Wenn das E-Mail Konto des Benutzers bestätigt wird"
 
 msgid "You are not authorised to use this function."
 msgstr "Sie sind nicht berechtigt diese Funktion zu benutzen"
 
 msgid "You must log in to use this system."
-msgstr "Sie műssen sich in das System einloggen"
+msgstr "Sie müssen sich in das System einloggen"
 
 msgid "you should log on with the username and password that have been issued to you."
 msgstr "Bitte loggen Sie sich mit den Ihnen zugeteilten Benutzernamen und Passwort ein"
