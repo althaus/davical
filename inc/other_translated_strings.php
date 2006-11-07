@@ -35,4 +35,6 @@ i18n("Administers Resource");
 i18n("Is Assisted by");
 i18n("Is a member of group");
 
+i18n("forget me not <!-- this is a colloquial phrase in english (the name of a flower) and is an option allowing people to log in automatically in future -->");
+
 ?>

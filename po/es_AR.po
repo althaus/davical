@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RSCDS 0.2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-11-08 10:25+1300\n"
+"POT-Creation-Date: 2006-11-08 12:21+1300\n"
 "PO-Revision-Date: 2006-11-06 17:12+1300\n"
 "Last-Translator: Lorena Paoletti <andrew@mcmillan.net.nz>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,11 +16,31 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+#, fuzzy
+msgid "--- select a relationship type ---"
+msgstr "Mostrar todos los tipos de relaciones"
+
+msgid "--- select a user or resource ---"
+msgstr ""
+
+msgid "--- select a user, group or resource ---"
+msgstr ""
+
+#, c-format
+msgid ""
+"<h1>Log On Please</h1><p>For access to the %s you should log on withthe username and password that "
+"have been issued to you.</p><p>If you would like to request access, please e-mail %s.</p>"
+msgstr ""
+
 msgid "Action"
 msgstr ""
 
 msgid "Active"
 msgstr ""
+
+#, fuzzy
+msgid "Add Relationship"
+msgstr "Relación"
 
 msgid "Add a new user"
 msgstr ""
@@ -96,11 +116,13 @@ msgstr "Mostrar mi registro de usuario"
 msgid "Edit"
 msgstr ""
 
-#, fuzzy
-msgid "Email"
-msgstr "Correo Electrónico"
+msgid "Enter a username, if you know it, and click here, to be e-mailed a temporary password."
+msgstr ""
 
 msgid "Enter the name for this resource type"
+msgstr ""
+
+msgid "Enter your username and password then click here to log in."
 msgstr ""
 
 msgid "European (d/m/y)"
@@ -110,6 +132,9 @@ msgid "For access to the"
 msgstr "Para acceder a"
 
 msgid "Full Name"
+msgstr ""
+
+msgid "GO!"
 msgstr ""
 
 msgid "Group <!-- in the sense of a group of people -->"
@@ -124,6 +149,9 @@ msgstr "Grupo?"
 
 msgid "Help on something or other"
 msgstr "Ayuda en"
+
+msgid "Help! I've forgotten my password!"
+msgstr ""
 
 msgid "Help"
 msgstr "Ayuda"
@@ -140,10 +168,17 @@ msgstr ""
 msgid "Id"
 msgstr ""
 
+msgid "If you have forgotten your password then"
+msgstr ""
+
 msgid "If you would like to request access, please e-mail"
 msgstr "Para obtener acceso, enviar un correo electrónico"
 
 msgid "Invalid user name or password."
+msgstr "Usuario o contraseña incorrectos."
+
+#, fuzzy
+msgid "Invalid username or password."
 msgstr "Usuario o contraseña incorrectos."
 
 msgid "Is Assisted by"
@@ -202,6 +237,9 @@ msgid "No. <!-- short for 'Number' -->"
 msgstr ""
 
 msgid "No."
+msgstr ""
+
+msgid "Password"
 msgstr ""
 
 msgid "Please note the time and advise the administrator of your system."
@@ -332,6 +370,9 @@ msgstr ""
 msgid "User Roles"
 msgstr "Usuarios"
 
+msgid "User Unavailable"
+msgstr ""
+
 msgid "User is active"
 msgstr ""
 
@@ -360,5 +401,17 @@ msgstr "Usuario no autorizado a utilizar ésta función."
 msgid "You must log in to use this system."
 msgstr "Debe conectarte para usar el sistema."
 
+msgid ""
+"forget me not <!-- this is a colloquial phrase in english (the name of a flower) and is an option "
+"allowing people to log in automatically in future -->"
+msgstr ""
+
+msgid "forget me not"
+msgstr ""
+
 msgid "you should log on with the username and password that have been issued to you."
 msgstr "Para conectarse debe utilizar el nombre de usuario y contraseña que le ha sido asignado."
+
+#, fuzzy
+#~ msgid "Email"
+#~ msgstr "Correo Electrónico"

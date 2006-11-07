@@ -8,17 +8,35 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RSCDS: Admin 0.2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-11-08 10:25+1300\n"
+"POT-Creation-Date: 2006-11-08 12:21+1300\n"
 "PO-Revision-Date: 2006-11-05 19:55+1300\n"
 "Last-Translator: Andrew McMillan <andrew@mcmillan.net.nz>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+msgid "--- select a relationship type ---"
+msgstr ""
+
+msgid "--- select a user or resource ---"
+msgstr ""
+
+msgid "--- select a user, group or resource ---"
+msgstr ""
+
+#, c-format
+msgid ""
+"<h1>Log On Please</h1><p>For access to the %s you should log on withthe username and password that "
+"have been issued to you.</p><p>If you would like to request access, please e-mail %s.</p>"
+msgstr ""
+
 msgid "Action"
 msgstr ""
 
 msgid "Active"
+msgstr ""
+
+msgid "Add Relationship"
 msgstr ""
 
 msgid "Add a new user"
@@ -92,11 +110,13 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-#, fuzzy
-msgid "Email"
-msgstr "Email"
+msgid "Enter a username, if you know it, and click here, to be e-mailed a temporary password."
+msgstr ""
 
 msgid "Enter the name for this resource type"
+msgstr ""
+
+msgid "Enter your username and password then click here to log in."
 msgstr ""
 
 msgid "European (d/m/y)"
@@ -106,6 +126,9 @@ msgid "For access to the"
 msgstr ""
 
 msgid "Full Name"
+msgstr ""
+
+msgid "GO!"
 msgstr ""
 
 msgid "Group <!-- in the sense of a group of people -->"
@@ -119,6 +142,9 @@ msgid "Group?"
 msgstr "¿Grupo?"
 
 msgid "Help on something or other"
+msgstr ""
+
+msgid "Help! I've forgotten my password!"
 msgstr ""
 
 msgid "Help"
@@ -136,10 +162,16 @@ msgstr ""
 msgid "Id"
 msgstr ""
 
+msgid "If you have forgotten your password then"
+msgstr ""
+
 msgid "If you would like to request access, please e-mail"
 msgstr ""
 
 msgid "Invalid user name or password."
+msgstr ""
+
+msgid "Invalid username or password."
 msgstr ""
 
 msgid "Is Assisted by"
@@ -197,6 +229,9 @@ msgid "No. <!-- short for 'Number' -->"
 msgstr ""
 
 msgid "No."
+msgstr ""
+
+msgid "Password"
 msgstr ""
 
 msgid "Please note the time and advise the administrator of your system."
@@ -320,6 +355,9 @@ msgstr ""
 msgid "User Roles"
 msgstr ""
 
+msgid "User Unavailable"
+msgstr ""
+
 msgid "User is active"
 msgstr ""
 
@@ -347,5 +385,17 @@ msgstr ""
 msgid "You must log in to use this system."
 msgstr ""
 
+msgid ""
+"forget me not <!-- this is a colloquial phrase in english (the name of a flower) and is an option "
+"allowing people to log in automatically in future -->"
+msgstr ""
+
+msgid "forget me not"
+msgstr ""
+
 msgid "you should log on with the username and password that have been issued to you."
 msgstr ""
+
+#, fuzzy
+#~ msgid "Email"
+#~ msgstr "Email"

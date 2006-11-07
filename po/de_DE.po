@@ -8,18 +8,38 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RSCDS 0.2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-11-08 10:25+1300\n"
+"POT-Creation-Date: 2006-11-08 12:21+1300\n"
 "PO-Revision-Date: 2006-11-06 17:24+1300\n"
 "Last-Translator: Cristina Radalescu <andrew@mcmillan.net.nz>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+#, fuzzy
+msgid "--- select a relationship type ---"
+msgstr "Nach allen Verhältnistypen durchsuchen"
+
+msgid "--- select a user or resource ---"
+msgstr ""
+
+msgid "--- select a user, group or resource ---"
+msgstr ""
+
+#, c-format
+msgid ""
+"<h1>Log On Please</h1><p>For access to the %s you should log on withthe username and password that "
+"have been issued to you.</p><p>If you would like to request access, please e-mail %s.</p>"
+msgstr ""
+
 msgid "Action"
 msgstr "Aktion"
 
 msgid "Active"
 msgstr "Aktiv"
+
+#, fuzzy
+msgid "Add Relationship"
+msgstr "Verhältnis"
 
 msgid "Add a new user"
 msgstr "Neuen Benutzer hinzufügen"
@@ -80,10 +100,10 @@ msgstr "E-mail"
 
 #, c-format
 msgid "ERROR: %s"
-msgstr "ERROR: %s"
+msgstr "FEHLER: %s"
 
 msgid "ERROR: There was a database error writing the roles information!"
-msgstr "Ein Datenbank Fehler ist beim Schreiben auf der Rolleninformation aufgetretten"
+msgstr "FEHLER: Ein Datenbank Fehler ist beim Schreiben auf der Rolleninformation aufgetretten"
 
 msgid "Edit this user record"
 msgstr "Benutzerdaten bearbeiten"
@@ -91,11 +111,14 @@ msgstr "Benutzerdaten bearbeiten"
 msgid "Edit"
 msgstr "Bearbeiten"
 
-msgid "Email"
-msgstr "E-mail"
+msgid "Enter a username, if you know it, and click here, to be e-mailed a temporary password."
+msgstr ""
 
 msgid "Enter the name for this resource type"
 msgstr "Den Namen fuer diesen Ressourcentyp eingeben"
+
+msgid "Enter your username and password then click here to log in."
+msgstr ""
 
 msgid "European (d/m/y)"
 msgstr "Europäisch (tt.mm.jjjj)"
@@ -105,6 +128,9 @@ msgstr "Für Zugriff auf"
 
 msgid "Full Name"
 msgstr "Vollständiger Name"
+
+msgid "GO!"
+msgstr ""
 
 msgid "Group <!-- in the sense of a group of people -->"
 msgstr "Gruppe"
@@ -117,6 +143,9 @@ msgstr "Gruppe?"
 
 msgid "Help on something or other"
 msgstr "Hilfestellung oder Sonstiges"
+
+msgid "Help! I've forgotten my password!"
+msgstr ""
 
 msgid "Help"
 msgstr "Hilfe"
@@ -132,12 +161,19 @@ msgid "Id <!-- short for 'Identifier' -->"
 msgstr "Nr."
 
 msgid "Id"
+msgstr "Nr."
+
+msgid "If you have forgotten your password then"
 msgstr ""
 
 msgid "If you would like to request access, please e-mail"
 msgstr "Wenn Sie gern Zugriff anfordern wollen, bitte e-mailen"
 
 msgid "Invalid user name or password."
+msgstr "Ungültiger Benutzername oder Passwort"
+
+#, fuzzy
+msgid "Invalid username or password."
 msgstr "Ungültiger Benutzername oder Passwort"
 
 msgid "Is Assisted by"
@@ -196,6 +232,10 @@ msgstr "Nr."
 
 msgid "No."
 msgstr "Nr."
+
+#, fuzzy
+msgid "Password"
+msgstr "Neues Passwort"
 
 msgid "Please note the time and advise the administrator of your system."
 msgstr "Bitte notieren Sie sich die Zeit und benachrichtigen Sie Ihren Systemadministrator"
@@ -317,6 +357,9 @@ msgstr "Benutzer Name"
 msgid "User Roles"
 msgstr "Benutzerrollen"
 
+msgid "User Unavailable"
+msgstr ""
+
 msgid "User is active"
 msgstr "Benutzer ist aktiv"
 
@@ -344,5 +387,16 @@ msgstr "Sie sind nicht berechtigt diese Funktion zu benutzen"
 msgid "You must log in to use this system."
 msgstr "Sie müssen sich in das System einloggen"
 
+msgid ""
+"forget me not <!-- this is a colloquial phrase in english (the name of a flower) and is an option "
+"allowing people to log in automatically in future -->"
+msgstr ""
+
+msgid "forget me not"
+msgstr ""
+
 msgid "you should log on with the username and password that have been issued to you."
 msgstr "Bitte loggen Sie sich mit den Ihnen zugeteilten Benutzernamen und Passwort ein"
+
+#~ msgid "Email"
+#~ msgstr "E-mail"
