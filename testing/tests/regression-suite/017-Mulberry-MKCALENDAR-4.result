@@ -1,0 +1,7 @@
+HTTP/1.1 403 Forbidden
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+Server: Apache/2.2.3 (Debian) DAV/2
+Content-Length: 36
+Content-Type: text/plain; charset=UTF-8
+
+You may not create a calendar there.

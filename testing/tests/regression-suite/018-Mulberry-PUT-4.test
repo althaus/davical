@@ -1,0 +1,7 @@
+#
+# We now have a calendar so we can PUT an event into it...
+TYPE=PUT
+URL=http://mycaldav/caldav.php/resource2/home/0A5EA1F0F2691A03E917E85F9F255448-0.ics
+HEADER=Content-Type: text/calendar; charset=utf-8
+HEAD
+DATA=0A5EA1F0F2691A03E917E85F9F255448-0.ics

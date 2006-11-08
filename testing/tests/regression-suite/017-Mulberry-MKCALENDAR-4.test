@@ -1,0 +1,5 @@
+#
+# Make a calendar for someone else who we are *NOT* allowed to write to
+TYPE=MKCALENDAR
+URL=http://mycaldav/caldav.php/admin/home/
+HEAD
