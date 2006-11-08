@@ -47,6 +47,7 @@ if ( !isset($path_split[1]) || $path_split[1] == '' ) {
   unset($path_user_no);
   unset($path_username);
   $permissions = array("read" => 'read' );
+  dbg_error_log( "caldav", "Read permissions for user accessing /" );
 }
 else {
   $path_username = $path_split[1];
@@ -55,8 +56,13 @@ else {
   if ( $qry->Exec("caldav") && $path_user_record = $qry->Fetch() ) {
     $path_user_no = $path_user_record->user_no;
   }
-  if ( $session->AllowedTo("Admin") || $session->user_no == $path_user_no ) {
+  if ( $session->AllowedTo("Admin") ) {
     $permissions = array('read' => 'read', "write" => 'write' );
+    dbg_error_log( "caldav", "Full permissions for a systems administrator" );
+  }
+  else if ( $session->user_no == $path_user_no ) {
+    $permissions = array('read' => 'read', "write" => 'write' );
+    dbg_error_log( "caldav", "Full permissions for user accessing their own hierarchy" );
   }
   else if ( isset($path_user_no) ) {
     /**
@@ -69,6 +75,7 @@ else {
       if ( strpos($permission_result,"R") )       $permissions['read'] = 'read';
       if ( strpos($permission_result,"W") )       $permissions['write'] = 'write';
     }
+    dbg_error_log( "caldav", "Restricted permissions for user accessing someone elses hierarchy: read=%s, write=%s", isset($permissions['read']), isset($permissions['write']) );
   }
 }
 
