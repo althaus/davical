@@ -21,7 +21,7 @@ if ( ! isset($permissions['write']) ) {
   header("HTTP/1.1 403 Forbidden");
   header("Content-type: text/plain");
   echo "You may not write to that calendar.";
-  dbg_error_log("ERROR", "PUT Access denied for User: %d, Path: %s", $session->user_no, $get_path);
+  dbg_error_log("ERROR", "PUT Access denied for User: %d, Path: %s", $session->user_no, $request_path);
   return;
 }
 
