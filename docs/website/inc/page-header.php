@@ -25,6 +25,7 @@ else {
 <a href="index.php" class="hlink">Home</a> |
 <a href="installation.php" class="hlink">Installation</a> |
 <a href="clients.php" class="hlink">Client Config</a> |
+<a href="administration.php" class="hlink">Administration</a> |
 <a href="http://andrew.mcmillan.net.nz/" class="hlink">Andrew McMillan's Blog</a> |
 <a href="http://sourceforge.net/projects/rscds/" class="hlink">RSCDS on Sourceforge</a>
 </div>
