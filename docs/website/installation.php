@@ -87,6 +87,9 @@ user, for example:</p>
 su postgres -c /usr/share/rscds/dba/create-database.sh
 </pre>
 
+<p>Once your database has been created, you may also need to
+edit your pg_hba.conf file in order to grant the application
+access to the database as the 'general' user.</p>
 
 <h1>Apache VHost Configuration</h1>
 
