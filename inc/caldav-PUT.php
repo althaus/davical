@@ -103,7 +103,7 @@ if ( $put_action_type == 'INSERT' ) {
 }
 else {
   $qry = new PgQuery( "UPDATE caldav_data SET caldav_data=?, dav_etag=?, caldav_type=?, logged_user=?, modified=current_timestamp WHERE user_no=? AND dav_name=? AND dav_etag=?",
-                         $raw_post, $etag, $ic->type, $session->user_no, $session->user_no, $request_path, $etag_if_match );
+                         $raw_post, $etag, $ic->type, $session->user_no, $path_user_no, $request_path, $etag_if_match );
   $qry->Exec("PUT");
 
   header("HTTP/1.1 201 Replaced", true, 201);
@@ -137,7 +137,7 @@ INSERT INTO calendar_item (user_no, dav_name, dav_etag, uid, dtstamp, dtstart, d
                  VALUES ( ?, ?, ?, ?, ?, ?, $dtend, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
 EOSQL;
 
-  $qry = new PgQuery( $sql, $session->user_no, $request_path, $etag, $ic->Get('uid'), $ic->Get('dtstamp'),
+  $qry = new PgQuery( $sql, $path_user_no, $request_path, $etag, $ic->Get('uid'), $ic->Get('dtstamp'),
                             $ic->Get('dtstart'), $ic->Get('summary'), $ic->Get('location'),
                             $ic->Get('class'), $ic->Get('transp'), $ic->Get('description'), $ic->Get('rrule'), $ic->Get('tz_id'),
                             $ic->Get('last-modified'), $ic->Get('url'), $ic->Get('priority'), $ic->Get('created'),
@@ -156,7 +156,7 @@ EOSQL;
                             $ic->Get('location'), $ic->Get('class'), $ic->Get('transp'), $ic->Get('description'), $ic->Get('rrule'),
                             $ic->Get('tz_id'), $ic->Get('last-modified'), $ic->Get('url'), $ic->Get('priority'), $etag,
                             $ic->Get('due'), $ic->Get('percent-complete'),
-                            $session->user_no, $request_path );
+                            $path_user_no, $request_path );
   $qry->Exec("PUT");
 }
 
