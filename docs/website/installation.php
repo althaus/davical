@@ -81,7 +81,11 @@ which might be a reasonable place, but it might not be where you
 have put them.</p>
 
 <p>This script also expects to be running as a user who has rights
-to create a new database.</p>
+to create a new database, so you may need to do this as the "postgres"
+user, for example:</p>
+<pre>
+su postgres -c /usr/share/rscds/dba/create-database.sh
+</pre>
 
 
 <h1>Apache VHost Configuration</h1>
@@ -139,8 +143,9 @@ and is a regular PHP file which sets (or overrides) some specific variables.</p>
 //  $c->admin_email = 'admin@example.net';
 //  $c->system_name = "Really Simple CalDAV Store";
 //  $c->collections_always_exist = false;
+//  $c->default_locale = en;
 
-  $c->pg_connect[] = 'dbname=caldav port=5433 user=general';
+//  $c->pg_connect[] = 'dbname=caldav port=5433 user=general';
   $c->pg_connect[] = 'dbname=caldav port=5432 user=general';
 
 ?>
@@ -161,6 +166,10 @@ creation of calendar collections.</p>
 within the system for constructing URLs, and for notifying some
 kinds of events.</p>
 
+<p>If you are in a non-English locale, you can set the default_locale
+configuration to one of the supported locales.  At time of writing the
+valid alternative locales are es_AR.UTF-8 and de_DE.UTF-8 but I am
+hoping to have more translations soon.</p>
 
 <h1>Completed?</h1>
 
