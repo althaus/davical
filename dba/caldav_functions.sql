@@ -198,14 +198,54 @@ END;
 ' LANGUAGE 'plpgsql' IMMUTABLE STRICT;
 
 CREATE or REPLACE FUNCTION get_permissions( INT, INT ) RETURNS TEXT AS '
-  SELECT rt.confers FROM relationship r1
-       JOIN relationship_type rt USING ( rt_id )
-      WHERE NOT rt.rt_isgroup
-        AND r1.from_user = $1 AND r1.to_user = $2
-UNION
-  SELECT rt.confers FROM relationship r1
-       JOIN relationship r2 ON ( r1.to_user = r2.from_user)
-       JOIN relationship_type rt ON (r2.rt_id = rt.rt_id)
-      WHERE rt.rt_isgroup
-        AND r1.from_user = $1 AND r2.to_user = $2;
-' LANGUAGE 'sql' IMMUTABLE STRICT;
+DECLARE
+  in_from ALIAS FOR $1;
+  in_to   ALIAS FOR $2;
+  out_confers TEXT;
+  tmp_confers TEXT;
+  dbg TEXT DEFAULT '''';
+BEGIN
+  -- dbg := ''S-'';
+  SELECT rt1.confers INTO out_confers FROM relationship r1 JOIN relationship_type rt1 USING ( rt_id )
+   WHERE NOT rt1.rt_isgroup AND r1.from_user = in_from AND r1.to_user = in_to;
+  IF FOUND THEN
+    RETURN dbg || out_confers;
+  END IF;
+  -- RAISE NOTICE ''No simple relationships between % and %'', in_from, in_to;
+
+  SELECT rt1.confers, rt2.confers INTO out_confers, tmp_confers FROM relationship r1 JOIN relationship_type rt1 ON ( r1.rt_id = rt1.rt_id )
+              LEFT OUTER JOIN relationship r2 ON ( r1.to_user = r2.from_user ) JOIN relationship_type rt2 ON ( r2.rt_id = rt2.rt_id )
+   WHERE rt1.rt_isgroup AND NOT rt2.rt_isgroup AND r1.from_user = in_from AND r2.to_user = in_to;
+
+  IF FOUND THEN
+    -- RAISE NOTICE ''Permissions to group % from group %'', out_confers, tmp_confers;
+    -- FIXME: This is an oversimplification
+    -- dbg := ''C-'';
+    IF out_confers = tmp_confers THEN
+      RETURN dbg || out_confers;
+    ELSE
+      IF length( out_confers ) < length( tmp_confers ) THEN
+        RETURN dbg || out_confers;
+      ELSE
+        RETURN dbg || tmp_confers;
+      END IF;
+    END IF;
+  END IF;
+
+  -- RAISE NOTICE ''No complex relationships between % and %'', in_from, in_to;
+
+  SELECT rt1.confers INTO out_confers, tmp_confers FROM relationship r1 JOIN relationship_type rt1 ON ( r1.rt_id = rt1.rt_id )
+              LEFT OUTER JOIN relationship r2 ON ( rt1.rt_id = r2.rt_id )
+   WHERE rt1.rt_isgroup AND r1.from_user = in_from AND r2.from_user = in_to AND r1.from_user != r2.from_user AND r1.to_user = r2.to_user;
+
+  IF FOUND THEN
+    -- dbg := ''H-'';
+    -- RAISE NOTICE ''Permissions to shared group % '', out_confers;
+    RETURN dbg || out_confers;
+  END IF;
+
+  -- RAISE NOTICE ''No common group relationships between % and %'', in_from, in_to;
+
+  RETURN '''';
+END;
+' LANGUAGE 'plpgsql' IMMUTABLE STRICT;
