@@ -15,7 +15,7 @@ if ( ! isset($permissions['write']) ) {
   header("Content-type: text/plain");
   echo "You may not create a calendar there.";
   dbg_error_log("ERROR", "MKCALENDAR Access denied for User: %d, Path: %s", $session->user_no, $get_path);
-  return;
+  exit(0);
 }
 
 $displayname = $request_path;
