@@ -279,9 +279,6 @@ else {
     if ( $type_filters != '' ) {
       $where .= " AND caldav_data.caldav_type IN ( $type_filters ) ";
     }
-//    if ( $where != '' ) {
-//      $where = preg_replace( '#^\s*(AND|OR) #i', ' WHERE ', $where);
-//    }
 
     $qry = new PgQuery( "SELECT * FROM caldav_data INNER JOIN calendar_item USING(user_no, dav_name)". $where );
     if ( $qry->Exec("REPORT",__LINE__,__FILE__) && $qry->rows > 0 ) {
