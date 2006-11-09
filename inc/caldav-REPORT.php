@@ -10,6 +10,15 @@
 */
 dbg_error_log("REPORT", "method handler");
 
+if ( ! isset($permissions['read']) ) {
+  header("HTTP/1.1 403 Forbidden");
+  header("Content-type: text/plain");
+  echo "You may not access that calendar.";
+  dbg_error_log("GET", "Access denied for User: %d, Path: %s", $session->user_no, $request_path);
+  return;
+}
+
+
 require_once("XMLElement.php");
 
 $reportnum = -1;
@@ -230,11 +239,11 @@ else {
 //    dbg_error_log("REPORT", "Report[%d] Start:%s, End: %s, Events: %d, Todos: %d, Freebusy: %d",
 //         $i, $report[$i]['start'], $report[$i]['end'], $report[$i]['filters']['VEVENT'], $report[$i]['filters']['VTODO'], $report[$i]['filters']['VFREEBUSY']);
 
-    $where = "";
+    $where .= " WHERE caldav_data.dav_name ~ ".qpg("^".$request_path)." ";
     switch( $report[$i]['type'] ) {
       case 'CALENDAR-QUERY':
         if ( isset( $report[$i]['start'] ) ) {
-          $where = "AND (dtend >= ".qpg($report[$i]['start'])."::timestamp with time zone ";
+          $where .= "AND (dtend >= ".qpg($report[$i]['start'])."::timestamp with time zone ";
           $where .= "OR calculate_later_timestamp(".qpg($report[$i]['start'])."::timestamp with time zone,dtend,rrule) >= ".qpg($report[$i]['start'])."::timestamp with time zone) ";
         }
         if ( isset( $report[$i]['end'] ) ) {
@@ -270,9 +279,9 @@ else {
     if ( $type_filters != '' ) {
       $where .= " AND caldav_data.caldav_type IN ( $type_filters ) ";
     }
-    if ( $where != '' ) {
-      $where = preg_replace( '#^\s*(AND|OR) #i', ' WHERE ', $where);
-    }
+//    if ( $where != '' ) {
+//      $where = preg_replace( '#^\s*(AND|OR) #i', ' WHERE ', $where);
+//    }
 
     $qry = new PgQuery( "SELECT * FROM caldav_data INNER JOIN calendar_item USING(user_no, dav_name)". $where );
     if ( $qry->Exec("REPORT",__LINE__,__FILE__) && $qry->rows > 0 ) {

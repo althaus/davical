@@ -10,6 +10,15 @@
 */
 dbg_error_log("PROPFIND", "method handler");
 
+if ( ! isset($permissions['read']) ) {
+  header("HTTP/1.1 403 Forbidden");
+  header("Content-type: text/plain");
+  echo "You may not access that calendar.";
+  dbg_error_log("GET", "Access denied for User: %d, Path: %s", $session->user_no, $request_path);
+  return;
+}
+
+
 require_once("XMLElement.php");
 require_once("iCalendar.php");
 
