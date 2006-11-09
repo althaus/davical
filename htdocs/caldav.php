@@ -37,9 +37,19 @@ $query_depth = intval($query_depth);
 *  3. if there is a <user name> component which matches the logged on user
 *     then the request has read/write privileges
 *  4. otherwise we query the defined relationships between users and use
-*     the maximum privileges returned from that analysis.
+*     the minimum privileges returned from that analysis.
 */
 $request_path = $_SERVER['PATH_INFO'];
+$bad_chars_regex = '/[\\^\\[\\(\\\\]/';
+if ( preg_match( $bad_chars_regex, $request_path ) ) {
+  header("HTTP/1.1 400 Bad Request");
+  header("Content-type: text/plain");
+  echo "The calendar path contains illegal characters.";
+  dbg_error_log("caldav", "Illegal characters /%s/ in calendar path for User: %d, Path: %s", $bad_chars_regex, $session->user_no, $request_path);
+  exit(0);
+}
+dbg_error_log("caldav", "Legal characters /%s/ in calendar path for User: %d, Path: %s", $bad_chars_regex, $session->user_no, $request_path);
+
 $path_split = preg_split('#/+#', $request_path );
 $permissions = array();
 if ( !isset($path_split[1]) || $path_split[1] == '' ) {
