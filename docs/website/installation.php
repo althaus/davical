@@ -70,6 +70,12 @@ box.</p>
 <p>On your database server you will need to create a user called
 'general' which should not be able to create databases or users,
 and which will be granted minimum privileges for the application.</p>
+<pre>
+createuser --no-createdb --no-createrole general
+</pre>
+
+<p>You may need to become the 'postgres' user to do this, in which case
+you will need to be the postgres user to create the database as well.</p>
 
 <p>To create the database itself, run the script:</p>
 <pre>
