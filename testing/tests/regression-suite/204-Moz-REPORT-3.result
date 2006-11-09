@@ -1,0 +1,52 @@
+HTTP/1.1 207 Multi-Status
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+Server: Apache/2.2.3 (Debian) DAV/2
+ETag: "f6d6b5d2136d5389ced4ca2e75c96323"
+Content-Length: 1110
+Content-Type: text/xml;charset=UTF-8
+
+<?xml version="1.0" encoding="UTF-8" ?>
+<multistatus xmlns="DAV:">
+ <response>
+  <href>http://mycaldav/caldav.php/resource2/home/0A5EA1F0F2691A03E917E85F9F255448-0.ics</href>
+  <propstat>
+   <prop>
+    <calendar-data xmlns="urn:ietf:params:xml:ns:caldav">BEGIN:VCALENDAR
+CALSCALE:GREGORIAN
+PRODID:-//mulberrymail.com//Mulberry v4.0//EN
+VERSION:2.0
+BEGIN:VTIMEZONE
+LAST-MODIFIED:20040110T032845Z
+TZID:New Zealand Standard Time
+X-LIC-LOCATION:Pacific/Auckland
+BEGIN:DAYLIGHT
+DTSTART:20000404T020000
+RRULE:FREQ=YEARLY;BYDAY=1SU;BYMONTH=4
+TZNAME:NZDT
+TZOFFSETFROM:+1200
+TZOFFSETTO:+1300
+END:DAYLIGHT
+BEGIN:STANDARD
+DTSTART:20001026T020000
+RRULE:FREQ=YEARLY;BYDAY=1SU;BYMONTH=10
+TZNAME:NZST
+TZOFFSETFROM:+1300
+TZOFFSETTO:+1200
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+DTSTAMP:20061108T113035Z
+DTSTART;TZID=New Zealand Standard Time:20061030T100000
+DURATION:PT1H
+LAST-MODIFIED:20061108T113044Z
+SEQUENCE:1
+SUMMARY:Booking resource 2
+UID:C8344958F0CC35344E063A04@D76FAF7B10D9E8D2D41F779C
+END:VEVENT
+END:VCALENDAR
+</calendar-data>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+</multistatus>

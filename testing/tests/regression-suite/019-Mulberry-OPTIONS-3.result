@@ -1,0 +1,8 @@
+HTTP/1.1 400 Bad Request
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+Server: Apache/2.2.3 (Debian) DAV/2
+Content-Length: 46
+Connection: close
+Content-Type: text/plain; charset=UTF-8
+
+The calendar path contains illegal characters.
