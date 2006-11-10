@@ -1,0 +1,6 @@
+#
+# Now do an OPTIONS request on ~/.chandler/
+TYPE=OPTIONS
+URL=http://mycaldav/caldav.php/user1/home/.chandler/
+
+HEAD

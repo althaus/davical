@@ -1,0 +1,7 @@
+#
+# Do an initial HEAD request (unauthenticated)
+TYPE=HEAD
+URL=http://mycaldav/caldav.php/user1/home/
+NOAUTH
+
+HEAD
