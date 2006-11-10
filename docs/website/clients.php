@@ -26,14 +26,14 @@ bugs:</p>
 </ul>
 <p>Hopefully those will be fixed before too long...</p>
 
-<h1>Sunbird / Lightning</h1>
+<h1>Sunbird / Lightning (Mozilla Calendar)</h1>
 <p>The Mozilla calendar project offers their calendar under two different names: <em>Sunbird</em> is a standalone calendar
 application, and <em>Lightning</em> is a Thunderbird extension.  The two are essentially the same, as far as RSCDS is
 concerned, and these instructions should work for either of them.</p>
 <ol>
 <li>Select "New Calendar" from the "File" menu.</li>
 <li>Choose "On the Network" (click "Next")</li>
-<li>Choose a format of "CalDAV" and enter a URL like: "caldav://calendar.example.net/caldav.php/username/" (click "Next")</li>
+<li>Choose a format of "CalDAV" and enter a URL like: "http://calendar.example.net/caldav.php/username/" (click "Next")</li>
 <li>Give the calendar an appropriate display name, and choose a colour for events on this calendar. (click "Next")</li>
 <li>click "Finish"</li>
 </ol>
@@ -41,6 +41,9 @@ concerned, and these instructions should work for either of them.</p>
 added a meeting you will have to manually refresh the view to see that.</p>
 <p>It is early days yet for the Mozilla calendar in it's current incarnation so no doubt there are other quirks
 with Mozilla's handling of CalDAV too, so perhaps take a look at their bugzilla.</p>
+<p>As at version 0.3, you should be aware of this <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=360076">bug with empty CalDAV calendars</a> which can be
+confusing.  Add your calendar, create an event and then re-start the program before saying that things
+are not working!</p>
 
 <h1>Mulberry</h1>
 <p>Mulberry is the most well-behaved of the applications I have been able to use.  It does have some
