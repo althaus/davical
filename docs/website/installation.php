@@ -75,7 +75,11 @@ createuser --no-createdb --no-createrole general
 </pre>
 
 <p>You may need to become the 'postgres' user to do this, in which case
-you will need to be the postgres user to create the database as well.</p>
+you will need to be the postgres user to create the database as well.
+For example:</p>
+<pre>
+su postgres -c createuser --no-createdb --no-createrole general
+</pre>
 
 <p>To create the database itself, run the script:</p>
 <pre>
@@ -86,9 +90,9 @@ of itself and it expects them to be located in /usr/share/awl/dba
 which might be a reasonable place, but it might not be where you
 have put them.</p>
 
-<p>This script also expects to be running as a user who has rights
-to create a new database, so you may need to do this as the "postgres"
-user, for example:</p>
+<p>Similarly to creating the user, this script also expects to be
+running as a user who has rights to create a new database, so you
+may need to do this as the "postgres" user, for example:</p>
 <pre>
 su postgres -c /usr/share/rscds/dba/create-database.sh
 </pre>
@@ -151,8 +155,8 @@ and is a regular PHP file which sets (or overrides) some specific variables.</p>
 //  $c->sysabbr     = 'rscds';
 //  $c->admin_email = 'admin@example.net';
 //  $c->system_name = "Really Simple CalDAV Store";
-//  $c->collections_always_exist = false;
-//  $c->default_locale = en;
+//  $c->collections_always_exist = true;
+//  $c->default_locale = en_NZ.UTF-8;
 
 //  $c->pg_connect[] = 'dbname=caldav port=5433 user=general';
   $c->pg_connect[] = 'dbname=caldav port=5432 user=general';
