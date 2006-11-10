@@ -1,5 +1,5 @@
 <?php
- $title = "RSCDS Home";
+ $title = "Client Configuration";
  include("inc/page-header.php");
 ?>
 <h1>Evolution</h1>
