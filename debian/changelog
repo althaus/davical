@@ -1,3 +1,25 @@
+rscds (0.3.0) unstable; urgency=low
+
+  * Add a bunch more regression tests.
+  * Remove a non-working workaround for Evolution bug #354855
+  * More friendly error message when relational integrity constraints prevent
+    deletion of a relationship type.
+  * Don't always apply sample data to database creation.
+  * Initial database framework for identifying supported locales.
+  * Fix GET/PUT to use permissions properly.
+  * Apply i18n framework.
+  * Translations for Deutsch and Argentinian Spanish!
+  * Add an 'administration' page to the website.
+  * Apply permissions to MKCALENDAR and MKCOL
+  * Fix permission calculation function.
+  * Ensure that permissions and path prefixes are being correctly applied.
+  * Check that some smart bastard isn't playing silly buggers with our URL.
+  * French translation by Guillaume Rosquin.
+  * Add 'administration' page to website/docs.
+  * New release.
+
+ -- Andrew McMillan <debian@mcmillan.net.nz>  Fri, 10 Nov 2006 15:20:17 +1300
+
 rscds (0.2.2) unstable; urgency=low
 
   * Improvements to styling of maintenance pages.
