@@ -38,13 +38,13 @@
   }
 
   $style = ($client_page == "Interoperability" ? ' class="selected"' : '' );
-  printf( '<p%s><a href="clients.php?client=Interoperability">Interoperability</a></p>', $style );
+  printf( '<p%s><a%s href="clients.php?client=Interoperability">Interoperability</a></p>', $style, $style );
 
   sort($clients);
   foreach( $clients AS $k => $v ) {
     if ( $v == "Interoperability" ) continue;
     $style = (strcmp($client_page,$v) == 0 ? ' class="selected"' : '' );
-    printf( '<p%s><a href="clients.php?client=%s">', $style, urlencode($v) );
+    printf( '<p%s><a%s href="clients.php?client=%s">', $style, $style, urlencode($v) );
     if ( isset($icons[$v]) ) {
       printf( '<img src="clients/%s"><br />', urlencode($icons[$v]) );
     }

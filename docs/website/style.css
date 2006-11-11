@@ -240,9 +240,14 @@ pre {
   border: none;
 }
 
-#leftSide a {
+#leftSide a, #leftSide a:link, #leftSide a:hover, #leftSide a:active, #leftSide a:visited {
   text-decoration: none;
-  color: inherit;
+  color: black;
+}
+
+#leftSide a.selected, #leftSide a.selected:link, #leftSide a.selected:hover, #leftSide a.selected:active, #leftSide a.selected:visited {
+  text-decoration: none;
+  color: white;
 }
 
 #rightSide {
