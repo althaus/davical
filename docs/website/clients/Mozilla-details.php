@@ -4,6 +4,7 @@
  application, and <em><a href="http://www.mozilla.org/projects/calendar/lightning/">Lightning</a></em> is a Thunderbird extension.
  The two are essentially the same, as far as RSCDS is
  concerned, and these instructions should work for either of them.</p>
+
 <ol>
 <li>Select "New Calendar" from the "File" menu.</li>
 <li>Choose "On the Network" (click "Next")<img src="clients/Mozilla-dialog1.png" /> <br /> &nbsp;</li>
@@ -11,6 +12,7 @@
 <li>Give the calendar an appropriate display name, and choose a colour for events on this calendar. (click "Next")<img src="clients/Mozilla-dialog3.png" /> <br /> &nbsp;</li>
 <li>click "Finish"</li>
 </ol>
+
 <h2>Caveats</h2>
 <p>At version 0.3 the Mozilla calendar does not automatically refresh the calendar view, so if someone else has
 added a meeting you will have to manually refresh the view to see that.</p>

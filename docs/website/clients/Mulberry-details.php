@@ -19,7 +19,7 @@ PROPFIND requests.</p>
 <li>Once you have a calendar created, you need to <em>subscribe to it.  One way is to right-click on it and choose 'Subscribe'.</em></li>
 </ol>
 
-<h3>Caveats</h3>
+<h2>Caveats</h2>
 <p>Unfortunately Mulberry is not (yet) open-source, though it is free, so we must wait on the developer to fix
 the user interface niggles when he gets around to it.</p>
 <p>Note that Mulberry has a complex user interface.  When I wrote this I went back into Mulberry and initially
