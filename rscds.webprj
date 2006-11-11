@@ -147,5 +147,12 @@
     <item url="po/fr_FR.po" uploadstatus="1" />
     <item url="inc/other_translated_strings.php" uploadstatus="1" />
     <item url="docs/website/administration.php" uploadstatus="1" />
+    <item url="docs/website/inc/page-middle.php" />
+    <item url="docs/website/clients/" />
+    <item url="docs/website/clients/Evolution-details.php" />
+    <item url="docs/website/clients/Mozilla-details.php" />
+    <item url="docs/website/clients/Mulberry-details.php" />
+    <item url="docs/website/clients/Interoperability-details.php" />
+    <item url="docs/website/clients/Chandler-details.php" />
   </project>
 </webproject>

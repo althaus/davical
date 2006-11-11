@@ -1,4 +1,8 @@
-</div>
+<?php
+
+echo $tags_to_be_closed;
+
+?>
 
 <div id="footer">
 <br />

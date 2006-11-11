@@ -42,6 +42,7 @@ hr {
   font-size: 80%;
   padding-top: 64px;
   padding-right: 5px;
+  display:block;
   }
 
 .hlink:link {
@@ -122,6 +123,7 @@ li {
   margin-left: 2em;
   font-family: helvetica, arial, sans-serif;
   font-size: 90%;
+  margin-bottom: 5px;
   }
 
 code {
@@ -150,10 +152,9 @@ pre {
   float: left;
   color: #FFFFFF;
   padding-left: 100px;
-  margin-top: 10px;
+  margin-top: 1px;
   font-family: helvetica, arial, sans-serif;
-  font-size: 24pt;
-  font-size: 200%;
+  font-size: 190%;
   }
 
 #subTitle {
@@ -163,8 +164,8 @@ pre {
   padding-left: 102px;
   font-family: helvetica, arial, sans-serif;
   font-size: 8pt;
-  font-size: 80%;
-  }
+  font-size: 75%;
+}
 
 .right {
   float: right;
@@ -216,4 +217,36 @@ pre {
   font-weight: 700;
   width: 4em;
   }
+
+#leftSide {
+  width: 170px;
+  float: left;
+}
+
+#leftSide p {
+  text-align: center;
+  margin-bottom: 1em;
+  padding:0.3em 0;
+  font-weight: bold;
+  background-color: #d2d2d2;
+}
+
+#leftSide p.selected {
+  background-color: #bb1f1f;
+  color: white;
+}
+
+#leftSide img {
+  border: none;
+}
+
+#leftSide a {
+  text-decoration: none;
+  color: inherit;
+}
+
+#rightSide {
+  width: 530px;
+  float: right;
+}
 

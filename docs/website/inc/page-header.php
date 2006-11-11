@@ -31,4 +31,11 @@ else {
 </div>
 </div>
 <div id="pageContent">
+<?php
+  $tags_to_be_closed = "</div>\n";
+  if ( $two_panes ) {
+    $tags_to_be_closed .= $tags_to_be_closed;
+    echo '<div id="leftSide">';
+  }
+?>
 <hr />
