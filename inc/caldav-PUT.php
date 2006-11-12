@@ -102,8 +102,8 @@ if ( $put_action_type == 'INSERT' ) {
   header("HTTP/1.1 201 Created", true, 201);
 }
 else {
-  $qry = new PgQuery( "UPDATE caldav_data SET caldav_data=?, dav_etag=?, caldav_type=?, logged_user=?, modified=current_timestamp WHERE user_no=? AND dav_name=? AND dav_etag=?",
-                         $raw_post, $etag, $ic->type, $session->user_no, $path_user_no, $request_path, $etag_if_match );
+  $qry = new PgQuery( "UPDATE caldav_data SET caldav_data=?, dav_etag=?, caldav_type=?, logged_user=?, modified=current_timestamp WHERE user_no=? AND dav_name=?",
+                         $raw_post, $etag, $ic->type, $session->user_no, $path_user_no, $request_path );
   $qry->Exec("PUT");
 
   header("HTTP/1.1 201 Replaced", true, 201);
