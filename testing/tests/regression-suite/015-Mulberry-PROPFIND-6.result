@@ -1,7 +1,7 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 Server: Apache/2.2.3 (Debian) DAV/2
-ETag: "38ba0832b5ab1fd7147b102ceba0becc"
+ETag: "c9a2201f704ccb8d43f3ca5dce1ab51e"
 Content-Length: 1199
 Content-Type: text/xml;charset=UTF-8
 
@@ -11,7 +11,7 @@ Content-Type: text/xml;charset=UTF-8
   <href>/caldav.php/user1/home/</href>
   <propstat>
    <prop>
-    <getcontentlength>1425</getcontentlength>
+    <getcontentlength>1467</getcontentlength>
     <getcontenttype>httpd/unix-directory</getcontenttype>
     <resourcetype>
      <collection/>
@@ -25,7 +25,7 @@ Content-Type: text/xml;charset=UTF-8
   <href>/caldav.php/user1/home/3F4CF6227300FD062D9EF3CDFB30D32D-0.ics</href>
   <propstat>
    <prop>
-    <getcontentlength>705</getcontentlength>
+    <getcontentlength>747</getcontentlength>
     <getcontenttype>text/calendar</getcontenttype>
     <resourcetype>
      <calendar xmlns="urn:ietf:params:xml:ns:caldav"/>
