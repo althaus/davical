@@ -1,3 +1,12 @@
+rscds (0.3.1) unstable; urgency=low
+
+  * Fix bug in handling PUT of modified event where client does not send an
+    If-None-Match header (e.g. Mulberry).
+  * Updated french translation.
+  * Include locale files in package :-)
+
+ -- Andrew McMillan <debian@mcmillan.net.nz>  Mon, 13 Nov 2006 16:15:59 +1300
+
 rscds (0.3.0) unstable; urgency=low
 
   * Add a bunch more regression tests.
