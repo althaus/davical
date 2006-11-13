@@ -1,16 +1,16 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# French translation for Really Simple CalDAV Store
+# Copyright (C) 2006
+# This file is distributed under the same license as the rscds package.
+# Guillaume Rosquin <andrew@mcmillan,net.nz>, 2006.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: rscds 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-11-08 12:21+1300\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2006-11-13 15:12+1300\n"
+"PO-Revision-Date: 2006-11-13 13:03+1300\n"
+"Last-Translator: Guillaume Rosquin <andrew@mcmillan.net.nz>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,23 +29,10 @@ msgstr "--- choisissez un utilisateur, un groupe ou une ressource ---"
 msgid ""
 "<h1>Log On Please</h1><p>For access to the %s you should log on withthe username and password that "
 "have been issued to you.</p><p>If you would like to request access, please e-mail %s.</p>"
-msgstr "<h1>Identifiez-vous SVP</h1><p>Pour accéder à la %s vous devez vous connecter avec l'indentifiant et le mot de passe qui "
-"vous ont été attribués.</p><p>Si vous souhaitez obtenir un accès, veuillez envoyer un courriel à %s.</p>"
-
-# nb:
-#	"à" should be followed by an article ("le" or "la", i.e.  'the').
-#	The choice between "le" or "la" depends on the 'sexuality' of the object.
-#	If the name of the object starts with a vovel or an "H", then the article is shortened to "l'" (L+apostroph)
-#	If the sexuality is masculine, then there is no article and French uses "au" instead of "à"+article.
-#	examples:
-#		service, module, program are "masculine": "au service", "au module", "au programme"
-#		hotel, hospital, user are masculine, starting with a vovel/H : "à l'hôtel", "à l'hôpital", "à l'utilisateur"
-#		application, function, house, user are feminine : "à l'application", "à la fonction", "à la maison", "à l'utilisatrice"
-#
-#	"courriel" is mostly used in Quebec or by French Universities, "e-mail" is used by every others ;-)
-#	
-#	Thanks Guillaume.  No doubt I have made the wrong choices in every case then :-)
-#
+msgstr ""
+"<h1>Identifiez-vous SVP</h1><p>Pour accéder à %s vous devez vous connecter avec l'identifiant et le "
+"mot de passe qui vous ont été attribués.</p><p>Si vous souhaitez obtenir un accès, veuillez envoyer un "
+"courriel à %s.</p>"
 
 msgid "Action"
 msgstr "Action"
@@ -69,22 +56,21 @@ msgid "Admin"
 msgstr "Administrateur"
 
 msgid "Administers Group"
-msgstr "Gére les groupes"
+msgstr "Gére le groupes"
 
 msgid "Administers Resource"
 msgstr "Gére les ressources"
 
 msgid "Browse all relationship types"
-msgstr "Parcourt tous les types de relations"
+msgstr "Affiche tous les types de relations"
 
 # I.e. a listing of all users.
 msgid "Browse all users"
-msgstr ""
-# msgstr "Parcourt tous les utilisateurs" <!-- don't use that but explain me what it does -->
+msgstr "Affiche tous les utilisateurs"
 
 # I.e. The list of people who can use this (calendar) software
 msgid "Calendar Users"
-msgstr "" 
+msgstr "Utilisateurs du planning"
 
 msgid "Click to display that relationship"
 msgstr "Cliquez pour afficher cette relation"
@@ -103,7 +89,7 @@ msgstr "Erreur base de données"
 
 # The type of format of the date: d/m/y, m/d/y, y-m-d
 msgid "Date Style"
-msgstr ""
+msgstr "Format des dates"
 
 msgid "Delete"
 msgstr "Supprimer"
@@ -112,7 +98,7 @@ msgid "Does the user have the right to perform this role?"
 msgstr "L'utilisateur est-il autorisé à jouer ce rôle ?"
 
 msgid "EMail OK"
-msgstr "Courriel OK"
+msgstr "Courriel vérifié"
 
 msgid "EMail"
 msgstr "Courriel"
@@ -122,7 +108,8 @@ msgid "ERROR: %s"
 msgstr "ERREUR: %s"
 
 msgid "ERROR: There was a database error writing the roles information!"
-msgstr "ERREUR: Il y a eu une erreur dans la base de données lors de l'écriture des informations pour le rôle !"
+msgstr ""
+"ERREUR: Il y a eu une erreur dans la base de données lors de l'écriture des informations pour le rôle !"
 
 msgid "Edit this user record"
 msgstr "Modifier l'enregistrement de cet utilisateur"
@@ -131,7 +118,9 @@ msgid "Edit"
 msgstr "Modifier"
 
 msgid "Enter a username, if you know it, and click here, to be e-mailed a temporary password."
-msgstr "Tapez un nom d'utilisateur, si vous le connaissez, et cliquez ici, pour recevoir un mot de passe temporaire"
+msgstr ""
+"Tapez un nom d'utilisateur, si vous le connaissez, et cliquez ici, pour recevoir un mot de passe "
+"temporaire"
 
 msgid "Enter the name for this resource type"
 msgstr "Tapez un nom pour ce type de ressource"
@@ -140,19 +129,19 @@ msgid "Enter your username and password then click here to log in."
 msgstr "Tapez votre nom d'utilisateur et votre mot de passe puis cliquez ici pour vous connecter"
 
 msgid "European (d/m/y)"
-msgstr "Européen (jour/mois/année)"
+msgstr "Européen (jj/mm/aa)"
 
 # The application name (possibly translated) follows this phrase.  The application
 # is called the "Really Simple CalDAV Store" (Store, in the sense of a repository
 # of things, rather than a shop).
 msgid "For access to the"
-msgstr "Pour accéder à la"
+msgstr "Pour accéder à"
 
 msgid "Full Name"
 msgstr "Nom complet"
 
 msgid "GO!"
-msgstr "GO !"
+msgstr "ENTRER !"
 
 msgid "Group <!-- in the sense of a group of people -->"
 msgstr "Groupe"
@@ -161,7 +150,7 @@ msgid "Group"
 msgstr "Groupe"
 
 msgid "Group?"
-msgstr "Quel groupe ?"
+msgstr "Est un groupe ?"
 
 msgid "Help on something or other"
 msgstr "Aide sur un sujet ou un autre"
@@ -180,16 +169,16 @@ msgid "ISO Format (YYYY-MM-DD)"
 msgstr "Format ISO (AAAA-MM-JJ)"
 
 msgid "Id <!-- short for 'Identifier' -->"
-msgstr "Code"
+msgstr "N°"
 
 msgid "Id"
-msgstr "Code"
+msgstr "N°"
 
 msgid "If you have forgotten your password then"
 msgstr "Si vous avez oublié votre mot de passe alors"
 
 msgid "If you would like to request access, please e-mail"
-msgstr "Si vous souhaitez avoir accès, veuillez envoyer un e-mail/courriel"
+msgstr "Si vous souhaitez avoir accès, veuillez envoyer un courriel"
 
 msgid "Invalid user name or password."
 msgstr "Nom d'utilisateur ou mot de passe incorrects."
@@ -206,22 +195,25 @@ msgstr "est un membre du groupe"
 # Relationships are between an individual and another individual, an individual and a resource
 # or an individual and some intermediate 'grouping' object.  This is asking if the destination
 # of this link is the third kind
+# ############
+# Sorry I shall see it on the screen to understand the context of the question
+# (and I didn't found it)
 msgid "Is the target of this relationship a group of access rights?"
 msgstr ""
 
 # For programmatic reasons at this point the abbreviation cannot be translated :-(
 msgid "Is this access read ('R') or Read and Write ('RW')?"
 msgstr "Cet accès est-il en lecture seule ('R') ou en lecture et écriture ('RW') ?"
+
 # # or, in less "IT slang":
 # IT slang should be fine, since this is the administrative pages
 # msgstr "Cet accès est-il seulement en consultation ('R') ou en consultation et mise à jour ('RW') ?"
-
 msgid "Is this user active?"
 msgstr "Cet utilisateur est-il actif ?"
 
 # The prompt for "The date on which the user was set up on this system" only 2-3 words max.
 msgid "Joined"
-msgstr "context ???"
+msgstr "Inscription"
 
 msgid "Language"
 msgstr "Langue"
@@ -233,28 +225,19 @@ msgstr "Dernière utilisation"
 # users (/resources/groups) indicating which user(/resource/group) this
 # relation is from...
 msgid "Linked From"
-msgstr ""
+msgstr "Attribué par"
 
 # ...and which it is to.
 msgid "Linked To"
-msgstr ""
+msgstr "Attribué à"
 
 msgid "Log On Please"
 msgstr "Connectez-vous SVP"
 
 # Log out of the <name of application>
+#, fuzzy
 msgid "Log out of the"
-msgstr "Deconnectez-vous de"
-
-# nb:
-#	The choice between "du" or "de" depends on the 'sexuality' of the object.
-#	If the name of the object starts with a vovel or an "H", then the form is "de l'" (L+apostroph)
-#	If the sexuality is masculine, then there is no article and French uses "du"
-#	Other cases (feminine + no vovel/H), use "de la"
-#	examples:
-#		service, module, program are "masculine": "du service", "du module", "du programme"
-#		hotel, hospital, user are masculine, application, user are feminine, starting with a vovel/H : "de l'hôtel", "de l'hôpital", "de l'utilisateur", "de l'application", "de l'utilisatrice" (it's a bit odd to disconnect from a female user, isn't it?)
-#		function, house are feminine : "de la fonction", "de la maison"
+msgstr "Deconnectez-vous de "
 
 msgid "Logout"
 msgstr "Deconnection"
@@ -296,7 +279,7 @@ msgstr "Public"
 # if I (or someone else) can think of a better one.  It's optional to
 # translate it.
 msgid "Really Simple CalDAV Store"
-msgstr ""
+msgstr "Really Simple CalDAV Store"
 
 msgid "Relationship <!-- in the sense of a work relationship between people -->"
 msgstr "Relation de travail"
@@ -335,32 +318,36 @@ msgid "Report Bug"
 msgstr "Signaler une erreur"
 
 msgid "Report a bug in the system"
-msgstr "Signaler une erreur du système"
+msgstr "Signaler une erreur du logiciel"
+
 # joke: with such option, people will complain about political and social issues
 # "The System" commonly means "The Social/Political System"
-#####################################################
-# So should it be "...in the application"?  This only appears as a tooltip over "Report Bug"
+# ####################################################
+# So should it be "...in the application"?  This is a tooltip over "Report Bug"
 # which is the (hopefully short) menu option.
-
+# ####################################################
+# Speaking about "logiciel" (i.e. "software") would surely provide the best understanding
 msgid "Resource <!-- a thing which might be booked: a room, a carpark, a projector... -->"
 msgstr "Ressource"
 
+# French uses the same word, except it adds an 'S'. Otherwise it would sound "Rezource", 
+# a bit odd except when said with a german accent.
 msgid "Resource"
 msgstr "Ressource"
 
 msgid "Restrict access to prefixes matching this pattern"
 msgstr "Restreindre l'accès aux préfixes correspondant à ce format"
-# 'pattern' translate to "motif", but "motif" usage is mainly for graphical drawings, very rare for textual patterns
-########### This is definitely referring to a textual pattern
 
+# 'pattern' translate to "motif", but "motif" usage is mainly for graphical drawings, very rare for textual patterns
+# ########## This is definitely referring to a textual pattern
 msgid "Rights"
 msgstr "Droits"
 
 msgid "Select the type of relationship from this user"
-msgstr "Choisit/Choisissez le type de relations de cet utilisateur"
+msgstr "Choisissez le type de relations de cet utilisateur"
 
 msgid "Select the user, resource or group to relate this user to"
-msgstr "Choisit/Choisissez l'utilisateur, la ressource ou le group à relier à cet utilisateur ???"
+msgstr "Choisissez l'utilisateur, la ressource ou le groupe à relier à cet utilisateur"
 
 msgid "Show help on"
 msgstr "Afficher l'aide sur"
@@ -371,42 +358,43 @@ msgstr "Afficher l'aide sur"
 # The error itself is a relational integrity error (you can't delete that record since
 # it is used somewhere in the database).
 msgid "That relationship type is being used. See ##RelationshipTypeUsed##"
-msgstr ""
+msgstr "Ce type de relation est encore employé. Cf. ##RelationshipTypeUsed##"
 
+# or ##TypeDeRelationsUtilisées## ?
 # We are trying to provide a full description of what a 'username' is.  Feel free to
 # be verbose :-)
 msgid "The name this user can log into the system with."
-msgstr ""
+msgstr "Le nom ou pseudonyme que cet utilisateur employera pour se connecter à l'application"
 
 msgid "The preferred language for this person."
 msgstr "La langue parlée par cette personne"
 
 msgid "The style of dates used for this person."
-msgstr "Le format de date utilisé pour cette personne"
+msgstr "Le format de date utilisé par cette personne"
 
 msgid "The user's e-mail address."
-msgstr "L'adresse courriel/e-mail de cet utilisateur"
+msgstr "L'adresse courriel (e-mail) de cet utilisateur"
 
 msgid "The user's full name."
 msgstr "Le Nom-Prénom de l'utilisateur"
 
 msgid "The user's password for logging in."
-msgstr "Le mot de passe de l'utilisateur pour se connecter"
+msgstr "Le mot de passe de l'utilisateur pour qu'il se connecte"
 
 msgid "There was an error writing to the database."
 msgstr "Il s'est produit une erreur lors de l'écriture des données"
 
 msgid "To Group?"
-msgstr "Quel groupe ?"
+msgstr "Au groupe"
 
 msgid "United States of America (m/d/y)"
 msgstr "Etats-Unis (mm/jj/aa)"
 
 msgid "Update"
-msgstr "Mise à jour"
+msgstr "Enregistrer/Mettre à jour"
 
 msgid "Updated"
-msgstr "Mis à jour"
+msgstr "Mise à jour"
 
 msgid "User Details"
 msgstr "Informations sur l'utilisateur"
@@ -416,23 +404,26 @@ msgstr "Nom de l'utilisateur"
 
 msgid "User Roles"
 msgstr "Rôles de l'utilisateur"
+
 # Interesting point: I always read it at a singular form in France
-########
+# #######
 # In that a user can only have a single role in such systems?  In this system
 # users may hold multiple roles at the same time.
-
+# #######
+# French way of management ("thanks" to unions' fights) is very ordered in small boxes.
+# Very rare to find your "box" when you may overlap too many around others.
+# Very rare to find someone able to fill several boxes at a time
 msgid "User Unavailable"
 msgstr "Utilisateur non disponible"
 
 # The user is 'active' in that their account is enabled for use.  If they are
 # inactive they will not be able to log on.
 msgid "User is active"
-msgstr "Utilisateur en activité"
-# Need the context to be sure
+msgstr "Utilisateur activé"
 
 # After maintaining a user's details, the changes have been written to the DB.
 msgid "User record written."
-msgstr ""
+msgstr "Données utilisateur correctment enregistrées."
 
 msgid "Users"
 msgstr "Utilisateurs"
@@ -440,25 +431,25 @@ msgstr "Utilisateurs"
 # Tooltip text for a link which will display the currently logged in user's
 # account details.
 msgid "View my own user record"
-msgstr "Consulter mon enregistrement personnel"
+msgstr "Consulter mes données personnelles"
 
 # Tooltip text for a link which will display a particular user's
 # account details.
 msgid "View this user record"
-msgstr ""
+msgstr "Consulter les informations de cet utilisateur"
 
 # Display something in a non-editable way.
 msgid "View"
 msgstr "Consulter"
 
 msgid "When the user's e-mail account was validated."
-msgstr "Lorsque l'adresse courriel de l'utilisateur a été validée."
+msgstr "Date à laquelle l'adresse courriel de cet utilisateur a été validée."
 
 msgid "You are not authorised to use this function."
 msgstr "Vous n'êtes pas autorisé à utiliser cette fonction."
 
 msgid "You must log in to use this system."
-msgstr "Vous devez vous connecter pour utiliser ce système/cette application"
+msgstr "Vous devez vous connecter pour utiliser ce logiciel"
 
 msgid ""
 "forget me not <!-- this is a colloquial phrase in english (the name of a flower) and is an option "
@@ -469,4 +460,4 @@ msgid "forget me not"
 msgstr "Se souvenir de moi"
 
 msgid "you should log on with the username and password that have been issued to you."
-msgstr "Vous devriez/devez vous connecter avec le nom d'utilisateur et le mot de passe qui vous ont été fournis."
+msgstr "Vous devez vous connecter avec le nom d'utilisateur et le mot de passe qui vous ont été fournis."
