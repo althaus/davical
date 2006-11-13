@@ -1,8 +1,9 @@
 Desirable
  - accept the free/busy information as a PUT
- - Parse the normal PUT requests so we know when time is available
- - Understand the repeat frequencies so ditto...
+ - allow for some sort of modular authentication methods
+ - more translations of the administration interface
+ - translations of the website.
+ - the ability to see a basic list of event data in the admin interface
 
 Important
- - Some form of admin functionality
- - Ability to group users, and to give read/write permission to groups / individuals
+ - 
