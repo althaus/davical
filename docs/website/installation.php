@@ -180,9 +180,27 @@ within the system for constructing URLs, and for notifying some
 kinds of events.</p>
 
 <p>If you are in a non-English locale, you can set the default_locale
-configuration to one of the supported locales.  At time of writing the
-valid alternative locales are es_AR.UTF-8 and de_DE.UTF-8 but I am
-hoping to have more translations soon.</p>
+configuration to one of the supported locales.</p>
+
+<h1>Supported Locales</h1>
+<p>At present the following locales are supported:</p>
+<ul>
+<li>English (New Zealand)</li>
+<li>Spanish (Argentinian)</li>
+<li>German</li>
+<li>French</li>
+<li>Russian</li>
+</ul>
+
+<p>In addition the Argentinian Spanish translation is also configured as base Spanish
+and Mexican Spanish since although I don't have translations for those yet I expect I
+can find someone to do them for me... (you know who you are :-)</p>
+
+<p>If you want locale support you probably know more about configuring it than me, but
+at this stage it should be noted that all translations are UTF-8, and pages are
+served as UTF-8, so you will need to ensure that the UTF-8 versions of these locales
+are supported on your system.</p>
+
 
 <h1>Completed?</h1>
 
