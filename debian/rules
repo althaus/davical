@@ -27,6 +27,7 @@ binary-indep: checkroot build
 	cp -a htdocs $(dt)/usr/share/$(package)
 	cp -a dba $(dt)/usr/share/$(package)
 	cp -a inc $(dt)/usr/share/$(package)
+	cp -a locale $(dt)/usr/share/$(package)
 	# cp -a admin $(dt)/usr/share/$(package)
 	dh_installdocs
 	dh_installchangelogs
