@@ -19,6 +19,11 @@ my $dbpass = "";
 my $dbhost = "";
 my $helpmeplease = 0;
 
+my $dbadir = $0;
+$dbadir =~ s#/[^/]*$##;
+my $patchdir = $dbadir . "/patches";
+
+
 GetOptions ('debug!'    => \$debug,
             'dbname=s'  => \$dbname,
             'dbuser=s'  => \$dbuser,
@@ -34,15 +39,12 @@ show_usage() if ( $helpmeplease );
 # environment variables will also work with DBD::Pg.
 ############################################################
 my $dsn = "dbi:Pg:dbname=$dbname";
-$dsn .= ";host=$dbhost" if ( "$dbhost" eq "" );
+$dsn .= ";host=$dbhost" if ( "$dbhost" ne "" );
 $dsn .= ";port=$dbport" if ( $dbport != 5432 );
 my $dbh = DBI->connect($dsn, $dbuser, $dbpass, { AutoCommit => 0 } ) or die "Can't connect to database $dbname";
 
 my $current_revision = get_current_revision();
 printf( "The database is currently at revision %d.%d.%d.\n", $current_revision->{'schema_major'}, $current_revision->{'schema_minor'}, $current_revision->{'schema_patch'} );
-
-my $patchdir = $0;
-$patchdir =~ s#/[^/]*$#/patches#;
 
 opendir( PATCHDIR, $patchdir ) or die "Can't open patch directory $patchdir";
 my @patches = grep { /^([0-9]+)\.([0-9]+)\.([0-9]+)\.sql$/ } readdir(PATCHDIR);
@@ -70,6 +72,14 @@ if ( $applied ) {
 else {
   print "No patches were applied.\n";
 }
+
+# Ensure the locales data is up to date
+apply_sql_file( $dbadir, "supported_locales.sql" );
+print "Supported locales updated.\n";
+
+# Ensure the functions are up to date
+apply_sql_file( $dbadir, "caldav_functions.sql" );
+print "CalDAV functions updated.\n";
 
 # The End!
 exit 0;
@@ -140,20 +150,13 @@ EOQ
 
 
 ############################################################
-# Apply Patch
+# Apply a DB Patch File
 ############################################################
 sub apply_patch {
 
   my $patch = shift;
 
-#  my @psql_opts = ( "psql", "-q", "-f", sprintf( "%s/%d.%d.%d.sql", $patchdir, $patch->{'schema_major'}, $patch->{'schema_minor'}, $patch->{'schema_patch'} ), $dbname );
-  my @psql_opts = ( "psql", "-q", "-f", $patchdir."/".$patch, $dbname );
-  push @psql_opts, "-h", $dbhost if ( $dbhost ne "" );
-  push @psql_opts, "-p", "$dbport" if ( $dbport != 5432 );
-  push @psql_opts, "-U", $dbuser if ( $dbuser ne "" );
-  $ENV{'PGPASS'} = $dbpass if ( $dbpass ne "" );
-
-  system( @psql_opts );
+  apply_sql_file( $patchdir, $patch );
 
   $current_revision = get_current_revision();
   if ( compare_revisions($current_revision,revision_hash($patch)) != 0 ) {
@@ -163,6 +166,25 @@ sub apply_patch {
   return 1;  # Success
 }
 
+
+
+############################################################
+# Apply SQL File
+############################################################
+sub apply_sql_file {
+
+  my $sqldir  = shift;
+  my $sqlfile = shift;
+
+  my @psql_opts = ( "psql", "-q", "-f", $sqldir."/".$sqlfile, $dbname );
+  push @psql_opts, "-h", $dbhost if ( $dbhost ne "" );
+  push @psql_opts, "-p", "$dbport" if ( $dbport != 5432 );
+  push @psql_opts, "-U", $dbuser if ( $dbuser ne "" );
+  $ENV{'PGPASS'} = $dbpass if ( $dbpass ne "" );
+
+  system( @psql_opts );
+
+}
 
 
 ############################################################
