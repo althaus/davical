@@ -62,7 +62,7 @@ if ( !exists ) {
   * PROPPATCH, because I suspect that will be used.  Also HEAD and POST being fairly standard
   * should be handled.  COPY and MOVE would seem to be easy also.
   */
-  $allowed = "OPTIONS, GET, PUT, DELETE, PROPFIND, MKCOL, MKCALENDAR";
+  $allowed = "OPTIONS, GET, PUT, DELETE, PROPFIND, PROPPATCH, MKCOL, MKCALENDAR";
   if ( $is_calendar ) $allowed .= ", REPORT";
   header( "Allow: $allowed");
   // header( "Allow: ACL, COPY, DELETE, GET, HEAD, LOCK, MKCALENDAR, MKCOL, MOVE, OPTIONS, POST, PROPFIND, PROPPATCH, PUT, REPORT, SCHEDULE, TRACE, UNLOCK");

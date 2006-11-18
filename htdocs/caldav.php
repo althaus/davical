@@ -118,6 +118,7 @@ switch ( $request_method ) {
   case 'OPTIONS':    include_once("caldav-OPTIONS.php");    break;
   case 'REPORT':     include_once("caldav-REPORT.php");     break;
   case 'PROPFIND':   include_once("caldav-PROPFIND.php");   break;
+  case 'PROPPATCH':  include_once("caldav-PROPPATCH.php");  break;
   case 'MKCALENDAR': include_once("caldav-MKCALENDAR.php"); break;
   case 'MKCOL':      include_once("caldav-MKCOL.php");      break;
   case 'PUT':        include_once("caldav-PUT.php");        break;
