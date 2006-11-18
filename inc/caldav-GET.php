@@ -10,8 +10,6 @@
 */
 dbg_error_log("get", "GET method handler");
 
-// The GET method is not sent with any wrapping XML so we simply fetch it
-
 if ( ! isset($permissions['read']) ) {
   header("HTTP/1.1 403 Forbidden");
   header("Content-type: text/plain");
@@ -35,7 +33,8 @@ if ( $qry->Exec("GET") && $qry->rows == 1 ) {
   header("ETag: \"$event->dav_etag\"");
   header("Content-type: text/calendar");
 
-  echo $event->caldav_data;
+  if ( $request_method != "HEAD" )
+    echo $event->caldav_data;
 
   dbg_error_log( "GET", "User: %d, ETag: %s, Path: %s", $session->user_no, $event->dav_etag, $get_path);
 
