@@ -39,6 +39,9 @@ else {
   }
   elseif ( $c->collections_always_exist ) {
     $exists = true;
+    // Possibly this should be another setting, but it seems unlikely that something that
+    // can't deal with collections would issue MKCALENDAR or PROPPATCH commands.
+    $is_calendar = true;
   }
 }
 
