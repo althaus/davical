@@ -113,7 +113,8 @@ if ( isset($_SERVER["HTTP_IF_MATCH"]) ) {
 /**
 * We put the code for each type of request into a separate include file
 */
-switch ( $_SERVER['REQUEST_METHOD'] ) {
+$request_method = $_SERVER['REQUEST_METHOD'];
+switch ( $request_method ) {
   case 'OPTIONS':    include_once("caldav-OPTIONS.php");    break;
   case 'REPORT':     include_once("caldav-REPORT.php");     break;
   case 'PROPFIND':   include_once("caldav-PROPFIND.php");   break;
@@ -121,6 +122,7 @@ switch ( $_SERVER['REQUEST_METHOD'] ) {
   case 'MKCOL':      include_once("caldav-MKCOL.php");      break;
   case 'PUT':        include_once("caldav-PUT.php");        break;
   case 'GET':        include_once("caldav-GET.php");        break;
+  case 'HEAD':       include_once("caldav-GET.php");        break;
   case 'DELETE':     include_once("caldav-DELETE.php");     break;
 
   default:
