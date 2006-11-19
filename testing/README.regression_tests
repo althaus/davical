@@ -40,8 +40,48 @@ so does not GET events listed in a REPORT unless they are new or changed.
  100. Initial unauthenticated OPTIONS request.
  101. Initial authenticated OPTIONS request.
  102. Initial REPORT request.
+ 103. GET the second event that Mulberry put there earlier
+ 104. PUT an event in the way style Evolution uses.
+ 105. REPORT which should show both the Mulberry and the Evolution events.
+ 106. GET the Evolution event we have added.
 
-=====>>>> We are up to here...
 
- - PUT the same event a third time, but with an If-None-Match header, which /should/ give a 412 Precondition Failed error.
+Mozilla Calendar
+================
+Similar to Evolution, Mozilla Calendar primarily only does OPTIONS/REPORT/GET/PUT/DELETE however
+it does not have a cache, so its REPORT requests (a) request data to be included and (b) apply
+a date range in their response.
+
+ 200. Initial unauthenticated OPTIONS request.
+ 201. Initial authenticated OPTIONS request.
+ 202. Initial unauthenticated REPORT request.
+ 203. Initial authenticated REPORT request for events from 9th October to 9th December which should find one Mulberry and one Evolution event.
+ 204. REPORT request against the second calendar created by Mulberry which should only find one Mulberry event.
+ 205. PROPFIND request which only post-0.4 versions of Mozilla Calendar do.
+
+--->> To Do
+ 206. PUT a recurring event.
+ 207. REPORT on a period which will only include a subsequent instance of the recurring event.
+ 208. REPORT on a period after the end of the recurring event, which will return an empty result.
+
+
+Chandler
+========
+Support for Chandler is still under development.  It appears to operate somewhat similarly to
+Mulberry, although apparently without support for MKCALENDAR at this stage, and it also tries
+to use more basic DAV functionality than other clients.  Basic operation appears to be OK,
+although it appears to write some proprietary information into a ".chandler" sub-collection.
+
+ 300. Initial unauthenticated OPTIONS request.
+ 301. Initial unauthenticated HEAD request.
+ 302. Initial authenticated OPTIONS request.
+ 303. Initial PROPFIND request.
+ 304. Subsequent PROPFIND request which endeavours to retrieve permissions.
+ 305. Another OPTIONS request looking at the ".chandler" subcollection.
+
+--->> To Do
+ Lots of things, including GET, PUT, DELETE and encouraging Chandler to create the .chandler
+ collection in order to see how it does that.  At the end of these regression tests so far,
+ 'Chandler' has still not discovered what events exist on the server, but in reality it does
+ successfully do so.
 
