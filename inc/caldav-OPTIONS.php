@@ -68,8 +68,9 @@ if ( !exists ) {
   // header( "Allow: ACL, COPY, DELETE, GET, HEAD, LOCK, MKCALENDAR, MKCOL, MOVE, OPTIONS, POST, PROPFIND, PROPPATCH, PUT, REPORT, SCHEDULE, TRACE, UNLOCK");
 
   /**
-  * FIXME: WTF is calendar-schedule ??  The CalDAV draft 15 doesn't mention it,
-  * but some CalDAV servers seem to say they do it.  We'll leave it out for now.
+  * From reading the "Scheduling Extensions to CalDAV" draft I don't think that we will
+  * be doing this any time soon.  The current spec is at:
+  *    http://www.ietf.org/internet-drafts/draft-desruisseaux-caldav-sched-02.txt
   *
   * access-control is rfc3744, so we will say we do it, but I doubt if we do it
   * in all it's glory really.
