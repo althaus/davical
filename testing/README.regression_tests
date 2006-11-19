@@ -5,18 +5,41 @@ At present these regression tests are basically written to work in my
 own environment.  While I am, of course, happy to see patches that make
 them more generic they are still very much a work in progress.
 
+Mulberry
+========
 At present the most demanding client to support is Mulberry, so the first
-regression tests imitate Mulberry taking RSCDS through it's paces:
+set of regression tests imitate Mulberry taking RSCDS through it's paces:
 
- - Initial OPTIONS request at the root
- - Initial PROPFIND request at the root with Depth 1
- - Second PROPFIND request at the second level
- - MKCALENDAR request to create a calendar at /user1/home/
- - Third PROPFIND request duplicating the Second one (but finding a calendar now).
- - Fourth PROPFIND request solely looking for the new calendar, requesting 'getetag'
- - Not that Mulberry would let us do this, but we try to MKCALENDAR again at /user1/home/ to check for the error we expect.
- - PUT our first event into the calendar.
- - PUT the same event a second time, which should not give an error, but should respond with 'Replaced' rather than 'Created'.
+  1. Initial OPTIONS request at the root
+  2. Initial PROPFIND request at the root with Depth 1
+  3. Second PROPFIND request at the second level
+  4. MKCALENDAR request to create a calendar at /user1/home/
+  5. Third PROPFIND request duplicating the Second one (but finding a calendar now).
+  6. Fourth PROPFIND request solely looking for the new calendar, requesting 'getetag'
+  7. Not that Mulberry would let us do this, but we try to MKCALENDAR again at /user1/home/ to check for the error we expect.
+ 10. PUT our first event into the calendar.
+ 11. PUT the same event a second time, which should not give an error, but should respond with 'Replaced' rather than 'Created'.
+ 12. PUT a second event into the calendar.
+ 13. PROPFIND which should now show us both events.
+ 14. PUT an update to that second event.
+ 15. PROPFIND which should show us both events, with changes.
+ 16. MKCALENDAR somewhere else that we have rights to do so.
+ 17. MKCALENDAR somewhere else where we do not have rights, and which should fail.
+ 18. PUT into the other calendar we have just created.
+ 19. OPTIONS request against an illegal path, which should fail.
+ 20. DELETE the first appointment we created, but with an If-Match header that will cause it to return a 412 Precondition Failed.
+ 21. DELETE the first appointment, but this time with a correct If-Match header, it should succeed.
+
+
+Evolution
+=========
+Evolution does things quite differently to Mulberry, only doing one OPTIONS request to confirm that
+calendaring support is available, and then going for REPORT and GET.  It maintains an internal cache
+so does not GET events listed in a REPORT unless they are new or changed.
+
+ 100. Initial unauthenticated OPTIONS request.
+ 101. Initial authenticated OPTIONS request.
+ 102. Initial REPORT request.
 
 =====>>>> We are up to here...
 

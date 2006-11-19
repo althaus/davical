@@ -1,0 +1,7 @@
+HTTP/1.1 412 Precondition Failed
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+Server: Apache/2.2.3 (Debian) DAV/2
+Content-Length: 56
+Content-Type: text/plain; charset=UTF-8
+
+Resource does not match 'If-Match' header - not deleted
