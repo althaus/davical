@@ -49,6 +49,13 @@ works using the CalDAV protocol.</p>
 
 <h1>Credits</h1>
 <p>The Really Simple CalDAV Store was conceived and written by <a href="http://andrew.mcmillan.net.nz/">Andrew McMillan</a>.</p>
+<p>Translations of the administration interface have been done by:</p>
+<ul>
+<li>Lorena Paoletti (Spanish)</li>
+<li>Cristina Radalescu (German)</li>
+<li>Guillaume Rosquin (French)</li>
+<li>Nick Khazov (Russian)</li>
+</ul>
 
 
 <h1>Your Name Here!</h1>
