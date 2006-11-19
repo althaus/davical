@@ -26,7 +26,12 @@ require_once("interactive-page.php");
   else
     $browser->AddOrder( 'user_no', 'A' );
 
-  $browser->RowFormat( "<tr onMouseover=\"LinkHref(this,1);\" title=\"Click to Display User Detail\" class=\"r%d\">\n", "</tr>\n", '#even' );
+  if ( $c->enable_row_linking ) {
+    $browser->RowFormat( "<tr onMouseover=\"LinkHref(this,1);\" title=\"".translate("Click to display user details")."\" class=\"r%d\">\n", "</tr>\n", '#even' );
+  }
+  else {
+    $browser->RowFormat( "<tr class=\"r%d\">\n", "</tr>\n", '#even' );
+  }
   $browser->DoQuery();
 
   $c->page_title = translate("Calendar Users");
