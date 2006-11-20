@@ -57,9 +57,7 @@ a date range in their response.
  202. Initial unauthenticated REPORT request.
  203. Initial authenticated REPORT request for events from 9th October to 9th December which should find one Mulberry and one Evolution event.
  204. REPORT request against the second calendar created by Mulberry which should only find one Mulberry event.
- 205. PROPFIND request which only post-0.4 versions of Mozilla Calendar do.
-
---->> To Do
+ 205. PROPFIND request which only 0.4 and later versions of Mozilla Calendar will do (see bug 355270).
  206. PUT a recurring event.
  207. REPORT on a period which will only include a subsequent instance of the recurring event.
  208. REPORT on a period after the end of the recurring event, which will return an empty result.
@@ -85,3 +83,9 @@ although it appears to write some proprietary information into a ".chandler" sub
  'Chandler' has still not discovered what events exist on the server, but in reality it does
  successfully do so.
 
+
+Your Favourite Client Here
+==========================
+I would like to have more client software available to test RSCDS against, but so far it's
+just these ones.  If you want to point me at more free software, or send me free copies of
+proprietary software, then I will add it to the list as well as make RSCDS work with it.
