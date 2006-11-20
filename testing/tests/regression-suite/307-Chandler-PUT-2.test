@@ -1,0 +1,10 @@
+#
+# PUT request like Chandler does it.
+#
+TYPE=PUT
+URL=http://mycaldav/caldav.php/user1/home/da81c0ee-7871-11db-c6d6-f6927c144649.ics
+HEADER=Content-Type: text/calendar
+HEAD
+#
+# More typical Chandler data, without any timezone information.
+DATA=da81c0ee-7871-11db-c6d6-f6927c144649.ics

@@ -1,6 +1,7 @@
 #
 # Chandler expects to find the calendar.  Here it confirms
 # that it actually is one.
+#
 TYPE=PROPFIND
 URL=http://mycaldav/caldav.php/user1/home/
 HEADER=Depth: 0
