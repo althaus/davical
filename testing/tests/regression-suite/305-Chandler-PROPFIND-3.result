@@ -1,0 +1,63 @@
+HTTP/1.1 207 Multi-Status
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+Server: Apache/2.2.3 (Debian) DAV/2
+ETag: "42c1c6ca90d4d5058824a41506db45f0"
+Content-Length: 1498
+Content-Type: text/xml;charset=UTF-8
+
+<?xml version="1.0" encoding="UTF-8" ?>
+<multistatus xmlns="DAV:">
+ <response>
+  <href>/caldav.php/user1/home/</href>
+  <propstat>
+   <prop>
+    <resourcetype>
+     <collection/>
+     <calendar xmlns="urn:ietf:params:xml:ns:caldav"/>
+    </resourcetype>
+    <displayname>User1 home</displayname>
+    <getetag>"faf25336de0e470a54075c14cbcf5272"</getetag>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/home/20061101T073004Z.ics</href>
+  <propstat>
+   <prop>
+    <resourcetype>
+     <calendar xmlns="urn:ietf:params:xml:ns:caldav"/>
+    </resourcetype>
+    <displayname/>
+    <getetag>"c3658901fd4689d4a1e1d6f08601ef4f"</getetag>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/home/3F4CF6227300FD062D9EF3CDFB30D32D-0.ics</href>
+  <propstat>
+   <prop>
+    <resourcetype>
+     <calendar xmlns="urn:ietf:params:xml:ns:caldav"/>
+    </resourcetype>
+    <displayname/>
+    <getetag>"2c32a2f8aba853654eb17fe037a4db4d"</getetag>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/home/4aaf8f37-f232-4c8e-a72e-e171d4c4fe54.ics</href>
+  <propstat>
+   <prop>
+    <resourcetype>
+     <calendar xmlns="urn:ietf:params:xml:ns:caldav"/>
+    </resourcetype>
+    <displayname/>
+    <getetag>"a1c6404d61190f9574e2bfd69383f144"</getetag>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+</multistatus>
