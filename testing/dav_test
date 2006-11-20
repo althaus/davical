@@ -12,6 +12,7 @@ my @arguments = ( "--basic", "--proxy", "", "--silent" );
 push @arguments, "--verbose" if ( defined($ARGV[2]) );
 
 my $url;
+my $is_head_request = 0;
 my @auth = ( "--user", "user1:user1" );
 
 my $datafile = "tests/$suite/$test.data";
@@ -41,7 +42,12 @@ while( <TEST> ) {
   };
 
   /^\s*TYPE\s*=\s*(\S.*)$/ && do {
-    push @arguments, "--request", $1;
+    if ( $1 eq "HEAD" ) {
+      $is_head_request = 1;
+    }
+    else {
+      push @arguments, "--request", $1;
+    }
   };
 
   /^\s*HEADER\s*=\s*(\S.*)$/ && do {
@@ -64,6 +70,8 @@ EOERROR
   exit (2);
 }
 
+push @arguments, "--head" if ( $is_head_request );
+
 push @arguments, @auth;
 
 if ( -f $datafile ) {
@@ -75,9 +83,9 @@ else {
 }
 
 
-# print @arguments;
-# print "\n";
 push @arguments, $url;
+
+print join " ", "curl", @arguments, "\n" if ( defined($ENV{'DEBUG'}) );
 
 open RESULTS, "-|", "curl", @arguments;
 while( <RESULTS> ) {
