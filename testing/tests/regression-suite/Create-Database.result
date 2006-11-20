@@ -1,0 +1,26 @@
+CREATE DATABASE
+ new_db_revision 
+-----------------
+ t
+(1 row)
+
+ new_db_revision 
+-----------------
+ t
+(1 row)
+
+ setval 
+--------
+     10
+(1 row)
+
+ setval 
+--------
+   1000
+(1 row)
+
+ setval 
+--------
+     10
+(1 row)
+
