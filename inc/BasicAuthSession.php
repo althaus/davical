@@ -59,8 +59,8 @@ class BasicAuthSession {
     }
 
     if (!isset($_SERVER['PHP_AUTH_USER'])) {
+      header('HTTP/1.0 401 Unauthorized', true, 401 );
       header( sprintf( 'WWW-Authenticate: Basic realm="%s"', $c->system_name) );
-      header('HTTP/1.0 401 Unauthorized');
       echo 'Please log in for access to this system.';
       dbg_error_log( "BasicAuth", ":Session: User is not authorised" );
       exit;
