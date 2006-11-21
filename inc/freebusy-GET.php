@@ -1,5 +1,17 @@
 <?php
-  echo "<h1>Unimplemented</h1><p>Unfortunately this function is planned, but not yet implemented</p";
-  echo "<p>Well, actually, perhaps 'planned' is too strong a word.  It <em>is</em> on the roadmap, and if you want to
-contribute to the planning, please add your two cents to the Sourceforge forums or tracker items</p>";
+
+require_once("iCalendar.php");
+
+  header("Content-type: text/plain");
+
+  $where .= " WHERE caldav_data.dav_name ~ ".qpg("^".$request_path)." ";
+  $qry = new PgQuery( "SELECT * FROM caldav_data INNER JOIN calendar_item USING(user_no, dav_name)". $where );
+  if ( $qry->Exec("freebusy",__LINE__,__FILE__) && $qry->rows > 0 ) {
+    echo iCalendar::iCalHeader();
+    while( $calendar_object = $qry->Fetch() ) {
+      $parsed = new iCalendar( array('icalendar' => $calendar_object->caldav_data ) );
+      echo $parsed->RenderFreeBusy();
+    }
+    echo iCalendar::iCalFooter();
+  }
 ?>
