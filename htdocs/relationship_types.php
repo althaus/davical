@@ -10,6 +10,7 @@ require_once("interactive-page.php");
   require_once("classBrowser.php");
   $c->stylesheets[] = "css/browse.css";
 
+  $confirmation_required = false;
   if ( ($session->AllowedTo("Admin") || $session->AllowedTo("Support")) &&
        !$session->just_logged_in && (isset($_POST['submit']) || isset($_GET['action'])) ) {
     $action = (isset($_POST['submit']) ? $_POST['submit'] : $_GET['action'] );
@@ -48,15 +49,6 @@ require_once("interactive-page.php");
         }
         break;
 
-      case 'edit':
-        $rt->PostToValues();
-        if ( $rt->Write() ) {
-          $c->messages[] = i18n("Relationship Type Updated.");
-        }
-        else {
-          $c->messages[] = i18n("Database Error.");
-        }
-        break;
     }
   }
 
