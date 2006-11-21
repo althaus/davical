@@ -1,0 +1,8 @@
+#
+# PUT another event into the resource2 calendar so we can DELETE it
+#
+TYPE=PUT
+URL=http://mycaldav/caldav.php/resource2/home/6AACA56AB56E981A1E7D968EDD13A05C-0.ics
+HEADER=Content-Type: text/calendar; charset=utf-8
+HEAD
+DATA=6AACA56AB56E981A1E7D968EDD13A05C-0.ics
