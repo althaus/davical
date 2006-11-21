@@ -250,3 +250,9 @@ BEGIN
   RETURN '''';
 END;
 ' LANGUAGE 'plpgsql' IMMUTABLE STRICT;
+
+
+-- Function to convert a PostgreSQL date into UTC + the format used by iCalendar
+CREATE or REPLACE FUNCTION to_ical_utc( TIMESTAMP WITH TIME ZONE ) RETURNS TEXT AS '
+  SELECT to_char( $1 at time zone ''UTC'', ''YYYYMMDD"T"HH24MISS"Z"'' )
+' LANGUAGE 'sql' IMMUTABLE STRICT;
