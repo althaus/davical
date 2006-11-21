@@ -19,15 +19,22 @@ require_once("interactive-page.php");
     $rt->Initialise('relationship_type', array( 'rt_id' => $rt_id ) );
     switch( strtolower($action) ) {
       case 'delete':
-        $qry = new PgQuery("DELETE FROM relationship_type WHERE rt_id = $rt_id;");
-        if ( $qry->Exec() ) {
-          $c->messages[] = i18n("Relationship Type Deleted.");
+        if ( $session->CheckConfirmationHash('GET', 'confirm') ) {
+          $qry = new PgQuery("DELETE FROM relationship_type WHERE rt_id = $rt_id;");
+          if ( $qry->Exec() ) {
+            $c->messages[] = i18n("Relationship Type Deleted.");
+          }
+          else {
+            $c->messages[] = i18n("Database Error.");
+            if ( preg_match("/violates foreign key constraint/", $qry->errorstring ) ) {
+              $c->messages[] = i18n("That relationship type is being used. See ##RelationshipTypeUsed##");
+            }
+          }
         }
         else {
-          $c->messages[] = i18n("Database Error.");
-          if ( preg_match("/violates foreign key constraint/", $qry->errorstring ) ) {
-            $c->messages[] = i18n("That relationship type is being used. See ##RelationshipTypeUsed##");
-          }
+          $c->messages[] = i18n("Please Confirm Deletion");
+          $confirmation_required = true;
+          $confirmation_hash = $session->BuildConfirmationHash('GET', 'confirm');
         }
         break;
 
@@ -102,6 +109,10 @@ require_once("interactive-page.php");
   $active_menu_pattern = "#^/relationship#";
 
 include("page-header.php");
+
+if ( $confirmation_required ) {
+  printf('<p><a href="%s&%s">%s</a></p>', $_SERVER['REQUEST_URI'], $confirmation_hash, translate("Confirm Deletion of the Relationship Type"));
+}
 
 echo "<form method='post' enctype='multipart/form-data' action='$REQUEST_URI'>";
 echo $browser->Render();
