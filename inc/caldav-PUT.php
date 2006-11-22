@@ -112,7 +112,7 @@ else {
 header(sprintf('ETag: "%s"', (isset($bogus_etag) ? $bogus_etag : $etag) ) );
 header("Content-length: 0");
 
-$sql = ( $ic->tz_locn == '' ? '' : "SET TIMEZONE TO ".qpg($ic->tz_locn).";" );
+$sql = "BEGIN;".( $ic->tz_locn == '' ? '' : "SET TIMEZONE TO ".qpg($ic->tz_locn).";" );
 
 $dtstart = $ic->Get('dtstart');
 if ( (!isset($dtstart) || $dtstart == "") && $ic->Get('due') != "" ) {
@@ -129,37 +129,31 @@ else {
 }
 
 
-
-if ( $put_action_type == 'INSERT' ) {
-  $sql .= <<<EOSQL
+$last_modified = $ic->Get("last-modified");
+if ( !isset($last_modified) || $last_modified == '' ) {
+  $last_modified = gmdate( 'Ymd\THis\Z' );
+}
+$dtstamp = $ic->Get("dtstamp");
+if ( !isset($dtstamp) || $dtstamp == '' ) {
+  $dtstamp = $last_modified;
+}
+if ( $put_action_type != 'INSERT' ) {
+  $sql .= "DELETE FROM calendar_item WHERE user_no=$path_user_no AND dav_name=".qpg($request_path).";";
+}
+$sql .= <<<EOSQL
 INSERT INTO calendar_item (user_no, dav_name, dav_etag, uid, dtstamp, dtstart, dtend, summary, location, class, transp,
                     description, rrule, tz_id, last_modified, url, priority, created, due, percent_complete )
                  VALUES ( ?, ?, ?, ?, ?, ?, $dtend, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+COMMIT;
 EOSQL;
 
-  $qry = new PgQuery( $sql, $path_user_no, $request_path, $etag, $ic->Get('uid'), $ic->Get('dtstamp'),
-                            $ic->Get('dtstart'), $ic->Get('summary'), $ic->Get('location'),
-                            $ic->Get('class'), $ic->Get('transp'), $ic->Get('description'), $ic->Get('rrule'), $ic->Get('tz_id'),
-                            $ic->Get('last-modified'), $ic->Get('url'), $ic->Get('priority'), $ic->Get('created'),
-                            $ic->Get('due'), $ic->Get('percent-complete')
-                     );
-  $qry->Exec("PUT");
-}
-else {
-  $sql = <<<EOSQL
-UPDATE calendar_item SET uid=?, dtstamp=?, dtstart=?, dtend=$dtend, summary=?, location=?, class=?, transp=?, description=?, rrule=?,
-                  tz_id=?, last_modified=?, url=?, priority=?, dav_etag=?, due=?, percent_complete=?
-                 WHERE user_no=? AND dav_name=?
-EOSQL;
-
-  $qry = new PgQuery( $sql, $ic->Get('uid'), $ic->Get('dtstamp'), $ic->Get('dtstart'), $ic->Get('summary'),
-                            $ic->Get('location'), $ic->Get('class'), $ic->Get('transp'), $ic->Get('description'), $ic->Get('rrule'),
-                            $ic->Get('tz_id'), $ic->Get('last-modified'), $ic->Get('url'), $ic->Get('priority'), $etag,
-                            $ic->Get('due'), $ic->Get('percent-complete'),
-                            $path_user_no, $request_path );
-  $qry->Exec("PUT");
-}
-
+$qry = new PgQuery( $sql, $path_user_no, $request_path, $etag, $ic->Get('uid'), $dtstamp,
+                          $ic->Get('dtstart'), $ic->Get('summary'), $ic->Get('location'),
+                          $ic->Get('class'), $ic->Get('transp'), $ic->Get('description'), $ic->Get('rrule'), $ic->Get('tz_id'),
+                          $last_modified, $ic->Get('url'), $ic->Get('priority'), $ic->Get('created'),
+                          $ic->Get('due'), $ic->Get('percent-complete')
+                    );
+$qry->Exec("PUT");
 dbg_error_log( "PUT", "User: %d, ETag: %s, Path: %s", $session->user_no, $etag, $request_path);
 
 // Just ensure we exit without sending anything more.
