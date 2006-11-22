@@ -32,6 +32,42 @@ $ic = new iCalendar(array( 'icalendar' => $raw_post ));
 
 dbg_log_array( "PUT", 'EVENT', $ic->properties['VCALENDAR'][0], true );
 
+if ( isset($request_container) ) unset($request_container);
+if ( isset($request_name) ) unset($request_name);
+if ( preg_match( '#^(.*)/([^/]+)$#', $request_path, $matches ) ) {
+  $request_container = $matches[1];
+  $request_name = $matches[2];
+}
+else {
+  header("HTTP/1.1 406 Not acceptable");
+  header("Content-type: text/plain");
+  echo "You may not PUT a collection - you may only PUT things *in* one or MKCOL/MKCALENDAR to create one.";
+  dbg_error_log("ERROR", "PUT unacceptable for User: %d, Path: %s", $session->user_no, $request_path);
+  return;
+}
+
+if ( $request_container == "/$path_username" ) {
+  dbg_error_log( "WARN", " Storing events directly in user's base folders is not recommended!");
+}
+else {
+  $sql = "SELECT * FROM collection WHERE user_no = ? AND dav_name = ?;";
+  $qry = new PgQuery( $sql, $session->user_no, $request_container );
+  if ( ! $qry->Exec("PUT") ) {
+    header("HTTP/1.1 500 Internal Server Error");
+    dbg_error_log( "ERROR", " PUT Failed (database error) for '%s' named '%s', user '%d' in parent '%s'", $request_path, $session->user_no, $parent_container);
+    exit(0);
+  }
+  if ( $qry->rows == 0 ) {
+    if ( preg_match( '#^(.*)/([^/]+)$#', $request_container, $matches ) ) {
+      $parent_container = $matches[1];
+      $displayname = $matches[2];
+    }
+    $sql = "INSERT INTO collection ( user_no, parent_container, dav_name, dav_etag, dav_displayname, is_calendar, created, modified ) VALUES( ?, ?, ?, ?, ?, TRUE, current_timestamp, current_timestamp );";
+    $qry = new PgQuery( $sql, $session->user_no, $parent_container, $request_container, md5($session->user_no. $request_container), $displayname );
+    $qry->Exec("PUT");
+  }
+}
+
 
 /**
 * We read any existing object so we can check the ETag.
