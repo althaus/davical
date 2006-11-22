@@ -1,5 +1,5 @@
 #
 # Do a DELETE with a correct etag which will succeed.
 TYPE=DELETE
-URL=http://mycaldav/caldav.php/resource2/home/6AACA56AB56E981A1E7D968EDD13A05C-0.ics
+URL=http://mycaldav/caldav.php/resource2/home/27D2201A83F0CD2EA9ECEBB588F796A7-0.ics
 HEAD
