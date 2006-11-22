@@ -20,6 +20,7 @@ $c->stylesheets = array( "/rscds.css" );
 $c->collections_always_exist = true;
 $c->enable_row_linking = true;
 // $c->default_locale = array('es_MX', 'es_MX.UTF-8', 'es');
+// $c->local_tzid = 'Pacific/Auckland';  // Perhaps we should read from /etc/timezone - I wonder how standard that is?
 $c->default_locale = "en_NZ";
 $c->base_directory = preg_replace("#/[^/]*$#", "", $_SERVER['DOCUMENT_ROOT']);
 
