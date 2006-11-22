@@ -1,3 +1,37 @@
+rscds (0.4.0) unstable; urgency=low
+
+  * Added initial Russian translation from Nick Khazov.
+  * Updated Spanish translation from Lorena Paoletti.  For the time being this
+    es_AR translation is also being used for es_ES and es_MX in the absence of
+    real translations from there.
+  * Split the supported_locales data out from base_data to allow for easier
+    updating of the supported locales on upgrade.
+  * Fix bug in update-rscds-database which meant that hostname was always
+    wrong.
+  * Add explicit support for the HEAD method.
+  * Start support for PROPPATCH with a placeholder.  Put a placeholder in for
+    the freebusy support, so people realise it isn't there yet.
+  * Make the OPTIONS command more complete, with options which are hopefully
+    OK for Mozilla and Evolution.
+  * Added configuration option "enable_row_linking" which people can set to
+    false to support browsers such as Konqueror to disable the javascript
+    making browse rows clickable.
+  * Updates to regression tests.
+  * Minor documentation updates.
+  * Write some basic freebusy support.
+  * Fix bug in permissions application.
+  * Fix failure to delete calendar entry from someone else's calendar which is
+    writable.
+  * When listing all users in a PROPFIND only show the ones that this user has
+    rights for.
+  * Update packaging to depend on libawl-php 0.12, since we now need that as a
+    minimum version.
+  * Create collections if they don't exist when someone PUTs something into
+    them.
+  * Create collections with the correct user_no.
+
+ -- Andrew McMillan <debian@mcmillan.net.nz>  Wed, 22 Nov 2006 22:43:30 +1300
+
 rscds (0.3.1) unstable; urgency=low
 
   * Fix bug in handling PUT of modified event where client does not send an
