@@ -54,7 +54,7 @@ if ( $request_container == "/$path_username" ) {
 }
 else {
   $sql = "SELECT * FROM collection WHERE user_no = ? AND dav_name = ?;";
-  $qry = new PgQuery( $sql, $session->user_no, $request_container );
+  $qry = new PgQuery( $sql, $path_user_no, $request_container );
   if ( ! $qry->Exec("PUT") ) {
     header("HTTP/1.1 500 Internal Server Error");
     dbg_error_log( "ERROR", " PUT Failed (database error) for '%s' named '%s', user '%d' in parent '%s'", $request_path, $session->user_no, $parent_container);
@@ -66,7 +66,7 @@ else {
       $displayname = $matches[2];
     }
     $sql = "INSERT INTO collection ( user_no, parent_container, dav_name, dav_etag, dav_displayname, is_calendar, created, modified ) VALUES( ?, ?, ?, ?, ?, TRUE, current_timestamp, current_timestamp );";
-    $qry = new PgQuery( $sql, $session->user_no, $parent_container, $request_container, md5($session->user_no. $request_container), $displayname );
+    $qry = new PgQuery( $sql, $path_user_no, $parent_container, $request_container, md5($path_user_no. $request_container), $displayname );
     $qry->Exec("PUT");
   }
 }
