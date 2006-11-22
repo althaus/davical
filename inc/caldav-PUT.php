@@ -46,6 +46,9 @@ else {
   return;
 }
 
+/**
+* Before we write the event, we check the container exists, creating it if it doesn't
+*/
 if ( $request_container == "/$path_username" ) {
   dbg_error_log( "WARN", " Storing events directly in user's base folders is not recommended!");
 }
@@ -148,12 +151,15 @@ else {
 header(sprintf('ETag: "%s"', (isset($bogus_etag) ? $bogus_etag : $etag) ) );
 header("Content-length: 0");
 
+
+
 $sql = "BEGIN;".( $ic->tz_locn == '' ? '' : "SET TIMEZONE TO ".qpg($ic->tz_locn).";" );
 
 $dtstart = $ic->Get('dtstart');
 if ( (!isset($dtstart) || $dtstart == "") && $ic->Get('due') != "" ) {
   $dtstart = $ic->Get('due');
 }
+
 $dtend = $ic->Get('dtend');
 if ( (!isset($dtend) || "$dtend" == "") && $ic->Get('duration') != "" AND $dtstart != "" ) {
   $duration = preg_replace( '#[PT]#', ' ', $ic->Get('duration') );
@@ -164,15 +170,16 @@ else {
   $dtend = qpg($dtend);
 }
 
-
 $last_modified = $ic->Get("last-modified");
 if ( !isset($last_modified) || $last_modified == '' ) {
   $last_modified = gmdate( 'Ymd\THis\Z' );
 }
+
 $dtstamp = $ic->Get("dtstamp");
 if ( !isset($dtstamp) || $dtstamp == '' ) {
   $dtstamp = $last_modified;
 }
+
 if ( $put_action_type != 'INSERT' ) {
   $sql .= "DELETE FROM calendar_item WHERE user_no=$path_user_no AND dav_name=".qpg($request_path).";";
 }
