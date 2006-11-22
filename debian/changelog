@@ -30,7 +30,7 @@ rscds (0.4.0) unstable; urgency=low
     them.
   * Create collections with the correct user_no.
 
- -- Andrew McMillan <debian@mcmillan.net.nz>  Wed, 22 Nov 2006 22:43:30 +1300
+ -- Andrew McMillan <debian@mcmillan.net.nz>  Wed, 22 Nov 2006 23:23:36 +1300
 
 rscds (0.3.1) unstable; urgency=low
 

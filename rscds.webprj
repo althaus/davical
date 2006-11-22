@@ -147,12 +147,81 @@
     <item url="po/fr_FR.po" uploadstatus="1" />
     <item url="inc/other_translated_strings.php" uploadstatus="1" />
     <item url="docs/website/administration.php" uploadstatus="1" />
-    <item url="docs/website/inc/page-middle.php" />
-    <item url="docs/website/clients/" />
-    <item url="docs/website/clients/Evolution-details.php" />
-    <item url="docs/website/clients/Mozilla-details.php" />
-    <item url="docs/website/clients/Mulberry-details.php" />
-    <item url="docs/website/clients/Interoperability-details.php" />
-    <item url="docs/website/clients/Chandler-details.php" />
+    <item url="docs/website/inc/page-middle.php" uploadstatus="1" />
+    <item url="docs/website/clients/" uploadstatus="1" />
+    <item url="docs/website/clients/Evolution-details.php" uploadstatus="1" />
+    <item url="docs/website/clients/Mozilla-details.php" uploadstatus="1" />
+    <item url="docs/website/clients/Mulberry-details.php" uploadstatus="1" />
+    <item url="docs/website/clients/Interoperability-details.php" uploadstatus="1" />
+    <item url="docs/website/clients/Chandler-details.php" uploadstatus="1" />
+    <item url="dba/supported_locales.sql" uploadstatus="1" />
+    <item url="inc/freebusy-GET.php" />
+    <item url="inc/caldav-PROPPATCH.php" />
+    <item url="testing/tests/regression-suite/011-Mulberry-PUT-1b.result" />
+    <item url="testing/tests/regression-suite/012-Mulberry-PUT-2.result" />
+    <item url="testing/tests/regression-suite/012-Mulberry-PUT-2.test" />
+    <item url="testing/tests/regression-suite/013-Mulberry-PROPFIND-5.result" />
+    <item url="testing/tests/regression-suite/013-Mulberry-PROPFIND-5.test" />
+    <item url="testing/tests/regression-suite/014-Mulberry-PUT-3.result" />
+    <item url="testing/tests/regression-suite/014-Mulberry-PUT-3.test" />
+    <item url="testing/tests/regression-suite/015-Mulberry-PROPFIND-6.result" />
+    <item url="testing/tests/regression-suite/015-Mulberry-PROPFIND-6.test" />
+    <item url="testing/tests/regression-suite/016-Mulberry-MKCALENDAR-3.result" />
+    <item url="testing/tests/regression-suite/016-Mulberry-MKCALENDAR-3.test" />
+    <item url="testing/tests/regression-suite/017-Mulberry-MKCALENDAR-4.result" />
+    <item url="testing/tests/regression-suite/017-Mulberry-MKCALENDAR-4.test" />
+    <item url="testing/tests/regression-suite/018-Mulberry-PUT-4.result" />
+    <item url="testing/tests/regression-suite/018-Mulberry-PUT-4.test" />
+    <item url="testing/tests/regression-suite/019-Mulberry-OPTIONS-3.result" />
+    <item url="testing/tests/regression-suite/019-Mulberry-OPTIONS-3.test" />
+    <item url="testing/tests/regression-suite/0A5EA1F0F2691A03E917E85F9F255448-0.ics.data" />
+    <item url="testing/tests/regression-suite/200-Moz-OPTIONS-1.result" />
+    <item url="testing/tests/regression-suite/200-Moz-OPTIONS-1.test" />
+    <item url="testing/tests/regression-suite/201-Moz-OPTIONS-2.result" />
+    <item url="testing/tests/regression-suite/201-Moz-OPTIONS-2.test" />
+    <item url="testing/tests/regression-suite/202-Moz-REPORT-1.data" />
+    <item url="testing/tests/regression-suite/202-Moz-REPORT-1.result" />
+    <item url="testing/tests/regression-suite/202-Moz-REPORT-1.test" />
+    <item url="testing/tests/regression-suite/203-Moz-REPORT-2.result" />
+    <item url="testing/tests/regression-suite/203-Moz-REPORT-2.test" />
+    <item url="testing/tests/regression-suite/204-Moz-REPORT-3.result" />
+    <item url="testing/tests/regression-suite/204-Moz-REPORT-3.test" />
+    <item url="testing/tests/regression-suite/205-Moz-PROPFIND-1.data" />
+    <item url="testing/tests/regression-suite/205-Moz-PROPFIND-1.result" />
+    <item url="testing/tests/regression-suite/205-Moz-PROPFIND-1.test" />
+    <item url="testing/tests/regression-suite/300-Chandler-OPTIONS-1.result" />
+    <item url="testing/tests/regression-suite/300-Chandler-OPTIONS-1.test" />
+    <item url="testing/tests/regression-suite/301-Chandler-HEAD-1.result" />
+    <item url="testing/tests/regression-suite/301-Chandler-HEAD-1.test" />
+    <item url="testing/tests/regression-suite/302-Chandler-OPTIONS-2.result" />
+    <item url="testing/tests/regression-suite/302-Chandler-OPTIONS-2.test" />
+    <item url="testing/tests/regression-suite/303-Chandler-PROPFIND-1.data" />
+    <item url="testing/tests/regression-suite/303-Chandler-PROPFIND-1.result" />
+    <item url="testing/tests/regression-suite/303-Chandler-PROPFIND-1.test" />
+    <item url="testing/tests/regression-suite/304-Chandler-PROPFIND-2.data" />
+    <item url="testing/tests/regression-suite/304-Chandler-PROPFIND-2.result" />
+    <item url="testing/tests/regression-suite/304-Chandler-PROPFIND-2.test" />
+    <item url="testing/tests/regression-suite/304-Chandler-TEST-1.data" />
+    <item url="testing/tests/regression-suite/305-Chandler-OPTIONS-3.result" />
+    <item url="testing/tests/regression-suite/305-Chandler-OPTIONS-3.test" />
+    <item url="testing/tests/regression-suite/3F4CF6227300FD062D9EF3CDFB30D32D-0-modified.ics.data" />
+    <item url="testing/tests/regression-suite/3F4CF6227300FD062D9EF3CDFB30D32D-0.ics.data" />
+    <item url="testing/tests/regression-suite/F56B49B10FC923D20FE2DC92D6580340-0.ics.data" />
+    <item url="testing/tests/regression-suite/020-Mulberry-DELETE-1.test" />
+    <item url="testing/tests/regression-suite/021-Mulberry-DELETE-2.test" />
+    <item url="po/en_NZ.po" />
+    <item url="po/ru_RU.po" />
+    <item url="testing/tests/regression-suite/206-Moz-PUT-1.test" />
+    <item url="testing/tests/regression-suite/4aaf8f37-f232-4c8e-a72e-e171d4c4fe54.ics.data" />
+    <item url="testing/tests/regression-suite/207-Moz-REPORT-4.data" />
+    <item url="testing/tests/regression-suite/207-Moz-REPORT-4.test" />
+    <item url="testing/tests/regression-suite/208-Moz-REPORT-5.data" />
+    <item url="testing/tests/regression-suite/208-Moz-REPORT-5.test" />
+    <item url="docs/website/clients/Other-details.php" />
+    <item url="testing/tests/regression-suite/305-Chandler-PROPFIND-3.test" />
+    <item url="testing/tests/regression-suite/306-Chandler-PUT-1.test" />
+    <item url="testing/tests/regression-suite/307-Chandler-PUT-2.test" />
+    <item url="testing/tests/regression-suite/023-Mulberry-DELETE-3.test" />
+    <item url="testing/tests/regression-suite/022-Mulberry-PUT-5.test" />
   </project>
 </webproject>
