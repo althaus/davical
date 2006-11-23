@@ -1,9 +1,10 @@
 Desirable
  - accept the free/busy information as a PUT
- - allow for some sort of modular authentication methods
  - more translations of the administration interface
  - translations of the website.
  - the ability to see a basic list of event data in the admin interface
+ - allow a specific CalDAV access permission to delegate free/busy viewability.
 
 Important
- - 
+ - allow for some sort of modular authentication methods
+ -
