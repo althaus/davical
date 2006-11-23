@@ -45,8 +45,8 @@ INSERT INTO relationship ( from_user, to_user, rt_id ) VALUES( 10, 200, 1 );
 INSERT INTO relationship ( from_user, to_user, rt_id ) VALUES( 11, 200, 1 );
 INSERT INTO relationship ( from_user, to_user, rt_id ) VALUES( 30, 200, 1 );
 
--- Between a Manager and their PA
-INSERT INTO relationship ( from_user, to_user, rt_id ) VALUES( 20, 30, 2 );
+-- Between a PA and their Manager
+INSERT INTO relationship ( from_user, to_user, rt_id ) VALUES( 30, 20, 2 );
 
 -- Between a team
 INSERT INTO relationship ( from_user, to_user, rt_id ) VALUES( 20, 300, 3 );
