@@ -81,6 +81,8 @@ box.</p>
 
 <h1>Database Setup</h1>
 
+<h2>Creating the Web User for the Database</h2>
+
 <p>On your database server you will need to create a user called
 'general' which should not be able to create databases or users,
 and which will be granted minimum privileges for the application.</p>
@@ -102,6 +104,8 @@ For example (for PostgreSQL 8.x):</p>
 su postgres -c createuser --no-createdb --no-createrole general
 </pre>
 
+<h2>Creating and Building the Database</h2>
+
 <p>To create the database itself, run the script:</p>
 <pre>
 dba/create_database.sh
@@ -118,9 +122,30 @@ may need to do this as the "postgres" user, for example:</p>
 su postgres -c /usr/share/rscds/dba/create-database.sh
 </pre>
 
+<h2>Connecting to the Database</h2>
+
 <p>Once your database has been created, you may also need to
 edit your pg_hba.conf file in order to grant the application
 access to the database as the 'general' user.</p>
+
+<p>In a simple installation, where you do not have untrusted
+users on your database server, and your database is on the same
+computer as the web server, the following line (near the top
+of the pg_hba.conf file) should be enough:</p>
+
+<pre>
+local   rscds    general   trust
+</pre>
+
+<p>This means that anyone on the local computer (including the
+web application) will have rights to connect to the RSCDS
+database as the 'general' user.  It will not allow remote access,
+or access as any user other than 'general'.</p>
+
+<p>If you want greater security, or if you want to have the
+database on a different server, you should read the
+<a href="http://www.postgresql.org/docs/8.1/interactive/client-authentication.html">PostgreSQL documentation on pg_hba.conf</a>
+for the version you are using.</p>
 
 <h1>Apache VHost Configuration</h1>
 
