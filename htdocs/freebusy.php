@@ -67,6 +67,26 @@ else {
   }
 }
 
+/**
+* We also allow URLs like .../freebusy.php/user@example.com to work, so long as
+* the e-mail matches a single user whose calendar we have rights to.
+* NOTE: It is OK for there to *be* duplicate e-mail addresses, just so long as we
+* only have read permission (or more) for only one of them.
+*/
+if ( isset($by_email) ) unset( $by_email );
+if ( preg_match( '#/(\S+@\S+[.]\S+)$#', $request_path, $matches) ) {
+  $by_email = $matches[1];
+  $qry = new PgQuery("SELECT user_no FROM usr WHERE email = ? AND get_permissions(?,user_no) ~ 'R';", $by_email, $session->user_no );
+  if ( $qry->Exec("freebusy",__LINE__,__FILE__) && $qry->rows == 1 ) {
+    $email_user = $qry->Fetch();
+    $permissions['read'] = 'read';
+  }
+  else {
+    unset( $by_email );
+  }
+}
+
+
 if ( !isset($permissions['read']) ) {
   header("HTTP/1.1 403 Forbidden");
   header("Content-type: text/plain");

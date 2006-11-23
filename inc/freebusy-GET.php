@@ -8,7 +8,12 @@ require_once("iCalendar.php");
   $sql .= ', to_ical_utc(dtstamp)  AS dtstamp ';
   $sql .= ', to_ical_utc(last_modified)  AS "last-modified" ';
   $sql .= ' FROM caldav_data INNER JOIN calendar_item USING(user_no, dav_name) ';
-  $sql .= ' WHERE caldav_data.dav_name ~ '.qpg("^".$request_path);
+  if ( isset($by_email) ) {
+    $sql .= " WHERE caldav_data.user_no = $email_user->user_no;";
+  }
+  else {
+    $sql .= " WHERE caldav_data.user_no = $path_user_no AND caldav_data.dav_name ~ ".qpg("^".$request_path);
+  }
   $qry = new PgQuery( $sql );
 
   header("Content-type: text/calendar");
