@@ -99,7 +99,7 @@ P4  ==>> Administers Group  ==> G
 
 
 <h1>Configuring Calendar Clients for RSCDS</h1>
-<p>The <a href="http://rscds.sourceforge.net/clients.php">RSCDS client setup page on sourceforge</a> have information on how
+<p>The <a href="http://rscds.sourceforge.net/clients.php">RSCDS client setup page on sourceforge</a> has information on how
 to configure Evolution, Mozilla Calendar (Sunbird &amp; Lightning) and Mulberry to use remotely hosted calendars.</p>
 <p>The administrative interface has no facility for viewing or modifying calendar data.</p>
 
