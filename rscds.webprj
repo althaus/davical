@@ -223,5 +223,6 @@
     <item url="testing/tests/regression-suite/307-Chandler-PUT-2.test" />
     <item url="testing/tests/regression-suite/023-Mulberry-DELETE-3.test" />
     <item url="testing/tests/regression-suite/022-Mulberry-PUT-5.test" />
+    <item url="dba/patches/1.1.5.sql" />
   </project>
 </webproject>

@@ -192,10 +192,12 @@ function item_to_xml( $item ) {
 
 /**
 * Get XML response for items in the collection
-* If '/' is requested, a list of (FIXME: visible) users is given, otherwise
+* If '/' is requested, a list of visible users is given, otherwise
 * a list of calendars for the user which are parented by this path.
 *
 * Permissions here might well be handled through an SQL function.
+* FIXME: Read DAV Access docs and work out what permission is needed
+* in this case (these cases) so we can implement it.
 */
 function get_collection_contents( $depth, $user_no, $collection ) {
   global $session;
@@ -210,7 +212,7 @@ function get_collection_contents( $depth, $user_no, $collection ) {
     if ( $collection->dav_name == '/' ) {
       $sql = "SELECT user_no, user_no, '/' || username || '/' AS dav_name, md5( '/' || username || '/') AS dav_etag, ";
       $sql .= "updated AS created, to_char(updated at time zone 'GMT',?) AS modified, fullname AS dav_displayname, FALSE AS is_calendar FROM usr ";
-      $sql .= "WHERE user_no=$session->user_no OR get_permissions($session->user_no,user_no) ~ 'R';";
+      $sql .= "WHERE get_permissions($session->user_no,user_no) ~ 'R';";
     }
     else {
       $sql = "SELECT user_no, dav_name, dav_etag, created, to_char(modified at time zone 'GMT',?), dav_displayname, is_calendar FROM collection WHERE parent_container=".qpg($collection->dav_name);
