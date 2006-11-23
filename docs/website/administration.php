@@ -41,6 +41,63 @@ and then the group is linked to each resource with the "Administers Resource" re
 <li>Where a set of users link to a group, which then links to other users/resources, the access restrictions will apply as the lesser of their link to that group, or the link from the group.  They will have no access to each other's calendars.</li>
 </ul>
 
+<h3>Some Examples</h3>
+
+<h4>Several people administer a set of resources</h4>
+<p>Suppose you have some resources, R1, R2 and R3 and you want to centralise the booking
+of the resources through an administrative assistant, A1.  When A1 is away you want to
+have a backup person, so you also want A2 to be able to do that.</p>
+<p>In a case like this you should create an intermediate group "G" and set up
+relationships ("Administers Resource") from "G" to each of the resources to be
+administered.  For each of the people able to administer those resources you
+should create relationships ("Administers Group") to the group.  Other people
+who may view the resources, but not change them, can be related to the group
+as "is a member of" which will grant them read only privileges to all of the
+group's resources.</p>
+<pre>
+A1  ==>> Administers Group    ==> G
+A2  ==>> Administers Group    ==> G
+G   ==>> Administers Resource ==> R1
+G   ==>> Administers Resource ==> R2
+G   ==>> Administers Resource ==> R3
+P1  ==>> is a member of       ==> G
+P2  ==>> is a member of       ==> G
+</pre>
+<p>P1 will be able to see all of the scheduled events for R1, R2 and R3, but will
+not be able to create, delete or modify them.  A1 and A2 will be able to see,
+create and modify all the events.</p>
+
+<h4>An administrative assistant has full access to a managers calendar</h4>
+<p>In this case you set a relationship from the administrative assistant
+to the manager of "is Assistant to"</p>
+<pre>
+A1  ==>> is Assistant to ==> Manager
+</pre>
+<p>(Actually I see there is a bug there in 0.4.0, in that the relationship type
+is named the wrong way around as "Is Assisted by", so I'll rename that
+in 0.4.1 :-)</p>
+
+<h4>A team can see each others calendars</h4>
+<p>In this case you should create a group "G", which all team members are
+linked to as "is a member of".</p>
+<pre>
+P1  ==>> is a member of  ==> G
+P2  ==>> is a member of  ==> G
+P3  ==>> is a member of  ==> G
+P4  ==>> is a member of  ==> G
+</pre>
+
+<h4>A team can modify each others calendars</h4>
+<p>In this case you should create a group "G", which all team members are
+linked to as "Administers Group".</p>
+<pre>
+P1  ==>> Administers Group  ==> G
+P2  ==>> Administers Group  ==> G
+P3  ==>> Administers Group  ==> G
+P4  ==>> Administers Group  ==> G
+</pre>
+
+
 <h1>Configuring Calendar Clients for RSCDS</h1>
 <p>The <a href="http://rscds.sourceforge.net/clients.php">RSCDS client setup page on sourceforge</a> have information on how
 to configure Evolution, Mozilla Calendar (Sunbird &amp; Lightning) and Mulberry to use remotely hosted calendars.</p>
