@@ -8,7 +8,10 @@ DBNAME="${1:-rscds}"
 DBADIR="`dirname \"$0\"`"
 
 # FIXME: Need to check that the database was actually created.
-createdb -E UTF8 "${DBNAME}" -T template0
+if ! createdb -E UTF8 "${DBNAME}" -T template0 ; then
+  echo "Unable to create database"
+  exit 1
+fi
 
 #
 # This will fail if the language already exists, but it should not
@@ -23,4 +26,19 @@ psql -q -f "${DBADIR}/caldav_functions.sql" "${DBNAME}"
 
 psql -q -f "${DBADIR}/base-data.sql" "${DBNAME}"
 
+#
+# Generate a random administrative password.  If pwgen is available we'll use that,
+# otherwise try and hack something up using a few standard utilities
+PWGEN="`which pwgen`"
+if [ "$PWGEN" = "" ] ; then
+  ADMINPW="`dd if=/dev/urandom bs=512 count=1 2>/dev/null | tr -c -d "[:alnum:]" | cut -c2-9`"
+else
+  ADMINPW="`pwgen -Bcny | tr \"\\\'\" '^='`"
+fi
+psql -q -c "UPDATE usr SET password = '**${ADMINPW}' WHERE user_no = 1;" "${DBNAME}"
+
+echo "The password for the 'admin' user has been set to '${ADMINPW}'"
+
+#
+# The supported locales are in a separate file to make them easier to upgrade
 psql -q -f "${DBADIR}/supported_locales.sql" "${DBNAME}"
