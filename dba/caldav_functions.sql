@@ -205,6 +205,11 @@ DECLARE
   tmp_confers TEXT;
   dbg TEXT DEFAULT '''';
 BEGIN
+  -- Self can always have full access
+  IF in_from = in_to THEN
+    RETURN ''RW'';
+  END IF;
+
   -- dbg := ''S-'';
   SELECT rt1.confers INTO out_confers FROM relationship r1 JOIN relationship_type rt1 USING ( rt_id )
    WHERE NOT rt1.rt_isgroup AND r1.from_user = in_from AND r1.to_user = in_to;
