@@ -39,7 +39,7 @@ if ! dropdb ${DBNAME}; then
 fi
 
 TEST="Create-Database"
-../dba/create-database.sh ${DBNAME} >"${RESULTS}/${TEST}" 2>&1
+../dba/create-database.sh ${DBNAME} 'nimda' >"${RESULTS}/${TEST}" 2>&1
 check_result "${TEST}"
 
 TEST="Load-Sample-Data"

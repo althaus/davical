@@ -24,3 +24,4 @@ CREATE DATABASE
      10
 (1 row)
 
+The password for the 'admin' user has been set to 'nimda'

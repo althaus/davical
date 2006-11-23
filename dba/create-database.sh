@@ -4,6 +4,7 @@
 #
 
 DBNAME="${1:-rscds}"
+ADMINPW="${2}"
 
 DBADIR="`dirname \"$0\"`"
 
@@ -27,13 +28,17 @@ psql -q -f "${DBADIR}/caldav_functions.sql" "${DBNAME}"
 psql -q -f "${DBADIR}/base-data.sql" "${DBNAME}"
 
 #
-# Generate a random administrative password.  If pwgen is available we'll use that,
-# otherwise try and hack something up using a few standard utilities
-PWGEN="`which pwgen`"
-if [ "$PWGEN" = "" ] ; then
-  ADMINPW="`dd if=/dev/urandom bs=512 count=1 2>/dev/null | tr -c -d "[:alnum:]" | cut -c2-9`"
-else
-  ADMINPW="`pwgen -Bcny | tr \"\\\'\" '^='`"
+# We can override the admin password generation for regression testing predictability
+if [ "${ADMINPW}" = "" ] ; then
+  #
+  # Generate a random administrative password.  If pwgen is available we'll use that,
+  # otherwise try and hack something up using a few standard utilities
+  PWGEN="`which pwgen`"
+  if [ "$PWGEN" = "" ] ; then
+    ADMINPW="`dd if=/dev/urandom bs=512 count=1 2>/dev/null | tr -c -d "[:alnum:]" | cut -c2-9`"
+  else
+    ADMINPW="`pwgen -Bcny | tr \"\\\'\" '^='`"
+  fi
 fi
 psql -q -c "UPDATE usr SET password = '**${ADMINPW}' WHERE user_no = 1;" "${DBNAME}"
 
