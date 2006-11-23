@@ -5,7 +5,7 @@
 <h1>Before Starting</h1>
 
 <h2>Debian Users</h2>
-<p>Ideally you will be running a recent Debian release and will
+<p>Ideally you will be running a recent Debian (or Ubuntu) release and will
 be able to add:</p>
 <pre>
 deb http://debian.mcmillan.net.nz/debian unstable awm
@@ -14,10 +14,24 @@ deb http://debian.mcmillan.net.nz/debian unstable awm
 can use <code>apt-get</code> or <code>synaptic</code> or some other equivalent package
 manager to fetch and install <code>rscds</code> and all the dependencies.</p>
 
+<p>This repository is signed by my public key, which you can install so that
+you don't get asked for confirmation all the time:</p>
+
+<pre>
+sudo apt-key advanced --keyserver subkeys.pgp.net --recv-keys CCA377BD77494424B0DB674F8C90347F8F068012
+</pre>
+
 <p>Skip to the "Database Setup" part if you have done that already.</p>
 
 
 <h2>Other Linux Users</h2>
+
+<h3>RPM Packages of RSCDS</h3>
+<p>I have created RPM packages of RSCDS and libawl-php from the .deb packages
+using "alien". I don't know how well these work, so would appreciate feedback
+about your success with them.</p>
+
+<h3>Gentoo, Slackware, BSD and the rest</h3>
 
 <p>You will need to download the latest versions of the <code>rscds</code> and <code>awl</code> packages
 from the <a href="http://sourceforge.net/project/showfiles.php?group_id=179845">sourceforge download page for rscds</a>.</p>
@@ -49,7 +63,7 @@ a number of years.</p>
 <ul>
   <li>Apache: 1.3.x or 2.x.x</li>
   <li>PHP: 4.3 or greater, including PHP5</li>
-  <li>PostgreSQL: 7.4 or greater</li>
+  <li>PostgreSQL: 7.4 or greater (8.1 or better recommended)</li>
 </ul>
 
 <p>The PostgreSQL database may be installed on a server other
@@ -74,9 +88,16 @@ and which will be granted minimum privileges for the application.</p>
 createuser --no-createdb --no-createrole general
 </pre>
 
+<p>PostgreSQL 7.4 named things slightly differently, so you
+should use something like:</p>
+
+<pre>
+createuser --no-createdb --no-adduser general
+</pre>
+
 <p>You may need to become the 'postgres' user to do this, in which case
 you will need to be the postgres user to create the database as well.
-For example:</p>
+For example (for PostgreSQL 8.x):</p>
 <pre>
 su postgres -c createuser --no-createdb --no-createrole general
 </pre>
@@ -142,6 +163,9 @@ installed from a package.</p>
 able to browse to that address and see a page telling you that
 you need to configure RSCDS.</p>
 
+<p>On Debian systems (or derivatives such as Ubuntu), when you are
+using Apache 2, you should put this definition in the /etc/apache2/sites-available
+directory and you can use the 'a2ensite' command to enable it.</p>
 
 
 <h1>RSCDS Configuration</h1>
@@ -224,6 +248,15 @@ leaves passwords readable like this for security reasons.</p>
 
 <p>If all is working then you should be ready to configure a client
 to use this, and the docs for that are elsewhere.</p>
+
+<h1>Upgrades</h1>
+
+<p>Whenever you upgrade the RSCDS application to a new version you will need to
+run dba/update-rscds-database which will apply any pending database patches, as well as
+enabling any new translations.</p>
+
+<p>In due course the running of this script will be able to be handled by
+the packaging system, but that change will not happen until early 2007.</p>
 
 <?php
  include("inc/page-footer.php");
