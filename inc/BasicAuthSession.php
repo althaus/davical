@@ -73,6 +73,23 @@ class BasicAuthSession {
   * returns a user record object, or false if it all ends in tears.
   */
   function CheckPassword( $username, $password ) {
+    global $c;
+
+    if ( isset($c->authenticate_hook) && isset($c->authenticate_hook['call']) && function_exists($c->authenticate_hook['call']) ) {
+      /**
+      * The authenticate hook needs to:
+      *   - Accept a username / password
+      *   - Confirm the username / password are correct
+      *   - Create (or update) a 'usr' record in our database
+      *   - Return the 'usr' record as an object
+      *   - Return === false when authentication fails
+      *
+      * It can expect that:
+      *   - Configuration data will be in $c->authenticate_hook['config'], which might be an array, or whatever is needed.
+      */
+      return call_user_func( $c->authenticate_hook['call'], $username, $password );
+    }
+
     $qry = new PgQuery( "SELECT * FROM usr WHERE lower(username) = ? ", $username );
     if ( $qry->Exec('BasicAuth',__LINE__,__FILE__) && $qry->rows == 1 ) {
       $usr = $qry->Fetch();
