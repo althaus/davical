@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RSCDS 0.2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-11-08 12:21+1300\n"
+"POT-Creation-Date: 2006-11-25 12:36+1300\n"
 "PO-Revision-Date: 2006-11-06 17:24+1300\n"
 "Last-Translator: Cristina Radalescu <andrew@mcmillan.net.nz>\n"
 "MIME-Version: 1.0\n"
@@ -70,6 +70,13 @@ msgstr "Kalender Benutzer"
 
 msgid "Click to display that relationship"
 msgstr "Hier klicken, um dieses Verhältnis anzuzeigen"
+
+#, fuzzy
+msgid "Click to display user details"
+msgstr "Hier klicken, um dieses Verhältnis anzuzeigen"
+
+msgid "Confirm Deletion of the Relationship Type"
+msgstr ""
 
 msgid "Confirm the new password."
 msgstr "Neues Passwort bestätigen"
@@ -237,6 +244,9 @@ msgstr "Nr."
 msgid "Password"
 msgstr "Neues Passwort"
 
+msgid "Please Confirm Deletion"
+msgstr ""
+
 msgid "Please note the time and advise the administrator of your system."
 msgstr "Bitte notieren Sie sich die Zeit und benachrichtigen Sie Ihren Systemadministrator"
 
@@ -260,9 +270,6 @@ msgstr "Verhältnistyp hinzugefuegt"
 
 msgid "Relationship Type Deleted."
 msgstr "Verhältnisstyp geloescht"
-
-msgid "Relationship Type Updated."
-msgstr "Verhältnistyp aktualisiert"
 
 msgid "Relationship Types"
 msgstr "Verhältnistypen"
@@ -397,6 +404,9 @@ msgstr ""
 
 msgid "you should log on with the username and password that have been issued to you."
 msgstr "Bitte loggen Sie sich mit den Ihnen zugeteilten Benutzernamen und Passwort ein"
+
+#~ msgid "Relationship Type Updated."
+#~ msgstr "Verhältnistyp aktualisiert"
 
 #~ msgid "Email"
 #~ msgstr "E-mail"

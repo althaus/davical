@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-11-08 12:21+1300\n"
+"POT-Creation-Date: 2006-11-25 12:36+1300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -68,6 +68,12 @@ msgid "Calendar Users"
 msgstr ""
 
 msgid "Click to display that relationship"
+msgstr ""
+
+msgid "Click to display user details"
+msgstr ""
+
+msgid "Confirm Deletion of the Relationship Type"
 msgstr ""
 
 msgid "Confirm the new password."
@@ -233,6 +239,9 @@ msgstr ""
 msgid "Password"
 msgstr ""
 
+msgid "Please Confirm Deletion"
+msgstr ""
+
 msgid "Please note the time and advise the administrator of your system."
 msgstr ""
 
@@ -255,9 +264,6 @@ msgid "Relationship Type Added."
 msgstr ""
 
 msgid "Relationship Type Deleted."
-msgstr ""
-
-msgid "Relationship Type Updated."
 msgstr ""
 
 msgid "Relationship Types"

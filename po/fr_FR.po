@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rscds 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-11-13 15:12+1300\n"
+"POT-Creation-Date: 2006-11-25 12:36+1300\n"
 "PO-Revision-Date: 2006-11-13 13:03+1300\n"
 "Last-Translator: Guillaume Rosquin <andrew@mcmillan.net.nz>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -74,6 +74,13 @@ msgstr "Utilisateurs du planning"
 
 msgid "Click to display that relationship"
 msgstr "Cliquez pour afficher cette relation"
+
+#, fuzzy
+msgid "Click to display user details"
+msgstr "Cliquez pour afficher cette relation"
+
+msgid "Confirm Deletion of the Relationship Type"
+msgstr ""
 
 msgid "Confirm the new password."
 msgstr "Confirmer le nouveau mot de passe"
@@ -263,6 +270,9 @@ msgstr "N°"
 msgid "Password"
 msgstr "Mot de passe"
 
+msgid "Please Confirm Deletion"
+msgstr ""
+
 msgid "Please note the time and advise the administrator of your system."
 msgstr "Veuillez noter l'heure et informer l'administrateur de votre système informatique"
 
@@ -289,9 +299,6 @@ msgstr "Type de relation ajoutée"
 
 msgid "Relationship Type Deleted."
 msgstr "Type de relation supprimée"
-
-msgid "Relationship Type Updated."
-msgstr "Type de relation mise à jour"
 
 msgid "Relationship Types"
 msgstr "Types de relations"
@@ -461,3 +468,6 @@ msgstr "Se souvenir de moi"
 
 msgid "you should log on with the username and password that have been issued to you."
 msgstr "Vous devez vous connecter avec le nom d'utilisateur et le mot de passe qui vous ont été fournis."
+
+#~ msgid "Relationship Type Updated."
+#~ msgstr "Type de relation mise à jour"

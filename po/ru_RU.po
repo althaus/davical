@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rscds 0.3.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-11-14 10:08+1300\n"
+"POT-Creation-Date: 2006-11-25 12:36+1300\n"
 "PO-Revision-Date: 2006-11-13 23:07+0500\n"
 "Last-Translator: Nick Khazov <m2k3d0n@users.sourceforge.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -70,6 +70,13 @@ msgstr ""
 
 msgid "Click to display that relationship"
 msgstr "Нажмите чтобы отобразить эту связь"
+
+#, fuzzy
+msgid "Click to display user details"
+msgstr "Нажмите чтобы отобразить эту связь"
+
+msgid "Confirm Deletion of the Relationship Type"
+msgstr ""
 
 #, fuzzy
 msgid "Confirm the new password."
@@ -241,6 +248,9 @@ msgstr ""
 msgid "Password"
 msgstr ""
 
+msgid "Please Confirm Deletion"
+msgstr ""
+
 msgid "Please note the time and advise the administrator of your system."
 msgstr ""
 
@@ -266,10 +276,6 @@ msgstr "Связь добавлена."
 #, fuzzy
 msgid "Relationship Type Deleted."
 msgstr "Связь удалена"
-
-#, fuzzy
-msgid "Relationship Type Updated."
-msgstr "Связь добавлена."
 
 #, fuzzy
 msgid "Relationship Types"
@@ -410,3 +416,7 @@ msgstr ""
 
 msgid "you should log on with the username and password that have been issued to you."
 msgstr "вы должны войти под тем именем польззователя и паролем, который был вам выслан."
+
+#, fuzzy
+#~ msgid "Relationship Type Updated."
+#~ msgstr "Связь добавлена."
