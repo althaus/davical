@@ -1,30 +1,50 @@
 
-#header {
+#logo {
   height: 80px;
-  width: 100%;
+  width: 98%;
   background: url(images/logo.gif) #bb1f1f no-repeat center left;
-  margin-top: 10px;
+  margin-top: 8px;
   border-bottom: #d2d2d2 solid 5px;
   text-align: right;
-  margin-bottom: 20px;
-  font-size: 0.7em;
+  margin-bottom: 5px;
+  font-weight: 0;
+  font-size: 1em;
+  color: #FFFFFF;
+  display:block;
 }
+
+#title {
+  float: left;
+  color: #FFFFFF;
+  padding-left: 100px;
+  margin-top: 6px;
+  font-family: helvetica, arial, sans-serif;
+  font-size: 175%;
+  font-weight: 0;
+  }
+
+#subTitle {
+  float: left;
+  clear: left;
+  color: #FFFFFF;
+  padding-left: 102px;
+  padding-top: 3px;
+  font-family: helvetica, arial, sans-serif;
+  font-size: 75%;
+  font-weight: 0;
+}
+
 
 #headerLinks {
   color: #FFFFFF;
   font-family: helvetica, arial, sans-serif;
-  font-size: 80%;
-  padding-left: 100px;
+  font-size: 65%;
   padding-top: 60px;
   padding-right: 5px;
-  display:block;
   }
 
 #headerLinks .hlink {
   color: #FFFFFF;
-  font-family: helvetica, arial, sans-serif;
-  font-size: 60%;
-  text-decoration: none;
   }
 
 #headerLinks .hlink:link {
@@ -45,23 +65,4 @@
 #headerLinks .hlink:visited {
   color: #FFFFFF;
   }
-
-#title {
-  float: left;
-  color: #FFFFFF;
-  padding-left: 100px;
-  margin-top: 1px;
-  font-family: helvetica, arial, sans-serif;
-  font-size: 140%;
-  }
-
-#subTitle {
-  float: left;
-  clear: left;
-  color: #FFFFFF;
-  padding-left: 102px;
-  padding-top: 2px;
-  font-family: helvetica, arial, sans-serif;
-  font-size: 50%;
-}
 
