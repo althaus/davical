@@ -107,7 +107,7 @@ class RSCDSUser extends User
       $browser->AddOrder( 'rt_name', 'A' );
 
     if ( $c->enable_row_linking ) {
-      $browser->RowFormat( "<tr onMouseover=\"LinkHref(this,1);\" title=\"".translate("Click to display that relationship")."\" class=\"r%d\">\n", "</tr>\n", '#even' );
+      $browser->RowFormat( "<tr onMouseover=\"LinkHref(this,1);\" title=\"".translate("Click to display that user")."\" class=\"r%d\">\n", "</tr>\n", '#even' );
     }
     else {
       $browser->RowFormat( "<tr class=\"r%d\">\n", "</tr>\n", '#even' );
@@ -188,7 +188,7 @@ EOSQL;
     else
       $browser->AddOrder( 'rt_name', 'A' );
 
-    $browser->RowFormat( "<tr onMouseover=\"LinkHref(this,1);\" title=\"".translate("Click to display that relationship")."\" class=\"r%d\">\n", "</tr>\n", '#even' );
+    $browser->RowFormat( "<tr onMouseover=\"LinkHref(this,1);\" title=\"".translate("Click to display that user")."\" class=\"r%d\">\n", "</tr>\n", '#even' );
     $browser->DoQuery();
 
     $html = ( $title == "" ? "" : $ef->BreakLine(translate($title)) );
