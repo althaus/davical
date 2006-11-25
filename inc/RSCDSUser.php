@@ -59,6 +59,7 @@ class RSCDSUser extends User
 
     $html .= $this->RenderRelationshipsFrom($ef);
     $html .= $this->RenderRelationshipsTo($ef);
+    $html .= $this->RenderCollections($ef);
 
     $html .= "</table>\n";
     $html .= "</div>";
@@ -197,6 +198,45 @@ EOSQL;
 
     return $html;
   }
+
+
+  /**
+  * Render the user's collections
+  *
+  * @return string The string of html to be output
+  */
+  function RenderCollections( $ef, $title = null ) {
+    global $session, $c;
+
+    if ( $title == null ) $title = i18n("This user's collections");
+    $browser = new Browser("");
+
+    $browser->AddHidden( 'collection_link', "'<a href=\"/collection.php?user_no=' || user_no || '&dav_name=' || dav_name || '\">' || dav_name || '</a>'" );
+    $browser->AddColumn( 'dav_name', translate('Collection Path'), 'left', '##collection_link##' );
+    $browser->AddColumn( 'is_calendar', translate('Is a Calendar?'), 'centre', '', "CASE WHEN is_calendar THEN 'Yes' ELSE 'No' END" );
+    $browser->AddColumn( 'created', translate('Created On') );
+    $browser->AddColumn( 'modified', translate('Changed On') );
+
+    $browser->SetJoins( 'collection LEFT JOIN usr USING (user_no)' );
+    $browser->SetWhere( "collection.user_no = $this->user_no" );
+
+    if ( isset( $_GET['o']) && isset($_GET['d']) ) {
+      $browser->AddOrder( $_GET['o'], $_GET['d'] );
+    }
+    else
+      $browser->AddOrder( 'dav_name', 'A' );
+
+    $browser->RowFormat( "<tr onMouseover=\"LinkHref(this,1);\" title=\"".translate("Click to display the contents of the collection")."\" class=\"r%d\">\n", "</tr>\n", '#even' );
+    $browser->DoQuery();
+
+    $html = ( $title == "" ? "" : $ef->BreakLine(translate($title)) );
+    $html .= "<tr><td>&nbsp;</td><td>\n";
+    $html .= $browser->Render();
+    $html .= "</td></tr>\n";
+
+    return $html;
+  }
+
 
   /**
   * Validate the information the user submitted
