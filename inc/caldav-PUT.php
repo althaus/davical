@@ -34,7 +34,7 @@ dbg_log_array( "PUT", 'EVENT', $ic->properties['VCALENDAR'][0], true );
 
 if ( isset($request_container) ) unset($request_container);
 if ( isset($request_name) ) unset($request_name);
-if ( preg_match( '#^(.*)/([^/]+)$#', $request_path, $matches ) ) {
+if ( preg_match( '#^(.*/)([^/]+)$#', $request_path, $matches ) ) {
   $request_container = $matches[1];
   $request_name = $matches[2];
 }
@@ -49,7 +49,7 @@ else {
 /**
 * Before we write the event, we check the container exists, creating it if it doesn't
 */
-if ( $request_container == "/$path_username" ) {
+if ( $request_container == "/$path_username/" ) {
   dbg_error_log( "WARN", " Storing events directly in user's base folders is not recommended!");
 }
 else {
@@ -61,7 +61,7 @@ else {
     exit(0);
   }
   if ( $qry->rows == 0 ) {
-    if ( preg_match( '#^(.*)/([^/]+)$#', $request_container, $matches ) ) {
+    if ( preg_match( '#^(.*/)([^/]+/)$#', $request_container, $matches ) ) {
       $parent_container = $matches[1];
       $displayname = $matches[2];
     }
