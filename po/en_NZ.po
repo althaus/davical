@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-11-25 12:36+1300\n"
+"POT-Creation-Date: 2006-11-26 11:54+1300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -67,10 +67,19 @@ msgstr ""
 msgid "Calendar Users"
 msgstr ""
 
-msgid "Click to display that relationship"
+msgid "Changed On"
+msgstr ""
+
+msgid "Click to display that user"
+msgstr ""
+
+msgid "Click to display the contents of the collection"
 msgstr ""
 
 msgid "Click to display user details"
+msgstr ""
+
+msgid "Collection Path"
 msgstr ""
 
 msgid "Confirm Deletion of the Relationship Type"
@@ -83,6 +92,9 @@ msgid "Confirm"
 msgstr ""
 
 msgid "Create"
+msgstr ""
+
+msgid "Created On"
 msgstr ""
 
 msgid "Database Error."
@@ -180,6 +192,9 @@ msgid "Invalid username or password."
 msgstr ""
 
 msgid "Is Assisted by"
+msgstr ""
+
+msgid "Is a Calendar?"
 msgstr ""
 
 msgid "Is a member of group"
@@ -336,6 +351,9 @@ msgid "The user's password for logging in."
 msgstr ""
 
 msgid "There was an error writing to the database."
+msgstr ""
+
+msgid "This user's collections"
 msgstr ""
 
 msgid "To Group?"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rscds 0.3.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-11-25 12:36+1300\n"
+"POT-Creation-Date: 2006-11-26 11:54+1300\n"
 "PO-Revision-Date: 2006-11-13 23:07+0500\n"
 "Last-Translator: Nick Khazov <m2k3d0n@users.sourceforge.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -68,12 +68,23 @@ msgstr "Просмотреть всех пользователей"
 msgid "Calendar Users"
 msgstr ""
 
-msgid "Click to display that relationship"
+msgid "Changed On"
+msgstr ""
+
+#, fuzzy
+msgid "Click to display that user"
+msgstr "Нажмите чтобы отобразить эту связь"
+
+#, fuzzy
+msgid "Click to display the contents of the collection"
 msgstr "Нажмите чтобы отобразить эту связь"
 
 #, fuzzy
 msgid "Click to display user details"
 msgstr "Нажмите чтобы отобразить эту связь"
+
+msgid "Collection Path"
+msgstr ""
 
 msgid "Confirm Deletion of the Relationship Type"
 msgstr ""
@@ -87,6 +98,10 @@ msgid "Confirm"
 msgstr "Подаренные"
 
 msgid "Create"
+msgstr "Создать"
+
+#, fuzzy
+msgid "Created On"
 msgstr "Создать"
 
 msgid "Database Error."
@@ -188,6 +203,9 @@ msgid "Invalid username or password."
 msgstr "Неверное имя пользователя или пароль."
 
 msgid "Is Assisted by"
+msgstr ""
+
+msgid "Is a Calendar?"
 msgstr ""
 
 msgid "Is a member of group"
@@ -349,6 +367,9 @@ msgstr ""
 
 msgid "There was an error writing to the database."
 msgstr "Произошла ошибка при записи в базу данных."
+
+msgid "This user's collections"
+msgstr ""
 
 #, fuzzy
 msgid "To Group?"

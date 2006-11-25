@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rscds 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-11-25 12:36+1300\n"
+"POT-Creation-Date: 2006-11-26 11:54+1300\n"
 "PO-Revision-Date: 2006-11-13 13:03+1300\n"
 "Last-Translator: Guillaume Rosquin <andrew@mcmillan.net.nz>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -72,12 +72,23 @@ msgstr "Affiche tous les utilisateurs"
 msgid "Calendar Users"
 msgstr "Utilisateurs du planning"
 
-msgid "Click to display that relationship"
+msgid "Changed On"
+msgstr ""
+
+#, fuzzy
+msgid "Click to display that user"
+msgstr "Cliquez pour afficher cette relation"
+
+#, fuzzy
+msgid "Click to display the contents of the collection"
 msgstr "Cliquez pour afficher cette relation"
 
 #, fuzzy
 msgid "Click to display user details"
 msgstr "Cliquez pour afficher cette relation"
+
+msgid "Collection Path"
+msgstr ""
 
 msgid "Confirm Deletion of the Relationship Type"
 msgstr ""
@@ -89,6 +100,10 @@ msgid "Confirm"
 msgstr "Confirmer"
 
 msgid "Create"
+msgstr "Créer"
+
+#, fuzzy
+msgid "Created On"
 msgstr "Créer"
 
 msgid "Database Error."
@@ -195,6 +210,9 @@ msgstr "Nom d'utilisateur ou mot de passe incorrects."
 
 msgid "Is Assisted by"
 msgstr "est assisté par"
+
+msgid "Is a Calendar?"
+msgstr ""
 
 msgid "Is a member of group"
 msgstr "est un membre du groupe"
@@ -390,6 +408,9 @@ msgstr "Le mot de passe de l'utilisateur pour qu'il se connecte"
 
 msgid "There was an error writing to the database."
 msgstr "Il s'est produit une erreur lors de l'écriture des données"
+
+msgid "This user's collections"
+msgstr ""
 
 msgid "To Group?"
 msgstr "Au groupe"

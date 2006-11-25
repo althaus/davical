@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RSCDS 0.2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-11-25 12:36+1300\n"
+"POT-Creation-Date: 2006-11-26 11:54+1300\n"
 "PO-Revision-Date: 2006-11-06 17:24+1300\n"
 "Last-Translator: Cristina Radalescu <andrew@mcmillan.net.nz>\n"
 "MIME-Version: 1.0\n"
@@ -68,12 +68,23 @@ msgstr "Nach allen Benutzern durchsuchen"
 msgid "Calendar Users"
 msgstr "Kalender Benutzer"
 
-msgid "Click to display that relationship"
+msgid "Changed On"
+msgstr ""
+
+#, fuzzy
+msgid "Click to display that user"
+msgstr "Hier klicken, um dieses Verhältnis anzuzeigen"
+
+#, fuzzy
+msgid "Click to display the contents of the collection"
 msgstr "Hier klicken, um dieses Verhältnis anzuzeigen"
 
 #, fuzzy
 msgid "Click to display user details"
 msgstr "Hier klicken, um dieses Verhältnis anzuzeigen"
+
+msgid "Collection Path"
+msgstr ""
 
 msgid "Confirm Deletion of the Relationship Type"
 msgstr ""
@@ -85,6 +96,10 @@ msgid "Confirm"
 msgstr "Bestätigung"
 
 msgid "Create"
+msgstr "Erstellen"
+
+#, fuzzy
+msgid "Created On"
 msgstr "Erstellen"
 
 msgid "Database Error."
@@ -184,6 +199,9 @@ msgid "Invalid username or password."
 msgstr "Ungültiger Benutzername oder Passwort"
 
 msgid "Is Assisted by"
+msgstr ""
+
+msgid "Is a Calendar?"
 msgstr ""
 
 msgid "Is a member of group"
@@ -342,6 +360,9 @@ msgstr "Passwort des Benutzers zum Einloggen"
 
 msgid "There was an error writing to the database."
 msgstr "Ein Fehler ist aufgetreten beim Schreiben im Datenverzeichnis"
+
+msgid "This user's collections"
+msgstr ""
 
 msgid "To Group?"
 msgstr "Zur Gruppe?"
