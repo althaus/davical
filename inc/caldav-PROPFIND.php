@@ -310,7 +310,6 @@ elseif ( $request->AllowedTo('read') ) {
 }
 else {
   $request->DoResponse( 403, translate("You do not have appropriate rights to view that resource.") );
-  exit(0);
 }
 
 // dbg_log_array( "PROPFIND", "XML", $multistatus, true );
