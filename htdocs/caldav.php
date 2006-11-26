@@ -67,11 +67,11 @@ else {
     $path_user_no = $path_user_record->user_no;
   }
   if ( $session->AllowedTo("Admin") ) {
-    $permissions = array('read' => 'read', "write" => 'write', 'bind' => 'bind', 'unbind' => 'unbind' );
+    $permissions = array('all' => 'all' );
     dbg_error_log( "caldav", "Full permissions for a systems administrator" );
   }
   else if ( $session->user_no == $path_user_no ) {
-    $permissions = array('read' => 'read', "write" => 'write', 'bind' => 'bind', 'unbind' => 'unbind' );
+    $permissions = array('all' => 'all' );
     dbg_error_log( "caldav", "Full permissions for user accessing their own hierarchy" );
   }
   else if ( isset($path_user_no) ) {
@@ -83,10 +83,13 @@ else {
       $permission_result = "!".$permission_result->perm; // We prepend something to ensure we get a non-zero position.
       $permissions = array();
       if ( strpos($permission_result,"R") )       $permissions['read'] = 'read';
-      if ( strpos($permission_result,"W") )       $permissions['write'] = 'write';
-      if ( strpos($permission_result,"C") )       $permissions['bind'] = 'bind';      // PUT of new content (i.e. Create)
-      if ( strpos($permission_result,"D") )       $permissions['unbind'] = 'unbind';  // DELETE
-      if ( strpos($permission_result,"M") )       $permissions['write-content'] = 'write-content';  // DELETE
+      if ( strpos($permission_result,"W") )
+        $permissions['write'] = 'write';
+      else {
+        if ( strpos($permission_result,"C") )       $permissions['bind'] = 'bind';      // PUT of new content (i.e. Create)
+        if ( strpos($permission_result,"D") )       $permissions['unbind'] = 'unbind';  // DELETE
+        if ( strpos($permission_result,"M") )       $permissions['write-content'] = 'write-content';  // DELETE
+      }
     }
     dbg_error_log( "caldav", "Restricted permissions for user accessing someone elses hierarchy: read=%s, write=%s", isset($permissions['read']), isset($permissions['write']) );
   }
