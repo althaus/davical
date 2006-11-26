@@ -23,10 +23,10 @@ if ( $request->path == '/' ) {
 else {
   if ( preg_match( '#^/[^/]+/$#', $request->path) ) {
     $sql = "SELECT user_no, '/' || username || '/' AS dav_name, md5( '/' || username || '/') AS dav_etag, ";
-    $sql .= "updated AS created, fullname AS dav_displayname, FALSE AS is_calendar FROM usr WHERE user_no = $path_user_no ; ";
+    $sql .= "updated AS created, fullname AS dav_displayname, FALSE AS is_calendar FROM usr WHERE user_no = $request->user_no ; ";
   }
   else {
-    $sql = "SELECT user_no, dav_name, dav_etag, created, dav_displayname, is_calendar FROM collection WHERE user_no = $path_user_no AND dav_name = ".qpg($request->path);
+    $sql = "SELECT user_no, dav_name, dav_etag, created, dav_displayname, is_calendar FROM collection WHERE user_no = $request->user_no AND dav_name = ".qpg($request->path);
   }
   $qry = new PgQuery($sql );
   if( $qry->Exec("OPTIONS",__LINE__,__FILE__) && $qry->rows > 0 && $collection = $qry->Fetch() ) {
