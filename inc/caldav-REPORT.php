@@ -10,12 +10,8 @@
 */
 dbg_error_log("REPORT", "method handler");
 
-if ( ! isset($permissions['read']) ) {
-  header("HTTP/1.1 403 Forbidden");
-  header("Content-type: text/plain");
-  echo "You may not access that calendar.";
-  dbg_error_log("GET", "Access denied for User: %d, Path: %s", $session->user_no, $request_path);
-  return;
+if ( ! $request->AllowedTo('read') ) {
+  $request->DoResponse( 403, translate("You may not access that calendar") );
 }
 
 
@@ -23,7 +19,7 @@ require_once("XMLElement.php");
 
 $reportnum = -1;
 $report = array();
-foreach( $xml_tags AS $k => $v ) {
+foreach( $request->xml_tags AS $k => $v ) {
 
   $fulltag = $v['tag'];
   if ( preg_match('/^(.*):([^:]+)$/', $fulltag, $matches) ) {
@@ -167,7 +163,7 @@ foreach( $xml_tags AS $k => $v ) {
 * Return XML for a single calendar (or todo) entry from the DB
 */
 function calendar_to_xml( $properties, $item ) {
-  global $session, $c;
+  global $session, $c, $request;
 
   dbg_error_log("REPORT","Building XML Response for item '%s'", $item->dav_name );
 
@@ -193,7 +189,7 @@ function calendar_to_xml( $properties, $item ) {
     $prop->NewElement("getetag", '"'.$item->dav_etag.'"' );
   }
   if ( isset($properties['CURRENT-USER-PRIVILEGE-SET']) ) {
-    $prop->NewElement("current-user-privilege-set", privileges($GLOBALS['permissions']) );
+    $prop->NewElement("current-user-privilege-set", privileges($request->permissions) );
   }
   $status = new XMLElement("status", "HTTP/1.1 200 OK" );
 
@@ -208,14 +204,9 @@ function calendar_to_xml( $properties, $item ) {
 
 
 if ( isset($unsupported) && count($unsupported) > 0 ) {
-
   /**
   * That's a *BAD* request!
   */
-
-  header('HTTP/1.1 501 Not Implemented');
-  header('Content-Type: application/xml; charset="utf-8"');
-
   $badprops = new XMLElement( "prop" );
   foreach( $unsupported AS $k => $v ) {
     dbg_error_log("ERROR", " REPORT: Support for $v::$k properties is not implemented yet");
@@ -223,9 +214,7 @@ if ( isset($unsupported) && count($unsupported) > 0 ) {
   }
   $error = new XMLElement("error", new XMLElement( "propfind",$badprops), array("xmlns" => "DAV:") );
 
-  echo $error->Render(0,'<?xml version="1.0" ?>');
-
-  exit(0);
+  $request->DoResponse( 403, $error->Render(0,'<?xml version="1.0" ?>'), 'text/xml; charset="utf-8"');
 }
 else {
 
@@ -239,7 +228,7 @@ else {
 //    dbg_error_log("REPORT", "Report[%d] Start:%s, End: %s, Events: %d, Todos: %d, Freebusy: %d",
 //         $i, $report[$i]['start'], $report[$i]['end'], $report[$i]['filters']['VEVENT'], $report[$i]['filters']['VTODO'], $report[$i]['filters']['VFREEBUSY']);
 
-    $where .= " WHERE caldav_data.dav_name ~ ".qpg("^".$request_path)." ";
+    $where .= " WHERE caldav_data.dav_name ~ ".qpg("^".$request->path)." ";
     switch( $report[$i]['type'] ) {
       case 'CALENDAR-QUERY':
         if ( isset( $report[$i]['start'] ) ) {
@@ -290,14 +279,9 @@ else {
 }
 $multistatus = new XMLElement( "multistatus", $responses, array('xmlns'=>'DAV:') );
 
-$xmldoc = $multistatus->Render();
+$xmldoc = $multistatus->Render( 0, '<?xml version="1.0" encoding="UTF-8" ?>');
 $etag = md5($xmldoc);
-
-header("HTTP/1.1 207 Multi-Status");
-header("Content-type: text/xml;charset=UTF-8");
 header("ETag: \"$etag\"");
-
-echo'<?xml version="1.0" encoding="UTF-8" ?>'."\n";
-echo $xmldoc;
+$request->DoResponse( 207, $xmldoc, 'text/xml; charset="utf-8"' );
 
 ?>
