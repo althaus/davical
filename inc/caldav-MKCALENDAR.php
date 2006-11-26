@@ -23,10 +23,10 @@ if ( preg_match( '#^(.*/)([^/]+)(/)?$#', $request->path, $matches ) ) {
 $sql = "SELECT * FROM collection WHERE user_no = ? AND dav_name = ?;";
 $qry = new PgQuery( $sql, $request->user_no, $request->path );
 if ( ! $qry->Exec("MKCALENDAR") ) {
-  $request->DoResponse( 500, "Error querying database." );
+  $request->DoResponse( 500, translate("Error querying database.") );
 }
 if ( $qry->rows != 0 ) {
-  $request->DoResponse( 412, "A collection already exists at that location." );
+  $request->DoResponse( 412, translate("A collection already exists at that location.") );
 }
 
 $sql = "INSERT INTO collection ( user_no, parent_container, dav_name, dav_etag, dav_displayname, is_calendar, created, modified ) VALUES( ?, ?, ?, ?, ?, ?, current_timestamp, current_timestamp );";
@@ -34,10 +34,10 @@ $qry = new PgQuery( $sql, $request->user_no, $parent_container, $request->path, 
 
 if ( $qry->Exec("MKCALENDAR",__LINE__,__FILE__) ) {
   dbg_error_log( "MKCALENDAR", "New calendar '%s' created named '%s' for user '%d' in parent '%s'", $request->path, $displayname, $session->user_no, $parent_container);
-  $request->DoResponse( 200, "" );
+  $request->DoResponse( 201, "" );
 }
 else {
-  $request->DoResponse( 500, "Error writing calendar details to database." );
+  $request->DoResponse( 500, translate("Error writing calendar details to database.") );
 }
 
 /**
