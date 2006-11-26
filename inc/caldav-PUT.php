@@ -119,12 +119,12 @@ elseif ( $qry->rows == 1 ) {
 
 if ( $put_action_type == 'INSERT' ) {
   $qry = new PgQuery( "INSERT INTO caldav_data ( user_no, dav_name, dav_etag, caldav_data, caldav_type, logged_user, created, modified ) VALUES( ?, ?, ?, ?, ?, ?, current_timestamp, current_timestamp )",
-                         $request->user_no, $request->path, $etag, $raw_post, $ic->type, $session->user_no );
+                         $request->user_no, $request->path, $etag, $request->raw_post, $ic->type, $session->user_no );
   $qry->Exec("PUT");
 }
 else {
   $qry = new PgQuery( "UPDATE caldav_data SET caldav_data=?, dav_etag=?, caldav_type=?, logged_user=?, modified=current_timestamp WHERE user_no=? AND dav_name=?",
-                         $raw_post, $etag, $ic->type, $session->user_no, $request->user_no, $request->path );
+                         $request->raw_post, $etag, $ic->type, $session->user_no, $request->user_no, $request->path );
   $qry->Exec("PUT");
 }
 
