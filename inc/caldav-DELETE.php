@@ -16,52 +16,39 @@ dbg_error_log("delete", "DELETE method handler");
 * truth about Evolution's broken handling of this: http://bugzilla.gnome.org/show_bug.cgi?id=349573
 */
 
-if ( !isset($etag_if_match) && isset($etag_none_match) && isset($_SERVER['HTTP_USER_AGENT'])
+if ( !isset($request->etag_if_match) && isset($request->etag_none_match) && isset($_SERVER['HTTP_USER_AGENT'])
           && preg_match('#Evolution/([0-9]+[.][0-9]+)#', $_SERVER['HTTP_USER_AGENT'], $matches ) ) {
   if ( doubleval($matches[1]) <= 1.9 ) {
-    $etag_if_match = $etag_none_match;
-    unset($etag_none_match);
+    $request->etag_if_match = $request->etag_none_match;
+    unset($request->etag_none_match);
   }
 }
 
 
-if ( !isset($permissions['write']) ) {
-    header("HTTP/1.1 403 Forbidden");
-    header("Content-type: text/plain");
-    if ( isset($etag_none_match) && $etag_none_match == $delete_row->dav_etag ) {
-      echo "Permission denied";
-    }
-  exit(0);
+if ( ! $request->AllowedTo('delete') ) {
+  $request->DoResponse( 403, translate("You may not delete entries from this calendar.") );
 }
 
 /**
 * We read the resource first, so we can check if it matches (or does not match)
 */
-$qry = new PgQuery( "SELECT * FROM caldav_data WHERE user_no = ? AND dav_name = ?;", (isset($path_user_no)?$path_user_no:$session->user_no), $request_path );
+$qry = new PgQuery( "SELECT * FROM caldav_data WHERE user_no = ? AND dav_name = ?;", (isset($request->user_no)?$request->user_no:$session->user_no), $request->path );
 if ( $qry->Exec("DELETE") && $qry->rows == 1 ) {
   $delete_row = $qry->Fetch();
-  if ( (isset($etag_if_match) && $etag_if_match != $delete_row->dav_etag) ) {
-    header("HTTP/1.1 412 Precondition Failed");
-    header("Content-type: text/plain");
-    if ( isset($etag_if_match) && $etag_if_match != $delete_row->dav_etag ) {
-      echo "Resource does not match 'If-Match' header - not deleted\n";
-    }
-    exit(0);
+  if ( (isset($request->etag_if_match) && $request->etag_if_match != $delete_row->dav_etag) ) {
+    $request->DoResponse( 412, translate("Resource does not match 'If-Match' header - not deleted") );
   }
-  $qry = new PgQuery( "DELETE FROM caldav_data WHERE user_no = ? AND dav_name = ?;", (isset($path_user_no)?$path_user_no:$session->user_no), $request_path );
+  $qry = new PgQuery( "DELETE FROM caldav_data WHERE user_no = ? AND dav_name = ?;", (isset($request->user_no)?$request->user_no:$session->user_no), $request->path );
   if ( $qry->Exec("DELETE") ) {
-    header("HTTP/1.1 200 Deleted", true, 200);
-    header("Content-length: 0");
-    @dbg_error_log( "DELETE", "DELETE: User: %d, ETag: %s, Path: %s", $session->user_no, $etag_if_match, $request_path);
+    @dbg_error_log( "DELETE", "DELETE: User: %d, ETag: %s, Path: %s", $session->user_no, $request->etag_if_match, $request->path);
+    $request->DoResponse( 200, "" );
   }
   else {
-    header("HTTP/1.1 500 Infernal Server Error");
-    @dbg_error_log( "DELETE", "DELETE failed: User: %d, ETag: %s, Path: %s, SQL: %s", $session->user_no, $etag_if_match, $request_path, $qry->querystring);
+    $request->DoResponse( 500, translate("Error querying database.") );
   }
 }
 else {
-  header("HTTP/1.1 404 Not Found");
-  @dbg_error_log( "DELETE", "DELETE row not found: User: %d, ETag: %s, Path: %s", $qry->rows, $session->user_no, $etag_if_match, $request_path);
+    $request->DoResponse( 404, "");
 }
 
 ?>
