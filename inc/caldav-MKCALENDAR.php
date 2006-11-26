@@ -10,44 +10,34 @@
 */
 dbg_error_log("MKCALENDAR", "method handler");
 
-if ( ! isset($permissions['write']) ) {
-  header("HTTP/1.1 403 Forbidden");
-  header("Content-type: text/plain");
-  echo "You may not create a calendar there.";
-  dbg_error_log("ERROR", "MKCALENDAR Access denied for User: %d, Path: %s", $session->user_no, $request_path);
-  exit(0);
+if ( ! $request->AllowedTo('write') ) {
+  $request->DoResponse( 403, translate("You may not create a calendar there.") );
 }
 
-$displayname = $request_path;
+$displayname = $request->path;
 $parent_container = '/';
-if ( preg_match( '#^(.*/)([^/]+)(/)?$#', $request_path, $matches ) ) {
+if ( preg_match( '#^(.*/)([^/]+)(/)?$#', $request->path, $matches ) ) {
   $parent_container = $matches[1];
   $displayname = $matches[2];
 }
 $sql = "SELECT * FROM collection WHERE user_no = ? AND dav_name = ?;";
-$qry = new PgQuery( $sql, $path_user_no, $request_path );
+$qry = new PgQuery( $sql, $request->user_no, $request->path );
 if ( ! $qry->Exec("MKCALENDAR") ) {
-  header("HTTP/1.1 500 Infernal Server Error");
-  dbg_error_log( "ERROR", " MKCALENDAR Failed (database error) for '%s' named '%s', user '%d' in parent '%s'", $request_path, $displayname, $session->user_no, $parent_container);
-  exit(0);
+  $request->DoResponse( 500, "Error querying database." );
 }
 if ( $qry->rows != 0 ) {
-  header("HTTP/1.1 412 Calendar Already Exists");
-  dbg_error_log( "ERROR", " MKCALENDAR Failed (already exists) for '%s' named '%s', user '%d' in parent '%s'", $request_path, $displayname, $session->user_no, $parent_container);
-  exit(0);
+  $request->DoResponse( 412, "A collection already exists at that location." );
 }
 
 $sql = "INSERT INTO collection ( user_no, parent_container, dav_name, dav_etag, dav_displayname, is_calendar, created, modified ) VALUES( ?, ?, ?, ?, ?, TRUE, current_timestamp, current_timestamp );";
-$qry = new PgQuery( $sql, $path_user_no, $parent_container, $request_path, md5($path_user_no. $request_path), $displayname );
+$qry = new PgQuery( $sql, $request->user_no, $parent_container, $request->path, md5($request->user_no. $request->path), $displayname );
 
 if ( $qry->Exec("MKCALENDAR",__LINE__,__FILE__) ) {
-  header("HTTP/1.1 200 Created");
-  dbg_error_log( "MKCALENDAR", "New calendar '%s' created named '%s' for user '%d' in parent '%s'", $request_path, $displayname, $session->user_no, $parent_container);
+  dbg_error_log( "MKCALENDAR", "New calendar '%s' created named '%s' for user '%d' in parent '%s'", $request->path, $displayname, $session->user_no, $parent_container);
+  $request->DoResponse( 200, "" );
 }
 else {
-  header("HTTP/1.1 500 Infernal Server Error");
-  dbg_error_log( "ERROR", " MKCALENDAR Failed for '%s' named '%s', user '%d' in parent '%s'", $request_path, $displayname, $session->user_no, $parent_container);
-  exit(0);
+  $request->DoResponse( 500, "Error writing calendar details to database." );
 }
 
 /**
