@@ -12,7 +12,8 @@ require_once("interactive-page.php");
   $c->page_title = translate("Collection Contents");
   $browser = new Browser($c->page_title);
 
-  $browser->AddColumn( 'dav_name', translate('Path'), '', '', 'caldav_data.dav_name' );
+  // $browser->AddColumn( 'dav_name', translate('Path'), '', '', 'caldav_data.dav_name' );
+  // $browser->AddColumn( 'uid', translate('UID') );
   $browser->AddColumn( 'caldav_type', translate('Type') );
   $browser->AddColumn( 'dtstart', translate('Start'), '', '', "to_char(dtstart,'YYYY-MM-DD HH24:MI')" );
   $browser->AddColumn( 'dtend', translate('Finish'), '', '', "to_char(dtstart,'YYYY-MM-DD HH24:MI')" );
