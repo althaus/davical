@@ -14,36 +14,24 @@ dbg_error_log("PUT", "method handler");
 // after constructing an eTag and getting a name for it...
 
 $fh = fopen('/tmp/PUT.txt','w');
-fwrite($fh,$raw_post);
+fwrite($fh,$request->raw_post);
 fclose($fh);
 
-if ( ! isset($permissions['write']) ) {
-  header("HTTP/1.1 403 Forbidden");
-  header("Content-type: text/plain");
-  echo "You may not write to that calendar.";
-  dbg_error_log("ERROR", "PUT Access denied for User: %d, Path: %s", $session->user_no, $request_path);
-  return;
-}
-
-$etag = md5($raw_post);
+$etag = md5($request->raw_post);
 
 include_once("iCalendar.php");
-$ic = new iCalendar(array( 'icalendar' => $raw_post ));
+$ic = new iCalendar(array( 'icalendar' => $request->raw_post ));
 
 dbg_log_array( "PUT", 'EVENT', $ic->properties['VCALENDAR'][0], true );
 
 if ( isset($request_container) ) unset($request_container);
 if ( isset($request_name) ) unset($request_name);
-if ( preg_match( '#^(.*/)([^/]+)$#', $request_path, $matches ) ) {
+if ( preg_match( '#^(.*/)([^/]+)$#', $request->path, $matches ) ) {
   $request_container = $matches[1];
   $request_name = $matches[2];
 }
 else {
-  header("HTTP/1.1 406 Not acceptable");
-  header("Content-type: text/plain");
-  echo "You may not PUT a collection - you may only PUT things *in* one or MKCOL/MKCALENDAR to create one.";
-  dbg_error_log("ERROR", "PUT unacceptable for User: %d, Path: %s", $session->user_no, $request_path);
-  return;
+  $request->DoResponse( 406, translate("You may not PUT a collection - you may only PUT things *in* one or MKCOL/MKCALENDAR to create one."));
 }
 
 /**
@@ -54,11 +42,9 @@ if ( $request_container == "/$path_username/" ) {
 }
 else {
   $sql = "SELECT * FROM collection WHERE user_no = ? AND dav_name = ?;";
-  $qry = new PgQuery( $sql, $path_user_no, $request_container );
+  $qry = new PgQuery( $sql, $request->user_no, $request_container );
   if ( ! $qry->Exec("PUT") ) {
-    header("HTTP/1.1 500 Internal Server Error");
-    dbg_error_log( "ERROR", " PUT Failed (database error) for '%s' named '%s', user '%d' in parent '%s'", $request_path, $session->user_no, $parent_container);
-    exit(0);
+    $request->DoResponse( 500, translate("Error querying database.") );
   }
   if ( $qry->rows == 0 ) {
     if ( preg_match( '#^(.*/)([^/]+/)$#', $request_container, $matches ) ) {
@@ -66,7 +52,7 @@ else {
       $displayname = $matches[2];
     }
     $sql = "INSERT INTO collection ( user_no, parent_container, dav_name, dav_etag, dav_displayname, is_calendar, created, modified ) VALUES( ?, ?, ?, ?, ?, TRUE, current_timestamp, current_timestamp );";
-    $qry = new PgQuery( $sql, $path_user_no, $parent_container, $request_container, md5($path_user_no. $request_container), $displayname );
+    $qry = new PgQuery( $sql, $request->user_no, $parent_container, $request_container, md5($request->user_no. $request_container), $displayname );
     $qry->Exec("PUT");
   }
 }
@@ -76,11 +62,9 @@ else {
 * We read any existing object so we can check the ETag.
 */
 unset($put_action_type);
-$qry = new PgQuery( "SELECT * FROM caldav_data WHERE user_no=? AND dav_name=?", $path_user_no, $request_path );
+$qry = new PgQuery( "SELECT * FROM caldav_data WHERE user_no=? AND dav_name=?", $request->user_no, $request->path );
 if ( !$qry->Exec("PUT") || $qry->rows > 1 ) {
-  header("HTTP/1.1 500 Infernal Server Error");
-  dbg_error_log("ERROR","Query failure, or multiple events match replaced path for user %d, path %s", $session->user_no, $request_path );
-  exit(0);
+  $request->DoResponse( 500, translate("Error querying database.") );
 }
 elseif ( $qry->rows < 1 ) {
   if ( isset($etag_if_match) && $etag_if_match != '' ) {
@@ -90,15 +74,14 @@ elseif ( $qry->rows < 1 ) {
     * entity exists, the server MUST NOT perform the requested method, and
     * MUST return a 412 (Precondition Failed) response.
     */
-    header("HTTP/1.1 412 Precondition Failed");
-    header("Content-type: text/plain");
-    header("Content-length: 0");
-    if ( isset($etag_if_match) && $etag_if_match != $delete_row->dav_etag ) {
-      echo "No existing resource matching 'If-Match' header - not accepted.\n";
-    }
-    exit(0);
+    $request->DoResponse( 412, translate("No existing resource matching 'If-Match' header - not accepted.") );
   }
+
   $put_action_type = 'INSERT';
+
+  if ( ! $request->AllowedTo("create") ) {
+    $request->DoResponse( 403, translate("You may not add entries to this calendar.") );
+  }
 }
 elseif ( $qry->rows == 1 ) {
   $icalendar = $qry->Fetch();
@@ -118,40 +101,32 @@ elseif ( $qry->rows == 1 ) {
     * given and any current entity exists for that resource, then the
     * server MUST NOT perform the requested method.
     */
-    header("HTTP/1.1 412 Precondition Failed");
-    header("Content-type: text/plain");
-    header("Content-length: 0");
     if ( isset($etag_if_match) && $etag_if_match != $icalendar->dav_etag ) {
-      echo "Existing resource does not match 'If-Match' header - not accepted.\n";
+      $error = translate( "Existing resource does not match 'If-Match' header - not accepted.");
     }
     if ( isset($etag_none_match) && $etag_none_match != '' && ($etag_none_match == $icalendar->dav_etag || $etag_none_match == '*') ) {
-      echo "Existing resource matches 'If-None-Match' header - not accepted.\n";
+      $error = translate( "Existing resource matches 'If-None-Match' header - not accepted.");
     }
-    exit(0);
+    $request->DoResponse( 412, $error );
   }
 
   $put_action_type = 'UPDATE';
+
+  if ( ! $request->AllowedTo("modify") ) {
+    $request->DoResponse( 403, translate("You may not modify entries on this calendar.") );
+  }
 }
 
 if ( $put_action_type == 'INSERT' ) {
   $qry = new PgQuery( "INSERT INTO caldav_data ( user_no, dav_name, dav_etag, caldav_data, caldav_type, logged_user, created, modified ) VALUES( ?, ?, ?, ?, ?, ?, current_timestamp, current_timestamp )",
-                         $path_user_no, $request_path, $etag, $raw_post, $ic->type, $session->user_no );
+                         $request->user_no, $request->path, $etag, $raw_post, $ic->type, $session->user_no );
   $qry->Exec("PUT");
-
-  header("HTTP/1.1 201 Created", true, 201);
 }
 else {
   $qry = new PgQuery( "UPDATE caldav_data SET caldav_data=?, dav_etag=?, caldav_type=?, logged_user=?, modified=current_timestamp WHERE user_no=? AND dav_name=?",
-                         $raw_post, $etag, $ic->type, $session->user_no, $path_user_no, $request_path );
+                         $raw_post, $etag, $ic->type, $session->user_no, $request->user_no, $request->path );
   $qry->Exec("PUT");
-
-  header("HTTP/1.1 201 Replaced", true, 201);
 }
-
-header(sprintf('ETag: "%s"', (isset($bogus_etag) ? $bogus_etag : $etag) ) );
-header("Content-length: 0");
-
-
 
 $sql = "BEGIN;".( $ic->tz_locn == '' ? '' : "SET TIMEZONE TO ".qpg($ic->tz_locn).";" );
 
@@ -181,7 +156,7 @@ if ( !isset($dtstamp) || $dtstamp == '' ) {
 }
 
 if ( $put_action_type != 'INSERT' ) {
-  $sql .= "DELETE FROM calendar_item WHERE user_no=$path_user_no AND dav_name=".qpg($request_path).";";
+  $sql .= "DELETE FROM calendar_item WHERE user_no=$request->user_no AND dav_name=".qpg($request->path).";";
 }
 $sql .= <<<EOSQL
 INSERT INTO calendar_item (user_no, dav_name, dav_etag, uid, dtstamp, dtstart, dtend, summary, location, class, transp,
@@ -190,15 +165,15 @@ INSERT INTO calendar_item (user_no, dav_name, dav_etag, uid, dtstamp, dtstart, d
 COMMIT;
 EOSQL;
 
-$qry = new PgQuery( $sql, $path_user_no, $request_path, $etag, $ic->Get('uid'), $dtstamp,
+$qry = new PgQuery( $sql, $request->user_no, $request->path, $etag, $ic->Get('uid'), $dtstamp,
                           $ic->Get('dtstart'), $ic->Get('summary'), $ic->Get('location'),
                           $ic->Get('class'), $ic->Get('transp'), $ic->Get('description'), $ic->Get('rrule'), $ic->Get('tz_id'),
                           $last_modified, $ic->Get('url'), $ic->Get('priority'), $ic->Get('created'),
                           $ic->Get('due'), $ic->Get('percent-complete')
                     );
 $qry->Exec("PUT");
-dbg_error_log( "PUT", "User: %d, ETag: %s, Path: %s", $session->user_no, $etag, $request_path);
+dbg_error_log( "PUT", "User: %d, ETag: %s, Path: %s", $session->user_no, $etag, $request->path);
 
-// Just ensure we exit without sending anything more.
-exit(0);
+header(sprintf('ETag: "%s"', (isset($bogus_etag) ? $bogus_etag : $etag) ) );
+$request->DoResponse( 201, "" );
 ?>
