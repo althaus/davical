@@ -207,7 +207,7 @@ DECLARE
 BEGIN
   -- Self can always have full access
   IF in_from = in_to THEN
-    RETURN ''RW'';
+    RETURN ''A'';
   END IF;
 
   -- dbg := ''S-'';
