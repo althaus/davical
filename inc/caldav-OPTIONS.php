@@ -8,29 +8,25 @@
 * @copyright Catalyst .Net Ltd
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v2
 */
-  dbg_error_log("OPTIONS", "method handler");
+dbg_error_log("OPTIONS", "method handler");
 
-if ( ! isset($permissions['read']) ) {
-  header("HTTP/1.1 403 Forbidden");
-  header("Content-type: text/plain");
-  echo "You may not access that calendar.";
-  dbg_error_log("OPTIONS", "Access denied for User: %d, Path: %s", $session->user_no, $request_path);
-  return;
+if ( ! $request->AllowedTo('read') ) {
+  $request->DoResponse( 403, translate("You may not access that calendar") );
 }
 
 $exists = false;
 $is_calendar = false;
 
-if ( $request_path == '/' ) {
+if ( $request->path == '/' ) {
   $exists = true;
 }
 else {
-  if ( preg_match( '#^/[^/]+/$#', $request_path) ) {
+  if ( preg_match( '#^/[^/]+/$#', $request->path) ) {
     $sql = "SELECT user_no, '/' || username || '/' AS dav_name, md5( '/' || username || '/') AS dav_etag, ";
     $sql .= "updated AS created, fullname AS dav_displayname, FALSE AS is_calendar FROM usr WHERE user_no = $path_user_no ; ";
   }
   else {
-    $sql = "SELECT user_no, dav_name, dav_etag, created, dav_displayname, is_calendar FROM collection WHERE user_no = $path_user_no AND dav_name = ".qpg($request_path);
+    $sql = "SELECT user_no, dav_name, dav_etag, created, dav_displayname, is_calendar FROM collection WHERE user_no = $path_user_no AND dav_name = ".qpg($request->path);
   }
   $qry = new PgQuery($sql );
   if( $qry->Exec("OPTIONS",__LINE__,__FILE__) && $qry->rows > 0 && $collection = $qry->Fetch() ) {
@@ -46,39 +42,34 @@ else {
 }
 
 if ( !exists ) {
-  header("HTTP/1.1 404 Not Found");
-  header("Content-type: text/plain");
-  echo "No collection found at that location.";
-  dbg_error_log("OPTIONS", "No collection found for User: %d, Path: %s", $session->user_no, $request_path);
-  return;
+  $request->DoResponse( 404, translate("No collection found at that location.") );
 }
 
-  header( "Content-type: text/plain" );
-  header( "Content-length: 0" );
+/**
+* As yet we only support quite a limited range of options.  When we see clients looking
+* for more than this we will work to support them further.  We should probably support
+* PROPPATCH, because I suspect that will be used.  Also HEAD and POST being fairly standard
+* should be handled.  COPY and MOVE would seem to be easy also.
+*/
+$allowed = "OPTIONS, GET, PUT, DELETE, PROPFIND, PROPPATCH, MKCOL, MKCALENDAR";
+if ( $is_calendar ) $allowed .= ", REPORT";
+header( "Allow: $allowed");
+// header( "Allow: ACL, COPY, DELETE, GET, HEAD, LOCK, MKCALENDAR, MKCOL, MOVE, OPTIONS, POST, PROPFIND, PROPPATCH, PUT, REPORT, SCHEDULE, TRACE, UNLOCK");
 
-  /**
-  * As yet we only support quite a limited range of options.  When we see clients looking
-  * for more than this we will work to support them further.  We should probably support
-  * PROPPATCH, because I suspect that will be used.  Also HEAD and POST being fairly standard
-  * should be handled.  COPY and MOVE would seem to be easy also.
-  */
-  $allowed = "OPTIONS, GET, PUT, DELETE, PROPFIND, PROPPATCH, MKCOL, MKCALENDAR";
-  if ( $is_calendar ) $allowed .= ", REPORT";
-  header( "Allow: $allowed");
-  // header( "Allow: ACL, COPY, DELETE, GET, HEAD, LOCK, MKCALENDAR, MKCOL, MOVE, OPTIONS, POST, PROPFIND, PROPPATCH, PUT, REPORT, SCHEDULE, TRACE, UNLOCK");
+/**
+* From reading the "Scheduling Extensions to CalDAV" draft I don't think that we will
+* be doing this any time soon.  The current spec is at:
+*    http://www.ietf.org/internet-drafts/draft-desruisseaux-caldav-sched-02.txt
+*
+* access-control is rfc3744, so we will say we do it, but I doubt if we do it
+* in all it's glory really.
+*/
+$dav = "1, 2, access-control";
+if ( $is_calendar ) $dav .= ", calendar-access";
+header( "Allow: $allowed");
+header( "DAV: $dav");
+// header( "DAV: 1, 2, access-control, calendar-access, calendar-schedule");
 
-  /**
-  * From reading the "Scheduling Extensions to CalDAV" draft I don't think that we will
-  * be doing this any time soon.  The current spec is at:
-  *    http://www.ietf.org/internet-drafts/draft-desruisseaux-caldav-sched-02.txt
-  *
-  * access-control is rfc3744, so we will say we do it, but I doubt if we do it
-  * in all it's glory really.
-  */
-  $dav = "1, 2, access-control";
-  if ( $is_calendar ) $dav .= ", calendar-access";
-  header( "Allow: $allowed");
-  header( "DAV: $dav");
-  // header( "DAV: 1, 2, access-control, calendar-access, calendar-schedule");
+$request->DoResponse( 200, "" );
 
 ?>

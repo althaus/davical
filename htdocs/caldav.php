@@ -33,6 +33,6 @@ switch ( $request->method ) {
     dbg_error_log( "caldav", "RAW: %s", str_replace("\n", "",str_replace("\r", "", $request->raw_post)) );
 }
 
-$this->RequestExitStatus( 500, translate("The application program does not understand that request.") );
+$request->DoResponse( 500, translate("The application program does not understand that request.") );
 
 ?>

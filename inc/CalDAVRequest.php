@@ -58,7 +58,7 @@ class CalDAVRequest
     $this->path = $_SERVER['PATH_INFO'];
     $bad_chars_regex = '/[\\^\\[\\(\\\\]/';
     if ( preg_match( $bad_chars_regex, $this->path ) ) {
-      $this->RequestExitStatus( 400, translate("The calendar path contains illegal characters.") );
+      $this->DoResponse( 400, translate("The calendar path contains illegal characters.") );
     }
 
     $path_split = preg_split('#/+#', $this->path );
@@ -169,7 +169,7 @@ class CalDAVRequest
   * @param int $status The HTTP status code to send.
   * @param string $message The friendly text message to send with the response.
   */
-  function RequestExitStatus( $status, $message, $content_type="text/plain" ) {
+  function DoResponse( $status, $message, $content_type="text/plain" ) {
     global $session, $c;
     switch( $status ) {
       case 100: $status_text = "Continue"; break;
@@ -209,6 +209,10 @@ class CalDAVRequest
       case 417: $status_text = "Expectation Failed"; break;
       case 500: $status_text = "Internal Server Error"; break;
       case 501: $status_text = "Not Implemented"; break;
+      case 502: $status_text = "Bad Gateway"; break;
+      case 503: $status_text = "Service Unavailable"; break;
+      case 504: $status_text = "Gateway Timeout"; break;
+      case 505: $status_text = "HTTP Version Not Supported"; break;
     }
     header( sprintf("HTTP/1.1 %d %s", $status, $status_text) );
     header( "Content-type: ".$content_type );
