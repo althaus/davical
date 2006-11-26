@@ -114,11 +114,14 @@ class CalDAVRequest
     * If the content we are receiving is XML then we parse it here.
     */
     $xml_parser = xml_parser_create_ns('UTF-8');
-    $xml_tags = array();
+    $this->xml_tags = array();
     xml_parser_set_option ( $xml_parser, XML_OPTION_SKIP_WHITE, 1 );
-    xml_parse_into_struct( $xml_parser, $raw_post, $xml_tags );
+    xml_parse_into_struct( $xml_parser, $this->raw_post, $this->xml_tags );
     xml_parser_free($xml_parser);
 
+    /**
+    * Look out for If-None-Match or If-Match headers
+    */
     if ( isset($_SERVER["HTTP_IF_NONE_MATCH"]) ) {
       $this->etag_none_match = str_replace('"','',$_SERVER["HTTP_IF_NONE_MATCH"]);
       if ( $this->etag_none_match == '' ) unset($this->etag_none_match);
@@ -139,7 +142,7 @@ class CalDAVRequest
     if ( isset($this->permissions['all']) ) return true;
     switch( $activity ) {
       case 'read':
-        return isset($this->permissions['read']);
+        return isset($this->permissions['read']) || isset($this->permissions['write']);
         break;
       case 'write':
         return isset($this->permissions['write']);
@@ -225,6 +228,17 @@ class CalDAVRequest
     dbg_error_log("caldav", "Status: %d, Message: %s, User: %d, Path: %s", $status, $message, $session->user_no, $this->path);
 
     exit(0);
+  }
+
+
+  /**
+  * Return an array of what the DAV privileges are that are supported
+  *
+  * @return array The supported privileges.
+  */
+  function SupportedPrivileges() {
+    $privs = array( "all"=>1, "read"=>1, "write"=>1, "bind"=>1, "unbind"=>1, "write-content"=>1);
+    return $privs;
   }
 }
 

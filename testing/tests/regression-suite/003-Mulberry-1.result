@@ -1,9 +1,9 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 Server: Apache/2.2.3 (Debian) DAV/2
-ETag: "137b55c4b6461331a0d3e7b89d5b71b0"
+ETag: "5050c853fe31c4f40fe0cefb3bb4d9aa"
 Content-Length: 365
-Content-Type: text/xml;charset=UTF-8
+Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="UTF-8" ?>
 <multistatus xmlns="DAV:">

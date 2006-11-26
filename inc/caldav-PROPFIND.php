@@ -10,14 +10,9 @@
 */
 dbg_error_log("PROPFIND", "method handler");
 
-if ( ! isset($permissions['read']) ) {
-  header("HTTP/1.1 403 Forbidden");
-  header("Content-type: text/plain");
-  echo "You may not access that calendar.";
-  dbg_error_log("GET", "Access denied for User: %d, Path: %s", $session->user_no, $request_path);
-  return;
+if ( ! $request->AllowedTo('read') ) {
+  $request->DoResponse( 403, translate("You may not access that calendar") );
 }
-
 
 require_once("XMLElement.php");
 require_once("iCalendar.php");
@@ -26,9 +21,10 @@ $href_list = array();
 $attribute_list = array();
 $unsupported = array();
 
-foreach( $xml_tags AS $k => $v ) {
+foreach( $request->xml_tags AS $k => $v ) {
 
   $tag = $v['tag'];
+  dbg_error_log( "PROPFIND", " Handling Tag '%s' => '%s' ", $k, $v );
   switch ( $tag ) {
     case 'DAV::PROPFIND':
     case 'DAV::PROP':
@@ -74,7 +70,7 @@ foreach( $xml_tags AS $k => $v ) {
 function privileges($privilege_names, $container="privilege") {
   $privileges = array();
   foreach( $privilege_names AS $k => $v ) {
-    $privileges[] = new XMLElement($container, new XMLElement($v));
+    $privileges[] = new XMLElement($container, new XMLElement($k));
   }
   return $privileges;
 }
@@ -83,7 +79,7 @@ function privileges($privilege_names, $container="privilege") {
 * Returns an XML sub-tree for a single collection record from the DB
 */
 function collection_to_xml( $collection ) {
-  global $attribute_list, $session, $c;
+  global $attribute_list, $session, $c, $request;
 
   dbg_error_log("PROPFIND","Building XML Response for collection '%s'", $collection->dav_name );
 
@@ -119,7 +115,7 @@ function collection_to_xml( $collection ) {
     $prop->NewElement("getetag", '"'.$collection->dav_etag.'"' );
   }
   if ( isset($attribute_list['CURRENT-USER-PRIVILEGE-SET']) ) {
-    $prop->NewElement("current-user-privilege-set", privileges($GLOBALS['permissions']) );
+    $prop->NewElement("current-user-privilege-set", privileges($request->permissions) );
   }
   if ( isset($attribute_list['ACL']) ) {
     /**
@@ -127,15 +123,11 @@ function collection_to_xml( $collection ) {
     */
     $principal = new XMLElement("principal");
     $principal->NewElement("authenticated");
-    $grant = new XMLElement( "grant", array(privileges($GLOBALS['permissions'])) );
+    $grant = new XMLElement( "grant", array(privileges($request->permissions)) );
     $prop->NewElement("acl", new XMLElement( "ace", array( $principal, $grant ) ) );
   }
   if ( isset($attribute_list['SUPPORTED-PRIVILEGE-SET']) ) {
-    /**
-    * FIXME: This information is semantically valid and is correct, but could be extended
-    * if we allow clients such as Mulberry to manipulate these values.
-    */
-    $prop->NewElement("supported-privilege-set", privileges(array("read","write"), "supported-privilege") );
+    $prop->NewElement("supported-privilege-set", privileges( $request->SupportedPrivileges(), "supported-privilege") );
   }
   $status = new XMLElement("status", "HTTP/1.1 200 OK" );
 
@@ -152,7 +144,7 @@ function collection_to_xml( $collection ) {
 * Return XML for a single data item from the DB
 */
 function item_to_xml( $item ) {
-  global $attribute_list, $session, $c;
+  global $attribute_list, $session, $c, $request;
 
   dbg_error_log("PROPFIND","Building XML Response for item '%s'", $item->dav_name );
 
@@ -178,7 +170,7 @@ function item_to_xml( $item ) {
     $prop->NewElement("getetag", '"'.$item->dav_etag.'"' );
   }
   if ( isset($attribute_list['CURRENT-USER-PRIVILEGE-SET']) ) {
-    $prop->NewElement("current-user-privilege-set", privileges($GLOBALS['permissions']) );
+    $prop->NewElement("current-user-privilege-set", privileges($request->permissions) );
   }
   $status = new XMLElement("status", "HTTP/1.1 200 OK" );
 
@@ -212,7 +204,7 @@ function get_collection_contents( $depth, $user_no, $collection ) {
     if ( $collection->dav_name == '/' ) {
       $sql = "SELECT user_no, user_no, '/' || username || '/' AS dav_name, md5( '/' || username || '/') AS dav_etag, ";
       $sql .= "updated AS created, to_char(updated at time zone 'GMT',?) AS modified, fullname AS dav_displayname, FALSE AS is_calendar FROM usr ";
-      $sql .= "WHERE get_permissions($session->user_no,user_no) ~ 'R';";
+      $sql .= "WHERE get_permissions($session->user_no,user_no) ~ '[RAW]';";
     }
     else {
       $sql = "SELECT user_no, dav_name, dav_etag, created, to_char(modified at time zone 'GMT',?), dav_displayname, is_calendar FROM collection WHERE parent_container=".qpg($collection->dav_name);
@@ -290,14 +282,9 @@ function get_collection( $depth, $user_no, $collection_path ) {
 
 
 if ( count($unsupported) > 0 ) {
-
   /**
   * That's a *BAD* request!
   */
-
-  header('HTTP/1.1 403 Forbidden');
-  header('Content-Type: application/xml; charset="utf-8"');
-
   $badprops = new XMLElement( "prop" );
   foreach( $unsupported AS $k => $v ) {
     // Not supported at this point...
@@ -305,41 +292,31 @@ if ( count($unsupported) > 0 ) {
     $badprops->NewElement(strtolower($k),false,array("xmlns" => strtolower($v)));
   }
   $error = new XMLElement("error", new XMLElement( "propfind",$badprops), array("xmlns" => "DAV:") );
-//   dbg_log_array( "PROPFIND", "ERRORXML", $error, true );
 
-  echo $error->Render(0,'<?xml version="1.0" ?>');
-  exit(0);
+  $request->DoResponse( 403, $error->Render(0,'<?xml version="1.0" ?>'), 'text/xml; charset="utf-8"');
 }
-elseif ( isset($permissions['read']) || isset($permissions['write']) ) {
+elseif ( $request->AllowedTo('read') ) {
 
   /**
   * Something that we can handle, at least roughly correctly.
   */
-  $url = sprintf("http://%s:%d%s%s", $_SERVER['SERVER_NAME'], $_SERVER['SERVER_PORT'], $_SERVER['SCRIPT_NAME'], $request_path );
-  $url = $_SERVER['SCRIPT_NAME'] . $request_path ;
+  $url = sprintf("http://%s:%d%s%s", $_SERVER['SERVER_NAME'], $_SERVER['SERVER_PORT'], $_SERVER['SCRIPT_NAME'], $request->path );
+  $url = $_SERVER['SCRIPT_NAME'] . $request->path ;
   $url = preg_replace( '#/$#', '', $url);
 
-  $responses = get_collection( $query_depth, (isset($path_user_no) ? $path_user_no : $session->user_no), $request_path );
+  $responses = get_collection( $request->depth, (isset($request->user_no) ? $request->user_no : $session->user_no), $request->path );
 
   $multistatus = new XMLElement( "multistatus", $responses, array('xmlns'=>'DAV:') );
 }
 else {
-  header('HTTP/1.1 403 Forbidden');
-  header('Content-Type: text/plain');
-  echo "You do not have appropriate rights to view that resource\n";
-  dbg_log_array("caldav","PERMISSIONS", $permissions, true );
+  $request->DoResponse( 403, translate("You do not have appropriate rights to view that resource.") );
   exit(0);
 }
 
 // dbg_log_array( "PROPFIND", "XML", $multistatus, true );
-$xmldoc = $multistatus->Render();
+$xmldoc = '<?xml version="1.0" encoding="UTF-8" ?>'."\n" . $multistatus->Render();
 $etag = md5($xmldoc);
-
-header("HTTP/1.1 207 Multi-Status");
-header("Content-type: text/xml;charset=UTF-8");
 header("ETag: \"$etag\"");
-
-echo'<?xml version="1.0" encoding="UTF-8" ?>'."\n";
-echo $xmldoc;
+$request->DoResponse( 207, $xmldoc, 'text/xml; charset="utf-8"' );
 
 ?>
