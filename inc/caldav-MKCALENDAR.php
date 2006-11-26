@@ -29,8 +29,8 @@ if ( $qry->rows != 0 ) {
   $request->DoResponse( 412, "A collection already exists at that location." );
 }
 
-$sql = "INSERT INTO collection ( user_no, parent_container, dav_name, dav_etag, dav_displayname, is_calendar, created, modified ) VALUES( ?, ?, ?, ?, ?, TRUE, current_timestamp, current_timestamp );";
-$qry = new PgQuery( $sql, $request->user_no, $parent_container, $request->path, md5($request->user_no. $request->path), $displayname );
+$sql = "INSERT INTO collection ( user_no, parent_container, dav_name, dav_etag, dav_displayname, is_calendar, created, modified ) VALUES( ?, ?, ?, ?, ?, ?, current_timestamp, current_timestamp );";
+$qry = new PgQuery( $sql, $request->user_no, $parent_container, $request->path, md5($request->user_no. $request->path), $displayname, ($request->method == 'MKCALENDAR') );
 
 if ( $qry->Exec("MKCALENDAR",__LINE__,__FILE__) ) {
   dbg_error_log( "MKCALENDAR", "New calendar '%s' created named '%s' for user '%d' in parent '%s'", $request->path, $displayname, $session->user_no, $parent_container);

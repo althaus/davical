@@ -46,7 +46,6 @@
     <item url="htdocs/js/browse.js" uploadstatus="1" />
     <item url="htdocs/css/browse.css" uploadstatus="1" />
     <item url="htdocs/css/" uploadstatus="1" />
-    <item url="inc/caldav-MKCOL.php" uploadstatus="1" />
     <item url="testing/" uploadstatus="1" />
     <item url="testing/dav_test" uploadstatus="1" />
     <item url="testing/tests/chandler/" uploadstatus="1" />

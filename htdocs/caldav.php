@@ -21,7 +21,7 @@ switch ( $request->method ) {
   case 'PROPFIND':   include_once("caldav-PROPFIND.php");   break;
   case 'PROPPATCH':  include_once("caldav-PROPPATCH.php");  break;
   case 'MKCALENDAR': include_once("caldav-MKCALENDAR.php"); break;
-  case 'MKCOL':      include_once("caldav-MKCOL.php");      break;
+  case 'MKCOL':      include_once("caldav-MKCALENDAR.php"); break;
   case 'PUT':        include_once("caldav-PUT.php");        break;
   case 'GET':        include_once("caldav-GET.php");        break;
   case 'HEAD':       include_once("caldav-GET.php");        break;
