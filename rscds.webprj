@@ -37,7 +37,6 @@
     <item url="htdocs/users.php" uploadstatus="1" />
     <item url="htdocs/help.php" uploadstatus="1" />
     <item url="htdocs/roles.php" uploadstatus="1" />
-    <item url="htdocs/relationships.php" uploadstatus="1" />
     <item url="dba/caldav_functions.sql" uploadstatus="1" />
     <item url="htdocs/user.php" uploadstatus="1" />
     <item url="inc/RSCDSUser.php" uploadstatus="1" />
@@ -224,5 +223,7 @@
     <item url="testing/tests/regression-suite/023-Mulberry-DELETE-3.test" uploadstatus="1" />
     <item url="testing/tests/regression-suite/022-Mulberry-PUT-5.test" uploadstatus="1" />
     <item url="dba/patches/1.1.5.sql" uploadstatus="1" />
+    <item url="docs/website/wikiheader.css" />
+    <item url="htdocs/collection.php" />
   </project>
 </webproject>
