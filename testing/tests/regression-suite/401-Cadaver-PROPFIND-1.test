@@ -1,0 +1,12 @@
+#
+# Using CADAVER to do a PROPFIND
+#
+TYPE=PROPFIND
+URL=http://mycaldav/caldav.php/user1/home/
+HEADER=User-Agent: cadaver/0.22.3 neon/0.25.5
+HEADER=Connection: TE
+HEADER=TE: trailers
+HEADER=Depth: 0
+HEADER=Content-Length: 297
+HEADER=Content-Type: application/xml
+
