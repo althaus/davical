@@ -49,9 +49,9 @@ $c->protocol_server_port_script = sprintf( "%s://%s%s%s", (isset($_SERVER['HTTPS
                  ),
                  $_SERVER['SCRIPT_NAME'] );
 
-dbg_error_log( "LOG", "==========> method =%s= =%s= =%s= =%s=", $_SERVER['REQUEST_METHOD'], $c->protocol_server_port_script, $_SERVER['PATH_INFO'], $c->base_url );
+dbg_error_log( "LOG", "==========> method =%s= =%s= =%s= =%s= =%s=", $_SERVER['REQUEST_METHOD'], $c->protocol_server_port_script, $_SERVER['PATH_INFO'], $c->base_url, $c->base_directory );
 
-init_gettext( 'rscds', $c->base_directory.'/locale' );
+init_gettext( 'rscds', '../locale' );
 
 if ( file_exists("/etc/rscds/".$_SERVER['SERVER_NAME']."-conf.php") ) {
   include_once("/etc/rscds/".$_SERVER['SERVER_NAME']."-conf.php");
