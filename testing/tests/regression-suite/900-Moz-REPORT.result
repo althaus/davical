@@ -1,0 +1,121 @@
+HTTP/1.1 207 Multi-Status
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+Server: Apache/2.2.3 (Debian) DAV/2
+ETag: "33f03d0b3aa9c198b8184fc8aab15acb"
+X-RSCDS-Version: RSCDS/0.5.0; DB/1.1.5
+Content-Length: 2957
+Keep-Alive: timeout=15, max=100
+Connection: Keep-Alive
+Content-Type: text/xml; charset="utf-8"
+
+<?xml version="1.0" encoding="UTF-8" ?>
+<multistatus xmlns="DAV:">
+ <response>
+  <href>http://mycaldav/caldav.php/user1/home/4aaf8f37-f232-4c8e-a72e-e171d4c4fe54.ics</href>
+  <propstat>
+   <prop>
+    <calendar-data xmlns="urn:ietf:params:xml:ns:caldav">BEGIN:VCALENDAR
+PRODID:-//Mozilla Calendar//NONSGML Sunbird//EN
+VERSION:2.0
+BEGIN:VEVENT
+CREATED:20061120T041336Z
+LAST-MODIFIED:20061120T041709Z
+DTSTAMP:20061120T041709Z
+UID:4aaf8f37-f232-4c8e-a72e-e171d4c4fe54
+SUMMARY:Weekly Project Meeting
+PRIORITY:0
+CLASS:PUBLIC
+RRULE:FREQ=WEEKLY;COUNT=26;INTERVAL=1;BYDAY=TH
+DTSTART;TZID=/mozilla.org/20050126_1/Pacific/Auckland:20061102T100000
+DTEND;TZID=/mozilla.org/20050126_1/Pacific/Auckland:20061102T110000
+CATEGORIES:Projects
+X-MOZ-LOCATIONPATH:4aaf8f37-f232-4c8e-a72e-e171d4c4fe54.ics
+END:VEVENT
+BEGIN:VTIMEZONE
+TZID:/mozilla.org/20050126_1/Pacific/Auckland
+X-LIC-LOCATION:Pacific/Auckland
+BEGIN:STANDARD
+TZOFFSETFROM:+1300
+TZOFFSETTO:+1200
+TZNAME:NZST
+DTSTART:19700315T030000
+RRULE:FREQ=YEARLY;INTERVAL=1;BYDAY=3SU;BYMONTH=3
+END:STANDARD
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+1200
+TZOFFSETTO:+1300
+TZNAME:NZDT
+DTSTART:19701004T020000
+RRULE:FREQ=YEARLY;INTERVAL=1;BYDAY=1SU;BYMONTH=10
+END:DAYLIGHT
+END:VTIMEZONE
+END:VCALENDAR
+</calendar-data>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>http://mycaldav/caldav.php/user1/home/71e2ae82-7870-11db-c6d6-f6927c144649.ics</href>
+  <propstat>
+   <prop>
+    <calendar-data xmlns="urn:ietf:params:xml:ns:caldav">BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//PYVOBJECT//NONSGML Version 1//EN
+BEGIN:VTIMEZONE
+TZID:Pacific/Auckland
+BEGIN:STANDARD
+DTSTART:20000319T030000
+RRULE:FREQ=YEARLY;BYDAY=3SU;BYMONTH=3
+TZNAME:Pacific/Auckland
+TZOFFSETFROM:+1300
+TZOFFSETTO:+1200
+END:STANDARD
+BEGIN:DAYLIGHT
+DTSTART:20001001T020000
+RRULE:FREQ=YEARLY;BYDAY=1SU;BYMONTH=10
+TZNAME:Pacific/Auckland
+TZOFFSETFROM:+1200
+TZOFFSETTO:+1300
+END:DAYLIGHT
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:71e2ae82-7870-11db-c6d6-f6927c144649
+DTSTART;TZID=Pacific/Auckland:20061103T160000
+DTEND;TZID=Pacific/Auckland:20061103T174500
+DESCRIPTION:
+LOCATION:Level 3
+RRULE:FREQ=WEEKLY;INTERVAL=2;UNTIL=20071222T235900
+STATUS:CONFIRMED
+SUMMARY:Beer O'Clock
+END:VEVENT
+END:VCALENDAR
+</calendar-data>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>http://mycaldav/caldav.php/user1/home/da81c0ee-7871-11db-c6d6-f6927c144649.ics</href>
+  <propstat>
+   <prop>
+    <calendar-data xmlns="urn:ietf:params:xml:ns:caldav">BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//PYVOBJECT//NONSGML Version 1//EN
+BEGIN:VEVENT
+UID:da81c0ee-7871-11db-c6d6-f6927c144649
+DTSTART:20061103T073000
+DTEND:20061103T093000
+DESCRIPTION:
+LOCATION:Olivia's
+RRULE:FREQ=MONTHLY
+STATUS:CONFIRMED
+SUMMARY:Morning Mgmt Mtg
+END:VEVENT
+END:VCALENDAR
+</calendar-data>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+</multistatus>
