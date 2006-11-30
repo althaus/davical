@@ -4,3 +4,4 @@
 TYPE=OPTIONS
 URL=http://mycaldav/caldav.php/user1/home/
 HEADER=User-Agent: cadaver/0.22.3 neon/0.25.5
+HEAD
