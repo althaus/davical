@@ -165,9 +165,9 @@ single virtual host.</p>
   ServerName rscds.example.net
   ServerAlias calendar.example.net
   Alias /images/ /usr/share/rscds/htdocs/images/
-  php_value include_path /usr/share/rscds/inc:/usr/share/awl/inc
+  php_value include_path /usr/share/awl/inc
   php_value magic_quotes_gpc 0
-  php_value register_globals 1
+  php_value register_globals 0
 &lt;/VirtualHost>
 </pre>
 
