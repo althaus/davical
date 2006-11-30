@@ -14,7 +14,7 @@ deb http://debian.mcmillan.net.nz/debian unstable awm
 can use <code>apt-get</code> or <code>synaptic</code> or some other equivalent package
 manager to fetch and install <code>rscds</code> and all the dependencies.</p>
 
-<p>This repository is signed by my public key, which you can install so that
+<p>This repository is signed by Andrew McMillan's public key, which you can install so that
 you don't get asked for confirmation all the time:</p>
 
 <pre>
@@ -27,7 +27,7 @@ sudo apt-key advanced --keyserver subkeys.pgp.net --recv-keys CCA377BD77494424B0
 <h2>Other Linux Users</h2>
 
 <h3>RPM Packages of RSCDS</h3>
-<p>I have created RPM packages of RSCDS and libawl-php from the .deb packages
+<p>We have created RPM packages of RSCDS and libawl-php from the .deb packages
 using "alien". I don't know how well these work, so would appreciate feedback
 about your success with them.</p>
 
@@ -38,19 +38,19 @@ from the <a href="http://sourceforge.net/project/showfiles.php?group_id=179845">
 <p>You will need to untar these.  Preferably you will untar them from within the "<code>/usr/share</code>" directory and everything
 will be in it's expected location (well, except the docs, but it will at least be tidy and everything will be in one place).</p>
 
-<p>I would like to hear from non-Debian users regarding things I might have missed, or things you have
-learned about the system, so please post a message on the forums, or
-e-mail <a href="http://andrew.mcmillan.net.nz/">me</a> or something.</p>
+<p>We would like to hear from non-Debian users regarding things which might have been missed, or things you have
+learned about the system, so please write about your installation experiences on the Wiki, or post a message
+in the Sourceforge forums.</p>
 
 <h2>Non-Linux Users</h2>
-<p>I would really like to hear from you.  As far as I can see there is no reason why this
+<p>We would really like to hear from you.  As far as we can see there is no reason why this
 can't all work on FreeBSD, Microsoft Windows, VMS, Mac OS or whatever else, as long as the
 pre-requisites are able to be installed.</p>
 <p>For Unix and unix-like operating systems the "Other Linux Users" instructions are likely
 to be reasonably close to what you need.  For other systems everything will need some
 adjustment, and in particular some of the path name and shell expectations coded into
 the database creation scripts are likely to need love.</p>
-<p>I'm available to answer questions, anyway :-)</p>
+<p>We're available to answer questions, anyway :-)</p>
 
 <h1>Pre-requisites</h1>
 
@@ -74,9 +74,8 @@ installation.</p>
 <p>Since the CalDAV store takes over a significant amount of path
 hierarchy, it is designed to be installed in it's own virtual
 host.  If you want it to operate within the web root of some
-other application I will happily accept patches to make it do
-that, but I am pretty sure it won't work that way out of the
-box.</p>
+other application there are instructions on the Wiki about doing this,
+and other fancy tricks such as URL rewriting to shorten the path.</p>
 
 
 <h1>Database Setup</h1>
@@ -174,10 +173,6 @@ single virtual host.</p>
 <p>Replace 123.4.56.78 with your own IP address, of course (you can
 use a name, but your webserver may fail on restart if DNS happens
 to be borked at that time).</p>
-
-<p>At this point it is necessary to have register_globals enabled. All
-variables are sanitised before use, but some routines do assume
-this is turned on.</p>
 
 <p>The various paths and names need to be changed to reflect your
 own installation, although those are the recommended locations
