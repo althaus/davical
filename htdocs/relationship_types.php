@@ -1,5 +1,5 @@
 <?php
-require_once("always.php");
+require_once("../inc/always.php");
 require_once("RSCDSSession.php");
 $session->LoginRequired();
 
@@ -8,7 +8,7 @@ require_once("interactive-page.php");
   require_once("DataEntry.php");
   require_once("DataUpdate.php");
   require_once("classBrowser.php");
-  $c->stylesheets[] = "css/browse.css";
+  $c->stylesheets[] = "$c->base_url/css/browse.css";
 
   $confirmation_required = false;
   if ( ($session->AllowedTo("Admin") || $session->AllowedTo("Support")) &&
@@ -60,7 +60,7 @@ require_once("interactive-page.php");
   $browser->AddColumn( 'rt_isgroup', translate('To Group?'), '', '', "CASE WHEN rt_isgroup THEN 'Yes' ELSE 'No' END"  );
   $browser->AddColumn( 'confers', translate('Rights') );
   $browser->AddColumn( 'prefix_match', translate("Prefix") );
-  $browser->AddColumn( 'action', translate("Action"), "", "", "'<a href=\"/relationship_types.php?action=delete&rt_id=' || rt_id || '\">".translate("Delete")."</a>'" );
+  $browser->AddColumn( 'action', translate("Action"), "", "", "'<a href=\"$c->base_url/relationship_types.php?action=delete&rt_id=' || rt_id || '\">".translate("Delete")."</a>'" );
 
   $browser->SetJoins( 'relationship_type' );
 
@@ -98,7 +98,7 @@ require_once("interactive-page.php");
                   'action' => '<input type="submit" name="submit" value="'.translate("Add").'" class="fsubmit">'
                   ) );
 
-  $active_menu_pattern = "#^/relationship#";
+  $active_menu_pattern = "#^$c->base_url/relationship#";
 
 include("page-header.php");
 

@@ -1,5 +1,5 @@
 <?php
-require_once("always.php");
+require_once("../inc/always.php");
 dbg_error_log( "ics", " User agent: %s", $_SERVER['HTTP_USER_AGENT'] );
 require_once("BasicAuthSession.php");
 require_once("iCalendar.php");

@@ -16,13 +16,17 @@ $c->system_name = "Really Simple CalDAV Store";
 $c->domain_name = $_SERVER['SERVER_NAME'];
 $c->images      = "/images";
 $c->save_time_zone_defs = true;
-$c->stylesheets = array( "/rscds.css" );
 $c->collections_always_exist = true;
 $c->enable_row_linking = true;
 // $c->default_locale = array('es_MX', 'es_MX.UTF-8', 'es');
 // $c->local_tzid = 'Pacific/Auckland';  // Perhaps we should read from /etc/timezone - I wonder how standard that is?
 $c->default_locale = "en_NZ";
+$c->base_url = preg_replace("#/[^/]+\.php.*$#", "", $_SERVER['SCRIPT_NAME']);
 $c->base_directory = preg_replace("#/[^/]*$#", "", $_SERVER['DOCUMENT_ROOT']);
+$c->stylesheets = array( $c->base_url."/rscds.css" );
+
+// Ensure that ../inc is in our included paths as early as possible
+set_include_path( '../inc'. PATH_SEPARATOR. get_include_path());
 
 // Kind of private configuration values
 $c->total_query_time = 0;
@@ -44,7 +48,7 @@ $c->protocol_server_port_script = sprintf( "%s://%s%s%s", (isset($_SERVER['HTTPS
                  ),
                  $_SERVER['SCRIPT_NAME'] );
 
-dbg_error_log( "LOG", "==========> method =%s= =%s= =%s=", $_SERVER['REQUEST_METHOD'], $c->protocol_server_port_script, $_SERVER['PATH_INFO']);
+dbg_error_log( "LOG", "==========> method =%s= =%s= =%s= =%s=", $_SERVER['REQUEST_METHOD'], $c->protocol_server_port_script, $_SERVER['PATH_INFO'], $c->base_url );
 
 init_gettext( 'rscds', $c->base_directory.'/locale' );
 

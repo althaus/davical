@@ -1,5 +1,5 @@
 <?php
-  require_once("always.php");
+  require_once("../inc/always.php");
   require_once("RSCDSSession.php");
 
   // This page requires login.
@@ -49,10 +49,10 @@
   }
 
   if ( $session->AllowedTo("Admin") )
-    $user_menu->AddOption(translate("New User"),"/user.php?create",translate("Add a new user"), false, 10);
+    $user_menu->AddOption(translate("New User"),"$c->base_url/user.php?create",translate("Add a new user"), false, 10);
   if ( $user->user_no > 0 && $user->AllowedTo('update') ) {
-    $user_menu->AddOption(translate("View"),"/user.php?user_no=$user->user_no",translate("View this user record") );
-    $user_menu->AddOption(translate("Edit"),"/user.php?edit=1&user_no=$user->user_no",translate("Edit this user record"), $user->EditMode );
+    $user_menu->AddOption(translate("View"),"$c->base_url/user.php?user_no=$user->user_no",translate("View this user record") );
+    $user_menu->AddOption(translate("Edit"),"$c->base_url/user.php?edit=1&user_no=$user->user_no",translate("Edit this user record"), $user->EditMode );
   }
 
   include("page-header.php");

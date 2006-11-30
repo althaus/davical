@@ -1,0 +1,28 @@
+HTTP/1.1 207 Multi-Status
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+Server: Apache/2.2.3 (Debian) DAV/2
+ETag: "daca68be14cb0969dd84f1410a2764ed"
+Content-Length: 560
+Content-Type: text/xml; charset="utf-8"
+
+<?xml version="1.0" encoding="UTF-8" ?>
+<multistatus xmlns="DAV:">
+ <response>
+  <href>http://mycaldav/user1/home/3F4CF6227300FD062D9EF3CDFB30D32D-0.ics</href>
+  <propstat>
+   <prop>
+    <getetag>"2c32a2f8aba853654eb17fe037a4db4d"</getetag>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>http://mycaldav/user1/home/20061101T073004Z.ics</href>
+  <propstat>
+   <prop>
+    <getetag>"c3658901fd4689d4a1e1d6f08601ef4f"</getetag>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+</multistatus>

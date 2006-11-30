@@ -1,5 +1,5 @@
 <?php
-require_once("always.php");
+require_once("../inc/always.php");
 require_once("RSCDSSession.php");
 $session->LoginRequired();
 

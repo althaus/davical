@@ -6,6 +6,8 @@ if ( !isset($c->title) ) {
 
 function make_help_link($matches)
 {
+  global $c;
+
   // as usual: $matches[0] is the complete match
   // $matches[1] the match for the first subpattern
   // enclosed in '##...##' and so on
@@ -21,7 +23,7 @@ function make_help_link($matches)
   else {
     $display_url = "help";
   }
-  return " <a class=\"help\" href=\"/help.php?h=$help_topic\" title=\"".translate("Show help on")." '$help_topic'\" target=\"_new\">[$display_url]</a> ";
+  return " <a class=\"help\" href=\"$c->base_url/help.php?h=$help_topic\" title=\"".translate("Show help on")." '$help_topic'\" target=\"_new\">[$display_url]</a> ";
 }
 
 
@@ -66,8 +68,8 @@ EOHDR;
 
   if ( isset($page_menu) && is_object($page_menu) ) {
     $page_menu->AddSubMenu( $relationship_menu, translate("Relationships"),
-                               "/relationship_types.php", translate("Browse all relationship types"), false, 4050 );
-    $page_menu->AddSubMenu( $user_menu, translate("Users"), "/users.php", translate("Browse all users"), false, 4100 );
+                               "$c->base_url/relationship_types.php", translate("Browse all relationship types"), false, 4050 );
+    $page_menu->AddSubMenu( $user_menu, translate("Users"), "$c->base_url/users.php", translate("Browse all users"), false, 4100 );
 //    $page_menu->AddSubMenu( $role_menu, "Roles", "/roles.php", "Browse all roles", false, 4300 );
     $page_menu->MakeSomethingActive($active_menu_pattern);
     echo $page_menu->Render();

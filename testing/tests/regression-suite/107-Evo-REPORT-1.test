@@ -1,0 +1,10 @@
+#
+# Do a REPORT request (test RewriteRule support)
+#
+TYPE=REPORT
+URL=http://mycaldav/user1/home/
+HEAD
+HEADER=Depth: 1
+HEADER=User-Agent: Evolution/1.8.1
+HEADER=Content-Type: text/xml
+DATA=105-Evo-REPORT-1
