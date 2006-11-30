@@ -96,38 +96,50 @@ DECLARE
   loopcount INT;
 BEGIN
   temp_txt   := substring(repeatrule from ''UNTIL=([0-9TZ]+)(;|$)'');
-  IF temp_txt::timestamp with time zone < earliest THEN
+  IF temp_txt IS NOT NULL AND temp_txt::timestamp with time zone < earliest THEN
     RETURN NULL;
   END IF;
 
   frequency  := substring(repeatrule from ''FREQ=([A-Z]+)(;|$)'');
+  IF frequency IS NULL THEN
+    RETURN NULL;
+  END IF;
+
+  past_repeats = 0;
+  length = 1;
   temp_txt   := substring(repeatrule from ''INTERVAL=([0-9]+)(;|$)'');
-  length     := temp_txt::int;
-  basediff   := earliest - basedate;
+  IF temp_txt IS NOT NULL THEN
+    length     := temp_txt::int;
+    basediff   := earliest - basedate;
 
-  -- RAISE NOTICE ''Frequency: %, Length: %(%), Basediff: %'', frequency, length, temp_txt, basediff;
+    -- RAISE NOTICE ''Frequency: %, Length: %(%), Basediff: %'', frequency, length, temp_txt, basediff;
 
-  -- Calculate the number of past periods between our base date and our earliest date
-  IF frequency = ''WEEKLY'' OR frequency = ''DAILY'' THEN
-    past_repeats := extract(''epoch'' from basediff)::INT8 / 86400;
-    -- RAISE NOTICE ''Days: %'', past_repeats;
-    IF frequency = ''WEEKLY'' THEN
-      past_repeats := past_repeats / 7;
+    -- Calculate the number of past periods between our base date and our earliest date
+    IF frequency = ''WEEKLY'' OR frequency = ''DAILY'' THEN
+      past_repeats := extract(''epoch'' from basediff)::INT8 / 86400;
+      -- RAISE NOTICE ''Days: %'', past_repeats;
+      IF frequency = ''WEEKLY'' THEN
+        past_repeats := past_repeats / 7;
+      END IF;
+    ELSE
+      past_repeats = extract( ''years'' from basediff );
+      IF frequency = ''MONTHLY'' THEN
+        past_repeats = (past_repeats *12) + extract( ''months'' from basediff );
+      END IF;
     END IF;
-  ELSE
-    past_repeats = extract( ''years'' from basediff );
-    IF frequency = ''MONTHLY'' THEN
-      past_repeats = (past_repeats *12) + extract( ''months'' from basediff );
+    IF length IS NOT NULL THEN
+      past_repeats = (past_repeats / length) + 1;
     END IF;
   END IF;
-  past_repeats = (past_repeats / length) + 1;
 
   -- Check that we have not exceeded the COUNT= limit
   temp_txt := substring(repeatrule from ''COUNT=([0-9]+)(;|$)'');
-  count := temp_txt::int;
-  -- RAISE NOTICE ''Periods: %, Count: %(%)'', past_repeats, count, temp_txt;
-  IF ( count <= past_repeats ) THEN
-    RETURN NULL;
+  IF temp_txt IS NOT NULL THEN
+    count := temp_txt::int;
+    -- RAISE NOTICE ''Periods: %, Count: %(%), length: %'', past_repeats, count, temp_txt, length;
+    IF ( count <= past_repeats ) THEN
+      RETURN NULL;
+    END IF;
   END IF;
 
   temp_txt := substring(repeatrule from ''BYSETPOS=([0-9-]+)(;|$)'');
@@ -162,6 +174,11 @@ BEGIN
   -- the target, and we should only loop once or twice.
   our_answer := basedate + (past_repeats::text || units)::interval;
 
+  IF our_answer IS NULL THEN
+    RAISE EXCEPTION ''our_answer IS NULL! basedate:% past_repeats:% units:%'', basedate, past_repeats, units;
+  END IF;
+
+
   loopcount := 1000;  -- Not really needed, but stops an infinite loop if there is a bug!
   LOOP
     -- RAISE NOTICE ''Testing date: %'', our_answer;
@@ -171,10 +188,15 @@ BEGIN
       -- occur three times each week and this will only be once a week.
       dow = substring( to_char( our_answer, ''DY'' ) for 2);
       CONTINUE WHEN position( dow in byday ) = 0;
-    ELSIF frequency = ''MONTHLY'' AND byday IS NOT NULL THEN
-      -- This works fine, except that maybe there are multiple BYDAY
-      -- components.  e.g. 1TU,3TU might be 1st & 3rd tuesdays.
-      our_answer := apply_month_byday( our_answer, byday );
+    ELSIF frequency = ''MONTHLY'' THEN
+      IF byday IS NOT NULL THEN
+        -- This works fine, except that maybe there are multiple BYDAY
+        -- components.  e.g. 1TU,3TU might be 1st & 3rd tuesdays.
+        our_answer := apply_month_byday( our_answer, byday );
+      ELSE
+        -- If we did not get a BYDAY= then we kind of have to assume it is the same day each month
+        our_answer := our_answer + ''1 month''::interval;
+      END IF;
     ELSIF bymonthday IS NOT NULL AND frequency = ''MONTHLY'' AND bymonthday < 1 THEN
       -- We do not deal with this situation at present
       RAISE NOTICE ''The case of negative BYMONTHDAY is not handled yet.'';
