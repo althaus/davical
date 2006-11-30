@@ -3,6 +3,7 @@ Date: Dow, 01 Jan 2000 00:00:00 GMT
 Server: Apache/2.2.3 (Debian) DAV/2
 Allow: OPTIONS, GET, PUT, DELETE, PROPFIND, PROPPATCH, MKCOL, MKCALENDAR, REPORT
 DAV: 1, 2, access-control, calendar-access
+X-RSCDS-Version: RSCDS/0.5.0; DB/1.1.5
 Content-Length: 0
 Content-Type: text/plain; charset=UTF-8
 

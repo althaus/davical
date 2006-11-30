@@ -100,4 +100,13 @@ $_SERVER['SERVER_NAME'] = $c->domain_name;
 
 include_once("PgQuery.php");
 
+$c->schema_version = 0;
+$qry = new PgQuery( "SELECT schema_major, schema_minor, schema_patch FROM awl_db_revision ORDER BY schema_id DESC LIMIT 1;" );
+if ( $qry->Exec("always") && $row = $qry->Fetch() ) {
+  $c->schema_version = doubleval( sprintf( "%d%03d.%03d", $row->schema_major, $row->schema_minor, $row->schema_patch) );
+  $c->schema_major = $row->schema_major;
+  $c->schema_minor = $row->schema_minor;
+  $c->schema_patch = $row->schema_patch;
+}
+
 ?>
