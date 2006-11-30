@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rscds 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-11-26 11:54+1300\n"
+"POT-Creation-Date: 2006-12-01 00:02+1300\n"
 "PO-Revision-Date: 2006-11-13 13:03+1300\n"
 "Last-Translator: Guillaume Rosquin <andrew@mcmillan.net.nz>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -33,6 +33,9 @@ msgstr ""
 "<h1>Identifiez-vous SVP</h1><p>Pour accéder à %s vous devez vous connecter avec l'identifiant et le "
 "mot de passe qui vous ont été attribués.</p><p>Si vous souhaitez obtenir un accès, veuillez envoyer un "
 "courriel à %s.</p>"
+
+msgid "A collection already exists at that location."
+msgstr ""
 
 msgid "Action"
 msgstr "Action"
@@ -86,6 +89,9 @@ msgstr "Cliquez pour afficher cette relation"
 #, fuzzy
 msgid "Click to display user details"
 msgstr "Cliquez pour afficher cette relation"
+
+msgid "Collection Contents"
+msgstr ""
 
 msgid "Collection Path"
 msgstr ""
@@ -150,8 +156,24 @@ msgstr "Tapez un nom pour ce type de ressource"
 msgid "Enter your username and password then click here to log in."
 msgstr "Tapez votre nom d'utilisateur et votre mot de passe puis cliquez ici pour vous connecter"
 
+msgid "Error querying database."
+msgstr ""
+
+#, fuzzy
+msgid "Error writing calendar details to database."
+msgstr "Il s'est produit une erreur lors de l'écriture des données"
+
 msgid "European (d/m/y)"
 msgstr "Européen (jj/mm/aa)"
+
+msgid "Existing resource does not match 'If-Match' header - not accepted."
+msgstr ""
+
+msgid "Existing resource matches 'If-None-Match' header - not accepted."
+msgstr ""
+
+msgid "Finish"
+msgstr ""
 
 # The application name (possibly translated) follows this phrase.  The application
 # is called the "Really Simple CalDAV Store" (Store, in the sense of a repository
@@ -279,6 +301,12 @@ msgstr "Nouveau mot de passe"
 msgid "New User"
 msgstr "Nouvel utilisateur"
 
+msgid "No collection found at that location."
+msgstr ""
+
+msgid "No existing resource matching 'If-Match' header - not accepted."
+msgstr ""
+
 msgid "No. <!-- short for 'Number' -->"
 msgstr "N°"
 
@@ -339,6 +367,9 @@ msgstr "Relations à cet utilisateur"
 msgid "Relationships"
 msgstr "Relations"
 
+msgid "Repeat Rule"
+msgstr ""
+
 msgid "Report Bug"
 msgstr "Signaler une erreur"
 
@@ -354,6 +385,9 @@ msgstr "Signaler une erreur du logiciel"
 # Speaking about "logiciel" (i.e. "software") would surely provide the best understanding
 msgid "Resource <!-- a thing which might be booked: a room, a carpark, a projector... -->"
 msgstr "Ressource"
+
+msgid "Resource does not match 'If-Match' header - not deleted"
+msgstr ""
 
 # French uses the same word, except it adds an 'S'. Otherwise it would sound "Rezource", 
 # a bit odd except when said with a german accent.
@@ -377,6 +411,12 @@ msgstr "Choisissez l'utilisateur, la ressource ou le groupe à relier à cet uti
 msgid "Show help on"
 msgstr "Afficher l'aide sur"
 
+msgid "Start"
+msgstr ""
+
+msgid "Summary"
+msgstr ""
+
 # This shows up as an error message, and the ##BlahBlah## is converted to a hyperlink
 # which will (eventually) go to a wiki page.  So it's OK to translate the ##BlahBlah##
 # into something which will (eventually) go to a translated wiki page.
@@ -384,6 +424,12 @@ msgstr "Afficher l'aide sur"
 # it is used somewhere in the database).
 msgid "That relationship type is being used. See ##RelationshipTypeUsed##"
 msgstr "Ce type de relation est encore employé. Cf. ##RelationshipTypeUsed##"
+
+msgid "The application program does not understand that request."
+msgstr ""
+
+msgid "The calendar path contains illegal characters."
+msgstr ""
 
 # or ##TypeDeRelationsUtilisées## ?
 # We are trying to provide a full description of what a 'username' is.  Feel free to
@@ -414,6 +460,9 @@ msgstr ""
 
 msgid "To Group?"
 msgstr "Au groupe"
+
+msgid "Type"
+msgstr ""
 
 msgid "United States of America (m/d/y)"
 msgstr "Etats-Unis (mm/jj/aa)"
@@ -475,6 +524,29 @@ msgstr "Date à laquelle l'adresse courriel de cet utilisateur a été validée.
 
 msgid "You are not authorised to use this function."
 msgstr "Vous n'êtes pas autorisé à utiliser cette fonction."
+
+msgid "You do not have appropriate rights to view that resource."
+msgstr ""
+
+msgid ""
+"You may not PUT a collection - you may only PUT things *in* one or MKCOL/MKCALENDAR to create one."
+msgstr ""
+
+msgid "You may not access that calendar"
+msgstr ""
+
+#, fuzzy
+msgid "You may not add entries to this calendar."
+msgstr "Vous n'êtes pas autorisé à utiliser cette fonction."
+
+msgid "You may not create a calendar there."
+msgstr ""
+
+msgid "You may not delete entries from this calendar."
+msgstr ""
+
+msgid "You may not modify entries on this calendar."
+msgstr ""
 
 msgid "You must log in to use this system."
 msgstr "Vous devez vous connecter pour utiliser ce logiciel"

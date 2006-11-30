@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-11-26 11:54+1300\n"
+"POT-Creation-Date: 2006-12-01 00:02+1300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,6 +30,9 @@ msgid ""
 "<h1>Log On Please</h1><p>For access to the %s you should log on withthe "
 "username and password that have been issued to you.</p><p>If you would like "
 "to request access, please e-mail %s.</p>"
+msgstr ""
+
+msgid "A collection already exists at that location."
 msgstr ""
 
 msgid "Action"
@@ -78,6 +81,9 @@ msgid "Click to display the contents of the collection"
 msgstr ""
 
 msgid "Click to display user details"
+msgstr ""
+
+msgid "Collection Contents"
 msgstr ""
 
 msgid "Collection Path"
@@ -140,7 +146,22 @@ msgstr ""
 msgid "Enter your username and password then click here to log in."
 msgstr ""
 
+msgid "Error querying database."
+msgstr ""
+
+msgid "Error writing calendar details to database."
+msgstr ""
+
 msgid "European (d/m/y)"
+msgstr ""
+
+msgid "Existing resource does not match 'If-Match' header - not accepted."
+msgstr ""
+
+msgid "Existing resource matches 'If-None-Match' header - not accepted."
+msgstr ""
+
+msgid "Finish"
 msgstr ""
 
 msgid "For access to the"
@@ -248,6 +269,12 @@ msgstr ""
 msgid "New User"
 msgstr ""
 
+msgid "No collection found at that location."
+msgstr ""
+
+msgid "No existing resource matching 'If-Match' header - not accepted."
+msgstr ""
+
 msgid "No. <!-- short for 'Number' -->"
 msgstr ""
 
@@ -306,6 +333,9 @@ msgstr ""
 msgid "Relationships"
 msgstr ""
 
+msgid "Repeat Rule"
+msgstr ""
+
 msgid "Report Bug"
 msgstr ""
 
@@ -315,6 +345,9 @@ msgstr ""
 msgid ""
 "Resource <!-- a thing which might be booked: a room, a carpark, a "
 "projector... -->"
+msgstr ""
+
+msgid "Resource does not match 'If-Match' header - not deleted"
 msgstr ""
 
 msgid "Resource"
@@ -335,7 +368,19 @@ msgstr ""
 msgid "Show help on"
 msgstr ""
 
+msgid "Start"
+msgstr ""
+
+msgid "Summary"
+msgstr ""
+
 msgid "That relationship type is being used. See ##RelationshipTypeUsed##"
+msgstr ""
+
+msgid "The application program does not understand that request."
+msgstr ""
+
+msgid "The calendar path contains illegal characters."
 msgstr ""
 
 msgid "The name this user can log into the system with."
@@ -363,6 +408,9 @@ msgid "This user's collections"
 msgstr ""
 
 msgid "To Group?"
+msgstr ""
+
+msgid "Type"
 msgstr ""
 
 msgid "United States of America (m/d/y)"
@@ -408,6 +456,29 @@ msgid "When the user's e-mail account was validated."
 msgstr ""
 
 msgid "You are not authorised to use this function."
+msgstr ""
+
+msgid "You do not have appropriate rights to view that resource."
+msgstr ""
+
+msgid ""
+"You may not PUT a collection - you may only PUT things *in* one or MKCOL/"
+"MKCALENDAR to create one."
+msgstr ""
+
+msgid "You may not access that calendar"
+msgstr ""
+
+msgid "You may not add entries to this calendar."
+msgstr ""
+
+msgid "You may not create a calendar there."
+msgstr ""
+
+msgid "You may not delete entries from this calendar."
+msgstr ""
+
+msgid "You may not modify entries on this calendar."
 msgstr ""
 
 msgid "You must log in to use this system."
