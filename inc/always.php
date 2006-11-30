@@ -14,7 +14,6 @@ $c->sysabbr     = 'rscds';
 $c->admin_email = 'andrew@catalyst.net.nz';
 $c->system_name = "Really Simple CalDAV Store";
 $c->domain_name = $_SERVER['SERVER_NAME'];
-$c->images      = "/images";
 $c->save_time_zone_defs = true;
 $c->collections_always_exist = true;
 $c->enable_row_linking = true;
@@ -23,7 +22,9 @@ $c->enable_row_linking = true;
 $c->default_locale = "en_NZ";
 $c->base_url = preg_replace("#/[^/]+\.php.*$#", "", $_SERVER['SCRIPT_NAME']);
 $c->base_directory = preg_replace("#/[^/]*$#", "", $_SERVER['DOCUMENT_ROOT']);
+
 $c->stylesheets = array( $c->base_url."/rscds.css" );
+$c->images      = $c->base_url . "/images";
 
 // Ensure that ../inc is in our included paths as early as possible
 set_include_path( '../inc'. PATH_SEPARATOR. get_include_path());
@@ -31,7 +32,7 @@ set_include_path( '../inc'. PATH_SEPARATOR. get_include_path());
 // Kind of private configuration values
 $c->total_query_time = 0;
 
-$c->dbg = array( "i18n" => 1 );
+$c->dbg = array();
 
 // Utilities
 require_once("AWLUtilities.php");
