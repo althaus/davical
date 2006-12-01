@@ -49,7 +49,7 @@ $c->protocol_server_port_script = sprintf( "%s://%s%s%s", (isset($_SERVER['HTTPS
                  ),
                  $_SERVER['SCRIPT_NAME'] );
 
-dbg_error_log( "LOG", "==========> method =%s= =%s= =%s= =%s= =%s=", $_SERVER['REQUEST_METHOD'], $c->protocol_server_port_script, $_SERVER['PATH_INFO'], $c->base_url, $c->base_directory );
+@dbg_error_log( "LOG", "==========> method =%s= =%s= =%s= =%s= =%s=", $_SERVER['REQUEST_METHOD'], $c->protocol_server_port_script, $_SERVER['PATH_INFO'], $c->base_url, $c->base_directory );
 
 init_gettext( 'rscds', '../locale' );
 
@@ -63,6 +63,7 @@ else {
   include_once("rscds_configuration_missing.php");
   exit;
 }
+if ( !isset($c->page_title) ) $c->page_title = $c->system_name;
 
 /**
 * Now that we have loaded the configuration file we can switch to a
