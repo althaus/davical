@@ -179,7 +179,7 @@ BEGIN
   END IF;
 
 
-  loopcount := 1000;  -- Not really needed, but stops an infinite loop if there is a bug!
+  loopcount := 100;  -- Desirable to stop an infinite loop if there is something we cannot handle
   LOOP
     -- RAISE NOTICE ''Testing date: %'', our_answer;
     IF frequency = ''WEEKLY'' THEN
@@ -206,7 +206,7 @@ BEGIN
 
     loopcount := loopcount - 1;
     IF loopcount < 0 THEN
-      RAISE EXCEPTION ''Could not cope with dates after % using % from %'', earliest, repeatrule, basedate;
+      RAISE EXCEPTION ''Giving up on repeat rule "%" - after 100 increments from % we are still not after %'', repeatrule, basedate, earliest;
       RETURN NULL;
     END IF;
 
