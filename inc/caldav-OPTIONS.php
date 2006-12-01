@@ -47,14 +47,17 @@ if ( !exists ) {
 
 /**
 * As yet we only support quite a limited range of options.  When we see clients looking
-* for more than this we will work to support them further.  We should probably support
-* PROPPATCH, because I suspect that will be used.  Also HEAD and POST being fairly standard
-* should be handled.  COPY and MOVE would seem to be easy also.
+* for more than this we will work to support them further.  So we can see clients trying
+* to use such methods there is a configuration option to override and allow lying about
+* what is available.
 */
-$allowed = "OPTIONS, GET, PUT, DELETE, PROPFIND, PROPPATCH, MKCOL, MKCALENDAR";
-if ( $is_calendar ) $allowed .= ", REPORT";
+if ( isset($c->override_allowed_methods) )
+  $allowed = $c->override_allowed_methods;
+else {
+  $allowed = "OPTIONS, GET, HEAD, PUT, DELETE, PROPFIND, MKCOL, MKCALENDAR";
+  if ( $is_calendar ) $allowed .= ", REPORT";
+}
 header( "Allow: $allowed");
-// header( "Allow: ACL, COPY, DELETE, GET, HEAD, LOCK, MKCALENDAR, MKCOL, MOVE, OPTIONS, POST, PROPFIND, PROPPATCH, PUT, REPORT, SCHEDULE, TRACE, UNLOCK");
 
 /**
 * From reading the "Scheduling Extensions to CalDAV" draft I don't think that we will
