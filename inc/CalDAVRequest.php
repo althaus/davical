@@ -39,7 +39,7 @@ class CalDAVRequest
     * A variety of requests may set the "Depth" header to control recursion
     */
     $this->depth = ( isset($_SERVER['HTTP_DEPTH']) ? $_SERVER['HTTP_DEPTH'] : 0 );
-    if ( $this->depth == 'infinite' ) $this->depth = 99;
+    if ( $this->depth == 'infinity' ) $this->depth = 99;
     $this->depth = intval($this->depth);
 
     /**
