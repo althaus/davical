@@ -1,8 +1,6 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
-Server: Apache/2.2.3 (Debian) DAV/2
 ETag: "9f4924e81f1c237854f11d8d58e85dae"
-X-RSCDS-Version: RSCDS/0.5.0; DB/1.1.5
 Content-Length: 1199
 Content-Type: text/xml; charset="utf-8"
 

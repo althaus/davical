@@ -1,8 +1,6 @@
 HTTP/1.1 201 Created
 Date: Dow, 01 Jan 2000 00:00:00 GMT
-Server: Apache/2.2.3 (Debian) DAV/2
 ETag: "75a75e1c7c4546074aab7645b5323738"
-X-RSCDS-Version: RSCDS/0.5.0; DB/1.1.5
 Content-Length: 0
 Content-Type: text/plain; charset=UTF-8
 
