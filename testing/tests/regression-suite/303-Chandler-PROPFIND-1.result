@@ -1,7 +1,7 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
-ETag: "2fe1affa2720f00af1c4765534fb4334"
-Content-Length: 443
+ETag: "7911f05b5aa4dd0a8e30aef8348ed4d5"
+Content-Length: 437
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="UTF-8" ?>
@@ -14,7 +14,7 @@ Content-Type: text/xml; charset="utf-8"
      <collection/>
      <calendar xmlns="urn:ietf:params:xml:ns:caldav"/>
     </resourcetype>
-    <displayname>User1 home</displayname>
+    <displayname>home</displayname>
     <getetag>"faf25336de0e470a54075c14cbcf5272"</getetag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
