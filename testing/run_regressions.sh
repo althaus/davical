@@ -4,6 +4,7 @@
 #
 DBNAME=caldav
 UNTIL=${1:-"99999"}
+ACCEPT_ALL=${2:-""}
 
 REGRESSION="tests/regression-suite"
 RESULTS="${REGRESSION}/results"
@@ -20,7 +21,11 @@ check_result() {
     echo "Displaying diff for test ${TEST}"
     echo "======================================="
     cat "${REGRESSION}/diffs/${TEST}"
-    read -p "Accept this as new standard result [y/N]? " ACCEPT
+    if [ "${ACCEPT_ALL}" = "" ] ; then
+      read -p "Accept this as new standard result [y/N]? " ACCEPT
+    else
+      ACCEPT=${ACCEPT_ALL}
+    fi
     if [ "${ACCEPT}" = "y" ] ; then
       cp "${RESULTS}/${TEST}" "${REGRESSION}/${TEST}.result"
     fi
