@@ -37,7 +37,7 @@ else {
 /**
 * Before we write the event, we check the container exists, creating it if it doesn't
 */
-if ( $request_container == "/$path_username/" ) {
+if ( $request_container == "/$request->username/" ) {
   dbg_error_log( "WARN", " Storing events directly in user's base folders is not recommended!");
 }
 else {
