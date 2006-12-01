@@ -41,7 +41,7 @@ else {
   }
 }
 
-if ( !exists ) {
+if ( !$exists ) {
   $request->DoResponse( 404, translate("No collection found at that location.") );
 }
 
