@@ -30,6 +30,7 @@ msgid ""
 "<h1>Log On Please</h1><p>For access to the %s you should log on withthe "
 "username and password that have been issued to you.</p><p>If you would like "
 "to request access, please e-mail %s.</p>"
+msgstr ""
 
 msgid "A collection already exists at that location."
 msgstr "Er bestaat al een verzameling op die plek"
