@@ -28,7 +28,7 @@ function make_help_link($matches)
 
 
 function send_page_header() {
-  global $session, $c, $page_menu, $user_menu, $role_menu, $relationship_menu;
+  global $session, $c, $page_menu, $user_menu, $role_menu, $relationship_menu, $active_menu_pattern;
 
 //  echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">';
 
