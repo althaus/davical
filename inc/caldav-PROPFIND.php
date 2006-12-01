@@ -108,7 +108,7 @@ function collection_to_xml( $collection ) {
     $prop->NewElement("resourcetype", $resourcetypes );
   }
   if ( isset($attribute_list['DISPLAYNAME']) ) {
-    $displayname = ( $collection->caldav_displayname == "" ? ucfirst(trim(str_replace("/"," ", $collection->dav_name))) : $collection->caldav_displayname );
+    $displayname = ( $collection->dav_displayname == "" ? ucfirst(trim(str_replace("/"," ", $collection->dav_name))) : $collection->dav_displayname );
     $prop->NewElement("displayname", $displayname );
   }
   if ( isset($attribute_list['GETETAG']) ) {
