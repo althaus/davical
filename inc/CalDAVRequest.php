@@ -43,6 +43,18 @@ class CalDAVRequest
     $this->depth = intval($this->depth);
 
     /**
+    * MOVE/COPY use a "Destination" header and (optionally) an "Overwrite" one.
+    */
+    if ( isset($_SERVER['HTTP_DESTINATION']) ) $this->destination = $_SERVER['HTTP_DESTINATION'];
+    $this->overwrite = ( isset($_SERVER['HTTP_OVERWRITE']) ? $_SERVER['HTTP_OVERWRITE'] : 'T' ); // RFC2518, 9.6 says default True.
+
+    /**
+    * LOCK things use an "If" header to hold the lock in some cases, and "Lock-token" in others
+    */
+    if ( isset($_SERVER['HTTP_IF']) ) $this->if_clause = $_SERVER['HTTP_IF'];
+    if ( isset($_SERVER['HTTP_LOCK-TOKEN']) ) $this->lock_token = $_SERVER['HTTP_LOCK-TOKEN'];
+
+    /**
     * Our path is /<script name>/<user name>/<user controlled> if it ends in
     * a trailing '/' then it is referring to a DAV 'collection' but otherwise
     * it is referring to a DAV data item.
@@ -102,7 +114,7 @@ class CalDAVRequest
             else {
               if ( strpos($permission_result,"C") )       $this->permissions['bind'] = 'bind';      // PUT of new content (i.e. Create)
               if ( strpos($permission_result,"D") )       $this->permissions['unbind'] = 'unbind';  // DELETE
-              if ( strpos($permission_result,"M") )       $this->permissions['write-content'] = 'write-content';  // DELETE
+              if ( strpos($permission_result,"M") )       $this->permissions['write-content'] = 'write-content';  // PUT Modify
             }
           }
         }
