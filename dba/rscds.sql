@@ -112,7 +112,8 @@ CREATE TABLE locks (
   scope TEXT,
   depth INT,
   owner INT REFERENCES usr(user_no),
-  timeout TIMESTAMP
+  timeout INTERVAL,
+  start TIMESTAMP DEFAULT current_timestamp
 );
 
 CREATE INDEX locks_dav_name_idx ON locks(dav_name);
