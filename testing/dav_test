@@ -16,9 +16,21 @@ my $is_head_request = 0;
 my @auth = ( "--user", "user1:user1" );
 
 my $datafile = "tests/$suite/$test.data";
+my $in_data = 0;
+my $data_binary;
 
 open( TEST, '<', "tests/$suite/$test.test" ) or die "Can't open 'tests/$suite/$test.test'";
 while( <TEST> ) {
+  if ( $in_data ) {
+    if ( /^ENDDATA$/ ) {
+      $in_data = 0;
+    }
+    else {
+      $data_binary .= $_;
+    }
+    next;
+  }
+
   /^\s*(#|$)/ && next;
 
   /^\s*HEAD\s*(#|$|=)/ && do {
@@ -35,6 +47,11 @@ while( <TEST> ) {
 
   /^\s*DATA\s*=\s*(\S.*)$/ && do {
     $datafile="tests/$suite/$1.data";
+  };
+
+  /^BEGINDATA$/ && do {
+    $data_binary = "";
+    $in_data = 1;
   };
 
   /^\s*VERBOSE\s*(#|$|=)/ && do {
@@ -76,7 +93,9 @@ push @arguments, @auth;
 
 if ( -f $datafile ) {
   push @arguments, "--data-binary", "\@$datafile";
-  # print "Using datafile: ", $datafile,"\n";
+}
+elsif ( defined($data_binary) ) {
+  push @arguments, "--data-binary", $data_binary;
 }
 else {
   undef($datafile);
