@@ -110,9 +110,9 @@ CREATE TABLE locks (
   opaquelocktoken TEXT UNIQUE NOT NULL,
   type TEXT,
   scope TEXT,
-  depth TEXT,
+  depth INT,
   owner INT REFERENCES usr(user_no),
-  timeout INTERVAL
+  timeout TIMESTAMP
 );
 
 CREATE INDEX locks_dav_name_idx ON locks(dav_name);
