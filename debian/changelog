@@ -1,3 +1,21 @@
+rscds (0.5.0) unstable; urgency=low
+
+  * We now support a basic authentication hook to allow external sources of
+    authentication and user information.
+  * Some simple ability has been added to the admin interface to list
+    calendars and events.
+  * When an event is added to a non-existent calendar, the calendar is
+    automatically created (if $c->collections_always_exist is true).
+  * The permissions architecture has been changed to allow extension towards
+    the DAV access standards in due course.
+  * Allow RSCDS to operate as a subdirectory in an existing virtual host.
+  * The PHP register_globals directive need not be enabled any longer.
+  * The RSCDS include directory need not be specified any longer.
+  * RSCDS should now work without generating errors even with E_ALL set in php.ini
+  * Add a Netherlands translation.
+
+ -- Andrew McMillan <debian@mcmillan.net.nz>  Sun,  3 Dec 2006 18:43:47 +1300
+
 rscds (0.4.0) unstable; urgency=low
 
   * Added initial Russian translation from Nick Khazov.

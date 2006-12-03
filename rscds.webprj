@@ -224,6 +224,7 @@
     <item url="dba/patches/1.1.5.sql" uploadstatus="1" />
     <item url="docs/website/wikiheader.css" uploadstatus="1" />
     <item url="htdocs/collection.php" uploadstatus="1" />
-    <item url="inc/CalDAVRequest.php" />
+    <item url="inc/CalDAVRequest.php" uploadstatus="1" />
+    <item url="po/nl_NL.po" />
   </project>
 </webproject>
