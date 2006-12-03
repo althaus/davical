@@ -300,8 +300,7 @@ elseif ( $request->AllowedTo('read') ) {
   /**
   * Something that we can handle, at least roughly correctly.
   */
-  $url = sprintf("http://%s:%d%s%s", $_SERVER['SERVER_NAME'], $_SERVER['SERVER_PORT'], $_SERVER['SCRIPT_NAME'], $request->path );
-  $url = $_SERVER['SCRIPT_NAME'] . $request->path ;
+  $url = $c->protocol_server_port_script . $request->path ;
   $url = preg_replace( '#/$#', '', $url);
 
   $responses = get_collection( $request->depth, (isset($request->user_no) ? $request->user_no : $session->user_no), $request->path );
