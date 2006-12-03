@@ -146,6 +146,16 @@ class CalDAVRequest
   }
 
   /**
+  * Returns true if the URL referenced by this request points at a collection.
+  */
+  function IsCollection( ) {
+    if ( !isset($this->_is_collection) ) {
+      $this->_is_collection = preg_match( '#/$#', $this->path );
+    }
+    return $this->_is_collection;
+  }
+
+  /**
   * Are we allowed to do the requested activity
   *
   * @param string $activity The activity we want to do.
