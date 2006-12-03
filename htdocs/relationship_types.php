@@ -106,7 +106,7 @@ if ( $confirmation_required ) {
   printf('<p><a href="%s&%s">%s</a></p>', $_SERVER['REQUEST_URI'], $confirmation_hash, translate("Confirm Deletion of the Relationship Type"));
 }
 
-echo "<form method='post' enctype='multipart/form-data' action='$REQUEST_URI'>";
+printf( '<form method="post" enctype="multipart/form-data" action="%s">', $_SERVER['REQUEST_URI']);
 echo $browser->Render();
 echo "</form>";
 
