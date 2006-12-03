@@ -26,6 +26,8 @@ switch ( $request->method ) {
   case 'GET':        include_once("caldav-GET.php");        break;
   case 'HEAD':       include_once("caldav-GET.php");        break;
   case 'DELETE':     include_once("caldav-DELETE.php");     break;
+  case 'LOCK':       include_once("caldav-LOCK.php");       break;
+  case 'UNLOCK':     include_once("caldav-LOCK.php");       break;
 
   default:
     dbg_error_log( "caldav", "Unhandled request method >>%s<<", $request->method );
