@@ -111,7 +111,7 @@ CREATE TABLE locks (
   type TEXT,
   scope TEXT,
   depth INT,
-  owner INT REFERENCES usr(user_no),
+  owner TEXT,
   timeout INTERVAL,
   start TIMESTAMP DEFAULT current_timestamp
 );
