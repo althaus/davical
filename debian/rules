@@ -30,6 +30,7 @@ binary-indep: checkroot build
 	cp -a locale $(dt)/usr/share/$(package)
 	# cp -a admin $(dt)/usr/share/$(package)
 	dh_installdocs
+	rm -rf $(dt)/usr/share/doc/$(package)/website/wiki
 	dh_installchangelogs
 	dh_fixperms
 	install -m 1777 -d $(dt)/var/lib/$(package)/attachments
