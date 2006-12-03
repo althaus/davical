@@ -38,7 +38,7 @@ class RSCDSUser extends User
     $html = "";
     dbg_error_log("User", ":Render: type=$this->WriteType, edit_mode=$this->EditMode" );
 
-    $ef = new EntryForm( $REQUEST_URI, $this->Values, $this->EditMode );
+    $ef = new EntryForm( $_SERVER['REQUEST_URI'], $this->Values, $this->EditMode );
     $ef->NoHelp();  // Prefer this style, for the moment
 
     $html = '<div id="entryform">';
@@ -118,19 +118,19 @@ class RSCDSUser extends User
     * Present an extra editable row at the bottom of the browse.
     */
     if ( $ef->EditMode ) { // && $session->AllowedTo("MaintainRelationships") ) {
-      if ( isset($this->roles['Group']) ) {
-        /**
-        * We only allow individuals to link to groups at this stage.
-        */
-        $group_target = 'AND NOT EXISTS (SELECT 1 FROM role_member WHERE role_no = 2 AND user_no=usr.user_no)';
-      }
       $sql = <<<EOSQL
 SELECT user_no, fullname FROM usr
  WHERE NOT EXISTS ( SELECT 0 FROM relationship
                      WHERE (to_user = usr.user_no AND from_user = $this->user_no)
                         OR (from_user = usr.user_no AND to_user = $this->user_no))
-       $group_target
 EOSQL;
+      if ( isset($this->roles['Group']) ) {
+        /**
+        * We only allow individuals to link to groups at this stage.
+        */
+        $sql .= 'AND NOT EXISTS (SELECT 1 FROM role_member WHERE role_no = 2 AND user_no=usr.user_no)';
+      }
+
       if ( isset($this->roles['Group']) )
         $nullvalue = translate( "--- select a user, group or resource ---" );
       else
