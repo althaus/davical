@@ -21,6 +21,7 @@
 */
 class CalDAVRequest
 {
+  const DEPTH_INFINITY = 9999;
 
   /**
   * Create a new CalDAVRequest object.
@@ -39,7 +40,7 @@ class CalDAVRequest
     * A variety of requests may set the "Depth" header to control recursion
     */
     $this->depth = ( isset($_SERVER['HTTP_DEPTH']) ? $_SERVER['HTTP_DEPTH'] : 0 );
-    if ( $this->depth == 'infinity' ) $this->depth = 99;
+    if ( $this->depth == 'infinity' ) $this->depth = self::DEPTH_INFINITY;
     $this->depth = intval($this->depth);
 
     /**
@@ -146,6 +147,75 @@ class CalDAVRequest
   }
 
   /**
+  * Checks whether the resource is locked, returning any lock token, or false
+  *
+  * FIXME: This logic does not catch all locking scenarios.  For example an infinite
+  * depth request should check the permissions for all collections and resources within
+  * that.  At present we only maintain permissions on a per-collection basis though.
+  *
+  * @param string $dav_name The resource which we want to know the lock status for
+  */
+  function IsLocked() {
+    if ( !isset($this->_locks_found) ) {
+      /**
+      * Find the locks that might apply and load them into an array
+      */
+      $sql = "SELECT * FROM locks WHERE ? ~ '^'||dav_name||?";
+      $qry = new PgQuery($sql, $this->path, ($this->IsInfiniteDepth() ? '', '$') );
+      if ( $qry->Exec("caldav",__LINE__,__FILE__) ) {
+        while( $lock_row = $qry->Fetch() ) {
+          $this->_locks_found[$lock_row->opaquelocktoken] = $lock_row;
+        }
+      }
+      else {
+        $this->DoResponse(500,translate("Database Error"));
+        // Does not return.
+      }
+    }
+
+    foreach( $this->_locks_found AS $lock_token => $lock_row ) {
+      if ( $lock_row->depth == self::DEPTH_INFINITY || $lock_row->dav_name == $dav_name ) {
+        return $lock_token;
+      }
+    }
+
+    return false;  // Nothing matched
+  }
+
+
+  /**
+  * Checks to see whether the lock token given matches one of the ones handed in
+  * with the request.
+  *
+  * @param string $lock_token The opaquelocktoken which we are looking for
+  */
+  function ValidateLockToken( $lock_token ) {
+    if ( isset($this->lock_token) && $this->lock_token == $lock_token ) return true;
+    if ( isset($this->if_clause) ) {
+      $tokens = preg_split( '/[<>]/', $this->if_clause );
+      foreach( $tokens AS $k => $v ) {
+        if ( 'opaquelocktoken:' == substr( $v, 0, 16 ) ) {
+          if ( substr( $v, 16 ) == $lock_token ) return true;
+        }
+      }
+    }
+    return false;
+  }
+
+
+  /**
+  * Returns the DB object associated with a lock token, or false.
+  *
+  * @param string $lock_token The opaquelocktoken which we are looking for
+  */
+  function GetLockDetails( $lock_token ) {
+    if ( !isset($this->_locks_found) && false === $this->IsLocked() ) return false;
+    if ( isset($this->_locks_found[$lock_token]) ) return $this->_locks_found[$lock_token];
+    return false;
+  }
+
+
+  /**
   * Returns true if the URL referenced by this request points at a collection.
   */
   function IsCollection( ) {
@@ -154,6 +224,15 @@ class CalDAVRequest
     }
     return $this->_is_collection;
   }
+
+
+  /**
+  * Returns true if the request asked for infinite depth
+  */
+  function IsInfiniteDepth( ) {
+    return ($this->depth == self::DEPTH_INFINITY);
+  }
+
 
   /**
   * Are we allowed to do the requested activity
