@@ -14,6 +14,8 @@
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v2
 */
 
+define('DEPTH_INFINITY', 9999);
+
 /**
 * A class for collecting things to do with this request.
 *
@@ -21,7 +23,6 @@
 */
 class CalDAVRequest
 {
-  const DEPTH_INFINITY = 9999;
 
   /**
   * Create a new CalDAVRequest object.
@@ -40,7 +41,7 @@ class CalDAVRequest
     * A variety of requests may set the "Depth" header to control recursion
     */
     $this->depth = ( isset($_SERVER['HTTP_DEPTH']) ? $_SERVER['HTTP_DEPTH'] : 0 );
-    if ( $this->depth == 'infinity' ) $this->depth = self::DEPTH_INFINITY;
+    if ( $this->depth == 'infinity' ) $this->depth = DEPTH_INFINITY;
     $this->depth = intval($this->depth);
 
     /**
@@ -54,6 +55,24 @@ class CalDAVRequest
     */
     if ( isset($_SERVER['HTTP_IF']) ) $this->if_clause = $_SERVER['HTTP_IF'];
     if ( isset($_SERVER['HTTP_LOCK-TOKEN']) ) $this->lock_token = $_SERVER['HTTP_LOCK-TOKEN'];
+
+    /**
+    * LOCK things use a "Timeout" header to set a series of reducing alternative values
+    */
+    if ( isset($_SERVER['HTTP_TIMEOUT']) ) {
+      $timeouts = split( ',', $_SERVER['HTTP_TIMEOUT'] );
+      foreach( $timeouts AS $k => $v ) {
+        if ( strtolower($v) == 'infinite' ) {
+          $this->timeout = (isset($c->maximum_lock_timeout) ? $c->maximum_lock_timeout : 86400 * 100);
+          break;
+        }
+        elseif ( strtolower(substr($v,0,7)) == 'second-' ) {
+          $this->timeout = max( intval(substr($v,7)), (isset($c->maximum_lock_timeout) ? $c->maximum_lock_timeout : 86400 * 100) );
+          break;
+        }
+      }
+      if ( ! isset($this->timeout) ) $this->timeout = (isset($c->default_lock_timeout) ? $c->default_lock_timeout : 900);
+    }
 
     /**
     * Our path is /<script name>/<user name>/<user controlled> if it ends in
@@ -157,11 +176,12 @@ class CalDAVRequest
   */
   function IsLocked() {
     if ( !isset($this->_locks_found) ) {
+      $this->_locks_found = array();
       /**
       * Find the locks that might apply and load them into an array
       */
-      $sql = "SELECT * FROM locks WHERE ? ~ '^'||dav_name||?";
-      $qry = new PgQuery($sql, $this->path, ($this->IsInfiniteDepth() ? '', '$') );
+      $sql = "SELECT * FROM locks WHERE ?::text ~ ('^'||dav_name||?)::text;";
+      $qry = new PgQuery($sql, $this->path, ($this->IsInfiniteDepth() ? '' : '$') );
       if ( $qry->Exec("caldav",__LINE__,__FILE__) ) {
         while( $lock_row = $qry->Fetch() ) {
           $this->_locks_found[$lock_row->opaquelocktoken] = $lock_row;
@@ -174,9 +194,42 @@ class CalDAVRequest
     }
 
     foreach( $this->_locks_found AS $lock_token => $lock_row ) {
-      if ( $lock_row->depth == self::DEPTH_INFINITY || $lock_row->dav_name == $dav_name ) {
+      if ( $lock_row->depth == DEPTH_INFINITY || $lock_row->dav_name == $this->path ) {
         return $lock_token;
       }
+    }
+
+    return false;  // Nothing matched
+  }
+
+
+  /**
+  * Returns the name for this depth: 0, 1, infinity
+  */
+  function GetDepthName( ) {
+    if ( $this->IsInfiniteDepth() ) return 'infinity';
+    return $this->depth;
+  }
+
+  /**
+  * Returns the locked row, either from the cache or from the database
+  *
+  * @param string $dav_name The resource which we want to know the lock status for
+  */
+  function GetLockRow( $lock_token ) {
+    if ( isset($this->_locks_found) && isset($this->_locks_found[$lock_token]) ) {
+      return $this->_locks_found[$lock_token];
+    }
+
+    $sql = "SELECT * FROM locks WHERE opaquelocktoken = ?;";
+    $qry = new PgQuery($sql, $lock_token );
+    if ( $qry->Exec("caldav",__LINE__,__FILE__) ) {
+      $lock_row = $qry->Fetch();
+      $this->_locks_found = array( $lock_token => $lock_row );
+      return $this->_locks_found[$lock_token];
+    }
+    else {
+      $request->DoResponse( 500, translate("Database Error") );
     }
 
     return false;  // Nothing matched
@@ -230,7 +283,7 @@ class CalDAVRequest
   * Returns true if the request asked for infinite depth
   */
   function IsInfiniteDepth( ) {
-    return ($this->depth == self::DEPTH_INFINITY);
+    return ($this->depth == DEPTH_INFINITY);
   }
 
 
