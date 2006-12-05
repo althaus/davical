@@ -2,7 +2,7 @@
 /**
 * @package rscds
 * @author Andrew McMillan <andrew@catalyst.net.nz>
-* @copyright Catalyst IT Ltd
+* @copyright Catalyst .Net Ltd
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v2
 */
 
