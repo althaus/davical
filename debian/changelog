@@ -1,3 +1,15 @@
+rscds (0.5.2) unstable; urgency=low
+
+  * Don't send charset with GET since it breaks Evolution.
+
+ -- Andrew McMillan <debian@mcmillan.net.nz>  Wed,  6 Dec 2006 00:03:47 +1300
+
+rscds (0.5.1) unstable; urgency=low
+
+  * Rebuild package without Wiki.
+
+ -- Andrew McMillan <debian@mcmillan.net.nz>  Mon,  4 Dec 2006 00:10:05 +1300
+
 rscds (0.5.0) unstable; urgency=low
 
   * We now support a basic authentication hook to allow external sources of
