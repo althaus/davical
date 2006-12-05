@@ -24,7 +24,7 @@ if ( $qry->Exec("GET") && $qry->rows == 1 ) {
   * an If-Match or If-None-Match header.  I'm not sure what that means here,
   * so we will leave it unimplemented at this point.
   */
-  $request->DoResponse( 200, ($request->method == "HEAD" ? "" : $event->caldav_data), "text/calendar; charset=UTF-8" );
+  $request->DoResponse( 200, ($request->method == "HEAD" ? "" : $event->caldav_data), "text/calendar" );
 }
 else if ( $qry->rows < 1 ) {
   $request->DoResponse( 404, "Calendar Resource Not Found." );
