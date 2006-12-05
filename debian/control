@@ -7,7 +7,7 @@ Build-Depends: debhelper
 
 Package: rscds
 Architecture: all
-Depends: debconf (>= 1.0.32), php4 (>= 4:4.3) | php5, php4-pgsql(>= 3:4.3.0) | php5-pgsql, postgresql-client (>= 7.4) | postgresql-client-8.0 | postgresql-client-8.1, libawl-php (>=0.12)
+Depends: debconf (>= 1.0.32), php4 (>= 4:4.3) | php5, php4-pgsql(>= 3:4.3.0) | php5-pgsql, postgresql-client (>= 7.4) | postgresql-client-8.0 | postgresql-client-8.1, libawl-php (>=0.12), libclass-dbi-pg-perl
 Description: Really Simple CalDAV Store
  The Really Simple CalDAV Store is designed to trivially store
  CalDAV calendars, such as those from Evolution, Sunbird/Lightning
