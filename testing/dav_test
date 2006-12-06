@@ -216,7 +216,7 @@ sub get_sql_value {
 
   my $results = $dbh->selectall_arrayref($sql);
   print STDERR "RESULT for $varname is ", $results->[0][0], "\n" if ( $debug );
-  $values->{$varname} = $results->[0][0];
+  $values->{$varname} = (defined($results->[0][0]) ? $results->[0][0] : "");
 }
 
 
