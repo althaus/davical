@@ -337,7 +337,7 @@ class CalDAVRequest
   * @param int $status The HTTP status code to send.
   * @param string $message The friendly text message to send with the response.
   */
-  function DoResponse( $status, $message, $content_type="text/plain" ) {
+  function DoResponse( $status, $message="", $content_type="text/plain" ) {
     global $session, $c;
     switch( $status ) {
       case 100: $status_text = "Continue"; break;
