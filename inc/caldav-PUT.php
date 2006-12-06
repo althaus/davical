@@ -17,13 +17,6 @@ $fh = fopen('/tmp/PUT.txt','w');
 fwrite($fh,$request->raw_post);
 fclose($fh);
 
-$etag = md5($request->raw_post);
-
-include_once("iCalendar.php");
-$ic = new iCalendar(array( 'icalendar' => $request->raw_post ));
-
-dbg_log_array( "PUT", 'EVENT', $ic->properties['VCALENDAR'][0], true );
-
 if ( isset($request_container) ) unset($request_container);
 if ( isset($request_name) ) unset($request_name);
 if ( preg_match( '#^(.*/)([^/]+)$#', $request->path, $matches ) ) {
@@ -31,8 +24,10 @@ if ( preg_match( '#^(.*/)([^/]+)$#', $request->path, $matches ) ) {
   $request_name = $matches[2];
 }
 else {
-  $request->DoResponse( 406, translate("You may not PUT a collection - you may only PUT things *in* one or MKCOL/MKCALENDAR to create one."));
+  $request->DoResponse( 406, translate("You may not PUT a collection - you may only PUT things *in* one or use MKCOL/MKCALENDAR to create one."));
 }
+
+$lock_opener = $request->FailIfLocked();
 
 /**
 * Before we write the event, we check the container exists, creating it if it doesn't
@@ -56,6 +51,13 @@ else {
     $qry->Exec("PUT");
   }
 }
+
+
+$etag = md5($request->raw_post);
+include_once("iCalendar.php");
+$ic = new iCalendar(array( 'icalendar' => $request->raw_post ));
+
+dbg_log_array( "PUT", 'EVENT', $ic->properties['VCALENDAR'][0], true );
 
 
 /**
@@ -175,5 +177,5 @@ $qry->Exec("PUT");
 dbg_error_log( "PUT", "User: %d, ETag: %s, Path: %s", $session->user_no, $etag, $request->path);
 
 header(sprintf('ETag: "%s"', (isset($bogus_etag) ? $bogus_etag : $etag) ) );
-$request->DoResponse( 201, "" );
+$request->DoResponse( ($put_action_type == 'INSERT' ? 201 : 200) );
 ?>
