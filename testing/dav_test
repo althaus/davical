@@ -3,10 +3,48 @@
 # Run a test
 #
 
-my $suite=$ARGV[0];
-my $test=$ARGV[1];
+use strict;
 
-usage() unless ( defined($suite) && defined($test) );
+use DBI;
+use Getopt::Long qw(:config permute);  # allow mixed args.
+
+# Options variables
+my $debug  = 0;
+my $dbname = "rscds";
+my $dbport = 5432;
+my $dbuser = "";
+my $dbpass = "";
+my $dbhost = "";
+my $suite;
+my $test;
+my $helpmeplease = 0;
+
+my $dbadir = $0;
+$dbadir =~ s#/[^/]*$##;
+my $patchdir = $dbadir . "/patches";
+
+
+GetOptions ('debug!'    => \$debug,
+            'dbname=s'  => \$dbname,
+            'dbuser=s'  => \$dbuser,
+            'dbpass=s'  => \$dbpass,
+            'dbport=s'  => \$dbport,
+            'dbhost=s'  => \$dbhost,
+            'suite=s'   => \$suite,
+            'case=s'    => \$test,
+            'help'      => \$helpmeplease  );
+
+usage() if ( $helpmeplease || !defined($suite) || !defined($test));
+
+############################################################
+# Open database connection. Note that the standard PostgreSQL
+# environment variables will also work with DBD::Pg.
+############################################################
+my $dsn = "dbi:Pg:dbname=$dbname";
+$dsn .= ";host=$dbhost" if ( "$dbhost" ne "" );
+$dsn .= ";port=$dbport" if ( $dbport != 5432 );
+my $dbh = DBI->connect($dsn, $dbuser, $dbpass, { AutoCommit => 0 } ) or die "Can't connect to database $dbname";
+
 
 my @arguments = ( "--basic", "--proxy", "", "--silent" );
 push @arguments, "--verbose" if ( defined($ARGV[2]) );
@@ -16,49 +54,83 @@ my $is_head_request = 0;
 my @auth = ( "--user", "user1:user1" );
 
 my $datafile = "tests/$suite/$test.data";
-my $in_data = 0;
+
+my $state = "";
 my $data_binary;
+
+my $sql_variable = "";
+my $sql_statement = "";
+my $sql_values = {};
+my $queries = ();
 
 open( TEST, '<', "tests/$suite/$test.test" ) or die "Can't open 'tests/$suite/$test.test'";
 while( <TEST> ) {
-  if ( $in_data ) {
-    if ( /^ENDDATA$/ ) {
-      $in_data = 0;
+  my $line = $_;
+
+  # Do any variable replcements we have so far
+  foreach my $variable ( keys %{$sql_values} ) {
+    my $value = $sql_values->{$variable};
+    $line =~ s/##$variable##/$value/g;
+  }
+
+  if ( $state ne "" ) {
+    if ( /^END$state$/ ) {
+      if ( $state eq "SQL" ) {
+        get_sql_value( $sql_variable, $sql_values, $sql_statement );
+      }
+      elsif ( $state eq "SQL" || $state eq "QUERY" ) {
+        push @$queries, $sql_statement;
+      }
+      $state = "";
     }
-    else {
-      $data_binary .= $_;
+    elsif ( $state eq "DATA" ) {
+      $data_binary .= $line;
+    }
+    elsif ( $state eq "SQL" || $state eq "QUERY" ) {
+      $sql_statement .= $line;
     }
     next;
   }
 
   /^\s*(#|$)/ && next;
 
-  /^\s*HEAD\s*(#|$|=)/ && do {
+  $line =~ /^\s*HEAD\s*(#|$|=)/ && do {
     push @arguments, "--include";
   };
 
-  /^\s*NOAUTH\s*(#|$|=)/ && do {
-    @auth = ();
-  };
-
-  /^\s*AUTH\s*=\s*(\S.*)$/ && do {
-    @auth = ( "--user", $1 );
-  };
-
-  /^\s*DATA\s*=\s*(\S.*)$/ && do {
-    $datafile="tests/$suite/$1.data";
-  };
-
-  /^BEGINDATA$/ && do {
-    $data_binary = "";
-    $in_data = 1;
-  };
-
-  /^\s*VERBOSE\s*(#|$|=)/ && do {
+  $line =~ /^\s*VERBOSE\s*(#|$|=)/ && do {
     push @arguments, "--verbose";
   };
 
-  /^\s*TYPE\s*=\s*(\S.*)$/ && do {
+  $line =~ /^\s*NOAUTH\s*(#|$|=)/ && do {
+    @auth = ();
+  };
+
+  $line =~ /^\s*AUTH\s*=\s*(\S.*)$/ && do {
+    @auth = ( "--user", $1 );
+  };
+
+  $line =~ /^\s*DATA\s*=\s*(\S.*)$/ && do {
+    $datafile="tests/$suite/$1.data";
+  };
+
+  $line =~ /^BEGINDATA\s*$/ && do {
+    $data_binary = "";
+    $state = "DATA";
+  };
+
+  $line =~ /^GETSQL\s*=\s*(\S.*)$/ && do {
+    $sql_variable = $1;
+    $sql_statement = "";
+    $state = "SQL";
+  };
+
+  $line =~ /^QUERY\s*$/ && do {
+    $sql_statement = "";
+    $state = "QUERY";
+  };
+
+  $line =~ /^\s*TYPE\s*=\s*(\S.*)$/ && do {
     if ( $1 eq "HEAD" ) {
       $is_head_request = 1;
     }
@@ -67,11 +139,11 @@ while( <TEST> ) {
     }
   };
 
-  /^\s*HEADER\s*=\s*(\S.*)$/ && do {
+  $line =~ /^\s*HEADER\s*=\s*(\S.*)$/ && do {
     push @arguments, "--header", $1;
   };
 
-  /^\s*URL\s*=\s*(\S.*)$/ && do {
+  $line =~ /^\s*URL\s*=\s*(\S.*)$/ && do {
     $url=$1;
   };
 
@@ -104,31 +176,88 @@ else {
 
 push @arguments, $url;
 
-print join " ", "curl", @arguments, "\n" if ( defined($ENV{'DEBUG'}) );
+print STDERR join " ", "curl", @arguments, "\n" if ( $debug );
 
 open RESULTS, "-|", "curl", @arguments;
 while( <RESULTS> ) {
   print;
 }
 
+if ( defined(@{$queries}) && @{$queries} ) {
+  print STDERR "Processing special queries\n" if ( $debug );
+  foreach $sql_statement ( @$queries ) {
+    # run SQL statement and dump results
+    my $results = $dbh->selectall_arrayref($sql_statement);
+    foreach my $row ( @$results ) {
+      print STDERR "Processing results row\n" if ( $debug );
+      my $sep = "";
+      foreach my $column ( @$row ) {
+        print $sep, $column;
+        $sep = " --- ";
+      }
+      print "\n";
+    }
+  }
+}
+
 exit(0);
+
+
+=item get_sql_value( $sql_variable, $sql_values, $sql_statement )
+Queries the database using the specified statement and puts
+the first column of the first row returned into the
+hash referenced $sql_values->{$sql_variable} for replacement
+later in the parsing process.
+=cut
+sub get_sql_value {
+  my $varname = shift;
+  my $values  = shift;
+  my $sql = shift;
+
+  my $results = $dbh->selectall_arrayref($sql);
+  print STDERR "RESULT for $varname is ", $results->[0][0], "\n" if ( $debug );
+  $values->{$varname} = $results->[0][0];
+}
+
 
 sub usage {
   print <<EOERROR ;
 
-Usage:   dav_test <testsuite> <testname>
+Usage:   dav_test [DB opts] --suite <testsuite> --case <testname>
 
 This program will read the file 'tests/<testsuite>/<testname>.test
-and follow the instructions there.  Those instructions will include
-lines defining the test like:
+and follow the instructions there.
+
+The following options are available for controlling the database, for
+those test cases which might require it:
+  --dbname <database>
+  --dbuser <user>
+  --dbpass <password>
+  --dbport <port>
+  --dbhost <host>
+
+
+The test instructions will include lines defining the test like:
 =================================================
 # This is an example
 URL=http://mycaldav/caldav.php/andrew/
 HEADER=Depth: 0
 HEADER=Content-type: text/xml
 TYPE=PROPFIND
-VERBOSE
+HEAD
 DATA=OTHERTEST
+# This will let you use ##somename## for this value after this
+GETSQL=somename
+SELECT column FROM table WHERE criteria
+ENDSQL
+# The data can be included in line
+BEGINDATA
+... data content ...
+ENDDATA
+# The result could be some SQL output
+QUERY
+SELECT something, or, other FROM table ...
+ENDQUERY
 =================================================
 
 URL      The URL to request from.

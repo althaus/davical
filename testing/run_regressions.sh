@@ -58,7 +58,7 @@ for T in ${REGRESSION}/*.test ; do
   if [ "${TESTNUM}" -gt "${UNTIL}" ] ; then
     break;
   fi
-  ./dav_test regression-suite "${TEST}" | ./normalise_result > "${RESULTS}/${TEST}"
+  ./dav_test --dbname caldav --suite regression-suite --case "${TEST}" | ./normalise_result > "${RESULTS}/${TEST}"
 
   check_result "${TEST}"
 
