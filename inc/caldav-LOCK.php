@@ -137,6 +137,40 @@ function lock_resource( $user_no, $path ) {
   return $lock;
 }
 
+function unlock_resource( $user_no, $path ) {
+  global $request, $lockinfo;
+
+  dbg_error_log( "LOCK", "Attempting to unlock resource '%s'", $path);
+  if ( ($lock_token = $request->IsLocked()) ) { // NOTE Assignment in if() is expected here.
+    dbg_error_log( "LOCK", "Lock exists, checking token validity.");
+    if ( $request->ValidateLockToken($lock_token) ) {
+      $sql = "DELETE FROM locks WHERE opaquelocktoken = ?;";
+      $qry = new PgQuery($sql, $lock_token );
+      $qry->Exec("LOCK",__LINE__,__FILE__);
+      $request->DoResponse( 204 );
+    }
+    else {
+      /**
+      * Invalid lock token.  RFC2518 doesn't seem to define the respons in this case.
+      * - we'll return a 423, but there are lots of 'reasonable' choices.
+      */
+      $response = array(
+          new XMLElement( 'href',   $request->path ),
+          new XMLElement( 'status', 'HTTP/1.1 423 Resource Locked')
+      );
+      $response = new XMLElement( "multistatus", new XMLElement( 'response', $response), array('xmlns'=>'DAV:') );
+      $xmldoc = $response->Render(0,'<?xml version="1.0" encoding="utf-8" ?>');
+      $request->DoResponse( 423, $xmldoc, 'text/xml; charset="utf-8"' );
+    }
+  }
+  else {
+    /**
+    * A fresh lock
+    */
+    $request->DoResponse( 204 );
+  }
+}
+
 
 if ( count($unsupported) > 0 ) {
   /**
@@ -159,12 +193,24 @@ if ( count($unsupported) > 0 ) {
 $url = $c->protocol_server_port_script . $request->path ;
 $url = preg_replace( '#/$#', '', $url);
 
-if ( $request->IsCollection() ) {
-  $response = lock_collection( $request->depth, (isset($request->user_no) ? $request->user_no : $session->user_no), $request->path );
+
+if ( $request->method == "LOCK" ) {
+  if ( $request->IsCollection() ) {
+    $response = lock_collection( $request->depth, (isset($request->user_no) ? $request->user_no : $session->user_no), $request->path );
+  }
+  else {
+    $response = lock_resource( (isset($request->user_no) ? $request->user_no : $session->user_no), $request->path );
+  }
 }
-else {
-  $response = lock_resource( (isset($request->user_no) ? $request->user_no : $session->user_no), $request->path );
+elseif (  $request->method == "UNLOCK" ) {
+  if ( $request->IsCollection() ) {
+    $response = unlock_collection( $request->depth, (isset($request->user_no) ? $request->user_no : $session->user_no), $request->path );
+  }
+  else {
+    $response = unlock_resource( (isset($request->user_no) ? $request->user_no : $session->user_no), $request->path );
+  }
 }
+
 
 $prop = new XMLElement( "prop", $response, array('xmlns'=>'DAV:') );
 // dbg_log_array( "LOCK", "XML", $response, true );
