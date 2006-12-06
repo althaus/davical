@@ -46,7 +46,7 @@ if ( $request->IsCollection() ) {
     $sql = "BEGIN;";
     $sql .= "DELETE FROM collection WHERE user_no = $user_no AND dav_name = ". qpg($request->path).";";
     $sql .= "DELETE FROM caldav_data WHERE user_no = $user_no AND dav_name LIKE ?;";
-    $sql .= "DELETE FROM locks WHERE user_no = $user_no AND dav_name LIKE ?;";
+    $sql .= "DELETE FROM locks WHERE dav_name LIKE ?;";
     $sql .= "COMMIT;";
     $qry = new PgQuery( $sql, $request->path.'%' );
 
