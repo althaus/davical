@@ -312,6 +312,7 @@ class CalDAVRequest
       }
       return $existing_lock;
     }
+    return false;
   }
 
 
