@@ -93,24 +93,9 @@ function lock_resource( $user_no, $path ) {
 
   dbg_error_log( "LOCK", "Attempting to lock resource '%s'", $path);
   if ( ($lock_token = $request->IsLocked()) ) { // NOTE Assignment in if() is expected here.
-    dbg_error_log( "LOCK", "Attempting to renew resource lock on '%s'", $path);
-    if ( $request->ValidateLockToken($lock_token) ) {
-      $sql = "UPDATE locks SET start = current_timestamp WHERE opaquelocktoken = ?;";
-      $qry = new PgQuery($sql, $lock_token );
-      $qry->Exec("LOCK",__LINE__,__FILE__);
-    }
-    else {
-      /**
-      * Already locked - deny it
-      */
-      $response = array(
-          new XMLElement( 'href',   $request->path ),
-          new XMLElement( 'status', 'HTTP/1.1 423 Resource Locked')
-      );
-      $response = new XMLElement( "multistatus", new XMLElement( 'response', $response), array('xmlns'=>'DAV:') );
-      $xmldoc = $response->Render(0,'<?xml version="1.0" encoding="utf-8" ?>');
-      $request->DoResponse( 423, $xmldoc, 'text/xml; charset="utf-8"' );
-    }
+    $sql = "UPDATE locks SET start = current_timestamp WHERE opaquelocktoken = ?;";
+    $qry = new PgQuery($sql, $lock_token );
+    $qry->Exec("LOCK",__LINE__,__FILE__);
   }
   else {
     /**
@@ -137,38 +122,22 @@ function lock_resource( $user_no, $path ) {
   return $lock;
 }
 
+/**
+* Unlocks the specified resource.
+*
+* @param int $user_no The user_no of the request_path, or the session if there wasn't one there.
+* @param string $path The path to the resource which is to be unlocked
+*/
 function unlock_resource( $user_no, $path ) {
-  global $request, $lockinfo;
+  global $request;
 
   dbg_error_log( "LOCK", "Attempting to unlock resource '%s'", $path);
   if ( ($lock_token = $request->IsLocked()) ) { // NOTE Assignment in if() is expected here.
-    dbg_error_log( "LOCK", "Lock exists, checking token validity.");
-    if ( $request->ValidateLockToken($lock_token) ) {
-      $sql = "DELETE FROM locks WHERE opaquelocktoken = ?;";
-      $qry = new PgQuery($sql, $lock_token );
-      $qry->Exec("LOCK",__LINE__,__FILE__);
-      $request->DoResponse( 204 );
-    }
-    else {
-      /**
-      * Invalid lock token.  RFC2518 doesn't seem to define the respons in this case.
-      * - we'll return a 423, but there are lots of 'reasonable' choices.
-      */
-      $response = array(
-          new XMLElement( 'href',   $request->path ),
-          new XMLElement( 'status', 'HTTP/1.1 423 Resource Locked')
-      );
-      $response = new XMLElement( "multistatus", new XMLElement( 'response', $response), array('xmlns'=>'DAV:') );
-      $xmldoc = $response->Render(0,'<?xml version="1.0" encoding="utf-8" ?>');
-      $request->DoResponse( 423, $xmldoc, 'text/xml; charset="utf-8"' );
-    }
+    $sql = "DELETE FROM locks WHERE opaquelocktoken = ?;";
+    $qry = new PgQuery($sql, $lock_token );
+    $qry->Exec("LOCK",__LINE__,__FILE__);
   }
-  else {
-    /**
-    * A fresh lock
-    */
-    $request->DoResponse( 204 );
-  }
+  $request->DoResponse( 204 );
 }
 
 
@@ -186,6 +155,10 @@ if ( count($unsupported) > 0 ) {
 
   $request->DoResponse( 403, $error->Render(0,'<?xml version="1.0" ?>'), 'text/xml; charset="utf-8"');
 }
+
+
+$lock_opener = $request->FailIfLocked();
+
 
 /**
 * Something that we can handle, at least roughly correctly.
