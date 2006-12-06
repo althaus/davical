@@ -29,6 +29,8 @@ if ( ! $request->AllowedTo('delete') ) {
   $request->DoResponse( 403, translate("You may not delete entries from this calendar.") );
 }
 
+$lock_opener = $request->FailIfLocked();
+
 if ( $request->IsCollection() ) {
   /**
   * We read the collection first, so we can check if it matches (or does not match)
@@ -44,6 +46,7 @@ if ( $request->IsCollection() ) {
     $sql = "BEGIN;";
     $sql .= "DELETE FROM collection WHERE user_no = $user_no AND dav_name = ". qpg($request->path).";";
     $sql .= "DELETE FROM caldav_data WHERE user_no = $user_no AND dav_name LIKE ?;";
+    $sql .= "DELETE FROM locks WHERE user_no = $user_no AND dav_name LIKE ?;";
     $sql .= "COMMIT;";
     $qry = new PgQuery( $sql, $request->path.'%' );
 
