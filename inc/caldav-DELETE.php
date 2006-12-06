@@ -48,7 +48,7 @@ if ( $request->IsCollection() ) {
     $sql .= "DELETE FROM caldav_data WHERE user_no = $user_no AND dav_name LIKE ?;";
     $sql .= "DELETE FROM locks WHERE dav_name LIKE ?;";
     $sql .= "COMMIT;";
-    $qry = new PgQuery( $sql, $request->path.'%' );
+    $qry = new PgQuery( $sql, $request->path.'%', $request->path.'%' );
 
     if ( $qry->Exec("DELETE") ) {
       @dbg_error_log( "DELETE", "DELETE (collection): User: %d, ETag: %s, Path: %s", $session->user_no, $request->etag_if_match, $request->path);
