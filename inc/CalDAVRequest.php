@@ -280,6 +280,42 @@ class CalDAVRequest
 
 
   /**
+  * Returns the DB object associated with a lock token, or false.
+  *
+  * @param string $lock_token The opaquelocktoken which we are looking for
+  */
+  function FailIfLocked( $lock_token ) {
+    if ( $existing_lock = $this->IsLocked() ) { // NOTE Assignment in if() is expected here.
+      dbg_error_log( "caldav", "There is a lock on '%s'", $this->path);
+      if ( ! $request->ValidateLockToken($existing_lock) ) {
+        $lock_row = $this->GetLockRow($existing_lock);
+        /**
+        * Already locked - deny it
+        */
+        $response[] = new XMLElement( 'response', array(
+            new XMLElement( 'href',   $lock_row->dav_name ),
+            new XMLElement( 'status', 'HTTP/1.1 423 Resource Locked')
+        ));
+        if ( $lock_row->dav_name != $this->path ) {
+          $response[] = new XMLElement( 'response', array(
+              new XMLElement( 'href',   $this->path ),
+              new XMLElement( 'propstat', array(
+                new XMLElement( 'prop', new XMLElement( 'lockdiscovery' ) ),
+                new XMLElement( 'status', 'HTTP/1.1 424 Failed Dependency')
+              ))
+          ));
+        }
+        $response = new XMLElement( "multistatus", new XMLElement( 'response', $response), array('xmlns'=>'DAV:') );
+        $xmldoc = $response->Render(0,'<?xml version="1.0" encoding="utf-8" ?>');
+        $request->DoResponse( 207, $xmldoc, 'text/xml; charset="utf-8"' );
+        // Which we won't come back from
+      }
+      return $existing_lock;
+    }
+  }
+
+
+  /**
   * Returns true if the URL referenced by this request points at a collection.
   */
   function IsCollection( ) {
