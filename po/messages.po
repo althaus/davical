@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-12-01 00:02+1300\n"
+"POT-Creation-Date: 2006-12-06 22:28+1300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -102,6 +102,9 @@ msgid "Create"
 msgstr ""
 
 msgid "Created On"
+msgstr ""
+
+msgid "Database Error"
 msgstr ""
 
 msgid "Database Error."
@@ -459,6 +462,9 @@ msgid "You are not authorised to use this function."
 msgstr ""
 
 msgid "You do not have appropriate rights to view that resource."
+msgstr ""
+
+msgid "You do not have sufficient access to lock that"
 msgstr ""
 
 msgid ""

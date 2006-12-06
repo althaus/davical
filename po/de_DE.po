@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RSCDS 0.2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-12-01 00:02+1300\n"
+"POT-Creation-Date: 2006-12-06 22:28+1300\n"
 "PO-Revision-Date: 2006-11-06 17:24+1300\n"
 "Last-Translator: Cristina Radalescu <andrew@mcmillan.net.nz>\n"
 "MIME-Version: 1.0\n"
@@ -107,6 +107,10 @@ msgstr "Erstellen"
 #, fuzzy
 msgid "Created On"
 msgstr "Erstellen"
+
+#, fuzzy
+msgid "Database Error"
+msgstr "Datenbank Error"
 
 msgid "Database Error."
 msgstr "Datenbank Error"
@@ -462,6 +466,9 @@ msgid "You are not authorised to use this function."
 msgstr "Sie sind nicht berechtigt diese Funktion zu benutzen"
 
 msgid "You do not have appropriate rights to view that resource."
+msgstr ""
+
+msgid "You do not have sufficient access to lock that"
 msgstr ""
 
 msgid ""
