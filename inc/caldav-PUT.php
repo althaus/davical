@@ -10,8 +10,9 @@
 */
 dbg_error_log("PUT", "method handler");
 
-// The PUT method is not sent with any wrapping XML so we simply store it
-// after constructing an eTag and getting a name for it...
+if ( ! $request->AllowedTo("read") ) {
+  $request->DoResponse(403);
+}
 
 $fh = fopen('/tmp/PUT.txt','w');
 fwrite($fh,$request->raw_post);
