@@ -1,8 +1,10 @@
 #
 # Chandler expects the calendar to be there.  After confirming
 # that it wants to find out what privileges are available.
+#
 TYPE=PROPFIND
 URL=http://mycaldav/caldav.php/user1/home/
 HEADER=Depth: 0
 HEADER=Content-Type: text/xml; charset=utf-8
+HEADER=Chandler/0.7alpha4 (Linux)
 HEAD
