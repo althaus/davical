@@ -83,8 +83,37 @@ foreach( $request->xml_tags AS $k => $v ) {
 
 
 function lock_collection( $depth, $user_no, $path ) {
+  global $request, $lockinfo;
+
   dbg_error_log( "LOCK", "Attempting to lock collection '%s' to depth %d", $path, $depth);
-  $lock = new XMLElement("lockinfo", '', array("xmlns" => "DAV:") );
+  if ( ($lock_token = $request->IsLocked()) ) { // NOTE Assignment in if() is expected here.
+    $sql = "UPDATE locks SET start = current_timestamp WHERE opaquelocktoken = ?;";
+    $qry = new PgQuery($sql, $lock_token );
+    $qry->Exec("LOCK",__LINE__,__FILE__);
+  }
+  else {
+    /**
+    * A fresh lock
+    */
+    $lock_token = uuid();
+    $sql = "INSERT INTO locks ( dav_name, opaquelocktoken, type, scope, depth, owner, timeout, start ) VALUES( ?, ?, ?, ?, ?, ?, ?::interval, current_timestamp );";
+    $qry = new PgQuery($sql, $request->path, $lock_token, $lockinfo['type'], $lockinfo['scope'], $request->depth, $lockinfo['owner'], $request->timeout.' seconds' );
+    $qry->Exec("LOCK",__LINE__,__FILE__);
+    header( "Lock-Token: <opaquelocktoken:$lock_token>" );
+  }
+
+  $lock_row = $request->GetLockRow($lock_token);
+  $activelock = array(
+      new XMLElement( 'locktype',  new XMLElement( $lock_row->type )),
+      new XMLElement( 'lockscope', new XMLElement( $lock_row->scope )),
+      new XMLElement( 'depth',     $request->GetDepthName() ),
+      new XMLElement( 'owner',     new XMLElement( 'href', $lock_row->owner )),
+      new XMLElement( 'timeout',   'Second-'.$request->timeout),
+      new XMLElement( 'locktoken', new XMLElement( 'href', 'opaquelocktoken:'.$lock_token ))
+  );
+  $lock = new XMLElement("lockdiscovery", new XMLElement( "activelock", $activelock), array("xmlns" => "DAV:") );
+
+  return $lock;
 }
 
 
