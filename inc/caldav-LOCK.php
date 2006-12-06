@@ -93,28 +93,42 @@ function lock_resource( $user_no, $path ) {
 
   dbg_error_log( "LOCK", "Attempting to lock resource '%s'", $path);
   if ( ($lock_token = $request->IsLocked()) ) { // NOTE Assignment in if() is expected here.
+    dbg_error_log( "LOCK", "Attempting to renew resource lock on '%s'", $path);
     if ( $request->ValidateLockToken($lock_token) ) {
       $sql = "UPDATE locks SET start = current_timestamp WHERE opaquelocktoken = ?;";
       $qry = new PgQuery($sql, $lock_token );
       $qry->Exec("LOCK",__LINE__,__FILE__);
     }
     else {
-      /** FIXME: Deny the lock */
+      /**
+      * Already locked - deny it
+      */
+      $response = array(
+          new XMLElement( 'href',   $request->path ),
+          new XMLElement( 'status', 'HTTP/1.1 423 Resource Locked')
+      );
+      $response = new XMLElement( "multistatus", new XMLElement( 'response', $response), array('xmlns'=>'DAV:') );
+      $xmldoc = $response->Render(0,'<?xml version="1.0" encoding="utf-8" ?>');
+      $request->DoResponse( 423, $xmldoc, 'text/xml; charset="utf-8"' );
     }
   }
   else {
+    /**
+    * A fresh lock
+    */
     $lock_token = uuid();
     $sql = "INSERT INTO locks ( dav_name, opaquelocktoken, type, scope, depth, owner, timeout, start ) VALUES( ?, ?, ?, ?, ?, ?, ?::interval, current_timestamp );";
     $qry = new PgQuery($sql, $request->path, $lock_token, $lockinfo['type'], $lockinfo['scope'], $request->depth, $lockinfo['owner'], $request->timeout.' seconds' );
     $qry->Exec("LOCK",__LINE__,__FILE__);
+    header( "Lock-Token: <opaquelocktoken:$lock_token>" );
   }
 
   $lock_row = $request->GetLockRow($lock_token);
   $activelock = array(
-      new XMLElement( 'locktype',  new XMLElement( $lockinfo['type'] )),
-      new XMLElement( 'lockscope', new XMLElement( $lockinfo['scope'] )),
+      new XMLElement( 'locktype',  new XMLElement( $lock_row->type )),
+      new XMLElement( 'lockscope', new XMLElement( $lock_row->scope )),
       new XMLElement( 'depth',     $request->GetDepthName() ),
-      new XMLElement( 'owner',     new XMLElement( 'href', $lockinfo['owner'] )),
+      new XMLElement( 'owner',     new XMLElement( 'href', $lock_row->owner )),
       new XMLElement( 'timeout',   'Second-'.$request->timeout),
       new XMLElement( 'locktoken', new XMLElement( 'href', 'opaquelocktoken:'.$lock_token ))
   );
@@ -153,7 +167,7 @@ else {
 }
 
 $prop = new XMLElement( "prop", $response, array('xmlns'=>'DAV:') );
-dbg_log_array( "LOCK", "XML", $response, true );
+// dbg_log_array( "LOCK", "XML", $response, true );
 $xmldoc = $prop->Render(0,'<?xml version="1.0" encoding="utf-8" ?>');
 $request->DoResponse( 200, $xmldoc, 'text/xml; charset="utf-8"' );
 

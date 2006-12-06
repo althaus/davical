@@ -10,7 +10,7 @@
 * @package   rscds
 * @subpackage   CalDAVRequest
 * @author    Andrew McMillan <andrew@mcmillan.net.nz>
-* @copyright Andrew McMillan
+* @copyright Catalyst .Net Ltd
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v2
 */
 
@@ -54,7 +54,9 @@ class CalDAVRequest
     * LOCK things use an "If" header to hold the lock in some cases, and "Lock-token" in others
     */
     if ( isset($_SERVER['HTTP_IF']) ) $this->if_clause = $_SERVER['HTTP_IF'];
-    if ( isset($_SERVER['HTTP_LOCK-TOKEN']) ) $this->lock_token = $_SERVER['HTTP_LOCK-TOKEN'];
+    if ( isset($_SERVER['HTTP_LOCK_TOKEN']) && preg_match( '#[<]opaquelocktoken:(.*)[>]#', $_SERVER['HTTP_LOCK_TOKEN'], $matches ) ) {
+      $this->lock_token = $matches[1];
+    }
 
     /**
     * LOCK things use a "Timeout" header to set a series of reducing alternative values
@@ -245,13 +247,22 @@ class CalDAVRequest
   function ValidateLockToken( $lock_token ) {
     if ( isset($this->lock_token) && $this->lock_token == $lock_token ) return true;
     if ( isset($this->if_clause) ) {
+      dbg_error_log( "caldav", "Checking lock token '%s' against '%s'", $lock_token, $this->if_clause );
       $tokens = preg_split( '/[<>]/', $this->if_clause );
       foreach( $tokens AS $k => $v ) {
+        dbg_error_log( "caldav", "Checking lock token '%s' against '%s'", $lock_token, $v );
         if ( 'opaquelocktoken:' == substr( $v, 0, 16 ) ) {
-          if ( substr( $v, 16 ) == $lock_token ) return true;
+          if ( substr( $v, 16 ) == $lock_token ) {
+            dbg_error_log( "caldav", "Lock token '%s' validated OK against '%s'", $lock_token, $v );
+            return true;
+          }
         }
       }
     }
+    else {
+      @dbg_error_log( "caldav", "Invalid lock token '%s' - not in Lock-token (%s) or If headers (%s) ", $lock_token, $this->lock_token, $this->if_clause );
+    }
+
     return false;
   }
 
@@ -364,6 +375,8 @@ class CalDAVRequest
       case 415: $status_text = "Unsupported Media Type"; break;
       case 416: $status_text = "Requested Range Not Satisfiable"; break;
       case 417: $status_text = "Expectation Failed"; break;
+      case 423: $status_text = "Locked"; break;
+      case 424: $status_text = "Failed Dependency"; break;
       case 500: $status_text = "Internal Server Error"; break;
       case 501: $status_text = "Not Implemented"; break;
       case 502: $status_text = "Bad Gateway"; break;
