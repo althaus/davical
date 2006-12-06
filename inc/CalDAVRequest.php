@@ -289,7 +289,7 @@ class CalDAVRequest
   function FailIfLocked() {
     if ( $existing_lock = $this->IsLocked() ) { // NOTE Assignment in if() is expected here.
       dbg_error_log( "caldav", "There is a lock on '%s'", $this->path);
-      if ( ! $request->ValidateLockToken($existing_lock) ) {
+      if ( ! $this->ValidateLockToken($existing_lock) ) {
         $lock_row = $this->GetLockRow($existing_lock);
         /**
         * Already locked - deny it
