@@ -24,5 +24,8 @@ while( <STDIN> ) {
     $_ = "";
   };
 
+  # Fix up any opaquelocktokens to something regular
+  s/opaquelocktoken:[[:xdigit:]]{8}-([[:xdigit:]]{4}-){3}[[:xdigit:]]{12}/opaquelocktoken:xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/;
+
   print;
 }

@@ -19,7 +19,7 @@ Content-Type: text/xml; charset="utf-8"
    </owner>
    <timeout>Second-8640000</timeout>
    <locktoken>
-    <href>opaquelocktoken:d18fcef9-bafa-7004-6989-67e7cfdca934</href>
+    <href>opaquelocktoken:xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx</href>
    </locktoken>
   </activelock>
  </lockdiscovery>
