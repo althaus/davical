@@ -280,11 +280,13 @@ class CalDAVRequest
 
 
   /**
-  * Returns the DB object associated with a lock token, or false.
+  * This will either (a) return false if no locks apply, or (b) return the lock_token
+  * which the request successfully included to open the lock, or:
+  * (c) respond directly to the client with the failure.
   *
-  * @param string $lock_token The opaquelocktoken which we are looking for
+  * @return mixed false (no lock) or opaquelocktoken (opened lock)
   */
-  function FailIfLocked( $lock_token ) {
+  function FailIfLocked() {
     if ( $existing_lock = $this->IsLocked() ) { // NOTE Assignment in if() is expected here.
       dbg_error_log( "caldav", "There is a lock on '%s'", $this->path);
       if ( ! $request->ValidateLockToken($existing_lock) ) {
