@@ -1,10 +1,10 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
-ETag: "a2f9456e10ec204df8badf8526eddca8"
+ETag: "cd6db2ae3b14585cc932aa48c2c6046d"
 Content-Length: 708
 Content-Type: text/xml; charset="utf-8"
 
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <multistatus xmlns="DAV:">
  <response>
   <href>/caldav.php/user1/</href>
