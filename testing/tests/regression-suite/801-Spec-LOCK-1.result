@@ -1,6 +1,5 @@
 HTTP/1.1 200 OK
 Date: Dow, 01 Jan 2000 00:00:00 GMT
-Lock-Token: <opaquelocktoken:d18fcef9-bafa-7004-6989-67e7cfdca934>
 Content-Length: 473
 Content-Type: text/xml; charset="utf-8"
 
@@ -25,3 +24,4 @@ Content-Type: text/xml; charset="utf-8"
   </activelock>
  </lockdiscovery>
 </prop>
+Refreshed (should be 1) --- 1

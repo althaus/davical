@@ -1,0 +1,29 @@
+#
+# Test specification compliance for LOCK request
+# - Refresh the lock
+# No data is needed for a refresh
+#
+TYPE=LOCK
+URL=http://mycaldav/caldav.php/user1/home/i1278618276.ics
+
+# Save the original lock time for later use
+GETSQL=oldlocktime
+SELECT start FROM locks WHERE dav_name = '/user1/home/i1278618276.ics'
+ENDSQL
+
+# Get the lock token from the earlier lock
+GETSQL=locktoken
+SELECT opaquelocktoken FROM locks WHERE dav_name = '/user1/home/i1278618276.ics'
+ENDSQL
+
+HEADER=Depth: 0
+HEADER=Timeout: Infinite,Second-4100000000
+HEADER=Content-type: text/xml; charset="utf-8"
+HEADER=Lock-Token: <opaquelocktoken:##locktoken##>
+HEAD
+
+#
+# Do a query after the request
+QUERY
+SELECT 'Refreshed (should be 1)', start != '##oldlocktime##'::timestamp AS refresh_success FROM locks WHERE dav_name = '/user1/home/i1278618276.ics'
+ENDQUERY
