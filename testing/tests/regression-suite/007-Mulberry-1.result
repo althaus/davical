@@ -1,4 +1,4 @@
-HTTP/1.1 412 Precondition Failed
+HTTP/1.1 405 Method Not Allowed
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 Content-Length: 45
 Content-Type: text/plain; charset=UTF-8
