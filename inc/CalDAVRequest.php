@@ -307,7 +307,7 @@ class CalDAVRequest
               ))
           ));
         }
-        $response = new XMLElement( "multistatus", new XMLElement( 'response', $response), array('xmlns'=>'DAV:') );
+        $response = new XMLElement( "multistatus", $response, array('xmlns'=>'DAV:') );
         $xmldoc = $response->Render(0,'<?xml version="1.0" encoding="utf-8" ?>');
         $this->DoResponse( 207, $xmldoc, 'text/xml; charset="utf-8"' );
         // Which we won't come back from
