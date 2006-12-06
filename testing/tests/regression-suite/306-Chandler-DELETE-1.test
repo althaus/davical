@@ -1,0 +1,18 @@
+#
+# Test the DELETE of the collection which Chandler does at
+# this point in it's search for understanding
+#
+TYPE=DELETE
+URL=http://mycaldav/caldav.php/user1/home/.ce7ad224-8288-11db-ec28-b49a13ab0e46.tmp/
+
+HEADER=Chandler/0.7alpha4 (Linux)
+HEAD
+
+#
+# Query to confirm we got rid of it
+QUERY
+SELECT 'Count of matching calendars (should be 0)', count(1)
+  FROM collection
+ WHERE dav_name = '/user1/home/.ce7ad224-8288-11db-ec28-b49a13ab0e46.tmp/'
+ENDQUERY
+

@@ -1,0 +1,17 @@
+#
+# Test the MKCOL which Chandler does at this point in it's
+# search for understanding
+#
+TYPE=MKCOL
+URL=http://mycaldav/caldav.php/user1/home/.ce7ad224-8288-11db-ec28-b49a13ab0e46.tmp/
+
+HEADER=Chandler/0.7alpha4 (Linux)
+HEAD
+
+#
+# Query to confirm we got it
+QUERY
+SELECT user_no, parent_container, dav_name, dav_etag, dav_displayname, is_calendar
+  FROM collection
+ WHERE dav_name = '/user1/home/.ce7ad224-8288-11db-ec28-b49a13ab0e46.tmp/'
+ENDQUERY
