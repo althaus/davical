@@ -26,7 +26,7 @@ if ( ! $qry->Exec("MKCALENDAR") ) {
   $request->DoResponse( 500, translate("Error querying database.") );
 }
 if ( $qry->rows != 0 ) {
-  $request->DoResponse( 412, translate("A collection already exists at that location.") );
+  $request->DoResponse( 405, translate("A collection already exists at that location.") );
 }
 
 $sql = "INSERT INTO collection ( user_no, parent_container, dav_name, dav_etag, dav_displayname, is_calendar, created, modified ) VALUES( ?, ?, ?, ?, ?, ?, current_timestamp, current_timestamp );";
