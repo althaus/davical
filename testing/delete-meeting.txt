@@ -1,4 +1,0 @@
-DELETE /?andrewmcmillan.ics/20060509T195919Z.ics HTTP/1.1
-Host: mycaldav
-User-Agent: Evolution/1.6.1
-
