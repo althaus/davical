@@ -1,0 +1,14 @@
+#
+# At this point Chandler does a PROPFIND on /user1/home/
+# an OPTIONS on that).
+# Still Depth: 0 at this point...
+#
+TYPE=PROPFIND
+URL=http://mycaldav/caldav.php/user1/home/
+HEADER=Depth: infinity
+HEADER=Content-Type: text/xml; charset=utf-8
+HEADER=Chandler/0.7alpha4 (Linux)
+HEAD
+
+# The data from our first Chandler-like PROPFIND
+DATA=303-Chandler-PROPFIND-1
