@@ -3,4 +3,5 @@
 TYPE=OPTIONS
 URL=http://mycaldav/caldav.php/user1/home/.chandler/
 
+HEADER=Chandler/0.7alpha4 (Linux)
 HEAD

@@ -1,11 +1,11 @@
 #
-# When we get Chandler to do a "Sync All" it will do an OPTIONS request
-# followed by three PROPFIND requests.  The first PROPFIND request will
-# be for "Depth: 0", but is otherwise identical to the other two.
-# We've already tested the first, so now we'll do the second.
+# At this point Chandler does a PROPFIND on .../.chandler/ (it just did
+# an OPTIONS on that).
+# Still Depth: 0 at this point...
+#
 TYPE=PROPFIND
-URL=http://mycaldav/caldav.php/user1/home/
-HEADER=Depth: 1
+URL=http://mycaldav/caldav.php/user1/home/.chandler/
+HEADER=Depth: 0
 HEADER=Content-Type: text/xml; charset=utf-8
 HEAD
 
