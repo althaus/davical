@@ -1,0 +1,14 @@
+#
+# Test specification compliance for LOCK/UNLOCK request
+#  - This should fail because we provide an invalid lock token
+#
+TYPE=UNLOCK
+URL=http://mycaldav/caldav.php/user1/home/
+
+HEADER=Content-type: text/xml; charset="utf-8"
+HEADER=Lock-Token: <opaquelocktoken:cafefeed-c001-b055-ea75-deadbeef4a11>
+HEAD
+
+#
+# There is no data for an UNLOCK request
+#

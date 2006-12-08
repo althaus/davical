@@ -1,0 +1,16 @@
+#
+# Test specification compliance for LOCK/UNLOCK request
+#
+TYPE=UNLOCK
+URL=http://mycaldav/caldav.php/user1/home/
+
+# Get the lock token from the earlier lock
+GETSQL=locktoken
+SELECT opaquelocktoken FROM locks WHERE dav_name = '/user1/home/'
+ENDSQL
+
+HEADER=Lock-Token: <opaquelocktoken:##locktoken##>
+HEAD
+
+# There is no data for an UNLOCK request
+#

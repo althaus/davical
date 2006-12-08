@@ -1,0 +1,26 @@
+#
+# Test specification compliance for LOCK request
+#  - This is a request for something which is already locked
+#    and should fail.
+#
+TYPE=LOCK
+URL=http://mycaldav/caldav.php/user1/home/
+HEADER=Depth: 0
+HEADER=Timeout: Infinite,Second-4100000000
+HEADER=Content-type: text/xml; charset="utf-8"
+HEAD
+
+#
+# Include the data in-line
+#
+BEGINDATA
+<?xml version="1.0" encoding="utf-8" ?>
+<D:lockinfo xmlns:D='DAV:'>
+  <D:lockscope><D:exclusive/></D:lockscope>
+  <D:locktype><D:write/></D:locktype>
+  <D:owner>
+       <D:href>http://andrew.mcmillan.net.nz/node/5/</D:href>
+  </D:owner>
+</D:lockinfo>
+ENDDATA
+

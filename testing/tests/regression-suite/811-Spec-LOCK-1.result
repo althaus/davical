@@ -1,0 +1,27 @@
+HTTP/1.1 200 OK
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+Content-Length: 473
+Content-Type: text/xml; charset="utf-8"
+
+<?xml version="1.0" encoding="utf-8" ?>
+<prop xmlns="DAV:">
+ <lockdiscovery xmlns="DAV:">
+  <activelock>
+   <locktype>
+    <write/>
+   </locktype>
+   <lockscope>
+    <exclusive/>
+   </lockscope>
+   <depth>0</depth>
+   <owner>
+    <href>http://andrew.mcmillan.net.nz/node/5/</href>
+   </owner>
+   <timeout>Second-8640000</timeout>
+   <locktoken>
+    <href>opaquelocktoken:xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx</href>
+   </locktoken>
+  </activelock>
+ </lockdiscovery>
+</prop>
+Refreshed (should be 1) --- 1
