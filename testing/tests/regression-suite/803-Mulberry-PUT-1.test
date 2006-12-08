@@ -1,0 +1,8 @@
+#
+# Attempt to put this Mulberry event into a location that is locked.
+TYPE=PUT
+URL=http://mycaldav/caldav.php/user1/home/i1278618276.ics
+HEADER=Content-Type: text/calendar; charset=utf-8
+HEAD
+DATA=F56B49B10FC923D20FE2DC92D6580340-0.ics
+

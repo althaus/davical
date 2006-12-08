@@ -1,0 +1,18 @@
+#
+# Attempt to put this Mulberry event into a location that is locked.
+#  - but this time supply the token so it succeeds
+#
+TYPE=PUT
+URL=http://mycaldav/caldav.php/user1/home/i1278618276.ics
+
+# Get the lock token from the earlier lock
+GETSQL=locktoken
+SELECT opaquelocktoken FROM locks WHERE dav_name = '/user1/home/i1278618276.ics'
+ENDSQL
+
+
+HEADER=Content-Type: text/calendar; charset=utf-8
+HEADER=Lock-Token: <opaquelocktoken:##locktoken##>
+HEAD
+DATA=F56B49B10FC923D20FE2DC92D6580340-0.ics
+
