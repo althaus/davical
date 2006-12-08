@@ -82,92 +82,6 @@ foreach( $request->xml_tags AS $k => $v ) {
 }
 
 
-function lock_collection( $depth, $user_no, $path ) {
-  global $request, $lockinfo;
-
-  dbg_error_log( "LOCK", "Attempting to lock collection '%s' to depth %d", $path, $depth);
-  if ( ($lock_token = $request->IsLocked()) ) { // NOTE Assignment in if() is expected here.
-    $sql = "UPDATE locks SET start = current_timestamp WHERE opaquelocktoken = ?;";
-    $qry = new PgQuery($sql, $lock_token );
-    $qry->Exec("LOCK",__LINE__,__FILE__);
-  }
-  else {
-    /**
-    * A fresh lock
-    */
-    $lock_token = uuid();
-    $sql = "INSERT INTO locks ( dav_name, opaquelocktoken, type, scope, depth, owner, timeout, start ) VALUES( ?, ?, ?, ?, ?, ?, ?::interval, current_timestamp );";
-    $qry = new PgQuery($sql, $request->path, $lock_token, $lockinfo['type'], $lockinfo['scope'], $request->depth, $lockinfo['owner'], $request->timeout.' seconds' );
-    $qry->Exec("LOCK",__LINE__,__FILE__);
-    header( "Lock-Token: <opaquelocktoken:$lock_token>" );
-  }
-
-  $lock_row = $request->GetLockRow($lock_token);
-  $activelock = array(
-      new XMLElement( 'locktype',  new XMLElement( $lock_row->type )),
-      new XMLElement( 'lockscope', new XMLElement( $lock_row->scope )),
-      new XMLElement( 'depth',     $request->GetDepthName() ),
-      new XMLElement( 'owner',     new XMLElement( 'href', $lock_row->owner )),
-      new XMLElement( 'timeout',   'Second-'.$request->timeout),
-      new XMLElement( 'locktoken', new XMLElement( 'href', 'opaquelocktoken:'.$lock_token ))
-  );
-  $lock = new XMLElement("lockdiscovery", new XMLElement( "activelock", $activelock), array("xmlns" => "DAV:") );
-
-  return $lock;
-}
-
-
-function lock_resource( $user_no, $path ) {
-  global $request, $lockinfo;
-
-  dbg_error_log( "LOCK", "Attempting to lock resource '%s'", $path);
-  if ( ($lock_token = $request->IsLocked()) ) { // NOTE Assignment in if() is expected here.
-    $sql = "UPDATE locks SET start = current_timestamp WHERE opaquelocktoken = ?;";
-    $qry = new PgQuery($sql, $lock_token );
-    $qry->Exec("LOCK",__LINE__,__FILE__);
-  }
-  else {
-    /**
-    * A fresh lock
-    */
-    $lock_token = uuid();
-    $sql = "INSERT INTO locks ( dav_name, opaquelocktoken, type, scope, depth, owner, timeout, start ) VALUES( ?, ?, ?, ?, ?, ?, ?::interval, current_timestamp );";
-    $qry = new PgQuery($sql, $request->path, $lock_token, $lockinfo['type'], $lockinfo['scope'], $request->depth, $lockinfo['owner'], $request->timeout.' seconds' );
-    $qry->Exec("LOCK",__LINE__,__FILE__);
-    header( "Lock-Token: <opaquelocktoken:$lock_token>" );
-  }
-
-  $lock_row = $request->GetLockRow($lock_token);
-  $activelock = array(
-      new XMLElement( 'locktype',  new XMLElement( $lock_row->type )),
-      new XMLElement( 'lockscope', new XMLElement( $lock_row->scope )),
-      new XMLElement( 'depth',     $request->GetDepthName() ),
-      new XMLElement( 'owner',     new XMLElement( 'href', $lock_row->owner )),
-      new XMLElement( 'timeout',   'Second-'.$request->timeout),
-      new XMLElement( 'locktoken', new XMLElement( 'href', 'opaquelocktoken:'.$lock_token ))
-  );
-  $lock = new XMLElement("lockdiscovery", new XMLElement( "activelock", $activelock), array("xmlns" => "DAV:") );
-
-  return $lock;
-}
-
-/**
-* Unlocks the specified resource.
-*
-* @param int $user_no The user_no of the request_path, or the session if there wasn't one there.
-* @param string $path The path to the resource which is to be unlocked
-*/
-function unlock_resource( $user_no, $path ) {
-  global $request;
-
-  dbg_error_log( "LOCK", "Attempting to unlock resource '%s'", $path);
-  if ( ($lock_token = $request->IsLocked()) ) { // NOTE Assignment in if() is expected here.
-    $sql = "DELETE FROM locks WHERE opaquelocktoken = ?;";
-    $qry = new PgQuery($sql, $lock_token );
-    $qry->Exec("LOCK",__LINE__,__FILE__);
-  }
-  $request->DoResponse( 204 );
-}
 
 
 if ( count($unsupported) > 0 ) {
@@ -189,28 +103,43 @@ if ( count($unsupported) > 0 ) {
 $lock_opener = $request->FailIfLocked();
 
 
-/**
-* Something that we can handle, at least roughly correctly.
-*/
-$url = $c->protocol_server_port_script . $request->path ;
-$url = preg_replace( '#/$#', '', $url);
-
-
 if ( $request->method == "LOCK" ) {
-  if ( $request->IsCollection() ) {
-    $response = lock_collection( $request->depth, (isset($request->user_no) ? $request->user_no : $session->user_no), $request->path );
+  dbg_error_log( "LOCK", "Attempting to lock resource '%s'", $request->path);
+  if ( ($lock_token = $request->IsLocked()) ) { // NOTE Assignment in if() is expected here.
+    $sql = "UPDATE locks SET start = current_timestamp WHERE opaquelocktoken = ?;";
+    $qry = new PgQuery($sql, $lock_token );
+    $qry->Exec("LOCK",__LINE__,__FILE__);
   }
   else {
-    $response = lock_resource( (isset($request->user_no) ? $request->user_no : $session->user_no), $request->path );
+    /**
+    * A fresh lock
+    */
+    $lock_token = uuid();
+    $sql = "INSERT INTO locks ( dav_name, opaquelocktoken, type, scope, depth, owner, timeout, start ) VALUES( ?, ?, ?, ?, ?, ?, ?::interval, current_timestamp );";
+    $qry = new PgQuery($sql, $request->path, $lock_token, $lockinfo['type'], $lockinfo['scope'], $request->depth, $lockinfo['owner'], $request->timeout.' seconds' );
+    $qry->Exec("LOCK",__LINE__,__FILE__);
+    header( "Lock-Token: <opaquelocktoken:$lock_token>" );
   }
+
+  $lock_row = $request->GetLockRow($lock_token);
+  $activelock = array(
+      new XMLElement( 'locktype',  new XMLElement( $lock_row->type )),
+      new XMLElement( 'lockscope', new XMLElement( $lock_row->scope )),
+      new XMLElement( 'depth',     $request->GetDepthName() ),
+      new XMLElement( 'owner',     new XMLElement( 'href', $lock_row->owner )),
+      new XMLElement( 'timeout',   'Second-'.$request->timeout),
+      new XMLElement( 'locktoken', new XMLElement( 'href', 'opaquelocktoken:'.$lock_token ))
+  );
+  $response = new XMLElement("lockdiscovery", new XMLElement( "activelock", $activelock), array("xmlns" => "DAV:") );
 }
 elseif (  $request->method == "UNLOCK" ) {
-  if ( $request->IsCollection() ) {
-    $response = unlock_collection( $request->depth, (isset($request->user_no) ? $request->user_no : $session->user_no), $request->path );
+  dbg_error_log( "LOCK", "Attempting to unlock resource '%s'", $request->path);
+  if ( ($lock_token = $request->IsLocked()) ) { // NOTE Assignment in if() is expected here.
+    $sql = "DELETE FROM locks WHERE opaquelocktoken = ?;";
+    $qry = new PgQuery($sql, $lock_token );
+    $qry->Exec("LOCK",__LINE__,__FILE__);
   }
-  else {
-    $response = unlock_resource( (isset($request->user_no) ? $request->user_no : $session->user_no), $request->path );
-  }
+  $request->DoResponse( 204 );
 }
 
 
