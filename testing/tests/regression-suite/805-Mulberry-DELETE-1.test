@@ -1,0 +1,8 @@
+#
+# Attempt to DELETE an event from a location that is locked.
+#
+TYPE=DELETE
+URL=http://mycaldav/caldav.php/user1/home/i1278618276.ics
+HEADER=Content-Type: text/calendar; charset=utf-8
+HEAD
+
