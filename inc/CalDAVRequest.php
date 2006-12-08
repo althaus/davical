@@ -14,6 +14,8 @@
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v2
 */
 
+require_once("XMLElement.php");
+
 define('DEPTH_INFINITY', 9999);
 
 /**
