@@ -106,6 +106,9 @@ function collection_to_xml( $collection ) {
     //      $prop->NewElement("getcontenttype", "text/calendar" );
     $prop->NewElement("getcontenttype", "httpd/unix-directory" );
   }
+  if ( isset($attribute_list['CREATIONDATE']) ) {
+    $prop->NewElement("creationdate", $collection->created );
+  }
   if ( isset($attribute_list['RESOURCETYPE']) ) {
     $prop->NewElement("resourcetype", $resourcetypes );
   }
@@ -173,6 +176,9 @@ function item_to_xml( $item ) {
   }
   if ( isset($attribute_list['GETCONTENTTYPE']) ) {
     $prop->NewElement("getcontenttype", "text/calendar" );
+  }
+  if ( isset($attribute_list['CREATIONDATE']) ) {
+    $prop->NewElement("creationdate", $item->created );
   }
   if ( isset($attribute_list['RESOURCETYPE']) ) {
     $prop->NewElement("resourcetype", new XMLElement("calendar", false, array("xmlns" => "urn:ietf:params:xml:ns:caldav")) );
