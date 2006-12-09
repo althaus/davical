@@ -86,21 +86,7 @@ foreach( $request->xml_tags AS $k => $v ) {
 
 
 
-if ( count($unsupported) > 0 ) {
-  /**
-  * That's a *BAD* request!
-  */
-  $badprops = new XMLElement( "prop" );
-  foreach( $unsupported AS $k => $v ) {
-    // Not supported at this point...
-    dbg_error_log("ERROR", " LOCK: Support for $v:$k properties is not implemented yet");
-    $badprops->NewElement(strtolower($k),false,array("xmlns" => strtolower($v)));
-  }
-  $error = new XMLElement("error", new XMLElement( "LOCK",$badprops), array("xmlns" => "DAV:") );
-
-  $request->DoResponse( 422, $error->Render(0,'<?xml version="1.0" ?>'), 'text/xml; charset="utf-8"');
-}
-
+$request->UnsupportedRequest($unsupported); // Won't return if there was unsupported stuff.
 
 $lock_opener = $request->FailIfLocked();
 

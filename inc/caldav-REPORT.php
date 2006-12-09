@@ -203,77 +203,63 @@ function calendar_to_xml( $properties, $item ) {
 
 
 
-if ( isset($unsupported) && count($unsupported) > 0 ) {
-  /**
-  * That's a *BAD* request!
-  */
-  $badprops = new XMLElement( "prop" );
-  foreach( $unsupported AS $k => $v ) {
-    dbg_error_log("ERROR", " REPORT: Support for $v::$k properties is not implemented yet");
-    $badprops->NewElement(strtolower($k),false,array("xmlns" => strtolower($v)));
-  }
-  $error = new XMLElement("error", new XMLElement( "propfind",$badprops), array("xmlns" => "DAV:") );
+$request->UnsupportedRequest($unsupported); // Won't return if there was unsupported stuff.
 
-  $request->DoResponse( 422, $error->Render(0,'<?xml version="1.0" ?>'), 'text/xml; charset="utf-8"');
-}
-else {
+/**
+* Something that we can handle, at least roughly correctly.
+*/
 
-  /**
-  * Something that we can handle, at least roughly correctly.
-  */
+$responses = array();
 
-  $responses = array();
-
-  for ( $i=0; $i <= $reportnum; $i++ ) {
+for ( $i=0; $i <= $reportnum; $i++ ) {
 //    dbg_error_log("REPORT", "Report[%d] Start:%s, End: %s, Events: %d, Todos: %d, Freebusy: %d",
 //         $i, $report[$i]['start'], $report[$i]['end'], $report[$i]['filters']['VEVENT'], $report[$i]['filters']['VTODO'], $report[$i]['filters']['VFREEBUSY']);
 
-    $where = " WHERE caldav_data.dav_name ~ ".qpg("^".$request->path)." ";
-    switch( $report[$i]['type'] ) {
-      case 'CALENDAR-QUERY':
-        if ( isset( $report[$i]['start'] ) ) {
-          $where .= "AND (dtend >= ".qpg($report[$i]['start'])."::timestamp with time zone ";
-          $where .= "OR calculate_later_timestamp(".qpg($report[$i]['start'])."::timestamp with time zone,dtend,rrule) >= ".qpg($report[$i]['start'])."::timestamp with time zone) ";
-        }
-        if ( isset( $report[$i]['end'] ) ) {
-          $where .= "AND dtstart <= ".qpg($report[$i]['end'])."::timestamp with time zone ";
-        }
-        break;
-
-      case 'CALENDAR-MULTIGET':
-        $href_in = '';
-        foreach( $report[$reportnum]['get_names'] AS $k => $v ) {
-          dbg_error_log("REPORT", "Reporting on href '%s'", $v );
-          $href_in .= ($href_in == '' ? '' : ', ');
-          $href_in .= qpg($v);
-        }
-        if ( $href_in != "" ) {
-          $where .= " AND caldav_data.dav_name IN ( $href_in ) ";
-        }
-        break;
-
-      default:
-        dbg_error_log("REPORT", "Unhandled report type of '%s'", $report[$i]['type'] );
-    }
-
-    $type_filters = '';
-    if ( isset($report[$i]['filters']['VEVENT']) ) {
-      $type_filters .= ($type_filters == '' ? '' : ', ');
-      $type_filters .= qpg('VEVENT');
-    }
-    if ( isset($report[$i]['filters']['VTODO']) ) {
-      $type_filters .= ($type_filters == '' ? '' : ', ');
-      $type_filters .= qpg('VTODO');
-    }
-    if ( $type_filters != '' ) {
-      $where .= " AND caldav_data.caldav_type IN ( $type_filters ) ";
-    }
-
-    $qry = new PgQuery( "SELECT * FROM caldav_data INNER JOIN calendar_item USING(user_no, dav_name)". $where );
-    if ( $qry->Exec("REPORT",__LINE__,__FILE__) && $qry->rows > 0 ) {
-      while( $calendar_object = $qry->Fetch() ) {
-        $responses[] = calendar_to_xml( $report[$i]['properties'], $calendar_object );
+  $where = " WHERE caldav_data.dav_name ~ ".qpg("^".$request->path)." ";
+  switch( $report[$i]['type'] ) {
+    case 'CALENDAR-QUERY':
+      if ( isset( $report[$i]['start'] ) ) {
+        $where .= "AND (dtend >= ".qpg($report[$i]['start'])."::timestamp with time zone ";
+        $where .= "OR calculate_later_timestamp(".qpg($report[$i]['start'])."::timestamp with time zone,dtend,rrule) >= ".qpg($report[$i]['start'])."::timestamp with time zone) ";
       }
+      if ( isset( $report[$i]['end'] ) ) {
+        $where .= "AND dtstart <= ".qpg($report[$i]['end'])."::timestamp with time zone ";
+      }
+      break;
+
+    case 'CALENDAR-MULTIGET':
+      $href_in = '';
+      foreach( $report[$reportnum]['get_names'] AS $k => $v ) {
+        dbg_error_log("REPORT", "Reporting on href '%s'", $v );
+        $href_in .= ($href_in == '' ? '' : ', ');
+        $href_in .= qpg($v);
+      }
+      if ( $href_in != "" ) {
+        $where .= " AND caldav_data.dav_name IN ( $href_in ) ";
+      }
+      break;
+
+    default:
+      dbg_error_log("REPORT", "Unhandled report type of '%s'", $report[$i]['type'] );
+  }
+
+  $type_filters = '';
+  if ( isset($report[$i]['filters']['VEVENT']) ) {
+    $type_filters .= ($type_filters == '' ? '' : ', ');
+    $type_filters .= qpg('VEVENT');
+  }
+  if ( isset($report[$i]['filters']['VTODO']) ) {
+    $type_filters .= ($type_filters == '' ? '' : ', ');
+    $type_filters .= qpg('VTODO');
+  }
+  if ( $type_filters != '' ) {
+    $where .= " AND caldav_data.caldav_type IN ( $type_filters ) ";
+  }
+
+  $qry = new PgQuery( "SELECT * FROM caldav_data INNER JOIN calendar_item USING(user_no, dav_name)". $where );
+  if ( $qry->Exec("REPORT",__LINE__,__FILE__) && $qry->rows > 0 ) {
+    while( $calendar_object = $qry->Fetch() ) {
+      $responses[] = calendar_to_xml( $report[$i]['properties'], $calendar_object );
     }
   }
 }
