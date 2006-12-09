@@ -1,0 +1,31 @@
+#
+# Spec compliant test for all properties.  Depth infinity this time
+#
+TYPE=PROPFIND
+URL=http://mycaldav/caldav.php/user1/home/
+HEADER=User-Agent: RFC2518 Spec Tests
+HEADER=Depth: infinity
+HEADER=Content-Type: application/xml
+
+HEAD
+
+BEGINDATA
+<?xml version="1.0" encoding="utf-8"?>
+<propfind xmlns="DAV:">
+ <prop>
+  <creationdate/>
+  <displayname/>
+  <getcontentlanguage/>
+  <getcontentlength/>
+  <getcontenttype/>
+  <getetag/>
+  <getlastmodified/>
+  <lockdiscovery/>
+  <resourcetype/>
+  <source/>
+  <supportedlock/>
+  <checked-in/>
+  <checked-out/>
+ </prop>
+</propfind>
+ENDDATA

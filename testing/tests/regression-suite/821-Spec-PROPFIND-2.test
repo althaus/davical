@@ -1,0 +1,34 @@
+#
+# A Spec compliant check for all DAV properties, and an extra
+# couple of bogus ones as well to ensure we fail(!)
+#
+TYPE=PROPFIND
+URL=http://mycaldav/caldav.php/user1/home/
+HEADER=User-Agent: RFC2518 Spec Tests
+HEADER=Depth: 0
+HEADER=Content-Type: application/xml
+
+HEAD
+
+BEGINDATA
+<?xml version="1.0" encoding="utf-8"?>
+<propfind xmlns="DAV:">
+ <prop>
+  <creationdate/>
+  <displayname/>
+  <getcontentlanguage/>
+  <getcontentlength/>
+  <getcontenttype/>
+  <getetag/>
+  <getlastmodified/>
+  <lockdiscovery/>
+  <resourcetype/>
+  <source/>
+  <supportedlock/>
+  <checked-in/>
+  <checked-out/>
+  <bogus-property/>
+  <contentbogosity/>
+ </prop>
+</propfind>
+ENDDATA
