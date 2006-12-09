@@ -212,8 +212,6 @@ $request->UnsupportedRequest($unsupported); // Won't return if there was unsuppo
 $responses = array();
 
 for ( $i=0; $i <= $reportnum; $i++ ) {
-//    dbg_error_log("REPORT", "Report[%d] Start:%s, End: %s, Events: %d, Todos: %d, Freebusy: %d",
-//         $i, $report[$i]['start'], $report[$i]['end'], $report[$i]['filters']['VEVENT'], $report[$i]['filters']['VTODO'], $report[$i]['filters']['VFREEBUSY']);
 
   $where = " WHERE caldav_data.dav_name ~ ".qpg("^".$request->path)." ";
   switch( $report[$i]['type'] ) {
