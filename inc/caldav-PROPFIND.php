@@ -35,6 +35,9 @@ foreach( $request->xml_tags AS $k => $v ) {
     case 'DAV::ACL':
     case 'DAV::CHECKED-OUT':
     case 'DAV::CHECKED-IN':
+    case 'DAV::CREATIONDATE':
+    case 'DAV::GETCONTENTLANGUAGE':
+    case 'DAV::SOURCE':
     case 'DAV::GETLASTMODIFIED':
     case 'DAV::GETETAG':
     case 'DAV::DISPLAYNAME':
