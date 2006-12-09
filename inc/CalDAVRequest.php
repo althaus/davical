@@ -371,6 +371,23 @@ class CalDAVRequest
   }
 
 
+
+  /**
+  * Sometimes it's a perfectly formed request, but we just don't do that :-(
+  * @param array $unsupported An array of the properties we don't support.
+  */
+  function UnsupportedRequest( $unsupported ) {
+    $badprops = new XMLElement( "prop" );
+    foreach( $unsupported AS $k => $v ) {
+      // Not supported at this point...
+      dbg_error_log("ERROR", " LOCK: Support for $v:$k properties is not implemented yet");
+      $badprops->NewElement(strtolower($k),false,array("xmlns" => strtolower($v)));
+    }
+    $error = new XMLElement("error", new XMLElement( "LOCK",$badprops), array("xmlns" => "DAV:") );
+
+    $request->DoResponse( 422, $error->Render(0,'<?xml version="1.0" ?>'), 'text/xml; charset="utf-8"');
+  }
+
   /**
   * Utility function we call when we have a simple status-based response to
   * return to the client.  Possibly
