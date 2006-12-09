@@ -98,7 +98,7 @@ if ( count($unsupported) > 0 ) {
   }
   $error = new XMLElement("error", new XMLElement( "LOCK",$badprops), array("xmlns" => "DAV:") );
 
-  $request->DoResponse( 403, $error->Render(0,'<?xml version="1.0" ?>'), 'text/xml; charset="utf-8"');
+  $request->DoResponse( 422, $error->Render(0,'<?xml version="1.0" ?>'), 'text/xml; charset="utf-8"');
 }
 
 
