@@ -416,6 +416,7 @@ class CalDAVRequest
       case 415: $status_text = "Unsupported Media Type"; break;
       case 416: $status_text = "Requested Range Not Satisfiable"; break;
       case 417: $status_text = "Expectation Failed"; break;
+      case 422: $status_text = "Unprocessable Entity"; break;
       case 423: $status_text = "Locked"; break;
       case 424: $status_text = "Failed Dependency"; break;
       case 500: $status_text = "Internal Server Error"; break;
