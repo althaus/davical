@@ -40,6 +40,8 @@ foreach( $request->xml_tags AS $k => $v ) {
     case 'DAV::DISPLAYNAME':
     case 'DAV::GETCONTENTLENGTH':
     case 'DAV::GETCONTENTTYPE':
+    case 'DAV::SUPPORTEDLOCK':
+    case 'DAV::LOCKDISCOVERY':
     case 'DAV::RESOURCETYPE':
     case 'DAV::SUPPORTED-PRIVILEGE-SET':
     case 'DAV::CURRENT-USER-PRIVILEGE-SET':
@@ -126,6 +128,18 @@ function collection_to_xml( $collection ) {
     $grant = new XMLElement( "grant", array(privileges($request->permissions)) );
     $prop->NewElement("acl", new XMLElement( "ace", array( $principal, $grant ) ) );
   }
+
+  if ( isset($attribute_list['SUPPORTEDLOCK']) ) {
+    $prop->NewElement("supportedlock",
+       new XMLElement( "lockentry",
+         array(
+           new XMLElement("lockscope", new XMLElement("exclusive")),
+           new XMLElement("locktype",  new XMLElement("write")),
+         )
+       )
+     );
+  }
+
   if ( isset($attribute_list['SUPPORTED-PRIVILEGE-SET']) ) {
     $prop->NewElement("supported-privilege-set", privileges( $request->SupportedPrivileges(), "supported-privilege") );
   }
@@ -171,6 +185,17 @@ function item_to_xml( $item ) {
   }
   if ( isset($attribute_list['CURRENT-USER-PRIVILEGE-SET']) ) {
     $prop->NewElement("current-user-privilege-set", privileges($request->permissions) );
+  }
+
+  if ( isset($attribute_list['SUPPORTEDLOCK']) ) {
+    $prop->NewElement("supportedlock",
+       new XMLElement( "lockentry",
+         array(
+           new XMLElement("lockscope", new XMLElement("exclusive")),
+           new XMLElement("locktype",  new XMLElement("write")),
+         )
+       )
+     );
   }
   $status = new XMLElement("status", "HTTP/1.1 200 OK" );
 
