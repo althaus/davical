@@ -1,0 +1,172 @@
+HTTP/1.1 207 Multi-Status
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+ETag: "59881ac7cdd9e4e825977924fcd432bf"
+Content-Length: 4415
+Content-Type: text/xml; charset="utf-8"
+
+<?xml version="1.0" encoding="utf-8" ?>
+<multistatus xmlns="DAV:">
+ <response>
+  <href>/caldav.php/user1/home/</href>
+  <propstat>
+   <prop>
+    <getlastmodified/>
+    <getcontentlength>3850</getcontentlength>
+    <getcontenttype>httpd/unix-directory</getcontenttype>
+    <creationdate>2006-12-09 22:46:46.706117+13</creationdate>
+    <resourcetype>
+     <collection/>
+     <calendar xmlns="urn:ietf:params:xml:ns:caldav"/>
+    </resourcetype>
+    <displayname>home</displayname>
+    <getetag>"faf25336de0e470a54075c14cbcf5272"</getetag>
+    <supportedlock>
+     <lockentry>
+      <lockscope>
+       <exclusive/>
+      </lockscope>
+      <locktype>
+       <write/>
+      </locktype>
+     </lockentry>
+    </supportedlock>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/home/20061101T073004Z.ics</href>
+  <propstat>
+   <prop>
+    <getlastmodified/>
+    <getcontentlength>1059</getcontentlength>
+    <getcontenttype>text/calendar</getcontenttype>
+    <creationdate>2006-12-09 22:46:48.572079+13</creationdate>
+    <resourcetype>
+     <calendar xmlns="urn:ietf:params:xml:ns:caldav"/>
+    </resourcetype>
+    <displayname/>
+    <getetag>"c3658901fd4689d4a1e1d6f08601ef4f"</getetag>
+    <supportedlock>
+     <lockentry>
+      <lockscope>
+       <exclusive/>
+      </lockscope>
+      <locktype>
+       <write/>
+      </locktype>
+     </lockentry>
+    </supportedlock>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/home/3F4CF6227300FD062D9EF3CDFB30D32D-0.ics</href>
+  <propstat>
+   <prop>
+    <getlastmodified/>
+    <getcontentlength>747</getcontentlength>
+    <getcontenttype>text/calendar</getcontenttype>
+    <creationdate>2006-12-09 22:46:47.252626+13</creationdate>
+    <resourcetype>
+     <calendar xmlns="urn:ietf:params:xml:ns:caldav"/>
+    </resourcetype>
+    <displayname/>
+    <getetag>"2c32a2f8aba853654eb17fe037a4db4d"</getetag>
+    <supportedlock>
+     <lockentry>
+      <lockscope>
+       <exclusive/>
+      </lockscope>
+      <locktype>
+       <write/>
+      </locktype>
+     </lockentry>
+    </supportedlock>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/home/4aaf8f37-f232-4c8e-a72e-e171d4c4fe54.ics</href>
+  <propstat>
+   <prop>
+    <getlastmodified/>
+    <getcontentlength>999</getcontentlength>
+    <getcontenttype>text/calendar</getcontenttype>
+    <creationdate>2006-12-09 22:46:49.438313+13</creationdate>
+    <resourcetype>
+     <calendar xmlns="urn:ietf:params:xml:ns:caldav"/>
+    </resourcetype>
+    <displayname/>
+    <getetag>"a1c6404d61190f9574e2bfd69383f144"</getetag>
+    <supportedlock>
+     <lockentry>
+      <lockscope>
+       <exclusive/>
+      </lockscope>
+      <locktype>
+       <write/>
+      </locktype>
+     </lockentry>
+    </supportedlock>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/home/71e2ae82-7870-11db-c6d6-f6927c144649.ics</href>
+  <propstat>
+   <prop>
+    <getlastmodified/>
+    <getcontentlength>743</getcontentlength>
+    <getcontenttype>text/calendar</getcontenttype>
+    <creationdate>2006-12-09 22:46:50.545146+13</creationdate>
+    <resourcetype>
+     <calendar xmlns="urn:ietf:params:xml:ns:caldav"/>
+    </resourcetype>
+    <displayname/>
+    <getetag>"0d7a68984bf525342d22b8924a57e8e2"</getetag>
+    <supportedlock>
+     <lockentry>
+      <lockscope>
+       <exclusive/>
+      </lockscope>
+      <locktype>
+       <write/>
+      </locktype>
+     </lockentry>
+    </supportedlock>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/home/da81c0ee-7871-11db-c6d6-f6927c144649.ics</href>
+  <propstat>
+   <prop>
+    <getlastmodified/>
+    <getcontentlength>302</getcontentlength>
+    <getcontenttype>text/calendar</getcontenttype>
+    <creationdate>2006-12-09 22:46:50.637697+13</creationdate>
+    <resourcetype>
+     <calendar xmlns="urn:ietf:params:xml:ns:caldav"/>
+    </resourcetype>
+    <displayname/>
+    <getetag>"421abf7e4848d2fecbf64217ed205d4b"</getetag>
+    <supportedlock>
+     <lockentry>
+      <lockscope>
+       <exclusive/>
+      </lockscope>
+      <locktype>
+       <write/>
+      </locktype>
+     </lockentry>
+    </supportedlock>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+</multistatus>

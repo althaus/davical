@@ -1,0 +1,14 @@
+HTTP/1.1 422 Unprocessable Entity
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+Content-Length: 158
+Content-Type: text/xml; charset="utf-8"
+
+<?xml version="1.0" ?>
+<error xmlns="DAV:">
+ <LOCK>
+  <prop>
+   <bogus-property xmlns="dav:"/>
+   <contentbogosity xmlns="dav:"/>
+  </prop>
+ </LOCK>
+</error>
