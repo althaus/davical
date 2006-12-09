@@ -377,15 +377,17 @@ class CalDAVRequest
   * @param array $unsupported An array of the properties we don't support.
   */
   function UnsupportedRequest( $unsupported ) {
-    $badprops = new XMLElement( "prop" );
-    foreach( $unsupported AS $k => $v ) {
-      // Not supported at this point...
-      dbg_error_log("ERROR", " %s: Support for $v:$k properties is not implemented yet", $this->method );
-      $badprops->NewElement(strtolower($k),false,array("xmlns" => strtolower($v)));
-    }
-    $error = new XMLElement("error", new XMLElement( "LOCK",$badprops), array("xmlns" => "DAV:") );
+    if ( isset($unsupported) && count($unsupported) > 0 ) {
+      $badprops = new XMLElement( "prop" );
+      foreach( $unsupported AS $k => $v ) {
+        // Not supported at this point...
+        dbg_error_log("ERROR", " %s: Support for $v:$k properties is not implemented yet", $this->method );
+        $badprops->NewElement(strtolower($k),false,array("xmlns" => strtolower($v)));
+      }
+      $error = new XMLElement("error", new XMLElement( "LOCK",$badprops), array("xmlns" => "DAV:") );
 
-    $this->DoResponse( 422, $error->Render(0,'<?xml version="1.0" ?>'), 'text/xml; charset="utf-8"');
+      $this->DoResponse( 422, $error->Render(0,'<?xml version="1.0" ?>'), 'text/xml; charset="utf-8"');
+    }
   }
 
 
