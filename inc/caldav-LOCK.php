@@ -48,7 +48,7 @@ foreach( $request->xml_tags AS $k => $v ) {
       }
       break;
 
-    case 'DAV::SHARED':
+    /*case 'DAV::SHARED': */ /** Shared lock is not supported yet */
     case 'DAV::EXCLUSIVE':
       dbg_error_log( "LOCK", ":Request: %s -> %s", $v['type'], $tag );
       if ( $inside['DAV::LOCKSCOPE'] && $v['type'] == "complete" ) {
@@ -56,7 +56,8 @@ foreach( $request->xml_tags AS $k => $v ) {
       }
       break;
 
-    case 'DAV::READ':
+    /* case 'DAV::READ': */ /** RFC2518 is pretty vague about read locks */
+    case 'DAV::WRITE':
       dbg_error_log( "LOCK", ":Request: %s -> %s", $v['type'], $tag );
       if ( $inside['DAV::LOCKTYPE'] && $v['type'] == "complete" ) {
         $locktype = strtolower(substr($tag,5));
