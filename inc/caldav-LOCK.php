@@ -48,6 +48,7 @@ foreach( $request->xml_tags AS $k => $v ) {
       }
       break;
 
+    case 'DAV::SHARED':
     case 'DAV::EXCLUSIVE':
       dbg_error_log( "LOCK", ":Request: %s -> %s", $v['type'], $tag );
       if ( $inside['DAV::LOCKSCOPE'] && $v['type'] == "complete" ) {
@@ -55,7 +56,7 @@ foreach( $request->xml_tags AS $k => $v ) {
       }
       break;
 
-    case 'DAV::WRITE':
+    case 'DAV::READ':
       dbg_error_log( "LOCK", ":Request: %s -> %s", $v['type'], $tag );
       if ( $inside['DAV::LOCKTYPE'] && $v['type'] == "complete" ) {
         $locktype = strtolower(substr($tag,5));
