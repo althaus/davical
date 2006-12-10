@@ -337,6 +337,17 @@ class CalDAVRequest
 
 
   /**
+  * Returns true if the URL referenced by this request points at a principal.
+  */
+  function IsPrincipal( ) {
+    if ( !isset($this->_is_principal) ) {
+      $this->_is_principal = preg_match( '#^/[^/]+/$#', $this->path );
+    }
+    return $this->_is_principal;
+  }
+
+
+  /**
   * Returns true if the request asked for infinite depth
   */
   function IsInfiniteDepth( ) {
@@ -365,10 +376,8 @@ class CalDAVRequest
         return isset($this->permissions['write']) || isset($this->permissions['write-content']);
         break;
       case 'mkcalendar':
-        return isset($this->permissions['bind']);
-        break;
       case 'mkcol':
-        return isset($this->permissions['write']);
+        return isset($this->permissions['bind']);
         break;
       default:
         return isset($this->permissions[$activity]);
