@@ -32,22 +32,25 @@ foreach( $request->xml_tags AS $k => $v ) {
       break;
 
     case 'HTTP://APACHE.ORG/DAV/PROPS/:EXECUTABLE':
-    case 'DAV::ACL':
     case 'DAV::CHECKED-OUT':
     case 'DAV::CHECKED-IN':
-    case 'DAV::CREATIONDATE':
-    case 'DAV::GETCONTENTLANGUAGE':
     case 'DAV::SOURCE':
-    case 'DAV::GETLASTMODIFIED':
-    case 'DAV::GETETAG':
-    case 'DAV::DISPLAYNAME':
-    case 'DAV::GETCONTENTLENGTH':
-    case 'DAV::GETCONTENTTYPE':
-    case 'DAV::SUPPORTEDLOCK':
+    case 'DAV::GETCONTENTLANGUAGE':
     case 'DAV::LOCKDISCOVERY':
-    case 'DAV::RESOURCETYPE':
-    case 'DAV::SUPPORTED-PRIVILEGE-SET':
-    case 'DAV::CURRENT-USER-PRIVILEGE-SET':
+      /** These are ignored */
+      break;
+
+    case 'DAV::ACL':                            /** acl             - only vaguely supported */
+    case 'DAV::CREATIONDATE':                   /** creationdate    - should work fine */
+    case 'DAV::GETLASTMODIFIED':                /** getlastmodified - should work fine */
+    case 'DAV::DISPLAYNAME':                    /** displayname     - should work fine */
+    case 'DAV::GETCONTENTLENGTH':               /** getcontentlength- should work fine */
+    case 'DAV::GETCONTENTTYPE':                 /** getcontenttype  - should work fine */
+    case 'DAV::GETETAG':                        /** getetag         - should work fine */
+    case 'DAV::SUPPORTEDLOCK':                  /** supportedlock   - should work fine */
+    case 'DAV::RESOURCETYPE':                   /** resourcetype    - should work fine */
+    case 'DAV::SUPPORTED-PRIVILEGE-SET':        /** supported-privilege-set    - should work fine */
+    case 'DAV::CURRENT-USER-PRIVILEGE-SET':     /** current-user-privilege-set - only vaguely supported */
       $attribute = substr($v['tag'],5);
       $attribute_list[$attribute] = 1;
       dbg_error_log( "PROPFIND", "Adding attribute '%s'", $attribute );
@@ -241,7 +244,7 @@ function get_collection_contents( $depth, $user_no, $collection ) {
       $sql .= "WHERE get_permissions($session->user_no,user_no) ~ '[RAW]';";
     }
     else {
-      $sql = "SELECT user_no, dav_name, dav_etag, created, to_char(modified at time zone 'GMT',?), dav_displayname, is_calendar FROM collection WHERE parent_container=".qpg($collection->dav_name);
+      $sql = "SELECT user_no, dav_name, dav_etag, created, to_char(modified at time zone 'GMT',?) as modified, dav_displayname, is_calendar FROM collection WHERE parent_container=".qpg($collection->dav_name);
     }
     $qry = new PgQuery($sql, PgQuery::Plain(iCalendar::HttpDateFormat()));
 
