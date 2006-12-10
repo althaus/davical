@@ -145,6 +145,7 @@ class CalDAVRequest
         dbg_error_log( "caldav", "Restricted permissions for user accessing someone elses hierarchy: %s", implode( ", ", $this->permissions ) );
       }
     }
+    if ( !isset($this->user_no) ) $this->user_no = $session->user_no;
 
     /**
     * If the content we are receiving is XML then we parse it here.
