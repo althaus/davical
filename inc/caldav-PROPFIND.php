@@ -31,6 +31,17 @@ foreach( $request->xml_tags AS $k => $v ) {
       dbg_error_log( "PROPFIND", ":Request: %s -> %s", $v['type'], $tag );
       break;
 
+    case 'URN:IETF:PARAMS:XML:NS:CALDAV:CALENDAR-DESCRIPTION':
+    case 'URN:IETF:PARAMS:XML:NS:CALDAV:CALENDAR-TIMEZONE':
+    case 'URN:IETF:PARAMS:XML:NS:CALDAV:SUPPORTED-CALENDAR-COMPONENT-SET':
+    case 'URN:IETF:PARAMS:XML:NS:CALDAV:SUPPORTED-CALENDAR-DATA':
+    case 'URN:IETF:PARAMS:XML:NS:CALDAV:MAX-RESOURCE-SIZE':
+    case 'URN:IETF:PARAMS:XML:NS:CALDAV:MIN-DATE-TIME':
+    case 'URN:IETF:PARAMS:XML:NS:CALDAV:MAX-DATE-TIME':
+    case 'URN:IETF:PARAMS:XML:NS:CALDAV:MAX-INSTANCES':
+    case 'URN:IETF:PARAMS:XML:NS:CALDAV:MAX-ATTENDEES-PER-INSTANCE':
+    case 'URN:IETF:PARAMS:XML:NS:CALDAV:CALENDAR-HOME-SET':
+    case 'URN:IETF:PARAMS:XML:NS:CALDAV:SUPPORTED-COLLATION-SET':
     case 'HTTP://APACHE.ORG/DAV/PROPS/:EXECUTABLE':
     case 'DAV::CHECKED-OUT':
     case 'DAV::CHECKED-IN':
@@ -190,6 +201,9 @@ function item_to_xml( $item ) {
   if ( isset($attribute_list['CREATIONDATE']) ) {
     $prop->NewElement("creationdate", $item->created );
   }
+  /**
+  * What resource type should we return for a calendar resource?
+  */
   if ( isset($attribute_list['RESOURCETYPE']) ) {
     $prop->NewElement("resourcetype", new XMLElement("calendar", false, array("xmlns" => "urn:ietf:params:xml:ns:caldav")) );
   }
@@ -198,6 +212,16 @@ function item_to_xml( $item ) {
   }
   if ( isset($attribute_list['GETETAG']) ) {
     $prop->NewElement("getetag", '"'.$item->dav_etag.'"' );
+  }
+
+  if ( isset($attribute_list['ACL']) ) {
+    /**
+    * FIXME: This information is semantically valid but presents an incorrect picture.
+    */
+    $principal = new XMLElement("principal");
+    $principal->NewElement("authenticated");
+    $grant = new XMLElement( "grant", array(privileges($request->permissions)) );
+    $prop->NewElement("acl", new XMLElement( "ace", array( $principal, $grant ) ) );
   }
 
   if ( isset($attribute_list['GETCONTENTLANGUAGE']) ) {
