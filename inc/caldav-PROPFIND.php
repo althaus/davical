@@ -263,9 +263,8 @@ function get_collection_contents( $depth, $user_no, $collection ) {
 
   $sql = "SELECT dav_name, caldav_data, dav_etag, ";
   $sql .= "to_char(created at time zone 'GMT',?) AS created, ";
-  $sql .= "to_char(modified at time zone 'GMT',?) AS modified, ";
+  $sql .= "to_char(modified at time zone 'GMT',?) AS modified ";
   $sql .= "FROM caldav_data WHERE dav_name ~ ".qpg('^'.$collection->dav_name.'[^/]+$');
-  $sql .= "dav_displayname, is_calendar FROM collection ";
   $qry = new PgQuery($sql, PgQuery::Plain(iCalendar::HttpDateFormat()), PgQuery::Plain(iCalendar::HttpDateFormat()));
   if( $qry->Exec("PROPFIND",__LINE__,__FILE__) && $qry->rows > 0 ) {
     while( $item = $qry->Fetch() ) {
@@ -275,6 +274,7 @@ function get_collection_contents( $depth, $user_no, $collection ) {
 
   return $responses;
 }
+
 
 /**
 * Get XML response for a single collection.  If Depth is >0 then
@@ -327,6 +327,28 @@ function get_collection( $depth, $user_no, $collection_path ) {
   return $responses;
 }
 
+/**
+* Get XML response for a single item.  Depth is irrelevant for this.
+*/
+function get_item( $item_path ) {
+  $responses = array();
+
+  dbg_error_log("PROPFIND","Getting item: Path: %s", $item_path );
+
+  $sql = "SELECT dav_name, caldav_data, dav_etag, ";
+  $sql .= "to_char(created at time zone 'GMT',?) AS created, ";
+  $sql .= "to_char(modified at time zone 'GMT',?) AS modified ";
+  $sql .= "FROM caldav_data WHERE dav_name = ?;";
+  $qry = new PgQuery($sql, PgQuery::Plain(iCalendar::HttpDateFormat()), PgQuery::Plain(iCalendar::HttpDateFormat()), $item_path);
+  if( $qry->Exec("PROPFIND",__LINE__,__FILE__) && $qry->rows > 0 ) {
+    while( $item = $qry->Fetch() ) {
+      $responses[] = item_to_xml( $item );
+    }
+  }
+  return $responses;
+}
+
+
 $request->UnsupportedRequest($unsupported); // Won't return if there was unsupported stuff.
 
 if ( $request->AllowedTo('read') ) {
@@ -336,8 +358,13 @@ if ( $request->AllowedTo('read') ) {
   */
   $url = $c->protocol_server_port_script . $request->path ;
   $url = preg_replace( '#/$#', '', $url);
+  if ( $request->IsCollection() ) {
+    $responses = get_collection( $request->depth, $request->user_no, $request->path );
+  }
+  else {
+    $responses = get_item( $request->path );
+  }
 
-  $responses = get_collection( $request->depth, (isset($request->user_no) ? $request->user_no : $session->user_no), $request->path );
 
   $multistatus = new XMLElement( "multistatus", $responses, array('xmlns'=>'DAV:') );
 }
