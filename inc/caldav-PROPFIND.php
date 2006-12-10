@@ -202,10 +202,10 @@ function item_to_xml( $item ) {
     $prop->NewElement("creationdate", $item->created );
   }
   /**
-  * What resource type should we return for a calendar resource?
+  * Non-collections should return an empty resource type, it appears from RFC2518 8.1.2
   */
   if ( isset($attribute_list['RESOURCETYPE']) ) {
-    $prop->NewElement("resourcetype", new XMLElement("calendar", false, array("xmlns" => "urn:ietf:params:xml:ns:caldav")) );
+    $prop->NewElement("resourcetype");
   }
   if ( isset($attribute_list['DISPLAYNAME']) ) {
     $prop->NewElement("displayname", $item->dav_displayname );
