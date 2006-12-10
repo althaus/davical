@@ -1,7 +1,7 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
-ETag: "efda29c961310a85181c94670c4dca87"
-Content-Length: 4691
+ETag: "05a08a363ce3238383bef9744e7b8f2f"
+Content-Length: 4831
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -10,10 +10,10 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/home/</href>
   <propstat>
    <prop>
-    <getlastmodified>Sun, 10 Dec 2006 03:39:40 GMT</getlastmodified>
+    <getlastmodified>Sun, 10 Dec 2006 05:57:41 GMT</getlastmodified>
     <getcontentlength>3850</getcontentlength>
     <getcontenttype>httpd/unix-directory</getcontenttype>
-    <creationdate>Sun, 10 Dec 2006 03:39:40 GMT</creationdate>
+    <creationdate>Sun, 10 Dec 2006 05:57:41 GMT</creationdate>
     <resourcetype>
      <collection/>
      <calendar xmlns="urn:ietf:params:xml:ns:caldav"/>
@@ -38,14 +38,14 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/home/20061101T073004Z.ics</href>
   <propstat>
    <prop>
-    <getlastmodified>Sun, 10 Dec 2006 03:39:44 GMT</getlastmodified>
+    <getlastmodified>Sun, 10 Dec 2006 18:57:43 GMT</getlastmodified>
     <getcontentlength>1059</getcontentlength>
     <getcontenttype>text/calendar</getcontenttype>
-    <creationdate>Sun, 10 Dec 2006 03:39:44 GMT</creationdate>
+    <creationdate>Sun, 10 Dec 2006 05:57:43 GMT</creationdate>
     <resourcetype>
      <calendar xmlns="urn:ietf:params:xml:ns:caldav"/>
     </resourcetype>
-    <displayname/>
+    <displayname>A Meeting</displayname>
     <getetag>"c3658901fd4689d4a1e1d6f08601ef4f"</getetag>
     <supportedlock>
      <lockentry>
@@ -65,14 +65,14 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/home/3F4CF6227300FD062D9EF3CDFB30D32D-0.ics</href>
   <propstat>
    <prop>
-    <getlastmodified>Sun, 10 Dec 2006 03:39:42 GMT</getlastmodified>
+    <getlastmodified>Sat, 04 Nov 2006 13:29:21 GMT</getlastmodified>
     <getcontentlength>747</getcontentlength>
     <getcontenttype>text/calendar</getcontenttype>
-    <creationdate>Sun, 10 Dec 2006 03:39:42 GMT</creationdate>
+    <creationdate>Sun, 10 Dec 2006 05:57:42 GMT</creationdate>
     <resourcetype>
      <calendar xmlns="urn:ietf:params:xml:ns:caldav"/>
     </resourcetype>
-    <displayname/>
+    <displayname>Lunch with David</displayname>
     <getetag>"2c32a2f8aba853654eb17fe037a4db4d"</getetag>
     <supportedlock>
      <lockentry>
@@ -92,14 +92,14 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/home/4aaf8f37-f232-4c8e-a72e-e171d4c4fe54.ics</href>
   <propstat>
    <prop>
-    <getlastmodified>Sun, 10 Dec 2006 03:39:45 GMT</getlastmodified>
+    <getlastmodified>Mon, 20 Nov 2006 17:17:09 GMT</getlastmodified>
     <getcontentlength>999</getcontentlength>
     <getcontenttype>text/calendar</getcontenttype>
-    <creationdate>Sun, 10 Dec 2006 03:39:45 GMT</creationdate>
+    <creationdate>Sun, 19 Nov 2006 15:13:36 GMT</creationdate>
     <resourcetype>
      <calendar xmlns="urn:ietf:params:xml:ns:caldav"/>
     </resourcetype>
-    <displayname/>
+    <displayname>Weekly Project Meeting</displayname>
     <getetag>"a1c6404d61190f9574e2bfd69383f144"</getetag>
     <supportedlock>
      <lockentry>
@@ -119,14 +119,14 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/home/71e2ae82-7870-11db-c6d6-f6927c144649.ics</href>
   <propstat>
    <prop>
-    <getlastmodified>Sun, 10 Dec 2006 03:39:46 GMT</getlastmodified>
+    <getlastmodified>Sun, 10 Dec 2006 18:57:45 GMT</getlastmodified>
     <getcontentlength>743</getcontentlength>
     <getcontenttype>text/calendar</getcontenttype>
-    <creationdate>Sun, 10 Dec 2006 03:39:46 GMT</creationdate>
+    <creationdate>Sun, 10 Dec 2006 05:57:45 GMT</creationdate>
     <resourcetype>
      <calendar xmlns="urn:ietf:params:xml:ns:caldav"/>
     </resourcetype>
-    <displayname/>
+    <displayname>Beer O'Clock</displayname>
     <getetag>"0d7a68984bf525342d22b8924a57e8e2"</getetag>
     <supportedlock>
      <lockentry>
@@ -146,14 +146,14 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/home/da81c0ee-7871-11db-c6d6-f6927c144649.ics</href>
   <propstat>
    <prop>
-    <getlastmodified>Sun, 10 Dec 2006 03:39:46 GMT</getlastmodified>
+    <getlastmodified>Sun, 10 Dec 2006 18:57:45 GMT</getlastmodified>
     <getcontentlength>302</getcontentlength>
     <getcontenttype>text/calendar</getcontenttype>
-    <creationdate>Sun, 10 Dec 2006 03:39:46 GMT</creationdate>
+    <creationdate>Sun, 10 Dec 2006 05:57:45 GMT</creationdate>
     <resourcetype>
      <calendar xmlns="urn:ietf:params:xml:ns:caldav"/>
     </resourcetype>
-    <displayname/>
+    <displayname>Morning Mgmt Mtg</displayname>
     <getetag>"421abf7e4848d2fecbf64217ed205d4b"</getetag>
     <supportedlock>
      <lockentry>

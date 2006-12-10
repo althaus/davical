@@ -1,7 +1,7 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
-ETag: "214ca2867b641037b42878ea8ad96398"
-Content-Length: 853
+ETag: "d8bd2840df12cd286764f31423dfe027"
+Content-Length: 882
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -10,14 +10,14 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/home/da81c0ee-7871-11db-c6d6-f6927c144649.ics</href>
   <propstat>
    <prop>
-    <getlastmodified>Sun, 10 Dec 2006 03:39:46 GMT</getlastmodified>
+    <getlastmodified>Sun, 10 Dec 2006 18:57:45 GMT</getlastmodified>
     <getcontentlength>302</getcontentlength>
     <getcontenttype>text/calendar</getcontenttype>
-    <creationdate>Sun, 10 Dec 2006 03:39:46 GMT</creationdate>
+    <creationdate>Sun, 10 Dec 2006 05:57:45 GMT</creationdate>
     <resourcetype>
      <calendar xmlns="urn:ietf:params:xml:ns:caldav"/>
     </resourcetype>
-    <displayname/>
+    <displayname>Morning Mgmt Mtg</displayname>
     <getetag>"421abf7e4848d2fecbf64217ed205d4b"</getetag>
     <supportedlock>
      <lockentry>
