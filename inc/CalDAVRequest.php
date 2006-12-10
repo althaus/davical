@@ -377,7 +377,8 @@ class CalDAVRequest
         break;
       case 'mkcalendar':
       case 'mkcol':
-        return isset($this->permissions['bind']);
+        /** FIXME: Really this should only be 'bind' alone, I think. */
+        return isset($this->permissions['write']) || isset($this->permissions['bind']);
         break;
       default:
         return isset($this->permissions[$activity]);
