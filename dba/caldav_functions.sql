@@ -225,7 +225,9 @@ DECLARE
   in_to   ALIAS FOR $2;
   out_confers TEXT;
   tmp_confers TEXT;
+  tmp_txt TEXT;
   dbg TEXT DEFAULT '''';
+  counter INT;
 BEGIN
   -- Self can always have full access
   IF in_from = in_to THEN
@@ -251,10 +253,22 @@ BEGIN
     IF out_confers = tmp_confers THEN
       RETURN dbg || out_confers;
     ELSE
-      IF length( out_confers ) < length( tmp_confers ) THEN
+      IF tmp_confers ~* ''A'' AND NOT tmp_confers ~* ''BRWU'' THEN
+        -- Ensure that A is expanded to all privs
+        tmp_confers := tmp_confers || ''BRWU'';
+      END IF;
+      IF (SELECT substring(setting,1,3)::numeric >= 8.1 FROM pg_settings WHERE name = ''server_version'') THEN
+        -- PostgreSQL 8.1 or later.  regexp_replace exists!
+        out_confers := regexp_replace( out_confers, ''([^'' || tmp_confers || '']*)'', '''' );
         RETURN dbg || out_confers;
       ELSE
-        RETURN dbg || tmp_confers;
+        tmp_txt = '''';
+        FOR counter IN 1 .. length(tmp_confers) LOOP
+          IF out_confers ~* substring(tmp_confers,counter,1) THEN
+            tmp_txt := tmp_txt || substring(tmp_confers,counter,1);
+          END IF;
+        END LOOP;
+        RETURN dbg || tmp_txt;
       END IF;
     END IF;
   END IF;
