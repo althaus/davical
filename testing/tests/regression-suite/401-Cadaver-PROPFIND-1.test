@@ -9,4 +9,3 @@ HEADER=TE: trailers
 HEADER=Depth: 0
 HEADER=Content-Type: application/xml
 
-HEAD

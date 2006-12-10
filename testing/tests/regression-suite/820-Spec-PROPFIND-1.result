@@ -1,9 +1,3 @@
-HTTP/1.1 207 Multi-Status
-Date: Dow, 01 Jan 2000 00:00:00 GMT
-ETag: "68e376f7c924f6a0aa15c46eae3ffce0"
-Content-Length: 991
-Content-Type: text/xml; charset="utf-8"
-
 <?xml version="1.0" encoding="utf-8" ?>
 <multistatus xmlns="DAV:">
  <response>

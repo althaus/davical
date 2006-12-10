@@ -7,7 +7,6 @@ HEADER=User-Agent: RFC2518 Spec Tests
 HEADER=Depth: 0
 HEADER=Content-Type: application/xml
 
-HEAD
 
 BEGINDATA
 <?xml version="1.0" encoding="utf-8"?>
