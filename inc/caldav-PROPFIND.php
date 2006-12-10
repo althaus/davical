@@ -62,6 +62,7 @@ foreach( $request->xml_tags AS $k => $v ) {
     case 'DAV::GETCONTENTLANGUAGE':             /** resourcetype    - should return the user's chosen locale, or default locale */
     case 'DAV::SUPPORTED-PRIVILEGE-SET':        /** supported-privilege-set    - should work fine */
     case 'DAV::CURRENT-USER-PRIVILEGE-SET':     /** current-user-privilege-set - only vaguely supported */
+    case 'DAV::ALLPROP':                        /** allprop - limited support */
       $attribute = substr($v['tag'],5);
       $attribute_list[$attribute] = 1;
       dbg_error_log( "PROPFIND", "Adding attribute '%s'", $attribute );
@@ -113,29 +114,29 @@ function collection_to_xml( $collection ) {
     }
   }
   $prop = new XMLElement("prop");
-  if ( isset($attribute_list['GETLASTMODIFIED']) ) {
+  if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['GETLASTMODIFIED']) ) {
     $prop->NewElement("getlastmodified", ( isset($collection->modified)? $collection->modified : false ));
   }
-  if ( isset($attribute_list['GETCONTENTLENGTH']) ) {
+  if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['GETCONTENTLENGTH']) ) {
     $prop->NewElement("getcontentlength", $contentlength );
   }
-  if ( isset($attribute_list['GETCONTENTTYPE']) ) {
+  if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['GETCONTENTTYPE']) ) {
     $prop->NewElement("getcontenttype", "httpd/unix-directory" );
   }
-  if ( isset($attribute_list['CREATIONDATE']) ) {
+  if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['CREATIONDATE']) ) {
     $prop->NewElement("creationdate", $collection->created );
   }
-  if ( isset($attribute_list['RESOURCETYPE']) ) {
+  if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['RESOURCETYPE']) ) {
     $prop->NewElement("resourcetype", $resourcetypes );
   }
-  if ( isset($attribute_list['DISPLAYNAME']) ) {
+  if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['DISPLAYNAME']) ) {
     $displayname = ( $collection->dav_displayname == "" ? ucfirst(trim(str_replace("/"," ", $collection->dav_name))) : $collection->dav_displayname );
     $prop->NewElement("displayname", $displayname );
   }
-  if ( isset($attribute_list['GETETAG']) ) {
+  if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['GETETAG']) ) {
     $prop->NewElement("getetag", '"'.$collection->dav_etag.'"' );
   }
-  if ( isset($attribute_list['CURRENT-USER-PRIVILEGE-SET']) ) {
+  if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['CURRENT-USER-PRIVILEGE-SET']) ) {
     $prop->NewElement("current-user-privilege-set", privileges($request->permissions) );
   }
   if ( isset($attribute_list['ACL']) ) {
@@ -148,7 +149,7 @@ function collection_to_xml( $collection ) {
     $prop->NewElement("acl", new XMLElement( "ace", array( $principal, $grant ) ) );
   }
 
-  if ( isset($attribute_list['GETCONTENTLANGUAGE']) ) {
+  if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['GETCONTENTLANGUAGE']) ) {
     $contentlength = strlen($item->caldav_data);
     $prop->NewElement("getcontentlanguage", $c->current_locale );
   }
@@ -164,7 +165,7 @@ function collection_to_xml( $collection ) {
      );
   }
 
-  if ( isset($attribute_list['SUPPORTED-PRIVILEGE-SET']) ) {
+  if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['SUPPORTED-PRIVILEGE-SET']) ) {
     $prop->NewElement("supported-privilege-set", privileges( $request->SupportedPrivileges(), "supported-privilege") );
   }
   $status = new XMLElement("status", "HTTP/1.1 200 OK" );
@@ -188,29 +189,29 @@ function item_to_xml( $item ) {
 
   $url = $_SERVER['SCRIPT_NAME'] . $item->dav_name;
   $prop = new XMLElement("prop");
-  if ( isset($attribute_list['GETLASTMODIFIED']) ) {
+  if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['GETLASTMODIFIED']) ) {
     $prop->NewElement("getlastmodified", ( isset($item->modified)? $item->modified : false ));
   }
-  if ( isset($attribute_list['GETCONTENTLENGTH']) ) {
+  if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['GETCONTENTLENGTH']) ) {
     $contentlength = strlen($item->caldav_data);
     $prop->NewElement("getcontentlength", $contentlength );
   }
-  if ( isset($attribute_list['GETCONTENTTYPE']) ) {
+  if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['GETCONTENTTYPE']) ) {
     $prop->NewElement("getcontenttype", "text/calendar" );
   }
-  if ( isset($attribute_list['CREATIONDATE']) ) {
+  if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['CREATIONDATE']) ) {
     $prop->NewElement("creationdate", $item->created );
   }
   /**
   * Non-collections should return an empty resource type, it appears from RFC2518 8.1.2
   */
-  if ( isset($attribute_list['RESOURCETYPE']) ) {
+  if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['RESOURCETYPE']) ) {
     $prop->NewElement("resourcetype");
   }
-  if ( isset($attribute_list['DISPLAYNAME']) ) {
+  if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['DISPLAYNAME']) ) {
     $prop->NewElement("displayname", $item->dav_displayname );
   }
-  if ( isset($attribute_list['GETETAG']) ) {
+  if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['GETETAG']) ) {
     $prop->NewElement("getetag", '"'.$item->dav_etag.'"' );
   }
 
@@ -224,15 +225,15 @@ function item_to_xml( $item ) {
     $prop->NewElement("acl", new XMLElement( "ace", array( $principal, $grant ) ) );
   }
 
-  if ( isset($attribute_list['GETCONTENTLANGUAGE']) ) {
+  if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['GETCONTENTLANGUAGE']) ) {
     $contentlength = strlen($item->caldav_data);
     $prop->NewElement("getcontentlanguage", $c->current_locale );
   }
-  if ( isset($attribute_list['CURRENT-USER-PRIVILEGE-SET']) ) {
+  if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['CURRENT-USER-PRIVILEGE-SET']) ) {
     $prop->NewElement("current-user-privilege-set", privileges($request->permissions) );
   }
 
-  if ( isset($attribute_list['SUPPORTEDLOCK']) ) {
+  if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['SUPPORTEDLOCK']) ) {
     $prop->NewElement("supportedlock",
        new XMLElement( "lockentry",
          array(
