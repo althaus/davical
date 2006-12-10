@@ -34,6 +34,7 @@ $qry = new PgQuery( $sql, $request->user_no, $parent_container, $request->path, 
 
 if ( $qry->Exec("MKCALENDAR",__LINE__,__FILE__) ) {
   dbg_error_log( "MKCALENDAR", "New calendar '%s' created named '%s' for user '%d' in parent '%s'", $request->path, $displayname, $session->user_no, $parent_container);
+  header("Cache-Control: no-cache"); /** draft-caldav-15 declares this is necessary at 5.3.1 */
   $request->DoResponse( 201, "" );
 }
 else {
