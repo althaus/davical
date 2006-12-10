@@ -1,0 +1,18 @@
+#
+# Testing for Spec compliance.  PROPFIND on a calendar collection.
+#
+TYPE=PROPFIND
+URL=http://mycaldav/caldav.php/user1/home/
+HEADER=User-Agent: RFC2518 Spec Tests
+HEADER=Depth: 0
+HEADER=Content-Type: application/xml
+
+
+BEGINDATA
+<?xml version="1.0" encoding="utf-8"?>
+<propfind xmlns="DAV:">
+ <prop>
+  <allprop/>
+ </prop>
+</propfind>
+ENDDATA
