@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<multistatus xmlns="DAV:">
+ <response>
+  <href>/caldav.php/user1/home/da81c0ee-7871-11db-c6d6-f6927c144649.ics</href>
+  <propstat>
+   <prop>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <getcontentlength>302</getcontentlength>
+    <getcontenttype>text/calendar</getcontenttype>
+    <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
+    <resourcetype/>
+    <displayname>Morning Mgmt Mtg</displayname>
+    <getetag>"421abf7e4848d2fecbf64217ed205d4b"</getetag>
+    <getcontentlanguage>en_NZ</getcontentlanguage>
+    <current-user-privilege-set>
+     <privilege>
+      <all/>
+     </privilege>
+    </current-user-privilege-set>
+    <supportedlock>
+     <lockentry>
+      <lockscope>
+       <exclusive/>
+      </lockscope>
+      <locktype>
+       <write/>
+      </locktype>
+     </lockentry>
+    </supportedlock>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+</multistatus>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<multistatus xmlns="DAV:">
+ <response>
+  <href>/caldav.php/user1/home/</href>
+  <propstat>
+   <prop>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <getcontentlength>3850</getcontentlength>
+    <getcontenttype>httpd/unix-directory</getcontenttype>
+    <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
+    <resourcetype>
+     <collection/>
+     <calendar xmlns="urn:ietf:params:xml:ns:caldav"/>
+    </resourcetype>
+    <displayname>home</displayname>
+    <getetag>"faf25336de0e470a54075c14cbcf5272"</getetag>
+    <current-user-privilege-set>
+     <privilege>
+      <all/>
+     </privilege>
+    </current-user-privilege-set>
+    <getcontentlanguage>en_NZ</getcontentlanguage>
+    <supported-privilege-set>
+     <supported-privilege>
+      <all/>
+     </supported-privilege>
+     <supported-privilege>
+      <read/>
+     </supported-privilege>
+     <supported-privilege>
+      <write/>
+     </supported-privilege>
+     <supported-privilege>
+      <bind/>
+     </supported-privilege>
+     <supported-privilege>
+      <unbind/>
+     </supported-privilege>
+     <supported-privilege>
+      <write-content/>
+     </supported-privilege>
+    </supported-privilege-set>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+</multistatus>
