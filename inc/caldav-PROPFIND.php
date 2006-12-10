@@ -113,6 +113,9 @@ function collection_to_xml( $collection ) {
       $contentlength = $row->sum;
     }
   }
+  if ( $collection->is_principal == 't' ) {
+    $resourcetypes[] = new XMLElement("principal");
+  }
   $prop = new XMLElement("prop");
   if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['GETLASTMODIFIED']) ) {
     $prop->NewElement("getlastmodified", ( isset($collection->modified)? $collection->modified : false ));
@@ -272,14 +275,14 @@ function get_collection_contents( $depth, $user_no, $collection ) {
       $sql = "SELECT user_no, user_no, '/' || username || '/' AS dav_name, md5( '/' || username || '/') AS dav_etag, ";
       $sql .= "to_char(updated at time zone 'GMT',?) AS created, ";
       $sql .= "to_char(updated at time zone 'GMT',?) AS modified, ";
-      $sql .= "fullname AS dav_displayname, FALSE AS is_calendar FROM usr ";
+      $sql .= "fullname AS dav_displayname, FALSE AS is_calendar, TRUE AS is_principal FROM usr ";
       $sql .= "WHERE get_permissions($session->user_no,user_no) ~ '[RAW]';";
     }
     else {
       $sql = "SELECT user_no, dav_name, dav_etag, ";
       $sql .= "to_char(created at time zone 'GMT',?) AS created, ";
       $sql .= "to_char(modified at time zone 'GMT',?) AS modified, ";
-      $sql .= "dav_displayname, is_calendar FROM collection ";
+      $sql .= "dav_displayname, is_calendar, FALSE AS is_principal FROM collection ";
       $sql .= "WHERE parent_container=".qpg($collection->dav_name);
     }
     $qry = new PgQuery($sql, PgQuery::Plain(iCalendar::HttpDateFormat()), PgQuery::Plain(iCalendar::HttpDateFormat()));
@@ -337,13 +340,13 @@ function get_collection( $depth, $user_no, $collection_path ) {
       $sql = "SELECT user_no, '/' || username || '/' AS dav_name, md5( '/' || username || '/') AS dav_etag, ";
       $sql .= "to_char(updated at time zone 'GMT',?) AS created, ";
       $sql .= "to_char(updated at time zone 'GMT',?) AS modified, ";
-      $sql .= "fullname AS dav_displayname, FALSE AS is_calendar FROM usr WHERE user_no = $user_no ; ";
+      $sql .= "fullname AS dav_displayname, FALSE AS is_calendar, TRUE AS is_principal FROM usr WHERE user_no = $user_no ; ";
     }
     else {
       $sql = "SELECT user_no, dav_name, dav_etag, ";
       $sql .= "to_char(created at time zone 'GMT',?) AS created, ";
       $sql .= "to_char(modified at time zone 'GMT',?) AS modified, ";
-      $sql .= "dav_displayname, is_calendar FROM collection WHERE user_no = $user_no AND dav_name = ".qpg($collection_path);
+      $sql .= "dav_displayname, is_calendar, FALSE AS is_principal FROM collection WHERE user_no = $user_no AND dav_name = ".qpg($collection_path);
     }
     $qry = new PgQuery($sql, PgQuery::Plain(iCalendar::HttpDateFormat()), PgQuery::Plain(iCalendar::HttpDateFormat()) );
     if( $qry->Exec("PROPFIND",__LINE__,__FILE__) && $qry->rows > 0 && $collection = $qry->Fetch() ) {
