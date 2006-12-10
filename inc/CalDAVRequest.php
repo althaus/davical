@@ -148,13 +148,17 @@ class CalDAVRequest
     if ( !isset($this->user_no) ) $this->user_no = $session->user_no;
 
     /**
-    * If the content we are receiving is XML then we parse it here.
+    * If the content we are receiving is XML then we parse it here.  RFC2518 says we
+    * should reasonably expect to see either text/xml or application/xml
     */
-    $xml_parser = xml_parser_create_ns('UTF-8');
-    $this->xml_tags = array();
-    xml_parser_set_option ( $xml_parser, XML_OPTION_SKIP_WHITE, 1 );
-    xml_parse_into_struct( $xml_parser, $this->raw_post, $this->xml_tags );
-    xml_parser_free($xml_parser);
+    dbg_log_array( "caldav", '_SERVER', $_SERVER, true );
+    if ( preg_match( '#(application|text)/xml#', $_SERVER['CONTENT_TYPE'] ) ) {
+      $xml_parser = xml_parser_create_ns('UTF-8');
+      $this->xml_tags = array();
+      xml_parser_set_option ( $xml_parser, XML_OPTION_SKIP_WHITE, 1 );
+      xml_parse_into_struct( $xml_parser, $this->raw_post, $this->xml_tags );
+      xml_parser_free($xml_parser);
+    }
 
     /**
     * Look out for If-None-Match or If-Match headers
