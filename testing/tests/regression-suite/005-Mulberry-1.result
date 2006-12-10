@@ -1,7 +1,7 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
-ETag: "cd6db2ae3b14585cc932aa48c2c6046d"
-Content-Length: 708
+ETag: "61b82989b3d95752ee7dfa285642d245"
+Content-Length: 726
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -14,6 +14,7 @@ Content-Type: text/xml; charset="utf-8"
     <getcontenttype>httpd/unix-directory</getcontenttype>
     <resourcetype>
      <collection/>
+     <principal/>
     </resourcetype>
    </prop>
    <status>HTTP/1.1 200 OK</status>

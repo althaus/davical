@@ -1,7 +1,7 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
-ETag: "58dc34e4b02c83b0024fb2a713bac8a6"
-Content-Length: 1790
+ETag: "8b992cd3ec8cdf6b7d837947612c5fd6"
+Content-Length: 1880
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -27,6 +27,7 @@ Content-Type: text/xml; charset="utf-8"
     <getcontenttype>httpd/unix-directory</getcontenttype>
     <resourcetype>
      <collection/>
+     <principal/>
     </resourcetype>
    </prop>
    <status>HTTP/1.1 200 OK</status>
@@ -40,6 +41,7 @@ Content-Type: text/xml; charset="utf-8"
     <getcontenttype>httpd/unix-directory</getcontenttype>
     <resourcetype>
      <collection/>
+     <principal/>
     </resourcetype>
    </prop>
    <status>HTTP/1.1 200 OK</status>
@@ -53,6 +55,7 @@ Content-Type: text/xml; charset="utf-8"
     <getcontenttype>httpd/unix-directory</getcontenttype>
     <resourcetype>
      <collection/>
+     <principal/>
     </resourcetype>
    </prop>
    <status>HTTP/1.1 200 OK</status>
@@ -66,6 +69,7 @@ Content-Type: text/xml; charset="utf-8"
     <getcontenttype>httpd/unix-directory</getcontenttype>
     <resourcetype>
      <collection/>
+     <principal/>
     </resourcetype>
    </prop>
    <status>HTTP/1.1 200 OK</status>
@@ -79,6 +83,7 @@ Content-Type: text/xml; charset="utf-8"
     <getcontenttype>httpd/unix-directory</getcontenttype>
     <resourcetype>
      <collection/>
+     <principal/>
     </resourcetype>
    </prop>
    <status>HTTP/1.1 200 OK</status>
