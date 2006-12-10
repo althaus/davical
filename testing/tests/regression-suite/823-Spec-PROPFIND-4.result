@@ -1,6 +1,6 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
-ETag: "d8bd2840df12cd286764f31423dfe027"
+ETag: "50f18c8cc586250fdb2f5a2c9ec1e63d"
 Content-Length: 882
 Content-Type: text/xml; charset="utf-8"
 
@@ -10,10 +10,10 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/home/da81c0ee-7871-11db-c6d6-f6927c144649.ics</href>
   <propstat>
    <prop>
-    <getlastmodified>Sun, 10 Dec 2006 18:57:45 GMT</getlastmodified>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
     <getcontentlength>302</getcontentlength>
     <getcontenttype>text/calendar</getcontenttype>
-    <creationdate>Sun, 10 Dec 2006 05:57:45 GMT</creationdate>
+    <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
     <resourcetype>
      <calendar xmlns="urn:ietf:params:xml:ns:caldav"/>
     </resourcetype>
