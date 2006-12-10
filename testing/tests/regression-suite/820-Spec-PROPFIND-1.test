@@ -1,5 +1,5 @@
 #
-# Using CADAVER to do a PROPFIND
+# Testing for Spec compliance.  PROPFIND on a calendar collection.
 #
 TYPE=PROPFIND
 URL=http://mycaldav/caldav.php/user1/home/
@@ -13,6 +13,7 @@ BEGINDATA
 <?xml version="1.0" encoding="utf-8"?>
 <propfind xmlns="DAV:">
  <prop>
+  <acl/>
   <creationdate/>
   <displayname/>
   <getcontentlanguage/>
