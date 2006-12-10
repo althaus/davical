@@ -140,6 +140,9 @@ class BasicAuthSession {
 
     $this->GetRoles();
     $this->logged_in = true;
+    if ( function_exists("awl_set_locale") && isset($this->locale) && $this->locale != "" ) {
+      awl_set_locale($this->locale);
+    }
   }
 
 
