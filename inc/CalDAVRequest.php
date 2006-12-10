@@ -355,9 +355,6 @@ class CalDAVRequest
       case 'read':
         return isset($this->permissions['read']) || isset($this->permissions['write']);
         break;
-      case 'write':
-        return isset($this->permissions['write']);
-        break;
       case 'delete':
         return isset($this->permissions['write']) || isset($this->permissions['unbind']);
         break;
@@ -367,8 +364,14 @@ class CalDAVRequest
       case 'modify':
         return isset($this->permissions['write']) || isset($this->permissions['write-content']);
         break;
+      case 'mkcalendar':
+        return isset($this->permissions['bind']);
+        break;
       case 'mkcol':
         return isset($this->permissions['write']);
+        break;
+      default:
+        return isset($this->permissions[$activity]);
         break;
     }
 

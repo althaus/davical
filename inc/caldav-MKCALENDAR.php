@@ -10,7 +10,7 @@
 */
 dbg_error_log("MKCALENDAR", "method handler");
 
-if ( ! $request->AllowedTo('write') ) {
+if ( ! $request->AllowedTo('mkcalendar') ) {
   $request->DoResponse( 403, translate("You may not create a calendar there.") );
 }
 
