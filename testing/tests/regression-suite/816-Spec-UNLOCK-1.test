@@ -10,6 +10,7 @@ SELECT opaquelocktoken FROM locks WHERE dav_name = '/user1/home/'
 ENDSQL
 
 HEADER=Lock-Token: <opaquelocktoken:##locktoken##>
+HEADER=Content-type: text/xml; charset="utf-8"
 HEAD
 
 # There is no data for an UNLOCK request
