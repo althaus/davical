@@ -262,7 +262,7 @@ function get_collection_contents( $depth, $user_no, $collection ) {
   dbg_error_log("PROPFIND","Getting collection items: Depth %d, User: %d, Path: %s", $depth, $user_no, $collection->dav_name );
 
   $sql = "SELECT caldav_data.dav_name, caldav_data, caldav_data.dav_etag, ";
-  $sql .= "to_char(calendar_item.created at time zone 'GMT',?) AS created, ";
+  $sql .= "to_char(coalesce(calendar_item.created, caldav_data.created) at time zone 'GMT',?) AS created, ";
   $sql .= "to_char(last_modified at time zone 'GMT',?) AS modified, ";
   $sql .= "summary AS dav_displayname ";
   $sql .= "FROM caldav_data JOIN calendar_item USING( user_no, dav_name) WHERE dav_name ~ ".qpg('^'.$collection->dav_name.'[^/]+$');
@@ -338,7 +338,7 @@ function get_item( $item_path ) {
   dbg_error_log("PROPFIND","Getting item: Path: %s", $item_path );
 
   $sql = "SELECT caldav_data.dav_name, caldav_data, caldav_data.dav_etag, ";
-  $sql .= "to_char(calendar_item.created at time zone 'GMT',?) AS created, ";
+  $sql .= "to_char(coalesce(calendar_item.created, caldav_data.created) at time zone 'GMT',?) AS created, ";
   $sql .= "to_char(last_modified at time zone 'GMT',?) AS modified, ";
   $sql .= "summary AS dav_displayname ";
   $sql .= "FROM caldav_data JOIN calendar_item USING( user_no, dav_name)  WHERE dav_name = ?;";
