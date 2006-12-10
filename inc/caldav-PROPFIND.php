@@ -35,7 +35,6 @@ foreach( $request->xml_tags AS $k => $v ) {
     case 'DAV::CHECKED-OUT':
     case 'DAV::CHECKED-IN':
     case 'DAV::SOURCE':
-    case 'DAV::GETCONTENTLANGUAGE':
     case 'DAV::LOCKDISCOVERY':
       /** These are ignored */
       break;
@@ -49,6 +48,7 @@ foreach( $request->xml_tags AS $k => $v ) {
     case 'DAV::GETETAG':                        /** getetag         - should work fine */
     case 'DAV::SUPPORTEDLOCK':                  /** supportedlock   - should work fine */
     case 'DAV::RESOURCETYPE':                   /** resourcetype    - should work fine */
+    case 'DAV::GETCONTENTLANGUAGE':             /** resourcetype    - should return the user's chosen locale, or default locale */
     case 'DAV::SUPPORTED-PRIVILEGE-SET':        /** supported-privilege-set    - should work fine */
     case 'DAV::CURRENT-USER-PRIVILEGE-SET':     /** current-user-privilege-set - only vaguely supported */
       $attribute = substr($v['tag'],5);
@@ -137,6 +137,11 @@ function collection_to_xml( $collection ) {
     $prop->NewElement("acl", new XMLElement( "ace", array( $principal, $grant ) ) );
   }
 
+  if ( isset($attribute_list['GETCONTENTLANGUAGE']) ) {
+    $contentlength = strlen($item->caldav_data);
+    $prop->NewElement("getcontentlanguage", $c->current_locale );
+  }
+
   if ( isset($attribute_list['SUPPORTEDLOCK']) ) {
     $prop->NewElement("supportedlock",
        new XMLElement( "lockentry",
@@ -193,6 +198,11 @@ function item_to_xml( $item ) {
   }
   if ( isset($attribute_list['GETETAG']) ) {
     $prop->NewElement("getetag", '"'.$item->dav_etag.'"' );
+  }
+
+  if ( isset($attribute_list['GETCONTENTLANGUAGE']) ) {
+    $contentlength = strlen($item->caldav_data);
+    $prop->NewElement("getcontentlanguage", $c->current_locale );
   }
   if ( isset($attribute_list['CURRENT-USER-PRIVILEGE-SET']) ) {
     $prop->NewElement("current-user-privilege-set", privileges($request->permissions) );
