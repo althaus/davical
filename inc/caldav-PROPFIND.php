@@ -109,7 +109,6 @@ function collection_to_xml( $collection ) {
     $prop->NewElement("getcontentlength", $contentlength );
   }
   if ( isset($attribute_list['GETCONTENTTYPE']) ) {
-    //      $prop->NewElement("getcontenttype", "text/calendar" );
     $prop->NewElement("getcontenttype", "httpd/unix-directory" );
   }
   if ( isset($attribute_list['CREATIONDATE']) ) {
@@ -223,10 +222,6 @@ function item_to_xml( $item ) {
 * Get XML response for items in the collection
 * If '/' is requested, a list of visible users is given, otherwise
 * a list of calendars for the user which are parented by this path.
-*
-* Permissions here might well be handled through an SQL function.
-* FIXME: Read DAV Access docs and work out what permission is needed
-* in this case (these cases) so we can implement it.
 */
 function get_collection_contents( $depth, $user_no, $collection ) {
   global $session;
@@ -240,13 +235,19 @@ function get_collection_contents( $depth, $user_no, $collection ) {
     */
     if ( $collection->dav_name == '/' ) {
       $sql = "SELECT user_no, user_no, '/' || username || '/' AS dav_name, md5( '/' || username || '/') AS dav_etag, ";
-      $sql .= "updated AS created, to_char(updated at time zone 'GMT',?) AS modified, fullname AS dav_displayname, FALSE AS is_calendar FROM usr ";
+      $sql .= "to_char(updated at time zone 'GMT',?) AS created, ";
+      $sql .= "to_char(updated at time zone 'GMT',?) AS modified, ";
+      $sql .= "fullname AS dav_displayname, FALSE AS is_calendar FROM usr ";
       $sql .= "WHERE get_permissions($session->user_no,user_no) ~ '[RAW]';";
     }
     else {
-      $sql = "SELECT user_no, dav_name, dav_etag, created, to_char(modified at time zone 'GMT',?) as modified, dav_displayname, is_calendar FROM collection WHERE parent_container=".qpg($collection->dav_name);
+      $sql = "SELECT user_no, dav_name, dav_etag, ";
+      $sql .= "to_char(created at time zone 'GMT',?) AS created, ";
+      $sql .= "to_char(modified at time zone 'GMT',?) AS modified, ";
+      $sql .= "dav_displayname, is_calendar FROM collection ";
+      $sql .= "WHERE parent_container=".qpg($collection->dav_name);
     }
-    $qry = new PgQuery($sql, PgQuery::Plain(iCalendar::HttpDateFormat()));
+    $qry = new PgQuery($sql, PgQuery::Plain(iCalendar::HttpDateFormat()), PgQuery::Plain(iCalendar::HttpDateFormat()));
 
     if( $qry->Exec("PROPFIND",__LINE__,__FILE__) && $qry->rows > 0 ) {
       while( $subcollection = $qry->Fetch() ) {
@@ -260,8 +261,12 @@ function get_collection_contents( $depth, $user_no, $collection ) {
 
   dbg_error_log("PROPFIND","Getting collection items: Depth %d, User: %d, Path: %s", $depth, $user_no, $collection->dav_name );
 
-  $sql = "SELECT dav_name, caldav_data, dav_etag, created, to_char(modified at time zone 'GMT',?) FROM caldav_data WHERE dav_name ~ ".qpg('^'.$collection->dav_name.'[^/]+$');
-  $qry = new PgQuery($sql, PgQuery::Plain(iCalendar::HttpDateFormat()));
+  $sql = "SELECT dav_name, caldav_data, dav_etag, ";
+  $sql .= "to_char(created at time zone 'GMT',?) AS created, ";
+  $sql .= "to_char(modified at time zone 'GMT',?) AS modified, ";
+  $sql .= "FROM caldav_data WHERE dav_name ~ ".qpg('^'.$collection->dav_name.'[^/]+$');
+  $sql .= "dav_displayname, is_calendar FROM collection ";
+  $qry = new PgQuery($sql, PgQuery::Plain(iCalendar::HttpDateFormat()), PgQuery::Plain(iCalendar::HttpDateFormat()));
   if( $qry->Exec("PROPFIND",__LINE__,__FILE__) && $qry->rows > 0 ) {
     while( $item = $qry->Fetch() ) {
       $responses[] = item_to_xml( $item );
@@ -293,12 +298,17 @@ function get_collection( $depth, $user_no, $collection_path ) {
     $user_no = intval($user_no);
     if ( preg_match( '#^/[^/]+/$#', $collection_path) ) {
       $sql = "SELECT user_no, '/' || username || '/' AS dav_name, md5( '/' || username || '/') AS dav_etag, ";
-      $sql .= "updated AS created, fullname AS dav_displayname, FALSE AS is_calendar FROM usr WHERE user_no = $user_no ; ";
+      $sql .= "to_char(updated at time zone 'GMT',?) AS created, ";
+      $sql .= "to_char(updated at time zone 'GMT',?) AS modified, ";
+      $sql .= "fullname AS dav_displayname, FALSE AS is_calendar FROM usr WHERE user_no = $user_no ; ";
     }
     else {
-      $sql = "SELECT user_no, dav_name, dav_etag, created, dav_displayname, is_calendar FROM collection WHERE user_no = $user_no AND dav_name = ".qpg($collection_path);
+      $sql = "SELECT user_no, dav_name, dav_etag, ";
+      $sql .= "to_char(created at time zone 'GMT',?) AS created, ";
+      $sql .= "to_char(modified at time zone 'GMT',?) AS modified, ";
+      $sql .= "dav_displayname, is_calendar FROM collection WHERE user_no = $user_no AND dav_name = ".qpg($collection_path);
     }
-    $qry = new PgQuery($sql );
+    $qry = new PgQuery($sql, PgQuery::Plain(iCalendar::HttpDateFormat()), PgQuery::Plain(iCalendar::HttpDateFormat()) );
     if( $qry->Exec("PROPFIND",__LINE__,__FILE__) && $qry->rows > 0 && $collection = $qry->Fetch() ) {
       $responses[] = collection_to_xml( $collection );
     }
