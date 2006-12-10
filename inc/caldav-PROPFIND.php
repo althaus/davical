@@ -266,6 +266,7 @@ function get_collection_contents( $depth, $user_no, $collection ) {
   $sql .= "to_char(last_modified at time zone 'GMT',?) AS modified, ";
   $sql .= "summary AS dav_displayname ";
   $sql .= "FROM caldav_data JOIN calendar_item USING( user_no, dav_name) WHERE dav_name ~ ".qpg('^'.$collection->dav_name.'[^/]+$');
+  $sql .= "ORDER BY caldav_data.dav_name ";
   $qry = new PgQuery($sql, PgQuery::Plain(iCalendar::HttpDateFormat()), PgQuery::Plain(iCalendar::HttpDateFormat()));
   if( $qry->Exec("PROPFIND",__LINE__,__FILE__) && $qry->rows > 0 ) {
     while( $item = $qry->Fetch() ) {
