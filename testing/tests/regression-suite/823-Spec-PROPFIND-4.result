@@ -8,11 +8,18 @@
     <getcontentlength>302</getcontentlength>
     <getcontenttype>text/calendar</getcontenttype>
     <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
-    <resourcetype>
-     <calendar xmlns="urn:ietf:params:xml:ns:caldav"/>
-    </resourcetype>
+    <resourcetype/>
     <displayname>Morning Mgmt Mtg</displayname>
     <getetag>"421abf7e4848d2fecbf64217ed205d4b"</getetag>
+    <acl>
+     <ace>
+      <principal>
+       <authenticated/>
+      </principal>
+      <grant>
+      </grant>
+     </ace>
+    </acl>
     <getcontentlanguage>en_NZ</getcontentlanguage>
     <supportedlock>
      <lockentry>

@@ -1,7 +1,7 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
-ETag: "0f519d4aaa6e2d0f9ac420a20e0a6932"
-Content-Length: 1199
+ETag: "f87770eaf4d08281e321f4a3321a023e"
+Content-Length: 1051
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -26,9 +26,7 @@ Content-Type: text/xml; charset="utf-8"
    <prop>
     <getcontentlength>747</getcontentlength>
     <getcontenttype>text/calendar</getcontenttype>
-    <resourcetype>
-     <calendar xmlns="urn:ietf:params:xml:ns:caldav"/>
-    </resourcetype>
+    <resourcetype/>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -39,9 +37,7 @@ Content-Type: text/xml; charset="utf-8"
    <prop>
     <getcontentlength>720</getcontentlength>
     <getcontenttype>text/calendar</getcontenttype>
-    <resourcetype>
-     <calendar xmlns="urn:ietf:params:xml:ns:caldav"/>
-    </resourcetype>
+    <resourcetype/>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>

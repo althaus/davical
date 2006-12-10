@@ -1,7 +1,7 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
-ETag: "feba2ed0f64f3f0094ec5e5546ea8c82"
-Content-Length: 1578
+ETag: "a4356a6de9de23ce6f64c368f195d78c"
+Content-Length: 1356
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -24,9 +24,7 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/home/20061101T073004Z.ics</href>
   <propstat>
    <prop>
-    <resourcetype>
-     <calendar xmlns="urn:ietf:params:xml:ns:caldav"/>
-    </resourcetype>
+    <resourcetype/>
     <displayname>A Meeting</displayname>
     <getetag>"c3658901fd4689d4a1e1d6f08601ef4f"</getetag>
    </prop>
@@ -37,9 +35,7 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/home/3F4CF6227300FD062D9EF3CDFB30D32D-0.ics</href>
   <propstat>
    <prop>
-    <resourcetype>
-     <calendar xmlns="urn:ietf:params:xml:ns:caldav"/>
-    </resourcetype>
+    <resourcetype/>
     <displayname>Lunch with David</displayname>
     <getetag>"2c32a2f8aba853654eb17fe037a4db4d"</getetag>
    </prop>
@@ -50,9 +46,7 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/home/4aaf8f37-f232-4c8e-a72e-e171d4c4fe54.ics</href>
   <propstat>
    <prop>
-    <resourcetype>
-     <calendar xmlns="urn:ietf:params:xml:ns:caldav"/>
-    </resourcetype>
+    <resourcetype/>
     <displayname>Weekly Project Meeting</displayname>
     <getetag>"a1c6404d61190f9574e2bfd69383f144"</getetag>
    </prop>
