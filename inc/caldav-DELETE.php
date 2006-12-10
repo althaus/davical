@@ -35,17 +35,16 @@ if ( $request->IsCollection() ) {
   /**
   * We read the collection first, so we can check if it matches (or does not match)
   */
-  $qry = new PgQuery( "SELECT * FROM collection WHERE user_no = ? AND dav_name = ?;", (isset($request->user_no)?$request->user_no:$session->user_no), $request->path );
+  $qry = new PgQuery( "SELECT * FROM collection WHERE user_no = ? AND dav_name = ?;", $request->user_no, $request->path );
   if ( $qry->Exec("DELETE") && $qry->rows == 1 ) {
     $delete_row = $qry->Fetch();
     if ( (isset($request->etag_if_match) && $request->etag_if_match != $delete_row->dav_etag) ) {
       $request->DoResponse( 412, translate("Resource does not match 'If-Match' header - not deleted") );
     }
 
-    $user_no = intval(isset($request->user_no)?$request->user_no:$session->user_no);
     $sql = "BEGIN;";
-    $sql .= "DELETE FROM collection WHERE user_no = $user_no AND dav_name = ". qpg($request->path).";";
-    $sql .= "DELETE FROM caldav_data WHERE user_no = $user_no AND dav_name LIKE ?;";
+    $sql .= "DELETE FROM collection WHERE user_no = $request->user_no AND dav_name = ". qpg($request->path).";";
+    $sql .= "DELETE FROM caldav_data WHERE user_no = $request->user_no AND dav_name LIKE ?;";
     $sql .= "DELETE FROM locks WHERE dav_name LIKE ?;";
     $sql .= "COMMIT;";
     $qry = new PgQuery( $sql, $request->path.'%', $request->path.'%' );
@@ -66,13 +65,13 @@ else {
   /**
   * We read the resource first, so we can check if it matches (or does not match)
   */
-  $qry = new PgQuery( "SELECT * FROM caldav_data WHERE user_no = ? AND dav_name = ?;", (isset($request->user_no)?$request->user_no:$session->user_no), $request->path );
+  $qry = new PgQuery( "SELECT * FROM caldav_data WHERE user_no = ? AND dav_name = ?;", $request->user_no, $request->path );
   if ( $qry->Exec("DELETE") && $qry->rows == 1 ) {
     $delete_row = $qry->Fetch();
     if ( (isset($request->etag_if_match) && $request->etag_if_match != $delete_row->dav_etag) ) {
       $request->DoResponse( 412, translate("Resource does not match 'If-Match' header - not deleted") );
     }
-    $qry = new PgQuery( "DELETE FROM caldav_data WHERE user_no = ? AND dav_name = ?;", (isset($request->user_no)?$request->user_no:$session->user_no), $request->path );
+    $qry = new PgQuery( "DELETE FROM caldav_data WHERE user_no = ? AND dav_name = ?;", $request->user_no, $request->path );
     if ( $qry->Exec("DELETE") ) {
       @dbg_error_log( "DELETE", "DELETE: User: %d, ETag: %s, Path: %s", $session->user_no, $request->etag_if_match, $request->path);
       $request->DoResponse( 204 );
