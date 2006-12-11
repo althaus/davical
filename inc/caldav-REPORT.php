@@ -10,7 +10,7 @@
 */
 dbg_error_log("REPORT", "method handler");
 
-if ( ! $request->AllowedTo('read') ) {
+if ( ! ($request->AllowedTo('read') || $request->AllowedTo('freebusy')) ) {
   $request->DoResponse( 403, translate("You may not access that calendar") );
 }
 
@@ -32,6 +32,17 @@ foreach( $request->xml_tags AS $k => $v ) {
   }
 
   switch ( $fulltag ) {
+
+    case 'URN:IETF:PARAMS:XML:NS:CALDAV:FREE-BUSY-QUERY':
+      dbg_error_log( "REPORT", ":Request: %s -> %s", $v['type'], $xmltag );
+      if ( $v['type'] == "open" ) {
+        $reportnum++;
+        $report[$reportnum]['type'] = $xmltag;
+      }
+      else {
+        unset($report_type);
+      }
+      break;
 
     case 'URN:IETF:PARAMS:XML:NS:CALDAV:CALENDAR-QUERY':
       dbg_error_log( "REPORT", ":Request: %s -> %s", $v['type'], $xmltag );
@@ -173,6 +184,9 @@ function calendar_to_xml( $properties, $item ) {
     $contentlength = strlen($item->caldav_data);
     $prop->NewElement("getcontentlength", $contentlength );
   }
+  if ( isset($properties['FREE-BUSY-QUERY']) ) {
+    $prop->NewElement("calendar-data", $item->caldav_data, array("xmlns" => "urn:ietf:params:xml:ns:caldav") );
+  }
   if ( isset($properties['CALENDAR-DATA']) ) {
     $prop->NewElement("calendar-data", $item->caldav_data, array("xmlns" => "urn:ietf:params:xml:ns:caldav") );
   }
@@ -216,6 +230,7 @@ for ( $i=0; $i <= $reportnum; $i++ ) {
   $where = " WHERE caldav_data.dav_name ~ ".qpg("^".$request->path)." ";
   switch( $report[$i]['type'] ) {
     case 'CALENDAR-QUERY':
+      if ( ! ($request->AllowedTo('read') ) ) $request->DoResponse( 403, translate("You may not access that calendar") );
       if ( isset( $report[$i]['start'] ) ) {
         $where .= "AND (dtend >= ".qpg($report[$i]['start'])."::timestamp with time zone ";
         $where .= "OR calculate_later_timestamp(".qpg($report[$i]['start'])."::timestamp with time zone,dtend,rrule) >= ".qpg($report[$i]['start'])."::timestamp with time zone) ";
@@ -226,6 +241,7 @@ for ( $i=0; $i <= $reportnum; $i++ ) {
       break;
 
     case 'CALENDAR-MULTIGET':
+      if ( ! ($request->AllowedTo('read') ) ) $request->DoResponse( 403, translate("You may not access that calendar") );
       $href_in = '';
       foreach( $report[$reportnum]['get_names'] AS $k => $v ) {
         dbg_error_log("REPORT", "Reporting on href '%s'", $v );
@@ -235,6 +251,20 @@ for ( $i=0; $i <= $reportnum; $i++ ) {
       if ( $href_in != "" ) {
         $where .= " AND caldav_data.dav_name IN ( $href_in ) ";
       }
+      break;
+
+    case 'FREE-BUSY-QUERY':
+      if ( ! ( isset($report[$i]['start']) || isset($report[$i]['end']) ) ) {
+        $request->DoResponse( 400, 'All valid freebusy requests MUST contain a time-range filter' );
+      }
+      if ( isset( $report[$i]['start'] ) ) {
+        $where .= "AND (dtend >= ".qpg($report[$i]['start'])."::timestamp with time zone ";
+        $where .= "OR calculate_later_timestamp(".qpg($report[$i]['start'])."::timestamp with time zone,dtend,rrule) >= ".qpg($report[$i]['start'])."::timestamp with time zone) ";
+      }
+      if ( isset( $report[$i]['end'] ) ) {
+        $where .= "AND dtstart <= ".qpg($report[$i]['end'])."::timestamp with time zone ";
+      }
+      $report[$i]['properties'][] = 'FREE-BUSY-QUERY';
       break;
 
     default:
