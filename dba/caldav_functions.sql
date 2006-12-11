@@ -253,23 +253,17 @@ BEGIN
     IF out_confers = tmp_confers THEN
       RETURN dbg || out_confers;
     ELSE
-      IF tmp_confers ~* ''A'' AND NOT tmp_confers ~* ''BRWU'' THEN
-        -- Ensure that A is expanded to all privs
-        tmp_confers := tmp_confers || ''BRWU'';
+      IF tmp_confers ~* ''A'' AND NOT tmp_confers ~* ''FBRWU'' THEN
+        -- Ensure that A is expanded to all supported privs before being used as a mask
+        tmp_confers := tmp_confers || ''FBRWU'';
       END IF;
-      IF (SELECT substring(setting,1,3)::numeric >= 8.1 FROM pg_settings WHERE name = ''server_version'') THEN
-        -- PostgreSQL 8.1 or later.  regexp_replace exists!
-        out_confers := regexp_replace( out_confers, ''([^'' || tmp_confers || '']*)'', '''' );
-        RETURN dbg || out_confers;
-      ELSE
-        tmp_txt = '''';
-        FOR counter IN 1 .. length(tmp_confers) LOOP
-          IF out_confers ~* substring(tmp_confers,counter,1) THEN
-            tmp_txt := tmp_txt || substring(tmp_confers,counter,1);
-          END IF;
-        END LOOP;
-        RETURN dbg || tmp_txt;
-      END IF;
+      tmp_txt = '''';
+      FOR counter IN 1 .. length(tmp_confers) LOOP
+        IF out_confers ~* substring(tmp_confers,counter,1) THEN
+          tmp_txt := tmp_txt || substring(tmp_confers,counter,1);
+        END IF;
+      END LOOP;
+      RETURN dbg || tmp_txt;
     END IF;
   END IF;
 
