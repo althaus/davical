@@ -221,6 +221,16 @@ class CalDAVRequest
   }
 
   /**
+  * Returns the tail of a Regex appropriate for this Depth, when appended to
+  *
+  */
+  function DepthRegexTail( ) {
+    if ( $this->IsInfiniteDepth() ) return '';
+    if ( $this->depth == 0 ) return '$';
+    return '[^/]*/?$';
+  }
+
+  /**
   * Returns the locked row, either from the cache or from the database
   *
   * @param string $dav_name The resource which we want to know the lock status for
