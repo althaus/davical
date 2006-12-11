@@ -151,7 +151,6 @@ class CalDAVRequest
     * If the content we are receiving is XML then we parse it here.  RFC2518 says we
     * should reasonably expect to see either text/xml or application/xml
     */
-    dbg_log_array( "caldav", '_SERVER', $_SERVER, true );
     if ( preg_match( '#(application|text)/xml#', $_SERVER['CONTENT_TYPE'] ) ) {
       $xml_parser = xml_parser_create_ns('UTF-8');
       $this->xml_tags = array();
