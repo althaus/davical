@@ -17,6 +17,12 @@ if ( ! ($request->AllowedTo('read') || $request->AllowedTo('freebusy')) ) {
 
 require_once("XMLElement.php");
 
+/**
+* Free/Busy is different to the other responses (not XML) so we
+* deal with it separately
+*/
+$free_busy_query = false;
+
 $reportnum = -1;
 $report = array();
 foreach( $request->xml_tags AS $k => $v ) {
@@ -35,12 +41,12 @@ foreach( $request->xml_tags AS $k => $v ) {
 
     case 'URN:IETF:PARAMS:XML:NS:CALDAV:FREE-BUSY-QUERY':
       dbg_error_log( "REPORT", ":Request: %s -> %s", $v['type'], $xmltag );
+      $free_busy_query = true;
       if ( $v['type'] == "open" ) {
         $reportnum++;
         $report[$reportnum]['type'] = $xmltag;
-      }
-      else {
-        unset($report_type);
+        $report[$reportnum]['include_href'] = 1;
+        $report[$reportnum]['include_data'] = 1;
       }
       break;
 
@@ -184,9 +190,6 @@ function calendar_to_xml( $properties, $item ) {
     $contentlength = strlen($item->caldav_data);
     $prop->NewElement("getcontentlength", $contentlength );
   }
-  if ( isset($properties['FREE-BUSY-QUERY']) ) {
-    $prop->NewElement("calendar-data", $item->caldav_data, array("xmlns" => "urn:ietf:params:xml:ns:caldav") );
-  }
   if ( isset($properties['CALENDAR-DATA']) ) {
     $prop->NewElement("calendar-data", $item->caldav_data, array("xmlns" => "urn:ietf:params:xml:ns:caldav") );
   }
@@ -215,7 +218,39 @@ function calendar_to_xml( $properties, $item ) {
   return $response;
 }
 
+if ( $free_busy_query ) {
+  // Won't return from that...
+  if ( ! ( isset($report[$i]['start']) || isset($report[$i]['end']) ) ) {
+    $request->DoResponse( 400, 'All valid freebusy requests MUST contain a time-range filter' );
+  }
+  $where = " WHERE caldav_data.dav_name ~ ".qpg("^".$request->path.$request->DepthRegexTail())." ";
+  if ( isset( $report[$i]['start'] ) ) {
+    $where .= "AND (dtend >= ".qpg($report[$i]['start'])."::timestamp with time zone ";
+    $where .= "OR calculate_later_timestamp(".qpg($report[$i]['start'])."::timestamp with time zone,dtend,rrule) >= ".qpg($report[$i]['start'])."::timestamp with time zone) ";
+  }
+  if ( isset( $report[$i]['end'] ) ) {
+    $where .= "AND dtstart <= ".qpg($report[$i]['end'])."::timestamp with time zone ";
+  }
+  $where .= " AND caldav_data.caldav_type IN ( 'VEVENT', 'VFREEBUSY' ) ";
 
+  $busy = array();
+  $busy_tentative = array();
+  $qry = new PgQuery( "SELECT * FROM caldav_data INNER JOIN calendar_item USING(user_no, dav_name)".$where." ORDER BY dtstart, dtend" );
+  if ( $qry->Exec("REPORT",__LINE__,__FILE__) && $qry->rows > 0 ) {
+    while( $calendar_object = $qry->Fetch() ) {
+      if ( preg_match( '/OPAQUE.*BUSY/', $calendar_object->caldav_data ) ) {
+        $busy[] = array( 'start' => $calendar_object->dtstart, 'end' => $calendar_object->dtend );
+      }
+      else {
+        $busy_tenantive[] = array( 'start' => $calendar_object->dtstart, 'end' => $calendar_object->dtend );
+      }
+    }
+  }
+}
+else {
+  // Must have read privilege for other reports
+  if ( ! ($request->AllowedTo('read') ) ) $request->DoResponse( 403, translate("You may not access that calendar") );
+}
 
 $request->UnsupportedRequest($unsupported); // Won't return if there was unsupported stuff.
 
@@ -251,20 +286,6 @@ for ( $i=0; $i <= $reportnum; $i++ ) {
       if ( $href_in != "" ) {
         $where .= " AND caldav_data.dav_name IN ( $href_in ) ";
       }
-      break;
-
-    case 'FREE-BUSY-QUERY':
-      if ( ! ( isset($report[$i]['start']) || isset($report[$i]['end']) ) ) {
-        $request->DoResponse( 400, 'All valid freebusy requests MUST contain a time-range filter' );
-      }
-      if ( isset( $report[$i]['start'] ) ) {
-        $where .= "AND (dtend >= ".qpg($report[$i]['start'])."::timestamp with time zone ";
-        $where .= "OR calculate_later_timestamp(".qpg($report[$i]['start'])."::timestamp with time zone,dtend,rrule) >= ".qpg($report[$i]['start'])."::timestamp with time zone) ";
-      }
-      if ( isset( $report[$i]['end'] ) ) {
-        $where .= "AND dtstart <= ".qpg($report[$i]['end'])."::timestamp with time zone ";
-      }
-      $report[$i]['properties'][] = 'FREE-BUSY-QUERY';
       break;
 
     default:
