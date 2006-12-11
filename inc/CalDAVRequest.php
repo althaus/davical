@@ -223,7 +223,7 @@ class CalDAVRequest
   * Returns the tail of a Regex appropriate for this Depth, when appended to
   *
   */
-  function DepthRegexTail( ) {
+  function DepthRegexTail() {
     if ( $this->IsInfiniteDepth() ) return '';
     if ( $this->depth == 0 ) return '$';
     return '[^/]*/?$';

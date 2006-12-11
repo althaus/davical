@@ -219,33 +219,55 @@ function calendar_to_xml( $properties, $item ) {
 }
 
 if ( $free_busy_query ) {
+  include_once("iCalendar.php");
   // Won't return from that...
-  if ( ! ( isset($report[$i]['start']) || isset($report[$i]['end']) ) ) {
+  if ( ! ( isset($report[0]['start']) || isset($report[0]['end']) ) ) {
     $request->DoResponse( 400, 'All valid freebusy requests MUST contain a time-range filter' );
   }
-  $where = " WHERE caldav_data.dav_name ~ ".qpg("^".$request->path.$request->DepthRegexTail())." ";
-  if ( isset( $report[$i]['start'] ) ) {
-    $where .= "AND (dtend >= ".qpg($report[$i]['start'])."::timestamp with time zone ";
-    $where .= "OR calculate_later_timestamp(".qpg($report[$i]['start'])."::timestamp with time zone,dtend,rrule) >= ".qpg($report[$i]['start'])."::timestamp with time zone) ";
+  $where = " WHERE caldav_data.dav_name ~ ? ";
+  if ( isset( $report[0]['start'] ) ) {
+    $where .= "AND (dtend >= ".qpg($report[0]['start'])."::timestamp with time zone ";
+    $where .= "OR calculate_later_timestamp(".qpg($report[0]['start'])."::timestamp with time zone,dtend,rrule) >= ".qpg($report[0]['start'])."::timestamp with time zone) ";
   }
-  if ( isset( $report[$i]['end'] ) ) {
-    $where .= "AND dtstart <= ".qpg($report[$i]['end'])."::timestamp with time zone ";
+  if ( isset( $report[0]['end'] ) ) {
+    $where .= "AND dtstart <= ".qpg($report[0]['end'])."::timestamp with time zone ";
   }
   $where .= " AND caldav_data.caldav_type IN ( 'VEVENT', 'VFREEBUSY' ) ";
 
   $busy = array();
   $busy_tentative = array();
-  $qry = new PgQuery( "SELECT * FROM caldav_data INNER JOIN calendar_item USING(user_no, dav_name)".$where." ORDER BY dtstart, dtend" );
+  $sql = "SELECT caldav_data.caldav_data, ";
+  $sql .= "to_char(calendar_item.dtstart at time zone 'GMT',".iCalendar::SqlUTCFormat().") AS start, ";
+  $sql .= "to_char(calendar_item.dtend at time zone 'GMT',".iCalendar::SqlUTCFormat().") AS finish ";
+  $sql .= "FROM caldav_data INNER JOIN calendar_item USING(user_no, dav_name)".$where." ORDER BY dtstart, dtend";
+  $qry = new PgQuery( $sql, "^".$request->path.$request->DepthRegexTail() );
   if ( $qry->Exec("REPORT",__LINE__,__FILE__) && $qry->rows > 0 ) {
     while( $calendar_object = $qry->Fetch() ) {
-      if ( preg_match( '/OPAQUE.*BUSY/', $calendar_object->caldav_data ) ) {
-        $busy[] = array( 'start' => $calendar_object->dtstart, 'end' => $calendar_object->dtend );
-      }
-      else {
-        $busy_tenantive[] = array( 'start' => $calendar_object->dtstart, 'end' => $calendar_object->dtend );
+      if ( ! preg_match( '/^TRANSP.*TRANSPARENT/im', $calendar_object->caldav_data ) ) {
+        if ( preg_match( '/^STATUS.*:.*TENTATIVE/im', $calendar_object->caldav_data ) ) {
+          $busy_tenantive[] = array( 'start' => $calendar_object->start, 'end' => $calendar_object->finish );
+        }
+        else if ( ! preg_match( '/STATUS.*:.*CANCELLED/m', $calendar_object->caldav_data ) ) {
+          dbg_error_log( "REPORT", " FreeBusy: Not transparent, tentative or cancelled: %s, %s", $calendar_object->start, $calendar_object->finish );
+          $busy[] = array( 'start' => $calendar_object->start, 'end' => $calendar_object->finish );
+        }
       }
     }
   }
+  $freebusy = iCalendar::iCalHeader();
+  $freebusy .= sprintf("BEGIN:VFREEBUSY\nDTSTAMP:%s\nDTSTART:%s\nDTEND:%s\n", date('Ymd\THis\Z'), $report[0]['start'], $report[0]['end']);
+
+  foreach( $busy_tentative AS $k => $v ) {
+    $freebusy .= sprintf("FREEBUSY;FBTYPE=BUSY-TENTATIVE:%s/%s\n", $v['start'], iCalendar::Duration($v['start'],$v['end']) );
+  }
+
+  foreach( $busy AS $k => $v ) {
+    $freebusy .= sprintf("FREEBUSY:%s/%s\n", $v['start'], iCalendar::Duration($v['start'],$v['end']) );
+  }
+
+  $freebusy .= "END:VFREEBUSY\n";
+  $freebusy .= iCalendar::iCalFooter();
+  $request->DoResponse( 200, $freebusy, 'text/calendar' );
 }
 else {
   // Must have read privilege for other reports
