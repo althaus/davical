@@ -163,6 +163,8 @@ class iCalDate {
         $this->_dd -= $dim;
       }
     }
+    $this->_EpochFromParts();
+    $this->_TextFromEpoch();
   }
 
 
@@ -179,6 +181,111 @@ class iCalDate {
       $this->_mo++;
       $this->_dd -= $dim;
     }
+    $this->_EpochFromParts();
+    $this->_TextFromEpoch();
+  }
+
+
+  /**
+  * Add duration
+  */
+  function AddDuration( $duration ) {
+    list( $sign, $days, $time ) = preg_split( '/[PT]/', $duration );
+    $sign = ( $sign == "-" ? -1 : 1);
+    if ( preg_match( '/(\d)+(D|W)/', $days, $matches ) ) {
+      $days = intval($matches[1]);
+      if ( $matches[2] == 'W' ) $days *= 7;
+      $this->AddDays( $days * $sign );
+    }
+    if ( preg_match( '/(\d)+(H)/', $time, $matches ) )  $hh = $matches[1];
+    if ( preg_match( '/(\d)+(M)/', $time, $matches ) )  $mi = $matches[1];
+    if ( preg_match( '/(\d)+(S)/', $time, $matches ) )  $ss = $matches[1];
+
+    $this->_hh += ($hh * $sign);
+    $this->_mi += ($mi * $sign);
+    $this->_ss += ($ss * $sign);
+
+    if ( $this->_ss < 0 ) {  $this->_mi -= (intval(abs($this->ss/60))+1); $this->_ss += ((intval(abs($this->mi/60))+1) * 60); }
+    if ( $this->_ss > 59) {  $this->_mi += (intval(abs($this->ss/60))+1); $this->_ss -= ((intval(abs($this->mi/60))+1) * 60); }
+    if ( $this->_mi < 0 ) {  $this->_hh -= (intval(abs($this->mi/60))+1); $this->_mi += ((intval(abs($this->mi/60))+1) * 60); }
+    if ( $this->_mi > 59) {  $this->_hh += (intval(abs($this->mi/60))+1); $this->_mi -= ((intval(abs($this->mi/60))+1) * 60); }
+    if ( $this->_hh < 0 ) {  $this->AddDays( -1 * (intval(abs($this->_hh/24))+1) );  $this->_hh += ((intval(abs($this->_hh/24))+1)*24);  }
+    if ( $this->_hh > 23) {  $this->AddDays( (intval(abs($this->_hh/24))+1) );       $this->_hh -= ((intval(abs($this->_hh/24))+1)*24);  }
+
+    $this->_EpochFromParts();
+    $this->_TextFromEpoch();
+  }
+
+
+  /**
+  * Produce an iCalendar format DURATION for the difference between this an another iCalDate
+  *
+  * @param date $from The start of the period
+  * @return string The date difference, as an iCalendar duration format
+  */
+  function DateDifference( $from ) {
+    if ( !is_object($from) ) {
+      $from = new iCalDate($from);
+    }
+    if ( $from->_epoch < $this->_epoch ) {
+      /** One way to simplify is to always go for positive differences */
+      return( "-". $from->DateDifference( &$self ) );
+    }
+//    if ( $from->_yy == $this->_yy && $from->_mo == $this->_mo ) {
+      /** Also somewhat simpler if we can use seconds */
+      $diff = $from->_epoch - $this->_epoch;
+      $result = "";
+      if ( $diff > 86400) {
+        $result = intval($diff / 86400);
+        $diff = $diff % 86400;
+        if ( $diff == 0 && (($result % 7) == 0) ) {
+          $result .= intval($result / 7) . "W";
+          return $result;
+        }
+        $result .= "D";
+      }
+      $result = "P".$result."T";
+      if ( $diff > 3600) {
+        $result .= intval($diff / 3600) . "H";
+        $diff = $diff % 3600;
+      }
+      if ( $diff > 60) {
+        $result .= intval($diff / 60) . "M";
+        $diff = $diff % 60;
+      }
+      if ( $diff > 0) {
+        $result .= intval($diff . "S";
+      }
+      return $result;
+//    }
+
+/**
+* From an intense reading of RFC2445 it appears that durations which are not expressible
+* in Weeks/Days/Hours/Minutes/Seconds are invalid.
+*  ==> This code is not needed then :-)
+    $yy = $from->_yy - $this->_yy;
+    $mo = $from->_mo - $this->_mo;
+    $dd = $from->_dd - $this->_dd;
+    $hh = $from->_hh - $this->_hh;
+    $mi = $from->_mi - $this->_mi;
+    $ss = $from->_ss - $this->_ss;
+
+    if ( $ss < 0 ) {  $mi -= 1;   $ss += 60;  }
+    if ( $mi < 0 ) {  $hh -= 1;   $mi += 60;  }
+    if ( $hh < 0 ) {  $dd -= 1;   $hh += 24;  }
+    if ( $dd < 0 ) {  $mo -= 1;   $dd += $this->DaysInMonth();  } // Which will use $this->_(mo|yy) - seemingly sensible
+    if ( $mo < 0 ) {  $yy -= 1;   $mo += 12;  }
+
+    $result = "";
+    if ( $yy > 0) {    $result .= $yy."Y";   }
+    if ( $mo > 0) {    $result .= $mo."M";   }
+    if ( $dd > 0) {    $result .= $dd."D";   }
+    $result .= "T";
+    if ( $hh > 0) {    $result .= $hh."H";   }
+    if ( $mi > 0) {    $result .= $mi."M";   }
+    if ( $ss > 0) {    $result .= $ss."S";   }
+    return $result;
+*/
   }
 
 }
@@ -339,6 +446,7 @@ class RRule {
       dbg_error_log( "ERROR", " RRULE Only FREQ=(YEARLY|MONTHLY|WEEKLY|DAILY) are supported at present (%s)", $rrule );
     }
   }
+
 
   function GetNext( $after = false ) {
   }
