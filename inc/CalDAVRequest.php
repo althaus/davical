@@ -358,28 +358,41 @@ class CalDAVRequest
   /**
   * Are we allowed to do the requested activity
   *
+  * +------------+------------------------------------------------------+
+  * | METHOD     | PRIVILEGES                                           |
+  * +------------+------------------------------------------------------+
+  * | MKCALENDAR | DAV:bind                                             |
+  * | REPORT     | DAV:read or CALDAV:read-free-busy (on all referenced |
+  * |            | resources)                                           |
+  * +------------+------------------------------------------------------+
+  *
   * @param string $activity The activity we want to do.
   */
   function AllowedTo( $activity ) {
     if ( isset($this->permissions['all']) ) return true;
     switch( $activity ) {
-      case 'read':
-        return isset($this->permissions['read']) || isset($this->permissions['write']);
+      case 'freebusy':
+        return isset($this->permissions['read']) || isset($this->permissions['freebusy']);
         break;
       case 'delete':
-        return isset($this->permissions['write']) || isset($this->permissions['unbind']);
+        return isset($this->permissions['unbind']);
         break;
-      case 'create':
-        return isset($this->permissions['write']) || isset($this->permissions['bind']);
+      case 'proppatch':
+        return isset($this->permissions['write']) || isset($this->permissions['write-properties']);
         break;
       case 'modify':
         return isset($this->permissions['write']) || isset($this->permissions['write-content']);
         break;
+
+      case 'create':
       case 'mkcalendar':
       case 'mkcol':
-        /** FIXME: Really this should only be 'bind' alone, I think. */
-        return isset($this->permissions['write']) || isset($this->permissions['bind']);
+        return isset($this->permissions['bind']);
         break;
+
+      case 'read':
+      case 'lock':
+      case 'unlock':
       default:
         return isset($this->permissions[$activity]);
         break;
