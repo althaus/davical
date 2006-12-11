@@ -29,6 +29,10 @@ INSERT INTO relationship_type ( rt_id, rt_name, rt_isgroup, confers, prefix_matc
 INSERT INTO relationship_type ( rt_id, rt_name, rt_isgroup, confers, prefix_match )
     VALUES( 4, 'Administers Resource', FALSE, 'A', '' );
 
+INSERT INTO relationship_type ( rt_id, rt_name, rt_isgroup, confers, prefix_match )
+    VALUES( 5, 'Can see free/busy time of', FALSE, 'F', '' );
+
+
 -- Set the insert sequence to the next number, with a minimum of 1000
 SELECT setval('relationship_type_rt_id_seq', (SELECT 10 UNION SELECT rt_id FROM relationship_type ORDER BY 1 DESC LIMIT 1) );
 
