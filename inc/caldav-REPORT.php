@@ -11,7 +11,8 @@
 dbg_error_log("REPORT", "method handler");
 
 if ( ! ($request->AllowedTo('read') || $request->AllowedTo('freebusy')) ) {
-  $request->DoResponse( 403, translate("You may not access that calendar") );
+  // The specification states that a lack of privileges MUST result in a 404. Caldav-15, Section 7.10, p66
+  $request->DoResponse( 404 );
 }
 
 
@@ -245,11 +246,11 @@ if ( $free_busy_query ) {
     while( $calendar_object = $qry->Fetch() ) {
       if ( ! preg_match( '/^TRANSP.*TRANSPARENT/im', $calendar_object->caldav_data ) ) {
         if ( preg_match( '/^STATUS.*:.*TENTATIVE/im', $calendar_object->caldav_data ) ) {
-          $busy_tenantive[] = array( 'start' => $calendar_object->start, 'end' => $calendar_object->finish );
+          $busy_tenantive[$calendar_object->start] = $calendar_object->finish;
         }
         else if ( ! preg_match( '/STATUS.*:.*CANCELLED/m', $calendar_object->caldav_data ) ) {
           dbg_error_log( "REPORT", " FreeBusy: Not transparent, tentative or cancelled: %s, %s", $calendar_object->start, $calendar_object->finish );
-          $busy[] = array( 'start' => $calendar_object->start, 'end' => $calendar_object->finish );
+          $busy[$calendar_object->start] = $calendar_object->finish;
         }
       }
     }
@@ -262,7 +263,7 @@ if ( $free_busy_query ) {
   }
 
   foreach( $busy AS $k => $v ) {
-    $freebusy .= sprintf("FREEBUSY:%s/%s\n", $v['start'], iCalendar::Duration($v['start'],$v['end']) );
+    $freebusy .= sprintf("FREEBUSY:%s/%s\n", $k, iCalendar::Duration($k,$v) );
   }
 
   $freebusy .= "END:VFREEBUSY\n";
