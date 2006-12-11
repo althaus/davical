@@ -1,0 +1,18 @@
+#
+# Request a REPORT which should report only freebusy
+#
+TYPE=REPORT
+URL=http://mycaldav/caldav.php/user1/home/
+HEADER=User-Agent: CALDAV compliance testing
+HEADER=Accept: text/calendar
+HEADER=Content-Type: text/xml
+HEADER=Depth: 1
+HEAD
+
+BEGINDATA
+<?xml version="1.0" encoding="utf-8" ?>
+<C:free-busy-query xmlns:C="urn:ietf:params:xml:ns:caldav">
+  <C:time-range start="20060104T140000Z"
+                  end="20060105T220000Z"/>
+</C:free-busy-query>
+ENDDATA
