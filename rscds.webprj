@@ -200,8 +200,6 @@
     <item url="testing/tests/regression-suite/304-Chandler-PROPFIND-2.result" uploadstatus="1" />
     <item url="testing/tests/regression-suite/304-Chandler-PROPFIND-2.test" uploadstatus="1" />
     <item url="testing/tests/regression-suite/304-Chandler-TEST-1.data" uploadstatus="1" />
-    <item url="testing/tests/regression-suite/305-Chandler-OPTIONS-3.result" uploadstatus="1" />
-    <item url="testing/tests/regression-suite/305-Chandler-OPTIONS-3.test" uploadstatus="1" />
     <item url="testing/tests/regression-suite/3F4CF6227300FD062D9EF3CDFB30D32D-0-modified.ics.data" uploadstatus="1" />
     <item url="testing/tests/regression-suite/3F4CF6227300FD062D9EF3CDFB30D32D-0.ics.data" uploadstatus="1" />
     <item url="testing/tests/regression-suite/F56B49B10FC923D20FE2DC92D6580340-0.ics.data" uploadstatus="1" />
@@ -216,15 +214,15 @@
     <item url="testing/tests/regression-suite/208-Moz-REPORT-5.data" uploadstatus="1" />
     <item url="testing/tests/regression-suite/208-Moz-REPORT-5.test" uploadstatus="1" />
     <item url="docs/website/clients/Other-details.php" uploadstatus="1" />
-    <item url="testing/tests/regression-suite/305-Chandler-PROPFIND-3.test" uploadstatus="1" />
-    <item url="testing/tests/regression-suite/306-Chandler-PUT-1.test" uploadstatus="1" />
-    <item url="testing/tests/regression-suite/307-Chandler-PUT-2.test" uploadstatus="1" />
     <item url="testing/tests/regression-suite/023-Mulberry-DELETE-3.test" uploadstatus="1" />
     <item url="testing/tests/regression-suite/022-Mulberry-PUT-5.test" uploadstatus="1" />
     <item url="dba/patches/1.1.5.sql" uploadstatus="1" />
     <item url="docs/website/wikiheader.css" uploadstatus="1" />
     <item url="htdocs/collection.php" uploadstatus="1" />
     <item url="inc/CalDAVRequest.php" uploadstatus="1" />
-    <item url="po/nl_NL.po" />
+    <item url="po/nl_NL.po" uploadstatus="1" />
+    <item url="dba/patches/1.1.6.sql" uploadstatus="1" />
+    <item url="inc/caldav-LOCK.php" uploadstatus="1" />
+    <item url="inc/RRule.php" />
   </project>
 </webproject>
