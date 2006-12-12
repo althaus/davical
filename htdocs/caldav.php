@@ -9,7 +9,7 @@
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v2
 */
 require_once("../inc/always.php");
-dbg_error_log( "caldav", " User agent: %s", ((isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : "Unfortunately Mulberry and Chandler don't send a 'User-agent' header with their requests :-(")) );
+dbg_error_log( "caldav", " User agent: %s", ((isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : "Unfortunately Mulberry does not send a 'User-agent' header with its requests :-(")) );
 require_once("BasicAuthSession.php");
 
 dbg_log_array( "headers", '_SERVER', $_SERVER, true );
