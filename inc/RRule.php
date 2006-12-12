@@ -9,6 +9,8 @@
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v2
 */
 
+$ical_weekdays = array( 'SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA' );
+
 /**
 * A Class for handling dates in iCalendar format.  We do make the simplifying assumption
 * that all date handling in here is normalised to GMT.  One day we might provide some
@@ -34,6 +36,10 @@ class iCalDate {
   var $_hh;
   var $_mm;
   var $_ss;
+  var $_tz;
+
+  /** Which day of the week does the week start on */
+  var $_wkst;
 
   /**#@-*/
 
@@ -42,8 +48,12 @@ class iCalDate {
   * epoch seconds.
   */
   function iCalDate( $input ) {
-    if ( preg_match( '/^\d{8}T\d{6}Z/', $input ) ) {
-      $this->SetICalDate($input);
+    $this->_wkst = 1; // Monday
+    if ( preg_match( '/^\d{8}T\d{6}$/', $input ) ) {
+      $this->SetLocalDate($input);
+    }
+    else if ( preg_match( '/^\d{8}T\d{6}Z$/', $input ) ) {
+      $this->SetGMTDate($input);
     }
     else if ( intval($input) == 0 ) {
       return;
@@ -57,7 +67,17 @@ class iCalDate {
   /**
   * Set the date from a text string
   */
-  function SetICalDate( $input ) {
+  function SetGMTDate( $input ) {
+    $this->_text = $input;
+    $this->_PartsFromText();
+    $this->_GMTEpochFromParts();
+  }
+
+
+  /**
+  * Set the date from a text string
+  */
+  function SetLocalDate( $input ) {
     $this->_text = $input;
     $this->_PartsFromText();
     $this->_EpochFromParts();
@@ -78,65 +98,111 @@ class iCalDate {
   * Given an epoch date, convert it to text
   */
   function _TextFromEpoch() {
-    $this->_text = gmdate('Ymd\THis\Z', $this->_epoch );
+    $this->_text = date('Ymd\THis', $this->_epoch );
+    dbg_error_log( "RRule", " Text %s from epoch %d", $this->_text, $this->_epoch );
   }
 
+  /**
+  * Given a GMT epoch date, convert it to text
+  */
+  function _GMTTextFromEpoch() {
+    $this->_text = gmdate('Ymd\THis', $this->_epoch );
+    dbg_error_log( "RRule", " Text %s from epoch %d", $this->_text, $this->_epoch );
+  }
 
   /**
-  * Given an epoch date, convert it to text
+  * Given a text date, convert it to parts
   */
   function _PartsFromText() {
-    $this->_yy = substr($this->_text,0,4);
-    $this->_mo = substr($this->_text,4,2);
-    $this->_dd = substr($this->_text,6,2);
-    $this->_hh = substr($this->_text,9,2);
-    $this->_mi = substr($this->_text,11,2);
-    $this->_ss = substr($this->_text,13,2);
+    $this->_yy = intval(substr($this->_text,0,4));
+    $this->_mo = intval(substr($this->_text,4,2));
+    $this->_dd = intval(substr($this->_text,6,2));
+    $this->_hh = intval(substr($this->_text,9,2));
+    $this->_mi = intval(substr($this->_text,11,2));
+    $this->_ss = intval(substr($this->_text,13,2));
   }
 
 
   /**
-  * Given a text date, convert it to an epoch
+  * Given a GMT text date, convert it to an epoch
+  */
+  function _GMTEpochFromParts() {
+    $this->_epoch = gmmktime ( $this->_hh, $this->_mi, $this->_ss, $this->_mo, $this->_dd, $this->_yy );
+    dbg_error_log( "RRule", " Epoch %d from %04d-%02d-%02d %02d:%02d:%02d", $this->_epoch, $this->_yy, $this->_mo, $this->_dd, $this->_hh, $this->_mi, $this->_ss );
+  }
+
+
+  /**
+  * Given a local text date, convert it to an epoch
   */
   function _EpochFromParts() {
-    $this->_epoch = gmmktime ( $this->_hh, $this->_mi, $this->_ss, $this->_mo, $this->_dd, $this->_yy );
+    $this->_epoch = mktime ( $this->_hh, $this->_mi, $this->_ss, $this->_mo, $this->_dd, $this->_yy );
+    dbg_error_log( "RRule", " Epoch %d from %04d-%02d-%02d %02d:%02d:%02d", $this->_epoch, $this->_yy, $this->_mo, $this->_dd, $this->_hh, $this->_mi, $this->_ss );
   }
 
 
   /**
-  * No of days in a month 0(Jan) - 11(Dec)
+  * Set the day of week used for calculation of week starts
+  */
+  function SetWeekStart() {
+    $this->_wkst = $ical_weekdays[$weekstart];
+  }
+
+
+  /**
+  * Set the day of week used for calculation of week starts
+  */
+  function Render( $fmt = 'Y-m-d H:i:s' ) {
+    return date( $fmt, $this->_epoch );
+  }
+
+
+  /**
+  * No of days in a month 1(Jan) - 12(Dec)
   */
   function DaysInMonth( $mo=false, $yy=false ) {
     if ( $mo === false ) $mo = $this->_mo;
     switch( $mo ) {
-      0: // January
-      2: // March
-      4: // May
-      6: // July
-      7: // August
-      9: // October
-     11: // December
+      case  1: // January
+      case  3: // March
+      case  5: // May
+      case  7: // July
+      case  8: // August
+      case 10: // October
+      case 12: // December
         return 31;
         break;
 
-      3: // April
-      5: // June
-      8: // September
-     10: // November
+      case  4: // April
+      case  6: // June
+      case  9: // September
+      case 11: // November
         return 30;
         break;
 
-      1: // February
+      case  2: // February
         if ( $yy === false ) $yy = $this->_yy;
         if ( (($yy % 4) == 0) && ((($yy % 100) != 0) || (($yy % 400) == 0) ) ) return 29;
         return 28;
         break;
 
       default:
-        dbg_error_log( "ERROR"," Invalid month of '%s' passed to DaysInMonth" );
+        dbg_error_log( "ERROR"," Invalid month of '%s' passed to DaysInMonth", $mo );
         break;
 
     }
+  }
+
+
+  /**
+  * Set the day in the month to what we have been given
+  */
+  function SetMonthDay( $dd ) {
+    if ( $dd == $this->_dd ) return; // Shortcut
+    $dd = min($dd,$this->DaysInMonth());
+    $this->_dd = $dd;
+    $this->_EpochFromParts();
+    $this->_TextFromEpoch();
   }
 
 
@@ -144,17 +210,18 @@ class iCalDate {
   * Add some number of months to a date
   */
   function AddMonths( $mm ) {
+    dbg_error_log( "RRule", " Adding %d months to %s", $mm, $this->_text );
     $this->_mo += $mm;
-    while ( $this->_mo < 0 ) {
+    while ( $this->_mo < 1 ) {
       $this->_mo += 12;
       $this->_yy--;
     }
-    while ( $this->_mo > 11 ) {
+    while ( $this->_mo > 12 ) {
       $this->_mo -= 12;
       $this->_yy++;
     }
 
-    if ( ($this->_dd > 28 && $this->_mo == 1) || $this->_dd > 30 ) {
+    if ( ($this->_dd > 28 && $this->_mo == 2) || $this->_dd > 30 ) {
       // Ensure the day of month is still reasonable
       $dim = $this->DaysInMonth();
       if ( $this->_dd > $dim ) {
@@ -165,6 +232,7 @@ class iCalDate {
     }
     $this->_EpochFromParts();
     $this->_TextFromEpoch();
+    dbg_error_log( "RRule", " Added %d months and got %s", $mm, $this->_text );
   }
 
 
@@ -172,17 +240,27 @@ class iCalDate {
   * Add some integer number of days to a date
   */
   function AddDays( $dd ) {
+    dbg_error_log( "RRule", " Adding %d days to %s", $dd, $this->_text );
     $this->_dd += $dd;
     while ( 1 > $this->_dd ) {
       $this->_mo--;
+      if ( $this->_mo < 1 ) {
+        $this->_mo += 12;
+        $this->_yy--;
+      }
       $this->_dd += $this->DaysInMonth();
     }
-    while ( ($dim = $this->DaysInMonth()) < $this->_dd ) {
-      $this->_mo++;
+    while ( ($dim = $this->DaysInMonth($this->_mo)) < $this->_dd ) {
       $this->_dd -= $dim;
+      $this->_mo++;
+      if ( $this->_mo > 12 ) {
+        $this->_mo -= 12;
+        $this->_yy++;
+      }
     }
     $this->_EpochFromParts();
     $this->_TextFromEpoch();
+    dbg_error_log( "RRule", " Added %d days and got %s", $dd, $this->_text );
   }
 
 
@@ -239,6 +317,7 @@ class iCalDate {
         $result = intval($diff / 86400);
         $diff = $diff % 86400;
         if ( $diff == 0 && (($result % 7) == 0) ) {
+          // Duration is an integer number of weeks.
           $result .= intval($result / 7) . "W";
           return $result;
         }
@@ -254,7 +333,7 @@ class iCalDate {
         $diff = $diff % 60;
       }
       if ( $diff > 0) {
-        $result .= intval($diff . "S";
+        $result .= intval($diff) . "S";
       }
       return $result;
 //    }
@@ -288,6 +367,61 @@ class iCalDate {
 */
   }
 
+  /**
+  * Test to see if our _mo matches something in the list of months we have received.
+  * @param string $monthlist A comma-separated list of months.
+  * @return boolean Whether this date falls within one of those months.
+  */
+  function TestByMonth( $monthlist ) {
+    if ( !isset($monthlist) ) return true;  // If BYMONTH is not specified any month is OK
+    dbg_error_log( "RRule", " Testing BYMONTH %s against month %d", $monthlist, $this->_mo );
+    $months = array_flip(split( ',',$monthlist ));
+    return isset($months[$this->_mo]);
+  }
+
+  /**
+  * Applies any BYDAY to the month to return a set of days
+  * @param string $byday The BYDAY rule
+  * @return array An array of the day numbers for the month which meet the rule.
+  */
+  function GetMonthByDay($byday) {
+    dbg_error_log( "RRule", " Applying BYDAY %s to month", $byday );
+    $days_in_month = $this->DaysInMonth();
+    $dayrules = split(',',$byday);
+    $set = array();
+    $first_dow = (date('w',$this->_epoch) - $this->_dd + 36) % 7;
+    foreach( $dayrules AS $k => $v ) {
+      $set[$this->MonthDay($first_dow,$days_in_month,$v)] = 1;
+    }
+    return $set;
+  }
+
+  /**
+  * Applies any BYMONTHDAY to the month to return a set of days
+  * @param string $bymonthday The BYMONTHDAY rule
+  * @return array An array of the day numbers for the month which meet the rule.
+  */
+  function GetMonthByMonthDay($bymonthday) {
+    dbg_error_log( "RRule", " Applying BYMONTHDAY %s to month", $bymonthday );
+    $days_in_month = $this->DaysInMonth();
+    $dayrules = split(',',$byday);
+    $set = array();
+    $first_dow = (date('w',$this->_epoch) - $this->_dd + 36) % 7;
+    foreach( $dayrules AS $k => $v ) {
+      $v = intval($v);
+      if ( $v > 0 && $v <= $days_in_month ) $set[$v] = 1;
+    }
+    return $set;
+  }
+
+  /**
+  * Test if $this is greater than the date parameter
+  * @param string $lesser The other date, as a local time string
+  * @return boolean True if $this > $lesser
+  */
+  function GreaterThan($lesser) {
+    return ( $this->_text > $lesser );  // These sorts of dates are designed that way...
+  }
 }
 
 
@@ -406,6 +540,15 @@ class RRule {
   /** The first instance */
   var $_first;
 
+  /** The current instance pointer */
+  var $_current;
+
+  /** An array of all the dates so far */
+  var $_dates;
+
+  /** Whether we have calculated all of the dates */
+  var $_finished;
+
   /** The rule, in all it's glory */
   var $_rule;
 
@@ -420,36 +563,124 @@ class RRule {
   */
   function RRule( $start, $rrule ) {
     $this->_first = new iCalDate($start);
+    $this->_finished = false;
+    $this->_dates = array( $this->_first );
+    $this->_current = -1;
 
-    $this->_rule = $preg_replace( '/\s/m', '', $rrule);
-    if ( substr($this->_rule, 0, 6) = 'RRULE:' ) {
+    $this->_rule = preg_replace( '/\s/m', '', $rrule);
+    if ( substr($this->_rule, 0, 6) == 'RRULE:' ) {
       $this->_rule = substr($this->_rule, 6);
     }
     $parts = split(';',$this->_rule);
     $this->_part = array();
     foreach( $parts AS $k => $v ) {
-      list( $type, $value ) = split( '=', $value, 2);
+      list( $type, $value ) = split( '=', $v, 2);
+      dbg_error_log( "RRule", " Parts of %s split into %s and %s", $v, $type, $value );
       $this->_part[$type] = $value;
     }
 
     // A little bit of validation
-    if ( !isset($this->_part['freq']) ) {
+    if ( !isset($this->_part['FREQ']) ) {
       dbg_error_log( "ERROR", " RRULE MUST have FREQ=value (%s)", $rrule );
     }
-    if ( isset($this->_part['count']) && isset($this->_part['until'])  ) {
+    if ( isset($this->_part['COUNT']) && isset($this->_part['UNTIL'])  ) {
       dbg_error_log( "ERROR", " RRULE MUST NOT have both COUNT=value and UNTIL=value (%s)", $rrule );
     }
-    if ( isset($this->_part['count']) && intval($this->_part['count']) < 1 ) {
+    if ( isset($this->_part['COUNT']) && intval($this->_part['COUNT']) < 1 ) {
       dbg_error_log( "ERROR", " RRULE MUST NOT have both COUNT=value and UNTIL=value (%s)", $rrule );
     }
-    if ( !preg_match( '/(YEAR|MONTH|WEEK|DAI)LY/', $this->_part['freq']) ) {
+    if ( !preg_match( '/(YEAR|MONTH|WEEK|DAI)LY/', $this->_part['FREQ']) ) {
       dbg_error_log( "ERROR", " RRULE Only FREQ=(YEARLY|MONTHLY|WEEKLY|DAILY) are supported at present (%s)", $rrule );
+    }
+    if ( ! isset($this->_part['INTERVAL']) ) $this->_part['INTERVAL'] = 1;
+    if ( $this->_part['FREQ'] == "YEARLY" ) {
+      $this->_part['INTERVAL'] *= 12;
+      $this->_part['FREQ'] = "MONTHLY";
+    }
+    if ( $this->_part['FREQ'] == "WEEKLY" ) {
+      $this->_part['INTERVAL'] *= 7;
+      $this->_part['FREQ'] = "DAILY";
     }
   }
 
+  /**
+  * This is most of the meat of the RRULE processing, where we find the next date.
+  * We maintain an
+  */
+  function &GetNext( ) {
+    $next = $this->_dates[$this->_current];
+    $this->_current++;
 
-  function GetNext( $after = false ) {
+    /**
+    * If we have already found some dates we may just be able to return one of those.
+    */
+    if ( isset($this->_dates[$this->_current]) ) {
+      return $this->_dates[$this->_current];
+    }
+    else {
+      if ( isset($this->_part['COUNT']) && $this->_current >= $this->_part['COUNT'] ) // >= since _current is 0-based and COUNT is 1-based
+        $this->_finished = true;
+      if ( $this->_finished ) {
+        $next = null;
+        return $next;
+      }
+    }
+
+    $days = array();
+    if ( isset($this->_part['WKST']) ) $next->SetWeekStart($this->_part['WKST']);
+    if ( $this->_part['FREQ'] == "MONTHLY" ) {
+      $limit = 100;
+      do {
+        $limit--;
+        do {
+          $limit--;
+          $next->AddMonths($this->_part['INTERVAL']);
+        }
+        while ( $limit && ! $next->TestByMonth($this->_part['BYMONTH']) );
+
+        if ( isset($this->_part['BYDAY']) ) {
+          $days = $next->GetMonthByDay($this->_part['BYDAY']);
+        }
+        else if ( isset($this->_part['BYMONTHDAY']) ) {
+          $days = $next->GetMonthByMonthDay($this->_part['BYMONTHDAY']);
+        }
+        else
+          $days[$next->_dd] = 1;
+
+        if ( isset($this->_part['BYSETPOS']) ) {
+          $days = $next->ApplyBySetpos($this->_part['BYSETPOS'], $days);
+        }
+
+      }
+      while( $limit && count($days) < 1 );
+
+    }
+    else if ( $this->_part['FREQ'] == "DAILY" ) {
+      $next->AddDays($this->_part['INTERVAL']);
+      $days[$next->_dd] = 1;
+    }
+
+    $i = 0;
+    foreach( $days AS $day => $v ) {
+      $next->SetMonthDay($day);
+      if ( isset($this->_part['UNTIL']) && $next->GreaterThan($this->_part['UNTIL']) ) {
+        $this->_finished = true;
+        continue;
+      }
+      /** FIXME should check this is greater than the first date here too */
+      $this->_dates[$this->_current + $i] = $next;
+      $i++;
+    }
+
+    if ( isset($this->_dates[$this->_current]) ) {
+      return $this->_dates[$this->_current];
+    }
+    else {
+      $next = null;
+      return $next;
+    }
   }
 
 }
+
 ?>
