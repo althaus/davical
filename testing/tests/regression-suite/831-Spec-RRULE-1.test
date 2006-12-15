@@ -1,0 +1,13 @@
+#
+# Test specification compliance for RRULE
+#
+#
+TYPE=TESTRRULE
+URL=http://mycaldav/caldav.php
+
+HEAD
+
+#
+# This is a special type of request which just calls a PHP
+# program specifically for exercising the RRULE library.
+#
