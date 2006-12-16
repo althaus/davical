@@ -9,7 +9,7 @@
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v2
 */
 
-$ical_weekdays = array( 'SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA' );
+$ical_weekdays = array( 'SU' => 0, 'MO' => 1, 'TU' => 2, 'WE' => 3, 'TH' => 4, 'FR' => 5, 'SA' => 6 );
 
 /**
 * A Class for handling dates in iCalendar format.  We do make the simplifying assumption
@@ -145,6 +145,7 @@ class iCalDate {
   * Set the day of week used for calculation of week starts
   */
   function SetWeekStart() {
+    global $ical_weekdays;
     $this->_wkst = $ical_weekdays[$weekstart];
   }
 
@@ -391,7 +392,10 @@ class iCalDate {
     $set = array();
     $first_dow = (date('w',$this->_epoch) - $this->_dd + 36) % 7;
     foreach( $dayrules AS $k => $v ) {
-      $set[$this->MonthDay($first_dow,$days_in_month,$v)] = 1;
+      $days = $this->MonthDays($first_dow,$days_in_month,$v);
+      foreach( $days AS $k2 => $v2 ) {
+        $set[$v2] = 1;
+      }
     }
     return $set;
   }
@@ -422,7 +426,53 @@ class iCalDate {
   function GreaterThan($lesser) {
     return ( $this->_text > $lesser );  // These sorts of dates are designed that way...
   }
+
+
+  /**
+  * Given a MonthDays string like "1MO", "-2WE" return an integer day of the month.
+  *
+  * @param string $dow_first The day of week of the first of the month.
+  * @param string $days_in_month The number of days in the month.
+  * @param string $dayspec The specification for a month day (or days) which we parse.
+  *
+  * @return array An array of the day numbers for the month which meet the rule.
+  */
+  function &MonthDays($dow_first, $days_in_month, $dayspec) {
+    global $ical_weekdays;
+    dbg_error_log( "RRule", " Getting days for '%s'. %d days starting on a %d", $dayspec, $days_in_month, $dow_first );
+    $set = array();
+    preg_match( '/([0-9-]*)(MO|TU|WE|TH|FR|SA|SU)/', $dayspec, $matches);
+    $numeric = intval($matches[1]);
+    $dow = $ical_weekdays[$matches[2]];
+
+    $first_matching_day = 1 + ($dow - $dow_first);
+    if ( $first_matching_day < 0 ) $first_matching_day += 7;
+
+    dbg_error_log( "RRule", " Looking at %d for first match on (%s/%s), %d for numeric", $first_matching_day, $matches[1], $matches[2], $numeric );
+
+    while( $first_matching_day <= $days_in_month ) {
+      $set[] = $first_matching_day;
+      $first_matching_day += 7;
+    }
+
+    if ( $numeric != 0 ) {
+      if ( $numeric < 0 ) {
+        $numeric += count($set);
+      }
+      else {
+        $numeric--;
+      }
+      $answer = $set[$numeric];
+      $set = array( $answer );
+    }
+
+    dbg_log_array( "RRule", 'MonthDays', $set, false );
+
+    return $set;
+  }
+
 }
+
 
 
 /**
@@ -546,6 +596,9 @@ class RRule {
   /** An array of all the dates so far */
   var $_dates;
 
+  /** Whether we have calculated any of the dates */
+  var $_started;
+
   /** Whether we have calculated all of the dates */
   var $_finished;
 
@@ -564,6 +617,7 @@ class RRule {
   function RRule( $start, $rrule ) {
     $this->_first = new iCalDate($start);
     $this->_finished = false;
+    $this->_started = false;
     $this->_dates = array( $this->_first );
     $this->_current = -1;
 
@@ -634,7 +688,12 @@ class RRule {
         $limit--;
         do {
           $limit--;
-          $next->AddMonths($this->_part['INTERVAL']);
+          if ( $this->_started ) {
+            $next->AddMonths($this->_part['INTERVAL']);
+          }
+          else {
+            $this->_started = true;
+          }
         }
         while ( $limit && ! $next->TestByMonth($this->_part['BYMONTH']) );
 
@@ -656,8 +715,18 @@ class RRule {
 
     }
     else if ( $this->_part['FREQ'] == "DAILY" ) {
-      $next->AddDays($this->_part['INTERVAL']);
-      $days[$next->_dd] = 1;
+      $limit = 100;
+      do {
+        $limit--;
+        if ( $this->_started ) {
+          $next->AddDays($this->_part['INTERVAL']);
+        }
+        else {
+          $this->_started = true;
+        }
+        $days[$next->_dd] = 1;
+      }
+      while( $limit && count($days) < 1 );
     }
 
     $i = 0;
