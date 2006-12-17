@@ -408,9 +408,8 @@ class iCalDate {
   function GetMonthByMonthDay($bymonthday) {
     dbg_error_log( "RRule", " Applying BYMONTHDAY %s to month", $bymonthday );
     $days_in_month = $this->DaysInMonth();
-    $dayrules = split(',',$byday);
+    $dayrules = split(',',$bymonthday);
     $set = array();
-    $first_dow = (date('w',$this->_epoch) - $this->_dd + 36) % 7;
     foreach( $dayrules AS $k => $v ) {
       $v = intval($v);
       if ( $v > 0 && $v <= $days_in_month ) $set[$v] = 1;
@@ -418,12 +417,36 @@ class iCalDate {
     return $set;
   }
 
+
+  /**
+  * Applies any BYDAY to the week to return a set of days
+  * @param string $byday The BYDAY rule
+  * @return array An array of the day numbers for the week which meet the rule.
+  */
+  function GetWeekByDay($byday) {
+    global $ical_weekdays;
+    dbg_error_log( "RRule", " Applying BYDAY %s to week", $byday );
+    $days = split(',',$byday);
+    $dow = date('w',$this->_epoch);
+    foreach( $days AS $k => $v ) {
+      $daynum = $ical_weekdays[$v];
+      $dd = $this->_dd - $dow + $daynum;
+      if ( $daynum < $this->_wkst ) $dd += 7;
+      $set[$dd] = 1;
+    }
+    return $set;
+  }
+
+
   /**
   * Test if $this is greater than the date parameter
   * @param string $lesser The other date, as a local time string
   * @return boolean True if $this > $lesser
   */
   function GreaterThan($lesser) {
+    if ( is_object($lesser) ) {
+      return ( $this->_text > $lesser->_text );
+    }
     return ( $this->_text > $lesser );  // These sorts of dates are designed that way...
   }
 
@@ -471,6 +494,32 @@ class iCalDate {
     return $set;
   }
 
+
+  /**
+  * Given set position descriptions like '1', '3', '11', '-3' or '-1' and a set,
+  * return the subset matching the list of set positions.
+  *
+  * @param string $bysplist  The list of set positions.
+  * @param string $set The set of days that we will apply the positions to.
+  *
+  * @return array The subset which matches.
+  */
+  function &ApplyBySetPos($bysplist, &$set) {
+    dbg_error_log( "RRule", " Applying '%s' to set of %d days", $bysplist, count($set) );
+    $subset = array();
+    $max = count($set);
+    $positions = split( '[^0-9-]', $bysplist );
+    foreach( $positions AS $k => $v ) {
+      if ( $v < 0 ) {
+        $v += $max;
+      }
+      else {
+        $v--;
+      }
+      $subset[] = $set[$v];
+    }
+    return $subset;
+  }
 }
 
 
@@ -710,6 +759,15 @@ class RRule {
           $days = $next->ApplyBySetpos($this->_part['BYSETPOS'], $days);
         }
 
+        if ( ! $next->GreaterThan($this->_first) ) {
+          dbg_error_log( "RRule", " Removing dates less than or equal to %s", $this->_first->Render() );
+          foreach( $days AS $k => $v ) {
+            if ( $k <= $this->_first->_dd ) {
+              unset($days[$k]);
+            }
+          }
+        }
+
       }
       while( $limit && count($days) < 1 );
 
@@ -724,19 +782,59 @@ class RRule {
         else {
           $this->_started = true;
         }
-        $days[$next->_dd] = 1;
+
+        if ( isset($this->_part['BYDAY']) ) {
+          $days = $next->GetWeekByDay($this->_part['BYDAY']);
+        }
+        else
+          $days[$next->_dd] = 1;
+
+        if ( isset($this->_part['BYSETPOS']) ) {
+          $days = $next->ApplyBySetpos($this->_part['BYSETPOS'], $days);
+        }
+
+        if ( ! $next->GreaterThan($this->_first) ) {
+          dbg_error_log( "RRule", " Removing dates less than or equal to %s", $this->_first->Render() );
+          foreach( $days AS $day => $v ) {
+            if ( $day <= $this->_first->_dd ) {
+              unset($days[$day]);
+            }
+          }
+        }
       }
       while( $limit && count($days) < 1 );
     }
 
     $i = 0;
+    $next_month = false;
+    $prev_month = false;
+    $days_in_month = $next->DaysInMonth();
     foreach( $days AS $day => $v ) {
+      if ( $day > $days_in_month ) {
+        $next_month = true;
+        $next->SetMonthDay($days_in_month);
+        $next->AddDays(1);
+      }
+      else if ( $day < 1 ) {
+        $prev_month = true;
+        $next->SetMonthDay(1);
+        $next->AddDays(-1);
+        $days_in_month = $next->DaysInMonth();
+      }
+
+      if ( $next_month ) {
+        $day -= $days_in_month;
+      }
+      else if ( $prev_month ) {
+        $day += $days_in_month;
+      }
+
       $next->SetMonthDay($day);
       if ( isset($this->_part['UNTIL']) && $next->GreaterThan($this->_part['UNTIL']) ) {
         $this->_finished = true;
         continue;
       }
-      /** FIXME should check this is greater than the first date here too */
+
       $this->_dates[$this->_current + $i] = $next;
       $i++;
     }
