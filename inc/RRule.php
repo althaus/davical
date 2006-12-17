@@ -664,7 +664,12 @@ class RRule {
   * follow the iCalendar standard.
   */
   function RRule( $start, $rrule ) {
-    $this->_first = new iCalDate($start);
+    if ( is_object($start) ) {
+      $this->_first = $start;
+    }
+    else {
+      $this->_first = new iCalDate($start);
+    }
     $this->_finished = false;
     $this->_started = false;
     $this->_dates = array( $this->_first );
