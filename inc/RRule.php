@@ -314,7 +314,7 @@ class iCalDate {
       /** Also somewhat simpler if we can use seconds */
       $diff = $from->_epoch - $this->_epoch;
       $result = "";
-      if ( $diff > 86400) {
+      if ( $diff >= 86400) {
         $result = intval($diff / 86400);
         $diff = $diff % 86400;
         if ( $diff == 0 && (($result % 7) == 0) ) {
@@ -325,11 +325,11 @@ class iCalDate {
         $result .= "D";
       }
       $result = "P".$result."T";
-      if ( $diff > 3600) {
+      if ( $diff >= 3600) {
         $result .= intval($diff / 3600) . "H";
         $diff = $diff % 3600;
       }
-      if ( $diff > 60) {
+      if ( $diff >= 60) {
         $result .= intval($diff / 60) . "M";
         $diff = $diff % 60;
       }
