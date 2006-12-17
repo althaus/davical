@@ -62,6 +62,7 @@ my $sql_variable = "";
 my $sql_statement = "";
 my $sql_values = {};
 my $queries = ();
+my $replacements = ();
 
 open( TEST, '<', "tests/$suite/$test.test" ) or die "Can't open 'tests/$suite/$test.test'";
 while( <TEST> ) {
@@ -125,6 +126,13 @@ while( <TEST> ) {
     $state = "SQL";
   };
 
+  $line =~ /^REPLACE\s*=\s*(\S)(.*)$/ && do {
+    my $separator = $1;
+    $2 =~ /^([^$separator]*)$separator([^$separator]*)$separator$/ && do {
+      push @$replacements, { 'pattern' => $1, 'replacement' => $2 };
+    };
+  };
+
   $line =~ /^QUERY\s*$/ && do {
     $sql_statement = "";
     $state = "QUERY";
@@ -180,7 +188,11 @@ print STDERR join " ", "curl", @arguments, "\n" if ( $debug );
 
 open RESULTS, "-|", "curl", @arguments;
 while( <RESULTS> ) {
-  print;
+  my $line = $_;
+  foreach my $replacement ( @$replacements ) {
+    $line =~ s/$replacement->{'pattern'}/$replacement->{'replacement'}/;
+  }
+  print $line;
 }
 
 if ( defined(@{$queries}) && @{$queries} ) {
