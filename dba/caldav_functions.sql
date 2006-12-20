@@ -291,3 +291,26 @@ END;
 CREATE or REPLACE FUNCTION to_ical_utc( TIMESTAMP WITH TIME ZONE ) RETURNS TEXT AS '
   SELECT to_char( $1 at time zone ''UTC'', ''YYYYMMDD"T"HH24MISS"Z"'' )
 ' LANGUAGE 'sql' IMMUTABLE STRICT;
+
+-- Function to set an arbitrary DAV property
+CREATE or REPLACE FUNCTION set_dav_property( TEXT, INTEGER, TEXT, TEXT ) RETURNS BOOLEAN AS '
+DECLARE
+  path ALIAS FOR $1;
+  user ALIAS FOR $2;
+  key ALIAS FOR $3;
+  value ALIAS FOR $4;
+  tmp_int INT;
+BEGIN
+  -- Check that there is either a resource, collection or user at this location.
+  IF NOT EXISTS( SELECT 1 FROM caldav_data WHERE dav_name = path UNION SELECT 1 FROM collection WHERE dav_name = path ) THEN
+    RETURN FALSE;
+  END IF;
+  SELECT changed_by INTO tmp_int FROM property WHERE dav_name = path AND property_name = key;
+  IF FOUND THEN
+    UPDATE property SET changed_by=user, changed_on=current_timestamp, property_value=value WHERE dav_name = path AND property_name = key;
+  ELSE
+    INSERT INTO property ( dav_name, changed_by, changed_on, property_name, property_value ) VALUES( path, user, current_timestamp, key, value );
+  END IF;
+  RETURN TRUE;
+END;
+' LANGUAGE 'plpgsql' STRICT;
