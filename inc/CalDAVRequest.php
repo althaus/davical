@@ -486,9 +486,9 @@ class CalDAVRequest
       case 504: $status_text = "Gateway Timeout"; break;
       case 505: $status_text = "HTTP Version Not Supported"; break;
     }
-    header( sprintf("HTTP/1.1 %d %s", $status, $status_text) );
-    header( sprintf("X-RSCDS-Version: RSCDS/%d.%d.%d; DB/%d.%d.%d", $c->code_major, $c->code_minor, $c->code_patch, $c->schema_major, $c->schema_minor, $c->schema_patch) );
-    header( "Content-type: ".$content_type );
+    @header( sprintf("HTTP/1.1 %d %s", $status, $status_text) );
+    @header( sprintf("X-RSCDS-Version: RSCDS/%d.%d.%d; DB/%d.%d.%d", $c->code_major, $c->code_minor, $c->code_patch, $c->schema_major, $c->schema_minor, $c->schema_patch) );
+    @header( "Content-type: ".$content_type );
     echo $message;
 
     if ( strlen($message) > 100 || strstr($message, "\n") ) {
