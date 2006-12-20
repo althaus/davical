@@ -258,6 +258,7 @@ configuration to one of the supported locales.</p>
 <li>German</li>
 <li>French</li>
 <li>Russian</li>
+<li>Dutch</li>
 </ul>
 
 <p>In addition the Argentinian Spanish translation is also configured as base Spanish
@@ -285,6 +286,12 @@ leaves passwords readable like this for security reasons.</p>
 
 <p>If all is working then you should be ready to configure a client
 to use this, and the docs for that are elsewhere.</p>
+
+<p>If you had to do something else that is not covered here, or if you have any other notes
+you want to add to help others through the installation process, please write something up
+about your experiences in the Wiki, including distribution specific notes, to pages somewhere under here:
+ <a href="http://rscds.sourceforge.net/moin/InstallationStuff">http://rscds.sourceforge.net/moin/InstallationStuff</a></p>
+
 
 <h1>Upgrades</h1>
 
