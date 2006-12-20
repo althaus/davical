@@ -18,6 +18,18 @@ CREATE TABLE locks (
 CREATE INDEX locks_dav_name_idx ON locks(dav_name);
 GRANT SELECT,INSERT,UPDATE,DELETE ON locks TO general;
 
+CREATE TABLE property (
+  dav_name TEXT,
+  property_name TEXT,
+  property_value TEXT,
+  changed_on TIMESTAMP DEFAULT current_timestamp,
+  changed_by INT REFERENCES usr ( user_no ),
+  PRIMARY KEY ( dav_name, property_name )
+);
+
+CREATE INDEX properties_dav_name_idx ON property(dav_name);
+GRANT SELECT,INSERT,UPDATE,DELETE ON property TO general;
+
 UPDATE relationship_type SET confers = 'A' WHERE rt_id = 1;
 UPDATE relationship_type SET confers = 'RW' WHERE rt_id = 2;
 UPDATE relationship_type SET confers = 'R' WHERE rt_id = 3;
