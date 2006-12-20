@@ -25,11 +25,17 @@ sudo apt-key advanced --keyserver subkeys.pgp.net --recv-keys CCA377BD77494424B0
 
 
 <h2>Other Linux Users</h2>
+<p>Please write something up about your experiences in the Wiki, adding distribution specific
+notes to pages somewhere under here:
+ <a href="http://rscds.sourceforge.net/moin/InstallationStuff">http://rscds.sourceforge.net/moin/InstallationStuff</a></p>
 
 <h3>RPM Packages of RSCDS</h3>
 <p>We have created RPM packages of RSCDS and libawl-php from the .deb packages
 using "alien". I don't know how well these work, so would appreciate feedback
 about your success with them.</p>
+
+<h3>SuSE Linux</h3>
+<p>On SuSE Linux you may need to look in /var/lib/pgsql/data/ for the pg_hba.conf file.</p>
 
 <h3>Gentoo, Slackware, BSD and the rest</h3>
 
@@ -141,6 +147,17 @@ web application) will have rights to connect to the RSCDS
 database as the 'general' user.  It will not allow remote access,
 or access as any user other than 'general'.</p>
 
+<p>If you want to connect to the database over TCP/IP rather than
+unix sockets, the line in the pg_hba.conf file should look something
+like:</p>
+
+<pre>
+host rscds general 127.0.0.1/32 trust"
+</pre>
+
+<p>If the webserver is on a different machine to the database, that
+IP address will need to change to the webserver's IP address.</p>
+
 <p>If you want greater security, or if you want to have the
 database on a different server, you should read the
 <a href="http://www.postgresql.org/docs/8.1/interactive/client-authentication.html">PostgreSQL documentation on pg_hba.conf</a>
@@ -203,8 +220,8 @@ and is a regular PHP file which sets (or overrides) some specific variables.</p>
 //  $c->enable_row_links = true;
 //  $c->default_locale = en_NZ.UTF-8;
 
-//  $c->pg_connect[] = 'dbname=caldav port=5433 user=general';
-  $c->pg_connect[] = 'dbname=caldav port=5432 user=general';
+//  $c->pg_connect[] = 'dbname=rscds port=5433 user=general';
+  $c->pg_connect[] = 'dbname=rscds port=5432 user=general';
 
 ?>
 </pre>
