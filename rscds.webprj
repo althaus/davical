@@ -223,6 +223,10 @@
     <item url="po/nl_NL.po" uploadstatus="1" />
     <item url="dba/patches/1.1.6.sql" uploadstatus="1" />
     <item url="inc/caldav-LOCK.php" uploadstatus="1" />
-    <item url="inc/RRule.php" />
+    <item url="inc/RRule.php" uploadstatus="1" />
+    <item url="inc/test-RRULE.php" uploadstatus="1" />
+    <item url="debian/control" uploadstatus="1" />
+    <item url="inc/DOM-PHP4-Compatibility.php" uploadstatus="1" />
+    <item url="inc/DOMDocumentCompatibility.php" uploadstatus="1" />
   </project>
 </webproject>
