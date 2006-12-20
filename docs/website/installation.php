@@ -152,7 +152,7 @@ unix sockets, the line in the pg_hba.conf file should look something
 like:</p>
 
 <pre>
-host rscds general 127.0.0.1/32 trust"
+host rscds general 127.0.0.1/32 trust
 </pre>
 
 <p>If the webserver is on a different machine to the database, that
