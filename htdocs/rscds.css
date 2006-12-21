@@ -1,194 +1,223 @@
 /* Basic overridable CSS for Really Simple CalDAV Store */
 
 body, p, li, td {
-  padding: 0;
-  margin: 0;
-  border: none;
+padding: 0;
+margin: 0;
+border: none;
 }
 
 .prompt {
-  font-weight: bold;
-  padding: 1px 1em 1px 0.5em;
-  text-align: right;
+font-weight: bold;
+padding: 1px 1em 1px 0.5em;
+text-align: right;
 }
 
 .error {
-  /* font-weight: bold; */
-  font-size: 110%;
-  font-family: Bitstream Vera Sans, Vera Sans, sans-serif;
-  padding: 1px 0.3em;
-  background-color: #c00000;
-  color: #ffff00;
+/* font-weight: bold; */
+font-size: 110%;
+font-family: Bitstream Vera Sans, Vera Sans, sans-serif;
+padding: 1px 0.3em;
+background-color: #c00000;
+color: #ffff00;
 }
 
 h1, h2, h3, h4, h5 {
-  font-weight: bold;
-  font-family: Bitstream Vera Sans, Vera Sans, sans-serif;
-  padding-left: 0.3em;
-  padding-right: 0.3em;
-  padding-bottom: 0.1em;
+font-weight: bold;
+font-family: Bitstream Vera Sans, Vera Sans, sans-serif;
+padding-left: 0.3em;
+padding-right: 0.3em;
+padding-bottom: 0.1em;
 }
 
 h1 {
-  font-size: 200%;
-  background-color: #30c050;
-  margin: 0;
-  padding: 0.3em;
+font-size: 100%;
+background-color: #ABF;
+margin-top: 10px;
+padding: 0.3em;
+color:white;
+border-bottom:2px dashed #009;
 }
 
 h1:first-letter {
-  font-size: 120%;
+font-size: 120%;
 }
 
 h2 {
-  font-size: 160%;
-  background-color: #60e080;
-  margin: 0;
-  padding-top: 0.3em;
-  margin-top: 2px;
-  margin-bottom: 0.3em;
+font-size: 100%;
+background-color: #BCF;
+margin: 0;
+padding-top: 0.3em;
+margin-top: 2px;
+margin-bottom: 0.3em;
+margin-left :15px;
+border:1px dashed #99F;
 }
 
 h3 {
-  font-size: 130%;
-  background-color: #c0ffd0;
-  margin: 0;
-  padding-top: 0.2em;
-  margin-top: 0.4em;
-  margin-bottom: 0.2em;
+font-size: 100%;
+background-color: #DEF;
+margin: 0;
+padding-top: 0.2em;
+margin-top: 0.4em;
+margin-bottom: 0.2em;
+margin-left :25px;
+border:1px dashed #BCF;
 }
 
 p {
-  padding: 0.1em 0.3em 0.2em;
+padding: 0.1em 0.3em 0.2em;
 }
 
 ul {
-  list-style-type: square;
-  margin: 0 0 0.5em;
+list-style-type: square;
+margin: 0 0 0.5em;
 }
 
 li {
-  padding: 0 0.3em 0.2em;
+padding: 0 0.3em 0.2em;
 }
-
 input.text, input.password, label, input.fcheckbox,
 input.ftext, input.fpassword, input.fdate, input.ftimestamp, select.fselect, select.flookup {
-  background-color: #e8ffe0;
-  color: navy;
-  border: thin solid #c0c0c0;
+background-color: #EFFAFF;
+color: navy;
+border: thin solid #c0c0c0;
+width:250px;
 }
-
+label.fcheckbox {
+display:block;
+width:244px;
+margin-top:2px;
+}
+input.fcheckbox {
+width:13px;
+}
 input.text, input.password,
 input.ftext, input.fpassword, input.fdate, input.ftimestamp {
-  padding: 3px;
-  margin: 0;
+padding: 3px;
+margin: 0;
 }
 
 label.fcheckbox {
-  padding: 2px;
-  margin-right: 2px;
+padding: 2px;
+margin-right: 2px;
 }
 
 input.fcheckbox {
-  margin-top: 6px;
-  margin-bottom: 3px;
-  vertical-align:-4px;
-  border: none;
+margin-top: 6px;
+margin-bottom: 3px;
+vertical-align:-4px;
+border: none;
 }
 
 select.fselect, select.flookup {
-  padding: 2px 0;
-  margin: 3px 0 0;
+padding: 2px 0;
+margin: 3px 0 0;
 }
 
 .prompt {
- font-family: Arial Narrow, sans-serif;
- background-color: #a0f0b0;
- color: #003010;
+font-family: Arial Narrow, sans-serif;
+background-color: #CDF;
+color: #003010;
 }
 
 td.entry {
-  padding: 1px;
+padding: 1px;
 }
 
 .ph {
- font-family:Bitstream Vera Sans, sans-serif;
- color: #003010;
- font-size: 120%;
- background-color: #60e080;
- text-align:left;
- border-top: 2px white solid;
- padding-top:3px;
+font-family:Bitstream Vera Sans, sans-serif;
+color: #003010;
+font-size: 120%;
+background-color: #BCF;
+text-align:left;
+border-top:10px white solid;
+padding-top:3px;
+border-bottom:4px white solid;
 }
 
 
 #messages {
- background-color: #602000;
- color:white;
- border:0;
- padding:2px 6px;
+background-color: #602000;
+color:white;
+border:0;
+padding:2px 6px;
 }
 
 ul.messages, li.messages {
- font-family:Bitstream Vera Sans, sans-serif;
- font-weight:700;
- font-size: 1.1em;
+font-family:Bitstream Vera Sans, sans-serif;
+font-weight:700;
+font-size: 1.1em;
 }
 
 li.messages {
- display:inherit;
+display:inherit;
 }
 
 #menu {
-  background-color: #084010;
-  color: white;
-  font-weight: bold;
-  padding: 2px 1px;
-  margin-bottom: 1px;
+background-color: white;
+color: white;
+font-weight: bold;
+padding: 10px 0px 0px 10px;
+margin-bottom: 0px;
+height:20px;
+border-bottom:1px solid #ABF;
 }
 
 #menu a.menu, #menu a.menu:hover, #menu a.menu_active, #menu a.menu_active:hover {
-  color: white;
-  text-decoration: none;
-  background-color: #10a020;
-  padding: 1px 0.2em;
-  margin-right: 0.2em;
+color: #999;
+text-decoration: none;
+background-color: #DEF;
+padding: 1px 0.2em;
+margin-right: 5px;
+height:20px;
+border: 1px solid #ABF;
+-moz-border-radius-topright: 2em;
+-moz-border-radius-topleft: 2em;
+
 }
 
 #menu a.menu:hover, #menu a.menu_active:hover {
-  color: yellow;
-  background-color: #088010;
+color: white;
+background-color: #BCF;
 }
 
 #menu a.menu_active, #menu a.menu_active:hover {
-  color: white;
-  background-color: #30d090;
+background-color: white;
+color: #009;
+border-bottom:1px solid white;
 }
 
 
 #submenu {
-  background-color: #105020;
-  color: white;
-  font-weight: bold;
-  padding: 2px 1px;
-  margin-bottom: 1px;
+margin-top:5px;
+padding-left:15px;
+background-color: white;
+color: white;
+font-weight: bold;
+margin-bottom: 1px;
+border-bottom:1px solid #ABF;
+height:20px;
 }
 
 #submenu a.submenu, #submenu a.submenu:hover, #submenu a.submenu_active, #submenu a.submenu_active:hover {
-  color: white;
-  text-decoration: none;
-  background-color: #20c040;
-  padding: 1px 0.2em;
-  margin-right: 0.2em;
+color: #999;
+text-decoration: none;
+background-color: #DEF;
+padding: 1px 0.2em;
+margin-right: 0.2em;
+border: 1px solid #ABF;
+height:20px;
+-moz-border-radius-topright: 2em;
+-moz-border-radius-topleft: 2em;
 }
 
 #submenu a.submenu:hover, #submenu a.submenu_active:hover {
-  color: yellow;
-  background-color: #10a020;
+color: white;
+background-color: #ABF;
 }
 
 #submenu a.submenu_active, #submenu a.submenu_active:hover {
-  color: white;
-  background-color: #30d090;
+background-color: white;
+color: #009;
+border-bottom:1px solid white;
 }
-
