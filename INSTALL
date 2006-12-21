@@ -83,7 +83,7 @@ and which will be granted minimum privileges for the application.
 
 To create the database itself, run the script:
 
-dba/create_database.sh
+dba/create-database.sh
 
 Note that this script calls the AWL database scripts as part
 of itself and it expects them to be located in /usr/share/awl/dba

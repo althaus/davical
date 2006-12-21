@@ -113,7 +113,7 @@ su postgres -c createuser --no-createdb --no-createrole general
 
 <p>To create the database itself, run the script:</p>
 <pre>
-dba/create_database.sh
+dba/create-database.sh
 </pre>
 <p>Note that this script calls the AWL database scripts as part
 of itself and it expects them to be located in /usr/share/awl/dba
