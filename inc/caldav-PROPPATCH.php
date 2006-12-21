@@ -185,10 +185,10 @@ if ( count($failure) > 0 ) {
     ));
   }
 
-  $href = new XMLElement('href', $c->protocol_server_port_script . $request->path );
-  $desc = new XMLElement('responsedescription', translate("Some properties were not able to be changed.") );
+  array_unshift( $failure, new XMLElement('href', $c->protocol_server_port_script . $request->path ) );
+  $failure[] = new XMLElement('responsedescription', translate("Some properties were not able to be changed.") );
 
-  $multistatus = new XMLElement( "multistatus", new XMLElement( 'response', array( $href, $failure, $desc ) ), array('xmlns'=>'DAV:') );
+  $multistatus = new XMLElement( "multistatus", new XMLElement( 'response', array_merge( $href, $failure, $desc ) ), array('xmlns'=>'DAV:') );
   $request->DoResponse( 207, $multistatus->Render(0,'<?xml version="1.0" encoding="utf-8" ?>'), 'text/xml; charset="utf-8"' );
 
 }
