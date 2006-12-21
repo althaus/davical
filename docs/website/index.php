@@ -58,6 +58,7 @@ works using the CalDAV protocol.</p>
 <li>Cristina Radalescu (German)</li>
 <li>Guillaume Rosquin (French)</li>
 <li>Nick Khazov (Russian)</li>
+<li>Eelco Maljaars (Dutch)</li>
 </ul>
 
 
