@@ -14,7 +14,7 @@ echo $tags_to_be_closed;
 Copyright 2006 | Andrew McMillan
 </p>
 <p align="center">
-<a href="http://andrew.mcmillan.net.nz/"><img align="left" src="http://sf-rscds.mcmillan.net.nz/clear-1.png" width="1" height="1" border="0" title="The Really Simple CalDAV Store by Andrew McMillan" alt=" " /></a>
+<a href="http://andrew.mcmillan.net.nz/"><img src="http://sf-rscds.mcmillan.net.nz/clear-1.png" width="1" height="1" border="0" title="The Really Simple CalDAV Store by Andrew McMillan" alt=" " /></a>
 <a href="http://sourceforge.net"><img src="http://sflogo.sourceforge.net/sflogo.php?group_id=179845&amp;type=2" width="125" height="37" border="0" alt="SourceForge.net Logo" /></a>
 </p>
 </div>
