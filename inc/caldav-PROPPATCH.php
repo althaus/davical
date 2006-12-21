@@ -100,7 +100,11 @@ foreach( $setprops AS $k => $setting ) {
     */
     case 'DAV::GETETAG':
     case 'DAV::GETCONTENTLENGTH':
+    case 'DAV::GETCONTENTTYPE':
+    case 'DAV::GETLASTMODIFIED':
     case 'DAV::CREATIONDATE':
+    case 'DAV::LOCKDISCOVERY':
+    case 'DAV::SUPPORTEDLOCK':
       $failure['set-'.$tag] = new XMLElement( 'propstat', array(
           new XMLElement( 'prop', new XMLElement($tag)),
           new XMLElement( 'status', 'HTTP/1.1 409 Conflict' ),
@@ -154,8 +158,12 @@ foreach( $rmprops AS $k => $setting ) {
     */
     case 'DAV::GETETAG':
     case 'DAV::GETCONTENTLENGTH':
+    case 'DAV::GETCONTENTTYPE':
+    case 'DAV::GETLASTMODIFIED':
     case 'DAV::CREATIONDATE':
     case 'DAV::DISPLAYNAME':
+    case 'DAV::LOCKDISCOVERY':
+    case 'DAV::SUPPORTEDLOCK':
       $failure['rm-'.$tag] = new XMLElement( 'propstat', array(
           new XMLElement( 'prop', new XMLElement($tag)),
           new XMLElement( 'status', 'HTTP/1.1 409 Conflict' ),
@@ -175,7 +183,9 @@ foreach( $rmprops AS $k => $setting ) {
 }
 
 
-
+/**
+* If we have encountered any instances of failure, the whole damn thing fails.
+*/
 if ( count($failure) > 0 ) {
   foreach( $success AS $tag => $v ) {
     // Unfortunately although these succeeded, we failed overall, so they didn't happen...
@@ -193,7 +203,9 @@ if ( count($failure) > 0 ) {
 
 }
 
-
+/**
+* Otherwise we will try and do the SQL. This is inside a transaction, so PostgreSQL guarantees the atomicity
+*/
 $sql .= "COMMIT;";
 $qry = new PgQuery( $sql );
 if ( $qry->Exec() ) {
@@ -203,6 +215,11 @@ if ( $qry->Exec() ) {
   $multistatus = new XMLElement( "multistatus", new XMLElement( 'response', array( $href, $desc ) ), array('xmlns'=>'DAV:') );
   $request->DoResponse( 200, $multistatus->Render(0,'<?xml version="1.0" encoding="utf-8" ?>'), 'text/xml; charset="utf-8"' );
 }
+
+/**
+* Or it was all crap.
+*/
+$request->DoResponse( 500 );
 
 exit(0);
 
