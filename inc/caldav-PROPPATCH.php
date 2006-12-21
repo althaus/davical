@@ -120,7 +120,7 @@ foreach( $setprops AS $k => $setting ) {
 
 
 
-foreach( $setprops AS $k => $setting ) {
+foreach( $rmprops AS $k => $setting ) {
   $tag = $setting->GetTag();
   $content = $setting->RenderContent();
 
@@ -130,20 +130,22 @@ foreach( $setprops AS $k => $setting ) {
       /**
       * We don't allow a collection to change to/from a resource.  Only collections may be CalDAV calendars.
       */
-      $rmcollection = count($setting->GetPath('DAV::RESOURCETYPE/DAV::COLLECTION'));
-      $rmcalendar   = count($setting->GetPath('DAV::RESOURCETYPE/urn:ietf:params:xml:ns:caldav:calendar'));
+      $rmcollection = (count($setting->GetPath('DAV::RESOURCETYPE/DAV::COLLECTION')) > 0);
+      $rmcalendar   = (count($setting->GetPath('DAV::RESOURCETYPE/urn:ietf:params:xml:ns:caldav:calendar')) > 0);
       if ( $request->IsCollection() && !$rmcollection ) {
+        dbg_error_log( 'PROPPATCH', ' RMProperty %s : IsCollection=%d, rmcoll=%d, rmcal=%d', $tag, $request->IsCollection(), $rmcollection, $rmcalendar );
         if ( $rmcalendar ) {
           $sql .= sprintf( "UPDATE collection SET is_calendar = FALSE WHERE dav_name = %s;", qpg($request->path) );
         }
         $success[$tag] = 1;
       }
       else {
-        $failure['set-'.$tag] = new XMLElement( 'propstat', array(
+        $failure['rm-'.$tag] = new XMLElement( 'propstat', array(
             new XMLElement( 'prop', new XMLElement($tag)),
             new XMLElement( 'status', 'HTTP/1.1 409 Conflict' ),
             new XMLElement( 'responsedescription', translate("Resources may not be changed to / from collections.") )
         ));
+        dbg_error_log( 'PROPPATCH', ' RMProperty %s Resources may not be changed to / from Collections.', $tag);
       }
       break;
 
@@ -154,11 +156,12 @@ foreach( $setprops AS $k => $setting ) {
     case 'DAV::GETCONTENTLENGTH':
     case 'DAV::CREATIONDATE':
     case 'DAV::DISPLAYNAME':
-      $failure['set-'.$tag] = new XMLElement( 'propstat', array(
+      $failure['rm-'.$tag] = new XMLElement( 'propstat', array(
           new XMLElement( 'prop', new XMLElement($tag)),
           new XMLElement( 'status', 'HTTP/1.1 409 Conflict' ),
           new XMLElement('responsedescription', translate("Property is read-only") )
       ));
+      dbg_error_log( 'PROPPATCH', ' RMProperty %s is read only and cannot be removed', $tag);
       break;
 
     /**
@@ -197,7 +200,7 @@ if ( $qry->Exec() ) {
   $href = new XMLElement('href', $c->protocol_server_port_script . $request->path );
   $desc = new XMLElement('responsedescription', translate("All requested changes were made.") );
 
-  $multistatus = new XMLElement( "multistatus", new XMLElement( 'response', array( $href, $failure, $desc ) ), array('xmlns'=>'DAV:') );
+  $multistatus = new XMLElement( "multistatus", new XMLElement( 'response', array( $href, $desc ) ), array('xmlns'=>'DAV:') );
   $request->DoResponse( 200, $multistatus->Render(0,'<?xml version="1.0" encoding="utf-8" ?>'), 'text/xml; charset="utf-8"' );
 }
 
