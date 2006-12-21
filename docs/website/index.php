@@ -60,16 +60,17 @@ works using the CalDAV protocol.</p>
 <li>Nick Khazov (Russian)</li>
 <li>Eelco Maljaars (Dutch)</li>
 </ul>
-
+<p>Other contributors:</p>
+<ul>
+<li>Maxime Delorme (CSS for Administration Pages)</li>
+</ul>
 
 <h1>Your Name Here!</h1>
 <p>If you are interested in helping, there are several areas where I need help at the moment:</p>
 <i>
 <li>The project needs a better name - feel free to suggest one!</li>
 <li>We need more documentation</li>
-<li>The graphic and UI design for the web-based administration is teh suck (but it is basically functional :-)</li>
-<li>We need more documentation</li>
-<li>I need to find more CalDAV-capable calendar clients to interoperate with</li>
+<li>We need to find more CalDAV-capable calendar clients to interoperate with</li>
 <li>We would love you to write about your experiences in the project Wiki.</li>
 </ul>
 
