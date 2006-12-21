@@ -11,3 +11,7 @@ Content-Type: text/xml; charset="utf-8"
  </response>
 </multistatus>
 User One's Calendar --- faf25336de0e470a54075c14cbcf5272 --- 0 --- 1
+/user1/home/ --- DAV::OWNER --- 
+ <DAV::HREF>http://www.example.com/acl/users/jim</DAV::HREF>
+ --- 10 --- 1
+/user1/home/ --- URN:MCMILLAN:BOGUS:XML:NS:RSCDS:ARBITRARY --- A completely bogus property which should be saved. --- 10 --- 1
