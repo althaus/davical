@@ -25,12 +25,15 @@ define('DEPTH_INFINITY', 9999);
 */
 class CalDAVRequest
 {
+  var $options;
 
   /**
   * Create a new CalDAVRequest object.
   */
-  function CalDAVRequest( ) {
+  function CalDAVRequest( $options = array() ) {
     global $session, $c, $debugging;
+
+    $this->options = $options;
 
     $this->raw_post = file_get_contents ( 'php://input');
 
@@ -109,7 +112,13 @@ class CalDAVRequest
     else {
       $this->username = $path_split[1];
       @dbg_error_log( "caldav", "Path split into at least /// %s /// %s /// %s", $path_split[1], $path_split[2], $path_split[3] );
-      $qry = new PgQuery( "SELECT * FROM usr WHERE username = ?;", $this->username );
+      if ( isset($this->options['allow_by_email']) && preg_match( '#/(\S+@\S+[.]\S+)$#', $this->path, $matches) ) {
+        $this->by_email = $matches[1];
+        $qry = new PgQuery("SELECT user_no FROM usr WHERE email = ? AND get_permissions(?,user_no) ~ '[FRA]';", $this->by_email, $session->user_no );
+      }
+      else {
+        $qry = new PgQuery( "SELECT * FROM usr WHERE username = ?;", $this->username );
+      }
       if ( $qry->Exec("caldav") && $user = $qry->Fetch() ) {
         $this->user_no = $user->user_no;
       }
