@@ -34,5 +34,11 @@ ENDDATA
 QUERY
 SELECT dav_displayname, dav_etag, is_calendar,
        modified > (current_timestamp - '5 seconds'::interval) AS changed_last_5secs
-  FROM collection WHERE dav_name = '/user1/home/';
+  FROM collection WHERE dav_name = '/user1/home/'
+ENDQUERY
+
+QUERY
+SELECT dav_name, property_name, property_value, changed_by,
+       changed_on > (current_timestamp - '5 seconds'::interval) AS changed_last_5secs
+  FROM property ORDER BY dav_name, property_name
 ENDQUERY
