@@ -1,0 +1,13 @@
+HTTP/1.1 207 Multi-Status
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+Content-Length: 251
+Content-Type: text/xml; charset="utf-8"
+
+<?xml version="1.0" encoding="utf-8" ?>
+<multistatus xmlns="DAV:">
+ <response>
+  <href>http://mycaldav/caldav.php/user1/home/</href>
+  <responsedescription>Some properties were not able to be changed.</responsedescription>
+ </response>
+</multistatus>
+User One's Calendar --- faf25336de0e470a54075c14cbcf5272 --- 1 --- 0

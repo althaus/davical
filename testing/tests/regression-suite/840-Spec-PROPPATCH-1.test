@@ -1,0 +1,38 @@
+#
+# Check for support of PROPPATCH method
+#
+# Adding the 'owner' property to a collection
+#
+TYPE=PROPPATCH
+URL=http://mycaldav/caldav.php/user1/home/
+HEADER=User-agent: SpecTest PROPPATCH
+HEADER=Content-type: text/xml
+HEAD
+
+BEGINDATA
+<?xml version="1.0" encoding="utf-8" ?> 
+<propertyupdate xmlns="DAV:" xmlns:X="urn:mcmillan:bogus:xml:ns:rscds"> 
+  <set> 
+    <prop> 
+      <owner> 
+        <href>http://www.example.com/acl/users/jim</href> 
+      </owner> 
+      <X:arbitrary>A completely bogus property which should be saved.</X:arbitrary>
+      <displayname>User One's Calendar</displayname> 
+    </prop> 
+  </set> 
+  <remove> 
+    <prop> 
+      <resourcetype> 
+        <calendar xmlns="urn:ietf:params:xml:ns:caldav"/>
+      </resourcetype> 
+    </prop> 
+  </remove> 
+</propertyupdate>
+ENDDATA
+
+QUERY
+SELECT dav_displayname, dav_etag, is_calendar,
+       modified > (current_timestamp - '5 seconds'::interval) AS changed_last_5secs
+  FROM collection WHERE dav_name = '/user1/home/';
+ENDQUERY

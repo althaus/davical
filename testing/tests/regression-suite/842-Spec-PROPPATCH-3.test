@@ -1,0 +1,29 @@
+#
+# Check for support of PROPPATCH method
+#
+# An attempt to remove the collection resourcetype should fail.
+#
+TYPE=PROPPATCH
+URL=http://mycaldav/caldav.php/user1/home/
+HEADER=User-agent: SpecTest PROPPATCH
+HEADER=Content-type: text/xml
+HEAD
+
+BEGINDATA
+<?xml version="1.0" encoding="utf-8" ?> 
+<propertyupdate xmlns="DAV:"> 
+  <remove> 
+    <prop> 
+      <resourcetype> 
+        <collection/>
+      </resourcetype> 
+    </prop> 
+  </remove> 
+</propertyupdate>
+ENDDATA
+
+QUERY
+SELECT dav_displayname, dav_etag, is_calendar, 
+       modified > (current_timestamp - '5 seconds'::interval) AS changed_last_5secs 
+  FROM collection WHERE dav_name = '/user1/home/';
+ENDQUERY
