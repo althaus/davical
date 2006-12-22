@@ -5,3 +5,6 @@ TYPE=GET
 URL=http://mycaldav/freebusy.php/user1/home/
 HEAD
 
+REPLACE=/^DTSTAMP:\d{8}T\d{6}Z$/DTSTAMP:yyyymmddThhmmssZ/
+REPLACE=/^DTSTART:\d{8}T\d{6}$/DTSTART:yyyymmddThhmmss/
+REPLACE=/^DTEND:\d{8}T\d{6}$/DTEND:yyyymmddThhmmss/
