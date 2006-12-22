@@ -1,0 +1,7 @@
+#
+# Request a freebusy report by URL
+#
+TYPE=GET
+URL=http://mycaldav/freebusy.php/user1@example.net
+HEAD
+
