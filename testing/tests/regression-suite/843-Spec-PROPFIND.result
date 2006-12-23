@@ -5,6 +5,8 @@
   <propstat>
    <prop>
     <displayname>User One's Calendar</displayname>
+    <DAV::OWNER/>
+    <URN:MCMILLAN:BOGUS:XML:NS:RSCDS:ARBITRARY>A completely bogus property which should be saved.</URN:MCMILLAN:BOGUS:XML:NS:RSCDS:ARBITRARY>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
