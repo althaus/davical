@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-12-18 08:48+1300\n"
+"POT-Creation-Date: 2006-12-24 10:44+1300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Eelco Maljaars <http://eelco.maljaars.net/>\n"
 "Language-Team: nl_NL <LL@li.org>\n"
@@ -62,6 +62,9 @@ msgstr "Beheerdersgroep"
 
 msgid "Administers Resource"
 msgstr "Beheerders resource"
+
+msgid "All requested changes were made."
+msgstr ""
 
 msgid "Browse all relationship types"
 msgstr "Blader door alle soorten relaties"
@@ -297,6 +300,9 @@ msgstr "Noteer de tijd en breng de beheerder van jou systeem op de hoogte"
 msgid "Prefix"
 msgstr ""
 
+msgid "Property is read-only"
+msgstr ""
+
 msgid "Public <!-- in the sense of being available to all users -->"
 msgstr "Publiek"
 
@@ -354,6 +360,9 @@ msgstr "Resource komt niet overeen met 'If-Match' kopregel - niet verwijderd"
 msgid "Resource"
 msgstr "Resource"
 
+msgid "Resources may not be changed to / from collections."
+msgstr ""
+
 msgid "Restrict access to prefixes matching this pattern"
 msgstr "Limiteer toegang tot de prefix die overeenkomt met dit patroon"
 
@@ -369,6 +378,9 @@ msgstr "Selekteer de gebruiker, resource of groep om deze gebruiker aan te koppe
 msgid "Show help on"
 msgstr "Laat hulp zien over"
 
+msgid "Some properties were not able to be changed."
+msgstr ""
+
 msgid "Start"
 msgstr "Start"
 
@@ -383,6 +395,9 @@ msgstr "De applicatie snapt dat verzoek niet."
 
 msgid "The calendar path contains illegal characters."
 msgstr "Het pad naar de agenda bevat niet toegestane tekens."
+
+msgid "The displayname may only be set on collections or principals."
+msgstr ""
 
 msgid "The name this user can log into the system with."
 msgstr "De naam waarmee deze gebruiker in kan loggen op het systeem"

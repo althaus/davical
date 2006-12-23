@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-12-18 08:48+1300\n"
+"POT-Creation-Date: 2006-12-24 10:44+1300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -59,6 +59,9 @@ msgid "Administers Group"
 msgstr ""
 
 msgid "Administers Resource"
+msgstr ""
+
+msgid "All requested changes were made."
 msgstr ""
 
 msgid "Browse all relationship types"
@@ -293,6 +296,9 @@ msgstr ""
 msgid "Prefix"
 msgstr ""
 
+msgid "Property is read-only"
+msgstr ""
+
 msgid "Public <!-- in the sense of being available to all users -->"
 msgstr ""
 
@@ -350,6 +356,9 @@ msgstr ""
 msgid "Resource"
 msgstr ""
 
+msgid "Resources may not be changed to / from collections."
+msgstr ""
+
 msgid "Restrict access to prefixes matching this pattern"
 msgstr ""
 
@@ -365,6 +374,9 @@ msgstr ""
 msgid "Show help on"
 msgstr ""
 
+msgid "Some properties were not able to be changed."
+msgstr ""
+
 msgid "Start"
 msgstr ""
 
@@ -378,6 +390,9 @@ msgid "The application program does not understand that request."
 msgstr ""
 
 msgid "The calendar path contains illegal characters."
+msgstr ""
+
+msgid "The displayname may only be set on collections or principals."
 msgstr ""
 
 msgid "The name this user can log into the system with."

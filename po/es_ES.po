@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RSCDS 0.2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-12-18 08:48+1300\n"
+"POT-Creation-Date: 2006-12-24 10:44+1300\n"
 "PO-Revision-Date: 2006-11-06 17:12+1300\n"
 "Last-Translator: Lorena Paoletti <andrew@mcmillan.net.nz>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -61,6 +61,9 @@ msgid "Administers Group"
 msgstr ""
 
 msgid "Administers Resource"
+msgstr ""
+
+msgid "All requested changes were made."
 msgstr ""
 
 msgid "Browse all relationship types"
@@ -301,6 +304,9 @@ msgstr "Por favor, tome nota de la fecha y hora y contacte a su administrador de
 msgid "Prefix"
 msgstr "Prefijo"
 
+msgid "Property is read-only"
+msgstr ""
+
 msgid "Public <!-- in the sense of being available to all users -->"
 msgstr "Público"
 
@@ -358,6 +364,9 @@ msgstr ""
 msgid "Resource"
 msgstr "Recurso"
 
+msgid "Resources may not be changed to / from collections."
+msgstr ""
+
 msgid "Restrict access to prefixes matching this pattern"
 msgstr "Acceso restringido a prefijos que coincidan con éste patrón"
 
@@ -373,6 +382,9 @@ msgstr "Seleccionar el usuario, recurso o grupo con el cual relacionar a éste u
 msgid "Show help on"
 msgstr "Mostrar ayuda sobre"
 
+msgid "Some properties were not able to be changed."
+msgstr ""
+
 msgid "Start"
 msgstr ""
 
@@ -386,6 +398,9 @@ msgid "The application program does not understand that request."
 msgstr ""
 
 msgid "The calendar path contains illegal characters."
+msgstr ""
+
+msgid "The displayname may only be set on collections or principals."
 msgstr ""
 
 msgid "The name this user can log into the system with."
