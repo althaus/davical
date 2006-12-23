@@ -10,7 +10,7 @@ rscds (0.6.0) unstable; urgency=low
   * New translation into Dutch by Eelco Maljaars.
   * New CSS styling for admin pages by Maxime Delorme.
 
- -- Andrew McMillan <debian@mcmillan.net.nz>  Sat, 23 Dec 2006 13:46:01 +1300
+ -- Andrew McMillan <debian@mcmillan.net.nz>  Sat, 23 Dec 2006 22:16:12 +1300
 
 rscds (0.5.2) unstable; urgency=low
 
