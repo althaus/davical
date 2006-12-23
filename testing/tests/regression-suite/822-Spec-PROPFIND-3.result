@@ -5,7 +5,7 @@
   <propstat>
    <prop>
     <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <getcontentlength>3850</getcontentlength>
+    <getcontentlength>6659</getcontentlength>
     <getcontenttype>httpd/unix-directory</getcontenttype>
     <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
     <resourcetype>
@@ -14,6 +14,32 @@
     </resourcetype>
     <displayname>home</displayname>
     <getetag>"faf25336de0e470a54075c14cbcf5272"</getetag>
+    <getcontentlanguage>en_NZ</getcontentlanguage>
+    <supportedlock>
+     <lockentry>
+      <lockscope>
+       <exclusive/>
+      </lockscope>
+      <locktype>
+       <write/>
+      </locktype>
+     </lockentry>
+    </supportedlock>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/home/1906b3ca-4890-468a-9b58-1de74bf2c716.ics</href>
+  <propstat>
+   <prop>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <getcontentlength>954</getcontentlength>
+    <getcontenttype>text/calendar</getcontenttype>
+    <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
+    <resourcetype/>
+    <displayname/>
+    <getetag>"ce83cb40cb8bc72301ea2abd6849d8eb"</getetag>
     <getcontentlanguage>en_NZ</getcontentlanguage>
     <supportedlock>
      <lockentry>
@@ -134,6 +160,32 @@
   </propstat>
  </response>
  <response>
+  <href>/caldav.php/user1/home/9d050be7-8a02-4355-8ed3-02a9fc5f473f.ics</href>
+  <propstat>
+   <prop>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <getcontentlength>956</getcontentlength>
+    <getcontenttype>text/calendar</getcontenttype>
+    <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
+    <resourcetype/>
+    <displayname>Confidential Event</displayname>
+    <getetag>"08a435c2abaf38f4a50a997343c098a7"</getetag>
+    <getcontentlanguage>en_NZ</getcontentlanguage>
+    <supportedlock>
+     <lockentry>
+      <lockscope>
+       <exclusive/>
+      </lockscope>
+      <locktype>
+       <write/>
+      </locktype>
+     </lockentry>
+    </supportedlock>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
   <href>/caldav.php/user1/home/da81c0ee-7871-11db-c6d6-f6927c144649.ics</href>
   <propstat>
    <prop>
@@ -144,6 +196,32 @@
     <resourcetype/>
     <displayname>Morning Mgmt Mtg</displayname>
     <getetag>"421abf7e4848d2fecbf64217ed205d4b"</getetag>
+    <getcontentlanguage>en_NZ</getcontentlanguage>
+    <supportedlock>
+     <lockentry>
+      <lockscope>
+       <exclusive/>
+      </lockscope>
+      <locktype>
+       <write/>
+      </locktype>
+     </lockentry>
+    </supportedlock>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/home/fbd57454-d966-4a14-8341-abe1edb1ae66.ics</href>
+  <propstat>
+   <prop>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <getcontentlength>899</getcontentlength>
+    <getcontenttype>text/calendar</getcontenttype>
+    <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
+    <resourcetype/>
+    <displayname>Tentative Event</displayname>
+    <getetag>"62ab2dab9a24a6fdfa76b44a3665141c"</getetag>
     <getcontentlanguage>en_NZ</getcontentlanguage>
     <supportedlock>
      <lockentry>

@@ -1,7 +1,7 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
-ETag: "a4356a6de9de23ce6f64c368f195d78c"
-Content-Length: 1356
+ETag: "d2fff9c4ac9d805bb286bc2bd213b77f"
+Content-Length: 2270
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -16,6 +16,17 @@ Content-Type: text/xml; charset="utf-8"
     </resourcetype>
     <displayname>home</displayname>
     <getetag>"faf25336de0e470a54075c14cbcf5272"</getetag>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/home/1906b3ca-4890-468a-9b58-1de74bf2c716.ics</href>
+  <propstat>
+   <prop>
+    <resourcetype/>
+    <displayname/>
+    <getetag>"ce83cb40cb8bc72301ea2abd6849d8eb"</getetag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -49,6 +60,28 @@ Content-Type: text/xml; charset="utf-8"
     <resourcetype/>
     <displayname>Weekly Project Meeting</displayname>
     <getetag>"a1c6404d61190f9574e2bfd69383f144"</getetag>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/home/9d050be7-8a02-4355-8ed3-02a9fc5f473f.ics</href>
+  <propstat>
+   <prop>
+    <resourcetype/>
+    <displayname>Confidential Event</displayname>
+    <getetag>"08a435c2abaf38f4a50a997343c098a7"</getetag>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/home/fbd57454-d966-4a14-8341-abe1edb1ae66.ics</href>
+  <propstat>
+   <prop>
+    <resourcetype/>
+    <displayname>Tentative Event</displayname>
+    <getetag>"62ab2dab9a24a6fdfa76b44a3665141c"</getetag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
