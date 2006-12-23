@@ -1,3 +1,17 @@
+rscds (0.6.0) unstable; urgency=low
+
+  * Add support for LOCK, UNLOCK and PROPPATCH methods.
+  * Refactoring of code to simplify and improve readibility,
+  * General specification compliance fixes and enhancements.
+  * Fix bugs around 'Depth' header handling.
+  * free-busy-query REPORT variant implemented according to caldav-15 draft.
+  * freebusy.php changed to follow REPORT method.
+  * Wrote a library class for dealing with iCalendar repeat rules.
+  * New translation into Dutch by Eelco Maljaars.
+  * New CSS styling for admin pages by Maxime Delorme.
+
+ -- Andrew McMillan <debian@mcmillan.net.nz>  Sat, 23 Dec 2006 13:46:01 +1300
+
 rscds (0.5.2) unstable; urgency=low
 
   * Don't send charset with GET since it breaks Evolution.
