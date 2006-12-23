@@ -1,0 +1,20 @@
+#
+# PROPFIND based on RFC2518 Spec against an iCalendar resource
+#
+TYPE=PROPFIND
+URL=http://mycaldav/caldav.php/user1/home/
+HEADER=User-Agent: RFC2518 Spec Tests
+HEADER=Depth: 0
+HEADER=Content-Type: application/xml
+
+
+BEGINDATA
+<?xml version="1.0" encoding="utf-8"?>
+<propfind xmlns="DAV:" xmlns:X="urn:mcmillan:bogus:xml:ns:rscds"> 
+  <prop> 
+    <owner/> 
+    <X:arbitrary/>
+    <displayname/>
+ </prop>
+</propfind>
+ENDDATA
