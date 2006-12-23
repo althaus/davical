@@ -20,6 +20,7 @@ require_once("iCalendar.php");
 $href_list = array();
 $attribute_list = array();
 $unsupported = array();
+$arbitrary = array();
 
 foreach( $request->xml_tags AS $k => $v ) {
 
@@ -71,15 +72,29 @@ foreach( $request->xml_tags AS $k => $v ) {
     case 'DAV::HREF':
       // dbg_log_array( "PROPFIND", "DAV::HREF", $v, true );
       $href_list[] = $v['value'];
+      dbg_error_log( "PROPFIND", "Adding attribute '%s'", $attribute );
+      break;
 
-    default:
+    /**
+    * Add the ones that are specifically unsupported here.
+    */
+    case 'UNSUPPORTED':
       if ( preg_match('/^(.*):([^:]+)$/', $tag, $matches) ) {
         $unsupported[$matches[2]] = $matches[1];
       }
       else {
         $unsupported[$tag] = "";
       }
-      dbg_error_log( "PROPFIND", "Unhandled tag >>%s<<", $tag);
+      dbg_error_log( "PROPFIND", "Unsupported tag >>%s<<", $tag);
+      break;
+
+    /**
+    * Add the ones that are specifically unsupported here.
+    */
+    default:
+      $arbitrary[$tag] = $tag;
+      dbg_error_log( "PROPFIND", "Adding arbitrary DAV property '%s'", $attribute );
+      break;
   }
 }
 
@@ -95,13 +110,41 @@ function privileges($privilege_names, $container="privilege") {
   return $privileges;
 }
 
+
+/**
+* Fetches any arbitrary properties that were requested by the PROPFIND into an
+* array, which we return.
+* @return array The arbitrary properties.
+*/
+function get_arbitrary_properties($dav_name) {
+  global $arbitrary;
+
+  $results = array();
+
+  if ( count($arbitrary) > 0 ) {
+    $sql = "";
+    foreach( $arbitrary AS $k => $v ) {
+      $sql .= ($sql == "" ? "" : ", ") . qpg($k);
+    }
+    $qry = new PgQuery("SELECT property_name, property_value FROM property WHERE dav_name=? AND property_name IN ($sql)", $dav_name );
+    while( $qry->Exec("PROPFIND") && $property = $qry->Fetch() ) {
+      $results[$property->property_name] = $property->property_value;
+    }
+  }
+
+  return $results;
+}
+
+
 /**
 * Returns an XML sub-tree for a single collection record from the DB
 */
 function collection_to_xml( $collection ) {
-  global $attribute_list, $session, $c, $request;
+  global $arbitrary, $attribute_list, $session, $c, $request;
 
   dbg_error_log("PROPFIND","Building XML Response for collection '%s'", $collection->dav_name );
+
+  $collection->properties = get_arbitrary_properties($collection->dav_name);
 
   $url = $_SERVER['SCRIPT_NAME'] . $collection->dav_name;
   $resourcetypes = array( new XMLElement("collection") );
@@ -142,6 +185,13 @@ function collection_to_xml( $collection ) {
   if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['CURRENT-USER-PRIVILEGE-SET']) ) {
     $prop->NewElement("current-user-privilege-set", privileges($request->permissions) );
   }
+
+  if ( count($arbitrary) > 0 ) {
+    foreach( $arbitrary AS $k => $v ) {
+      $prop->NewElement($k, $collection->properties[$k]);
+    }
+  }
+
   if ( isset($attribute_list['ACL']) ) {
     /**
     * FIXME: This information is semantically valid but presents an incorrect picture.
@@ -189,6 +239,8 @@ function item_to_xml( $item ) {
   global $attribute_list, $session, $c, $request;
 
   dbg_error_log("PROPFIND","Building XML Response for item '%s'", $item->dav_name );
+
+  $item->properties = get_arbitrary_properties($item->dav_name);
 
   $url = $_SERVER['SCRIPT_NAME'] . $item->dav_name;
   $prop = new XMLElement("prop");
