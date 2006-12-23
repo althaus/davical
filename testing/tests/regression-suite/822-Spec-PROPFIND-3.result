@@ -5,7 +5,7 @@
   <propstat>
    <prop>
     <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <getcontentlength>6659</getcontentlength>
+    <getcontentlength>6689</getcontentlength>
     <getcontenttype>httpd/unix-directory</getcontenttype>
     <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
     <resourcetype>
@@ -216,12 +216,12 @@
   <propstat>
    <prop>
     <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <getcontentlength>899</getcontentlength>
+    <getcontentlength>929</getcontentlength>
     <getcontenttype>text/calendar</getcontenttype>
     <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
     <resourcetype/>
     <displayname>Tentative Event</displayname>
-    <getetag>"62ab2dab9a24a6fdfa76b44a3665141c"</getetag>
+    <getetag>"ac90acd649c25070b1a2a17fb31a105a"</getetag>
     <getcontentlanguage>en_NZ</getcontentlanguage>
     <supportedlock>
      <lockentry>

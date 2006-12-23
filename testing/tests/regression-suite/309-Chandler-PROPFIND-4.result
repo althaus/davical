@@ -1,6 +1,6 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
-ETag: "d2fff9c4ac9d805bb286bc2bd213b77f"
+ETag: "ad0a179fd9a619a319844473bf2cfb8f"
 Content-Length: 2270
 Content-Type: text/xml; charset="utf-8"
 
@@ -81,7 +81,7 @@ Content-Type: text/xml; charset="utf-8"
    <prop>
     <resourcetype/>
     <displayname>Tentative Event</displayname>
-    <getetag>"62ab2dab9a24a6fdfa76b44a3665141c"</getetag>
+    <getetag>"ac90acd649c25070b1a2a17fb31a105a"</getetag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
