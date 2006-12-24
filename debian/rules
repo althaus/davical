@@ -18,7 +18,7 @@ clean:
 	$(checkdir)
 	rm -f build
 	rm -f `find . -name "*~"`
-	-rm -rf $(dt) debian/files* core debian/substvars debian/html
+	-rm -rf $(dt) debian/files* core debian/substvars debian/html debian/$(package)-phpdoc.ini
 
 binary-indep: checkroot build
 	$(checkdir)
