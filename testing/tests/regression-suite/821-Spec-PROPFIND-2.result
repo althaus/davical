@@ -1,6 +1,6 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
-ETag: "fe928ac898184555ef5bae3a700784ea"
+ETag: "d857bd6617792951329353bf414d7e1b"
 Content-Length: 963
 Content-Type: text/xml; charset="utf-8"
 
@@ -11,7 +11,7 @@ Content-Type: text/xml; charset="utf-8"
   <propstat>
    <prop>
     <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <getcontentlength>6689</getcontentlength>
+    <getcontentlength>6705</getcontentlength>
     <getcontenttype>httpd/unix-directory</getcontenttype>
     <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
     <resourcetype>
