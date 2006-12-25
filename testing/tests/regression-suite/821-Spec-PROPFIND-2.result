@@ -1,6 +1,6 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
-ETag: "d857bd6617792951329353bf414d7e1b"
+ETag: "deadbeefcafefeeddeadbeefcafefeed"
 Content-Length: 963
 Content-Type: text/xml; charset="utf-8"
 

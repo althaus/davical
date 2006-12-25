@@ -32,3 +32,5 @@ BEGINDATA
  </prop>
 </propfind>
 ENDDATA
+
+REPLACE=/ETag: "[0-9a-f]{32}"/ETag: "deadbeefcafefeeddeadbeefcafefeed"/
