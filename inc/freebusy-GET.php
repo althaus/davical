@@ -13,6 +13,9 @@ else {
 $where .= "AND (dtend >= '$start'::timestamp with time zone OR calculate_later_timestamp('$start'::timestamp with time zone,dtend,rrule) >= '$start'::timestamp with time zone) ";
 $where .= "AND dtstart <= '$finish'::timestamp with time zone ";
 $where .= "AND caldav_data.caldav_type IN ( 'VEVENT', 'VFREEBUSY' ) ";
+  $where .= "AND (calendar_item.transp != 'TRANSPARENT' OR calendar_item.transp IS NULL) ";
+//  $where .= "AND (calendar_item.status != 'CANCELLED' OR calendar_item.status IS NULL) ";
+$where .= "AND (calendar_item.class != 'CONFIDENTIAL' OR calendar_item.class IS NULL OR  get_permissions($session->user_no,caldav_data.user_no) ~ 'A') "; // Must have 'all' permissions to see confidential items
 
 $busy = array();
 $busy_tentative = array();

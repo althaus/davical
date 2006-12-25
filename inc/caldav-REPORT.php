@@ -234,7 +234,10 @@ if ( $free_busy_query ) {
   if ( isset( $report[0]['end'] ) ) {
     $where .= "AND dtstart <= ".qpg($report[0]['end'])."::timestamp with time zone ";
   }
-  $where .= " AND caldav_data.caldav_type IN ( 'VEVENT', 'VFREEBUSY' ) ";
+  $where .= "AND caldav_data.caldav_type IN ( 'VEVENT', 'VFREEBUSY' ) ";
+  $where .= "AND (calendar_item.transp != 'TRANSPARENT' OR calendar_item.transp IS NULL) ";
+//  $where .= "AND (calendar_item.status != 'CANCELLED' OR calendar_item.status IS NULL) ";
+  $where .= "AND (calendar_item.class != 'CONFIDENTIAL' OR calendar_item.class IS NULL OR get_permissions($session->user_no,caldav_data.user_no) ~ 'A') "; // Must have 'all' permissions to see confidential items
 
   $busy = array();
   $busy_tentative = array();
