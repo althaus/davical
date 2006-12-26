@@ -1,0 +1,12 @@
+#
+# Request a freebusy report by URL
+#
+TYPE=GET
+URL=http://mycaldav/freebusy.php/user1/home/
+HEAD
+
+AUTH=manager1:manager1
+
+REPLACE=/^DTSTAMP:\d{8}T\d{6}Z$/DTSTAMP:yyyymmddThhmmssZ/
+REPLACE=/^DTSTART:\d{8}T\d{6}$/DTSTART:yyyymmddThhmmss/
+REPLACE=/^DTEND:\d{8}T\d{6}$/DTEND:yyyymmddThhmmss/
