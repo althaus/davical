@@ -29,7 +29,8 @@ if ( $qry->Exec("freebusy",__LINE__,__FILE__) && $qry->rows > 0 ) {
   while( $calendar_object = $qry->Fetch() ) {
     if ( ! preg_match( '/^TRANSP.*TRANSPARENT/im', $calendar_object->caldav_data ) ) {
       if ( preg_match( '/^STATUS.*:.*TENTATIVE/im', $calendar_object->caldav_data ) ) {
-        $busy_tenantive[] = $calendar_object;
+        dbg_error_log( "freebusy", " FreeBusy: tentative appointment: %s, %s", $calendar_object->start, $calendar_object->finish );
+        $busy_tentative[] = $calendar_object;
       }
       else if ( ! preg_match( '/STATUS.*:.*CANCELLED/m', $calendar_object->caldav_data ) ) {
         dbg_error_log( "freebusy", " FreeBusy: Not transparent, tentative or cancelled: %s, %s", $calendar_object->start, $calendar_object->finish );
