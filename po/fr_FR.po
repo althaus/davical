@@ -35,7 +35,7 @@ msgstr ""
 "courriel à %s.</p>"
 
 msgid "A collection already exists at that location."
-msgstr ""
+msgstr "Une collection existe déjà à cet emplacement"
 
 msgid "Action"
 msgstr "Action"
@@ -59,13 +59,13 @@ msgid "Admin"
 msgstr "Administrateur"
 
 msgid "Administers Group"
-msgstr "Gére le groupes"
+msgstr "Gére les groupe"
 
 msgid "Administers Resource"
-msgstr "Gére les ressources"
+msgstr "Gére la ressource"
 
 msgid "All requested changes were made."
-msgstr ""
+msgstr "Tous les changements demandés ont eu lieu"
 
 msgid "Browse all relationship types"
 msgstr "Affiche tous les types de relations"
@@ -79,28 +79,25 @@ msgid "Calendar Users"
 msgstr "Utilisateurs du planning"
 
 msgid "Changed On"
-msgstr ""
+msgstr "Changé le"
 
-#, fuzzy
 msgid "Click to display that user"
-msgstr "Cliquez pour afficher cette relation"
+msgstr "Cliquez pour afficher cet utilisateur"
 
-#, fuzzy
 msgid "Click to display the contents of the collection"
-msgstr "Cliquez pour afficher cette relation"
+msgstr "Cliquez pour afficher le contenu de cette collection"
 
-#, fuzzy
 msgid "Click to display user details"
-msgstr "Cliquez pour afficher cette relation"
+msgstr "Cliquez pour afficher les détails de cet utilisateur"
 
 msgid "Collection Contents"
-msgstr ""
+msgstr "Contenu de la collection"
 
 msgid "Collection Path"
-msgstr ""
+msgstr "Chemin de la collection"
 
 msgid "Confirm Deletion of the Relationship Type"
-msgstr ""
+msgstr "Confirmer la suppression de ce type de relation"
 
 msgid "Confirm the new password."
 msgstr "Confirmer le nouveau mot de passe"
@@ -111,11 +108,9 @@ msgstr "Confirmer"
 msgid "Create"
 msgstr "Créer"
 
-#, fuzzy
 msgid "Created On"
-msgstr "Créer"
+msgstr "Créé le"
 
-#, fuzzy
 msgid "Database Error"
 msgstr "Erreur base de données"
 
@@ -164,23 +159,26 @@ msgid "Enter your username and password then click here to log in."
 msgstr "Tapez votre nom d'utilisateur et votre mot de passe puis cliquez ici pour vous connecter"
 
 msgid "Error querying database."
-msgstr ""
+msgstr "Erreur lors de l'interrogation de la base de données"
 
-#, fuzzy
 msgid "Error writing calendar details to database."
 msgstr "Il s'est produit une erreur lors de l'écriture des données"
 
 msgid "European (d/m/y)"
 msgstr "Européen (jj/mm/aa)"
 
+# ############
+# Sorry I shall see it on the screen to understand the context of the question
 msgid "Existing resource does not match 'If-Match' header - not accepted."
 msgstr ""
 
+# ############
+# Sorry I shall see it on the screen to understand the context of the question
 msgid "Existing resource matches 'If-None-Match' header - not accepted."
 msgstr ""
 
 msgid "Finish"
-msgstr ""
+msgstr "Fin"
 
 # The application name (possibly translated) follows this phrase.  The application
 # is called the "Really Simple CalDAV Store" (Store, in the sense of a repository
@@ -249,11 +247,8 @@ msgstr "est un membre du groupe"
 # Relationships are between an individual and another individual, an individual and a resource
 # or an individual and some intermediate 'grouping' object.  This is asking if the destination
 # of this link is the third kind
-# ############
-# Sorry I shall see it on the screen to understand the context of the question
-# (and I didn't found it)
 msgid "Is the target of this relationship a group of access rights?"
-msgstr ""
+msgstr "Est-ce que l'objectif de cette relation est de créer un groupe d'individus partageant les mêmes droits?"
 
 # For programmatic reasons at this point the abbreviation cannot be translated :-(
 msgid "Is this access read ('R') or Read and Write ('RW')?"
@@ -289,9 +284,8 @@ msgid "Log On Please"
 msgstr "Connectez-vous SVP"
 
 # Log out of the <name of application>
-#, fuzzy
 msgid "Log out of the"
-msgstr "Deconnectez-vous de "
+msgstr "Deconnectez-vous de"
 
 msgid "Logout"
 msgstr "Deconnection"
@@ -309,8 +303,10 @@ msgid "New User"
 msgstr "Nouvel utilisateur"
 
 msgid "No collection found at that location."
-msgstr ""
+msgstr "Pas de collection trouvée à cet endroit"
 
+# ############
+# The resource has changed on the server, so this change is refused
 msgid "No existing resource matching 'If-Match' header - not accepted."
 msgstr ""
 
@@ -324,16 +320,18 @@ msgid "Password"
 msgstr "Mot de passe"
 
 msgid "Please Confirm Deletion"
-msgstr ""
+msgstr "Merci de confirmer la suppression"
 
 msgid "Please note the time and advise the administrator of your system."
 msgstr "Veuillez noter l'heure et informer l'administrateur de votre système informatique"
 
+# ############
+# by the way what is the use of prefix ?
 msgid "Prefix"
 msgstr "Préfixe"
 
 msgid "Property is read-only"
-msgstr ""
+msgstr "Cette propriété  ne peut être"
 
 msgid "Public <!-- in the sense of being available to all users -->"
 msgstr "Public"
@@ -396,6 +394,8 @@ msgstr "Signaler une erreur du logiciel"
 msgid "Resource <!-- a thing which might be booked: a room, a carpark, a projector... -->"
 msgstr "Ressource"
 
+# ############
+# Sorry I shall see it on the screen to understand the context of the question
 msgid "Resource does not match 'If-Match' header - not deleted"
 msgstr ""
 
@@ -442,13 +442,15 @@ msgid "That relationship type is being used. See ##RelationshipTypeUsed##"
 msgstr "Ce type de relation est encore employé. Cf. ##RelationshipTypeUsed##"
 
 msgid "The application program does not understand that request."
-msgstr ""
+msgstr "L'application ne comprend pas la demande"
 
 msgid "The calendar path contains illegal characters."
-msgstr ""
+msgstr "le chemin vers le calendrier contient des caractères interdits"
 
+# ############
+# Sorry I shall see it on the screen to understand the context of the question
 msgid "The displayname may only be set on collections or principals."
-msgstr ""
+msgstr "le nom d'affichage ne peut être défini que sur des collections ou des titulaires"
 
 # or ##TypeDeRelationsUtilisées## ?
 # We are trying to provide a full description of what a 'username' is.  Feel free to
@@ -475,13 +477,13 @@ msgid "There was an error writing to the database."
 msgstr "Il s'est produit une erreur lors de l'écriture des données"
 
 msgid "This user's collections"
-msgstr ""
+msgstr "Les collections de cet utilisateur"
 
 msgid "To Group?"
 msgstr "Au groupe"
 
 msgid "Type"
-msgstr ""
+msgstr "Type"
 
 msgid "United States of America (m/d/y)"
 msgstr "Etats-Unis (mm/jj/aa)"
@@ -545,30 +547,29 @@ msgid "You are not authorised to use this function."
 msgstr "Vous n'êtes pas autorisé à utiliser cette fonction."
 
 msgid "You do not have appropriate rights to view that resource."
-msgstr ""
+msgstr "Vous n'avez pas les droits appropriés pour voir cette ressource"
 
 msgid "You do not have sufficient access to lock that"
-msgstr ""
+msgstr "Vous n'avez pas suffisamment d'accès pour verrouiller ça"
 
 msgid ""
 "You may not PUT a collection - you may only PUT things *in* one or use MKCOL/MKCALENDAR to create one."
-msgstr ""
+msgstr "Vous ne pouvez pas appeler la method PUT sur une collection - vous ne pouvez le faire que sur des choses *dans* une collection ou utiliser les méthodes  MKCOL/MKCALENDAR pour en créer une"
 
 msgid "You may not access that calendar"
-msgstr ""
+msgstr "Vous ne pouvez accéder à ce calendrier"
 
-#, fuzzy
 msgid "You may not add entries to this calendar."
 msgstr "Vous n'êtes pas autorisé à utiliser cette fonction."
 
 msgid "You may not create a calendar there."
-msgstr ""
+msgstr "Vous ne pouvez créer de calendrier ici"
 
 msgid "You may not delete entries from this calendar."
-msgstr ""
+msgstr "Vous ne pouvez supprimer d'entrées de ce calendrier"
 
 msgid "You may not modify entries on this calendar."
-msgstr ""
+msgstr "Vous ne pouvez changer les entrées de ce calendrier"
 
 msgid "You must log in to use this system."
 msgstr "Vous devez vous connecter pour utiliser ce logiciel"
@@ -576,13 +577,12 @@ msgstr "Vous devez vous connecter pour utiliser ce logiciel"
 msgid ""
 "forget me not <!-- this is a colloquial phrase in english (the name of a flower) and is an option "
 "allowing people to log in automatically in future -->"
-msgstr "Se souvenir de moi <!-- other 2nd degree meaning but funny too -->"
+msgstr "Ne pas m'oublier <!-- other 2nd degree meaning but funny too -->"
 
 msgid "forget me not"
-msgstr "Se souvenir de moi"
+msgstr "Ne pas m'oublier"
 
 msgid "you should log on with the username and password that have been issued to you."
 msgstr "Vous devez vous connecter avec le nom d'utilisateur et le mot de passe qui vous ont été fournis."
 
-#~ msgid "Relationship Type Updated."
-#~ msgstr "Type de relation mise à jour"
+
