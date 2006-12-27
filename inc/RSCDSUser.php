@@ -90,7 +90,6 @@ class RSCDSUser extends User
     $browser->AddHidden( 'user_link', "'<a href=\"$c->base_url/user.php?user_no=' || user_no || '\">' || fullname || '</a>'" );
     $browser->AddColumn( 'rt_name', translate('Relationship') );
     $browser->AddColumn( 'fullname', translate('Linked To'), 'left', '##user_link##' );
-//    $browser->AddColumn( 'is_group', 'Group?', 'centre', '', "CASE WHEN rt_isgroup THEN 'Yes' ELSE 'No' END"  );
     $browser->AddHidden( 'confers' );
     $browser->AddColumn( 'email', translate('EMail') );
     if ( $ef->EditMode ) { // && $session->AllowedTo("MaintainRelationships") ) {
@@ -140,7 +139,7 @@ EOSQL;
                                       "_null" => $nullvalue,
                                       "_sql"  => $sql ) );
 
-      $group_target = ( isset($this->roles['Group']) ? 'WHERE NOT rt_isgroup' : '' );
+      $group_target = ( isset($this->roles['Group']) ? 'WHERE NOT rt_fromgroup' : '' );
       $relationship_type_selection = $ef->DataEntryField( "", "lookup", "relate_as",
                                 array("title" => translate("Select the type of relationship from this user"),
                                       "_null" => translate("--- select a relationship type ---"),
@@ -175,7 +174,7 @@ EOSQL;
     $browser->AddHidden( 'user_link', "'<a href=\"$c->base_url/user.php?user_no=' || user_no || '\">' || fullname || '</a>'" );
     $browser->AddColumn( 'fullname', translate('Linked From'), 'left', '##user_link##' );
     $browser->AddColumn( 'rt_name', translate('Relationship') );
-    $browser->AddColumn( 'is_group', translate('Group?'), 'centre', '', "CASE WHEN rt_isgroup THEN 'Yes' ELSE 'No' END"  );
+    $browser->AddColumn( 'to_group', translate('Group?'), 'centre', '', "CASE WHEN rt_togroup THEN 'Yes' ELSE 'No' END"  );
     $browser->AddHidden( 'confers' );
     $browser->AddColumn( 'email', translate('EMail') );
 

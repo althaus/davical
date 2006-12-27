@@ -85,10 +85,9 @@ GRANT SELECT,INSERT,UPDATE,DELETE ON collection TO general;
 CREATE TABLE relationship_type (
   rt_id SERIAL PRIMARY KEY,
   rt_name TEXT,
-  rt_isgroup BOOLEAN,
-  rt_inverse INT,
+  rt_togroup BOOLEAN,
   confers TEXT DEFAULT 'RW',
-  prefix_match TEXT DEFAULT ''
+  rt_fromgroup BOOLEAN
 );
 
 GRANT SELECT,INSERT,UPDATE,DELETE ON relationship_type TO general;
@@ -132,4 +131,4 @@ CREATE INDEX properties_dav_name_idx ON property(dav_name);
 GRANT SELECT,INSERT,UPDATE,DELETE ON property TO general;
 
 
-SELECT new_db_revision(1,1,6, 'June' );
+SELECT new_db_revision(1,1,7, 'July' );

@@ -143,13 +143,12 @@ class RSCDSSession extends Session
 */
   function GetRelationships () {
     $this->relationships = array();
-    $sql = 'SELECT relationship.rt_id, rt_name, rt_isgroup, confers, prefix_match FROM relationship JOIN relationship_type USING (rt_id) WHERE from_user = '.$this->user_no.' UNION ';
-    $sql .= 'SELECT relationship_type.rt_id, rt_name, rt_isgroup, confers, prefix_match FROM relationship JOIN relationship_type ON (relationship.rt_id = relationship_type.rt_inverse) WHERE to_user = '.$this->user_no.';';
+    $sql = 'SELECT relationship.rt_id, rt_name, rt_fromgroup, rt_togroup, confers FROM relationship JOIN relationship_type USING (rt_id) WHERE from_user = '.$this->user_no;
     $qry = new PgQuery( $sql );
     if ( $qry->Exec('RSCDSSession') && $qry->rows > 0 ) {
       while( $relationship = $qry->Fetch() ) {
         $this->relationships[$relationship->rt_id] = $relationship;
-        dbg_error_log( "RSCDSSession", "Relationships: %d - %s - %d - %s - %s -", $relationship->rt_id, $relationship->rt_name, $relationship->rt_isgroup, $relationship->confers, $relationship->prefix_match );
+        dbg_error_log( "RSCDSSession", "Relationships: %d - %s - %d - %s - %s -", $relationship->rt_id, $relationship->rt_name, $relationship->rt_fromgroup, $relationship->rt_togroup, $relationship->confers );
       }
     }
   }

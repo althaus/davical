@@ -236,7 +236,7 @@ BEGIN
 
   -- dbg := ''S-'';
   SELECT rt1.confers INTO out_confers FROM relationship r1 JOIN relationship_type rt1 USING ( rt_id )
-   WHERE NOT rt1.rt_isgroup AND r1.from_user = in_from AND r1.to_user = in_to;
+   WHERE NOT rt1.rt_togroup AND r1.from_user = in_from AND r1.to_user = in_to;
   IF FOUND THEN
     RETURN dbg || out_confers;
   END IF;
@@ -244,7 +244,7 @@ BEGIN
 
   SELECT rt1.confers, rt2.confers INTO out_confers, tmp_confers FROM relationship r1 JOIN relationship_type rt1 ON ( r1.rt_id = rt1.rt_id )
               LEFT OUTER JOIN relationship r2 ON ( r1.to_user = r2.from_user ) JOIN relationship_type rt2 ON ( r2.rt_id = rt2.rt_id )
-   WHERE rt1.rt_isgroup AND NOT rt2.rt_isgroup AND r1.from_user = in_from AND r2.to_user = in_to;
+   WHERE rt1.rt_togroup AND NOT rt2.rt_togroup AND r1.from_user = in_from AND r2.to_user = in_to;
 
   IF FOUND THEN
     -- RAISE NOTICE ''Permissions to group % from group %'', out_confers, tmp_confers;
@@ -271,7 +271,7 @@ BEGIN
 
   SELECT rt1.confers INTO out_confers, tmp_confers FROM relationship r1 JOIN relationship_type rt1 ON ( r1.rt_id = rt1.rt_id )
               LEFT OUTER JOIN relationship r2 ON ( rt1.rt_id = r2.rt_id )
-   WHERE rt1.rt_isgroup AND r1.from_user = in_from AND r2.from_user = in_to AND r1.from_user != r2.from_user AND r1.to_user = r2.to_user
+   WHERE rt1.rt_togroup AND r1.from_user = in_from AND r2.from_user = in_to AND r1.from_user != r2.from_user AND r1.to_user = r2.to_user
      AND NOT EXISTS( SELECT 1 FROM relationship r3 WHERE r3.from_user = r1.to_user ) ;
 
   IF FOUND THEN
