@@ -17,20 +17,17 @@ INSERT INTO role_member (user_no, role_no) VALUES(1, 1);
 -- Set the insert sequence to the next number, with a minimum of 1000
 SELECT setval('usr_user_no_seq', (SELECT 1000 UNION SELECT user_no FROM usr ORDER BY 1 DESC LIMIT 1) );
 
-INSERT INTO relationship_type ( rt_id, rt_name, rt_isgroup, confers )
-    VALUES( 1, 'Administers Group', TRUE, 'A' );
+INSERT INTO relationship_type ( rt_id, rt_name, confers )
+    VALUES( 1, 'Administers', 'A' );
 
-INSERT INTO relationship_type ( rt_id, rt_name, rt_isgroup, confers )
-    VALUES( 2, 'is Assistant to', FALSE, 'RW' );
+INSERT INTO relationship_type ( rt_id, rt_name, confers )
+    VALUES( 2, 'is Assistant to', 'RW' );
 
-INSERT INTO relationship_type ( rt_id, rt_name, rt_isgroup, confers )
-    VALUES( 3, 'Is a member of group', TRUE, 'R' );
+INSERT INTO relationship_type ( rt_id, rt_name, confers )
+    VALUES( 3, 'Can read from', 'R' );
 
-INSERT INTO relationship_type ( rt_id, rt_name, rt_isgroup, confers )
-    VALUES( 4, 'Administers Resource', FALSE, 'A' );
-
-INSERT INTO relationship_type ( rt_id, rt_name, rt_isgroup, confers )
-    VALUES( 5, 'Can see free/busy time of', FALSE, 'F' );
+INSERT INTO relationship_type ( rt_id, rt_name, confers )
+    VALUES( 4, 'Can see free/busy time of', 'F' );
 
 
 -- Set the insert sequence to the next number, with a minimum of 1000

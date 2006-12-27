@@ -139,11 +139,10 @@ EOSQL;
                                       "_null" => $nullvalue,
                                       "_sql"  => $sql ) );
 
-      $group_target = ( isset($this->roles['Group']) ? 'WHERE NOT rt_fromgroup' : '' );
       $relationship_type_selection = $ef->DataEntryField( "", "lookup", "relate_as",
                                 array("title" => translate("Select the type of relationship from this user"),
                                       "_null" => translate("--- select a relationship type ---"),
-                                      "_sql"  => "SELECT rt_id, rt_name FROM relationship_type $group_target " ) );
+                                      "_sql"  => "SELECT rt_id, rt_name FROM relationship_type " ) );
 
       $browser->AddRow( array(
                       'rt_name' => $relationship_type_selection,  /* Since 'fullname' is formatted to display this value */
@@ -174,7 +173,6 @@ EOSQL;
     $browser->AddHidden( 'user_link', "'<a href=\"$c->base_url/user.php?user_no=' || user_no || '\">' || fullname || '</a>'" );
     $browser->AddColumn( 'fullname', translate('Linked From'), 'left', '##user_link##' );
     $browser->AddColumn( 'rt_name', translate('Relationship') );
-    $browser->AddColumn( 'to_group', translate('Group?'), 'centre', '', "CASE WHEN rt_togroup THEN 'Yes' ELSE 'No' END"  );
     $browser->AddHidden( 'confers' );
     $browser->AddColumn( 'email', translate('EMail') );
 

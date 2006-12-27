@@ -57,8 +57,6 @@ require_once("interactive-page.php");
 
   $browser->AddColumn( 'rt_id', 'Id' );
   $browser->AddColumn( 'rt_name', translate('Name') );
-  $browser->AddColumn( 'rt_fromgroup', translate('From Group?'), '', '', "CASE WHEN rt_fromgroup THEN 'Yes' ELSE 'No' END"  );
-  $browser->AddColumn( 'rt_togroup', translate('To Group?'), '', '', "CASE WHEN rt_togroup THEN 'Yes' ELSE 'No' END"  );
   $browser->AddColumn( 'confers', translate('Rights') );
   $browser->AddColumn( 'action', translate("Action"), "", "", "'<a href=\"$c->base_url/relationship_types.php?action=delete&rt_id=' || rt_id || '\">".translate("Delete")."</a>'" );
 
@@ -77,12 +75,6 @@ require_once("interactive-page.php");
                             array("title" => translate("Enter the name for this resource type"),
                                   "size" => "20") );
 
-  $rt_fromgroup_field = new EntryField( "checkbox", "rt_fromgroup",
-                            array("title" => translate("Is the source of this relationship a group of access rights?")) );
-
-  $rt_fromgroup_field = new EntryField( "checkbox", "rt_togroup",
-                            array("title" => translate("Is the target of this relationship a group of access rights?")) );
-
   $confers_field = new EntryField( "text", "confers",
                             array("title" => translate("Is this access read ('R') or Read and Write ('RW')?"),
                                   "size" => "5") );
@@ -91,8 +83,6 @@ require_once("interactive-page.php");
                   'rt_id' => 'new',
                   'rt_name' => $rt_name_field->Render(),
                   'rt_link' => $rt_name_field->Render(),
-                  'rt_fromgroup' => $rt_fromgroup_field->Render(),
-                  'rt_togroup' => $rt_togroup_field->Render(),
                   'confers' => $confers_field->Render(),
                   'action' => '<input type="submit" name="submit" value="'.translate("Add").'" class="fsubmit">'
                   ) );

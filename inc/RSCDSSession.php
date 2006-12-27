@@ -143,12 +143,12 @@ class RSCDSSession extends Session
 */
   function GetRelationships () {
     $this->relationships = array();
-    $sql = 'SELECT relationship.rt_id, rt_name, rt_fromgroup, rt_togroup, confers FROM relationship JOIN relationship_type USING (rt_id) WHERE from_user = '.$this->user_no;
+    $sql = 'SELECT relationship.rt_id, rt_name, confers FROM relationship JOIN relationship_type USING (rt_id) WHERE from_user = '.$this->user_no;
     $qry = new PgQuery( $sql );
     if ( $qry->Exec('RSCDSSession') && $qry->rows > 0 ) {
       while( $relationship = $qry->Fetch() ) {
         $this->relationships[$relationship->rt_id] = $relationship;
-        dbg_error_log( "RSCDSSession", "Relationships: %d - %s - %d - %s - %s -", $relationship->rt_id, $relationship->rt_name, $relationship->rt_fromgroup, $relationship->rt_togroup, $relationship->confers );
+        dbg_error_log( "RSCDSSession", "Relationships: %d - %s - %d - %s - %s -", $relationship->rt_id, $relationship->rt_name, $relationship->confers );
       }
     }
   }
@@ -158,15 +158,15 @@ class RSCDSSession extends Session
   * Checks that this user is logged in, and presents a login screen if they aren't.
   *
   * The function can optionally confirm whether they are a member of one of a list
-  * of groups, and deny access if they are not a member of any of them.
+  * of roles, and deny access if they are not a member of any of them.
   *
-  * @param string $groups The list of groups that the user must be a member of one of to be allowed to proceed.
-  * @return boolean Whether or not the user is logged in and is a member of one of the required groups.
+  * @param string $roles The list of roles that the user must be a member of one of to be allowed to proceed.
+  * @return boolean Whether or not the user is logged in and is a member of one of the required roles.
   */
-  function LoginRequired( $groups = "" ) {
+  function LoginRequired( $roles = "" ) {
     global $c, $session, $main_menu, $sub_menu, $tab_menu;
 
-    if ( $this->logged_in && $groups == "" ) return;
+    if ( $this->logged_in && $roles == "" ) return;
     if ( ! $this->logged_in ) {
       $c->messages[] = i18n("You must log in to use this system.");
       include_once("page-header.php");
@@ -187,8 +187,8 @@ class RSCDSSession extends Session
       }
     }
     else {
-      $valid_groups = split(",", $groups);
-      foreach( $valid_groups AS $k => $v ) {
+      $valid_roles = split(",", $roles);
+      foreach( $valid_roles AS $k => $v ) {
         if ( $this->AllowedTo($v) ) return;
       }
       $c->messages[] = i18n("You are not authorised to use this function.");

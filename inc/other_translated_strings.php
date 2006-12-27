@@ -30,10 +30,10 @@ i18n("Id <!-- short for 'Identifier' -->");
 i18n("Id");
 
 // The standard relationship names
-i18n("Administers Group");
-i18n("Administers Resource");
-i18n("Is Assisted by");
-i18n("Is a member of group");
+i18n('Administers');
+i18n('is Assistant to');
+i18n('Can read from');
+i18n('Can see free/busy time of');
 
 i18n("forget me not <!-- this is a colloquial phrase in english (the name of a flower) and is an option allowing people to log in automatically in future -->");
 
