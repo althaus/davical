@@ -219,6 +219,11 @@ BEGIN
 END;
 ' LANGUAGE 'plpgsql' IMMUTABLE STRICT;
 
+
+CREATE or REPLACE FUNCTION usr_is_role( INT, TEXT ) RETURNS BOOLEAN AS '
+  SELECT EXISTS( SELECT 1 FROM role_member JOIN roles USING(role_no) WHERE role_member.user_no=$1 AND roles.role_name=$2 )
+' LANGUAGE 'sql' IMMUTABLE STRICT;
+
 CREATE or REPLACE FUNCTION get_permissions( INT, INT ) RETURNS TEXT AS '
 DECLARE
   in_from ALIAS FOR $1;
@@ -236,15 +241,15 @@ BEGIN
 
   -- dbg := ''S-'';
   SELECT rt1.confers INTO out_confers FROM relationship r1 JOIN relationship_type rt1 USING ( rt_id )
-                    WHERE r1.from_user = in_from AND r1.to_user = in_to;
+                    WHERE r1.from_user = in_from AND r1.to_user = in_to AND NOT usr_is_role(r1.to_user,''Group'');
   IF FOUND THEN
     RETURN dbg || out_confers;
   END IF;
   -- RAISE NOTICE ''No simple relationships between % and %'', in_from, in_to;
 
-  SELECT rt1.confers, rt2.confers INTO out_confers, tmp_confers FROM relationship r1 JOIN relationship_type rt1 ON ( r1.rt_id = rt1.rt_id )
-              LEFT OUTER JOIN relationship r2 ON ( r1.to_user = r2.from_user ) JOIN relationship_type rt2 ON ( r2.rt_id = rt2.rt_id )
-              WHERE r1.from_user = in_from AND r2.to_user = in_to;
+  SELECT rt1.confers, rt2.confers INTO out_confers, tmp_confers FROM relationship r1 JOIN relationship_type rt1 USING(rt_id)
+              JOIN relationship r2 ON r1.to_user=r2.from_user JOIN relationship_type rt2 ON r2.rt_id=rt2.rt_id
+         WHERE r1.from_user=in_from AND r2.to_user=in_to AND usr_is_role(r1.to_user,''Group'') AND NOT usr_is_role(r2.to_user,''Group'') AND NOT usr_is_role(r1.from_user,''Group'');
 
   IF FOUND THEN
     -- RAISE NOTICE ''Permissions to group % from group %'', out_confers, tmp_confers;

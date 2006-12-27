@@ -37,8 +37,8 @@ SELECT setval('usr_user_no_seq', 1000);
 SELECT setval('relationship_type_rt_id_seq', (SELECT 10 UNION SELECT rt_id FROM relationship_type ORDER BY 1 DESC LIMIT 1) );
 
 -- The resources for meetings
-INSERT INTO relationship ( from_user, to_user, rt_id ) VALUES( 200, 100, 4 );
-INSERT INTO relationship ( from_user, to_user, rt_id ) VALUES( 200, 101, 4 );
+INSERT INTO relationship ( from_user, to_user, rt_id ) VALUES( 200, 100, 1 );
+INSERT INTO relationship ( from_user, to_user, rt_id ) VALUES( 200, 101, 1 );
 
 -- The people who administer meetings
 INSERT INTO relationship ( from_user, to_user, rt_id ) VALUES( 10, 200, 1 );
