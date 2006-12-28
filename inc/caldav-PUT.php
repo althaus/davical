@@ -77,7 +77,7 @@ elseif ( $qry->rows < 1 ) {
     * entity exists, the server MUST NOT perform the requested method, and
     * MUST return a 412 (Precondition Failed) response.
     */
-    $request->DoResponse( 412, translate("No existing resource matching 'If-Match' header - not accepted.") );
+    $request->DoResponse( 412, translate("Resource changed on server - not changed.") );
   }
 
   $put_action_type = 'INSERT';

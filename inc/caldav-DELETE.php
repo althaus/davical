@@ -58,7 +58,7 @@ if ( $request->IsCollection() ) {
     }
   }
   else {
-      $request->DoResponse( 404, "");
+    $request->DoResponse( 404 );
   }
 }
 else {
@@ -69,7 +69,7 @@ else {
   if ( $qry->Exec("DELETE") && $qry->rows == 1 ) {
     $delete_row = $qry->Fetch();
     if ( (isset($request->etag_if_match) && $request->etag_if_match != $delete_row->dav_etag) ) {
-      $request->DoResponse( 412, translate("Resource does not match 'If-Match' header - not deleted") );
+      $request->DoResponse( 412, translate("Resource has changed on server - not deleted") );
     }
     $qry = new PgQuery( "DELETE FROM caldav_data WHERE user_no = ? AND dav_name = ?;", $request->user_no, $request->path );
     if ( $qry->Exec("DELETE") ) {
@@ -81,7 +81,7 @@ else {
     }
   }
   else {
-      $request->DoResponse( 404, "");
+    $request->DoResponse( 404 );
   }
 }
 
