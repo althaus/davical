@@ -281,7 +281,7 @@ EOSQL;
     global $session;
 
     if ( parent::Write() ) {
-      if ( $this->AllowedTo("Admin") && isset($_POST['relate_to']) && isset($_POST['relate_as']) && isset($_POST['submit']) && $_POST['submit'] == 'Add Relationship' ) {
+      if ( $this->AllowedTo("Admin") && isset($_POST['relate_to']) && isset($_POST['relate_as']) && isset($_POST['submit']) && $_POST['submit'] == htmlspecialchars(translate('Add Relationship')) ) {
         dbg_error_log("User",":Write: Adding relationship as %d to %d", $_POST['relate_as'], isset($_POST['relate_to'] ) );
         $qry = new PgQuery("INSERT INTO relationship (from_user, to_user, rt_id ) VALUES( $this->user_no, ?, ? )", $_POST['relate_to'], $_POST['relate_as'] );
         if ( $qry->Exec() ) {
