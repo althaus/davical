@@ -501,7 +501,7 @@ class CalDAVRequest
     echo $message;
 
     if ( strlen($message) > 100 || strstr($message, "\n") ) {
-      $message = substr( preg_replace("#\s+#m", ' ', $message ), 0, 100);
+      $message = substr( preg_replace("#\s+#m", ' ', $message ), 0, 100) + "...";
     }
 
     dbg_error_log("caldav", "Status: %d, Message: %s, User: %d, Path: %s", $status, $message, $session->user_no, $this->path);
