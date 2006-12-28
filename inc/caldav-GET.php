@@ -27,13 +27,13 @@ if ( $qry->Exec("GET") && $qry->rows == 1 ) {
   $request->DoResponse( 200, ($request->method == "HEAD" ? "" : $event->caldav_data), "text/calendar" );
 }
 else if ( $qry->rows < 1 ) {
-  $request->DoResponse( 404, "Calendar Resource Not Found." );
+  $request->DoResponse( 404, translate("Calendar Resource Not Found.") );
 }
 else if ( $qry->rows > 1 ) {
-  $request->DoResponse( 500, "Database Error - Multiple Rows Match." );
+  $request->DoResponse( 500, translate("Database Error - Multiple Rows Match.") );
 }
 else {
-  $request->DoResponse( 500, "Database Error." );
+  $request->DoResponse( 500, translate("Database Error") );
 }
 
 ?>
