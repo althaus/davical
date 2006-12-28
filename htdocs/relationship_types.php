@@ -75,9 +75,14 @@ require_once("interactive-page.php");
                             array("title" => translate("Enter the name for this resource type"),
                                   "size" => "20") );
 
-  $confers_field = new EntryField( "text", "confers",
+  $confers_field = new EntryField( "select", "confers",
                             array("title" => translate("Is this access read ('R') or Read and Write ('RW')?"),
-                                  "size" => "5") );
+                                  "size" => "1",
+                                 '_A' => 'All',
+                                 '_R' => 'Read',
+                                 '_F' => 'FreeBusy',
+                                 '_W' => 'Write',
+                                 '_RW' => 'ReadWrite') );
 
   $browser->AddRow( array(
                   'rt_id' => 'new',
