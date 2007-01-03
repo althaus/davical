@@ -18,12 +18,6 @@ $qry = new PgQuery( "SELECT * FROM caldav_data WHERE user_no = ? AND dav_name = 
 dbg_error_log("get", "%s", $qry->querystring );
 if ( $qry->Exec("GET") && $qry->rows == 1 ) {
   $event = $qry->Fetch();
-
-  /**
-  * FIXME: There may be some circumstances where someone wants to send
-  * an If-Match or If-None-Match header.  I'm not sure what that means here,
-  * so we will leave it unimplemented at this point.
-  */
   $request->DoResponse( 200, ($request->method == "HEAD" ? "" : $event->caldav_data), "text/calendar" );
 }
 else if ( $qry->rows < 1 ) {
