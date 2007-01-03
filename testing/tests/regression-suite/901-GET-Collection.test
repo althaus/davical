@@ -1,0 +1,6 @@
+#
+# Doing a GET on an entire collection.
+#
+TYPE=GET
+URL=http://mycaldav/caldav.php/user1/home/
+HEAD
