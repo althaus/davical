@@ -27,7 +27,7 @@ else {
 dbg_error_log("get", "%s", $qry->querystring );
 if ( $qry->Exec("GET") && $qry->rows == 1 ) {
   $event = $qry->Fetch();
-  header( "Content-length: ".strlen($event->caldav_data) );
+  header( "Content-Length: ".strlen($event->caldav_data) );
   $request->DoResponse( 200, ($request->method == "HEAD" ? "" : $event->caldav_data), "text/calendar" );
 }
 else if ( $qry->rows < 1 ) {
@@ -44,7 +44,7 @@ else if ( $qry->rows > 1 ) {
   while( $event = $qry->Fetch() ) {
     $ical = new iCalendar( array( "icalendar" => $event->caldav_data ) );
     if ( isset($ical->tz_locn) && $ical->tz_locn != "" && isset($ical->vtimezone) && $ical->vtimezone != "" ) {
-      $timezones[$ical->tz_locn] = $ical->vtimezone;
+      $timezones[$ical->Get("tzid")] = $ical->vtimezone;
     }
     $response .= $ical->JustThisBitPlease("VEVENT");
   }
@@ -52,7 +52,7 @@ else if ( $qry->rows > 1 ) {
     $response .= $vtimezone;
   }
   $response .= iCalendar::iCalFooter();
-  header( "Content-length: ".strlen($response) );
+  header( "Content-Length: ".strlen($response) );
   $request->DoResponse( 200, ($request->method == "HEAD" ? "" : $response), "text/calendar" );
 }
 else {
