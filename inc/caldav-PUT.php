@@ -34,6 +34,9 @@ $lock_opener = $request->FailIfLocked();
 * Before we write the event, we check the container exists, creating it if it doesn't
 */
 if ( $request_container == "/$request->username/" ) {
+  /**
+  * Well, it exists, and we support it, but it is against the CalDAV spec
+  */
   dbg_error_log( "WARN", " Storing events directly in user's base folders is not recommended!");
 }
 else {
@@ -56,6 +59,16 @@ else {
 
 $etag = md5($request->raw_post);
 include_once("iCalendar.php");
+
+if ( $request_name == "" ) {
+  /**
+  * CalDAV does not define the result of a PUT on a collection.  We treat that
+  * as an import, but hide the code somewhere completely separate
+  */
+  include_once("caldav-PUT-collection.php");
+  return;
+}
+
 $ic = new iCalendar(array( 'icalendar' => $request->raw_post ));
 
 dbg_log_array( "PUT", 'EVENT', $ic->properties['VCALENDAR'][0], true );
