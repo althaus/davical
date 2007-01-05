@@ -3,6 +3,9 @@
 // According to RFC2445 we should always end with CRLF, but the CalDAV spec says
 // that normalising XML parses often muck with it and may remove the CR.
 $icalendar = preg_replace('/\r?\n /', '', $request->raw_post );
+$fh = fopen('/tmp/PUT-2.txt','w');
+fwrite($fh,$icalendar);
+fclose($fh);
 
 $lines = preg_split('/\r?\n/', $icalendar );
 
@@ -10,11 +13,12 @@ $events = array();
 $timezones = array();
 
 $current = "";
-$state = 0;
+$state = "";
 $tzid = 'unknown';
 foreach( $lines AS $lno => $line ) {
-  if ( $state == 0 ) {
-    if ( preg_match( '/^BEGIN:(VEVENT|VTIMEZONE)$/', $line, $matches ) {
+  dbg_error_log( "PUT", "CalendarLine[%04d] - %s: %s", $lno, $state, $line );
+  if ( $state == "" ) {
+    if ( preg_match( '/^BEGIN:(VEVENT|VTIMEZONE)$/', $line, $matches ) ) {
       $current .= $line."\n";
       $state = $matches[1];
     }
@@ -30,38 +34,33 @@ foreach( $lines AS $lno => $line ) {
           $timezones[$tzid] = $current;
           break;
       }
-      $state = 0;
+      $state = "";
       $current = "";
       $tzid = 'unknown';
     }
-    else if ( preg_match( 'TZID=([^:]+)(:|$)', $line, $matches ) ) {
+    else if ( preg_match( '/TZID=([^:]+)(:|$)/', $line, $matches ) ) {
       $tzid = $matches[1];
     }
   }
 }
 
 function rollback_on_error() {
+  global $request;
   $qry = new PgQuery("ROLLBACK;"); $qry->Exec("PUT");
+  $request->DoResponse( 500, translate("Database error") );
 }
 
-$qry = new PgQuery("BEGIN;");
+$qry = new PgQuery("BEGIN; DELETE FROM calendar_item WHERE user_no=? AND dav_name ~ ?; DELETE FROM caldav_data WHERE user_no=? AND dav_name ~ ?;", $request->user_no, $request->path.'[^/]+$', $request->user_no, $request->path.'[^/]+$');
 if ( !$qry->Exec("PUT") ) rollback_on_error();
 
 foreach( $events AS $k => $event ) {
+  dbg_error_log( "PUT", "Putting event %d with data: %s", $k, $event['data'] );
   $icalendar = iCalendar::iCalHeader() . $event['data'] . $timezones[$event['tzid']] . iCalendar::iCalFooter();
-  $ical = new iCalendar( array( 'icalendar' => $icalendar ) );
-  $qry = new PgQuery( "SELECT count(1) FROM caldav_data WHERE user_no=? AND dav_name=?", $request->user_no, $request->path );
-  if ( !$qry->Exec("PUT") ) rollback_on_error();
-  $count = $qry->Fetch();
+  $ic = new iCalendar( array( 'icalendar' => $icalendar ) );
   $etag = md5($icalendar);
-  if ( $count->count > 0 ) {
-    $qry = new PgQuery( "INSERT INTO caldav_data ( user_no, dav_name, dav_etag, caldav_data, caldav_type, logged_user, created, modified ) VALUES( ?, ?, ?, ?, ?, ?, current_timestamp, current_timestamp )",
-                        $request->user_no, $request->path, $etag, $icalendar, $ic->type, $session->user_no );
-  }
-  else {
-    $qry = new PgQuery( "UPDATE caldav_data SET caldav_data=?, dav_etag=?, caldav_type=?, logged_user=?, modified=current_timestamp WHERE user_no=? AND dav_name=?",
-                        $icalendar, $etag, $ic->type, $session->user_no, $request->user_no, $request->path );
-  }
+  $event_path = sprintf( "%s%d.ics", $request->path, $k);
+  $qry = new PgQuery( "INSERT INTO caldav_data ( user_no, dav_name, dav_etag, caldav_data, caldav_type, logged_user, created, modified ) VALUES( ?, ?, ?, ?, ?, ?, current_timestamp, current_timestamp )",
+                        $request->user_no, $event_path, $etag, $icalendar, $ic->type, $session->user_no );
   if ( !$qry->Exec("PUT") ) rollback_on_error();
 
   $sql = ( $ic->tz_locn == '' ? '' : "SET TIMEZONE TO ".qpg($ic->tz_locn).";" );
@@ -91,16 +90,13 @@ foreach( $events AS $k => $event ) {
     $dtstamp = $last_modified;
   }
 
-  if ( $put_action_type != 'INSERT' ) {
-    $sql .= "DELETE FROM calendar_item WHERE user_no=$request->user_no AND dav_name=".qpg($request->path).";";
-  }
   $sql .= <<<EOSQL
 INSERT INTO calendar_item (user_no, dav_name, dav_etag, uid, dtstamp, dtstart, dtend, summary, location, class, transp,
                     description, rrule, tz_id, last_modified, url, priority, created, due, percent_complete )
                  VALUES ( ?, ?, ?, ?, ?, ?, $dtend, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
 EOSQL;
 
-  $qry = new PgQuery( $sql, $request->user_no, $request->path, $etag, $ic->Get('uid'), $dtstamp,
+  $qry = new PgQuery( $sql, $request->user_no, $event_path, $etag, $ic->Get('uid'), $dtstamp,
                             $ic->Get('dtstart'), $ic->Get('summary'), $ic->Get('location'),
                             $ic->Get('class'), $ic->Get('transp'), $ic->Get('description'), $ic->Get('rrule'), $ic->Get('tz_id'),
                             $last_modified, $ic->Get('url'), $ic->Get('priority'), $ic->Get('created'),
@@ -111,5 +107,7 @@ EOSQL;
 
 $qry = new PgQuery("COMMIT;");
 if ( !$qry->Exec("PUT") ) rollback_on_error();
+
+$request->DoResponse( 200 );
 
 ?>

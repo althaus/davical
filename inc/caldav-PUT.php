@@ -25,7 +25,9 @@ if ( preg_match( '#^(.*/)([^/]+)$#', $request->path, $matches ) ) {
   $request_name = $matches[2];
 }
 else {
-  $request->DoResponse( 406, translate("You may not PUT a collection - you may only PUT things *in* one or use MKCOL/MKCALENDAR to create one."));
+  $request_container = $request->path;
+  $request_name = "";
+//  $request->DoResponse( 406, translate("You may not PUT a collection - you may only PUT things *in* one or use MKCOL/MKCALENDAR to create one."));
 }
 
 $lock_opener = $request->FailIfLocked();
