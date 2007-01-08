@@ -63,7 +63,11 @@ foreach( $events AS $k => $event ) {
                         $request->user_no, $event_path, $etag, $icalendar, $ic->type, $session->user_no );
   if ( !$qry->Exec("PUT") ) rollback_on_error();
 
-  $sql = ( $ic->tz_locn == '' ? '' : "SET TIMEZONE TO ".qpg($ic->tz_locn).";" );
+  $sql = "";
+  if ( preg_match(':^(Africa|America|Antarctica|Arctic|Asia|Atlantic|Australia|Brazil|Canada|Chile|Etc|Europe|Indian|Mexico|Mideast|Pacific|US)/[a-z]+$:i', $ic->tz_locn ) ) {
+    // We only set the timezone if it looks reasonable enough for us
+    $sql = ( $ic->tz_locn == '' ? '' : "SET TIMEZONE TO ".qpg($ic->tz_locn).";" );
+  }
 
   $dtstart = $ic->Get('dtstart');
   if ( (!isset($dtstart) || $dtstart == "") && $ic->Get('due') != "" ) {
