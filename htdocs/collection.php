@@ -31,7 +31,7 @@ require_once("interactive-page.php");
     $browser->AddOrder( $_GET['o'], $_GET['d'] );
   }
   else
-    $browser->AddOrder( 'dav_name', 'A' );
+    $browser->AddOrder( 'dtstart', 'A' );
 
   $browser->RowFormat( "<tr class=\"r%d\">\n", "</tr>\n", '#even' );
 
