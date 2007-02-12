@@ -22,11 +22,12 @@ if ( $request->IsCollection() ) {
   $qry = new PgQuery( "SELECT caldav_data FROM caldav_data WHERE user_no = ? AND dav_name ~ ? ;", $request->user_no, $request->path.'[^/]+$');
 }
 else {
-  $qry = new PgQuery( "SELECT caldav_data FROM caldav_data WHERE user_no = ? AND dav_name = ? ;", $request->user_no, $request->path);
+  $qry = new PgQuery( "SELECT caldav_data, dav_etag FROM caldav_data WHERE user_no = ? AND dav_name = ? ;", $request->user_no, $request->path);
 }
 dbg_error_log("get", "%s", $qry->querystring );
 if ( $qry->Exec("GET") && $qry->rows == 1 ) {
   $event = $qry->Fetch();
+  header( "Etag: \"$event->dav_etag\"" );
   header( "Content-Length: ".strlen($event->caldav_data) );
   $request->DoResponse( 200, ($request->method == "HEAD" ? "" : $event->caldav_data), "text/calendar" );
 }
