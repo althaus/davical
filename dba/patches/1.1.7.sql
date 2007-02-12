@@ -18,6 +18,16 @@ UPDATE relationship SET rt_id=4 WHERE rt_id=5;
 
 DELETE FROM relationship_type WHERE rt_id = 5;
 
+-- Add a 'status' column to calendar_item which will contain the parsed value of the STATUS property
+ALTER TABLE calendar_item ADD COLUMN status TEXT;
+UPDATE calendar_item SET status = 'CONFIRMED';
+UPDATE calendar_item SET status = 'CANCELLED'    WHERE calendar_item.dav_name IN (SELECT dav_name FROM caldav_data WHERE caldav_data.caldav_data ~ 'STATUS.*:.*CANCELLED');
+UPDATE calendar_item SET status = 'TENTATIVE'    WHERE calendar_item.dav_name IN (SELECT dav_name FROM caldav_data WHERE caldav_data.caldav_data ~ 'STATUS.*:.*TENTATIVE');
+UPDATE calendar_item SET status = 'NEEDS-ACTION' WHERE calendar_item.dav_name IN (SELECT dav_name FROM caldav_data WHERE caldav_data.caldav_data ~ 'STATUS.*:.*NEEDS-ACTION');
+UPDATE calendar_item SET status = 'IN-PROCESS'   WHERE calendar_item.dav_name IN (SELECT dav_name FROM caldav_data WHERE caldav_data.caldav_data ~ 'STATUS.*:.*IN-PROCESS');
+UPDATE calendar_item SET status = 'DRAFT'        WHERE calendar_item.dav_name IN (SELECT dav_name FROM caldav_data WHERE caldav_data.caldav_data ~ 'STATUS.*:.*DRAFT');
+UPDATE calendar_item SET status = 'FINAL'        WHERE calendar_item.dav_name IN (SELECT dav_name FROM caldav_data WHERE caldav_data.caldav_data ~ 'STATUS.*:.*FINAL');
+
 SELECT new_db_revision(1,1,7, 'July' );
 COMMIT;
 ROLLBACK;

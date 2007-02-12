@@ -54,6 +54,7 @@ CREATE TABLE calendar_item (
   url TEXT,
   percent_complete NUMERIC(7,2),
   tz_id TEXT REFERENCES time_zone( tz_id ),
+  status TEXT,
 
   -- Cascade updates / deletes from the caldav_data table
   CONSTRAINT caldav_exists FOREIGN KEY ( user_no, dav_name )

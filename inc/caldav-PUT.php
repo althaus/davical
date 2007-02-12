@@ -178,8 +178,8 @@ if ( $put_action_type != 'INSERT' ) {
 }
 $sql .= <<<EOSQL
 INSERT INTO calendar_item (user_no, dav_name, dav_etag, uid, dtstamp, dtstart, dtend, summary, location, class, transp,
-                    description, rrule, tz_id, last_modified, url, priority, created, due, percent_complete )
-                 VALUES ( ?, ?, ?, ?, ?, ?, $dtend, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+                    description, rrule, tz_id, last_modified, url, priority, created, due, percent_complete, status )
+                 VALUES ( ?, ?, ?, ?, ?, ?, $dtend, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
 COMMIT;
 EOSQL;
 
@@ -187,7 +187,7 @@ $qry = new PgQuery( $sql, $request->user_no, $request->path, $etag, $ic->Get('ui
                           $ic->Get('dtstart'), $ic->Get('summary'), $ic->Get('location'),
                           $ic->Get('class'), $ic->Get('transp'), $ic->Get('description'), $ic->Get('rrule'), $ic->Get('tz_id'),
                           $last_modified, $ic->Get('url'), $ic->Get('priority'), $ic->Get('created'),
-                          $ic->Get('due'), $ic->Get('percent-complete')
+                          $ic->Get('due'), $ic->Get('percent-complete'), $ic->Get('status')
                     );
 $qry->Exec("PUT");
 dbg_error_log( "PUT", "User: %d, ETag: %s, Path: %s", $session->user_no, $etag, $request->path);
