@@ -236,26 +236,33 @@ if ( $free_busy_query ) {
   }
   $where .= "AND caldav_data.caldav_type IN ( 'VEVENT', 'VFREEBUSY' ) ";
   $where .= "AND (calendar_item.transp != 'TRANSPARENT' OR calendar_item.transp IS NULL) ";
-//  $where .= "AND (calendar_item.status != 'CANCELLED' OR calendar_item.status IS NULL) ";
+  $where .= "AND (calendar_item.status != 'CANCELLED' OR calendar_item.status IS NULL) ";
   $where .= "AND (calendar_item.class != 'PRIVATE' OR calendar_item.class IS NULL OR get_permissions($session->user_no,caldav_data.user_no) ~ 'A') "; // Must have 'all' permissions to see confidential items
 
   $busy = array();
   $busy_tentative = array();
-  $sql = "SELECT caldav_data.caldav_data, calendar_item.rrule, ";
+  $sql = "SELECT caldav_data.caldav_data, calendar_item.rrule, calendar_item.transp, calendar_item.status, ";
   $sql .= "to_char(calendar_item.dtstart at time zone 'GMT',".iCalendar::SqlDateFormat().") AS start, ";
   $sql .= "to_char(calendar_item.dtend at time zone 'GMT',".iCalendar::SqlDateFormat().") AS finish ";
   $sql .= "FROM caldav_data INNER JOIN calendar_item USING(user_no, dav_name)".$where." ORDER BY dtstart, dtend";
   $qry = new PgQuery( $sql, "^".$request->path.$request->DepthRegexTail() );
   if ( $qry->Exec("REPORT",__LINE__,__FILE__) && $qry->rows > 0 ) {
     while( $calendar_object = $qry->Fetch() ) {
-      if ( ! preg_match( '/^TRANSP.*TRANSPARENT/im', $calendar_object->caldav_data ) ) {
-        if ( preg_match( '/^STATUS.*:.*TENTATIVE/im', $calendar_object->caldav_data ) ) {
-          dbg_error_log( "REPORT", " FreeBusy: tentative appointment: %s, %s", $calendar_object->start, $calendar_object->finish );
-          $busy_tentative[] = $calendar_object;
-        }
-        else if ( ! preg_match( '/STATUS.*:.*CANCELLED/m', $calendar_object->caldav_data ) ) {
-          dbg_error_log( "REPORT", " FreeBusy: Not transparent, tentative or cancelled: %s, %s", $calendar_object->start, $calendar_object->finish );
-          $busy[] = $calendar_object;
+      if ( $calendar_object->transp != "TRANSPARENT" ) {
+        switch ( $calendar_object->status ) {
+          case "TENTATIVE":
+            dbg_error_log( "REPORT", " FreeBusy: tentative appointment: %s, %s", $calendar_object->start, $calendar_object->finish );
+            $busy_tentative[] = $calendar_object;
+            break;
+
+          case "CANCELLED":
+            // Cancelled events are ignored
+            break;
+
+          default:
+            dbg_error_log( "REPORT", " FreeBusy: Not transparent, tentative or cancelled: %s, %s", $calendar_object->start, $calendar_object->finish );
+            $busy[] = $calendar_object;
+            break;
         }
       }
     }
