@@ -10,7 +10,7 @@
 */
 dbg_error_log("PROPFIND", "method handler");
 
-if ( ! $request->AllowedTo('read') ) {
+if ( ! ($request->AllowedTo('read') || $request->AllowedTo('freebusy')) ) {
   $request->DoResponse( 403, translate("You may not access that calendar") );
 }
 
@@ -314,7 +314,7 @@ function item_to_xml( $item ) {
 * a list of calendars for the user which are parented by this path.
 */
 function get_collection_contents( $depth, $user_no, $collection ) {
-  global $session;
+  global $session, $request;
 
   dbg_error_log("PROPFIND","Getting collection contents: Depth %d, User: %d, Path: %s", $depth, $user_no, $collection->dav_name );
 
@@ -349,18 +349,23 @@ function get_collection_contents( $depth, $user_no, $collection ) {
     }
   }
 
-  dbg_error_log("PROPFIND","Getting collection items: Depth %d, User: %d, Path: %s", $depth, $user_no, $collection->dav_name );
+  /**
+  * freebusy permission is not allowed to see the items in a collection.  Must have at least read permission.
+  */
+  if ( $request->AllowedTo('read') ) {
+    dbg_error_log("PROPFIND","Getting collection items: Depth %d, User: %d, Path: %s", $depth, $user_no, $collection->dav_name );
 
-  $sql = "SELECT caldav_data.dav_name, caldav_data, caldav_data.dav_etag, ";
-  $sql .= "to_char(coalesce(calendar_item.created, caldav_data.created) at time zone 'GMT',?) AS created, ";
-  $sql .= "to_char(last_modified at time zone 'GMT',?) AS modified, ";
-  $sql .= "summary AS dav_displayname ";
-  $sql .= "FROM caldav_data JOIN calendar_item USING( user_no, dav_name) WHERE dav_name ~ ".qpg('^'.$collection->dav_name.'[^/]+$');
-  $sql .= "ORDER BY caldav_data.dav_name ";
-  $qry = new PgQuery($sql, PgQuery::Plain(iCalendar::HttpDateFormat()), PgQuery::Plain(iCalendar::HttpDateFormat()));
-  if( $qry->Exec("PROPFIND",__LINE__,__FILE__) && $qry->rows > 0 ) {
-    while( $item = $qry->Fetch() ) {
-      $responses[] = item_to_xml( $item );
+    $sql = "SELECT caldav_data.dav_name, caldav_data, caldav_data.dav_etag, ";
+    $sql .= "to_char(coalesce(calendar_item.created, caldav_data.created) at time zone 'GMT',?) AS created, ";
+    $sql .= "to_char(last_modified at time zone 'GMT',?) AS modified, ";
+    $sql .= "summary AS dav_displayname ";
+    $sql .= "FROM caldav_data JOIN calendar_item USING( user_no, dav_name) WHERE dav_name ~ ".qpg('^'.$collection->dav_name.'[^/]+$');
+    $sql .= "ORDER BY caldav_data.dav_name ";
+    $qry = new PgQuery($sql, PgQuery::Plain(iCalendar::HttpDateFormat()), PgQuery::Plain(iCalendar::HttpDateFormat()));
+    if( $qry->Exec("PROPFIND",__LINE__,__FILE__) && $qry->rows > 0 ) {
+      while( $item = $qry->Fetch() ) {
+        $responses[] = item_to_xml( $item );
+      }
     }
   }
 
@@ -444,26 +449,22 @@ function get_item( $item_path ) {
 
 $request->UnsupportedRequest($unsupported); // Won't return if there was unsupported stuff.
 
-if ( $request->AllowedTo('read') ) {
-
-  /**
-  * Something that we can handle, at least roughly correctly.
-  */
-  $url = $c->protocol_server_port_script . $request->path ;
-  $url = preg_replace( '#/$#', '', $url);
-  if ( $request->IsCollection() ) {
-    $responses = get_collection( $request->depth, $request->user_no, $request->path );
-  }
-  else {
-    $responses = get_item( $request->path );
-  }
-
-
-  $multistatus = new XMLElement( "multistatus", $responses, array('xmlns'=>'DAV:') );
+/**
+* Something that we can handle, at least roughly correctly.
+*/
+$url = $c->protocol_server_port_script . $request->path ;
+$url = preg_replace( '#/$#', '', $url);
+if ( $request->IsCollection() ) {
+  $responses = get_collection( $request->depth, $request->user_no, $request->path );
+}
+elseif ( $request->AllowedTo('read') ) {
+  $responses = get_item( $request->path );
 }
 else {
   $request->DoResponse( 403, translate("You do not have appropriate rights to view that resource.") );
 }
+
+$multistatus = new XMLElement( "multistatus", $responses, array('xmlns'=>'DAV:') );
 
 // dbg_log_array( "PROPFIND", "XML", $multistatus, true );
 $xmldoc = $multistatus->Render(0,'<?xml version="1.0" encoding="utf-8" ?>');
