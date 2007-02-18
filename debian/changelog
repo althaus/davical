@@ -1,3 +1,15 @@
+rscds (0.7.0) unstable; urgency=low
+
+  * Changes to privacy model for FREEBUSY
+  * Simplify relationships.
+  * Fix internationalisation issues with updating users.
+  * GET/PUT against a collection URL are now interpreted as WebDAV.
+  * Ensure Etag is provided for GET of calendar items.
+  * Removed superseded ics.php interface. People should GET/PUT against
+    calendar collections directly for WebDAV instead.
+
+ -- Andrew McMillan <debian@mcmillan.net.nz>  Mon, 19 Feb 2007 11:14:56 +1300
+
 rscds (0.6.0) unstable; urgency=low
 
   * Add support for LOCK, UNLOCK and PROPPATCH methods.
