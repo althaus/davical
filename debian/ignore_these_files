@@ -9,3 +9,7 @@ docs/draft-ietf-calsch-many-xcal-02.txt
 docs/dusseault-caldav-15.txt.html
 docs/dusseault2005CalDAV.pdf
 docs/website/wiki
+htdocs/.gitignore
+inc/test-RRULE.php
+inc/DOM-PHP4-Compatibility.php
+inc/DOMDocumentCompatibility.php
