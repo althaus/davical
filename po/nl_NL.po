@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-12-24 10:44+1300\n"
+"POT-Creation-Date: 2007-02-19 10:35+1300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Eelco Maljaars <http://eelco.maljaars.net/>\n"
 "Language-Team: nl_NL <LL@li.org>\n"
@@ -57,11 +57,9 @@ msgstr "Beheerder"
 msgid "Admin"
 msgstr "Beheer"
 
-msgid "Administers Group"
+#, fuzzy
+msgid "Administers"
 msgstr "Beheerdersgroep"
-
-msgid "Administers Resource"
-msgstr "Beheerders resource"
 
 msgid "All requested changes were made."
 msgstr ""
@@ -72,8 +70,17 @@ msgstr "Blader door alle soorten relaties"
 msgid "Browse all users"
 msgstr "Blader door alle gebruikers"
 
+msgid "Calendar Resource Not Found."
+msgstr ""
+
 msgid "Calendar Users"
 msgstr "Agenda gebruikers"
+
+msgid "Can read from"
+msgstr ""
+
+msgid "Can see free/busy time of"
+msgstr ""
 
 msgid "Changed On"
 msgstr "Veranderd op"
@@ -113,6 +120,10 @@ msgid "Database Error"
 msgstr "Database fout"
 
 msgid "Database Error."
+msgstr "Database fout"
+
+#, fuzzy
+msgid "Database error"
 msgstr "Database fout"
 
 msgid "Date Style"
@@ -186,9 +197,6 @@ msgstr "Groep"
 msgid "Group"
 msgstr "Groepeer"
 
-msgid "Group?"
-msgstr "Groepeer?"
-
 msgid "Help on something or other"
 msgstr "Hulp bij iets of anders"
 
@@ -222,17 +230,8 @@ msgstr "Verkeerde gebruikersnaam of wachtwoord"
 msgid "Invalid username or password."
 msgstr "Verkeerde gebruikersnaam of wachtwoord"
 
-msgid "Is Assisted by"
-msgstr "Wordt ondersteund door"
-
 msgid "Is a Calendar?"
 msgstr "Is een agenda?"
-
-msgid "Is a member of group"
-msgstr "Is lid van de groep"
-
-msgid "Is the target of this relationship a group of access rights?"
-msgstr "Is het doel van deze relatie een groep van toegangsrechten?"
 
 msgid "Is this access read ('R') or Read and Write ('RW')?"
 msgstr "Is deze toegang lezen ('R') of lezen en schrijven ('RW')"
@@ -279,9 +278,6 @@ msgstr "Nieuwe gebruiker"
 msgid "No collection found at that location."
 msgstr "Geen verzamelingen gevonden op die plaats"
 
-msgid "No existing resource matching 'If-Match' header - not accepted."
-msgstr "Geen bestaande resource komt overeen met 'If-Match' kopregel - niet geaccepteerd "
-
 msgid "No. <!-- short for 'Number' -->"
 msgstr "Nr."
 
@@ -296,9 +292,6 @@ msgstr "Bevestig verwijderen alsjeblieft"
 
 msgid "Please note the time and advise the administrator of your system."
 msgstr "Noteer de tijd en breng de beheerder van jou systeem op de hoogte"
-
-msgid "Prefix"
-msgstr ""
 
 msgid "Property is read-only"
 msgstr ""
@@ -354,7 +347,14 @@ msgstr "Rapporteer een softwarefout in het systeem"
 msgid "Resource <!-- a thing which might be booked: a room, a carpark, a projector... -->"
 msgstr "Resource"
 
+msgid "Resource changed on server - not changed."
+msgstr ""
+
 msgid "Resource does not match 'If-Match' header - not deleted"
+msgstr "Resource komt niet overeen met 'If-Match' kopregel - niet verwijderd"
+
+#, fuzzy
+msgid "Resource has changed on server - not deleted"
 msgstr "Resource komt niet overeen met 'If-Match' kopregel - niet verwijderd"
 
 msgid "Resource"
@@ -362,9 +362,6 @@ msgstr "Resource"
 
 msgid "Resources may not be changed to / from collections."
 msgstr ""
-
-msgid "Restrict access to prefixes matching this pattern"
-msgstr "Limiteer toegang tot de prefix die overeenkomt met dit patroon"
 
 msgid "Rights"
 msgstr "Rechten"
@@ -422,9 +419,6 @@ msgstr "Er is een fout opgetreden bij het schrijven naar de database"
 
 msgid "This user's collections"
 msgstr "Verzamelingen van deze gebruiker"
-
-msgid "To Group?"
-msgstr "Naar groep?"
 
 msgid "Type"
 msgstr "Soort"
@@ -513,5 +507,30 @@ msgstr "ingelogd blijven"
 msgid "forget me not"
 msgstr "ingelogd blijven"
 
+#, fuzzy
+msgid "is Assistant to"
+msgstr "Wordt ondersteund door"
+
 msgid "you should log on with the username and password that have been issued to you."
 msgstr "je moet inloggen met de gebruikersnaam en het wachtwoord die je zijn toegewezen "
+
+#~ msgid "Administers Resource"
+#~ msgstr "Beheerders resource"
+
+#~ msgid "Group?"
+#~ msgstr "Groepeer?"
+
+#~ msgid "Is a member of group"
+#~ msgstr "Is lid van de groep"
+
+#~ msgid "Is the target of this relationship a group of access rights?"
+#~ msgstr "Is het doel van deze relatie een groep van toegangsrechten?"
+
+#~ msgid "No existing resource matching 'If-Match' header - not accepted."
+#~ msgstr "Geen bestaande resource komt overeen met 'If-Match' kopregel - niet geaccepteerd "
+
+#~ msgid "Restrict access to prefixes matching this pattern"
+#~ msgstr "Limiteer toegang tot de prefix die overeenkomt met dit patroon"
+
+#~ msgid "To Group?"
+#~ msgstr "Naar groep?"

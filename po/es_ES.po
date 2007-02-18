@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RSCDS 0.2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-12-24 10:44+1300\n"
+"POT-Creation-Date: 2007-02-19 10:35+1300\n"
 "PO-Revision-Date: 2006-11-06 17:12+1300\n"
 "Last-Translator: Lorena Paoletti <andrew@mcmillan.net.nz>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -57,11 +57,9 @@ msgstr "Administrador"
 msgid "Admin"
 msgstr "Administrador"
 
-msgid "Administers Group"
-msgstr ""
-
-msgid "Administers Resource"
-msgstr ""
+#, fuzzy
+msgid "Administers"
+msgstr "Administrador"
 
 msgid "All requested changes were made."
 msgstr ""
@@ -72,8 +70,17 @@ msgstr "Mostrar todos los tipos de relaciones"
 msgid "Browse all users"
 msgstr "Mostrar todos los usuarios"
 
+msgid "Calendar Resource Not Found."
+msgstr ""
+
 msgid "Calendar Users"
 msgstr "Calendario de los Usuario"
+
+msgid "Can read from"
+msgstr ""
+
+msgid "Can see free/busy time of"
+msgstr ""
 
 msgid "Changed On"
 msgstr ""
@@ -117,6 +124,10 @@ msgid "Database Error"
 msgstr "Error en la Base de Datos."
 
 msgid "Database Error."
+msgstr "Error en la Base de Datos."
+
+#, fuzzy
+msgid "Database error"
 msgstr "Error en la Base de Datos."
 
 msgid "Date Style"
@@ -190,9 +201,6 @@ msgstr "Grupo"
 msgid "Group"
 msgstr "Grupo"
 
-msgid "Group?"
-msgstr "¿Grupo?"
-
 msgid "Help on something or other"
 msgstr "Ayuda en"
 
@@ -226,17 +234,8 @@ msgstr "Usuario o contraseña incorrectos."
 msgid "Invalid username or password."
 msgstr "Usuario o contraseña incorrectos."
 
-msgid "Is Assisted by"
-msgstr ""
-
 msgid "Is a Calendar?"
 msgstr ""
-
-msgid "Is a member of group"
-msgstr ""
-
-msgid "Is the target of this relationship a group of access rights?"
-msgstr "¿El objetivo de ésta relación es un grupo de derechos de acceso?"
 
 msgid "Is this access read ('R') or Read and Write ('RW')?"
 msgstr "¿Éste acceso es de lectura ('L') ó de Lectura y Escritura ('LE')?"
@@ -283,9 +282,6 @@ msgstr "Nuevo Usuario"
 msgid "No collection found at that location."
 msgstr ""
 
-msgid "No existing resource matching 'If-Match' header - not accepted."
-msgstr ""
-
 msgid "No. <!-- short for 'Number' -->"
 msgstr "No"
 
@@ -300,9 +296,6 @@ msgstr ""
 
 msgid "Please note the time and advise the administrator of your system."
 msgstr "Por favor, tome nota de la fecha y hora y contacte a su administrador de sistemas."
-
-msgid "Prefix"
-msgstr "Prefijo"
 
 msgid "Property is read-only"
 msgstr ""
@@ -358,7 +351,13 @@ msgstr "Reportar un error en el sistema"
 msgid "Resource <!-- a thing which might be booked: a room, a carpark, a projector... -->"
 msgstr "Recurso"
 
+msgid "Resource changed on server - not changed."
+msgstr ""
+
 msgid "Resource does not match 'If-Match' header - not deleted"
+msgstr ""
+
+msgid "Resource has changed on server - not deleted"
 msgstr ""
 
 msgid "Resource"
@@ -366,9 +365,6 @@ msgstr "Recurso"
 
 msgid "Resources may not be changed to / from collections."
 msgstr ""
-
-msgid "Restrict access to prefixes matching this pattern"
-msgstr "Acceso restringido a prefijos que coincidan con éste patrón"
 
 msgid "Rights"
 msgstr "Derechos"
@@ -426,9 +422,6 @@ msgstr "Hubo un error al grabar en la base de datos."
 
 msgid "This user's collections"
 msgstr ""
-
-msgid "To Group?"
-msgstr "¿Al Grupo?"
 
 msgid "Type"
 msgstr ""
@@ -515,8 +508,26 @@ msgstr ""
 msgid "forget me not"
 msgstr ""
 
+msgid "is Assistant to"
+msgstr ""
+
 msgid "you should log on with the username and password that have been issued to you."
 msgstr "Para conectarse debe utilizar el nombre de usuario y contraseña que le ha sido asignado."
+
+#~ msgid "Group?"
+#~ msgstr "¿Grupo?"
+
+#~ msgid "Is the target of this relationship a group of access rights?"
+#~ msgstr "¿El objetivo de ésta relación es un grupo de derechos de acceso?"
+
+#~ msgid "Prefix"
+#~ msgstr "Prefijo"
+
+#~ msgid "Restrict access to prefixes matching this pattern"
+#~ msgstr "Acceso restringido a prefijos que coincidan con éste patrón"
+
+#~ msgid "To Group?"
+#~ msgstr "¿Al Grupo?"
 
 #~ msgid "Relationship Type Updated."
 #~ msgstr "Tipo de Relación Actualizada."

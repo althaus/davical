@@ -228,6 +228,7 @@
     <item url="debian/control" uploadstatus="1" />
     <item url="inc/DOM-PHP4-Compatibility.php" uploadstatus="1" />
     <item url="inc/DOMDocumentCompatibility.php" uploadstatus="1" />
-    <item url="dba/patches/1.1.7.sql" />
+    <item url="dba/patches/1.1.7.sql" uploadstatus="1" />
+    <item url="inc/caldav-PUT-collection.php" uploadstatus="1" />
   </project>
 </webproject>

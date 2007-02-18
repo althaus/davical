@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RSCDS 0.2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-12-24 10:44+1300\n"
+"POT-Creation-Date: 2007-02-19 10:35+1300\n"
 "PO-Revision-Date: 2006-11-06 17:24+1300\n"
 "Last-Translator: Cristina Radalescu <andrew@mcmillan.net.nz>\n"
 "MIME-Version: 1.0\n"
@@ -56,11 +56,9 @@ msgstr "Systemadministrator"
 msgid "Admin"
 msgstr "Administrator"
 
-msgid "Administers Group"
-msgstr ""
-
-msgid "Administers Resource"
-msgstr ""
+#, fuzzy
+msgid "Administers"
+msgstr "Administrator"
 
 msgid "All requested changes were made."
 msgstr ""
@@ -71,8 +69,17 @@ msgstr "Nach allen Verhältnistypen durchsuchen"
 msgid "Browse all users"
 msgstr "Nach allen Benutzern durchsuchen"
 
+msgid "Calendar Resource Not Found."
+msgstr ""
+
 msgid "Calendar Users"
 msgstr "Kalender Benutzer"
+
+msgid "Can read from"
+msgstr ""
+
+msgid "Can see free/busy time of"
+msgstr ""
 
 msgid "Changed On"
 msgstr ""
@@ -116,6 +123,10 @@ msgid "Database Error"
 msgstr "Datenbank Error"
 
 msgid "Database Error."
+msgstr "Datenbank Error"
+
+#, fuzzy
+msgid "Database error"
 msgstr "Datenbank Error"
 
 msgid "Date Style"
@@ -189,9 +200,6 @@ msgstr "Gruppe"
 msgid "Group"
 msgstr "Gruppe"
 
-msgid "Group?"
-msgstr "Gruppe?"
-
 msgid "Help on something or other"
 msgstr "Hilfestellung oder Sonstiges"
 
@@ -227,17 +235,8 @@ msgstr "Ungültiger Benutzername oder Passwort"
 msgid "Invalid username or password."
 msgstr "Ungültiger Benutzername oder Passwort"
 
-msgid "Is Assisted by"
-msgstr ""
-
 msgid "Is a Calendar?"
 msgstr ""
-
-msgid "Is a member of group"
-msgstr ""
-
-msgid "Is the target of this relationship a group of access rights?"
-msgstr "Ist das Ziel dieses Verhältnisses eine Gruppe von Zugriffsrechten?"
 
 msgid "Is this access read ('R') or Read and Write ('RW')?"
 msgstr "Ist dieser Zugriffsmodus Lesen ('R') oder Lesen und Schreiben ('RW')"
@@ -284,9 +283,6 @@ msgstr "Neuer Benutzer"
 msgid "No collection found at that location."
 msgstr ""
 
-msgid "No existing resource matching 'If-Match' header - not accepted."
-msgstr ""
-
 msgid "No. <!-- short for 'Number' -->"
 msgstr "Nr."
 
@@ -302,9 +298,6 @@ msgstr ""
 
 msgid "Please note the time and advise the administrator of your system."
 msgstr "Bitte notieren Sie sich die Zeit und benachrichtigen Sie Ihren Systemadministrator"
-
-msgid "Prefix"
-msgstr "Vorwahl"
 
 msgid "Property is read-only"
 msgstr ""
@@ -360,7 +353,13 @@ msgstr "Fehler im System berichten"
 msgid "Resource <!-- a thing which might be booked: a room, a carpark, a projector... -->"
 msgstr "Ressource"
 
+msgid "Resource changed on server - not changed."
+msgstr ""
+
 msgid "Resource does not match 'If-Match' header - not deleted"
+msgstr ""
+
+msgid "Resource has changed on server - not deleted"
 msgstr ""
 
 msgid "Resource"
@@ -368,9 +367,6 @@ msgstr "Ressource"
 
 msgid "Resources may not be changed to / from collections."
 msgstr ""
-
-msgid "Restrict access to prefixes matching this pattern"
-msgstr "Zugriff auf Praefixe beschraenken, die auf dieses Muster zutreffen"
 
 msgid "Rights"
 msgstr "Rechte"
@@ -428,9 +424,6 @@ msgstr "Ein Fehler ist aufgetreten beim Schreiben im Datenverzeichnis"
 
 msgid "This user's collections"
 msgstr ""
-
-msgid "To Group?"
-msgstr "Zur Gruppe?"
 
 msgid "Type"
 msgstr ""
@@ -517,8 +510,26 @@ msgstr ""
 msgid "forget me not"
 msgstr ""
 
+msgid "is Assistant to"
+msgstr ""
+
 msgid "you should log on with the username and password that have been issued to you."
 msgstr "Bitte loggen Sie sich mit den Ihnen zugeteilten Benutzernamen und Passwort ein"
+
+#~ msgid "Group?"
+#~ msgstr "Gruppe?"
+
+#~ msgid "Is the target of this relationship a group of access rights?"
+#~ msgstr "Ist das Ziel dieses Verhältnisses eine Gruppe von Zugriffsrechten?"
+
+#~ msgid "Prefix"
+#~ msgstr "Vorwahl"
+
+#~ msgid "Restrict access to prefixes matching this pattern"
+#~ msgstr "Zugriff auf Praefixe beschraenken, die auf dieses Muster zutreffen"
+
+#~ msgid "To Group?"
+#~ msgstr "Zur Gruppe?"
 
 #~ msgid "Relationship Type Updated."
 #~ msgstr "Verhältnistyp aktualisiert"

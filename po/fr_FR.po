@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rscds 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-12-24 10:44+1300\n"
+"POT-Creation-Date: 2007-02-19 10:35+1300\n"
 "PO-Revision-Date: 2006-11-13 13:03+1300\n"
 "Last-Translator: Guillaume Rosquin <andrew@mcmillan.net.nz>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -58,11 +58,9 @@ msgstr "Administrateur"
 msgid "Admin"
 msgstr "Administrateur"
 
-msgid "Administers Group"
+#, fuzzy
+msgid "Administers"
 msgstr "Gére les groupe"
-
-msgid "Administers Resource"
-msgstr "Gére la ressource"
 
 msgid "All requested changes were made."
 msgstr "Tous les changements demandés ont eu lieu"
@@ -74,9 +72,18 @@ msgstr "Affiche tous les types de relations"
 msgid "Browse all users"
 msgstr "Affiche tous les utilisateurs"
 
+msgid "Calendar Resource Not Found."
+msgstr ""
+
 # I.e. The list of people who can use this (calendar) software
 msgid "Calendar Users"
 msgstr "Utilisateurs du planning"
+
+msgid "Can read from"
+msgstr ""
+
+msgid "Can see free/busy time of"
+msgstr ""
 
 msgid "Changed On"
 msgstr "Changé le"
@@ -115,6 +122,10 @@ msgid "Database Error"
 msgstr "Erreur base de données"
 
 msgid "Database Error."
+msgstr "Erreur base de données"
+
+#, fuzzy
+msgid "Database error"
 msgstr "Erreur base de données"
 
 # The type of format of the date: d/m/y, m/d/y, y-m-d
@@ -198,9 +209,6 @@ msgstr "Groupe"
 msgid "Group"
 msgstr "Groupe"
 
-msgid "Group?"
-msgstr "Est un groupe ?"
-
 msgid "Help on something or other"
 msgstr "Aide sur un sujet ou un autre"
 
@@ -235,20 +243,8 @@ msgstr "Nom d'utilisateur ou mot de passe incorrects."
 msgid "Invalid username or password."
 msgstr "Nom d'utilisateur ou mot de passe incorrects."
 
-msgid "Is Assisted by"
-msgstr "est assisté par"
-
 msgid "Is a Calendar?"
 msgstr ""
-
-msgid "Is a member of group"
-msgstr "est un membre du groupe"
-
-# Relationships are between an individual and another individual, an individual and a resource
-# or an individual and some intermediate 'grouping' object.  This is asking if the destination
-# of this link is the third kind
-msgid "Is the target of this relationship a group of access rights?"
-msgstr "Est-ce que l'objectif de cette relation est de créer un groupe d'individus partageant les mêmes droits?"
 
 # For programmatic reasons at this point the abbreviation cannot be translated :-(
 msgid "Is this access read ('R') or Read and Write ('RW')?"
@@ -305,11 +301,6 @@ msgstr "Nouvel utilisateur"
 msgid "No collection found at that location."
 msgstr "Pas de collection trouvée à cet endroit"
 
-# ############
-# The resource has changed on the server, so this change is refused
-msgid "No existing resource matching 'If-Match' header - not accepted."
-msgstr ""
-
 msgid "No. <!-- short for 'Number' -->"
 msgstr "N°"
 
@@ -324,11 +315,6 @@ msgstr "Merci de confirmer la suppression"
 
 msgid "Please note the time and advise the administrator of your system."
 msgstr "Veuillez noter l'heure et informer l'administrateur de votre système informatique"
-
-# ############
-# by the way what is the use of prefix ?
-msgid "Prefix"
-msgstr "Préfixe"
 
 msgid "Property is read-only"
 msgstr "Cette propriété  ne peut être"
@@ -394,9 +380,15 @@ msgstr "Signaler une erreur du logiciel"
 msgid "Resource <!-- a thing which might be booked: a room, a carpark, a projector... -->"
 msgstr "Ressource"
 
+msgid "Resource changed on server - not changed."
+msgstr ""
+
 # ############
 # Sorry I shall see it on the screen to understand the context of the question
 msgid "Resource does not match 'If-Match' header - not deleted"
+msgstr ""
+
+msgid "Resource has changed on server - not deleted"
 msgstr ""
 
 # French uses the same word, except it adds an 'S'. Otherwise it would sound "Rezource", 
@@ -406,9 +398,6 @@ msgstr "Ressource"
 
 msgid "Resources may not be changed to / from collections."
 msgstr ""
-
-msgid "Restrict access to prefixes matching this pattern"
-msgstr "Restreindre l'accès aux préfixes correspondant à ce format"
 
 # 'pattern' translate to "motif", but "motif" usage is mainly for graphical drawings, very rare for textual patterns
 # ########## This is definitely referring to a textual pattern
@@ -478,9 +467,6 @@ msgstr "Il s'est produit une erreur lors de l'écriture des données"
 
 msgid "This user's collections"
 msgstr "Les collections de cet utilisateur"
-
-msgid "To Group?"
-msgstr "Au groupe"
 
 msgid "Type"
 msgstr "Type"
@@ -554,7 +540,9 @@ msgstr "Vous n'avez pas suffisamment d'accès pour verrouiller ça"
 
 msgid ""
 "You may not PUT a collection - you may only PUT things *in* one or use MKCOL/MKCALENDAR to create one."
-msgstr "Vous ne pouvez pas appeler la method PUT sur une collection - vous ne pouvez le faire que sur des choses *dans* une collection ou utiliser les méthodes  MKCOL/MKCALENDAR pour en créer une"
+msgstr ""
+"Vous ne pouvez pas appeler la method PUT sur une collection - vous ne pouvez le faire que sur des "
+"choses *dans* une collection ou utiliser les méthodes  MKCOL/MKCALENDAR pour en créer une"
 
 msgid "You may not access that calendar"
 msgstr "Vous ne pouvez accéder à ce calendrier"
@@ -582,7 +570,37 @@ msgstr "Ne pas m'oublier <!-- other 2nd degree meaning but funny too -->"
 msgid "forget me not"
 msgstr "Ne pas m'oublier"
 
+#, fuzzy
+msgid "is Assistant to"
+msgstr "est assisté par"
+
 msgid "you should log on with the username and password that have been issued to you."
 msgstr "Vous devez vous connecter avec le nom d'utilisateur et le mot de passe qui vous ont été fournis."
 
+#~ msgid "Administers Resource"
+#~ msgstr "Gére la ressource"
 
+#~ msgid "Group?"
+#~ msgstr "Est un groupe ?"
+
+#~ msgid "Is a member of group"
+#~ msgstr "est un membre du groupe"
+
+# Relationships are between an individual and another individual, an individual and a resource
+# or an individual and some intermediate 'grouping' object.  This is asking if the destination
+# of this link is the third kind
+#~ msgid "Is the target of this relationship a group of access rights?"
+#~ msgstr ""
+#~ "Est-ce que l'objectif de cette relation est de créer un groupe d'individus partageant les mêmes "
+#~ "droits?"
+
+# ############
+# by the way what is the use of prefix ?
+#~ msgid "Prefix"
+#~ msgstr "Préfixe"
+
+#~ msgid "Restrict access to prefixes matching this pattern"
+#~ msgstr "Restreindre l'accès aux préfixes correspondant à ce format"
+
+#~ msgid "To Group?"
+#~ msgstr "Au groupe"
