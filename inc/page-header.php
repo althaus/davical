@@ -35,7 +35,7 @@ function send_page_header() {
   echo <<<EOHDR
 <html>
 <head>
-<meta/>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <title>$c->page_title</title>
 
 EOHDR;
