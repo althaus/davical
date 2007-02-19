@@ -184,6 +184,7 @@ single virtual host.</p>
   php_value include_path /usr/share/awl/inc
   php_value magic_quotes_gpc 0
   php_value register_globals 0
+  php_value error_reporting "E_ALL & ~E_NOTICE"
 &lt;/VirtualHost>
 </pre>
 
