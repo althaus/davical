@@ -193,5 +193,5 @@ $qry->Exec("PUT");
 dbg_error_log( "PUT", "User: %d, ETag: %s, Path: %s", $session->user_no, $etag, $request->path);
 
 header(sprintf('ETag: "%s"', (isset($bogus_etag) ? $bogus_etag : $etag) ) );
-$request->DoResponse( ($put_action_type == 'INSERT' ? 201 : 200) );
+$request->DoResponse( ($put_action_type == 'INSERT' ? 201 : 204) );
 ?>
