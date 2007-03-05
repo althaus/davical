@@ -34,7 +34,7 @@ class iCalDate {
   var $_mm;
   var $_dd;
   var $_hh;
-  var $_mm;
+  var $_mi;
   var $_ss;
   var $_tz;
 
