@@ -11,7 +11,7 @@
     <resourcetype/>
     <displayname>Morning Mgmt Mtg</displayname>
     <getetag>"421abf7e4848d2fecbf64217ed205d4b"</getetag>
-    <getcontentlanguage>en_NZ</getcontentlanguage>
+    <getcontentlanguage>en_NZ.UTF-8</getcontentlanguage>
     <current-user-privilege-set>
      <privilege>
       <all/>

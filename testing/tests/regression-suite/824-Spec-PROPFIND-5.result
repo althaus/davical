@@ -19,7 +19,7 @@
       <all/>
      </privilege>
     </current-user-privilege-set>
-    <getcontentlanguage>en_NZ</getcontentlanguage>
+    <getcontentlanguage>en_NZ.UTF-8</getcontentlanguage>
     <supported-privilege-set>
      <supported-privilege>
       <all/>
