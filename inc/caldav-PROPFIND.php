@@ -360,6 +360,7 @@ function get_collection_contents( $depth, $user_no, $collection ) {
     $sql .= "to_char(last_modified at time zone 'GMT',?) AS modified, ";
     $sql .= "summary AS dav_displayname ";
     $sql .= "FROM caldav_data JOIN calendar_item USING( user_no, dav_name) WHERE dav_name ~ ".qpg('^'.$collection->dav_name.'[^/]+$');
+    $sql .= "AND (calendar_item.class != 'PRIVATE' OR calendar_item.class IS NULL OR get_permissions($session->user_no,caldav_data.user_no) ~ 'A') "; // Must have 'all' permissions to see confidential items
     $sql .= "ORDER BY caldav_data.dav_name ";
     $qry = new PgQuery($sql, PgQuery::Plain(iCalendar::HttpDateFormat()), PgQuery::Plain(iCalendar::HttpDateFormat()));
     if( $qry->Exec("PROPFIND",__LINE__,__FILE__) && $qry->rows > 0 ) {
@@ -436,7 +437,8 @@ function get_item( $item_path ) {
   $sql .= "to_char(coalesce(calendar_item.created, caldav_data.created) at time zone 'GMT',?) AS created, ";
   $sql .= "to_char(last_modified at time zone 'GMT',?) AS modified, ";
   $sql .= "summary AS dav_displayname ";
-  $sql .= "FROM caldav_data JOIN calendar_item USING( user_no, dav_name)  WHERE dav_name = ?;";
+  $sql .= "FROM caldav_data JOIN calendar_item USING( user_no, dav_name)  WHERE dav_name = ?";
+  $sql .= "AND (calendar_item.class != 'PRIVATE' OR calendar_item.class IS NULL OR get_permissions($session->user_no,caldav_data.user_no) ~ 'A') "; // Must have 'all' permissions to see confidential items
   $qry = new PgQuery($sql, PgQuery::Plain(iCalendar::HttpDateFormat()), PgQuery::Plain(iCalendar::HttpDateFormat()), $item_path);
   if( $qry->Exec("PROPFIND",__LINE__,__FILE__) && $qry->rows > 0 ) {
     while( $item = $qry->Fetch() ) {
