@@ -236,12 +236,10 @@ class iCalDate {
     }
 
     if ( ($this->_dd > 28 && $this->_mo == 2) || $this->_dd > 30 ) {
-      // Ensure the day of month is still reasonable
+      // Ensure the day of month is still reasonable and coerce to last day of month if needed
       $dim = $this->DaysInMonth();
       if ( $this->_dd > $dim ) {
-        // We don't need to check for month > 12, since _dd can't be greater than 31 if it was previously valid
-        $this->_mo++;
-        $this->_dd -= $dim;
+        $this->_dd = $dim;
       }
     }
     $this->_EpochFromParts();
@@ -407,9 +405,10 @@ class iCalDate {
     foreach( $dayrules AS $k => $v ) {
       $days = $this->MonthDays($first_dow,$days_in_month,$v);
       foreach( $days AS $k2 => $v2 ) {
-        $set[$v2] = 1;
+        $set[$v2] = $v2;
       }
     }
+    asort( $set, SORT_NUMERIC );
     return $set;
   }
 
@@ -425,8 +424,9 @@ class iCalDate {
     $set = array();
     foreach( $dayrules AS $k => $v ) {
       $v = intval($v);
-      if ( $v > 0 && $v <= $days_in_month ) $set[$v] = 1;
+      if ( $v > 0 && $v <= $days_in_month ) $set[$v] = $v;
     }
+    asort( $set, SORT_NUMERIC );
     return $set;
   }
 
@@ -445,8 +445,9 @@ class iCalDate {
       $daynum = $ical_weekdays[$v];
       $dd = $this->_dd - $dow + $daynum;
       if ( $daynum < $this->_wkst ) $dd += 7;
-      $set[$dd] = 1;
+      $set[$dd] = $dd;
     }
+    asort( $set, SORT_NUMERIC );
     return $set;
   }
 
@@ -458,10 +459,10 @@ class iCalDate {
   */
   function GreaterThan($lesser) {
     if ( is_object($lesser) ) {
-      dbg_error_log( "RRule", " Comparing %s with %s", $this->_text, $lesser->_text );
+//      dbg_error_log( "RRule", " Comparing %s with %s", $this->_text, $lesser->_text );
       return ( $this->_text > $lesser->_text );
     }
-    dbg_error_log( "RRule", " Comparing %s with %s", $this->_text, $lesser );
+//    dbg_error_log( "RRule", " Comparing %s with %s", $this->_text, $lesser );
     return ( $this->_text > $lesser );  // These sorts of dates are designed that way...
   }
 
@@ -473,10 +474,10 @@ class iCalDate {
   */
   function LessThan($greater) {
     if ( is_object($greater) ) {
-      dbg_error_log( "RRule", " Comparing %s with %s", $this->_text, $greater->_text );
+//      dbg_error_log( "RRule", " Comparing %s with %s", $this->_text, $greater->_text );
       return ( $this->_text < $greater->_text );
     }
-    dbg_error_log( "RRule", " Comparing %s with %s", $this->_text, $greater );
+//    dbg_error_log( "RRule", " Comparing %s with %s", $this->_text, $greater );
     return ( $this->_text < $greater );  // These sorts of dates are designed that way...
   }
 
@@ -492,7 +493,7 @@ class iCalDate {
   */
   function &MonthDays($dow_first, $days_in_month, $dayspec) {
     global $ical_weekdays;
-    dbg_error_log( "RRule", " Getting days for '%s'. %d days starting on a %d", $dayspec, $days_in_month, $dow_first );
+    dbg_error_log( "RRule", "MonthDays: Getting days for '%s'. %d days starting on a %d", $dayspec, $days_in_month, $dow_first );
     $set = array();
     preg_match( '/([0-9-]*)(MO|TU|WE|TH|FR|SA|SU)/', $dayspec, $matches);
     $numeric = intval($matches[1]);
@@ -501,7 +502,7 @@ class iCalDate {
     $first_matching_day = 1 + ($dow - $dow_first);
     while ( $first_matching_day < 1 ) $first_matching_day += 7;
 
-    dbg_error_log( "RRule", " Looking at %d for first match on (%s/%s), %d for numeric", $first_matching_day, $matches[1], $matches[2], $numeric );
+    dbg_error_log( "RRule", " MonthDays: Looking at %d for first match on (%s/%s), %d for numeric", $first_matching_day, $matches[1], $matches[2], $numeric );
 
     while( $first_matching_day <= $days_in_month ) {
       $set[] = $first_matching_day;
@@ -516,10 +517,17 @@ class iCalDate {
         $numeric--;
       }
       $answer = $set[$numeric];
-      $set = array( $answer );
+      $set = array( $answer => $answer );
+    }
+    else {
+      $answers = $set;
+      $set = array();
+      foreach( $answers AS $k => $v ) {
+        $set[$v] = $v;
+      }
     }
 
-    dbg_log_array( "RRule", 'MonthDays', $set, false );
+//    dbg_log_array( "RRule", 'MonthDays', $set, false );
 
     return $set;
   }
@@ -534,9 +542,10 @@ class iCalDate {
   *
   * @return array The subset which matches.
   */
-  function &ApplyBySetPos($bysplist, &$set) {
-    dbg_error_log( "RRule", " Applying '%s' to set of %d days", $bysplist, count($set) );
+  function &ApplyBySetPos($bysplist, $set) {
+    dbg_error_log( "RRule", " ApplyBySetPos: Applying set position '%s' to set of %d days", $bysplist, count($set) );
     $subset = array();
+    sort( $set, SORT_NUMERIC );
     $max = count($set);
     $positions = split( '[^0-9-]', $bysplist );
     foreach( $positions AS $k => $v ) {
@@ -546,7 +555,7 @@ class iCalDate {
       else {
         $v--;
       }
-      $subset[] = $set[$v];
+      $subset[$set[$v]] = $set[$v];
     }
     return $subset;
   }
@@ -747,13 +756,13 @@ class RRule {
 
     $ptr = $this->_current;
 
-    dbg_error_log( "RRule", " WithinScope: Processing list of %d days relative to %s", count($relative_days), $base->Render() );
+//    dbg_error_log( "RRule", " WithinScope: Processing list of %d days relative to %s", count($relative_days), $base->Render() );
     foreach( $relative_days AS $day => $v ) {
-      dbg_error_log( "RRule", " WithinScope: Testing for day %d", $day );
 
       $test = new iCalDate($base);
       $days_in_month = $test->DaysInMonth();
 
+//      dbg_error_log( "RRule", " WithinScope: Testing for day %d based on %s, with %d days in month", $day, $test->Render(), $days_in_month );
       if ( $day > $days_in_month ) {
         $test->SetMonthDay($days_in_month);
         $test->AddDays(1);
@@ -778,9 +787,10 @@ class RRule {
         return $ok_days;
       }
 
-      if ( $this->_current >= 0 && $test->LessThan($this->_dates[$this->_current]) ) continue;
+      // if ( $this->_current >= 0 && $test->LessThan($this->_dates[$this->_current]) ) continue;
 
       if ( !$test->LessThan($this->_first) ) {
+        dbg_error_log( "RRule", " WithinScope: Looks like %s is within scope", $test->Render() );
         $ok_days[$day] = $test;
         $ptr++;
       }
@@ -815,11 +825,14 @@ class RRule {
       $next = new iCalDate($this->_dates[$this->_current]);
       $this->_current++;
 
+/*
       dbg_error_log( "RRule", " GetNext: Continuing: %s, starting from %s, consider %s, (%d'th)",
                 isset($this->_started) ,
                 (isset($next) ? $next->Render() : "not calculated"),
                 (isset($this->_dates[$this->_current]) ? $this->_dates[$this->_current]->Render():"not calculated") ,
                 $this->_current );
+*/
+
       /**
       * If we have already found some dates we may just be able to return one of those.
       */
@@ -836,7 +849,7 @@ class RRule {
     $days = array();
     if ( isset($this->_part['WKST']) ) $next->SetWeekStart($this->_part['WKST']);
     if ( $this->_part['FREQ'] == "MONTHLY" ) {
-      dbg_error_log( "RRule", " Calculating more dates for MONTHLY rule" );
+      dbg_error_log( "RRule", " GetNext: Calculating more dates for MONTHLY rule" );
       $limit = 100;
       do {
         $limit--;
@@ -858,20 +871,20 @@ class RRule {
           $days = $next->GetMonthByMonthDay($this->_part['BYMONTHDAY']);
         }
         else
-          $days[$next->_dd] = 1;
+          $days[$next->_dd] = $next->_dd;
 
         if ( isset($this->_part['BYSETPOS']) ) {
           $days = $next->ApplyBySetpos($this->_part['BYSETPOS'], $days);
         }
 
         $days = $this->WithinScope( $next, $days);
-        dbg_error_log( "RRule", " Found %d days so far for MONTHLY rule", count($days) );
       }
       while( $limit && count($days) < 1 && ! $this->_finished );
+      dbg_error_log( "RRule", " GetNext: Found %d days for MONTHLY rule", count($days) );
 
     }
     else if ( $this->_part['FREQ'] == "DAILY" ) {
-      dbg_error_log( "RRule", " Calculating more dates for DAILY rule" );
+      dbg_error_log( "RRule", " GetNext: Calculating more dates for DAILY rule" );
       $limit = 100;
       do {
         $limit--;
@@ -886,16 +899,17 @@ class RRule {
           $days = $next->GetWeekByDay($this->_part['BYDAY']);
         }
         else
-          $days[$next->_dd] = 1;
+          $days[$next->_dd] = $next->_dd;
 
         if ( isset($this->_part['BYSETPOS']) ) {
           $days = $next->ApplyBySetpos($this->_part['BYSETPOS'], $days);
         }
 
         $days = $this->WithinScope( $next, $days);
-        dbg_error_log( "RRule", " Found %d days so far for DAILY rule", count($days) );
       }
       while( $limit && count($days) < 1 && ! $this->_finished );
+
+      dbg_error_log( "RRule", " GetNext: Found %d days for DAILY rule", count($days) );
     }
 
     $ptr = $this->_current;
