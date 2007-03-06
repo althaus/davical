@@ -95,12 +95,7 @@ foreach( $request->xml_tags AS $k => $v ) {
       if ( $v['type'] == "close" ) {
         break;
       }
-      if ( $v['type'] == "complete" ) {
-        $filter_name = $xmltag;
-      }
-      else {
-        $filter_name = $v['attributes']['NAME'];
-      }
+      $filter_name = $v['attributes']['NAME'];
       dbg_log_array( "REPORT", "COMP-FILTER", $v, true );
       if ( isset($filters) ) {
         dbg_error_log( "REPORT", "Adding filter '%s'", $filter_name );
@@ -332,6 +327,18 @@ for ( $i=0; $i <= $reportnum; $i++ ) {
       }
       if ( isset( $report[$i]['end'] ) ) {
         $where .= "AND dtstart <= ".qpg($report[$i]['end'])."::timestamp with time zone ";
+      }
+      if ( isset( $report[$i]['filters'] ) ) {
+        /**
+        * Only report on the filtered types that were specified
+        */
+        $filters = "";
+        foreach( $report[$i]['filters'] AS $k => $v ) {
+          $filters .= ($filters == "" ? "" : ", ") . " '$k'";
+        }
+        if ( $filters != "" ) {
+          $where .= "AND caldav_data.caldav_type IN ( $filters ) ";
+        }
       }
       break;
 
