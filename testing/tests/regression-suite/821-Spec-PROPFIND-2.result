@@ -1,7 +1,7 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 ETag: "deadbeefcafefeeddeadbeefcafefeed"
-Content-Length: 963
+Content-Length: 969
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -22,7 +22,7 @@ Content-Type: text/xml; charset="utf-8"
     <getetag>"faf25336de0e470a54075c14cbcf5272"</getetag>
     <DAV::BOGUS-PROPERTY/>
     <DAV::CONTENTBOGOSITY/>
-    <getcontentlanguage>en_NZ</getcontentlanguage>
+    <getcontentlanguage>en_NZ.UTF-8</getcontentlanguage>
     <supportedlock>
      <lockentry>
       <lockscope>
