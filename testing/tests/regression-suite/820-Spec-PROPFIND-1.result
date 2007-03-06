@@ -23,7 +23,7 @@
       </grant>
      </ace>
     </acl>
-    <getcontentlanguage>en_NZ</getcontentlanguage>
+    <getcontentlanguage>en_NZ.UTF-8</getcontentlanguage>
     <supportedlock>
      <lockentry>
       <lockscope>
