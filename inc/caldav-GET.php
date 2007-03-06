@@ -13,16 +13,20 @@ dbg_error_log("get", "GET method handler");
 if ( ! $request->AllowedTo('read') ) {
   $request->DoResponse( 403, translate("You may not access that calendar") );
 }
+$privacy_clause = "";
+if ( ! $request->AllowedTo('all') ) {
+  $privacy_clause = "AND calendar_item.class != 'PRIVATE'";
+}
 
 if ( $request->IsCollection() ) {
   /**
   * The CalDAV specification does not define GET on a collection, but typically this is
   * used as a .ics download for the whole collection, which is what we do also.
   */
-  $qry = new PgQuery( "SELECT caldav_data FROM caldav_data WHERE user_no = ? AND dav_name ~ ? ;", $request->user_no, $request->path.'[^/]+$');
+  $qry = new PgQuery( "SELECT caldav_data FROM caldav_data LEFT JOIN calendar_item USING ( dav_name ) WHERE caldav_data.user_no = ? AND caldav_data.dav_name ~ ? $privacy_clause;", $request->user_no, $request->path.'[^/]+$');
 }
 else {
-  $qry = new PgQuery( "SELECT caldav_data, dav_etag FROM caldav_data WHERE user_no = ? AND dav_name = ? ;", $request->user_no, $request->path);
+  $qry = new PgQuery( "SELECT caldav_data, caldav_data.dav_etag FROM caldav_data LEFT JOIN calendar_item USING ( dav_name ) WHERE caldav_data.user_no = ? AND caldav_data.dav_name = ?  $privacy_clause;", $request->user_no, $request->path);
 }
 dbg_error_log("get", "%s", $qry->querystring );
 if ( $qry->Exec("GET") && $qry->rows == 1 ) {
