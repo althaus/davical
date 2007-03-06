@@ -14,7 +14,7 @@
     </resourcetype>
     <displayname>home</displayname>
     <getetag>"faf25336de0e470a54075c14cbcf5272"</getetag>
-    <getcontentlanguage>en_NZ</getcontentlanguage>
+    <getcontentlanguage>en_NZ.UTF-8</getcontentlanguage>
     <supportedlock>
      <lockentry>
       <lockscope>
@@ -40,7 +40,7 @@
     <resourcetype/>
     <displayname>Private Event</displayname>
     <getetag>"5def8ae2b20893a1c7f4dbaeb008f2f1"</getetag>
-    <getcontentlanguage>en_NZ</getcontentlanguage>
+    <getcontentlanguage>en_NZ.UTF-8</getcontentlanguage>
     <supportedlock>
      <lockentry>
       <lockscope>
@@ -66,7 +66,7 @@
     <resourcetype/>
     <displayname>A Meeting</displayname>
     <getetag>"c3658901fd4689d4a1e1d6f08601ef4f"</getetag>
-    <getcontentlanguage>en_NZ</getcontentlanguage>
+    <getcontentlanguage>en_NZ.UTF-8</getcontentlanguage>
     <supportedlock>
      <lockentry>
       <lockscope>
@@ -92,7 +92,7 @@
     <resourcetype/>
     <displayname>Lunch with David</displayname>
     <getetag>"2c32a2f8aba853654eb17fe037a4db4d"</getetag>
-    <getcontentlanguage>en_NZ</getcontentlanguage>
+    <getcontentlanguage>en_NZ.UTF-8</getcontentlanguage>
     <supportedlock>
      <lockentry>
       <lockscope>
@@ -118,7 +118,7 @@
     <resourcetype/>
     <displayname>Weekly Project Meeting</displayname>
     <getetag>"a1c6404d61190f9574e2bfd69383f144"</getetag>
-    <getcontentlanguage>en_NZ</getcontentlanguage>
+    <getcontentlanguage>en_NZ.UTF-8</getcontentlanguage>
     <supportedlock>
      <lockentry>
       <lockscope>
@@ -144,7 +144,7 @@
     <resourcetype/>
     <displayname>Beer O'Clock</displayname>
     <getetag>"0d7a68984bf525342d22b8924a57e8e2"</getetag>
-    <getcontentlanguage>en_NZ</getcontentlanguage>
+    <getcontentlanguage>en_NZ.UTF-8</getcontentlanguage>
     <supportedlock>
      <lockentry>
       <lockscope>
@@ -170,7 +170,7 @@
     <resourcetype/>
     <displayname>Confidential Event</displayname>
     <getetag>"08a435c2abaf38f4a50a997343c098a7"</getetag>
-    <getcontentlanguage>en_NZ</getcontentlanguage>
+    <getcontentlanguage>en_NZ.UTF-8</getcontentlanguage>
     <supportedlock>
      <lockentry>
       <lockscope>
@@ -196,7 +196,7 @@
     <resourcetype/>
     <displayname>Morning Mgmt Mtg</displayname>
     <getetag>"421abf7e4848d2fecbf64217ed205d4b"</getetag>
-    <getcontentlanguage>en_NZ</getcontentlanguage>
+    <getcontentlanguage>en_NZ.UTF-8</getcontentlanguage>
     <supportedlock>
      <lockentry>
       <lockscope>
@@ -222,7 +222,7 @@
     <resourcetype/>
     <displayname>Tentative Event</displayname>
     <getetag>"ac90acd649c25070b1a2a17fb31a105a"</getetag>
-    <getcontentlanguage>en_NZ</getcontentlanguage>
+    <getcontentlanguage>en_NZ.UTF-8</getcontentlanguage>
     <supportedlock>
      <lockentry>
       <lockscope>
