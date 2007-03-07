@@ -33,11 +33,12 @@ if [ "${ADMINPW}" = "" ] ; then
   #
   # Generate a random administrative password.  If pwgen is available we'll use that,
   # otherwise try and hack something up using a few standard utilities
-  PWGEN="`which pwgen`"
-  if [ "$PWGEN" = "" ] ; then
+  ADMINPW="`pwgen -Bcny 2>/dev/null | tr \"\\\'\" '^='`"
+  if [ "$ADMINPW" = "" ] ; then
     ADMINPW="`dd if=/dev/urandom bs=512 count=1 2>/dev/null | tr -c -d "[:alnum:]" | cut -c2-9`"
-  else
-    ADMINPW="`pwgen -Bcny | tr \"\\\'\" '^='`"
+  fi
+  if [ "$ADMINPW" = "" ] ; then
+    ADMINPW="please change this password"
   fi
 fi
 psql -q -c "UPDATE usr SET password = '**${ADMINPW}' WHERE user_no = 1;" "${DBNAME}"
