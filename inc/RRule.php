@@ -713,6 +713,9 @@ class RRule {
     if ( substr($this->_rule, 0, 6) == 'RRULE:' ) {
       $this->_rule = substr($this->_rule, 6);
     }
+
+    dbg_error_log( "RRule", " new RRule: Start: %s, RRULE: %s", $start->Render(), $this->_rule );
+
     $parts = split(';',$this->_rule);
     $this->_part = array();
     foreach( $parts AS $k => $v ) {

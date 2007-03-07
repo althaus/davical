@@ -23,7 +23,7 @@ $tests = array(
 foreach( $tests AS $start => $rrule ) {
   echo "$start - $rrule\n";
 
-  $rule = new RRule( $start, $rrule );
+  $rule = new RRule( new iCalDate($start), $rrule );
   $i = 0;
   do {
     if ( ($i % 4) == 0 ) echo "\n";
