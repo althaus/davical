@@ -34,13 +34,20 @@ if [ "${ADMINPW}" = "" ] ; then
   # Generate a random administrative password.  If pwgen is available we'll use that,
   # otherwise try and hack something up using a few standard utilities
   ADMINPW="`pwgen -Bcny 2>/dev/null | tr \"\\\'\" '^='`"
-  if [ "$ADMINPW" = "" ] ; then
-    ADMINPW="`dd if=/dev/urandom bs=512 count=1 2>/dev/null | tr -c -d "[:alnum:]" | cut -c2-9`"
-  fi
-  if [ "$ADMINPW" = "" ] ; then
-    ADMINPW="please change this password"
-  fi
 fi
+
+if [ "$ADMINPW" = "" ] ; then
+  # OK.  They didn't supply one, and pwgen didn't work, so we hack something
+  # together from /dev/random ...
+  ADMINPW="`dd if=/dev/urandom bs=512 count=1 2>/dev/null | tr -c -d "[:alnum:]" | cut -c2-9`"
+fi
+
+if [ "$ADMINPW" = "" ] ; then
+  # Right.  We're getting desperate now.  We'll have to use a default password
+  # and hope that they change it to something more sensible.
+  ADMINPW="please change this password"
+fi
+
 psql -q -c "UPDATE usr SET password = '**${ADMINPW}' WHERE user_no = 1;" "${DBNAME}"
 
 echo "The password for the 'admin' user has been set to '${ADMINPW}'"
