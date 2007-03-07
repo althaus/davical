@@ -429,6 +429,7 @@ function get_collection( $depth, $user_no, $collection_path ) {
 * Get XML response for a single item.  Depth is irrelevant for this.
 */
 function get_item( $item_path ) {
+  global $session;
   $responses = array();
 
   dbg_error_log("PROPFIND","Getting item: Path: %s", $item_path );
