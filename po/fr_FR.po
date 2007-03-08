@@ -73,17 +73,17 @@ msgid "Browse all users"
 msgstr "Affiche tous les utilisateurs"
 
 msgid "Calendar Resource Not Found."
-msgstr ""
+msgstr "Ressource calendrier introuvable"
 
 # I.e. The list of people who can use this (calendar) software
 msgid "Calendar Users"
 msgstr "Utilisateurs du planning"
 
 msgid "Can read from"
-msgstr ""
+msgstr "Peux lire depuis"
 
 msgid "Can see free/busy time of"
-msgstr ""
+msgstr "Peux voir les disponibilité de"
 
 msgid "Changed On"
 msgstr "Changé le"
@@ -362,7 +362,7 @@ msgid "Relationships"
 msgstr "Relations"
 
 msgid "Repeat Rule"
-msgstr ""
+msgstr "Règles de répétition"
 
 msgid "Report Bug"
 msgstr "Signaler une erreur"
@@ -381,7 +381,7 @@ msgid "Resource <!-- a thing which might be booked: a room, a carpark, a project
 msgstr "Ressource"
 
 msgid "Resource changed on server - not changed."
-msgstr ""
+msgstr "Ressource changée sur le serveur - non changée"
 
 # ############
 # Sorry I shall see it on the screen to understand the context of the question
@@ -389,7 +389,7 @@ msgid "Resource does not match 'If-Match' header - not deleted"
 msgstr ""
 
 msgid "Resource has changed on server - not deleted"
-msgstr ""
+msgstr "Ressource a été changée sur le serveur - non supprimée"
 
 # French uses the same word, except it adds an 'S'. Otherwise it would sound "Rezource", 
 # a bit odd except when said with a german accent.
@@ -397,7 +397,7 @@ msgid "Resource"
 msgstr "Ressource"
 
 msgid "Resources may not be changed to / from collections."
-msgstr ""
+msgstr "Les ressources ne devraient pas être changées en/à partir de collections"
 
 # 'pattern' translate to "motif", but "motif" usage is mainly for graphical drawings, very rare for textual patterns
 # ########## This is definitely referring to a textual pattern
@@ -414,13 +414,13 @@ msgid "Show help on"
 msgstr "Afficher l'aide sur"
 
 msgid "Some properties were not able to be changed."
-msgstr ""
+msgstr "Des propriétés n'ont pu être changées"
 
 msgid "Start"
-msgstr ""
+msgstr "Début"
 
 msgid "Summary"
-msgstr ""
+msgstr "Résumé"
 
 # This shows up as an error message, and the ##BlahBlah## is converted to a hyperlink
 # which will (eventually) go to a wiki page.  So it's OK to translate the ##BlahBlah##
