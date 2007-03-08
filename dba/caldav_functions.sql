@@ -187,7 +187,6 @@ BEGIN
       -- I think this is not really right, since a WEEKLY on MO,WE,FR should
       -- occur three times each week and this will only be once a week.
       dow = substring( to_char( our_answer, ''DY'' ) for 2);
-      CONTINUE WHEN position( dow in byday ) = 0;
     ELSIF frequency = ''MONTHLY'' THEN
       IF byday IS NOT NULL THEN
         -- This works fine, except that maybe there are multiple BYDAY
@@ -212,6 +211,7 @@ BEGIN
 
     -- Increment for our next time through the loop...
     our_answer := our_answer + (length::text || units)::interval;
+
   END LOOP;
 
   RETURN our_answer;
