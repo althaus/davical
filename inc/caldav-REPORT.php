@@ -372,6 +372,8 @@ for ( $i=0; $i <= $reportnum; $i++ ) {
     $where .= " AND caldav_data.caldav_type IN ( $type_filters ) ";
   }
 
+  $where .= "AND (calendar_item.class != 'PRIVATE' OR calendar_item.class IS NULL OR get_permissions($session->user_no,caldav_data.user_no) ~ 'A') "; // Must have 'all' permissions to see confidential items
+
   $qry = new PgQuery( "SELECT * FROM caldav_data INNER JOIN calendar_item USING(user_no, dav_name)". $where );
   if ( $qry->Exec("REPORT",__LINE__,__FILE__) && $qry->rows > 0 ) {
     while( $calendar_object = $qry->Fetch() ) {
