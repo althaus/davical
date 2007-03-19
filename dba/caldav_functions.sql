@@ -319,3 +319,23 @@ BEGIN
   RETURN TRUE;
 END;
 ' LANGUAGE 'plpgsql' STRICT;
+
+-- List a user's relationships as a text string
+CREATE or REPLACE FUNCTION relationship_list( INTEGER ) RETURNS TEXT AS '
+DECLARE
+  user ALIAS FOR $1;
+  r RECORD;
+  rlist TEXT;
+BEGIN
+  rlist := '''';
+  FOR r IN SELECT rt_name, fullname FROM relationship
+                          LEFT JOIN relationship_type USING(rt_id) LEFT JOIN usr tgt ON to_user = tgt.user_no
+                          WHERE from_user = user
+  LOOP
+    rlist := rlist
+             || CASE WHEN rlist = '''' THEN '''' ELSE '', '' END
+             || r.rt_name || ''('' || r.fullname || '')'';
+  END LOOP;
+  RETURN rlist;
+END;
+' LANGUAGE 'plpgsql';
