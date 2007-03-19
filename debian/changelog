@@ -1,3 +1,17 @@
+rscds (0.7.1) unstable; urgency=low
+
+  * Add support for PRIVATE events to REPORT, PROPFIND and GET
+  * Fixes to the RRule parsing used for freebusy for PHP5.
+  * Fix various bugs present when used with PHP5.
+  * Fix a bug in create database script which allowed installation without an
+    admin password.
+  * Fix the response code on PUT which should be "204 No Content" rather than
+    "200 OK".
+  * Updated french translation.
+  * Fix function definitions to be compatible with PostgreSQL 7.4 and 8.0.
+
+ -- Andrew McMillan <debian@mcmillan.net.nz>  Sat, 10 Mar 2007 07:54:27 +1300
+
 rscds (0.7.0) unstable; urgency=low
 
   * Changes to privacy model for FREEBUSY
@@ -9,7 +23,7 @@ rscds (0.7.0) unstable; urgency=low
     calendar collections directly for WebDAV instead.
   * Cleaned out files that should not be distributed.
 
- -- Andrew McMillan <debian@mcmillan.net.nz>  Mon, 19 Feb 2007 13:11:17 +1300
+ -- Andrew McMillan <debian@mcmillan.net.nz>  Mon, 19 Feb 2007 19:39:57 +1300
 
 rscds (0.6.0) unstable; urgency=low
 
