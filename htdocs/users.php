@@ -17,6 +17,7 @@ require_once("interactive-page.php");
   $browser->AddHidden( 'user_link', "'<a href=\"$c->base_url/user.php?user_no=' || user_no || '\">' || user_no || '</a>'" );
   $browser->AddColumn( 'fullname', translate('Full Name') );
   $browser->AddColumn( 'email', translate('EMail') );
+  $browser->AddColumn( 'relations', translate('Relationships'), '', '', 'relationship_list(user_no)' );
 
   $browser->SetJoins( 'usr' );
 
