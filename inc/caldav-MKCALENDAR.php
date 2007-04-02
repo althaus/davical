@@ -20,6 +20,86 @@ if ( preg_match( '#^(.*/)([^/]+)(/)?$#', $request->path, $matches ) ) {
   $parent_container = $matches[1];
   $displayname = $matches[2];
 }
+
+if ( isset($request->xml_tags) ) {
+  /**
+  * The MKCALENDAR request may contain XML to set some DAV properties
+  */
+  $position = 0;
+  $xmltree = BuildXMLTree( $request->xml_tags, $position);
+  // echo $xmltree->Render();
+  if ( $xmltree->GetTag() != "URN:IETF:PARAMS:XML:NS:CALDAV:MKCALENDAR" ) {
+    $request->DoResponse( 403, "XML is not a URN:IETF:PARAMS:XML:NS:CALDAV:MKCALENDAR document" );
+  }
+  $setprops = $xmltree->GetPath("/URN:IETF:PARAMS:XML:NS:CALDAV:MKCALENDAR/DAV::SET/DAV::PROP/*");
+
+  $propertysql = "";
+  foreach( $setprops AS $k => $setting ) {
+    $tag = $setting->GetTag();
+    $content = $setting->RenderContent();
+
+    switch( $tag ) {
+
+      case 'DAV::DISPLAYNAME':
+        $displayname = $content;
+        $success[$tag] = 1;
+        break;
+
+      case 'DAV::RESOURCETYPE':
+        /**
+        * Any value for resourcetype is ignored
+        */
+        $success[$tag] = 1;
+        break;
+
+      /**
+      * The following properties are read-only, so they will cause the request to fail
+      */
+      case 'DAV::GETETAG':
+      case 'DAV::GETCONTENTLENGTH':
+      case 'DAV::GETCONTENTTYPE':
+      case 'DAV::GETLASTMODIFIED':
+      case 'DAV::CREATIONDATE':
+      case 'DAV::LOCKDISCOVERY':
+      case 'DAV::SUPPORTEDLOCK':
+        $failure['set-'.$tag] = new XMLElement( 'propstat', array(
+            new XMLElement( 'prop', new XMLElement($tag)),
+            new XMLElement( 'status', 'HTTP/1.1 409 Conflict' ),
+            new XMLElement('responsedescription', translate("Property is read-only") )
+        ));
+        break;
+
+      /**
+      * If we don't have any special processing for the property, we just store it verbatim (which will be an XML fragment).
+      */
+      default:
+        $propertysql .= awl_replace_sql_args( "SELECT set_dav_property( ?, ?, ?, ? );", $request->path, $request->user_no, $tag, $content );
+        $success[$tag] = 1;
+        break;
+    }
+  }
+
+  /**
+  * If we have encountered any instances of failure, the whole damn thing fails.
+  */
+  if ( count($failure) > 0 ) {
+    foreach( $success AS $tag => $v ) {
+      // Unfortunately although these succeeded, we failed overall, so they didn't happen...
+      $failure[] = new XMLElement( 'propstat', array(
+          new XMLElement( 'prop', new XMLElement($tag)),
+          new XMLElement( 'status', 'HTTP/1.1 424 Failed Dependency' ),
+      ));
+    }
+
+    array_unshift( $failure, new XMLElement('href', $c->protocol_server_port_script . $request->path ) );
+    $failure[] = new XMLElement('responsedescription', translate("Some properties were not able to be set.") );
+
+    $multistatus = new XMLElement( "multistatus", new XMLElement( 'response', $failure ), array('xmlns'=>'DAV:') );
+    $request->DoResponse( 207, $multistatus->Render(0,'<?xml version="1.0" encoding="utf-8" ?>'), 'text/xml; charset="utf-8"' );
+
+  }
+}
+
 $sql = "SELECT * FROM collection WHERE user_no = ? AND dav_name = ?;";
 $qry = new PgQuery( $sql, $request->user_no, $request->path );
 if ( ! $qry->Exec("MKCALENDAR") ) {

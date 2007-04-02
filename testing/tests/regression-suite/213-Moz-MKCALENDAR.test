@@ -1,0 +1,23 @@
+#
+# Make a calendar, with XML attached, for someone who we are allowed to write to
+TYPE=MKCALENDAR
+URL=http://mycaldav/caldav.php/resource1/home/
+HEAD
+
+HEADER=User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.7) Gecko/20061013 Thunderbird/1.5.0.7
+HEADER=Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+HEADER=Accept-Language: en-us,en;q=0.5
+HEADER=Accept-Encoding: gzip,deflate
+HEADER=Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
+HEADER=Content-Type: text/xml
+
+BEGINDATA
+<?xml version="1.0" encoding="utf-8" ?>
+<mkcalendar xmlns:D="DAV:" xmlns="urn:ietf:params:xml:ns:caldav">
+    <D:set>
+        <D:prop>
+            <D:displayname>A Pretty Name</D:displayname>
+        </D:prop>
+    </D:set>
+</mkcalendar>
+ENDDATA
