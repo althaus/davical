@@ -23,7 +23,7 @@ if ( $request->IsCollection() ) {
   * The CalDAV specification does not define GET on a collection, but typically this is
   * used as a .ics download for the whole collection, which is what we do also.
   */
-  $qry = new PgQuery( "SELECT caldav_data FROM caldav_data LEFT JOIN calendar_item USING ( dav_name ) WHERE caldav_data.user_no = ? AND caldav_data.dav_name ~ ? $privacy_clause;", $request->user_no, $request->path.'[^/]+$');
+  $qry = new PgQuery( "SELECT caldav_data FROM caldav_data LEFT JOIN calendar_item USING ( dav_name ) WHERE caldav_data.user_no = ? AND caldav_data.dav_name ~ ? $privacy_clause ORDER BY caldav_data.user_no, caldav_data.dav_name, caldav_data.created;", $request->user_no, $request->path.'[^/]+$');
 }
 else {
   $qry = new PgQuery( "SELECT caldav_data, caldav_data.dav_etag FROM caldav_data LEFT JOIN calendar_item USING ( dav_name ) WHERE caldav_data.user_no = ? AND caldav_data.dav_name = ?  $privacy_clause;", $request->user_no, $request->path);
