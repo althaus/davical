@@ -1,0 +1,516 @@
+# tłumaczenie rscds-messages.po na polski
+# translation of rscds-messages.po to polski
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Rafal Slubowski <rafalslubowski@gmail.com>, 2007.
+msgid ""
+msgstr ""
+"Project-Id-Version: rscds-messages\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2007-02-19 10:35+1300\n"
+"PO-Revision-Date: 2007-03-31 00:24+0200\n"
+"Last-Translator: Rafal Slubowski <rafalslubowski@gmail.com>\n"
+"Language-Team: polski <pl@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+"Plural-Forms:  nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+msgid "--- select a relationship type ---"
+msgstr "Wybierz typ zależności"
+
+msgid "--- select a user or resource ---"
+msgstr "Wybierz użytkownika lub zasób"
+
+msgid "--- select a user, group or resource ---"
+msgstr "Wybierz użytkownika, grupę lub zasób"
+
+#, c-format
+msgid ""
+"<h1>Log On Please</h1><p>For access to the %s you should log on withthe "
+"username and password that have been issued to you.</p><p>If you would like "
+"to request access, please e-mail %s.</p>"
+msgstr "<h1>Zaloguj się</h1><p>Aby uzyskać dostęp do %s powinieneś zalogować się swoją nazwą użytkownika i hasłem.</p><p>Jeśli chcesz uzyskać dostęp, wyślij e-mail do %s.</p>"
+
+msgid "A collection already exists at that location."
+msgstr "Zbuór już istnieje w tej lokalizacji."
+
+msgid "Action"
+msgstr "Akcja"
+
+msgid "Active"
+msgstr "Aktywny"
+
+msgid "Add Relationship"
+msgstr "Dodaj zależność"
+
+msgid "Add a new user"
+msgstr "Dodaj nowego użytkownika"
+
+msgid "Add"
+msgstr "Dodaj"
+
+msgid "Admin <!-- in the sense of 'systems admin' -->"
+msgstr "Administrator"
+
+msgid "Admin"
+msgstr "Administrator"
+
+msgid "Administers"
+msgstr "Administruje"
+
+msgid "All requested changes were made."
+msgstr "Wszystkie zażądane zmiany zostały wprowadzone"
+
+msgid "Browse all relationship types"
+msgstr "Przeglądaj wszystkie typy zależności"
+
+msgid "Browse all users"
+msgstr "Przeglądaj wszystkich użytkowników"
+
+msgid "Calendar Resource Not Found."
+msgstr "Zasób kalendarza nie został znaleziony"
+
+msgid "Calendar Users"
+msgstr "Użytkownicy kalendarza"
+
+msgid "Can read from"
+msgstr "Może czytać z"
+
+msgid "Can see free/busy time of"
+msgstr "Może widzieć wolny/zajęty czas użytkownika"
+
+msgid "Changed On"
+msgstr "Zmieniono w"
+
+msgid "Click to display that user"
+msgstr "Kliknij aby wyświetlić użytkownika"
+
+msgid "Click to display the contents of the collection"
+msgstr "Kliknij aby wyświetlić zawartość zbioru"
+
+msgid "Click to display user details"
+msgstr "Kliknij aby wyświetlić dane użytkownika"
+
+msgid "Collection Contents"
+msgstr "Zawartość zbioru"
+
+msgid "Collection Path"
+msgstr "Ścieżka do zestawu"
+
+msgid "Confirm Deletion of the Relationship Type"
+msgstr "Potwierdź usunięcie typu zależności"
+
+msgid "Confirm the new password."
+msgstr "Potwierdź nowe hasło"
+
+msgid "Confirm"
+msgstr "Potwierdź"
+
+msgid "Create"
+msgstr "Utwórz"
+
+msgid "Created On"
+msgstr "Utworzono w"
+
+msgid "Database Error"
+msgstr "Błąd bazy danych"
+
+msgid "Database Error."
+msgstr "Błąd bazy danych."
+
+msgid "Database error"
+msgstr "Błąd bazy danych"
+
+msgid "Date Style"
+msgstr "Format daty"
+
+msgid "Delete"
+msgstr "Usuń"
+
+msgid "Does the user have the right to perform this role?"
+msgstr "Czy użytkownik ma prawo wykonywać tę rolę?"
+
+msgid "EMail OK"
+msgstr "E-mail zweryfikowano"
+
+msgid "EMail"
+msgstr "E-mail"
+
+#, c-format
+msgid "ERROR: %s"
+msgstr "Błąd: %s"
+
+msgid "ERROR: There was a database error writing the roles information!"
+msgstr "Błąd: Wystąpił błąd bazy danych podczas zapisywania informacji o roli."
+
+msgid "Edit this user record"
+msgstr "Zmień dane tego użytkownika "
+
+msgid "Edit"
+msgstr "Zmień"
+
+msgid ""
+"Enter a username, if you know it, and click here, to be e-mailed a temporary "
+"password."
+msgstr "Wpisz nazwę użytkownika (jeśli ją znasz) i naciśnij tutaj aby otrzymać emailem tymczasowe hasło."
+
+msgid "Enter the name for this resource type"
+msgstr "Wpisz nazwę tego typu zasobów."
+
+msgid "Enter your username and password then click here to log in."
+msgstr "Wpisz nazwę użytkownika oraz hasło i naciśnij tutaj aby się zalogować."
+
+msgid "Error querying database."
+msgstr "Błąd odpytywania bazy danych."
+
+msgid "Error writing calendar details to database."
+msgstr "Błąd zapisu kalendarza do bazy."
+
+msgid "European (d/m/y)"
+msgstr "Europejski (d/m/r)"
+
+msgid "Existing resource does not match 'If-Match' header - not accepted."
+msgstr ""
+
+msgid "Existing resource matches 'If-None-Match' header - not accepted."
+msgstr ""
+
+msgid "Finish"
+msgstr "Zakończ"
+
+msgid "For access to the"
+msgstr "Aby uzyskać dostęp do"
+
+msgid "Full Name"
+msgstr "Imię i nazwisko"
+
+msgid "GO!"
+msgstr "Uruchom!"
+
+msgid "Group <!-- in the sense of a group of people -->"
+msgstr "Grupa"
+
+msgid "Group"
+msgstr "Grupa"
+
+msgid "Help on something or other"
+msgstr ""
+
+msgid "Help! I've forgotten my password!"
+msgstr "Pomocy! Zapomniałem hasła!"
+
+msgid "Help"
+msgstr "Pomoc"
+
+msgid "Home"
+msgstr "Początek"
+
+msgid "ISO Format (YYYY-MM-DD)"
+msgstr "ISO (RRRR-MM-DD)"
+
+msgid "Id <!-- short for 'Identifier' -->"
+msgstr "Id"
+
+msgid "Id"
+msgstr "Id"
+
+msgid "If you have forgotten your password then"
+msgstr "Jeśli zapomniałeś hasła, "
+
+msgid "If you would like to request access, please e-mail"
+msgstr "Jeśli chcesz poprosić o dostęp, wyślij e-mail do"
+
+msgid "Invalid user name or password."
+msgstr "Błędna nazwa użytkownika lub hasło."
+
+msgid "Invalid username or password."
+msgstr "Błędna nazwa użytkownika lub hasło"
+
+msgid "Is a Calendar?"
+msgstr "Jest kalendarzem?"
+
+msgid "Is this access read ('R') or Read and Write ('RW')?"
+msgstr "Czy to dostęp tylko do odczytu ('R'), czy do zapisu ('RW')?"
+
+msgid "Is this user active?"
+msgstr "Aktywny użytkownik?"
+
+msgid "Joined"
+msgstr "Dodano"
+
+msgid "Language"
+msgstr "Język"
+
+msgid "Last used"
+msgstr "Ostatnio używany"
+
+msgid "Linked From"
+msgstr "Połączony z"
+
+msgid "Linked To"
+msgstr "Połączony do"
+
+msgid "Log On Please"
+msgstr "Proszę się zalogować"
+
+msgid "Log out of the"
+msgstr "Wyloguj się z"
+
+msgid "Logout"
+msgstr "Wyloguj się"
+
+msgid "My Details"
+msgstr "Moje dane"
+
+msgid "Name"
+msgstr "Nazwa"
+
+msgid "New Password"
+msgstr "Nowe hasło"
+
+msgid "New User"
+msgstr "Nowy użytkownik"
+
+msgid "No collection found at that location."
+msgstr "Nie znaleziono zbioru w lokalizacji"
+
+msgid "No. <!-- short for 'Number' -->"
+msgstr "Nr"
+
+msgid "No."
+msgstr "Nr"
+
+msgid "Password"
+msgstr "Hasło"
+
+msgid "Please Confirm Deletion"
+msgstr "Proszę potwierdzić usunięcie"
+
+msgid "Please note the time and advise the administrator of your system."
+msgstr ""
+
+msgid "Property is read-only"
+msgstr "Właściwość tylko do odczytu"
+
+msgid "Public <!-- in the sense of being available to all users -->"
+msgstr "Ogólnodostępny"
+
+msgid "Public"
+msgstr "Publiczny"
+
+msgid "Really Simple CalDAV Store"
+msgstr "Bardzo prosta składnica CalDAV"
+
+msgid "Relationship <!-- in the sense of a work relationship between people -->"
+msgstr "Zależność"
+
+msgid "Relationship Type Added."
+msgstr "Typ zależności został dodany."
+
+msgid "Relationship Type Deleted."
+msgstr "Typ zależności został usunięty."
+
+msgid "Relationship Types"
+msgstr "Typy zależności"
+
+msgid "Relationship added."
+msgstr "Zależność została dodana."
+
+msgid "Relationship deleted"
+msgstr "Zależność została usunięta"
+
+msgid "Relationship"
+msgstr "Zależność"
+
+msgid "Relationships from this user"
+msgstr "Zależności od tego użytkownika"
+
+msgid "Relationships to this user"
+msgstr "Zależności do tego użytkownika"
+
+msgid "Relationships"
+msgstr "Zależności"
+
+msgid "Repeat Rule"
+msgstr "Powtórz regułę"
+
+msgid "Report Bug"
+msgstr "Zgłoś błąd"
+
+msgid "Report a bug in the system"
+msgstr "Zgłoś błąd w systemie"
+
+msgid ""
+"Resource <!-- a thing which might be booked: a room, a carpark, a "
+"projector... -->"
+msgstr "Zasób"
+
+msgid "Resource changed on server - not changed."
+msgstr "Zmieniony zasób na serwerze - nie zmieniam."
+
+msgid "Resource does not match 'If-Match' header - not deleted"
+msgstr "Zasób nie pasuje do nagłówka 'If-Match' - nie usuwam."
+
+msgid "Resource has changed on server - not deleted"
+msgstr "Zasób zmieniony na serwerze - nie usuwam."
+
+msgid "Resource"
+msgstr "Zasób"
+
+msgid "Resources may not be changed to / from collections."
+msgstr ""
+
+msgid "Rights"
+msgstr "Uprawnienia"
+
+msgid "Select the type of relationship from this user"
+msgstr "Wybierz typ zależności od tego użytkownika"
+
+msgid "Select the user, resource or group to relate this user to"
+msgstr "Wybierz użytkownika, zasób lub grupę, do którego zależy ten użytkownik."
+
+msgid "Show help on"
+msgstr "Pokaż pomoc na temat"
+
+msgid "Some properties were not able to be changed."
+msgstr "Niektóre właściwości nie mogły zostać zmienione."
+
+msgid "Start"
+msgstr "Start"
+
+msgid "Summary"
+msgstr "Podsumowanie"
+
+msgid "That relationship type is being used. See ##RelationshipTypeUsed##"
+msgstr "Ten typ zależności jest używany. Zobacz ##RelationshipTypeUsed##"
+
+msgid "The application program does not understand that request."
+msgstr "Aplikacja nie rozumie tego żądania."
+
+msgid "The calendar path contains illegal characters."
+msgstr "Ścieżka kalendarza zawiera nieakceptowalne znaki."
+
+msgid "The displayname may only be set on collections or principals."
+msgstr ""
+
+msgid "The name this user can log into the system with."
+msgstr "Nazwa, którą ten użytkownik może użyć do zalogowania."
+
+msgid "The preferred language for this person."
+msgstr "Preferowany język."
+
+msgid "The style of dates used for this person."
+msgstr "Format daty używany przez tego użytkownika."
+
+msgid "The user's e-mail address."
+msgstr "Adres e-mail użytkownika."
+
+msgid "The user's full name."
+msgstr "Imię i nazwisko użytkownika."
+
+msgid "The user's password for logging in."
+msgstr "Hasło logowania."
+
+msgid "There was an error writing to the database."
+msgstr "Wystąpił błąd zapisu do bazy danych."
+
+msgid "This user's collections"
+msgstr "Zestawy użytkownika"
+
+msgid "Type"
+msgstr "Typ"
+
+msgid "United States of America (m/d/y)"
+msgstr "USA (m/d/r)"
+
+msgid "Update"
+msgstr "Aktualizuj"
+
+msgid "Updated"
+msgstr "Zaktualizowano"
+
+msgid "User Details"
+msgstr "Dane użytkownika"
+
+msgid "User Name"
+msgstr "Nazwa użytkownika"
+
+msgid "User Roles"
+msgstr "Role użytkownika"
+
+msgid "User Unavailable"
+msgstr "Użytkownik niedostępny"
+
+msgid "User is active"
+msgstr "Użytkownik aktywny"
+
+msgid "User record written."
+msgstr "Dane użytkownika zostały zapisane."
+
+msgid "Users"
+msgstr "Użytkownicy"
+
+msgid "View my own user record"
+msgstr "Zobacz swoje dane"
+
+msgid "View this user record"
+msgstr "Zobacz dane tego użytkownika"
+
+msgid "View"
+msgstr "Zobacz"
+
+msgid "When the user's e-mail account was validated."
+msgstr "Kiedy potwierdzono adres e-mail"
+
+msgid "You are not authorised to use this function."
+msgstr "Nie masz uprawnień aby użyć tej funkcji."
+
+msgid "You do not have appropriate rights to view that resource."
+msgstr "Nie masz uprawnień aby zobaczyć ten zasób."
+
+msgid "You do not have sufficient access to lock that"
+msgstr "Nie masz wystarczających uprawnień aby zarezerwować ten"
+
+msgid ""
+"You may not PUT a collection - you may only PUT things *in* one or use MKCOL/"
+"MKCALENDAR to create one."
+msgstr "Nie możesz wstawić kolekcji. Możesz jedynie wstawić coś *do* kolekcji, lub użyć MKCOL/MKCALEDAR aby ją utworzyć."
+
+msgid "You may not access that calendar"
+msgstr "Nie masz dostępu do tego kalendarza"
+
+msgid "You may not add entries to this calendar."
+msgstr "Nie możesz dodawać zdarzeń do tego kalendarza."
+
+msgid "You may not create a calendar there."
+msgstr "Nie możesz tu utworzyć kalendarza."
+
+msgid "You may not delete entries from this calendar."
+msgstr "Nie możesz kasować zdarzeń z tego kalendarza."
+
+msgid "You may not modify entries on this calendar."
+msgstr "Nie możesz modyfikować zdarzeń w tym kalendarzu."
+
+msgid "You must log in to use this system."
+msgstr "Musisz się zalogować."
+
+msgid ""
+"forget me not <!-- this is a colloquial phrase in english (the name of a "
+"flower) and is an option allowing people to log in automatically in future --"
+">"
+msgstr "zapamiętaj mnie"
+
+msgid "forget me not"
+msgstr "zapamiętaj mnie"
+
+msgid "is Assistant to"
+msgstr "jest asystentem"
+
+msgid ""
+"you should log on with the username and password that have been issued to "
+"you."
+msgstr "powinieneś zalogować się swoją nazwą użytkownika i hasłem."
+
