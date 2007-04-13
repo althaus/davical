@@ -1,20 +1,6 @@
 <?php
 /**
-* Session handling class and associated functions
-*
-* This subpackage provides some functions that are useful around web
-* application session management.
-*
-* The class is intended to be as lightweight as possible while holding
-* all session data in the database:
-*  - Session hash is not predictable.
-*  - No clear text information is held in cookies.
-*  - Passwords are generally salted MD5 hashes, but individual users may
-*    have plain text passwords set by an administrator.
-*  - Temporary passwords are supported.
-*  - Logout is supported
-*  - "Remember me" cookies are supported, and will result in a new
-*    Session for each browser session.
+* RSCDS extensions to AWL Session handling
 *
 * @package   rscds
 * @subpackage   RSCDSSession
@@ -75,37 +61,6 @@ class RSCDSSession extends Session
   */
   function RSCDSSession( $sid="" ) {
     $this->Session($sid);
-  }
-
-
-
-  /**
-  * Checks whether this user is a banker
-  *
-  * @return boolean Whether or not the logged in user is a banker
-  */
-  function IsAdmin() {
-    return ( $this->logged_in && isset($this->is_admin) && ($this->is_admin == 't') );
-  }
-
-
-  /**
-  * Returns a value for user_no which is within the legal values for this user,
-  * using a POST value or a GET value if available and allowed, otherwise using
-  * this user's value.
-  *
-  * @return int The sanitised value of user_no
-  */
-  function SanitisedUserNo( ) {
-    $user_no = 0;
-    if ( ! $this->logged_in ) return $user_no;
-
-    $user_no = $this->user_no;
-    if ( $this->AllowedTo("Admin") && (isset($_POST['user_no']) || isset($_GET['user_no'])) ) {
-      $user_no = intval(isset($_POST['user_no']) ? $_POST['user_no'] : $_GET['user_no'] );
-    }
-    if ( $user_no == 0 ) $user_no = $this->user_no;
-    return $user_no;
   }
 
 
