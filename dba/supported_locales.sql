@@ -17,3 +17,5 @@ INSERT INTO supported_locales ( locale, locale_name_en, locale_name_locale )
     VALUES( 'ru_RU', 'Russian',  'Русский' );
 INSERT INTO supported_locales ( locale, locale_name_en, locale_name_locale )
     VALUES( 'nl_NL', 'Netherlands',  'Nedersaksisch' );
+INSERT INTO supported_locales ( locale, locale_name_en, locale_name_locale )
+    VALUES( 'pl_PL', 'Polish',  'Polski' );
