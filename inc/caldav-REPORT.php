@@ -17,7 +17,7 @@ if ( ! ($request->AllowedTo('read') || $request->AllowedTo('freebusy')) ) {
 
 
 require_once("XMLElement.php");
-
+require_once("iCalendar.php");
 /**
 * Free/Busy is different to the other responses (not XML) so we
 * deal with it separately
@@ -187,7 +187,14 @@ function calendar_to_xml( $properties, $item ) {
     $prop->NewElement("getcontentlength", $contentlength );
   }
   if ( isset($properties['CALENDAR-DATA']) ) {
-    $prop->NewElement("calendar-data", $item->caldav_data, array("xmlns" => "urn:ietf:params:xml:ns:caldav") );
+      if($session->user_no != $item->user_no AND $item->class=='CONFIDENTIAL'){
+        $ical = new iCalendar( array( "icalendar" => $item->caldav_data));
+        $ical->Put( 'SUMMARY', i18n("Busy"));
+        $caldav_data = $ical->render(true,$item->caldav_type, array( "uid", "dtstamp", "dtstart", "duration", "last-modified","class", "transp", "sequence", "due",'SUMMARY'));
+        $prop->NewElement("calendar-data","$caldav_data" , array("xmlns" => "urn:ietf:params:xml:ns:caldav") );
+      }
+      else
+        $prop->NewElement("calendar-data", $item->caldav_data, array("xmlns" => "urn:ietf:params:xml:ns:caldav") );
   }
   if ( isset($properties['GETCONTENTTYPE']) ) {
     $prop->NewElement("getcontenttype", "text/calendar" );
@@ -371,9 +378,7 @@ for ( $i=0; $i <= $reportnum; $i++ ) {
   if ( $type_filters != '' ) {
     $where .= " AND caldav_data.caldav_type IN ( $type_filters ) ";
   }
-
   $where .= "AND (calendar_item.class != 'PRIVATE' OR calendar_item.class IS NULL OR get_permissions($session->user_no,caldav_data.user_no) ~ 'A') "; // Must have 'all' permissions to see confidential items
-
   $qry = new PgQuery( "SELECT * FROM caldav_data INNER JOIN calendar_item USING(user_no, dav_name)". $where );
   if ( $qry->Exec("REPORT",__LINE__,__FILE__) && $qry->rows > 0 ) {
     while( $calendar_object = $qry->Fetch() ) {
