@@ -33,7 +33,7 @@ if [ "${ADMINPW}" = "" ] ; then
   #
   # Generate a random administrative password.  If pwgen is available we'll use that,
   # otherwise try and hack something up using a few standard utilities
-  ADMINPW="`pwgen -Bcny 2>/dev/null | tr \"\\\'\" '^='`"
+  ADMINPW="`pwgen -Bcny 2>/dev/null | tr \"\\\\\'\" '^='`"
 fi
 
 if [ "$ADMINPW" = "" ] ; then
