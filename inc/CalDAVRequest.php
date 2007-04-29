@@ -95,6 +95,7 @@ class CalDAVRequest
     *     the minimum privileges returned from that analysis.
     */
     $this->path = $_SERVER['PATH_INFO'];
+    // dbg_error_log( "caldav", "Sanitising path '%s'", $this->path );
     $bad_chars_regex = '/[\\^\\[\\(\\\\]/';
     if ( preg_match( $bad_chars_regex, $this->path ) ) {
       $this->DoResponse( 400, translate("The calendar path contains illegal characters.") );
@@ -115,7 +116,7 @@ class CalDAVRequest
       }
     }
 
-    $path_split = preg_split('#/+#', $this->path );
+    $path_split = explode('/', $this->path );
     $this->permissions = array();
     if ( !isset($path_split[1]) || $path_split[1] == '' ) {
       dbg_error_log( "caldav", "No useful path split possible" );
