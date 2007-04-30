@@ -1,24 +1,194 @@
 <?php
-//  $c->domainname = "mycaldav.andrew";
-//  $c->sysabbr     = 'rscds';
-//  $c->admin_email = 'andrew@catalyst.net.nz';
-//  $c->system_name = "Really Simple CalDAV Store";
-//  $c->collections_always_exist = false;
+/***************************************************************************
+*                                                                          *
+*            These apply everywhere and will need setting                  *
+*                                                                          *
+***************************************************************************/
 
-  $c->pg_connect[] = 'dbname=caldav port=5433 user=general';
-  $c->pg_connect[] = 'dbname=caldav port=5432 user=general';
+/****************************
+********* Mandatory *********
+*****************************/
 
-// $c->dbg['ALL'] = 1;
-//  $c->dbg['propfind'] = 1;
-//  $c->dbg['report'] = 1;
-//  $c->dbg['get'] = 1;
-//  $c->dbg['put'] = 1;
-//  $c->dbg['ics'] = 1;
-//  $c->dbg['icalendar'] = 1;
-//  $c->dbg['vevent'] = 1;
-//  $c->dbg['caldav'] = 1;
-//  $c->dbg['user'] = 1;
+/**
+* Ex : $c->pg_connect[] = 'dbname=rscds port=5432 user=general'
+* The application will attempt to
+* connect to the database, successively applying connection parameters from
+* the array in $c->pg_connect.
+* used in the web interface but also the caldav Server
+*/
+$c->pg_connect[] = "dbname=rscds dbuser=general";
+// $c->pg_connect[] = "dbname=rscds dbuser=general port=5433 host=somehost password=mypass";
 
-  $c->collections_always_exist = false;
+
+/****************************
+********* Desirable *********
+*****************************/
+
+/**
+* default : Really Simple CalDAV Store
+* Is used to specify the authentication realm of the server, as well as
+* being used as a name to display in various places.
+*/
+$c->system_name = "Really Simple CalDAV Store";
+
+/**
+* default is false
+* If true, then events requested from someone other than the admmin or owner
+* of a calendar will not get any alarm for it.  Some client software also
+* allows you to configure calendar by calendar which ones allow alarms.
+*/
+$c->hide_alarm = true;
+
+
+
+/***************************************************************************
+*                                                                          *
+*                         ADMIN web Interface                              *
+*                                                                          *
+***************************************************************************/
+/**
+* Displayed on the login page to indicate who you should ask if you have
+* problems logging on. Also for the "From" of the email sent when a user
+* has lost his password and click on the login page
+* on "Help! I've forgotten my password"
+*/
+$c->admin_email ='calendar-admin@example.com';
+
+/**
+* default=true
+* if true the admin web interface will
+* have link on name to access details
+* <p>The "enable_row_linking" option controls whether javascript is used
+* to make the entire row clickable in browse lists in the administration
+* pages.  Since this doesn't work in Konqueror you may want to set this
+* to false if you expect people to be using Konqueror with the RSCDS
+* administration pages.</p>
+*/
+// $c->enable_row_linking = true;
+
+/**
+* These should be an array of style sheets with a path specified relative
+* to the root directory.  Used for overriding display styles in the admin
+* interface.
+* e.g. : $c->local_styles = array('/css/my.css');
+**/
+// $c->local_styles = array();
+// $c->print_styles = array();
+
+
+/***************************************************************************
+*                                                                          *
+*                         Caldav Server                                    *
+*                                                                          *
+***************************************************************************/
+
+/**
+* The "collections_always_exist" value defines whether a MKCALENDAR
+* command is needed to create a calendar collection before calendar
+* resources can be stored in it.  You will want to leave this to the
+* default (true) if people will be using Evolution or Sunbird /
+* Lightning against this because that software does not support the
+* creation of calendar collections.
+*/
+$c->collections_always_exist = true;
+
+
+
+/***************************************************************************
+*                                                                          *
+*                     External Authentication Sources                      *
+*                                                                          *
+***************************************************************************/
+
+/**
+* Allow specifying another way to control access of the user by authenticating
+* him against other drivers such has LDAP (the default is the PgSQL DB)
+* $c->authenticate_hook['call'] should be set to the name of the plugin and must
+* be a valid function that will be call like this:
+*   call_user_func( $c->authenticate_hook['call'], $username, $password )
+*
+* The login mecanism is made in 2 places:
+*  - for the web interface in: index.php that calls RSCDSSession.php that extends
+*    Session.php (from AWL libraries)
+*  - for the caldav client in: caldav.php that calls BasicAuthSession.php
+* Both Session.php and BasicAuthSession.php check against the
+* authenticate_hook['call'], although for BasicAuthSession.php this will be for
+* each page.  For Session.php this will only occur during login.
+*
+* $c->authenticate_hook['config'] should be set up with any configuration data
+* needed by the authenticate call for the moment used only in awl/inc/AuthPlugins.php
+* and he used to authenticate the user should be at least 'password,user_no'
+* awl/inc/AuthPlugins.php is a sample file not used by showing what could be
+* a hook
+*/
+
+/********************************/
+/******* Other AWL hook *********/
+/********************************/
+//require_once('AuthPlugins.php');
+//  $c->authenticate_hook = array(
+//      'call'   => 'auth_other_awl',
+//      'config' => array(
+            /** A PgSQL database connection string for the database containing user records */
+//          'connection' => 'dbname=wrms host=otherhose port=5433 user=general',
+            /** Which columns should be fetched from the database */
+//          'columns'    => "user_no, active, email_ok, joined, last_update AS updated, last_used, username, password, fullname, email"
+//      )
+//  );
+
+
+
+/********************************/
+/*********** LDAP hook **********/
+/********************************/
+//$c->authenticate_hook['call'] = 'LDAP_check';
+//$c->authenticate_hook['config'] = array(
+//    'host' => 'www.tennaxia.net', //host name of your LDAP Server
+//    'port' => '389', //port
+//    'bindDN'=> 'cn=manager,cn=internal,dc=tennaxia,dc=net', //DN to bind to this server enabling to perform request
+//    'passDN'=> 'xxxxxxxx', //Password of the previous bindDN to bind to this server enabling to perform request
+//    'baseDNUsers'=> 'dc=tennaxia,dc=net', //where to look at valid user
+//    'filterUsers' => 'objectClass=kolabInetOrgPerson', //filter that must validate an valid user
+//    'baseDNGroups' => 'ou=divisions,dc=tennaxia,dc=net', //not used ATM
+//    'filterGroups' => 'objectClass=groupOfUniqueNames', //not used ATM
+//    'mapping_field' => array("User Name" =>"uid", "Full Name" => "cn" ,"EMail" =>"mail")
+//    );
+//
+//include('drivers_ldap.php');
+
+
+/**
+* The default locale will be "en_NZ";
+* If you are in a non-English locale, you can set the default_locale
+* configuration to one of the supported locales.
+*
+* Supported Locales (at present, see: "select * from supported_locales ;" for a full list)
+*
+* "de_DE", "en_NZ", "es_AR", "fr_FR", "nl_NL", "ru_RU"
+*
+* If you want locale support you probably know more about configuring it than me, but
+* at this stage it should be noted that all translations are UTF-8, and pages are
+* served as UTF-8, so you will need to ensure that the UTF-8 versions of these locales
+* are supported on your system.
+*
+* People interested in providing new translations are directed to the Wiki:
+*   http://rscds.sourceforge.net/moin/TranslatingRscds
+**/
+// $c->default_locale = "en_NZ";
+
+/**
+* Default will be $_SERVER['SERVER_NAME'];
+* This is used to construct URLs which are passed in the answers to the client.  You may
+* want to force this to a specific domain in responses if your system is accessed by
+* multiple names, otherwise you probably won't need to change it.
+*/
+// $c->domain_name;
+
+/**
+* Used as a fallback for the TZID of an event where one is not supplied as part
+* of a VEVENT.  The local (server) time zone will be used as a default.
+*/
+// $c->local_tzid;
+
 
 ?>
