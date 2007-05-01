@@ -5,7 +5,7 @@ $session->LoginRequired();
 
 require_once("interactive-page.php");
 
-$c->title = "Really Simple CalDAV Store - Configuration Help";
+$c->page_title = "Really Simple CalDAV Store - Configuration Help";
 include("page-header.php");
 
 ?>
