@@ -20,14 +20,15 @@ fclose($fh);
 
 if ( isset($request_container) ) unset($request_container);
 if ( isset($request_name) ) unset($request_name);
+// Check to see if the path is like /foo /foo/bar or /foo/bar/baz etc. (not ending in a '/', but contains at least one)
 if ( preg_match( '#^(.*/)([^/]+)$#', $request->path, $matches ) ) {
-  $request_container = $matches[1];
-  $request_name = $matches[2];
+  $request_container = $matches[1];   // get everything up to the last '/'
+  $request_name = $matches[2];        // get after the last '/'
 }
 else {
+  // In this case we must have a URL with a trailing '/', so it must be a collection.
   $request_container = $request->path;
   $request_name = "";
-//  $request->DoResponse( 406, translate("You may not PUT a collection - you may only PUT things *in* one or use MKCOL/MKCALENDAR to create one."));
 }
 
 $lock_opener = $request->FailIfLocked();
@@ -85,7 +86,7 @@ if ( !$qry->Exec("PUT") || $qry->rows > 1 ) {
   $request->DoResponse( 500, translate("Error querying database.") );
 }
 elseif ( $qry->rows < 1 ) {
-  if ( isset($etag_if_match) && $etag_if_match != '' ) {
+  if ( isset($request->etag_if_match) && $request->etag_if_match != '' ) {
     /**
     * RFC2068, 14.25:
     * If none of the entity tags match, or if "*" is given and no current
@@ -104,8 +105,8 @@ elseif ( $qry->rows < 1 ) {
 elseif ( $qry->rows == 1 ) {
   $icalendar = $qry->Fetch();
 
-  if ( ( isset($etag_if_match) && $etag_if_match != '' && $etag_if_match != $icalendar->dav_etag )
-       || ( isset($etag_none_match) && $etag_none_match != '' && ($etag_none_match == $icalendar->dav_etag || $etag_none_match == '*') ) ) {
+  if ( ( isset($request->etag_if_match) && $request->etag_if_match != '' && $request->etag_if_match != $icalendar->dav_etag )
+       || ( isset($request->etag_none_match) && $request->etag_none_match != '' && ($request->etag_none_match == $icalendar->dav_etag || $request->etag_none_match == '*') ) ) {
     /**
     * RFC2068, 14.25:
     * If none of the entity tags match, or if "*" is given and no current
@@ -119,7 +120,7 @@ elseif ( $qry->rows == 1 ) {
     * given and any current entity exists for that resource, then the
     * server MUST NOT perform the requested method.
     */
-    if ( isset($etag_if_match) && $etag_if_match != $icalendar->dav_etag ) {
+    if ( isset($request->etag_if_match) && $request->etag_if_match != $icalendar->dav_etag ) {
       $error = translate( "Existing resource does not match 'If-Match' header - not accepted.");
     }
     if ( isset($etag_none_match) && $etag_none_match != '' && ($etag_none_match == $icalendar->dav_etag || $etag_none_match == '*') ) {
