@@ -54,7 +54,7 @@ if ( !$exists ) {
 if ( isset($c->override_allowed_methods) )
   $allowed = $c->override_allowed_methods;
 else {
-  $allowed = "OPTIONS, GET, HEAD, PUT, DELETE, PROPFIND, MKCOL, MKCALENDAR, LOCK, UNLOCK, REPORT";
+  $allowed = "OPTIONS, GET, HEAD, PUT, DELETE, PROPFIND, MKCOL, MKCALENDAR, LOCK, UNLOCK, REPORT, PROPPATCH";
 }
 header( "Allow: $allowed");
 
