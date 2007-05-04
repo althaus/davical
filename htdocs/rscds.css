@@ -221,3 +221,22 @@ background-color: white;
 color: #009;
 border-bottom:1px solid white;
 }
+.fsubmit {
+background-color: white;
+font-weight: bold;
+border:1px solid #009;
+height:20px;
+width:90%;
+background-color: #DEF;
+-moz-border-radius: 2em;
+text-decoration:none;
+color:black;
+padding:0 20px;
+margin:0 20px;
+}
+.fsubmit:hover {
+border:2px outset #009;
+}
+.fsubmit:active {
+border:2px inset #009;
+}
