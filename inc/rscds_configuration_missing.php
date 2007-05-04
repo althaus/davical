@@ -17,7 +17,7 @@ include("page-header.php");
 <p>The configuration file should look something like this:</p>
 <pre>
 &lt;?php
-//  \$c->domainname  = 'rscds.example.com';
+//  \$c->domain_name  = 'rscds.example.com';
 //  \$c->sysabbr     = 'rscds';
 //  \$c->system_name = 'Really Simple CalDAV Store';
 
