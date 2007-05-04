@@ -187,14 +187,29 @@ function calendar_to_xml( $properties, $item ) {
     $prop->NewElement("getcontentlength", $contentlength );
   }
   if ( isset($properties['CALENDAR-DATA']) ) {
-      if($session->user_no != $item->user_no AND $item->class=='CONFIDENTIAL'){
-        $ical = new iCalendar( array( "icalendar" => $item->caldav_data));
-        $ical->Put( 'SUMMARY', i18n("Busy"));
-        $caldav_data = $ical->render(true,$item->caldav_type, array( "uid", "dtstamp", "dtstart", "duration", "last-modified","class", "transp", "sequence", "due",'SUMMARY'));
+    if ( !is_numeric(strpos($item->permissions,'A')) && $session->user_no != $item->user_no ){
+      // the user is not admin / owner of this calendarlooking at his calendar and can not admin the other cal
+      if ( $item->class == 'CONFIDENTIAL' ) {
+        // if the event is confidential we fake one that just says "Busy"
+        $ical = new iCalendar( array( "icalendar" => $item->caldav_data) );
+        $ical->Put( 'SUMMARY', translate("Busy") );
+        $caldav_data = $ical->render(true,$item->caldav_type, array( "uid", "dtstamp", "dtstart", "duration", "last-modified","class", "transp", "sequence", "due",'SUMMARY') );
         $prop->NewElement("calendar-data","$caldav_data" , array("xmlns" => "urn:ietf:params:xml:ns:caldav") );
       }
-      else
+      elseif ( $c->hide_alarm ) {
+        // Otherwise we hide the alarms (if configured to)
+        $ical = new iCalendar( array( "icalendar" => $item->caldav_data) );
+        $caldav_data = $ical->render(true,$item->caldav_type,$ical->get_default_properties() );
+        $prop->NewElement("calendar-data","$caldav_data" , array("xmlns" => "urn:ietf:params:xml:ns:caldav") );
+      }
+      else {
+        // Just send the raw event
         $prop->NewElement("calendar-data", $item->caldav_data, array("xmlns" => "urn:ietf:params:xml:ns:caldav") );
+      }
+    }
+    else
+      // Just send the raw event
+      $prop->NewElement("calendar-data", $item->caldav_data, array("xmlns" => "urn:ietf:params:xml:ns:caldav") );
   }
   if ( isset($properties['GETCONTENTTYPE']) ) {
     $prop->NewElement("getcontenttype", "text/calendar" );
@@ -379,7 +394,7 @@ for ( $i=0; $i <= $reportnum; $i++ ) {
     $where .= " AND caldav_data.caldav_type IN ( $type_filters ) ";
   }
   $where .= "AND (calendar_item.class != 'PRIVATE' OR calendar_item.class IS NULL OR get_permissions($session->user_no,caldav_data.user_no) ~ 'A') "; // Must have 'all' permissions to see confidential items
-  $qry = new PgQuery( "SELECT * FROM caldav_data INNER JOIN calendar_item USING(user_no, dav_name)". $where );
+  $qry = new PgQuery( "SELECT * , get_permissions($session->user_no,caldav_data.user_no) as permissions FROM caldav_data INNER JOIN calendar_item USING(user_no, dav_name)". $where );
   if ( $qry->Exec("REPORT",__LINE__,__FILE__) && $qry->rows > 0 ) {
     while( $calendar_object = $qry->Fetch() ) {
       $responses[] = calendar_to_xml( $report[$i]['properties'], $calendar_object );
