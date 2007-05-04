@@ -35,6 +35,7 @@ class RSCDSUser extends User
   * @return string An HTML fragment to display in the page.
   */
   function Render($title = "" ) {
+    global  $c;
     $html = "";
     dbg_error_log("User", ":Render: type=$this->WriteType, edit_mode=$this->EditMode" );
 
@@ -42,9 +43,7 @@ class RSCDSUser extends User
     $ef->NoHelp();  // Prefer this style, for the moment
 
     $html = '<div id="entryform">';
-    if ( $title != "" ) {
-      $html .= sprintf("<h1>%s</h1>\n", translate($title));
-    }
+    $html .= sprintf("<h1>%s</h1>\n", translate("You are ".($ef->EditMode?"editing":"viewing"))." ".translate($title));
 
     if ( $ef->EditMode ) {
       $html .= $ef->StartForm( array("autocomplete" => "off" ) );
@@ -55,6 +54,7 @@ class RSCDSUser extends User
 
     $html .= $this->RenderFields($ef,"");
 
+    $html .= $this->RenderImportIcs($ef);
     $html .= $this->RenderRoles($ef);
 
     $html .= $this->RenderRelationshipsFrom($ef);
@@ -73,7 +73,27 @@ class RSCDSUser extends User
 
     return $html;
   }
+  /**
+  * Render input file to import ics in calendar user
+  *
+  * @return string The string of html to be output
+  */
+  function RenderImportIcs( $ef, $title = null ) {
+    if ( !$ef->EditMode ) return;
+    if ( $title == null ) $title = i18n("Import ICS file");
+    $html = ( $title == "" ? "" : $ef->BreakLine(translate($title)) );
+    $html .= sprintf( "<tr><th class=\"prompt\">&nbsp;</th><th style=\"text-align:left\">%s</th></tr>\n", translate("<b>WARNING: all events in this path will be deleted before inserting all of the ics file</b>"));
+    $html .= $ef->DataEntryLine( translate("path to store your ics"), "%s", "text", "path_ics",
+              array( "size" => 20,
+                     "title" => translate("set the path to store your ics ex:home if you get it by caldav.php/me/home/"),
+                     "help" => translate("<b>WARNING: all events in this path will be deleted before inserting all of the ics file</b>")
+                   )
+                   , $this->prefix );
 
+    $html .= $ef->DataEntryLine( translate("Your .ics calendar"), "%s", "file", "ics_file",
+              array( "size" => 20, "title" => translate("Upload your .ics calendar in ical format ")), $this->prefix );
+    return $html;
+  }
 
   /**
   * Render the user's relationships to other users & resources
