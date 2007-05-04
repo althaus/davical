@@ -35,6 +35,11 @@ i18n('is Assistant to');
 i18n('Can read from');
 i18n('Can see free/busy time of');
 
+i18n('View this user record');
+i18n('Edit this user record');
+i18n('You are viewing');
+i18n('You are editing');
+
 i18n("forget me not <!-- this is a colloquial phrase in english (the name of a flower) and is an option allowing people to log in automatically in future -->");
 
 ?>
