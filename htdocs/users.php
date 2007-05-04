@@ -1,4 +1,13 @@
 <?php
+/**
+* Display a list of all users
+*
+* @package   rscds
+* @subpackage   RSCDSSession
+* @author    Andrew McMillan <andrew@catalyst.net.nz>
+* @copyright Catalyst .Net Ltd
+* @license   http://gnu.org/copyleft/gpl.html GNU GPL v2
+*/
 require_once("../inc/always.php");
 require_once("RSCDSSession.php");
 $session->LoginRequired();
