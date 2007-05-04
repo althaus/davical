@@ -213,12 +213,12 @@ and is a regular PHP file which sets (or overrides) some specific variables.</p>
 
 <pre>
 &lt;?php
-//  $c->domainname = "calendar.example.net";
+//  $c->domain_name = "calendar.example.net";
 //  $c->sysabbr     = 'rscds';
 //  $c->admin_email = 'admin@example.net';
 //  $c->system_name = "Really Simple CalDAV Store";
 //  $c->collections_always_exist = true;
-//  $c->enable_row_links = true;
+//  $c->enable_row_linking = true;
 //  $c->default_locale = en_NZ.UTF-8;
 
 //  $c->pg_connect[] = 'dbname=rscds port=5433 user=general';
@@ -238,13 +238,13 @@ default (true) if people will be using Evolution or Sunbird /
 Lightning against this because that software does not support the
 creation of calendar collections.</p>
 
-<p>The "enable_row_links" option controls whether javascript is used
+<p>The "enable_row_linking" option controls whether javascript is used
 to make the entire row clickable in browse lists in the administration
 pages.  Since this doesn't work in Konqueror you may want to set this
 to false if you expect people to be using Konqueror with the RSCDS
 administration pages.</p>
 
-<p>You should set the 'domainname' and 'admin_email' as they are used
+<p>You should set the 'domain_name' and 'admin_email' as they are used
 within the system for constructing URLs, and for notifying some
 kinds of events.</p>
 
