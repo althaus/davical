@@ -1,3 +1,19 @@
+rscds (0.7.2~rc3) unstable; urgency=low
+
+  * Check whether a URL missing a trailing '/' might still be a collection.
+  * Fix for REPORT to exclude PRIVATE events.
+  * Show a list of the user's relationships in the admin page.
+  * Add XML with MKCALENDAR support.
+  * Add polish language support from Rafał Ślubowski
+  * Patch to support reporting of "Busy" for confidential events (Maxime
+    Delorme).
+  * Allow hiding of alarms for calendars which are not ours (Maxime Delorme).
+  * Allow uploading of a whole calendar .ics from within user maintenance
+    (Maxime Delorme).
+  * Basic LDAP authentication (Maxime Delorme)
+
+ -- Andrew McMillan <debian@mcmillan.net.nz>  Sat, 05 May 2007 18:26:33 +1200
+
 rscds (0.7.1) unstable; urgency=low
 
   * Add support for PRIVATE events to REPORT, PROPFIND and GET
