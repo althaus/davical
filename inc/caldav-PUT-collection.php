@@ -18,7 +18,7 @@ $tzid = 'unknown';
 foreach( $lines AS $lno => $line ) {
   dbg_error_log( "PUT", "CalendarLine[%04d] - %s: %s", $lno, $state, $line );
   if ( $state == "" ) {
-    if ( preg_match( '/^BEGIN:(VEVENT|VTIMEZONE)$/', $line, $matches ) ) {
+    if ( preg_match( '/^BEGIN:(VEVENT|VTIMEZONE|VTODO)$/', $line, $matches ) ) {
       $current .= $line."\n";
       $state = $matches[1];
     }
@@ -28,6 +28,9 @@ foreach( $lines AS $lno => $line ) {
     if ( $line == "END:$state" ) {
       switch ( $state ) {
         case 'VEVENT':
+          $events[] = array( 'data' => $current, 'tzid' => $tzid );
+          break;
+        case 'VTODO':
           $events[] = array( 'data' => $current, 'tzid' => $tzid );
           break;
         case 'VTIMEZONE':
