@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rscds-messages\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-02-19 10:35+1300\n"
+"POT-Creation-Date: 2007-05-08 22:45+1200\n"
 "PO-Revision-Date: 2007-03-31 00:24+0200\n"
 "Last-Translator: Rafal Slubowski <rafalslubowski@gmail.com>\n"
 "Language-Team: polski <pl@li.org>\n"
@@ -27,12 +27,16 @@ msgstr "Wybierz użytkownika lub zasób"
 msgid "--- select a user, group or resource ---"
 msgstr "Wybierz użytkownika, grupę lub zasób"
 
+msgid "<b>WARNING: all events in this path will be deleted before inserting all of the ics file</b>"
+msgstr ""
+
 #, c-format
 msgid ""
-"<h1>Log On Please</h1><p>For access to the %s you should log on withthe "
-"username and password that have been issued to you.</p><p>If you would like "
-"to request access, please e-mail %s.</p>"
-msgstr "<h1>Zaloguj się</h1><p>Aby uzyskać dostęp do %s powinieneś zalogować się swoją nazwą użytkownika i hasłem.</p><p>Jeśli chcesz uzyskać dostęp, wyślij e-mail do %s.</p>"
+"<h1>Log On Please</h1><p>For access to the %s you should log on withthe username and password that "
+"have been issued to you.</p><p>If you would like to request access, please e-mail %s.</p>"
+msgstr ""
+"<h1>Zaloguj się</h1><p>Aby uzyskać dostęp do %s powinieneś zalogować się swoją nazwą użytkownika i "
+"hasłem.</p><p>Jeśli chcesz uzyskać dostęp, wyślij e-mail do %s.</p>"
 
 msgid "A collection already exists at that location."
 msgstr "Zbuór już istnieje w tej lokalizacji."
@@ -69,6 +73,9 @@ msgstr "Przeglądaj wszystkie typy zależności"
 
 msgid "Browse all users"
 msgstr "Przeglądaj wszystkich użytkowników"
+
+msgid "Busy"
+msgstr ""
 
 msgid "Calendar Resource Not Found."
 msgstr "Zasób kalendarza nie został znaleziony"
@@ -149,12 +156,7 @@ msgstr "Błąd: Wystąpił błąd bazy danych podczas zapisywania informacji o r
 msgid "Edit this user record"
 msgstr "Zmień dane tego użytkownika "
 
-msgid "Edit"
-msgstr "Zmień"
-
-msgid ""
-"Enter a username, if you know it, and click here, to be e-mailed a temporary "
-"password."
+msgid "Enter a username, if you know it, and click here, to be e-mailed a temporary password."
 msgstr "Wpisz nazwę użytkownika (jeśli ją znasz) i naciśnij tutaj aby otrzymać emailem tymczasowe hasło."
 
 msgid "Enter the name for this resource type"
@@ -223,6 +225,9 @@ msgstr "Jeśli zapomniałeś hasła, "
 msgid "If you would like to request access, please e-mail"
 msgstr "Jeśli chcesz poprosić o dostęp, wyślij e-mail do"
 
+msgid "Import ICS file"
+msgstr ""
+
 msgid "Invalid user name or password."
 msgstr "Błędna nazwa użytkownika lub hasło."
 
@@ -282,6 +287,13 @@ msgstr "Nr"
 
 msgid "No."
 msgstr "Nr"
+
+msgid "Operations on your calendar"
+msgstr ""
+
+#, fuzzy
+msgid "Operations"
+msgstr "Zależność"
 
 msgid "Password"
 msgstr "Hasło"
@@ -343,9 +355,7 @@ msgstr "Zgłoś błąd"
 msgid "Report a bug in the system"
 msgstr "Zgłoś błąd w systemie"
 
-msgid ""
-"Resource <!-- a thing which might be booked: a room, a carpark, a "
-"projector... -->"
+msgid "Resource <!-- a thing which might be booked: a room, a carpark, a projector... -->"
 msgstr "Zasób"
 
 msgid "Resource changed on server - not changed."
@@ -372,10 +382,20 @@ msgstr "Wybierz typ zależności od tego użytkownika"
 msgid "Select the user, resource or group to relate this user to"
 msgstr "Wybierz użytkownika, zasób lub grupę, do którego zależy ten użytkownik."
 
+msgid "Setup RSCDS"
+msgstr ""
+
+msgid "Setup"
+msgstr ""
+
 msgid "Show help on"
 msgstr "Pokaż pomoc na temat"
 
 msgid "Some properties were not able to be changed."
+msgstr "Niektóre właściwości nie mogły zostać zmienione."
+
+#, fuzzy
+msgid "Some properties were not able to be set."
 msgstr "Niektóre właściwości nie mogły zostać zmienione."
 
 msgid "Start"
@@ -432,6 +452,9 @@ msgstr "Aktualizuj"
 msgid "Updated"
 msgstr "Zaktualizowano"
 
+msgid "Upload your .ics calendar in ical format "
+msgstr ""
+
 msgid "User Details"
 msgstr "Dane użytkownika"
 
@@ -465,19 +488,20 @@ msgstr "Zobacz"
 msgid "When the user's e-mail account was validated."
 msgstr "Kiedy potwierdzono adres e-mail"
 
+msgid "You are editing"
+msgstr ""
+
 msgid "You are not authorised to use this function."
 msgstr "Nie masz uprawnień aby użyć tej funkcji."
+
+msgid "You are viewing"
+msgstr ""
 
 msgid "You do not have appropriate rights to view that resource."
 msgstr "Nie masz uprawnień aby zobaczyć ten zasób."
 
 msgid "You do not have sufficient access to lock that"
 msgstr "Nie masz wystarczających uprawnień aby zarezerwować ten"
-
-msgid ""
-"You may not PUT a collection - you may only PUT things *in* one or use MKCOL/"
-"MKCALENDAR to create one."
-msgstr "Nie możesz wstawić kolekcji. Możesz jedynie wstawić coś *do* kolekcji, lub użyć MKCOL/MKCALEDAR aby ją utworzyć."
 
 msgid "You may not access that calendar"
 msgstr "Nie masz dostępu do tego kalendarza"
@@ -497,10 +521,13 @@ msgstr "Nie możesz modyfikować zdarzeń w tym kalendarzu."
 msgid "You must log in to use this system."
 msgstr "Musisz się zalogować."
 
+#, fuzzy
+msgid "Your .ics calendar"
+msgstr "Nie masz dostępu do tego kalendarza"
+
 msgid ""
-"forget me not <!-- this is a colloquial phrase in english (the name of a "
-"flower) and is an option allowing people to log in automatically in future --"
-">"
+"forget me not <!-- this is a colloquial phrase in english (the name of a flower) and is an option "
+"allowing people to log in automatically in future -->"
 msgstr "zapamiętaj mnie"
 
 msgid "forget me not"
@@ -509,8 +536,21 @@ msgstr "zapamiętaj mnie"
 msgid "is Assistant to"
 msgstr "jest asystentem"
 
-msgid ""
-"you should log on with the username and password that have been issued to "
-"you."
+msgid "path to store your ics"
+msgstr ""
+
+msgid "set the path to store your ics ex:home if you get it by caldav.php/me/home/"
+msgstr ""
+
+msgid "you should log on with the username and password that have been issued to you."
 msgstr "powinieneś zalogować się swoją nazwą użytkownika i hasłem."
 
+#~ msgid "Edit"
+#~ msgstr "Zmień"
+
+#~ msgid ""
+#~ "You may not PUT a collection - you may only PUT things *in* one or use MKCOL/MKCALENDAR to create "
+#~ "one."
+#~ msgstr ""
+#~ "Nie możesz wstawić kolekcji. Możesz jedynie wstawić coś *do* kolekcji, lub użyć MKCOL/MKCALEDAR aby "
+#~ "ją utworzyć."

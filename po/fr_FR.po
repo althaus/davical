@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rscds 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-02-19 10:35+1300\n"
+"POT-Creation-Date: 2007-05-08 22:45+1200\n"
 "PO-Revision-Date: 2006-11-13 13:03+1300\n"
 "Last-Translator: Guillaume Rosquin <andrew@mcmillan.net.nz>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,6 +24,9 @@ msgstr "--- choisissez un utilisateur ou une ressource ---"
 
 msgid "--- select a user, group or resource ---"
 msgstr "--- choisissez un utilisateur, un groupe ou une ressource ---"
+
+msgid "<b>WARNING: all events in this path will be deleted before inserting all of the ics file</b>"
+msgstr ""
 
 #, c-format
 msgid ""
@@ -71,6 +74,9 @@ msgstr "Affiche tous les types de relations"
 # I.e. a listing of all users.
 msgid "Browse all users"
 msgstr "Affiche tous les utilisateurs"
+
+msgid "Busy"
+msgstr ""
 
 msgid "Calendar Resource Not Found."
 msgstr "Ressource calendrier introuvable"
@@ -155,9 +161,6 @@ msgstr ""
 msgid "Edit this user record"
 msgstr "Modifier l'enregistrement de cet utilisateur"
 
-msgid "Edit"
-msgstr "Modifier"
-
 msgid "Enter a username, if you know it, and click here, to be e-mailed a temporary password."
 msgstr ""
 "Tapez un nom d'utilisateur, si vous le connaissez, et cliquez ici, pour recevoir un mot de passe "
@@ -237,6 +240,9 @@ msgstr "Si vous avez oublié votre mot de passe alors"
 msgid "If you would like to request access, please e-mail"
 msgstr "Si vous souhaitez avoir accès, veuillez envoyer un courriel"
 
+msgid "Import ICS file"
+msgstr ""
+
 msgid "Invalid user name or password."
 msgstr "Nom d'utilisateur ou mot de passe incorrects."
 
@@ -306,6 +312,13 @@ msgstr "N°"
 
 msgid "No."
 msgstr "N°"
+
+msgid "Operations on your calendar"
+msgstr ""
+
+#, fuzzy
+msgid "Operations"
+msgstr "Relation"
 
 msgid "Password"
 msgstr "Mot de passe"
@@ -410,10 +423,20 @@ msgstr "Choisissez le type de relations de cet utilisateur"
 msgid "Select the user, resource or group to relate this user to"
 msgstr "Choisissez l'utilisateur, la ressource ou le groupe à relier à cet utilisateur"
 
+msgid "Setup RSCDS"
+msgstr ""
+
+msgid "Setup"
+msgstr ""
+
 msgid "Show help on"
 msgstr "Afficher l'aide sur"
 
 msgid "Some properties were not able to be changed."
+msgstr "Des propriétés n'ont pu être changées"
+
+#, fuzzy
+msgid "Some properties were not able to be set."
 msgstr "Des propriétés n'ont pu être changées"
 
 msgid "Start"
@@ -480,6 +503,9 @@ msgstr "Enregistrer/Mettre à jour"
 msgid "Updated"
 msgstr "Mise à jour"
 
+msgid "Upload your .ics calendar in ical format "
+msgstr ""
+
 msgid "User Details"
 msgstr "Informations sur l'utilisateur"
 
@@ -529,20 +555,20 @@ msgstr "Consulter"
 msgid "When the user's e-mail account was validated."
 msgstr "Date à laquelle l'adresse courriel de cet utilisateur a été validée."
 
+msgid "You are editing"
+msgstr ""
+
 msgid "You are not authorised to use this function."
 msgstr "Vous n'êtes pas autorisé à utiliser cette fonction."
+
+msgid "You are viewing"
+msgstr ""
 
 msgid "You do not have appropriate rights to view that resource."
 msgstr "Vous n'avez pas les droits appropriés pour voir cette ressource"
 
 msgid "You do not have sufficient access to lock that"
 msgstr "Vous n'avez pas suffisamment d'accès pour verrouiller ça"
-
-msgid ""
-"You may not PUT a collection - you may only PUT things *in* one or use MKCOL/MKCALENDAR to create one."
-msgstr ""
-"Vous ne pouvez pas appeler la method PUT sur une collection - vous ne pouvez le faire que sur des "
-"choses *dans* une collection ou utiliser les méthodes  MKCOL/MKCALENDAR pour en créer une"
 
 msgid "You may not access that calendar"
 msgstr "Vous ne pouvez accéder à ce calendrier"
@@ -562,6 +588,10 @@ msgstr "Vous ne pouvez changer les entrées de ce calendrier"
 msgid "You must log in to use this system."
 msgstr "Vous devez vous connecter pour utiliser ce logiciel"
 
+#, fuzzy
+msgid "Your .ics calendar"
+msgstr "Vous ne pouvez accéder à ce calendrier"
+
 msgid ""
 "forget me not <!-- this is a colloquial phrase in english (the name of a flower) and is an option "
 "allowing people to log in automatically in future -->"
@@ -574,8 +604,24 @@ msgstr "Ne pas m'oublier"
 msgid "is Assistant to"
 msgstr "est assisté par"
 
+msgid "path to store your ics"
+msgstr ""
+
+msgid "set the path to store your ics ex:home if you get it by caldav.php/me/home/"
+msgstr ""
+
 msgid "you should log on with the username and password that have been issued to you."
 msgstr "Vous devez vous connecter avec le nom d'utilisateur et le mot de passe qui vous ont été fournis."
+
+#~ msgid "Edit"
+#~ msgstr "Modifier"
+
+#~ msgid ""
+#~ "You may not PUT a collection - you may only PUT things *in* one or use MKCOL/MKCALENDAR to create "
+#~ "one."
+#~ msgstr ""
+#~ "Vous ne pouvez pas appeler la method PUT sur une collection - vous ne pouvez le faire que sur des "
+#~ "choses *dans* une collection ou utiliser les méthodes  MKCOL/MKCALENDAR pour en créer une"
 
 #~ msgid "Administers Resource"
 #~ msgstr "Gére la ressource"

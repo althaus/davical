@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-02-19 10:35+1300\n"
+"POT-Creation-Date: 2007-05-08 22:45+1200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Eelco Maljaars <http://eelco.maljaars.net/>\n"
 "Language-Team: nl_NL <LL@li.org>\n"
@@ -24,6 +24,9 @@ msgstr "--- selekteer een gebruiker of resource ---"
 
 msgid "--- select a user, group or resource ---"
 msgstr "--- selekteer een gebruiker, groep of resource ---"
+
+msgid "<b>WARNING: all events in this path will be deleted before inserting all of the ics file</b>"
+msgstr ""
 
 #, c-format
 msgid ""
@@ -69,6 +72,9 @@ msgstr "Blader door alle soorten relaties"
 
 msgid "Browse all users"
 msgstr "Blader door alle gebruikers"
+
+msgid "Busy"
+msgstr ""
 
 msgid "Calendar Resource Not Found."
 msgstr ""
@@ -151,9 +157,6 @@ msgstr "Fout: Database fout bij het schrijven van rolleninformatie"
 msgid "Edit this user record"
 msgstr "Verander deze gebruiker"
 
-msgid "Edit"
-msgstr "Verander"
-
 msgid "Enter a username, if you know it, and click here, to be e-mailed a temporary password."
 msgstr ""
 "Voer een gebruikersnaam in als je die weet en klik hier om een tijdelijk wachtwoord gemaild te krijgen"
@@ -224,6 +227,9 @@ msgstr "Indien je je wachtwoord vergeten bent dan"
 msgid "If you would like to request access, please e-mail"
 msgstr "Indien je toegang wilt aanvragen, e-mail je"
 
+msgid "Import ICS file"
+msgstr ""
+
 msgid "Invalid user name or password."
 msgstr "Verkeerde gebruikersnaam of wachtwoord"
 
@@ -283,6 +289,13 @@ msgstr "Nr."
 
 msgid "No."
 msgstr "Nee."
+
+msgid "Operations on your calendar"
+msgstr ""
+
+#, fuzzy
+msgid "Operations"
+msgstr "Relatie"
 
 msgid "Password"
 msgstr "Wachtwoord"
@@ -372,10 +385,19 @@ msgstr "Selekteer het soort relatie van deze gebruiker"
 msgid "Select the user, resource or group to relate this user to"
 msgstr "Selekteer de gebruiker, resource of groep om deze gebruiker aan te koppelen"
 
+msgid "Setup RSCDS"
+msgstr ""
+
+msgid "Setup"
+msgstr ""
+
 msgid "Show help on"
 msgstr "Laat hulp zien over"
 
 msgid "Some properties were not able to be changed."
+msgstr ""
+
+msgid "Some properties were not able to be set."
 msgstr ""
 
 msgid "Start"
@@ -432,6 +454,9 @@ msgstr "Bijwerken"
 msgid "Updated"
 msgstr "Bijgewerkt"
 
+msgid "Upload your .ics calendar in ical format "
+msgstr ""
+
 msgid "User Details"
 msgstr "Gebruikersdetails"
 
@@ -465,21 +490,20 @@ msgstr "Beeld"
 msgid "When the user's e-mail account was validated."
 msgstr "Wanneer het e-mail account van de gebruiker bevestigd is"
 
+msgid "You are editing"
+msgstr ""
+
 msgid "You are not authorised to use this function."
 msgstr "Je hebt geen rechten om deze functie te gebruiken"
+
+msgid "You are viewing"
+msgstr ""
 
 msgid "You do not have appropriate rights to view that resource."
 msgstr "Je hebt niet de benodigde rechten om deze resource te bekijken"
 
 msgid "You do not have sufficient access to lock that"
 msgstr ""
-
-#, fuzzy
-msgid ""
-"You may not PUT a collection - you may only PUT things *in* one or use MKCOL/MKCALENDAR to create one."
-msgstr ""
-"Je kunt geen geen PUT doen op een verzameling - je mag alleen een PUT doen  op dingen in je "
-"verzameling (MKCOL / MKCALENDAR) "
 
 msgid "You may not access that calendar"
 msgstr "Je mag die agenda niet benaderen"
@@ -499,6 +523,10 @@ msgstr "Je mag geen items aanpassen in deze agenda"
 msgid "You must log in to use this system."
 msgstr "Je moet inloggen om dit systeem te gebruiken"
 
+#, fuzzy
+msgid "Your .ics calendar"
+msgstr "Je mag die agenda niet benaderen"
+
 msgid ""
 "forget me not <!-- this is a colloquial phrase in english (the name of a flower) and is an option "
 "allowing people to log in automatically in future -->"
@@ -511,8 +539,25 @@ msgstr "ingelogd blijven"
 msgid "is Assistant to"
 msgstr "Wordt ondersteund door"
 
+msgid "path to store your ics"
+msgstr ""
+
+msgid "set the path to store your ics ex:home if you get it by caldav.php/me/home/"
+msgstr ""
+
 msgid "you should log on with the username and password that have been issued to you."
 msgstr "je moet inloggen met de gebruikersnaam en het wachtwoord die je zijn toegewezen "
+
+#~ msgid "Edit"
+#~ msgstr "Verander"
+
+#, fuzzy
+#~ msgid ""
+#~ "You may not PUT a collection - you may only PUT things *in* one or use MKCOL/MKCALENDAR to create "
+#~ "one."
+#~ msgstr ""
+#~ "Je kunt geen geen PUT doen op een verzameling - je mag alleen een PUT doen  op dingen in je "
+#~ "verzameling (MKCOL / MKCALENDAR) "
 
 #~ msgid "Administers Resource"
 #~ msgstr "Beheerders resource"

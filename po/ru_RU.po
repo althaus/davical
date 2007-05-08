@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rscds 0.3.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-02-19 10:35+1300\n"
+"POT-Creation-Date: 2007-05-08 22:45+1200\n"
 "PO-Revision-Date: 2006-11-13 23:07+0500\n"
 "Last-Translator: Nick Khazov <m2k3d0n@users.sourceforge.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,6 +23,9 @@ msgid "--- select a user or resource ---"
 msgstr ""
 
 msgid "--- select a user, group or resource ---"
+msgstr ""
+
+msgid "<b>WARNING: all events in this path will be deleted before inserting all of the ics file</b>"
 msgstr ""
 
 #, c-format
@@ -67,6 +70,9 @@ msgstr "Просматривать все типы связей"
 
 msgid "Browse all users"
 msgstr "Просмотреть всех пользователей"
+
+msgid "Busy"
+msgstr ""
 
 msgid "Calendar Resource Not Found."
 msgstr ""
@@ -155,9 +161,6 @@ msgstr ""
 msgid "Edit this user record"
 msgstr "Посмотреть мою учетную запись"
 
-msgid "Edit"
-msgstr ""
-
 msgid "Enter a username, if you know it, and click here, to be e-mailed a temporary password."
 msgstr ""
 
@@ -229,6 +232,9 @@ msgstr ""
 msgid "If you would like to request access, please e-mail"
 msgstr "Если вы хотите получить доступ, пожалуйста, пошлите электронное письмо"
 
+msgid "Import ICS file"
+msgstr ""
+
 msgid "Invalid user name or password."
 msgstr "Неверное имя пользователя или пароль."
 
@@ -290,6 +296,13 @@ msgstr ""
 
 msgid "No."
 msgstr ""
+
+msgid "Operations on your calendar"
+msgstr ""
+
+#, fuzzy
+msgid "Operations"
+msgstr "Связь"
 
 msgid "Password"
 msgstr ""
@@ -381,10 +394,19 @@ msgstr "Выберите тип связи от этого пользовате�
 msgid "Select the user, resource or group to relate this user to"
 msgstr "Выберите пользователя, ресурс или группу, с которой связать этого пользователя"
 
+msgid "Setup RSCDS"
+msgstr ""
+
+msgid "Setup"
+msgstr ""
+
 msgid "Show help on"
 msgstr "Показывать помощь в"
 
 msgid "Some properties were not able to be changed."
+msgstr ""
+
+msgid "Some properties were not able to be set."
 msgstr ""
 
 msgid "Start"
@@ -442,6 +464,9 @@ msgstr "Обновить"
 msgid "Updated"
 msgstr "Обновить"
 
+msgid "Upload your .ics calendar in ical format "
+msgstr ""
+
 #, fuzzy
 msgid "User Details"
 msgstr "Мои данные"
@@ -478,17 +503,19 @@ msgstr ""
 msgid "When the user's e-mail account was validated."
 msgstr ""
 
+msgid "You are editing"
+msgstr ""
+
 msgid "You are not authorised to use this function."
 msgstr "Вы не авторизованы для использоования этой функции."
+
+msgid "You are viewing"
+msgstr ""
 
 msgid "You do not have appropriate rights to view that resource."
 msgstr ""
 
 msgid "You do not have sufficient access to lock that"
-msgstr ""
-
-msgid ""
-"You may not PUT a collection - you may only PUT things *in* one or use MKCOL/MKCALENDAR to create one."
 msgstr ""
 
 msgid "You may not access that calendar"
@@ -510,6 +537,9 @@ msgstr ""
 msgid "You must log in to use this system."
 msgstr "Вы должны войти в систему, чтобы использовать ее."
 
+msgid "Your .ics calendar"
+msgstr ""
+
 msgid ""
 "forget me not <!-- this is a colloquial phrase in english (the name of a flower) and is an option "
 "allowing people to log in automatically in future -->"
@@ -519,6 +549,12 @@ msgid "forget me not"
 msgstr ""
 
 msgid "is Assistant to"
+msgstr ""
+
+msgid "path to store your ics"
+msgstr ""
+
+msgid "set the path to store your ics ex:home if you get it by caldav.php/me/home/"
 msgstr ""
 
 msgid "you should log on with the username and password that have been issued to you."
