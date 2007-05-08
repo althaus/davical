@@ -1,0 +1,554 @@
+# Hungarian translation for Really Simple CalDAV Store.
+# Copyright (C) 2007
+# This file is distributed under the same license as the rscds package.
+# David Takacs <david.takacs@cafeopen.eu>, 2007.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: rscds 0.7.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2007-05-08 23:13+1200\n"
+"PO-Revision-Date: 2007-05-03 15:00+0001\n"
+"Last-Translator: David Takacs <david.takacs@cafeopen.eu>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "--- select a relationship type ---"
+msgstr "--- válasszon kapcsolattípust ---"
+
+msgid "--- select a user or resource ---"
+msgstr "--- válasszon felhasználót vagy erőforrást ---"
+
+msgid "--- select a user, group or resource ---"
+msgstr "--- válasszon felhasználót, csoportot vagy erőforrást"
+
+msgid "<b>WARNING: all events in this path will be deleted before inserting all of the ics file</b>"
+msgstr ""
+
+#, c-format
+msgid ""
+"<h1>Log On Please</h1><p>For access to the %s you should log on withthe username and password that "
+"have been issued to you.</p><p>If you would like to request access, please e-mail %s.</p>"
+msgstr ""
+"<h1>Lépjen be</h1><p>'%s' - hozzáféréshez lépjen befelhasználónevével és jelszavával</p><p>Ha "
+"hozzáférést szeretne kapni, írjon ide: %s</p>"
+
+msgid "A collection already exists at that location."
+msgstr "Már létezik ilyen gyűjtemény"
+
+msgid "Action"
+msgstr "Akció"
+
+msgid "Active"
+msgstr "Aktív"
+
+msgid "Add Relationship"
+msgstr "Kapcsolat hozzáadása"
+
+msgid "Add a new user"
+msgstr "Felhasználó hozzáadása"
+
+msgid "Add"
+msgstr "Hozzáadás"
+
+msgid "Admin <!-- in the sense of 'systems admin' -->"
+msgstr "Adminisztrátor"
+
+msgid "Admin"
+msgstr "Adminisztrátor"
+
+msgid "Administers"
+msgstr ""
+
+msgid "All requested changes were made."
+msgstr "Minden változás mentve"
+
+msgid "Browse all relationship types"
+msgstr "Kapcsolattípusok listája"
+
+msgid "Browse all users"
+msgstr "Felhasználók listája"
+
+msgid "Busy"
+msgstr ""
+
+msgid "Calendar Resource Not Found."
+msgstr "Nem található ilyen naptár-erőforrás"
+
+msgid "Calendar Users"
+msgstr "Naptár felhasználói"
+
+msgid "Can read from"
+msgstr "Láthatja"
+
+msgid "Can see free/busy time of"
+msgstr "Szabad/foglalt állapotot láthatja"
+
+msgid "Changed On"
+msgstr "Megváltoztatva"
+
+msgid "Click to display that user"
+msgstr "Felhasználó megjelenítése"
+
+msgid "Click to display the contents of the collection"
+msgstr "Gyűjtemény tartalmának megjelenítése"
+
+msgid "Click to display user details"
+msgstr "Felhasználó adatainak megjelenítése"
+
+msgid "Collection Contents"
+msgstr "Gyűjtemény tartalma"
+
+msgid "Collection Path"
+msgstr "Gyűjtemény elérési útja"
+
+msgid "Confirm Deletion of the Relationship Type"
+msgstr "Valóban törli a kapcsolattípust?"
+
+msgid "Confirm the new password."
+msgstr "Új jelszó ellenőrzése"
+
+msgid "Confirm"
+msgstr "Ellenőrzés"
+
+msgid "Create"
+msgstr "Új létrehozása"
+
+msgid "Created On"
+msgstr "Létrehozva"
+
+msgid "Database Error"
+msgstr "Adatbázis-hiba"
+
+msgid "Database Error."
+msgstr "Adatbázis-hiba."
+
+msgid "Database error"
+msgstr "Adatbázis-hiba"
+
+msgid "Date Style"
+msgstr "Dátumformátum"
+
+msgid "Delete"
+msgstr "Törlés"
+
+msgid "Does the user have the right to perform this role?"
+msgstr "Van jogosultsága a felhasználónak?"
+
+msgid "EMail OK"
+msgstr "E-mail OK"
+
+msgid "EMail"
+msgstr "E-mail"
+
+#, c-format
+msgid "ERROR: %s"
+msgstr "HIBA: %s"
+
+msgid "ERROR: There was a database error writing the roles information!"
+msgstr "HIBA: Adatbázis-hiba történt a szerepek írásakor"
+
+msgid "Edit this user record"
+msgstr "Felhasználó szerkesztése"
+
+msgid "Enter a username, if you know it, and click here, to be e-mailed a temporary password."
+msgstr "Írja be a felhasználónevet. Egy e-mailt fog kapni egy új ideiglenes jelszóval."
+
+msgid "Enter the name for this resource type"
+msgstr "Erőforrástípus neve"
+
+msgid "Enter your username and password then click here to log in."
+msgstr "Írja be a felhasználónevét és jelszavát a belépéshez"
+
+msgid "Error querying database."
+msgstr "Adatbázis-hiba lekérdezéskor."
+
+msgid "Error writing calendar details to database."
+msgstr "Adatbázis-hiba a naptár elemeinek írásakor."
+
+msgid "European (d/m/y)"
+msgstr "Európai (nap/hónap/év)"
+
+msgid "Existing resource does not match 'If-Match' header - not accepted."
+msgstr "Az erőforrásokra nem illeszkedik 'If-Match' minta - elutasítva."
+
+msgid "Existing resource matches 'If-None-Match' header - not accepted."
+msgstr "Az erőforrásokra illeszkedik egy 'If-None-Match' minta - elutasítva."
+
+msgid "Finish"
+msgstr "Befejezés"
+
+msgid "For access to the"
+msgstr "Hozzáféréshez"
+
+msgid "Full Name"
+msgstr "Teljes név"
+
+msgid "GO!"
+msgstr "Mehet!"
+
+msgid "Group <!-- in the sense of a group of people -->"
+msgstr "Csoport"
+
+msgid "Group"
+msgstr "Csoport"
+
+msgid "Help on something or other"
+msgstr "Segítség"
+
+msgid "Help! I've forgotten my password!"
+msgstr "Elfelejtettem a jelszavamat!"
+
+msgid "Help"
+msgstr "Segítség"
+
+msgid "Home"
+msgstr "Kezdőlap"
+
+msgid "ISO Format (YYYY-MM-DD)"
+msgstr "ISO-formátum (ÉÉÉÉ-HH-NN)"
+
+msgid "Id <!-- short for 'Identifier' -->"
+msgstr "Id"
+
+msgid "Id"
+msgstr "Azonosító"
+
+msgid "If you have forgotten your password then"
+msgstr "Ha elfelejtette jelszavát, "
+
+msgid "If you would like to request access, please e-mail"
+msgstr "Ha hozzáférést szeretne kapni, írjon: "
+
+msgid "Import ICS file"
+msgstr ""
+
+msgid "Invalid user name or password."
+msgstr "Hibás felhasználónév vagy jelszó."
+
+msgid "Invalid username or password."
+msgstr "Hibás felhasználónév vagy jelszó."
+
+msgid "Is a Calendar?"
+msgstr "Ez egy naptár?"
+
+msgid "Is this access read ('R') or Read and Write ('RW')?"
+msgstr "Csak olvasható ('R') vagy írható/olvasható ('RW') hozzáférési jog?"
+
+msgid "Is this user active?"
+msgstr "Aktív felhasználó?"
+
+msgid "Joined"
+msgstr "Csatlakozott"
+
+msgid "Language"
+msgstr "Nyelv"
+
+msgid "Last used"
+msgstr "Utoljára használva"
+
+msgid "Linked From"
+msgstr "Link innen: "
+
+msgid "Linked To"
+msgstr "Link ide: "
+
+msgid "Log On Please"
+msgstr "Lépjen be."
+
+msgid "Log out of the"
+msgstr "Kilépés innen:"
+
+msgid "Logout"
+msgstr "Kilépés"
+
+msgid "My Details"
+msgstr "Adataim"
+
+msgid "Name"
+msgstr "Név"
+
+msgid "New Password"
+msgstr "Új jelszó"
+
+msgid "New User"
+msgstr "Új felhasználó"
+
+msgid "No collection found at that location."
+msgstr "Ezen a helyen nincs gyűjtemény."
+
+msgid "No. <!-- short for 'Number' -->"
+msgstr "Sz."
+
+msgid "No."
+msgstr "Szám"
+
+msgid "Operations on your calendar"
+msgstr ""
+
+#, fuzzy
+msgid "Operations"
+msgstr "Kapcsolat"
+
+msgid "Password"
+msgstr "Jelszó"
+
+msgid "Please Confirm Deletion"
+msgstr "Törlés megerősítése"
+
+msgid "Please note the time and advise the administrator of your system."
+msgstr "Jegyezze fel az időpontot és értesítse az adminisztrátort!"
+
+msgid "Property is read-only"
+msgstr "Csak olvasható"
+
+msgid "Public <!-- in the sense of being available to all users -->"
+msgstr "Nyilvános"
+
+msgid "Public"
+msgstr "Nyilvános"
+
+msgid "Really Simple CalDAV Store"
+msgstr "Really Simple CalDAV Store"
+
+msgid "Relationship <!-- in the sense of a work relationship between people -->"
+msgstr "Kapcsolat"
+
+msgid "Relationship Type Added."
+msgstr "Kapcsolattípus hozzáadva."
+
+msgid "Relationship Type Deleted."
+msgstr "Kapcsolattípus törölve."
+
+msgid "Relationship Types"
+msgstr "Kapcsolattípusok"
+
+msgid "Relationship added."
+msgstr "Kapcsolat hozzáadva."
+
+msgid "Relationship deleted"
+msgstr "Kapcsolat törölve."
+
+msgid "Relationship"
+msgstr "Kapcsolat"
+
+msgid "Relationships from this user"
+msgstr "Kapcsolatok ettől a felhasználótól"
+
+msgid "Relationships to this user"
+msgstr "Kapcsolatok ehhez a felhasználóhoz"
+
+msgid "Relationships"
+msgstr "Kapcsolatok"
+
+msgid "Repeat Rule"
+msgstr "Ismétlési szabály"
+
+msgid "Report Bug"
+msgstr "Hibajelentés"
+
+msgid "Report a bug in the system"
+msgstr "Rendszerhiba bejelentése"
+
+msgid "Resource <!-- a thing which might be booked: a room, a carpark, a projector... -->"
+msgstr "Erőforrás"
+
+msgid "Resource changed on server - not changed."
+msgstr "Erőforrás a szerveren módosítva - itt nem módosítható."
+
+msgid "Resource does not match 'If-Match' header - not deleted"
+msgstr "Az erőforrásra nem illeszkedik 'If-Match' minta - törlés elutasítva."
+
+msgid "Resource has changed on server - not deleted"
+msgstr "Az erőforrás a szerveren módosítva - törlés elutasítva."
+
+msgid "Resource"
+msgstr "Erőforrás"
+
+msgid "Resources may not be changed to / from collections."
+msgstr "Erőforrások nem cserélhetők fel gyűjteményekkel"
+
+msgid "Rights"
+msgstr "Jogok"
+
+msgid "Select the type of relationship from this user"
+msgstr "Kapcsolattípus kiválasztása"
+
+msgid "Select the user, resource or group to relate this user to"
+msgstr "Kapcsolandó felhasználó, erőforrás vagy csoport kiválasztása"
+
+msgid "Setup RSCDS"
+msgstr ""
+
+msgid "Setup"
+msgstr ""
+
+msgid "Show help on"
+msgstr "Súgó erről: "
+
+msgid "Some properties were not able to be changed."
+msgstr "Néhány tulajdonság nem módosítható."
+
+#, fuzzy
+msgid "Some properties were not able to be set."
+msgstr "Néhány tulajdonság nem módosítható."
+
+msgid "Start"
+msgstr "Start"
+
+msgid "Summary"
+msgstr "Összefoglalás"
+
+msgid "That relationship type is being used. See ##RelationshipTypeUsed##"
+msgstr "Ez a kapcsolattípus használatban van. Ld. ##RelationshipTypeUsed##"
+
+msgid "The application program does not understand that request."
+msgstr "Az alkalmazás nem tudja értelmezni a kérést."
+
+msgid "The calendar path contains illegal characters."
+msgstr "A naptár elérési útja érvénytelen karaktert tartalmaz."
+
+msgid "The displayname may only be set on collections or principals."
+msgstr "A megjelenített név csak gyűjteményekhez vagy megbízókhoz állítható be."
+
+msgid "The name this user can log into the system with."
+msgstr "Felhasználónév"
+
+msgid "The preferred language for this person."
+msgstr "Preferált nyelv"
+
+msgid "The style of dates used for this person."
+msgstr "Dátumformátum"
+
+msgid "The user's e-mail address."
+msgstr "E-mail cím"
+
+msgid "The user's full name."
+msgstr "Teljes név"
+
+msgid "The user's password for logging in."
+msgstr "Jelszó"
+
+msgid "There was an error writing to the database."
+msgstr "Adatbázis-hiba történt íráskor."
+
+msgid "This user's collections"
+msgstr "Felhasználó gyűjteményei"
+
+msgid "Type"
+msgstr "Típus"
+
+msgid "United States of America (m/d/y)"
+msgstr "Egyesült Államok (HH/NN/ÉÉ)"
+
+msgid "Update"
+msgstr "Frissítés"
+
+msgid "Updated"
+msgstr "Frissítve"
+
+msgid "Upload your .ics calendar in ical format "
+msgstr ""
+
+msgid "User Details"
+msgstr "Felhasználó adatai"
+
+msgid "User Name"
+msgstr "Felhasználónév"
+
+msgid "User Roles"
+msgstr "Felhasználó szerepei"
+
+msgid "User Unavailable"
+msgstr "A felhasználó nem elérhető"
+
+msgid "User is active"
+msgstr "A felhasználó aktív"
+
+msgid "User record written."
+msgstr "Felhasználó adatai tárolva."
+
+msgid "Users"
+msgstr "Felhasználók"
+
+msgid "View my own user record"
+msgstr "Adataim"
+
+msgid "View this user record"
+msgstr "Felhasználó adatai"
+
+msgid "View"
+msgstr "Megtekintés"
+
+msgid "When the user's e-mail account was validated."
+msgstr "Mikor lett ellenőrizve a felhasználó e-mail-címe"
+
+msgid "You are editing"
+msgstr ""
+
+msgid "You are not authorised to use this function."
+msgstr "Nincs jogosultsága ehhez a művelethez."
+
+msgid "You are viewing"
+msgstr ""
+
+msgid "You do not have appropriate rights to view that resource."
+msgstr "Nincs jogosultsága hozzáférni az erőforráshoz"
+
+msgid "You do not have sufficient access to lock that"
+msgstr "Nincs jogosultsága zárolni"
+
+msgid "You may not access that calendar"
+msgstr "Nincs jogosultsága hozzáférni a naptárhoz"
+
+msgid "You may not add entries to this calendar."
+msgstr "Nincs jogosultsága új bejegyzéseket írni a naptárba."
+
+msgid "You may not create a calendar there."
+msgstr "Itt nem hozható létre naptár."
+
+msgid "You may not delete entries from this calendar."
+msgstr "Nincs jogosultsága bejegyzéseket törölni ebből a naptárból."
+
+msgid "You may not modify entries on this calendar."
+msgstr "Nincs jogosultsága bejegyzéseket módosítani ebben a naptárban."
+
+msgid "You must log in to use this system."
+msgstr "Be kell jelentkeznie a rendszer használatához."
+
+#, fuzzy
+msgid "Your .ics calendar"
+msgstr "Nincs jogosultsága hozzáférni a naptárhoz"
+
+msgid ""
+"forget me not <!-- this is a colloquial phrase in english (the name of a flower) and is an option "
+"allowing people to log in automatically in future -->"
+msgstr "Emlékezzen rám ezen a gépen"
+
+msgid "forget me not"
+msgstr "Emlékezzen rám"
+
+msgid "is Assistant to"
+msgstr "asszisztense neki:"
+
+msgid "path to store your ics"
+msgstr ""
+
+msgid "set the path to store your ics ex:home if you get it by caldav.php/me/home/"
+msgstr ""
+
+msgid "you should log on with the username and password that have been issued to you."
+msgstr "Lépjen be felhasználónevével és jelszavával."
+
+#~ msgid "Edit"
+#~ msgstr "Szerkesztés"
+
+#~ msgid ""
+#~ "You may not PUT a collection - you may only PUT things *in* one or use MKCOL/MKCALENDAR to create "
+#~ "one."
+#~ msgstr ""
+#~ "Gyűjteményre nem végezhető PUT művelet, csak gyűjteményen belül.Létrehozhat egyet az MKCOL/"
+#~ "MKCALENDAR művelettel."
