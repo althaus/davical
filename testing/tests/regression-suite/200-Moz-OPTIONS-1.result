@@ -1,7 +1,8 @@
-HTTP/1.1 401 Unauthorized
+HTTP/1.0 401 Unauthorized
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 WWW-Authenticate: Basic realm="Really Simple CalDAV Store"
 Content-Length: 40
+Connection: close
 Content-Type: text/html; charset=UTF-8
 
 Please log in for access to this system.
