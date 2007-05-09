@@ -139,9 +139,8 @@ class RSCDSUser extends User
     if ( $ef->EditMode ) { // && $session->AllowedTo("MaintainRelationships") ) {
       $sql = <<<EOSQL
 SELECT user_no, fullname FROM usr
- WHERE NOT EXISTS ( SELECT 0 FROM relationship
-                     WHERE (to_user = usr.user_no AND from_user = $this->user_no)
-                        OR (from_user = usr.user_no AND to_user = $this->user_no))
+ WHERE NOT EXISTS ( SELECT 0 FROM relationship WHERE (to_user = usr.user_no AND from_user = $this->user_no))
+   AND user_no != $this->user_no
 EOSQL;
       if ( isset($this->roles['Group']) ) {
         /**
