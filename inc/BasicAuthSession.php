@@ -90,7 +90,7 @@ class BasicAuthSession {
       return call_user_func( $c->authenticate_hook['call'], $username, $password );
     }
 
-    $qry = new PgQuery( "SELECT * FROM usr WHERE lower(username) = ? ", $username );
+    $qry = new PgQuery( "SELECT * FROM usr WHERE lower(username) = lower(?) ", $username );
     if ( $qry->Exec('BasicAuth',__LINE__,__FILE__) && $qry->rows == 1 ) {
       $usr = $qry->Fetch();
       dbg_error_log( "BasicAuth", ":CheckPassword: Name:%s, Pass:%s, File:%s", $username, $password, $usr->password );
