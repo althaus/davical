@@ -5,6 +5,14 @@ $session->LoginRequired();
 
 require_once("interactive-page.php");
 
+$user_no = ( isset($_GET['user_no']) ? intval($_GET['user_no']) : 0 );
+
+if ( !$session->AllowedTo("Admin") && ($user_no == 0 || $user_no != $session->user_no) ) {
+  $c->messages[] = "You may only review the contents of your own collections in this interface.";
+  include("page-header.php");
+  include("page-footer.php");
+  exit(0);
+}
 
   require_once("classBrowser.php");
   $c->stylesheets[] = "css/browse.css";
@@ -20,8 +28,8 @@ require_once("interactive-page.php");
   $browser->AddColumn( 'rrule', translate('Repeat Rule') );
 
   $browser->SetJoins( 'caldav_data JOIN calendar_item USING ( user_no, dav_name ) ' );
-  if ( isset($_GET['user_no']) ) {
-    $browser->SetWhere( "user_no=" . intval($_GET['user_no']) );
+  if ( $user_no > 0 ) {
+    $browser->SetWhere( "user_no=$user_no" );
   }
   if ( isset($_GET['dav_name']) ) {
     $browser->SetWhere( "dav_name ~ " . qpg("^".$_GET['dav_name']."[^/]+$") );
@@ -36,7 +44,6 @@ require_once("interactive-page.php");
   $browser->RowFormat( "<tr class=\"r%d\">\n", "</tr>\n", '#even' );
 
   $browser->DoQuery();
-
 
 include("page-header.php");
 
