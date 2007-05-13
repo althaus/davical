@@ -231,5 +231,6 @@
     <item url="config/example-config.php" uploadstatus="1" />
     <item url="config/other-config.php" uploadstatus="1" />
     <item url="config/debug-config.php" uploadstatus="1" />
+    <item url="inc/drivers_ldap.php" />
   </project>
 </webproject>

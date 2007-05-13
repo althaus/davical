@@ -151,7 +151,18 @@ $c->collections_always_exist = true;
 //    'filterUsers' => 'objectClass=kolabInetOrgPerson', //filter that must validate an valid user
 //    'baseDNGroups' => 'ou=divisions,dc=tennaxia,dc=net', //not used ATM
 //    'filterGroups' => 'objectClass=groupOfUniqueNames', //not used ATM
-//    'mapping_field' => array("User Name" =>"uid", "Full Name" => "cn" ,"EMail" =>"mail")
+       /** /!\ "username" should be set and "updated" must be set **/
+//    'mapping_field' => array("username" => "uid",
+//                             "updated" => "modifyTimestamp",
+//                             "fullname" => "cn" ,
+//                             "email" =>"mail",
+//                             "active" => ), //used to create the user based on his ldap properties
+       /** used to set default value for all users, will be overcharged by ldap if defined also in mapping_field **/
+//    'default_value' => array("date_format_type" => "E","locale" => "fr_FR"),
+       /** foreach key set start and length in the string provided by ldap
+           example for openLDAP timestamp : 20070503162215Z **/
+//    'format_udpated'=> array('Y' => array(0,4),'m' => array(4,2),'d'=> array(6,2),'H' => array(8,2),'M'=>array(10,2),'S' => array(12,2))
+//
 //    );
 //
 //include('drivers_ldap.php');
