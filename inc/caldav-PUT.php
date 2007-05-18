@@ -18,60 +18,23 @@ $fh = fopen('/tmp/PUT.txt','w');
 fwrite($fh,$request->raw_post);
 fclose($fh);
 
-if ( isset($request_container) ) unset($request_container);
-if ( isset($request_name) ) unset($request_name);
-// Check to see if the path is like /foo /foo/bar or /foo/bar/baz etc. (not ending in a '/', but contains at least one)
-if ( preg_match( '#^(.*/)([^/]+)$#', $request->path, $matches ) ) {
-  $request_container = $matches[1];   // get everything up to the last '/'
-  $request_name = $matches[2];        // get after the last '/'
-}
-else {
-  // In this case we must have a URL with a trailing '/', so it must be a collection.
-  $request_container = $request->path;
-  $request_name = "";
-}
+include_once('caldav-PUT-functions.php');
+$is_collection = controlRequestContainer($request->username,$request->user_no, $request->path,true);
 
 $lock_opener = $request->FailIfLocked();
 
-/**
-* Before we write the event, we check the container exists, creating it if it doesn't
-*/
-if ( $request_container == "/$request->username/" ) {
-  /**
-  * Well, it exists, and we support it, but it is against the CalDAV spec
-  */
-  dbg_error_log( "WARN", " Storing events directly in user's base folders is not recommended!");
-}
-else {
-  $sql = "SELECT * FROM collection WHERE user_no = ? AND dav_name = ?;";
-  $qry = new PgQuery( $sql, $request->user_no, $request_container );
-  if ( ! $qry->Exec("PUT") ) {
-    $request->DoResponse( 500, translate("Error querying database.") );
-  }
-  if ( $qry->rows == 0 ) {
-    if ( preg_match( '#^(.*/)([^/]+/)$#', $request_container, $matches ) ) {
-      $parent_container = $matches[1];
-      $displayname = $matches[2];
-    }
-    $sql = "INSERT INTO collection ( user_no, parent_container, dav_name, dav_etag, dav_displayname, is_calendar, created, modified ) VALUES( ?, ?, ?, ?, ?, TRUE, current_timestamp, current_timestamp );";
-    $qry = new PgQuery( $sql, $request->user_no, $parent_container, $request_container, md5($request->user_no. $request_container), $displayname );
-    $qry->Exec("PUT");
-  }
-}
 
-
-$etag = md5($request->raw_post);
-include_once("iCalendar.php");
-
-if ( $request_name == "" ) {
+if ( $is_collection  ) {
   /**
   * CalDAV does not define the result of a PUT on a collection.  We treat that
-  * as an import, but hide the code somewhere completely separate
+  * as an import. The code is in caldav-PUT-functions.php
   */
-  include_once("caldav-PUT-collection.php");
+  import_collection($request->raw_post,$request->user_no,$request->path,true);
+  $request->DoResponse( 200 );
   return;
 }
 
+$etag = md5($request->raw_post);
 $ic = new iCalendar(array( 'icalendar' => $request->raw_post ));
 
 dbg_log_array( "PUT", 'EVENT', $ic->properties['VCALENDAR'][0], true );

@@ -11,7 +11,7 @@
   $user_no = intval(isset($_POST['user_no']) ? $_POST['user_no'] : $_GET['user_no'] );
   $user = new RSCDSUser($user_no);
   if ( $user->user_no == 0 ) {
-    $c->page_title = ( $user_no != "" ? i18n("User Unavailable") : i18n("New User") );
+    $c->page_title = ( $user_no != "" ? translate("User Unavailable") : translate("New User") );
   }
   else {
     $c->page_title = sprintf("%s (%s)", $user->Get("fullname"), $user->Get("username"));
@@ -29,7 +29,7 @@
           $user = new RSCDSUser($user->user_no);
           $user->EditMode = true;
           if ( $user->user_no == 0 ) {
-            $c->page_title = ( $user_no != "" ? "User Unavailable" : "New User" );
+            $c->page_title = ( $user_no != "" ? translate("User Unavailable") : translate("New User") );
           }
           else {
             $c->page_title = $user->Get("user_no"). " - " . $user->Get("fullname");
@@ -42,6 +42,23 @@
 
           if ( substr($path_ics,-1,1) != '/' ) $path_ics .= '/';          // ensure that we target a collection
           if ( substr($path_ics,0,1) != '/' )  $path_ics = '/'.$path_ics; // ensure that we target a collection
+
+          if ( $ics !='' ) {
+            /**
+            * If the user has uploaded a .ics file as a calendar, we fake this out
+            * as if it were a "PUT" request against a collection.  This is something
+            * of a hack.  It works though :-)
+            */
+            include('check_UTF8.php');
+            if ( check_string($ics) ) {
+              $path = "/".$user->Get("username").$path_ics;
+              include("caldav-PUT-functions.php");
+              controlRequestContainer($user->Get("username"),$user->user_no, $path,false);
+              import_collection($ics,$user->user_no,$path,false);
+              $c->messages[] = sprintf(translate("All events of user %s were deleted and replaced by those from the file."),$user->Get("username"));
+            } else
+              $c->messages[] =  sprintf(translate("The file %s is not UTF-8 encoded, please check the error for more details."),$dir.'/'.$file);
+          }
         }
         else {
           unset($ics);
@@ -74,25 +91,4 @@
   include("page-header.php");
   echo $user->Render($c->page_title);
   include("page-footer.php");
-  if ( $ics !='' ) {
-    /**
-    * If the user has uploaded a .ics file as a calendar, we fake this out
-    * as if it were a "PUT" request against a collection.  This is something
-    * of a hack, especially since it doesn't provide quality feedback to the
-    * user about what is happening.  It works though :-)
-    *
-    * TODO: Extract the important code from caldav-PUT-collection.php into a
-    * function which can be included here and shared.  That way we can perhaps
-    * show the user a useful error message, if needed.
-    */
-    include('check_UTF8.php');
-    if ( check_string($ics) ) {
-      $_SERVER['REQUEST_METHOD'] = 'PUT';
-      $_SERVER['PATH_INFO'] = "/".$user->Get("username").$path_ics;
-      require_once("CalDAVRequest.php");
-      $request = new CalDAVRequest();
-      $request->raw_post = $ics;
-      include_once("caldav-PUT.php");
-    }
-  }
 ?>
