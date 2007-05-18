@@ -216,7 +216,6 @@ function check_string($ics){
         }
     }
     if(is_array($error)){
-        echo "error on file $file on lines : ";
         foreach($error as $line){
             dbg_error_log( "LOG check_string","error on lines %  invalid character in string %s" , ($line +1),$ics_file[$line]  );
             return false;
