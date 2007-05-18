@@ -14,9 +14,11 @@ if ( ! $request->AllowedTo("read") ) {
   $request->DoResponse(403);
 }
 
-$fh = fopen('/tmp/PUT.txt','w');
-fwrite($fh,$request->raw_post);
-fclose($fh);
+if ( isset($c->dbg['ALL']) || $c->dbg['put'] ) {
+  $fh = fopen('/tmp/PUT.txt','w');
+  fwrite($fh,$request->raw_post);
+  fclose($fh);
+}
 
 include_once('caldav-PUT-functions.php');
 $is_collection = controlRequestContainer($request->username,$request->user_no, $request->path,true);

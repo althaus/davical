@@ -10,6 +10,12 @@
 */
 dbg_error_log("REPORT", "method handler");
 
+if ( isset($c->dbg['ALL']) || $c->dbg['report'] ) {
+  $fh = fopen('/tmp/REPORT.txt','w');
+  fwrite($fh,$request->raw_post);
+  fclose($fh);
+}
+
 if ( ! ($request->AllowedTo('read') || $request->AllowedTo('freebusy')) ) {
   // The specification states that a lack of privileges MUST result in a 404. Caldav-15, Section 7.10, p66
   $request->DoResponse( 404 );
