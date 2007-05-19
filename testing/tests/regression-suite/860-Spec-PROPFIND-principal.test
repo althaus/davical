@@ -1,0 +1,29 @@
+#
+# Do a PROPFIND request
+TYPE=PROPFIND
+URL=http://mycaldav/caldav.php/
+HEAD
+
+HEADER=User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.7) Gecko/20061013 Thunderbird/1.5.0.7
+HEADER=Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+HEADER=Accept-Language: en-us,en;q=0.5
+HEADER=Accept-Encoding: gzip,deflate
+HEADER=Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
+HEADER=Content-Type: text/xml
+HEADER=Depth: 0
+
+
+BEGINDATA
+<principal-property-search xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
+ <property-search>
+  <prop>
+   <displayname/>
+  </prop>
+  <match>karora</match>
+ </property-search>
+ <prop>
+  <C:calendar-home-set/>
+  <displayname/>
+ </prop>
+</principal-property-search>
+ENDDATA
