@@ -1,7 +1,7 @@
 #
 # Do a PROPFIND request
 TYPE=PROPFIND
-URL=http://mycaldav/caldav.php/
+URL=http://mycaldav/caldav.php/user1/
 HEAD
 
 HEADER=User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.7) Gecko/20061013 Thunderbird/1.5.0.7
@@ -14,6 +14,7 @@ HEADER=Depth: 0
 
 
 BEGINDATA
+<?xml version="1.0" encoding="utf-8" ?>
 <principal-property-search xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
  <property-search>
   <prop>
