@@ -131,12 +131,12 @@ CREATE TABLE property (
 CREATE INDEX properties_dav_name_idx ON property(dav_name);
 GRANT SELECT,INSERT,UPDATE,DELETE ON property TO general;
 
-CREATE TABLE freebusy_tickets (
+CREATE TABLE freebusy_ticket (
   ticket_id TEXT NOT NULL PRIMARY KEY,
   user_no integer NOT NULL REFERENCES usr(user_no) ON UPDATE CASCADE ON DELETE CASCADE,
   created timestamp with time zone DEFAULT current_timestamp NOT NULL
 );
 
-GRANT INSERT,SELECT,UPDATE,DELETE ON TABLE freebusy_tickets TO general;
+GRANT INSERT,SELECT,UPDATE,DELETE ON TABLE freebusy_ticket TO general;
 
 SELECT new_db_revision(1,1,8, 'August' );
