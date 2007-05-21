@@ -7,7 +7,7 @@ dt=debian/$(package)
 
 build: inc htdocs debian/$(package)-phpdoc.ini debian/$(package)-phpdoc.ini.in
 	$(checkdir)
-	cd ~andrew/projects/phpdoc/phpDocumentor-1.2.3 && ./phpdoc -c $(CURDIR)/debian/$(package)-phpdoc.ini
+	phpdoc -c debian/$(package)-phpdoc.ini
 	touch build
 
 # PHPDoc operational setup sucks.  Badly.
