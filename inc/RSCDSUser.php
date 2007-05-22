@@ -297,9 +297,27 @@ EOSQL;
   * Write the record to the file
   */
   function Write( ) {
-    global $session;
+    global $session, $c;
 
     if ( parent::Write() ) {
+      if ( $this->WriteType == 'insert' ) {
+        if ( isset($c->home_calendar_name) && strlen($c->home_calendar_name) > 0 ) {
+          $parent_path = "/".$this->Get('username')."/";
+          $calendar_path = $parent_path . $c->home_calendar_name."/";
+          $dav_etag = md5($this->user_no . $calendar_path);
+          $sql = "INSERT INTO collection (user_no, parent_container, dav_name, dav_etag, dav_displayname, is_calendar, ";
+          $sql .= "created, modified) VALUES( ?, ?, ?, ?, ?, true, current_timestamp, current_timestamp );";
+          $qry = new PgQuery( $sql, $this->user_no, $parent_path, $calendar_path, $dav_etag, $this->Get('fullname') );
+          if ( $qry->Exec() ) {
+            $c->messages[] = i18n("Home calendar added.");
+            dbg_error_log("User",":Write: Created user's home calendar at '%s'", $calendar_path );
+          }
+          else {
+            $c->messages[] = i18n("There was an error writing to the database.");
+            return false;
+          }
+        }
+      }
       if ( $this->AllowedTo("Admin") && isset($_POST['relate_to']) && isset($_POST['relate_as']) && isset($_POST['submit']) && $_POST['submit'] == htmlspecialchars(translate('Add Relationship')) ) {
         dbg_error_log("User",":Write: Adding relationship as %d to %d", $_POST['relate_as'], isset($_POST['relate_to'] ) );
         $qry = new PgQuery("INSERT INTO relationship (from_user, to_user, rt_id ) VALUES( $this->user_no, ?, ? )", $_POST['relate_to'], $_POST['relate_as'] );

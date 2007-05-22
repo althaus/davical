@@ -16,6 +16,7 @@ $c->system_name = "Really Simple CalDAV Store";
 $c->domain_name = $_SERVER['SERVER_NAME'];
 $c->save_time_zone_defs = true;
 $c->collections_always_exist = true;
+$c->home_calendar_name = 'home';
 $c->enable_row_linking = true;
 // $c->default_locale = array('es_MX', 'es_MX.UTF-8', 'es');
 // $c->local_tzid = 'Pacific/Auckland';  // Perhaps we should read from /etc/timezone - I wonder how standard that is?

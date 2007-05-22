@@ -89,9 +89,28 @@ $c->admin_email ='calendar-admin@example.com';
 * default (true) if people will be using Evolution or Sunbird /
 * Lightning against this because that software does not support the
 * creation of calendar collections.
+* Default: true
 */
-$c->collections_always_exist = true;
+// $c->collections_always_exist = true;
 
+/**
+* The name of a user's "home" calendar. This will be created for each
+* new user.
+* Default: 'home'
+*/
+// $c->home_calendar_name = 'home';
+
+/**
+* An array of groups / permissions which should be automatically added
+* for each new user created.  This is a crude mechanism which we
+* will hopefully manage to work out some better approach for in the
+* future.  For now, create an array that looks something like:
+*   array( 9 => 'R', 4 => 'A' )
+* to create a 'read' relationship to user_no 9 and an 'all' relation
+* with user_no 4.
+* Default: none
+*/
+// $c->default_relationships = array();
 
 
 /***************************************************************************
