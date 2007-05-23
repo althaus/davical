@@ -8,13 +8,29 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-05-08 23:51+1200\n"
+"POT-Creation-Date: 2007-05-23 13:07+1200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#, c-format
+msgid "- creating record for users :  %s"
+msgstr ""
+
+#, c-format
+msgid "- desactivating users : %s"
+msgstr ""
+
+#, c-format
+msgid "- nothing done on %s"
+msgstr ""
+
+#, c-format
+msgid "- updating user record %s"
+msgstr ""
 
 msgid "--- select a relationship type ---"
 msgstr ""
@@ -27,6 +43,11 @@ msgstr ""
 
 msgid ""
 "<b>WARNING: all events in this path will be deleted before inserting all of "
+"the ics file</b>"
+msgstr ""
+
+msgid ""
+"<b>WARNING: all events in this path will be deleted before inserting allof "
 "the ics file</b>"
 msgstr ""
 
@@ -62,6 +83,10 @@ msgid "Admin"
 msgstr ""
 
 msgid "Administers"
+msgstr ""
+
+#, c-format
+msgid "All events of user %s were deleted and replaced by those from the file."
 msgstr ""
 
 msgid "All requested changes were made."
@@ -136,6 +161,9 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
+msgid "Directory on the server"
+msgstr ""
+
 msgid "Does the user have the right to perform this role?"
 msgstr ""
 
@@ -164,6 +192,10 @@ msgid "Enter the name for this resource type"
 msgstr ""
 
 msgid "Enter your username and password then click here to log in."
+msgstr ""
+
+#, c-format
+msgid "Error NoUserFound with filter >%s<, attributs >%s< , dn >%s<"
 msgstr ""
 
 msgid "Error querying database."
@@ -208,6 +240,9 @@ msgstr ""
 msgid "Help"
 msgstr ""
 
+msgid "Home calendar added."
+msgstr ""
+
 msgid "Home"
 msgstr ""
 
@@ -227,6 +262,9 @@ msgid "If you would like to request access, please e-mail"
 msgstr ""
 
 msgid "Import ICS file"
+msgstr ""
+
+msgid "Import all .ics files of a directory"
 msgstr ""
 
 msgid "Invalid user name or password."
@@ -385,6 +423,11 @@ msgstr ""
 msgid "Select the user, resource or group to relate this user to"
 msgstr ""
 
+msgid ""
+"Set the path to store your ics e.g. 'home' will be referenced as /caldav.php/"
+"me/home/"
+msgstr ""
+
 msgid "Setup RSCDS"
 msgstr ""
 
@@ -406,6 +449,9 @@ msgstr ""
 msgid "Summary"
 msgstr ""
 
+msgid "Sync LDAP with RSCDS"
+msgstr ""
+
 msgid "That relationship type is being used. See ##RelationshipTypeUsed##"
 msgstr ""
 
@@ -418,7 +464,15 @@ msgstr ""
 msgid "The displayname may only be set on collections or principals."
 msgstr ""
 
+#, c-format
+msgid ""
+"The file %s is not UTF-8 encoded, please check the error for more details."
+msgstr ""
+
 msgid "The name this user can log into the system with."
+msgstr ""
+
+msgid "The path on the server where your .ics files are."
 msgstr ""
 
 msgid "The preferred language for this person."
@@ -526,6 +580,28 @@ msgstr ""
 msgid "Your .ics calendar"
 msgstr ""
 
+#, c-format
+msgid "all events of user %s were deleted and replaced by those from file %s"
+msgstr ""
+
+#, c-format
+msgid "directory %s is not readable"
+msgstr ""
+
+#, c-format
+msgid ""
+"drivers_ldap : Unable to bind to LDAP, check your bindDN >%s< and passDN >%"
+"s< of your configuration or if your server is reachable"
+msgstr ""
+
+#, c-format
+msgid "drivers_ldap : Unable to connect to LDAP with port %s on host %s"
+msgstr ""
+
+msgid ""
+"drivers_ldap : function ldap_connect not defined, check your php_ldap module"
+msgstr ""
+
 msgid ""
 "forget me not <!-- this is a colloquial phrase in english (the name of a "
 "flower) and is an option allowing people to log in automatically in future --"
@@ -533,6 +609,12 @@ msgid ""
 msgstr ""
 
 msgid "forget me not"
+msgstr ""
+
+#, c-format
+msgid ""
+"if your use OpenLDAP 2.X.X maybe, unable to connect to LDAP with port %s on "
+"host %s"
 msgstr ""
 
 msgid "is Assistant to"
@@ -545,7 +627,16 @@ msgid ""
 "set the path to store your ics ex:home if you get it by caldav.php/me/home/"
 msgstr ""
 
+#, c-format
+msgid "the file %s is not UTF-8 encoded, please check error for more details"
+msgstr ""
+
 msgid ""
 "you should log on with the username and password that have been issued to "
 "you."
+msgstr ""
+
+msgid ""
+"This operation does the following: <ul><li>check valid users in LDAP "
+"directory</li>"
 msgstr ""

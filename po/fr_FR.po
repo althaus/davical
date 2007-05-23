@@ -8,13 +8,29 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rscds 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-05-08 22:45+1200\n"
+"POT-Creation-Date: 2007-05-23 13:07+1200\n"
 "PO-Revision-Date: 2006-11-13 13:03+1300\n"
 "Last-Translator: Guillaume Rosquin <andrew@mcmillan.net.nz>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#, c-format
+msgid "- creating record for users :  %s"
+msgstr ""
+
+#, c-format
+msgid "- desactivating users : %s"
+msgstr ""
+
+#, c-format
+msgid "- nothing done on %s"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "- updating user record %s"
+msgstr "Modifier l'enregistrement de cet utilisateur"
 
 msgid "--- select a relationship type ---"
 msgstr "--- choisissez un type de relation ---"
@@ -26,6 +42,9 @@ msgid "--- select a user, group or resource ---"
 msgstr "--- choisissez un utilisateur, un groupe ou une ressource ---"
 
 msgid "<b>WARNING: all events in this path will be deleted before inserting all of the ics file</b>"
+msgstr ""
+
+msgid "<b>WARNING: all events in this path will be deleted before inserting allof the ics file</b>"
 msgstr ""
 
 #, c-format
@@ -64,6 +83,10 @@ msgstr "Administrateur"
 #, fuzzy
 msgid "Administers"
 msgstr "Gére les groupe"
+
+#, c-format
+msgid "All events of user %s were deleted and replaced by those from the file."
+msgstr ""
 
 msgid "All requested changes were made."
 msgstr "Tous les changements demandés ont eu lieu"
@@ -141,6 +164,9 @@ msgstr "Format des dates"
 msgid "Delete"
 msgstr "Supprimer"
 
+msgid "Directory on the server"
+msgstr ""
+
 msgid "Does the user have the right to perform this role?"
 msgstr "L'utilisateur est-il autorisé à jouer ce rôle ?"
 
@@ -171,6 +197,10 @@ msgstr "Tapez un nom pour ce type de ressource"
 
 msgid "Enter your username and password then click here to log in."
 msgstr "Tapez votre nom d'utilisateur et votre mot de passe puis cliquez ici pour vous connecter"
+
+#, c-format
+msgid "Error NoUserFound with filter >%s<, attributs >%s< , dn >%s<"
+msgstr ""
 
 msgid "Error querying database."
 msgstr "Erreur lors de l'interrogation de la base de données"
@@ -221,6 +251,9 @@ msgstr "Au secours ! J'ai oublié mon mot de passe !"
 msgid "Help"
 msgstr "Aide"
 
+msgid "Home calendar added."
+msgstr ""
+
 # The "Home" page link
 msgid "Home"
 msgstr "Accueil"
@@ -241,6 +274,9 @@ msgid "If you would like to request access, please e-mail"
 msgstr "Si vous souhaitez avoir accès, veuillez envoyer un courriel"
 
 msgid "Import ICS file"
+msgstr ""
+
+msgid "Import all .ics files of a directory"
 msgstr ""
 
 msgid "Invalid user name or password."
@@ -423,6 +459,9 @@ msgstr "Choisissez le type de relations de cet utilisateur"
 msgid "Select the user, resource or group to relate this user to"
 msgstr "Choisissez l'utilisateur, la ressource ou le groupe à relier à cet utilisateur"
 
+msgid "Set the path to store your ics e.g. 'home' will be referenced as /caldav.php/me/home/"
+msgstr ""
+
 msgid "Setup RSCDS"
 msgstr ""
 
@@ -445,6 +484,9 @@ msgstr "Début"
 msgid "Summary"
 msgstr "Résumé"
 
+msgid "Sync LDAP with RSCDS"
+msgstr ""
+
 # This shows up as an error message, and the ##BlahBlah## is converted to a hyperlink
 # which will (eventually) go to a wiki page.  So it's OK to translate the ##BlahBlah##
 # into something which will (eventually) go to a translated wiki page.
@@ -464,11 +506,18 @@ msgstr "le chemin vers le calendrier contient des caractères interdits"
 msgid "The displayname may only be set on collections or principals."
 msgstr "le nom d'affichage ne peut être défini que sur des collections ou des titulaires"
 
+#, c-format
+msgid "The file %s is not UTF-8 encoded, please check the error for more details."
+msgstr ""
+
 # or ##TypeDeRelationsUtilisées## ?
 # We are trying to provide a full description of what a 'username' is.  Feel free to
 # be verbose :-)
 msgid "The name this user can log into the system with."
 msgstr "Le nom ou pseudonyme que cet utilisateur employera pour se connecter à l'application"
+
+msgid "The path on the server where your .ics files are."
+msgstr ""
 
 msgid "The preferred language for this person."
 msgstr "La langue parlée par cette personne"
@@ -592,6 +641,27 @@ msgstr "Vous devez vous connecter pour utiliser ce logiciel"
 msgid "Your .ics calendar"
 msgstr "Vous ne pouvez accéder à ce calendrier"
 
+#, c-format
+msgid "all events of user %s were deleted and replaced by those from file %s"
+msgstr ""
+
+#, c-format
+msgid "directory %s is not readable"
+msgstr ""
+
+#, c-format
+msgid ""
+"drivers_ldap : Unable to bind to LDAP, check your bindDN >%s< and passDN >%s< of your configuration or "
+"if your server is reachable"
+msgstr ""
+
+#, c-format
+msgid "drivers_ldap : Unable to connect to LDAP with port %s on host %s"
+msgstr ""
+
+msgid "drivers_ldap : function ldap_connect not defined, check your php_ldap module"
+msgstr ""
+
 msgid ""
 "forget me not <!-- this is a colloquial phrase in english (the name of a flower) and is an option "
 "allowing people to log in automatically in future -->"
@@ -599,6 +669,10 @@ msgstr "Ne pas m'oublier <!-- other 2nd degree meaning but funny too -->"
 
 msgid "forget me not"
 msgstr "Ne pas m'oublier"
+
+#, c-format
+msgid "if your use OpenLDAP 2.X.X maybe, unable to connect to LDAP with port %s on host %s"
+msgstr ""
 
 #, fuzzy
 msgid "is Assistant to"
@@ -610,8 +684,15 @@ msgstr ""
 msgid "set the path to store your ics ex:home if you get it by caldav.php/me/home/"
 msgstr ""
 
+#, c-format
+msgid "the file %s is not UTF-8 encoded, please check error for more details"
+msgstr ""
+
 msgid "you should log on with the username and password that have been issued to you."
 msgstr "Vous devez vous connecter avec le nom d'utilisateur et le mot de passe qui vous ont été fournis."
+
+msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
+msgstr ""
 
 #~ msgid "Edit"
 #~ msgstr "Modifier"

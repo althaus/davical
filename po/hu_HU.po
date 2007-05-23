@@ -8,13 +8,29 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rscds 0.7.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-05-08 23:13+1200\n"
+"POT-Creation-Date: 2007-05-23 13:07+1200\n"
 "PO-Revision-Date: 2007-05-03 15:00+0001\n"
 "Last-Translator: David Takacs <david.takacs@cafeopen.eu>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#, c-format
+msgid "- creating record for users :  %s"
+msgstr ""
+
+#, c-format
+msgid "- desactivating users : %s"
+msgstr ""
+
+#, c-format
+msgid "- nothing done on %s"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "- updating user record %s"
+msgstr "Felhasználó szerkesztése"
 
 msgid "--- select a relationship type ---"
 msgstr "--- válasszon kapcsolattípust ---"
@@ -26,6 +42,9 @@ msgid "--- select a user, group or resource ---"
 msgstr "--- válasszon felhasználót, csoportot vagy erőforrást"
 
 msgid "<b>WARNING: all events in this path will be deleted before inserting all of the ics file</b>"
+msgstr ""
+
+msgid "<b>WARNING: all events in this path will be deleted before inserting allof the ics file</b>"
 msgstr ""
 
 #, c-format
@@ -61,6 +80,10 @@ msgid "Admin"
 msgstr "Adminisztrátor"
 
 msgid "Administers"
+msgstr ""
+
+#, c-format
+msgid "All events of user %s were deleted and replaced by those from the file."
 msgstr ""
 
 msgid "All requested changes were made."
@@ -135,6 +158,9 @@ msgstr "Dátumformátum"
 msgid "Delete"
 msgstr "Törlés"
 
+msgid "Directory on the server"
+msgstr ""
+
 msgid "Does the user have the right to perform this role?"
 msgstr "Van jogosultsága a felhasználónak?"
 
@@ -162,6 +188,10 @@ msgstr "Erőforrástípus neve"
 
 msgid "Enter your username and password then click here to log in."
 msgstr "Írja be a felhasználónevét és jelszavát a belépéshez"
+
+#, c-format
+msgid "Error NoUserFound with filter >%s<, attributs >%s< , dn >%s<"
+msgstr ""
 
 msgid "Error querying database."
 msgstr "Adatbázis-hiba lekérdezéskor."
@@ -205,6 +235,9 @@ msgstr "Elfelejtettem a jelszavamat!"
 msgid "Help"
 msgstr "Segítség"
 
+msgid "Home calendar added."
+msgstr ""
+
 msgid "Home"
 msgstr "Kezdőlap"
 
@@ -224,6 +257,9 @@ msgid "If you would like to request access, please e-mail"
 msgstr "Ha hozzáférést szeretne kapni, írjon: "
 
 msgid "Import ICS file"
+msgstr ""
+
+msgid "Import all .ics files of a directory"
 msgstr ""
 
 msgid "Invalid user name or password."
@@ -380,6 +416,9 @@ msgstr "Kapcsolattípus kiválasztása"
 msgid "Select the user, resource or group to relate this user to"
 msgstr "Kapcsolandó felhasználó, erőforrás vagy csoport kiválasztása"
 
+msgid "Set the path to store your ics e.g. 'home' will be referenced as /caldav.php/me/home/"
+msgstr ""
+
 msgid "Setup RSCDS"
 msgstr ""
 
@@ -402,6 +441,9 @@ msgstr "Start"
 msgid "Summary"
 msgstr "Összefoglalás"
 
+msgid "Sync LDAP with RSCDS"
+msgstr ""
+
 msgid "That relationship type is being used. See ##RelationshipTypeUsed##"
 msgstr "Ez a kapcsolattípus használatban van. Ld. ##RelationshipTypeUsed##"
 
@@ -414,8 +456,15 @@ msgstr "A naptár elérési útja érvénytelen karaktert tartalmaz."
 msgid "The displayname may only be set on collections or principals."
 msgstr "A megjelenített név csak gyűjteményekhez vagy megbízókhoz állítható be."
 
+#, c-format
+msgid "The file %s is not UTF-8 encoded, please check the error for more details."
+msgstr ""
+
 msgid "The name this user can log into the system with."
 msgstr "Felhasználónév"
+
+msgid "The path on the server where your .ics files are."
+msgstr ""
 
 msgid "The preferred language for this person."
 msgstr "Preferált nyelv"
@@ -523,6 +572,27 @@ msgstr "Be kell jelentkeznie a rendszer használatához."
 msgid "Your .ics calendar"
 msgstr "Nincs jogosultsága hozzáférni a naptárhoz"
 
+#, c-format
+msgid "all events of user %s were deleted and replaced by those from file %s"
+msgstr ""
+
+#, c-format
+msgid "directory %s is not readable"
+msgstr ""
+
+#, c-format
+msgid ""
+"drivers_ldap : Unable to bind to LDAP, check your bindDN >%s< and passDN >%s< of your configuration or "
+"if your server is reachable"
+msgstr ""
+
+#, c-format
+msgid "drivers_ldap : Unable to connect to LDAP with port %s on host %s"
+msgstr ""
+
+msgid "drivers_ldap : function ldap_connect not defined, check your php_ldap module"
+msgstr ""
+
 msgid ""
 "forget me not <!-- this is a colloquial phrase in english (the name of a flower) and is an option "
 "allowing people to log in automatically in future -->"
@@ -530,6 +600,10 @@ msgstr "Emlékezzen rám ezen a gépen"
 
 msgid "forget me not"
 msgstr "Emlékezzen rám"
+
+#, c-format
+msgid "if your use OpenLDAP 2.X.X maybe, unable to connect to LDAP with port %s on host %s"
+msgstr ""
 
 msgid "is Assistant to"
 msgstr "asszisztense neki:"
@@ -540,8 +614,15 @@ msgstr ""
 msgid "set the path to store your ics ex:home if you get it by caldav.php/me/home/"
 msgstr ""
 
+#, c-format
+msgid "the file %s is not UTF-8 encoded, please check error for more details"
+msgstr ""
+
 msgid "you should log on with the username and password that have been issued to you."
 msgstr "Lépjen be felhasználónevével és jelszavával."
+
+msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
+msgstr ""
 
 #~ msgid "Edit"
 #~ msgstr "Szerkesztés"
