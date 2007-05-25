@@ -87,8 +87,8 @@ class CalDAVClient {
     $this->calendar = $calendar;
 
     $this->curl = curl_init();
-    curl_setopt($this->curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-    curl_setopt($this->curl, CURLOPT_USERPWD, "$user:$pass" );
+    curl_setopt($this->curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+    curl_setopt($this->curl, CURLOPT_USERPWD, "$user:$pass" );
     curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, true );
     curl_setopt($this->curl, CURLOPT_BINARYTRANSFER, true );
   }
@@ -126,22 +126,21 @@ class CalDAVClient {
   /**
   * Send a request to the server
   *
-  * @param string The URL to make the request to
+  * @param string $relative_url The URL to make the request to, relative to $base_url
   *
   * @return string The content of the response from the server
   */
-  function DoRequest( $url ) {
+  function DoRequest( $relative_url = "" ) {
 
-    curl_setopt($this->curl, CURLOPT_URL, $url );
-    curl_setopt($this->curl, CURLOPT_HEADER, 0);
-    curl_setopt($this->curl, CURLOPT_USERAGENT, $this->user_agent );
-    curl_setopt($this->curl, CURLOPT_HTTPHEADER, $this->headers );
+    curl_setopt($this->curl, CURLOPT_URL, $this->base_url . $relative_url );
+    curl_setopt($this->curl, CURLOPT_USERAGENT, $this->user_agent );
+    curl_setopt($this->curl, CURLOPT_HTTPHEADER, $this->headers );
 
     /**
     * So we don't get annoyed at self-signed certificates.  Should be a setup
     * configuration thing really.
     */
-    curl_setopt($this->curl, CURLOPT_SSL_VERIFYPEER, false );
+    curl_setopt($this->curl, CURLOPT_SSL_VERIFYPEER, false );
 
     /**
     * Our magic write the data function.  You'd think there would be a
@@ -156,11 +155,48 @@ class CalDAVClient {
   }
 
 
-  function DoXMLRequest( $url, $xml, $request_method ) {
-    curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, $request_method );
+  /**
+  * Send an OPTIONS request to the server
+  *
+  * @param string $relative_url The URL to make the request to, relative to $base_url
+  *
+  * @return string The OPTIONS response
+  */
+  function DoOptionsRequest( $relative_url = "" ) {
+    curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, "OPTIONS" );
+    $this->body = "";
+    curl_setopt($this->curl, CURLOPT_HEADER, true);
+    return $this->DoRequest($relative_url);
+  }
+
+
+
+  /**
+  * Send an XML request to the server (e.g. PROPFIND, REPORT, MKCALENDAR)
+  *
+  * @param string $relative_url The URL to make the request to, relative to $base_url
+  * @param string $xml The XML to send along with the request
+  * @param string $method The method (PROPFIND, REPORT, etc) to use with the request
+  *
+  * @return string The content of the response from the server
+  */
+  function DoXMLRequest( $request_method, $xml, $relative_url = '' ) {
+    curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, $request_method );
+    curl_setopt($this->curl, CURLOPT_HEADER, false);
     $this->body = $xml;
+    return $this->DoRequest($relative_url);
   }
 
 }
+
+/**
+* Usage example
+
+$cal = new CalDAVClient( "http://calendar.example.com/caldav.php/username/calendar/", "username", "password", "calendar" );
+$options_headers = $cal->DoOptionsRequest();
+$cal->SetDepth(1);
+$folder_xml = $cal->DoXMLRequest("PROPFIND", '<?xml version="1.0" encoding="utf-8" ?><propfind xmlns="DAV:"><prop><getcontentlength/><getcontenttype/><resourcetype/><getetag/></prop></propfind>' );
+
+*/
 
 ?>
