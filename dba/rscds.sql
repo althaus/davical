@@ -59,7 +59,9 @@ CREATE TABLE calendar_item (
   -- Cascade updates / deletes from the caldav_data table
   CONSTRAINT caldav_exists FOREIGN KEY ( user_no, dav_name )
                 REFERENCES caldav_data ( user_no, dav_name )
-                MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE DEFERRABLE
+                MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE DEFERRABLE,
+
+  PRIMARY KEY ( user_no, dav_name )
 );
 
 GRANT SELECT,INSERT,UPDATE,DELETE ON calendar_item TO general;
@@ -139,4 +141,4 @@ CREATE TABLE freebusy_ticket (
 
 GRANT INSERT,SELECT,UPDATE,DELETE ON TABLE freebusy_ticket TO general;
 
-SELECT new_db_revision(1,1,8, 'August' );
+SELECT new_db_revision(1,1,9, 'September' );
