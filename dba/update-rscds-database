@@ -41,7 +41,6 @@ show_usage() if ( $helpmeplease );
 my $dsn = "dbi:Pg:dbname=$dbname";
 $dsn .= ";host=$dbhost" if ( "$dbhost" ne "" );
 $dsn .= ";port=$dbport" if ( $dbport != 5432 );
-my $dbh = DBI->connect($dsn, $dbuser, $dbpass, { AutoCommit => 0 } ) or die "Can't connect to database $dbname";
 
 my $current_revision = get_current_revision();
 printf( "The database is currently at revision %d.%d.%d.\n", $current_revision->{'schema_major'}, $current_revision->{'schema_minor'}, $current_revision->{'schema_patch'} );
@@ -135,16 +134,22 @@ sub compare_revisions {
 ############################################################
 sub get_current_revision {
 
+  my $dbh = DBI->connect($dsn, $dbuser, $dbpass, { AutoCommit => 0 } ) or die "Can't connect to database $dbname";
+
   my $current_revision = $dbh->prepare( <<EOQ  ) or die $dbh->errstr;
   SELECT schema_major, schema_minor, schema_patch FROM awl_db_revision ORDER BY schema_id DESC LIMIT 1
 EOQ
 
   if ( $current_revision->execute() ) {
-    return $current_revision->fetchrow_hashref();
+    my $revision = $current_revision->fetchrow_hashref();
+    undef $current_revision;
+    $dbh->disconnect;
+    return $revision;
   }
   else {
     die "ERROR: Cannot read current revision from database.";
   }
+
 }
 
 
@@ -160,7 +165,7 @@ sub apply_patch {
 
   $current_revision = get_current_revision();
   if ( compare_revisions($current_revision,revision_hash($patch)) != 0 ) {
-    printf( "Failed to apply revision %d.%d.%d to the database!\n", $patch->{'schema_major'}, $patch->{'schema_minor'}, $patch->{'schema_patch'} );
+    printf( "Failed to apply revision %s to the database!\n", $patch );
     return 0;
   }
   return 1;  # Success
@@ -182,8 +187,12 @@ sub apply_sql_file {
   push @psql_opts, "-U", $dbuser if ( $dbuser ne "" );
   $ENV{'PGPASS'} = $dbpass if ( $dbpass ne "" );
 
-  system( @psql_opts );
+  my $command = join ' ', @psql_opts;
+  my $results = `$command 2>&1 1>/dev/null`;
 
+  $results =~ s/^.*WARNING:  there is no transaction in progress\s$//m;
+
+  print $results;
 }
 
 
