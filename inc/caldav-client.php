@@ -24,6 +24,7 @@ function __curl_init_callback( $data ) {
   global $__curl_read_callback_pos, $__curl_read_callback_data;
   $__curl_read_callback_pos = 0;
   $__curl_read_callback_data = $data;
+  error_log( "CLIENT: Initialising callback data to: ". substr($__curl_read_callback_data,0,40)." ..." );
 }
 /**
 * As documented in the comments on this page(!)
@@ -32,11 +33,17 @@ function __curl_init_callback( $data ) {
 function __curl_read_callback( $ch, $fd, $length) {
   global $__curl_read_callback_pos, $__curl_read_callback_data;
 
-  if ( $__curl_read_callback_pos < 0 ) return false;
+  error_log( "CLIENT: ANSWER: Pos=$__curl_read_callback_pos Len=$length" );
+  if ( $__curl_read_callback_pos < 0 ) {
+    unset($fd);
+    return "";
+  }
 
   $answer = substr($__curl_read_callback_data, $__curl_read_callback_pos, $length );
   if ( strlen($answer) < $length ) $__curl_read_callback_pos = -1;
+  else $__curl_read_callback_pos += $length;
 
+  error_log( "CLIENT: ANSWER: POS=$__curl_read_callback_pos: ".$answer );
   return $answer;
 }
 
@@ -91,6 +98,7 @@ class CalDAVClient {
     curl_setopt($this->curl, CURLOPT_USERPWD, "$user:$pass" );
     curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, true );
     curl_setopt($this->curl, CURLOPT_BINARYTRANSFER, true );
+
   }
 
   /**
@@ -142,16 +150,22 @@ class CalDAVClient {
     */
     curl_setopt($this->curl, CURLOPT_SSL_VERIFYPEER, false );
 
-    /**
-    * Our magic write the data function.  You'd think there would be a
-    * simple setopt call where we could set the data to be written, but no,
-    * we have to pass a function, which passes the data.
-    */
-    __curl_init_callback($this->body);
-    curl_setopt($this->curl, CURLOPT_READFUNCTION, '__curl_read_callback' );
+    $bodylen = strlen($this->body);
+    if ( $bodylen > 0 ) {
+      /**
+      * Call our magic write the data function.  You'd think there would be a
+      * simple setopt call where we could set the data to be written, but no,
+      * we have to pass a function, which passes the data.
+      */
+      curl_setopt($this->curl, CURLOPT_UPLOAD, true );
+      __curl_init_callback($this->body);
+      curl_setopt($this->curl, CURLOPT_INFILESIZE, $bodylen );
+      curl_setopt($this->curl, CURLOPT_READFUNCTION, '__curl_read_callback' );
+    }
 
     $content = curl_exec($this->curl);
 
+    return $content;
   }
 
 
@@ -181,9 +195,11 @@ class CalDAVClient {
   * @return string The content of the response from the server
   */
   function DoXMLRequest( $request_method, $xml, $relative_url = '' ) {
-    curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, $request_method );
-    curl_setopt($this->curl, CURLOPT_HEADER, false);
     $this->body = $xml;
+
+    curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, $request_method );
+    curl_setopt($this->curl, CURLOPT_HEADER, true);
+    $this->headers[] = "Content-type: text/xml";
     return $this->DoRequest($relative_url);
   }
 
