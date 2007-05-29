@@ -157,6 +157,7 @@ class CalDAVRequest
           if ( strpos($permission_result,"A") )
             $this->permissions['all'] = 'all';
           else {
+            if ( strpos($permission_result,"F") )       $this->permissions['freebusy'] = 'freebusy';
             if ( strpos($permission_result,"R") )       $this->permissions['read'] = 'read';
             if ( strpos($permission_result,"W") )
               $this->permissions['write'] = 'write';
