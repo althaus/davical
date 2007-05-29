@@ -14,7 +14,7 @@ $relationship_menu = new MenuSet('submenu', 'submenu', 'submenu_active');
 $user_menu = new MenuSet('submenu', 'submenu', 'submenu_active');
 // $role_menu = new MenuSet('submenu', 'submenu', 'submenu_active');
 
-$user_menu->AddOption(translate("My Details"),"$c->base_url/user.php?user_no=$session->user_no",translate("View my own user record"), false, 700);
+$user_menu->AddOption(translate("My Details"),"$c->base_url/usr.php?user_no=$session->user_no",translate("View my own user record"), false, 700);
 
 $active_menu_pattern = "#^$c->base_url/(index.*)?$#";
 ?>

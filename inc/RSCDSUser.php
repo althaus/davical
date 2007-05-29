@@ -107,13 +107,13 @@ class RSCDSUser extends User
 
     $browser = new Browser("");
 
-    $browser->AddHidden( 'user_link', "'<a href=\"$c->base_url/user.php?user_no=' || user_no || '\">' || fullname || '</a>'" );
+    $browser->AddHidden( 'user_link', "'<a href=\"$c->base_url/usr.php?user_no=' || user_no || '\">' || fullname || '</a>'" );
     $browser->AddColumn( 'rt_name', translate('Relationship') );
     $browser->AddColumn( 'fullname', translate('Linked To'), 'left', '##user_link##' );
     $browser->AddHidden( 'confers' );
     $browser->AddColumn( 'email', translate('EMail') );
     if ( $ef->EditMode ) { // && $session->AllowedTo("MaintainRelationships") ) {
-      $browser->AddColumn( 'delete', translate('Delete'), 'centre', '', "'<a class=\"\" href=\"$c->base_url/user.php?edit=1&user_no=$this->user_no&action=delete_relationship&to_user=' || user_no || '\">Delete</a>'" );
+      $browser->AddColumn( 'delete', translate('Delete'), 'centre', '', "'<a class=\"\" href=\"$c->base_url/usr.php?edit=1&user_no=$this->user_no&action=delete_relationship&to_user=' || user_no || '\">Delete</a>'" );
     }
 
     $browser->SetJoins( 'relationship NATURAL JOIN relationship_type rt LEFT JOIN usr ON (to_user = user_no)' );
@@ -189,7 +189,7 @@ EOSQL;
     if ( $title == null ) $title = i18n("Relationships to this user");
     $browser = new Browser("");
 
-    $browser->AddHidden( 'user_link', "'<a href=\"$c->base_url/user.php?user_no=' || user_no || '\">' || fullname || '</a>'" );
+    $browser->AddHidden( 'user_link', "'<a href=\"$c->base_url/usr.php?user_no=' || user_no || '\">' || fullname || '</a>'" );
     $browser->AddColumn( 'fullname', translate('Linked From'), 'left', '##user_link##' );
     $browser->AddColumn( 'rt_name', translate('Relationship') );
     $browser->AddHidden( 'confers' );

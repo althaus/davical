@@ -23,7 +23,7 @@ require_once("interactive-page.php");
 
   $browser->AddColumn( 'user_no', translate('No.'), 'right', '##user_link##' );
   $browser->AddColumn( 'username', translate('Name') );
-  $browser->AddHidden( 'user_link', "'<a href=\"$c->base_url/user.php?user_no=' || user_no || '\">' || user_no || '</a>'" );
+  $browser->AddHidden( 'user_link', "'<a href=\"$c->base_url/usr.php?user_no=' || user_no || '\">' || user_no || '</a>'" );
   $browser->AddColumn( 'fullname', translate('Full Name') );
   $browser->AddColumn( 'email', translate('EMail') );
   $browser->AddColumn( 'relations', translate('Relationships'), '', '', 'relationship_list(user_no)' );
@@ -47,7 +47,7 @@ require_once("interactive-page.php");
   $c->page_title = translate("Calendar Users");
 
   if ( $session->AllowedTo("Admin") )
-    $user_menu->AddOption(translate("New User"),"$c->base_url/user.php?create",translate("Add a new user"), false, 10);
+    $user_menu->AddOption(translate("New User"),"$c->base_url/usr.php?create",translate("Add a new user"), false, 10);
 
   $active_menu_pattern = "#^$c->base_url/user#";
 
