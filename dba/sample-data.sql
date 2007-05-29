@@ -10,6 +10,12 @@ INSERT INTO usr ( user_no, active, email_ok, updated, username, password, fullna
     VALUES( 10, TRUE, current_date, current_date, 'user1', '**user1', 'User 1', 'user1@example.net' );
 INSERT INTO usr ( user_no, active, email_ok, updated, username, password, fullname, email )
     VALUES( 11, TRUE, current_date, current_date, 'user2', '**user2', 'User 2', 'user2@example.net' );
+INSERT INTO usr ( user_no, active, email_ok, updated, username, password, fullname, email )
+    VALUES( 12, TRUE, current_date, current_date, 'user3', '**user3', 'User 3', 'user3@example.net' );
+INSERT INTO usr ( user_no, active, email_ok, updated, username, password, fullname, email )
+    VALUES( 13, TRUE, current_date, current_date, 'user4', '**user4', 'User 4', 'user4@example.net' );
+INSERT INTO usr ( user_no, active, email_ok, updated, username, password, fullname, email )
+    VALUES( 14, TRUE, current_date, current_date, 'user5', '**user5', 'User 5', 'user5@example.net' );
 
 INSERT INTO usr ( user_no, active, email_ok, updated, username, password, fullname, email )
     VALUES( 20, TRUE, current_date, current_date, 'manager1', '**manager1', 'Manager 1', 'manager1@example.net' );
@@ -46,9 +52,12 @@ INSERT INTO relationship ( from_user, to_user, rt_id ) VALUES( 11, 200, 1 );
 INSERT INTO relationship ( from_user, to_user, rt_id ) VALUES( 30, 200, 1 );
 
 -- Between a PA and their Manager
-INSERT INTO relationship ( from_user, to_user, rt_id ) VALUES( 30, 20, 2 );
+INSERT INTO relationship ( from_user, to_user, rt_id ) VALUES( 30,  20, 2 );
 
 -- Between a team
 INSERT INTO relationship ( from_user, to_user, rt_id ) VALUES( 20, 300, 3 );
 INSERT INTO relationship ( from_user, to_user, rt_id ) VALUES( 10, 300, 3 );
 INSERT INTO relationship ( from_user, to_user, rt_id ) VALUES( 30, 300, 3 );
+
+-- Granting explicit free/busy permission
+INSERT INTO relationship ( from_user, to_user, rt_id ) VALUES( 11,  10, 4 );
