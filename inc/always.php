@@ -73,27 +73,19 @@ if ( !isset($c->page_title) ) $c->page_title = $c->system_name;
 awl_set_locale($c->default_locale);
 
 /**
-* Figure our version from the changelog
+* Work out our version
+*
 */
 $c->code_version = 0;
-$changelog = false;
-if ( file_exists("../debian/changelog") ) {
-  $changelog = fopen( "../debian/changelog", "r" );
-}
-else if ( file_exists("/usr/share/doc/rscds/changelog.Debian") ) {
-  $changelog = fopen( "/usr/share/doc/rscds/changelog.Debian", "r" );
-}
-else if ( file_exists("/usr/share/doc/rscds/changelog") ) {
-  $changelog = fopen( "/usr/share/doc/rscds/changelog", "r" );
-}
-if ( $changelog ) {
-  list( $c->code_pkgver, $c->code_major, $c->code_minor, $c->code_patch, $c->code_debian ) = fscanf($changelog, "%s (%d.%d.%d-%d)");
+$c->version_string = '0.8.0~rc2'; // The actual version # is replaced into that during the build /release process
+if ( isset($c->version_string) && preg_match( '/(\d+)\.(\d+)\.(\d+)(.*)/', $c->version_string, $matches) ) {
+  $c->code_major = $matches[1];
+  $c->code_minor = $matches[1];
+  $c->code_patch = $matches[1];
   $c->code_version = (($c->code_major * 1000) + $c->code_minor).".".$c->code_patch;
-  fclose($changelog);
 }
-dbg_error_log("caldav", "Version %s (%d.%d.%d-%d) == %s", $c->code_pkgver, $c->code_major, $c->code_minor, $c->code_patch, $c->code_debian, $c->code_version);
+dbg_error_log("caldav", "Version %s (%d.%d.%d) == %s", $c->code_pkgver, $c->code_major, $c->code_minor, $c->code_patch, $c->code_version);
 header( sprintf("Server: %s/%d.%d", $c->code_pkgver, $c->code_major, $c->code_minor) );
-
 
 /**
 * Force the domain name to what was in the configuration file
