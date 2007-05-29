@@ -272,7 +272,7 @@ class CalDAVRequest
       return $this->_locks_found[$lock_token];
     }
     else {
-      $request->DoResponse( 500, translate("Database Error") );
+      $this->DoResponse( 500, translate("Database Error") );
     }
 
     return false;  // Nothing matched
