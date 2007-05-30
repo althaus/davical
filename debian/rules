@@ -1,24 +1,21 @@
 #!/usr/bin/make -f
-# Made with the aid of debmake, by Christoph Lameter,
-# based on the sample debian/rules file for GNU hello by Ian Jackson.
+#
+# rules for RSCDS
+#
 
 package=rscds
 dt=debian/$(package)
 
-build: inc htdocs debian/$(package)-phpdoc.ini debian/$(package)-phpdoc.ini.in
+build: inc htdocs debian
 	$(checkdir)
-	phpdoc -c debian/$(package)-phpdoc.ini
+	make
 	touch build
-
-# PHPDoc operational setup sucks.  Badly.
-debian/$(package)-phpdoc.ini: debian/$(package)-phpdoc.ini.in
-	sed -e"s@##projectroot##@$(CURDIR)@g" <debian/$(package)-phpdoc.ini.in >debian/$(package)-phpdoc.ini
 
 clean:
 	$(checkdir)
+	make clean
 	rm -f build
-	rm -f `find . -name "*~"`
-	-rm -rf $(dt) debian/files* core debian/substvars debian/html debian/$(package)-phpdoc.ini
+	-rm -rf $(dt) debian/files* core debian/substvars debian/html
 
 binary-indep: checkroot build
 	$(checkdir)
@@ -37,7 +34,7 @@ binary-indep: checkroot build
 	rm -rf $(dt)/usr/share/doc/$(package)/website/wiki
 	dh_installchangelogs
 	dh_fixperms
-	install -m 1777 -d $(dt)/var/lib/$(package)/attachments
+	# install -m 1777 -d $(dt)/var/lib/$(package)/attachments
 	dh_installdeb
 	dpkg-gencontrol -P$(dt)
 	dpkg --build $(dt) ..
