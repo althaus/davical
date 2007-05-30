@@ -77,7 +77,7 @@ awl_set_locale($c->default_locale);
 *
 */
 $c->code_version = 0;
-$c->version_string = '0.7.0~rc3'; // The actual version # is replaced into that during the build /release process
+$c->version_string = '0.8.0~rc3'; // The actual version # is replaced into that during the build /release process
 if ( isset($c->version_string) && preg_match( '/(\d+)\.(\d+)\.(\d+)(.*)/', $c->version_string, $matches) ) {
   $c->code_major = $matches[1];
   $c->code_minor = $matches[1];
@@ -164,7 +164,7 @@ $http_status_codes = array(
     '504' =>  "Gateway Timeout",
     '505' =>  "HTTP Version Not Supported");
 
-function getStatusMessage($status) {
+function getMessageStatus($status) {
   return $http_status_codes[$status];
 }
 
