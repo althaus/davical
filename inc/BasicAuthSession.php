@@ -147,7 +147,4 @@ class BasicAuthSession {
 
 
 }
-
-$session = new BasicAuthSession();
-
 ?>
