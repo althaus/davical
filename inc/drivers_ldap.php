@@ -77,7 +77,7 @@ class ldapDrivers
   function getAllUsers($attributs){
     global $c;
     $entry = ldap_list($this->connect,$this->baseDNUsers,$this->filterUsers,$attributs);
-    if (!ldap_first_entry($this->connect,$entry)) 
+    if (!ldap_first_entry($this->connect,$entry))
             $c->messages[] = sprintf(i18n("Error NoUserFound with filter >%s<, attributs >%s< , dn >%s<"),$this->filterUsers,join(', ',$attributs), $this->baseDNUsers);
     for($i=ldap_first_entry($this->connect,$entry);
         $i&&$arr=ldap_get_attributes($this->connect,$i);
@@ -156,17 +156,15 @@ function LDAP_check($username, $password ){
     //is a valid user or not
     if ( !$valid ) return false;
 
-    //ok it is valid is already exist in db ?
-    $qry = new PgQuery( "SELECT * FROM usr WHERE lower(username) = ? ", $username );
 
     $ldap_timestamp = $valid[$mapping["updated"]];
     foreach($c->authenticate_hook['config']['format_udpated'] as $k => $v)
       $$k = substr($ldap_timestamp,$v[0],$v[1]);
 
+    //ok it is valid is already exist in db ?
     $ldap_timestamp = "$Y"."$m"."$d"."$H"."$M"."$S";
-    if ( $qry->Exec('BasicAuth',__LINE__,__FILE__) && $qry->rows == 1 ){
+    if ( $usr = getUserByName($username) ){
       //should we update it ?
-      $usr = $qry->Fetch();
       $db_timestamp = $usr->updated;
       $db_timestamp = substr(strtr($db_timestamp, array(':' => '',' '=>'','-'=>'')),0,14);
       if($ldap_timestamp <= $db_timestamp){
@@ -192,9 +190,8 @@ function LDAP_check($username, $password ){
     $user->write();
   }
 
-  $qry = new PgQuery( "SELECT * FROM usr WHERE lower(username) = ? ", $username );
-  if ( $qry->Exec('BasicAuth',__LINE__,__FILE__) && $qry->rows == 1 ){
-    return $qry->Fetch();
+  if ( $return = getUserByName($username) ){
+    return $return;
   }
 }
 /**
@@ -218,7 +215,7 @@ function sync_LDAP(){
       $db_users_info[$db_user['username']] = array('user_no' => $db_user['user_no'], 'updated' => $db_user['updated']);
     }
     require_once("RSCDSUser.php");
-    
+
     $ldap_users = array_keys($ldap_users_info);
     //users only in ldap
     $users_to_create = array_diff($ldap_users,$db_users);
@@ -226,7 +223,7 @@ function sync_LDAP(){
     $users_to_desactivate = array_diff($db_users,$ldap_users);
     //users present in ldap and in the db
     $users_to_update = array_intersect($db_users,$ldap_users);
-    
+
     //creation of all users;
     if(sizeof($users_to_create)) $c->messages[] = sprintf(i18n('- creating record for users :  %s'),join(', ',$users_to_create));
     foreach($users_to_create as $username){
