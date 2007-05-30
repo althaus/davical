@@ -18,15 +18,15 @@ msgstr ""
 
 #, c-format
 msgid "- creating record for users :  %s"
-msgstr ""
+msgstr "- création des utilisateurs : %s"
 
 #, c-format
 msgid "- desactivating users : %s"
-msgstr ""
+msgstr "- desactivation des utilisateurs : %s"
 
 #, c-format
 msgid "- nothing done on %s"
-msgstr ""
+msgstr "- rien à faire sur %s"
 
 #, fuzzy, c-format
 msgid "- updating user record %s"
@@ -42,10 +42,11 @@ msgid "--- select a user, group or resource ---"
 msgstr "--- choisissez un utilisateur, un groupe ou une ressource ---"
 
 msgid "<b>WARNING: all events in this path will be deleted before inserting all of the ics file</b>"
-msgstr ""
+msgstr "<b>ATTENTION : tous les événements de ce chemin seront supprimés avant l'insertion de tous ceux du fichier ics</b>"
 
 msgid "<b>WARNING: all events in this path will be deleted before inserting allof the ics file</b>"
-msgstr ""
+msgstr "<b>ATTENTION : tous les événements de ce chemin seront supprimés avant l'insertion de tous ceux du fichier ics</b>"
+
 
 #, c-format
 msgid ""
@@ -86,7 +87,7 @@ msgstr "Gére les groupe"
 
 #, c-format
 msgid "All events of user %s were deleted and replaced by those from the file."
-msgstr ""
+msgstr "Tous les événements de l'utilisateur %s seront supprimés et remplacés par ceux du fichier"
 
 msgid "All requested changes were made."
 msgstr "Tous les changements demandés ont eu lieu"
@@ -99,7 +100,7 @@ msgid "Browse all users"
 msgstr "Affiche tous les utilisateurs"
 
 msgid "Busy"
-msgstr ""
+msgstr "Occupé"
 
 msgid "Calendar Resource Not Found."
 msgstr "Ressource calendrier introuvable"
@@ -165,7 +166,7 @@ msgid "Delete"
 msgstr "Supprimer"
 
 msgid "Directory on the server"
-msgstr ""
+msgstr "Répertoire du serveur"
 
 msgid "Does the user have the right to perform this role?"
 msgstr "L'utilisateur est-il autorisé à jouer ce rôle ?"
@@ -182,7 +183,7 @@ msgstr "ERREUR: %s"
 
 msgid "ERROR: There was a database error writing the roles information!"
 msgstr ""
-"ERREUR: Il y a eu une erreur dans la base de données lors de l'écriture des informations pour le rôle !"
+"ERREUR: Il y a eu une erreur dans la base de données lors de l'écriture des informations pour les rôles !"
 
 msgid "Edit this user record"
 msgstr "Modifier l'enregistrement de cet utilisateur"
@@ -200,7 +201,7 @@ msgstr "Tapez votre nom d'utilisateur et votre mot de passe puis cliquez ici pou
 
 #, c-format
 msgid "Error NoUserFound with filter >%s<, attributs >%s< , dn >%s<"
-msgstr ""
+msgstr "Erreur NoUserFound avec le filtre >%s<, attributs >%s<, dn >%s<"
 
 msgid "Error querying database."
 msgstr "Erreur lors de l'interrogation de la base de données"
@@ -214,12 +215,12 @@ msgstr "Européen (jj/mm/aa)"
 # ############
 # Sorry I shall see it on the screen to understand the context of the question
 msgid "Existing resource does not match 'If-Match' header - not accepted."
-msgstr ""
+msgstr "La ressource existante ne correspond pas à l'entête (HTTP) 'If-Match' - pas accepté."
 
 # ############
 # Sorry I shall see it on the screen to understand the context of the question
 msgid "Existing resource matches 'If-None-Match' header - not accepted."
-msgstr ""
+msgstr "La ressource existante correpond à l'entête (HTTP) 'if-None-Match' - pas accepté."
 
 msgid "Finish"
 msgstr "Fin"
@@ -252,7 +253,7 @@ msgid "Help"
 msgstr "Aide"
 
 msgid "Home calendar added."
-msgstr ""
+msgstr "Calendrier Home ajouté"
 
 # The "Home" page link
 msgid "Home"
@@ -274,10 +275,10 @@ msgid "If you would like to request access, please e-mail"
 msgstr "Si vous souhaitez avoir accès, veuillez envoyer un courriel"
 
 msgid "Import ICS file"
-msgstr ""
+msgstr "Importer un fichier ics"
 
 msgid "Import all .ics files of a directory"
-msgstr ""
+msgstr "Importer tous les fichiers .ics d'un répertoire"
 
 msgid "Invalid user name or password."
 msgstr "Nom d'utilisateur ou mot de passe incorrects."
@@ -286,7 +287,7 @@ msgid "Invalid username or password."
 msgstr "Nom d'utilisateur ou mot de passe incorrects."
 
 msgid "Is a Calendar?"
-msgstr ""
+msgstr "Est-ce un calendrier ?"
 
 # For programmatic reasons at this point the abbreviation cannot be translated :-(
 msgid "Is this access read ('R') or Read and Write ('RW')?"
@@ -300,7 +301,7 @@ msgstr "Cet utilisateur est-il actif ?"
 
 # The prompt for "The date on which the user was set up on this system" only 2-3 words max.
 msgid "Joined"
-msgstr "Inscription"
+msgstr "Inscrit le"
 
 msgid "Language"
 msgstr "Langue"
@@ -350,7 +351,7 @@ msgid "No."
 msgstr "N°"
 
 msgid "Operations on your calendar"
-msgstr ""
+msgstr "Operations sur votre calendrier"
 
 #, fuzzy
 msgid "Operations"
@@ -435,7 +436,7 @@ msgstr "Ressource changée sur le serveur - non changée"
 # ############
 # Sorry I shall see it on the screen to understand the context of the question
 msgid "Resource does not match 'If-Match' header - not deleted"
-msgstr ""
+msgstr "Ressource ne correspond pas à l'entête (HTTP) 'If-Match' - non supprimé"
 
 msgid "Resource has changed on server - not deleted"
 msgstr "Ressource a été changée sur le serveur - non supprimée"
@@ -460,13 +461,13 @@ msgid "Select the user, resource or group to relate this user to"
 msgstr "Choisissez l'utilisateur, la ressource ou le groupe à relier à cet utilisateur"
 
 msgid "Set the path to store your ics e.g. 'home' will be referenced as /caldav.php/me/home/"
-msgstr ""
+msgstr "Indiquer le chemin où stocker votre ics ex : 'home' pour avoir /caldav.php/moi/home/"
 
 msgid "Setup RSCDS"
-msgstr ""
+msgstr "Configurer RSCDS"
 
 msgid "Setup"
-msgstr ""
+msgstr "Configuration"
 
 msgid "Show help on"
 msgstr "Afficher l'aide sur"
@@ -485,7 +486,7 @@ msgid "Summary"
 msgstr "Résumé"
 
 msgid "Sync LDAP with RSCDS"
-msgstr ""
+msgstr "Synchroniser RSCDS avec LDAP"
 
 # This shows up as an error message, and the ##BlahBlah## is converted to a hyperlink
 # which will (eventually) go to a wiki page.  So it's OK to translate the ##BlahBlah##
@@ -508,7 +509,7 @@ msgstr "le nom d'affichage ne peut être défini que sur des collections ou des 
 
 #, c-format
 msgid "The file %s is not UTF-8 encoded, please check the error for more details."
-msgstr ""
+msgstr "Le fichier %s n'est pas encodé en UTF-8, merci de verifier les erreurs pour plus d'information"
 
 # or ##TypeDeRelationsUtilisées## ?
 # We are trying to provide a full description of what a 'username' is.  Feel free to
@@ -517,7 +518,7 @@ msgid "The name this user can log into the system with."
 msgstr "Le nom ou pseudonyme que cet utilisateur employera pour se connecter à l'application"
 
 msgid "The path on the server where your .ics files are."
-msgstr ""
+msgstr "répertoire du serveur où sont stockés tous les fichiers .ics"
 
 msgid "The preferred language for this person."
 msgstr "La langue parlée par cette personne"
@@ -553,7 +554,7 @@ msgid "Updated"
 msgstr "Mise à jour"
 
 msgid "Upload your .ics calendar in ical format "
-msgstr ""
+msgstr "Envoyer votre calendrier .ics au format ical"
 
 msgid "User Details"
 msgstr "Informations sur l'utilisateur"
@@ -605,13 +606,13 @@ msgid "When the user's e-mail account was validated."
 msgstr "Date à laquelle l'adresse courriel de cet utilisateur a été validée."
 
 msgid "You are editing"
-msgstr ""
+msgstr "Vous rectifiez"
 
 msgid "You are not authorised to use this function."
 msgstr "Vous n'êtes pas autorisé à utiliser cette fonction."
 
 msgid "You are viewing"
-msgstr ""
+msgstr "Vous regardez"
 
 msgid "You do not have appropriate rights to view that resource."
 msgstr "Vous n'avez pas les droits appropriés pour voir cette ressource"
@@ -639,28 +640,29 @@ msgstr "Vous devez vous connecter pour utiliser ce logiciel"
 
 #, fuzzy
 msgid "Your .ics calendar"
-msgstr "Vous ne pouvez accéder à ce calendrier"
+msgstr "votre calendrier ics"
 
 #, c-format
 msgid "all events of user %s were deleted and replaced by those from file %s"
-msgstr ""
+msgstr "tous les événements de l'utilisateur %s ont été supprimés et remplacé par ceux du fichier %s"
 
 #, c-format
 msgid "directory %s is not readable"
-msgstr ""
+msgstr "le répertoire %s n'est pas accessible en lecture"
 
 #, c-format
 msgid ""
 "drivers_ldap : Unable to bind to LDAP, check your bindDN >%s< and passDN >%s< of your configuration or "
 "if your server is reachable"
-msgstr ""
+msgstr "drivers_ldap : Impossible de binder, vérifier votre  bindDN >%s< et passDN >%s< de votre configuration ou "
+"si votre serveur est accessible"
 
 #, c-format
 msgid "drivers_ldap : Unable to connect to LDAP with port %s on host %s"
-msgstr ""
+msgstr "drivers_ldap : impossible de ce connecter à LDAP sur le port %s et sur l'hôte %s"
 
 msgid "drivers_ldap : function ldap_connect not defined, check your php_ldap module"
-msgstr ""
+msgstr "drivers_ldap : la fonction ldap_connect n'est pas définie, vérifier que vous avez l'extension php_ldap"
 
 msgid ""
 "forget me not <!-- this is a colloquial phrase in english (the name of a flower) and is an option "
@@ -672,27 +674,27 @@ msgstr "Ne pas m'oublier"
 
 #, c-format
 msgid "if your use OpenLDAP 2.X.X maybe, unable to connect to LDAP with port %s on host %s"
-msgstr ""
+msgstr "si vous utilisez OpenLDAP 2.X.X, impossible de ce connecter à serveur LDAP sur le port %s et sur l'hôte %s"
 
 #, fuzzy
 msgid "is Assistant to"
 msgstr "est assisté par"
 
 msgid "path to store your ics"
-msgstr ""
+msgstr "le chemin où stocker votre ics"
 
 msgid "set the path to store your ics ex:home if you get it by caldav.php/me/home/"
-msgstr ""
+msgstr "Indiquer le chemin où stocker votre ics ex : 'home' pour y accéder via /caldav.php/moi/home/"
 
 #, c-format
 msgid "the file %s is not UTF-8 encoded, please check error for more details"
-msgstr ""
+msgstr "Le fichier %s n'est pas encodé en UTF-8, merci de verifier les erreurs pour plus d'information"
 
 msgid "you should log on with the username and password that have been issued to you."
 msgstr "Vous devez vous connecter avec le nom d'utilisateur et le mot de passe qui vous ont été fournis."
 
 msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
-msgstr ""
+msgstr "Cette opération execute  : <ul><li>vérifie les utilisateurs valides de l'annuaire LDAP</li>"
 
 #~ msgid "Edit"
 #~ msgstr "Modifier"
