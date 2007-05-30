@@ -466,53 +466,7 @@ class CalDAVRequest
   */
   function DoResponse( $status, $message="", $content_type="text/plain" ) {
     global $session, $c;
-    switch( $status ) {
-      case 100: $status_text = "Continue"; break;
-      case 101: $status_text = "Switching Protocols"; break;
-      case 200: $status_text = "OK"; break;
-      case 201: $status_text = "Created"; break;
-      case 202: $status_text = "Accepted"; break;
-      case 203: $status_text = "Non-Authoritative Information"; break;
-      case 204: $status_text = "No Content"; break;
-      case 205: $status_text = "Reset Content"; break;
-      case 206: $status_text = "Partial Content"; break;
-      case 207: $status_text = "Multi-Status"; break;
-      case 300: $status_text = "Multiple Choices"; break;
-      case 301: $status_text = "Moved Permanently"; break;
-      case 302: $status_text = "Found"; break;
-      case 303: $status_text = "See Other"; break;
-      case 304: $status_text = "Not Modified"; break;
-      case 305: $status_text = "Use Proxy"; break;
-      case 307: $status_text = "Temporary Redirect"; break;
-      case 400: $status_text = "Bad Request"; break;
-      case 401: $status_text = "Unauthorized"; break;
-      case 402: $status_text = "Payment Required"; break;
-      case 403: $status_text = "Forbidden"; break;
-      case 404: $status_text = "Not Found"; break;
-      case 405: $status_text = "Method Not Allowed"; break;
-      case 406: $status_text = "Not Acceptable"; break;
-      case 407: $status_text = "Proxy Authentication Required"; break;
-      case 408: $status_text = "Request Timeout"; break;
-      case 409: $status_text = "Conflict"; break;
-      case 410: $status_text = "Gone"; break;
-      case 411: $status_text = "Length Required"; break;
-      case 412: $status_text = "Precondition Failed"; break;
-      case 413: $status_text = "Request Entity Too Large"; break;
-      case 414: $status_text = "Request-URI Too Long"; break;
-      case 415: $status_text = "Unsupported Media Type"; break;
-      case 416: $status_text = "Requested Range Not Satisfiable"; break;
-      case 417: $status_text = "Expectation Failed"; break;
-      case 422: $status_text = "Unprocessable Entity"; break;
-      case 423: $status_text = "Locked"; break;
-      case 424: $status_text = "Failed Dependency"; break;
-      case 500: $status_text = "Internal Server Error"; break;
-      case 501: $status_text = "Not Implemented"; break;
-      case 502: $status_text = "Bad Gateway"; break;
-      case 503: $status_text = "Service Unavailable"; break;
-      case 504: $status_text = "Gateway Timeout"; break;
-      case 505: $status_text = "HTTP Version Not Supported"; break;
-    }
-    @header( sprintf("HTTP/1.1 %d %s", $status, $status_text) );
+    @header( sprintf("HTTP/1.1 %d %s", $status, getStatusMessage($status)) );
     @header( sprintf("X-RSCDS-Version: RSCDS/%d.%d.%d; DB/%d.%d.%d", $c->code_major, $c->code_minor, $c->code_patch, $c->schema_major, $c->schema_minor, $c->schema_patch) );
     @header( "Content-type: ".$content_type );
     echo $message;
