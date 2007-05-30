@@ -53,9 +53,10 @@
             if ( check_string($ics) ) {
               $path = "/".$user->Get("username").$path_ics;
               include("caldav-PUT-functions.php");
-              controlRequestContainer($user->Get("username"),$user->user_no, $path,false);
-              import_collection($ics,$user->user_no,$path,false);
-              $c->messages[] = sprintf(translate("All events of user %s were deleted and replaced by those from the file."),$user->Get("username"));
+              if(controlRequestContainer($user->Get("username"),$user->user_no, $path,false) === true ){
+                import_collection($ics,$user->user_no,$path,$session->user_no);
+                $c->messages[] = sprintf(translate("All events of user %s were deleted and replaced by those from the file."),$user->Get("username"));
+              }
             } else
               $c->messages[] =  sprintf(translate("The file %s is not UTF-8 encoded, please check the error for more details."),$dir.'/'.$file);
           }

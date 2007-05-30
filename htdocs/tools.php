@@ -133,12 +133,12 @@ class Tools {
             $path = "/".substr($file,0,-4).$path_ics;
             dbg_error_log( "importFromDirectory", "importing to $path");
             include_once("caldav-PUT-functions.php");
-            $qry = new PgQuery( "SELECT * FROM usr WHERE username = ?;", substr($file,0,-4) );
-            if ( $qry->Exec("importFromDirectory") && $user = $qry->Fetch() ) {
+            if ( $user = getUserByName(substr($file,0,-4),'importFromDirectory',__LINE__,__FILE__)) {
               $user_no = $user->user_no;
             }
-            controlRequestContainer(substr($file,0,-4),$user_no, $path,false);
-            import_collection($ics,$user_no,$path,false);
+            if(controlRequestContainer(substr($file,0,-4),$user_no, $path,false) === -1)
+              continue;
+            import_collection($ics,$user_no,$path,1);
             $c->messages[] = sprintf(i18n("all events of user %s were deleted and replaced by those from file %s"),substr($file,0,-4),$dir.'/'.$file);
           }
           else {
