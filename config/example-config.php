@@ -39,7 +39,12 @@ $c->system_name = "Really Simple CalDAV Store";
 */
 $c->hide_alarm = true;
 
-
+/**
+*default is false
+*If true, then TODO requested  from someone other than the admmin or owner
+* of a calendar will not get any answer
+*/
+$c->hide_TODO = true;
 
 /***************************************************************************
 *                                                                          *
