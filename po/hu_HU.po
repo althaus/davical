@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rscds 0.7.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-05-23 13:07+1200\n"
+"POT-Creation-Date: 2007-06-01 08:56+1200\n"
 "PO-Revision-Date: 2007-05-03 15:00+0001\n"
 "Last-Translator: David Takacs <david.takacs@cafeopen.eu>\n"
 "Language-Team: \n"
@@ -149,8 +149,9 @@ msgstr "Adatbázis-hiba"
 msgid "Database Error."
 msgstr "Adatbázis-hiba."
 
-msgid "Database error"
-msgstr "Adatbázis-hiba"
+#, c-format
+msgid "Database error for User: %d, Path: %s"
+msgstr ""
 
 msgid "Date Style"
 msgstr "Dátumformátum"
@@ -623,6 +624,9 @@ msgstr "Lépjen be felhasználónevével és jelszavával."
 
 msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
 msgstr ""
+
+#~ msgid "Database error"
+#~ msgstr "Adatbázis-hiba"
 
 #~ msgid "Edit"
 #~ msgstr "Szerkesztés"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-05-23 13:07+1200\n"
+"POT-Creation-Date: 2007-06-01 08:56+1200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Eelco Maljaars <http://eelco.maljaars.net/>\n"
 "Language-Team: nl_NL <LL@li.org>\n"
@@ -151,9 +151,9 @@ msgstr "Database fout"
 msgid "Database Error."
 msgstr "Database fout"
 
-#, fuzzy
-msgid "Database error"
-msgstr "Database fout"
+#, c-format
+msgid "Database error for User: %d, Path: %s"
+msgstr ""
 
 msgid "Date Style"
 msgstr "Datum stijl"
@@ -628,6 +628,10 @@ msgstr "je moet inloggen met de gebruikersnaam en het wachtwoord die je zijn toe
 
 msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Database error"
+#~ msgstr "Database fout"
 
 #~ msgid "Edit"
 #~ msgstr "Verander"

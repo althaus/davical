@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rscds 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-05-23 13:07+1200\n"
+"POT-Creation-Date: 2007-06-01 08:56+1200\n"
 "PO-Revision-Date: 2006-11-13 13:03+1300\n"
 "Last-Translator: maxime delorme <mdelorme@tennaxia.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -42,11 +42,14 @@ msgid "--- select a user, group or resource ---"
 msgstr "--- choisissez un utilisateur, un groupe ou une ressource ---"
 
 msgid "<b>WARNING: all events in this path will be deleted before inserting all of the ics file</b>"
-msgstr "<b>ATTENTION : tous les événements de ce chemin seront supprimés avant l'insertion de tous ceux du fichier ics</b>"
+msgstr ""
+"<b>ATTENTION : tous les événements de ce chemin seront supprimés avant l'insertion de tous ceux du "
+"fichier ics</b>"
 
 msgid "<b>WARNING: all events in this path will be deleted before inserting allof the ics file</b>"
-msgstr "<b>ATTENTION : tous les événements de ce chemin seront supprimés avant l'insertion de tous ceux du fichier ics</b>"
-
+msgstr ""
+"<b>ATTENTION : tous les événements de ce chemin seront supprimés avant l'insertion de tous ceux du "
+"fichier ics</b>"
 
 #, c-format
 msgid ""
@@ -154,9 +157,9 @@ msgstr "Erreur base de données"
 msgid "Database Error."
 msgstr "Erreur base de données"
 
-#, fuzzy
-msgid "Database error"
-msgstr "Erreur base de données"
+#, c-format
+msgid "Database error for User: %d, Path: %s"
+msgstr ""
 
 # The type of format of the date: d/m/y, m/d/y, y-m-d
 msgid "Date Style"
@@ -183,7 +186,8 @@ msgstr "ERREUR: %s"
 
 msgid "ERROR: There was a database error writing the roles information!"
 msgstr ""
-"ERREUR: Il y a eu une erreur dans la base de données lors de l'écriture des informations pour les rôles !"
+"ERREUR: Il y a eu une erreur dans la base de données lors de l'écriture des informations pour les "
+"rôles !"
 
 msgid "Edit this user record"
 msgstr "Modifier l'enregistrement de cet utilisateur"
@@ -654,15 +658,17 @@ msgstr "le répertoire %s n'est pas accessible en lecture"
 msgid ""
 "drivers_ldap : Unable to bind to LDAP, check your bindDN >%s< and passDN >%s< of your configuration or "
 "if your server is reachable"
-msgstr "drivers_ldap : Impossible de binder, vérifier votre  bindDN >%s< et passDN >%s< de votre configuration ou "
-"si votre serveur est accessible"
+msgstr ""
+"drivers_ldap : Impossible de binder, vérifier votre  bindDN >%s< et passDN >%s< de votre configuration "
+"ou si votre serveur est accessible"
 
 #, c-format
 msgid "drivers_ldap : Unable to connect to LDAP with port %s on host %s"
 msgstr "drivers_ldap : impossible de ce connecter à LDAP sur le port %s et sur l'hôte %s"
 
 msgid "drivers_ldap : function ldap_connect not defined, check your php_ldap module"
-msgstr "drivers_ldap : la fonction ldap_connect n'est pas définie, vérifier que vous avez l'extension php_ldap"
+msgstr ""
+"drivers_ldap : la fonction ldap_connect n'est pas définie, vérifier que vous avez l'extension php_ldap"
 
 msgid ""
 "forget me not <!-- this is a colloquial phrase in english (the name of a flower) and is an option "
@@ -674,7 +680,9 @@ msgstr "Ne pas m'oublier"
 
 #, c-format
 msgid "if your use OpenLDAP 2.X.X maybe, unable to connect to LDAP with port %s on host %s"
-msgstr "si vous utilisez OpenLDAP 2.X.X, impossible de ce connecter à serveur LDAP sur le port %s et sur l'hôte %s"
+msgstr ""
+"si vous utilisez OpenLDAP 2.X.X, impossible de ce connecter à serveur LDAP sur le port %s et sur "
+"l'hôte %s"
 
 #, fuzzy
 msgid "is Assistant to"
@@ -695,6 +703,10 @@ msgstr "Vous devez vous connecter avec le nom d'utilisateur et le mot de passe q
 
 msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
 msgstr "Cette opération execute  : <ul><li>vérifie les utilisateurs valides de l'annuaire LDAP</li>"
+
+#, fuzzy
+#~ msgid "Database error"
+#~ msgstr "Erreur base de données"
 
 #~ msgid "Edit"
 #~ msgstr "Modifier"

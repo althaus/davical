@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rscds-messages\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-05-23 13:07+1200\n"
+"POT-Creation-Date: 2007-06-01 08:56+1200\n"
 "PO-Revision-Date: 2007-03-31 00:24+0200\n"
 "Last-Translator: Rafal Slubowski <rafalslubowski@gmail.com>\n"
 "Language-Team: polski <pl@li.org>\n"
@@ -151,8 +151,9 @@ msgstr "Błąd bazy danych"
 msgid "Database Error."
 msgstr "Błąd bazy danych."
 
-msgid "Database error"
-msgstr "Błąd bazy danych"
+#, c-format
+msgid "Database error for User: %d, Path: %s"
+msgstr ""
 
 msgid "Date Style"
 msgstr "Format daty"
@@ -625,6 +626,9 @@ msgstr "powinieneś zalogować się swoją nazwą użytkownika i hasłem."
 
 msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
 msgstr ""
+
+#~ msgid "Database error"
+#~ msgstr "Błąd bazy danych"
 
 #~ msgid "Edit"
 #~ msgstr "Zmień"
