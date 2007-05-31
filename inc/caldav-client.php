@@ -96,6 +96,8 @@ class CalDAVClient {
     curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, true );
     curl_setopt($this->curl, CURLOPT_BINARYTRANSFER, true );
 
+    $this->headers[] = array();
+
   }
 
   /**
@@ -170,6 +172,9 @@ class CalDAVClient {
     }
 
     $this->response = curl_exec($this->curl);
+    $this->resultcode = curl_getinfo( $this->curl, CURLINFO_HTTP_CODE);
+
+    $this->headers[] = array();  // reset the headers array for our next request
 
     return $this->response;
   }
@@ -253,6 +258,27 @@ class CalDAVClient {
     */
     $etag = preg_replace( '/^.*Etag: "?([^"\r\n]+)"?\r?\n.*/is', '$1', $headers );
     return $etag;
+  }
+
+
+  /**
+  * DELETE a text/icalendar resource
+  *
+  * @param string $relative_url The URL to make the request to, relative to $base_url
+  * @param string $etag The etag of an existing resource to be deleted, or '*' for any resource at that URL.
+  *
+  * @return int The HTTP Result Code for the DELETE
+  */
+  function DoDELETERequest( $relative_url, $etag = null ) {
+    $this->body = "";
+
+    curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, "DELETE" );
+    curl_setopt($this->curl, CURLOPT_HEADER, true);
+    if ( $etag != null ) {
+      $this->SetMatch( false, $etag );
+    }
+    $this->DoRequest($relative_url);
+    return $this->resultcode;
   }
 
 
