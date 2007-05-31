@@ -268,14 +268,11 @@ class CalDAVClient {
   *
   * @return array An array of the relative URLs, etags, and events from the server
   */
-  function GetEventRange( $start, $finish ) {
-    $xml = <<<EOXML
-<?xml version="1.0" encoding="utf-8" ?>
-<calendar-query xmlns:D="DAV:" xmlns="urn:ietf:params:xml:ns:caldav">
-  <D:prop>
-    <calendar-data/>
-    <D:getetag/>
-  </D:prop>
+  function GetEvents( $start, $finish ) {
+    $filter = "";
+    if ( $start && $finish ) {
+      $filter = <<<EOFILTER
+
   <filter>
     <comp-filter name="VCALENDAR">
       <comp-filter name="VEVENT">
@@ -283,6 +280,16 @@ class CalDAVClient {
       </comp-filter>
     </comp-filter>
   </filter>
+EOFILTER;
+    }
+
+    $xml = <<<EOXML
+<?xml version="1.0" encoding="utf-8" ?>
+<calendar-query xmlns:D="DAV:" xmlns="urn:ietf:params:xml:ns:caldav">
+  <D:prop>
+    <calendar-data/>
+    <D:getetag/>
+  </D:prop>$filter
 </calendar-query>
 EOXML;
     $this->SetDepth("1");
