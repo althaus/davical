@@ -32,6 +32,8 @@ function send_page_header() {
 
 //  echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">';
 
+  header( "Content-type: text/html; charset=utf-8" );
+
   echo <<<EOHDR
 <html>
 <head>
