@@ -38,7 +38,6 @@
     <item url="htdocs/help.php" uploadstatus="1" />
     <item url="htdocs/roles.php" uploadstatus="1" />
     <item url="dba/caldav_functions.sql" uploadstatus="1" />
-    <item url="htdocs/user.php" uploadstatus="1" />
     <item url="inc/RSCDSUser.php" uploadstatus="1" />
     <item url="inc/caldav-PROPFIND.php" uploadstatus="1" />
     <item url="inc/caldav-MKCALENDAR.php" uploadstatus="1" />
@@ -226,11 +225,17 @@
     <item url="inc/test-RRULE.php" uploadstatus="1" />
     <item url="debian/control" uploadstatus="1" />
     <item url="dba/patches/1.1.7.sql" uploadstatus="1" />
-    <item url="inc/caldav-PUT-collection.php" uploadstatus="1" />
     <item url="dba/rrule_functions.sql" uploadstatus="1" />
     <item url="config/example-config.php" uploadstatus="1" />
     <item url="config/other-config.php" uploadstatus="1" />
     <item url="config/debug-config.php" uploadstatus="1" />
-    <item url="inc/drivers_ldap.php" />
+    <item url="inc/drivers_ldap.php" uploadstatus="1" />
+    <item url="dba/patches/1.1.8.sql" uploadstatus="1" />
+    <item url="inc/caldav-client.php" uploadstatus="1" />
+    <item url="htdocs/calendar.php" uploadstatus="1" />
+    <item url="dba/patches/1.1.9.sql" uploadstatus="1" />
+    <item url="inc/always.php.in" uploadstatus="1" />
+    <item url="htdocs/usr.php" uploadstatus="1" />
+    <item url="inc/CalDAVRequest.php.xxx" uploadstatus="1" />
   </project>
 </webproject>

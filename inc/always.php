@@ -77,7 +77,7 @@ awl_set_locale($c->default_locale);
 *
 */
 $c->code_version = 0;
-$c->version_string = '0.8.0~rc3'; // The actual version # is replaced into that during the build /release process
+$c->version_string = '0.8.0'; // The actual version # is replaced into that during the build /release process
 if ( isset($c->version_string) && preg_match( '/(\d+)\.(\d+)\.(\d+)(.*)/', $c->version_string, $matches) ) {
   $c->code_major = $matches[1];
   $c->code_minor = $matches[1];
@@ -106,7 +106,7 @@ if ( $qry->Exec("always") && $row = $qry->Fetch() ) {
 $_known_users = array();
 function getUserByName( $username ) {
   // Provide some basic caching in case this ends up being overused.
-  if ( isset( $_known_users[$username] ) ) return $_known_users[$username] ;
+  if ( isset( $_known_users[$username] ) ) return $_known_users[$username] );
 
   $qry = new PgQuery( "SELECT * FROM usr WHERE lower(username) = lower(?) ", $username );
   if ( $qry->Exec('always',__LINE__,__FILE__) && $qry->rows == 1 ) {

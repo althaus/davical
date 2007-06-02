@@ -1,18 +1,25 @@
-rscds (0.7.2~rc3) unstable; urgency=low
+rscds (0.8.0) unstable; urgency=low
 
   * Check whether a URL missing a trailing '/' might still be a collection.
   * Fix for REPORT to exclude PRIVATE events.
   * Show a list of the user's relationships in the admin page.
   * Add XML with MKCALENDAR support.
-  * Add polish language support from Rafał Ślubowski
+  * Add Polish language support from Rafał Ślubowski
   * Patch to support reporting of "Busy" for confidential events (Maxime
     Delorme).
   * Allow hiding of alarms for calendars which are not ours (Maxime Delorme).
-  * Allow uploading of a whole calendar .ics from within user maintenance
-    (Maxime Delorme).
+  * Allow uploading whole calendars (Maxime Delorme).
   * Basic LDAP authentication (Maxime Delorme)
+  * Add Hungarian (Magyar) language support from Dávid Takács
+  * Ensure username is case-insensitive.
+  * Improve security on viewing other's calendar entries.
+  * Add basic support for installation in a Windows environment.
+  * Add support for automatically creating a user's home calendar.
+  * Add a primary key to the calendar_item table for performance.
+  * Only process the filter criteria on a REPORT once.
+  * Add a basic client library.
 
- -- Andrew McMillan <debian@mcmillan.net.nz>  Sat, 05 May 2007 18:26:33 +1200
+ -- Andrew McMillan <debian@mcmillan.net.nz>  Wed, 23 May 2007 08:09:45 +1200
 
 rscds (0.7.1) unstable; urgency=low
 
