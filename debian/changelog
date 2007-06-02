@@ -19,7 +19,7 @@ rscds (0.8.0) unstable; urgency=low
   * Only process the filter criteria on a REPORT once.
   * Add a basic client library.
 
- -- Andrew McMillan <debian@mcmillan.net.nz>  Sat, 02 Jun 2007 12:28:43 +1200
+ -- Andrew McMillan <debian@mcmillan.net.nz>  Sat, 02 Jun 2007 12:42:21 +1200
 
 rscds (0.7.1) unstable; urgency=low
 

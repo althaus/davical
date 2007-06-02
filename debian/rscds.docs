@@ -2,5 +2,5 @@ README
 TODO
 INSTALL
 docs/website/
-debian/html/
+docs/api/
 testing/README.regression_tests
