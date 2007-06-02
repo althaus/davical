@@ -106,7 +106,7 @@ if ( $qry->Exec("always") && $row = $qry->Fetch() ) {
 $_known_users = array();
 function getUserByName( $username ) {
   // Provide some basic caching in case this ends up being overused.
-  if ( isset( $_known_users[$username] ) ) return $_known_users[$username] );
+  if ( isset( $_known_users[$username] ) ) return $_known_users[$username];
 
   $qry = new PgQuery( "SELECT * FROM usr WHERE lower(username) = lower(?) ", $username );
   if ( $qry->Exec('always',__LINE__,__FILE__) && $qry->rows == 1 ) {
