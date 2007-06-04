@@ -377,9 +377,6 @@ for ( $i=0; $i <= $reportnum; $i++ ) {
 }
 $multistatus = new XMLElement( "multistatus", $responses, array('xmlns'=>'DAV:') );
 
-$xmldoc = $multistatus->Render(0,'<?xml version="1.0" encoding="utf-8" ?>');
-$etag = md5($xmldoc);
-header("ETag: \"$etag\"");
-$request->DoResponse( 207, $xmldoc, 'text/xml; charset="utf-8"' );
+$request->XMLResponse( 207, $multistatus );
 
 ?>

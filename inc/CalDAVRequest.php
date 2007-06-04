@@ -456,6 +456,19 @@ class CalDAVRequest
     }
   }
 
+  /**
+  * Send an XML Response.  This function will never return.
+  * 
+  * @param int $status The HTTP status to respond
+  * @param XMLElement $xmltree An XMLElement tree to be rendered
+  */
+  function XMLResponse( $status, $xmltree ) {
+    $xmldoc = $xmltree->Render(0,'<?xml version="1.0" encoding="utf-8" ?>');
+    $etag = md5($xmldoc);
+    header("ETag: \"$etag\"");
+    $request->DoResponse( $status, $xmldoc, 'text/xml; charset="utf-8"' );  
+    exit(0);  // Unecessary, but might clarify things
+  }
 
   /**
   * Utility function we call when we have a simple status-based response to
