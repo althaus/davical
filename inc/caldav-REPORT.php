@@ -17,7 +17,7 @@ if ( isset($c->dbg['ALL']) || $c->dbg['report'] ) {
 }
 
 if ( ! ($request->AllowedTo('read') || $request->AllowedTo('freebusy')) ) {
-  // The specification states that a lack of privileges MUST result in a 404. Caldav-15, Section 7.10, p66
+  // The specification states that a lack of privileges MUST result in a 404. RFC4791, Section 7.10
   $request->DoResponse( 404 );
 }
 
@@ -45,7 +45,7 @@ if ( $xmltree->GetTag() == "URN:IETF:PARAMS:XML:NS:CALDAV:FREE-BUSY-QUERY" ) {
 }
 
 // Must have read privilege for all other reports
-if ( ! ($request->AllowedTo('read') ) ) $request->DoResponse( 403, translate("You may not access that calendar") );
+if ( ! ($request->AllowedTo('read') ) ) $request->DoResponse( 404, translate("You may not access that calendar") );
 
 if ( $xmltree->GetTag() == "URN:IETF:PARAMS:XML:NS:CALDAV:CALENDAR-QUERY" ) {
   $calquery = $xmltree->GetPath("/URN:IETF:PARAMS:XML:NS:CALDAV:CALENDAR-QUERY/*");
