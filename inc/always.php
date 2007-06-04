@@ -77,7 +77,7 @@ awl_set_locale($c->default_locale);
 *
 */
 $c->code_version = 0;
-$c->version_string = '0.8.0'; // The actual version # is replaced into that during the build /release process
+$c->version_string = '0.8.0+1'; // The actual version # is replaced into that during the build /release process
 if ( isset($c->version_string) && preg_match( '/(\d+)\.(\d+)\.(\d+)(.*)/', $c->version_string, $matches) ) {
   $c->code_major = $matches[1];
   $c->code_minor = $matches[1];
@@ -118,54 +118,61 @@ function getUserByName( $username ) {
 }
 
 
-$http_status_codes = array(
-    '100' =>  "Continue",
-    '101' =>  "Switching Protocols",
-    '200' =>  "OK",
-    '201' =>  "Created",
-    '202' =>  "Accepted",
-    '203' =>  "Non-Authoritative Information",
-    '204' =>  "No Content",
-    '205' =>  "Reset Content",
-    '206' =>  "Partial Content",
-    '207' =>  "Multi-Status",
-    '300' =>  "Multiple Choices",
-    '301' =>  "Moved Permanently",
-    '302' =>  "Found",
-    '303' =>  "See Other",
-    '304' =>  "Not Modified",
-    '305' =>  "Use Proxy",
-    '307' =>  "Temporary Redirect",
-    '400' =>  "Bad Request",
-    '401' =>  "Unauthorized",
-    '402' =>  "Payment Required",
-    '403' =>  "Forbidden",
-    '404' =>  "Not Found",
-    '405' =>  "Method Not Allowed",
-    '406' =>  "Not Acceptable",
-    '407' =>  "Proxy Authentication Required",
-    '408' =>  "Request Timeout",
-    '409' =>  "Conflict",
-    '410' =>  "Gone",
-    '411' =>  "Length Required",
-    '412' =>  "Precondition Failed",
-    '413' =>  "Request Entity Too Large",
-    '414' =>  "Request-URI Too Long",
-    '415' =>  "Unsupported Media Type",
-    '416' =>  "Requested Range Not Satisfiable",
-    '417' =>  "Expectation Failed",
-    '422' =>  "Unprocessable Entity",
-    '423' =>  "Locked",
-    '424' =>  "Failed Dependency",
-    '500' =>  "Internal Server Error",
-    '501' =>  "Not Implemented",
-    '502' =>  "Bad Gateway",
-    '503' =>  "Service Unavailable",
-    '504' =>  "Gateway Timeout",
-    '505' =>  "HTTP Version Not Supported");
-
+/**
+ * Return the HTTP status code description for a given code. Hopefully
+ * this is an efficient way to code this.
+ * @return string The text for a give HTTP status code, in english
+ */
 function getStatusMessage($status) {
-  return $http_status_codes[$status];
+  switch( $status ) {
+    case 100:  $ans = "Continue";                             break;
+    case 101:  $ans = "Switching Protocols";                  break;
+    case 200:  $ans = "OK";                                   break;
+    case 201:  $ans = "Created";                              break;
+    case 202:  $ans = "Accepted";                             break;
+    case 203:  $ans = "Non-Authoritative Information";        break;
+    case 204:  $ans = "No Content";                           break;
+    case 205:  $ans = "Reset Content";                        break;
+    case 206:  $ans = "Partial Content";                      break;
+    case 207:  $ans = "Multi-Status";                         break;
+    case 300:  $ans = "Multiple Choices";                     break;
+    case 301:  $ans = "Moved Permanently";                    break;
+    case 302:  $ans = "Found";                                break;
+    case 303:  $ans = "See Other";                            break;
+    case 304:  $ans = "Not Modified";                         break;
+    case 305:  $ans = "Use Proxy";                            break;
+    case 307:  $ans = "Temporary Redirect";                   break;
+    case 400:  $ans = "Bad Request";                          break;
+    case 401:  $ans = "Unauthorized";                         break;
+    case 402:  $ans = "Payment Required";                     break;
+    case 403:  $ans = "Forbidden";                            break;
+    case 404:  $ans = "Not Found";                            break;
+    case 405:  $ans = "Method Not Allowed";                   break;
+    case 406:  $ans = "Not Acceptable";                       break;
+    case 407:  $ans = "Proxy Authentication Required";        break;
+    case 408:  $ans = "Request Timeout";                      break;
+    case 409:  $ans = "Conflict";                             break;
+    case 410:  $ans = "Gone";                                 break;
+    case 411:  $ans = "Length Required";                      break;
+    case 412:  $ans = "Precondition Failed";                  break;
+    case 413:  $ans = "Request Entity Too Large";             break;
+    case 414:  $ans = "Request-URI Too Long";                 break;
+    case 415:  $ans = "Unsupported Media Type";               break;
+    case 416:  $ans = "Requested Range Not Satisfiable";      break;
+    case 417:  $ans = "Expectation Failed";                   break;
+    case 422:  $ans = "Unprocessable Entity";                 break;
+    case 423:  $ans = "Locked";                               break;
+    case 424:  $ans = "Failed Dependency";                    break;
+    case 500:  $ans = "Internal Server Error";                break;
+    case 501:  $ans = "Not Implemented";                      break;
+    case 502:  $ans = "Bad Gateway";                          break;
+    case 503:  $ans = "Service Unavailable";                  break;
+    case 504:  $ans = "Gateway Timeout";                      break;
+    case 505:  $ans = "HTTP Version Not Supported";           break;
+    default:   $ans = "Unknown HTTP Status Code '$status'";
+  }
+  return $ans;
 }
+
 
 ?>
