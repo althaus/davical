@@ -452,7 +452,7 @@ class CalDAVRequest
       }
       $error = new XMLElement("error", new XMLElement( "LOCK",$badprops), array("xmlns" => "DAV:") );
 
-      $this->DoResponse( 422, $error->Render(0,'<?xml version="1.0" ?>'), 'text/xml; charset="utf-8"');
+      $this->XMLResponse( 422, $error );
     }
   }
 
