@@ -466,7 +466,7 @@ class CalDAVRequest
     $xmldoc = $xmltree->Render(0,'<?xml version="1.0" encoding="utf-8" ?>');
     $etag = md5($xmldoc);
     header("ETag: \"$etag\"");
-    $request->DoResponse( $status, $xmldoc, 'text/xml; charset="utf-8"' );  
+    $this->DoResponse( $status, $xmldoc, 'text/xml; charset="utf-8"' );  
     exit(0);  // Unecessary, but might clarify things
   }
 
