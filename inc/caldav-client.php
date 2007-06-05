@@ -247,7 +247,7 @@ class CalDAVClient {
     curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, "PUT" );
     curl_setopt($this->curl, CURLOPT_HEADER, true);
     if ( $etag != null ) {
-      $this->SetMatch( ($etag == '*'), $etag );
+      $this->SetMatch( ($etag != '*'), $etag );
     }
     $this->SetContentType("text/icalendar");
     $headers = $this->DoRequest($relative_url);
@@ -275,7 +275,7 @@ class CalDAVClient {
     curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, "DELETE" );
     curl_setopt($this->curl, CURLOPT_HEADER, true);
     if ( $etag != null ) {
-      $this->SetMatch( false, $etag );
+      $this->SetMatch( true, $etag );
     }
     $this->DoRequest($relative_url);
     return $this->resultcode;
