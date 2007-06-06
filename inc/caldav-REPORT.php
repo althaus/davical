@@ -47,175 +47,6 @@ if ( $xmltree->GetTag() == "URN:IETF:PARAMS:XML:NS:CALDAV:FREE-BUSY-QUERY" ) {
 // Must have read privilege for all other reports
 if ( ! ($request->AllowedTo('read') ) ) $request->DoResponse( 404, translate("You may not access that calendar") );
 
-if ( $xmltree->GetTag() == "URN:IETF:PARAMS:XML:NS:CALDAV:CALENDAR-QUERY" ) {
-  $calquery = $xmltree->GetPath("/URN:IETF:PARAMS:XML:NS:CALDAV:CALENDAR-QUERY/*");
-//  include("caldav-REPORT-calendar.php");
-}
-elseif ( $xmltree->GetTag() == "URN:IETF:PARAMS:XML:NS:CALDAV:CALENDAR-MULTIGET" ) {
-  $multiget = $xmltree->GetPath("/URN:IETF:PARAMS:XML:NS:CALDAV:CALENDAR-MULTIGET/*");
-//  include("caldav-REPORT-multiget.php");
-}
-else {
-  $request->DoResponse( 501, "XML is not a supported REPORT query document" );
-}
-
-foreach( $request->xml_tags AS $k => $v ) {
-
-  $fulltag = $v['tag'];
-  if ( preg_match('/^(.*):([^:]+)$/', $fulltag, $matches) ) {
-    $xmlns = $matches[1];
-    $xmltag = $matches[2];
-  }
-  else {
-    $xmlns = 'DAV:';
-    $xmltag = $tag;
-  }
-
-  switch ( $fulltag ) {
-
-    case 'URN:IETF:PARAMS:XML:NS:CALDAV:CALENDAR-QUERY':
-      dbg_error_log( "REPORT", ":Request: %s -> %s", $v['type'], $xmltag );
-      if ( $v['type'] == "open" ) {
-        $reportnum++;
-        $report[$reportnum]['type'] = $xmltag;
-        $report[$reportnum]['include_href'] = 1;
-        $report[$reportnum]['include_data'] = 1;
-      }
-      else {
-        unset($report_type);
-      }
-      break;
-
-    case 'URN:IETF:PARAMS:XML:NS:CALDAV:CALENDAR-MULTIGET':
-      dbg_error_log( "REPORT", ":Request: %s -> %s", $v['type'], $xmltag );
-      $report[$reportnum]['multiget'] = 1;
-      if ( $v['type'] == "open" ) {
-        $reportnum++;
-        $report[$reportnum]['type'] = $xmltag;
-        $multiget_names = array();
-      }
-      else if ( $v['type'] == "close" ) {
-        $report[$reportnum]['get_names'] = $multiget_names;
-        unset($multiget_names);
-      }
-      break;
-
-    case 'URN:IETF:PARAMS:XML:NS:CALDAV:FILTER':
-      dbg_error_log( "REPORT", ":Request: %s -> %s", $v['type'], $xmltag );
-      if ( $v['type'] == "open" ) {
-        $filters = array();
-      }
-      else if ( $v['type'] == "close" ) {
-        $report[$reportnum]['filters'] = $filters;
-        unset($filters);
-      }
-      break;
-
-    case 'URN:IETF:PARAMS:XML:NS:CALDAV:IS-DEFINED':
-    case 'URN:IETF:PARAMS:XML:NS:CALDAV:COMP-FILTER':
-      dbg_error_log( "REPORT", ":Request: %s -> %s", $v['type'], $xmltag );
-      if ( $v['type'] == "close" ) {
-        break;
-      }
-      $filter_name = $v['attributes']['NAME'];
-      dbg_log_array( "REPORT", "COMP-FILTER", $v, true );
-      if ( isset($filters) ) {
-        dbg_error_log( "REPORT", "Adding filter '%s'", $filter_name );
-        $filters[$filter_name] = 1;
-      }
-      else {
-        dbg_error_log( "ERROR", "Not using COMP-FILTER '%s' outside of defined FILTER!", $filter_name );
-      }
-      break;
-
-    case 'URN:IETF:PARAMS:XML:NS:CALDAV:TIME-RANGE':
-      dbg_log_array( "REPORT", "TIME-RANGE", $v, true );
-      if ( isset($v['attributes']['START']) ) {
-        $report[$reportnum]['start'] = $v['attributes']['START'];
-      }
-      if ( isset($v['attributes']['END']) ) {
-        $report[$reportnum]['end'] = $v['attributes']['END'];
-      }
-      break;
-
-      
-    case 'URN:IETF:PARAMS:XML:NS:CALDAV:FILTER':
-      dbg_error_log( "REPORT", "Not using %s information which follows...", $v['tag'] );
-      dbg_log_array( "REPORT", "FILTER", $v, true );
-      break;
-
-
-    case 'URN:IETF:PARAMS:XML:NS:CALDAV:PROP-FILTER':
-      dbg_log_array( "REPORT", "PROP-FILTER", $v, true );
-      if ( $v['type'] == "open" ) {
-        $prop_filter = array( "name" => $v['attributes']['NAME'] );
-      }
-      elseif ( $v['type'] == "close" ) {
-        $report[$reportnum]['propfilter'] = $prop_filter;
-        unset($prop_filter);
-      }
-      break;
-
-    case 'URN:IETF:PARAMS:XML:NS:CALDAV:TEXT-MATCH':
-      dbg_log_array( "REPORT", "TEXT-MATCH", $v, true );
-      $prop_filter["text-match"] = $v['value'];
-      break;
-
-    case 'URN:IETF:PARAMS:XML:NS:CALDAV:IS-NOT-DEFINED':
-      dbg_log_array( "REPORT", "TEXT-MATCH", $v, true );
-      $prop_filter["is-not-defined"] = 1;
-      break;
-
-      
-    case 'DAV::PROP':
-      dbg_log_array( "REPORT", "DAV::PROP", $v, true );
-      if ( isset($report[$reportnum]['type']) ) {
-        if ( $v['type'] == "open" ) {
-          $report_properties = array();
-        }
-        else if ( $v['type'] == "close" ) {
-          $report[$reportnum]['properties'] = $report_properties;
-          unset($report_properties);
-        }
-        else {
-          dbg_error_log( "REPORT", "Unexpected DAV::PROP type of ".$v['type'] );
-        }
-      }
-      else {
-        dbg_error_log( "REPORT", "Unexpected DAV::PROP type of ".$v['type']." when no active report type.");
-      }
-      break;
-
-    case 'URN:IETF:PARAMS:XML:NS:CALDAV:CALENDAR-DATA':
-    case 'DAV::GETETAG':
-    case 'DAV::GETCONTENTLENGTH':
-    case 'DAV::GETCONTENTTYPE':
-    case 'DAV::RESOURCETYPE':
-      if ( isset($report_properties) ) {
-        dbg_error_log( "REPORT", "Adding property '%s'", $xmltag );
-        $report_properties[$xmltag] = 1;
-      }
-      else {
-        dbg_error_log( "ERROR", "Not using property '%s' outside of defined report!", $xmltag );
-      }
-      break;
-
-    case 'DAV::HREF':
-      if ( $report[$reportnum]['type'] == 'CALENDAR-MULTIGET' ) {
-        $value = preg_replace( "#^.*".$_SERVER['SCRIPT_NAME']."/#", "/", $v['value'] );
-        $multiget_names[] = $value;
-      }
-      else {
-        dbg_error_log( "ERROR", "Not using DAV::HREF '%s' for report type '%s'!", $v['value'], $report[$reportnum]['type'] );
-      }
-      break;
-
-     default:
-      $unsupported[$xmltag] = $xmlns;
-      dbg_error_log( "REPORT", "Unhandled tag >>%s<<", $fulltag );
-  }
-}
-
 
 /**
 * Return XML for a single calendar (or todo) entry from the DB
@@ -308,6 +139,153 @@ function calendar_to_xml( $properties, $item ) {
   return $response;
 }
 
+if ( $xmltree->GetTag() == "URN:IETF:PARAMS:XML:NS:CALDAV:CALENDAR-QUERY" ) {
+  $calquery = $xmltree->GetPath("/URN:IETF:PARAMS:XML:NS:CALDAV:CALENDAR-QUERY/*");
+//  include("caldav-REPORT-calendar.php");
+}
+elseif ( $xmltree->GetTag() == "URN:IETF:PARAMS:XML:NS:CALDAV:CALENDAR-MULTIGET" ) {
+  $multiget = $xmltree->GetPath("/URN:IETF:PARAMS:XML:NS:CALDAV:CALENDAR-MULTIGET/*");
+  include("caldav-REPORT-multiget.php");
+}
+else {
+  $request->DoResponse( 501, "XML is not a supported REPORT query document" );
+}
+
+foreach( $request->xml_tags AS $k => $v ) {
+
+  $fulltag = $v['tag'];
+  if ( preg_match('/^(.*):([^:]+)$/', $fulltag, $matches) ) {
+    $xmlns = $matches[1];
+    $xmltag = $matches[2];
+  }
+  else {
+    $xmlns = 'DAV:';
+    $xmltag = $tag;
+  }
+
+  switch ( $fulltag ) {
+
+    case 'URN:IETF:PARAMS:XML:NS:CALDAV:CALENDAR-QUERY':
+      dbg_error_log( "REPORT", ":Request: %s -> %s", $v['type'], $xmltag );
+      if ( $v['type'] == "open" ) {
+        $reportnum++;
+        $report[$reportnum]['type'] = $xmltag;
+        $report[$reportnum]['include_href'] = 1;
+        $report[$reportnum]['include_data'] = 1;
+      }
+      else {
+        unset($report_type);
+      }
+      break;
+
+    case 'URN:IETF:PARAMS:XML:NS:CALDAV:FILTER':
+      dbg_error_log( "REPORT", ":Request: %s -> %s", $v['type'], $xmltag );
+      if ( $v['type'] == "open" ) {
+        $filters = array();
+      }
+      else if ( $v['type'] == "close" ) {
+        $report[$reportnum]['filters'] = $filters;
+        unset($filters);
+      }
+      break;
+
+    case 'URN:IETF:PARAMS:XML:NS:CALDAV:IS-DEFINED':
+    case 'URN:IETF:PARAMS:XML:NS:CALDAV:COMP-FILTER':
+      dbg_error_log( "REPORT", ":Request: %s -> %s", $v['type'], $xmltag );
+      if ( $v['type'] == "close" ) {
+        break;
+      }
+      $filter_name = $v['attributes']['NAME'];
+      dbg_log_array( "REPORT", "COMP-FILTER", $v, true );
+      if ( isset($filters) ) {
+        dbg_error_log( "REPORT", "Adding filter '%s'", $filter_name );
+        $filters[$filter_name] = 1;
+      }
+      else {
+        dbg_error_log( "ERROR", "Not using COMP-FILTER '%s' outside of defined FILTER!", $filter_name );
+      }
+      break;
+
+    case 'URN:IETF:PARAMS:XML:NS:CALDAV:TIME-RANGE':
+      dbg_log_array( "REPORT", "TIME-RANGE", $v, true );
+      if ( isset($v['attributes']['START']) ) {
+        $report[$reportnum]['start'] = $v['attributes']['START'];
+      }
+      if ( isset($v['attributes']['END']) ) {
+        $report[$reportnum]['end'] = $v['attributes']['END'];
+      }
+      break;
+
+      
+    case 'URN:IETF:PARAMS:XML:NS:CALDAV:FILTER':
+      dbg_error_log( "REPORT", "Not using %s information which follows...", $v['tag'] );
+      dbg_log_array( "REPORT", "FILTER", $v, true );
+      break;
+
+
+    case 'URN:IETF:PARAMS:XML:NS:CALDAV:PROP-FILTER':
+      dbg_log_array( "REPORT", "PROP-FILTER", $v, true );
+      if ( $v['type'] == "open" ) {
+        $prop_filter = array( "name" => $v['attributes']['NAME'] );
+      }
+      elseif ( $v['type'] == "close" ) {
+        $report[$reportnum]['propfilter'] = $prop_filter;
+        unset($prop_filter);
+      }
+      break;
+
+    case 'URN:IETF:PARAMS:XML:NS:CALDAV:TEXT-MATCH':
+      dbg_log_array( "REPORT", "TEXT-MATCH", $v, true );
+      $prop_filter["text-match"] = $v['value'];
+      break;
+
+    case 'URN:IETF:PARAMS:XML:NS:CALDAV:IS-NOT-DEFINED':
+      dbg_log_array( "REPORT", "TEXT-MATCH", $v, true );
+      $prop_filter["is-not-defined"] = 1;
+      break;
+
+      
+    case 'DAV::PROP':
+      dbg_log_array( "REPORT", "DAV::PROP", $v, true );
+      if ( isset($report[$reportnum]['type']) ) {
+        if ( $v['type'] == "open" ) {
+          $report_properties = array();
+        }
+        else if ( $v['type'] == "close" ) {
+          $report[$reportnum]['properties'] = $report_properties;
+          unset($report_properties);
+        }
+        else {
+          dbg_error_log( "REPORT", "Unexpected DAV::PROP type of ".$v['type'] );
+        }
+      }
+      else {
+        dbg_error_log( "REPORT", "Unexpected DAV::PROP type of ".$v['type']." when no active report type.");
+      }
+      break;
+
+    case 'URN:IETF:PARAMS:XML:NS:CALDAV:CALENDAR-DATA':
+    case 'DAV::HREF':
+    case 'DAV::GETETAG':
+    case 'DAV::GETCONTENTLENGTH':
+    case 'DAV::GETCONTENTTYPE':
+    case 'DAV::RESOURCETYPE':
+      if ( isset($report_properties) ) {
+        dbg_error_log( "REPORT", "Adding property '%s'", $xmltag );
+        $report_properties[$xmltag] = 1;
+      }
+      else {
+        dbg_error_log( "ERROR", "Not using property '%s' outside of defined report!", $xmltag );
+      }
+      break;
+
+     default:
+      $unsupported[$xmltag] = $xmlns;
+      dbg_error_log( "REPORT", "Unhandled tag >>%s<<", $fulltag );
+  }
+}
+
+
 
 $request->UnsupportedRequest($unsupported); // Won't return if there was unsupported stuff.
 
@@ -329,19 +307,6 @@ for ( $i=0; $i <= $reportnum; $i++ ) {
       }
       if ( isset( $report[$i]['end'] ) ) {
         $where .= "AND dtstart <= ".qpg($report[$i]['end'])."::timestamp with time zone ";
-      }
-      break;
-
-    case 'CALENDAR-MULTIGET':
-      if ( ! ($request->AllowedTo('read') ) ) $request->DoResponse( 403, translate("You may not access that calendar") );
-      $href_in = '';
-      foreach( $report[$reportnum]['get_names'] AS $k => $v ) {
-        dbg_error_log("REPORT", "Reporting on href '%s'", $v );
-        $href_in .= ($href_in == '' ? '' : ', ');
-        $href_in .= qpg($v);
-      }
-      if ( $href_in != "" ) {
-        $where .= " AND caldav_data.dav_name IN ( $href_in ) ";
       }
       break;
 
