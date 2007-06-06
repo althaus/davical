@@ -1,0 +1,22 @@
+#
+# Check for support of REPORT calendar-multiget
+#
+TYPE=REPORT
+URL=http://mycaldav/caldav.php/user1/home/
+HEADER=User-agent: SpecTest REPORT
+HEADER=Content-type: text/xml
+HEAD
+
+BEGINDATA
+<?xml version="1.0" encoding="utf-8" ?> 
+<calendar-multiget xmlns="urn:ietf:params:xml:ns:caldav" xmlns:D="DAV:">
+  <D:prop>
+    <D:getetag/>
+    <calendar-data/>
+  </D:prop>
+  <D:href>1906b3ca-4890-468a-9b58-1de74bf2c716.ics</D:href>
+  <D:href>20061101T073004Z.ics</D:href>
+  <D:href>3F4CF6227300FD062D9EF3CDFB30D32D-0.ics</D:href>
+  <D:href>4aaf8f37-f232-4c8e-a72e-e171d4c4fe54.ics</D:href>
+</calendar-multiget>
+ENDDATA
