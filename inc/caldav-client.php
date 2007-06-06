@@ -338,7 +338,7 @@ EOXML;
           }
           break;
         case 'DAV::HREF':
-          $response['href'] = preg_replace( "#^.*/$this->user/$this->calendar/#", "", $v['value'] );
+          $response['href'] = basename( $v['value'] );
           break;
         case 'DAV::GETETAG':
           $response['etag'] = preg_replace('/^"?([^"]+)"?/', '$1', $v['value']);
