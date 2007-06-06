@@ -25,13 +25,7 @@ if ( !isset($request->xml_tags) ) {
   $request->DoResponse( 403, "REPORT body contains no XML data!" );
 }
 
-require_once("XMLElement.php");
 require_once("iCalendar.php");
-/**
-* Free/Busy is different to the other responses (not XML) so we
-* deal with it separately
-*/
-$free_busy_query = false;
 
 $reportnum = -1;
 $report = array();
@@ -45,7 +39,11 @@ if ( $xmltree->GetTag() == "URN:IETF:PARAMS:XML:NS:CALDAV:FREE-BUSY-QUERY" ) {
 }
 
 // Must have read privilege for all other reports
-if ( ! ($request->AllowedTo('read') ) ) $request->DoResponse( 404, translate("You may not access that calendar") );
+if ( ! ($request->AllowedTo('read') ) ) {
+  // If they got this far they *do* have freebusy access, so can know the 
+  // calendar really exists.  Informing them is therefore OK.
+  $request->DoResponse( 404, translate("You may not access that calendar") );
+}
 
 
 /**
