@@ -149,7 +149,7 @@ function LDAP_check($username, $password ){
   if ( $ldapDriver->valid ) {
     $mapping = $c->authenticate_hook['config']['mapping_field'];
     $attributs=array_values($mapping);
-    $filter="(&($ldapDriver->filterUsers)(".$mapping["username"]."=$username))";
+    $filter="(& $ldapDriver->filterUsers (".$mapping["username"]."=$username))";
     dbg_error_log( "LDAP", "checking user %s for password %s against LDAP",$username,$password );
     $valid = $ldapDriver->requestUser($filter,$attributs,$password);
 

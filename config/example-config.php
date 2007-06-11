@@ -172,15 +172,16 @@ $c->admin_email ='calendar-admin@example.com';
 //    'bindDN'=> 'cn=manager,cn=internal,dc=tennaxia,dc=net', //DN to bind to this server enabling to perform request
 //    'passDN'=> 'xxxxxxxx', //Password of the previous bindDN to bind to this server enabling to perform request
 //    'baseDNUsers'=> 'dc=tennaxia,dc=net', //where to look at valid user
-//    'filterUsers' => 'objectClass=kolabInetOrgPerson', //filter that must validate an valid user
+//    'filterUsers' => 'objectClass=kolabInetOrgPerson', //filter that must validate an valid user syntax according : 
+//http://www.faqs.org/rfcs/rfc4515.html , that's mean surroundeed by ( and )
 //    'baseDNGroups' => 'ou=divisions,dc=tennaxia,dc=net', //not used ATM
 //    'filterGroups' => 'objectClass=groupOfUniqueNames', //not used ATM
        /** /!\ "username" should be set and "updated" must be set **/
 //    'mapping_field' => array("username" => "uid",
 //                             "updated" => "modifyTimestamp",
 //                             "fullname" => "cn" ,
-//                             "email" =>"mail",
-//                             "active" => ), //used to create the user based on his ldap properties
+//                             "email" =>"mail"
+//                             ), //used to create the user based on his ldap properties
        /** used to set default value for all users, will be overcharged by ldap if defined also in mapping_field **/
 //    'default_value' => array("date_format_type" => "E","locale" => "fr_FR"),
        /** foreach key set start and length in the string provided by ldap
