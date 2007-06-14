@@ -1,0 +1,28 @@
+#
+# Check for support of REPORT calendar-query with text-match on UID
+#
+TYPE=REPORT
+URL=http://mycaldav/caldav.php/user1/home/
+HEADER=User-agent: SpecTest REPORT
+HEADER=Content-type: text/xml
+HEAD
+
+BEGINDATA
+<?xml version="1.0" encoding="utf-8" ?> 
+<calendar-query xmlns="urn:ietf:params:xml:ns:caldav">
+  <D:prop xmlns:D="DAV:">
+    <D:getetag/>
+    <calendar-data/>
+  </D:prop>
+  <filter>
+    <comp-filter name="VCALENDAR">
+      <comp-filter name="VEVENT">
+      <prop-filter name="UID">
+          <text-match collation="i;octet">20061101T073000Z-10468-1000-1-7@ubu</text-match>
+        </prop-filter>
+      </comp-filter>
+    </comp-filter>
+  </filter>
+</calendar-query>
+ENDDATA
+
