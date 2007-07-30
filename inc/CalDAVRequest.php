@@ -45,7 +45,29 @@ class CalDAVRequest
     /**
     * A variety of requests may set the "Depth" header to control recursion
     */
-    $this->depth = ( isset($_SERVER['HTTP_DEPTH']) ? $_SERVER['HTTP_DEPTH'] : 0 );
+    if ( isset($_SERVER['HTTP_DEPTH']) ) {
+      $this->depth = $_SERVER['HTTP_DEPTH'];
+    }
+    else {
+      /**
+      * Per rfc2518, section 9.2, 'Depth' might not always be present, and if it
+      * is not present then a reasonable request-type-dependent default should be
+      * chosen.
+      */
+      switch( $this->method ) {
+        case 'PROPFIND':
+        case 'DELETE':
+        case 'MOVE':
+        case 'COPY':
+        case 'LOCK':
+          $this->depth = 'infinity';
+          break;
+
+        case 'REPORT':
+        default:
+          $this->depth = 0;
+      }
+    }
     if ( $this->depth == 'infinity' ) $this->depth = DEPTH_INFINITY;
     $this->depth = intval($this->depth);
 
@@ -458,7 +480,7 @@ class CalDAVRequest
 
   /**
   * Send an XML Response.  This function will never return.
-  * 
+  *
   * @param int $status The HTTP status to respond
   * @param XMLElement $xmltree An XMLElement tree to be rendered
   */
@@ -466,7 +488,7 @@ class CalDAVRequest
     $xmldoc = $xmltree->Render(0,'<?xml version="1.0" encoding="utf-8" ?>');
     $etag = md5($xmldoc);
     header("ETag: \"$etag\"");
-    $this->DoResponse( $status, $xmldoc, 'text/xml; charset="utf-8"' );  
+    $this->DoResponse( $status, $xmldoc, 'text/xml; charset="utf-8"' );
     exit(0);  // Unecessary, but might clarify things
   }
 
