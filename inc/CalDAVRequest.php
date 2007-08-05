@@ -472,7 +472,7 @@ class CalDAVRequest
         dbg_error_log("ERROR", " %s: Support for $v:$k properties is not implemented yet", $this->method );
         $badprops->NewElement(strtolower($k),false,array("xmlns" => strtolower($v)));
       }
-      $error = new XMLElement("error", new XMLElement( "LOCK",$badprops), array("xmlns" => "DAV:") );
+      $error = new XMLElement("error", $badprops, array("xmlns" => "DAV:") );
 
       $this->XMLResponse( 422, $error );
     }
