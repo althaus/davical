@@ -44,14 +44,14 @@ if ( $qry_filters->GetTag() == "URN:IETF:PARAMS:XML:NS:CALDAV:COMP-FILTER" && $q
 *
 * @return boolean True if the check succeeded, false otherwise.
 */
-function apply_filter( $filter, $item ) {
+function apply_filter( $filters, $item ) {
   global $session, $c, $request;
 
-  if ( count($filter) == 0 ) return true;
+  if ( count($filters) == 0 ) return true;
 
   dbg_error_log("REPORT","Applying filter for item '%s'", $item->dav_name );
   $ical = new iCalendar( array( "icalendar" => $item->caldav_data) );
-  return $ical->TestFilter($filter);
+  return $ical->TestFilter($filters);
 }
 
 
@@ -60,6 +60,7 @@ function apply_filter( $filter, $item ) {
  */
 $need_post_filter = false;
 function SqlFilterFragment( $filter, $components, $property = null, $parameter = null ) {
+  global $need_post_filter;
   $sql = "";
   foreach( $filter AS $k => $v ) {
     $tag = $v->GetTag();
@@ -72,29 +73,27 @@ function SqlFilterFragment( $filter, $components, $property = null, $parameter =
       case 'URN:IETF:PARAMS:XML:NS:CALDAV:IS-DEFINED':
         if ( isset( $parameter ) ) {
           $need_post_filter = true;
+          dbg_error_log("REPORT", "Could not handle IS-%sDEFINED on property %s, parameter %s in SQL", $not_defined, $property, $parameter );
           return false;  // Not handled in SQL
         }
         if ( isset( $property ) ) {
           switch( $property ) {
-            case "xxx":
+            case 'created':
+            case 'completed':  /** when it can be handled in the SQL - see TODO: around line 160 below */
+            case 'dtend':
+            case 'dtstamp':
+            case 'dtstart':
+              $property_defined_match = "IS NOT NULL";
+              break;
+
+            case 'priority':
+              $property_defined_match = "IS NOT NULL";
+              break;
+
             default:
-              $need_post_filter = true;
-              return false;  // Not handled in SQL
+              $property_defined_match = "LIKE '_%'";  // i.e. contains a single character or more
           }
-        }
-        elseif ( count($components) > 0 ) {
-          $filters = "";
-          foreach( $components AS $ck => $cv ) {
-            switch ( $cv ) {
-              case 'VCALENDAR':
-                continue;
-              default:
-                $filters .= ($filters == "" ? "" : ", ") . qpg($cv);
-            }
-          }
-          if ( $filters != "" ) {
-            $sql .= "AND caldav_data.caldav_type ".$not_defined."IN ( $filters ) ";
-          }
+          $sql .= sprintf( "AND %s %s%s ", $property, $not_defined, $property_defined_match );
         }
         break;
 
@@ -123,7 +122,11 @@ function SqlFilterFragment( $filter, $components, $property = null, $parameter =
         break;
 
       case 'URN:IETF:PARAMS:XML:NS:CALDAV:COMP-FILTER':
-        $components[] = $v->GetAttribute("NAME");
+        $comp_filter_name = $v->GetAttribute("NAME");
+        if ( count($components) == 0 ) {
+          $sql .= "AND caldav_data.caldav_type = ".qpg($comp_filter_name)." ";
+        }
+        $components[] = $comp_filter_name;
         $subfilter = $v->GetContent();
         $success = SqlFilterFragment( $subfilter, $components, $property, $parameter );
         if ( $success === false ) continue; else $sql .= $success;
@@ -132,20 +135,33 @@ function SqlFilterFragment( $filter, $components, $property = null, $parameter =
       case 'URN:IETF:PARAMS:XML:NS:CALDAV:PROP-FILTER':
         $propertyname = $v->GetAttribute("NAME");
         switch( $propertyname ) {
+          case 'PERCENT-COMPLETE':
+            $property = 'percent_complete';
+            break;
+
           case 'UID':
           case 'SUMMARY':
           case 'LOCATION':
           case 'DESCRIPTION':
           case 'CLASS':
           case 'TRANSP':
+          case 'RRULE':  // Likely that this is not much use
           case 'URL':
-          case 'TZID':  // May not work as expected.  Perhaps this should be checked later.
           case 'STATUS':
+          case 'CREATED':
+          case 'DTSTAMP':
+          case 'DTSTART':
+          case 'DTEND':
+          case 'DUE':
+          case 'PRIORITY':
             $property = strtolower($propertyname);
             break;
+
+          case 'COMPLETED':  /** TODO: this should be moved into the properties supported in SQL. */
           default:
             $need_post_filter = true;
-            return false; // Can't handle PARAM-FILTER conditions in the SQL
+            dbg_error_log("REPORT", "Could not handle PROP-FILTER on %s in SQL", $propertyname );
+            return false; // Can't handle PROP-FILTER conditions in the SQL for this property
         }
         $subfilter = $v->GetContent();
         $success = SqlFilterFragment( $subfilter, $components, $property, $parameter );
@@ -162,6 +178,7 @@ function SqlFilterFragment( $filter, $components, $property = null, $parameter =
         break;
     }
   }
+  dbg_error_log("REPORT", "Generated SQL was '%s'", $sql );
   return $sql;
 }
 
