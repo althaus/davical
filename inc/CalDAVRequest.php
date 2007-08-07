@@ -499,7 +499,7 @@ class CalDAVRequest
   * @param int $status The HTTP status code to send.
   * @param string $message The friendly text message to send with the response.
   */
-  function DoResponse( $status, $message="", $content_type="text/plain" ) {
+  function DoResponse( $status, $message="", $content_type="text/plain; charset=\"utf-8\"" ) {
     global $session, $c;
     @header( sprintf("HTTP/1.1 %d %s", $status, getStatusMessage($status)) );
     @header( sprintf("X-RSCDS-Version: RSCDS/%d.%d.%d; DB/%d.%d.%d", $c->code_major, $c->code_minor, $c->code_patch, $c->schema_major, $c->schema_minor, $c->schema_patch) );
