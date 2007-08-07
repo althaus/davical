@@ -1,0 +1,39 @@
+#
+# Do a REPORT request (test operation in subdirectory of unrelated site)
+#
+TYPE=REPORT
+URL=http://myapms/calendar/caldav.php/user1/home/
+HEAD
+
+HEADER=User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.7) Gecko/20061013 Thunderbird/1.5.0.7
+HEADER=Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+HEADER=Accept-Language: en-us,en;q=0.5
+HEADER=Accept-Encoding: gzip,deflate
+HEADER=Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
+HEADER=Content-Type: text/xml
+HEADER=Depth: 1
+
+
+
+BEGINDATA
+<?xml version="1.0" encoding="UTF-8"?>
+<calendar-query xmlns:D="DAV:" xmlns="urn:ietf:params:xml:ns:caldav">
+  <D:prop>
+    <D:getetag/>
+    <calendar-data/>
+  </D:prop>
+  <filter>
+    <comp-filter name="VCALENDAR">
+      <comp-filter name="VTODO">
+        <prop-filter name="COMPLETED">
+          <is-not-defined/>
+        </prop-filter>
+        <prop-filter name="STATUS">
+          <text-match negate-condition="yes">CANCELLED</text-match>
+        </prop-filter>
+      </comp-filter>
+    </comp-filter>
+  </filter>
+</calendar-query>
+ENDDATA
+

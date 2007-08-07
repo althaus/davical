@@ -1,0 +1,31 @@
+#
+# PUT a new task in the calendar
+#
+TYPE=PUT
+URL=http://mycaldav/caldav.php/user1/home/2178279a-aec2-471f-832d-1f6df6203f2f.ics
+
+HEADER=User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.1.7pre) Gecko/20070805 Calendar/0.7pre
+HEADER=Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+HEADER=Accept-Language: en-us,en;q=0.5
+HEADER=Accept-Encoding: gzip,deflate
+HEADER=Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
+HEADER=Content-Type: text/calendar; charset=utf-8
+
+HEAD
+
+BEGINDATA
+BEGIN:VCALENDAR
+PRODID:-//Mozilla Calendar//NONSGML Sunbird//EN
+VERSION:2.0
+BEGIN:VTODO
+CREATED:20070805T200215Z
+LAST-MODIFIED:20070805T201531Z
+DTSTAMP:20070805T200215Z
+UID:2178279a-aec2-471f-832d-1f6df6203f2f
+SUMMARY:Incomplete\, uncancelled
+X-MOZ-LOCATIONPATH:2178279a-aec2-471f-832d-1f6df6203f2f.ics
+DESCRIPTION:This task is incomplete and has not been cancelled (has no 
+ status at all)
+END:VTODO
+END:VCALENDAR
+ENDDATA

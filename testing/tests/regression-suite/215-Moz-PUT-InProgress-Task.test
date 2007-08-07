@@ -1,0 +1,33 @@
+#
+# PUT an "In Progress" task in the calendar
+#
+TYPE=PUT
+URL=http://mycaldav/caldav.php/user1/home/917b9e47-b748-4550-a566-657fbe672447.ics
+
+HEADER=User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.1.7pre) Gecko/20070805 Calendar/0.7pre
+HEADER=Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+HEADER=Accept-Language: en-us,en;q=0.5
+HEADER=Accept-Encoding: gzip,deflate
+HEADER=Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
+HEADER=Content-Type: text/calendar; charset=utf-8
+
+HEAD
+
+BEGINDATA
+BEGIN:VCALENDAR
+PRODID:-//Mozilla Calendar//NONSGML Sunbird//EN
+VERSION:2.0
+BEGIN:VTODO
+CREATED:20070805T201557Z
+LAST-MODIFIED:20070805T201643Z
+DTSTAMP:20070805T201557Z
+UID:917b9e47-b748-4550-a566-657fbe672447
+SUMMARY:50% Complete\, uncancelled
+STATUS:IN-PROCESS
+PERCENT-COMPLETE:50
+X-MOZ-LOCATIONPATH:917b9e47-b748-4550-a566-657fbe672447.ics
+DESCRIPTION:This task is in progress (50% complete) and has not been 
+ cancelled.
+END:VTODO
+END:VCALENDAR
+ENDDATA

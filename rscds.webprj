@@ -236,6 +236,8 @@
     <item url="dba/patches/1.1.9.sql" uploadstatus="1" />
     <item url="inc/always.php.in" uploadstatus="1" />
     <item url="htdocs/usr.php" uploadstatus="1" />
-    <item url="inc/CalDAVRequest.php.xxx" uploadstatus="1" />
+    <item url="inc/caldav-REPORT-calquery.php" uploadstatus="1" />
+    <item url="inc/caldav-REPORT-freebusy.php" uploadstatus="1" />
+    <item url="inc/caldav-REPORT-multiget.php" uploadstatus="1" />
   </project>
 </webproject>
