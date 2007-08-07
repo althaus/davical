@@ -14,6 +14,7 @@ $c->sysabbr     = 'rscds';
 $c->admin_email = 'andrew@catalyst.net.nz';
 $c->system_name = "Really Simple CalDAV Store";
 $c->domain_name = $_SERVER['SERVER_NAME'];
+// $c->http_auth_mode = "Basic";
 $c->save_time_zone_defs = true;
 $c->collections_always_exist = true;
 $c->home_calendar_name = 'home';

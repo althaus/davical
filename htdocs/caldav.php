@@ -10,8 +10,8 @@
 */
 require_once("../inc/always.php");
 dbg_error_log( "caldav", " User agent: %s", ((isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : "Unfortunately Mulberry does not send a 'User-agent' header with its requests :-(")) );
-require_once("BasicAuthSession.php");
-$session = new BasicAuthSession();
+require_once("HTTPAuthSession.php");
+$session = new HTTPAuthSession();
 dbg_log_array( "headers", '_SERVER', $_SERVER, true );
 
 require_once("CalDAVRequest.php");
