@@ -78,7 +78,7 @@ function calendar_to_xml( $properties, $item ) {
       elseif ( $c->hide_alarm ) {
         // Otherwise we hide the alarms (if configured to)
         $ical = new iCalendar( array( "icalendar" => $item->caldav_data) );
-        $caldav_data = $ical->render(true, $item->caldav_type, $ical->DefaultPropertyList()() );
+        $caldav_data = $ical->render(true, $item->caldav_type, $ical->DefaultPropertyList() );
         $prop->NewElement("calendar-data","$caldav_data" , array("xmlns" => "urn:ietf:params:xml:ns:caldav") );
       }
       else {
