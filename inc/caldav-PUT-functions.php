@@ -132,7 +132,7 @@ function import_collection($ics_content, $user_no, $path,$context){
     }
   }
   $qry = new PgQuery("BEGIN; DELETE FROM calendar_item WHERE user_no=? AND dav_name ~ ?; DELETE FROM caldav_data WHERE user_no=? AND dav_name ~ ?;", $user_no, $path.'[^/]+$', $user_no, $path.'[^/]+$');
-  if ( !$qry->Exec("PUT") ) rollback_on_error();
+  if ( !$qry->Exec("PUT") ) rollback_on_error($context,$user_no,$path);
 
   foreach( $events AS $k => $event ) {
     dbg_error_log( "PUT", "Putting event %d with data: %s", $k, $event['data'] );
@@ -142,7 +142,7 @@ function import_collection($ics_content, $user_no, $path,$context){
     $event_path = sprintf( "%s%d.ics", $path, $k);
     $qry = new PgQuery( "INSERT INTO caldav_data ( user_no, dav_name, dav_etag, caldav_data, caldav_type, logged_user, created, modified ) VALUES( ?, ?, ?, ?, ?, ?, current_timestamp, current_timestamp )",
                           $user_no, $event_path, $etag, $icalendar, $ic->type, $session->user_no );
-    if ( !$qry->Exec("PUT") ) rollback_on_error();
+    if ( !$qry->Exec("PUT") ) rollback_on_error($context,$user_no,$path);
 
     $sql = "";
     if ( preg_match(':^(Africa|America|Antarctica|Arctic|Asia|Atlantic|Australia|Brazil|Canada|Chile|Etc|Europe|Indian|Mexico|Mideast|Pacific|US)/[a-z]+$:i', $ic->tz_locn ) ) {
