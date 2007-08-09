@@ -138,62 +138,16 @@ class CalDAVRequest
       }
     }
 
-    $path_split = explode('/', $this->path );
-    $this->permissions = array();
-    if ( !isset($path_split[1]) || $path_split[1] == '' ) {
-      dbg_error_log( "caldav", "No useful path split possible" );
-      unset($this->user_no);
-      unset($this->username);
-      $this->permissions = array("read" => 'read' );
-      dbg_error_log( "caldav", "Read permissions for user accessing /" );
-    }
-    else {
-      $this->username = $path_split[1];
-      @dbg_error_log( "caldav", "Path split into at least /// %s /// %s /// %s", $path_split[1], $path_split[2], $path_split[3] );
-      if ( isset($this->options['allow_by_email']) && preg_match( '#/(\S+@\S+[.]\S+)$#', $this->path, $matches) ) {
-        $this->by_email = $matches[1];
-        $qry = new PgQuery("SELECT user_no FROM usr WHERE email = ? AND get_permissions(?,user_no) ~ '[FRA]';", $this->by_email, $session->user_no );
-      }
-      else {
-        $qry = new PgQuery( "SELECT * FROM usr WHERE username = ?;", $this->username );
-      }
-      if ( $qry->Exec("caldav") && $user = $qry->Fetch() ) {
-        $this->user_no = $user->user_no;
-      }
-      if ( $session->AllowedTo("Admin") ) {
-        $this->permissions = array('all' => 'all' );
-        dbg_error_log( "caldav", "Full permissions for a systems administrator" );
-      }
-      else if ( $session->user_no == $this->user_no ) {
-        $this->permissions = array('all' => 'all' );
-        dbg_error_log( "caldav", "Full permissions for user accessing their own hierarchy" );
-      }
-      else if ( isset($this->user_no) ) {
-        /**
-        * We need to query the database for permissions
-        */
-        $qry = new PgQuery( "SELECT get_permissions( ?, ? ) AS perm;", $session->user_no, $this->user_no);
-        if ( $qry->Exec("caldav") && $permission_result = $qry->Fetch() ) {
-          $permission_result = "!".$permission_result->perm; // We prepend something to ensure we get a non-zero position.
-          $this->permissions = array();
-          if ( strpos($permission_result,"A") )
-            $this->permissions['all'] = 'all';
-          else {
-            if ( strpos($permission_result,"F") )       $this->permissions['freebusy'] = 'freebusy';
-            if ( strpos($permission_result,"R") )       $this->permissions['read'] = 'read';
-            if ( strpos($permission_result,"W") )
-              $this->permissions['write'] = 'write';
-            else {
-              if ( strpos($permission_result,"C") )       $this->permissions['bind'] = 'bind';      // PUT of new content (i.e. Create)
-              if ( strpos($permission_result,"D") )       $this->permissions['unbind'] = 'unbind';  // DELETE
-              if ( strpos($permission_result,"M") )       $this->permissions['write-content'] = 'write-content';  // PUT Modify
-            }
-          }
-        }
-        dbg_error_log( "caldav", "Restricted permissions for user accessing someone elses hierarchy: %s", implode( ", ", $this->permissions ) );
-      }
-    }
-    if ( !isset($this->user_no) ) $this->user_no = $session->user_no;
+    /**
+    * Extract the user whom we are accessing
+    */
+    $this->UserFromPath();
+
+    /**
+    * Evaluate our permissions for accessing the target
+    */
+    $this->setPermissions();
+
 
     /**
     * If the content we are receiving is XML then we parse it here.  RFC2518 says we
@@ -220,6 +174,91 @@ class CalDAVRequest
     }
 
   }
+
+  /**
+  * Work out the user whose calendar we are accessing, based on elements of the path.
+  */
+  function UserFromPath() {
+    global $session;
+
+    $this->user_no = $session->user_no;
+    $this->username = $session->username;
+
+    if ( $this->path == '/' || $this->path == '' ) {
+      dbg_error_log( "caldav", "No useful path split possible" );
+      return false;
+    }
+
+    $path_split = explode('/', $this->path );
+    $this->username = $path_split[1];
+    @dbg_error_log( "caldav", "Path split into at least /// %s /// %s /// %s", $path_split[1], $path_split[2], $path_split[3] );
+    if ( isset($this->options['allow_by_email']) && preg_match( '#/(\S+@\S+[.]\S+)$#', $this->path, $matches) ) {
+      $this->by_email = $matches[1];
+//      $qry = new PgQuery("SELECT user_no FROM usr WHERE email = ? AND get_permissions(?,user_no) ~ '[FRA]';", $this->by_email, $session->user_no );
+      $qry = new PgQuery("SELECT user_no FROM usr WHERE email = ?;", $this->by_email );
+      if ( $qry->Exec("caldav") && $user = $qry->Fetch() ) {
+        $this->user_no = $user->user_no;
+      }
+    }
+    elseif( $user = getUserByName($this->username,'caldav',__LINE__,__FILE__)){
+      $this->user_no = $user->user_no;
+    }
+  }
+
+
+  /**
+  * Permissions are controlled as follows:
+  *  1. if the path is '/', the request has read privileges
+  *  2. if the requester is an admin, the request has read/write priviliges
+  *  3. if there is a <user name> component which matches the logged on user
+  *     then the request has read/write privileges
+  *  4. otherwise we query the defined relationships between users and use
+  *     the minimum privileges returned from that analysis.
+  *
+  * @param int $user_no The current user number
+  *
+  */
+  function setPermissions() {
+    global $session;
+
+    if ( $this->path == '/' || $this->path == '' ) {
+      $this->permissions = array("read" => 'read' );
+      dbg_error_log( "caldav", "Read permissions for user accessing /" );
+      return;
+    }
+
+    if ( $session->AllowedTo("Admin") || $session->user_no == $this->user_no ) {
+      $this->permissions = array('all' => 'all' );
+      dbg_error_log( "caldav", "Full permissions for %s", ( $session->user_no == $this->user_no ? "user accessing their own hierarchy" : "a systems administrator") );
+      return;
+    }
+
+    $permissions = array();
+
+    /**
+    * In other cases we need to query the database for permissions
+    */
+    $qry = new PgQuery( "SELECT get_permissions( ?, ? ) AS perm;", $session->user_no, $this->user_no);
+    if ( $qry->Exec("caldav") && $permission_result = $qry->Fetch() ) {
+      $permission_result = "!".$permission_result->perm; // We prepend something to ensure we get a non-zero position.
+      $this->permissions = array();
+      if ( strpos($permission_result,"A") )
+        $this->permissions['all'] = 'all';
+      else {
+        if ( strpos($permission_result,"F") )       $this->permissions['freebusy'] = 'freebusy';
+        if ( strpos($permission_result,"R") )       $this->permissions['read'] = 'read';
+        if ( strpos($permission_result,"W") )
+          $this->permissions['write'] = 'write';
+        else {
+          if ( strpos($permission_result,"C") )       $this->permissions['bind'] = 'bind';      // PUT of new content (i.e. Create)
+          if ( strpos($permission_result,"D") )       $this->permissions['unbind'] = 'unbind';  // DELETE
+          if ( strpos($permission_result,"M") )       $this->permissions['write-content'] = 'write-content';  // PUT Modify
+        }
+      }
+      dbg_error_log( "caldav", "Restricted permissions for user accessing someone elses hierarchy: %s", implode( ", ", $this->permissions ) );
+    }
+  }
+
 
   /**
   * Checks whether the resource is locked, returning any lock token, or false
