@@ -40,7 +40,7 @@ if ( $xmltree->GetTag() == "URN:IETF:PARAMS:XML:NS:CALDAV:FREE-BUSY-QUERY" ) {
 
 // Must have read privilege for all other reports
 if ( ! ($request->AllowedTo('read') ) ) {
-  // If they got this far they *do* have freebusy access, so can know the 
+  // If they got this far they *do* have freebusy access, so can know the
   // calendar really exists.  Informing them is therefore OK.
   $request->DoResponse( 404, translate("You may not access that calendar") );
 }
@@ -48,10 +48,10 @@ if ( ! ($request->AllowedTo('read') ) ) {
 
 /**
 * Return XML for a single calendar (or todo) entry from the DB
-* 
+*
 * @param array $properties The properties for this calendar
 * @param string $item The calendar data for this calendar
-* 
+*
 * @return string An XML document which is the response for the calendar
 */
 function calendar_to_xml( $properties, $item ) {
@@ -72,13 +72,13 @@ function calendar_to_xml( $properties, $item ) {
         // if the event is confidential we fake one that just says "Busy"
         $ical = new iCalendar( array( "icalendar" => $item->caldav_data) );
         $ical->Put( 'SUMMARY', translate("Busy") );
-        $caldav_data = $ical->render(true,$item->caldav_type, array( "uid", "dtstamp", "dtstart", "duration", "last-modified","class", "transp", "sequence", "due",'SUMMARY') );
+        $caldav_data = $ical->render(true, $item->caldav_type, $ical->DefaultPropertyList() );
         $prop->NewElement("calendar-data","$caldav_data" , array("xmlns" => "urn:ietf:params:xml:ns:caldav") );
       }
       elseif ( $c->hide_alarm ) {
         // Otherwise we hide the alarms (if configured to)
         $ical = new iCalendar( array( "icalendar" => $item->caldav_data) );
-        $caldav_data = $ical->render(true,$item->caldav_type,$ical->get_default_properties() );
+        $caldav_data = $ical->render(true, $item->caldav_type, $ical->DefaultPropertyList()() );
         $prop->NewElement("calendar-data","$caldav_data" , array("xmlns" => "urn:ietf:params:xml:ns:caldav") );
       }
       else {
