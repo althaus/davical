@@ -34,7 +34,6 @@ foreach( $request->xml_tags AS $k => $v ) {
 
     case 'URN:IETF:PARAMS:XML:NS:CALDAV:CALENDAR-DESCRIPTION':
     case 'URN:IETF:PARAMS:XML:NS:CALDAV:CALENDAR-TIMEZONE':
-    case 'URN:IETF:PARAMS:XML:NS:CALDAV:SUPPORTED-CALENDAR-COMPONENT-SET':
     case 'URN:IETF:PARAMS:XML:NS:CALDAV:SUPPORTED-CALENDAR-DATA':
     case 'URN:IETF:PARAMS:XML:NS:CALDAV:MAX-RESOURCE-SIZE':
     case 'URN:IETF:PARAMS:XML:NS:CALDAV:MIN-DATE-TIME':
@@ -42,7 +41,6 @@ foreach( $request->xml_tags AS $k => $v ) {
     case 'URN:IETF:PARAMS:XML:NS:CALDAV:MAX-INSTANCES':
     case 'URN:IETF:PARAMS:XML:NS:CALDAV:MAX-ATTENDEES-PER-INSTANCE':
     case 'URN:IETF:PARAMS:XML:NS:CALDAV:CALENDAR-HOME-SET':
-    case 'URN:IETF:PARAMS:XML:NS:CALDAV:SUPPORTED-COLLATION-SET':
     case 'HTTP://APACHE.ORG/DAV/PROPS/:EXECUTABLE':
     case 'DAV::CHECKED-OUT':
     case 'DAV::CHECKED-IN':
@@ -62,6 +60,8 @@ foreach( $request->xml_tags AS $k => $v ) {
     case 'DAV::RESOURCETYPE':                   /** resourcetype    - should work fine */
     case 'DAV::GETCONTENTLANGUAGE':             /** resourcetype    - should return the user's chosen locale, or default locale */
     case 'DAV::SUPPORTED-PRIVILEGE-SET':        /** supported-privilege-set    - should work fine */
+    case 'URN:IETF:PARAMS:XML:NS:CALDAV:SUPPORTED-COLLATION-SET':           /** fixed server definition - should work fine */
+    case 'URN:IETF:PARAMS:XML:NS:CALDAV:SUPPORTED-CALENDAR-COMPONENT-SET':  /** fixed server definition - should work fine */
     case 'DAV::CURRENT-USER-PRIVILEGE-SET':     /** current-user-privilege-set - only vaguely supported */
     case 'DAV::ALLPROP':                        /** allprop - limited support */
       $attribute = substr($v['tag'],5);
@@ -160,14 +160,34 @@ function collection_to_xml( $collection ) {
     $resourcetypes[] = new XMLElement("principal");
   }
   $prop = new XMLElement("prop");
+
+  /**
+  * First process any static values we do support
+  */
+  if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['SUPPORTED-COLLATION-SET']) ) {
+    $collations = array();
+    $collations[] = new XMLElement("supported-collation", 'i;ascii-casemap');
+    $collations[] = new XMLElement("supported-collation", 'i;octet');
+    $prop->NewElement("supported-collation-set", $collations, array("xmlns" => "urn:ietf:params:xml:ns:caldav") );
+  }
+  if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['SUPPORTED-CALENDAR-COMPONENT-SET']) ) {
+    $components = array();
+    $components[] = new XMLElement("comp", '', array("name" => "VEVENT"));
+    $components[] = new XMLElement("comp", '', array("name" => "VTODO"));
+    $prop->NewElement("supported-calendar-component-set", $components, array("xmlns" => "urn:ietf:params:xml:ns:caldav") );
+  }
+  if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['GETCONTENTTYPE']) ) {
+    $prop->NewElement("getcontenttype", "httpd/unix-directory" );
+  }
+
+  /**
+  * Second process any dynamic values we do support
+  */
   if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['GETLASTMODIFIED']) ) {
     $prop->NewElement("getlastmodified", ( isset($collection->modified)? $collection->modified : false ));
   }
   if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['GETCONTENTLENGTH']) ) {
     $prop->NewElement("getcontentlength", $contentlength );
-  }
-  if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['GETCONTENTTYPE']) ) {
-    $prop->NewElement("getcontenttype", "httpd/unix-directory" );
   }
   if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['CREATIONDATE']) ) {
     $prop->NewElement("creationdate", $collection->created );
