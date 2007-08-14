@@ -56,6 +56,10 @@ class ldapDrivers
           $this->valid=false;
           return ;
       }
+
+      //Set LDAP protocol version
+      if (isset($config['protocolVersion'])) ldap_set_option($this->connect,LDAP_OPT_PROTOCOL_VERSION, $config['protocolVersion']);
+
       //connect as root
       if (!ldap_bind($this->connect,$config['bindDN'],$config['passDN'])){
           $c->messages[] = sprintf(i18n( "drivers_ldap : Unable to bind to LDAP, check your bindDN >%s< and passDN >%s< of your configuration or if your server is reachable"),$config['bindDN'],$config['passDN'] );
@@ -70,10 +74,10 @@ class ldapDrivers
       $this->baseDNGroups = $config['baseDNGroups'];
       $this->filterGroups = $config['filterGroups'];
   }
+
   /**
   * Retrieve all users from the LDAP directory
   */
-
   function getAllUsers($attributs){
     global $c;
     $entry = ldap_list($this->connect,$this->baseDNUsers,$this->filterUsers,$attributs);

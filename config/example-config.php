@@ -171,9 +171,9 @@ $c->admin_email ='calendar-admin@example.com';
 //    'port' => '389', //port
 //    'bindDN'=> 'cn=manager,cn=internal,dc=tennaxia,dc=net', //DN to bind to this server enabling to perform request
 //    'passDN'=> 'xxxxxxxx', //Password of the previous bindDN to bind to this server enabling to perform request
+//    'protocolVersion' => '3',  //Version of LDAP protocol to use
 //    'baseDNUsers'=> 'dc=tennaxia,dc=net', //where to look at valid user
-//    'filterUsers' => 'objectClass=kolabInetOrgPerson', //filter that must validate an valid user syntax according : 
-//http://www.faqs.org/rfcs/rfc4515.html , that's mean surroundeed by ( and )
+//    'filterUsers' => 'objectClass=kolabInetOrgPerson', //filter which must validate a user according to RFC4515, i.e. surrounded by brackets
 //    'baseDNGroups' => 'ou=divisions,dc=tennaxia,dc=net', //not used ATM
 //    'filterGroups' => 'objectClass=groupOfUniqueNames', //not used ATM
        /** /!\ "username" should be set and "updated" must be set **/
