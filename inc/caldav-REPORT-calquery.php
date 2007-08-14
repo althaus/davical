@@ -117,8 +117,19 @@ function SqlFilterFragment( $filter, $components, $property = null, $parameter =
       case 'URN:IETF:PARAMS:XML:NS:CALDAV:TEXT-MATCH':
         $search = $v->GetContent();
         $negate = $v->GetAttribute("NEGATE-CONDITION");
-        if ( isset($negate) && strtolower($negate) == "yes" ) $match = !$match;
-        $sql .= sprintf( "AND %s LIKE %s ", $property, qpg("%".$search."%") );
+        $collation = $v->GetAttribute("COLLATION");
+        switch( strtolower($collation) ) {
+          case 'i;octet':
+            $comparison = 'ILIKE';
+            break;
+          case 'i;ascii-casemap':
+          default:
+            $comparison = 'ILIKE';
+            break;
+        }
+        if  $match = !$match;
+        $sql .= sprintf( "AND %s%s %s %s ", (isset($negate) && strtolower($negate) == "yes" ? "NOT ": ""),
+                                          $property, $comparison, qpg("%".$search."%") );
         break;
 
       case 'URN:IETF:PARAMS:XML:NS:CALDAV:COMP-FILTER':
