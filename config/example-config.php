@@ -186,7 +186,7 @@ $c->admin_email ='calendar-admin@example.com';
 //    'default_value' => array("date_format_type" => "E","locale" => "fr_FR"),
        /** foreach key set start and length in the string provided by ldap
            example for openLDAP timestamp : 20070503162215Z **/
-//    'format_udpated'=> array('Y' => array(0,4),'m' => array(4,2),'d'=> array(6,2),'H' => array(8,2),'M'=>array(10,2),'S' => array(12,2))
+//    'format_updated'=> array('Y' => array(0,4),'m' => array(4,2),'d'=> array(6,2),'H' => array(8,2),'M'=>array(10,2),'S' => array(12,2))
 //
 //    );
 //

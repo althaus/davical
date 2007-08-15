@@ -162,7 +162,7 @@ function LDAP_check($username, $password ){
 
 
     $ldap_timestamp = $valid[$mapping["updated"]];
-    foreach($c->authenticate_hook['config']['format_udpated'] as $k => $v)
+    foreach($c->authenticate_hook['config']['format_updated'] as $k => $v)
       $$k = substr($ldap_timestamp,$v[0],$v[1]);
 
     //ok it is valid is already exist in db ?
@@ -233,7 +233,7 @@ function sync_LDAP(){
     foreach($users_to_create as $username){
       $valid=$ldap_users_info[$username];
       $ldap_timestamp = $valid[$mapping["updated"]];
-      foreach($c->authenticate_hook['config']['format_udpated'] as $k => $v)
+      foreach($c->authenticate_hook['config']['format_updated'] as $k => $v)
           $$k = substr($ldap_timestamp,$v[0],$v[1]);
       $user = new RSCDSUser(0);
       $validUserField = array_keys($user->Fields);
@@ -260,7 +260,7 @@ function sync_LDAP(){
     foreach($users_to_update as $key=> $username){
       $valid=$ldap_users_info[$username];
       $ldap_timestamp = $valid[$mapping["updated"]];
-      foreach($c->authenticate_hook['config']['format_udpated'] as $k => $v)
+      foreach($c->authenticate_hook['config']['format_updated'] as $k => $v)
           $$k = substr($ldap_timestamp,$v[0],$v[1]);
       $ldap_timestamp = "$Y"."$m"."$d"."$H"."$M"."$S";
       $db_timestamp = substr(strtr($db_users_info[$username]['updated'], array(':' => '',' '=>'','-'=>'')),0,14);
