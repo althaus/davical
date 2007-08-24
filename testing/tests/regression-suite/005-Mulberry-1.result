@@ -1,6 +1,6 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
-ETag: "61b82989b3d95752ee7dfa285642d245"
+ETag: "4bbc059be0ae780aa041d72b2ee837a6"
 Content-Length: 726
 Content-Type: text/xml; charset="utf-8"
 
@@ -10,8 +10,8 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/</href>
   <propstat>
    <prop>
-    <getcontentlength/>
     <getcontenttype>httpd/unix-directory</getcontenttype>
+    <getcontentlength/>
     <resourcetype>
      <collection/>
      <principal/>
@@ -24,8 +24,8 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/home/</href>
   <propstat>
    <prop>
-    <getcontentlength/>
     <getcontenttype>httpd/unix-directory</getcontenttype>
+    <getcontentlength/>
     <resourcetype>
      <collection/>
      <calendar xmlns="urn:ietf:params:xml:ns:caldav"/>

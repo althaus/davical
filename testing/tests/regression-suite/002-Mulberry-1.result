@@ -1,6 +1,6 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
-ETag: "8b992cd3ec8cdf6b7d837947612c5fd6"
+ETag: "373430133d9c51260783bc61177aa1d3"
 Content-Length: 1880
 Content-Type: text/xml; charset="utf-8"
 
@@ -10,8 +10,8 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/</href>
   <propstat>
    <prop>
-    <getcontentlength/>
     <getcontenttype>httpd/unix-directory</getcontenttype>
+    <getcontentlength/>
     <resourcetype>
      <collection/>
     </resourcetype>
@@ -23,8 +23,8 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/</href>
   <propstat>
    <prop>
-    <getcontentlength/>
     <getcontenttype>httpd/unix-directory</getcontenttype>
+    <getcontentlength/>
     <resourcetype>
      <collection/>
      <principal/>
@@ -37,8 +37,8 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/manager1/</href>
   <propstat>
    <prop>
-    <getcontentlength/>
     <getcontenttype>httpd/unix-directory</getcontenttype>
+    <getcontentlength/>
     <resourcetype>
      <collection/>
      <principal/>
@@ -51,8 +51,8 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/assistant1/</href>
   <propstat>
    <prop>
-    <getcontentlength/>
     <getcontenttype>httpd/unix-directory</getcontenttype>
+    <getcontentlength/>
     <resourcetype>
      <collection/>
      <principal/>
@@ -65,8 +65,8 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/resource1/</href>
   <propstat>
    <prop>
-    <getcontentlength/>
     <getcontenttype>httpd/unix-directory</getcontenttype>
+    <getcontentlength/>
     <resourcetype>
      <collection/>
      <principal/>
@@ -79,8 +79,8 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/resource2/</href>
   <propstat>
    <prop>
-    <getcontentlength/>
     <getcontenttype>httpd/unix-directory</getcontenttype>
+    <getcontentlength/>
     <resourcetype>
      <collection/>
      <principal/>
