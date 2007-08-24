@@ -62,6 +62,10 @@ $need_post_filter = false;
 function SqlFilterFragment( $filter, $components, $property = null, $parameter = null ) {
   global $need_post_filter;
   $sql = "";
+  if ( !is_array($filter) ) {
+    dbg_error_log( "REPORT", "Filter is of type '%s', but should be an array of XML Tags.", gettype($filter) );
+  }
+
   foreach( $filter AS $k => $v ) {
     $tag = $v->GetTag();
     dbg_error_log("REPORT", "Processing $tag into SQL - %d, '%s', %d\n", count($components), $property, isset($parameter) );
@@ -120,14 +124,13 @@ function SqlFilterFragment( $filter, $components, $property = null, $parameter =
         $collation = $v->GetAttribute("COLLATION");
         switch( strtolower($collation) ) {
           case 'i;octet':
-            $comparison = 'ILIKE';
+            $comparison = 'LIKE';
             break;
           case 'i;ascii-casemap':
           default:
             $comparison = 'ILIKE';
             break;
         }
-        if  $match = !$match;
         $sql .= sprintf( "AND %s%s %s %s ", (isset($negate) && strtolower($negate) == "yes" ? "NOT ": ""),
                                           $property, $comparison, qpg("%".$search."%") );
         break;
