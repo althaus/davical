@@ -37,6 +37,10 @@ if ( $xmltree->GetTag() == "URN:IETF:PARAMS:XML:NS:CALDAV:FREE-BUSY-QUERY" ) {
   include("caldav-REPORT-freebusy.php");
   exit; // Not that the above include should return anyway
 }
+if ( $xmltree->GetTag() == "DAV::PRINCIPAL-PROPERTY-SEARCH" ) {
+  include("caldav-REPORT-principal.php");
+  exit; // Not that the above include should return anyway
+}
 
 // Must have read privilege for all other reports
 if ( ! ($request->AllowedTo('read') ) ) {
