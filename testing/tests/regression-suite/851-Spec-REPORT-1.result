@@ -1,6 +1,6 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
-ETag: "633dcc2b9b64b628d737e4bb25104d16"
+ETag: "8bb1ae7c599f81130860154adb77364b"
 Content-Length: 5175
 Content-Type: text/xml; charset="utf-8"
 
@@ -10,6 +10,7 @@ Content-Type: text/xml; charset="utf-8"
   <href>http://mycaldav/caldav.php/user1/home/3F4CF6227300FD062D9EF3CDFB30D32D-0.ics</href>
   <propstat>
    <prop>
+    <getetag>"2c32a2f8aba853654eb17fe037a4db4d"</getetag>
     <calendar-data xmlns="urn:ietf:params:xml:ns:caldav">BEGIN:VCALENDAR
 CALSCALE:GREGORIAN
 PRODID:-//mulberrymail.com//Mulberry v4.0//EN
@@ -44,7 +45,6 @@ UID:5A55230C8866CA8D3D325F3A@CA1CBED546AAE36FF3BC722E
 END:VEVENT
 END:VCALENDAR
 </calendar-data>
-    <getetag>"2c32a2f8aba853654eb17fe037a4db4d"</getetag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -53,6 +53,7 @@ END:VCALENDAR
   <href>http://mycaldav/caldav.php/user1/home/20061101T073004Z.ics</href>
   <propstat>
    <prop>
+    <getetag>"c3658901fd4689d4a1e1d6f08601ef4f"</getetag>
     <calendar-data xmlns="urn:ietf:params:xml:ns:caldav">BEGIN:VCALENDAR
 CALSCALE:GREGORIAN
 PRODID:-//Ximian//NONSGML Evolution Calendar//EN
@@ -94,7 +95,6 @@ END:DAYLIGHT
 END:VTIMEZONE
 END:VCALENDAR
 </calendar-data>
-    <getetag>"c3658901fd4689d4a1e1d6f08601ef4f"</getetag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -103,6 +103,7 @@ END:VCALENDAR
   <href>http://mycaldav/caldav.php/user1/home/4aaf8f37-f232-4c8e-a72e-e171d4c4fe54.ics</href>
   <propstat>
    <prop>
+    <getetag>"a1c6404d61190f9574e2bfd69383f144"</getetag>
     <calendar-data xmlns="urn:ietf:params:xml:ns:caldav">BEGIN:VCALENDAR
 PRODID:-//Mozilla Calendar//NONSGML Sunbird//EN
 VERSION:2.0
@@ -140,7 +141,6 @@ END:DAYLIGHT
 END:VTIMEZONE
 END:VCALENDAR
 </calendar-data>
-    <getetag>"a1c6404d61190f9574e2bfd69383f144"</getetag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -149,6 +149,7 @@ END:VCALENDAR
   <href>http://mycaldav/caldav.php/user1/home/1906b3ca-4890-468a-9b58-1de74bf2c716.ics</href>
   <propstat>
    <prop>
+    <getetag>"5def8ae2b20893a1c7f4dbaeb008f2f1"</getetag>
     <calendar-data xmlns="urn:ietf:params:xml:ns:caldav">BEGIN:VCALENDAR
 PRODID:-//Mozilla Calendar//NONSGML Sunbird//EN
 VERSION:2.0
@@ -187,7 +188,6 @@ END:DAYLIGHT
 END:VTIMEZONE
 END:VCALENDAR
 </calendar-data>
-    <getetag>"5def8ae2b20893a1c7f4dbaeb008f2f1"</getetag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>

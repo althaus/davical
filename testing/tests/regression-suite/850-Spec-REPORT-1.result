@@ -1,6 +1,6 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
-ETag: "06d6c0c2aaf949e8b6d470d4e04521d4"
+ETag: "3140e532d35ae4918005eb9bf5fcc26b"
 Content-Length: 1456
 Content-Type: text/xml; charset="utf-8"
 
@@ -10,6 +10,7 @@ Content-Type: text/xml; charset="utf-8"
   <href>http://mycaldav/caldav.php/user1/home/20061101T073004Z.ics</href>
   <propstat>
    <prop>
+    <getetag>"c3658901fd4689d4a1e1d6f08601ef4f"</getetag>
     <calendar-data xmlns="urn:ietf:params:xml:ns:caldav">BEGIN:VCALENDAR
 CALSCALE:GREGORIAN
 PRODID:-//Ximian//NONSGML Evolution Calendar//EN
@@ -51,7 +52,6 @@ END:DAYLIGHT
 END:VTIMEZONE
 END:VCALENDAR
 </calendar-data>
-    <getetag>"c3658901fd4689d4a1e1d6f08601ef4f"</getetag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>

@@ -1,6 +1,6 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
-ETag: "33afbc22a1752a395d24e4248bacbc6c"
+ETag: "8f48e613721a5ccb5e44c277f7a1a909"
 Content-Length: 1630
 Content-Type: text/xml; charset="utf-8"
 
@@ -10,6 +10,7 @@ Content-Type: text/xml; charset="utf-8"
   <href>http://myapms/calendar/caldav.php/user1/home/2178279a-aec2-471f-832d-1f6df6203f2f.ics</href>
   <propstat>
    <prop>
+    <getetag>"509b0f0d8a3363379f9f5727f5dd74a0"</getetag>
     <calendar-data xmlns="urn:ietf:params:xml:ns:caldav">BEGIN:VCALENDAR
 PRODID:-//Mozilla Calendar//NONSGML Sunbird//EN
 VERSION:2.0
@@ -25,7 +26,6 @@ DESCRIPTION:This task is incomplete and has not been cancelled (has no
 END:VTODO
 END:VCALENDAR
 </calendar-data>
-    <getetag>"509b0f0d8a3363379f9f5727f5dd74a0"</getetag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -34,6 +34,7 @@ END:VCALENDAR
   <href>http://myapms/calendar/caldav.php/user1/home/917b9e47-b748-4550-a566-657fbe672447.ics</href>
   <propstat>
    <prop>
+    <getetag>"cb3d9dc3e8c157f53eba3ea0e1e0f146"</getetag>
     <calendar-data xmlns="urn:ietf:params:xml:ns:caldav">BEGIN:VCALENDAR
 PRODID:-//Mozilla Calendar//NONSGML Sunbird//EN
 VERSION:2.0
@@ -51,7 +52,6 @@ DESCRIPTION:This task is in progress (50% complete) and has not been
 END:VTODO
 END:VCALENDAR
 </calendar-data>
-    <getetag>"cb3d9dc3e8c157f53eba3ea0e1e0f146"</getetag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
