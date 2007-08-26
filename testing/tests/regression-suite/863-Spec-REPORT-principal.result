@@ -1,0 +1,30 @@
+HTTP/1.1 207 Multi-Status
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+ETag: "f9a0b07b2c7b0347a9ae26a412baef6b"
+Content-Length: 743
+Content-Type: text/xml; charset="utf-8"
+
+<?xml version="1.0" encoding="utf-8" ?>
+<multistatus xmlns="DAV:">
+ <response>
+  <href/>
+  <propstat>
+   <prop>
+    <calendar-home-set xmlns="urn:ietf:params:xml:ns:caldav">http://mycaldav/caldav.php/resmgr1/home/</calendar-home-set>
+    <displayname>resmgr1</displayname>
+    <resourcetype>
+     <principal/>
+    </resourcetype>
+    <principal-url>http://mycaldav/caldav.php/resmgr1/</principal-url>
+    <alternate-uri/>
+    <group-member-set>
+     <href>http://mycaldav/caldav.php/user1/</href>
+     <href>http://mycaldav/caldav.php/user2/</href>
+     <href>http://mycaldav/caldav.php/assistant1/</href>
+    </group-member-set>
+    <group-membership/>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+</multistatus>

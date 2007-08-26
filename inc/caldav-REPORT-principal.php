@@ -22,11 +22,11 @@ function principal_to_xml( $properties, $item ) {
   $denied = array();
   foreach( $properties AS $k => $v ) {
     switch( $v ) {
-      case 'DAV::GETCONTENTTYPE':
-        $prop->NewElement("getcontenttype", "text/x-vcard" );
-        break;
+//      case 'DAV::GETCONTENTTYPE':
+//        $prop->NewElement("getcontenttype", "text/x-vcard" );
+//        break;
       case 'DAV::RESOURCETYPE':
-        $prop->NewElement("resourcetype", new XMLElement("principal", false, array("xmlns" => "DAV:")) );
+        $prop->NewElement("resourcetype", new XMLElement("principal") );
         break;
       case 'DAV::DISPLAYNAME':
         $prop->NewElement("displayname", $item->username );
@@ -38,7 +38,24 @@ function principal_to_xml( $properties, $item ) {
         $prop->NewElement("alternate-uri" );
         break;
       case 'DAV::GROUP-MEMBER-SET':
-        $prop->NewElement("group-member-set" );
+        $qry = new PgQuery("SELECT * FROM relationship LEFT JOIN usr ON (from_user = usr.user_no) LEFT JOIN role_member ON (to_user = role_member.user_no) LEFT JOIN roles USING (role_no) WHERE to_user = ? AND role_name = 'Group';", $item->user_no );
+        $group = array();
+        if ( $qry->Exec("REPORT-principal") && $qry->rows > 0 ) {
+          while( $membership = $qry->Fetch() ) {
+            $group[] = new XMLElement("href", sprintf( "%s/%s/", $c->protocol_server_port_script, $membership->username) );
+          }
+        }
+        $prop->NewElement("group-member-set", $group );
+        break;
+      case 'DAV::GROUP-MEMBERSHIP':
+        $qry = new PgQuery("SELECT * FROM relationship LEFT JOIN usr ON (to_user = user_no) LEFT JOIN role_member USING (user_no) LEFT JOIN roles USING (role_no) WHERE from_user = ? AND role_name = 'Group';", $item->user_no );
+        $group = array();
+        if ( $qry->Exec("REPORT-principal") && $qry->rows > 0 ) {
+          while( $membership = $qry->Fetch() ) {
+            $group[] = new XMLElement("href", sprintf( "%s/%s/", $c->protocol_server_port_script, $membership->username) );
+          }
+        }
+        $prop->NewElement("group-membership", $group );
         break;
       case 'URN:IETF:PARAMS:XML:NS:CALDAV:CALENDAR-HOME-SET':
         $prop->NewElement("calendar-home-set", $home_calendar, array("xmlns" => "urn:ietf:params:xml:ns:caldav") );
@@ -80,8 +97,8 @@ dbg_log_array( "principal", "SEARCH", $searches, true );
 
 $where = "";
 foreach( $searches AS $k => $search ) {
-  $qry_props = $search->GetPath('/DAV::PROPERTY-SEARCH/DAV::PROP/*');
-  $match     = $search->GetPath('/DAV::PROPERTY-SEARCH/DAV::MATCH');
+  $qry_props = $search->GetPath('/DAV::PROPERTY-SEARCH/DAV::PROP/*');  // There may be many
+  $match     = $search->GetPath('/DAV::PROPERTY-SEARCH/DAV::MATCH');   // There may only be one
   dbg_log_array( "principal", "MATCH", $match, true );
   $match = qpg($match[0]->GetContent());
   $subwhere = "";
@@ -95,17 +112,20 @@ foreach( $searches AS $k => $search ) {
         printf("Unhandled tag '%s'\n", $v1->GetTag() );
     }
   }
-  $where .= sprintf( "%s(%s)", ($where == "" ? "" : " AND "), $subwhere );
+  if ( $subwhere != "" ) {
+    $where .= sprintf( "%s(%s)", ($where == "" ? "" : " AND "), $subwhere );
+  }
 }
+if ( $where != "" ) $where = "WHERE $where";
+$sql = "SELECT * FROM usr $where";
+$qry = new PgQuery($sql);
+
 
 $get_props = $xmltree->GetPath('/DAV::PRINCIPAL-PROPERTY-SEARCH/DAV::PROP/*');
 $properties = array();
 foreach( $get_props AS $k1 => $v1 ) {
   $properties[] = $v1->GetTag();
 }
-$sql = "SELECT * FROM usr WHERE $where";
-$qry = new PgQuery($sql);
-
 
 if ( $qry->Exec("REPORT",__LINE__,__FILE__) && $qry->rows > 0 ) {
   while( $principal_object = $qry->Fetch() ) {
