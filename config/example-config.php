@@ -16,8 +16,8 @@
 * the array in $c->pg_connect.
 * used in the web interface but also the caldav Server
 */
-$c->pg_connect[] = "dbname=rscds dbuser=general";
-// $c->pg_connect[] = "dbname=rscds dbuser=general port=5433 host=somehost password=mypass";
+$c->pg_connect[] = "dbname=rscds user=general";
+// $c->pg_connect[] = "dbname=rscds user=general port=5433 host=somehost password=mypass";
 
 
 /****************************
