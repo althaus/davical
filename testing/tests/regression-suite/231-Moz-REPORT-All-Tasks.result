@@ -1,0 +1,150 @@
+HTTP/1.1 207 Multi-Status
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+ETag: "5c9f342ddba9b5c267dac8ad62586abe"
+Content-Length: 4276
+Content-Type: text/xml; charset="utf-8"
+
+<?xml version="1.0" encoding="utf-8" ?>
+<multistatus xmlns="DAV:">
+ <response>
+  <href>http://myapms/calendar/caldav.php/user1/home/2178279a-aec2-471f-832d-1f6df6203f2f.ics</href>
+  <propstat>
+   <prop>
+    <getetag>"509b0f0d8a3363379f9f5727f5dd74a0"</getetag>
+    <calendar-data xmlns="urn:ietf:params:xml:ns:caldav">BEGIN:VCALENDAR
+PRODID:-//Mozilla Calendar//NONSGML Sunbird//EN
+VERSION:2.0
+BEGIN:VTODO
+CREATED:20070805T200215Z
+LAST-MODIFIED:20070805T201531Z
+DTSTAMP:20070805T200215Z
+UID:2178279a-aec2-471f-832d-1f6df6203f2f
+SUMMARY:Incomplete\, uncancelled
+X-MOZ-LOCATIONPATH:2178279a-aec2-471f-832d-1f6df6203f2f.ics
+DESCRIPTION:This task is incomplete and has not been cancelled (has no 
+ status at all)
+END:VTODO
+END:VCALENDAR
+</calendar-data>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>http://myapms/calendar/caldav.php/user1/home/917b9e47-b748-4550-a566-657fbe672447.ics</href>
+  <propstat>
+   <prop>
+    <getetag>"cb3d9dc3e8c157f53eba3ea0e1e0f146"</getetag>
+    <calendar-data xmlns="urn:ietf:params:xml:ns:caldav">BEGIN:VCALENDAR
+PRODID:-//Mozilla Calendar//NONSGML Sunbird//EN
+VERSION:2.0
+BEGIN:VTODO
+CREATED:20070805T201557Z
+LAST-MODIFIED:20070805T201643Z
+DTSTAMP:20070805T201557Z
+UID:917b9e47-b748-4550-a566-657fbe672447
+SUMMARY:50% Complete\, uncancelled
+STATUS:IN-PROCESS
+PERCENT-COMPLETE:50
+X-MOZ-LOCATIONPATH:917b9e47-b748-4550-a566-657fbe672447.ics
+DESCRIPTION:This task is in progress (50% complete) and has not been 
+ cancelled.
+END:VTODO
+END:VCALENDAR
+</calendar-data>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>http://myapms/calendar/caldav.php/user1/home/0575d895-a006-4ed8-9be6-0d1b6b6b1f96.ics</href>
+  <propstat>
+   <prop>
+    <getetag>"00ad5eb1eb5507884710b0b66aa5d5c4"</getetag>
+    <calendar-data xmlns="urn:ietf:params:xml:ns:caldav">BEGIN:VCALENDAR
+PRODID:-//Mozilla Calendar//NONSGML Sunbird//EN
+VERSION:2.0
+BEGIN:VTIMEZONE
+TZID:/mozilla.org/20070129_1/Antarctica/McMurdo
+X-LIC-LOCATION:Antarctica/McMurdo
+BEGIN:STANDARD
+TZOFFSETFROM:+1300
+TZOFFSETTO:+1200
+TZNAME:NZST
+DTSTART:19700315T030000
+RRULE:FREQ=YEARLY;INTERVAL=1;BYDAY=3SU;BYMONTH=3
+END:STANDARD
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+1200
+TZOFFSETTO:+1300
+TZNAME:NZDT
+DTSTART:19701004T020000
+RRULE:FREQ=YEARLY;INTERVAL=1;BYDAY=1SU;BYMONTH=10
+END:DAYLIGHT
+END:VTIMEZONE
+BEGIN:VTODO
+CREATED:20070805T201647Z
+LAST-MODIFIED:20070805T201834Z
+DTSTAMP:20070805T201647Z
+UID:0575d895-a006-4ed8-9be6-0d1b6b6b1f96
+SUMMARY:Due 7/8/7 16:30\, completed
+STATUS:COMPLETED
+DUE;TZID=/mozilla.org/20070129_1/Antarctica/McMurdo:20070807T163000
+COMPLETED:20070805T201737Z
+PERCENT-COMPLETE:100
+X-MOZ-LOCATIONPATH:0575d895-a006-4ed8-9be6-0d1b6b6b1f96.ics
+DESCRIPTION:Due on 7/8/7 at 4:30pm\, but completed alread on 6/8/7
+CATEGORIES:Projects
+END:VTODO
+END:VCALENDAR
+</calendar-data>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>http://myapms/calendar/caldav.php/user1/home/b1679f77-673d-4f46-b3eb-2420e1bba301.ics</href>
+  <propstat>
+   <prop>
+    <getetag>"a2990674708634a311bb98a59865ca50"</getetag>
+    <calendar-data xmlns="urn:ietf:params:xml:ns:caldav">BEGIN:VCALENDAR
+PRODID:-//Mozilla Calendar//NONSGML Sunbird//EN
+VERSION:2.0
+BEGIN:VTIMEZONE
+TZID:/mozilla.org/20070129_1/Antarctica/McMurdo
+X-LIC-LOCATION:Antarctica/McMurdo
+BEGIN:STANDARD
+TZOFFSETFROM:+1300
+TZOFFSETTO:+1200
+TZNAME:NZST
+DTSTART:19700315T030000
+RRULE:FREQ=YEARLY;INTERVAL=1;BYDAY=3SU;BYMONTH=3
+END:STANDARD
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+1200
+TZOFFSETTO:+1300
+TZNAME:NZDT
+DTSTART:19701004T020000
+RRULE:FREQ=YEARLY;INTERVAL=1;BYDAY=1SU;BYMONTH=10
+END:DAYLIGHT
+END:VTIMEZONE
+BEGIN:VTODO
+CREATED:20070806T223244Z
+LAST-MODIFIED:20070806T223411Z
+DTSTAMP:20070806T223244Z
+UID:b1679f77-673d-4f46-b3eb-2420e1bba301
+SUMMARY:A Cancelled Task\, with a start and due date
+STATUS:CANCELLED
+DTSTART;TZID=/mozilla.org/20070129_1/Antarctica/McMurdo:20070808T111500
+DUE;TZID=/mozilla.org/20070129_1/Antarctica/McMurdo:20070808T111500
+X-MOZ-LOCATIONPATH:b1679f77-673d-4f46-b3eb-2420e1bba301.ics
+DESCRIPTION:This is a task with a Start and a Due date\, but it has been 
+ cancelled.
+END:VTODO
+END:VCALENDAR
+</calendar-data>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+</multistatus>

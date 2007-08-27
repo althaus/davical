@@ -31,9 +31,19 @@ switch( $proptype ) {
  * the case and leave it alone otherwise.
  */
 $qry_filters = $xmltree->GetPath('/URN:IETF:PARAMS:XML:NS:CALDAV:CALENDAR-QUERY/URN:IETF:PARAMS:XML:NS:CALDAV:FILTER/*');
-$qry_filters = $qry_filters[0];  // There can only be one FILTER element
-if ( $qry_filters->GetTag() == "URN:IETF:PARAMS:XML:NS:CALDAV:COMP-FILTER" && $qry_filters->GetAttribute("NAME") == "VCALENDAR" )
-  $qry_filters = $qry_filters->GetContent();  // Everything is inside a VCALENDAR AFAICS
+if ( count($qry_filters) == 1 ) {
+  $qry_filters = $qry_filters[0];  // There can only be one FILTER element
+  if ( $qry_filters->GetTag() == "URN:IETF:PARAMS:XML:NS:CALDAV:COMP-FILTER" && $qry_filters->GetAttribute("NAME") == "VCALENDAR" )
+    $qry_filters = $qry_filters->GetContent();  // Everything is inside a VCALENDAR AFAICS
+  else {
+    dbg_error_log("calquery", "Got bizarre CALDAV:FILTER[%s=%s]] which does not contain COMP-FILTER = VCALENDAR!!", $qry_filters->GetTag(), $qry_filters->GetAttribute("NAME") );
+    $qry_filters = false;
+  }
+}
+else {
+  $qry_filters = false;
+}
+
 
 /**
 * While we can construct our SQL to apply some filters in the query, other filters
@@ -49,7 +59,7 @@ function apply_filter( $filters, $item ) {
 
   if ( count($filters) == 0 ) return true;
 
-  dbg_error_log("REPORT","Applying filter for item '%s'", $item->dav_name );
+  dbg_error_log("calquery","Applying filter for item '%s'", $item->dav_name );
   $ical = new iCalendar( array( "icalendar" => $item->caldav_data) );
   return $ical->TestFilter($filters);
 }
@@ -63,12 +73,12 @@ function SqlFilterFragment( $filter, $components, $property = null, $parameter =
   global $need_post_filter;
   $sql = "";
   if ( !is_array($filter) ) {
-    dbg_error_log( "REPORT", "Filter is of type '%s', but should be an array of XML Tags.", gettype($filter) );
+    dbg_error_log( "calquery", "Filter is of type '%s', but should be an array of XML Tags.", gettype($filter) );
   }
 
   foreach( $filter AS $k => $v ) {
     $tag = $v->GetTag();
-    dbg_error_log("REPORT", "Processing $tag into SQL - %d, '%s', %d\n", count($components), $property, isset($parameter) );
+    dbg_error_log("calquery", "Processing $tag into SQL - %d, '%s', %d\n", count($components), $property, isset($parameter) );
 
     $not_defined = "";
     switch( $tag ) {
@@ -77,7 +87,7 @@ function SqlFilterFragment( $filter, $components, $property = null, $parameter =
       case 'URN:IETF:PARAMS:XML:NS:CALDAV:IS-DEFINED':
         if ( isset( $parameter ) ) {
           $need_post_filter = true;
-          dbg_error_log("REPORT", "Could not handle IS-%sDEFINED on property %s, parameter %s in SQL", $not_defined, $property, $parameter );
+          dbg_error_log("calquery", "Could not handle IS-%sDEFINED on property %s, parameter %s in SQL", $not_defined, $property, $parameter );
           return false;  // Not handled in SQL
         }
         if ( isset( $property ) ) {
@@ -142,8 +152,10 @@ function SqlFilterFragment( $filter, $components, $property = null, $parameter =
         }
         $components[] = $comp_filter_name;
         $subfilter = $v->GetContent();
-        $success = SqlFilterFragment( $subfilter, $components, $property, $parameter );
-        if ( $success === false ) continue; else $sql .= $success;
+        if ( is_array( $subfilter ) ) {
+          $success = SqlFilterFragment( $subfilter, $components, $property, $parameter );
+          if ( $success === false ) continue; else $sql .= $success;
+        }
         break;
 
       case 'URN:IETF:PARAMS:XML:NS:CALDAV:PROP-FILTER':
@@ -174,7 +186,7 @@ function SqlFilterFragment( $filter, $components, $property = null, $parameter =
           case 'COMPLETED':  /** TODO: this should be moved into the properties supported in SQL. */
           default:
             $need_post_filter = true;
-            dbg_error_log("REPORT", "Could not handle PROP-FILTER on %s in SQL", $propertyname );
+            dbg_error_log("calquery", "Could not handle PROP-FILTER on %s in SQL", $propertyname );
             return false; // Can't handle PROP-FILTER conditions in the SQL for this property
         }
         $subfilter = $v->GetContent();
@@ -192,7 +204,7 @@ function SqlFilterFragment( $filter, $components, $property = null, $parameter =
         break;
     }
   }
-  dbg_error_log("REPORT", "Generated SQL was '%s'", $sql );
+  dbg_error_log("calquery", "Generated SQL was '%s'", $sql );
   return $sql;
 }
 
@@ -219,14 +231,17 @@ function BuildSqlFilter( $filter ) {
 $responses = array();
 
 $where = " WHERE caldav_data.dav_name ~ ".qpg("^".$request->path)." ";
-$where .= BuildSqlFilter( $qry_filters);
+if ( is_array($qry_filters) ) {
+  dbg_log_array( "calquery", "qry_filters", $qry_filters, true );
+  $where .= BuildSqlFilter( $qry_filters );
+}
 
 $where .= "AND (calendar_item.class != 'PRIVATE' OR calendar_item.class IS NULL OR get_permissions($session->user_no,caldav_data.user_no) ~ 'A') "; // Must have 'all' permissions to see confidential items
 if ( isset($c->hide_TODO) && $c->hide_TODO ) {
   $where .= "AND (caldav_data.caldav_type NOT IN ('VTODO') OR get_permissions($session->user_no,caldav_data.user_no) ~ 'A') ";
 }
 $qry = new PgQuery( "SELECT * , get_permissions($session->user_no,caldav_data.user_no) as permissions FROM caldav_data INNER JOIN calendar_item USING(user_no, dav_name)". $where );
-if ( $qry->Exec("REPORT",__LINE__,__FILE__) && $qry->rows > 0 ) {
+if ( $qry->Exec("calquery",__LINE__,__FILE__) && $qry->rows > 0 ) {
   while( $calendar_object = $qry->Fetch() ) {
     if ( !$need_post_filter || apply_filter( $qry_filters, $calendar_object ) ) {
       $responses[] = calendar_to_xml( $properties, $calendar_object );
