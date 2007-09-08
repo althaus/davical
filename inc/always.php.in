@@ -10,9 +10,9 @@
 unset($c);
 
 // Default some of the configurable values
-$c->sysabbr     = 'rscds';
+$c->sysabbr     = 'davical';
 $c->admin_email = 'andrew@catalyst.net.nz';
-$c->system_name = "Really Simple CalDAV Store";
+$c->system_name = "DAViCal CalDAV Server";
 $c->domain_name = $_SERVER['SERVER_NAME'];
 $c->save_time_zone_defs = true;
 $c->collections_always_exist = true;
@@ -54,7 +54,10 @@ $c->protocol_server_port_script = sprintf( "%s://%s%s%s", (isset($_SERVER['HTTPS
 
 init_gettext( 'rscds', '../locale' );
 
-if ( file_exists("/etc/rscds/".$_SERVER['SERVER_NAME']."-conf.php") ) {
+if ( file_exists("/etc/davical/".$_SERVER['SERVER_NAME']."-conf.php") ) {
+  include_once("/etc/davical/".$_SERVER['SERVER_NAME']."-conf.php");
+}
+else if ( file_exists("/etc/rscds/".$_SERVER['SERVER_NAME']."-conf.php") ) {
   include_once("/etc/rscds/".$_SERVER['SERVER_NAME']."-conf.php");
 }
 else if ( file_exists("../config/config.php") ) {

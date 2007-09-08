@@ -13,7 +13,6 @@
     <item url="inc/caldav-OPTIONS.php" uploadstatus="1" />
     <item url="inc/" uploadstatus="1" />
     <item url="inc/always.php" uploadstatus="1" />
-    <item url="config/config.php" uploadstatus="1" />
     <item url="config/" uploadstatus="1" />
     <item url="inc/caldav-PUT.php" uploadstatus="1" />
     <item url="dba/" uploadstatus="1" />
@@ -22,7 +21,6 @@
     <item url="inc/caldav-GET.php" uploadstatus="1" />
     <item url="inc/caldav-DELETE.php" uploadstatus="1" />
     <item url="htdocs/caldav.php" uploadstatus="1" />
-    <item url="inc/BasicAuthSession.php" uploadstatus="1" />
     <item url="debian/" uploadstatus="1" />
     <item url="debian/rules" uploadstatus="1" />
     <item url="dba/rscds.sql" uploadstatus="1" />
@@ -232,7 +230,6 @@
     <item url="inc/drivers_ldap.php" uploadstatus="1" />
     <item url="dba/patches/1.1.8.sql" uploadstatus="1" />
     <item url="inc/caldav-client.php" uploadstatus="1" />
-    <item url="htdocs/calendar.php" uploadstatus="1" />
     <item url="dba/patches/1.1.9.sql" uploadstatus="1" />
     <item url="inc/always.php.in" uploadstatus="1" />
     <item url="htdocs/usr.php" uploadstatus="1" />
