@@ -3,7 +3,7 @@
 # Build the RSCDS database
 #
 
-DBNAME="${1:-rscds}"
+DBNAME="${1:-davical}"
 ADMINPW="${2}"
 
 DBADIR="`dirname \"$0\"`"
@@ -39,7 +39,7 @@ fi
 if [ "$ADMINPW" = "" ] ; then
   # OK.  They didn't supply one, and pwgen didn't work, so we hack something
   # together from /dev/random ...
-  ADMINPW="`dd if=/dev/urandom bs=512 count=1 2>/dev/null | tr -c -d "[:alnum:]" | cut -c2-9`"
+  ADMINPW="`dd if=/dev/urandom bs=512 count=1 2>/dev/null | tr -c -d "a-zA-HJ-NP-Y0-9" | cut -c2-9`"
 fi
 
 if [ "$ADMINPW" = "" ] ; then
