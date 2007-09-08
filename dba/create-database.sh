@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Build the RSCDS database
+# Build the DAViCal database
 #
 
 DBNAME="${1:-davical}"
