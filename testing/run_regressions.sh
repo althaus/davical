@@ -34,14 +34,25 @@ check_result() {
   fi
 }
 
-# Restart PGPool to ensure we can drop and recreate the database
-# FIXME: We should really drop everything *from* the database and create it
-# from that, so we don't need to do this.
-sudo /etc/init.d/pgpool restart
-if ! dropdb ${DBNAME}; then
-  echo "Unable to drop existing database"
-  exit
-fi
+drop_database() {
+  dropdb $1
+  if psql -ltA | cut -f1 -d'|' | grep "^$1$" >/dev/null ; then
+    # Restart PGPool to ensure we can drop and recreate the database
+    # FIXME: We should really drop everything *from* the database and create it
+    # from that, so we don't need to do this.
+    sudo /etc/init.d/pgpool restart
+    dropdb $1
+    if psql -ltA | cut -f1 -d'|' | grep "^$1$" >/dev/null ; then
+      echo "Failed to drop $1 database"
+      exit 1
+    fi
+  fi
+}
+
+drop_database ${DBNAME}
+
+mkdir -p "${RESULTS}"
+mkdir -p "${REGRESSION}/diffs"
 
 TEST="Create-Database"
 ../dba/create-database.sh ${DBNAME} 'nimda' >"${RESULTS}/${TEST}" 2>&1
