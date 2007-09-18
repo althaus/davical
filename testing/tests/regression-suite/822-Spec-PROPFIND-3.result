@@ -38,7 +38,7 @@
     <getcontenttype>text/calendar</getcontenttype>
     <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
     <resourcetype/>
-    <displayname>Due 7/8/7 16:30\, completed</displayname>
+    <displayname>Due 7/8/7 16:30, completed</displayname>
     <getetag>"00ad5eb1eb5507884710b0b66aa5d5c4"</getetag>
     <getcontentlanguage>en_NZ.UTF-8</getcontentlanguage>
     <supportedlock>
@@ -116,7 +116,7 @@
     <getcontenttype>text/calendar</getcontenttype>
     <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
     <resourcetype/>
-    <displayname>Incomplete\, uncancelled</displayname>
+    <displayname>Incomplete, uncancelled</displayname>
     <getetag>"509b0f0d8a3363379f9f5727f5dd74a0"</getetag>
     <getcontentlanguage>en_NZ.UTF-8</getcontentlanguage>
     <supportedlock>
@@ -220,7 +220,7 @@
     <getcontenttype>text/calendar</getcontenttype>
     <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
     <resourcetype/>
-    <displayname>50% Complete\, uncancelled</displayname>
+    <displayname>50% Complete, uncancelled</displayname>
     <getetag>"cb3d9dc3e8c157f53eba3ea0e1e0f146"</getetag>
     <getcontentlanguage>en_NZ.UTF-8</getcontentlanguage>
     <supportedlock>
@@ -272,7 +272,7 @@
     <getcontenttype>text/calendar</getcontenttype>
     <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
     <resourcetype/>
-    <displayname>A Cancelled Task\, with a start and due date</displayname>
+    <displayname>A Cancelled Task, with a start and due date</displayname>
     <getetag>"a2990674708634a311bb98a59865ca50"</getetag>
     <getcontentlanguage>en_NZ.UTF-8</getcontentlanguage>
     <supportedlock>

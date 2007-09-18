@@ -1,7 +1,7 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
-ETag: "5f8c1b7e597bf69a5c6d12ab14d26df4"
-Content-Length: 3609
+ETag: "a0d964965269357ef26c8c4ab7f7ad29"
+Content-Length: 3605
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -25,7 +25,7 @@ Content-Type: text/xml; charset="utf-8"
   <propstat>
    <prop>
     <resourcetype/>
-    <displayname>Due 7/8/7 16:30\, completed</displayname>
+    <displayname>Due 7/8/7 16:30, completed</displayname>
     <getetag>"00ad5eb1eb5507884710b0b66aa5d5c4"</getetag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
@@ -58,7 +58,7 @@ Content-Type: text/xml; charset="utf-8"
   <propstat>
    <prop>
     <resourcetype/>
-    <displayname>Incomplete\, uncancelled</displayname>
+    <displayname>Incomplete, uncancelled</displayname>
     <getetag>"509b0f0d8a3363379f9f5727f5dd74a0"</getetag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
@@ -91,7 +91,7 @@ Content-Type: text/xml; charset="utf-8"
   <propstat>
    <prop>
     <resourcetype/>
-    <displayname>50% Complete\, uncancelled</displayname>
+    <displayname>50% Complete, uncancelled</displayname>
     <getetag>"cb3d9dc3e8c157f53eba3ea0e1e0f146"</getetag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
@@ -113,7 +113,7 @@ Content-Type: text/xml; charset="utf-8"
   <propstat>
    <prop>
     <resourcetype/>
-    <displayname>A Cancelled Task\, with a start and due date</displayname>
+    <displayname>A Cancelled Task, with a start and due date</displayname>
     <getetag>"a2990674708634a311bb98a59865ca50"</getetag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
