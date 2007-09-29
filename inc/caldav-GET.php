@@ -23,10 +23,10 @@ if ( $request->IsCollection() ) {
   * The CalDAV specification does not define GET on a collection, but typically this is
   * used as a .ics download for the whole collection, which is what we do also.
   */
-  $qry = new PgQuery( "SELECT caldav_data FROM caldav_data LEFT JOIN calendar_item USING ( dav_name ) WHERE caldav_data.user_no = ? AND caldav_data.dav_name ~ ? $privacy_clause ORDER BY caldav_data.user_no, caldav_data.dav_name, caldav_data.created;", $request->user_no, $request->path.'[^/]+$');
+  $qry = new PgQuery( "SELECT caldav_data, class, caldav_type, calendar_item.user_no, get_permissions($session->user_no,caldav_data.user_no) as permissions FROM caldav_data LEFT JOIN calendar_item USING ( dav_name ) WHERE caldav_data.user_no = ? AND caldav_data.dav_name ~ ? $privacy_clause ORDER BY caldav_data.user_no, caldav_data.dav_name, caldav_data.created;", $request->user_no, $request->path.'[^/]+$');
 }
 else {
-  $qry = new PgQuery( "SELECT caldav_data, caldav_data.dav_etag FROM caldav_data LEFT JOIN calendar_item USING ( dav_name ) WHERE caldav_data.user_no = ? AND caldav_data.dav_name = ?  $privacy_clause;", $request->user_no, $request->path);
+  $qry = new PgQuery( "SELECT caldav_data, caldav_data.dav_etag, class, caldav_type, calendar_item.user_no, get_permissions($session->user_no,caldav_data.user_no) as permissions FROM caldav_data LEFT JOIN calendar_item USING ( dav_name ) WHERE caldav_data.user_no = ? AND caldav_data.dav_name = ?  $privacy_clause;", $request->user_no, $request->path);
 }
 dbg_error_log("get", "%s", $qry->querystring );
 if ( $qry->Exec("GET") && $qry->rows == 1 ) {
@@ -49,9 +49,24 @@ else if ( $qry->rows > 1 ) {
   while( $event = $qry->Fetch() ) {
     $ical = new iCalendar( array( "icalendar" => $event->caldav_data ) );
     if ( isset($ical->tz_locn) && $ical->tz_locn != "" && isset($ical->vtimezone) && $ical->vtimezone != "" ) {
-      $timezones[$ical->Get("tzid")] = $ical->vtimezone;
+      $timezones[$ical->Get("TZID")] = $ical->vtimezone;
     }
-    $response .= $ical->JustThisBitPlease("VEVENT");
+
+
+    if ( !is_numeric(strpos($event->permissions,'A')) && $session->user_no != $event->user_no ){
+      // the user is not admin / owner of this calendarlooking at his calendar and can not admin the other cal
+      if ( $event->class == 'CONFIDENTIAL' ) {
+        // if the event is confidential we fake one that just says "Busy"
+        $displayname = translate("Busy");
+        $ical->Put( 'SUMMARY', $displayname );
+        $response .= $ical->Render(false, $event->caldav_type, $ical->DefaultPropertyList() );
+      }
+      elseif ( $c->hide_alarm ) {
+        // Otherwise we hide the alarms (if configured to)
+        $response .= $ical->Render(false, $event->caldav_type, $ical->DefaultPropertyList() );
+      }
+    } else
+        $response .= $ical->JustThisBitPlease("VEVENT");
   }
   foreach( $timezones AS $tzid => $vtimezone ) {
     $response .= $vtimezone;
