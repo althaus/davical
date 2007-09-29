@@ -114,27 +114,27 @@ else {
 
 $sql = "BEGIN;".( $ic->tz_locn == '' ? '' : "SET TIMEZONE TO ".qpg($ic->tz_locn).";" );
 
-$dtstart = $ic->Get('dtstart');
-if ( (!isset($dtstart) || $dtstart == "") && $ic->Get('due') != "" ) {
-  $dtstart = $ic->Get('due');
+$dtstart = $ic->Get('DTSTART');
+if ( (!isset($dtstart) || $dtstart == "") && $ic->Get('DUE') != "" ) {
+  $dtstart = $ic->Get('DUE');
 }
 
-$dtend = $ic->Get('dtend');
-if ( (!isset($dtend) || "$dtend" == "") && $ic->Get('duration') != "" AND $dtstart != "" ) {
-  $duration = preg_replace( '#[PT]#', ' ', $ic->Get('duration') );
+$dtend = $ic->Get('DTEND');
+if ( (!isset($dtend) || "$dtend" == "") && $ic->Get('DURATION') != "" AND $dtstart != "" ) {
+  $duration = preg_replace( '#[PT]#', ' ', $ic->Get('DURATION') );
   $dtend = '('.qpg($dtstart).'::timestamp with time zone + '.qpg($duration).'::interval)';
 }
 else {
-  dbg_error_log( "PUT", " DTEND: '%s', DTSTART: '%s', DURATION: '%s'", $dtend, $dtstart, $ic->Get('duration') );
+  dbg_error_log( "PUT", " DTEND: '%s', DTSTART: '%s', DURATION: '%s'", $dtend, $dtstart, $ic->Get('DURATION') );
   $dtend = qpg($dtend);
 }
 
-$last_modified = $ic->Get("last-modified");
+$last_modified = $ic->Get("LAST-MODIFIED");
 if ( !isset($last_modified) || $last_modified == '' ) {
   $last_modified = gmdate( 'Ymd\THis\Z' );
 }
 
-$dtstamp = $ic->Get("dtstamp");
+$dtstamp = $ic->Get("DTSTAMP");
 if ( !isset($dtstamp) || $dtstamp == '' ) {
   $dtstamp = $last_modified;
 }
@@ -149,11 +149,11 @@ INSERT INTO calendar_item (user_no, dav_name, dav_etag, uid, dtstamp, dtstart, d
 COMMIT;
 EOSQL;
 
-$qry = new PgQuery( $sql, $request->user_no, $request->path, $etag, $ic->Get('uid'), $dtstamp,
-                          $ic->Get('dtstart'), $ic->Get('summary'), $ic->Get('location'),
-                          $ic->Get('class'), $ic->Get('transp'), $ic->Get('description'), $ic->Get('rrule'), $ic->Get('tz_id'),
-                          $last_modified, $ic->Get('url'), $ic->Get('priority'), $ic->Get('created'),
-                          $ic->Get('due'), $ic->Get('percent-complete'), $ic->Get('status')
+$qry = new PgQuery( $sql, $request->user_no, $request->path, $etag, $ic->Get('UID'), $dtstamp,
+                          $ic->Get('DTSTART'), $ic->Get('SUMMARY'), $ic->Get('LOCATION'),
+                          $ic->Get('CLASS'), $ic->Get('TRANSP'), $ic->Get('DESCRIPTION'), $ic->Get('RRULE'), $ic->Get('TZ_ID'),
+                          $last_modified, $ic->Get('URL'), $ic->Get('PRIORITY'), $ic->Get('CREATED'),
+                          $ic->Get('DUE'), $ic->Get('PERCENT-COMPLETE'), $ic->Get('STATUS')
                     );
 $qry->Exec("PUT");
 dbg_error_log( "PUT", "User: %d, ETag: %s, Path: %s", $session->user_no, $etag, $request->path);
