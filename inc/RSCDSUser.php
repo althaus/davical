@@ -125,6 +125,10 @@ class RSCDSUser extends User
     else
       $browser->AddOrder( 'rt_name', 'A' );
 
+    # We always want a secondary sort on fullname.
+    if ( isset( $_GET['o'] ) && $_GET['o'] != 'fullname' ) )
+      $browser->AddOrder( 'fullname', 'D' );
+
     if ( $c->enable_row_linking ) {
       $browser->RowFormat( "<tr onMouseover=\"LinkHref(this,1);\" title=\"".translate("Click to display that user")."\" class=\"r%d\">\n", "</tr>\n", '#even' );
     }
