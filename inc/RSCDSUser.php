@@ -204,10 +204,10 @@ EOSQL;
     $browser->SetWhere( "to_user = $this->user_no" );
 
     if ( isset( $_GET['o']) && isset($_GET['d']) ) {
-      $browser->AddOrder( $_GET['o'], $_GET['d'] );
+      $browser->AddOrder( $_GET['o'], $_GET['d'], 1 );
     }
     else
-      $browser->AddOrder( 'rt_name', 'A' );
+      $browser->AddOrder( 'rt_name', 'A', 1 );
 
     $browser->RowFormat( "<tr onMouseover=\"LinkHref(this,1);\" title=\"".translate("Click to display that user")."\" class=\"r%d\">\n", "</tr>\n", '#even' );
     $browser->DoQuery();
