@@ -1,6 +1,6 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
-ETag: "22d2ec2ca3e08afc175c8adff74a499c"
+ETag: "fd581d26474ce6a1468269c0c5a6573e"
 Content-Length: 6643
 Keep-Alive: timeout=15, max=100
 Connection: Keep-Alive
@@ -189,6 +189,29 @@ END:VCALENDAR
   </propstat>
  </response>
  <response>
+  <href>http://mycaldav/caldav.php/user1/home/da81c0ee-7871-11db-c6d6-f6927c144649.ics</href>
+  <propstat>
+   <prop>
+    <calendar-data xmlns="urn:ietf:params:xml:ns:caldav">BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//PYVOBJECT//NONSGML Version 1//EN
+BEGIN:VEVENT
+UID:da81c0ee-7871-11db-c6d6-f6927c144649
+DTSTART:20061103T073000
+DTEND:20061103T093000
+DESCRIPTION:
+LOCATION:Olivia's
+RRULE:FREQ=MONTHLY
+STATUS:CONFIRMED
+SUMMARY:Morning Mgmt Mtg
+END:VEVENT
+END:VCALENDAR
+</calendar-data>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
   <href>http://mycaldav/caldav.php/user1/home/71e2ae82-7870-11db-c6d6-f6927c144649.ics</href>
   <propstat>
    <prop>
@@ -221,29 +244,6 @@ LOCATION:Level 3
 RRULE:FREQ=WEEKLY;INTERVAL=2;UNTIL=20071222T235900
 STATUS:CONFIRMED
 SUMMARY:Beer O'Clock
-END:VEVENT
-END:VCALENDAR
-</calendar-data>
-   </prop>
-   <status>HTTP/1.1 200 OK</status>
-  </propstat>
- </response>
- <response>
-  <href>http://mycaldav/caldav.php/user1/home/da81c0ee-7871-11db-c6d6-f6927c144649.ics</href>
-  <propstat>
-   <prop>
-    <calendar-data xmlns="urn:ietf:params:xml:ns:caldav">BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//PYVOBJECT//NONSGML Version 1//EN
-BEGIN:VEVENT
-UID:da81c0ee-7871-11db-c6d6-f6927c144649
-DTSTART:20061103T073000
-DTEND:20061103T093000
-DESCRIPTION:
-LOCATION:Olivia's
-RRULE:FREQ=MONTHLY
-STATUS:CONFIRMED
-SUMMARY:Morning Mgmt Mtg
 END:VEVENT
 END:VCALENDAR
 </calendar-data>

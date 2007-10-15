@@ -1,35 +1,11 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
-ETag: "8f48e613721a5ccb5e44c277f7a1a909"
+ETag: "bbb923460d5444f84e412613abba341f"
 Content-Length: 1630
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
 <multistatus xmlns="DAV:">
- <response>
-  <href>http://myapms/calendar/caldav.php/user1/home/2178279a-aec2-471f-832d-1f6df6203f2f.ics</href>
-  <propstat>
-   <prop>
-    <getetag>"509b0f0d8a3363379f9f5727f5dd74a0"</getetag>
-    <calendar-data xmlns="urn:ietf:params:xml:ns:caldav">BEGIN:VCALENDAR
-PRODID:-//Mozilla Calendar//NONSGML Sunbird//EN
-VERSION:2.0
-BEGIN:VTODO
-CREATED:20070805T200215Z
-LAST-MODIFIED:20070805T201531Z
-DTSTAMP:20070805T200215Z
-UID:2178279a-aec2-471f-832d-1f6df6203f2f
-SUMMARY:Incomplete\, uncancelled
-X-MOZ-LOCATIONPATH:2178279a-aec2-471f-832d-1f6df6203f2f.ics
-DESCRIPTION:This task is incomplete and has not been cancelled (has no 
- status at all)
-END:VTODO
-END:VCALENDAR
-</calendar-data>
-   </prop>
-   <status>HTTP/1.1 200 OK</status>
-  </propstat>
- </response>
  <response>
   <href>http://myapms/calendar/caldav.php/user1/home/917b9e47-b748-4550-a566-657fbe672447.ics</href>
   <propstat>
@@ -49,6 +25,30 @@ PERCENT-COMPLETE:50
 X-MOZ-LOCATIONPATH:917b9e47-b748-4550-a566-657fbe672447.ics
 DESCRIPTION:This task is in progress (50% complete) and has not been 
  cancelled.
+END:VTODO
+END:VCALENDAR
+</calendar-data>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>http://myapms/calendar/caldav.php/user1/home/2178279a-aec2-471f-832d-1f6df6203f2f.ics</href>
+  <propstat>
+   <prop>
+    <getetag>"509b0f0d8a3363379f9f5727f5dd74a0"</getetag>
+    <calendar-data xmlns="urn:ietf:params:xml:ns:caldav">BEGIN:VCALENDAR
+PRODID:-//Mozilla Calendar//NONSGML Sunbird//EN
+VERSION:2.0
+BEGIN:VTODO
+CREATED:20070805T200215Z
+LAST-MODIFIED:20070805T201531Z
+DTSTAMP:20070805T200215Z
+UID:2178279a-aec2-471f-832d-1f6df6203f2f
+SUMMARY:Incomplete\, uncancelled
+X-MOZ-LOCATIONPATH:2178279a-aec2-471f-832d-1f6df6203f2f.ics
+DESCRIPTION:This task is incomplete and has not been cancelled (has no 
+ status at all)
 END:VTODO
 END:VCALENDAR
 </calendar-data>
