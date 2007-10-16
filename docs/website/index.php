@@ -56,7 +56,7 @@ works using the CalDAV protocol.</p>
 <ul>
 <li>Lorena Paoletti (Spanish)</li>
 <li>Cristina Radalescu (German)</li>
-<li>Guillaume Rosquin (French)</li>
+<li>Guillaume Rosquin &amp; Maxime Delorme (French)</li>
 <li>Nick Khazov (Russian)</li>
 <li>Eelco Maljaars (Dutch)</li>
 </ul>
@@ -69,7 +69,6 @@ works using the CalDAV protocol.</p>
 <h1>Your Name Here!</h1>
 <p>If you are interested in helping, there are several areas where I need help at the moment:</p>
 <i>
-<li>The project needs a better name - feel free to suggest one!</li>
 <li>We need more documentation</li>
 <li>We need to find more CalDAV-capable calendar clients to interoperate with</li>
 <li>We would love you to write about your experiences in the project Wiki.</li>
