@@ -153,7 +153,17 @@ function LDAP_check($username, $password ){
   if ( $ldapDriver->valid ) {
     $mapping = $c->authenticate_hook['config']['mapping_field'];
     $attributs=array_values($mapping);
-    $filter="(& $ldapDriver->filterUsers (".$mapping["username"]."=$username))";
+
+    // If the config contains a filter that starts with a ( then believe
+    // them and don't modify it, otherwise wrap the filter.
+    $filter_munge = "";
+    if ( preg_match( '/^\(/', $ldapDriver->filterUsers ) ) {
+      $filter_munge = $ldapDriver->filterUsers;
+    } else {
+      $filter_munge = "($ldapDriver->filterUsers)";
+    }
+
+    $filter="(&$filter_munge(".$mapping["username"]."=$username))";
     dbg_error_log( "LDAP", "checking user %s for password %s against LDAP",$username,$password );
     $valid = $ldapDriver->requestUser($filter,$attributs,$password);
 
