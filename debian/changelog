@@ -1,3 +1,15 @@
+rscds (0.9.0) unstable; urgency=low
+
+  * Changes preparatory to renaming to DAViCal
+  * Security (information leakage) fix from Maxime Delorme
+  * Changes to support newer iCalendar parsing in AWL 0.20
+  * Add support for DAV::principal-property-search report
+  * Refactoring of DAV report handling to improve extensibility
+  * Much improved DAV property handling
+  * Better support for VTODO and reports on VTODO
+
+ -- Andrew McMillan <debian@mcmillan.net.nz>  Tue, 16 Oct 2007 12:04:49 +1300
+
 rscds (0.8.0) unstable; urgency=low
 
   * Check whether a URL missing a trailing '/' might still be a collection.

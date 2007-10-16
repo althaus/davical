@@ -7,9 +7,9 @@ Build-Depends: debhelper
 
 Package: rscds
 Architecture: all
-Depends: debconf (>= 1.0.32), php5 | php4 (>= 4:4.3), php5-pgsql | php4-pgsql(>= 3:4.3.0), postgresql-client-8.2 | postgresql-client-8.1 | postgresql-client-8.0 | postgresql-client (>= 7.4), libawl-php (>=0.14), libclass-dbi-pg-perl, php5 | php4-domxml
-Description: Really Simple CalDAV Store
- The Really Simple CalDAV Store is designed to trivially store
+Depends: debconf (>= 1.0.32), php5 | php4 (>= 4:4.3), php5-pgsql | php4-pgsql(>= 3:4.3.0), postgresql-client-8.2 | postgresql-client-8.1 | postgresql-client-8.0 | postgresql-client (>= 7.4), libawl-php (>=0.20), libclass-dbi-pg-perl, php5 | php4-domxml
+Description: DAViCal Calendar Server
+ The DAViCal Calendar Server is designed to trivially store
  CalDAV calendars, such as those from Evolution, Sunbird/Lightning
  or Mulberry, in a central location, providing shared calendars,
  free/busy publication and basic administration (grouping, delegating,
