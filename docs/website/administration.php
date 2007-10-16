@@ -98,14 +98,14 @@ P4  ==>> Administers Group  ==> G
 </pre>
 
 
-<h1>Configuring Calendar Clients for RSCDS</h1>
-<p>The <a href="http://rscds.sourceforge.net/clients.php">RSCDS client setup page on sourceforge</a> has information on how
+<h1>Configuring Calendar Clients for DAViCal</h1>
+<p>The <a href="http://rscds.sourceforge.net/clients.php">DAViCal client setup page on sourceforge</a> has information on how
 to configure Evolution, Mozilla Calendar (Sunbird &amp; Lightning) and Mulberry to use remotely hosted calendars.</p>
 <p>The administrative interface has no facility for viewing or modifying calendar data.</p>
 
-<h1>Configuring RSCDS</h1>
+<h1>Configuring DAViCal</h1>
 <p>If you can read this then things must be mostly working already.</p>
-<p>The <a href="http://rscds.sourceforge.net/installation.php">RSCDS installation page</a> on sourceforge has
+<p>The <a href="http://rscds.sourceforge.net/installation.php">DAViCal installation page</a> on sourceforge has
 some further information on how to install and configure this application.</p>
 
 

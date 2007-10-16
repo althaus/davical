@@ -17,10 +17,14 @@ if ( isset($title) ) {
   echo $title;
 }
 else {
+<<<<<<< HEAD:docs/website/inc/page-header.php
   echo "DAViCal CalDAV Server";
+=======
+  echo "DAViCal";
+>>>>>>> Rename to DAViCal in the documentation.:docs/website/inc/page-header.php
 }
 ?></div>
-<div id="subTitle">DAViCal CalDAV Server</div>
+<div id="subTitle">A CalDAV Store</div>
 <div id="headerLinks">
 <a href="index.php" class="hlink">Home</a> |
 <a href="installation.php" class="hlink">Installation</a> |
