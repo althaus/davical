@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rscds 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-06-01 08:56+1200\n"
+"POT-Creation-Date: 2007-10-16 13:28+1300\n"
 "PO-Revision-Date: 2006-11-13 13:03+1300\n"
 "Last-Translator: maxime delorme <mdelorme@tennaxia.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -157,9 +157,9 @@ msgstr "Erreur base de données"
 msgid "Database Error."
 msgstr "Erreur base de données"
 
-#, c-format
-msgid "Database error for User: %d, Path: %s"
-msgstr ""
+#, fuzzy
+msgid "Database error"
+msgstr "Erreur base de données"
 
 # The type of format of the date: d/m/y, m/d/y, y-m-d
 msgid "Date Style"
@@ -703,10 +703,6 @@ msgstr "Vous devez vous connecter avec le nom d'utilisateur et le mot de passe q
 
 msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
 msgstr "Cette opération execute  : <ul><li>vérifie les utilisateurs valides de l'annuaire LDAP</li>"
-
-#, fuzzy
-#~ msgid "Database error"
-#~ msgstr "Erreur base de données"
 
 #~ msgid "Edit"
 #~ msgstr "Modifier"

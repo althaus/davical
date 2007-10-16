@@ -8,7 +8,7 @@ rscds (0.9.0) unstable; urgency=low
   * Much improved DAV property handling
   * Better support for VTODO and reports on VTODO
 
- -- Andrew McMillan <debian@mcmillan.net.nz>  Tue, 16 Oct 2007 12:04:49 +1300
+ -- Andrew McMillan <debian@mcmillan.net.nz>  Tue, 16 Oct 2007 13:28:16 +1300
 
 rscds (0.8.0) unstable; urgency=low
 

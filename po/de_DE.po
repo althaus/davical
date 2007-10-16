@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RSCDS 0.2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-06-01 08:56+1200\n"
+"POT-Creation-Date: 2007-10-16 13:28+1300\n"
 "PO-Revision-Date: 2006-11-06 17:24+1300\n"
 "Last-Translator: Cristina Radalescu <andrew@mcmillan.net.nz>\n"
 "MIME-Version: 1.0\n"
@@ -154,9 +154,9 @@ msgstr "Datenbank Error"
 msgid "Database Error."
 msgstr "Datenbank Error"
 
-#, c-format
-msgid "Database error for User: %d, Path: %s"
-msgstr ""
+#, fuzzy
+msgid "Database error"
+msgstr "Datenbank Error"
 
 msgid "Date Style"
 msgstr "Datumsformat"
@@ -632,10 +632,6 @@ msgstr "Bitte loggen Sie sich mit den Ihnen zugeteilten Benutzernamen und Passwo
 
 msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
 msgstr ""
-
-#, fuzzy
-#~ msgid "Database error"
-#~ msgstr "Datenbank Error"
 
 #~ msgid "Edit"
 #~ msgstr "Bearbeiten"

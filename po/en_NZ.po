@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-06-01 08:56+1200\n"
+"POT-Creation-Date: 2007-10-16 13:28+1300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -147,8 +147,7 @@ msgstr ""
 msgid "Database Error."
 msgstr ""
 
-#, c-format
-msgid "Database error for User: %d, Path: %s"
+msgid "Database error"
 msgstr ""
 
 msgid "Date Style"

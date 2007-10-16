@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rscds 0.3.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-06-01 08:56+1200\n"
+"POT-Creation-Date: 2007-10-16 13:28+1300\n"
 "PO-Revision-Date: 2006-11-13 23:07+0500\n"
 "Last-Translator: Nick Khazov <m2k3d0n@users.sourceforge.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -154,8 +154,7 @@ msgstr ""
 msgid "Database Error."
 msgstr ""
 
-#, c-format
-msgid "Database error for User: %d, Path: %s"
+msgid "Database error"
 msgstr ""
 
 msgid "Date Style"
