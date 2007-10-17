@@ -115,7 +115,7 @@ function SqlFilterFragment( $filter, $components, $property = null, $parameter =
         /**
         * TODO: We should probably allow time range queries against other properties, since eventually some client may want to do this.
         */
-        $start_column = 'dtend';     // The column we compare against the START attribute
+        $start_column = ($components[sizeof($components)-1] == 'VTODO' ? "due" : 'dtend');     // The column we compare against the START attribute
         $finish_column = 'dtstart';  // The column we compare against the END attribute
         $start = $v->GetAttribute("START");
         $finish = $v->GetAttribute("END");
