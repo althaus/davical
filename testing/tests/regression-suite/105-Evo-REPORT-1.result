@@ -1,25 +1,25 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
-ETag: "9eeae1caf35cc43d750c7ffef456bea1"
+ETag: "4b08329b0bd43cb3a95a0e4f8286c423"
 Content-Length: 582
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
 <multistatus xmlns="DAV:">
  <response>
-  <href>http://mycaldav/caldav.php/user1/home/3F4CF6227300FD062D9EF3CDFB30D32D-0.ics</href>
+  <href>http://mycaldav/caldav.php/user1/home/20061101T073004Z.ics</href>
   <propstat>
    <prop>
-    <getetag>"2c32a2f8aba853654eb17fe037a4db4d"</getetag>
+    <getetag>"c3658901fd4689d4a1e1d6f08601ef4f"</getetag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
  </response>
  <response>
-  <href>http://mycaldav/caldav.php/user1/home/20061101T073004Z.ics</href>
+  <href>http://mycaldav/caldav.php/user1/home/3F4CF6227300FD062D9EF3CDFB30D32D-0.ics</href>
   <propstat>
    <prop>
-    <getetag>"c3658901fd4689d4a1e1d6f08601ef4f"</getetag>
+    <getetag>"2c32a2f8aba853654eb17fe037a4db4d"</getetag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>

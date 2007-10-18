@@ -1,37 +1,11 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
-ETag: "413676a830dba33b4dd06de313db79f6"
+ETag: "2d56ad662a3857cbba346a51e2287e22"
 Content-Length: 4276
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
 <multistatus xmlns="DAV:">
- <response>
-  <href>http://myapms/calendar/caldav.php/user1/home/917b9e47-b748-4550-a566-657fbe672447.ics</href>
-  <propstat>
-   <prop>
-    <getetag>"cb3d9dc3e8c157f53eba3ea0e1e0f146"</getetag>
-    <calendar-data xmlns="urn:ietf:params:xml:ns:caldav">BEGIN:VCALENDAR
-PRODID:-//Mozilla Calendar//NONSGML Sunbird//EN
-VERSION:2.0
-BEGIN:VTODO
-CREATED:20070805T201557Z
-LAST-MODIFIED:20070805T201643Z
-DTSTAMP:20070805T201557Z
-UID:917b9e47-b748-4550-a566-657fbe672447
-SUMMARY:50% Complete\, uncancelled
-STATUS:IN-PROCESS
-PERCENT-COMPLETE:50
-X-MOZ-LOCATIONPATH:917b9e47-b748-4550-a566-657fbe672447.ics
-DESCRIPTION:This task is in progress (50% complete) and has not been 
- cancelled.
-END:VTODO
-END:VCALENDAR
-</calendar-data>
-   </prop>
-   <status>HTTP/1.1 200 OK</status>
-  </propstat>
- </response>
  <response>
   <href>http://myapms/calendar/caldav.php/user1/home/0575d895-a006-4ed8-9be6-0d1b6b6b1f96.ics</href>
   <propstat>
@@ -79,6 +53,56 @@ END:VCALENDAR
   </propstat>
  </response>
  <response>
+  <href>http://myapms/calendar/caldav.php/user1/home/2178279a-aec2-471f-832d-1f6df6203f2f.ics</href>
+  <propstat>
+   <prop>
+    <getetag>"509b0f0d8a3363379f9f5727f5dd74a0"</getetag>
+    <calendar-data xmlns="urn:ietf:params:xml:ns:caldav">BEGIN:VCALENDAR
+PRODID:-//Mozilla Calendar//NONSGML Sunbird//EN
+VERSION:2.0
+BEGIN:VTODO
+CREATED:20070805T200215Z
+LAST-MODIFIED:20070805T201531Z
+DTSTAMP:20070805T200215Z
+UID:2178279a-aec2-471f-832d-1f6df6203f2f
+SUMMARY:Incomplete\, uncancelled
+X-MOZ-LOCATIONPATH:2178279a-aec2-471f-832d-1f6df6203f2f.ics
+DESCRIPTION:This task is incomplete and has not been cancelled (has no 
+ status at all)
+END:VTODO
+END:VCALENDAR
+</calendar-data>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>http://myapms/calendar/caldav.php/user1/home/917b9e47-b748-4550-a566-657fbe672447.ics</href>
+  <propstat>
+   <prop>
+    <getetag>"cb3d9dc3e8c157f53eba3ea0e1e0f146"</getetag>
+    <calendar-data xmlns="urn:ietf:params:xml:ns:caldav">BEGIN:VCALENDAR
+PRODID:-//Mozilla Calendar//NONSGML Sunbird//EN
+VERSION:2.0
+BEGIN:VTODO
+CREATED:20070805T201557Z
+LAST-MODIFIED:20070805T201643Z
+DTSTAMP:20070805T201557Z
+UID:917b9e47-b748-4550-a566-657fbe672447
+SUMMARY:50% Complete\, uncancelled
+STATUS:IN-PROCESS
+PERCENT-COMPLETE:50
+X-MOZ-LOCATIONPATH:917b9e47-b748-4550-a566-657fbe672447.ics
+DESCRIPTION:This task is in progress (50% complete) and has not been 
+ cancelled.
+END:VTODO
+END:VCALENDAR
+</calendar-data>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
   <href>http://myapms/calendar/caldav.php/user1/home/b1679f77-673d-4f46-b3eb-2420e1bba301.ics</href>
   <propstat>
    <prop>
@@ -116,30 +140,6 @@ DUE;TZID=/mozilla.org/20070129_1/Antarctica/McMurdo:20070808T111500
 X-MOZ-LOCATIONPATH:b1679f77-673d-4f46-b3eb-2420e1bba301.ics
 DESCRIPTION:This is a task with a Start and a Due date\, but it has been 
  cancelled.
-END:VTODO
-END:VCALENDAR
-</calendar-data>
-   </prop>
-   <status>HTTP/1.1 200 OK</status>
-  </propstat>
- </response>
- <response>
-  <href>http://myapms/calendar/caldav.php/user1/home/2178279a-aec2-471f-832d-1f6df6203f2f.ics</href>
-  <propstat>
-   <prop>
-    <getetag>"509b0f0d8a3363379f9f5727f5dd74a0"</getetag>
-    <calendar-data xmlns="urn:ietf:params:xml:ns:caldav">BEGIN:VCALENDAR
-PRODID:-//Mozilla Calendar//NONSGML Sunbird//EN
-VERSION:2.0
-BEGIN:VTODO
-CREATED:20070805T200215Z
-LAST-MODIFIED:20070805T201531Z
-DTSTAMP:20070805T200215Z
-UID:2178279a-aec2-471f-832d-1f6df6203f2f
-SUMMARY:Incomplete\, uncancelled
-X-MOZ-LOCATIONPATH:2178279a-aec2-471f-832d-1f6df6203f2f.ics
-DESCRIPTION:This task is incomplete and has not been cancelled (has no 
- status at all)
 END:VTODO
 END:VCALENDAR
 </calendar-data>
