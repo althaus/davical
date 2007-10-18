@@ -65,8 +65,10 @@ else if ( $qry->rows > 1 ) {
         // Otherwise we hide the alarms (if configured to)
         $response .= $ical->Render(false, $event->caldav_type, $ical->DefaultPropertyList() );
       }
-    } else
-        $response .= $ical->JustThisBitPlease("VEVENT");
+    }
+    else {
+      $response .= $ical->Render(false);
+    }
   }
   foreach( $timezones AS $tzid => $vtimezone ) {
     $response .= $vtimezone;
