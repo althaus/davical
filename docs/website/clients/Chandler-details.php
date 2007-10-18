@@ -23,5 +23,5 @@ button or with a default frequency of hourly.  This is quite different to the ot
 have used which all aggressively push new and changed items to the server as soon as possible,
 but which may be lazy about fetching updates.</p>
 
-<p>Operation with RSCDS is not yet perfect but basic operation is satisfactory.  I will be
-concentrating on making RSCDS interoperate with Chandler over coming releases.</p>
+<p>Operation with DAViCal is not yet perfect but basic operation is satisfactory.  I will be
+concentrating on making DAViCal interoperate with Chandler over coming releases.</p>

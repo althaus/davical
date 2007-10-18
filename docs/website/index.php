@@ -1,5 +1,5 @@
 <?php
- $title = "RSCDS Home";
+ $title = "DAViCal Home";
  include("inc/page-header.php");
 ?>
 <h1>Background</h1>
@@ -30,14 +30,14 @@ but no testing has been undertaken in other PHP environments to date.</p>
 operating environments, and which is <em>fully</em> ACID compliant.</p>
 
 <h2>Simplicity of Setup</h2>
-<p>For the greatest ease use you should consider installing RSCDS on the <a href="http://www.debian.org/">Debian GNU/Linux</a>
+<p>For the greatest ease use you should consider installing DAViCal on the <a href="http://www.debian.org/">Debian GNU/Linux</a>
 distribution from the readily available, signed packages.</p>
 <p>We expect to increase the level of automation and simplicity for the Debian target release in particular, although other
 distributions might also become easier at the same time. We do expect slightly greater installation complexity in the first
 few releases as we come to understand the particular problems people experience.</p>
 
 <h2>Simplicity of Operation</h2>
-<p>In general RSCDS should not need significant maintenance to keep it operating.</p>
+<p>In general DAViCal should not need significant maintenance to keep it operating.</p>
 <p>Administrative functionality will be kept as simple as possible, within the target of supporting
 organisations of up to several hundred staff.</p>
 <p>This is called a <em>Store</em> rather than a <em>Server</em> because the server-side smarts are intended to be
@@ -56,7 +56,7 @@ works using the CalDAV protocol.</p>
 <ul>
 <li>Lorena Paoletti (Spanish)</li>
 <li>Cristina Radalescu (German)</li>
-<li>Guillaume Rosquin (French)</li>
+<li>Guillaume Rosquin &amp; Maxime Delorme (French)</li>
 <li>Nick Khazov (Russian)</li>
 <li>Eelco Maljaars (Dutch)</li>
 </ul>
@@ -68,7 +68,6 @@ works using the CalDAV protocol.</p>
 <h1>Your Name Here!</h1>
 <p>If you are interested in helping, there are several areas where I need help at the moment:</p>
 <i>
-<li>The project needs a better name - feel free to suggest one!</li>
 <li>We need more documentation</li>
 <li>We need to find more CalDAV-capable calendar clients to interoperate with</li>
 <li>We would love you to write about your experiences in the project Wiki.</li>
