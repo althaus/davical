@@ -59,15 +59,15 @@ else if ( $qry->rows > 1 ) {
         // if the event is confidential we fake one that just says "Busy"
         $displayname = translate("Busy");
         $ical->Put( 'SUMMARY', $displayname );
-        $response .= $ical->Render(false, $event->caldav_type, $ical->DefaultPropertyList() );
+        $response .= $ical->Render( false, $event->caldav_type, $ical->DefaultPropertyList() );
       }
       elseif ( $c->hide_alarm ) {
         // Otherwise we hide the alarms (if configured to)
-        $response .= $ical->Render(false, $event->caldav_type, $ical->DefaultPropertyList() );
+        $response .= $ical->Render( false, $event->caldav_type, $ical->DefaultPropertyList() );
       }
     }
     else {
-      $response .= $ical->Render(false);
+      $response .= $ical->Render( false, $event->caldav_type );
     }
   }
   foreach( $timezones AS $tzid => $vtimezone ) {
