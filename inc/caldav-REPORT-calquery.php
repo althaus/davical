@@ -240,7 +240,7 @@ $where .= "AND (calendar_item.class != 'PRIVATE' OR calendar_item.class IS NULL 
 if ( isset($c->hide_TODO) && $c->hide_TODO ) {
   $where .= "AND (caldav_data.caldav_type NOT IN ('VTODO') OR get_permissions($session->user_no,caldav_data.user_no) ~ 'A') ";
 }
-$qry = new PgQuery( "SELECT * , get_permissions($session->user_no,caldav_data.user_no) as permissions FROM caldav_data INNER JOIN calendar_item USING(user_no, dav_name)". $where );
+$qry = new PgQuery( "SELECT * , get_permissions($session->user_no,caldav_data.user_no) as permissions FROM caldav_data INNER JOIN calendar_item USING(user_no, dav_name)". $where . " ORDER BY caldav_data.user_no, caldav_data.dav_name" );
 if ( $qry->Exec("calquery",__LINE__,__FILE__) && $qry->rows > 0 ) {
   while( $calendar_object = $qry->Fetch() ) {
     if ( !$need_post_filter || apply_filter( $qry_filters, $calendar_object ) ) {
