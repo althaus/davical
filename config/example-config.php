@@ -169,8 +169,12 @@ $c->admin_email ='calendar-admin@example.com';
 //$c->authenticate_hook['config'] = array(
 //    'host' => 'www.tennaxia.net', //host name of your LDAP Server
 //    'port' => '389', //port
+
+       /* For the initial bind to be anonymous leave bindDN and passDN
+          commented out */
 //    'bindDN'=> 'cn=manager,cn=internal,dc=tennaxia,dc=net', //DN to bind to this server enabling to perform request
 //    'passDN'=> 'xxxxxxxx', //Password of the previous bindDN to bind to this server enabling to perform request
+
 //    'protocolVersion' => '3',  //Version of LDAP protocol to use
 //    'baseDNUsers'=> 'dc=tennaxia,dc=net', //where to look at valid user
 //    'filterUsers' => 'objectClass=kolabInetOrgPerson', //filter which must validate a user according to RFC4515, i.e. surrounded by brackets
