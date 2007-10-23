@@ -8,7 +8,39 @@
 
 include_once("iCalendar.php");
 
-function controlRequestContainer( $username, $user_no, $path, $context ) {
+/**
+* This function launches an error
+* @param boolean $caldav_context Whether we are responding via CalDAV or interactively
+* @param int $user_no the user wich will receive this ics file
+* @param string $path the $path where it will be store such as /user_foo/home/
+* @param boolean $caldav_context Whether we are responding via CalDAV or interactively
+* @param string $message An optional error message to return to the client
+* @param int $error_no An optional value for the HTTP error code
+*/
+function rollback_on_error( $caldav_context, $user_no, $path, $message='', $error_no=500 ) {
+  if ( !$message ) $message = translate("Database error");
+  $qry = new PgQuery("ROLLBACK;"); $qry->Exec("PUT-collection");
+  if ( $caldav_context ) {
+    global $request;
+    $request->DoResponse( $error_no, $message );
+  }
+  else {
+    global $c;
+    $c->messages[] = sprintf("Status: %d, Message: %s, User: %d, Path: %s", $error_no, $message, $user_no, $path);
+  }
+}
+
+
+
+/**
+* Work out the location we are doing the PUT to, and check that we have the rights to
+* do the needful.
+* @param string $username The name of the destination user
+* @param int $user_no The user making the change
+* @param string $path The DAV path the resource is bing PUT to
+* @param boolean $caldav_context Whether we are responding via CalDAV or interactively
+*/
+function controlRequestContainer( $username, $user_no, $path, $caldav_context ) {
 
   // Check to see if the path is like /foo /foo/bar or /foo/bar/baz etc. (not ending with a '/', but contains at least one)
   if ( preg_match( '#^(.*/)([^/]+)$#', $path, $matches ) ) {//(
@@ -34,14 +66,7 @@ function controlRequestContainer( $username, $user_no, $path, $context ) {
     $sql = "SELECT * FROM collection WHERE user_no = ? AND dav_name = ?;";
     $qry = new PgQuery( $sql, $user_no, $request_container );
     if ( ! $qry->Exec("PUT") ) {
-      if($context){
-        global $request;
-        $request->DoResponse( 500, translate("Error querying database.") );
-      }
-      else {
-        global $c;
-        $c->messages[] = sprintf("Status: %d, Message: %s, User: %d, Path: %s", 500, translate("Error querying database."),$user_no,$path);
-      }
+      rollback_on_error( $caldav_context, $user_no, $path );
     }
     if ( $qry->rows == 0 ) {
       if ( preg_match( '#^(.*/)([^/]+/)$#', $request_container, $matches ) ) {//(
@@ -58,39 +83,24 @@ function controlRequestContainer( $username, $user_no, $path, $context ) {
   return $is_collection;
 }
 
-/**
-* This function launches an error
-* @param int $user_no the user wich will receive this ics file
-* @param string $path the $path where it will be store such as /user_foo/home/
-* @param boolean $context is true if this function is called from a way where $request is defined
-*/
-function rollback_on_error($context,$user_no,$path) {
-  $qry = new PgQuery("ROLLBACK;"); $qry->Exec("PUT-collection");
-  if($context){
-    global $request;
-    $request->DoResponse( 500, translate("Database error") );
-  }
-  else {
-    global $c;
-    $c->messages[] = sprintf("Status: %d, Message: %s, User: %d, Path: %s", 500, translate("Database error"),$user_no,$path);
-  }
-}
-
 
 /**
 * This function will import a whole calendar
 * @param string $ics_content the ics file to import
 * @param int $user_no the user wich will receive this ics file
 * @param string $path the $path where it will be store such as /user_foo/home/
-* @param boolean $context is true if this function is called from a way where $request is defined
+* @param boolean $caldav_context Whether we are responding via CalDAV or interactively
 */
-function import_collection($ics_content, $user_no, $path,$context){
+function import_collection( $ics_content, $user_no, $path, $caldav_context ) {
+  global $c;
   // According to RFC2445 we should always end with CRLF, but the CalDAV spec says
   // that normalising XML parses often muck with it and may remove the CR.
   $icalendar = preg_replace('/\r?\n /', '', $ics_content );
-  $fh = fopen('/tmp/PUT-2.txt','w');
-  fwrite($fh,$icalendar);
-  fclose($fh);
+  if ( isset($c->dbg['ALL']) || isset($c->dbg['put']) ) {
+    $fh = fopen('/tmp/PUT-2.txt','w');
+    fwrite($fh,$icalendar);
+    fclose($fh);
+  }
 
   $lines = preg_split('/\r?\n/', $icalendar );
 
@@ -132,7 +142,7 @@ function import_collection($ics_content, $user_no, $path,$context){
     }
   }
   $qry = new PgQuery("BEGIN; DELETE FROM calendar_item WHERE user_no=? AND dav_name ~ ?; DELETE FROM caldav_data WHERE user_no=? AND dav_name ~ ?;", $user_no, $path.'[^/]+$', $user_no, $path.'[^/]+$');
-  if ( !$qry->Exec("PUT") ) rollback_on_error($context,$user_no,$path);
+  if ( !$qry->Exec("PUT") ) rollback_on_error( $caldav_context, $user_no, $path );
 
   foreach( $events AS $k => $event ) {
     dbg_error_log( "PUT", "Putting event %d with data: %s", $k, $event['data'] );
@@ -142,7 +152,7 @@ function import_collection($ics_content, $user_no, $path,$context){
     $event_path = sprintf( "%s%d.ics", $path, $k);
     $qry = new PgQuery( "INSERT INTO caldav_data ( user_no, dav_name, dav_etag, caldav_data, caldav_type, logged_user, created, modified ) VALUES( ?, ?, ?, ?, ?, ?, current_timestamp, current_timestamp )",
                           $user_no, $event_path, $etag, $icalendar, $ic->type, $session->user_no );
-    if ( !$qry->Exec("PUT") ) rollback_on_error($context,$user_no,$path);
+    if ( !$qry->Exec("PUT") ) rollback_on_error( $caldav_context, $user_no, $path );
 
     $sql = "";
     if ( preg_match(':^(Africa|America|Antarctica|Arctic|Asia|Atlantic|Australia|Brazil|Canada|Chile|Etc|Europe|Indian|Mexico|Mideast|Pacific|US)/[a-z]+$:i', $ic->tz_locn ) ) {
@@ -187,10 +197,145 @@ EOSQL;
                               $last_modified, $ic->Get('url'), $ic->Get('priority'), $ic->Get('created'),
                               $ic->Get('due'), $ic->Get('percent-complete')
                         );
-    if ( !$qry->Exec("PUT") ) rollback_on_error($context,$user_no,$path);
+    if ( !$qry->Exec("PUT") ) rollback_on_error( $caldav_context, $user_no, $path);
   }
 
   $qry = new PgQuery("COMMIT;");
-  if ( !$qry->Exec("PUT") ) rollback_on_error($context,$user_no,$path);
+  if ( !$qry->Exec("PUT") ) rollback_on_error( $caldav_context, $user_no, $path);
 }
-?>
+
+
+/**
+* Put the resource from this request
+* @param object $request A reference to the request object
+* @param int $user_no The owner of the collection where we are putting this resource
+* @param boolean $caldav_context Whether we are responding via CalDAV or interactively
+* @return string Either 'INSERT' or 'UPDATE': the type of action that the PUT resulted in
+*/
+function putCalendarResource( &$request, $author, $caldav_context ) {
+  $etag = md5($request->raw_post);
+  $ic = new iCalendar(array( 'icalendar' => $request->raw_post ));
+
+  dbg_log_array( "PUT", 'EVENT', $ic->properties['VCALENDAR'][0], true );
+
+  /**
+  * We read any existing object so we can check the ETag.
+  */
+  unset($put_action_type);
+  $qry = new PgQuery( "SELECT * FROM caldav_data WHERE user_no=? AND dav_name=?", $request->user_no, $request->path );
+  if ( !$qry->Exec("PUT") || $qry->rows > 1 ) {
+    rollback_on_error( $caldav_context, $request->user_no, $request->path );
+  }
+  elseif ( $qry->rows < 1 ) {
+    if ( isset($request->etag_if_match) && $request->etag_if_match != '' ) {
+      /**
+      * RFC2068, 14.25:
+      * If none of the entity tags match, or if "*" is given and no current
+      * entity exists, the server MUST NOT perform the requested method, and
+      * MUST return a 412 (Precondition Failed) response.
+      */
+      rollback_on_error( $caldav_context, $request->user_no, $request->path, 412, translate("Resource changed on server - not changed.") );
+    }
+
+    $put_action_type = 'INSERT';
+
+    if ( ! $request->AllowedTo("create") ) {
+      rollback_on_error( $caldav_context, $request->user_no, $request->path, 403, translate("You may not add entries to this calendar.") );
+    }
+  }
+  elseif ( $qry->rows == 1 ) {
+    $icalendar = $qry->Fetch();
+
+    if ( ( isset($request->etag_if_match) && $request->etag_if_match != '' && $request->etag_if_match != $icalendar->dav_etag )
+         || ( isset($request->etag_none_match) && $request->etag_none_match != '' && ($request->etag_none_match == $icalendar->dav_etag || $request->etag_none_match == '*') ) ) {
+      /**
+      * RFC2068, 14.25:
+      * If none of the entity tags match, or if "*" is given and no current
+      * entity exists, the server MUST NOT perform the requested method, and
+      * MUST return a 412 (Precondition Failed) response.
+      *
+      * RFC2068, 14.26:
+      * If any of the entity tags match the entity tag of the entity that
+      * would have been returned in the response to a similar GET request
+      * (without the If-None-Match header) on that resource, or if "*" is
+      * given and any current entity exists for that resource, then the
+      * server MUST NOT perform the requested method.
+      */
+      if ( isset($request->etag_if_match) && $request->etag_if_match != $icalendar->dav_etag ) {
+        $error = translate( "Existing resource does not match 'If-Match' header - not accepted.");
+      }
+      if ( isset($etag_none_match) && $etag_none_match != '' && ($etag_none_match == $icalendar->dav_etag || $etag_none_match == '*') ) {
+        $error = translate( "Existing resource matches 'If-None-Match' header - not accepted.");
+      }
+      $request->DoResponse( 412, $error );
+    }
+
+    $put_action_type = 'UPDATE';
+
+    if ( ! $request->AllowedTo("modify") ) {
+      $request->DoResponse( 403, translate("You may not modify entries on this calendar.") );
+    }
+  }
+
+  if ( $put_action_type == 'INSERT' ) {
+    $qry = new PgQuery( "BEGIN; INSERT INTO caldav_data ( user_no, dav_name, dav_etag, caldav_data, caldav_type, logged_user, created, modified ) VALUES( ?, ?, ?, ?, ?, ?, current_timestamp, current_timestamp )",
+                           $request->user_no, $request->path, $etag, $request->raw_post, $ic->type, $author );
+    if ( !$qry->Exec("PUT") ) rollback_on_error( $caldav_context, $request->user_no, $request->path);
+  }
+  else {
+    $qry = new PgQuery( "BEGIN;UPDATE caldav_data SET caldav_data=?, dav_etag=?, caldav_type=?, logged_user=?, modified=current_timestamp WHERE user_no=? AND dav_name=?",
+                           $request->raw_post, $etag, $ic->type, $author, $request->user_no, $request->path );
+    if ( !$qry->Exec("PUT") ) rollback_on_error( $caldav_context, $request->user_no, $request->path);
+  }
+
+  $sql = ( $ic->tz_locn == '' ? '' : "SET TIMEZONE TO ".qpg($ic->tz_locn).";" );
+
+  $dtstart = $ic->Get('DTSTART');
+  if ( (!isset($dtstart) || $dtstart == "") && $ic->Get('DUE') != "" ) {
+    $dtstart = $ic->Get('DUE');
+  }
+
+  $dtend = $ic->Get('DTEND');
+  if ( (!isset($dtend) || "$dtend" == "") && $ic->Get('DURATION') != "" AND $dtstart != "" ) {
+    $duration = preg_replace( '#[PT]#', ' ', $ic->Get('DURATION') );
+    $dtend = '('.qpg($dtstart).'::timestamp with time zone + '.qpg($duration).'::interval)';
+  }
+  else {
+    dbg_error_log( "PUT", " DTEND: '%s', DTSTART: '%s', DURATION: '%s'", $dtend, $dtstart, $ic->Get('DURATION') );
+    $dtend = qpg($dtend);
+  }
+
+  $last_modified = $ic->Get("LAST-MODIFIED");
+  if ( !isset($last_modified) || $last_modified == '' ) {
+    $last_modified = gmdate( 'Ymd\THis\Z' );
+  }
+
+  $dtstamp = $ic->Get("DTSTAMP");
+  if ( !isset($dtstamp) || $dtstamp == '' ) {
+    $dtstamp = $last_modified;
+  }
+
+  if ( $put_action_type != 'INSERT' ) {
+    $sql .= "DELETE FROM calendar_item WHERE user_no=$request->user_no AND dav_name=".qpg($request->path).";";
+  }
+  $sql .= <<<EOSQL
+  INSERT INTO calendar_item (user_no, dav_name, dav_etag, uid, dtstamp, dtstart, dtend, summary, location, class, transp,
+                      description, rrule, tz_id, last_modified, url, priority, created, due, percent_complete, status )
+                   VALUES ( ?, ?, ?, ?, ?, ?, $dtend, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+  COMMIT;
+EOSQL;
+
+  $qry = new PgQuery( $sql, $request->user_no, $request->path, $etag, $ic->Get('UID'), $dtstamp,
+                            $ic->Get('DTSTART'), $ic->Get('SUMMARY'), $ic->Get('LOCATION'),
+                            $ic->Get('CLASS'), $ic->Get('TRANSP'), $ic->Get('DESCRIPTION'), $ic->Get('RRULE'), $ic->Get('TZ_ID'),
+                            $last_modified, $ic->Get('URL'), $ic->Get('PRIORITY'), $ic->Get('CREATED'),
+                            $ic->Get('DUE'), $ic->Get('PERCENT-COMPLETE'), $ic->Get('STATUS')
+                      );
+  if ( !$qry->Exec("PUT") ) rollback_on_error( $caldav_context, $request->user_no, $request->path);
+  dbg_error_log( "PUT", "User: %d, ETag: %s, Path: %s", $author, $etag, $request->path);
+
+  header(sprintf('ETag: "%s"', (isset($bogus_etag) ? $bogus_etag : $etag) ) );
+
+  return $put_action_type;
+}
+
