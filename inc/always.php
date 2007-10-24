@@ -83,12 +83,12 @@ $c->code_version = 0;
 $c->version_string = '0.9.0'; // The actual version # is replaced into that during the build /release process
 if ( isset($c->version_string) && preg_match( '/(\d+)\.(\d+)\.(\d+)(.*)/', $c->version_string, $matches) ) {
   $c->code_major = $matches[1];
-  $c->code_minor = $matches[1];
-  $c->code_patch = $matches[1];
+  $c->code_minor = $matches[2];
+  $c->code_patch = $matches[3];
   $c->code_version = (($c->code_major * 1000) + $c->code_minor).".".$c->code_patch;
 }
-dbg_error_log("caldav", "Version %s (%d.%d.%d) == %s", $c->code_pkgver, $c->code_major, $c->code_minor, $c->code_patch, $c->code_version);
-header( sprintf("Server: %s/%d.%d", $c->code_pkgver, $c->code_major, $c->code_minor) );
+dbg_error_log("caldav", "Version (%d.%d.%d) == %s", $c->code_major, $c->code_minor, $c->code_patch, $c->code_version);
+header( sprintf("Server: %d.%d", $c->code_major, $c->code_minor) );
 
 /**
 * Force the domain name to what was in the configuration file
