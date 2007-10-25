@@ -1,13 +1,13 @@
 
--- Make sure that class is set to something, by default PUBLIC.
--- According to RFC2445, 4.8.1.3.
+-- Adding a primary key to the calendar_item table
 
 BEGIN;
 SELECT check_db_revision(1,1,8);
 
-UPDATE calendar_item SET class = 'PUBLIC' WHERE class IS NULL;
+ALTER TABLE calendar_item ADD PRIMARY KEY (user_no, dav_name );
 
-SELECT new_db_revision(1,1,9, 'October' );
+SELECT new_db_revision(1,1,9, 'September' );
 COMMIT;
 ROLLBACK;
 
+VACUUM FULL ANALYZE;
