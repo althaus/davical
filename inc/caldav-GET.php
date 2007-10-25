@@ -15,7 +15,7 @@ if ( ! $request->AllowedTo('read') ) {
 }
 $privacy_clause = "";
 if ( ! $request->AllowedTo('all') ) {
-  $privacy_clause = "AND calendar_item.class != 'PRIVATE'";
+  $privacy_clause = "AND (calendar_item.class != 'PRIVATE' OR calendar_item.class IS NULL) ";
 }
 
 if ( $request->IsCollection() ) {
