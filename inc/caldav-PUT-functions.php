@@ -83,6 +83,27 @@ function controlRequestContainer( $username, $user_no, $path, $caldav_context ) 
   return $is_collection;
 }
 
+/**
+* Check if there is a class that new events should be forced to.
+* @param string $user_no the user that owns the collection
+* @param string $dav_name the collection to check
+*/
+function find_forced_class( $user_no, $dav_name ) {
+  $sql = "SELECT force_class ";
+  $sql .= "FROM collection ";
+  $sql .= "WHERE user_no=? AND dav_name=?");
+
+  $qry = new PgQuery($sql);
+
+  if( $qry->Exec($user_no, $dav_name) && $qry->rows == 1 ) {
+    $collection = $qry->Fetch();
+
+    if ( ( isset($collection->force_class) && $collection->force_class != '' ) {
+      return $collection->force_class;
+    }
+  }
+}
+
 
 /**
 * This function will import a whole calendar
@@ -185,12 +206,18 @@ function import_collection( $ics_content, $user_no, $path, $caldav_context ) {
       $dtstamp = $last_modified;
     }
 
+    $class = $ic->Get("class");
+    /* Check and see if we should over ride the class. */
+    $force_class = find_forced_class($user_no, $path);
+    if ( isset($force_class) ) {
+       $class = $force_class;
+    }
+     
     /*
      * It seems that some calendar clients don't set a class...
      * RFC2445, 4.8.1.3:
      * Default is PUBLIC
      */  
-    $class = $ic->Get("class");
     if ( !isset($class) || $class == '' ) {
       $class = 'PUBLIC'
     }
@@ -325,12 +352,18 @@ function putCalendarResource( &$request, $author, $caldav_context ) {
     $dtstamp = $last_modified;
   }
 
+  $class = $ic->Get("class");
+  /* Check and see if we should over ride the class. */
+  $force_class = find_forced_class($user_no, $path);
+  if ( isset($force_class) ) {
+     $class = $force_class;
+  }
+     
   /*
    * It seems that some calendar clients don't set a class...
    * RFC2445, 4.8.1.3:
    * Default is PUBLIC
    */  
-  $class = $ic->Get("class");
   if ( !isset($class) || $class == '' ) {
     $class = 'PUBLIC'
   }
