@@ -84,12 +84,13 @@ function controlRequestContainer( $username, $user_no, $path, $caldav_context ) 
 }
 
 /**
-* Check if there is a class that new events should be forced to.
+* Check if this collection sould force all events to be PUBLIC.
 * @param string $user_no the user that owns the collection
 * @param string $dav_name the collection to check
+* @return boolean Return true if public events only are allowed.
 */
-function find_forced_class( $user_no, $dav_name ) {
-  $sql = "SELECT force_class ";
+function public_events_only( $user_no, $dav_name ) {
+  $sql = "SELECT public_events_only ";
   $sql .= "FROM collection ";
   $sql .= "WHERE user_no=? AND dav_name=?");
 
@@ -98,10 +99,13 @@ function find_forced_class( $user_no, $dav_name ) {
   if( $qry->Exec($user_no, $dav_name) && $qry->rows == 1 ) {
     $collection = $qry->Fetch();
 
-    if ( ( isset($collection->force_class) && $collection->force_class != '' ) {
-      return $collection->force_class;
+    if ($collection->public_events_only == 't') {
+      return true;
     }
   }
+
+  // Something went wrong, must be false.
+  return false;
 }
 
 
@@ -208,9 +212,8 @@ function import_collection( $ics_content, $user_no, $path, $caldav_context ) {
 
     $class = $ic->Get("class");
     /* Check and see if we should over ride the class. */
-    $force_class = find_forced_class($user_no, $path);
-    if ( isset($force_class) ) {
-       $class = $force_class;
+    if ( public_events_only($user_no, $path) ) {
+      $class = 'PUBLIC';
     }
      
     /*
@@ -354,9 +357,8 @@ function putCalendarResource( &$request, $author, $caldav_context ) {
 
   $class = $ic->Get("class");
   /* Check and see if we should over ride the class. */
-  $force_class = find_forced_class($user_no, $path);
-  if ( isset($force_class) ) {
-     $class = $force_class;
+  if ( public_events_only($user_no, $path) ) {
+    $class = 'PUBLIC';
   }
      
   /*
