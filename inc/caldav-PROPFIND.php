@@ -93,7 +93,7 @@ foreach( $request->xml_tags AS $k => $v ) {
     */
     default:
       $arbitrary[$tag] = $tag;
-      dbg_error_log( "PROPFIND", "Adding arbitrary DAV property '%s'", $attribute );
+      dbg_error_log( "PROPFIND", "Adding arbitrary DAV property '%s'", $tag );
       break;
   }
 }
