@@ -18,6 +18,7 @@ $c->save_time_zone_defs = true;
 $c->collections_always_exist = true;
 $c->home_calendar_name = 'home';
 $c->enable_row_linking = true;
+$c->http_auth_mode = 'Basic';
 // $c->default_locale = array('es_MX', 'es_MX.UTF-8', 'es');
 // $c->local_tzid = 'Pacific/Auckland';  // Perhaps we should read from /etc/timezone - I wonder how standard that is?
 $c->default_locale = "en_NZ";
@@ -50,7 +51,11 @@ $c->protocol_server_port_script = sprintf( "%s://%s%s%s", (isset($_SERVER['HTTPS
                  ),
                  $_SERVER['SCRIPT_NAME'] );
 
-@dbg_error_log( "LOG", "==========> method =%s= =%s= =%s= =%s= =%s=", $_SERVER['REQUEST_METHOD'], $c->protocol_server_port_script, $_SERVER['PATH_INFO'], $c->base_url, $c->base_directory );
+if ( count($c->dbg) > 0 ) {
+  // Only log this if debugging of some sort is turned on, somewhere
+  @dbg_error_log( "LOG", "==========> method =%s= =%s= =%s= =%s= =%s=",
+         $_SERVER['REQUEST_METHOD'], $c->protocol_server_port_script, $_SERVER['PATH_INFO'], $c->base_url, $c->base_directory );
+}
 
 init_gettext( 'rscds', '../locale' );
 
