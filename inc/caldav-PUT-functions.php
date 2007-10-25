@@ -83,6 +83,31 @@ function controlRequestContainer( $username, $user_no, $path, $caldav_context ) 
   return $is_collection;
 }
 
+/**
+* Check if this collection sould force all events to be PUBLIC.
+* @param string $user_no the user that owns the collection
+* @param string $dav_name the collection to check
+* @return boolean Return true if public events only are allowed.
+*/
+function public_events_only( $user_no, $dav_name ) {
+  $sql = "SELECT public_events_only ";
+  $sql .= "FROM collection ";
+  $sql .= "WHERE user_no=? AND dav_name=?");
+
+  $qry = new PgQuery($sql);
+
+  if( $qry->Exec($user_no, $dav_name) && $qry->rows == 1 ) {
+    $collection = $qry->Fetch();
+
+    if ($collection->public_events_only == 't') {
+      return true;
+    }
+  }
+
+  // Something went wrong, must be false.
+  return false;
+}
+
 
 /**
 * This function will import a whole calendar
@@ -185,6 +210,21 @@ function import_collection( $ics_content, $user_no, $path, $caldav_context ) {
       $dtstamp = $last_modified;
     }
 
+    $class = $ic->Get("class");
+    /* Check and see if we should over ride the class. */
+    if ( public_events_only($user_no, $path) ) {
+      $class = 'PUBLIC';
+    }
+     
+    /*
+     * It seems that some calendar clients don't set a class...
+     * RFC2445, 4.8.1.3:
+     * Default is PUBLIC
+     */  
+    if ( !isset($class) || $class == '' ) {
+      $class = 'PUBLIC'
+    }
+
     $sql .= <<<EOSQL
   INSERT INTO calendar_item (user_no, dav_name, dav_etag, uid, dtstamp, dtstart, dtend, summary, location, class, transp,
                       description, rrule, tz_id, last_modified, url, priority, created, due, percent_complete )
@@ -193,7 +233,7 @@ EOSQL;
 
     $qry = new PgQuery( $sql, $user_no, $event_path, $etag, $ic->Get('uid'), $dtstamp,
                               $ic->Get('dtstart'), $ic->Get('summary'), $ic->Get('location'),
-                              $ic->Get('class'), $ic->Get('transp'), $ic->Get('description'), $ic->Get('rrule'), $ic->Get('tz_id'),
+                              $class, $ic->Get('transp'), $ic->Get('description'), $ic->Get('rrule'), $ic->Get('tz_id'),
                               $last_modified, $ic->Get('url'), $ic->Get('priority'), $ic->Get('created'),
                               $ic->Get('due'), $ic->Get('percent-complete')
                         );
@@ -315,6 +355,22 @@ function putCalendarResource( &$request, $author, $caldav_context ) {
     $dtstamp = $last_modified;
   }
 
+  $class = $ic->Get("class");
+  /* Check and see if we should over ride the class. */
+  if ( public_events_only($user_no, $path) ) {
+    $class = 'PUBLIC';
+  }
+     
+  /*
+   * It seems that some calendar clients don't set a class...
+   * RFC2445, 4.8.1.3:
+   * Default is PUBLIC
+   */  
+  if ( !isset($class) || $class == '' ) {
+    $class = 'PUBLIC'
+  }
+
+
   if ( $put_action_type != 'INSERT' ) {
     $sql .= "DELETE FROM calendar_item WHERE user_no=$request->user_no AND dav_name=".qpg($request->path).";";
   }
@@ -327,7 +383,7 @@ EOSQL;
 
   $qry = new PgQuery( $sql, $request->user_no, $request->path, $etag, $ic->Get('UID'), $dtstamp,
                             $ic->Get('DTSTART'), $ic->Get('SUMMARY'), $ic->Get('LOCATION'),
-                            $ic->Get('CLASS'), $ic->Get('TRANSP'), $ic->Get('DESCRIPTION'), $ic->Get('RRULE'), $ic->Get('TZ_ID'),
+                            $class, $ic->Get('TRANSP'), $ic->Get('DESCRIPTION'), $ic->Get('RRULE'), $ic->Get('TZ_ID'),
                             $last_modified, $ic->Get('URL'), $ic->Get('PRIORITY'), $ic->Get('CREATED'),
                             $ic->Get('DUE'), $ic->Get('PERCENT-COMPLETE'), $ic->Get('STATUS')
                       );
