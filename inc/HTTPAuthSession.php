@@ -50,7 +50,7 @@ class HTTPAuthSession {
   function HTTPAuthSession() {
     global $c;
 
-    if ( $c->http_auth_mode == "Digest" ) {
+    if ( isset($c->http_auth_mode) && $c->http_auth_mode == "Digest" ) {
       $this->DigestAuthSession();
     }
     else {
