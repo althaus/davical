@@ -28,12 +28,24 @@ class CalDAVRequest
   var $options;
 
   /**
+  * The depth parameter from the request headers, coerced into a valid integer: 0, 1
+  * or DEPTH_INFINITY which is defined above.  The default is set per various RFCs.
+  */
+  var $depth;
+
+  /**
+  * The 'principal' (user/resource/...) which this request seeks to access
+  */
+  var $principal;
+
+  /**
   * Create a new CalDAVRequest object.
   */
   function CalDAVRequest( $options = array() ) {
     global $session, $c, $debugging;
 
     $this->options = $options;
+    $this->principal = (object) array( 'username' => $session->username, 'user_no' => $session->user_no );
 
     $this->raw_post = file_get_contents ( 'php://input');
 
@@ -140,8 +152,11 @@ class CalDAVRequest
 
     /**
     * Extract the user whom we are accessing
+    * TODO: Replace this by something which properly sets up the DAV 'principal'
     */
     $this->UserFromPath();
+    $this->principal->url = sprintf( "%s/%s/", $c->protocol_server_port_script, $this->principal->username);
+    $this->principal->calendar_home_set = sprintf( "%s/%s/%s/", $c->protocol_server_port_script, $this->principal->username, $c->home_calendar_name);
 
     /**
     * Evaluate our permissions for accessing the target
@@ -200,7 +215,8 @@ class CalDAVRequest
         $this->user_no = $user->user_no;
       }
     }
-    elseif( $user = getUserByName($this->username,'caldav',__LINE__,__FILE__)){
+    elseif( $user = getUserByName($this->username,'caldav',__LINE__,__FILE__)) {
+      $this->principal = $user;
       $this->user_no = $user->user_no;
     }
   }
