@@ -29,6 +29,8 @@ require_once("iCalendar.php");
 
 $reportnum = -1;
 $report = array();
+$denied = array();
+$unsupported = array();
 if ( isset($prop_filter) ) unset($prop_filter);
 
 $position = 0;
