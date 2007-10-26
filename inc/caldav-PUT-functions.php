@@ -92,11 +92,11 @@ function controlRequestContainer( $username, $user_no, $path, $caldav_context ) 
 function public_events_only( $user_no, $dav_name ) {
   $sql = "SELECT public_events_only ";
   $sql .= "FROM collection ";
-  $sql .= "WHERE user_no=? AND dav_name=?");
+  $sql .= "WHERE user_no=? AND dav_name=?";
 
-  $qry = new PgQuery($sql);
+  $qry = new PgQuery($sql, $user_no, $dav_name);
 
-  if( $qry->Exec($user_no, $dav_name) && $qry->rows == 1 ) {
+  if( $qry->Exec('PUT') && $qry->rows == 1 ) {
     $collection = $qry->Fetch();
 
     if ($collection->public_events_only == 't') {
@@ -215,14 +215,14 @@ function import_collection( $ics_content, $user_no, $path, $caldav_context ) {
     if ( public_events_only($user_no, $path) ) {
       $class = 'PUBLIC';
     }
-     
+
     /*
      * It seems that some calendar clients don't set a class...
      * RFC2445, 4.8.1.3:
      * Default is PUBLIC
-     */  
+     */
     if ( !isset($class) || $class == '' ) {
-      $class = 'PUBLIC'
+      $class = 'PUBLIC';
     }
 
     $sql .= <<<EOSQL
@@ -360,14 +360,14 @@ function putCalendarResource( &$request, $author, $caldav_context ) {
   if ( public_events_only($user_no, $path) ) {
     $class = 'PUBLIC';
   }
-     
+
   /*
    * It seems that some calendar clients don't set a class...
    * RFC2445, 4.8.1.3:
    * Default is PUBLIC
-   */  
+   */
   if ( !isset($class) || $class == '' ) {
-    $class = 'PUBLIC'
+    $class = 'PUBLIC';
   }
 
 

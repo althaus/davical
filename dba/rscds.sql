@@ -77,6 +77,7 @@ CREATE TABLE collection (
   is_calendar BOOLEAN,
   created TIMESTAMP WITH TIME ZONE,
   modified TIMESTAMP WITH TIME ZONE,
+  public_events_only BOOLEAN NOT NULL DEFAULT FALSE,
 
   PRIMARY KEY ( user_no, dav_name )
 );
@@ -141,4 +142,4 @@ CREATE TABLE freebusy_ticket (
 
 GRANT INSERT,SELECT,UPDATE,DELETE ON TABLE freebusy_ticket TO general;
 
-SELECT new_db_revision(1,1,9, 'September' );
+SELECT new_db_revision(1,1,10, 'October' );
