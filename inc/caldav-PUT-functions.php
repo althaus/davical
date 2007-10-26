@@ -90,6 +90,10 @@ function controlRequestContainer( $username, $user_no, $path, $caldav_context ) 
 * @return boolean Return true if public events only are allowed.
 */
 function public_events_only( $user_no, $dav_name ) {
+  global $c;
+  // Not supported until DB versions from 1.001.010
+  if ( $c->schema_version < 1001.010 ) return false;
+
   $sql = "SELECT public_events_only ";
   $sql .= "FROM collection ";
   $sql .= "WHERE user_no=? AND dav_name=?";
