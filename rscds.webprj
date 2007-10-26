@@ -238,5 +238,6 @@
     <item url="inc/caldav-REPORT-multiget.php" uploadstatus="1" />
     <item url="inc/caldav-PUT-functions.php" uploadstatus="1" />
     <item url="inc/HTTPAuthSession.php" uploadstatus="1" />
+    <item url="inc/caldav-REPORT-principal.php" uploadstatus="1" />
   </project>
 </webproject>
