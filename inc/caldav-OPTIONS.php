@@ -61,7 +61,7 @@ header( "Allow: $allowed");
 /**
 * From reading the "Scheduling Extensions to CalDAV" draft I don't think that we will
 * be doing 'calendar-schedule' any time soon.  The current spec is at:
-*    http://www.ietf.org/internet-drafts/draft-desruisseaux-caldav-sched-02.txt
+*    http://www.ietf.org/internet-drafts/draft-desruisseaux-caldav-sched-03.txt
 *
 * access-control is rfc3744, so we will say we do it, but I doubt if we do it
 * in all (or even much of) it's glory really.
