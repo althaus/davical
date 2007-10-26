@@ -40,7 +40,6 @@ foreach( $request->xml_tags AS $k => $v ) {
     case 'URN:IETF:PARAMS:XML:NS:CALDAV:MAX-DATE-TIME':
     case 'URN:IETF:PARAMS:XML:NS:CALDAV:MAX-INSTANCES':
     case 'URN:IETF:PARAMS:XML:NS:CALDAV:MAX-ATTENDEES-PER-INSTANCE':
-    case 'URN:IETF:PARAMS:XML:NS:CALDAV:CALENDAR-HOME-SET':
     case 'HTTP://APACHE.ORG/DAV/PROPS/:EXECUTABLE':
     case 'DAV::CHECKED-OUT':
     case 'DAV::CHECKED-IN':
@@ -57,16 +56,23 @@ foreach( $request->xml_tags AS $k => $v ) {
     case 'DAV::GETCONTENTTYPE':                 /** getcontenttype  - should work fine */
     case 'DAV::GETETAG':                        /** getetag         - should work fine */
     case 'DAV::SUPPORTEDLOCK':                  /** supportedlock   - should work fine */
+    case 'DAV::PRINCIPAL-URL':                  /** principal-url   - should work fine */
     case 'DAV::RESOURCETYPE':                   /** resourcetype    - should work fine */
     case 'DAV::GETCONTENTLANGUAGE':             /** resourcetype    - should return the user's chosen locale, or default locale */
     case 'DAV::SUPPORTED-PRIVILEGE-SET':        /** supported-privilege-set    - should work fine */
-    case 'URN:IETF:PARAMS:XML:NS:CALDAV:SUPPORTED-COLLATION-SET':           /** fixed server definition - should work fine */
-    case 'URN:IETF:PARAMS:XML:NS:CALDAV:SUPPORTED-CALENDAR-COMPONENT-SET':  /** fixed server definition - should work fine */
     case 'DAV::CURRENT-USER-PRIVILEGE-SET':     /** current-user-privilege-set - only vaguely supported */
     case 'DAV::ALLPROP':                        /** allprop - limited support */
       $attribute = substr($v['tag'],5);
       $attribute_list[$attribute] = 1;
-      dbg_error_log( "PROPFIND", "Adding attribute '%s'", $attribute );
+      dbg_error_log( "PROPFIND", "Adding DAV: attribute '%s'", $attribute );
+      break;
+
+    case 'URN:IETF:PARAMS:XML:NS:CALDAV:CALENDAR-HOME-SET':  /** calendar-home-set is used by iCal in Leopard - should work fine */
+    case 'URN:IETF:PARAMS:XML:NS:CALDAV:SUPPORTED-COLLATION-SET':           /** fixed server definition - should work fine */
+    case 'URN:IETF:PARAMS:XML:NS:CALDAV:SUPPORTED-CALENDAR-COMPONENT-SET':  /** fixed server definition - should work fine */
+      $attribute = substr($v['tag'],30);
+      $attribute_list[$attribute] = 1;
+      dbg_error_log( "PROPFIND", "Adding CalDAV attribute '%s'", $attribute );
       break;
 
     case 'DAV::HREF':
@@ -180,6 +186,14 @@ function collection_to_xml( $collection ) {
     $prop->NewElement("getcontenttype", "httpd/unix-directory" );
   }
 
+  if ( isset($attribute_list['PRINCIPAL-URL'] ) ) {
+    $prop->NewElement("principal-url", $request->principal->url );
+  }
+
+  if ( isset($attribute_list['CALENDAR-HOME-SET'] ) ) {
+    $prop->NewElement("calendar-home-set", $request->principal->calendar_home_set, array("xmlns" => "urn:ietf:params:xml:ns:caldav") );
+  }
+
   /**
   * Second process any dynamic values we do support
   */
@@ -288,6 +302,14 @@ function item_to_xml( $item ) {
   }
   if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['GETETAG']) ) {
     $prop->NewElement("getetag", '"'.$item->dav_etag.'"' );
+  }
+
+  if ( isset($attribute_list['PRINCIPAL-URL'] ) ) {
+    $prop->NewElement("principal-url", $request->principal->url );
+  }
+
+  if ( isset($attribute_list['CALENDAR-HOME-SET'] ) ) {
+    $prop->NewElement("calendar-home-set", $request->principal->calendar_home_set, array("xmlns" => "urn:ietf:params:xml:ns:caldav") );
   }
 
   if ( isset($attribute_list['ACL']) ) {
