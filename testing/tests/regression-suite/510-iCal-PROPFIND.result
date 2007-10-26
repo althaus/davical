@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<multistatus xmlns="DAV:">
+ <response>
+  <href>/caldav.php/user1/home/</href>
+  <propstat>
+   <prop>
+    <calendar-home-set xmlns="urn:ietf:params:xml:ns:caldav">http://mycaldav/caldav.php/user1/home/</calendar-home-set>
+    <displayname>home</displayname>
+    <URN:IETF:PARAMS:XML:NS:CALDAV:CALENDAR-USER-ADDRESS-SET/>
+    <URN:IETF:PARAMS:XML:NS:CALDAV:SCHEDULE-INBOX-URL/>
+    <URN:IETF:PARAMS:XML:NS:CALDAV:SCHEDULE-OUTBOX-URL/>
+    <HTTP://CALENDARSERVER.ORG/NS/:DROPBOX-HOME-URL/>
+    <HTTP://CALENDARSERVER.ORG/NS/:NOTIFICATIONS-URL/>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+</multistatus>
