@@ -69,8 +69,10 @@ EOHDR;
   echo "<div id=\"pageheader\">\n";
 
   if ( isset($page_menu) && is_object($page_menu) ) {
-    $page_menu->AddSubMenu( $relationship_menu, translate("Relationships"),
+    if ( isset($relationship_menu) && is_object($relationship_menu) ) {
+      $page_menu->AddSubMenu( $relationship_menu, translate("Relationships"),
                                "$c->base_url/relationship_types.php", translate("Browse all relationship types"), false, 4050 );
+    }
     $page_menu->AddSubMenu( $user_menu, translate("Users"), "$c->base_url/users.php", translate("Browse all users"), false, 4100 );
 //    $page_menu->AddSubMenu( $role_menu, "Roles", "/roles.php", "Browse all roles", false, 4300 );
     $page_menu->MakeSomethingActive($active_menu_pattern);
