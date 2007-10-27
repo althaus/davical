@@ -229,6 +229,3 @@ $c->admin_email ='calendar-admin@example.com';
 * of a VEVENT.  The local (server) time zone will be used as a default.
 */
 // $c->local_tzid;
-
-
-?>
