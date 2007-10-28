@@ -239,5 +239,7 @@
     <item url="inc/caldav-PUT-functions.php" uploadstatus="1" />
     <item url="inc/HTTPAuthSession.php" uploadstatus="1" />
     <item url="inc/caldav-REPORT-principal.php" uploadstatus="1" />
+    <item url="dba/patches/1.1.10.sql" uploadstatus="1" />
+    <item url="inc/auth-functions.php" uploadstatus="1" />
   </project>
 </webproject>
