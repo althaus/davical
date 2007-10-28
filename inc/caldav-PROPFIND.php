@@ -2,8 +2,8 @@
 /**
 * CalDAV Server - handle PROPFIND method
 *
-* @package   rscds
-* @subpackage   caldav
+* @package   davical
+* @subpackage   propfind
 * @author    Andrew McMillan <andrew@catalyst.net.nz>
 * @copyright Catalyst .Net Ltd
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v2
@@ -41,6 +41,8 @@ foreach( $request->xml_tags AS $k => $v ) {
     case 'URN:IETF:PARAMS:XML:NS:CALDAV:MAX-INSTANCES':
     case 'URN:IETF:PARAMS:XML:NS:CALDAV:MAX-ATTENDEES-PER-INSTANCE':
     case 'HTTP://APACHE.ORG/DAV/PROPS/:EXECUTABLE':
+    case 'HTTP://CALENDARSERVER.ORG/NS/:DROPBOX-HOME-URL':
+    case 'HTTP://CALENDARSERVER.ORG/NS/:NOTIFICATIONS-URL':
     case 'DAV::CHECKED-OUT':
     case 'DAV::CHECKED-IN':
     case 'DAV::SOURCE':
@@ -84,6 +86,9 @@ foreach( $request->xml_tags AS $k => $v ) {
     /**
     * Add the ones that are specifically unsupported here.
     */
+    case 'URN:IETF:PARAMS:XML:NS:CALDAV:CALENDAR-USER-ADDRESS-SET':  /** calendar-schedule is not supported */
+    case 'URN:IETF:PARAMS:XML:NS:CALDAV:SCHEDULE-INBOX-URL':         /** calendar-schedule is not supported */
+    case 'URN:IETF:PARAMS:XML:NS:CALDAV:SCHEDULE-OUTBOX-URL':        /** calendar-schedule is not supported */
     case 'UNSUPPORTED':
       if ( preg_match('/^(.*):([^:]+)$/', $tag, $matches) ) {
         $unsupported[$matches[2]] = $matches[1];
