@@ -73,14 +73,15 @@ function calendar_to_xml( $properties, $item ) {
       if ( $item->class == 'CONFIDENTIAL' ) {
         // if the event is confidential we fake one that just says "Busy"
         $displayname = translate("Busy");
-        $ical = new iCalendar( array( "icalendar" => $item->caldav_data) );
+        $ical = new iCalendar( array( "icalendar" => $caldav_data) );
         $ical->Put( 'SUMMARY', $displayname );
-        $caldav_data = $ical->render(true, $item->caldav_type, $ical->DefaultPropertyList() );
+        $caldav_data = $ical->render(true, $caldav_type, $ical->DefaultPropertyList() );
       }
       elseif ( $c->hide_alarm ) {
         // Otherwise we hide the alarms (if configured to)
-        $ical = new iCalendar( array( "icalendar" => $item->caldav_data) );
-        $caldav_data = $ical->render(true, $item->caldav_type, $ical->DefaultPropertyList() );
+        $ical = new iCalendar( array( "icalendar" => $caldav_data) );
+        $ical->component->ClearComponents('VALARM');
+        $caldav_data = $ical->render(true, $caldav_type );
       }
     }
   }
@@ -90,7 +91,7 @@ function calendar_to_xml( $properties, $item ) {
   foreach( $properties AS $k => $v ) {
     switch( $k ) {
       case 'GETCONTENTLENGTH':
-        $contentlength = strlen($item->caldav_data);
+        $contentlength = strlen($caldav_data);
         $prop->NewElement("getcontentlength", $contentlength );
         break;
       case 'CALENDAR-DATA':

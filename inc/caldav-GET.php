@@ -45,6 +45,10 @@ else if ( $qry->rows > 1 ) {
   */
   include_once("iCalendar.php");
   $response = iCalendar::iCalHeader();
+  $collqry = new PgQuery( "SELECT * FROM collection WHERE collection.user_no = ? AND collection.dav_name = ?;", $request->user_no, $request->path);
+  if ( $collqry->Exec("GET") && $collection = $collqry->Fetch() ) {
+    $response .= "X-WR-CALNAME:$collection->dav_displayname\r\n";
+  }
   $timezones = array();
   while( $event = $qry->Fetch() ) {
     $ical = new iCalendar( array( "icalendar" => $event->caldav_data ) );
@@ -63,7 +67,8 @@ else if ( $qry->rows > 1 ) {
       }
       elseif ( $c->hide_alarm ) {
         // Otherwise we hide the alarms (if configured to)
-        $response .= $ical->Render( false, $event->caldav_type, $ical->DefaultPropertyList() );
+        $ical->component->ClearComponents('VALARM');
+        $response .= $ical->render(true, $event->caldav_type );
       }
       else {
         $response .= $ical->Render( false, $event->caldav_type );
