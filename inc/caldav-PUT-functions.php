@@ -12,8 +12,7 @@ include_once("iCalendar.php");
 * This function launches an error
 * @param boolean $caldav_context Whether we are responding via CalDAV or interactively
 * @param int $user_no the user wich will receive this ics file
-* @param string $path the $path where it will be store such as /user_foo/home/
-* @param boolean $caldav_context Whether we are responding via CalDAV or interactively
+* @param string $path the $path where the PUT failed to store such as /user_foo/home/
 * @param string $message An optional error message to return to the client
 * @param int $error_no An optional value for the HTTP error code
 */
@@ -84,7 +83,7 @@ function controlRequestContainer( $username, $user_no, $path, $caldav_context ) 
 }
 
 /**
-* Check if this collection sould force all events to be PUBLIC.
+* Check if this collection should force all events to be PUBLIC.
 * @param string $user_no the user that owns the collection
 * @param string $dav_name the collection to check
 * @return boolean Return true if public events only are allowed.
@@ -252,7 +251,7 @@ EOSQL;
 /**
 * Put the resource from this request
 * @param object $request A reference to the request object
-* @param int $user_no The owner of the collection where we are putting this resource
+* @param int $author The user_no who wants to put this resource on the server
 * @param boolean $caldav_context Whether we are responding via CalDAV or interactively
 * @return string Either 'INSERT' or 'UPDATE': the type of action that the PUT resulted in
 */
