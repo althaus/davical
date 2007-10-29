@@ -1,5 +1,6 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, access-control, calendar-access
 ETag: "d19579c20ab7e6349b50af9e16ef5abd"
 Content-Length: 6643
 Keep-Alive: timeout=15, max=100

@@ -1,18 +1,39 @@
+HTTP/1.1 207 Multi-Status
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, access-control, calendar-access
+ETag: "d48322f182f679c3bdcf47af918de025"
+Content-Length: 1022
+Content-Type: text/xml; charset="utf-8"
+
 <?xml version="1.0" encoding="utf-8" ?>
-<multistatus xmlns="DAV:">
+<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
  <response>
   <href>/caldav.php/user1/home/</href>
   <propstat>
    <prop>
-    <calendar-home-set xmlns="urn:ietf:params:xml:ns:caldav">http://mycaldav/caldav.php/user1/home/</calendar-home-set>
+    <C:calendar-home-set>
+     <href>http://mycaldav/caldav.php/user1/</href>
+    </C:calendar-home-set>
+    <C:schedule-inbox-url>
+     <href>http://mycaldav/caldav.php/user1/.inbox/</href>
+    </C:schedule-inbox-url>
+    <C:schedule-outbox-url>
+     <href>http://mycaldav/caldav.php/user1/.outbox/</href>
+    </C:schedule-outbox-url>
+    <C:calendar-user-address-set>
+     <href>http://mycaldav/caldav.php/user1/</href>
+     <href>mailto:user1@example.net</href>
+    </C:calendar-user-address-set>
     <displayname>home</displayname>
-    <URN:IETF:PARAMS:XML:NS:CALDAV:CALENDAR-USER-ADDRESS-SET/>
-    <URN:IETF:PARAMS:XML:NS:CALDAV:SCHEDULE-INBOX-URL/>
-    <URN:IETF:PARAMS:XML:NS:CALDAV:SCHEDULE-OUTBOX-URL/>
-    <HTTP://CALENDARSERVER.ORG/NS/:DROPBOX-HOME-URL/>
-    <HTTP://CALENDARSERVER.ORG/NS/:NOTIFICATIONS-URL/>
    </prop>
    <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <dropbox-home-url xmlns="http://calendarserver.org/ns/"/>
+    <notifications-url xmlns="http://calendarserver.org/ns/"/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
   </propstat>
  </response>
 </multistatus>

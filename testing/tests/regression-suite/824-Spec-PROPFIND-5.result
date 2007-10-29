@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<multistatus xmlns="DAV:">
+<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
  <response>
   <href>/caldav.php/user1/home/</href>
   <propstat>
    <prop>
-    <supported-collation-set xmlns="urn:ietf:params:xml:ns:caldav">
-     <supported-collation>i;ascii-casemap</supported-collation>
-     <supported-collation>i;octet</supported-collation>
-    </supported-collation-set>
-    <supported-calendar-component-set xmlns="urn:ietf:params:xml:ns:caldav">
-     <comp name="VEVENT"/>
-     <comp name="VTODO"/>
-    </supported-calendar-component-set>
+    <C:supported-collation-set>
+     <C:supported-collation>i;ascii-casemap</C:supported-collation>
+     <C:supported-collation>i;octet</C:supported-collation>
+    </C:supported-collation-set>
+    <C:supported-calendar-component-set>
+     <C:comp name="VEVENT"/>
+     <C:comp name="VTODO"/>
+    </C:supported-calendar-component-set>
     <getcontenttype>httpd/unix-directory</getcontenttype>
     <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
     <getcontentlength>9531</getcontentlength>
     <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
     <resourcetype>
      <collection/>
-     <calendar xmlns="urn:ietf:params:xml:ns:caldav"/>
+     <C:calendar/>
     </resourcetype>
     <displayname>home</displayname>
     <getetag>"faf25336de0e470a54075c14cbcf5272"</getetag>

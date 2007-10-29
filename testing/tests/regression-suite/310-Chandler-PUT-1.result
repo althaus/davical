@@ -1,5 +1,6 @@
 HTTP/1.1 201 Created
 Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, access-control, calendar-access
 ETag: "0d7a68984bf525342d22b8924a57e8e2"
 Content-Length: 0
 Content-Type: text/plain; charset="utf-8"

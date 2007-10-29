@@ -1,11 +1,13 @@
 HTTP/1.1 200 OK
 Date: Dow, 01 Jan 2000 00:00:00 GMT
-Content-Length: 5750
+DAV: 1, 2, access-control, calendar-access
+Content-Length: 5784
 Content-Type: text/calendar
 
 BEGIN:VCALENDAR
 PRODID:-//Catalyst.Net.NZ//NONSGML AWL Calendar//EN
 VERSION:2.0
+X-WR-CALNAME:User One's Calendar
 BEGIN:VTODO
 CREATED:20070805T201647Z
 LAST-MODIFIED:20070805T201834Z
