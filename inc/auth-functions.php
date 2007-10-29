@@ -41,7 +41,7 @@ function CreateHomeCalendar( $username ) {
   $dav_etag = md5($usr->user_no . $calendar_path);
   $sql = "INSERT INTO collection (user_no, parent_container, dav_name, dav_etag, dav_displayname, is_calendar, ";
   $sql .= "created, modified) VALUES( ?, ?, ?, ?, ?, true, current_timestamp, current_timestamp );";
-  $qry = new PgQuery( $sql, $this->user_no, $parent_path, $calendar_path, $dav_etag, $usr->fullname) );
+  $qry = new PgQuery( $sql, $this->user_no, $parent_path, $calendar_path, $dav_etag, $usr->fullname);
   if ( $qry->Exec() ) {
     $c->messages[] = i18n("Home calendar added.");
     dbg_error_log("User",":Write: Created user's home calendar at '%s'", $calendar_path );
