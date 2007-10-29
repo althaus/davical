@@ -156,7 +156,9 @@ class CalDAVRequest
     */
     $this->UserFromPath();
     $this->principal->url = sprintf( "%s/%s/", $c->protocol_server_port_script, $this->principal->username);
-    $this->principal->calendar_home_set = sprintf( "%s/%s/%s/", $c->protocol_server_port_script, $this->principal->username, $c->home_calendar_name);
+    $this->principal->calendar_home_set = sprintf( "%s%s/", $this->principal->url, $c->home_calendar_name);
+    $this->principal->schedule_inbox_url = sprintf( "%s.inbox/", $this->principal->url);
+    $this->principal->schedule_outbox_url = sprintf( "%s.outbox/", $this->principal->url);
 
     /**
     * Evaluate our permissions for accessing the target
