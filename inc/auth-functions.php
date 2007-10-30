@@ -26,6 +26,8 @@
 */
 
 require_once("AWLUtilities.php");
+require_once("DataUpdate.php");
+
 
 /**
 * Create a default home calendar for the user.
@@ -41,7 +43,7 @@ function CreateHomeCalendar( $username ) {
   $dav_etag = md5($usr->user_no . $calendar_path);
   $sql = "INSERT INTO collection (user_no, parent_container, dav_name, dav_etag, dav_displayname, is_calendar, ";
   $sql .= "created, modified) VALUES( ?, ?, ?, ?, ?, true, current_timestamp, current_timestamp );";
-  $qry = new PgQuery( $sql, $this->user_no, $parent_path, $calendar_path, $dav_etag, $usr->fullname);
+  $qry = new PgQuery( $sql, $usr->user_no, $parent_path, $calendar_path, $dav_etag, $usr->fullname);
   if ( $qry->Exec() ) {
     $c->messages[] = i18n("Home calendar added.");
     dbg_error_log("User",":Write: Created user's home calendar at '%s'", $calendar_path );
@@ -82,6 +84,42 @@ function CreateDefaultRelationships( $username ) {
 
 
 /**
+* Update the local cache of the remote user details
+* @param object $usr The user details we read from the remote.
+*/
+function UpdateUserFromExternal( &$usr ) {
+  /**
+  * When we're doing the create we will usually need to generate a user number
+  */
+  if ( !isset($usr->user_no) || intval($usr->user_no) == 0 ) {
+    $qry = new PgQuery( "SELECT currval('usr_user_no_seq');" );
+    $qry->Exec('Login',__LINE,__FILE__);
+    $sequence_value = $qry->Fetch(true);  // Fetch as an array
+    $usr->user_no = $sequence_value[0];
+  }
+
+  $qry = new PgQuery("SELECT * FROM usr WHERE user_no = $usr->user_no;" );
+  if ( $qry->Exec('Login',__LINE,__FILE__) && $qry->rows == 1 )
+    $type = "UPDATE";
+  else
+    $type = "INSERT";
+
+  $qry = new PgQuery( sql_from_object( $usr, $type, 'usr', "WHERE user_no=$usr->user_no" ) );
+  $qry->Exec('Login',__LINE,__FILE__);
+
+  /**
+  * We disallow login by inactive users _after_ we have updated the local copy
+  */
+  if ( isset($usr->active) && $usr->active == 'f' ) return false;
+
+  if ( $type == 'INSERT' ) {
+    CreateHomeCalendar($usr->username);
+    CreateDefaultRelationships($usr->username);
+  }
+}
+
+
+/**
 * Authenticate against a different PostgreSQL database which contains a usr table in
 * the AWL format.
 *
@@ -112,27 +150,7 @@ EOERRMSG;
   if ( $qry->Exec('Login',__LINE,__FILE__) && $qry->rows == 1 ) {
     $usr = $qry->Fetch();
     if ( session_validate_password( $password, $usr->password ) ) {
-
-      $qry = new PgQuery("SELECT * FROM usr WHERE user_no = $usr->user_no;" );
-      if ( $qry->Exec('Login',__LINE,__FILE__) && $qry->rows == 1 )
-        $type = "UPDATE";
-      else
-        $type = "INSERT";
-
-      include_once("DataUpdate.php");
-      $qry = new PgQuery( sql_from_object( $usr, $type, 'usr', "WHERE user_no=$usr->user_no" ) );
-      $qry->Exec('Login',__LINE,__FILE__);
-
-      /**
-      * We disallow login by inactive users _after_ we have updated the local copy
-      */
-      if ( isset($usr->active) && $usr->active == 'f' ) return false;
-
-      if ( $type == 'INSERT' ) {
-        CreateHomeCalendar($usr->username);
-        CreateDefaultRelationships($usr->username);
-      }
-
+      UpdateUserFromExternal();
       return $usr;
     }
   }
