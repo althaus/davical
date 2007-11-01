@@ -149,17 +149,18 @@ $c->admin_email ='calendar-admin@example.com';
 /********************************/
 /******* Other AWL hook *********/
 /********************************/
-//require_once('AuthPlugins.php');
+// require_once('auth-functions.php');
 //  $c->authenticate_hook = array(
-//      'call'   => 'auth_other_awl',
+//      'call'   => 'AuthExternalAwl',
 //      'config' => array(
-            /** A PgSQL database connection string for the database containing user records */
-//          'connection' => 'dbname=wrms host=otherhose port=5433 user=general',
-            /** Which columns should be fetched from the database */
-//          'columns'    => "user_no, active, email_ok, joined, last_update AS updated, last_used, username, password, fullname, email"
+//           // A PgSQL database connection string for the database containing user records
+//          'connection' => 'dbname=wrms host=otherhost port=5433 user=general',
+//           // Which columns should be fetched from the database
+//          'columns'    => "user_no, active, email_ok, joined, last_update AS updated, last_used, username, password, fullname, email",
+//           // a WHERE clause to limit the records returned.
+//          'where'    => "active AND org_code=7"
 //      )
 //  );
-
 
 
 /********************************/
