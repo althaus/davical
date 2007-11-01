@@ -123,7 +123,21 @@ function UpdateUserFromExternal( &$usr ) {
 * Authenticate against a different PostgreSQL database which contains a usr table in
 * the AWL format.
 *
-* @package   davical
+* Use this as in the following example config snippet:
+*
+* require_once('auth-functions.php');
+*  $c->authenticate_hook = array(
+*      'call'   => 'AuthExternalAwl',
+*      'config' => array(
+*           // A PgSQL database connection string for the database containing user records
+*          'connection' => 'dbname=wrms host=otherhost port=5433 user=general',
+*           // Which columns should be fetched from the database
+*          'columns'    => "user_no, active, email_ok, joined, last_update AS updated, last_used, username, password, fullname, email",
+*           // a WHERE clause to limit the records returned.
+*          'where'    => "active AND org_code=7"
+*      )
+*  );
+*
 */
 function AuthExternalAWL( $username, $password ) {
   global $c;
