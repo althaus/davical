@@ -366,13 +366,10 @@ function item_to_xml( $item ) {
     $prop->NewElement("getetag", '"'.$item->dav_etag.'"' );
   }
 
-  if ( isset($attribute_list['PRINCIPAL-URL'] ) ) {
-    $prop->NewElement("principal-url", $request->principal->url );
-  }
-
-  if ( isset($attribute_list['CALENDAR-HOME-SET'] ) ) {
-    $prop->NewElement("C:calendar-home-set", $request->principal->calendar_home_set );
-  }
+  /**
+  * Then look at any properties related to the principal
+  */
+  add_principal_properties( $prop );
 
   if ( isset($attribute_list['ACL']) ) {
     /**
