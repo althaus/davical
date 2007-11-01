@@ -2,7 +2,7 @@
 /**
 * CalDAV Server - main program
 *
-* @package   rscds
+* @package   davical
 * @subpackage   caldav
 * @author    Andrew McMillan <andrew@catalyst.net.nz>
 * @copyright Catalyst .Net Ltd
@@ -53,4 +53,3 @@ switch ( $request->method ) {
 
 $request->DoResponse( 500, translate("The application program does not understand that request.") );
 
-?>

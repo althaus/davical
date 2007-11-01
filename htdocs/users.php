@@ -2,8 +2,8 @@
 /**
 * Display a list of all users
 *
-* @package   rscds
-* @subpackage   RSCDSSession
+* @package   davical
+* @subpackage   Admin
 * @author    Andrew McMillan <andrew@catalyst.net.nz>
 * @copyright Catalyst .Net Ltd
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v2

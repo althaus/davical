@@ -2,7 +2,7 @@
 /**
 * Tools for manipulating calendars
 *
-* @package   rscds
+* @package   davical
 * @subpackage   RSCDSSession
 * @author    Maxime Delorme <mdelorme@tennaxia.com>
 * @copyright Maxime Delorme
