@@ -162,8 +162,6 @@ function sync_user_from_LDAP( &$usr, $mapping, $ldap_values );
     if ( in_array($field, $validUserFields) ) $usr->{$field} =  $ldap_values[$value];
   }
 
-  $user->updated = "$Y-$m-$d $H:$M:$S";
-
   UpdateUserFromExternal( $usr );
 }
 
@@ -210,8 +208,9 @@ function LDAP_check($username, $password ){
   foreach($c->authenticate_hook['config']['format_updated'] as $k => $v)
     $$k = substr($ldap_timestamp,$v[0],$v[1]);
 
-  // ok it is valid is already exist in db ?
   $ldap_timestamp = "$Y"."$m"."$d"."$H"."$M"."$S";
+  $valid[$mapping["updated"]] = "$Y-$m-$d $H:$M:$S";
+
   if ( $usr = getUserByName($username) ) {
     // should we update it ?
     $db_timestamp = $usr->updated;
@@ -269,7 +268,18 @@ function sync_LDAP(){
 
       foreach( $users_to_create as $username ) {
         $user = (object) array( 'user_no' => 0, 'username' => $username );
-        sync_user_from_LDAP( $user, $mapping, $ldap_users_info[$username] );
+        $valid = $ldap_users_info[$username];
+        $ldap_timestamp = $valid[$mapping["updated"]];
+
+        /**
+        * This splits the LDAP timestamp apart and assigns values to $Y $m $d $H $M and $S
+        */
+        foreach($c->authenticate_hook['config']['format_updated'] as $k => $v)
+            $$k = substr($ldap_timestamp,$v[0],$v[1]);
+        $ldap_timestamp = "$Y"."$m"."$d"."$H"."$M"."$S";
+        $valid[$mapping["updated"]] = "$Y-$m-$d $H:$M:$S";
+
+        sync_user_from_LDAP( $user, $mapping, $valid );
       }
     }
 
@@ -296,6 +306,7 @@ function sync_LDAP(){
         foreach($c->authenticate_hook['config']['format_updated'] as $k => $v)
             $$k = substr($ldap_timestamp,$v[0],$v[1]);
         $ldap_timestamp = "$Y"."$m"."$d"."$H"."$M"."$S";
+        $valid[$mapping["updated"]] = "$Y-$m-$d $H:$M:$S";
 
         $db_timestamp = substr(strtr($db_users_info[$username]['updated'], array(':' => '',' '=>'','-'=>'')),0,14);
         if ( $ldap_timestamp > $db_timestamp ) {
