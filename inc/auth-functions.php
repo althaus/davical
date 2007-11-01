@@ -145,7 +145,12 @@ EOERRMSG;
   else
     $cols = "*";
 
-  $qry = new PgQuery("SELECT $cols FROM usr WHERE lower(username) = ? ", strtolower($username) );
+  if ( isset($c->authenticate_hook['config']['where']) )
+    $andwhere = " AND ".$c->authenticate_hook['config']['where'];
+  else
+    $andwhere = "";
+
+  $qry = new PgQuery("SELECT $cols FROM usr WHERE lower(username) = ? $andwhere", strtolower($username) );
   $qry->SetConnection($authconn);
   if ( $qry->Exec('Login',__LINE,__FILE__) && $qry->rows == 1 ) {
     $usr = $qry->Fetch();
