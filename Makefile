@@ -7,7 +7,7 @@ version=$(shell cat VERSION)
 all: inc/always.php built-docs 
 
 built-docs: docs/api/phpdoc.ini htdocs/*.php inc/*.php
-	phpdoc -c docs/api/phpdoc.ini
+	phpdoc -c docs/api/phpdoc.ini || echo "WARNING: failed to build docs"
 	touch built-docs
 
 #
