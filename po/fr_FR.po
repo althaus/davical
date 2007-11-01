@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rscds 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-10-16 13:28+1300\n"
+"POT-Creation-Date: 2007-11-01 22:19+1300\n"
 "PO-Revision-Date: 2006-11-13 13:03+1300\n"
 "Last-Translator: maxime delorme <mdelorme@tennaxia.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,8 +20,8 @@ msgstr ""
 msgid "- creating record for users :  %s"
 msgstr "- création des utilisateurs : %s"
 
-#, c-format
-msgid "- desactivating users : %s"
+#, fuzzy, c-format
+msgid "- deactivating users : %s"
 msgstr "- desactivation des utilisateurs : %s"
 
 #, c-format
@@ -165,6 +165,10 @@ msgstr "Erreur base de données"
 msgid "Date Style"
 msgstr "Format des dates"
 
+#, fuzzy
+msgid "Default relationships added."
+msgstr "Relation ajoutée"
+
 msgid "Delete"
 msgstr "Supprimer"
 
@@ -203,8 +207,8 @@ msgstr "Tapez un nom pour ce type de ressource"
 msgid "Enter your username and password then click here to log in."
 msgstr "Tapez votre nom d'utilisateur et votre mot de passe puis cliquez ici pour vous connecter"
 
-#, c-format
-msgid "Error NoUserFound with filter >%s<, attributs >%s< , dn >%s<"
+#, fuzzy, c-format
+msgid "Error NoUserFound with filter >%s<, attributes >%s< , dn >%s<"
 msgstr "Erreur NoUserFound avec le filtre >%s<, attributs >%s<, dn >%s<"
 
 msgid "Error querying database."
