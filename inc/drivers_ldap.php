@@ -111,7 +111,7 @@ class ldapDrivers
 
     $entry=NULL;
     // We get the DN of the USER
-    $entry = ldap_search($this->connect, $this->baseDNUsers, $filter,$attributs);
+    $entry = ldap_search($this->connect, $this->baseDNUsers, $filter,$attributes);
     if ( !ldap_first_entry($this->connect, $entry) ){
       dbg_error_log( "ERROR", "drivers_ldap : Unable to find the user with filter %s",$filter );
       return false;
