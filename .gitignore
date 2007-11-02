@@ -6,3 +6,8 @@ locale
 built-docs
 .settings
 *~
+testing/*.stream
+testing/*.cap
+testing/*.pcap
+testing/*.dump
+testing/regression.conf
