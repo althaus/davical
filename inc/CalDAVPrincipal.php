@@ -71,8 +71,8 @@ class CalDAVPrincipal
         $usr = getUserByID($parameters['user_no']);
       }
       else if ( isset($parameters['path']) ) {
-        dbg_error_log( "principal", "Finding Principal from path: '%s'", $parameters['path'] );
-        if ( $username = $this->UsernameFromPath($parameters['path'],$parameters['options']) ) {
+        dbg_error_log( "principal", "Finding Principal from path: '%s', options.allow_by_email: '%s'", $parameters['path'], $parameters['options']['allow_by_email'] );
+        if ( $username = $this->UsernameFromPath($parameters['path'], $parameters['options']) ) {
           $usr = getUserByName($username);
           if ( isset($parameters['options']['allow_by_email']) && is_object($usr) && preg_match( '#/(\S+@\S+[.]\S+)$#', $parameters['path']) ) {
             $this->by_email = true;
@@ -104,7 +104,7 @@ class CalDAVPrincipal
     $this->schedule_inbox_url = sprintf( "%s.inbox/", $this->url);
     $this->schedule_outbox_url = sprintf( "%s.outbox/", $this->url);
 
-    dbg_error_log( "principal", "User: %s (%d) URL: %s, Home: %s", $this->username, $this->user_no, $this->url, $this->calendar_home_set );
+    dbg_error_log( "principal", "User: %s (%d) URL: %s, Home: %s, By Email: %d", $this->username, $this->user_no, $this->url, $this->calendar_home_set, $this->by_email );
   }
 
 
@@ -135,7 +135,7 @@ class CalDAVPrincipal
 
       if ( isset($options['allow_by_email']) && preg_match( '#/(\S+@\S+[.]\S+)$#', $path, $matches) ) {
         $email = $matches[1];
-        $qry = new PgQuery("SELECT user_no FROM usr WHERE email = ?;", $email );
+        $qry = new PgQuery("SELECT user_no, username FROM usr WHERE email = ?;", $email );
         if ( $qry->Exec("principal") && $user = $qry->Fetch() ) {
           $user_no = $user->user_no;
           $username = $user->username;
