@@ -151,7 +151,7 @@ function getStaticLdap() {
 * Synchronise a cached user with one from LDAP
 * @param object $usr A user record to be updated (or created)
 */
-function sync_user_from_LDAP( &$usr, $mapping, $ldap_values );
+function sync_user_from_LDAP( &$usr, $mapping, $ldap_values ) {
   $validUserFields = get_fields('usr');
 
   foreach ( $c->authenticate_hook['config']['default_value'] as $field => $value ) {
@@ -263,7 +263,7 @@ function sync_LDAP(){
     $users_to_update = array_intersect($db_users,$ldap_users);
 
     // creation of all users;
-    if ( sizeof($users_to_create) )
+    if ( sizeof($users_to_create) ) {
       $c->messages[] = sprintf(i18n('- creating record for users :  %s'),join(', ',$users_to_create));
 
       foreach( $users_to_create as $username ) {
@@ -323,4 +323,3 @@ function sync_LDAP(){
     }
   }
 }
-
