@@ -7,21 +7,22 @@
 *  - Utility functions which we can use to decide whether this
 *    is a permitted activity for this user.
 *
-* @package   rscds
-* @subpackage   CalDAVRequest
+* @package   davical
+* @subpackage   Request
 * @author    Andrew McMillan <andrew@mcmillan.net.nz>
 * @copyright Catalyst .Net Ltd
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v2
 */
 
 require_once("XMLElement.php");
+require_once("CalDAVPrincipal.php");
 
 define('DEPTH_INFINITY', 9999);
 
 /**
 * A class for collecting things to do with this request.
 *
-* @package   rscds
+* @package   davical
 */
 class CalDAVRequest
 {
@@ -150,15 +151,17 @@ class CalDAVRequest
       }
     }
 
+    $this->user_no = $session->user_no;
+    $this->username = $session->username;
+
     /**
     * Extract the user whom we are accessing
-    * TODO: Replace this by something which properly sets up the DAV 'principal'
     */
-    $this->UserFromPath();
-    $this->principal->url = sprintf( "%s/%s/", $c->protocol_server_port_script, $this->principal->username);
-    $this->principal->calendar_home_set = sprintf( "%s", $this->principal->url);
-    $this->principal->schedule_inbox_url = sprintf( "%s.inbox/", $this->principal->url);
-    $this->principal->schedule_outbox_url = sprintf( "%s.outbox/", $this->principal->url);
+    $this->principal = new CalDAVPrincipal( array( "path" => $this->path, "options" => $this->options ) );
+    if ( isset($this->principal->user_no) ) $this->user_no  = $this->principal->user_no;
+    if ( isset($this->principal->username)) $this->username = $this->principal->username;
+    if ( isset($this->principal->by_email)) $this->by_email = true;
+
 
     /**
     * Evaluate our permissions for accessing the target
@@ -584,4 +587,3 @@ class CalDAVRequest
   }
 }
 
-?>

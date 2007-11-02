@@ -77,8 +77,8 @@ foreach( $request->xml_tags AS $k => $v ) {
     * Handled calendar-schedule properties
     */
     case 'CALENDAR-USER-ADDRESS-SET':        /** CalDAV+s: slightly supported */
-    case 'SCHEDULE-INBOX-URL':               /** CalDAV+s: not supported */
-    case 'SCHEDULE-OUTBOX-URL':              /** CalDAV+s: not supported */
+//    case 'SCHEDULE-INBOX-URL':               /** CalDAV+s: not supported */
+//    case 'SCHEDULE-OUTBOX-URL':              /** CalDAV+s: not supported */
       $attribute_list[$tag] = 1;
       dbg_error_log( "PROPFIND", "Adding %s attribute '%s'", $namespace, $tag );
       break;

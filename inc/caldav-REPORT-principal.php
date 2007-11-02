@@ -22,9 +22,6 @@ function principal_to_xml( $properties, $item ) {
   $denied = array();
   foreach( $properties AS $k => $v ) {
     switch( $v ) {
-//      case 'DAV::GETCONTENTTYPE':
-//        $prop->NewElement("getcontenttype", "text/x-vcard" );
-//        break;
       case 'DAV::RESOURCETYPE':
         $prop->NewElement("resourcetype", new XMLElement("principal") );
         break;

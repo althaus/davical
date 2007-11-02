@@ -242,5 +242,6 @@
     <item url="dba/patches/1.1.10.sql" uploadstatus="1" />
     <item url="inc/auth-functions.php" uploadstatus="1" />
     <item url="htdocs/tools.php" uploadstatus="1" />
+    <item url="inc/CalDAVPrincipal.php" />
   </project>
 </webproject>
