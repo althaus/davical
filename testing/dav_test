@@ -10,11 +10,9 @@ use Getopt::Long qw(:config permute);  # allow mixed args.
 
 # Options variables
 my $debug  = 0;
-my $dbname = "rscds";
-my $dbport = 5432;
+my $dsn    = "davical";
 my $dbuser = "";
 my $dbpass = "";
-my $dbhost = "";
 my $suite;
 my $test;
 my $helpmeplease = 0;
@@ -25,11 +23,9 @@ my $patchdir = $dbadir . "/patches";
 
 
 GetOptions ('debug!'    => \$debug,
-            'dbname=s'  => \$dbname,
+            'dsn=s'     => \$dsn,
             'dbuser=s'  => \$dbuser,
             'dbpass=s'  => \$dbpass,
-            'dbport=s'  => \$dbport,
-            'dbhost=s'  => \$dbhost,
             'suite=s'   => \$suite,
             'case=s'    => \$test,
             'help'      => \$helpmeplease  );
@@ -40,10 +36,8 @@ usage() if ( $helpmeplease || !defined($suite) || !defined($test));
 # Open database connection. Note that the standard PostgreSQL
 # environment variables will also work with DBD::Pg.
 ############################################################
-my $dsn = "dbi:Pg:dbname=$dbname";
-$dsn .= ";host=$dbhost" if ( "$dbhost" ne "" );
-$dsn .= ";port=$dbport" if ( $dbport != 5432 );
-my $dbh = DBI->connect($dsn, $dbuser, $dbpass, { AutoCommit => 0 } ) or die "Can't connect to database $dbname";
+$dsn = "dbi:Pg:dbname=$dsn";
+my $dbh = DBI->connect($dsn, $dbuser, $dbpass, { AutoCommit => 0 } ) or die "Can't connect to database $dsn";
 
 
 my @arguments = ( "--basic", "--proxy", "", "--silent" );
@@ -242,11 +236,9 @@ and follow the instructions there.
 
 The following options are available for controlling the database, for
 those test cases which might require it:
-  --dbname <database>
+  --dsn <database>[;port=NNNN][;host=example.com]
   --dbuser <user>
   --dbpass <password>
-  --dbport <port>
-  --dbhost <host>
 
 
 The test instructions will include lines defining the test like:
