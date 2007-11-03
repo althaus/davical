@@ -7,6 +7,8 @@ HEADER=User-Agent: RFC2518 Spec Tests
 HEADER=Depth: 1
 HEADER=Content-Type: application/xml
 
+REPLACE=#<creationdate>\d{8}T\d{6}</creationdate>#<creationdate>YYYYMMDDThhmmss</creationdate>#
+
 
 BEGINDATA
 <?xml version="1.0" encoding="utf-8"?>
