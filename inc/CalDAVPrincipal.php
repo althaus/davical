@@ -99,10 +99,21 @@ class CalDAVPrincipal
       $this->{$k} = $v;
     }
 
-    $this->url = sprintf( "%s/~%d/", $c->protocol_server_port_script, $this->user_no);
-    $this->calendar_home_set = sprintf( "%s/%s/", $c->protocol_server_port_script, $this->username);
-    $this->schedule_inbox_url = sprintf( "%s.inbox/", $this->url);
-    $this->schedule_outbox_url = sprintf( "%s.outbox/", $this->url);
+    $script = (preg_match('#/$#', $c->protocol_server_port_script) ? 'caldav.php' : '');
+    $this->url = sprintf( "%s%s/%s/", $c->protocol_server_port_script, $script, $this->username);
+//    $this->url = sprintf( "%s%s/__uuids__/%s/", $c->protocol_server_port_script, $script, $this->username);
+
+    $this->calendar_home_set = sprintf( "%s%s/%s/", $c->protocol_server_port_script, $script, $this->username);
+
+    $this->user_address_set = array(
+       sprintf( "%s%s/%s/", $c->protocol_server_port_script, $script, $this->username),
+//       sprintf( "%s%s/~%s/", $c->protocol_server_port_script, $script, $this->username),
+//       sprintf( "%s%s/__uuids__/%s/", $c->protocol_server_port_script, $script, $this->username),
+    );
+    $this->schedule_inbox_url = sprintf( "%s.in/", $this->calendar_home_set);
+    $this->schedule_outbox_url = sprintf( "%s.out/", $this->calendar_home_set);
+    $this->dropbox_url = sprintf( "%s.drop/", $this->calendar_home_set);
+    $this->notifications_url = sprintf( "%s.notify/", $this->calendar_home_set);
 
     dbg_error_log( "principal", "User: %s (%d) URL: %s, Home: %s, By Email: %d", $this->username, $this->user_no, $this->url, $this->calendar_home_set, $this->by_email );
   }
@@ -125,10 +136,10 @@ class CalDAVPrincipal
     @dbg_error_log( "principal", "Path split into at least /// %s /// %s /// %s", $path_split[1], $path_split[2], $path_split[3] );
 
     if ( substr($path,0,1) == '~' ) {
-      // URL is for a principal, by ID
-      $user_no = intval(substr($path,1));
-      $user = getUserByID($user_no);
-      $username = $user->username;
+      // URL is for a principal, by name
+      $username = substr($path_split[1],1);
+      $user = getUserByID($username);
+      $user_no = $user->user_no;
     }
     else {
       $username = $path_split[1];
