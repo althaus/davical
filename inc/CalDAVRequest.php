@@ -29,6 +29,16 @@ class CalDAVRequest
   var $options;
 
   /**
+  * The raw data sent along with the request
+  */
+  var $raw_post;
+
+  /**
+  * The HTTP request method: PROPFIND, LOCK, REPORT, OPTIONS, etc...
+  */
+  var $method;
+
+  /**
   * The depth parameter from the request headers, coerced into a valid integer: 0, 1
   * or DEPTH_INFINITY which is defined above.  The default is set per various RFCs.
   */
@@ -38,6 +48,11 @@ class CalDAVRequest
   * The 'principal' (user/resource/...) which this request seeks to access
   */
   var $principal;
+
+  /**
+  * The user agent making the request.
+  */
+  var $user_agent;
 
   /**
   * Create a new CalDAVRequest object.
@@ -54,6 +69,8 @@ class CalDAVRequest
       $_SERVER['REQUEST_METHOD'] = $_GET['method'];
     }
     $this->method = $_SERVER['REQUEST_METHOD'];
+
+    $this->user_agent = ((isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : "Probably Mulberry"));
 
     /**
     * A variety of requests may set the "Depth" header to control recursion
