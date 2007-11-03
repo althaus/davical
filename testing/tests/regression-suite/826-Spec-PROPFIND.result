@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
+ <response>
+  <href>/caldav.php/</href>
+  <propstat>
+   <prop>
+    <getcontenttype>httpd/unix-directory</getcontenttype>
+    <getlastmodified/>
+    <getcontentlength/>
+    <creationdate>20071103T201818</creationdate>
+    <resourcetype>
+     <collection/>
+    </resourcetype>
+    <displayname>DAViCal CalDAV Server</displayname>
+    <getetag>"38f09ba341cd927809b571496db6e4c3"</getetag>
+    <acl>
+     <ace>
+      <principal>
+       <authenticated/>
+      </principal>
+      <grant>
+      </grant>
+     </ace>
+    </acl>
+    <getcontentlanguage>en_NZ.UTF-8</getcontentlanguage>
+    <supportedlock>
+     <lockentry>
+      <lockscope>
+       <exclusive/>
+      </lockscope>
+      <locktype>
+       <write/>
+      </locktype>
+     </lockentry>
+    </supportedlock>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <lockdiscovery xmlns="dav:"/>
+    <source xmlns="dav:"/>
+    <checked-in xmlns="dav:"/>
+    <checked-out xmlns="dav:"/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+</multistatus>

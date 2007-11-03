@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
+ <response>
+  <href>/caldav.php/</href>
+  <propstat>
+   <prop>
+    <getcontenttype>httpd/unix-directory</getcontenttype>
+    <getlastmodified/>
+    <getcontentlength/>
+    <creationdate>20071103T202330</creationdate>
+    <resourcetype>
+     <collection/>
+    </resourcetype>
+    <displayname>DAViCal CalDAV Server</displayname>
+    <getetag>"38f09ba341cd927809b571496db6e4c3"</getetag>
+    <acl>
+     <ace>
+      <principal>
+       <authenticated/>
+      </principal>
+      <grant>
+      </grant>
+     </ace>
+    </acl>
+    <getcontentlanguage>en_NZ.UTF-8</getcontentlanguage>
+    <supportedlock>
+     <lockentry>
+      <lockscope>
+       <exclusive/>
+      </lockscope>
+      <locktype>
+       <write/>
+      </locktype>
+     </lockentry>
+    </supportedlock>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <lockdiscovery xmlns="dav:"/>
+    <source xmlns="dav:"/>
+    <checked-in xmlns="dav:"/>
+    <checked-out xmlns="dav:"/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/</href>
+  <propstat>
+   <prop>
+    <getcontenttype>httpd/unix-directory</getcontenttype>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <getcontentlength/>
+    <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
+    <resourcetype>
+     <collection/>
+     <principal/>
+    </resourcetype>
+    <displayname>User 1</displayname>
+    <getetag>"7d0fd5137942261bee17da4287f71494"</getetag>
+    <acl>
+     <ace>
+      <principal>
+       <authenticated/>
+      </principal>
+      <grant>
+      </grant>
+     </ace>
+    </acl>
+    <getcontentlanguage>en_NZ.UTF-8</getcontentlanguage>
+    <supportedlock>
+     <lockentry>
+      <lockscope>
+       <exclusive/>
+      </lockscope>
+      <locktype>
+       <write/>
+      </locktype>
+     </lockentry>
+    </supportedlock>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <lockdiscovery xmlns="dav:"/>
+    <source xmlns="dav:"/>
+    <checked-in xmlns="dav:"/>
+    <checked-out xmlns="dav:"/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/manager1/</href>
+  <propstat>
+   <prop>
+    <getcontenttype>httpd/unix-directory</getcontenttype>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <getcontentlength/>
+    <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
+    <resourcetype>
+     <collection/>
+     <principal/>
+    </resourcetype>
+    <displayname>Manager 1</displayname>
+    <getetag>"ec5b8b282c4a9c7b73d1e5bf610f0648"</getetag>
+    <acl>
+     <ace>
+      <principal>
+       <authenticated/>
+      </principal>
+      <grant>
+      </grant>
+     </ace>
+    </acl>
+    <getcontentlanguage>en_NZ.UTF-8</getcontentlanguage>
+    <supportedlock>
+     <lockentry>
+      <lockscope>
+       <exclusive/>
+      </lockscope>
+      <locktype>
+       <write/>
+      </locktype>
+     </lockentry>
+    </supportedlock>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <lockdiscovery xmlns="dav:"/>
+    <source xmlns="dav:"/>
+    <checked-in xmlns="dav:"/>
+    <checked-out xmlns="dav:"/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/assistant1/</href>
+  <propstat>
+   <prop>
+    <getcontenttype>httpd/unix-directory</getcontenttype>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <getcontentlength/>
+    <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
+    <resourcetype>
+     <collection/>
+     <principal/>
+    </resourcetype>
+    <displayname>Assistant 1</displayname>
+    <getetag>"b1f51f4e0cee340892205b0d7d514134"</getetag>
+    <acl>
+     <ace>
+      <principal>
+       <authenticated/>
+      </principal>
+      <grant>
+      </grant>
+     </ace>
+    </acl>
+    <getcontentlanguage>en_NZ.UTF-8</getcontentlanguage>
+    <supportedlock>
+     <lockentry>
+      <lockscope>
+       <exclusive/>
+      </lockscope>
+      <locktype>
+       <write/>
+      </locktype>
+     </lockentry>
+    </supportedlock>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <lockdiscovery xmlns="dav:"/>
+    <source xmlns="dav:"/>
+    <checked-in xmlns="dav:"/>
+    <checked-out xmlns="dav:"/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/resource1/</href>
+  <propstat>
+   <prop>
+    <getcontenttype>httpd/unix-directory</getcontenttype>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <getcontentlength/>
+    <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
+    <resourcetype>
+     <collection/>
+     <principal/>
+    </resourcetype>
+    <displayname>Resource 1</displayname>
+    <getetag>"7877b4ffa943232dbc624c0249c27e55"</getetag>
+    <acl>
+     <ace>
+      <principal>
+       <authenticated/>
+      </principal>
+      <grant>
+      </grant>
+     </ace>
+    </acl>
+    <getcontentlanguage>en_NZ.UTF-8</getcontentlanguage>
+    <supportedlock>
+     <lockentry>
+      <lockscope>
+       <exclusive/>
+      </lockscope>
+      <locktype>
+       <write/>
+      </locktype>
+     </lockentry>
+    </supportedlock>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <lockdiscovery xmlns="dav:"/>
+    <source xmlns="dav:"/>
+    <checked-in xmlns="dav:"/>
+    <checked-out xmlns="dav:"/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/resource2/</href>
+  <propstat>
+   <prop>
+    <getcontenttype>httpd/unix-directory</getcontenttype>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <getcontentlength/>
+    <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
+    <resourcetype>
+     <collection/>
+     <principal/>
+    </resourcetype>
+    <displayname>Resource 2</displayname>
+    <getetag>"658fc7067081793e3c1e27b32f935020"</getetag>
+    <acl>
+     <ace>
+      <principal>
+       <authenticated/>
+      </principal>
+      <grant>
+      </grant>
+     </ace>
+    </acl>
+    <getcontentlanguage>en_NZ.UTF-8</getcontentlanguage>
+    <supportedlock>
+     <lockentry>
+      <lockscope>
+       <exclusive/>
+      </lockscope>
+      <locktype>
+       <write/>
+      </locktype>
+     </lockentry>
+    </supportedlock>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <lockdiscovery xmlns="dav:"/>
+    <source xmlns="dav:"/>
+    <checked-in xmlns="dav:"/>
+    <checked-out xmlns="dav:"/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+</multistatus>

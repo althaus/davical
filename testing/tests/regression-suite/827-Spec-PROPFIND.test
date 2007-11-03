@@ -1,0 +1,31 @@
+#
+# Testing for Spec compliance.  PROPFIND on the root
+#
+TYPE=PROPFIND
+URL=http://mycaldav/
+HEADER=User-Agent: RFC2518 Spec Tests
+HEADER=Depth: 1
+HEADER=Content-Type: application/xml
+
+
+BEGINDATA
+<?xml version="1.0" encoding="utf-8"?>
+<propfind xmlns="DAV:">
+ <prop>
+  <acl/>
+  <creationdate/>
+  <displayname/>
+  <getcontentlanguage/>
+  <getcontentlength/>
+  <getcontenttype/>
+  <getetag/>
+  <getlastmodified/>
+  <lockdiscovery/>
+  <resourcetype/>
+  <source/>
+  <supportedlock/>
+  <checked-in/>
+  <checked-out/>
+ </prop>
+</propfind>
+ENDDATA
