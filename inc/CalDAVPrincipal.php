@@ -118,7 +118,7 @@ class CalDAVPrincipal
 
     if ( $path == '/' || $path == '' ) {
       dbg_error_log( "principal", "No useful path split possible" );
-      return false;
+      return $session->username;
     }
 
     $path_split = explode('/', $path );
