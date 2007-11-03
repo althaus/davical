@@ -7,7 +7,7 @@
 
 -- The main event.  Where we store the things the calendar throws at us.
 CREATE TABLE caldav_data (
-  user_no INT references usr(user_no),
+  user_no INT references usr(user_no) ON UPDATE CASCADE ON DELETE CASCADE DEFERRABLE,
   dav_name TEXT,
   dav_etag TEXT,
   created TIMESTAMP WITH TIME ZONE,
@@ -69,7 +69,7 @@ GRANT SELECT,INSERT,UPDATE,DELETE ON calendar_item TO general;
 
 -- Something that can look like a filesystem hierarchy where we store stuff
 CREATE TABLE collection (
-  user_no INT references usr(user_no),
+  user_no INT references usr(user_no) ON UPDATE CASCADE ON DELETE CASCADE DEFERRABLE,
   parent_container TEXT,
   dav_name TEXT,
   dav_etag TEXT,
@@ -142,4 +142,4 @@ CREATE TABLE freebusy_ticket (
 
 GRANT INSERT,SELECT,UPDATE,DELETE ON TABLE freebusy_ticket TO general;
 
-SELECT new_db_revision(1,1,10, 'October' );
+SELECT new_db_revision(1,1,11, 'November' );
