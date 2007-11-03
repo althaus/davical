@@ -51,12 +51,6 @@ $c->protocol_server_port_script = sprintf( "%s://%s%s%s", (isset($_SERVER['HTTPS
                  ),
                  $_SERVER['SCRIPT_NAME'] );
 
-if ( count($c->dbg) > 0 ) {
-  // Only log this if debugging of some sort is turned on, somewhere
-  @dbg_error_log( "LOG", "==========> method =%s= =%s= =%s= =%s= =%s=",
-         $_SERVER['REQUEST_METHOD'], $c->protocol_server_port_script, $_SERVER['PATH_INFO'], $c->base_url, $c->base_directory );
-}
-
 init_gettext( 'rscds', '../locale' );
 
 if ( file_exists("/etc/davical/".$_SERVER['SERVER_NAME']."-conf.php") ) {
@@ -74,6 +68,12 @@ else {
 }
 if ( !isset($c->page_title) ) $c->page_title = $c->system_name;
 
+if ( count($c->dbg) > 0 ) {
+  // Only log this if debugging of some sort is turned on, somewhere
+  @dbg_error_log( "LOG", "==========> method =%s= =%s= =%s= =%s= =%s=",
+         $_SERVER['REQUEST_METHOD'], $c->protocol_server_port_script, $_SERVER['PATH_INFO'], $c->base_url, $c->base_directory );
+}
+
 /**
 * Now that we have loaded the configuration file we can switch to a
 * default site locale.  This may be overridden by each user.
@@ -85,7 +85,7 @@ awl_set_locale($c->default_locale);
 *
 */
 $c->code_version = 0;
-$c->version_string = '0.9.1'; // The actual version # is replaced into that during the build /release process
+$c->version_string = '0.9.1+iCal2'; // The actual version # is replaced into that during the build /release process
 if ( isset($c->version_string) && preg_match( '/(\d+)\.(\d+)\.(\d+)(.*)/', $c->version_string, $matches) ) {
   $c->code_major = $matches[1];
   $c->code_minor = $matches[2];
@@ -111,15 +111,45 @@ if ( $qry->Exec("always") && $row = $qry->Fetch() ) {
   $c->schema_patch = $row->schema_patch;
 }
 
-$_known_users = array();
-function getUserByName( $username ) {
+
+$_known_users_name = array();
+$_known_users_id   = array();
+/**
+* Return a user record identified by a username, caching it for any subsequent lookup
+* @param string $username The username of the record to retrieve
+* @param boolean $use_cache Whether or not to use the cache (default: yes)
+*/
+function getUserByName( $username, $use_cache = true ) {
   // Provide some basic caching in case this ends up being overused.
-  if ( isset( $_known_users[$username] ) ) return $_known_users[$username];
+  if ( $use_cache && isset( $_known_users_name[$username] ) ) return $_known_users_name[$username];
 
   $qry = new PgQuery( "SELECT * FROM usr WHERE lower(username) = lower(?) ", $username );
   if ( $qry->Exec('always',__LINE__,__FILE__) && $qry->rows == 1 ) {
-    $_known_users[$username] = $qry->Fetch();
-    return $_known_users[$username];
+    $_known_users_name[$username] = $qry->Fetch();
+    $id = $_known_users_name[$username]->user_no;
+    $_known_users_id[$id] = $_known_users_name[$username];
+    return $_known_users_name[$username];
+  }
+
+  return false;
+}
+
+
+/**
+* Return a user record identified by a user_no, caching it for any subsequent lookup
+* @param int $user_no The ID of the record to retrieve
+* @param boolean $use_cache Whether or not to use the cache (default: yes)
+*/
+function getUserByID( $user_no, $use_cache = true ) {
+  // Provide some basic caching in case this ends up being overused.
+  if ( $use_cache && isset( $_known_users_id[$user_no] ) ) return $_known_users_id[$user_no];
+
+  $qry = new PgQuery( "SELECT * FROM usr WHERE user_no = ? ", intval($user_no) );
+  if ( $qry->Exec('always',__LINE__,__FILE__) && $qry->rows == 1 ) {
+    $_known_users_id[$user_no] = $qry->Fetch();
+    $name = $_known_users_id[$user_no]->username;
+    $_known_users_name[$name] = $_known_users_id[$user_no];
+    return $_known_users_id[$user_no];
   }
 
   return false;
