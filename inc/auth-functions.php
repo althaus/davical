@@ -92,7 +92,7 @@ function UpdateUserFromExternal( &$usr ) {
   * When we're doing the create we will usually need to generate a user number
   */
   if ( !isset($usr->user_no) || intval($usr->user_no) == 0 ) {
-    $qry = new PgQuery( "SELECT currval('usr_user_no_seq');" );
+    $qry = new PgQuery( "SELECT nextval('usr_user_no_seq');" );
     $qry->Exec('Login',__LINE,__FILE__);
     $sequence_value = $qry->Fetch(true);  // Fetch as an array
     $usr->user_no = $sequence_value[0];
