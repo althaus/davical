@@ -4,6 +4,7 @@ build
 rscds.bfproject
 locale
 built-docs
+built-po
 .settings
 *~
 testing/*.stream
