@@ -198,7 +198,10 @@ function collection_to_xml( $collection ) {
   $arbitrary_results = get_arbitrary_properties($collection->dav_name);
   $collection->properties = $arbitrary_results->found;
 
-  $url = $_SERVER['SCRIPT_NAME'] . $collection->dav_name;
+  $url = $_SERVER['SCRIPT_NAME'];
+  if ( $url == '/index.php' ) $url = '/caldav.php';
+  $url .= $collection->dav_name;
+
   $resourcetypes = array( new XMLElement("collection") );
   $contentlength = false;
   if ( $collection->is_calendar == 't' ) {
@@ -461,7 +464,7 @@ function get_collection_contents( $depth, $user_no, $collection ) {
     $sql .= "to_char(last_modified at time zone 'GMT',?) AS modified, ";
     $sql .= "summary AS dav_displayname ";
     $sql .= "FROM caldav_data JOIN calendar_item USING( user_no, dav_name) WHERE dav_name ~ ".qpg('^'.$collection->dav_name.'[^/]+$');
-    $sql .= "AND (calendar_item.class != 'PRIVATE' OR calendar_item.class IS NULL OR get_permissions($session->user_no,caldav_data.user_no) ~ 'A') "; // Must have 'all' permissions to see confidential items
+    $sql .= " AND (calendar_item.class != 'PRIVATE' OR calendar_item.class IS NULL OR get_permissions($session->user_no,caldav_data.user_no) ~ 'A') "; // Must have 'all' permissions to see confidential items
     $sql .= "ORDER BY caldav_data.dav_name ";
     $qry = new PgQuery($sql, PgQuery::Plain(iCalendar::HttpDateFormat()), PgQuery::Plain(iCalendar::HttpDateFormat()));
     if( $qry->Exec("PROPFIND",__LINE__,__FILE__) && $qry->rows > 0 ) {
@@ -485,12 +488,13 @@ function get_collection( $depth, $user_no, $collection_path ) {
 
   dbg_error_log("PROPFIND","Getting collection: Depth %d, User: %d, Path: %s", $depth, $user_no, $collection_path );
 
-  if ( $collection_path == '/' ) {
+  if ( $collection_path == null || $collection_path == '/' || $collection_path == '' ) {
     $collection->dav_name = $collection_path;
     $collection->dav_etag = md5($c->system_name . $collection_path);
     $collection->is_calendar = 'f';
+    $collection->is_principal = 'f';
     $collection->dav_displayname = $c->system_name;
-    $collection->created = date('Ymd"T"His');
+    $collection->created = date('Ymd\THis');
     $responses[] = collection_to_xml( $collection );
   }
   else {
@@ -515,6 +519,7 @@ function get_collection( $depth, $user_no, $collection_path ) {
       $collection->dav_name = $collection_path;
       $collection->dav_etag = md5($collection_path);
       $collection->is_calendar = 't';  // Everything is a calendar, if it always exists!
+      $collection->is_principal = 'f';
       $collection->dav_displayname = $collection_path;
       $collection->created = date('Ymd"T"His');
       $responses[] = collection_to_xml( $collection );
@@ -539,7 +544,7 @@ function get_item( $item_path ) {
   $sql .= "to_char(coalesce(calendar_item.created, caldav_data.created) at time zone 'GMT',?) AS created, ";
   $sql .= "to_char(last_modified at time zone 'GMT',?) AS modified, ";
   $sql .= "summary AS dav_displayname ";
-  $sql .= "FROM caldav_data JOIN calendar_item USING( user_no, dav_name)  WHERE dav_name = ?";
+  $sql .= "FROM caldav_data JOIN calendar_item USING( user_no, dav_name)  WHERE dav_name = ? ";
   $sql .= "AND (calendar_item.class != 'PRIVATE' OR calendar_item.class IS NULL OR get_permissions($session->user_no,caldav_data.user_no) ~ 'A') "; // Must have 'all' permissions to see confidential items
   $qry = new PgQuery($sql, PgQuery::Plain(iCalendar::HttpDateFormat()), PgQuery::Plain(iCalendar::HttpDateFormat()), $item_path);
   if( $qry->Exec("PROPFIND",__LINE__,__FILE__) && $qry->rows > 0 ) {
