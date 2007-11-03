@@ -49,7 +49,9 @@ $c->protocol_server_port_script = sprintf( "%s://%s%s%s", (isset($_SERVER['HTTPS
                    ? ''
                    : ':'.$_SERVER['SERVER_PORT']
                  ),
-                 $_SERVER['SCRIPT_NAME'] );
+                 ($_SERVER['SCRIPT_NAME'] == '/index.php' ? '' : $_SERVER['SCRIPT_NAME']) );
+
+$c->protocol_server_port_script = ($_SERVER['SCRIPT_NAME'] == '/index.php' ? '' : $_SERVER['SCRIPT_NAME']);
 
 init_gettext( 'rscds', '../locale' );
 
