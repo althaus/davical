@@ -383,16 +383,12 @@ function collection_to_xml( $collection ) {
     }
   }
 
-  if ( count($not_found->content) > 0 ) {
-    $status = new XMLElement("status", "HTTP/1.1 404 Not Found" );
-    $propstat = new XMLElement( "propstat", array( $not_found, $status) );
-    $response[] = $propstat;
+  if ( is_array($not_found->content) && count($not_found->content) > 0 ) {
+    $response[] = new XMLElement( "propstat", array( $not_found, new XMLElement("status", "HTTP/1.1 404 Not Found" )) );
   }
 
-  if ( count($denied->content) > 0 ) {
-    $status = new XMLElement("status", "HTTP/1.1 403 Forbidden" );
-    $propstat = new XMLElement( "propstat", array( $denied, $status) );
-    $response[] = $propstat;
+  if ( is_array($denied->content) && count($denied->content) > 0 ) {
+    $response[] = new XMLElement( "propstat", array( $denied, new XMLElement("status", "HTTP/1.1 403 Forbidden" )) );
   }
 
   $response = new XMLElement( "response", $response );
@@ -482,16 +478,12 @@ function item_to_xml( $item ) {
   $href = new XMLElement("href", $url );
   $response = array($href,$propstat);
 
-  if ( count($not_found->content) > 0 ) {
-    $status = new XMLElement("status", "HTTP/1.1 404 Not Found" );
-    $propstat = new XMLElement( "propstat", array( $not_found, $status) );
-    $response[] = $propstat;
+  if ( is_array($not_found->content) && count($not_found->content) > 0 ) {
+    $response[] = new XMLElement( "propstat", array( $not_found, new XMLElement("status", "HTTP/1.1 404 Not Found" )) );
   }
 
-  if ( count($denied->content) > 0 ) {
-    $status = new XMLElement("status", "HTTP/1.1 403 Forbidden" );
-    $propstat = new XMLElement( "propstat", array( $denied, $status) );
-    $response[] = $propstat;
+  if ( is_array($denied->content) && count($denied->content) > 0 ) {
+    $response[] = new XMLElement( "propstat", array( $denied, new XMLElement("status", "HTTP/1.1 403 Forbidden" )) );
   }
 
   $response = new XMLElement( "response", $response );
