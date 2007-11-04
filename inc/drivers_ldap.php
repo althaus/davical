@@ -170,7 +170,7 @@ function sync_user_from_LDAP( &$usr, $mapping, $ldap_values ) {
   $validUserFields = get_fields('usr');
 
   foreach ( $c->authenticate_hook['config']['default_value'] as $field => $value ) {
-    if ( in_array($field, $validUserFields) ) {
+    if ( isset($validUserFields[$field]) ) {
       $usr->{$field} =  $value;
       dbg_error_log( "LDAP", "Setting usr->%s to %s from configured defaults", $field, $value );
     }
@@ -178,7 +178,7 @@ function sync_user_from_LDAP( &$usr, $mapping, $ldap_values ) {
 
   foreach ( $mapping as $field => $value ) {
     dbg_error_log( "LDAP", "Considering copying %s", $field );
-    if ( in_array($field, $validUserFields) ) {
+    if ( isset($validUserFields[$field]) ) {
       $usr->{$field} =  $ldap_values[$value];
       dbg_error_log( "LDAP", "Setting usr->%s to %s from LDAP field %s", $field, $ldap_values[$value], $value );
     }
