@@ -100,13 +100,18 @@ class CalDAVPrincipal
     }
 
     $script = (preg_match('#/$#', $c->protocol_server_port_script) ? 'caldav.php' : '');
-    $this->url = sprintf( "%s%s/%s/", $c->protocol_server_port_script, $script, $this->username);
+    $script = $c->protocol_server_port_script . $script;
+    if ( preg_match( '/ iCal 3\.0/', $_SERVER['HTTP_USER_AGENT'] ) ) {
+      $script = preg_replace('#^https?://[^/]+#', '', $script );
+    }
+
+    $this->url = sprintf( "%s/%s/", $script, $this->username);
 //    $this->url = sprintf( "%s%s/__uuids__/%s/", $c->protocol_server_port_script, $script, $this->username);
 
-    $this->calendar_home_set = sprintf( "%s%s/%s/", $c->protocol_server_port_script, $script, $this->username);
+    $this->calendar_home_set = sprintf( "%s/%s/", $script, $this->username);
 
     $this->user_address_set = array(
-       sprintf( "%s%s/%s/", $c->protocol_server_port_script, $script, $this->username),
+       sprintf( "%s/%s/", $script, $this->username),
 //       sprintf( "%s%s/~%s/", $c->protocol_server_port_script, $script, $this->username),
 //       sprintf( "%s%s/__uuids__/%s/", $c->protocol_server_port_script, $script, $this->username),
     );

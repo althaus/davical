@@ -216,9 +216,11 @@ function add_principal_properties( &$prop, &$not_found, &$denied ) {
 
   if ( isset($attribute_list['CALENDAR-USER-ADDRESS-SET'] ) ) {
     add_namespace("C", "urn:ietf:params:xml:ns:caldav");
-    $email = new XMLElement('href', 'mailto:'.$request->principal->email );
-    $calendar = new XMLElement('href', $request->principal->calendar_home_set );
-    $prop->NewElement("C:calendar-user-address-set", array( $calendar, $email) );
+    $addr_set = array();
+    foreach( $request->principal->user_address_set AS $k => $v ) {
+      $addr_set[] = new XMLElement('href', $v );
+    }
+    $prop->NewElement("C:calendar-user-address-set", $addr_set );
   }
 }
 
@@ -236,6 +238,10 @@ function collection_to_xml( $collection ) {
 
   $url = $c->protocol_server_port_script . $collection->dav_name;
   $url = preg_replace( '#^(https?://.+)//#', '$1/', $url );  // Ensure we don't double any '/'
+  if ( preg_match( '/ iCal 3\.0/', $_SERVER['HTTP_USER_AGENT'] ) ) {
+    $url = preg_replace('#^https?://[^/]+#', '', $url );
+  }
+
 
   $resourcetypes = array( new XMLElement("collection") );
   $contentlength = false;
