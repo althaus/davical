@@ -61,9 +61,13 @@ else if ( $qry->rows > 1 ) {
       // the user is not admin / owner of this calendarlooking at his calendar and can not admin the other cal
       if ( $event->class == 'CONFIDENTIAL' ) {
         // if the event is confidential we fake one that just says "Busy"
-        $displayname = translate("Busy");
-        $ical->Put( 'SUMMARY', $displayname );
-        $response .= $ical->Render( false, $event->caldav_type, $ical->DefaultPropertyList() );
+        $confidential = new iCalendar( array(
+                              'SUMMARY' => translate('Busy'), 'CLASS' => 'CONFIDENTIAL',
+                              'DTSTART'  => $ical->Get('DTSTART'),
+                              'DURATION' => $ical->Get('DURATION'),
+                              'RRULE'    => $ical->Get('RRULE')
+                          ) );
+        $response .= $confidential->Render( false, $event->caldav_type );
       }
       elseif ( $c->hide_alarm ) {
         // Otherwise we hide the alarms (if configured to)
@@ -89,4 +93,3 @@ else {
   $request->DoResponse( 500, translate("Database Error") );
 }
 
-?>
