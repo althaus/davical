@@ -128,7 +128,7 @@ class ldapDrivers
     if ( !@ldap_bind($this->connect, $dnUser, $passwd) ) {
       dbg_error_log( "LDAP", "drivers_ldap : Failed to bind to user %s using password %s", $dnUser, $passwd );
       return false;
-    } 
+    }
 
     dbg_error_log( "LDAP", "drivers_ldap : Bound to user %s using password %s", $dnUser, $passwd );
 
@@ -164,6 +164,7 @@ function getStaticLdap() {
 * @param object $usr A user record to be updated (or created)
 */
 function sync_user_from_LDAP( &$usr, $mapping, $ldap_values ) {
+  global $c;
   dbg_error_log( "LDAP", "Going to sync the user from LDAP" );
   $validUserFields = get_fields('usr');
 
