@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <multistatus xmlns="DAV:">
  <response>
-  <href>/caldav.php/user1/home/da81c0ee-7871-11db-c6d6-f6927c144649.ics</href>
+  <href>http://mycaldav/user1/</href>
   <propstat>
    <prop>
+    <getcontenttype>httpd/unix-directory</getcontenttype>
     <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <getcontentlength>302</getcontentlength>
-    <getcontenttype>text/calendar</getcontenttype>
+    <getcontentlength/>
     <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
-    <resourcetype/>
-    <displayname>Morning Mgmt Mtg</displayname>
-    <getetag>"421abf7e4848d2fecbf64217ed205d4b"</getetag>
+    <resourcetype>
+     <collection/>
+     <principal/>
+    </resourcetype>
+    <displayname>User 1</displayname>
+    <getetag>"7d0fd5137942261bee17da4287f71494"</getetag>
     <acl>
      <ace>
       <principal>
@@ -33,6 +36,15 @@
     </supportedlock>
    </prop>
    <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <lockdiscovery xmlns="dav:"/>
+    <source xmlns="dav:"/>
+    <checked-in xmlns="dav:"/>
+    <checked-out xmlns="dav:"/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
   </propstat>
  </response>
 </multistatus>

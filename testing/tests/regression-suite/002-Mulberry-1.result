@@ -1,14 +1,14 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
-DAV: 1, 2, access-control, calendar-access
-ETag: "e4c5d91096060db78286e699730987a1"
-Content-Length: 1920
+DAV: 1, access-control
+ETag: "4f1f49d6e908f8ccfab25f51d1e08658"
+Content-Length: 1970
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
-<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
+<multistatus xmlns="DAV:">
  <response>
-  <href>/caldav.php/</href>
+  <href>http://mycaldav/caldav.php/</href>
   <propstat>
    <prop>
     <getcontenttype>httpd/unix-directory</getcontenttype>
@@ -21,21 +21,7 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
  </response>
  <response>
-  <href>/caldav.php/user1/</href>
-  <propstat>
-   <prop>
-    <getcontenttype>httpd/unix-directory</getcontenttype>
-    <getcontentlength/>
-    <resourcetype>
-     <collection/>
-     <principal/>
-    </resourcetype>
-   </prop>
-   <status>HTTP/1.1 200 OK</status>
-  </propstat>
- </response>
- <response>
-  <href>/caldav.php/manager1/</href>
+  <href>http://mycaldav/caldav.php/user1/</href>
   <propstat>
    <prop>
     <getcontenttype>httpd/unix-directory</getcontenttype>
@@ -49,7 +35,7 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
  </response>
  <response>
-  <href>/caldav.php/assistant1/</href>
+  <href>http://mycaldav/caldav.php/manager1/</href>
   <propstat>
    <prop>
     <getcontenttype>httpd/unix-directory</getcontenttype>
@@ -63,7 +49,7 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
  </response>
  <response>
-  <href>/caldav.php/resource1/</href>
+  <href>http://mycaldav/caldav.php/assistant1/</href>
   <propstat>
    <prop>
     <getcontenttype>httpd/unix-directory</getcontenttype>
@@ -77,7 +63,21 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
  </response>
  <response>
-  <href>/caldav.php/resource2/</href>
+  <href>http://mycaldav/caldav.php/resource1/</href>
+  <propstat>
+   <prop>
+    <getcontenttype>httpd/unix-directory</getcontenttype>
+    <getcontentlength/>
+    <resourcetype>
+     <collection/>
+     <principal/>
+    </resourcetype>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>http://mycaldav/caldav.php/resource2/</href>
   <propstat>
    <prop>
     <getcontenttype>httpd/unix-directory</getcontenttype>

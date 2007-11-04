@@ -1,7 +1,7 @@
 HTTP/1.1 200 OK
 Date: Dow, 01 Jan 2000 00:00:00 GMT
-DAV: 1, 2, access-control, calendar-access
-Allow: OPTIONS, GET, HEAD, PUT, DELETE, PROPFIND, MKCOL, MKCALENDAR, LOCK, UNLOCK, REPORT, PROPPATCH
+DAV: 1, access-control
+Allow: OPTIONS, GET, HEAD, PROPFIND, REPORT
 Content-Length: 0
 Content-Type: text/plain; charset="utf-8"
 
