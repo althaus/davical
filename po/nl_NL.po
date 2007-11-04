@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-11-01 22:19+1300\n"
+"POT-Creation-Date: 2007-11-04 23:31+1300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Eelco Maljaars <http://eelco.maljaars.net/>\n"
 "Language-Team: nl_NL <LL@li.org>\n"
@@ -559,6 +559,10 @@ msgid "You do not have sufficient access to lock that"
 msgstr ""
 
 msgid "You may not access that calendar"
+msgstr "Je mag die agenda niet benaderen"
+
+#, fuzzy
+msgid "You may not access that collection"
 msgstr "Je mag die agenda niet benaderen"
 
 msgid "You may not add entries to this calendar."

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rscds-messages\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-11-01 22:19+1300\n"
+"POT-Creation-Date: 2007-11-04 23:31+1300\n"
 "PO-Revision-Date: 2007-03-31 00:24+0200\n"
 "Last-Translator: Rafal Slubowski <rafalslubowski@gmail.com>\n"
 "Language-Team: polski <pl@li.org>\n"
@@ -557,6 +557,10 @@ msgid "You do not have sufficient access to lock that"
 msgstr "Nie masz wystarczających uprawnień aby zarezerwować ten"
 
 msgid "You may not access that calendar"
+msgstr "Nie masz dostępu do tego kalendarza"
+
+#, fuzzy
+msgid "You may not access that collection"
 msgstr "Nie masz dostępu do tego kalendarza"
 
 msgid "You may not add entries to this calendar."
