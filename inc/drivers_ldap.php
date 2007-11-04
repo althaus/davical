@@ -176,7 +176,7 @@ function sync_user_from_LDAP( &$usr, $mapping, $ldap_values ) {
     dbg_error_log( "LDAP", "Considering copying %s", $field );
     if ( in_array($field, $validUserFields) ) {
       $usr->{$field} =  $ldap_values[$value];
-      dbg_error_log( "LDAP", "Setting usr value for field $s to %s", $field, $value );
+      dbg_error_log( "LDAP", "Setting usr->%s to %s from LDAP field %s", $field, $ldap_values[$value], $value );
     }
   }
 
