@@ -11,7 +11,7 @@
 dbg_error_log("OPTIONS", "method handler");
 
 if ( ! $request->AllowedTo('read') ) {
-  $request->DoResponse( 403, translate("You may not access that calendar") );
+  $request->DoResponse( 403, translate("You may not access that collection") );
 }
 
 $exists = false;
@@ -55,6 +55,10 @@ if ( isset($c->override_allowed_methods) )
   $allowed = $c->override_allowed_methods;
 else {
   $allowed = "OPTIONS, GET, HEAD, PUT, DELETE, PROPFIND, MKCOL, MKCALENDAR, LOCK, UNLOCK, REPORT, PROPPATCH";
+  if ( $request->path == '/' ) {
+    $exists = true;
+    $allowed = "OPTIONS, GET, HEAD, PROPFIND, REPORT";
+  }
 }
 header( "Allow: $allowed");
 
