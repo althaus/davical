@@ -1,5 +1,5 @@
 <h1>Cross-client Interoperability Considerations</h1>
-<p>If you intend to have users accessing the Really Simple CalDAV Store with more than one client
+<p>If you intend to have users accessing the DAViCal CalDAV Server with more than one client
 then you should attempt to structure the URLs which they use to access the system in the way
 that Mulberry does it.</p>
 <p>Basically, Mulberry breaks the URL into three parts:</p>
@@ -11,7 +11,7 @@ that Mulberry does it.</p>
 </ul>
 
 <p>The host name is, of course, up to you.  The 'root path' should be <code>/caldav.php/</code> and anything following that is the calendar namespace.</p>
-<p>Within the calendar namespace RSCDS uses the first element of the path as the user or resource name, so that a client connecting at the root path
+<p>Within the calendar namespace DAViCal uses the first element of the path as the user or resource name, so that a client connecting at the root path
 can see all of the (accessible) users and resources available to them (Mulberry displays this hierarchy) with any calendars below that.</p>
 <p>Effectively this means that in Evolution, Sunbird and Lightning you should really specify a calendar URL which is something like:</p>
 <pre>

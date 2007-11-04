@@ -2,7 +2,7 @@
 <p>The <a href="http://www.mozilla.org/projects/calendar/">Mozilla Calendar</a> project offers their calendar under two different names:
  <em><a href="http://www.mozilla.org/projects/calendar/sunbird/">Sunbird</a></em> is a standalone calendar
  application, and <em><a href="http://www.mozilla.org/projects/calendar/lightning/">Lightning</a></em> is a Thunderbird extension.
- The two are essentially the same, as far as RSCDS is
+ The two are essentially the same, as far as DAViCal is
  concerned, and these instructions should work for either of them.</p>
 
 <ol>
