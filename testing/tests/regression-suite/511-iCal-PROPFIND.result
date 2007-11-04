@@ -1,0 +1,30 @@
+HTTP/1.1 207 Multi-Status
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, access-control
+ETag: "d87ada45ea684066e06cb14779b80ea4"
+Content-Length: 755
+Content-Type: text/xml; charset="utf-8"
+
+<?xml version="1.0" encoding="utf-8" ?>
+<multistatus xmlns="DAV:">
+ <response>
+  <href>http://mycaldav/</href>
+  <propstat>
+   <prop>
+    <displayname>DAViCal_CalDAV_Server</displayname>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <calendar-home-set xmlns="urn:ietf:params:xml:ns:caldav"/>
+    <calendar-user-address-set xmlns="urn:ietf:params:xml:ns:caldav"/>
+    <schedule-inbox-url xmlns="urn:ietf:params:xml:ns:caldav"/>
+    <schedule-outbox-url xmlns="urn:ietf:params:xml:ns:caldav"/>
+    <dropbox-home-url xmlns="http://calendarserver.org/ns/"/>
+    <notifications-url xmlns="http://calendarserver.org/ns/"/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+</multistatus>
