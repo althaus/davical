@@ -1,3 +1,15 @@
+rscds (0.9.2) unstable; urgency=low
+
+  * Add support for principal-url and calendar-home-set properties.
+  * All events should be PUBLIC unless CLASS specifies otherwise.
+  * Calendars can now be set such that all events are PUBLIC.
+  * Add support for automatically added relationships.
+  * Make some use of the improvements to the iCalendar class.
+  * Working with iCal 3.0 from Mac OS 10.5.
+  * Refactoring of driver code for LDAP and external AWL DB.
+
+ -- Andrew McMillan <debian@mcmillan.net.nz>  Sun, 04 Nov 2007 23:31:10 +1300
+
 rscds (0.9.1) unstable; urgency=low
 
   *     Reduce debug logging noise when debugging is iff
