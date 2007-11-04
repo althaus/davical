@@ -1,0 +1,131 @@
+#!/usr/bin/perl -w 
+#
+# Sniff traffic and format as a stream of packet contents
+#
+use strict;
+
+use Getopt::Long qw(:config permute);  # allow mixed args.
+
+# Options variables
+my $debug  = 0;
+my $saveto;
+my $readfrom;
+my $interface = 'any';
+my $dumpspec = 'tcp port 80';
+my $helpmeplease = 0;
+
+GetOptions ('debug!'      => \$debug,
+            'write=s'     => \$saveto,
+            'file=s'      => \$readfrom,
+            'interface=s' => \$interface,
+            'dumpspec=s'  => \$dumpspec,
+            'help'        => \$helpmeplease  );
+
+usage() if ( $helpmeplease );
+
+if ( defined($saveto) ) {
+  open( SAVETO, '>>', $saveto ) or die "Couldn't save to '$saveto'";
+}
+
+if ( defined($readfrom) ) {
+  if ( $readfrom ne '-' ) {
+    open( STDIN, '<', $readfrom ) or die "Couldn't open '$readfrom'";
+  }
+}
+else {
+  my @tcpdumpoptions = ('-i', $interface, '-s0', '-l', '-xx', '-n', '-q', $dumpspec );
+  open( STDIN, '-|', "tcpdump", @tcpdumpoptions ) or die "Couldn't start tcpdump process";
+}
+
+my $timestamp;
+my $source = '';
+my $dest = '';
+my $lastsource = '';
+my $lastdest = '';
+my $show;
+my $packet;
+my $stream;
+
+while( <STDIN> ) {
+  $show = 0;
+  if ( /^([012]\d:[0-5]\d:[0-5]\d\.\d{6})\sIP\s([0-9.:]+)\s>\s([0-9.:]+):\ tcp/ ) {
+    $timestamp = $1;
+    $source = $2;
+    $dest = $3;
+  }
+  elsif ( /^\s+(0x....):\s(( [0-9a-f]{4}){1,8})/ ) {
+    my $pos = hex($1);
+    my $hex = $2;
+
+    if ( $pos == 64 ) {
+      $hex = substr( $hex, 10 );
+      $pos += 4;
+    }
+
+    if ( $pos >= 68 ) {
+      my @hex = split /\s+/, $hex;
+      my $ascii = "";
+      foreach my $xch ( @hex ) {
+        next if ( $xch eq '' );
+        $ascii .= chr(hex(substr($xch,0,2)));
+        $ascii .= chr(hex(substr($xch,2,2)));
+      }
+      $show = 1;
+      $_ = $ascii;
+    }
+  }
+  elsif ( /^\.\./ ) {
+    s/^\.\.......//;
+    $show = 1;
+  }
+  else {
+    $show = 1;
+  }
+
+  if ( $show ) {
+    if ( $source ne $lastsource || $dest ne $lastdest ) {
+      putline( "\n\n=============== $timestamp   $source  ==>   $dest\n" ); 
+      $lastsource = $source;
+      $lastdest   = $dest;
+    }
+    putline( $_ );
+  }
+}
+
+
+
+
+###########################################################
+sub putline {
+  my $line = shift;
+  print $line;
+  print SAVETO $line if ( defined($saveto) );
+}
+
+
+###########################################################
+sub usage {
+  print <<EOERROR ;
+
+Usage: sniffstream [options]
+
+The sniffstream program will format the output of "tcpdump -s0 -n -q -xx"
+for easier reading and comparison, with a view to seeing the actions
+involved in a DAV communication session. By default it will run the
+tcpdump command internally.
+
+It will also somewhat format the output of "tcpdump -s0 -n -q -A".
+
+Options:
+
+ --write <filename>        Append the stream to the named file.
+ --file (-|<filename>)     Format the input from the named file, or stdin.
+ --interface <ifname>      Run tcpdump against the specified interface.
+ --dumpspec <spec>         Run tcpdump with that capture specification .
+
+The default interface is 'any' and the default dumpspec is 'tcp port 80'.
+
+EOERROR
+  exit 1;
+
+}
