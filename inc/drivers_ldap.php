@@ -50,13 +50,18 @@ class ldapDrivers
           $this->valid=false;
           return ;
       }
-      if ($port) $this->connect=ldap_connect($host, $port);
-      else $this->connect=ldap_connect($host);
+      if ($port)
+          $this->connect=ldap_connect($host, $port);
+      else
+          $this->connect=ldap_connect($host);
+
       if (! $this->connect){
           $c->messages[] = sprintf(i18n( "drivers_ldap : Unable to connect to LDAP with port %s on host %s"), $port,$host );
           $this->valid=false;
           return ;
       }
+
+      dbg_error_log( "LDAP", "drivers_ldap : Connected to LDAP server %s",$host );
 
       //Set LDAP protocol version
       if (isset($config['protocolVersion'])) ldap_set_option($this->connect,LDAP_OPT_PROTOCOL_VERSION, $config['protocolVersion']);
@@ -115,10 +120,17 @@ class ldapDrivers
     if ( !ldap_first_entry($this->connect, $entry) ){
       dbg_error_log( "ERROR", "drivers_ldap : Unable to find the user with filter %s",$filter );
       return false;
+    } else {
+      dbg_error_log( "LDAP", "drivers_ldap : Found a user using filter %s",$filter );
     }
+
     $dnUser = ldap_get_dn($this->connect, ldap_first_entry($this->connect,$entry));
-    if ( !@ldap_bind($this->connect, $dnUser, $passwd) )
+    if ( !@ldap_bind($this->connect, $dnUser, $passwd) ) {
+      dbg_error_log( "LDAP", "drivers_ldap : Failed to bind to user %s using password %s", $dnUser, $passwd );
       return false;
+    } 
+
+    dbg_error_log( "LDAP", "drivers_ldap : Bound to user %s using password %s", $dnUser, $passwd );
 
     $i = ldap_first_entry($this->connect,$entry);
     $arr = ldap_get_attributes($this->connect,$i);
@@ -152,6 +164,7 @@ function getStaticLdap() {
 * @param object $usr A user record to be updated (or created)
 */
 function sync_user_from_LDAP( &$usr, $mapping, $ldap_values ) {
+  dbg_error_log( "LDAP", "Going to sync the user from LDAP" );
   $validUserFields = get_fields('usr');
 
   foreach ( $c->authenticate_hook['config']['default_value'] as $field => $value ) {
@@ -159,7 +172,11 @@ function sync_user_from_LDAP( &$usr, $mapping, $ldap_values ) {
   }
 
   foreach ( $mapping as $field => $value ) {
-    if ( in_array($field, $validUserFields) ) $usr->{$field} =  $ldap_values[$value];
+    dbg_error_log( "LDAP", "Considering copying %s", $field );
+    if ( in_array($field, $validUserFields) ) {
+      $usr->{$field} =  $ldap_values[$value];
+      dbg_error_log( "LDAP", "Setting usr value for field $s to %s", $field, $value );
+    }
   }
 
   UpdateUserFromExternal( $usr );
@@ -198,7 +215,10 @@ function LDAP_check($username, $password ){
   $valid = $ldapDriver->requestUser( $filter, $attributes, $password );
 
   // is a valid user or not
-  if ( !$valid ) return false;
+  if ( !$valid ) {
+    dbg_error_log( "LDAP", "user %s is not a valid user",$username );
+    return false;
+  }
 
   $ldap_timestamp = $valid[$mapping["updated"]];
 
@@ -221,6 +241,7 @@ function LDAP_check($username, $password ){
     // we will need to update the user record
   }
   else {
+    dbg_error_log( "LDAP", "user %s doesn't exist in local DB, we need to create it",$username );
     $usr = (object) array( 'user_no' => 0 );
   }
 
