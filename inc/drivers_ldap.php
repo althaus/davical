@@ -165,11 +165,15 @@ function getStaticLdap() {
 */
 function sync_user_from_LDAP( &$usr, $mapping, $ldap_values ) {
   global $c;
+
   dbg_error_log( "LDAP", "Going to sync the user from LDAP" );
   $validUserFields = get_fields('usr');
 
   foreach ( $c->authenticate_hook['config']['default_value'] as $field => $value ) {
-    if ( in_array($field, $validUserFields) ) $usr->{$field} =  $value;
+    if ( in_array($field, $validUserFields) ) {
+      $usr->{$field} =  $value;
+      dbg_error_log( "LDAP", "Setting usr->%s to %s from configured defaults", $field, $value );
+    }
   }
 
   foreach ( $mapping as $field => $value ) {
