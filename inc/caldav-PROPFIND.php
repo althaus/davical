@@ -413,6 +413,10 @@ function item_to_xml( $item ) {
 
   $url = $_SERVER['SCRIPT_NAME'] . $item->dav_name;
   $prop = new XMLElement("prop");
+  $not_found = new XMLElement("prop");
+  $denied  = new XMLElement("prop");
+
+
   if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['GETLASTMODIFIED']) ) {
     $prop->NewElement("getlastmodified", ( isset($item->modified)? $item->modified : false ));
   }
@@ -442,7 +446,7 @@ function item_to_xml( $item ) {
   /**
   * Then look at any properties related to the principal
   */
-  add_principal_properties( $prop );
+  add_principal_properties( $prop, $not_found, $denied );
 
   if ( isset($attribute_list['ACL']) ) {
     /**
@@ -476,8 +480,21 @@ function item_to_xml( $item ) {
 
   $propstat = new XMLElement( "propstat", array( $prop, $status) );
   $href = new XMLElement("href", $url );
+  $response = array($href,$propstat);
 
-  $response = new XMLElement( "response", array($href,$propstat));
+  if ( count($not_found->content) > 0 ) {
+    $status = new XMLElement("status", "HTTP/1.1 404 Not Found" );
+    $propstat = new XMLElement( "propstat", array( $not_found, $status) );
+    $response[] = $propstat;
+  }
+
+  if ( count($denied->content) > 0 ) {
+    $status = new XMLElement("status", "HTTP/1.1 403 Forbidden" );
+    $propstat = new XMLElement( "propstat", array( $denied, $status) );
+    $response[] = $propstat;
+  }
+
+  $response = new XMLElement( "response", $response );
 
   return $response;
 }
