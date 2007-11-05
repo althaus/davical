@@ -43,7 +43,7 @@ create_plpgsql_language
 
 #
 # FIXME: filter non-error output
-psql -q -f "${DBADIR}/rscds.sql" "${DBNAME}" 2>&1 | egrep -v "(^CREATE |^GRANT|^BEGIN|^COMMIT| NOTICE: )"
+psql -q -f "${DBADIR}/davical.sql" "${DBNAME}" 2>&1 | egrep -v "(^CREATE |^GRANT|^BEGIN|^COMMIT| NOTICE: )"
 
 psql -q -f "${DBADIR}/caldav_functions.sql" "${DBNAME}"
 
