@@ -73,6 +73,15 @@ class CalDAVRequest
     $this->user_agent = ((isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : "Probably Mulberry"));
 
     /**
+    * In general we systematically return Absolute URI hrefs.  Unfortunately some
+    * software doesn't expect this to happen (iCal, SOHO Organizer, ???) and so we
+    * need to hack around these programs.  RFC4918 section 8.3 gives details.
+    */
+    if ( preg_match( '/(iCal 3.0|SOHO Organizer|ChronosCalendarsService)/', $this->user_agent ) ) {
+      $c->protocol_server_port_script = preg_replace('#^(http|caldav)s?://[^/]+#', '', $c->protocol_server_port_script );
+    }
+
+    /**
     * A variety of requests may set the "Depth" header to control recursion
     */
     if ( isset($_SERVER['HTTP_DEPTH']) ) {
