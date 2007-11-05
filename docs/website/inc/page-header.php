@@ -17,7 +17,7 @@ if ( isset($title) ) {
   echo $title;
 }
 else {
-  echo "DAViCal CalDAV Store";
+  echo "DAViCal CalDAV Server";
 }
 ?></div>
 <div id="subTitle">DAViCal CalDAV Server</div>

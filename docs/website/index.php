@@ -1,5 +1,5 @@
 <?php
- $title = "RSCDS Home";
+ $title = "DAViCal Home";
  include("inc/page-header.php");
 ?>
 <h1>Background</h1>
@@ -30,19 +30,19 @@ but no testing has been undertaken in other PHP environments to date.</p>
 operating environments, and which is <em>fully</em> ACID compliant.</p>
 
 <h2>Simplicity of Setup</h2>
-<p>For the greatest ease use you should consider installing RSCDS on the <a href="http://www.debian.org/">Debian GNU/Linux</a>
+<p>For the greatest ease use you should consider installing DAViCal on the <a href="http://www.debian.org/">Debian GNU/Linux</a>
 distribution from the readily available, signed packages.</p>
 <p>We expect to increase the level of automation and simplicity for the Debian target release in particular, although other
 distributions might also become easier at the same time. We do expect slightly greater installation complexity in the first
 few releases as we come to understand the particular problems people experience.</p>
 
 <h2>Simplicity of Operation</h2>
-<p>In general RSCDS should not need significant maintenance to keep it operating.</p>
+<p>In general DAViCal should not need significant maintenance to keep it operating.</p>
 <p>Administrative functionality will be kept as simple as possible, within the target of supporting
 organisations of up to several hundred staff.</p>
-<p>This is called a <em>Store</em> rather than a <em>Server</em> because the server-side smarts are intended to be
-minimised to support CalDAV only in a manner sufficient to inter-operate with clients, and with the focus primarily
-on the storage of calendar resources.</p>
+<p>The server-side smarts in DAViCal are intended to be fairly minimal in order to support CalDAV
+ only in a manner sufficient to inter-operate with clients, and with the focus primarily
+ on the storage of calendar resources.</p>
 
 <h2>Web-based Administration</h2>
 <p>General administration of the system should be through a web-based application.</p>
@@ -51,7 +51,7 @@ maintainable through a web-based client, although the server should support the 
 works using the CalDAV protocol.</p>
 
 <h1>Credits</h1>
-<p>The Really Simple CalDAV Store was conceived and written by <a href="http://andrew.mcmillan.net.nz/">Andrew McMillan</a>.</p>
+<p>DAViCal CalDAV Server was conceived and written by <a href="http://andrew.mcmillan.net.nz/">Andrew McMillan</a>.</p>
 <p>Translations of the administration interface have been done by:</p>
 <ul>
 <li>Lorena Paoletti (Spanish)</li>
@@ -62,7 +62,8 @@ works using the CalDAV protocol.</p>
 </ul>
 <p>Other contributors:</p>
 <ul>
-<li>Maxime Delorme (CSS for Administration Pages)</li>
+<li>Maxime Delorme (CSS, LDAP, SyncML, French translations)</li>
+<li>Andrew Ruthven (Various enhancements)</li>
 </ul>
 
 <h1>Your Name Here!</h1>

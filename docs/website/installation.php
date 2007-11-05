@@ -29,8 +29,8 @@ sudo apt-key advanced --keyserver subkeys.pgp.net --recv-keys CCA377BD77494424B0
 notes to pages somewhere under here:
  <a href="http://rscds.sourceforge.net/moin/InstallationStuff">http://rscds.sourceforge.net/moin/InstallationStuff</a></p>
 
-<h3>RPM Packages of RSCDS</h3>
-<p>We have created RPM packages of RSCDS and libawl-php from the .deb packages
+<h3>RPM Packages of DAViCal</h3>
+<p>We have created RPM packages of DAViCal and libawl-php from the .deb packages
 using "alien". I don't know how well these work, so would appreciate feedback
 about your success with them.</p>
 
@@ -40,7 +40,7 @@ about your success with them.</p>
 <h3>Gentoo, Slackware, BSD and the rest</h3>
 
 <p>You will need to download the latest versions of the <code>rscds</code> and <code>awl</code> packages
-from the <a href="http://sourceforge.net/project/showfiles.php?group_id=179845">sourceforge download page for rscds</a>.</p>
+from the <a href="http://sourceforge.net/project/showfiles.php?group_id=179845">sourceforge download page for DAViCal</a>.</p>
 <p>You will need to untar these.  Preferably you will untar them from within the "<code>/usr/share</code>" directory and everything
 will be in it's expected location (well, except the docs, but it will at least be tidy and everything will be in one place).</p>
 
@@ -60,7 +60,7 @@ the database creation scripts are likely to need love.</p>
 
 <h1>Pre-requisites</h1>
 
-<p>RSCDS depends on a number of things.  Firstly, it depends
+<p>DAViCal depends on a number of things.  Firstly, it depends
 on Andrew's Web Libraries (AWL) which is a set of useful
 PHP functions and objects written by Andrew McMillan over
 a number of years.</p>
@@ -68,8 +68,8 @@ a number of years.</p>
 <p>The following other software is also needed:</p>
 <ul>
   <li>Apache: 1.3.x or 2.x.x</li>
-  <li>PHP: 4.3 or greater, including PHP5</li>
-  <li>PostgreSQL: 7.4 or greater (8.1 or better recommended)</li>
+  <li>PHP: 5.0 or greater, PHP4 might work</li>
+  <li>PostgreSQL: 8.1 or greater</li>
 </ul>
 
 <p>The PostgreSQL database may be installed on a server other
@@ -79,7 +79,7 @@ installation.</p>
 
 <p>Since the CalDAV store takes over a significant amount of path
 hierarchy, it is designed to be installed in it's own virtual
-host.  If you want it to operate within the web root of some
+host.  However if you want it to operate within the web root of some
 other application there are instructions on the Wiki about doing this,
 and other fancy tricks such as URL rewriting to shorten the path.</p>
 
@@ -139,11 +139,11 @@ computer as the web server, the following line (near the top
 of the pg_hba.conf file) should be enough:</p>
 
 <pre>
-local   rscds    general   trust
+local   davical    general   trust
 </pre>
 
 <p>This means that anyone on the local computer (including the
-web application) will have rights to connect to the RSCDS
+web application) will have rights to connect to the DAViCal
 database as the 'general' user.  It will not allow remote access,
 or access as any user other than 'general'.</p>
 
@@ -152,7 +152,7 @@ unix sockets, the line in the pg_hba.conf file should look something
 like:</p>
 
 <pre>
-host rscds general 127.0.0.1/32 trust
+host davical general 127.0.0.1/32 trust
 </pre>
 
 <p>If the webserver is on a different machine to the database, that
@@ -178,13 +178,14 @@ single virtual host.</p>
 &lt;VirtualHost 123.4.56.78 >
   DocumentRoot /usr/share/rscds/htdocs
   DirectoryIndex index.php index.html
-  ServerName rscds.example.net
+  ServerName davical.example.net
   ServerAlias calendar.example.net
   Alias /images/ /usr/share/rscds/htdocs/images/
   php_value include_path /usr/share/awl/inc
   php_value magic_quotes_gpc 0
   php_value register_globals 0
   php_value error_reporting "E_ALL & ~E_NOTICE"
+  php_value default_charset "utf-8"
 &lt;/VirtualHost>
 </pre>
 
