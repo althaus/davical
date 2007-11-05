@@ -1,10 +1,12 @@
 Desirable
- - accept the free/busy information as a PUT
+ - accept the free/busy information as a POST
  - more translations of the administration interface
  - translations of the website.
- - the ability to see a basic list of event data in the admin interface
+ - the ability to see a better list of event data in the admin interface
  - allow a specific CalDAV access permission to delegate free/busy viewability.
+ - rename everything to "DAViCal"
 
 Important
- - allow for some sort of modular authentication methods
- -
+ - Fix the relationships code so relationships are controlled by the person
+   affected (or the admin).
+ - Implement draft-desruisseaux-caldav-sched specifications.
