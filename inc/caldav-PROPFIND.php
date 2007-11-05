@@ -532,7 +532,7 @@ function get_collection_contents( $depth, $user_no, $collection ) {
       while( $subcollection = $qry->Fetch() ) {
         $responses[] = collection_to_xml( $subcollection );
         if ( $depth > 0 ) {
-          $responses = array_merge( $responses, get_collection( $depth - 1,  $user_no, $subcollection->dav_name ) );
+          $responses = array_merge( $responses, get_collection_contents( $depth - 1,  $user_no, $subcollection ) );
         }
       }
     }
@@ -615,6 +615,7 @@ function get_collection( $depth, $user_no, $collection_path ) {
   }
   return $responses;
 }
+
 
 /**
 * Get XML response for a single item.  Depth is irrelevant for this.
