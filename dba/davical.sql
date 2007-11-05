@@ -1,10 +1,6 @@
 -- Really Simple CalDAV Store - Database Schema
 --
 
--- Use the usr, group and schema management stufffrom libawl-php
-\i /usr/share/awl/dba/awl-tables.sql
-\i /usr/share/awl/dba/schema-management.sql
-
 -- The main event.  Where we store the things the calendar throws at us.
 CREATE TABLE caldav_data (
   user_no INT references usr(user_no) ON UPDATE CASCADE ON DELETE CASCADE DEFERRABLE,

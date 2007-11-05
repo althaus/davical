@@ -42,7 +42,12 @@ fi
 create_plpgsql_language
 
 #
-# FIXME: filter non-error output
+# Load the AWL base tables and schema management tables
+psql -q -f "/usr/share/awl/dba/awl-tables.sql" "${DBNAME}" 2>&1 | egrep -v "(^CREATE |^GRANT|^BEGIN|^COMMIT| NOTICE: )"
+psql -q -f "/usr/share/awl/dba/schema-management.sql" "${DBNAME}" 2>&1 | egrep -v "(^CREATE |^GRANT|^BEGIN|^COMMIT| NOTICE: )"
+
+#
+# Load the DAViCal tables
 psql -q -f "${DBADIR}/davical.sql" "${DBNAME}" 2>&1 | egrep -v "(^CREATE |^GRANT|^BEGIN|^COMMIT| NOTICE: )"
 
 psql -q -f "${DBADIR}/caldav_functions.sql" "${DBNAME}"
@@ -61,7 +66,7 @@ fi
 if [ "$ADMINPW" = "" ] ; then
   # OK.  They didn't supply one, and pwgen didn't work, so we hack something
   # together from /dev/random ...
-  ADMINPW="`dd if=/dev/urandom bs=512 count=1 2>/dev/null | tr -c -d "a-zA-HJ-NP-Y0-9" | cut -c2-9`"
+  ADMINPW="`dd if=/dev/urandom bs=512 count=1 2>/dev/null | tr -c -d "a-km-zA-HJ-NP-Y0-9" | cut -c2-9`"
 fi
 
 if [ "$ADMINPW" = "" ] ; then
