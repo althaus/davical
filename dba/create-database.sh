@@ -8,6 +8,24 @@ ADMINPW="${2}"
 
 DBADIR="`dirname \"$0\"`"
 
+testawldir() {
+  [ -f "${1}/dba/awl-tables.sql" ]
+}
+
+#
+# Attempt to locate the AWL directory
+AWLDIR="${DBADIR}/../../awl"
+if ! testawldir ; then
+  AWLDIR="/usr/share/awl"
+  if ! testawldir ; then
+    AWLDIR="/usr/local/share/awl"
+    if ! testawldir ; then
+      echo "Unable to find AWL libraries"
+      exit 1
+    fi
+  fi
+fi
+
 export AWL_DBAUSER=davical_dba
 export AWL_APPUSER=davical_app
 
@@ -43,8 +61,8 @@ create_plpgsql_language
 
 #
 # Load the AWL base tables and schema management tables
-psql -q -f "/usr/share/awl/dba/awl-tables.sql" "${DBNAME}" 2>&1 | egrep -v "(^CREATE |^GRANT|^BEGIN|^COMMIT| NOTICE: )"
-psql -q -f "/usr/share/awl/dba/schema-management.sql" "${DBNAME}" 2>&1 | egrep -v "(^CREATE |^GRANT|^BEGIN|^COMMIT| NOTICE: )"
+psql -q -f "${AWLDIR}/dba/awl-tables.sql" "${DBNAME}" 2>&1 | egrep -v "(^CREATE |^GRANT|^BEGIN|^COMMIT| NOTICE: )"
+psql -q -f "${AWLDIR}/dba/schema-management.sql" "${DBNAME}" 2>&1 | egrep -v "(^CREATE |^GRANT|^BEGIN|^COMMIT| NOTICE: )"
 
 #
 # Load the DAViCal tables
