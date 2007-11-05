@@ -71,13 +71,20 @@ function calendar_to_xml( $properties, $item ) {
     if ( !is_numeric(strpos($item->permissions,'A')) && $session->user_no != $item->user_no ){
       // the user is not admin / owner of this calendarlooking at his calendar and can not admin the other cal
       if ( $item->class == 'CONFIDENTIAL' ) {
+        $ical = new iCalendar( array( "icalendar" => $caldav_data) );
         // if the event is confidential we fake one that just says "Busy"
         $confidential = new iCalendar( array(
                               'SUMMARY' => translate('Busy'), 'CLASS' => 'CONFIDENTIAL',
                               'DTSTART'  => $ical->Get('DTSTART'),
-                              'DURATION' => $ical->Get('DURATION'),
                               'RRULE'    => $ical->Get('RRULE')
                           ) );
+        $duration = $ical->Get('DURATION');
+        if ( isset($duration) && $duration != "" ) {
+          $confidential->Set('DURATION', $duration );
+        }
+        else {
+          $confidential->Set('DTEND', $ical->Get('DTEND') );
+        }
         $caldav_data = $confidential->Render( true, $caldav_type );
       }
       elseif ( $c->hide_alarm ) {

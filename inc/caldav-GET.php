@@ -64,9 +64,15 @@ else if ( $qry->rows > 1 ) {
         $confidential = new iCalendar( array(
                               'SUMMARY' => translate('Busy'), 'CLASS' => 'CONFIDENTIAL',
                               'DTSTART'  => $ical->Get('DTSTART'),
-                              'DURATION' => $ical->Get('DURATION'),
                               'RRULE'    => $ical->Get('RRULE')
                           ) );
+        $duration = $ical->Get('DURATION');
+        if ( isset($duration) && $duration != "" ) {
+          $confidential->Set('DURATION', $duration );
+        }
+        else {
+          $confidential->Set('DTEND', $ical->Get('DTEND') );
+        }
         $response .= $confidential->Render( false, $event->caldav_type );
       }
       elseif ( $c->hide_alarm ) {
