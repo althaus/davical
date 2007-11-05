@@ -8,16 +8,38 @@ ADMINPW="${2}"
 
 DBADIR="`dirname \"$0\"`"
 
+export AWL_DBAUSER=davical_dba
+export AWL_APPUSER=davical_app
+
+# Get the major version for PostgreSQL
+export DBVERSION="`psql -qAt template1 -c "SELECT version();" | cut -f2 -d' ' | cut -f1-2 -d'.'`"
+
+db_users() {
+  psql -qAt template1 -c "SELECT usename FROM pg_user;";
+}
+
+create_db_user() {
+  if ! db_users | grep "^${1}$" >/dev/null ; then
+    createuser --no-superuser --no-createdb --no-createrole "${1}"
+  fi
+}
+
+create_plpgsql_language() {
+  if ! psql -qAt template1 -c "SELECT lanname FROM pg_language;" | grep "^plpgsql$" >/dev/null; then
+    createlang plpgsql "${DBNAME}"
+  fi
+}
+
+create_db_user "${AWL_DBAUSER}"
+create_db_user "${AWL_APPUSER}"
+
 # FIXME: Need to check that the database was actually created.
-if ! createdb -E UTF8 "${DBNAME}" -T template0 ; then
+if ! createdb --encoding UTF8 "${DBNAME}" --template template0 --owner "${AWL_DBAUSER}"; then
   echo "Unable to create database"
   exit 1
 fi
 
-#
-# This will fail if the language already exists, but it should not
-# because we created from template0.
-createlang plpgsql "${DBNAME}"
+create_plpgsql_language
 
 #
 # FIXME: filter non-error output
