@@ -15,11 +15,11 @@ testawldir() {
 #
 # Attempt to locate the AWL directory
 AWLDIR="${DBADIR}/../../awl"
-if ! testawldir ; then
+if ! testawldir "${AWLDIR}"; then
   AWLDIR="/usr/share/awl"
-  if ! testawldir ; then
+  if ! testawldir "${AWLDIR}"; then
     AWLDIR="/usr/local/share/awl"
-    if ! testawldir ; then
+    if ! testawldir "${AWLDIR}"; then
       echo "Unable to find AWL libraries"
       exit 1
     fi
