@@ -50,15 +50,15 @@ I'm available to answer questions, anyway :-)
 Pre-requisites
 ==============
 
-RSCDS depends on a number of things.  Firstly, it depends
+DAViCal depends on a number of things.  Firstly, it depends
 on Andrew's Web Libraries (AWL) which is a set of useful
 PHP functions and objects written by Andrew McMillan over
 a number of years.
 
 The following other software is also needed:
   Apache: 1.3.x or 2.x.x
-  PHP: 4.3 or greater, including PHP5
-  PostgreSQL: 7.4 or greater
+  PHP: 5.0 or greater
+  PostgreSQL: 8.1 or greater
 
 The PostgreSQL database may be installed on a server other
 than the web server, and that kind of situation is recommended
@@ -102,22 +102,24 @@ Apache VHost Configuration
 Your Apache instance needs to be configured for Virtual Hosts.  If
 this is not already the case you may want to read some documentation
 about that, and you most likely will want to ensure that any existing
-site becomes the **default** virtual host, with RSCDS only being a
+site becomes the **default** virtual host, with DAViCal only being a
 single virtual host.
 
 I use a Virtual Host stanza like this:
 
 #
-# Virtual Host def for Debian packaged RSCDS
+# Virtual Host def for Debian packaged DAViCal
 <VirtualHost 123.4.56.78 >
   DocumentRoot /usr/share/rscds/htdocs
   DirectoryIndex index.php index.html
-  ServerName rscds.example.net
+  ServerName davical.example.net
   ServerAlias calendar.example.net
   Alias /images/ /usr/share/rscds/htdocs/images/
   php_value include_path /usr/share/rscds/inc:/usr/share/awl/inc
   php_value magic_quotes_gpc 0
-  php_value register_globals 1
+  php_value register_globals 0
+  php_value error_reporting "E_ALL & ~E_NOTICE"
+  php_value default_charset "utf-8"
 </VirtualHost>
 
 Replace 123.4.56.78 with your own IP address, of course (you can
@@ -135,25 +137,24 @@ installed from a package.
 
 Once your VHost is installed an working correctly, you should be
 able to browse to that address and see a page telling you that
-you need to configure RSCDS.
+you need to configure DAViCal.
 
 
 
-RSCDS Configuration
-===================
+DAViCal Configuration
+=====================
 
-The RSCDS configuration generally resides in /etc/rscds/<domain>-conf.php
+The DAViCal configuration generally resides in /etc/davical/<domain>-conf.php
 and is a regular PHP file which sets (or overrides) some specific variables.
 
 <?php
 //  $c->domainname = "calendar.example.net";
-//  $c->sysabbr     = 'rscds';
+//  $c->sysabbr     = 'davical';
 //  $c->admin_email = 'admin@example.net';
-//  $c->system_name = "Really Simple CalDAV Store";
+//  $c->system_name = "DAViCal CalDAV Server";
 //  $c->collections_always_exist = false;
 
-  $c->pg_connect[] = 'dbname=caldav port=5433 user=general';
-  $c->pg_connect[] = 'dbname=caldav port=5432 user=general';
+  $c->pg_connect[] = 'dbname=davical port=5432 user=general';
 
 ?>
 
@@ -180,7 +181,7 @@ If all is going well you should now be able to browse to the admin
 pages and log in as 'admin' (the password is the bit after the '**'
 in the 'password' field of the 'usr' table so:
 
-psql rscds -c 'select username, password from usr;'
+psql davical -c 'select username, password from usr;'
 
 should show you a list.  Note that once you change a password it
 won't be readable in this way - only the initial configuration

@@ -29,7 +29,6 @@
     <item url="inc/RSCDSSession.php" uploadstatus="1" />
     <item url="inc/page-header.php" uploadstatus="1" />
     <item url="inc/page-footer.php" uploadstatus="1" />
-    <item url="inc/rscds_configuration_missing.php" uploadstatus="1" />
     <item url="htdocs/rscds.css" uploadstatus="1" />
     <item url="inc/interactive-page.php" uploadstatus="1" />
     <item url="htdocs/users.php" uploadstatus="1" />
@@ -245,5 +244,6 @@
     <item url="inc/CalDAVPrincipal.php" uploadstatus="1" />
     <item url="dba/patches/1.1.11.sql" uploadstatus="1" />
     <item url="docs/website/clients/iCal-details.php" uploadstatus="1" />
+    <item url="inc/davical_configuration_missing.php" uploadstatus="1" />
   </project>
 </webproject>
