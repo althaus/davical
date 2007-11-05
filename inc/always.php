@@ -63,7 +63,7 @@ else if ( file_exists("../config/config.php") ) {
   include_once("../config/config.php");
 }
 else {
-  include_once("rscds_configuration_missing.php");
+  include_once("davical_configuration_missing.php");
   exit;
 }
 if ( !isset($c->page_title) ) $c->page_title = $c->system_name;
