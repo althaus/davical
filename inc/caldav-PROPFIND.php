@@ -77,16 +77,16 @@ foreach( $request->xml_tags AS $k => $v ) {
     case 'SUPPORTED-PRIVILEGE-SET':        /** supported-privilege-set    - should work fine */
     case 'CURRENT-USER-PRIVILEGE-SET':     /** current-user-privilege-set - only vaguely supported */
     case 'ALLPROP':                        /** allprop - limited support */
-      $attribute_list[$tag] = 1;
-      dbg_error_log( "PROPFIND", "Adding %s attribute '%s'", $namespace, $tag );
-      break;
-
-
 
     /**
     * Handled CalDAV properties
     */
     case 'CALENDAR-HOME-SET':                /** calendar-home-set is used by iCal in Leopard - should work fine */
+      $attribute_list[$tag] = 1;
+      dbg_error_log( "PROPFIND", "Adding %s attribute '%s'", $namespace, $tag );
+      break;
+
+
     case 'SUPPORTED-COLLATION-SET':          /** fixed server definition - should work fine */
     case 'SUPPORTED-CALENDAR-COMPONENT-SET': /** fixed server definition - should work fine */
 

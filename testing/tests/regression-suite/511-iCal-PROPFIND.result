@@ -1,23 +1,25 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
-DAV: 1, access-control
-ETag: "af62dedcedd04f04e042beb9408793c2"
-Content-Length: 740
+DAV: 1, 2, access-control, calendar-access
+ETag: "3c6167921378348411a110b1db03b7d4"
+Content-Length: 796
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
-<multistatus xmlns="DAV:">
+<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
  <response>
   <href>/</href>
   <propstat>
    <prop>
     <displayname>DAViCal_CalDAV_Server</displayname>
+    <C:calendar-home-set>
+     <href>/user1/</href>
+    </C:calendar-home-set>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
   <propstat>
    <prop>
-    <calendar-home-set xmlns="urn:ietf:params:xml:ns:caldav"/>
     <calendar-user-address-set xmlns="urn:ietf:params:xml:ns:caldav"/>
     <schedule-inbox-url xmlns="urn:ietf:params:xml:ns:caldav"/>
     <schedule-outbox-url xmlns="urn:ietf:params:xml:ns:caldav"/>
