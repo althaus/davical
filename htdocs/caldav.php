@@ -23,7 +23,6 @@ dbg_log_array( "headers", '_SERVER', $_SERVER, true );
 * in all (or even much of) it's glory really.
 */
 $dav = "1, 2, access-control, calendar-access";
-if ( $_SERVER['PATH_INFO'] == '/' || $_SERVER['PATH_INFO'] == '' ) $dav = "1, access-control";
 header( "DAV: $dav");
 // header( "DAV: 1, 2, access-control, calendar-access, calendar-schedule");
 
