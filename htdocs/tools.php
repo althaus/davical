@@ -20,7 +20,7 @@ require_once("classBrowser.php");
 if ( !$session->AllowedTo("Admin" ) )
   exit;
 
-if(isset($_POST['Sync_LDAP'])){
+if( function_exists("sync_LDAP") && isset($_POST['Sync_LDAP'])){
   sync_LDAP();
 }
 
@@ -38,7 +38,7 @@ class Tools {
   function render(){
     global $c;
     echo  $this->renderImportFromDirectory();
-    if($c->authenticate_hook['call'] == 'LDAP_check'){
+    if ( $c->authenticate_hook['call'] == 'LDAP_check' && function_exists("sync_LDAP") ) {
       echo $this->renderSyncLDAP();
     }
   }
