@@ -15,6 +15,10 @@ if ( ! $request->AllowedTo('mkcalendar') ) {
 }
 
 $displayname = $request->path;
+
+// Enforce trailling '/' on collection name
+if ( ! preg_match( '#/$#', $request->path ) ) $request->path .= '/';
+
 $parent_container = '/';
 if ( preg_match( '#^(.*/)([^/]+)(/)?$#', $request->path, $matches ) ) {
   $parent_container = $matches[1];
