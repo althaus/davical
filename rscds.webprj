@@ -23,7 +23,6 @@
     <item url="htdocs/caldav.php" uploadstatus="1" />
     <item url="debian/" uploadstatus="1" />
     <item url="debian/rules" uploadstatus="1" />
-    <item url="dba/rscds.sql" uploadstatus="1" />
     <item url="htdocs/freebusy.php" uploadstatus="1" />
     <item url="htdocs/index.php" uploadstatus="1" />
     <item url="inc/RSCDSSession.php" uploadstatus="1" />
@@ -245,5 +244,7 @@
     <item url="dba/patches/1.1.11.sql" uploadstatus="1" />
     <item url="docs/website/clients/iCal-details.php" uploadstatus="1" />
     <item url="inc/davical_configuration_missing.php" uploadstatus="1" />
+    <item url="dba/davical.sql" uploadstatus="1" />
+    <item url="inc/drivers_squid_pam.php" uploadstatus="1" />
   </project>
 </webproject>
