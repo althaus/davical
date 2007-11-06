@@ -49,6 +49,8 @@ if ( isset($request->xml_tags) ) {
 
       case 'DAV::DISPLAYNAME':
         $displayname = $content;
+        dbg_error_log( "MKCALENDAR", "Displayname is '/' to '%s'", $request->path);
+        $parent_container = $request->path;
         $request->path .= $content . '/';
         $success[$tag] = 1;
         break;
@@ -117,7 +119,7 @@ if ( $qry->rows != 0 ) {
   $request->DoResponse( 405, translate("A collection already exists at that location.") );
 }
 
-$sql = "INSERT INTO collection ( user_no, parent_container, dav_name, dav_etag, dav_displayname, is_calendar, created, modified ) VALUES( ?, ?, ?, ?, ?, ?, current_timestamp, current_timestamp );";
+$sql = "BEGIN; INSERT INTO collection ( user_no, parent_container, dav_name, dav_etag, dav_displayname, is_calendar, created, modified ) VALUES( ?, ?, ?, ?, ?, ?, current_timestamp, current_timestamp ); $propertysql; COMMIT;";
 $qry = new PgQuery( $sql, $request->user_no, $parent_container, $request->path, md5($request->user_no. $request->path), $displayname, ($request->method == 'MKCALENDAR') );
 
 if ( $qry->Exec("MKCALENDAR",__LINE__,__FILE__) ) {
