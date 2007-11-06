@@ -17,7 +17,10 @@ if ( ! $request->AllowedTo('mkcalendar') ) {
 $displayname = $request->path;
 
 // Enforce trailling '/' on collection name
-if ( ! preg_match( '#/$#', $request->path ) ) $request->path .= '/';
+if ( ! preg_match( '#/$#', $request->path ) ) {
+  dbg_error_log( "MKCALENDAR", "Add trailling '/' to '%s'", $request->path);
+  $request->path .= '/';
+}
 
 $parent_container = '/';
 if ( preg_match( '#^(.*/)([^/]+)(/)?$#', $request->path, $matches ) ) {
@@ -46,6 +49,7 @@ if ( isset($request->xml_tags) ) {
 
       case 'DAV::DISPLAYNAME':
         $displayname = $content;
+        $request->path .= $content . '/';
         $success[$tag] = 1;
         break;
 
