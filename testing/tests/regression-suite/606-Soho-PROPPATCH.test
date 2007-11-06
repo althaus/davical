@@ -1,0 +1,26 @@
+#
+# SOHO Organizer works best looking at the person
+#
+# Make some changes to the calendar properties
+#
+TYPE=PROPPATCH
+
+# Note the URL doesn't have a trailling '/'
+URL=http://mycaldav/caldav.php/user1/SOHO+collection
+
+HEADER=User-Agent: SOHO Organizer/6.5.2 libcurl/7.17.0 OpenSSL/0.9.7l zlib/1.2.3 libssh2/0.17
+HEADER=Content-Type: text/xml; charset=utf-8
+HEADER=Accept: */*
+HEADER=Content-Type: application/xml; charset="utf-8"
+
+HEAD
+
+
+BEGINDATA
+<?xml version="1.0" encoding="utf-8" ?><D:propertyupdate xmlns:D="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav" xmlns:I="com.apple.ical:"><D:set><D:prop><D:displayname>home</D:displayname><C:calendar-description>Calendar description</C:calendar-description><I:calendarcolor>#FF8000FF</I:calendarcolor></D:prop></D:set></D:propertyupdate>
+ENDDATA
+
+QUERY
+SELECT * FROM collection JOIN property USING (dav_name)
+        WHERE collection.dav_name = '/user1/SOHO+collection';
+ENDQUERY
