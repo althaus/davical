@@ -199,6 +199,16 @@ $c->admin_email ='calendar-admin@example.com';
 
 
 /**
+* Authentication against PAM using the Squid helper script.
+*/
+//$c->authenticate_hook = array(
+//    'call'   => 'SQUID_PAM_check',
+//    'config' =>  array( 'script' => '/usr/bin/pam_auth', 'email_base' => 'example.com' );
+//    );
+//include('drivers_squid_pam.php');
+
+
+/**
 * The default locale will be "en_NZ";
 * If you are in a non-English locale, you can set the default_locale
 * configuration to one of the supported locales.
