@@ -10,14 +10,14 @@
 *****************************/
 
 /**
-* Ex : $c->pg_connect[] = 'dbname=rscds port=5432 user=general'
+* Ex : $c->pg_connect[] = 'dbname=davical port=5432 user=general'
 * The application will attempt to
 * connect to the database, successively applying connection parameters from
 * the array in $c->pg_connect.
 * used in the web interface but also the caldav Server
 */
-$c->pg_connect[] = "dbname=rscds user=general";
-// $c->pg_connect[] = "dbname=rscds user=general port=5433 host=somehost password=mypass";
+$c->pg_connect[] = "dbname=davical user=general";
+// $c->pg_connect[] = "dbname=davical user=general port=5433 host=somehost password=mypass";
 
 
 /****************************
@@ -66,7 +66,7 @@ $c->admin_email ='calendar-admin@example.com';
 * <p>The "enable_row_linking" option controls whether javascript is used
 * to make the entire row clickable in browse lists in the administration
 * pages.  Since this doesn't work in Konqueror you may want to set this
-* to false if you expect people to be using Konqueror with the RSCDS
+* to false if you expect people to be using Konqueror with the DAViCal
 * administration pages.</p>
 */
 // $c->enable_row_linking = true;
