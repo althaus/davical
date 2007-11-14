@@ -9,8 +9,5 @@ built-docs
 built-po
 .settings
 *~
-testing/*.stream
-testing/*.cap
-testing/*.pcap
-testing/*.dump
+testing/dumps
 testing/regression.conf
