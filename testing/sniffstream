@@ -53,9 +53,10 @@ while( <STDIN> ) {
     $source = $2;
     $dest = $3;
   }
-  elsif ( /^\s+(0x....):\s(( [0-9a-f]{4}){1,8})/ ) {
+  elsif ( /^\s+(0x....):\s(( [0-9a-f]{4}){1,8})/i ) {
     my $pos = hex($1);
     my $hex = $2;
+    next unless defined($hex);
 
     if ( $pos == 64 ) {
       $hex = substr( $hex, 10 );
