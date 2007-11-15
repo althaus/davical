@@ -64,6 +64,7 @@ function ns_tag( $in_tag, $namespace=null, $prefix=null ) {
   else {
     $tag = $in_tag;
   }
+  $namespace = strtolower($namespace);
 
   if ( $prefix == null ) {
     // Attempt to assign one
@@ -73,7 +74,7 @@ function ns_tag( $in_tag, $namespace=null, $prefix=null ) {
     else {
       //  Try and build a prefix based on the first character of the last element of the namespace
       if ( preg_match('/^(.*):([^:]+)$/', $namespace, $matches) ) {
-        $prefix = substr($matches[2],0,1);
+        $prefix = strtoupper(substr($matches[2],0,1));
       }
       else {
         $prefix = 'x';
@@ -112,6 +113,10 @@ function namespace_array() {
   return $ns;
 }
 
+
+function caldav_tag( $tag ) {
+  return ns_tag( $tag, 'urn:ietf:params:xml:ns:caldav' );
+}
 
 
 foreach( $request->xml_tags AS $k => $v ) {
@@ -273,16 +278,13 @@ function add_principal_properties( &$prop, &$not_found, &$denied ) {
   }
 
   if ( isset($attribute_list['CALENDAR-HOME-SET'] ) ) {
-    add_namespace("C", "urn:ietf:params:xml:ns:caldav");
-    $prop->NewElement("C:calendar-home-set", new XMLElement('href', $request->principal->calendar_home_set ) );
+    $prop->NewElement(caldav_tag("calendar-home-set"), new XMLElement('href', $request->principal->calendar_home_set ) );
   }
   if ( isset($attribute_list['SCHEDULE-INBOX-URL'] ) ) {
-    add_namespace("C", "urn:ietf:params:xml:ns:caldav");
-    $prop->NewElement("C:schedule-inbox-url", new XMLElement('href', $request->principal->schedule_inbox_url) );
+    $prop->NewElement(caldav_tag("schedule-inbox-url"), new XMLElement('href', $request->principal->schedule_inbox_url) );
   }
   if ( isset($attribute_list['SCHEDULE-OUTBOX-URL'] ) ) {
-    add_namespace("C", "urn:ietf:params:xml:ns:caldav");
-    $prop->NewElement("C:schedule-outbox-url", new XMLElement('href', $request->principal->schedule_outbox_url) );
+    $prop->NewElement(caldav_tag("schedule-outbox-url"), new XMLElement('href', $request->principal->schedule_outbox_url) );
   }
 
   if ( isset($attribute_list['DROPBOX-HOME-URL'] ) ) {
@@ -295,12 +297,11 @@ function add_principal_properties( &$prop, &$not_found, &$denied ) {
   }
 
   if ( isset($attribute_list['CALENDAR-USER-ADDRESS-SET'] ) ) {
-    add_namespace("C", "urn:ietf:params:xml:ns:caldav");
     $addr_set = array();
     foreach( $request->principal->user_address_set AS $k => $v ) {
       $addr_set[] = new XMLElement('href', $v );
     }
-    $prop->NewElement("C:calendar-user-address-set", $addr_set );
+    $prop->NewElement(caldav_tag("calendar-user-address-set"), $addr_set );
   }
 }
 
@@ -326,8 +327,7 @@ function collection_to_xml( $collection ) {
   $resourcetypes = array( new XMLElement("collection") );
   $contentlength = false;
   if ( $collection->is_calendar == 't' ) {
-    add_namespace("C", "urn:ietf:params:xml:ns:caldav");
-    $resourcetypes[] = new XMLElement("C:calendar", false);
+    $resourcetypes[] = new XMLElement(caldav_tag("calendar"), false);
     $lqry = new PgQuery("SELECT sum(length(caldav_data)) FROM caldav_data WHERE user_no = ? AND dav_name ~ ?;", $collection->user_no, $collection->dav_name.'[^/]+$' );
     if ( $lqry->Exec("PROPFIND",__LINE__,__FILE__) && $row = $lqry->Fetch() ) {
       $contentlength = $row->sum;
@@ -344,18 +344,16 @@ function collection_to_xml( $collection ) {
   * First process any static values we do support
   */
   if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['SUPPORTED-COLLATION-SET']) ) {
-    add_namespace("C", "urn:ietf:params:xml:ns:caldav");
     $collations = array();
-    $collations[] = new XMLElement("C:supported-collation", 'i;ascii-casemap');
-    $collations[] = new XMLElement("C:supported-collation", 'i;octet');
-    $prop->NewElement("C:supported-collation-set", $collations );
+    $collations[] = new XMLElement(caldav_tag("supported-collation"), 'i;ascii-casemap');
+    $collations[] = new XMLElement(caldav_tag("supported-collation"), 'i;octet');
+    $prop->NewElement(caldav_tag("supported-collation-set"), $collations );
   }
   if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['SUPPORTED-CALENDAR-COMPONENT-SET']) ) {
-    add_namespace("C", "urn:ietf:params:xml:ns:caldav");
     $components = array();
-    $components[] = new XMLElement("C:comp", '', array("name" => "VEVENT"));
-    $components[] = new XMLElement("C:comp", '', array("name" => "VTODO"));
-    $prop->NewElement("C:supported-calendar-component-set", $components );
+    $components[] = new XMLElement(caldav_tag("comp"), '', array("name" => "VEVENT"));
+    $components[] = new XMLElement(caldav_tag("comp"), '', array("name" => "VTODO"));
+    $prop->NewElement(caldav_tag("supported-calendar-component-set"), $components );
   }
   if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['GETCONTENTTYPE']) ) {
     $prop->NewElement("getcontenttype", "httpd/unix-directory" );
@@ -392,19 +390,18 @@ function collection_to_xml( $collection ) {
   }
 
   if ( isset($attribute_list['CALENDAR-FREE-BUSY-SET'] ) ) {
-    add_namespace("C", "urn:ietf:params:xml:ns:caldav");
     if ( isset($collection->is_inbox) && $collection->is_inbox && $session->user_no == $collection->user_no ) {
       $fb_set = array();
       foreach( $collection->free_busy_set AS $k => $v ) {
         $fb_set[] = new XMLElement('href', $v );
       }
-      $prop->NewElement("C:calendar-free-busy-set", $fb_set );
+      $prop->NewElement(caldav_tag("calendar-free-busy-set"), $fb_set );
     }
     else if ( $session->user_no == $collection->user_no ) {
-      $not_found->NewElement("C:calendar-free-busy-set" );
+      $not_found->NewElement(caldav_tag("calendar-free-busy-set") );
     }
     else {
-      $denied->NewElement("C:calendar-free-busy-set" );
+      $denied->NewElement(caldav_tag("calendar-free-busy-set") );
     }
   }
 
