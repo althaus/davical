@@ -336,7 +336,15 @@ function collection_to_xml( $collection ) {
 
   if ( count($collection->properties) > 0 ) {
     foreach( $collection->properties AS $k => $v ) {
-      $prop->NewElement($k, $v );
+      if ( preg_match('/^(.*):([^:]+)$/', $k, $matches) ) {
+        $namespace = $matches[1];
+        $tag = $matches[2];
+      }
+      else {
+        $namespace = "";
+        $tag = $k;
+      }
+      $prop->NewElement(strtolower($tag), $v, array("xmlns" => strtolower($namespace)) );
     }
   }
 

@@ -5,7 +5,7 @@
   <propstat>
    <prop>
     <displayname>User One's Calendar</displayname>
-    <URN:MCMILLAN:BOGUS:XML:NS:RSCDS:ARBITRARY>A completely bogus property which should be saved.</URN:MCMILLAN:BOGUS:XML:NS:RSCDS:ARBITRARY>
+    <arbitrary xmlns="urn:mcmillan:bogus:xml:ns:rscds">A completely bogus property which should be saved.</arbitrary>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
