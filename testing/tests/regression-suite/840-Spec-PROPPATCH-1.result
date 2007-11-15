@@ -16,12 +16,12 @@ User One's Calendar --- faf25336de0e470a54075c14cbcf5272 --- 0 --- 1
  <DAV::HREF>http://www.example.com/acl/users/jim</DAV::HREF>
  --- 10 --- 1
 /user1/home/ --- URN:MCMILLAN:BOGUS:XML:NS:RSCDS:ARBITRARY --- A completely bogus property which should be saved. --- 10 --- 1
-/user1/SOHO+collection/ --- COM.APPLE.ICAL::CALENDARCOLOR --- #FF8000FF --- 10 --- 0
-/user1/SOHO+collection/ --- URN:IETF:PARAMS:XML:NS:CALDAV:CALENDAR-DESCRIPTION --- Calendar description --- 10 --- 0
+/user1/SOHO+collection/ --- COM.APPLE.ICAL::CALENDARCOLOR --- #FF8000FF --- 10 --- 1
+/user1/SOHO+collection/ --- URN:IETF:PARAMS:XML:NS:CALDAV:CALENDAR-DESCRIPTION --- Calendar description --- 10 --- 1
 /user1/SOHO+collection/ --- URN:IETF:PARAMS:XML:NS:CALDAV:SUPPORTED-CALENDAR-COMPONENT-SET --- 
  <URN:IETF:PARAMS:XML:NS:CALDAV:COMP NAME="VEVENT"/>
  <URN:IETF:PARAMS:XML:NS:CALDAV:COMP NAME="VTODO"/>
  <URN:IETF:PARAMS:XML:NS:CALDAV:COMP NAME="VTIMEZONE"/>
  <URN:IETF:PARAMS:XML:NS:CALDAV:COMP NAME="VJOURNAL"/>
  <URN:IETF:PARAMS:XML:NS:CALDAV:COMP NAME="VFREEBUSY"/>
- --- 10 --- 0
+ --- 10 --- 1
