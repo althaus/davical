@@ -22,16 +22,96 @@ $attribute_list = array();
 $unsupported = array();
 $arbitrary = array();
 
-$namespaces = array( "xmlns" => "DAV:" );
-
+$namespaces = array( "DAV:" => "" );
+$prefixes = array();
 function add_namespace( $prefix, $namespace ) {
   global $namespaces;
+  global $prefixes;
 
-  $prefix = 'xmlns:'.$prefix;
-  if ( !isset($namespaces[$prefix]) || $namespaces[$prefix] != $namespace ) {
-    $namespaces[$prefix] = $namespace;
+  if ( !isset($namespaces[$namespace]) ) {
+    if ( $prefix == "" || isset($prefixes[$prefix]) ) {
+      dbg_error_log("ERROR", "Cannot assign the same prefix to two different namespaces");
+      exit;
+    }
+    else {
+      $prefixes[$prefix] = $prefix;
+      $namespaces[$namespace] = $prefix;
+    }
+  }
+  else {
+    if ( $namespaces[$namespace] != $prefix ) {
+      dbg_error_log("ERROR", "Cannot use the same namespace with two different prefixes");
+      exit;
+    }
   }
 }
+
+
+function ns_tag( $in_tag, $namespace=null, $prefix=null ) {
+  global $namespaces;
+
+  if ( $namespace == null ) {
+    // Attempt to split out from namespace:tag
+    if ( preg_match('/^(.*):([^:]+)$/', $in_tag, $matches) ) {
+      $namespace = $matches[1];
+      $tag = $matches[2];
+    }
+    else {
+      // There is nothing we can do here
+      return $in_tag;
+    }
+  }
+  else {
+    $tag = $in_tag;
+  }
+
+  if ( $prefix == null ) {
+    // Attempt to assign one
+    if ( isset($namespaces[$namespace]) ) {
+      $prefix = $namespaces[$namespace];
+    }
+    else {
+      //  Try and build a prefix based on the first character of the last element of the namespace
+      if ( preg_match('/^(.*):([^:]+)$/', $namespace, $matches) ) {
+        $prefix = substr($matches[2],0,1);
+      }
+      else {
+        $prefix = 'x';
+      }
+      $i = "";
+      if ( isset($prefixes[$prefix]) ) {
+        for ( $i=1; $i<20 && isset($prefixes["$prefix$i"]); $i++ ) {
+        }
+      }
+      if ( isset($prefixes["$prefix$i"]) ) {
+        dbg_error_log("ERROR", "Cannot find a free prefix for this namespace");
+        exit;
+      }
+      $prefix = "$prefix$i";
+      $namespaces[$namespace] = $prefix;
+      $prefixes[$prefix] = 1;
+    }
+  }
+
+  if ( !isset($namespaces[$namespace]) ) {
+    add_namespace( $prefix, $namespace );
+  }
+
+  return $prefix . ":" . $tag;
+}
+
+
+function namespace_array() {
+  global $namespaces;
+
+  $ns = array();
+  foreach( $namespaces AS $n => $p ) {
+    if ( $p == "" ) $ns["xmlns"] = $n; else $ns["xmlns:$p"] = $n;
+  }
+
+  return $ns;
+}
+
 
 
 foreach( $request->xml_tags AS $k => $v ) {
@@ -667,7 +747,7 @@ else {
   $request->DoResponse( 403, translate("You do not have appropriate rights to view that resource.") );
 }
 
-$multistatus = new XMLElement( "multistatus", $responses, $namespaces );
+$multistatus = new XMLElement( "multistatus", $responses, namespace_array() );
 
 // dbg_log_array( "PROPFIND", "XML", $multistatus, true );
 $xmldoc = $multistatus->Render(0,'<?xml version="1.0" encoding="utf-8" ?>');
