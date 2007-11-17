@@ -6,8 +6,8 @@ include_once("iCalendar.php");
 include_once("RRule.php");
 
 $fbq_content = $xmltree->GetContent('URN:IETF:PARAMS:XML:NS:CALDAV:FREE-BUSY-QUERY');
-$fbq_start = $fbq_content[0]->GetAttribute('START'); 
-$fbq_end   = $fbq_content[0]->GetAttribute('END'); 
+$fbq_start = $fbq_content[0]->GetAttribute('START');
+$fbq_end   = $fbq_content[0]->GetAttribute('END');
 
 if ( ! ( isset($fbq_start) || isset($fbq_end) ) ) {
   $request->DoResponse( 400, 'All valid freebusy requests MUST contain a time-range filter' );
@@ -64,11 +64,13 @@ foreach( $busy_tentative AS $k => $v ) {
     while ( $date = $rrule->GetNext() ) {
       if ( ! $date->GreaterThan($fbq_start) ) continue;
       if ( $date->GreaterThan($fbq_end) ) break;
-      $freebusy .= sprintf("FREEBUSY;FBTYPE=BUSY-TENTATIVE:%s/%s\n", $date->Render('Ymd\THis'), $duration );
+      $todate = clone($date);
+      $todate->AddDuration($duration);
+      $freebusy .= sprintf("FREEBUSY;FBTYPE=BUSY-TENTATIVE:%s/%s\n", $date->Render('Ymd\THis'), $todate->Render('Ymd\THis') );
     }
   }
   else {
-    $freebusy .= sprintf("FREEBUSY;FBTYPE=BUSY-TENTATIVE:%s/%s\n", $start->Render('Ymd\THis'), $duration );
+    $freebusy .= sprintf("FREEBUSY;FBTYPE=BUSY-TENTATIVE:%s/%s\n", $start->Render('Ymd\THis'), $v->finish );
   }
 }
 
@@ -80,11 +82,13 @@ foreach( $busy AS $k => $v ) {
     while ( $date = $rrule->GetNext() ) {
       if ( ! $date->GreaterThan($fbq_start) ) continue;
       if ( $date->GreaterThan($fbq_end) ) break;
-      $freebusy .= sprintf("FREEBUSY:%s/%s\n", $date->Render('Ymd\THis'), $duration );
+      $todate = clone($date);
+      $todate->AddDuration($duration);
+      $freebusy .= sprintf("FREEBUSY:%s/%s\n", $date->Render('Ymd\THis'), $todate->Render('Ymd\THis') );
     }
   }
   else {
-    $freebusy .= sprintf("FREEBUSY:%s/%s\n", $start->Render('Ymd\THis'), $duration );
+    $freebusy .= sprintf("FREEBUSY:%s/%s\n", $start->Render('Ymd\THis'), $v->finish );
   }
 }
 
