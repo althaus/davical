@@ -163,6 +163,10 @@ database on a different server, you should read the
 <a href="http://www.postgresql.org/docs/8.1/interactive/client-authentication.html">PostgreSQL documentation on pg_hba.conf</a>
 for the version you are using.</p>
 
+<p>Once you have changed the pg_hba.conf file you will need to
+reload or restart the PostgreSQL process for the change to come
+into effect.</p>
+
 <h1>Apache VHost Configuration</h1>
 
 <p>Your Apache instance needs to be configured for Virtual Hosts.  If
