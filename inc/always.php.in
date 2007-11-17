@@ -11,7 +11,7 @@ unset($c);
 
 // Default some of the configurable values
 $c->sysabbr     = 'davical';
-$c->admin_email = 'andrew@catalyst.net.nz';
+$c->admin_email = 'admin@davical.example.com';
 $c->system_name = "DAViCal CalDAV Server";
 $c->domain_name = $_SERVER['SERVER_NAME'];
 $c->save_time_zone_defs = true;
