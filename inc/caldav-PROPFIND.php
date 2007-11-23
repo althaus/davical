@@ -65,6 +65,7 @@ function ns_tag( $in_tag, $namespace=null, $prefix=null ) {
     $tag = $in_tag;
   }
   $namespace = strtolower($namespace);
+  $tag = strtolower($tag);
 
   if ( $prefix == null ) {
     // Attempt to assign one
@@ -72,9 +73,10 @@ function ns_tag( $in_tag, $namespace=null, $prefix=null ) {
       $prefix = $namespaces[$namespace];
     }
     else {
-      //  Try and build a prefix based on the first character of the last element of the namespace
+      //  Try and build a prefix based on the first alphabetic character of the last element of the namespace
       if ( preg_match('/^(.*):([^:]+)$/', $namespace, $matches) ) {
-        $prefix = strtoupper(substr($matches[2],0,1));
+        $alpha = preg_replace( '/[^a-z]/i', '', $matches[2] );
+        $prefix = strtoupper(substr($alpha,0,1));
       }
       else {
         $prefix = 'x';
@@ -413,15 +415,7 @@ function collection_to_xml( $collection ) {
 
   if ( count($collection->properties) > 0 ) {
     foreach( $collection->properties AS $k => $v ) {
-      if ( preg_match('/^(.*):([^:]+)$/', $k, $matches) ) {
-        $namespace = $matches[1];
-        $tag = $matches[2];
-      }
-      else {
-        $namespace = "";
-        $tag = $k;
-      }
-      $prop->NewElement(strtolower($tag), $v, array("xmlns" => strtolower($namespace)) );
+      $prop->NewElement(ns_tag($k), $v);
     }
   }
 
@@ -462,15 +456,7 @@ function collection_to_xml( $collection ) {
 
   if ( count($arbitrary_results->missing) > 0 ) {
     foreach( $arbitrary_results->missing AS $k => $v ) {
-      if ( preg_match('/^(.*):([^:]+)$/', $k, $matches) ) {
-        $namespace = $matches[1];
-        $tag = $matches[2];
-      }
-      else {
-        $namespace = "";
-        $tag = $k;
-      }
-      $not_found->NewElement(strtolower($tag), '', array("xmlns" => strtolower($namespace)) );
+      $not_found->NewElement(ns_tag($k), '');
     }
   }
 
