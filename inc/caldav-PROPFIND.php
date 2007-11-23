@@ -48,7 +48,7 @@ function add_namespace( $prefix, $namespace ) {
 
 
 function ns_tag( $in_tag, $namespace=null, $prefix=null ) {
-  global $namespaces;
+  global $namespaces, $prefixes;
 
   if ( $namespace == null ) {
     // Attempt to split out from namespace:tag
@@ -65,6 +65,7 @@ function ns_tag( $in_tag, $namespace=null, $prefix=null ) {
     $tag = $in_tag;
   }
   $namespace = strtolower($namespace);
+  if ( $namespace == 'dav:' ) $namespace = 'DAV:';  // Special case for conventional naming
   $tag = strtolower($tag);
 
   if ( $prefix == null ) {
@@ -83,7 +84,7 @@ function ns_tag( $in_tag, $namespace=null, $prefix=null ) {
       }
       $i = "";
       if ( isset($prefixes[$prefix]) ) {
-        for ( $i=1; $i<20 && isset($prefixes["$prefix$i"]); $i++ ) {
+        for ( $i=1; $i<10 && isset($prefixes["$prefix$i"]); $i++ ) {
         }
       }
       if ( isset($prefixes["$prefix$i"]) ) {
@@ -100,7 +101,7 @@ function ns_tag( $in_tag, $namespace=null, $prefix=null ) {
     add_namespace( $prefix, $namespace );
   }
 
-  return $prefix . ":" . $tag;
+  return $prefix . ($prefix == "" ? "" : ":") . $tag;
 }
 
 

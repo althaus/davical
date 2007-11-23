@@ -2,7 +2,7 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, access-control, calendar-access
 ETag: "deadbeefcafefeeddeadbeefcafefeed"
-Content-Length: 1219
+Content-Length: 1141
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -37,12 +37,12 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
   <propstat>
    <prop>
-    <lockdiscovery xmlns="dav:"/>
-    <source xmlns="dav:"/>
-    <checked-in xmlns="dav:"/>
-    <checked-out xmlns="dav:"/>
-    <bogus-property xmlns="dav:"/>
-    <contentbogosity xmlns="dav:"/>
+    <lockdiscovery/>
+    <source/>
+    <checked-in/>
+    <checked-out/>
+    <bogus-property/>
+    <contentbogosity/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>

@@ -1,12 +1,12 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, access-control, calendar-access
-ETag: "c240d5bc59682fd96a47d4b802052879"
-Content-Length: 689
+ETag: "f90fce514cd7d7155fcb48f704e9f171"
+Content-Length: 651
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
-<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
+<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav" xmlns:A="http://apple.com/ns/calendarserver/">
  <response>
   <href>/caldav.php/user1/</href>
   <propstat>
@@ -22,8 +22,8 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
   <propstat>
    <prop>
-    <dropbox-home-url xmlns="http://apple.com/ns/calendarserver/"/>
-    <notifications-url xmlns="http://apple.com/ns/calendarserver/"/>
+    <A:dropbox-home-url/>
+    <A:notifications-url/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>

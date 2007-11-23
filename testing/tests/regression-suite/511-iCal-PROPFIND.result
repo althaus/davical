@@ -1,12 +1,12 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, access-control, calendar-access
-ETag: "3c6167921378348411a110b1db03b7d4"
-Content-Length: 796
+ETag: "d595bef8c261fd561df6bb7eec2f3734"
+Content-Length: 659
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
-<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
+<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav" xmlns:C1="http://calendarserver.org/ns/">
  <response>
   <href>/</href>
   <propstat>
@@ -20,11 +20,11 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
   <propstat>
    <prop>
-    <calendar-user-address-set xmlns="urn:ietf:params:xml:ns:caldav"/>
-    <schedule-inbox-url xmlns="urn:ietf:params:xml:ns:caldav"/>
-    <schedule-outbox-url xmlns="urn:ietf:params:xml:ns:caldav"/>
-    <dropbox-home-url xmlns="http://calendarserver.org/ns/"/>
-    <notifications-url xmlns="http://calendarserver.org/ns/"/>
+    <C:calendar-user-address-set/>
+    <C:schedule-inbox-url/>
+    <C:schedule-outbox-url/>
+    <C1:dropbox-home-url/>
+    <C1:notifications-url/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>

@@ -30,10 +30,10 @@
   </propstat>
   <propstat>
    <prop>
-    <lockdiscovery xmlns="dav:"/>
-    <source xmlns="dav:"/>
-    <checked-in xmlns="dav:"/>
-    <checked-out xmlns="dav:"/>
+    <lockdiscovery/>
+    <source/>
+    <checked-in/>
+    <checked-out/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
