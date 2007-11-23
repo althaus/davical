@@ -6,7 +6,7 @@
    <prop>
     <getcontenttype>httpd/unix-directory</getcontenttype>
     <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <getcontentlength>9531</getcontentlength>
+    <getcontentlength>10512</getcontentlength>
     <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
     <resourcetype>
      <collection/>
@@ -257,6 +257,32 @@
     <resourcetype/>
     <displayname>Confidential Event</displayname>
     <getetag>"08a435c2abaf38f4a50a997343c098a7"</getetag>
+    <getcontentlanguage>en_NZ.UTF-8</getcontentlanguage>
+    <supportedlock>
+     <lockentry>
+      <lockscope>
+       <exclusive/>
+      </lockscope>
+      <locktype>
+       <write/>
+      </locktype>
+     </lockentry>
+    </supportedlock>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/home/AAA9318E-37D9-4319-8626-95ECD3D3B243.ics</href>
+  <propstat>
+   <prop>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <getcontentlength>981</getcontentlength>
+    <getcontenttype>text/calendar</getcontenttype>
+    <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
+    <resourcetype/>
+    <displayname>BBQ @ ML's</displayname>
+    <getetag>"5f050eca5480bbebbe9428222570913d"</getetag>
     <getcontentlanguage>en_NZ.UTF-8</getcontentlanguage>
     <supportedlock>
      <lockentry>
