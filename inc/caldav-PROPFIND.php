@@ -322,9 +322,7 @@ function collection_to_xml( $collection ) {
 
   $url = $c->protocol_server_port_script . $collection->dav_name;
   $url = preg_replace( '#^(https?://.+)//#', '$1/', $url );  // Ensure we don't double any '/'
-  if ( preg_match( '/ iCal 3\.0/', $_SERVER['HTTP_USER_AGENT'] ) ) {
-    $url = preg_replace('#^https?://[^/]+#', '', $url );
-  }
+  $url = preg_replace('#^https?://[^/]+#', '', $url );
 
 
   $resourcetypes = array( new XMLElement("collection") );
@@ -481,7 +479,10 @@ function item_to_xml( $item ) {
 
   $item->properties = get_arbitrary_properties($item->dav_name);
 
-  $url = $_SERVER['SCRIPT_NAME'] . $item->dav_name;
+  $url = $c->protocol_server_port_script . $item->dav_name;
+  $url = preg_replace( '#^(https?://.+)//#', '$1/', $url );  // Ensure we don't double any '/'
+  $url = preg_replace('#^https?://[^/]+#', '', $url );
+
   $prop = new XMLElement("prop");
   $not_found = new XMLElement("prop");
   $denied  = new XMLElement("prop");
