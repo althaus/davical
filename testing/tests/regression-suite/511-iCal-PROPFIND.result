@@ -1,7 +1,7 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, access-control, calendar-access
-ETag: "d595bef8c261fd561df6bb7eec2f3734"
+ETag: "56a84b1b0c3881d98a25fd43c01ad94e"
 Content-Length: 659
 Content-Type: text/xml; charset="utf-8"
 
@@ -11,7 +11,7 @@ Content-Type: text/xml; charset="utf-8"
   <href>/</href>
   <propstat>
    <prop>
-    <displayname>DAViCal_CalDAV_Server</displayname>
+    <displayname>DAViCal CalDAV Server</displayname>
     <C:calendar-home-set>
      <href>/user1/</href>
     </C:calendar-home-set>

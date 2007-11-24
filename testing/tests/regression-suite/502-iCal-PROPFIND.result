@@ -1,7 +1,7 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, access-control, calendar-access
-ETag: "fd1ab8da7166728112e8028466b371d4"
+ETag: "39225b2248c1ac30ff58662ca692650c"
 Content-Length: 966
 Content-Type: text/xml; charset="utf-8"
 
@@ -15,7 +15,7 @@ Content-Type: text/xml; charset="utf-8"
      <collection/>
      <principal/>
     </resourcetype>
-    <displayname>User_1</displayname>
+    <displayname>User 1</displayname>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
