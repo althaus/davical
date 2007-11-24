@@ -529,9 +529,14 @@ class CalDAVRequest
         break;
 
       case 'create':
+        return isset($this->permissions['write']) || isset($this->permissions['bind']);
+        break;
+
       case 'mkcalendar':
       case 'mkcol':
-        return isset($this->permissions['write']) || isset($this->permissions['bind']);
+        if ( !isset($this->permissions['write']) || !isset($this->permissions['bind']) ) return false;
+        if ( $this->is_principal ) return false;
+        if ( $this->path == '/' ) return false;
         break;
 
       case 'read':
