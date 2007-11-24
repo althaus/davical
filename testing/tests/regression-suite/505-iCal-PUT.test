@@ -1,9 +1,10 @@
 #
-# PUT another event into the resource2 calendar so we can DELETE it
+# PUT an iCal style event into the database
 #
 TYPE=PUT
 URL=http://mycaldav/caldav.php/user1/home/AAA9318E-37D9-4319-8626-95ECD3D3B243.ics
 HEADER=Content-Type: text/calendar
+HEADER=User-Agent: DAVKit/2.0 (10.5.1; wrbt) iCal 3.0.1
 HEAD
 
 
