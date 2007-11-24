@@ -199,6 +199,7 @@ if ( defined(@{$queries}) && @{$queries} ) {
       print STDERR "Processing results row\n" if ( $debug );
       my $sep = "";
       foreach my $column ( @$row ) {
+        $column = 'NULL' unless ( defined($column) );
         print $sep, $column;
         $sep = " --- ";
       }
