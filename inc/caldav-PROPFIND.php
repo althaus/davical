@@ -379,10 +379,6 @@ function collection_to_xml( $collection ) {
   }
   if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['DISPLAYNAME']) ) {
     $displayname = ( $collection->dav_displayname == "" ? ucfirst(trim(str_replace("/"," ", $collection->dav_name))) : $collection->dav_displayname );
-    if ( preg_match( '/ iCal 3\.0/', $request->user_agent ) ) {
-      /** FIXME: There is a bug in iCal 3 which disables calendars with a displayname containing spaces */
-      $displayname = str_replace( ' ', '_', $displayname );
-    }
     $prop->NewElement("displayname", $displayname );
   }
   if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['GETETAG']) ) {
