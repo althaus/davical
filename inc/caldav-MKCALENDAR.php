@@ -53,7 +53,7 @@ if ( isset($request->xml_tags) ) {
         * TODO: This is definitely a bug in SOHO Organizer and we probably should respond
         * with an error, rather than silently doing what they *seem* to want us to do.
         */
-        if ( preg_match( '/ SOHO Organizer\/6\./', $_SERVER['HTTP_USER_AGENT'] ) ) {
+        if ( preg_match( '/^SOHO.Organizer.6\./', $_SERVER['HTTP_USER_AGENT'] ) ) {
           dbg_error_log( "MKCALENDAR", "Displayname is '/' to '%s'", $request->path);
           $parent_container = $request->path;
           $request->path .= $content . '/';
