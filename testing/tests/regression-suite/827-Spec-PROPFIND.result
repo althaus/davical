@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <multistatus xmlns="DAV:">
  <response>
-  <href>http://mycaldav/</href>
+  <href>/</href>
   <propstat>
    <prop>
     <getcontenttype>httpd/unix-directory</getcontenttype>
@@ -47,7 +47,7 @@
   </propstat>
  </response>
  <response>
-  <href>http://mycaldav/user1/</href>
+  <href>/user1/</href>
   <propstat>
    <prop>
     <getcontenttype>httpd/unix-directory</getcontenttype>
@@ -94,7 +94,7 @@
   </propstat>
  </response>
  <response>
-  <href>http://mycaldav/manager1/</href>
+  <href>/manager1/</href>
   <propstat>
    <prop>
     <getcontenttype>httpd/unix-directory</getcontenttype>
@@ -141,7 +141,7 @@
   </propstat>
  </response>
  <response>
-  <href>http://mycaldav/assistant1/</href>
+  <href>/assistant1/</href>
   <propstat>
    <prop>
     <getcontenttype>httpd/unix-directory</getcontenttype>
@@ -188,7 +188,7 @@
   </propstat>
  </response>
  <response>
-  <href>http://mycaldav/resource1/</href>
+  <href>/resource1/</href>
   <propstat>
    <prop>
     <getcontenttype>httpd/unix-directory</getcontenttype>
@@ -235,7 +235,7 @@
   </propstat>
  </response>
  <response>
-  <href>http://mycaldav/resource2/</href>
+  <href>/resource2/</href>
   <propstat>
    <prop>
     <getcontenttype>httpd/unix-directory</getcontenttype>

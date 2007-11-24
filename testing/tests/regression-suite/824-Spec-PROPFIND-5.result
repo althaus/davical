@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
  <response>
-  <href>http://mycaldav/caldav.php/user1/home/</href>
+  <href>/caldav.php/user1/home/</href>
   <propstat>
    <prop>
     <C:supported-collation-set>

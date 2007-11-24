@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav" xmlns:A="http://apache.org/dav/props/">
  <response>
-  <href>http://mycaldav/caldav.php/user1/home/</href>
+  <href>/caldav.php/user1/home/</href>
   <propstat>
    <prop>
     <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>

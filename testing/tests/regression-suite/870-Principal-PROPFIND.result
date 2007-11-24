@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <multistatus xmlns="DAV:">
  <response>
-  <href>http://mycaldav/user1/</href>
+  <href>/user1/</href>
   <propstat>
    <prop>
     <getcontenttype>httpd/unix-directory</getcontenttype>
