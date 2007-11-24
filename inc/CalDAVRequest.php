@@ -255,6 +255,20 @@ class CalDAVRequest
 
 
   /**
+  * Construct a URL from the supplied dav_name
+  * @param string $partial_path  The part of the path after the script name
+  */
+  function ConstructURL( $partial_path ) {
+    global $c;
+
+    $url = $c->protocol_server_port_script . $partial_path;
+    $url = preg_replace( '#^(https?://.+)//#', '$1/', $url );  // Ensure we don't double any '/'
+    $url = preg_replace('#^https?://[^/]+#', '', $url );
+    return $url;
+  }
+
+
+  /**
   * Permissions are controlled as follows:
   *  1. if the path is '/', the request has read privileges
   *  2. if the requester is an admin, the request has read/write priviliges

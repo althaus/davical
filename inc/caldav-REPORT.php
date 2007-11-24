@@ -96,9 +96,7 @@ function calendar_to_xml( $properties, $item ) {
     }
   }
 
-  $url = $c->protocol_server_port_script . $item->dav_name;
-  $url = preg_replace( '#^(https?://.+)//#', '$1/', $url );  // Ensure we don't double any '/'
-  $url = preg_replace('#^https?://[^/]+#', '', $url );
+  $url = $request->ConstructURL($item->dav_name);
 
   $prop = new XMLElement("prop");
   foreach( $properties AS $k => $v ) {

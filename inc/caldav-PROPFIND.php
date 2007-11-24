@@ -320,10 +320,7 @@ function collection_to_xml( $collection ) {
   $arbitrary_results = get_arbitrary_properties($collection->dav_name);
   $collection->properties = $arbitrary_results->found;
 
-  $url = $c->protocol_server_port_script . $collection->dav_name;
-  $url = preg_replace( '#^(https?://.+)//#', '$1/', $url );  // Ensure we don't double any '/'
-  $url = preg_replace('#^https?://[^/]+#', '', $url );
-
+  $url = $request->ConstructURL($collection->dav_name);
 
   $resourcetypes = array( new XMLElement("collection") );
   $contentlength = false;
@@ -479,9 +476,7 @@ function item_to_xml( $item ) {
 
   $item->properties = get_arbitrary_properties($item->dav_name);
 
-  $url = $c->protocol_server_port_script . $item->dav_name;
-  $url = preg_replace( '#^(https?://.+)//#', '$1/', $url );  // Ensure we don't double any '/'
-  $url = preg_replace('#^https?://[^/]+#', '', $url );
+  $url = $request->ConstructURL($item->dav_name);
 
   $prop = new XMLElement("prop");
   $not_found = new XMLElement("prop");
