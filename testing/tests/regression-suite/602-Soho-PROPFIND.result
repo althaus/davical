@@ -1,8 +1,8 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, access-control, calendar-access
-ETag: "11569a6789ed65497bd05e27e9657a27"
-Content-Length: 6629
+ETag: "86a8139e523f058ede9c0298e408d8b3"
+Content-Length: 7045
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -250,6 +250,20 @@ Content-Type: text/xml; charset="utf-8"
     <A:notifications-url/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/6E20BB7C-EFD9-4F0F-9BDC-5335E04D47E0/6C8A0D88-E1F9-4FC1-9EDD-DA258ABF2CFA.ics</href>
+  <propstat>
+   <prop>
+    <C:calendar-home-set>
+     <href>/caldav.php/user1/</href>
+    </C:calendar-home-set>
+    <C:calendar-user-address-set>
+     <href>/caldav.php/user1/</href>
+    </C:calendar-user-address-set>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
   </propstat>
  </response>
 </multistatus>
