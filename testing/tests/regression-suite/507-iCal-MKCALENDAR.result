@@ -1,0 +1,8 @@
+HTTP/1.1 201 Created
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, access-control, calendar-access
+Cache-Control: no-cache
+Content-Length: 0
+Content-Type: text/plain; charset="utf-8"
+
+10 --- /user1/ --- Untitled --- 1 --- 0
