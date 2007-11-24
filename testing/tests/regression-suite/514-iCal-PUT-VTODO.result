@@ -1,0 +1,8 @@
+HTTP/1.1 201 Created
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, access-control, calendar-access
+ETag: "18134bbb51c8e25919c92a0d6265f789"
+Content-Length: 0
+Content-Type: text/plain; charset="utf-8"
+
+10 --- 18134bbb51c8e25919c92a0d6265f789 --- VTODO --- 10 --- E6BC62F3-77C6-4FB7-BDD3-6882E2F1BE74 --- 2007-11-24 22:09:25 --- 2004-01-01 12:00:00+13 --- NULL --- 2010-02-17 00:00:00+13 --- Celebrate a significant birthday --- NULL --- Organise a party --- 5 --- PUBLIC --- NULL --- NULL --- NULL --- NULL --- NULL --- NULL
