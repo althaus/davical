@@ -1,0 +1,23 @@
+#
+# iCal does a calendar-multiget REPORT to fetch new events
+#
+TYPE=REPORT
+URL=http://mycaldav/caldav.php/user1/home/
+HEADER=Content-Type: text/xml
+HEADER=User-Agent: DAVKit/2.0 (10.5.1; wrbt) iCal 3.0.1
+HEAD
+
+
+# Reformatted for readability
+BEGINDATA
+<?xml version="1.0" encoding="UTF-8" ?>
+<x0:calendar-multiget xmlns:x0="urn:ietf:params:xml:ns:caldav" xmlns:x1="DAV:">
+ <x1:prop>
+  <x1:getetag/>
+  <x0:calendar-data/>
+ </x1:prop>
+ <x1:href>/caldav.php/user1/home/AAA9318E-37D9-4319-8626-95ECD3D3B243.ics</x1:href>
+</x0:calendar-multiget>
+ENDDATA
+
+
