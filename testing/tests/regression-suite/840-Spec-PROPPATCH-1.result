@@ -12,7 +12,7 @@ Content-Type: text/xml; charset="utf-8"
  </response>
 </multistatus>
 User One's Calendar --- faf25336de0e470a54075c14cbcf5272 --- 0 --- 1
-/user1/6E20BB7C-EFD9-4F0F-9BDC-5335E04D47E0/ --- HTTP://APPLE.COM/NS/ICAL/:CALENDAR-COLOR --- #492BA1FF --- 10 --- 1
+/user1/6E20BB7C-EFD9-4F0F-9BDC-5335E04D47E0/ --- HTTP://APPLE.COM/NS/ICAL/:CALENDAR-COLOR --- #391B71A0 --- 10 --- 1
 /user1/home/ --- DAV::OWNER --- 
  <DAV::HREF>http://www.example.com/acl/users/jim</DAV::HREF>
  --- 10 --- 1
