@@ -5,4 +5,4 @@ ETag: "5f050eca5480bbebbe9428222570913d"
 Content-Length: 0
 Content-Type: text/plain; charset="utf-8"
 
-10 --- VEVENT --- 10 --- AAA9318E-37D9-4319-8626-95ECD3D3B243 --- 2007-11-23 09:32:23 --- 2007-11-25 13:00:00+13 --- 2007-11-25 19:00:00+13 ---  --- BBQ @ ML's --- ML's House ---  ---  --- PUBLIC --- OPAQUE ---  ---  ---  ---  --- 
+10 --- VEVENT --- 10 --- AAA9318E-37D9-4319-8626-95ECD3D3B243 --- 2007-11-23 09:32:23 --- 2007-11-25 13:00:00+13 --- 2007-11-25 19:00:00+13 --- NULL --- BBQ @ ML's --- ML's House --- NULL --- NULL --- PUBLIC --- OPAQUE --- NULL --- NULL --- NULL --- NULL --- NULL
