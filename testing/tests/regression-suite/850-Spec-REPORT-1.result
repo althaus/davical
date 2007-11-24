@@ -1,14 +1,14 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, access-control, calendar-access
-ETag: "3140e532d35ae4918005eb9bf5fcc26b"
-Content-Length: 1456
+ETag: "ed933141b8d662fd7a79e37399302fa4"
+Content-Length: 1441
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
 <multistatus xmlns="DAV:">
  <response>
-  <href>http://mycaldav/caldav.php/user1/home/20061101T073004Z.ics</href>
+  <href>/caldav.php/user1/home/20061101T073004Z.ics</href>
   <propstat>
    <prop>
     <getetag>"c3658901fd4689d4a1e1d6f08601ef4f"</getetag>

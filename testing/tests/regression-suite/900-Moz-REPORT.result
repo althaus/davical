@@ -1,8 +1,8 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, access-control, calendar-access
-ETag: "78f60a204e7deae626d7a11a8f7f8d8e"
-Content-Length: 7901
+ETag: "add7fd32d70e4f7378b7aff4cf4e32e1"
+Content-Length: 7796
 Keep-Alive: timeout=15, max=100
 Connection: Keep-Alive
 Content-Type: text/xml; charset="utf-8"
@@ -10,7 +10,7 @@ Content-Type: text/xml; charset="utf-8"
 <?xml version="1.0" encoding="utf-8" ?>
 <multistatus xmlns="DAV:">
  <response>
-  <href>http://mycaldav/caldav.php/user1/home/1906b3ca-4890-468a-9b58-1de74bf2c716.ics</href>
+  <href>/caldav.php/user1/home/1906b3ca-4890-468a-9b58-1de74bf2c716.ics</href>
   <propstat>
    <prop>
     <calendar-data xmlns="urn:ietf:params:xml:ns:caldav">BEGIN:VCALENDAR
@@ -56,7 +56,7 @@ END:VCALENDAR
   </propstat>
  </response>
  <response>
-  <href>http://mycaldav/caldav.php/user1/home/4aaf8f37-f232-4c8e-a72e-e171d4c4fe54.ics</href>
+  <href>/caldav.php/user1/home/4aaf8f37-f232-4c8e-a72e-e171d4c4fe54.ics</href>
   <propstat>
    <prop>
     <calendar-data xmlns="urn:ietf:params:xml:ns:caldav">BEGIN:VCALENDAR
@@ -101,7 +101,7 @@ END:VCALENDAR
   </propstat>
  </response>
  <response>
-  <href>http://mycaldav/caldav.php/user1/home/71e2ae82-7870-11db-c6d6-f6927c144649.ics</href>
+  <href>/caldav.php/user1/home/71e2ae82-7870-11db-c6d6-f6927c144649.ics</href>
   <propstat>
    <prop>
     <calendar-data xmlns="urn:ietf:params:xml:ns:caldav">BEGIN:VCALENDAR
@@ -141,7 +141,7 @@ END:VCALENDAR
   </propstat>
  </response>
  <response>
-  <href>http://mycaldav/caldav.php/user1/home/9d050be7-8a02-4355-8ed3-02a9fc5f473f.ics</href>
+  <href>/caldav.php/user1/home/9d050be7-8a02-4355-8ed3-02a9fc5f473f.ics</href>
   <propstat>
    <prop>
     <calendar-data xmlns="urn:ietf:params:xml:ns:caldav">BEGIN:VCALENDAR
@@ -186,7 +186,7 @@ END:VCALENDAR
   </propstat>
  </response>
  <response>
-  <href>http://mycaldav/caldav.php/user1/home/AAA9318E-37D9-4319-8626-95ECD3D3B243.ics</href>
+  <href>/caldav.php/user1/home/AAA9318E-37D9-4319-8626-95ECD3D3B243.ics</href>
   <propstat>
    <prop>
     <calendar-data xmlns="urn:ietf:params:xml:ns:caldav">BEGIN:VCALENDAR
@@ -241,7 +241,7 @@ END:VCALENDAR
   </propstat>
  </response>
  <response>
-  <href>http://mycaldav/caldav.php/user1/home/da81c0ee-7871-11db-c6d6-f6927c144649.ics</href>
+  <href>/caldav.php/user1/home/da81c0ee-7871-11db-c6d6-f6927c144649.ics</href>
   <propstat>
    <prop>
     <calendar-data xmlns="urn:ietf:params:xml:ns:caldav">BEGIN:VCALENDAR
@@ -264,7 +264,7 @@ END:VCALENDAR
   </propstat>
  </response>
  <response>
-  <href>http://mycaldav/caldav.php/user1/home/fbd57454-d966-4a14-8341-abe1edb1ae66.ics</href>
+  <href>/caldav.php/user1/home/fbd57454-d966-4a14-8341-abe1edb1ae66.ics</href>
   <propstat>
    <prop>
     <calendar-data xmlns="urn:ietf:params:xml:ns:caldav">BEGIN:VCALENDAR
