@@ -96,7 +96,7 @@ function calendar_to_xml( $properties, $item ) {
     }
   }
 
-  $url = $request->ConstructURL($item->dav_name);
+  $url = ConstructURL($item->dav_name);
 
   $prop = new XMLElement("prop");
   foreach( $properties AS $k => $v ) {

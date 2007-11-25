@@ -195,7 +195,7 @@ if ( count($failure) > 0 ) {
     ));
   }
 
-  $url = $request->ConstructURL($request->path);
+  $url = ConstructURL($request->path);
   array_unshift( $failure, new XMLElement('href', $url ) );
   $failure[] = new XMLElement('responsedescription', translate("Some properties were not able to be changed.") );
 
@@ -210,7 +210,7 @@ if ( count($failure) > 0 ) {
 $sql .= "COMMIT;";
 $qry = new PgQuery( $sql );
 if ( $qry->Exec() ) {
-  $url = $request->ConstructURL($request->path);
+  $url = ConstructURL($request->path);
   $href = new XMLElement('href', $url );
   $desc = new XMLElement('responsedescription', translate("All requested changes were made.") );
 

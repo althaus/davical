@@ -213,4 +213,21 @@ function getStatusMessage($status) {
 }
 
 
-?>
+/**
+* Construct a URL from the supplied dav_name
+* @param string $partial_path  The part of the path after the script name
+*/
+function ConstructURL( $partial_path ) {
+  global $c;
+
+  if ( ! isset($c->_url_script_path) ) {
+    $c->_url_script_path = (preg_match('#/$#', $c->protocol_server_port_script) ? 'caldav.php' : '');
+    $c->_url_script_path = $c->protocol_server_port_script . $c->_url_script_path;
+  }
+
+  $url = $c->_url_script_path . $partial_path;
+  $url = preg_replace( '#^(https?://.+)//#', '$1/', $url );  // Ensure we don't double any '/'
+  $url = preg_replace('#^https?://[^/]+#', '', $url );
+  return $url;
+}
+

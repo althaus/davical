@@ -320,7 +320,7 @@ function collection_to_xml( $collection ) {
   $arbitrary_results = get_arbitrary_properties($collection->dav_name);
   $collection->properties = $arbitrary_results->found;
 
-  $url = $request->ConstructURL($collection->dav_name);
+  $url = ConstructURL($collection->dav_name);
 
   $resourcetypes = array( new XMLElement("collection") );
   $contentlength = false;
@@ -476,7 +476,7 @@ function item_to_xml( $item ) {
 
   $item->properties = get_arbitrary_properties($item->dav_name);
 
-  $url = $request->ConstructURL($item->dav_name);
+  $url = ConstructURL($item->dav_name);
 
   $prop = new XMLElement("prop");
   $not_found = new XMLElement("prop");
