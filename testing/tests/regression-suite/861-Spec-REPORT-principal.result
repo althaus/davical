@@ -1,14 +1,14 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, access-control, calendar-access
-ETag: "858ddca3788c4d78126a68ae1ecc123d"
-Content-Length: 3460
+ETag: "c1552b9c365c15b3e3e6ca730e56e2be"
+Content-Length: 3797
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
 <multistatus xmlns="DAV:">
  <response>
-  <href/>
+  <href>/caldav.php/admin/</href>
   <propstat>
    <prop>
     <calendar-home-set xmlns="urn:ietf:params:xml:ns:caldav">/caldav.php/admin/</calendar-home-set>
@@ -18,7 +18,7 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
  </response>
  <response>
-  <href/>
+  <href>/caldav.php/andrew/</href>
   <propstat>
    <prop>
     <calendar-home-set xmlns="urn:ietf:params:xml:ns:caldav">/caldav.php/andrew/</calendar-home-set>
@@ -28,7 +28,7 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
  </response>
  <response>
-  <href/>
+  <href>/caldav.php/user1/</href>
   <propstat>
    <prop>
     <calendar-home-set xmlns="urn:ietf:params:xml:ns:caldav">/caldav.php/user1/</calendar-home-set>
@@ -38,7 +38,7 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
  </response>
  <response>
-  <href/>
+  <href>/caldav.php/user2/</href>
   <propstat>
    <prop>
     <calendar-home-set xmlns="urn:ietf:params:xml:ns:caldav">/caldav.php/user2/</calendar-home-set>
@@ -48,7 +48,7 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
  </response>
  <response>
-  <href/>
+  <href>/caldav.php/user3/</href>
   <propstat>
    <prop>
     <calendar-home-set xmlns="urn:ietf:params:xml:ns:caldav">/caldav.php/user3/</calendar-home-set>
@@ -58,7 +58,7 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
  </response>
  <response>
-  <href/>
+  <href>/caldav.php/user4/</href>
   <propstat>
    <prop>
     <calendar-home-set xmlns="urn:ietf:params:xml:ns:caldav">/caldav.php/user4/</calendar-home-set>
@@ -68,7 +68,7 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
  </response>
  <response>
-  <href/>
+  <href>/caldav.php/user5/</href>
   <propstat>
    <prop>
     <calendar-home-set xmlns="urn:ietf:params:xml:ns:caldav">/caldav.php/user5/</calendar-home-set>
@@ -78,7 +78,7 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
  </response>
  <response>
-  <href/>
+  <href>/caldav.php/manager1/</href>
   <propstat>
    <prop>
     <calendar-home-set xmlns="urn:ietf:params:xml:ns:caldav">/caldav.php/manager1/</calendar-home-set>
@@ -88,7 +88,7 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
  </response>
  <response>
-  <href/>
+  <href>/caldav.php/assistant1/</href>
   <propstat>
    <prop>
     <calendar-home-set xmlns="urn:ietf:params:xml:ns:caldav">/caldav.php/assistant1/</calendar-home-set>
@@ -98,7 +98,7 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
  </response>
  <response>
-  <href/>
+  <href>/caldav.php/resource1/</href>
   <propstat>
    <prop>
     <calendar-home-set xmlns="urn:ietf:params:xml:ns:caldav">/caldav.php/resource1/</calendar-home-set>
@@ -108,7 +108,7 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
  </response>
  <response>
-  <href/>
+  <href>/caldav.php/resource2/</href>
   <propstat>
    <prop>
     <calendar-home-set xmlns="urn:ietf:params:xml:ns:caldav">/caldav.php/resource2/</calendar-home-set>
@@ -118,7 +118,7 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
  </response>
  <response>
-  <href/>
+  <href>/caldav.php/resmgr1/</href>
   <propstat>
    <prop>
     <calendar-home-set xmlns="urn:ietf:params:xml:ns:caldav">/caldav.php/resmgr1/</calendar-home-set>
@@ -128,7 +128,7 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
  </response>
  <response>
-  <href/>
+  <href>/caldav.php/teamclient1/</href>
   <propstat>
    <prop>
     <calendar-home-set xmlns="urn:ietf:params:xml:ns:caldav">/caldav.php/teamclient1/</calendar-home-set>

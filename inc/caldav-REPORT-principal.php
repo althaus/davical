@@ -39,7 +39,7 @@ function principal_to_xml( $properties, $item ) {
         $group = array();
         if ( $qry->Exec("REPORT-principal") && $qry->rows > 0 ) {
           while( $membership = $qry->Fetch() ) {
-            $group[] = new XMLElement("href", sprintf( "%s/%s/", $c->protocol_server_port_script, $membership->username) );
+            $group[] = new XMLElement("href", ConstructURL( "/". $membership->username . "/") );
           }
         }
         $prop->NewElement("group-member-set", $group );
@@ -49,7 +49,7 @@ function principal_to_xml( $properties, $item ) {
         $group = array();
         if ( $qry->Exec("REPORT-principal") && $qry->rows > 0 ) {
           while( $membership = $qry->Fetch() ) {
-            $group[] = new XMLElement("href", sprintf( "%s/%s/", $c->protocol_server_port_script, $membership->username) );
+            $group[] = new XMLElement("href", ConstructURL( "/". $membership->username . "/") );
           }
         }
         $prop->NewElement("group-membership", $group );
@@ -68,7 +68,7 @@ function principal_to_xml( $properties, $item ) {
   $status = new XMLElement("status", "HTTP/1.1 200 OK" );
 
   $propstat = new XMLElement( "propstat", array( $prop, $status) );
-  $href = new XMLElement("href", $url );
+  $href = new XMLElement("href", $principal_url );
 
   $elements = array($href,$propstat);
 
