@@ -195,7 +195,8 @@ if ( count($failure) > 0 ) {
     ));
   }
 
-  array_unshift( $failure, new XMLElement('href', $c->protocol_server_port_script . $request->path ) );
+  $url = $request->ConstructURL($request->path);
+  array_unshift( $failure, new XMLElement('href', $url ) );
   $failure[] = new XMLElement('responsedescription', translate("Some properties were not able to be changed.") );
 
   $multistatus = new XMLElement( "multistatus", new XMLElement( 'response', $failure ), array('xmlns'=>'DAV:') );
@@ -209,7 +210,8 @@ if ( count($failure) > 0 ) {
 $sql .= "COMMIT;";
 $qry = new PgQuery( $sql );
 if ( $qry->Exec() ) {
-  $href = new XMLElement('href', $c->protocol_server_port_script . $request->path );
+  $url = $request->ConstructURL($request->path);
+  $href = new XMLElement('href', $url );
   $desc = new XMLElement('responsedescription', translate("All requested changes were made.") );
 
   $multistatus = new XMLElement( "multistatus", new XMLElement( 'response', array( $href, $desc ) ), array('xmlns'=>'DAV:') );
