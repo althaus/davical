@@ -15,9 +15,9 @@ function principal_to_xml( $properties, $item ) {
 
   dbg_error_log("REPORT","Building XML Response for principal '%s'", $item->username );
 
-  $this_url = $c->protocol_server_port_script . $request->dav_name;
-  $principal_url = sprintf( "%s/%s/", $c->protocol_server_port_script, $item->username);
-  $home_calendar = sprintf( "%s/%s/%s/", $c->protocol_server_port_script, $item->username, $c->home_calendar_name);
+  $this_url = ConstructURL( $request->dav_name );
+  $principal_url = ConstructURL( "/".$item->username."/");
+  $home_calendar = ConstructURL( "/".$item->username."/");
   $prop = new XMLElement("prop");
   $denied = array();
   foreach( $properties AS $k => $v ) {

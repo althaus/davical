@@ -1,8 +1,8 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, access-control, calendar-access
-ETag: "8ee6bd9a1b7e15f40e6e24f149c6bf20"
-Content-Length: 3720
+ETag: "858ddca3788c4d78126a68ae1ecc123d"
+Content-Length: 3460
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -11,7 +11,7 @@ Content-Type: text/xml; charset="utf-8"
   <href/>
   <propstat>
    <prop>
-    <calendar-home-set xmlns="urn:ietf:params:xml:ns:caldav">http://mycaldav/caldav.php/admin/home/</calendar-home-set>
+    <calendar-home-set xmlns="urn:ietf:params:xml:ns:caldav">/caldav.php/admin/</calendar-home-set>
     <displayname>admin</displayname>
    </prop>
    <status>HTTP/1.1 200 OK</status>
@@ -21,7 +21,7 @@ Content-Type: text/xml; charset="utf-8"
   <href/>
   <propstat>
    <prop>
-    <calendar-home-set xmlns="urn:ietf:params:xml:ns:caldav">http://mycaldav/caldav.php/andrew/home/</calendar-home-set>
+    <calendar-home-set xmlns="urn:ietf:params:xml:ns:caldav">/caldav.php/andrew/</calendar-home-set>
     <displayname>andrew</displayname>
    </prop>
    <status>HTTP/1.1 200 OK</status>
@@ -31,7 +31,7 @@ Content-Type: text/xml; charset="utf-8"
   <href/>
   <propstat>
    <prop>
-    <calendar-home-set xmlns="urn:ietf:params:xml:ns:caldav">http://mycaldav/caldav.php/user1/home/</calendar-home-set>
+    <calendar-home-set xmlns="urn:ietf:params:xml:ns:caldav">/caldav.php/user1/</calendar-home-set>
     <displayname>user1</displayname>
    </prop>
    <status>HTTP/1.1 200 OK</status>
@@ -41,7 +41,7 @@ Content-Type: text/xml; charset="utf-8"
   <href/>
   <propstat>
    <prop>
-    <calendar-home-set xmlns="urn:ietf:params:xml:ns:caldav">http://mycaldav/caldav.php/user2/home/</calendar-home-set>
+    <calendar-home-set xmlns="urn:ietf:params:xml:ns:caldav">/caldav.php/user2/</calendar-home-set>
     <displayname>user2</displayname>
    </prop>
    <status>HTTP/1.1 200 OK</status>
@@ -51,7 +51,7 @@ Content-Type: text/xml; charset="utf-8"
   <href/>
   <propstat>
    <prop>
-    <calendar-home-set xmlns="urn:ietf:params:xml:ns:caldav">http://mycaldav/caldav.php/user3/home/</calendar-home-set>
+    <calendar-home-set xmlns="urn:ietf:params:xml:ns:caldav">/caldav.php/user3/</calendar-home-set>
     <displayname>user3</displayname>
    </prop>
    <status>HTTP/1.1 200 OK</status>
@@ -61,7 +61,7 @@ Content-Type: text/xml; charset="utf-8"
   <href/>
   <propstat>
    <prop>
-    <calendar-home-set xmlns="urn:ietf:params:xml:ns:caldav">http://mycaldav/caldav.php/user4/home/</calendar-home-set>
+    <calendar-home-set xmlns="urn:ietf:params:xml:ns:caldav">/caldav.php/user4/</calendar-home-set>
     <displayname>user4</displayname>
    </prop>
    <status>HTTP/1.1 200 OK</status>
@@ -71,7 +71,7 @@ Content-Type: text/xml; charset="utf-8"
   <href/>
   <propstat>
    <prop>
-    <calendar-home-set xmlns="urn:ietf:params:xml:ns:caldav">http://mycaldav/caldav.php/user5/home/</calendar-home-set>
+    <calendar-home-set xmlns="urn:ietf:params:xml:ns:caldav">/caldav.php/user5/</calendar-home-set>
     <displayname>user5</displayname>
    </prop>
    <status>HTTP/1.1 200 OK</status>
@@ -81,7 +81,7 @@ Content-Type: text/xml; charset="utf-8"
   <href/>
   <propstat>
    <prop>
-    <calendar-home-set xmlns="urn:ietf:params:xml:ns:caldav">http://mycaldav/caldav.php/manager1/home/</calendar-home-set>
+    <calendar-home-set xmlns="urn:ietf:params:xml:ns:caldav">/caldav.php/manager1/</calendar-home-set>
     <displayname>manager1</displayname>
    </prop>
    <status>HTTP/1.1 200 OK</status>
@@ -91,7 +91,7 @@ Content-Type: text/xml; charset="utf-8"
   <href/>
   <propstat>
    <prop>
-    <calendar-home-set xmlns="urn:ietf:params:xml:ns:caldav">http://mycaldav/caldav.php/assistant1/home/</calendar-home-set>
+    <calendar-home-set xmlns="urn:ietf:params:xml:ns:caldav">/caldav.php/assistant1/</calendar-home-set>
     <displayname>assistant1</displayname>
    </prop>
    <status>HTTP/1.1 200 OK</status>
@@ -101,7 +101,7 @@ Content-Type: text/xml; charset="utf-8"
   <href/>
   <propstat>
    <prop>
-    <calendar-home-set xmlns="urn:ietf:params:xml:ns:caldav">http://mycaldav/caldav.php/resource1/home/</calendar-home-set>
+    <calendar-home-set xmlns="urn:ietf:params:xml:ns:caldav">/caldav.php/resource1/</calendar-home-set>
     <displayname>resource1</displayname>
    </prop>
    <status>HTTP/1.1 200 OK</status>
@@ -111,7 +111,7 @@ Content-Type: text/xml; charset="utf-8"
   <href/>
   <propstat>
    <prop>
-    <calendar-home-set xmlns="urn:ietf:params:xml:ns:caldav">http://mycaldav/caldav.php/resource2/home/</calendar-home-set>
+    <calendar-home-set xmlns="urn:ietf:params:xml:ns:caldav">/caldav.php/resource2/</calendar-home-set>
     <displayname>resource2</displayname>
    </prop>
    <status>HTTP/1.1 200 OK</status>
@@ -121,7 +121,7 @@ Content-Type: text/xml; charset="utf-8"
   <href/>
   <propstat>
    <prop>
-    <calendar-home-set xmlns="urn:ietf:params:xml:ns:caldav">http://mycaldav/caldav.php/resmgr1/home/</calendar-home-set>
+    <calendar-home-set xmlns="urn:ietf:params:xml:ns:caldav">/caldav.php/resmgr1/</calendar-home-set>
     <displayname>resmgr1</displayname>
    </prop>
    <status>HTTP/1.1 200 OK</status>
@@ -131,7 +131,7 @@ Content-Type: text/xml; charset="utf-8"
   <href/>
   <propstat>
    <prop>
-    <calendar-home-set xmlns="urn:ietf:params:xml:ns:caldav">http://mycaldav/caldav.php/teamclient1/home/</calendar-home-set>
+    <calendar-home-set xmlns="urn:ietf:params:xml:ns:caldav">/caldav.php/teamclient1/</calendar-home-set>
     <displayname>teamclient1</displayname>
    </prop>
    <status>HTTP/1.1 200 OK</status>

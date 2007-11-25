@@ -1,8 +1,8 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, access-control, calendar-access
-ETag: "f9a0b07b2c7b0347a9ae26a412baef6b"
-Content-Length: 743
+ETag: "d73acd2ac03f8c93b5c7197558e2314b"
+Content-Length: 708
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -11,12 +11,12 @@ Content-Type: text/xml; charset="utf-8"
   <href/>
   <propstat>
    <prop>
-    <calendar-home-set xmlns="urn:ietf:params:xml:ns:caldav">http://mycaldav/caldav.php/resmgr1/home/</calendar-home-set>
+    <calendar-home-set xmlns="urn:ietf:params:xml:ns:caldav">/caldav.php/resmgr1/</calendar-home-set>
     <displayname>resmgr1</displayname>
     <resourcetype>
      <principal/>
     </resourcetype>
-    <principal-url>http://mycaldav/caldav.php/resmgr1/</principal-url>
+    <principal-url>/caldav.php/resmgr1/</principal-url>
     <alternate-uri/>
     <group-member-set>
      <href>http://mycaldav/caldav.php/user1/</href>
