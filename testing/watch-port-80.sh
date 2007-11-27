@@ -9,7 +9,7 @@ DUMP="tcp port ${PORT}"
 
 IPCLAUSE=""
 if [ "${IFACE}" != "any" ]; then
-  IP="`ip addr show dev wlan0 | grep ' inet ' | tr -s ' ' | cut -f3 -d' ' | cut -f1 -d'/'`"
+  IP="`ip addr show dev ${IFACE} | grep ' inet ' | tr -s ' ' | cut -f3 -d' ' | cut -f1 -d'/'`"
   IPCLAUSE=" and ((src host ${IP} and src port ${PORT}) or (dst host ${IP} and dst port ${PORT}))"
 fi
 
