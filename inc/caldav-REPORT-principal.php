@@ -4,6 +4,7 @@ $responses = array();
 
 /**
 * Return XML for a single Principal (user) from the DB
+* TODO: Refactor this functionality into the CalDAVPrincipal object
 *
 * @param array $properties The requested properties for this principal
 * @param string $item The user data for this calendar
