@@ -1,5 +1,5 @@
 
--- Add a numeric primary key link between caldav_data and calendar_item to
+-- Add a numeric foreign key link between caldav_data and calendar_item to
 -- provide more efficient linking when the db has been initialised with a
 -- non POSIX collation.
 
@@ -15,6 +15,7 @@ ALTER TABLE collection ADD COLUMN publicly_readable BOOLEAN DEFAULT FALSE;
 ALTER TABLE caldav_data ADD COLUMN dav_id INT8;
 ALTER TABLE calendar_item ADD COLUMN dav_id INT8;
 CREATE SEQUENCE caldav_data_dav_id_seq;
+GRANT SELECT,UPDATE ON caldav_data_dav_id_seq TO general;
 
 CREATE or REPLACE FUNCTION sync_dav_id ( ) RETURNS TRIGGER AS '
   DECLARE
@@ -29,9 +30,11 @@ CREATE or REPLACE FUNCTION sync_dav_id ( ) RETURNS TRIGGER AS '
       NEW.dav_id = nextval(''caldav_data_dav_id_seq'');
     END IF;
 
-    IF OLD.dav_id = NEW.dav_id THEN
-      -- Nothing to do
-      RETURN NEW;
+    IF TG_OP = ''UPDATE'' THEN
+      IF OLD.dav_id = NEW.dav_id THEN
+        -- Nothing to do
+        RETURN NEW;
+      END IF;
     END IF;
 
     IF TG_RELNAME = ''caldav_data'' THEN
@@ -54,12 +57,19 @@ CREATE TRIGGER calendar_item_sync_dav_id AFTER INSERT OR UPDATE ON calendar_item
 -- Now, using the trigger, magically assign dav_id to all rows in caldav_data and calendar_item
 UPDATE caldav_data SET dav_id = dav_id;
 
+ALTER TABLE caldav_data ALTER COLUMN dav_id SET DEFAULT nextval('caldav_data_dav_id_seq');
+ALTER TABLE caldav_data ALTER COLUMN dav_id SET NOT NULL;
+ALTER TABLE caldav_data ADD CONSTRAINT caldav_data_dav_id_key UNIQUE (dav_id);
+
+-- ALTER TABLE calendar_item ALTER COLUMN dav_id SET NOT NULL;
+ALTER TABLE calendar_item ADD CONSTRAINT calendar_item_dav_id_key UNIQUE (dav_id);
+
 -- Finally, what we are really after, create the foreign key constraints
-ALTER TABLE caldav_data DROP CONSTRAINT caldav_data_pkey CASCADE;
-ALTER TABLE caldav_data ADD PRIMARY KEY ( dav_id );
-ALTER TABLE calendar_item DROP CONSTRAINT calendar_item_pkey CASCADE;
-ALTER TABLE calendar_item ADD PRIMARY KEY ( dav_id );
-ALTER TABLE calendar_item ADD CONSTRAINT "calendar_item_dav_id_fkey" FOREIGN KEY (dav_id) REFERENCES caldav_data(dav_id) ON UPDATE CASCADE ON DELETE CASCADE DEFERRABLE;
+-- ALTER TABLE caldav_data DROP CONSTRAINT caldav_data_pkey CASCADE;
+-- ALTER TABLE caldav_data ADD PRIMARY KEY ( dav_id );
+-- ALTER TABLE calendar_item DROP CONSTRAINT calendar_item_pkey CASCADE;
+-- ALTER TABLE calendar_item ADD PRIMARY KEY ( dav_id );
+-- ALTER TABLE calendar_item ADD CONSTRAINT "calendar_item_dav_id_fkey" FOREIGN KEY (dav_id) REFERENCES caldav_data(dav_id) ON UPDATE CASCADE ON DELETE CASCADE DEFERRABLE;
 
 SELECT new_db_revision(1,1,12, 'December' );
 
