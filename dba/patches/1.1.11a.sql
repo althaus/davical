@@ -1,6 +1,6 @@
 
 -- Sort out accessing calendar entries.
--- This patch file is the same in/out revision as 1.1.11 but it works with newer databases (8.x)
+-- This alternative patch file is the same in/out revision as 1.1.11 but it works with newer databases (8.x)
 
 BEGIN;
 SELECT check_db_revision(1,1,10);
