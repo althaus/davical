@@ -1,0 +1,8 @@
+HTTP/1.1 201 Created
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, access-control, calendar-access
+ETag: "8f581a053df6d833254756dfd7553d37"
+Content-Length: 0
+Content-Type: text/plain; charset="utf-8"
+
+10 --- 8f581a053df6d833254756dfd7553d37 --- VTODO --- 10 --- e6eb5bc9-f7f9-4a0a-94e8-8e90eefc7d08 --- 2007-12-03 20:29:15 --- 2007-12-09 13:30:00+13 --- NULL --- 2007-12-09 13:30:00+13 --- Release 0.9.3 --- NULL --- NULL --- NULL --- PUBLIC --- NULL --- NULL --- NULL --- 95.00 --- NULL --- IN-PROCESS

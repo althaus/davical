@@ -1,0 +1,67 @@
+#
+# PUT a Mozilla style event into the database
+#
+TYPE=PUT
+URL=http://mycaldav/caldav.php/user1/home/e6eb5bc9-f7f9-4a0a-94e8-8e90eefc7d08.ics
+HEADER=User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.1.8pre) Gecko/20071023 Sunbird/0.7
+HEADER=Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+HEADER=Accept-Language: en-us,en;q=0.5
+HEADER=Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
+HEADER=Content-Type: text/calendar; charset=utf-8
+
+HEAD
+
+
+BEGINDATA
+BEGIN:VCALENDAR
+PRODID:-//Mozilla Calendar//NONSGML Sunbird//EN
+VERSION:2.0
+BEGIN:VTIMEZONE
+TZID:/mozilla.org/20070129_1/Antarctica/McMurdo
+X-LIC-LOCATION:Antarctica/McMurdo
+BEGIN:STANDARD
+TZOFFSETFROM:+1300
+TZOFFSETTO:+1200
+TZNAME:NZST
+DTSTART:19700315T030000
+RRULE:FREQ=YEARLY;INTERVAL=1;BYDAY=3SU;BYMONTH=3
+END:STANDARD
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+1200
+TZOFFSETTO:+1300
+TZNAME:NZDT
+DTSTART:19701004T020000
+RRULE:FREQ=YEARLY;INTERVAL=1;BYDAY=1SU;BYMONTH=10
+END:DAYLIGHT
+END:VTIMEZONE
+BEGIN:VTODO
+CREATED:20071203T202915Z
+LAST-MODIFIED:20071203T203021Z
+DTSTAMP:20071203T202915Z
+UID:e6eb5bc9-f7f9-4a0a-94e8-8e90eefc7d08
+SUMMARY:Release 0.9.3
+STATUS:IN-PROCESS
+DTSTART;TZID=/mozilla.org/20070129_1/Antarctica/McMurdo:20071209T133000
+DUE;TZID=/mozilla.org/20070129_1/Antarctica/McMurdo:20071209T133000
+PERCENT-COMPLETE:95
+X-MOZ-LOCATIONPATH:e6eb5bc9-f7f9-4a0a-94e8-8e90eefc7d08.ics
+BEGIN:VALARM
+TRIGGER;VALUE=DURATION:-P2D
+DESCRIPTION:Mozilla Alarm: Release 0.9.3
+ACTION:DISPLAY
+END:VALARM
+END:VTODO
+END:VCALENDAR
+ENDDATA
+
+
+QUERY
+SELECT caldav_data.user_no, caldav_data.dav_etag, caldav_type, logged_user, 
+       uid, dtstamp, dtstart, dtend, due, summary, location,
+       description, priority, class, transp, rrule, url,
+       percent_complete, tz_id, status
+FROM caldav_data JOIN calendar_item USING(dav_name)
+WHERE caldav_data.dav_name =
+'/user1/home/e6eb5bc9-f7f9-4a0a-94e8-8e90eefc7d08.ics';
+ENDQUERY
+

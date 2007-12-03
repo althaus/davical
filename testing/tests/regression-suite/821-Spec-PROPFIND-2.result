@@ -13,7 +13,7 @@ Content-Type: text/xml; charset="utf-8"
    <prop>
     <getcontenttype>httpd/unix-directory</getcontenttype>
     <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <getcontentlength>10512</getcontentlength>
+    <getcontentlength>12644</getcontentlength>
     <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
     <resourcetype>
      <collection/>
