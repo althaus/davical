@@ -65,7 +65,8 @@ for ( my $i=0; $i <= $#patches;  $i++ ) {
         $applied--;
       }
       else {
-        print "failed!\n$last_results \n  ==> No further patches will be attempted!\n";
+        print "failed!\n$last_results  ==> No further patches will be attempted!\n";
+        last;
       }
     }
     else {
