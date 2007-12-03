@@ -61,15 +61,7 @@ ALTER TABLE caldav_data ALTER COLUMN dav_id SET DEFAULT nextval('caldav_data_dav
 ALTER TABLE caldav_data ALTER COLUMN dav_id SET NOT NULL;
 ALTER TABLE caldav_data ADD CONSTRAINT caldav_data_dav_id_key UNIQUE (dav_id);
 
--- ALTER TABLE calendar_item ALTER COLUMN dav_id SET NOT NULL;
 ALTER TABLE calendar_item ADD CONSTRAINT calendar_item_dav_id_key UNIQUE (dav_id);
-
--- Finally, what we are really after, create the foreign key constraints
--- ALTER TABLE caldav_data DROP CONSTRAINT caldav_data_pkey CASCADE;
--- ALTER TABLE caldav_data ADD PRIMARY KEY ( dav_id );
--- ALTER TABLE calendar_item DROP CONSTRAINT calendar_item_pkey CASCADE;
--- ALTER TABLE calendar_item ADD PRIMARY KEY ( dav_id );
--- ALTER TABLE calendar_item ADD CONSTRAINT "calendar_item_dav_id_fkey" FOREIGN KEY (dav_id) REFERENCES caldav_data(dav_id) ON UPDATE CASCADE ON DELETE CASCADE DEFERRABLE;
 
 SELECT new_db_revision(1,1,12, 'December' );
 
