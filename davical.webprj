@@ -246,5 +246,7 @@
     <item url="inc/davical_configuration_missing.php" uploadstatus="1" />
     <item url="dba/davical.sql" uploadstatus="1" />
     <item url="inc/drivers_squid_pam.php" uploadstatus="1" />
+    <item url="dba/patches/1.1.11a.sql" uploadstatus="1" />
+    <item url="dba/patches/1.1.12.sql" uploadstatus="1" />
   </project>
 </webproject>
