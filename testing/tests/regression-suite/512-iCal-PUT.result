@@ -1,0 +1,8 @@
+HTTP/1.1 201 Created
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, access-control, calendar-access
+ETag: "b7cfb403232dc83f936c15a179901d50"
+Content-Length: 0
+Content-Type: text/plain; charset="utf-8"
+
+10 --- b7cfb403232dc83f936c15a179901d50 --- VEVENT --- 10 --- 6C8A0D88-E1F9-4FC1-9EDD-DA258ABF2CFA --- 2007-11-24 08:37:09 --- 2007-11-26 22:00:00+13 --- 2007-11-26 23:00:00+13 --- NULL --- New Event --- NULL --- NULL --- NULL --- PUBLIC --- OPAQUE --- NULL --- NULL --- NULL --- NULL --- NULL

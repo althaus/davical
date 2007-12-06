@@ -282,23 +282,25 @@ class iCalDate {
   function AddDuration( $duration ) {
     list( $sign, $days, $time ) = preg_split( '/[PT]/', $duration );
     $sign = ( $sign == "-" ? -1 : 1);
+    dbg_error_log( "RRule", " Adding duration to '%s' of sign: %d,  days: %s,  time: %s", $this->_text, $sign, $days, $time );
     if ( preg_match( '/(\d)+(D|W)/', $days, $matches ) ) {
       $days = intval($matches[1]);
       if ( $matches[2] == 'W' ) $days *= 7;
       $this->AddDays( $days * $sign );
     }
-    if ( preg_match( '/(\d)+(H)/', $time, $matches ) )  $hh = $matches[1];
-    if ( preg_match( '/(\d)+(M)/', $time, $matches ) )  $mi = $matches[1];
-    if ( preg_match( '/(\d)+(S)/', $time, $matches ) )  $ss = $matches[1];
+    if ( preg_match( '/(\d+)(H)/', $time, $matches ) )  $hh = $matches[1];
+    if ( preg_match( '/(\d+)(M)/', $time, $matches ) )  $mi = $matches[1];
+    if ( preg_match( '/(\d+)(S)/', $time, $matches ) )  $ss = $matches[1];
 
+    dbg_error_log( "RRule", " Adding %02d:%02d:%02d * %d to %02d:%02d:%02d", $hh, $mi, $ss, $sign, $this->_hh, $this->_mi, $this->_ss );
     $this->_hh += ($hh * $sign);
     $this->_mi += ($mi * $sign);
     $this->_ss += ($ss * $sign);
 
-    if ( $this->_ss < 0 ) {  $this->_mi -= (intval(abs($this->ss/60))+1); $this->_ss += ((intval(abs($this->mi/60))+1) * 60); }
-    if ( $this->_ss > 59) {  $this->_mi += (intval(abs($this->ss/60))+1); $this->_ss -= ((intval(abs($this->mi/60))+1) * 60); }
-    if ( $this->_mi < 0 ) {  $this->_hh -= (intval(abs($this->mi/60))+1); $this->_mi += ((intval(abs($this->mi/60))+1) * 60); }
-    if ( $this->_mi > 59) {  $this->_hh += (intval(abs($this->mi/60))+1); $this->_mi -= ((intval(abs($this->mi/60))+1) * 60); }
+    if ( $this->_ss < 0 ) {  $this->_mi -= (intval(abs($this->_ss/60))+1); $this->_ss += ((intval(abs($this->_mi/60))+1) * 60); }
+    if ( $this->_ss > 59) {  $this->_mi += (intval(abs($this->_ss/60))+1); $this->_ss -= ((intval(abs($this->_mi/60))+1) * 60); }
+    if ( $this->_mi < 0 ) {  $this->_hh -= (intval(abs($this->_mi/60))+1); $this->_mi += ((intval(abs($this->_mi/60))+1) * 60); }
+    if ( $this->_mi > 59) {  $this->_hh += (intval(abs($this->_mi/60))+1); $this->_mi -= ((intval(abs($this->_mi/60))+1) * 60); }
     if ( $this->_hh < 0 ) {  $this->AddDays( -1 * (intval(abs($this->_hh/24))+1) );  $this->_hh += ((intval(abs($this->_hh/24))+1)*24);  }
     if ( $this->_hh > 23) {  $this->AddDays( (intval(abs($this->_hh/24))+1) );       $this->_hh -= ((intval(abs($this->_hh/24))+1)*24);  }
 

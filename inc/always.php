@@ -11,13 +11,14 @@ unset($c);
 
 // Default some of the configurable values
 $c->sysabbr     = 'davical';
-$c->admin_email = 'andrew@catalyst.net.nz';
+$c->admin_email = 'admin@davical.example.com';
 $c->system_name = "DAViCal CalDAV Server";
 $c->domain_name = $_SERVER['SERVER_NAME'];
 $c->save_time_zone_defs = true;
 $c->collections_always_exist = true;
 $c->home_calendar_name = 'home';
 $c->enable_row_linking = true;
+$c->http_auth_mode = 'Basic';
 // $c->default_locale = array('es_MX', 'es_MX.UTF-8', 'es');
 // $c->local_tzid = 'Pacific/Auckland';  // Perhaps we should read from /etc/timezone - I wonder how standard that is?
 $c->default_locale = "en_NZ";
@@ -48,9 +49,7 @@ $c->protocol_server_port_script = sprintf( "%s://%s%s%s", (isset($_SERVER['HTTPS
                    ? ''
                    : ':'.$_SERVER['SERVER_PORT']
                  ),
-                 $_SERVER['SCRIPT_NAME'] );
-
-@dbg_error_log( "LOG", "==========> method =%s= =%s= =%s= =%s= =%s=", $_SERVER['REQUEST_METHOD'], $c->protocol_server_port_script, $_SERVER['PATH_INFO'], $c->base_url, $c->base_directory );
+                 ($_SERVER['SCRIPT_NAME'] == '/index.php' ? '' : $_SERVER['SCRIPT_NAME']) );
 
 init_gettext( 'rscds', '../locale' );
 
@@ -64,10 +63,16 @@ else if ( file_exists("../config/config.php") ) {
   include_once("../config/config.php");
 }
 else {
-  include_once("rscds_configuration_missing.php");
+  include_once("davical_configuration_missing.php");
   exit;
 }
 if ( !isset($c->page_title) ) $c->page_title = $c->system_name;
+
+if ( count($c->dbg) > 0 ) {
+  // Only log this if debugging of some sort is turned on, somewhere
+  @dbg_error_log( "LOG", "==========> method =%s= =%s= =%s= =%s= =%s=",
+         $_SERVER['REQUEST_METHOD'], $c->protocol_server_port_script, $_SERVER['PATH_INFO'], $c->base_url, $c->base_directory );
+}
 
 /**
 * Now that we have loaded the configuration file we can switch to a
@@ -80,15 +85,15 @@ awl_set_locale($c->default_locale);
 *
 */
 $c->code_version = 0;
-$c->version_string = '0.9.0'; // The actual version # is replaced into that during the build /release process
+$c->version_string = '0.9.2'; // The actual version # is replaced into that during the build /release process
 if ( isset($c->version_string) && preg_match( '/(\d+)\.(\d+)\.(\d+)(.*)/', $c->version_string, $matches) ) {
   $c->code_major = $matches[1];
-  $c->code_minor = $matches[1];
-  $c->code_patch = $matches[1];
+  $c->code_minor = $matches[2];
+  $c->code_patch = $matches[3];
   $c->code_version = (($c->code_major * 1000) + $c->code_minor).".".$c->code_patch;
 }
-dbg_error_log("caldav", "Version %s (%d.%d.%d) == %s", $c->code_pkgver, $c->code_major, $c->code_minor, $c->code_patch, $c->code_version);
-header( sprintf("Server: %s/%d.%d", $c->code_pkgver, $c->code_major, $c->code_minor) );
+dbg_error_log("caldav", "Version (%d.%d.%d) == %s", $c->code_major, $c->code_minor, $c->code_patch, $c->code_version);
+header( sprintf("Server: %d.%d", $c->code_major, $c->code_minor) );
 
 /**
 * Force the domain name to what was in the configuration file
@@ -106,15 +111,45 @@ if ( $qry->Exec("always") && $row = $qry->Fetch() ) {
   $c->schema_patch = $row->schema_patch;
 }
 
-$_known_users = array();
-function getUserByName( $username ) {
+
+$_known_users_name = array();
+$_known_users_id   = array();
+/**
+* Return a user record identified by a username, caching it for any subsequent lookup
+* @param string $username The username of the record to retrieve
+* @param boolean $use_cache Whether or not to use the cache (default: yes)
+*/
+function getUserByName( $username, $use_cache = true ) {
   // Provide some basic caching in case this ends up being overused.
-  if ( isset( $_known_users[$username] ) ) return $_known_users[$username];
+  if ( $use_cache && isset( $_known_users_name[$username] ) ) return $_known_users_name[$username];
 
   $qry = new PgQuery( "SELECT * FROM usr WHERE lower(username) = lower(?) ", $username );
   if ( $qry->Exec('always',__LINE__,__FILE__) && $qry->rows == 1 ) {
-    $_known_users[$username] = $qry->Fetch();
-    return $_known_users[$username];
+    $_known_users_name[$username] = $qry->Fetch();
+    $id = $_known_users_name[$username]->user_no;
+    $_known_users_id[$id] = $_known_users_name[$username];
+    return $_known_users_name[$username];
+  }
+
+  return false;
+}
+
+
+/**
+* Return a user record identified by a user_no, caching it for any subsequent lookup
+* @param int $user_no The ID of the record to retrieve
+* @param boolean $use_cache Whether or not to use the cache (default: yes)
+*/
+function getUserByID( $user_no, $use_cache = true ) {
+  // Provide some basic caching in case this ends up being overused.
+  if ( $use_cache && isset( $_known_users_id[$user_no] ) ) return $_known_users_id[$user_no];
+
+  $qry = new PgQuery( "SELECT * FROM usr WHERE user_no = ? ", intval($user_no) );
+  if ( $qry->Exec('always',__LINE__,__FILE__) && $qry->rows == 1 ) {
+    $_known_users_id[$user_no] = $qry->Fetch();
+    $name = $_known_users_id[$user_no]->username;
+    $_known_users_name[$name] = $_known_users_id[$user_no];
+    return $_known_users_id[$user_no];
   }
 
   return false;
@@ -176,6 +211,26 @@ function getStatusMessage($status) {
   }
   return $ans;
 }
+
+
+/**
+* Construct a URL from the supplied dav_name
+* @param string $partial_path  The part of the path after the script name
+*/
+function ConstructURL( $partial_path ) {
+  global $c;
+
+  if ( ! isset($c->_url_script_path) ) {
+    $c->_url_script_path = (preg_match('#/$#', $c->protocol_server_port_script) ? 'caldav.php' : '');
+    $c->_url_script_path = $c->protocol_server_port_script . $c->_url_script_path;
+  }
+
+  $url = $c->_url_script_path . $partial_path;
+  $url = preg_replace( '#^(https?://.+)//#', '$1/', $url );  // Ensure we don't double any '/'
+  $url = preg_replace('#^https?://[^/]+#', '', $url );
+  return $url;
+}
+
 
 
 ?>

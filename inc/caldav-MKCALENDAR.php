@@ -15,6 +15,13 @@ if ( ! $request->AllowedTo('mkcalendar') ) {
 }
 
 $displayname = $request->path;
+
+// Enforce trailling '/' on collection name
+if ( ! preg_match( '#/$#', $request->path ) ) {
+  dbg_error_log( "MKCALENDAR", "Add trailling '/' to '%s'", $request->path);
+  $request->path .= '/';
+}
+
 $parent_container = '/';
 if ( preg_match( '#^(.*/)([^/]+)(/)?$#', $request->path, $matches ) ) {
   $parent_container = $matches[1];
@@ -42,13 +49,26 @@ if ( isset($request->xml_tags) ) {
 
       case 'DAV::DISPLAYNAME':
         $displayname = $content;
+        /**
+        * TODO: This is definitely a bug in SOHO Organizer and we probably should respond
+        * with an error, rather than silently doing what they *seem* to want us to do.
+        */
+        if ( preg_match( '/^SOHO.Organizer.6\./', $_SERVER['HTTP_USER_AGENT'] ) ) {
+          dbg_error_log( "MKCALENDAR", "Displayname is '/' to '%s'", $request->path);
+          $parent_container = $request->path;
+          $request->path .= $content . '/';
+        }
         $success[$tag] = 1;
         break;
 
-      case 'DAV::RESOURCETYPE':
-        /**
-        * Any value for resourcetype is ignored
-        */
+      case 'URN:IETF:PARAMS:XML:NS:CALDAV:SUPPORTED-CALENDAR-COMPONENT-SET':  /** Ignored, since we will support all component types */
+      case 'URN:IETF:PARAMS:XML:NS:CALDAV:SUPPORTED-CALENDAR-DATA':  /** Ignored, since we will support iCalendar 2.0 */
+      case 'URN:IETF:PARAMS:XML:NS:CALDAV:CALENDAR-DATA':  /** Ignored, since we will support iCalendar 2.0 */
+      case 'URN:IETF:PARAMS:XML:NS:CALDAV:MAX-RESOURCE-SIZE':  /** Ignored, since we will support arbitrary size */
+      case 'URN:IETF:PARAMS:XML:NS:CALDAV:MIN-DATE-TIME':  /** Ignored, since we will support arbitrary time */
+      case 'URN:IETF:PARAMS:XML:NS:CALDAV:MAX-DATE-TIME':  /** Ignored, since we will support arbitrary time */
+      case 'URN:IETF:PARAMS:XML:NS:CALDAV:MAX-INSTANCES':  /** Ignored, since we will support arbitrary instances */
+      case 'DAV::RESOURCETYPE':    /** Any value for resourcetype is ignored */
         $success[$tag] = 1;
         break;
 
@@ -109,7 +129,7 @@ if ( $qry->rows != 0 ) {
   $request->DoResponse( 405, translate("A collection already exists at that location.") );
 }
 
-$sql = "INSERT INTO collection ( user_no, parent_container, dav_name, dav_etag, dav_displayname, is_calendar, created, modified ) VALUES( ?, ?, ?, ?, ?, ?, current_timestamp, current_timestamp );";
+$sql = "BEGIN; INSERT INTO collection ( user_no, parent_container, dav_name, dav_etag, dav_displayname, is_calendar, created, modified ) VALUES( ?, ?, ?, ?, ?, ?, current_timestamp, current_timestamp ); $propertysql; COMMIT;";
 $qry = new PgQuery( $sql, $request->user_no, $parent_container, $request->path, md5($request->user_no. $request->path), $displayname, ($request->method == 'MKCALENDAR') );
 
 if ( $qry->Exec("MKCALENDAR",__LINE__,__FILE__) ) {

@@ -1,8 +1,13 @@
 caldav.session
 rscds.session
+davical.session
 build
 rscds.bfproject
+davical.bfproject
 locale
 built-docs
+built-po
 .settings
 *~
+testing/dumps
+testing/regression.conf

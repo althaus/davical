@@ -1,0 +1,7 @@
+#
+# A configuration file for the regression testing.
+#
+DBNAME=regression
+PGPOOL=inactive
+HOSTNAME=mycaldav
+DSN="regression;port=5432"

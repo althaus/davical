@@ -1,17 +1,25 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<multistatus xmlns="DAV:">
+<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav" xmlns:A="http://apache.org/dav/props/">
  <response>
   <href>/caldav.php/user1/home/</href>
   <propstat>
    <prop>
     <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <getcontentlength>9531</getcontentlength>
+    <getcontentlength>11663</getcontentlength>
     <resourcetype>
      <collection/>
-     <calendar xmlns="urn:ietf:params:xml:ns:caldav"/>
+     <C:calendar/>
     </resourcetype>
    </prop>
    <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <A:executable/>
+    <checked-in/>
+    <checked-out/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
   </propstat>
  </response>
 </multistatus>

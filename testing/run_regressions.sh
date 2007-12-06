@@ -2,7 +2,15 @@
 #
 # Run the regression tests and display differences
 #
-DBNAME=caldav
+DBNAME=regression
+PGPOOL=inactive
+HOSTNAME=regression
+
+. regression.conf
+
+[ -z "${DSN}" ] && DSN="${DBNAME}"
+
+
 UNTIL=${1:-"99999"}
 ACCEPT_ALL=${2:-""}
 
@@ -40,7 +48,7 @@ drop_database() {
     # Restart PGPool to ensure we can drop and recreate the database
     # FIXME: We should really drop everything *from* the database and create it
     # from that, so we don't need to do this.
-    sudo /etc/init.d/pgpool restart
+    [ "${PGPOOL}" = "inactive" ] || sudo /etc/init.d/pgpool restart
     dropdb $1
     if psql -ltA | cut -f1 -d'|' | grep "^$1$" >/dev/null ; then
       echo "Failed to drop $1 database"
@@ -69,7 +77,7 @@ for T in ${REGRESSION}/*.test ; do
   if [ "${TESTNUM}" -gt "${UNTIL}" ] ; then
     break;
   fi
-  ./dav_test --dbname caldav --suite regression-suite --case "${TEST}" | ./normalise_result > "${RESULTS}/${TEST}"
+  ./dav_test --dsn "${DSN}" --suite regression-suite --case "${TEST}" | ./normalise_result > "${RESULTS}/${TEST}"
 
   check_result "${TEST}"
 

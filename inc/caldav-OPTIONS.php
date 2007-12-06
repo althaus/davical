@@ -11,7 +11,7 @@
 dbg_error_log("OPTIONS", "method handler");
 
 if ( ! $request->AllowedTo('read') ) {
-  $request->DoResponse( 403, translate("You may not access that calendar") );
+  $request->DoResponse( 403, translate("You may not access that collection") );
 }
 
 $exists = false;
@@ -55,21 +55,13 @@ if ( isset($c->override_allowed_methods) )
   $allowed = $c->override_allowed_methods;
 else {
   $allowed = "OPTIONS, GET, HEAD, PUT, DELETE, PROPFIND, MKCOL, MKCALENDAR, LOCK, UNLOCK, REPORT, PROPPATCH";
+  if ( $request->path == '/' ) {
+    $exists = true;
+    $allowed = "OPTIONS, GET, HEAD, PROPFIND, REPORT";
+  }
 }
 header( "Allow: $allowed");
 
-/**
-* From reading the "Scheduling Extensions to CalDAV" draft I don't think that we will
-* be doing 'calendar-schedule' any time soon.  The current spec is at:
-*    http://www.ietf.org/internet-drafts/draft-desruisseaux-caldav-sched-02.txt
-*
-* access-control is rfc3744, so we will say we do it, but I doubt if we do it
-* in all (or even much of) it's glory really.
-*/
-$dav = "1, 2, access-control, calendar-access";
-header( "Allow: $allowed");
-header( "DAV: $dav");
-// header( "DAV: 1, 2, access-control, calendar-access, calendar-schedule");
 
 $request->DoResponse( 200, "" );
 

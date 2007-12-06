@@ -15,7 +15,7 @@ if ( ! $request->AllowedTo('read') ) {
 }
 $privacy_clause = "";
 if ( ! $request->AllowedTo('all') ) {
-  $privacy_clause = "AND calendar_item.class != 'PRIVATE'";
+  $privacy_clause = "AND (calendar_item.class != 'PRIVATE' OR calendar_item.class IS NULL) ";
 }
 
 if ( $request->IsCollection() ) {
@@ -45,6 +45,10 @@ else if ( $qry->rows > 1 ) {
   */
   include_once("iCalendar.php");
   $response = iCalendar::iCalHeader();
+  $collqry = new PgQuery( "SELECT * FROM collection WHERE collection.user_no = ? AND collection.dav_name = ?;", $request->user_no, $request->path);
+  if ( $collqry->Exec("GET") && $collection = $collqry->Fetch() ) {
+    $response .= "X-WR-CALNAME:$collection->dav_displayname\r\n";
+  }
   $timezones = array();
   while( $event = $qry->Fetch() ) {
     $ical = new iCalendar( array( "icalendar" => $event->caldav_data ) );
@@ -57,13 +61,27 @@ else if ( $qry->rows > 1 ) {
       // the user is not admin / owner of this calendarlooking at his calendar and can not admin the other cal
       if ( $event->class == 'CONFIDENTIAL' ) {
         // if the event is confidential we fake one that just says "Busy"
-        $displayname = translate("Busy");
-        $ical->Put( 'SUMMARY', $displayname );
-        $response .= $ical->Render( false, $event->caldav_type, $ical->DefaultPropertyList() );
+        $confidential = new iCalendar( array(
+                              'SUMMARY' => translate('Busy'), 'CLASS' => 'CONFIDENTIAL',
+                              'DTSTART'  => $ical->Get('DTSTART'),
+                              'RRULE'    => $ical->Get('RRULE')
+                          ) );
+        $duration = $ical->Get('DURATION');
+        if ( isset($duration) && $duration != "" ) {
+          $confidential->Set('DURATION', $duration );
+        }
+        else {
+          $confidential->Set('DTEND', $ical->Get('DTEND') );
+        }
+        $response .= $confidential->Render( false, $event->caldav_type );
       }
       elseif ( $c->hide_alarm ) {
         // Otherwise we hide the alarms (if configured to)
-        $response .= $ical->Render( false, $event->caldav_type, $ical->DefaultPropertyList() );
+        $ical->component->ClearComponents('VALARM');
+        $response .= $ical->render(true, $event->caldav_type );
+      }
+      else {
+        $response .= $ical->Render( false, $event->caldav_type );
       }
     }
     else {
@@ -81,4 +99,3 @@ else {
   $request->DoResponse( 500, translate("Database Error") );
 }
 
-?>

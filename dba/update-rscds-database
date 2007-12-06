@@ -46,18 +46,32 @@ my $current_revision = get_current_revision();
 printf( "The database is currently at revision %d.%d.%d.\n", $current_revision->{'schema_major'}, $current_revision->{'schema_minor'}, $current_revision->{'schema_patch'} );
 
 opendir( PATCHDIR, $patchdir ) or die "Can't open patch directory $patchdir";
-my @patches = grep { /^([0-9]+)\.([0-9]+)\.([0-9]+)\.sql$/ } readdir(PATCHDIR);
+my @patches = grep { /^([0-9]+)\.([0-9]+)\.([0-9]+)([a-z]?)\.sql$/ } readdir(PATCHDIR);
 closedir(PATCHDIR);
 
-@patches = sort { compare_revisions(revision_hash($a),revision_hash($b)); } @patches;
+@patches = sort { compare_revisions(revision_hash($a),revision_hash($b), 1); } @patches;
 
 my $applied = 0;
+my $last_results = '';  # Will hold the last SQL result from applying a patch
 
 for ( my $i=0; $i <= $#patches;  $i++ ) {
   printf( "Looking at patches[%d] (%s)\n", $i, $patches[$i]) if ( $debug );
   if ( compare_revisions(revision_hash($patches[$i]),$current_revision) > 0 ) {
-    print "Applying patch $patches[$i]\n";
-    last unless( apply_patch( $patches[$i] ) );
+    print "Applying patch $patches[$i] ... ";
+    if ( !apply_patch( $patches[$i] ) ) {
+      # Skip to the end unless the next patch is an alternate for the same version.
+      if ( defined($patches[$i+1]) && compare_revisions(revision_hash($patches[$i]),revision_hash($patches[$i+1])) == 0 ) {
+        print "failed.  Attempting next alternative.\n";
+        $applied--;
+      }
+      else {
+        print "failed!\n$last_results  ==> No further patches will be attempted!\n";
+        last;
+      }
+    }
+    else {
+      print "succeeded.\n";
+    }
     $applied++;
   }
   else {
@@ -91,17 +105,20 @@ exit 0;
 # which is of the form "1.2.3" or we have three parameters.
 ############################################################
 sub revision_hash {
-  my $rev = +{};
+  my $rev = +{ 'schema_major', => 0, 'schema_minor' => 0, 'schema_patch' => 0, 'alternative' => '0' };
   my $first = shift;
-  if ( $first =~ /^([0-9]+)\.([0-9]+)\.([0-9]+)([^0-9]|$)/ ) {
+  return $rev unless ( defined($first) );
+  if ( $first =~ /^([0-9]+)\.([0-9]+)\.([0-9]+)([a-z]?)([^0-9]|$)/ ) {
     $rev->{'schema_major'} = $1;
     $rev->{'schema_minor'} = $2;
     $rev->{'schema_patch'} = $3;
+    $rev->{'alternative'} = $4;
   }
   else {
     $rev->{'schema_major'} = $first;
     $rev->{'schema_minor'} = shift;
     $rev->{'schema_patch'} = shift;
+    $rev->{'alternative'} = '0';
   }
   return $rev;
 }
@@ -113,6 +130,7 @@ sub revision_hash {
 sub compare_revisions {
   my $a = shift;
   my $b = shift;
+  my $test_alt = shift;
 
   return -1 if ( $a->{'schema_major'} < $b->{'schema_major'} );
   return  1 if ( $a->{'schema_major'} > $b->{'schema_major'} );
@@ -122,6 +140,11 @@ sub compare_revisions {
 
   return -1 if ( $a->{'schema_patch'} < $b->{'schema_patch'} );
   return  1 if ( $a->{'schema_patch'} > $b->{'schema_patch'} );
+
+  if ( defined($test_alt) ) {
+    return -1 if ( $a->{'alternative'} lt $b->{'alternative'} );
+    return  1 if ( $a->{'alternative'} gt $b->{'alternative'} );
+  }
 
   return 0;
 
@@ -165,7 +188,7 @@ sub apply_patch {
 
   $current_revision = get_current_revision();
   if ( compare_revisions($current_revision,revision_hash($patch)) != 0 ) {
-    printf( "Failed to apply revision %s to the database!\n", $patch );
+    printf( "Failed to apply revision %s to the database!\n", $patch ) if ( $debug );
     return 0;
   }
   return 1;  # Success
@@ -188,11 +211,10 @@ sub apply_sql_file {
   $ENV{'PGPASS'} = $dbpass if ( $dbpass ne "" );
 
   my $command = join ' ', @psql_opts;
-  my $results = `$command 2>&1 1>/dev/null`;
+  $last_results = `$command 2>&1 1>/dev/null`;
 
-  $results =~ s/^.*WARNING:  there is no transaction in progress\s$//m;
-
-  print $results;
+  $last_results =~ s/^.*WARNING:  there is no transaction in progress\s$//m;
+  $last_results =~ s/^.*NOTICE: //m;
 }
 
 

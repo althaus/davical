@@ -1,0 +1,59 @@
+HTTP/1.1 207 Multi-Status
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, access-control, calendar-access
+ETag: "55e79b5b5836290d5b3344ef8a16d10b"
+Content-Length: 1415
+Content-Type: text/xml; charset="utf-8"
+
+<?xml version="1.0" encoding="utf-8" ?>
+<multistatus xmlns="DAV:">
+ <response>
+  <href>/caldav.php/user1/home/e6eb5bc9-f7f9-4a0a-94e8-8e90eefc7d08.ics</href>
+  <propstat>
+   <prop>
+    <getetag>"8f581a053df6d833254756dfd7553d37"</getetag>
+    <calendar-data xmlns="urn:ietf:params:xml:ns:caldav">BEGIN:VCALENDAR
+PRODID:-//Mozilla Calendar//NONSGML Sunbird//EN
+VERSION:2.0
+BEGIN:VTIMEZONE
+TZID:/mozilla.org/20070129_1/Antarctica/McMurdo
+X-LIC-LOCATION:Antarctica/McMurdo
+BEGIN:STANDARD
+TZOFFSETFROM:+1300
+TZOFFSETTO:+1200
+TZNAME:NZST
+DTSTART:19700315T030000
+RRULE:FREQ=YEARLY;INTERVAL=1;BYDAY=3SU;BYMONTH=3
+END:STANDARD
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+1200
+TZOFFSETTO:+1300
+TZNAME:NZDT
+DTSTART:19701004T020000
+RRULE:FREQ=YEARLY;INTERVAL=1;BYDAY=1SU;BYMONTH=10
+END:DAYLIGHT
+END:VTIMEZONE
+BEGIN:VTODO
+CREATED:20071203T202915Z
+LAST-MODIFIED:20071203T203021Z
+DTSTAMP:20071203T202915Z
+UID:e6eb5bc9-f7f9-4a0a-94e8-8e90eefc7d08
+SUMMARY:Release 0.9.3
+STATUS:IN-PROCESS
+DTSTART;TZID=/mozilla.org/20070129_1/Antarctica/McMurdo:20071209T133000
+DUE;TZID=/mozilla.org/20070129_1/Antarctica/McMurdo:20071209T133000
+PERCENT-COMPLETE:95
+X-MOZ-LOCATIONPATH:e6eb5bc9-f7f9-4a0a-94e8-8e90eefc7d08.ics
+BEGIN:VALARM
+TRIGGER;VALUE=DURATION:-P2D
+DESCRIPTION:Mozilla Alarm: Release 0.9.3
+ACTION:DISPLAY
+END:VALARM
+END:VTODO
+END:VCALENDAR
+</calendar-data>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+</multistatus>

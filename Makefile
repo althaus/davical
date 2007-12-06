@@ -4,11 +4,15 @@
 package=rscds
 version=$(shell cat VERSION)
 
-all: inc/always.php built-docs 
+all: inc/always.php built-docs built-po
 
 built-docs: docs/api/phpdoc.ini htdocs/*.php inc/*.php
-	phpdoc -c docs/api/phpdoc.ini
+	phpdoc -c docs/api/phpdoc.ini || echo "WARNING: failed to build docs"
 	touch built-docs
+
+built-po: inc/always.php scripts/po/rebuild-translations.sh scripts/po/extract.pl
+	scripts/po/rebuild-translations.sh
+	touch built-po
 
 #
 # Insert the current version number into always.php
@@ -28,7 +32,7 @@ release: built-docs
 	rm $(package)-$(version)
 	
 clean:
-	rm -f built-docs
+	rm -f built-docs built-po
 	-find docs/api/* ! -name "phpdoc.ini" ! -name ".gitignore" -delete
 	-find . -name "*~" -delete
 	

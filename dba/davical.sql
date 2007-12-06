@@ -1,13 +1,9 @@
 -- Really Simple CalDAV Store - Database Schema
 --
 
--- Use the usr, group and schema management stufffrom libawl-php
-\i /usr/share/awl/dba/awl-tables.sql
-\i /usr/share/awl/dba/schema-management.sql
-
 -- The main event.  Where we store the things the calendar throws at us.
 CREATE TABLE caldav_data (
-  user_no INT references usr(user_no),
+  user_no INT references usr(user_no) ON UPDATE CASCADE ON DELETE CASCADE DEFERRABLE,
   dav_name TEXT,
   dav_etag TEXT,
   created TIMESTAMP WITH TIME ZONE,
@@ -69,7 +65,7 @@ GRANT SELECT,INSERT,UPDATE,DELETE ON calendar_item TO general;
 
 -- Something that can look like a filesystem hierarchy where we store stuff
 CREATE TABLE collection (
-  user_no INT references usr(user_no),
+  user_no INT references usr(user_no) ON UPDATE CASCADE ON DELETE CASCADE DEFERRABLE,
   parent_container TEXT,
   dav_name TEXT,
   dav_etag TEXT,
@@ -77,6 +73,7 @@ CREATE TABLE collection (
   is_calendar BOOLEAN,
   created TIMESTAMP WITH TIME ZONE,
   modified TIMESTAMP WITH TIME ZONE,
+  public_events_only BOOLEAN NOT NULL DEFAULT FALSE,
 
   PRIMARY KEY ( user_no, dav_name )
 );
@@ -141,4 +138,4 @@ CREATE TABLE freebusy_ticket (
 
 GRANT INSERT,SELECT,UPDATE,DELETE ON TABLE freebusy_ticket TO general;
 
-SELECT new_db_revision(1,1,9, 'September' );
+SELECT new_db_revision(1,1,11, 'November' );

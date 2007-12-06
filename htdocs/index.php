@@ -1,9 +1,17 @@
 <?php
-require_once("../inc/always.php");
-require_once("RSCDSSession.php");
+if ( $_SERVER['REQUEST_METHOD'] != "GET" && $_SERVER['REQUEST_METHOD'] != "POST" ) {
+  /**
+  * If the request is not a GET or POST then they must really want caldav.php!
+  */
+  include("./caldav.php");
+  exit;  // Not that it should return from that!
+}
+
+include("../inc/always.php");
+include("RSCDSSession.php");
 $session->LoginRequired();
 
-require_once("interactive-page.php");
+include("interactive-page.php");
 include("page-header.php");
 
   echo <<<EOBODY
@@ -48,16 +56,15 @@ and then the group is linked to each resource with the "Administers Resource" re
 <li>Where a set of users link to a group, which then links to other users/resources, the access restrictions will apply as the lesser of their link to that group, or the link from the group.  They will have no access to each other's calendars.</li>
 </ul>
 
-<h2>Configuring Calendar Clients for RSCDS</h2>
-<p>The <a href="http://rscds.sourceforge.net/clients.php">RSCDS client setup page on sourceforge</a> have information on how
+<h2>Configuring Calendar Clients for DAViCal</h2>
+<p>The <a href="http://rscds.sourceforge.net/clients.php">DAViCal client setup page on sourceforge</a> have information on how
 to configure Evolution, Sunbird, Lightning and Mulberry to use remotely hosted calendars.</p>
 <p>The administrative interface has no facility for viewing or modifying calendar data.</p>
 
-<h2>Configuring RSCDS</h2>
+<h2>Configuring DAViCal</h2>
 <p>If you can read this then things must be mostly working already.</p>
-<p>The <a href="http://rscds.sourceforge.net/installation.php">RSCDS installation page</a> on sourceforge has
+<p>The <a href="http://rscds.sourceforge.net/installation.php">DAViCal installation page</a> on sourceforge has
 some further information on how to install and configure this application.</p>
 
 <?php
 include("page-footer.php");
-?>

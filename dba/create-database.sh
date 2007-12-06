@@ -8,20 +8,65 @@ ADMINPW="${2}"
 
 DBADIR="`dirname \"$0\"`"
 
+testawldir() {
+  [ -f "${1}/dba/awl-tables.sql" ]
+}
+
+#
+# Attempt to locate the AWL directory
+AWLDIR="${DBADIR}/../../awl"
+if ! testawldir "${AWLDIR}"; then
+  AWLDIR="/usr/share/awl"
+  if ! testawldir "${AWLDIR}"; then
+    AWLDIR="/usr/local/share/awl"
+    if ! testawldir "${AWLDIR}"; then
+      echo "Unable to find AWL libraries"
+      exit 1
+    fi
+  fi
+fi
+
+export AWL_DBAUSER=davical_dba
+export AWL_APPUSER=davical_app
+
+# Get the major version for PostgreSQL
+export DBVERSION="`psql -qAt template1 -c "SELECT version();" | cut -f2 -d' ' | cut -f1-2 -d'.'`"
+
+db_users() {
+  psql -qAt template1 -c "SELECT usename FROM pg_user;";
+}
+
+create_db_user() {
+  if ! db_users | grep "^${1}$" >/dev/null ; then
+    createuser --no-superuser --no-createdb --no-createrole "${1}"
+  fi
+}
+
+create_plpgsql_language() {
+  if ! psql -qAt template1 -c "SELECT lanname FROM pg_language;" | grep "^plpgsql$" >/dev/null; then
+    createlang plpgsql "${DBNAME}"
+  fi
+}
+
+create_db_user "${AWL_DBAUSER}"
+create_db_user "${AWL_APPUSER}"
+
 # FIXME: Need to check that the database was actually created.
-if ! createdb -E UTF8 "${DBNAME}" -T template0 ; then
+if ! createdb --encoding UTF8 "${DBNAME}" --template template0 --owner "${AWL_DBAUSER}"; then
   echo "Unable to create database"
   exit 1
 fi
 
-#
-# This will fail if the language already exists, but it should not
-# because we created from template0.
-createlang plpgsql "${DBNAME}"
+create_plpgsql_language
 
 #
-# FIXME: filter non-error output
-psql -q -f "${DBADIR}/rscds.sql" "${DBNAME}" 2>&1 | egrep -v "(^CREATE |^GRANT|^BEGIN|^COMMIT| NOTICE: )"
+# Load the AWL base tables and schema management tables
+psql -q -f "${AWLDIR}/dba/awl-tables.sql" "${DBNAME}" 2>&1 | egrep -v "(^CREATE |^GRANT|^BEGIN|^COMMIT| NOTICE: )"
+psql -q -f "${AWLDIR}/dba/schema-management.sql" "${DBNAME}" 2>&1 | egrep -v "(^CREATE |^GRANT|^BEGIN|^COMMIT| NOTICE: )"
+
+#
+# Load the DAViCal tables
+psql -q -f "${DBADIR}/davical.sql" "${DBNAME}" 2>&1 | egrep -v "(^CREATE |^GRANT|^BEGIN|^COMMIT| NOTICE: )"
 
 psql -q -f "${DBADIR}/caldav_functions.sql" "${DBNAME}"
 
@@ -39,7 +84,7 @@ fi
 if [ "$ADMINPW" = "" ] ; then
   # OK.  They didn't supply one, and pwgen didn't work, so we hack something
   # together from /dev/random ...
-  ADMINPW="`dd if=/dev/urandom bs=512 count=1 2>/dev/null | tr -c -d "a-zA-HJ-NP-Y0-9" | cut -c2-9`"
+  ADMINPW="`dd if=/dev/urandom bs=512 count=1 2>/dev/null | tr -c -d "a-km-zA-HJ-NP-Y0-9" | cut -c2-9`"
 fi
 
 if [ "$ADMINPW" = "" ] ; then

@@ -1,0 +1,10 @@
+HTTP/1.1 100 Continue
+
+HTTP/1.1 201 Created
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, access-control, calendar-access
+ETag: "c057c3eb789b944e76f4d77fccf36ea1"
+Content-Length: 0
+Content-Type: text/plain; charset="utf-8"
+
+101 --- c057c3eb789b944e76f4d77fccf36ea1 --- VEVENT --- 10 --- 3C1BF85D-3F28-413F-844F-80EBD33B8EE6 --- 2007-11-24 22:19:00 --- 2007-11-23 12:00:00+13 --- 2007-11-23 14:00:00+13 --- NULL --- Beard Meeting --- NULL --- Lunch will be needed --- NULL --- PUBLIC --- OPAQUE --- FREQ=MONTHLY;INTERVAL=1;BYDAY=4FR --- NULL --- NULL --- NULL --- NULL

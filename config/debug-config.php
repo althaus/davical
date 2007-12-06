@@ -6,7 +6,7 @@
 */
 
 /**
-* if this is set then any e-mail that would normally be sent by RSCDS will be
+* if this is set then any e-mail that would normally be sent by DAViCal will be
 * sent to this e-mail address for debugging.
 */
 //$c->debug_email
@@ -29,21 +29,23 @@
 // $c->dbg['querystring'] = 1;
 // $c->dbg['icalendar'] = 1;
 // $c->dbg['ics'] = 1;
-// $c->dbg['Login'] = 1;
+// $c->dbg['login'] = 1;
 // $c->dbg['options'] = 1;
 // $c->dbg['get'] = 1;
 // $c->dbg['put'] = 1;
 // $c->dbg['propfind'] = 1;
+// $c->dbg['proppatch'] = 1;
 // $c->dbg['report'] = 1;
+// $c->dbg['principal'] = 1;
 // $c->dbg['user'] = 1;
 // $c->dbg['vevent'] = 1;
 // $c->dbg['rrule'] = 1;
 
 /**
-* default is 'rscds' used to prefix debugging messages but will only need to change
-* if you are running multiple RSCDS servers logging into the same place.
+* default is 'davical' used to prefix debugging messages but will only need to change
+* if you are running multiple DAViCal servers logging into the same place.
 */
-// $c->sysabbr
+// $c->sysabbr = 'davical';
 
 /**
 * As yet we only support quite a limited range of options.  When we see clients looking
@@ -55,4 +57,3 @@
 */
 // $c->override_allowed_methods = "PROPPATCH, OPTIONS, GET, HEAD, PUT, DELETE, PROPFIND, MKCOL, MKCALENDAR, LOCK, UNLOCK, REPORT"
 
-?>

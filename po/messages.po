@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-10-16 13:28+1300\n"
+"POT-Creation-Date: 2007-11-17 22:06+1300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,7 +21,7 @@ msgid "- creating record for users :  %s"
 msgstr ""
 
 #, c-format
-msgid "- desactivating users : %s"
+msgid "- deactivating users : %s"
 msgstr ""
 
 #, c-format
@@ -158,6 +158,9 @@ msgstr ""
 msgid "Date Style"
 msgstr ""
 
+msgid "Default relationships added."
+msgstr ""
+
 msgid "Delete"
 msgstr ""
 
@@ -195,7 +198,7 @@ msgid "Enter your username and password then click here to log in."
 msgstr ""
 
 #, c-format
-msgid "Error NoUserFound with filter >%s<, attributs >%s< , dn >%s<"
+msgid "Error NoUserFound with filter >%s<, attributes >%s< , dn >%s<"
 msgstr ""
 
 msgid "Error querying database."
@@ -562,6 +565,9 @@ msgstr ""
 msgid "You may not access that calendar"
 msgstr ""
 
+msgid "You may not access that collection"
+msgstr ""
+
 msgid "You may not add entries to this calendar."
 msgstr ""
 
@@ -600,6 +606,10 @@ msgstr ""
 
 msgid ""
 "drivers_ldap : function ldap_connect not defined, check your php_ldap module"
+msgstr ""
+
+#, c-format
+msgid "drivers_squid_pam : Unable to find %s file"
 msgstr ""
 
 msgid ""

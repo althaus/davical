@@ -73,11 +73,13 @@ foreach( $busy_tentative AS $k => $v ) {
     while ( $date = $rrule->GetNext() ) {
       if ( ! $date->GreaterThan($start) ) continue;
       if ( $date->GreaterThan($finish) ) break;
-      $freebusy .= sprintf("FREEBUSY;FBTYPE=BUSY-TENTATIVE:%s/%s\n", $date->Render('Ymd\THis'), $duration );
+      $todate = clone($date);
+      $todate->AddDuration($duration);
+      $freebusy .= sprintf("FREEBUSY;FBTYPE=BUSY-TENTATIVE:%s/%s\n", $date->Render('Ymd\THis'), $todate->Render('Ymd\THis') );
     }
   }
   else {
-    $freebusy .= sprintf("FREEBUSY;FBTYPE=BUSY-TENTATIVE:%s/%s\n", $start->Render('Ymd\THis'), $duration );
+    $freebusy .= sprintf("FREEBUSY;FBTYPE=BUSY-TENTATIVE:%s/%s\n", $v->start, $v->finish );
   }
 }
 
@@ -89,11 +91,13 @@ foreach( $busy AS $k => $v ) {
     while ( $date = $rrule->GetNext() ) {
       if ( ! $date->GreaterThan($start) ) continue;
       if ( $date->GreaterThan($finish) ) break;
-      $freebusy .= sprintf("FREEBUSY:%s/%s\n", $date->Render('Ymd\THis'), $duration );
+      $todate = clone($date);
+      $todate->AddDuration($duration);
+      $freebusy .= sprintf("FREEBUSY:%s/%s\n", $date->Render('Ymd\THis'), $todate->Render('Ymd\THis') );
     }
   }
   else {
-    $freebusy .= sprintf("FREEBUSY:%s/%s\n", $start->Render('Ymd\THis'), $duration );
+    $freebusy .= sprintf("FREEBUSY:%s/%s\n", $v->start, $v->finish );
   }
 }
 

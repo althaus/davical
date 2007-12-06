@@ -1,0 +1,8 @@
+HTTP/1.1 204 No Content
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, access-control, calendar-access
+ETag: "087d1ea4915719b8a904ca18a9abbbe1"
+Content-Length: 0
+Content-Type: text/plain; charset="utf-8"
+
+10 --- 087d1ea4915719b8a904ca18a9abbbe1 --- VEVENT --- 10 --- 6C8A0D88-E1F9-4FC1-9EDD-DA258ABF2CFA --- 2007-11-24 08:38:10 --- 2007-11-26 07:00:00+13 --- 2007-11-26 17:00:00+13 --- NULL --- Go to work --- NULL --- NULL --- NULL --- PUBLIC --- OPAQUE --- FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR;WKST=SU --- NULL --- NULL --- NULL --- NULL

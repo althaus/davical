@@ -1,13 +1,14 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
-ETag: "8f48e613721a5ccb5e44c277f7a1a909"
-Content-Length: 1630
+DAV: 1, 2, access-control, calendar-access
+ETag: "cf7647a0d4c17b2c0c8dcf418574fe09"
+Content-Length: 1604
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
 <multistatus xmlns="DAV:">
  <response>
-  <href>http://myapms/calendar/caldav.php/user1/home/2178279a-aec2-471f-832d-1f6df6203f2f.ics</href>
+  <href>/calendar/caldav.php/user1/home/2178279a-aec2-471f-832d-1f6df6203f2f.ics</href>
   <propstat>
    <prop>
     <getetag>"509b0f0d8a3363379f9f5727f5dd74a0"</getetag>
@@ -31,7 +32,7 @@ END:VCALENDAR
   </propstat>
  </response>
  <response>
-  <href>http://myapms/calendar/caldav.php/user1/home/917b9e47-b748-4550-a566-657fbe672447.ics</href>
+  <href>/calendar/caldav.php/user1/home/917b9e47-b748-4550-a566-657fbe672447.ics</href>
   <propstat>
    <prop>
     <getetag>"cb3d9dc3e8c157f53eba3ea0e1e0f146"</getetag>

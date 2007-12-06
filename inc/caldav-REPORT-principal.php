@@ -4,6 +4,7 @@ $responses = array();
 
 /**
 * Return XML for a single Principal (user) from the DB
+* TODO: Refactor this functionality into the CalDAVPrincipal object
 *
 * @param array $properties The requested properties for this principal
 * @param string $item The user data for this calendar
@@ -15,16 +16,13 @@ function principal_to_xml( $properties, $item ) {
 
   dbg_error_log("REPORT","Building XML Response for principal '%s'", $item->username );
 
-  $this_url = $c->protocol_server_port_script . $request->dav_name;
-  $principal_url = sprintf( "%s/%s/", $c->protocol_server_port_script, $item->username);
-  $home_calendar = sprintf( "%s/%s/%s/", $c->protocol_server_port_script, $item->username, $c->home_calendar_name);
+  $this_url = ConstructURL( $request->dav_name );
+  $principal_url = ConstructURL( "/".$item->username."/");
+  $home_calendar = ConstructURL( "/".$item->username."/");
   $prop = new XMLElement("prop");
   $denied = array();
   foreach( $properties AS $k => $v ) {
     switch( $v ) {
-//      case 'DAV::GETCONTENTTYPE':
-//        $prop->NewElement("getcontenttype", "text/x-vcard" );
-//        break;
       case 'DAV::RESOURCETYPE':
         $prop->NewElement("resourcetype", new XMLElement("principal") );
         break;
@@ -42,7 +40,7 @@ function principal_to_xml( $properties, $item ) {
         $group = array();
         if ( $qry->Exec("REPORT-principal") && $qry->rows > 0 ) {
           while( $membership = $qry->Fetch() ) {
-            $group[] = new XMLElement("href", sprintf( "%s/%s/", $c->protocol_server_port_script, $membership->username) );
+            $group[] = new XMLElement("href", ConstructURL( "/". $membership->username . "/") );
           }
         }
         $prop->NewElement("group-member-set", $group );
@@ -52,7 +50,7 @@ function principal_to_xml( $properties, $item ) {
         $group = array();
         if ( $qry->Exec("REPORT-principal") && $qry->rows > 0 ) {
           while( $membership = $qry->Fetch() ) {
-            $group[] = new XMLElement("href", sprintf( "%s/%s/", $c->protocol_server_port_script, $membership->username) );
+            $group[] = new XMLElement("href", ConstructURL( "/". $membership->username . "/") );
           }
         }
         $prop->NewElement("group-membership", $group );
@@ -71,7 +69,7 @@ function principal_to_xml( $properties, $item ) {
   $status = new XMLElement("status", "HTTP/1.1 200 OK" );
 
   $propstat = new XMLElement( "propstat", array( $prop, $status) );
-  $href = new XMLElement("href", $url );
+  $href = new XMLElement("href", $principal_url );
 
   $elements = array($href,$propstat);
 

@@ -1,13 +1,14 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
-ETag: "8bb1ae7c599f81130860154adb77364b"
-Content-Length: 5175
+DAV: 1, 2, access-control, calendar-access
+ETag: "3902e726b3e12b996ddf533065b131ab"
+Content-Length: 5115
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
 <multistatus xmlns="DAV:">
  <response>
-  <href>http://mycaldav/caldav.php/user1/home/3F4CF6227300FD062D9EF3CDFB30D32D-0.ics</href>
+  <href>/caldav.php/user1/home/3F4CF6227300FD062D9EF3CDFB30D32D-0.ics</href>
   <propstat>
    <prop>
     <getetag>"2c32a2f8aba853654eb17fe037a4db4d"</getetag>
@@ -50,7 +51,7 @@ END:VCALENDAR
   </propstat>
  </response>
  <response>
-  <href>http://mycaldav/caldav.php/user1/home/20061101T073004Z.ics</href>
+  <href>/caldav.php/user1/home/20061101T073004Z.ics</href>
   <propstat>
    <prop>
     <getetag>"c3658901fd4689d4a1e1d6f08601ef4f"</getetag>
@@ -100,7 +101,7 @@ END:VCALENDAR
   </propstat>
  </response>
  <response>
-  <href>http://mycaldav/caldav.php/user1/home/4aaf8f37-f232-4c8e-a72e-e171d4c4fe54.ics</href>
+  <href>/caldav.php/user1/home/4aaf8f37-f232-4c8e-a72e-e171d4c4fe54.ics</href>
   <propstat>
    <prop>
     <getetag>"a1c6404d61190f9574e2bfd69383f144"</getetag>
@@ -146,7 +147,7 @@ END:VCALENDAR
   </propstat>
  </response>
  <response>
-  <href>http://mycaldav/caldav.php/user1/home/1906b3ca-4890-468a-9b58-1de74bf2c716.ics</href>
+  <href>/caldav.php/user1/home/1906b3ca-4890-468a-9b58-1de74bf2c716.ics</href>
   <propstat>
    <prop>
     <getetag>"5def8ae2b20893a1c7f4dbaeb008f2f1"</getetag>

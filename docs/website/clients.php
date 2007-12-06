@@ -43,6 +43,7 @@
   sort($clients);
   foreach( $clients AS $k => $v ) {
     if ( $v == "Interoperability" ) continue;
+    if ( $v == "Other" ) continue;
     $style = (strcmp($client_page,$v) == 0 ? ' class="selected"' : '' );
     printf( '<p%s><a%s href="clients.php?client=%s">', $style, $style, urlencode($v) );
     if ( isset($icons[$v]) ) {
@@ -50,6 +51,9 @@
     }
     echo "$v</a></p>\n";
   }
+
+  $style = ($client_page == "Other" ? ' class="selected"' : '' );
+  printf( '<p%s><a%s href="clients.php?client=Other">Other</a></p>', $style, $style );
 
   include("inc/page-middle.php");
 

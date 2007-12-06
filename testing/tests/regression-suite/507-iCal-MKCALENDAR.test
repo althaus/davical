@@ -1,0 +1,29 @@
+#
+# MKCALENDAR test for iCal
+#
+TYPE=MKCALENDAR
+URL=http://mycaldav/caldav.php/user1/6E20BB7C-EFD9-4F0F-9BDC-5335E04D47E0/
+HEADER=Content-Type: text/xml
+HEAD
+
+
+BEGINDATA
+<?xml version="1.0" encoding="UTF-8" ?>
+<x0:mkcalendar xmlns:x0="urn:ietf:params:xml:ns:caldav" xmlns:x1="DAV:" xmlns:x2="http://apple.com/ns/ical/">
+ <x1:set>
+  <x1:prop>
+   <x1:displayname>Untitled</x1:displayname>
+   <x2:calendar-color>#391B71A0</x2:calendar-color>
+  </x1:prop>
+ </x1:set>
+</x0:mkcalendar>
+ENDDATA
+
+
+QUERY
+SELECT user_no, parent_container, dav_displayname,
+       is_calendar, public_events_only
+FROM collection
+WHERE dav_name = '/user1/6E20BB7C-EFD9-4F0F-9BDC-5335E04D47E0/';
+ENDQUERY
+

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-10-16 13:28+1300\n"
+"POT-Creation-Date: 2007-11-17 22:06+1300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Eelco Maljaars <http://eelco.maljaars.net/>\n"
 "Language-Team: nl_NL <LL@li.org>\n"
@@ -20,9 +20,9 @@ msgstr ""
 msgid "- creating record for users :  %s"
 msgstr ""
 
-#, c-format
-msgid "- desactivating users : %s"
-msgstr ""
+#, fuzzy, c-format
+msgid "- deactivating users : %s"
+msgstr "Verander deze gebruiker"
 
 #, c-format
 msgid "- nothing done on %s"
@@ -158,6 +158,10 @@ msgstr "Database fout"
 msgid "Date Style"
 msgstr "Datum stijl"
 
+#, fuzzy
+msgid "Default relationships added."
+msgstr "Relatie toegevoegd"
+
 msgid "Delete"
 msgstr "Verwijder"
 
@@ -194,7 +198,7 @@ msgid "Enter your username and password then click here to log in."
 msgstr "Voer je gebruikersnaam en wachtwoord in en klik hier om in te loggen"
 
 #, c-format
-msgid "Error NoUserFound with filter >%s<, attributs >%s< , dn >%s<"
+msgid "Error NoUserFound with filter >%s<, attributes >%s< , dn >%s<"
 msgstr ""
 
 msgid "Error querying database."
@@ -557,6 +561,10 @@ msgstr ""
 msgid "You may not access that calendar"
 msgstr "Je mag die agenda niet benaderen"
 
+#, fuzzy
+msgid "You may not access that collection"
+msgstr "Je mag die agenda niet benaderen"
+
 msgid "You may not add entries to this calendar."
 msgstr "Je mag geen items toevoegen aan deze agenda"
 
@@ -595,6 +603,10 @@ msgid "drivers_ldap : Unable to connect to LDAP with port %s on host %s"
 msgstr ""
 
 msgid "drivers_ldap : function ldap_connect not defined, check your php_ldap module"
+msgstr ""
+
+#, c-format
+msgid "drivers_squid_pam : Unable to find %s file"
 msgstr ""
 
 msgid ""

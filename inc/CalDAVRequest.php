@@ -7,25 +7,52 @@
 *  - Utility functions which we can use to decide whether this
 *    is a permitted activity for this user.
 *
-* @package   rscds
-* @subpackage   CalDAVRequest
+* @package   davical
+* @subpackage   Request
 * @author    Andrew McMillan <andrew@mcmillan.net.nz>
 * @copyright Catalyst .Net Ltd
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v2
 */
 
 require_once("XMLElement.php");
+require_once("CalDAVPrincipal.php");
 
 define('DEPTH_INFINITY', 9999);
 
 /**
 * A class for collecting things to do with this request.
 *
-* @package   rscds
+* @package   davical
 */
 class CalDAVRequest
 {
   var $options;
+
+  /**
+  * The raw data sent along with the request
+  */
+  var $raw_post;
+
+  /**
+  * The HTTP request method: PROPFIND, LOCK, REPORT, OPTIONS, etc...
+  */
+  var $method;
+
+  /**
+  * The depth parameter from the request headers, coerced into a valid integer: 0, 1
+  * or DEPTH_INFINITY which is defined above.  The default is set per various RFCs.
+  */
+  var $depth;
+
+  /**
+  * The 'principal' (user/resource/...) which this request seeks to access
+  */
+  var $principal;
+
+  /**
+  * The user agent making the request.
+  */
+  var $user_agent;
 
   /**
   * Create a new CalDAVRequest object.
@@ -34,6 +61,7 @@ class CalDAVRequest
     global $session, $c, $debugging;
 
     $this->options = $options;
+    $this->principal = (object) array( 'username' => $session->username, 'user_no' => $session->user_no );
 
     $this->raw_post = file_get_contents ( 'php://input');
 
@@ -41,6 +69,8 @@ class CalDAVRequest
       $_SERVER['REQUEST_METHOD'] = $_GET['method'];
     }
     $this->method = $_SERVER['REQUEST_METHOD'];
+
+    $this->user_agent = ((isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : "Probably Mulberry"));
 
     /**
     * A variety of requests may set the "Depth" header to control recursion
@@ -117,6 +147,7 @@ class CalDAVRequest
     *     the minimum privileges returned from that analysis.
     */
     $this->path = $_SERVER['PATH_INFO'];
+    if ( $this->path == null || $this->path == '' ) $this->path = '/';
     // dbg_error_log( "caldav", "Sanitising path '%s'", $this->path );
     $bad_chars_regex = '/[\\^\\[\\(\\\\]/';
     if ( preg_match( $bad_chars_regex, $this->path ) ) {
@@ -138,10 +169,17 @@ class CalDAVRequest
       }
     }
 
+    $this->user_no = $session->user_no;
+    $this->username = $session->username;
+
     /**
     * Extract the user whom we are accessing
     */
-    $this->UserFromPath();
+    $this->principal = new CalDAVPrincipal( array( "path" => $this->path, "options" => $this->options ) );
+    if ( isset($this->principal->user_no) ) $this->user_no  = $this->principal->user_no;
+    if ( isset($this->principal->username)) $this->username = $this->principal->username;
+    if ( isset($this->principal->by_email)) $this->by_email = true;
+
 
     /**
     * Evaluate our permissions for accessing the target
@@ -200,7 +238,8 @@ class CalDAVRequest
         $this->user_no = $user->user_no;
       }
     }
-    elseif( $user = getUserByName($this->username,'caldav',__LINE__,__FILE__)){
+    elseif( $user = getUserByName($this->username,'caldav',__LINE__,__FILE__)) {
+      $this->principal = $user;
       $this->user_no = $user->user_no;
     }
   }
@@ -481,9 +520,14 @@ class CalDAVRequest
         break;
 
       case 'create':
+        return isset($this->permissions['write']) || isset($this->permissions['bind']);
+        break;
+
       case 'mkcalendar':
       case 'mkcol':
-        return isset($this->permissions['write']) || isset($this->permissions['bind']);
+        if ( !isset($this->permissions['write']) || !isset($this->permissions['bind']) ) return false;
+        if ( $this->is_principal ) return false;
+        if ( $this->path == '/' ) return false;
         break;
 
       case 'read':
@@ -566,4 +610,3 @@ class CalDAVRequest
   }
 }
 
-?>

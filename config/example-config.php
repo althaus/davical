@@ -10,14 +10,14 @@
 *****************************/
 
 /**
-* Ex : $c->pg_connect[] = 'dbname=rscds port=5432 user=general'
+* Ex : $c->pg_connect[] = 'dbname=davical port=5432 user=general'
 * The application will attempt to
 * connect to the database, successively applying connection parameters from
 * the array in $c->pg_connect.
 * used in the web interface but also the caldav Server
 */
-$c->pg_connect[] = "dbname=rscds user=general";
-// $c->pg_connect[] = "dbname=rscds user=general port=5433 host=somehost password=mypass";
+$c->pg_connect[] = "dbname=davical user=general";
+// $c->pg_connect[] = "dbname=davical user=general port=5433 host=somehost password=mypass";
 
 
 /****************************
@@ -66,7 +66,7 @@ $c->admin_email ='calendar-admin@example.com';
 * <p>The "enable_row_linking" option controls whether javascript is used
 * to make the entire row clickable in browse lists in the administration
 * pages.  Since this doesn't work in Konqueror you may want to set this
-* to false if you expect people to be using Konqueror with the RSCDS
+* to false if you expect people to be using Konqueror with the DAViCal
 * administration pages.</p>
 */
 // $c->enable_row_linking = true;
@@ -149,17 +149,18 @@ $c->admin_email ='calendar-admin@example.com';
 /********************************/
 /******* Other AWL hook *********/
 /********************************/
-//require_once('AuthPlugins.php');
+// require_once('auth-functions.php');
 //  $c->authenticate_hook = array(
-//      'call'   => 'auth_other_awl',
+//      'call'   => 'AuthExternalAwl',
 //      'config' => array(
-            /** A PgSQL database connection string for the database containing user records */
-//          'connection' => 'dbname=wrms host=otherhose port=5433 user=general',
-            /** Which columns should be fetched from the database */
-//          'columns'    => "user_no, active, email_ok, joined, last_update AS updated, last_used, username, password, fullname, email"
+//           // A PgSQL database connection string for the database containing user records
+//          'connection' => 'dbname=wrms host=otherhost port=5433 user=general',
+//           // Which columns should be fetched from the database
+//          'columns'    => "user_no, active, email_ok, joined, last_update AS updated, last_used, username, password, fullname, email",
+//           // a WHERE clause to limit the records returned.
+//          'where'    => "active AND org_code=7"
 //      )
 //  );
-
 
 
 /********************************/
@@ -169,8 +170,12 @@ $c->admin_email ='calendar-admin@example.com';
 //$c->authenticate_hook['config'] = array(
 //    'host' => 'www.tennaxia.net', //host name of your LDAP Server
 //    'port' => '389', //port
+
+       /* For the initial bind to be anonymous leave bindDN and passDN
+          commented out */
 //    'bindDN'=> 'cn=manager,cn=internal,dc=tennaxia,dc=net', //DN to bind to this server enabling to perform request
 //    'passDN'=> 'xxxxxxxx', //Password of the previous bindDN to bind to this server enabling to perform request
+
 //    'protocolVersion' => '3',  //Version of LDAP protocol to use
 //    'baseDNUsers'=> 'dc=tennaxia,dc=net', //where to look at valid user
 //    'filterUsers' => 'objectClass=kolabInetOrgPerson', //filter which must validate a user according to RFC4515, i.e. surrounded by brackets
@@ -191,6 +196,16 @@ $c->admin_email ='calendar-admin@example.com';
 //    );
 //
 //include('drivers_ldap.php');
+
+
+/**
+* Authentication against PAM using the Squid helper script.
+*/
+//$c->authenticate_hook = array(
+//    'call'   => 'SQUID_PAM_check',
+//    'config' =>  array( 'script' => '/usr/bin/pam_auth', 'email_base' => 'example.com' );
+//    );
+//include('drivers_squid_pam.php');
 
 
 /**
@@ -225,6 +240,3 @@ $c->admin_email ='calendar-admin@example.com';
 * of a VEVENT.  The local (server) time zone will be used as a default.
 */
 // $c->local_tzid;
-
-
-?>

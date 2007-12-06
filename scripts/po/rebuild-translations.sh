@@ -18,14 +18,14 @@ sed -e 's/CHARSET/UTF-8/' <${PODIR}/messages.tmp >${PODIR}/messages.po
 rm ${PODIR}/messages.tmp
 
 
-for LOCALE in `psql -qAt -c 'SELECT locale FROM supported_locales;' caldav` ; do
+for LOCALE in `grep VALUES dba/supported_locales.sql | cut -f2 -d"'"` ; do
   if [ ! -f ${PODIR}/${LOCALE}.po ] ; then
     cp ${PODIR}/messages.po ${PODIR}/${LOCALE}.po
   fi
   msgmerge --quiet --width 105 --update ${PODIR}/${LOCALE}.po ${PODIR}/messages.po
 done
 
-for LOCALE in `psql -qAt -c 'SELECT locale FROM supported_locales;' caldav` ; do
+for LOCALE in `grep VALUES dba/supported_locales.sql | cut -f2 -d"'"` ; do
   mkdir -p ${LOCALEDIR}/${LOCALE}/LC_MESSAGES
   msgfmt ${PODIR}/${LOCALE}.po -o ${LOCALEDIR}/${LOCALE}/LC_MESSAGES/${APPLICATION}.mo
 done

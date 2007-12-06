@@ -6,6 +6,9 @@
 if ( isset($title) ) {
   echo " - ". $title;
 }
+else {
+  echo " CalDAV Server";
+}
 ?></title>
 <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
@@ -17,7 +20,7 @@ if ( isset($title) ) {
   echo $title;
 }
 else {
-  echo "DAViCal";
+  echo "DAViCal CalDAV Server";
 }
 ?></div>
 <div id="subTitle">A CalDAV Store</div>

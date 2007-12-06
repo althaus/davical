@@ -29,6 +29,8 @@ require_once("iCalendar.php");
 
 $reportnum = -1;
 $report = array();
+$denied = array();
+$unsupported = array();
 if ( isset($prop_filter) ) unset($prop_filter);
 
 $position = 0;
@@ -69,26 +71,38 @@ function calendar_to_xml( $properties, $item ) {
     if ( !is_numeric(strpos($item->permissions,'A')) && $session->user_no != $item->user_no ){
       // the user is not admin / owner of this calendarlooking at his calendar and can not admin the other cal
       if ( $item->class == 'CONFIDENTIAL' ) {
+        $ical = new iCalendar( array( "icalendar" => $caldav_data) );
         // if the event is confidential we fake one that just says "Busy"
-        $displayname = translate("Busy");
-        $ical = new iCalendar( array( "icalendar" => $item->caldav_data) );
-        $ical->Put( 'SUMMARY', $displayname );
-        $caldav_data = $ical->render(true, $item->caldav_type, $ical->DefaultPropertyList() );
+        $confidential = new iCalendar( array(
+                              'SUMMARY' => translate('Busy'), 'CLASS' => 'CONFIDENTIAL',
+                              'DTSTART'  => $ical->Get('DTSTART'),
+                              'RRULE'    => $ical->Get('RRULE')
+                          ) );
+        $duration = $ical->Get('DURATION');
+        if ( isset($duration) && $duration != "" ) {
+          $confidential->Set('DURATION', $duration );
+        }
+        else {
+          $confidential->Set('DTEND', $ical->Get('DTEND') );
+        }
+        $caldav_data = $confidential->Render( true, $caldav_type );
       }
       elseif ( $c->hide_alarm ) {
         // Otherwise we hide the alarms (if configured to)
-        $ical = new iCalendar( array( "icalendar" => $item->caldav_data) );
-        $caldav_data = $ical->render(true, $item->caldav_type, $ical->DefaultPropertyList() );
+        $ical = new iCalendar( array( "icalendar" => $caldav_data) );
+        $ical->component->ClearComponents('VALARM');
+        $caldav_data = $ical->render(true, $caldav_type );
       }
     }
   }
 
-  $url = $c->protocol_server_port_script . $item->dav_name;
+  $url = ConstructURL($item->dav_name);
+
   $prop = new XMLElement("prop");
   foreach( $properties AS $k => $v ) {
     switch( $k ) {
       case 'GETCONTENTLENGTH':
-        $contentlength = strlen($item->caldav_data);
+        $contentlength = strlen($caldav_data);
         $prop->NewElement("getcontentlength", $contentlength );
         break;
       case 'CALENDAR-DATA':

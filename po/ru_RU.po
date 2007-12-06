@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rscds 0.3.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-10-16 13:28+1300\n"
+"POT-Creation-Date: 2007-11-17 22:06+1300\n"
 "PO-Revision-Date: 2006-11-13 23:07+0500\n"
 "Last-Translator: Nick Khazov <m2k3d0n@users.sourceforge.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,9 +19,9 @@ msgstr ""
 msgid "- creating record for users :  %s"
 msgstr ""
 
-#, c-format
-msgid "- desactivating users : %s"
-msgstr ""
+#, fuzzy, c-format
+msgid "- deactivating users : %s"
+msgstr "Посмотреть мою учетную запись"
 
 #, c-format
 msgid "- nothing done on %s"
@@ -160,6 +160,10 @@ msgstr ""
 msgid "Date Style"
 msgstr ""
 
+#, fuzzy
+msgid "Default relationships added."
+msgstr "Связь добавлена."
+
 msgid "Delete"
 msgstr "Удалить"
 
@@ -197,7 +201,7 @@ msgid "Enter your username and password then click here to log in."
 msgstr ""
 
 #, c-format
-msgid "Error NoUserFound with filter >%s<, attributs >%s< , dn >%s<"
+msgid "Error NoUserFound with filter >%s<, attributes >%s< , dn >%s<"
 msgstr ""
 
 msgid "Error querying database."
@@ -571,6 +575,10 @@ msgid "You may not access that calendar"
 msgstr ""
 
 #, fuzzy
+msgid "You may not access that collection"
+msgstr "Вы не авторизованы для использоования этой функции."
+
+#, fuzzy
 msgid "You may not add entries to this calendar."
 msgstr "Вы не авторизованы для использоования этой функции."
 
@@ -608,6 +616,10 @@ msgid "drivers_ldap : Unable to connect to LDAP with port %s on host %s"
 msgstr ""
 
 msgid "drivers_ldap : function ldap_connect not defined, check your php_ldap module"
+msgstr ""
+
+#, c-format
+msgid "drivers_squid_pam : Unable to find %s file"
 msgstr ""
 
 msgid ""

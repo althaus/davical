@@ -2,7 +2,7 @@
 /**
 * CalDAV Server - main program
 *
-* @package   rscds
+* @package   davical
 * @subpackage   caldav
 * @author    Andrew McMillan <andrew@catalyst.net.nz>
 * @copyright Catalyst .Net Ltd
@@ -13,6 +13,18 @@ dbg_error_log( "caldav", " User agent: %s", ((isset($_SERVER['HTTP_USER_AGENT'])
 require_once("HTTPAuthSession.php");
 $session = new HTTPAuthSession();
 dbg_log_array( "headers", '_SERVER', $_SERVER, true );
+
+/**
+* From reading the "Scheduling Extensions to CalDAV" draft I don't think that we will
+* be doing 'calendar-schedule' any time soon.  The current spec is at:
+*    http://www.ietf.org/internet-drafts/draft-desruisseaux-caldav-sched-03.txt
+*
+* access-control is rfc3744, so we will say we do it, but I doubt if we do it
+* in all (or even much of) it's glory really.
+*/
+$dav = "1, 2, access-control, calendar-access";
+header( "DAV: $dav");
+// header( "DAV: 1, 2, access-control, calendar-access, calendar-schedule");
 
 require_once("CalDAVRequest.php");
 $request = new CalDAVRequest();
@@ -41,4 +53,3 @@ switch ( $request->method ) {
 
 $request->DoResponse( 500, translate("The application program does not understand that request.") );
 
-?>

@@ -1,0 +1,18 @@
+#
+# Testing with a process similar to Mozilla Sunbird 0.7
+#
+TYPE=PROPFIND
+URL=http://mycaldav/caldav.php/user1/home/
+HEAD
+
+HEADER=User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.1.8pre) Gecko/20071023 Sunbird/0.7
+HEADER=Content-Type: text/xml; charset=utf-8
+HEADER=Depth: 0
+
+#
+# The first query just gets the resourcetype
+#
+BEGINDATA
+<?xml version="1.0"?>
+<D:propfind xmlns:D="DAV:"><D:prop><D:resourcetype/></D:prop></D:propfind>
+ENDDATA

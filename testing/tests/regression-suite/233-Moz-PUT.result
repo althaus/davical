@@ -1,0 +1,10 @@
+HTTP/1.1 100 Continue
+
+HTTP/1.1 201 Created
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, access-control, calendar-access
+ETag: "e8060931f30c1798ac58ffbe4ec0bffc"
+Content-Length: 0
+Content-Type: text/plain; charset="utf-8"
+
+10 --- e8060931f30c1798ac58ffbe4ec0bffc --- VEVENT --- 10 --- e70576e9-c1e0-431e-a507-0386fd82f223 --- 2007-12-03 20:26:30 --- 2007-12-11 07:45:00+13 --- 2007-12-11 08:30:00+13 --- NULL --- Morning Meeting --- Suzies Coffee Lounge --- Twice-weekly breakfast meeting --- NULL --- PUBLIC --- NULL --- FREQ=WEEKLY;INTERVAL=1;BYDAY=TU,TH --- NULL --- NULL --- NULL --- NULL

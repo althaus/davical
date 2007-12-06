@@ -84,4 +84,3 @@
 // $c->schema_patch
 // $c->schema_version
 
-?>

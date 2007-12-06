@@ -1,0 +1,61 @@
+HTTP/1.1 207 Multi-Status
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, access-control, calendar-access
+ETag: "c4532eec08793ee4b4f24deb4588f9be"
+Content-Length: 1521
+Content-Type: text/xml; charset="utf-8"
+
+<?xml version="1.0" encoding="utf-8" ?>
+<multistatus xmlns="DAV:">
+ <response>
+  <href>/caldav.php/user1/home/e70576e9-c1e0-431e-a507-0386fd82f223.ics</href>
+  <propstat>
+   <prop>
+    <getetag>"e8060931f30c1798ac58ffbe4ec0bffc"</getetag>
+    <calendar-data xmlns="urn:ietf:params:xml:ns:caldav">BEGIN:VCALENDAR
+PRODID:-//Mozilla Calendar//NONSGML Sunbird//EN
+VERSION:2.0
+BEGIN:VTIMEZONE
+TZID:/mozilla.org/20070129_1/Antarctica/McMurdo
+X-LIC-LOCATION:Antarctica/McMurdo
+BEGIN:STANDARD
+TZOFFSETFROM:+1300
+TZOFFSETTO:+1200
+TZNAME:NZST
+DTSTART:19700315T030000
+RRULE:FREQ=YEARLY;INTERVAL=1;BYDAY=3SU;BYMONTH=3
+END:STANDARD
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+1200
+TZOFFSETTO:+1300
+TZNAME:NZDT
+DTSTART:19701004T020000
+RRULE:FREQ=YEARLY;INTERVAL=1;BYDAY=1SU;BYMONTH=10
+END:DAYLIGHT
+END:VTIMEZONE
+BEGIN:VEVENT
+CREATED:20071203T202630Z
+LAST-MODIFIED:20071203T202834Z
+DTSTAMP:20071203T202630Z
+UID:e70576e9-c1e0-431e-a507-0386fd82f223
+SUMMARY:Morning Meeting
+RRULE:FREQ=WEEKLY;INTERVAL=1;BYDAY=TU,TH
+DTSTART;TZID=/mozilla.org/20070129_1/Antarctica/McMurdo:20071211T074500
+DTEND;TZID=/mozilla.org/20070129_1/Antarctica/McMurdo:20071211T083000
+X-MOZ-LOCATIONPATH:e70576e9-c1e0-431e-a507-0386fd82f223.ics
+LOCATION:Suzies Coffee Lounge
+DESCRIPTION:Twice-weekly breakfast meeting
+CATEGORIES:Business
+BEGIN:VALARM
+TRIGGER;VALUE=DURATION:-PT10M
+DESCRIPTION:Mozilla Alarm: Morning Meeting
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR
+</calendar-data>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+</multistatus>

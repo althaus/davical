@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rscds 0.7.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-10-16 13:28+1300\n"
+"POT-Creation-Date: 2007-11-17 22:06+1300\n"
 "PO-Revision-Date: 2007-05-03 15:00+0001\n"
 "Last-Translator: David Takacs <david.takacs@cafeopen.eu>\n"
 "Language-Team: \n"
@@ -20,9 +20,9 @@ msgstr ""
 msgid "- creating record for users :  %s"
 msgstr ""
 
-#, c-format
-msgid "- desactivating users : %s"
-msgstr ""
+#, fuzzy, c-format
+msgid "- deactivating users : %s"
+msgstr "Felhasználó szerkesztése"
 
 #, c-format
 msgid "- nothing done on %s"
@@ -155,6 +155,10 @@ msgstr "Adatbázis-hiba"
 msgid "Date Style"
 msgstr "Dátumformátum"
 
+#, fuzzy
+msgid "Default relationships added."
+msgstr "Kapcsolat hozzáadva."
+
 msgid "Delete"
 msgstr "Törlés"
 
@@ -190,7 +194,7 @@ msgid "Enter your username and password then click here to log in."
 msgstr "Írja be a felhasználónevét és jelszavát a belépéshez"
 
 #, c-format
-msgid "Error NoUserFound with filter >%s<, attributs >%s< , dn >%s<"
+msgid "Error NoUserFound with filter >%s<, attributes >%s< , dn >%s<"
 msgstr ""
 
 msgid "Error querying database."
@@ -553,6 +557,10 @@ msgstr "Nincs jogosultsága zárolni"
 msgid "You may not access that calendar"
 msgstr "Nincs jogosultsága hozzáférni a naptárhoz"
 
+#, fuzzy
+msgid "You may not access that collection"
+msgstr "Nincs jogosultsága hozzáférni a naptárhoz"
+
 msgid "You may not add entries to this calendar."
 msgstr "Nincs jogosultsága új bejegyzéseket írni a naptárba."
 
@@ -591,6 +599,10 @@ msgid "drivers_ldap : Unable to connect to LDAP with port %s on host %s"
 msgstr ""
 
 msgid "drivers_ldap : function ldap_connect not defined, check your php_ldap module"
+msgstr ""
+
+#, c-format
+msgid "drivers_squid_pam : Unable to find %s file"
 msgstr ""
 
 msgid ""
