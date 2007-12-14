@@ -52,10 +52,7 @@ else if ( $qry->rows > 1 ) {
   $timezones = array();
   while( $event = $qry->Fetch() ) {
     $ical = new iCalendar( array( "icalendar" => $event->caldav_data ) );
-    if ( isset($ical->tz_locn) && $ical->tz_locn != "" && isset($ical->vtimezone) && $ical->vtimezone != "" ) {
-      $timezones[$ical->Get("TZID")] = $ical->vtimezone;
-    }
-
+    $timezones[$ical->Get("TZID")] = 1;
 
     if ( !is_numeric(strpos($event->permissions,'A')) && $session->user_no != $event->user_no ){
       // the user is not admin / owner of this calendarlooking at his calendar and can not admin the other cal
@@ -88,8 +85,18 @@ else if ( $qry->rows > 1 ) {
       $response .= $ical->Render( false, $event->caldav_type );
     }
   }
-  foreach( $timezones AS $tzid => $vtimezone ) {
-    $response .= $vtimezone;
+  $tzid_in = "";
+  foreach( $timezones AS $tzid => $v ) {
+    $tzid_in .= ($tzid_in == '' ? '' : ', ');
+    $tzid_in .= qpg($tzid);
+  }
+  if ( $tzid_in != "" ) {
+    $qry = new PgQuery("SELECT tz_spec FROM time_zone WHERE tz_id IN ($tzid_in) ORDER BY tz_id;");
+    if ( $qry->Exec("GET") ) {
+      while( $tz = $qry->Fetch() ) {
+        $response .= $tz->tz_spec;
+      }
+    }
   }
   $response .= iCalendar::iCalFooter();
   header( "Content-Length: ".strlen($response) );
