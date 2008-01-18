@@ -339,3 +339,28 @@ BEGIN
   RETURN rlist;
 END;
 ' LANGUAGE 'plpgsql';
+
+
+CREATE or REPLACE FUNCTION rename_davical_user( TEXT, TEXT ) RETURNS TEXT AS $$
+DECLARE
+  oldname ALIAS FOR $1;
+  newname ALIAS FOR $2;
+  oldpath TEXT;
+  newpath TEXT;
+BEGIN
+  UPDATE usr SET username = newname WHERE username = oldname;
+  oldpath := '/' || oldname | '/';
+  newpath := '/' || newname | '/';
+
+  UPDATE collection
+     SET parent_container = replace( parent_container, oldpath, newpath),
+         dav_name = replace( dav_name, oldpath, newpath)
+   WHERE substring(dav_name from 1 for char_length(oldpath)) = oldpath;
+
+  UPDATE caldav_data
+     SET dav_name = replace( dav_name, oldpath, newpath)
+   WHERE substring(dav_name from 1 for char_length(oldpath)) = oldpath;
+
+  RETURN newname;
+END;
+$$ LANGUAGE plpgsql;
