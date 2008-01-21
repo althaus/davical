@@ -349,8 +349,8 @@ DECLARE
   newpath TEXT;
 BEGIN
   UPDATE usr SET username = newname WHERE username = oldname;
-  oldpath := '/' || oldname | '/';
-  newpath := '/' || newname | '/';
+  oldpath := '/' || oldname || '/';
+  newpath := '/' || newname || '/';
 
   UPDATE collection
      SET parent_container = replace( parent_container, oldpath, newpath),
