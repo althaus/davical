@@ -124,10 +124,12 @@ function import_collection( $ics_content, $user_no, $path, $caldav_context ) {
   // According to RFC2445 we should always end with CRLF, but the CalDAV spec says
   // that normalising XML parses often muck with it and may remove the CR.
   $icalendar = preg_replace('/\r?\n /', '', $ics_content );
-  if ( isset($c->dbg['ALL']) || isset($c->dbg['put']) ) {
+  if ( ! ini_get('open_basedir') && (isset($c->dbg['ALL']) || isset($c->dbg['put'])) ) {
     $fh = fopen('/tmp/PUT-2.txt','w');
-    fwrite($fh,$icalendar);
-    fclose($fh);
+    if ( $fh ) {
+      fwrite($fh,$icalendar);
+      fclose($fh);
+    }
   }
 
   $lines = preg_split('/\r?\n/', $icalendar );
