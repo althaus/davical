@@ -83,6 +83,22 @@ class HTTPAuthSession {
   */
   function BasicAuthSession() {
     global $c;
+
+    /**
+    * Get HTTP Auth to work with PHP+FastCGI
+    */
+    if (isset($_SERVER["AUTHORIZATION"]) && !empty($_SERVER["AUTHORIZATION"])) {
+      list ($type, $cred) = split (" ", $_SERVER['AUTHORIZATION']);
+      if ($type == 'Basic') {
+        list ($user, $pass) = explode (":", base64_decode($cred));
+        $_SERVER['PHP_AUTH_USER'] = $user;
+        $_SERVER['PHP_AUTH_PW'] = $pass;
+      }
+    }
+
+    /**
+    * Fall through to the normal PHP authentication variables.
+    */
     if ( isset($_SERVER['PHP_AUTH_USER']) ) {
       if ( $u = $this->CheckPassword( $_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'] ) ) {
         $this->AssignSessionDetails($u);
