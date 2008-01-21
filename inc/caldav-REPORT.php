@@ -10,10 +10,12 @@
 */
 dbg_error_log("REPORT", "method handler");
 
-if ( isset($c->dbg['ALL']) || $c->dbg['report'] ) {
+if ( ! ini_get('open_basedir') && (isset($c->dbg['ALL']) || $c->dbg['report']) ) {
   $fh = fopen('/tmp/REPORT.txt','w');
-  fwrite($fh,$request->raw_post);
-  fclose($fh);
+  if ( $fh ) {
+    fwrite($fh,$request->raw_post);
+    fclose($fh);
+  }
 }
 
 if ( ! ($request->AllowedTo('read') || $request->AllowedTo('freebusy')) ) {

@@ -53,13 +53,13 @@ $c->protocol_server_port_script = sprintf( "%s://%s%s%s", (isset($_SERVER['HTTPS
 
 init_gettext( 'rscds', '../locale' );
 
-if ( file_exists("/etc/davical/".$_SERVER['SERVER_NAME']."-conf.php") ) {
+if ( @file_exists("/etc/davical/".$_SERVER['SERVER_NAME']."-conf.php") ) {
   include_once("/etc/davical/".$_SERVER['SERVER_NAME']."-conf.php");
 }
-else if ( file_exists("/etc/rscds/".$_SERVER['SERVER_NAME']."-conf.php") ) {
+else if ( @file_exists("/etc/rscds/".$_SERVER['SERVER_NAME']."-conf.php") ) {
   include_once("/etc/rscds/".$_SERVER['SERVER_NAME']."-conf.php");
 }
-else if ( file_exists("../config/config.php") ) {
+else if ( @file_exists("../config/config.php") ) {
   include_once("../config/config.php");
 }
 else {
