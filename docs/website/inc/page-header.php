@@ -29,7 +29,7 @@ else {
 <a href="installation.php" class="hlink">Installation</a> |
 <a href="clients.php" class="hlink">Client Config</a> |
 <a href="administration.php" class="hlink">Administration</a> |
-<a href="/moin/FrontPage" class="hlink">DAViCal Wiki</a> |
+<a href="/w/Main_Page" class="hlink">DAViCal Wiki</a> |
 <a href="http://andrew.mcmillan.net.nz/" class="hlink">Blog</a> |
 <a href="http://sourceforge.net/projects/rscds/" class="hlink">DAViCal on Sourceforge</a>
 </div>
