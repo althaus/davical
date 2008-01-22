@@ -249,7 +249,10 @@ BEGIN
 
   SELECT rt1.confers, rt2.confers INTO out_confers, tmp_confers FROM relationship r1 JOIN relationship_type rt1 USING(rt_id)
               JOIN relationship r2 ON r1.to_user=r2.from_user JOIN relationship_type rt2 ON r2.rt_id=rt2.rt_id
-         WHERE r1.from_user=in_from AND r2.to_user=in_to AND usr_is_role(r1.to_user,''Group'') AND NOT usr_is_role(r2.to_user,''Group'') AND NOT usr_is_role(r1.from_user,''Group'');
+         WHERE r1.from_user=in_from AND r2.to_user=in_to
+           AND EXISTS( SELECT 1 FROM role_member JOIN roles USING(role_no) WHERE role_member.user_no=r1.to_user AND roles.role_name=''Group'')
+           AND NOT EXISTS( SELECT 1 FROM role_member JOIN roles USING(role_no) WHERE role_member.user_no=r2.to_user AND roles.role_name=''Group'')
+           AND NOT EXISTS( SELECT 1 FROM role_member JOIN roles USING(role_no) WHERE role_member.user_no=r1.from_user AND roles.role_name=''Group'');
 
   IF FOUND THEN
     -- RAISE NOTICE ''Permissions to group % from group %'', out_confers, tmp_confers;
