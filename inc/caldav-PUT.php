@@ -14,10 +14,12 @@ if ( ! $request->AllowedTo("read") ) {
   $request->DoResponse(403);
 }
 
-if ( isset($c->dbg['ALL']) || $c->dbg['put'] ) {
+if ( ! ini_get('open_basedir') && (isset($c->dbg['ALL']) || $c->dbg['put']) ) {
   $fh = fopen('/tmp/PUT.txt','w');
-  fwrite($fh,$request->raw_post);
-  fclose($fh);
+  if ( $fh ) {
+    fwrite($fh,$request->raw_post);
+    fclose($fh);
+  }
 }
 
 include_once('caldav-PUT-functions.php');
