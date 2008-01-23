@@ -70,6 +70,10 @@ TEST="Load-Sample-Data"
 psql -q -f "../dba/sample-data.sql" "${DBNAME}" >"${RESULTS}/${TEST}" 2>&1
 check_result "${TEST}"
 
+# psql -q -f "../dba/patches/1.1.12.sql" "${DBNAME}"
+
+TSTART="`date +%s`"
+
 for T in ${REGRESSION}/*.test ; do
   TEST="`basename ${T} .test`"
   TESTNUM="`echo ${TEST} | cut -f1 -d'-'`"
@@ -82,3 +86,6 @@ for T in ${REGRESSION}/*.test ; do
   check_result "${TEST}"
 
 done
+TFINISH="`date +%s`"
+
+echo "Regression test run took $(( ${TFINISH} - ${TSTART} )) seconds."
