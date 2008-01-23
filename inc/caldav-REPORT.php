@@ -70,7 +70,7 @@ function calendar_to_xml( $properties, $item ) {
   $caldav_data = $item->caldav_data;
   $displayname = $item->summary;
   if ( isset($properties['CALENDAR-DATA']) || isset($properties['DISPLAYNAME']) ) {
-    if ( !is_numeric(strpos($item->permissions,'A')) && $session->user_no != $item->user_no ){
+    if ( !$request->AllowedTo('all') && $session->user_no != $item->user_no ){
       // the user is not admin / owner of this calendarlooking at his calendar and can not admin the other cal
       if ( $item->class == 'CONFIDENTIAL' ) {
         $ical = new iCalendar( array( "icalendar" => $caldav_data) );

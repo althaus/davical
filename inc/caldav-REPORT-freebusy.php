@@ -23,7 +23,10 @@ if ( isset( $fbq_end ) ) {
 $where .= "AND caldav_data.caldav_type IN ( 'VEVENT', 'VFREEBUSY' ) ";
 $where .= "AND (calendar_item.transp != 'TRANSPARENT' OR calendar_item.transp IS NULL) ";
 $where .= "AND (calendar_item.status != 'CANCELLED' OR calendar_item.status IS NULL) ";
-$where .= "AND (calendar_item.class != 'PRIVATE' OR calendar_item.class IS NULL OR get_permissions($session->user_no,caldav_data.user_no) ~ 'A') "; // Must have 'all' permissions to see confidential items
+
+if ( ! $request->AllowedTo('all') ) {
+  $where .= "AND (calendar_item.class != 'PRIVATE' OR calendar_item.class IS NULL) ";
+}
 
 $busy = array();
 $busy_tentative = array();

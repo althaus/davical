@@ -47,12 +47,15 @@ $where = " WHERE caldav_data.dav_name ~ ".qpg("^".$request->path)." ";
 if ( $href_in != "" ) {
   $where .= " AND caldav_data.dav_name IN ( $href_in ) ";
 }
-  
-$where .= "AND (calendar_item.class != 'PRIVATE' OR calendar_item.class IS NULL OR get_permissions($session->user_no,caldav_data.user_no) ~ 'A') "; // Must have 'all' permissions to see confidential items
-if ( isset($c->hide_TODO) && $c->hide_TODO ) {
-  $where .= "AND (caldav_data.caldav_type NOT IN ('VTODO') OR get_permissions($session->user_no,caldav_data.user_no) ~ 'A') ";
+if ( ! $request->AllowedTo('all') ) {
+  $where .= "AND (calendar_item.class != 'PRIVATE' OR calendar_item.class IS NULL) ";
 }
-$qry = new PgQuery( "SELECT * , get_permissions($session->user_no,caldav_data.user_no) as permissions FROM caldav_data INNER JOIN calendar_item USING(user_no, dav_name)". $where );
+
+if ( isset($c->hide_TODO) && $c->hide_TODO && ! $request->AllowedTo('all') ) {
+  $where .= "AND caldav_data.caldav_type NOT IN ('VTODO') ";
+}
+
+$qry = new PgQuery( "SELECT * FROM caldav_data INNER JOIN calendar_item USING(user_no, dav_name)". $where );
 if ( $qry->Exec("REPORT",__LINE__,__FILE__) && $qry->rows > 0 ) {
   while( $calendar_object = $qry->Fetch() ) {
     $responses[] = calendar_to_xml( $properties, $calendar_object );
@@ -62,4 +65,3 @@ if ( $qry->Exec("REPORT",__LINE__,__FILE__) && $qry->rows > 0 ) {
 $multistatus = new XMLElement( "multistatus", $responses, array('xmlns'=>'DAV:') );
 
 $request->XMLResponse( 207, $multistatus );
-?>
