@@ -701,7 +701,7 @@ class RRule {
   /**#@-*/
 
   /**
-  * The constructor takes a start & end date and an RRULE definition.  All of these
+  * The constructor takes a start date and an RRULE definition.  Both of these
   * follow the iCalendar standard.
   */
   function RRule( $start, $rrule ) {
