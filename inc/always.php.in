@@ -9,6 +9,9 @@
 // Ensure the configuration starts out as an empty object.
 unset($c);
 
+// Ditto for a few other global things
+unset($session); unset($request); unset($dbconn);
+
 // Default some of the configurable values
 $c->sysabbr     = 'davical';
 $c->admin_email = 'admin@davical.example.com';
