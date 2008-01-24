@@ -19,6 +19,9 @@ my $dbpass = "";
 my $dbhost = "";
 my $appuser = "general";
 my $helpmeplease = 0;
+my $apply_patches = 1;
+my $revoke_list = "general";
+my $config_file = "";
 
 my $dbadir = $0;
 $dbadir =~ s#/[^/]*$##;
@@ -32,6 +35,9 @@ GetOptions ('debug!'    => \$debug,
             'dbport=s'  => \$dbport,
             'dbhost=s'  => \$dbhost,
             'appuser=s' => \$appuser,
+            'patch!'    => \$apply_patches,
+            'revoke=s'  => \$revoke_list,
+            'config=s'  => \$config_file,
             'help'      => \$helpmeplease  );
 
 show_usage() if ( $helpmeplease );
@@ -44,48 +50,52 @@ my $dsn = "dbi:Pg:dbname=$dbname";
 $dsn .= ";host=$dbhost" if ( "$dbhost" ne "" );
 $dsn .= ";port=$dbport" if ( $dbport != 5432 );
 
-my $current_revision = get_current_revision();
-printf( "The database is currently at revision %d.%d.%d.\n", $current_revision->{'schema_major'}, $current_revision->{'schema_minor'}, $current_revision->{'schema_patch'} );
-
-opendir( PATCHDIR, $patchdir ) or die "Can't open patch directory $patchdir";
-my @patches = grep { /^([0-9]+)\.([0-9]+)\.([0-9]+)([a-z]?)\.sql$/ } readdir(PATCHDIR);
-closedir(PATCHDIR);
-
-@patches = sort { compare_revisions(revision_hash($a),revision_hash($b), 1); } @patches;
-
-my $applied = 0;
+my $current_revision;
 my $last_results = '';  # Will hold the last SQL result from applying a patch
 
-for ( my $i=0; $i <= $#patches;  $i++ ) {
-  printf( "Looking at patches[%d] (%s)\n", $i, $patches[$i]) if ( $debug );
-  if ( compare_revisions(revision_hash($patches[$i]),$current_revision) > 0 ) {
-    print "Applying patch $patches[$i] ... ";
-    if ( !apply_patch( $patches[$i] ) ) {
-      # Skip to the end unless the next patch is an alternate for the same version.
-      if ( defined($patches[$i+1]) && compare_revisions(revision_hash($patches[$i]),revision_hash($patches[$i+1])) == 0 ) {
-        print "failed.  Attempting next alternative.\n";
-        $applied--;
+if ( $apply_patches ) {
+  $current_revision = get_current_revision();
+  printf( "The database is currently at revision %d.%d.%d.\n", $current_revision->{'schema_major'}, $current_revision->{'schema_minor'}, $current_revision->{'schema_patch'} );
+
+  opendir( PATCHDIR, $patchdir ) or die "Can't open patch directory $patchdir";
+  my @patches = grep { /^([0-9]+)\.([0-9]+)\.([0-9]+)([a-z]?)\.sql$/ } readdir(PATCHDIR);
+  closedir(PATCHDIR);
+
+  @patches = sort { compare_revisions(revision_hash($a),revision_hash($b), 1); } @patches;
+
+  my $applied = 0;
+
+  for ( my $i=0; $i <= $#patches;  $i++ ) {
+    printf( "Looking at patches[%d] (%s)\n", $i, $patches[$i]) if ( $debug );
+    if ( compare_revisions(revision_hash($patches[$i]),$current_revision) > 0 ) {
+      print "Applying patch $patches[$i] ... ";
+      if ( !apply_patch( $patches[$i] ) ) {
+        # Skip to the end unless the next patch is an alternate for the same version.
+        if ( defined($patches[$i+1]) && compare_revisions(revision_hash($patches[$i]),revision_hash($patches[$i+1])) == 0 ) {
+          print "failed.  Attempting next alternative.\n";
+          $applied--;
+        }
+        else {
+          print "failed!\n$last_results  ==> No further patches will be attempted!\n";
+          last;
+        }
       }
       else {
-        print "failed!\n$last_results  ==> No further patches will be attempted!\n";
-        last;
+        print "succeeded.\n";
       }
+      $applied++;
     }
     else {
-      print "succeeded.\n";
+      print "Patch $patches[$i] has already been applied.\n" if ( $debug );
     }
-    $applied++;
+  }
+
+  if ( $applied ) {
+    print "Successfully applied $applied patches.\n";
   }
   else {
-    print "Patch $patches[$i] has already been applied.\n" if ( $debug );
+    print "No patches were applied.\n";
   }
-}
-
-if ( $applied ) {
-  print "Successfully applied $applied patches.\n";
-}
-else {
-  print "No patches were applied.\n";
 }
 
 # Ensure the locales data is up to date
@@ -254,7 +264,7 @@ sub apply_permissions {
       defined($current_grant) or die "No GRANT before ON in $permsfile\n";
       my $doohickeys = $1;
 
-      $sql = sprintf( "REVOKE ALL ON %s FROM %s, general", $doohickeys, $appuser );
+      $sql = sprintf( "REVOKE ALL ON %s FROM %s, %s", $doohickeys, $appuser, $revoke_list );
       print $sql, "\n" if ( $debug );
       $dbh->do($sql);
 
@@ -279,13 +289,15 @@ sub show_usage {
 update-rscds-database [options]
 
 Options are:
-    --debug       Turn on debugging
-    --dbname      The database to dig into
-    --dbuser      Connect to the database as this user.
-    --dbport      Connect to the database on this port.
-    --dbhost      Connect to the database on this host.
-    --appuser     The username which the application uses for it's database
-                  connection.
+    --debug           Turn on debugging
+    --dbname  name    The database to dig into
+    --dbuser  name    Connect to the database as this user.
+    --dbport  5432    Connect to the database on this port.
+    --dbhost  name    Connect to the database on this host.
+    --appuser name    The username which the application uses for it's database
+                      connection.
+    --nopatch         Don't try and apply any patches
+    --revoke  name    Revoke permissions from this user
 
 The program will apply any patches to the database which have
 not yet been applied, run any desired data patch scripts and set
