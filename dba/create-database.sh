@@ -68,12 +68,6 @@ psql -q -f "${AWLDIR}/dba/schema-management.sql" "${DBNAME}" 2>&1 | egrep -v "(^
 # Load the DAViCal tables
 psql -q -f "${DBADIR}/davical.sql" "${DBNAME}" 2>&1 | egrep -v "(^CREATE |^GRANT|^BEGIN|^COMMIT| NOTICE: )"
 
-# psql -q -f "${DBADIR}/caldav_functions.sql" "${DBNAME}"
-
-#
-# The supported locales are in a separate file to make them easier to upgrade
-#psql -q -f "${DBADIR}/supported_locales.sql" "${DBNAME}"
-
 #
 # Set permissions for the application DB user on the database
 ${DBADIR}/update-rscds-database --dbname "${DBNAME}" --appuser "${AWL_APPUSER}" --nopatch --revoke "general"
