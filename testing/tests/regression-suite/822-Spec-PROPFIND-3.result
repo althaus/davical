@@ -39,42 +39,16 @@
   </propstat>
  </response>
  <response>
-  <href>/caldav.php/user1/home/0575d895-a006-4ed8-9be6-0d1b6b6b1f96.ics</href>
+  <href>/caldav.php/user1/home/3F4CF6227300FD062D9EF3CDFB30D32D-0.ics</href>
   <propstat>
    <prop>
     <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <getcontentlength>961</getcontentlength>
+    <getcontentlength>747</getcontentlength>
     <getcontenttype>text/calendar</getcontenttype>
     <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
     <resourcetype/>
-    <displayname>Due 7/8/7 16:30, completed</displayname>
-    <getetag>"00ad5eb1eb5507884710b0b66aa5d5c4"</getetag>
-    <getcontentlanguage>en_NZ.UTF-8</getcontentlanguage>
-    <supportedlock>
-     <lockentry>
-      <lockscope>
-       <exclusive/>
-      </lockscope>
-      <locktype>
-       <write/>
-      </locktype>
-     </lockentry>
-    </supportedlock>
-   </prop>
-   <status>HTTP/1.1 200 OK</status>
-  </propstat>
- </response>
- <response>
-  <href>/caldav.php/user1/home/1906b3ca-4890-468a-9b58-1de74bf2c716.ics</href>
-  <propstat>
-   <prop>
-    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <getcontentlength>970</getcontentlength>
-    <getcontenttype>text/calendar</getcontenttype>
-    <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
-    <resourcetype/>
-    <displayname>Private Event</displayname>
-    <getetag>"5def8ae2b20893a1c7f4dbaeb008f2f1"</getetag>
+    <displayname>Lunch with David</displayname>
+    <getetag>"2c32a2f8aba853654eb17fe037a4db4d"</getetag>
     <getcontentlanguage>en_NZ.UTF-8</getcontentlanguage>
     <supportedlock>
      <lockentry>
@@ -117,58 +91,6 @@
   </propstat>
  </response>
  <response>
-  <href>/caldav.php/user1/home/2178279a-aec2-471f-832d-1f6df6203f2f.ics</href>
-  <propstat>
-   <prop>
-    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <getcontentlength>415</getcontentlength>
-    <getcontenttype>text/calendar</getcontenttype>
-    <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
-    <resourcetype/>
-    <displayname>Incomplete, uncancelled</displayname>
-    <getetag>"509b0f0d8a3363379f9f5727f5dd74a0"</getetag>
-    <getcontentlanguage>en_NZ.UTF-8</getcontentlanguage>
-    <supportedlock>
-     <lockentry>
-      <lockscope>
-       <exclusive/>
-      </lockscope>
-      <locktype>
-       <write/>
-      </locktype>
-     </lockentry>
-    </supportedlock>
-   </prop>
-   <status>HTTP/1.1 200 OK</status>
-  </propstat>
- </response>
- <response>
-  <href>/caldav.php/user1/home/3F4CF6227300FD062D9EF3CDFB30D32D-0.ics</href>
-  <propstat>
-   <prop>
-    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <getcontentlength>747</getcontentlength>
-    <getcontenttype>text/calendar</getcontenttype>
-    <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
-    <resourcetype/>
-    <displayname>Lunch with David</displayname>
-    <getetag>"2c32a2f8aba853654eb17fe037a4db4d"</getetag>
-    <getcontentlanguage>en_NZ.UTF-8</getcontentlanguage>
-    <supportedlock>
-     <lockentry>
-      <lockscope>
-       <exclusive/>
-      </lockscope>
-      <locktype>
-       <write/>
-      </locktype>
-     </lockentry>
-    </supportedlock>
-   </prop>
-   <status>HTTP/1.1 200 OK</status>
-  </propstat>
- </response>
- <response>
   <href>/caldav.php/user1/home/4aaf8f37-f232-4c8e-a72e-e171d4c4fe54.ics</href>
   <propstat>
    <prop>
@@ -179,58 +101,6 @@
     <resourcetype/>
     <displayname>Weekly Project Meeting</displayname>
     <getetag>"a1c6404d61190f9574e2bfd69383f144"</getetag>
-    <getcontentlanguage>en_NZ.UTF-8</getcontentlanguage>
-    <supportedlock>
-     <lockentry>
-      <lockscope>
-       <exclusive/>
-      </lockscope>
-      <locktype>
-       <write/>
-      </locktype>
-     </lockentry>
-    </supportedlock>
-   </prop>
-   <status>HTTP/1.1 200 OK</status>
-  </propstat>
- </response>
- <response>
-  <href>/caldav.php/user1/home/71e2ae82-7870-11db-c6d6-f6927c144649.ics</href>
-  <propstat>
-   <prop>
-    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <getcontentlength>743</getcontentlength>
-    <getcontenttype>text/calendar</getcontenttype>
-    <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
-    <resourcetype/>
-    <displayname>Beer O'Clock</displayname>
-    <getetag>"0d7a68984bf525342d22b8924a57e8e2"</getetag>
-    <getcontentlanguage>en_NZ.UTF-8</getcontentlanguage>
-    <supportedlock>
-     <lockentry>
-      <lockscope>
-       <exclusive/>
-      </lockscope>
-      <locktype>
-       <write/>
-      </locktype>
-     </lockentry>
-    </supportedlock>
-   </prop>
-   <status>HTTP/1.1 200 OK</status>
-  </propstat>
- </response>
- <response>
-  <href>/caldav.php/user1/home/917b9e47-b748-4550-a566-657fbe672447.ics</href>
-  <propstat>
-   <prop>
-    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <getcontentlength>449</getcontentlength>
-    <getcontenttype>text/calendar</getcontenttype>
-    <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
-    <resourcetype/>
-    <displayname>50% Complete, uncancelled</displayname>
-    <getetag>"cb3d9dc3e8c157f53eba3ea0e1e0f146"</getetag>
     <getcontentlanguage>en_NZ.UTF-8</getcontentlanguage>
     <supportedlock>
      <lockentry>
@@ -273,16 +143,120 @@
   </propstat>
  </response>
  <response>
-  <href>/caldav.php/user1/home/AAA9318E-37D9-4319-8626-95ECD3D3B243.ics</href>
+  <href>/caldav.php/user1/home/1906b3ca-4890-468a-9b58-1de74bf2c716.ics</href>
   <propstat>
    <prop>
     <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <getcontentlength>981</getcontentlength>
+    <getcontentlength>970</getcontentlength>
     <getcontenttype>text/calendar</getcontenttype>
     <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
     <resourcetype/>
-    <displayname>BBQ @ ML's</displayname>
-    <getetag>"5f050eca5480bbebbe9428222570913d"</getetag>
+    <displayname>Private Event</displayname>
+    <getetag>"5def8ae2b20893a1c7f4dbaeb008f2f1"</getetag>
+    <getcontentlanguage>en_NZ.UTF-8</getcontentlanguage>
+    <supportedlock>
+     <lockentry>
+      <lockscope>
+       <exclusive/>
+      </lockscope>
+      <locktype>
+       <write/>
+      </locktype>
+     </lockentry>
+    </supportedlock>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/home/fbd57454-d966-4a14-8341-abe1edb1ae66.ics</href>
+  <propstat>
+   <prop>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <getcontentlength>929</getcontentlength>
+    <getcontenttype>text/calendar</getcontenttype>
+    <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
+    <resourcetype/>
+    <displayname>Tentative Event</displayname>
+    <getetag>"ac90acd649c25070b1a2a17fb31a105a"</getetag>
+    <getcontentlanguage>en_NZ.UTF-8</getcontentlanguage>
+    <supportedlock>
+     <lockentry>
+      <lockscope>
+       <exclusive/>
+      </lockscope>
+      <locktype>
+       <write/>
+      </locktype>
+     </lockentry>
+    </supportedlock>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/home/2178279a-aec2-471f-832d-1f6df6203f2f.ics</href>
+  <propstat>
+   <prop>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <getcontentlength>415</getcontentlength>
+    <getcontenttype>text/calendar</getcontenttype>
+    <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
+    <resourcetype/>
+    <displayname>Incomplete, uncancelled</displayname>
+    <getetag>"509b0f0d8a3363379f9f5727f5dd74a0"</getetag>
+    <getcontentlanguage>en_NZ.UTF-8</getcontentlanguage>
+    <supportedlock>
+     <lockentry>
+      <lockscope>
+       <exclusive/>
+      </lockscope>
+      <locktype>
+       <write/>
+      </locktype>
+     </lockentry>
+    </supportedlock>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/home/917b9e47-b748-4550-a566-657fbe672447.ics</href>
+  <propstat>
+   <prop>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <getcontentlength>449</getcontentlength>
+    <getcontenttype>text/calendar</getcontenttype>
+    <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
+    <resourcetype/>
+    <displayname>50% Complete, uncancelled</displayname>
+    <getetag>"cb3d9dc3e8c157f53eba3ea0e1e0f146"</getetag>
+    <getcontentlanguage>en_NZ.UTF-8</getcontentlanguage>
+    <supportedlock>
+     <lockentry>
+      <lockscope>
+       <exclusive/>
+      </lockscope>
+      <locktype>
+       <write/>
+      </locktype>
+     </lockentry>
+    </supportedlock>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/home/0575d895-a006-4ed8-9be6-0d1b6b6b1f96.ics</href>
+  <propstat>
+   <prop>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <getcontentlength>961</getcontentlength>
+    <getcontenttype>text/calendar</getcontenttype>
+    <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
+    <resourcetype/>
+    <displayname>Due 7/8/7 16:30, completed</displayname>
+    <getetag>"00ad5eb1eb5507884710b0b66aa5d5c4"</getetag>
     <getcontentlanguage>en_NZ.UTF-8</getcontentlanguage>
     <supportedlock>
      <lockentry>
@@ -325,16 +299,16 @@
   </propstat>
  </response>
  <response>
-  <href>/caldav.php/user1/home/da81c0ee-7871-11db-c6d6-f6927c144649.ics</href>
+  <href>/caldav.php/user1/home/e70576e9-c1e0-431e-a507-0386fd82f223.ics</href>
   <propstat>
    <prop>
     <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <getcontentlength>302</getcontentlength>
+    <getcontentlength>1119</getcontentlength>
     <getcontenttype>text/calendar</getcontenttype>
     <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
     <resourcetype/>
-    <displayname>Morning Mgmt Mtg</displayname>
-    <getetag>"421abf7e4848d2fecbf64217ed205d4b"</getetag>
+    <displayname>Morning Meeting</displayname>
+    <getetag>"e8060931f30c1798ac58ffbe4ec0bffc"</getetag>
     <getcontentlanguage>en_NZ.UTF-8</getcontentlanguage>
     <supportedlock>
      <lockentry>
@@ -377,16 +351,16 @@
   </propstat>
  </response>
  <response>
-  <href>/caldav.php/user1/home/e70576e9-c1e0-431e-a507-0386fd82f223.ics</href>
+  <href>/caldav.php/user1/home/71e2ae82-7870-11db-c6d6-f6927c144649.ics</href>
   <propstat>
    <prop>
     <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <getcontentlength>1119</getcontentlength>
+    <getcontentlength>743</getcontentlength>
     <getcontenttype>text/calendar</getcontenttype>
     <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
     <resourcetype/>
-    <displayname>Morning Meeting</displayname>
-    <getetag>"e8060931f30c1798ac58ffbe4ec0bffc"</getetag>
+    <displayname>Beer O'Clock</displayname>
+    <getetag>"0d7a68984bf525342d22b8924a57e8e2"</getetag>
     <getcontentlanguage>en_NZ.UTF-8</getcontentlanguage>
     <supportedlock>
      <lockentry>
@@ -403,16 +377,42 @@
   </propstat>
  </response>
  <response>
-  <href>/caldav.php/user1/home/fbd57454-d966-4a14-8341-abe1edb1ae66.ics</href>
+  <href>/caldav.php/user1/home/da81c0ee-7871-11db-c6d6-f6927c144649.ics</href>
   <propstat>
    <prop>
     <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <getcontentlength>929</getcontentlength>
+    <getcontentlength>302</getcontentlength>
     <getcontenttype>text/calendar</getcontenttype>
     <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
     <resourcetype/>
-    <displayname>Tentative Event</displayname>
-    <getetag>"ac90acd649c25070b1a2a17fb31a105a"</getetag>
+    <displayname>Morning Mgmt Mtg</displayname>
+    <getetag>"421abf7e4848d2fecbf64217ed205d4b"</getetag>
+    <getcontentlanguage>en_NZ.UTF-8</getcontentlanguage>
+    <supportedlock>
+     <lockentry>
+      <lockscope>
+       <exclusive/>
+      </lockscope>
+      <locktype>
+       <write/>
+      </locktype>
+     </lockentry>
+    </supportedlock>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/home/AAA9318E-37D9-4319-8626-95ECD3D3B243.ics</href>
+  <propstat>
+   <prop>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <getcontentlength>981</getcontentlength>
+    <getcontenttype>text/calendar</getcontenttype>
+    <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
+    <resourcetype/>
+    <displayname>BBQ @ ML's</displayname>
+    <getetag>"5f050eca5480bbebbe9428222570913d"</getetag>
     <getcontentlanguage>en_NZ.UTF-8</getcontentlanguage>
     <supportedlock>
      <lockentry>
