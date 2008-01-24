@@ -1,0 +1,48 @@
+#
+# This file is used by update-rscds-database to set the correct
+# permissions for the application user.  In newer installations
+# the application user will probably be called app_davical (and
+# the administrative user will be called dba_davical) but in
+# older installations the application user was called 'general'
+# and the administrative user was probably 'postgres'.
+#
+# See the wiki topic 'Database/Users' for more discussion.
+#
+# This file includes lines like:
+#   GRANT SELECT,...
+# which define what gets granted to the following lines like:
+#   ON table1, table2, sequence1, function 3, view4, ...
+# no user-serviceable parts inside, all whitespace is ignored,
+# your mileage should not vary :-)
+#
+
+GRANT SELECT,INSERT,UPDATE,DELETE
+  ON collection
+  ON caldav_data
+  ON calendar_item
+  ON relationship
+  ON locks
+  ON property
+  ON freebusy_ticket
+  ON usr
+  ON usr_setting
+  ON roles
+  ON role_member
+  ON session
+  ON tmp_password
+
+GRANT SELECT,UPDATE
+  ON caldav_data_dav_id_seq
+  ON relationship_type_rt_id_seq
+  ON dav_id_seq
+  ON usr_user_no_seq
+  ON roles_role_no_seq
+  ON session_session_id_seq
+
+GRANT SELECT,INSERT
+  ON time_zone
+
+GRANT SELECT
+  ON supported_locales
+  ON awl_db_revision
+  ON relationship_type

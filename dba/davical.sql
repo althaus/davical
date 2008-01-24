@@ -1,6 +1,23 @@
 -- Really Simple CalDAV Store - Database Schema
 --
 
+-- Something that can look like a filesystem hierarchy where we store stuff
+CREATE TABLE collection (
+  user_no INT references usr(user_no) ON UPDATE CASCADE ON DELETE CASCADE DEFERRABLE,
+  parent_container TEXT,
+  dav_name TEXT,
+  dav_etag TEXT,
+  dav_displayname TEXT,
+  is_calendar BOOLEAN,
+  created TIMESTAMP WITH TIME ZONE,
+  modified TIMESTAMP WITH TIME ZONE,
+  public_events_only BOOLEAN NOT NULL DEFAULT FALSE,
+  publicly_readable BOOLEAN NOT NULL DEFAULT FALSE,
+
+  PRIMARY KEY ( user_no, dav_name )
+);
+
+
 -- The main event.  Where we store the things the calendar throws at us.
 CREATE TABLE caldav_data (
   user_no INT references usr(user_no) ON UPDATE CASCADE ON DELETE CASCADE DEFERRABLE,
@@ -11,11 +28,11 @@ CREATE TABLE caldav_data (
   caldav_data TEXT,
   caldav_type TEXT,
   logged_user INT references usr(user_no),
+  dav_id SERIAL UNIQUE,
 
   PRIMARY KEY ( user_no, dav_name )
 );
 
-GRANT SELECT,INSERT,UPDATE,DELETE ON caldav_data TO general;
 
 -- Not particularly needed, perhaps, except as a way to collect
 -- a bunch of valid iCalendar time zone specifications... :-)
@@ -24,7 +41,7 @@ CREATE TABLE time_zone (
   tz_locn TEXT,
   tz_spec TEXT
 );
-GRANT SELECT,INSERT ON time_zone TO general;
+
 
 -- The parsed calendar item.  Here we have pulled those events/todos/journals apart somewhat.
 CREATE TABLE calendar_item (
@@ -51,6 +68,7 @@ CREATE TABLE calendar_item (
   percent_complete NUMERIC(7,2),
   tz_id TEXT REFERENCES time_zone( tz_id ),
   status TEXT,
+  dav_id INT8 UNIQUE,
 
   -- Cascade updates / deletes from the caldav_data table
   CONSTRAINT caldav_exists FOREIGN KEY ( user_no, dav_name )
@@ -60,25 +78,6 @@ CREATE TABLE calendar_item (
   PRIMARY KEY ( user_no, dav_name )
 );
 
-GRANT SELECT,INSERT,UPDATE,DELETE ON calendar_item TO general;
-
-
--- Something that can look like a filesystem hierarchy where we store stuff
-CREATE TABLE collection (
-  user_no INT references usr(user_no) ON UPDATE CASCADE ON DELETE CASCADE DEFERRABLE,
-  parent_container TEXT,
-  dav_name TEXT,
-  dav_etag TEXT,
-  dav_displayname TEXT,
-  is_calendar BOOLEAN,
-  created TIMESTAMP WITH TIME ZONE,
-  modified TIMESTAMP WITH TIME ZONE,
-  public_events_only BOOLEAN NOT NULL DEFAULT FALSE,
-
-  PRIMARY KEY ( user_no, dav_name )
-);
-
-GRANT SELECT,INSERT,UPDATE,DELETE ON collection TO general;
 
 -- Each user can be related to each other user.  This mechanism can also
 -- be used to define groups of users, since some relationships are transitive.
@@ -90,8 +89,6 @@ CREATE TABLE relationship_type (
   rt_fromgroup BOOLEAN
 );
 
-GRANT SELECT,INSERT,UPDATE,DELETE ON relationship_type TO general;
-GRANT SELECT,UPDATE ON relationship_type_rt_id_seq TO general;
 
 CREATE TABLE relationship (
   from_user INT REFERENCES usr (user_no) ON UPDATE CASCADE,
@@ -100,8 +97,6 @@ CREATE TABLE relationship (
 
   PRIMARY KEY ( from_user, to_user, rt_id )
 );
-
-GRANT SELECT,INSERT,UPDATE,DELETE ON relationship TO general;
 
 
 CREATE TABLE locks (
@@ -114,9 +109,8 @@ CREATE TABLE locks (
   timeout INTERVAL,
   start TIMESTAMP DEFAULT current_timestamp
 );
-
 CREATE INDEX locks_dav_name_idx ON locks(dav_name);
-GRANT SELECT,INSERT,UPDATE,DELETE ON locks TO general;
+
 
 CREATE TABLE property (
   dav_name TEXT,
@@ -126,9 +120,8 @@ CREATE TABLE property (
   changed_by INT REFERENCES usr ( user_no ),
   PRIMARY KEY ( dav_name, property_name )
 );
-
 CREATE INDEX properties_dav_name_idx ON property(dav_name);
-GRANT SELECT,INSERT,UPDATE,DELETE ON property TO general;
+
 
 CREATE TABLE freebusy_ticket (
   ticket_id TEXT NOT NULL PRIMARY KEY,
@@ -136,6 +129,43 @@ CREATE TABLE freebusy_ticket (
   created timestamp with time zone DEFAULT current_timestamp NOT NULL
 );
 
-GRANT INSERT,SELECT,UPDATE,DELETE ON TABLE freebusy_ticket TO general;
 
-SELECT new_db_revision(1,1,11, 'November' );
+CREATE or REPLACE FUNCTION sync_dav_id ( ) RETURNS TRIGGER AS '
+  DECLARE
+  BEGIN
+
+    IF TG_OP = ''DELETE'' THEN
+      -- Just let the ON DELETE CASCADE handle this case
+      RETURN OLD;
+    END IF;
+
+    IF NEW.dav_id IS NULL THEN
+      NEW.dav_id = nextval(''caldav_data_dav_id_seq'');
+    END IF;
+
+    IF TG_OP = ''UPDATE'' THEN
+      IF OLD.dav_id = NEW.dav_id THEN
+        -- Nothing to do
+        RETURN NEW;
+      END IF;
+    END IF;
+
+    IF TG_RELNAME = ''caldav_data'' THEN
+      UPDATE calendar_item SET dav_id = NEW.dav_id WHERE user_no = NEW.user_no AND dav_name = NEW.dav_name;
+    ELSE
+      UPDATE caldav_data SET dav_id = NEW.dav_id WHERE user_no = NEW.user_no AND dav_name = NEW.dav_name;
+    END IF;
+
+    RETURN NEW;
+
+  END
+' LANGUAGE 'plpgsql';
+
+CREATE TRIGGER caldav_data_sync_dav_id AFTER INSERT OR UPDATE ON caldav_data
+    FOR EACH ROW EXECUTE PROCEDURE sync_dav_id();
+
+CREATE TRIGGER calendar_item_sync_dav_id AFTER INSERT OR UPDATE ON calendar_item
+    FOR EACH ROW EXECUTE PROCEDURE sync_dav_id();
+
+
+SELECT new_db_revision(1,1,12, 'December' );
