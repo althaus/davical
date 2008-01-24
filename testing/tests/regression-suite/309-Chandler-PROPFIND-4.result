@@ -1,7 +1,7 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, access-control, calendar-access
-ETag: "307a9592c8e442356bbeb566b87f3de1"
+ETag: "bce9e0e26a74b6340ceb6385f008c3f7"
 Content-Length: 4233
 Content-Type: text/xml; charset="utf-8"
 
@@ -22,23 +22,12 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
  </response>
  <response>
-  <href>/caldav.php/user1/home/0575d895-a006-4ed8-9be6-0d1b6b6b1f96.ics</href>
+  <href>/caldav.php/user1/home/3F4CF6227300FD062D9EF3CDFB30D32D-0.ics</href>
   <propstat>
    <prop>
     <resourcetype/>
-    <displayname>Due 7/8/7 16:30, completed</displayname>
-    <getetag>"00ad5eb1eb5507884710b0b66aa5d5c4"</getetag>
-   </prop>
-   <status>HTTP/1.1 200 OK</status>
-  </propstat>
- </response>
- <response>
-  <href>/caldav.php/user1/home/1906b3ca-4890-468a-9b58-1de74bf2c716.ics</href>
-  <propstat>
-   <prop>
-    <resourcetype/>
-    <displayname>Private Event</displayname>
-    <getetag>"5def8ae2b20893a1c7f4dbaeb008f2f1"</getetag>
+    <displayname>Lunch with David</displayname>
+    <getetag>"2c32a2f8aba853654eb17fe037a4db4d"</getetag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -55,45 +44,12 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
  </response>
  <response>
-  <href>/caldav.php/user1/home/2178279a-aec2-471f-832d-1f6df6203f2f.ics</href>
-  <propstat>
-   <prop>
-    <resourcetype/>
-    <displayname>Incomplete, uncancelled</displayname>
-    <getetag>"509b0f0d8a3363379f9f5727f5dd74a0"</getetag>
-   </prop>
-   <status>HTTP/1.1 200 OK</status>
-  </propstat>
- </response>
- <response>
-  <href>/caldav.php/user1/home/3F4CF6227300FD062D9EF3CDFB30D32D-0.ics</href>
-  <propstat>
-   <prop>
-    <resourcetype/>
-    <displayname>Lunch with David</displayname>
-    <getetag>"2c32a2f8aba853654eb17fe037a4db4d"</getetag>
-   </prop>
-   <status>HTTP/1.1 200 OK</status>
-  </propstat>
- </response>
- <response>
   <href>/caldav.php/user1/home/4aaf8f37-f232-4c8e-a72e-e171d4c4fe54.ics</href>
   <propstat>
    <prop>
     <resourcetype/>
     <displayname>Weekly Project Meeting</displayname>
     <getetag>"a1c6404d61190f9574e2bfd69383f144"</getetag>
-   </prop>
-   <status>HTTP/1.1 200 OK</status>
-  </propstat>
- </response>
- <response>
-  <href>/caldav.php/user1/home/917b9e47-b748-4550-a566-657fbe672447.ics</href>
-  <propstat>
-   <prop>
-    <resourcetype/>
-    <displayname>50% Complete, uncancelled</displayname>
-    <getetag>"cb3d9dc3e8c157f53eba3ea0e1e0f146"</getetag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -110,23 +66,67 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
  </response>
  <response>
+  <href>/caldav.php/user1/home/1906b3ca-4890-468a-9b58-1de74bf2c716.ics</href>
+  <propstat>
+   <prop>
+    <resourcetype/>
+    <displayname>Private Event</displayname>
+    <getetag>"5def8ae2b20893a1c7f4dbaeb008f2f1"</getetag>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/home/fbd57454-d966-4a14-8341-abe1edb1ae66.ics</href>
+  <propstat>
+   <prop>
+    <resourcetype/>
+    <displayname>Tentative Event</displayname>
+    <getetag>"ac90acd649c25070b1a2a17fb31a105a"</getetag>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/home/2178279a-aec2-471f-832d-1f6df6203f2f.ics</href>
+  <propstat>
+   <prop>
+    <resourcetype/>
+    <displayname>Incomplete, uncancelled</displayname>
+    <getetag>"509b0f0d8a3363379f9f5727f5dd74a0"</getetag>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/home/917b9e47-b748-4550-a566-657fbe672447.ics</href>
+  <propstat>
+   <prop>
+    <resourcetype/>
+    <displayname>50% Complete, uncancelled</displayname>
+    <getetag>"cb3d9dc3e8c157f53eba3ea0e1e0f146"</getetag>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/home/0575d895-a006-4ed8-9be6-0d1b6b6b1f96.ics</href>
+  <propstat>
+   <prop>
+    <resourcetype/>
+    <displayname>Due 7/8/7 16:30, completed</displayname>
+    <getetag>"00ad5eb1eb5507884710b0b66aa5d5c4"</getetag>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
   <href>/caldav.php/user1/home/b1679f77-673d-4f46-b3eb-2420e1bba301.ics</href>
   <propstat>
    <prop>
     <resourcetype/>
     <displayname>A Cancelled Task, with a start and due date</displayname>
     <getetag>"a2990674708634a311bb98a59865ca50"</getetag>
-   </prop>
-   <status>HTTP/1.1 200 OK</status>
-  </propstat>
- </response>
- <response>
-  <href>/caldav.php/user1/home/e6eb5bc9-f7f9-4a0a-94e8-8e90eefc7d08.ics</href>
-  <propstat>
-   <prop>
-    <resourcetype/>
-    <displayname>Release 0.9.3</displayname>
-    <getetag>"8f581a053df6d833254756dfd7553d37"</getetag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -143,12 +143,12 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
  </response>
  <response>
-  <href>/caldav.php/user1/home/fbd57454-d966-4a14-8341-abe1edb1ae66.ics</href>
+  <href>/caldav.php/user1/home/e6eb5bc9-f7f9-4a0a-94e8-8e90eefc7d08.ics</href>
   <propstat>
    <prop>
     <resourcetype/>
-    <displayname>Tentative Event</displayname>
-    <getetag>"ac90acd649c25070b1a2a17fb31a105a"</getetag>
+    <displayname>Release 0.9.3</displayname>
+    <getetag>"8f581a053df6d833254756dfd7553d37"</getetag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
