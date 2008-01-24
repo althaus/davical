@@ -70,8 +70,6 @@ TEST="Load-Sample-Data"
 psql -q -f "../dba/sample-data.sql" "${DBNAME}" >"${RESULTS}/${TEST}" 2>&1
 check_result "${TEST}"
 
-# psql -q -f "../dba/patches/1.1.12.sql" "${DBNAME}"
-
 TSTART="`date +%s`"
 
 for T in ${REGRESSION}/*.test ; do
