@@ -84,3 +84,10 @@
 // $c->schema_patch
 // $c->schema_version
 
+/**
+* This property is used to enforce regular ordering of query results so
+* that the regression test output is deterministically ordered. In
+* real life this is not important, and it is a performance hit, so it
+* should not usually be enabled anywhere else.
+*/
+// $c->strict_result_ordering = boolean;
