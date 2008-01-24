@@ -1,9 +1,9 @@
 <?php
 require_once("../inc/always.php");
 dbg_error_log( "freebusy", " User agent: %s", ((isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : "Unfortunately Mulberry and Chandler don't send a 'User-agent' header with their requests :-(")) );
+dbg_log_array( "headers", '_SERVER', $_SERVER, true );
 require_once("HTTPAuthSession.php");
 $session = new HTTPAuthSession();
-dbg_log_array( "headers", '_SERVER', $_SERVER, true );
 
 require_once("CalDAVRequest.php");
 
