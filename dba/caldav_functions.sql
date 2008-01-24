@@ -271,6 +271,10 @@ BEGIN
           tmp_txt := tmp_txt || substring(tmp_confers,counter,1);
         END IF;
       END LOOP;
+      IF tmp_txt = ''FBRWU'' THEN
+        -- Shrink that mask back down
+        tmp_txt := ''A'';
+      END IF;
       RETURN dbg || tmp_txt;
     END IF;
   END IF;
