@@ -142,7 +142,8 @@ function UpdateUserFromExternal( &$usr ) {
 function AuthExternalAWL( $username, $password ) {
   global $c;
 
-  $authconn = pg_Connect($c->authenticate_hook['config']['connection']);
+  $persistent = isset($c->authenticate_hook['config']['use_persistent']) && $c->authenticate_hook['config']['use_persistent'];
+  $authconn = ( $persistent ? pg_pConnect($c->authenticate_hook['config']['connection']) : pg_Connect($c->authenticate_hook['config']['connection']));
   if ( ! $authconn ) {
     echo <<<EOERRMSG
   <html><head><title>Database Connection Failure</title></head><body>
