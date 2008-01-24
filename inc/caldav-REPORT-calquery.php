@@ -230,7 +230,15 @@ function BuildSqlFilter( $filter ) {
 
 $responses = array();
 
-$where = " WHERE caldav_data.dav_name ~ ".qpg("^".$request->path)." ";
+/**
+* FIXME: Once we are past DB version 1.2.1 we can change this query more radically.  The best performance to
+* date seems to be:
+*   SELECT caldav_data.*,calendar_item.* FROM collection JOIN calendar_item USING (collection_id,user_no)
+*         JOIN caldav_data USING (dav_id) WHERE collection.dav_name = '/user1/home/'
+*              AND caldav_data.caldav_type = 'VEVENT' ORDER BY caldav_data.user_no, caldav_data.dav_name;
+*/
+
+$where = " WHERE caldav_data.user_no = $request->user_no AND caldav_data.dav_name ~ ".qpg("^".$request->path)." ";
 if ( is_array($qry_filters) ) {
   dbg_log_array( "calquery", "qry_filters", $qry_filters, true );
   $where .= BuildSqlFilter( $qry_filters );
@@ -243,7 +251,9 @@ if ( isset($c->hide_TODO) && $c->hide_TODO && ! $request->AllowedTo('all') ) {
   $where .= "AND caldav_data.caldav_type NOT IN ('VTODO') ";
 }
 
-$qry = new PgQuery( "SELECT * FROM caldav_data INNER JOIN calendar_item USING(user_no, dav_name)". $where . " ORDER BY caldav_data.user_no, caldav_data.dav_name" );
+$sql = "SELECT * FROM caldav_data INNER JOIN calendar_item USING(dav_id,user_no,dav_name)". $where;
+if ( isset($c->strict_result_ordering) && $c->strict_result_ordering ) $sql .= " ORDER BY dav_id";
+$qry = new PgQuery( $sql );
 if ( $qry->Exec("calquery",__LINE__,__FILE__) && $qry->rows > 0 ) {
   while( $calendar_object = $qry->Fetch() ) {
     if ( !$need_post_filter || apply_filter( $qry_filters, $calendar_object ) ) {

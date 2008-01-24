@@ -1,58 +1,12 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, access-control, calendar-access
-ETag: "4a177807973966b4873ffa2f0080b4a1"
+ETag: "532e1a9f851cc9b778320e16e9936baa"
 Content-Length: 4224
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
 <multistatus xmlns="DAV:">
- <response>
-  <href>/calendar/caldav.php/user1/home/0575d895-a006-4ed8-9be6-0d1b6b6b1f96.ics</href>
-  <propstat>
-   <prop>
-    <getetag>"00ad5eb1eb5507884710b0b66aa5d5c4"</getetag>
-    <calendar-data xmlns="urn:ietf:params:xml:ns:caldav">BEGIN:VCALENDAR
-PRODID:-//Mozilla Calendar//NONSGML Sunbird//EN
-VERSION:2.0
-BEGIN:VTIMEZONE
-TZID:/mozilla.org/20070129_1/Antarctica/McMurdo
-X-LIC-LOCATION:Antarctica/McMurdo
-BEGIN:STANDARD
-TZOFFSETFROM:+1300
-TZOFFSETTO:+1200
-TZNAME:NZST
-DTSTART:19700315T030000
-RRULE:FREQ=YEARLY;INTERVAL=1;BYDAY=3SU;BYMONTH=3
-END:STANDARD
-BEGIN:DAYLIGHT
-TZOFFSETFROM:+1200
-TZOFFSETTO:+1300
-TZNAME:NZDT
-DTSTART:19701004T020000
-RRULE:FREQ=YEARLY;INTERVAL=1;BYDAY=1SU;BYMONTH=10
-END:DAYLIGHT
-END:VTIMEZONE
-BEGIN:VTODO
-CREATED:20070805T201647Z
-LAST-MODIFIED:20070805T201834Z
-DTSTAMP:20070805T201647Z
-UID:0575d895-a006-4ed8-9be6-0d1b6b6b1f96
-SUMMARY:Due 7/8/7 16:30\, completed
-STATUS:COMPLETED
-DUE;TZID=/mozilla.org/20070129_1/Antarctica/McMurdo:20070807T163000
-COMPLETED:20070805T201737Z
-PERCENT-COMPLETE:100
-X-MOZ-LOCATIONPATH:0575d895-a006-4ed8-9be6-0d1b6b6b1f96.ics
-DESCRIPTION:Due on 7/8/7 at 4:30pm\, but completed alread on 6/8/7
-CATEGORIES:Projects
-END:VTODO
-END:VCALENDAR
-</calendar-data>
-   </prop>
-   <status>HTTP/1.1 200 OK</status>
-  </propstat>
- </response>
  <response>
   <href>/calendar/caldav.php/user1/home/2178279a-aec2-471f-832d-1f6df6203f2f.ics</href>
   <propstat>
@@ -96,6 +50,52 @@ PERCENT-COMPLETE:50
 X-MOZ-LOCATIONPATH:917b9e47-b748-4550-a566-657fbe672447.ics
 DESCRIPTION:This task is in progress (50% complete) and has not been 
  cancelled.
+END:VTODO
+END:VCALENDAR
+</calendar-data>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/calendar/caldav.php/user1/home/0575d895-a006-4ed8-9be6-0d1b6b6b1f96.ics</href>
+  <propstat>
+   <prop>
+    <getetag>"00ad5eb1eb5507884710b0b66aa5d5c4"</getetag>
+    <calendar-data xmlns="urn:ietf:params:xml:ns:caldav">BEGIN:VCALENDAR
+PRODID:-//Mozilla Calendar//NONSGML Sunbird//EN
+VERSION:2.0
+BEGIN:VTIMEZONE
+TZID:/mozilla.org/20070129_1/Antarctica/McMurdo
+X-LIC-LOCATION:Antarctica/McMurdo
+BEGIN:STANDARD
+TZOFFSETFROM:+1300
+TZOFFSETTO:+1200
+TZNAME:NZST
+DTSTART:19700315T030000
+RRULE:FREQ=YEARLY;INTERVAL=1;BYDAY=3SU;BYMONTH=3
+END:STANDARD
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+1200
+TZOFFSETTO:+1300
+TZNAME:NZDT
+DTSTART:19701004T020000
+RRULE:FREQ=YEARLY;INTERVAL=1;BYDAY=1SU;BYMONTH=10
+END:DAYLIGHT
+END:VTIMEZONE
+BEGIN:VTODO
+CREATED:20070805T201647Z
+LAST-MODIFIED:20070805T201834Z
+DTSTAMP:20070805T201647Z
+UID:0575d895-a006-4ed8-9be6-0d1b6b6b1f96
+SUMMARY:Due 7/8/7 16:30\, completed
+STATUS:COMPLETED
+DUE;TZID=/mozilla.org/20070129_1/Antarctica/McMurdo:20070807T163000
+COMPLETED:20070805T201737Z
+PERCENT-COMPLETE:100
+X-MOZ-LOCATIONPATH:0575d895-a006-4ed8-9be6-0d1b6b6b1f96.ics
+DESCRIPTION:Due on 7/8/7 at 4:30pm\, but completed alread on 6/8/7
+CATEGORIES:Projects
 END:VTODO
 END:VCALENDAR
 </calendar-data>
