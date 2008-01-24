@@ -33,7 +33,8 @@ $busy_tentative = array();
 $sql = "SELECT caldav_data.caldav_data, calendar_item.rrule, calendar_item.transp, calendar_item.status, ";
 $sql .= "to_char(calendar_item.dtstart at time zone 'GMT',".iCalendar::SqlDateFormat().") AS start, ";
 $sql .= "to_char(calendar_item.dtend at time zone 'GMT',".iCalendar::SqlDateFormat().") AS finish ";
-$sql .= "FROM caldav_data INNER JOIN calendar_item USING(user_no, dav_name)".$where." ORDER BY dtstart, dtend";
+$sql .= "FROM caldav_data INNER JOIN calendar_item USING(dav_id,user_no,dav_name)".$where;
+if ( isset($c->strict_result_ordering) && $c->strict_result_ordering ) $sql .= " ORDER BY dav_id";
 $qry = new PgQuery( $sql, "^".$request->path.$request->DepthRegexTail() );
 if ( $qry->Exec("REPORT",__LINE__,__FILE__) && $qry->rows > 0 ) {
   while( $calendar_object = $qry->Fetch() ) {
