@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 #
-# Update the RSCDS database by repeatedly applying patches to it
+# Update the DAViCal database by repeatedly applying patches to it
 # in the correct order.
 #
 
@@ -12,11 +12,12 @@ use Getopt::Long qw(:config permute);  # allow mixed args.
 
 # Options variables
 my $debug  = 0;
-my $dbname = "rscds";
+my $dbname = "davical";
 my $dbport = 5432;
 my $dbuser = "";
 my $dbpass = "";
 my $dbhost = "";
+my $appuser = "general";
 my $helpmeplease = 0;
 
 my $dbadir = $0;
@@ -30,6 +31,7 @@ GetOptions ('debug!'    => \$debug,
             'dbpass=s'  => \$dbpass,
             'dbport=s'  => \$dbport,
             'dbhost=s'  => \$dbhost,
+            'appuser=s' => \$appuser,
             'help'      => \$helpmeplease  );
 
 show_usage() if ( $helpmeplease );
@@ -93,6 +95,10 @@ print "Supported locales updated.\n";
 # Ensure the functions are up to date
 apply_sql_file( $dbadir, "caldav_functions.sql" );
 print "CalDAV functions updated.\n";
+
+# Ensure the permissions are up to date
+apply_permissions( $dbadir, "appuser_permissions.txt" );
+print "Database permissions updated.\n";
 
 # The End!
 exit 0;
@@ -198,6 +204,10 @@ sub apply_patch {
 
 ############################################################
 # Apply SQL File
+#  Note that this stuffs the password into an environment
+#  variable, which isn't ideal.  If you use a .pgpass you
+#  can bypass that issue, but you still need it on the command
+#  line for this program until I get a patch from someone.
 ############################################################
 sub apply_sql_file {
 
@@ -218,6 +228,48 @@ sub apply_sql_file {
 }
 
 
+
+############################################################
+# Apply database permissions from file
+############################################################
+sub apply_permissions {
+
+  my $sqldir  = shift;
+  my $permsfile = shift;
+
+  open PERMS, '<', $sqldir."/".$permsfile;
+  my $dbh = DBI->connect($dsn, $dbuser, $dbpass, { AutoCommit => 1 } ) or die "Can't connect to database $dbname";
+
+  my $sql;
+  my $current_grant;
+
+  while( <PERMS> ) {
+    next if ( /^\s*(#|--)/ );
+
+    /^\s*GRANT\s+(\S.*)\s*$/i && do {
+      $current_grant = $1;
+    };
+
+    /^\s*ON\s+(\S.*)\s*$/i && do {
+      defined($current_grant) or die "No GRANT before ON in $permsfile\n";
+      my $doohickeys = $1;
+
+      $sql = sprintf( "REVOKE ALL ON %s FROM %s, general", $doohickeys, $appuser );
+      print $sql, "\n" if ( $debug );
+      $dbh->do($sql);
+
+      $sql = sprintf( "GRANT %s on %s to %s", $current_grant, $doohickeys, $appuser );
+      print $sql, "\n" if ( $debug );
+      $dbh->do($sql);
+    };
+
+  }
+  close(PERMS);
+  $dbh->disconnect;
+}
+
+
+
 ############################################################
 # Tell the nice user how we do things.  Short and sweet.
 ############################################################
@@ -232,9 +284,16 @@ Options are:
     --dbuser      Connect to the database as this user.
     --dbport      Connect to the database on this port.
     --dbhost      Connect to the database on this host.
+    --appuser     The username which the application uses for it's database
+                  connection.
 
-The program will apply patches to the database which have
-not yet been applied.
+The program will apply any patches to the database which have
+not yet been applied, run any desired data patch scripts and set
+the correct minimum permissions for the web application user.
+
+Rather than providing a password on the command-line it is recommended
+that you use a .pgpass file in your home directory to hold the database
+password.  This file must be mode 600 to work.
 
 OPTHELP
     exit 0;
