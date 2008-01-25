@@ -43,7 +43,7 @@ create_db_user() {
 }
 
 create_plpgsql_language() {
-  if ! psql -qAt template1 -c "SELECT lanname FROM pg_language;" | grep "^plpgsql$" >/dev/null; then
+  if ! psql -U ${AWL_DBAUSER} -qAt template1 -c "SELECT lanname FROM pg_language;" | grep "^plpgsql$" >/dev/null; then
     createlang plpgsql "${DBNAME}"
   fi
 }
@@ -61,12 +61,12 @@ create_plpgsql_language
 
 #
 # Load the AWL base tables and schema management tables
-psql -q -f "${AWLDIR}/dba/awl-tables.sql" "${DBNAME}" 2>&1 | egrep -v "(^CREATE |^GRANT|^BEGIN|^COMMIT| NOTICE: )"
-psql -q -f "${AWLDIR}/dba/schema-management.sql" "${DBNAME}" 2>&1 | egrep -v "(^CREATE |^GRANT|^BEGIN|^COMMIT| NOTICE: )"
+psql -q -U "${AWL_DBAUSER}" -f "${AWLDIR}/dba/awl-tables.sql" "${DBNAME}" 2>&1 | egrep -v "(^CREATE |^GRANT|^BEGIN|^COMMIT| NOTICE: )"
+psql -q -U "${AWL_DBAUSER}" -f "${AWLDIR}/dba/schema-management.sql" "${DBNAME}" 2>&1 | egrep -v "(^CREATE |^GRANT|^BEGIN|^COMMIT| NOTICE: )"
 
 #
 # Load the DAViCal tables
-psql -q -f "${DBADIR}/davical.sql" "${DBNAME}" 2>&1 | egrep -v "(^CREATE |^GRANT|^BEGIN|^COMMIT| NOTICE: )"
+psql -q -U "${AWL_DBAUSER}" -f "${DBADIR}/davical.sql" "${DBNAME}" 2>&1 | egrep -v "(^CREATE |^GRANT|^BEGIN|^COMMIT| NOTICE: )"
 
 #
 # Set permissions for the application DB user on the database
@@ -74,7 +74,7 @@ ${DBADIR}/update-rscds-database --dbname "${DBNAME}" --appuser "${AWL_APPUSER}" 
 
 #
 # Load the required base data
-psql -q -f "${DBADIR}/base-data.sql" "${DBNAME}"
+psql -q -U "${AWL_DBAUSER}" -f "${DBADIR}/base-data.sql" "${DBNAME}"
 
 #
 # We can override the admin password generation for regression testing predictability
