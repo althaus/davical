@@ -141,36 +141,41 @@ function import_collection( $ics_content, $user_no, $path, $caldav_context ) {
   $state = "";
   $tzid = 'unknown';
   foreach( $lines AS $lno => $line ) {
-    dbg_error_log( "PUT", "CalendarLine[%04d] - %s: %s", $lno, $state, $line );
     if ( $state == "" ) {
-      if ( preg_match( '/^BEGIN:(VEVENT|VTIMEZONE|VTODO)$/', $line, $matches ) ) {
+      if ( preg_match( '/^BEGIN:(VEVENT|VTIMEZONE|VTODO|VJOURNAL)$/', $line, $matches ) ) {
         $current .= $line."\n";
         $state = $matches[1];
+        dbg_error_log( "PUT", "CalendarLine[%04d] - %s: %s", $lno, $state, $line );
       }
     }
     else {
       $current .= $line."\n";
       if ( $line == "END:$state" ) {
         switch ( $state ) {
-          case 'VEVENT':
-            $events[] = array( 'data' => $current, 'tzid' => $tzid );
-            break;
-          case 'VTODO':
-            $events[] = array( 'data' => $current, 'tzid' => $tzid );
-            break;
           case 'VTIMEZONE':
             $timezones[$tzid] = $current;
+            dbg_error_log( "PUT", " Ended VTIMEZONE for TZID '%s' ", $tzid );
+            break;
+          case 'VEVENT':
+          case 'VTODO':
+          case 'VJOURNAL':
+          default:
+            $events[] = array( 'data' => $current, 'tzid' => $tzid );
+            dbg_error_log( "PUT", " Ended %s with TZID '%s' ", $state, $tzid );
             break;
         }
         $state = "";
         $current = "";
         $tzid = 'unknown';
       }
-      else if ( preg_match( '/TZID=([^:]+)(:|$)/', $line, $matches ) ) {
+      else if ( preg_match( '/TZID[:=]([^:]+)(:|$)/', $line, $matches ) ) {
         $tzid = $matches[1];
+        dbg_error_log( "PUT", " Found TZID of '%s' in '%s'", $tzid, $line );
       }
     }
   }
+  dbg_error_log( "PUT", " Finished input after $lno lines" );
+
   $qry = new PgQuery("BEGIN; DELETE FROM calendar_item WHERE user_no=? AND dav_name ~ ?; DELETE FROM caldav_data WHERE user_no=? AND dav_name ~ ?;", $user_no, $path.'[^/]+$', $user_no, $path.'[^/]+$');
   if ( !$qry->Exec("PUT") ) rollback_on_error( $caldav_context, $user_no, $path );
 
