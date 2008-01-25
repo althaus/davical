@@ -71,6 +71,7 @@ psql -q -f "../dba/sample-data.sql" "${DBNAME}" >"${RESULTS}/${TEST}" 2>&1
 check_result "${TEST}"
 
 TSTART="`date +%s`"
+TCOUNT=0
 
 for T in ${REGRESSION}/*.test ; do
   TEST="`basename ${T} .test`"
@@ -83,7 +84,8 @@ for T in ${REGRESSION}/*.test ; do
 
   check_result "${TEST}"
 
+  TCOUNT=$(( ${TCOUNT} + 1 ))
 done
 TFINISH="`date +%s`"
 
-echo "Regression test run took $(( ${TFINISH} - ${TSTART} )) seconds."
+echo "Regression test run took $(( ${TFINISH} - ${TSTART} )) seconds for ${TCOUNT} tests."
