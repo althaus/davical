@@ -30,6 +30,10 @@ GRANT SELECT,INSERT,UPDATE,DELETE
   ON role_member
   ON session
   ON tmp_password
+  ON dav_resource
+  ON group_member
+  ON principal
+  ON privilege
 
 GRANT SELECT,UPDATE
   ON caldav_data_dav_id_seq
@@ -38,6 +42,9 @@ GRANT SELECT,UPDATE
   ON usr_user_no_seq
   ON roles_role_no_seq
   ON session_session_id_seq
+  ON dav_resource_type_resource_type_id_seq
+  ON principal_principal_id_seq
+  ON principal_type_principal_type_id_seq
 
 GRANT SELECT,INSERT
   ON time_zone
@@ -46,3 +53,6 @@ GRANT SELECT
   ON supported_locales
   ON awl_db_revision
   ON relationship_type
+  ON dav_resource_type
+  ON principal_type
+
