@@ -73,6 +73,7 @@ check_result "${TEST}"
 # psql -q -f "../dba/patches/1.1.12.sql" "${DBNAME}"
 
 TSTART="`date +%s`"
+TCOUNT=0
 
 for T in ${REGRESSION}/*.test ; do
   TEST="`basename ${T} .test`"
@@ -85,7 +86,8 @@ for T in ${REGRESSION}/*.test ; do
 
   check_result "${TEST}"
 
+  TCOUNT=$(( ${TCOUNT} + 1 ))
 done
 TFINISH="`date +%s`"
 
-echo "Regression test run took $(( ${TFINISH} - ${TSTART} )) seconds."
+echo "Regression test run took $(( ${TFINISH} - ${TSTART} )) seconds for ${TCOUNT} tests."
