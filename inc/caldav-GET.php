@@ -23,10 +23,11 @@ if ( $request->IsCollection() ) {
   * The CalDAV specification does not define GET on a collection, but typically this is
   * used as a .ics download for the whole collection, which is what we do also.
   */
-  $qry = new PgQuery( "SELECT caldav_data, class, caldav_type, calendar_item.user_no FROM caldav_data LEFT JOIN calendar_item USING ( dav_name ) WHERE caldav_data.user_no = ? AND caldav_data.dav_name ~ ? $privacy_clause ORDER BY caldav_data.user_no, caldav_data.dav_name, caldav_data.created;", $request->user_no, $request->path.'[^/]+$');
+  $order_clause = ( isset($c->strict_result_ordering) && $c->strict_result_ordering ? " ORDER BY dav_id" : "");
+  $qry = new PgQuery( "SELECT caldav_data, class, caldav_type, calendar_item.user_no FROM caldav_data INNER JOIN calendar_item USING ( dav_id ) WHERE caldav_data.user_no = ? AND caldav_data.dav_name ~ ? $privacy_clause $order_clause", $request->user_no, $request->path.'[^/]+$');
 }
 else {
-  $qry = new PgQuery( "SELECT caldav_data, caldav_data.dav_etag, class, caldav_type, calendar_item.user_no FROM caldav_data LEFT JOIN calendar_item USING ( dav_name ) WHERE caldav_data.user_no = ? AND caldav_data.dav_name = ?  $privacy_clause;", $request->user_no, $request->path);
+  $qry = new PgQuery( "SELECT caldav_data, caldav_data.dav_etag, class, caldav_type, calendar_item.user_no FROM caldav_data INNER JOIN calendar_item USING ( dav_id ) WHERE caldav_data.user_no = ? AND caldav_data.dav_name = ?  $privacy_clause;", $request->user_no, $request->path);
 }
 dbg_error_log("get", "%s", $qry->querystring );
 if ( $qry->Exec("GET") && $qry->rows == 1 ) {
