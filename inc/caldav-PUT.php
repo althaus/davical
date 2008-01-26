@@ -23,7 +23,7 @@ if ( ! ini_get('open_basedir') && (isset($c->dbg['ALL']) || $c->dbg['put']) ) {
 }
 
 include_once('caldav-PUT-functions.php');
-$is_collection = controlRequestContainer($request->username,$request->user_no, $request->path,true);
+$is_collection = controlRequestContainer($request->username,$request->user_no, $request->path, true);
 
 $lock_opener = $request->FailIfLocked();
 
