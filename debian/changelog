@@ -4,8 +4,13 @@ rscds (0.9.4) unstable; urgency=low
   * Further performance improvements from bypassing get_permissions()
   * Other performance improvements from refactoring queries
   * Fix to .ics import to handle timezones correctly.
+  * Work around issues introduced when open_basedir is enabled.
+  * More rscds => davical renaming.
+  * Create users for the database for DBA and application use during
+    installation.
+  * Work around differences in authentication when PHP is used with FastCGI
 
- -- Andrew McMillan <debian@mcmillan.net.nz>  Sat, 26 Jan 2008 16:12:30 +1300
+ -- Andrew McMillan <debian@mcmillan.net.nz>  Sat, 26 Jan 2008 16:24:15 +1300
 
 rscds (0.9.3) unstable; urgency=low
 
