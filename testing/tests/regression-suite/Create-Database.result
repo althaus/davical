@@ -10,8 +10,6 @@ CREATE DATABASE
 (1 row)
 
 Supported locales updated.
-DBD::Pg::db do failed: ERROR:  relation "dav_id_seq" does not exist
-DBD::Pg::db do failed: ERROR:  relation "dav_id_seq" does not exist
 CalDAV functions updated.
 Database permissions updated.
  setval 
