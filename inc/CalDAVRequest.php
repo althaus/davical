@@ -55,6 +55,16 @@ class CalDAVRequest
   var $user_agent;
 
   /**
+  * The ID of the collection containing this path, or of this path if it is a collection
+  */
+  var $collection_id;
+
+  /**
+  * The path corresponding to the collection_id
+  */
+  var $collection_path;
+
+  /**
   * Create a new CalDAVRequest object.
   */
   function CalDAVRequest( $options = array() ) {
@@ -178,18 +188,21 @@ class CalDAVRequest
         header( "Content-Location: $this->path" );
         $this->_is_collection = true;
         $this->collection_id = $row->collection_id;
+        $this->collection_path = $this->path;
       }
     }
 
     /**
     * Get the ID of the collection we are referring to
     */
-    if ( !isset($this->collection_id) && preg_match( '#^(/.+/.+/)[^/]*$#', $this->path ) ) {
-      $qry = new PgQuery( "SELECT collection_id FROM collection WHERE user_no = ? AND dav_name = ?;", $this->user_no, $this->path );
+    if ( !isset($this->collection_id) && preg_match( '#^(/.+/.+/)[^/]*$#', $this->path, $matches ) ) {
+      $qry = new PgQuery( "SELECT collection_id FROM collection WHERE user_no = ? AND dav_name = ?;", $this->user_no, $matches[1] );
       if ( $qry->Exec('caldav') && $qry->rows == 1 && ($row = $qry->Fetch()) ) {
         $this->collection_id = $row->collection_id;
+        $this->collection_path = $matches[1];
       }
     }
+    dbg_error_log( "caldav", " Collection '%s' is %d", $this->collection_path, $this->collection_id );
 
 
     /**
