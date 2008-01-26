@@ -38,7 +38,7 @@ db_users() {
 
 create_db_user() {
   if ! db_users | grep "^${1}$" >/dev/null ; then
-    createuser --no-superuser --no-createdb --no-createrole "${1}"
+    psql -qAt template1 -c "CREATE USER ${1} NOCREATEDB NOCREATEROLE;"
   fi
 }
 
