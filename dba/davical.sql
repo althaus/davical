@@ -1,6 +1,8 @@
 -- Really Simple CalDAV Store - Database Schema
 --
 
+CREATE SEQUENCE dav_id_seq;
+
 -- Something that can look like a filesystem hierarchy where we store stuff
 CREATE TABLE collection (
   user_no INT references usr(user_no) ON UPDATE CASCADE ON DELETE CASCADE DEFERRABLE,
@@ -13,8 +15,8 @@ CREATE TABLE collection (
   modified TIMESTAMP WITH TIME ZONE,
   public_events_only BOOLEAN NOT NULL DEFAULT FALSE,
   publicly_readable BOOLEAN NOT NULL DEFAULT FALSE,
-
-  PRIMARY KEY ( user_no, dav_name )
+  collection_id INT8 PRIMARY KEY DEFAULT nextval('dav_id_seq'),
+  UNIQUE(user_no,dav_name)
 );
 
 
@@ -28,7 +30,8 @@ CREATE TABLE caldav_data (
   caldav_data TEXT,
   caldav_type TEXT,
   logged_user INT references usr(user_no),
-  dav_id SERIAL UNIQUE,
+  dav_id INT8 UNIQUE DEFAULT nextval('dav_id_seq'),
+  collection_id INT8 REFERENCES collection(collection_id) ON UPDATE CASCADE ON DELETE CASCADE DEFERRABLE,
 
   PRIMARY KEY ( user_no, dav_name )
 );
@@ -69,6 +72,7 @@ CREATE TABLE calendar_item (
   tz_id TEXT REFERENCES time_zone( tz_id ),
   status TEXT,
   dav_id INT8 UNIQUE,
+  collection_id INT8 REFERENCES collection(collection_id) ON UPDATE CASCADE ON DELETE CASCADE DEFERRABLE,
 
   -- Cascade updates / deletes from the caldav_data table
   CONSTRAINT caldav_exists FOREIGN KEY ( user_no, dav_name )
@@ -140,7 +144,7 @@ CREATE or REPLACE FUNCTION sync_dav_id ( ) RETURNS TRIGGER AS '
     END IF;
 
     IF NEW.dav_id IS NULL THEN
-      NEW.dav_id = nextval(''caldav_data_dav_id_seq'');
+      NEW.dav_id = nextval(''dav_id_seq'');
     END IF;
 
     IF TG_OP = ''UPDATE'' THEN
@@ -166,6 +170,64 @@ CREATE TRIGGER caldav_data_sync_dav_id AFTER INSERT OR UPDATE ON caldav_data
 
 CREATE TRIGGER calendar_item_sync_dav_id AFTER INSERT OR UPDATE ON calendar_item
     FOR EACH ROW EXECUTE PROCEDURE sync_dav_id();
+
+
+-- Only needs SELECT access by website.
+CREATE TABLE principal_type (
+  principal_type_id SERIAL PRIMARY KEY,
+  principal_type_desc TEXT
+);
+
+-- web needs SELECT,INSERT,UPDATE,DELETE
+CREATE TABLE principal (
+  principal_id SERIAL PRIMARY KEY,
+  type_id INT8 NOT NULL REFERENCES principal_type(principal_type_id),
+  user_no INT8 NULL REFERENCES usr(user_no),
+  displayname TEXT,
+  active BOOLEAN
+);
+
+-- Allowing identification of group members.
+CREATE TABLE group_member (
+  group_id INT8 REFERENCES principal(principal_id),
+  member_id INT8 REFERENCES principal(principal_id)
+);
+CREATE UNIQUE INDEX group_member_pk ON group_member(group_id,member_id);
+CREATE INDEX group_member_sk ON group_member(member_id);
+
+
+-- Only needs SELECT access by website. dav_resource_type will be 'principal', 'collection', 'CalDAV:calendar' and so forth.
+CREATE TABLE dav_resource_type (
+  resource_type_id SERIAL PRIMARY KEY,
+  dav_resource_type TEXT,
+  resource_type_desc TEXT
+);
+
+CREATE TABLE dav_resource (
+  dav_id INT8 PRIMARY KEY DEFAULT nextval('dav_id_seq'),
+  dav_name TEXT,
+  resource_type_id INT8 REFERENCES dav_resource_type(resource_type_id),
+  owner_id INT8 REFERENCES principal(principal_id)
+);
+
+
+CREATE TABLE privilege (
+  granted_to_id INT8 REFERENCES principal(principal_id),
+  resource_id INT8 REFERENCES dav_resource(dav_id),
+  granted_by_id INT8 REFERENCES principal(principal_id),
+  can_read BOOLEAN,
+  can_write BOOLEAN,
+  can_write_properties BOOLEAN,
+  can_write_content BOOLEAN,
+  can_unlock BOOLEAN,
+  can_read_acl BOOLEAN,
+  can_read_current_user_privilege_set BOOLEAN,
+  can_write_acl BOOLEAN,
+  can_bind BOOLEAN,
+  can_unbind BOOLEAN,
+  can_read_free_busy BOOLEAN,
+  PRIMARY KEY (granted_to_id, resource_id)
+);
 
 
 SELECT new_db_revision(1,1,12, 'December' );
