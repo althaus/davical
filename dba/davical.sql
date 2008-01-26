@@ -230,4 +230,4 @@ CREATE TABLE privilege (
 );
 
 
-SELECT new_db_revision(1,1,12, 'December' );
+SELECT new_db_revision(1,2,2, 'Fevrier' );
