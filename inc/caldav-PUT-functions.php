@@ -68,7 +68,7 @@ function controlRequestContainer( $username, $user_no, $path, $caldav_context ) 
       rollback_on_error( $caldav_context, $user_no, $path );
     }
     if ( $qry->rows == 0 ) {
-      if ( preg_match( '#^(.*/)([^/]+/)$#', $request_container, $matches ) ) {//(
+      if ( preg_match( '#^(.*/)([^/]+)/$#', $request_container, $matches ) ) {//(
         $parent_container = $matches[1];
         $displayname = $matches[2];
       }
@@ -176,6 +176,15 @@ function import_collection( $ics_content, $user_no, $path, $caldav_context ) {
   }
   dbg_error_log( "PUT", " Finished input after $lno lines" );
 
+  $sql = "SELECT * FROM collection WHERE user_no = ? AND dav_name = ?;";
+  $qry = new PgQuery( $sql, $user_no, $path );
+  if ( ! $qry->Exec("PUT") ) rollback_on_error( $caldav_context, $user_no, $path );
+  if ( ! $qry->rows == 1 ) {
+    dbg_error_log( "ERROR", " PUT: Collection does not exist at '%s' for user %d", $path, $user_no );
+    rollback_on_error( $caldav_context, $user_no, $path );
+  }
+  $collection = $qry->Fetch();
+
   $qry = new PgQuery("BEGIN; DELETE FROM calendar_item WHERE user_no=? AND dav_name ~ ?; DELETE FROM caldav_data WHERE user_no=? AND dav_name ~ ?;", $user_no, $path.'[^/]+$', $user_no, $path.'[^/]+$');
   if ( !$qry->Exec("PUT") ) rollback_on_error( $caldav_context, $user_no, $path );
 
@@ -185,8 +194,8 @@ function import_collection( $ics_content, $user_no, $path, $caldav_context ) {
     $ic = new iCalendar( array( 'icalendar' => $icalendar ) );
     $etag = md5($icalendar);
     $event_path = sprintf( "%s%d.ics", $path, $k);
-    $qry = new PgQuery( "INSERT INTO caldav_data ( user_no, dav_name, dav_etag, caldav_data, caldav_type, logged_user, created, modified ) VALUES( ?, ?, ?, ?, ?, ?, current_timestamp, current_timestamp )",
-                          $user_no, $event_path, $etag, $icalendar, $ic->type, $session->user_no );
+    $qry = new PgQuery( "INSERT INTO caldav_data ( user_no, dav_name, dav_etag, caldav_data, caldav_type, logged_user, created, modified, collection_id ) VALUES( ?, ?, ?, ?, ?, ?, current_timestamp, current_timestamp, ? )",
+                          $user_no, $event_path, $etag, $icalendar, $ic->type, $session->user_no, $collection->collection_id );
     if ( !$qry->Exec("PUT") ) rollback_on_error( $caldav_context, $user_no, $path );
 
     $sql = "";
@@ -237,15 +246,15 @@ function import_collection( $ics_content, $user_no, $path, $caldav_context ) {
 
     $sql .= <<<EOSQL
   INSERT INTO calendar_item (user_no, dav_name, dav_etag, uid, dtstamp, dtstart, dtend, summary, location, class, transp,
-                      description, rrule, tz_id, last_modified, url, priority, created, due, percent_complete )
-                   VALUES ( ?, ?, ?, ?, ?, ?, $dtend, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+                      description, rrule, tz_id, last_modified, url, priority, created, due, percent_complete, collection_id )
+                   VALUES ( ?, ?, ?, ?, ?, ?, $dtend, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
 EOSQL;
 
     $qry = new PgQuery( $sql, $user_no, $event_path, $etag, $ic->Get('uid'), $dtstamp,
                               $ic->Get('dtstart'), $ic->Get('summary'), $ic->Get('location'),
                               $class, $ic->Get('transp'), $ic->Get('description'), $ic->Get('rrule'), $ic->Get('tz_id'),
                               $last_modified, $ic->Get('url'), $ic->Get('priority'), $ic->Get('created'),
-                              $ic->Get('due'), $ic->Get('percent-complete')
+                              $ic->Get('due'), $ic->Get('percent-complete'), $collection->collection_id
                         );
     if ( !$qry->Exec("PUT") ) rollback_on_error( $caldav_context, $user_no, $path);
   }
@@ -328,8 +337,8 @@ function putCalendarResource( &$request, $author, $caldav_context ) {
   }
 
   if ( $put_action_type == 'INSERT' ) {
-    $qry = new PgQuery( "BEGIN; INSERT INTO caldav_data ( user_no, dav_name, dav_etag, caldav_data, caldav_type, logged_user, created, modified ) VALUES( ?, ?, ?, ?, ?, ?, current_timestamp, current_timestamp )",
-                           $request->user_no, $request->path, $etag, $request->raw_post, $ic->type, $author );
+    $qry = new PgQuery( "BEGIN; INSERT INTO caldav_data ( user_no, dav_name, dav_etag, caldav_data, caldav_type, logged_user, created, modified, collection_id ) VALUES( ?, ?, ?, ?, ?, ?, current_timestamp, current_timestamp, ? )",
+                           $request->user_no, $request->path, $etag, $request->raw_post, $ic->type, $author, $request->collection_id );
     if ( !$qry->Exec("PUT") ) rollback_on_error( $caldav_context, $request->user_no, $request->path);
   }
   else {
@@ -386,8 +395,8 @@ function putCalendarResource( &$request, $author, $caldav_context ) {
   }
   $sql .= <<<EOSQL
   INSERT INTO calendar_item (user_no, dav_name, dav_etag, uid, dtstamp, dtstart, dtend, summary, location, class, transp,
-                      description, rrule, tz_id, last_modified, url, priority, created, due, percent_complete, status )
-                   VALUES ( ?, ?, ?, ?, ?, ?, $dtend, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+                      description, rrule, tz_id, last_modified, url, priority, created, due, percent_complete, status, collection_id )
+                   VALUES ( ?, ?, ?, ?, ?, ?, $dtend, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
   COMMIT;
 EOSQL;
 
@@ -395,7 +404,7 @@ EOSQL;
                             $ic->Get('DTSTART'), $ic->Get('SUMMARY'), $ic->Get('LOCATION'),
                             $class, $ic->Get('TRANSP'), $ic->Get('DESCRIPTION'), $ic->Get('RRULE'), $ic->Get('TZ_ID'),
                             $last_modified, $ic->Get('URL'), $ic->Get('PRIORITY'), $ic->Get('CREATED'),
-                            $ic->Get('DUE'), $ic->Get('PERCENT-COMPLETE'), $ic->Get('STATUS')
+                            $ic->Get('DUE'), $ic->Get('PERCENT-COMPLETE'), $ic->Get('STATUS'), $request->collection_id
                       );
   if ( !$qry->Exec("PUT") ) rollback_on_error( $caldav_context, $request->user_no, $request->path);
   dbg_error_log( "PUT", "User: %d, ETag: %s, Path: %s", $author, $etag, $request->path);
