@@ -154,21 +154,6 @@ class CalDAVRequest
       $this->DoResponse( 400, translate("The calendar path contains illegal characters.") );
     }
 
-    /**
-    * RFC2518, 5.2: URL pointing to a collection SHOULD end in '/', and if it does not then
-    * we SHOULD return a Content-location header with the correction...
-    */
-    if ( !preg_match( '#/$#', $this->path ) ) {
-      dbg_error_log( "caldav", "Checking whether path might be a collection" );
-      $qry = new PgQuery( "SELECT count(1) AS is_collection FROM collection WHERE dav_name = ?;", $this->path . '/');
-      if ( $qry->Exec('caldav') && $qry->rows == 1 && ($row = $qry->Fetch()) && $row->is_collection == 1 ) {
-        dbg_error_log( "caldav", "Path is actually a collection - sending Content-Location header." );
-        $this->path .= '/';
-        header( "Content-Location: $this->path" );
-        $this->_is_collection = true;
-      }
-    }
-
     $this->user_no = $session->user_no;
     $this->username = $session->username;
 
@@ -179,6 +164,32 @@ class CalDAVRequest
     if ( isset($this->principal->user_no) ) $this->user_no  = $this->principal->user_no;
     if ( isset($this->principal->username)) $this->username = $this->principal->username;
     if ( isset($this->principal->by_email)) $this->by_email = true;
+
+    /**
+    * RFC2518, 5.2: URL pointing to a collection SHOULD end in '/', and if it does not then
+    * we SHOULD return a Content-location header with the correction...
+    */
+    if ( !preg_match( '#/$#', $this->path ) ) {
+      dbg_error_log( "caldav", "Checking whether path might be a collection" );
+      $qry = new PgQuery( "SELECT collection_id FROM collection WHERE user_no = ? AND dav_name = ?;", $this->user_no, $this->path . '/');
+      if ( $qry->Exec('caldav') && $qry->rows == 1 && ($row = $qry->Fetch()) ) {
+        dbg_error_log( "caldav", "Path is actually a collection - sending Content-Location header." );
+        $this->path .= '/';
+        header( "Content-Location: $this->path" );
+        $this->_is_collection = true;
+        $this->collection_id = $row->collection_id;
+      }
+    }
+
+    /**
+    * Get the ID of the collection we are referring to
+    */
+    if ( !isset($this->collection_id) && preg_match( '#^(/.+/.+/)[^/]*$#', $this->path ) ) {
+      $qry = new PgQuery( "SELECT collection_id FROM collection WHERE user_no = ? AND dav_name = ?;", $this->user_no, $this->path );
+      if ( $qry->Exec('caldav') && $qry->rows == 1 && ($row = $qry->Fetch()) ) {
+        $this->collection_id = $row->collection_id;
+      }
+    }
 
 
     /**
