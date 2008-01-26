@@ -67,6 +67,14 @@ ALTER TABLE calendar_item ADD CONSTRAINT
        calendar_item_collection_id_fkey FOREIGN KEY (collection_id) REFERENCES collection(collection_id);
 CREATE INDEX calendar_item_collection_id_fkey ON calendar_item(collection_id,user_no);
 
+ALTER TABLE caldav_data ADD COLUMN collection_id INT8;
+UPDATE caldav_data SET collection_id = collection.collection_id
+          FROM collection WHERE collection.dav_name = regexp_replace( caldav_data.dav_name, '/[^/]+$', '/');
+ALTER TABLE caldav_data ALTER COLUMN collection_id SET NOT NULL;
+ALTER TABLE caldav_data ADD CONSTRAINT
+       caldav-data_collection_id_fkey FOREIGN KEY (collection_id) REFERENCES collection(collection_id);
+CREATE INDEX caldav_data_collection_id_fkey ON caldav_data(collection_id,user_no);
+
 SELECT new_db_revision(1,2,1, 'Janvier' );
 
 COMMIT;
