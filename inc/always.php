@@ -9,6 +9,9 @@
 // Ensure the configuration starts out as an empty object.
 unset($c);
 
+// Ditto for a few other global things
+unset($session); unset($request); unset($dbconn);
+
 // Default some of the configurable values
 $c->sysabbr     = 'davical';
 $c->admin_email = 'admin@davical.example.com';
@@ -53,6 +56,11 @@ $c->protocol_server_port_script = sprintf( "%s://%s%s%s", (isset($_SERVER['HTTPS
 
 init_gettext( 'rscds', '../locale' );
 
+/**
+* We use @file_exists because things like open_basedir might noisily deny
+* access which could break DAViCal completely by causing output to start
+* too early.
+*/
 if ( @file_exists("/etc/davical/".$_SERVER['SERVER_NAME']."-conf.php") ) {
   include_once("/etc/davical/".$_SERVER['SERVER_NAME']."-conf.php");
 }
@@ -85,7 +93,7 @@ awl_set_locale($c->default_locale);
 *
 */
 $c->code_version = 0;
-$c->version_string = '0.9.3'; // The actual version # is replaced into that during the build /release process
+$c->version_string = '0.9.4'; // The actual version # is replaced into that during the build /release process
 if ( isset($c->version_string) && preg_match( '/(\d+)\.(\d+)\.(\d+)(.*)/', $c->version_string, $matches) ) {
   $c->code_major = $matches[1];
   $c->code_minor = $matches[2];
