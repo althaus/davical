@@ -248,5 +248,9 @@
     <item url="inc/drivers_squid_pam.php" uploadstatus="1" />
     <item url="dba/patches/1.1.11a.sql" uploadstatus="1" />
     <item url="dba/patches/1.1.12.sql" uploadstatus="1" />
+    <item url="dba/patches/1.1.12a.sql" uploadstatus="1" />
+    <item url="dba/patches/1.2.1.sql" uploadstatus="1" />
+    <item url="dba/patches/1.2.2.sql" uploadstatus="1" />
+    <item url="dba/appuser_permissions.txt" uploadstatus="1" />
   </project>
 </webproject>
