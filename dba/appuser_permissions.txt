@@ -36,7 +36,6 @@ GRANT SELECT,INSERT,UPDATE,DELETE
   ON privilege
 
 GRANT SELECT,UPDATE
-  ON caldav_data_dav_id_seq
   ON relationship_type_rt_id_seq
   ON dav_id_seq
   ON usr_user_no_seq
