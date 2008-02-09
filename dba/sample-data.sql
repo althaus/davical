@@ -23,6 +23,7 @@ INSERT INTO usr ( user_no, active, email_ok, updated, username, password, fullna
 INSERT INTO usr ( user_no, active, email_ok, updated, username, password, fullname, email )
     VALUES( 30, TRUE, current_date, current_date, 'assistant1', '**assistant1', 'Assistant 1', 'assistant1@example.net' );
 
+
 INSERT INTO usr ( user_no, active, email_ok, updated, username, password, fullname, email )
     VALUES( 100, TRUE, current_date, current_date, 'resource1', '*salt*unpossible', 'Resource 1', 'resource1@example.net' );
 INSERT INTO usr ( user_no, active, email_ok, updated, username, password, fullname, email )
@@ -53,6 +54,7 @@ INSERT INTO relationship ( from_user, to_user, rt_id ) VALUES( 30, 200, 1 );
 
 -- Between a PA and their Manager
 INSERT INTO relationship ( from_user, to_user, rt_id ) VALUES( 30,  20, 2 );
+INSERT INTO relationship ( from_user, to_user, rt_id ) VALUES( 30,  10, 2 );
 
 -- Between a team
 INSERT INTO relationship ( from_user, to_user, rt_id ) VALUES( 20, 300, 3 );
