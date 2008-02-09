@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-11-17 22:06+1300\n"
+"POT-Creation-Date: 2008-02-09 22:49+1300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -345,6 +345,12 @@ msgid "Public <!-- in the sense of being available to all users -->"
 msgstr ""
 
 msgid "Public"
+msgstr ""
+
+msgid "REPORT body contains no XML data!"
+msgstr ""
+
+msgid "REPORT body is not valid XML data!"
 msgstr ""
 
 msgid "Really Simple CalDAV Store"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rscds 0.7.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-11-17 22:06+1300\n"
+"POT-Creation-Date: 2008-02-09 22:49+1300\n"
 "PO-Revision-Date: 2007-05-03 15:00+0001\n"
 "Last-Translator: David Takacs <david.takacs@cafeopen.eu>\n"
 "Language-Team: \n"
@@ -350,6 +350,12 @@ msgstr "Nyilvános"
 
 msgid "Public"
 msgstr "Nyilvános"
+
+msgid "REPORT body contains no XML data!"
+msgstr ""
+
+msgid "REPORT body is not valid XML data!"
+msgstr ""
 
 msgid "Really Simple CalDAV Store"
 msgstr "Really Simple CalDAV Store"
