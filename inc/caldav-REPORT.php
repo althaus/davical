@@ -26,6 +26,11 @@ if ( ! ($request->AllowedTo('read') || $request->AllowedTo('freebusy')) ) {
 if ( !isset($request->xml_tags) ) {
   $request->DoResponse( 403, "REPORT body contains no XML data!" );
 }
+$position = 0;
+$xmltree = BuildXMLTree( $request->xml_tags, $position);
+if ( !is_object($xmltree) ) {
+  $request->DoResponse( 403, "REPORT body is not valid XML data!" );
+}
 
 require_once("iCalendar.php");
 
@@ -35,8 +40,6 @@ $denied = array();
 $unsupported = array();
 if ( isset($prop_filter) ) unset($prop_filter);
 
-$position = 0;
-$xmltree = BuildXMLTree( $request->xml_tags, $position);
 if ( $xmltree->GetTag() == "URN:IETF:PARAMS:XML:NS:CALDAV:FREE-BUSY-QUERY" ) {
   include("caldav-REPORT-freebusy.php");
   exit; // Not that the above include should return anyway
