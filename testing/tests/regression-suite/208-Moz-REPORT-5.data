@@ -6,7 +6,7 @@
   <filter>
     <comp-filter name="VCALENDAR">
       <comp-filter name="VEVENT">
-        <time-range start="20070428T120000Z" end="20070506T120000Z"/>
+        <time-range start="20061201T120000Z" end="20070506T120000Z"/>
       </comp-filter>
     </comp-filter>
   </filter>

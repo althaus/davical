@@ -1,5 +1,6 @@
 #
-# Request a REPORT which should only include an instance of the repeating event we just added
+# Request a REPORT including the event we just added along with a bunch of
+# others.
 #
 TYPE=REPORT
 URL=http://mycaldav/caldav.php/user1/home/
