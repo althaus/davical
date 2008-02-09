@@ -24,12 +24,12 @@ if ( ! ($request->AllowedTo('read') || $request->AllowedTo('freebusy')) ) {
 }
 
 if ( !isset($request->xml_tags) ) {
-  $request->DoResponse( 403, "REPORT body contains no XML data!" );
+  $request->DoResponse( 403, translate("REPORT body contains no XML data!") );
 }
 $position = 0;
 $xmltree = BuildXMLTree( $request->xml_tags, $position);
 if ( !is_object($xmltree) ) {
-  $request->DoResponse( 403, "REPORT body is not valid XML data!" );
+  $request->DoResponse( 403, translate("REPORT body is not valid XML data!") );
 }
 
 require_once("iCalendar.php");
