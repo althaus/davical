@@ -4,6 +4,7 @@
 #
 
 package=rscds
+newname=davical
 dt=debian/$(package)
 
 build: inc htdocs debian
@@ -22,9 +23,8 @@ binary-indep: checkroot build
 	-rm -rf $(dt)
 	dh_clean -k
 	# dh_installdebconf
-	install -d $(dt) $(dt)/DEBIAN $(dt)/etc/$(package) \
-		$(dt)/usr/share/$(package) $(dt)/usr/share/doc/$(package) \
-		$(dt)/var/lib/$(package)
+	install -d $(dt) $(dt)/DEBIAN $(dt)/etc/$(newname) \
+		$(dt)/usr/share/$(package) $(dt)/usr/share/doc/$(package)
 	cp -a htdocs $(dt)/usr/share/$(package)
 	cp -a dba $(dt)/usr/share/$(package)
 	cp -a inc $(dt)/usr/share/$(package)
