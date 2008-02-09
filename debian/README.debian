@@ -1,10 +1,10 @@
-RSCDS for Debian
+DAViCal for Debian
 ----------------
 
-This is a Really Simple CalDAV Store which I wrote because I
-was getting sick of the length of time it was taking to make
-worthwhile CalDAV server-side implementations that worked OK
-with Evolution.
+This is a CalDAV Server which I wrote because I was getting
+sick of the length of time it was taking to make worthwhile
+CalDAV server-side implementations that worked OK with
+Evolution.
 
 Then, when I finally did find a CalDAV store that worked, I
 found that it was quite bloated because it wanted to do vast

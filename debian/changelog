@@ -9,8 +9,9 @@ rscds (0.9.4) unstable; urgency=low
   * Create users for the database for DBA and application use during
     installation.
   * Work around differences in authentication when PHP is used with FastCGI
+  * Fixes to CONFIDENTIAL event handling.
 
- -- Andrew McMillan <debian@mcmillan.net.nz>  Sat, 26 Jan 2008 16:24:15 +1300
+ -- Andrew McMillan <debian@mcmillan.net.nz>  Sat, 09 Feb 2008 22:44:42 +1300
 
 rscds (0.9.3) unstable; urgency=low
 
