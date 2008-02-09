@@ -61,9 +61,10 @@ else if ( $qry->rows > 1 ) {
         // if the event is confidential we fake one that just says "Busy"
         $confidential = new iCalendar( array(
                               'SUMMARY' => translate('Busy'), 'CLASS' => 'CONFIDENTIAL',
-                              'DTSTART'  => $ical->Get('DTSTART'),
-                              'RRULE'    => $ical->Get('RRULE')
+                              'DTSTART'  => $ical->Get('DTSTART')
                           ) );
+        $rrule = $ical->Get('RRULE');
+        if ( isset($rrule) && $rrule != '' ) $confidential->Set('RRULE', $rrule);
         $duration = $ical->Get('DURATION');
         if ( isset($duration) && $duration != "" ) {
           $confidential->Set('DURATION', $duration );
