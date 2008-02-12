@@ -119,7 +119,9 @@ class ldapDrivers
   */
   function getAllUsers($attributes){
     global $c;
-    $entry = $this->ldap_query_all($this->connect,$this->baseDNUsers,$this->filterUsers,$attributes);
+
+    $query = $this->ldap_query_all;
+    $entry = $query($this->connect,$this->baseDNUsers,$this->filterUsers,$attributes);
     if (!ldap_first_entry($this->connect,$entry))
             $c->messages[] = sprintf(i18n("Error NoUserFound with filter >%s<, attributes >%s< , dn >%s<"),$this->filterUsers,join(', ',$attributes), $this->baseDNUsers);
     for($i=ldap_first_entry($this->connect,$entry);
@@ -147,7 +149,8 @@ class ldapDrivers
 
     $entry=NULL;
     // We get the DN of the USER
-    $entry = this->ldap_query($this->connect, $this->baseDNUsers, $filter,$attributes);
+    $query = $this->ldap_query_one;
+    $entry = $query($this->connect, $this->baseDNUsers, $filter,$attributes);
     if ( !ldap_first_entry($this->connect, $entry) ){
       dbg_error_log( "ERROR", "drivers_ldap : Unable to find the user with filter %s",$filter );
       return false;
