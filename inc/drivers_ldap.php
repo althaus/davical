@@ -349,7 +349,7 @@ function sync_LDAP(){
           $usr_in .= ', ' . qpg($v);
       }
       $usr_in = substr($usr_in,1);
-      $c->messages[] = sprintf(i18n('- deactivating users : %s'),$usr_in);
+      $c->messages[] = sprintf(i18n('- deactivating users : %s'),join(', ',$users_to_deactivate));
       $qry = new PgQuery( "UPDATE usr SET active = FALSE WHERE lower(username) IN ($usr_in)");
       $qry->Exec('sync_LDAP',__LINE__,__FILE__);
     }
@@ -359,6 +359,9 @@ function sync_LDAP(){
       foreach ( $users_to_update as $key=> $username ) {
         $valid=$ldap_users_info[$username];
         $ldap_timestamp = $valid[$mapping["updated"]];
+
+        $valid["user_no"] = $db_users_info[$username]["user_no"];
+        $mapping["user_no"] = "user_no";
 
         /**
         * This splits the LDAP timestamp apart and assigns values to $Y $m $d $H $M and $S
@@ -377,9 +380,10 @@ function sync_LDAP(){
           $users_nothing_done[] = $username;
         }
       }
-      $c->messages[] = sprintf(i18n('- updating user record %s'),join(', ',$users_to_update));
+      if ( sizeof($users_to_update) )
+        $c->messages[] = sprintf(i18n('- updating user records : %s'),join(', ',$users_to_update));
       if ( sizeof($users_nothing_done) )
-        $c->messages[] = sprintf(i18n('- nothing done on %s'),join(', ', $users_nothing_done));
+        $c->messages[] = sprintf(i18n('- nothing done on : %s'),join(', ', $users_nothing_done));
     }
   }
 }
