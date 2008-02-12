@@ -80,7 +80,8 @@ class ldapDrivers
         }
       }
 
-      //Set the search scope to be used
+      //Set the search scope to be used, default to subtree.
+      if (!isset($config['scope'])) $config['scope'] = 'subtree';
       switch (strtolower($config['scope'])) {
       case "base":
         $this->ldap_query_one = ldap_read;
