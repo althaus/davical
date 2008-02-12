@@ -169,14 +169,16 @@ $c->admin_email ='calendar-admin@example.com';
 //$c->authenticate_hook['call'] = 'LDAP_check';
 //$c->authenticate_hook['config'] = array(
 //    'host' => 'www.tennaxia.net', //host name of your LDAP Server
-//    'port' => '389', //port
+//    'port' => '389',              //port
 
        /* For the initial bind to be anonymous leave bindDN and passDN
           commented out */
-//    'bindDN'=> 'cn=manager,cn=internal,dc=tennaxia,dc=net', //DN to bind to this server enabling to perform request
-//    'passDN'=> 'xxxxxxxx', //Password of the previous bindDN to bind to this server enabling to perform request
+// DN to bind to this server enabling to perform request
+//    'bindDN'=> 'cn=manager,cn=internal,dc=tennaxia,dc=net', 
+// Password of the previous bindDN to bind to this server enabling to perform request
+//    'passDN'=> 'xxxxxxxx', 
 
-//    'protocolVersion' => '3',  //Version of LDAP protocol to use
+//    'protocolVersion' => '3', //Version of LDAP protocol to use
 //    'baseDNUsers'=> 'dc=tennaxia,dc=net', //where to look at valid user
 //    'filterUsers' => 'objectClass=kolabInetOrgPerson', //filter which must validate a user according to RFC4515, i.e. surrounded by brackets
 //    'baseDNGroups' => 'ou=divisions,dc=tennaxia,dc=net', //not used ATM
@@ -192,8 +194,8 @@ $c->admin_email ='calendar-admin@example.com';
        /** foreach key set start and length in the string provided by ldap
            example for openLDAP timestamp : 20070503162215Z **/
 //    'format_updated'=> array('Y' => array(0,4),'m' => array(4,2),'d'=> array(6,2),'H' => array(8,2),'M'=>array(10,2),'S' => array(12,2)),
-
-// 'starttls' => 'yes', // If ldap_start_tls is not working, it is probably
+//    'startTLS' => 'yes',  // Require that TLS is used for LDAP?
+             // If ldap_start_tls is not working, it is probably
              // because php wants to validate the server's
              // certificate. Try adding "TLS_REQCERT never" to the
              // ldap configuration file that php uses (e.g. /etc/ldap.conf

@@ -66,15 +66,15 @@ class ldapDrivers
       //Set LDAP protocol version
       if (isset($config['protocolVersion'])) ldap_set_option($this->connect,LDAP_OPT_PROTOCOL_VERSION, $config['protocolVersion']);
 
-      // Start TLS if desired
-      if (isset($config['starttls'])) {
+      // Start TLS if desired (requires protocol version 3)
+      if (isset($config['startTLS'])) {
         if (!ldap_set_option($this->connect, LDAP_OPT_PROTOCOL_VERSION, 3)) {
-          $c->messages[] = sprintf(i18n("Failed to set LDAP Protocol version to 3, TLS not supported."));
+          $c->messages[] = sprintf(i18n( "drivers_ldap : Failed to set LDAP to use protocol version 3, TLS not supported") );
           $this->valid=false;
           return;
         }
         if (!ldap_start_tls($this->connect)) {
-          $c->messages[] = sprintf(i18n("Could not start TLS. Ldap_start_tls() failed."));
+          $c->messages[] = sprintf(i18n( "drivers_ldap : Could not start TLS: ldap_start_tls() failed") );
           $this->valid=false;
           return;
         }
