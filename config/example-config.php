@@ -191,7 +191,13 @@ $c->admin_email ='calendar-admin@example.com';
 //    'default_value' => array("date_format_type" => "E","locale" => "fr_FR"),
        /** foreach key set start and length in the string provided by ldap
            example for openLDAP timestamp : 20070503162215Z **/
-//    'format_updated'=> array('Y' => array(0,4),'m' => array(4,2),'d'=> array(6,2),'H' => array(8,2),'M'=>array(10,2),'S' => array(12,2))
+//    'format_updated'=> array('Y' => array(0,4),'m' => array(4,2),'d'=> array(6,2),'H' => array(8,2),'M'=>array(10,2),'S' => array(12,2)),
+
+// 'starttls' => 'yes', // If ldap_start_tls is not working, it is probably
+             // because php wants to validate the server's
+             // certificate. Try adding "TLS_REQCERT never" to the
+             // ldap configuration file that php uses (e.g. /etc/ldap.conf
+             // or /etc/ldap/ldap.conf). Of course, this lessens security! 
 //
 //    );
 //
