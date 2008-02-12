@@ -200,6 +200,8 @@ $c->admin_email ='calendar-admin@example.com';
              // certificate. Try adding "TLS_REQCERT never" to the
              // ldap configuration file that php uses (e.g. /etc/ldap.conf
              // or /etc/ldap/ldap.conf). Of course, this lessens security! 
+//     'scope' => 'subtree', // Search scope to use, defaults to subtree.
+//                           // Allowed values: base, onelevel, subtree.
 //
 //    );
 //

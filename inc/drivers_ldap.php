@@ -80,6 +80,22 @@ class ldapDrivers
         }
       }
 
+      //Set the search scope to be used
+      switch (strtolower($config['scope'])) {
+      case "base":
+        $this->ldap_query_one = ldap_read;
+        $this->ldap_query_all = ldap_read;
+        break;
+      case "onelevel":
+        $this->ldap_query_one = ldap_list;
+        $this->ldap_query_all = ldap_list;
+        break;
+      default:
+        $this->ldap_query_one = ldap_search;
+        $this->ldap_query_all = ldap_list;
+        break;
+      }
+
       //connect as root
       if (!ldap_bind($this->connect,$config['bindDN'],$config['passDN'])){
           $bindDN = isset($config['bindDN']) ? $config['bindDN'] : 'anonymous';
@@ -102,7 +118,7 @@ class ldapDrivers
   */
   function getAllUsers($attributes){
     global $c;
-    $entry = ldap_list($this->connect,$this->baseDNUsers,$this->filterUsers,$attributes);
+    $entry = $this->ldap_query_all($this->connect,$this->baseDNUsers,$this->filterUsers,$attributes);
     if (!ldap_first_entry($this->connect,$entry))
             $c->messages[] = sprintf(i18n("Error NoUserFound with filter >%s<, attributes >%s< , dn >%s<"),$this->filterUsers,join(', ',$attributes), $this->baseDNUsers);
     for($i=ldap_first_entry($this->connect,$entry);
@@ -130,7 +146,7 @@ class ldapDrivers
 
     $entry=NULL;
     // We get the DN of the USER
-    $entry = ldap_search($this->connect, $this->baseDNUsers, $filter,$attributes);
+    $entry = this->ldap_query($this->connect, $this->baseDNUsers, $filter,$attributes);
     if ( !ldap_first_entry($this->connect, $entry) ){
       dbg_error_log( "ERROR", "drivers_ldap : Unable to find the user with filter %s",$filter );
       return false;
