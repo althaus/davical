@@ -302,6 +302,10 @@ function sync_LDAP(){
     $mapping = $c->authenticate_hook['config']['mapping_field'];
     $attributes = array_values($mapping);
     $ldap_users_tmp = $ldapDriver->getAllUsers($attributes);
+
+    if ( sizeof($ldap_users_tmp) == 0 )
+      return;
+
     foreach($ldap_users_tmp as $key => $ldap_user){
       $ldap_users_info[$ldap_user[$mapping["username"]]] = $ldap_user;
       unset($ldap_users_tmp[$key]);
