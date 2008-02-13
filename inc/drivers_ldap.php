@@ -66,6 +66,37 @@ class ldapDrivers
       //Set LDAP protocol version
       if (isset($config['protocolVersion'])) ldap_set_option($this->connect,LDAP_OPT_PROTOCOL_VERSION, $config['protocolVersion']);
 
+      // Start TLS if desired (requires protocol version 3)
+      if (isset($config['startTLS'])) {
+        if (!ldap_set_option($this->connect, LDAP_OPT_PROTOCOL_VERSION, 3)) {
+          $c->messages[] = sprintf(i18n( "drivers_ldap : Failed to set LDAP to use protocol version 3, TLS not supported") );
+          $this->valid=false;
+          return;
+        }
+        if (!ldap_start_tls($this->connect)) {
+          $c->messages[] = sprintf(i18n( "drivers_ldap : Could not start TLS: ldap_start_tls() failed") );
+          $this->valid=false;
+          return;
+        }
+      }
+
+      //Set the search scope to be used, default to subtree.
+      if (!isset($config['scope'])) $config['scope'] = 'subtree';
+      switch (strtolower($config['scope'])) {
+      case "base":
+        $this->ldap_query_one = ldap_read;
+        $this->ldap_query_all = ldap_read;
+        break;
+      case "onelevel":
+        $this->ldap_query_one = ldap_list;
+        $this->ldap_query_all = ldap_list;
+        break;
+      default:
+        $this->ldap_query_one = ldap_search;
+        $this->ldap_query_all = ldap_list;
+        break;
+      }
+
       //connect as root
       if (!ldap_bind($this->connect,$config['bindDN'],$config['passDN'])){
           $bindDN = isset($config['bindDN']) ? $config['bindDN'] : 'anonymous';
@@ -88,7 +119,9 @@ class ldapDrivers
   */
   function getAllUsers($attributes){
     global $c;
-    $entry = ldap_list($this->connect,$this->baseDNUsers,$this->filterUsers,$attributes);
+
+    $query = $this->ldap_query_all;
+    $entry = $query($this->connect,$this->baseDNUsers,$this->filterUsers,$attributes);
     if (!ldap_first_entry($this->connect,$entry))
             $c->messages[] = sprintf(i18n("Error NoUserFound with filter >%s<, attributes >%s< , dn >%s<"),$this->filterUsers,join(', ',$attributes), $this->baseDNUsers);
     for($i=ldap_first_entry($this->connect,$entry);
@@ -116,7 +149,8 @@ class ldapDrivers
 
     $entry=NULL;
     // We get the DN of the USER
-    $entry = ldap_search($this->connect, $this->baseDNUsers, $filter,$attributes);
+    $query = $this->ldap_query_one;
+    $entry = $query($this->connect, $this->baseDNUsers, $filter,$attributes);
     if ( !ldap_first_entry($this->connect, $entry) ){
       dbg_error_log( "ERROR", "drivers_ldap : Unable to find the user with filter %s",$filter );
       return false;
@@ -268,6 +302,10 @@ function sync_LDAP(){
     $mapping = $c->authenticate_hook['config']['mapping_field'];
     $attributes = array_values($mapping);
     $ldap_users_tmp = $ldapDriver->getAllUsers($attributes);
+
+    if ( sizeof($ldap_users_tmp) == 0 )
+      return;
+
     foreach($ldap_users_tmp as $key => $ldap_user){
       $ldap_users_info[$ldap_user[$mapping["username"]]] = $ldap_user;
       unset($ldap_users_tmp[$key]);
@@ -315,7 +353,7 @@ function sync_LDAP(){
           $usr_in .= ', ' . qpg($v);
       }
       $usr_in = substr($usr_in,1);
-      $c->messages[] = sprintf(i18n('- deactivating users : %s'),$usr_in);
+      $c->messages[] = sprintf(i18n('- deactivating users : %s'),join(', ',$users_to_deactivate));
       $qry = new PgQuery( "UPDATE usr SET active = FALSE WHERE lower(username) IN ($usr_in)");
       $qry->Exec('sync_LDAP',__LINE__,__FILE__);
     }
@@ -325,6 +363,9 @@ function sync_LDAP(){
       foreach ( $users_to_update as $key=> $username ) {
         $valid=$ldap_users_info[$username];
         $ldap_timestamp = $valid[$mapping["updated"]];
+
+        $valid["user_no"] = $db_users_info[$username]["user_no"];
+        $mapping["user_no"] = "user_no";
 
         /**
         * This splits the LDAP timestamp apart and assigns values to $Y $m $d $H $M and $S
@@ -343,9 +384,10 @@ function sync_LDAP(){
           $users_nothing_done[] = $username;
         }
       }
-      $c->messages[] = sprintf(i18n('- updating user record %s'),join(', ',$users_to_update));
+      if ( sizeof($users_to_update) )
+        $c->messages[] = sprintf(i18n('- updating user records : %s'),join(', ',$users_to_update));
       if ( sizeof($users_nothing_done) )
-        $c->messages[] = sprintf(i18n('- nothing done on %s'),join(', ', $users_nothing_done));
+        $c->messages[] = sprintf(i18n('- nothing done on : %s'),join(', ', $users_nothing_done));
     }
   }
 }
