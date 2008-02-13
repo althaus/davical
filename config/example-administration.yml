@@ -6,7 +6,7 @@
 #  since it contains passwords and connection details for a more powerful
 #  database connection.  Mode 600 is recommended.
 #
-#  This file should be called 'administration.cfg' in the config directory.
+#  This file should be called 'administration.yml' in the config directory.
 #
 
 ##
