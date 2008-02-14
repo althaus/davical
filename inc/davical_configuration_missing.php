@@ -22,7 +22,7 @@ include("page-header.php");
 //  \$c->system_name = 'DAViCal CalDAV Server';
 
   \$c->admin_email  = 'admin@example.com';
-  \$c->pg_connect[] = 'dbname=davical port=5432 user=general';
+  \$c->pg_connect[] = 'dbname=davical user=davical_app';
 
 </pre>
 <p>The only really <em>essential</em> thing there is that connect string for the database, although
