@@ -27,6 +27,7 @@ require_once("interactive-page.php");
   $browser->AddColumn( 'fullname', translate('Full Name') );
   $browser->AddColumn( 'email', translate('EMail') );
   $browser->AddColumn( 'relations', translate('Relationships'), '', '', 'relationship_list(user_no)' );
+  $browser->AddOrder( 'username', 'A' );
 
   $browser->SetJoins( 'usr' );
 
