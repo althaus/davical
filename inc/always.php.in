@@ -67,6 +67,9 @@ if ( @file_exists("/etc/davical/".$_SERVER['SERVER_NAME']."-conf.php") ) {
 else if ( @file_exists("/etc/rscds/".$_SERVER['SERVER_NAME']."-conf.php") ) {
   include_once("/etc/rscds/".$_SERVER['SERVER_NAME']."-conf.php");
 }
+else if ( @file_exists("/etc/davical/config.php") ) {
+  include_once("/etc/davical/config.php");
+}
 else if ( @file_exists("../config/config.php") ) {
   include_once("../config/config.php");
 }
