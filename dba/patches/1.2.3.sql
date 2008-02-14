@@ -1,13 +1,14 @@
 
--- Sort out accessing calendar entries.
+-- Add some more cascading updates and deletes.
+-- For databases created before PostgreSQL 8.0.
 
 BEGIN;
 SELECT check_db_revision(1,2,2);
 
 ALTER TABLE role_member DROP CONSTRAINT "$1";
-ALTER TABLE role_member ADD CONSTRAINT "$1" (role_no) REFERENCES roles(role_no) ON UPDATE CASCADE ON DELETE CASCADE DEFERRABLE;
+ALTER TABLE role_member ADD CONSTRAINT "$1" FOREIGN KEY (role_no) REFERENCES roles(role_no) ON UPDATE CASCADE ON DELETE CASCADE DEFERRABLE;
 ALTER TABLE role_member DROP CONSTRAINT "$2";
-ALTER TABLE role_member ADD CONSTRAINT "$2" (user_no) REFERENCES usr(user_no) ON UPDATE CASCADE ON DELETE CASCADE DEFERRABLE;
+ALTER TABLE role_member ADD CONSTRAINT "$2" FOREIGN KEY (user_no) REFERENCES usr(user_no) ON UPDATE CASCADE ON DELETE CASCADE DEFERRABLE;
  
 ALTER TABLE session DROP CONSTRAINT "$1";
 ALTER TABLE session ADD CONSTRAINT "$1" FOREIGN KEY (user_no) REFERENCES usr(user_no) ON UPDATE CASCADE ON DELETE CASCADE DEFERRABLE;
