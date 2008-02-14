@@ -347,7 +347,10 @@ function putCalendarResource( &$request, $author, $caldav_context ) {
     if ( !$qry->Exec("PUT") ) rollback_on_error( $caldav_context, $request->user_no, $request->path);
   }
 
-  $sql = ( $ic->tz_locn == '' ? '' : "SET TIMEZONE TO ".qpg($ic->tz_locn).";" );
+  if ( preg_match(':^(Africa|America|Antarctica|Arctic|Asia|Atlantic|Australia|Brazil|Canada|Chile|Etc|Europe|Indian|Mexico|Mideast|Pacific|US)/[a-z]+$:i', $ic->tz_locn ) ) {
+    // We only set the timezone if it looks reasonable enough for us
+    $sql = ( $ic->tz_locn == '' ? '' : "SET TIMEZONE TO ".qpg($ic->tz_locn).";" );
+  }
 
   $dtstart = $ic->Get('DTSTART');
   if ( (!isset($dtstart) || $dtstart == "") && $ic->Get('DUE') != "" ) {
