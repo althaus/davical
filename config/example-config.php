@@ -166,6 +166,10 @@ $c->admin_email ='calendar-admin@example.com';
 /********************************/
 /*********** LDAP hook **********/
 /********************************/
+/*
+ * For Active Directory go down to the next example.
+ */
+
 //$c->authenticate_hook['call'] = 'LDAP_check';
 //$c->authenticate_hook['config'] = array(
 //    'host' => 'www.tennaxia.net', //host name of your LDAP Server
@@ -205,6 +209,29 @@ $c->admin_email ='calendar-admin@example.com';
 //
 //    );
 //
+//include('drivers_ldap.php');
+
+/*
+ * Use the following LDAP example if you are using Active Directory
+ *
+ * You will need to  change host, passDN and DOMAIN in bindDN
+ * and baseDNUsers.
+ */
+//$c->authenticate_hook['call'] = 'LDAP_check';
+//$c->authenticate_hook['config'] = array(
+//    'host'              => 'ldap://ldap.example.net',
+//    'bindDN'            => 'auth@DOMAIN',
+//    'passDN'            => 'secret',
+//    'baseDNUsers'       => 'dc=DOMAIN,dc=local',
+//    'protocolVersion'   => 3,
+//    'optReferrals'      => 0,
+//    'filterUsers'       => '(&(objectcategory=person)(objectclass=user)(givenname=*))',
+//    'mapping_field'     => array("username" => "uid",
+//                                 "fullname" => "cn" ,
+//                                 "email"    => "mail"),
+//    'default_value'     => array("date_format_type" => "E","locale" => "en_NZ"),
+//    'format_updated'    => array('Y' => array(0,4),'m' => array(4,2),'d'=> array(6,2),'H' => array(8,2),'M'=>array(10,2),'S' => array(12,2))
+//    );
 //include('drivers_ldap.php');
 
 

@@ -50,6 +50,13 @@ class ldapDrivers
           $this->valid=false;
           return ;
       }
+
+      //Set LDAP protocol version
+      if (isset($config['protocolVersion']))
+          ldap_set_option($this->connect, LDAP_OPT_PROTOCOL_VERSION, $config['protocolVersion']);
+      if (isset($config['optReferrals']))
+          ldap_set_option($this->connect, LDAP_OPT_REFERRALS, $config['optReferrals']);
+
       if ($port)
           $this->connect=ldap_connect($host, $port);
       else
@@ -62,9 +69,6 @@ class ldapDrivers
       }
 
       dbg_error_log( "LDAP", "drivers_ldap : Connected to LDAP server %s",$host );
-
-      //Set LDAP protocol version
-      if (isset($config['protocolVersion'])) ldap_set_option($this->connect,LDAP_OPT_PROTOCOL_VERSION, $config['protocolVersion']);
 
       // Start TLS if desired (requires protocol version 3)
       if (isset($config['startTLS'])) {
@@ -89,11 +93,11 @@ class ldapDrivers
         break;
       case "onelevel":
         $this->ldap_query_one = ldap_list;
-        $this->ldap_query_all = ldap_list;
+        $this->ldap_query_all = ldap_search;
         break;
       default:
         $this->ldap_query_one = ldap_search;
-        $this->ldap_query_all = ldap_list;
+        $this->ldap_query_all = ldap_search;
         break;
       }
 
