@@ -37,6 +37,7 @@ if ( $qry->Exec("GET") && $qry->rows == 1 ) {
   $request->DoResponse( 200, ($request->method == "HEAD" ? "" : $event->caldav_data), "text/calendar" );
 }
 else if ( $qry->rows < 1 ) {
+  /** TODO: If we are attempting to read a collection we should return an empty VCALENDAR rather than a 404 */
   $request->DoResponse( 404, translate("Calendar Resource Not Found.") );
 }
 else if ( $qry->rows > 1 ) {
