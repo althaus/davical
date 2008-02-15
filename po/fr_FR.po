@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rscds 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-09 22:49+1300\n"
+"POT-Creation-Date: 2008-02-14 13:32+1300\n"
 "PO-Revision-Date: 2006-11-13 13:03+1300\n"
 "Last-Translator: maxime delorme <mdelorme@tennaxia.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,12 +24,12 @@ msgstr "- création des utilisateurs : %s"
 msgid "- deactivating users : %s"
 msgstr "- desactivation des utilisateurs : %s"
 
-#, c-format
-msgid "- nothing done on %s"
+#, fuzzy, c-format
+msgid "- nothing done on : %s"
 msgstr "- rien à faire sur %s"
 
 #, fuzzy, c-format
-msgid "- updating user record %s"
+msgid "- updating user records : %s"
 msgstr "Modifier l'enregistrement de cet utilisateur"
 
 msgid "--- select a relationship type ---"
@@ -667,6 +667,13 @@ msgstr "tous les événements de l'utilisateur %s ont été supprimés et rempla
 #, c-format
 msgid "directory %s is not readable"
 msgstr "le répertoire %s n'est pas accessible en lecture"
+
+msgid "drivers_ldap : Could not start TLS: ldap_start_tls() failed"
+msgstr ""
+
+#, fuzzy
+msgid "drivers_ldap : Failed to set LDAP to use protocol version 3, TLS not supported"
+msgstr "drivers_ldap : impossible de ce connecter à LDAP sur le port %s et sur l'hôte %s"
 
 #, c-format
 msgid ""

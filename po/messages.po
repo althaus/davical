@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-09 22:49+1300\n"
+"POT-Creation-Date: 2008-02-14 13:32+1300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,11 +25,11 @@ msgid "- deactivating users : %s"
 msgstr ""
 
 #, c-format
-msgid "- nothing done on %s"
+msgid "- nothing done on : %s"
 msgstr ""
 
 #, c-format
-msgid "- updating user record %s"
+msgid "- updating user records : %s"
 msgstr ""
 
 msgid "--- select a relationship type ---"
@@ -598,6 +598,14 @@ msgstr ""
 
 #, c-format
 msgid "directory %s is not readable"
+msgstr ""
+
+msgid "drivers_ldap : Could not start TLS: ldap_start_tls() failed"
+msgstr ""
+
+msgid ""
+"drivers_ldap : Failed to set LDAP to use protocol version 3, TLS not "
+"supported"
 msgstr ""
 
 #, c-format
