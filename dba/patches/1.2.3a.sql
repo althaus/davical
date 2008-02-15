@@ -32,6 +32,11 @@ ALTER TABLE caldav_data ADD CONSTRAINT "caldav_data_logged_user_fkey" FOREIGN KE
 ALTER TABLE property DROP CONSTRAINT "property_changed_by_fkey";
 ALTER TABLE property ADD CONSTRAINT "property_changed_by_fkey" FOREIGN KEY (changed_by) REFERENCES usr(user_no) ON UPDATE CASCADE;
 
+ALTER TABLE calendar_item DROP CONSTRAINT "calendar_item_user_no_fkey";
+ALTER TABLE calendar_item ADD CONSTRAINT "calendar_item_user_no_fkey" FOREIGN KEY (user_no) REFERENCES usr(user_no) ON UPDATE CASCADE ON DELETE CASCADE DEFERRABLE;
+ALTER TABLE calendar_item DROP CONSTRAINT "calendar_item_tz_id_fkey";
+ALTER TABLE calendar_item ADD CONSTRAINT "calendar_item_tz_id_fkey" FOREIGN KEY (tz_id) REFERENCES time_zone(tz_id) ON UPDATE CASCADE ON DELETE CASCADE DEFERRABLE;
+
 SELECT new_db_revision(1,2,3, 'Mars' );
 COMMIT;
 ROLLBACK;
