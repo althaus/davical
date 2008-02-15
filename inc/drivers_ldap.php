@@ -112,10 +112,11 @@ class ldapDrivers
       }
       $this->valid = true;
       //root to start search
-      $this->baseDNUsers  = $config['baseDNUsers'];
+      $this->baseDNUsers  = is_string($config['baseDNUsers']) ? array($this->baseDNUsers) : $config['baseDNUsers'];
       $this->filterUsers  = $config['filterUsers'];
       $this->baseDNGroups = $config['baseDNGroups'];
       $this->filterGroups = $config['filterGroups'];
+
   }
 
   /**
@@ -125,18 +126,21 @@ class ldapDrivers
     global $c;
 
     $query = $this->ldap_query_all;
-    $entry = $query($this->connect,$this->baseDNUsers,$this->filterUsers,$attributes);
-    if (!ldap_first_entry($this->connect,$entry))
-            $c->messages[] = sprintf(i18n("Error NoUserFound with filter >%s<, attributes >%s< , dn >%s<"),$this->filterUsers,join(', ',$attributes), $this->baseDNUsers);
-    for($i=ldap_first_entry($this->connect,$entry);
-        $i&&$arr=ldap_get_attributes($this->connect,$i);
-        $i=ldap_next_entry($this->connect,$i)
-    )
-    {
-      for($j=0;$j<$arr['count'];$j++){
+
+    foreach($this->baseDNUsers as $baseDNUsers) { 
+      $entry = $query($this->connect,$baseDNUsers,$this->filterUsers,$attributes);
+
+      if (!ldap_first_entry($this->connect,$entry))
+        $c->messages[] = sprintf(i18n("Error NoUserFound with filter >%s<, attributes >%s< , dn >%s<"),$this->filterUsers,join(', ',$attributes), $baseDNUsers);
+
+      for($i = ldap_first_entry($this->connect,$entry);
+          $i && $arr = ldap_get_attributes($this->connect,$i);
+          $i = ldap_next_entry($this->connect,$i) ) {
+        for ($j=0; $j < $arr['count']; $j++) {
           $row[$arr[$j]] = $arr[$arr[$j]][0];
+        }
+        $ret[]=$row;
       }
-      $ret[]=$row;
     }
     return $ret;
   }
@@ -154,7 +158,14 @@ class ldapDrivers
     $entry=NULL;
     // We get the DN of the USER
     $query = $this->ldap_query_one;
-    $entry = $query($this->connect, $this->baseDNUsers, $filter,$attributes);
+
+    foreach($this->baseDNUsers as $baseDNUsers) { 
+      $entry = $query($this->connect, $baseDNUsers, $filter, $attributes);
+
+      if (ldap_first_entry($this->connect,$entry) )
+        break;
+    } 
+
     if ( !ldap_first_entry($this->connect, $entry) ){
       dbg_error_log( "ERROR", "drivers_ldap : Unable to find the user with filter %s",$filter );
       return false;
