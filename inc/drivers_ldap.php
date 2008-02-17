@@ -105,6 +105,7 @@ class ldapDrivers
       if (!ldap_bind($this->connect,$config['bindDN'],$config['passDN'])){
           $bindDN = isset($config['bindDN']) ? $config['bindDN'] : 'anonymous';
           $passDN = isset($config['passDN']) ? $config['passDN'] : 'anonymous';
+          dbg_error_log( "LDAP", "drivers_ldap : Failed to bind using bindDN of %s and passDB of %s", $bindDN, $passDN );
           $c->messages[] = sprintf(i18n( "drivers_ldap : Unable to bind to LDAP, check your bindDN >%s< and passDN >%s< of your configuration or if your server is reachable"),$bindDN,$passDN );
           $c->messages[] = sprintf(i18n( "if your use OpenLDAP 2.X.X maybe, unable to connect to LDAP with port %s on host %s"), $port,$host );
           $this->valid=false;
@@ -112,11 +113,10 @@ class ldapDrivers
       }
       $this->valid = true;
       //root to start search
-      $this->baseDNUsers  = is_string($config['baseDNUsers']) ? array($this->baseDNUsers) : $config['baseDNUsers'];
+      $this->baseDNUsers  = is_string($config['baseDNUsers']) ? array($config['baseDNUsers']) : $config['baseDNUsers'];
       $this->filterUsers  = $config['filterUsers'];
       $this->baseDNGroups = $config['baseDNGroups'];
       $this->filterGroups = $config['filterGroups'];
-
   }
 
   /**
@@ -164,6 +164,8 @@ class ldapDrivers
 
       if (ldap_first_entry($this->connect,$entry) )
         break;
+
+      dbg_error_log( "LDAP", "drivers_ldap : Failed to find user with baseDN: %s", $baseDNUsers );
     } 
 
     if ( !ldap_first_entry($this->connect, $entry) ){
