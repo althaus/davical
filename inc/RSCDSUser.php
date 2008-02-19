@@ -113,9 +113,6 @@ class RSCDSUser extends User
     $browser->AddColumn( 'fullname', translate('Linked To'), 'left', '##user_link##' );
     $browser->AddHidden( 'confers' );
     $browser->AddColumn( 'email', translate('EMail') );
-    if ( $ef->EditMode ) { // && $session->AllowedTo("MaintainRelationships") ) {
-      $browser->AddColumn( 'delete', translate('Delete'), 'centre', '', "'<a class=\"\" href=\"$c->base_url/usr.php?edit=1&user_no=$this->user_no&action=delete_relationship&to_user=' || user_no || '\">Delete</a>'" );
-    }
 
     $browser->SetJoins( 'relationship NATURAL JOIN relationship_type rt LEFT JOIN usr ON (to_user = user_no)' );
     $browser->SetWhere( "from_user = $this->user_no" );
@@ -139,42 +136,6 @@ class RSCDSUser extends User
     }
     $browser->DoQuery();
 
-    /**
-    * Present an extra editable row at the bottom of the browse.
-    */
-    if ( $ef->EditMode ) { // && $session->AllowedTo("MaintainRelationships") ) {
-      $sql = <<<EOSQL
-SELECT user_no, fullname FROM usr
- WHERE NOT EXISTS ( SELECT 0 FROM relationship WHERE (to_user = usr.user_no AND from_user = $this->user_no))
-   AND user_no != $this->user_no
-EOSQL;
-      if ( isset($this->roles['Group']) ) {
-        /**
-        * We only allow individuals to link to groups at this stage.
-        */
-        $sql .= 'AND NOT EXISTS (SELECT 1 FROM role_member WHERE role_no = 2 AND user_no=usr.user_no)';
-      }
-
-      if ( isset($this->roles['Group']) )
-        $nullvalue = translate( "--- select a user, group or resource ---" );
-      else
-        $nullvalue = translate( "--- select a user or resource ---" );
-      $person_selection = $ef->DataEntryField( "", "lookup", "relate_to",
-                                array("title" => translate("Select the user, resource or group to relate this user to"),
-                                      "_null" => $nullvalue,
-                                      "_sql"  => $sql ) );
-
-      $relationship_type_selection = $ef->DataEntryField( "", "lookup", "relate_as",
-                                array("title" => translate("Select the type of relationship from this user"),
-                                      "_null" => translate("--- select a relationship type ---"),
-                                      "_sql"  => "SELECT rt_id, rt_name FROM relationship_type " ) );
-
-      $browser->AddRow( array(
-                      'rt_name' => $relationship_type_selection,  /* Since 'fullname' is formatted to display this value */
-                      'user_link' => $person_selection,
-                      'delete' => sprintf('<input type="submit" name="submit" value="%s" class="fsubmit">', htmlspecialchars(translate("Add Relationship")))
-                     ) );
-    }
 
     $html = ( $title == "" ? "" : $ef->BreakLine(translate($title)) );
     $html .= "<tr><td>&nbsp;</td><td>\n";
@@ -200,6 +161,9 @@ EOSQL;
     $browser->AddColumn( 'rt_name', translate('Relationship') );
     $browser->AddHidden( 'confers' );
     $browser->AddColumn( 'email', translate('EMail') );
+    if ( $ef->EditMode ) { // && $session->AllowedTo("MaintainRelationships") ) {
+      $browser->AddColumn( 'delete', translate('Delete'), 'centre', '', "'<a class=\"\" href=\"$c->base_url/usr.php?edit=1&user_no=$this->user_no&action=delete_relationship&to_user=' || user_no || '\">Delete</a>'" );
+    }
 
     $browser->SetJoins( 'relationship NATURAL JOIN relationship_type rt LEFT JOIN usr ON (from_user = user_no)' );
     $browser->SetWhere( "to_user = $this->user_no" );
@@ -212,6 +176,43 @@ EOSQL;
 
     $browser->RowFormat( "<tr onMouseover=\"LinkHref(this,1);\" title=\"".translate("Click to display that user")."\" class=\"r%d\">\n", "</tr>\n", '#even' );
     $browser->DoQuery();
+
+    /**
+    * Present an extra editable row at the bottom of the browse.
+    */
+    if ( $ef->EditMode ) { // && $session->AllowedTo("MaintainRelationships") ) {
+      $sql = <<<EOSQL
+SELECT user_no, fullname FROM usr
+ WHERE NOT EXISTS ( SELECT 0 FROM relationship WHERE (from_user = usr.user_no AND to_user = $this->user_no))
+   AND user_no != $this->user_no
+EOSQL;
+      if ( isset($this->roles['Group']) ) {
+        /**
+        * We only allow individuals to link to groups at this stage.
+        */
+//        $sql .= 'AND NOT EXISTS (SELECT 1 FROM role_member WHERE role_no = 2 AND user_no=usr.user_no)';
+      }
+
+//      if ( isset($this->roles['Group']) )
+        $nullvalue = translate( "--- select a user, group or resource ---" );
+//      else
+//        $nullvalue = translate( "--- select a user or resource ---" );
+      $person_selection = $ef->DataEntryField( "", "lookup", "relate_to",
+                                array("title" => translate("Select the user, resource or group to relate this user to"),
+                                      "_null" => $nullvalue,
+                                      "_sql"  => $sql ) );
+
+      $relationship_type_selection = $ef->DataEntryField( "", "lookup", "relate_as",
+                                array("title" => translate("Select the type of relationship from this user"),
+                                      "_null" => translate("--- select a relationship type ---"),
+                                      "_sql"  => "SELECT rt_id, rt_name FROM relationship_type " ) );
+
+      $browser->AddRow( array(
+                      'user_link' => $person_selection,
+                      'rt_name' => $relationship_type_selection,  /* Since 'fullname' is formatted to display this value */
+                      'delete' => sprintf('<input type="submit" name="submit" value="%s" class="fsubmit">', htmlspecialchars(translate("Add Relationship")))
+                     ) );
+    }
 
     $html = ( $title == "" ? "" : $ef->BreakLine(translate($title)) );
     $html .= "<tr><td>&nbsp;</td><td>\n";
@@ -313,7 +314,7 @@ EOSQL;
       }
       if ( $this->AllowedTo("Admin") && isset($_POST['relate_to']) && $_POST['relate_to'] != '' && isset($_POST['relate_as']) && $_POST['relate_as'] != '' && isset($_POST['submit']) && $_POST['submit'] == htmlspecialchars(translate('Add Relationship')) ) {
         dbg_error_log("User",":Write: Adding relationship as %d to %d", $_POST['relate_as'], isset($_POST['relate_to'] ) );
-        $qry = new PgQuery("INSERT INTO relationship (from_user, to_user, rt_id ) VALUES( $this->user_no, ?, ? )", $_POST['relate_to'], $_POST['relate_as'] );
+        $qry = new PgQuery("INSERT INTO relationship (from_user, to_user, rt_id ) VALUES( ?, $this->user_no, ? )", $_POST['relate_to'], $_POST['relate_as'] );
         if ( $qry->Exec() ) {
           $c->messages[] = i18n("Relationship added.");
         }
