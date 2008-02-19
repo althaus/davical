@@ -190,13 +190,13 @@ EOSQL;
         /**
         * We only allow individuals to link to groups at this stage.
         */
-//        $sql .= 'AND NOT EXISTS (SELECT 1 FROM role_member WHERE role_no = 2 AND user_no=usr.user_no)';
+        $sql .= 'AND NOT EXISTS (SELECT 1 FROM role_member WHERE role_no = 2 AND user_no=usr.user_no)';
       }
 
-//      if ( isset($this->roles['Group']) )
+      if ( ! isset($this->roles['Group']) )
         $nullvalue = translate( "--- select a user, group or resource ---" );
-//      else
-//        $nullvalue = translate( "--- select a user or resource ---" );
+      else
+        $nullvalue = translate( "--- select a user or resource ---" );
       $person_selection = $ef->DataEntryField( "", "lookup", "relate_to",
                                 array("title" => translate("Select the user, resource or group to relate this user to"),
                                       "_null" => $nullvalue,
