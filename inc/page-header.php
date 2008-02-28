@@ -1,7 +1,7 @@
 <?php
 
 if ( !isset($c->page_title) ) {
-  $c->page_title = translate("Really Simple CalDAV Store");
+  $c->page_title = translate("DAViCal CalDAV Server");
 }
 
 function make_help_link($matches)
