@@ -105,8 +105,8 @@ class ldapDrivers
       if (!ldap_bind($this->connect,$config['bindDN'],$config['passDN'])){
           $bindDN = isset($config['bindDN']) ? $config['bindDN'] : 'anonymous';
           $passDN = isset($config['passDN']) ? $config['passDN'] : 'anonymous';
-          dbg_error_log( "LDAP", "drivers_ldap : Failed to bind using bindDN of %s and passDB of %s", $bindDN, $passDN );
-          $c->messages[] = sprintf(i18n( "drivers_ldap : Unable to bind to LDAP, check your bindDN >%s< and passDN >%s< of your configuration or if your server is reachable"),$bindDN,$passDN );
+          dbg_error_log( "LDAP", "drivers_ldap : Failed to bind using bindDN of %s and passDN of %s", $bindDN, $passDN );
+          $c->messages[] = sprintf(i18n( "drivers_ldap : Unable to bind to LDAP, check your bindDN >%s< >%s< in your configuration or if your server is reachable"),$bindDN );
           $c->messages[] = sprintf(i18n( "if your use OpenLDAP 2.X.X maybe, unable to connect to LDAP with port %s on host %s"), $port,$host );
           $this->valid=false;
           return ;
