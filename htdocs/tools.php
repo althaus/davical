@@ -60,7 +60,7 @@ class Tools {
     </ul>"));
     $html .= "</table>\n";
 
-    $html .= $ef->SubmitButton( "Sync_LDAP", 'submit');
+    $html .= $ef->SubmitButton( "Sync_LDAP", translate('Submit'));
     $html .= $ef->EndForm();
 
     $html .= "</div>";
@@ -87,7 +87,7 @@ class Tools {
                 array( "size" => 20, "title" => translate("The path on the server where your .ics files are.")));
 
       $html .= "</table>\n";
-      $html .= $ef->SubmitButton( "import_from_directory", 'submit');
+      $html .= $ef->SubmitButton( "import_from_directory", translate('Submit'));
       $html .= $ef->EndForm();
 
       $html .= "</div>";
@@ -139,10 +139,10 @@ class Tools {
             if(controlRequestContainer(substr($file,0,-4),$user_no, $path,false) === -1)
               continue;
             import_collection($ics,$user_no,$path,1);
-            $c->messages[] = sprintf(i18n("all events of user %s were deleted and replaced by those from file %s"),substr($file,0,-4),$dir.'/'.$file);
+            $c->messages[] = sprintf(translate("all events of user %s were deleted and replaced by those from file %s"),substr($file,0,-4),$dir.'/'.$file);
           }
           else {
-            $c->messages[] =  sprintf(i18n("the file %s is not UTF-8 encoded, please check error for more details"),$dir.'/'.$file);
+            $c->messages[] =  sprintf(translate("the file %s is not UTF-8 encoded, please check error for more details"),$dir.'/'.$file);
           }
         }
       }
@@ -153,4 +153,3 @@ class Tools {
 
 include("page-footer.php");
 
-?>
