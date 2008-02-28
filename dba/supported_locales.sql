@@ -21,3 +21,5 @@ INSERT INTO supported_locales ( locale, locale_name_en, locale_name_locale )
     VALUES( 'pl_PL', 'Polish',  'Polski' );
 INSERT INTO supported_locales ( locale, locale_name_en, locale_name_locale )
     VALUES( 'hu_HU', 'Hungarian',  'Magyar' );
+INSERT INTO supported_locales ( locale, locale_name_en, locale_name_locale )
+    VALUES( 'ja_JP', 'Japanese',  '日本語' );
