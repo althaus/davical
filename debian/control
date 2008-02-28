@@ -7,7 +7,7 @@ Build-Depends: debhelper
 
 Package: rscds
 Architecture: all
-Depends: debconf (>= 1.0.32), php5 | php4 (>= 4:4.3), php5-pgsql | php4-pgsql(>= 3:4.3.0), postgresql-client (>= 7.4), libawl-php (>=0.25), libclass-dbi-pg-perl, php5 | php4-domxml, libyaml-perl
+Depends: debconf (>= 1.0.32), php5 | php4 (>= 4:4.3), php5-pgsql | php4-pgsql(>= 3:4.3.0), postgresql-client (>= 7.4), libawl-php (>=0.26), libclass-dbi-pg-perl, php5 | php4-domxml, libyaml-perl
 Description: DAViCal CalDAV Server
  The DAViCal CalDAV Server is designed to trivially store
  CalDAV calendars, such as those from Evolution, Sunbird/Lightning,
