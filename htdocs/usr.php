@@ -81,11 +81,11 @@
     $user_menu->AddOption(translate("New User"),"$c->base_url/usr.php?create",translate("Add a new user"), false, 10);
 
   if ( $user->user_no > 0 ) {
-    if ( $user->AllowedTo('update') ) {
-    	$user_menu->AddOption( translate($user->EditMode?"View":"Edit")." ".$user->Values->fullname, "$c->base_url/usr.php?user_no=$user->user_no".($user->EditMode?"":"&edit=1"), translate(($user->EditMode?"View":"Edit")." this user record"), true, 900 );
+    if ( $user->AllowedTo('update') && ! $user->EditMode ) {
+    	$user_menu->AddOption( sprintf(translate("Edit %s"), $user->Values->fullname), "$c->base_url/usr.php?user_no=$user->user_no&edit=1", translate("Edit this user record"), true, 900 );
     }
     else {
-      $user_menu->AddOption( translate("View")." ".$user->Values->fullname, "$c->base_url/usr.php?user_no=$user->user_no", translate("View this user record"), true, 900 );
+      $user_menu->AddOption( sprintf(translate("View %s"), $user->Values->fullname), "$c->base_url/usr.php?user_no=$user->user_no", translate("View this user record"), true, 900 );
     }
   }
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-28 13:53+1300\n"
+"POT-Creation-Date: 2008-02-28 14:55+1300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Eelco Maljaars <http://eelco.maljaars.net/>\n"
 "Language-Team: nl_NL <LL@li.org>\n"
@@ -144,6 +144,9 @@ msgstr "Maak"
 msgid "Created On"
 msgstr "Gemaakt op"
 
+msgid "DAViCal CalDAV Server"
+msgstr ""
+
 #, fuzzy
 msgid "Database Error"
 msgstr "Database fout"
@@ -183,6 +186,10 @@ msgstr "Fout: %s"
 
 msgid "ERROR: There was a database error writing the roles information!"
 msgstr "Fout: Database fout bij het schrijven van rolleninformatie"
+
+#, fuzzy, c-format
+msgid "Edit %s"
+msgstr "Verander"
 
 msgid "Edit this user record"
 msgstr "Verander deze gebruiker"
@@ -361,9 +368,6 @@ msgstr ""
 msgid "REPORT body is not valid XML data!"
 msgstr ""
 
-msgid "Really Simple CalDAV Store"
-msgstr "Erg Simpele CalDAV Opslag"
-
 msgid "Relationship <!-- in the sense of a work relationship between people -->"
 msgstr "Relatie"
 
@@ -537,14 +541,15 @@ msgstr "Gebruikersgegevens geschreven"
 msgid "Users"
 msgstr "Gebruikers"
 
+#, fuzzy, c-format
+msgid "View %s"
+msgstr "Beeld"
+
 msgid "View my own user record"
 msgstr "Bekijk mijn eigen gebruikersgegevens"
 
 msgid "View this user record"
 msgstr "Bekijk deze gebruikersgegevens"
-
-msgid "View"
-msgstr "Beeld"
 
 msgid "When the user's e-mail account was validated."
 msgstr "Wanneer het e-mail account van de gebruiker bevestigd is"
@@ -652,8 +657,8 @@ msgstr "je moet inloggen met de gebruikersnaam en het wachtwoord die je zijn toe
 msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
 msgstr ""
 
-#~ msgid "Edit"
-#~ msgstr "Verander"
+#~ msgid "Really Simple CalDAV Store"
+#~ msgstr "Erg Simpele CalDAV Opslag"
 
 #, fuzzy
 #~ msgid ""

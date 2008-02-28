@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rscds 0.3.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-28 13:53+1300\n"
+"POT-Creation-Date: 2008-02-28 14:55+1300\n"
 "PO-Revision-Date: 2006-11-13 23:07+0500\n"
 "Last-Translator: Nick Khazov <m2k3d0n@users.sourceforge.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -148,6 +148,9 @@ msgstr "Создать"
 msgid "Created On"
 msgstr "Создать"
 
+msgid "DAViCal CalDAV Server"
+msgstr ""
+
 msgid "Database Error"
 msgstr ""
 
@@ -185,6 +188,10 @@ msgid "ERROR: %s"
 msgstr ""
 
 msgid "ERROR: There was a database error writing the roles information!"
+msgstr ""
+
+#, c-format
+msgid "Edit %s"
 msgstr ""
 
 #, fuzzy
@@ -368,9 +375,6 @@ msgstr ""
 msgid "REPORT body is not valid XML data!"
 msgstr ""
 
-msgid "Really Simple CalDAV Store"
-msgstr "Действительно простое хранилище CalDAV"
-
 msgid "Relationship <!-- in the sense of a work relationship between people -->"
 msgstr ""
 
@@ -549,15 +553,16 @@ msgstr ""
 msgid "Users"
 msgstr "Пользователи"
 
+#, c-format
+msgid "View %s"
+msgstr ""
+
 msgid "View my own user record"
 msgstr "Посмотреть мою учетную запись"
 
 #, fuzzy
 msgid "View this user record"
 msgstr "Посмотреть мою учетную запись"
-
-msgid "View"
-msgstr ""
 
 msgid "When the user's e-mail account was validated."
 msgstr ""
@@ -663,6 +668,9 @@ msgstr "вы должны войти под тем именем польззов
 
 msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
 msgstr ""
+
+#~ msgid "Really Simple CalDAV Store"
+#~ msgstr "Действительно простое хранилище CalDAV"
 
 #~ msgid "Group?"
 #~ msgstr "Группа?"

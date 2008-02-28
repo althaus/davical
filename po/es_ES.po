@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RSCDS 0.2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-28 13:53+1300\n"
+"POT-Creation-Date: 2008-02-28 14:55+1300\n"
 "PO-Revision-Date: 2006-11-06 17:12+1300\n"
 "Last-Translator: Lorena Paoletti <andrew@mcmillan.net.nz>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -148,6 +148,9 @@ msgstr "Crear"
 msgid "Created On"
 msgstr "Crear"
 
+msgid "DAViCal CalDAV Server"
+msgstr ""
+
 #, fuzzy
 msgid "Database Error"
 msgstr "Error en la Base de Datos."
@@ -187,6 +190,10 @@ msgstr ""
 
 msgid "ERROR: There was a database error writing the roles information!"
 msgstr "ERROR: Hubo un error en la base de datos al grabar la información de los roles!"
+
+#, fuzzy, c-format
+msgid "Edit %s"
+msgstr "Editar"
 
 msgid "Edit this user record"
 msgstr "Mostrar el registro de éste usuario"
@@ -365,9 +372,6 @@ msgstr ""
 msgid "REPORT body is not valid XML data!"
 msgstr ""
 
-msgid "Really Simple CalDAV Store"
-msgstr "Almacenamiento CalDAV realmente simple"
-
 msgid "Relationship <!-- in the sense of a work relationship between people -->"
 msgstr "Relación"
 
@@ -540,14 +544,15 @@ msgstr "Registro del usuario grabado."
 msgid "Users"
 msgstr "Usuarios"
 
+#, fuzzy, c-format
+msgid "View %s"
+msgstr "Mostrar"
+
 msgid "View my own user record"
 msgstr "Mostrar mi registro de usuario"
 
 msgid "View this user record"
 msgstr "Mostrar éste registro de usuario"
-
-msgid "View"
-msgstr "Mostrar"
 
 msgid "When the user's e-mail account was validated."
 msgstr "Cuando fue validada la cuenta de correo del usuario."
@@ -654,8 +659,8 @@ msgstr "Para conectarse debe utilizar el nombre de usuario y contraseña que le 
 msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
 msgstr ""
 
-#~ msgid "Edit"
-#~ msgstr "Editar"
+#~ msgid "Really Simple CalDAV Store"
+#~ msgstr "Almacenamiento CalDAV realmente simple"
 
 #~ msgid "Group?"
 #~ msgstr "¿Grupo?"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rscds 0.7.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-28 13:53+1300\n"
+"POT-Creation-Date: 2008-02-28 14:55+1300\n"
 "PO-Revision-Date: 2007-05-03 15:00+0001\n"
 "Last-Translator: David Takacs <david.takacs@cafeopen.eu>\n"
 "Language-Team: \n"
@@ -143,6 +143,9 @@ msgstr "Új létrehozása"
 msgid "Created On"
 msgstr "Létrehozva"
 
+msgid "DAViCal CalDAV Server"
+msgstr ""
+
 msgid "Database Error"
 msgstr "Adatbázis-hiba"
 
@@ -180,6 +183,10 @@ msgstr "HIBA: %s"
 
 msgid "ERROR: There was a database error writing the roles information!"
 msgstr "HIBA: Adatbázis-hiba történt a szerepek írásakor"
+
+#, fuzzy, c-format
+msgid "Edit %s"
+msgstr "Szerkesztés"
 
 msgid "Edit this user record"
 msgstr "Felhasználó szerkesztése"
@@ -357,9 +364,6 @@ msgstr ""
 msgid "REPORT body is not valid XML data!"
 msgstr ""
 
-msgid "Really Simple CalDAV Store"
-msgstr "Really Simple CalDAV Store"
-
 msgid "Relationship <!-- in the sense of a work relationship between people -->"
 msgstr "Kapcsolat"
 
@@ -533,14 +537,15 @@ msgstr "Felhasználó adatai tárolva."
 msgid "Users"
 msgstr "Felhasználók"
 
+#, fuzzy, c-format
+msgid "View %s"
+msgstr "Megtekintés"
+
 msgid "View my own user record"
 msgstr "Adataim"
 
 msgid "View this user record"
 msgstr "Felhasználó adatai"
-
-msgid "View"
-msgstr "Megtekintés"
 
 msgid "When the user's e-mail account was validated."
 msgstr "Mikor lett ellenőrizve a felhasználó e-mail-címe"
@@ -647,8 +652,8 @@ msgstr "Lépjen be felhasználónevével és jelszavával."
 msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
 msgstr ""
 
-#~ msgid "Edit"
-#~ msgstr "Szerkesztés"
+#~ msgid "Really Simple CalDAV Store"
+#~ msgstr "Really Simple CalDAV Store"
 
 #~ msgid ""
 #~ "You may not PUT a collection - you may only PUT things *in* one or use MKCOL/MKCALENDAR to create "

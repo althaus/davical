@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-28 13:53+1300\n"
+"POT-Creation-Date: 2008-02-28 14:55+1300\n"
 "PO-Revision-Date: 2008-02-27 16:04+0900\n"
 "Last-Translator: Shu NAKAMAE <griffin6630@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -143,6 +143,9 @@ msgstr "作成"
 msgid "Created On"
 msgstr "作成日時"
 
+msgid "DAViCal CalDAV Server"
+msgstr ""
+
 msgid "Database Error"
 msgstr "データベースエラー"
 
@@ -179,6 +182,10 @@ msgstr "エラー: %s"
 
 msgid "ERROR: There was a database error writing the roles information!"
 msgstr "エラー：ロール情報の書き込み中にデータベースエラーが起きました。"
+
+#, c-format
+msgid "Edit %s"
+msgstr ""
 
 msgid "Edit this user record"
 msgstr "このユーザ情報を編集"
@@ -355,9 +362,6 @@ msgstr "レポートの本文にXMLデータがありません！"
 msgid "REPORT body is not valid XML data!"
 msgstr "レポートの本文は有効なXMLデータではありません！"
 
-msgid "Really Simple CalDAV Store"
-msgstr "Really Simple CalDAV Store"
-
 msgid "Relationship <!-- in the sense of a work relationship between people -->"
 msgstr "Relationship <!-- ユーザ間の共有関係 -->"
 
@@ -530,14 +534,15 @@ msgstr "ユーザ記録書き込み済み。"
 msgid "Users"
 msgstr "ユーザ"
 
+#, fuzzy, c-format
+msgid "View %s"
+msgstr "閲覧"
+
 msgid "View my own user record"
 msgstr "自分のユーザ記録を閲覧する"
 
 msgid "View this user record"
 msgstr "このユーザ記録を閲覧する"
-
-msgid "View"
-msgstr "閲覧"
 
 msgid "When the user's e-mail account was validated."
 msgstr "ユーザのメールアドレスが検証された日程。"
@@ -644,6 +649,9 @@ msgstr "与えられたユーザ名とパスワードでログインして下さ
 
 msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
 msgstr "この操作は次のことをします：<ul><li>LDAPディレクトリで有効なユーザを確認</li>"
+
+#~ msgid "Really Simple CalDAV Store"
+#~ msgstr "Really Simple CalDAV Store"
 
 #~ msgid "if your use OpenLDAP 2.X.X maybe, unable to connect to LDAP with port %s on host %s"
 #~ msgstr ""

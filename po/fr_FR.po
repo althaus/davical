@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rscds 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-28 13:53+1300\n"
+"POT-Creation-Date: 2008-02-28 14:55+1300\n"
 "PO-Revision-Date: 2006-11-13 13:03+1300\n"
 "Last-Translator: maxime delorme <mdelorme@tennaxia.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -151,6 +151,9 @@ msgstr "Créer"
 msgid "Created On"
 msgstr "Créé le"
 
+msgid "DAViCal CalDAV Server"
+msgstr ""
+
 msgid "Database Error"
 msgstr "Erreur base de données"
 
@@ -192,6 +195,10 @@ msgid "ERROR: There was a database error writing the roles information!"
 msgstr ""
 "ERREUR: Il y a eu une erreur dans la base de données lors de l'écriture des informations pour les "
 "rôles !"
+
+#, fuzzy, c-format
+msgid "Edit %s"
+msgstr "Modifier"
 
 msgid "Edit this user record"
 msgstr "Modifier l'enregistrement de cet utilisateur"
@@ -388,12 +395,6 @@ msgstr ""
 
 msgid "REPORT body is not valid XML data!"
 msgstr ""
-
-# This is the (current, working) name of the application.  It may change
-# if I (or someone else) can think of a better one.  It's optional to
-# translate it.
-msgid "Really Simple CalDAV Store"
-msgstr "Really Simple CalDAV Store"
 
 msgid "Relationship <!-- in the sense of a work relationship between people -->"
 msgstr "Relation de travail"
@@ -602,6 +603,11 @@ msgstr "Données utilisateur correctment enregistrées."
 msgid "Users"
 msgstr "Utilisateurs"
 
+# Display something in a non-editable way.
+#, fuzzy, c-format
+msgid "View %s"
+msgstr "Consulter"
+
 # Tooltip text for a link which will display the currently logged in user's
 # account details.
 msgid "View my own user record"
@@ -611,10 +617,6 @@ msgstr "Consulter mes données personnelles"
 # account details.
 msgid "View this user record"
 msgstr "Consulter les informations de cet utilisateur"
-
-# Display something in a non-editable way.
-msgid "View"
-msgstr "Consulter"
 
 msgid "When the user's e-mail account was validated."
 msgstr "Date à laquelle l'adresse courriel de cet utilisateur a été validée."
@@ -727,13 +729,16 @@ msgstr "Vous devez vous connecter avec le nom d'utilisateur et le mot de passe q
 msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
 msgstr "Cette opération execute  : <ul><li>vérifie les utilisateurs valides de l'annuaire LDAP</li>"
 
+# This is the (current, working) name of the application.  It may change
+# if I (or someone else) can think of a better one.  It's optional to
+# translate it.
+#~ msgid "Really Simple CalDAV Store"
+#~ msgstr "Really Simple CalDAV Store"
+
 #~ msgid "if your use OpenLDAP 2.X.X maybe, unable to connect to LDAP with port %s on host %s"
 #~ msgstr ""
 #~ "si vous utilisez OpenLDAP 2.X.X, impossible de ce connecter à serveur LDAP sur le port %s et sur "
 #~ "l'hôte %s"
-
-#~ msgid "Edit"
-#~ msgstr "Modifier"
 
 #~ msgid ""
 #~ "You may not PUT a collection - you may only PUT things *in* one or use MKCOL/MKCALENDAR to create "

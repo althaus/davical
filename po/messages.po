@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-28 13:53+1300\n"
+"POT-Creation-Date: 2008-02-28 14:55+1300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -146,6 +146,9 @@ msgstr ""
 msgid "Created On"
 msgstr ""
 
+msgid "DAViCal CalDAV Server"
+msgstr ""
+
 msgid "Database Error"
 msgstr ""
 
@@ -181,6 +184,10 @@ msgid "ERROR: %s"
 msgstr ""
 
 msgid "ERROR: There was a database error writing the roles information!"
+msgstr ""
+
+#, c-format
+msgid "Edit %s"
 msgstr ""
 
 msgid "Edit this user record"
@@ -358,9 +365,6 @@ msgid "REPORT body contains no XML data!"
 msgstr ""
 
 msgid "REPORT body is not valid XML data!"
-msgstr ""
-
-msgid "Really Simple CalDAV Store"
 msgstr ""
 
 msgid ""
@@ -541,13 +545,14 @@ msgstr ""
 msgid "Users"
 msgstr ""
 
+#, c-format
+msgid "View %s"
+msgstr ""
+
 msgid "View my own user record"
 msgstr ""
 
 msgid "View this user record"
-msgstr ""
-
-msgid "View"
 msgstr ""
 
 msgid "When the user's e-mail account was validated."
