@@ -1,17 +1,17 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+# DAViCal Japanese Translation
+# Copyright (C) 2008, Shu NAKAMAE
+# This file is distributed under the same license as the DAViCal package.
+# Shu NAKAMAE <griffin6630@hotmail.com>, 2008.
+#
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: DAViCal 0.9.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-28 14:55+1300\n"
+"POT-Creation-Date: 2008-02-28 21:17+1300\n"
 "PO-Revision-Date: 2008-02-27 16:04+0900\n"
 "Last-Translator: Shu NAKAMAE <griffin6630@hotmail.com>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 16bit\n"
@@ -77,7 +77,7 @@ msgid "Admin <!-- in the sense of 'systems admin' -->"
 msgstr "Admin <!-- 「システムアドミン」の感覚 ==>"
 
 msgid "Admin"
-msgstr "Admin"
+msgstr "管理者"
 
 msgid "Administers"
 msgstr "管理する"
@@ -88,6 +88,9 @@ msgstr "ユーザ%sの全てのイベントは削除され、ファイルもの�
 
 msgid "All requested changes were made."
 msgstr "全ての要請された変更は実行されました。"
+
+msgid "All"
+msgstr ""
 
 msgid "Browse all relationship types"
 msgstr "全ての共有タイプを閲覧"
@@ -144,7 +147,7 @@ msgid "Created On"
 msgstr "作成日時"
 
 msgid "DAViCal CalDAV Server"
-msgstr ""
+msgstr "DAViCal CalDAV Server"
 
 msgid "Database Error"
 msgstr "データベースエラー"
@@ -185,7 +188,7 @@ msgstr "エラー：ロール情報の書き込み中にデータベースエラ
 
 #, c-format
 msgid "Edit %s"
-msgstr ""
+msgstr "%sを編集"
 
 msgid "Edit this user record"
 msgstr "このユーザ情報を編集"
@@ -223,6 +226,10 @@ msgstr "終了"
 
 msgid "For access to the"
 msgstr "アクセスを得るには"
+
+#, fuzzy
+msgid "FreeBusy"
+msgstr "予定あり"
 
 msgid "Full Name"
 msgstr "氏名"
@@ -330,7 +337,7 @@ msgid "No. <!-- short for 'Number' -->"
 msgstr "No. <!-- 'Number'の略称 -->"
 
 msgid "No."
-msgstr "No."
+msgstr "番号"
 
 msgid "Operations on your calendar"
 msgstr "カレンダー上の操作"
@@ -354,13 +361,19 @@ msgid "Public <!-- in the sense of being available to all users -->"
 msgstr "Public <!-- 全てのユーザにアクセス可能である -->"
 
 msgid "Public"
-msgstr "Public"
+msgstr "共用"
 
 msgid "REPORT body contains no XML data!"
 msgstr "レポートの本文にXMLデータがありません！"
 
 msgid "REPORT body is not valid XML data!"
 msgstr "レポートの本文は有効なXMLデータではありません！"
+
+msgid "Read"
+msgstr ""
+
+msgid "ReadWrite"
+msgstr ""
 
 msgid "Relationship <!-- in the sense of a work relationship between people -->"
 msgstr "Relationship <!-- ユーザ間の共有関係 -->"
@@ -449,6 +462,9 @@ msgstr "幾つかの特性は設定できませんでした。"
 msgid "Start"
 msgstr "開始"
 
+msgid "Submit"
+msgstr ""
+
 msgid "Summary"
 msgstr "概要"
 
@@ -536,7 +552,7 @@ msgstr "ユーザ"
 
 #, fuzzy, c-format
 msgid "View %s"
-msgstr "閲覧"
+msgstr "%sを閲覧"
 
 msgid "View my own user record"
 msgstr "自分のユーザ記録を閲覧する"
@@ -546,6 +562,9 @@ msgstr "このユーザ記録を閲覧する"
 
 msgid "When the user's e-mail account was validated."
 msgstr "ユーザのメールアドレスが検証された日程。"
+
+msgid "Write"
+msgstr ""
 
 msgid "You are editing"
 msgstr "編集中"

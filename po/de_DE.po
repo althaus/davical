@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RSCDS 0.2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-28 14:55+1300\n"
+"POT-Creation-Date: 2008-02-28 21:16+1300\n"
 "PO-Revision-Date: 2006-11-06 17:24+1300\n"
 "Last-Translator: Cristina Radalescu <andrew@mcmillan.net.nz>\n"
 "MIME-Version: 1.0\n"
@@ -87,6 +87,9 @@ msgid "All events of user %s were deleted and replaced by those from the file."
 msgstr ""
 
 msgid "All requested changes were made."
+msgstr ""
+
+msgid "All"
 msgstr ""
 
 msgid "Browse all relationship types"
@@ -232,6 +235,9 @@ msgstr ""
 msgid "For access to the"
 msgstr "Für Zugriff auf"
 
+msgid "FreeBusy"
+msgstr ""
+
 msgid "Full Name"
 msgstr "Vollständiger Name"
 
@@ -374,6 +380,12 @@ msgstr ""
 msgid "REPORT body is not valid XML data!"
 msgstr ""
 
+msgid "Read"
+msgstr ""
+
+msgid "ReadWrite"
+msgstr ""
+
 msgid "Relationship <!-- in the sense of a work relationship between people -->"
 msgstr "Verhältnis"
 
@@ -459,6 +471,9 @@ msgid "Some properties were not able to be set."
 msgstr ""
 
 msgid "Start"
+msgstr ""
+
+msgid "Submit"
 msgstr ""
 
 msgid "Summary"
@@ -558,6 +573,9 @@ msgstr "Diesen Benutzerdatensatz anzeigen"
 
 msgid "When the user's e-mail account was validated."
 msgstr "Wenn das E-Mail Konto des Benutzers bestätigt wird"
+
+msgid "Write"
+msgstr ""
 
 msgid "You are editing"
 msgstr ""

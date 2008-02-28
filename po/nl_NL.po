@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-28 14:55+1300\n"
+"POT-Creation-Date: 2008-02-28 21:16+1300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Eelco Maljaars <http://eelco.maljaars.net/>\n"
 "Language-Team: nl_NL <LL@li.org>\n"
@@ -88,6 +88,9 @@ msgid "All events of user %s were deleted and replaced by those from the file."
 msgstr ""
 
 msgid "All requested changes were made."
+msgstr ""
+
+msgid "All"
 msgstr ""
 
 msgid "Browse all relationship types"
@@ -229,6 +232,9 @@ msgstr "Beeindigen"
 msgid "For access to the"
 msgstr "Voor toegang tot de"
 
+msgid "FreeBusy"
+msgstr ""
+
 msgid "Full Name"
 msgstr "Volledige naam"
 
@@ -368,6 +374,12 @@ msgstr ""
 msgid "REPORT body is not valid XML data!"
 msgstr ""
 
+msgid "Read"
+msgstr ""
+
+msgid "ReadWrite"
+msgstr ""
+
 msgid "Relationship <!-- in the sense of a work relationship between people -->"
 msgstr "Relatie"
 
@@ -455,6 +467,9 @@ msgstr ""
 
 msgid "Start"
 msgstr "Start"
+
+msgid "Submit"
+msgstr ""
 
 msgid "Summary"
 msgstr "Samenvatting"
@@ -553,6 +568,9 @@ msgstr "Bekijk deze gebruikersgegevens"
 
 msgid "When the user's e-mail account was validated."
 msgstr "Wanneer het e-mail account van de gebruiker bevestigd is"
+
+msgid "Write"
+msgstr ""
 
 msgid "You are editing"
 msgstr ""

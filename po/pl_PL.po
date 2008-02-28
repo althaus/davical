@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rscds-messages\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-28 14:55+1300\n"
+"POT-Creation-Date: 2008-02-28 21:16+1300\n"
 "PO-Revision-Date: 2007-03-31 00:24+0200\n"
 "Last-Translator: Rafal Slubowski <rafalslubowski@gmail.com>\n"
 "Language-Team: polski <pl@li.org>\n"
@@ -90,6 +90,9 @@ msgstr ""
 
 msgid "All requested changes were made."
 msgstr "Wszystkie zażądane zmiany zostały wprowadzone"
+
+msgid "All"
+msgstr ""
 
 msgid "Browse all relationship types"
 msgstr "Przeglądaj wszystkie typy zależności"
@@ -226,6 +229,9 @@ msgstr "Zakończ"
 
 msgid "For access to the"
 msgstr "Aby uzyskać dostęp do"
+
+msgid "FreeBusy"
+msgstr ""
 
 msgid "Full Name"
 msgstr "Imię i nazwisko"
@@ -366,6 +372,12 @@ msgstr ""
 msgid "REPORT body is not valid XML data!"
 msgstr ""
 
+msgid "Read"
+msgstr ""
+
+msgid "ReadWrite"
+msgstr ""
+
 msgid "Relationship <!-- in the sense of a work relationship between people -->"
 msgstr "Zależność"
 
@@ -453,6 +465,9 @@ msgstr "Niektóre właściwości nie mogły zostać zmienione."
 
 msgid "Start"
 msgstr "Start"
+
+msgid "Submit"
+msgstr ""
 
 msgid "Summary"
 msgstr "Podsumowanie"
@@ -551,6 +566,9 @@ msgstr "Zobacz dane tego użytkownika"
 
 msgid "When the user's e-mail account was validated."
 msgstr "Kiedy potwierdzono adres e-mail"
+
+msgid "Write"
+msgstr ""
 
 msgid "You are editing"
 msgstr ""

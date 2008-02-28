@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-28 14:55+1300\n"
+"POT-Creation-Date: 2008-02-28 21:16+1300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -85,6 +85,9 @@ msgid "All events of user %s were deleted and replaced by those from the file."
 msgstr ""
 
 msgid "All requested changes were made."
+msgstr ""
+
+msgid "All"
 msgstr ""
 
 msgid "Browse all relationship types"
@@ -220,6 +223,9 @@ msgid "Finish"
 msgstr ""
 
 msgid "For access to the"
+msgstr ""
+
+msgid "FreeBusy"
 msgstr ""
 
 msgid "Full Name"
@@ -360,6 +366,12 @@ msgstr ""
 msgid "REPORT body is not valid XML data!"
 msgstr ""
 
+msgid "Read"
+msgstr ""
+
+msgid "ReadWrite"
+msgstr ""
+
 msgid "Relationship <!-- in the sense of a work relationship between people -->"
 msgstr ""
 
@@ -445,6 +457,9 @@ msgid "Some properties were not able to be set."
 msgstr ""
 
 msgid "Start"
+msgstr ""
+
+msgid "Submit"
 msgstr ""
 
 msgid "Summary"
@@ -543,6 +558,9 @@ msgid "View this user record"
 msgstr ""
 
 msgid "When the user's e-mail account was validated."
+msgstr ""
+
+msgid "Write"
 msgstr ""
 
 msgid "You are editing"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rscds 0.7.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-28 14:55+1300\n"
+"POT-Creation-Date: 2008-02-28 21:16+1300\n"
 "PO-Revision-Date: 2007-05-03 15:00+0001\n"
 "Last-Translator: David Takacs <david.takacs@cafeopen.eu>\n"
 "Language-Team: \n"
@@ -88,6 +88,9 @@ msgstr ""
 
 msgid "All requested changes were made."
 msgstr "Minden változás mentve"
+
+msgid "All"
+msgstr ""
 
 msgid "Browse all relationship types"
 msgstr "Kapcsolattípusok listája"
@@ -224,6 +227,9 @@ msgstr "Befejezés"
 
 msgid "For access to the"
 msgstr "Hozzáféréshez"
+
+msgid "FreeBusy"
+msgstr ""
 
 msgid "Full Name"
 msgstr "Teljes név"
@@ -364,6 +370,12 @@ msgstr ""
 msgid "REPORT body is not valid XML data!"
 msgstr ""
 
+msgid "Read"
+msgstr ""
+
+msgid "ReadWrite"
+msgstr ""
+
 msgid "Relationship <!-- in the sense of a work relationship between people -->"
 msgstr "Kapcsolat"
 
@@ -451,6 +463,9 @@ msgstr "Néhány tulajdonság nem módosítható."
 
 msgid "Start"
 msgstr "Start"
+
+msgid "Submit"
+msgstr ""
 
 msgid "Summary"
 msgstr "Összefoglalás"
@@ -549,6 +564,9 @@ msgstr "Felhasználó adatai"
 
 msgid "When the user's e-mail account was validated."
 msgstr "Mikor lett ellenőrizve a felhasználó e-mail-címe"
+
+msgid "Write"
+msgstr ""
 
 msgid "You are editing"
 msgstr ""

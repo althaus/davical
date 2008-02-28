@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rscds 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-28 14:55+1300\n"
+"POT-Creation-Date: 2008-02-28 21:16+1300\n"
 "PO-Revision-Date: 2006-11-13 13:03+1300\n"
 "Last-Translator: maxime delorme <mdelorme@tennaxia.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -94,6 +94,9 @@ msgstr "Tous les événements de l'utilisateur %s seront supprimés et remplacé
 
 msgid "All requested changes were made."
 msgstr "Tous les changements demandés ont eu lieu"
+
+msgid "All"
+msgstr ""
 
 msgid "Browse all relationship types"
 msgstr "Affiche tous les types de relations"
@@ -246,6 +249,10 @@ msgstr "Fin"
 msgid "For access to the"
 msgstr "Pour accéder à"
 
+#, fuzzy
+msgid "FreeBusy"
+msgstr "Occupé"
+
 msgid "Full Name"
 msgstr "Nom complet"
 
@@ -396,6 +403,12 @@ msgstr ""
 msgid "REPORT body is not valid XML data!"
 msgstr ""
 
+msgid "Read"
+msgstr ""
+
+msgid "ReadWrite"
+msgstr ""
+
 msgid "Relationship <!-- in the sense of a work relationship between people -->"
 msgstr "Relation de travail"
 
@@ -496,6 +509,9 @@ msgstr "Des propriétés n'ont pu être changées"
 
 msgid "Start"
 msgstr "Début"
+
+msgid "Submit"
+msgstr ""
 
 msgid "Summary"
 msgstr "Résumé"
@@ -620,6 +636,9 @@ msgstr "Consulter les informations de cet utilisateur"
 
 msgid "When the user's e-mail account was validated."
 msgstr "Date à laquelle l'adresse courriel de cet utilisateur a été validée."
+
+msgid "Write"
+msgstr ""
 
 msgid "You are editing"
 msgstr "Vous rectifiez"
