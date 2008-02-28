@@ -134,6 +134,7 @@ class RSCDSUser extends User
     else {
       $browser->RowFormat( "<tr class=\"r%d\">\n", "</tr>\n", '#even' );
     }
+    $browser->SetTranslatable( array('rt_name') );
     $browser->DoQuery();
 
 
@@ -175,6 +176,7 @@ class RSCDSUser extends User
       $browser->AddOrder( 'rt_name', 'A', 1 );
 
     $browser->RowFormat( "<tr onMouseover=\"LinkHref(this,1);\" title=\"".translate("Click to display that user")."\" class=\"r%d\">\n", "</tr>\n", '#even' );
+    $browser->SetTranslatable( array('rt_name') );
     $browser->DoQuery();
 
     /**
