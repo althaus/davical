@@ -14,6 +14,26 @@ $session->LoginRequired();
 
 require_once("interactive-page.php");
 
+/**
+* Translate relationship names in the relationship_list for each user. See
+* the documentation for classBrowser::BrowserColumn for the definition of
+* the hook function parameters.
+*/
+function translate_relationship_list( $value, $field, $row ) {
+  global $relationship_names;
+  foreach( $relationship_names AS $k => $v ) {
+    $value = str_replace( $k, $v, $value );
+  }
+  return $value;
+}
+
+$relationship_names = array();
+$qry = new PgQuery( 'SELECT rt_name FROM relationship_type' );
+if ( $qry->Exec('users') && $qry->rows > 0 ) {
+  while( $relationship = $qry->Fetch() ) {
+    $relationship_names[$relationship->rt_name] = translate($relationship->rt_name);
+  }
+}
 
   require_once("classBrowser.php");
   $c->stylesheets[] = "css/browse.css";
@@ -26,7 +46,7 @@ require_once("interactive-page.php");
   $browser->AddHidden( 'user_link', "'<a href=\"$c->base_url/usr.php?user_no=' || user_no || '\">' || user_no || '</a>'" );
   $browser->AddColumn( 'fullname', translate('Full Name') );
   $browser->AddColumn( 'email', translate('EMail') );
-  $browser->AddColumn( 'relations', translate('Relationships'), '', '', 'relationship_list(user_no)' );
+  $browser->AddColumn( 'relations', translate('Relationships'), '', '', 'relationship_list(user_no)', '', '', 'translate_relationship_list' );
   $browser->AddOrder( 'username', 'A' );
 
   $browser->SetJoins( 'usr' );
@@ -57,4 +77,3 @@ include("page-header.php");
 echo $browser->Render();
 
 include("page-footer.php");
-?>
