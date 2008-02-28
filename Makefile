@@ -10,7 +10,7 @@ built-docs: docs/api/phpdoc.ini htdocs/*.php inc/*.php
 	phpdoc -c docs/api/phpdoc.ini || echo "WARNING: failed to build docs"
 	touch built-docs
 
-built-po: inc/always.php scripts/po/rebuild-translations.sh scripts/po/extract.pl
+built-po: inc/always.php scripts/po/rebuild-translations.sh scripts/po/extract.pl po/*.po
 	scripts/po/rebuild-translations.sh
 	touch built-po
 
