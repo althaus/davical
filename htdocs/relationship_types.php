@@ -55,10 +55,11 @@ require_once("interactive-page.php");
   $c->page_title = translate("Relationship Types");
   $browser = new Browser($c->page_title);
 
-  $browser->AddColumn( 'rt_id', 'Id' );
+  $browser->AddColumn( 'rt_id', translate('Id') );
   $browser->AddColumn( 'rt_name', translate('Name') );
   $browser->AddColumn( 'confers', translate('Rights') );
   $browser->AddColumn( 'action', translate("Action"), "", "", "'<a href=\"$c->base_url/relationship_types.php?action=delete&rt_id=' || rt_id || '\">".translate("Delete")."</a>'" );
+  $browser->SetTranslatable( array('rt_name') );
 
   $browser->SetJoins( 'relationship_type' );
 
@@ -78,11 +79,11 @@ require_once("interactive-page.php");
   $confers_field = new EntryField( "select", "confers",
                             array("title" => translate("Is this access read ('R') or Read and Write ('RW')?"),
                                   "size" => "1",
-                                 '_A' => 'All',
-                                 '_R' => 'Read',
-                                 '_F' => 'FreeBusy',
-                                 '_W' => 'Write',
-                                 '_RW' => 'ReadWrite') );
+                                 '_A' => translate('All'),
+                                 '_R' => translate('Read'),
+                                 '_F' => translate('FreeBusy'),
+                                 '_W' => translate('Write'),
+                                 '_RW' => translate('ReadWrite')) );
 
   $browser->AddRow( array(
                   'rt_id' => 'new',
