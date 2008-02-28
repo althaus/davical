@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rscds 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-14 13:32+1300\n"
+"POT-Creation-Date: 2008-02-28 13:53+1300\n"
 "PO-Revision-Date: 2006-11-13 13:03+1300\n"
 "Last-Translator: maxime delorme <mdelorme@tennaxia.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -671,14 +671,18 @@ msgstr "le répertoire %s n'est pas accessible en lecture"
 msgid "drivers_ldap : Could not start TLS: ldap_start_tls() failed"
 msgstr ""
 
+#, fuzzy, c-format
+msgid "drivers_ldap : Failed to bind to host %1$s on port %2$s with bindDN of %3$s"
+msgstr "drivers_ldap : impossible de ce connecter à LDAP sur le port %s et sur l'hôte %s"
+
 #, fuzzy
 msgid "drivers_ldap : Failed to set LDAP to use protocol version 3, TLS not supported"
 msgstr "drivers_ldap : impossible de ce connecter à LDAP sur le port %s et sur l'hôte %s"
 
-#, c-format
+#, fuzzy
 msgid ""
-"drivers_ldap : Unable to bind to LDAP, check your bindDN >%s< and passDN >%s< of your configuration or "
-"if your server is reachable"
+"drivers_ldap : Unable to bind to LDAP - check your configuration for bindDN and passDN, and that your "
+"LDAP server is reachable"
 msgstr ""
 "drivers_ldap : Impossible de binder, vérifier votre  bindDN >%s< et passDN >%s< de votre configuration "
 "ou si votre serveur est accessible"
@@ -703,12 +707,6 @@ msgstr "Ne pas m'oublier <!-- other 2nd degree meaning but funny too -->"
 msgid "forget me not"
 msgstr "Ne pas m'oublier"
 
-#, c-format
-msgid "if your use OpenLDAP 2.X.X maybe, unable to connect to LDAP with port %s on host %s"
-msgstr ""
-"si vous utilisez OpenLDAP 2.X.X, impossible de ce connecter à serveur LDAP sur le port %s et sur "
-"l'hôte %s"
-
 #, fuzzy
 msgid "is Assistant to"
 msgstr "est assisté par"
@@ -728,6 +726,11 @@ msgstr "Vous devez vous connecter avec le nom d'utilisateur et le mot de passe q
 
 msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
 msgstr "Cette opération execute  : <ul><li>vérifie les utilisateurs valides de l'annuaire LDAP</li>"
+
+#~ msgid "if your use OpenLDAP 2.X.X maybe, unable to connect to LDAP with port %s on host %s"
+#~ msgstr ""
+#~ "si vous utilisez OpenLDAP 2.X.X, impossible de ce connecter à serveur LDAP sur le port %s et sur "
+#~ "l'hôte %s"
 
 #~ msgid "Edit"
 #~ msgstr "Modifier"

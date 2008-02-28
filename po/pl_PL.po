@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rscds-messages\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-14 13:32+1300\n"
+"POT-Creation-Date: 2008-02-28 13:53+1300\n"
 "PO-Revision-Date: 2007-03-31 00:24+0200\n"
 "Last-Translator: Rafal Slubowski <rafalslubowski@gmail.com>\n"
 "Language-Team: polski <pl@li.org>\n"
@@ -599,13 +599,16 @@ msgstr ""
 msgid "drivers_ldap : Could not start TLS: ldap_start_tls() failed"
 msgstr ""
 
+#, c-format
+msgid "drivers_ldap : Failed to bind to host %1$s on port %2$s with bindDN of %3$s"
+msgstr ""
+
 msgid "drivers_ldap : Failed to set LDAP to use protocol version 3, TLS not supported"
 msgstr ""
 
-#, c-format
 msgid ""
-"drivers_ldap : Unable to bind to LDAP, check your bindDN >%s< and passDN >%s< of your configuration or "
-"if your server is reachable"
+"drivers_ldap : Unable to bind to LDAP - check your configuration for bindDN and passDN, and that your "
+"LDAP server is reachable"
 msgstr ""
 
 #, c-format
@@ -626,10 +629,6 @@ msgstr "zapamiętaj mnie"
 
 msgid "forget me not"
 msgstr "zapamiętaj mnie"
-
-#, c-format
-msgid "if your use OpenLDAP 2.X.X maybe, unable to connect to LDAP with port %s on host %s"
-msgstr ""
 
 msgid "is Assistant to"
 msgstr "jest asystentem"
