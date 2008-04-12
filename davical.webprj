@@ -252,6 +252,9 @@
     <item url="dba/patches/1.2.1.sql" uploadstatus="1" />
     <item url="dba/patches/1.2.2.sql" uploadstatus="1" />
     <item url="dba/appuser_permissions.txt" uploadstatus="1" />
-    <item url="dba/patches/1.2.1a.sql" />
+    <item url="dba/patches/1.2.1a.sql" uploadstatus="1" />
+    <item url="dba/patches/1.2.3a.sql" uploadstatus="1" />
+    <item url="dba/patches/1.2.3.sql" uploadstatus="1" />
+    <item url="dba/patches/1.2.1b.sql" uploadstatus="1" />
   </project>
 </webproject>

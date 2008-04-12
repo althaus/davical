@@ -46,8 +46,8 @@ create_db_user() {
   if ! db_users | grep "^${1}$" >/dev/null ; then
     psql -qAt template1 -c "CREATE USER ${1} NOCREATEDB NOCREATEROLE;"
     cat <<EONOTE | install_note
-*  You will need to edit the PostgreSQL pg_hba.conf to allow the '${1}'
-   database user access to the 'davical' database.
+*  You will need to edit the PostgreSQL pg_hba.conf to allow the
+   '${1}' database user access to the 'davical' database.
 
 EONOTE
   fi
