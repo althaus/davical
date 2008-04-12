@@ -29,9 +29,13 @@ binary-indep: checkroot build
 	cp -a dba $(dt)/usr/share/$(package)
 	cp -a inc $(dt)/usr/share/$(package)
 	cp -a locale $(dt)/usr/share/$(package)
-	# cp -a admin $(dt)/usr/share/$(package)
 	dh_installdocs
-	rm -rf $(dt)/usr/share/doc/$(package)/website/wiki
+	# Install the sample configuration files into the docs/examples directory
+	mkdir $(dt)/usr/share/doc/$(package)/examples
+	cp config/example-config.php $(dt)/usr/share/doc/$(package)/examples/${newname}-conf.php
+	cp config/example-administration.yml $(dt)/usr/share/doc/$(package)/examples/administration.yml
+	cp config/debug-config.php $(dt)/usr/share/doc/$(package)/examples
+	cp config/other-config.php $(dt)/usr/share/doc/$(package)/examples
 	dh_installchangelogs
 	dh_fixperms
 	# install -m 1777 -d $(dt)/var/lib/$(package)/attachments
