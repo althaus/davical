@@ -1,3 +1,19 @@
+rscds (0.9.4.3) unstable; urgency=low
+
+  * Work on making the installation process more foolproof.
+
+ -- Andrew McMillan <debian@mcmillan.net.nz>  Sun, 13 Apr 2008 00:55:16 +1200
+
+rscds (0.9.4.2) unstable; urgency=low
+
+  * Add Japanese translation by Shu NAKAMAE
+  * Reverse logic for maintenance of user relationships.
+  * Rationalise package dependencies.
+  * Improve translatability of admin interface.
+  * Bug fixes and enhancements to LDAP driver.
+
+ -- Andrew McMillan <debian@mcmillan.net.nz>  Sat, 12 Apr 2008 21:16:57 +1200
+
 rscds (0.9.4) unstable; urgency=low
 
   * Performance improvements to get_permissions()
