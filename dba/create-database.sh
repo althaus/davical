@@ -84,17 +84,25 @@ else
     if try_db_user "${USER}" ; then
       export DBA=""
     else
-      cat <<EOFAILURE
+      if try_db_user "${PGUSER}" ; then
+        export DBA=""
+      else
+        cat <<EOFAILURE
+* * * * WARNING * * * *
 I cannot find a usable database user to construct the DAViCal database with, but
-I may have successfully created the davical_app and davical_dba users.
+may have successfully created the davical_app and davical_dba users (I tried :-).
 
 You should edit your pg_hba.conf file to give permissions to the davical_app and
 davical_dba users to access the database and run this script again.  If you still
-see this message, you will need to make sure you run the script as a user which
-has full permissions to access the local PostgreSQL database.
+continue to see this message then you will need to make sure you run the script
+as a user with full permissions to access the local PostgreSQL database.
+
+If your PostgreSQL database is non-standard then you will need to set the PGHOST,
+PGPORT and/or PGCLUSTER environment variables before running this script again.
 
 EOFAILURE
-      exit 1
+        exit 1
+      fi
     fi
   fi
 fi
@@ -145,7 +153,12 @@ echo "NOTE"
 echo "===="
 cat "${INSTALL_NOTE_FN}"
 rm "${INSTALL_NOTE_FN}"
-echo ""
-echo "*  The password for the 'admin' user has been set to '${ADMINPW}'"
-echo ""
-echo "Thanks for trying DAViCal!  For help, visit #davical on irc.oftc.net."
+
+cat <<FRIENDLY
+
+*  The password for the 'admin' user has been set to '${ADMINPW}'"
+
+Thanks for trying DAViCal!  Check in /usr/share/doc/rscds/examples/ for
+some configuration examples.  For help, visit #davical on irc.oftc.net.
+
+FRIENDLY
