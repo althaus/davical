@@ -120,7 +120,7 @@ psql -q ${DBA} -f "${DBADIR}/davical.sql" "${DBNAME}" 2>&1 | egrep -v "(^CREATE 
 
 #
 # Set permissions for the application DB user on the database
-${DBADIR}/update-rscds-database --dbname "${DBNAME}" --appuser "${AWL_APPUSER}" --nopatch
+${DBADIR}/update-rscds-database --dbname "${DBNAME}" --appuser "${AWL_APPUSER}" --nopatch --owner "${AWL_DBAUSER}"
 
 #
 # Load the required base data
