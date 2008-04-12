@@ -306,7 +306,7 @@ sub apply_permissions {
 
       if ( $force_owner ne "" ) {
         if ( $doohickey =~ /_seq$/ ) {
-          $sql = sprintf( "GRANT ALL on %s to %s", $current_grant, $doohickey, $force_owner );
+          $sql = sprintf( "GRANT ALL on %s to %s", $doohickey, $force_owner );
         }
         else {
           $sql = sprintf( "ALTER TABLE %s OWNER to %s", $doohickey, $force_owner );
