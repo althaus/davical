@@ -10,8 +10,6 @@ use DBI;
 use POSIX qw(floor);
 use Getopt::Long qw(:config permute);  # allow mixed args.
 
-use YAML qw( LoadFile );
-
 # Options variables
 my $debug  = 0;
 my $dbname = "rscds";
@@ -23,6 +21,7 @@ my $appuser = "general";
 my $helpmeplease = 0;
 my $apply_patches = 1;
 my $revoke_list = "";
+my $force_owner = "";
 my $config_file = "config/administration.yml";
 
 my $dbadir = $0;
@@ -41,6 +40,8 @@ if ( ! -f $config_file ) {
   $config_file = "/etc/davical/administration.yml";
 }
 if ( -f $config_file ) {
+  use YAML qw( LoadFile );
+
   my ($ycfg) = LoadFile($config_file);
   $dbuser  = $ycfg->{'admin_db_user'} if ( defined($ycfg->{'admin_db_user'}));
   $dbpass  = $ycfg->{'admin_db_pass'} if ( defined($ycfg->{'admin_db_pass'}));
@@ -58,6 +59,7 @@ GetOptions ('debug!'    => \$debug,
             'dbhost=s'  => \$dbhost,
             'appuser=s' => \$appuser,
             'patch!'    => \$apply_patches,
+            'owner=s'   => \$force_owner,
             'revoke=s'  => \$revoke_list,
             'help'      => \$helpmeplease  );
 
@@ -288,15 +290,30 @@ sub apply_permissions {
 
     /^\s*ON\s+(\S.*)\s*$/i && do {
       defined($current_grant) or die "No GRANT before ON in $permsfile\n";
-      my $doohickeys = $1;
+      my $doohickey = $1;
 
-      $sql = sprintf( "REVOKE ALL ON %s FROM %s %s", $doohickeys, $appuser, $revoke_list );
+      if ( $revoke_list ne "" ) {
+        # TODO: we should really loop through the revoke_list so that a single non-existent
+        # user doesn't cause this whole statement to fail.
+        $sql = sprintf( "REVOKE ALL ON %s FROM %s %s", $doohickey, $appuser, $revoke_list );
+        print $sql, "\n" if ( $debug );
+        $dbh->do($sql);
+      }
+
+      $sql = sprintf( "GRANT %s on %s to %s", $current_grant, $doohickey, $appuser );
       print $sql, "\n" if ( $debug );
       $dbh->do($sql);
 
-      $sql = sprintf( "GRANT %s on %s to %s", $current_grant, $doohickeys, $appuser );
-      print $sql, "\n" if ( $debug );
-      $dbh->do($sql);
+      if ( $force_owner ne "" ) {
+        if ( $doohickey =~ /_seq$/ ) {
+          $sql = sprintf( "GRANT ALL on %s to %s", $current_grant, $doohickey, $force_owner );
+        }
+        else {
+          $sql = sprintf( "ALTER TABLE %s OWNER to %s", $doohickey, $force_owner );
+        }
+        print $sql, "\n" if ( $debug );
+        $dbh->do($sql);
+      }
     };
 
   }
@@ -320,8 +337,11 @@ Options are:
     --dbuser  name    Connect to the database as this user.
     --dbport  5432    Connect to the database on this port.
     --dbhost  name    Connect to the database on this host.
-    --appuser name    The username which the application uses for it's database
-                      connection.
+    --appuser name    The database username which the application uses for it's
+                      database connection.
+    --owner name      The database username which is used for administrative
+                      access to the database.  This option forces the tables
+                      to be owned by this user (default: not present).
     --nopatch         Don't try and apply any patches
     --revoke  name    Revoke permissions from this user
 
