@@ -54,7 +54,7 @@ EONOTE
 }
 
 create_plpgsql_language() {
-  if ! psql -U ${AWL_DBAUSER} -qAt template1 -c "SELECT lanname FROM pg_language;" | grep "^plpgsql$" >/dev/null; then
+  if ! psql ${DBA} -qAt template1 -c "SELECT lanname FROM pg_language;" | grep "^plpgsql$" >/dev/null; then
     createlang plpgsql "${DBNAME}"
   fi
 }
@@ -88,7 +88,7 @@ else
         export DBA=""
       else
         cat <<EOFAILURE
-* * * * WARNING * * * *
+* * * * ERROR * * * *
 I cannot find a usable database user to construct the DAViCal database with, but
 may have successfully created the davical_app and davical_dba users (I tried :-).
 
@@ -99,6 +99,8 @@ as a user with full permissions to access the local PostgreSQL database.
 
 If your PostgreSQL database is non-standard then you will need to set the PGHOST,
 PGPORT and/or PGCLUSTER environment variables before running this script again.
+
+See:  http://wiki.davical.org/w/Install_Errors/No_Database_Rights
 
 EOFAILURE
         exit 1
@@ -111,20 +113,28 @@ create_plpgsql_language
 
 #
 # Load the AWL base tables and schema management tables
-psql -q ${DBA} -f "${AWLDIR}/dba/awl-tables.sql" "${DBNAME}" 2>&1 | egrep -v "(^CREATE |^GRANT|^BEGIN|^COMMIT| NOTICE: )"
-psql -q ${DBA} -f "${AWLDIR}/dba/schema-management.sql" "${DBNAME}" 2>&1 | egrep -v "(^CREATE |^GRANT|^BEGIN|^COMMIT| NOTICE: )"
+psql -qAt ${DBA} -f "${AWLDIR}/dba/awl-tables.sql" "${DBNAME}" 2>&1 | egrep -v "(^CREATE |^GRANT|^BEGIN|^COMMIT| NOTICE: )"
+psql -qAt ${DBA} -f "${AWLDIR}/dba/schema-management.sql" "${DBNAME}" 2>&1 | egrep -v "(^CREATE |^GRANT|^BEGIN|^COMMIT| NOTICE: |^t$)"
 
 #
 # Load the DAViCal tables
-psql -q ${DBA} -f "${DBADIR}/davical.sql" "${DBNAME}" 2>&1 | egrep -v "(^CREATE |^GRANT|^BEGIN|^COMMIT| NOTICE: )"
+psql -qAt ${DBA} -f "${DBADIR}/davical.sql" "${DBNAME}" 2>&1 | egrep -v "(^CREATE |^GRANT|^BEGIN|^COMMIT| NOTICE: |^t$)"
 
 #
 # Set permissions for the application DB user on the database
-${DBADIR}/update-rscds-database --dbname "${DBNAME}" --appuser "${AWL_APPUSER}" --nopatch --owner "${AWL_DBAUSER}"
+if ! ${DBADIR}/update-rscds-database --dbname "${DBNAME}" --appuser "${AWL_APPUSER}" --nopatch --owner "${AWL_DBAUSER}" ; then
+        cat <<EOFAILURE
+* * * * ERROR * * * *
+The database administration utility failed.  This is usually due to the Perl YAML
+library not being available.
 
+See:  http://wiki.davical.org/w/Install_Errors/No_Perl_YAML
+
+EOFAILURE
+fi
 #
 # Load the required base data
-psql -q ${DBA} -f "${DBADIR}/base-data.sql" "${DBNAME}"
+psql -qAt ${DBA} -f "${DBADIR}/base-data.sql" "${DBNAME}" | egrep -v '^10'
 
 #
 # We can override the admin password generation for regression testing predictability
@@ -155,7 +165,6 @@ cat "${INSTALL_NOTE_FN}"
 rm "${INSTALL_NOTE_FN}"
 
 cat <<FRIENDLY
-
 *  The password for the 'admin' user has been set to '${ADMINPW}'"
 
 Thanks for trying DAViCal!  Check in /usr/share/doc/rscds/examples/ for
