@@ -8,6 +8,8 @@ ADMINPW="${2}"
 
 DBADIR="`dirname \"$0\"`"
 
+INSTALL_NOTE_FN="`mktemp`"
+
 testawldir() {
   [ -f "${1}/dba/awl-tables.sql" ]
 }
@@ -32,6 +34,10 @@ export AWL_APPUSER=davical_app
 # Get the major version for PostgreSQL
 export DBVERSION="`psql -qAt template1 -c "SELECT version();" | cut -f2 -d' ' | cut -f1-2 -d'.'`"
 
+install_note() {
+  cat >>"${INSTALL_NOTE_FN}"
+}
+
 db_users() {
   psql -qAt template1 -c "SELECT usename FROM pg_user;";
 }
@@ -39,6 +45,11 @@ db_users() {
 create_db_user() {
   if ! db_users | grep "^${1}$" >/dev/null ; then
     psql -qAt template1 -c "CREATE USER ${1} NOCREATEDB NOCREATEROLE;"
+    cat <<EONOTE | install_note
+*  You will need to edit the PostgreSQL pg_hba.conf to allow the '${1}'
+   database user access to the 'davical' database.
+
+EONOTE
   fi
 }
 
@@ -47,6 +58,11 @@ create_plpgsql_language() {
     createlang plpgsql "${DBNAME}"
   fi
 }
+
+try_db_user() {
+  [ "XtestX`psql -U "${1}" -qAt template1 -c "SELECT usename FROM pg_user;" 2>/dev/null`" != "XtestX" ]
+}
+
 
 create_db_user "${AWL_DBAUSER}"
 create_db_user "${AWL_APPUSER}"
@@ -57,24 +73,50 @@ if ! createdb --encoding UTF8 "${DBNAME}" --template template0 --owner "${AWL_DB
   exit 1
 fi
 
+#
+# Try a few alternatives for a database user or give up...
+if try_db_user "${AWL_DBAUSER}" ; then
+  export DBA="-U \"${AWL_DBAUSER}\""
+else
+  if try_db_user "postgres" ; then
+    export DBA="-U \"postgres\""
+  else
+    if try_db_user "${USER}" ; then
+      export DBA=""
+    else
+      cat <<EOFAILURE
+I cannot find a usable database user to construct the DAViCal database with, but
+I may have successfully created the davical_app and davical_dba users.
+
+You should edit your pg_hba.conf file to give permissions to the davical_app and
+davical_dba users to access the database and run this script again.  If you still
+see this message, you will need to make sure you run the script as a user which
+has full permissions to access the local PostgreSQL database.
+
+EOFAILURE
+      exit 1
+    fi
+  fi
+fi
+
 create_plpgsql_language
 
 #
 # Load the AWL base tables and schema management tables
-psql -q -U "${AWL_DBAUSER}" -f "${AWLDIR}/dba/awl-tables.sql" "${DBNAME}" 2>&1 | egrep -v "(^CREATE |^GRANT|^BEGIN|^COMMIT| NOTICE: )"
-psql -q -U "${AWL_DBAUSER}" -f "${AWLDIR}/dba/schema-management.sql" "${DBNAME}" 2>&1 | egrep -v "(^CREATE |^GRANT|^BEGIN|^COMMIT| NOTICE: )"
+psql -q ${DBA} -f "${AWLDIR}/dba/awl-tables.sql" "${DBNAME}" 2>&1 | egrep -v "(^CREATE |^GRANT|^BEGIN|^COMMIT| NOTICE: )"
+psql -q ${DBA} -f "${AWLDIR}/dba/schema-management.sql" "${DBNAME}" 2>&1 | egrep -v "(^CREATE |^GRANT|^BEGIN|^COMMIT| NOTICE: )"
 
 #
 # Load the DAViCal tables
-psql -q -U "${AWL_DBAUSER}" -f "${DBADIR}/davical.sql" "${DBNAME}" 2>&1 | egrep -v "(^CREATE |^GRANT|^BEGIN|^COMMIT| NOTICE: )"
+psql -q ${DBA} -f "${DBADIR}/davical.sql" "${DBNAME}" 2>&1 | egrep -v "(^CREATE |^GRANT|^BEGIN|^COMMIT| NOTICE: )"
 
 #
 # Set permissions for the application DB user on the database
-${DBADIR}/update-rscds-database --dbname "${DBNAME}" --appuser "${AWL_APPUSER}" --nopatch --revoke "general"
+${DBADIR}/update-rscds-database --dbname "${DBNAME}" --appuser "${AWL_APPUSER}" --nopatch
 
 #
 # Load the required base data
-psql -q -U "${AWL_DBAUSER}" -f "${DBADIR}/base-data.sql" "${DBNAME}"
+psql -q ${DBA} -f "${DBADIR}/base-data.sql" "${DBNAME}"
 
 #
 # We can override the admin password generation for regression testing predictability
@@ -99,4 +141,11 @@ fi
 
 psql -q -c "UPDATE usr SET password = '**${ADMINPW}' WHERE user_no = 1;" "${DBNAME}"
 
-echo "The password for the 'admin' user has been set to '${ADMINPW}'"
+echo "NOTE"
+echo "===="
+cat "${INSTALL_NOTE_FN}"
+rm "${INSTALL_NOTE_FN}"
+echo ""
+echo "*  The password for the 'admin' user has been set to '${ADMINPW}'"
+echo ""
+echo "Thanks for trying DAViCal!  For help, visit #davical on irc.oftc.net."
