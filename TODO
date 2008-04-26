@@ -10,3 +10,6 @@ Important
  - Fix the relationships code so relationships are controlled by the person
    affected (or the admin).
  - Implement draft-desruisseaux-caldav-sched specifications.
+
+Minor
+ - Remove the dependency on the 'general' user from the testing scripts.
