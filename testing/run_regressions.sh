@@ -6,7 +6,7 @@ DBNAME=regression
 PGPOOL=inactive
 HOSTNAME=regression
 
-. regression.conf
+. ./regression.conf
 
 [ -z "${DSN}" ] && DSN="${DBNAME}"
 
