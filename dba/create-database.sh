@@ -76,10 +76,10 @@ fi
 #
 # Try a few alternatives for a database user or give up...
 if try_db_user "${AWL_DBAUSER}" ; then
-  export DBA="-U \"${AWL_DBAUSER}\""
+  export DBA="-U ${AWL_DBAUSER}"
 else
   if try_db_user "postgres" ; then
-    export DBA="-U \"postgres\""
+    export DBA="-U postgres"
   else
     if try_db_user "${USER}" ; then
       export DBA=""
