@@ -273,6 +273,31 @@ EOSQL;
 
 
   /**
+  * Extend parent definition of what the current user is allowed to do
+  * @param string $whatever What the user wants to do
+  * @return boolean Whether they are allowed to.
+  */
+  function AllowedTo ( $whatever )
+  {
+    global $session;
+
+    $rc = false;
+    switch( strtolower($whatever) ) {
+
+      case 'deleterelationship':
+        $rc = ( $session->AllowedTo("Admin")
+                || ($this->user_no > 0 && $session->user_no == $this->user_no) );
+        break;
+
+      default:
+        $rc = parent::AllowedTo( $whatever );
+    }
+
+    return $rc;
+  }
+
+
+  /**
   * Handle any unusual actions we might invent
   */
   function HandleAction( $action ) {
@@ -283,7 +308,7 @@ EOSQL;
     switch( $action ) {
       case 'delete_relationship':
         dbg_error_log("User",":HandleAction: Deleting relationship to %d from %d", $this->user_no, $_GET['from_user'] );
-        if ( $this->AllowedTo("Admin") ) {
+        if ( $this->AllowedTo("DeleteRelationship") ) {
           dbg_error_log("User",":HandleAction: Deleting relationship to %d from %d", $this->user_no, $_GET['from_user'] );
           $qry = new PgQuery("DELETE FROM relationship WHERE to_user=? AND from_user=?;", $this->user_no, $_GET['from_user'] );
           if ( $qry->Exec() ) {
