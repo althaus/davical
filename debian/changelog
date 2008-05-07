@@ -2,7 +2,7 @@ rscds (0.9.5) unstable; urgency=low
 
   * Allow users to delete their own relationships, not just admin.
 
- -- Andrew McMillan <debian@mcmillan.net.nz>  Wed, 07 May 2008 21:08:21 +1200
+ -- Andrew McMillan <debian@mcmillan.net.nz>  Wed, 07 May 2008 21:29:39 +1200
 
 rscds (0.9.4.5) unstable; urgency=low
 
