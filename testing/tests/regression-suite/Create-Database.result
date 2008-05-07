@@ -1,29 +1,10 @@
- new_db_revision 
------------------
- t
-(1 row)
-
- new_db_revision 
------------------
- t
-(1 row)
-
 Supported locales updated.
 CalDAV functions updated.
 Database permissions updated.
- setval 
---------
-     10
-(1 row)
+NOTE
+====
+*  The password for the 'admin' user has been set to 'nimda'"
 
- setval 
---------
-   1000
-(1 row)
+Thanks for trying DAViCal!  Check in /usr/share/doc/rscds/examples/ for
+some configuration examples.  For help, visit #davical on irc.oftc.net.
 
- setval 
---------
-     10
-(1 row)
-
-The password for the 'admin' user has been set to 'nimda'
