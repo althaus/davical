@@ -9,7 +9,7 @@ PACKAGE=::package::
 #
 # Migrate directory location to /etc/davical from /etc/rscds
 #
-if [ -d /etc/rscds -a -d /etc/davical ]; then
+if [ -d /etc/rscds -a -d /etc/davical -a ! -h /etc/rscds ]]; then
   for CNFFILE in /etc/rscds/*; do
     if [ -f "${CNFFILE}" ]; then
       mv "${CNFFILE}" /etc/davical
