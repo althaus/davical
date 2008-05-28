@@ -3,7 +3,10 @@ Section: web
 Priority: extra
 Maintainer: Andrew McMillan <andrew@catalyst.net.nz>
 Standards-Version: 3.7.3
-Build-Depends: debhelper
+Build-Depends: debhelper (>= 5)
+Vcs-git: git://git.catalyst.net.nz/rscds.git
+Vcs-browser: http://git.catalyst.net.nz/?p=rscds.git
+Homepage: http://davical.org/
 
 Package: rscds
 Architecture: all
