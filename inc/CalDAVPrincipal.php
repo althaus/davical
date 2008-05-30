@@ -48,6 +48,11 @@ class CalDAVPrincipal
   var $schedule_outbox_url;
 
   /**
+  * @var Whether or not we are using an e-mail address based URL.
+  */
+  var $by_email;
+
+  /**
   * Constructor
   * @param mixed $parameters If null, an empty Principal is created.  If it
   *              is an integer then that ID is read (if possible).  If it is
@@ -99,6 +104,7 @@ class CalDAVPrincipal
       $this->{$k} = $v;
     }
 
+    $this->by_email = false;
     $this->url = ConstructURL( "/".$this->username."/" );
 //    $this->url = ConstructURL( "/__uuids__/" . $this->username . "/" );
 

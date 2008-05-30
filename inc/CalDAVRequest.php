@@ -71,6 +71,7 @@ class CalDAVRequest
     global $session, $c, $debugging;
 
     $this->options = $options;
+    if ( !isset($this->options['allow_by_email']) ) $this->options['allow_by_email'] = false;
     $this->principal = (object) array( 'username' => $session->username, 'user_no' => $session->user_no );
 
     $this->raw_post = file_get_contents ( 'php://input');
