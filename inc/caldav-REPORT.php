@@ -70,6 +70,7 @@ function calendar_to_xml( $properties, $item ) {
 
   dbg_error_log("REPORT","Building XML Response for item '%s'", $item->dav_name );
 
+  $denied = array();
   $caldav_data = $item->caldav_data;
   $displayname = $item->summary;
   if ( isset($properties['CALENDAR-DATA']) || isset($properties['DISPLAYNAME']) ) {
