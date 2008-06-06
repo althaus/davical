@@ -9,7 +9,7 @@
 */
 
 /**
-* I be you find this hard to believe, but having to write this hack really
+* I bet you find this hard to believe, but having to write this hack really
 * annoys the crap out of me.  WTF!  Why does PHP/Curl not have a function which
 * simply accepts a string as what the request will contain.  Oh no.  They only
 * think of "POST" and "PUT a file".  Crap.
@@ -25,6 +25,7 @@ function __curl_init_callback( $data ) {
   $__curl_read_callback_pos = 0;
   $__curl_read_callback_data = $data;
 }
+
 /**
 * As documented in the comments on this page(!)
 *    http://nz2.php.net/curl_setopt
@@ -63,7 +64,7 @@ class CalDAVClient {
   *
   * @var string
   */
-  var $user_agent = 'RSCDSClient';
+  var $user_agent = 'DAViCalClient';
 
   var $headers = array();
   var $body = "";
@@ -368,4 +369,3 @@ if ( isset($options["PROPFIND"] ) {
 $events = $cal->GetEventRange("20070101T000000Z","20070201T000000Z");
 */
 
-?>
