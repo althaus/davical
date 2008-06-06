@@ -178,9 +178,9 @@ $c->admin_email ='calendar-admin@example.com';
        /* For the initial bind to be anonymous leave bindDN and passDN
           commented out */
 // DN to bind to this server enabling to perform request
-//    'bindDN'=> 'cn=manager,cn=internal,dc=tennaxia,dc=net', 
+//    'bindDN'=> 'cn=manager,cn=internal,dc=tennaxia,dc=net',
 // Password of the previous bindDN to bind to this server enabling to perform request
-//    'passDN'=> 'xxxxxxxx', 
+//    'passDN'=> 'xxxxxxxx',
 
 //    'protocolVersion' => '3', //Version of LDAP protocol to use
 //    'baseDNUsers'=> 'dc=tennaxia,dc=net', //where to look at valid user
@@ -203,7 +203,7 @@ $c->admin_email ='calendar-admin@example.com';
              // because php wants to validate the server's
              // certificate. Try adding "TLS_REQCERT never" to the
              // ldap configuration file that php uses (e.g. /etc/ldap.conf
-             // or /etc/ldap/ldap.conf). Of course, this lessens security! 
+             // or /etc/ldap/ldap.conf). Of course, this lessens security!
 //     'scope' => 'subtree', // Search scope to use, defaults to subtree.
 //                           // Allowed values: base, onelevel, subtree.
 //
@@ -240,7 +240,7 @@ $c->admin_email ='calendar-admin@example.com';
 */
 //$c->authenticate_hook = array(
 //    'call'   => 'SQUID_PAM_check',
-//    'config' =>  array( 'script' => '/usr/bin/pam_auth', 'email_base' => 'example.com' );
+//    'config' =>  array( 'script' => '/usr/bin/pam_auth', 'email_base' => 'example.com' )
 //    );
 //include('drivers_squid_pam.php');
 
