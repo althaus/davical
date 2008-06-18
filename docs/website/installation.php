@@ -203,6 +203,11 @@ single virtual host.</p>
   ServerName davical.example.net
   ServerAlias calendar.example.net
   Alias /images/ /usr/share/davical/htdocs/images/
+   <Directory /usr/share/davical/htdocs/>
+      AllowOverride None
+      Order allow,deny
+      Allow from all
+   </Directory>
   php_value include_path /usr/share/awl/inc
   php_value magic_quotes_gpc 0
   php_value register_globals 0
@@ -244,10 +249,10 @@ and is a regular PHP file which sets (or overrides) some specific variables.</p>
 //  $c->enable_row_linking = true;
 //  $c->default_locale = en_NZ.UTF-8;
 
-  $c->pg_connect[] = 'dbname=davical port=5433 user=general';
+//  $c->pg_connect[] = 'dbname=davical port=5433 user=general';
   $c->pg_connect[] = 'dbname=davical port=5432 user=general';
 
-?>
+
 </pre>
 
 <p>Multiple values may be specified for the PostgreSQL connect string,
