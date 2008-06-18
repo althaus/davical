@@ -184,3 +184,8 @@ END;
 ' LANGUAGE 'plpgsql' IMMUTABLE STRICT;
 
 
+CREATE or REPLACE FUNCTION event_has_exceptions( TEXT ) RETURNS BOOLEAN AS '
+  SELECT $1 ~ ''\nRECURRENCE-ID(;TZID=[^:]+)?:[[:space:]]*[[:digit:]]{8}(T[[:digit:]]{6})?''
+' LANGUAGE 'sql' IMMUTABLE STRICT;
+
+
