@@ -232,6 +232,7 @@ DECLARE
   tmp_confers TEXT;
   tmp_txt TEXT;
   dbg TEXT DEFAULT '''';
+  r RECORD;
   counter INT;
 BEGIN
   -- Self can always have full access
@@ -247,36 +248,42 @@ BEGIN
   END IF;
   -- RAISE NOTICE ''No simple relationships between % and %'', in_from, in_to;
 
-  SELECT rt1.confers, rt2.confers INTO out_confers, tmp_confers FROM relationship r1 JOIN relationship_type rt1 USING(rt_id)
+  out_confers := '''';
+  FOR r IN SELECT rt1.confers AS r1, rt2.confers AS r2 FROM relationship r1 JOIN relationship_type rt1 USING(rt_id)
               JOIN relationship r2 ON r1.to_user=r2.from_user JOIN relationship_type rt2 ON r2.rt_id=rt2.rt_id
          WHERE r1.from_user=in_from AND r2.to_user=in_to
            AND EXISTS( SELECT 1 FROM role_member JOIN roles USING(role_no) WHERE role_member.user_no=r1.to_user AND roles.role_name=''Group'')
            AND NOT EXISTS( SELECT 1 FROM role_member JOIN roles USING(role_no) WHERE role_member.user_no=r2.to_user AND roles.role_name=''Group'')
-           AND NOT EXISTS( SELECT 1 FROM role_member JOIN roles USING(role_no) WHERE role_member.user_no=r1.from_user AND roles.role_name=''Group'');
-
-  IF FOUND THEN
+           AND NOT EXISTS( SELECT 1 FROM role_member JOIN roles USING(role_no) WHERE role_member.user_no=r1.from_user AND roles.role_name=''Group'')
+  LOOP
     -- RAISE NOTICE ''Permissions to group % from group %'', out_confers, tmp_confers;
     -- FIXME: This is an oversimplification
     -- dbg := ''C-'';
-    IF out_confers = tmp_confers THEN
-      RETURN dbg || out_confers;
-    ELSE
-      IF tmp_confers ~* ''A'' AND NOT tmp_confers ~* ''FBRWU'' THEN
+    tmp_confers := r.r2;
+    IF r.r1 != tmp_confers THEN
+      IF tmp_confers ~* ''A'' THEN
         -- Ensure that A is expanded to all supported privs before being used as a mask
-        tmp_confers := tmp_confers || ''FBRWU'';
+        tmp_confers := ''AFBRWU'';
       END IF;
       tmp_txt = '''';
       FOR counter IN 1 .. length(tmp_confers) LOOP
-        IF out_confers ~* substring(tmp_confers,counter,1) THEN
+        IF r.r1 ~* substring(tmp_confers,counter,1) THEN
           tmp_txt := tmp_txt || substring(tmp_confers,counter,1);
         END IF;
       END LOOP;
-      IF tmp_txt = ''FBRWU'' THEN
-        -- Shrink that mask back down
-        tmp_txt := ''A'';
-      END IF;
-      RETURN dbg || tmp_txt;
+      tmp_confers := tmp_txt;
     END IF;
+    FOR counter IN 1 .. length(tmp_confers) LOOP
+      IF NOT out_confers ~* substring(tmp_confers,counter,1) THEN
+        out_confers := out_confers || substring(tmp_confers,counter,1);
+      END IF;
+    END LOOP;
+  END LOOP;
+  IF out_confers ~* ''A'' OR (out_confers ~* ''B'' AND out_confers ~* ''F'' AND out_confers ~* ''R'' AND out_confers ~* ''W'' AND out_confers ~* ''U'') THEN
+    out_confers := ''A'';
+  END IF;
+  IF out_confers != '''' THEN
+    RETURN dbg || out_confers;
   END IF;
 
   -- RAISE NOTICE ''No complex relationships between % and %'', in_from, in_to;
