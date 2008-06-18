@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rscds 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-28 21:16+1300\n"
+"POT-Creation-Date: 2008-06-19 00:23+1200\n"
 "PO-Revision-Date: 2006-11-13 13:03+1300\n"
 "Last-Translator: maxime delorme <mdelorme@tennaxia.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -96,6 +96,9 @@ msgid "All requested changes were made."
 msgstr "Tous les changements demandés ont eu lieu"
 
 msgid "All"
+msgstr ""
+
+msgid "Anonymous users are not allowed to modify calendars"
 msgstr ""
 
 msgid "Browse all relationship types"
