@@ -2,6 +2,8 @@ caldav.session
 rscds.session
 davical.session
 build
+build-stamp
+*.pgdump
 rscds.bfproject
 davical.bfproject
 locale

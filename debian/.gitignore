@@ -1,5 +1,7 @@
 files
 html
 rscds
+davical
+davical-doc
 rscds-phpdoc.ini
-rscds.debhelper.log
+*.debhelper.log
