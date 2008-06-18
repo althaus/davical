@@ -1,59 +1,90 @@
 #!/usr/bin/make -f
 #
-# rules for RSCDS
+# rules for DAViCal
 #
+# This file allows you to build any of the binary packages independantly, via binary-<package> targets.
 
-package=rscds
-newname=davical
-dt=debian/$(package)
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
 
-build: inc htdocs debian
-	$(checkdir)
-	make
-	touch build
+# This has to be exported to make some magic below work.
+export DH_OPTIONS
+
+build: build-stamp
+build-stamp:
+	dh_testdir
+	$(MAKE)
+	touch build-stamp
 
 clean:
-	$(checkdir)
-	make clean
-	rm -f build
-	-rm -rf $(dt) debian/files* core debian/substvars debian/html
+	dh_testdir
+	dh_testroot
+	rm -f build-stamp
+
+	$(MAKE) clean
+	-rm -f build
+
 	dh_clean
 
-binary-indep: checkroot build
-	$(checkdir)
-	-rm -rf $(dt)
-	dh_clean -k
-	# dh_installdebconf
-	install -d $(dt) $(dt)/DEBIAN $(dt)/etc/$(newname) \
-		$(dt)/usr/share/$(package) $(dt)/usr/share/doc/$(package)
-	cp -a htdocs $(dt)/usr/share/$(package)
-	cp -a dba $(dt)/usr/share/$(package)
-	cp -a inc $(dt)/usr/share/$(package)
-	cp -a locale $(dt)/usr/share/$(package)
-	dh_installdocs
-	# Install the sample configuration files into the docs/examples directory
-	mkdir $(dt)/usr/share/doc/$(package)/examples
-	cp config/example-config.php $(dt)/usr/share/doc/$(package)/examples/${newname}-conf.php
-	cp config/example-administration.yml $(dt)/usr/share/doc/$(package)/examples/administration.yml
-	cp config/debug-config.php $(dt)/usr/share/doc/$(package)/examples
-	cp config/other-config.php $(dt)/usr/share/doc/$(package)/examples
-	find $(dt)/ -name ".gitignore" -exec rm {} \;
+install: DH_OPTIONS=
+install: build
+	dh_testdir
+	dh_testroot
+	dh_prep
+	dh_installdirs
+
+	dh_install
+
+# This single target is used to build all the packages, all at once, or
+# one at a time. So keep in mind: any options passed to commands here will
+# affect _all_ packages. Anything you want to only affect one package
+# should be put in another target, such as the install target.
+binary-common:
+	dh_testdir
+	dh_testroot
 	dh_installchangelogs
+	dh_installdocs
+#	dh_installexamples
+#	dh_installmenu
+#	dh_installdebconf
+#	dh_installlogrotate
+#	dh_installemacsen
+#	dh_installcatalogs
+#	dh_installpam
+#	dh_installmime
+#	dh_installinit
+#	dh_installman
+#	dh_installcron
+#	dh_installinfo
+#	dh_installwm
+#	dh_installudev
+#	dh_lintian
+#	dh_undocumented
+#	dh_strip
+#	dh_link
+	dh_compress
 	dh_fixperms
-	# install -m 1777 -d $(dt)/var/lib/$(package)/attachments
+#	dh_perl
+#	dh_python
+#	dh_makeshlibs
 	dh_installdeb
-	dpkg-gencontrol -P$(dt)
+#	dh_shlibdeps
+	dh_gencontrol
 	dh_md5sums
-	dpkg --build $(dt) ..
+	dh_builddeb
 
-define checkdir
-	test -f debian/rules
-endef
+# Build architecture independant packages using the common target.
+binary-indep: build install
+	 $(MAKE) -f debian/rules DH_OPTIONS=-i binary-common
 
-binary: binary-indep
+# Build architecture dependant packages using the common target.
+binary-arch: build install
+	$(MAKE) -f debian/rules DH_OPTIONS=-a binary-common
 
-checkroot:
-	$(checkdir)
-	test root = "`whoami`"
+# Any other binary targets build just one binary package at a time.
+binary-%: build install
+	make -f debian/rules binary-common DH_OPTIONS=-p$*
 
-.PHONY: binary binary-arch binary-indep clean checkroot
+binary: binary-indep binary-arch
+
+.PHONY: build clean binary-indep binary-arch binary-common binary install

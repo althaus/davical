@@ -16,7 +16,6 @@ if [ -d /etc/rscds -a -d /etc/davical -a ! -h /etc/rscds ]; then
     fi
   done
   rmdir /etc/rscds
-  ln -s /etc/davical /etc/rscds
 fi
 
 case $1 in

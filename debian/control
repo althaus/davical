@@ -1,4 +1,4 @@
-Source: rscds
+Source: davical
 Section: web
 Priority: extra
 Maintainer: Andrew McMillan <andrew@catalyst.net.nz>
@@ -7,6 +7,29 @@ Build-Depends: debhelper (>= 5)
 Vcs-git: git://git.catalyst.net.nz/rscds.git
 Vcs-browser: http://git.catalyst.net.nz/?p=rscds.git
 Homepage: http://davical.org/
+
+Package: davical
+Architecture: all
+Depends: debconf (>= 1.0.32), php5 | php4 (>= 4:4.3), php5-pgsql | php4-pgsql(>= 3:4.3.0), postgresql-client (>= 7.4) | postgresql-client-8.3 | postgresql-client-8.2 | postgresql-client-8.1, libawl-php (>=0.26), libclass-dbi-pg-perl, php5 | php4-domxml, libyaml-perl
+Conflicts: rscds
+Description: DAViCal CalDAV Server
+ The DAViCal CalDAV Server is designed to trivially store
+ CalDAV calendars, such as those from Evolution, Sunbird/Lightning,
+ Mulberry, iCal or SOHO Organizer, in a central location, providing
+ shared calendars, free/busy publication and basic administration
+
+Package: davical-doc
+Architecture: all
+Depends: debconf (>= 1.0.32), php5 | php4 (>= 4:4.3), php5-pgsql | php4-pgsql(>= 3:4.3.0), postgresql-client (>= 7.4) | postgresql-client-8.3 | postgresql-client-8.2 | postgresql-client-8.1, libawl-php (>=0.26), libclass-dbi-pg-perl, php5 | php4-domxml, libyaml-perl
+Description: DAViCal CalDAV Server - documentation
+ The DAViCal CalDAV Server is designed to trivially store
+ CalDAV calendars, such as those from Evolution, Sunbird/Lightning,
+ Mulberry, iCal or SOHO Organizer, in a central location, providing
+ shared calendars, free/busy publication and basic administration
+ .
+ This package contains detailed technical documentation for the
+ classes and methods in the DAViCal programs.  Some user-centric
+ configuration documentation is also included.
 
 Package: rscds
 Architecture: all
@@ -17,3 +40,6 @@ Description: DAViCal CalDAV Server
  Mulberry, iCal or SOHO Organizer, in a central location, providing
  shared calendars, free/busy publication and basic administration
  (grouping, delegating, etc).
+ .
+ This legacy package is the same as the 'davical' package but is
+ for older installations installed from original 'rscds' packages.
