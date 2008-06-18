@@ -119,11 +119,20 @@ function SqlFilterFragment( $filter, $components, $property = null, $parameter =
         $finish_column = 'dtstart';  // The column we compare against the END attribute
         $start = $v->GetAttribute("START");
         $finish = $v->GetAttribute("END");
-        if ( isset($start) ) {
+        if ( isset($start) && isset($finish) ) {
+          $sql .= sprintf( "AND ( (%s >= %s::timestamp with time zone AND %s <= %s::timestamp with time zone) ",
+                                  $start_column, qpg($start), $finish_column, qpg($finish));
+          $sql .= sprintf( "OR (calculate_later_timestamp(%s::timestamp with time zone,%s,rrule) >= %s::timestamp with time zone ", qpg($start), $start_column, qpg($start) );
+          $sql .= sprintf( "AND calculate_later_timestamp(%s::timestamp with time zone,%s,rrule) >= %s::timestamp with time zone ", qpg($finish), $finish_column, qpg($finish) );
+          $sql .= sprintf( "AND calculate_later_timestamp(%s::timestamp with time zone,%s,rrule) <= ", qpg($start), $start_column );
+          $sql .= sprintf( " calculate_later_timestamp(%s::timestamp with time zone,%s,rrule) ) ", qpg($finish), $finish_column );
+          $sql .= sprintf( "OR event_has_exceptions(caldav_data.caldav_data) ) " );
+        }
+        else if ( isset($start) ) {
           $sql .= sprintf( "AND (%s >= %s::timestamp with time zone ", $start_column, qpg($start));
           $sql .= sprintf( "OR calculate_later_timestamp(%s::timestamp with time zone,%s,rrule) >= %s::timestamp with time zone) ", qpg($start), $start_column, qpg($start) );
         }
-        if ( isset( $report[$i]['end'] ) ) {
+        else if ( isset( $finish ) ) {
           $sql .= sprintf( "AND %s <= %s::timestamp with time zone ", $finish_column, qpg($finish) );
         }
         break;
@@ -264,5 +273,3 @@ if ( $qry->Exec("calquery",__LINE__,__FILE__) && $qry->rows > 0 ) {
 $multistatus = new XMLElement( "multistatus", $responses, array('xmlns'=>'DAV:') );
 
 $request->XMLResponse( 207, $multistatus );
-
-?>
