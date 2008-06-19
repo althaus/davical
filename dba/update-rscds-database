@@ -134,6 +134,9 @@ print "Supported locales updated.\n";
 apply_sql_file( $dbadir, "caldav_functions.sql" );
 print "CalDAV functions updated.\n";
 
+apply_sql_file( $dbadir, "rrule_functions.sql" );
+print "RRULE functions updated.\n";
+
 # Ensure the permissions are up to date
 apply_permissions( $dbadir, "appuser_permissions.txt" );
 print "Database permissions updated.\n";
