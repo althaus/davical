@@ -2,7 +2,7 @@
 # Do a REPORT request (test operation in subdirectory of unrelated site)
 #
 TYPE=REPORT
-URL=http://myapms/calendar/caldav.php/user1/home/
+URL=http://myempty/davical/caldav.php/user1/home/
 HEAD
 HEADER=Depth: 1
 HEADER=User-Agent: Evolution/1.8.1
