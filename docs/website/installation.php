@@ -211,6 +211,7 @@ single virtual host.</p>
   php_value include_path /usr/share/awl/inc
   php_value magic_quotes_gpc 0
   php_value register_globals 0
+  php_value open_basedir 1
   php_value error_reporting "E_ALL & ~E_NOTICE"
   php_value default_charset "utf-8"
 &lt;/VirtualHost>
