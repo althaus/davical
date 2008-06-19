@@ -7,7 +7,7 @@ version=$(shell cat VERSION)
 all: inc/always.php built-docs built-po
 
 built-docs: docs/api/phpdoc.ini htdocs/*.php inc/*.php
-	phpdoc -c docs/api/phpdoc.ini || echo "WARNING: failed to build docs"
+	phpdoc -c docs/api/phpdoc.ini || echo "NOTICE: Failed to build optional API docs"
 	touch built-docs
 
 built-po: built-docs inc/always.php scripts/po/rebuild-translations.sh scripts/po/extract.pl po/*.po
