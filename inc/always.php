@@ -28,7 +28,7 @@ $c->default_locale = "en_NZ";
 $c->base_url = preg_replace("#/[^/]+\.php.*$#", "", $_SERVER['SCRIPT_NAME']);
 $c->base_directory = preg_replace("#/[^/]*$#", "", $_SERVER['DOCUMENT_ROOT']);
 
-$c->stylesheets = array( $c->base_url."/rscds.css" );
+$c->stylesheets = array( $c->base_url."/davical.css" );
 $c->images      = $c->base_url . "/images";
 
 // Ensure that ../inc is in our included paths as early as possible
