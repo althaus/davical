@@ -126,7 +126,7 @@ if ! ${DBADIR}/update-rscds-database --dbname "${DBNAME}" --appuser "${AWL_APPUS
         cat <<EOFAILURE
 * * * * ERROR * * * *
 The database administration utility failed.  This is usually due to the Perl YAML
-library not being available.
+or the Perl DBD::Pg libraries not being available.
 
 See:  http://wiki.davical.org/w/Install_Errors/No_Perl_YAML
 
