@@ -255,10 +255,11 @@ sub apply_sql_file {
   my $sqldir  = shift;
   my $sqlfile = shift;
 
-  my @psql_opts = ( "psql", "-q", "-f", $sqldir."/".$sqlfile, $dbname );
+  my @psql_opts = ( "psql", "-q", "-f", $sqldir."/".$sqlfile );
   push @psql_opts, "-h", $dbhost if ( $dbhost ne "" );
   push @psql_opts, "-p", "$dbport" if ( $dbport != 5432 );
   push @psql_opts, "-U", $dbuser if ( $dbuser ne "" );
+  push @psql_opts, $dbname;    # It seems that FreeBSD has a poorer argument parsing library so non-option arguments must be last
   $ENV{'PGPASS'} = $dbpass if ( $dbpass ne "" );
 
   my $command = join ' ', @psql_opts;

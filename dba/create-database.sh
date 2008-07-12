@@ -8,7 +8,7 @@ ADMINPW="${2}"
 
 DBADIR="`dirname \"$0\"`"
 
-INSTALL_NOTE_FN="`mktemp`"
+INSTALL_NOTE_FN="`mktemp -t tmp.XXXXXXXXXX`"
 
 testawldir() {
   [ -f "${1}/dba/awl-tables.sql" ]
@@ -32,19 +32,19 @@ export AWL_DBAUSER=davical_dba
 export AWL_APPUSER=davical_app
 
 # Get the major version for PostgreSQL
-export DBVERSION="`psql -qAt template1 -c "SELECT version();" | cut -f2 -d' ' | cut -f1-2 -d'.'`"
+export DBVERSION="`psql -qAt -c "SELECT version();" template1 | cut -f2 -d' ' | cut -f1-2 -d'.'`"
 
 install_note() {
   cat >>"${INSTALL_NOTE_FN}"
 }
 
 db_users() {
-  psql -qAt template1 -c "SELECT usename FROM pg_user;";
+  psql -qAt -c "SELECT usename FROM pg_user;" template1
 }
 
 create_db_user() {
   if ! db_users | grep "^${1}$" >/dev/null ; then
-    psql -qAt template1 -c "CREATE USER ${1} NOCREATEDB NOCREATEROLE;"
+    psql -qAt -c "CREATE USER ${1} NOCREATEDB NOCREATEROLE;" template1
     cat <<EONOTE | install_note
 *  You will need to edit the PostgreSQL pg_hba.conf to allow the
    '${1}' database user access to the 'davical' database.
@@ -54,13 +54,13 @@ EONOTE
 }
 
 create_plpgsql_language() {
-  if ! psql ${DBA} -qAt template1 -c "SELECT lanname FROM pg_language;" | grep "^plpgsql$" >/dev/null; then
+  if ! psql ${DBA} -qAt -c "SELECT lanname FROM pg_language;" template1 | grep "^plpgsql$" >/dev/null; then
     createlang plpgsql "${DBNAME}"
   fi
 }
 
 try_db_user() {
-  [ "XtestX`psql -U "${1}" -qAt template1 -c "SELECT usename FROM pg_user;" 2>/dev/null`" != "XtestX" ]
+  [ "XtestX`psql -U "${1}" -qAt -c "SELECT usename FROM pg_user;" template1 2>/dev/null`" != "XtestX" ]
 }
 
 
@@ -122,7 +122,7 @@ psql -qAt ${DBA} -f "${DBADIR}/davical.sql" "${DBNAME}" 2>&1 | egrep -v "(^CREAT
 
 #
 # Set permissions for the application DB user on the database
-if ! ${DBADIR}/update-rscds-database --dbname "${DBNAME}" --appuser "${AWL_APPUSER}" --nopatch --owner "${AWL_DBAUSER}" ; then
+if ! ${DBADIR}/update-davical-database --dbname "${DBNAME}" --appuser "${AWL_APPUSER}" --nopatch --owner "${AWL_DBAUSER}" ; then
         cat <<EOFAILURE
 * * * * ERROR * * * *
 The database administration utility failed.  This is usually due to the Perl YAML
@@ -167,7 +167,7 @@ rm "${INSTALL_NOTE_FN}"
 cat <<FRIENDLY
 *  The password for the 'admin' user has been set to '${ADMINPW}'"
 
-Thanks for trying DAViCal!  Check in /usr/share/doc/rscds/examples/ for
+Thanks for trying DAViCal!  Check in /usr/share/doc/davical/examples/ for
 some configuration examples.  For help, visit #davical on irc.oftc.net.
 
 FRIENDLY
