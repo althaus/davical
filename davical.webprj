@@ -1,13 +1,11 @@
 <!DOCTYPE webproject>
 <webproject>
-  <project type="Local" name="rscds" encoding="utf8" >
+  <project type="Local" name="davical" encoding="utf8" enableEvents="true" >
     <upload/>
-    <author>Andrew McMillan</author>
-    <email>andrew@catalyst.net.nz</email>
-    <defaultDTD>-//W3C//DTD XHTML 1.0 Transitional//EN</defaultDTD>
+    <defaultDTD>-//w3c//dtd html 4.01 frameset//en</defaultDTD>
     <item url="" uploadstatus="1" />
-    <templates>templates/</templates>
-    <toolbars>toolbars/</toolbars>
+    <templates>../../../../</templates>
+    <toolbars>../../../../</toolbars>
     <item url="htdocs/" uploadstatus="1" />
     <annotations/>
     <item url="inc/caldav-OPTIONS.php" uploadstatus="1" />
@@ -28,7 +26,6 @@
     <item url="inc/RSCDSSession.php" uploadstatus="1" />
     <item url="inc/page-header.php" uploadstatus="1" />
     <item url="inc/page-footer.php" uploadstatus="1" />
-    <item url="htdocs/rscds.css" uploadstatus="1" />
     <item url="inc/interactive-page.php" uploadstatus="1" />
     <item url="htdocs/users.php" uploadstatus="1" />
     <item url="htdocs/help.php" uploadstatus="1" />
@@ -256,5 +253,18 @@
     <item url="dba/patches/1.2.3a.sql" uploadstatus="1" />
     <item url="dba/patches/1.2.3.sql" uploadstatus="1" />
     <item url="dba/patches/1.2.1b.sql" uploadstatus="1" />
+    <item url="htdocs/public.php" uploadstatus="1" />
+    <author>Andrew McMillan</author>
+    <email>andrew@mcmillan.net.nz</email>
+    <debuggerclient persistentWatches="0" persistentBreakpoints="0" >No Debugger</debuggerclient>
+    <exclude cvsignore="false" />
+    <teamdata>
+      <taskleaders/>
+      <subprojectleaders/>
+      <mailinglist address="" />
+    </teamdata>
+    <events/>
+    <item url="htdocs/davical.css" uploadstatus="1" />
+    <item url="dba/update-davical-database" />
   </project>
 </webproject>
