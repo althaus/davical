@@ -90,24 +90,24 @@ order to shorten the path.</p>
 <h2>Creating the Web User for the Database</h2>
 
 <p>On your database server you will need to create a user called
-'general' which should not be able to create databases or users,
+'davical_app' which should not be able to create databases or users,
 and which will be granted minimum privileges for the application.</p>
 <pre>
-createuser --no-createdb --no-createrole general
+createuser --no-createdb --no-createrole davical_app
 </pre>
 
 <p>PostgreSQL 7.4 named things slightly differently, so you
 should use something like:</p>
 
 <pre>
-createuser --no-createdb --no-adduser general
+createuser --no-createdb --no-adduser davical_app
 </pre>
 
 <p>You may need to become the 'postgres' user to do this, in which case
 you will need to be the postgres user to create the database as well.
 For example (for PostgreSQL 8.x):</p>
 <pre>
-su postgres -c createuser --no-createdb --no-createrole general
+su postgres -c createuser --no-createdb --no-createrole davical_app
 </pre>
 
 <h2>Creating and Building the Database</h2>
@@ -132,7 +132,7 @@ su postgres -c /usr/share/davical/dba/create-database.sh
 
 <p>Once your database has been created, you may also need to
 edit your pg_hba.conf file in order to grant the application
-access to the database as the 'general' user.</p>
+access to the database as the 'davical_app' user.</p>
 
 <p>In a simple installation, where you do not have untrusted
 users on your database server, and your database is on the same
@@ -140,20 +140,20 @@ computer as the web server, the following line (near the top
 of the pg_hba.conf file) should be enough:</p>
 
 <pre>
-local   davical    general   trust
+local   davical    davical_app   trust
 </pre>
 
 <p>This means that anyone on the local computer (including the
 web application) will have rights to connect to the DAViCal
-database as the 'general' user.  It will not allow remote access,
-or access as any user other than 'general'.</p>
+database as the 'davical_app' user.  It will not allow remote access,
+or access as any user other than 'davical_app'.</p>
 
 <p>If you want to connect to the database over TCP/IP rather than
 unix sockets, the line in the pg_hba.conf file should look something
 like:</p>
 
 <pre>
-host davical general 127.0.0.1/32 trust
+host davical davical_app 127.0.0.1/32 trust
 </pre>
 
 <p>If the webserver is on a different machine to the database, that
@@ -250,8 +250,8 @@ and is a regular PHP file which sets (or overrides) some specific variables.</p>
 //  $c->enable_row_linking = true;
 //  $c->default_locale = en_NZ.UTF-8;
 
-//  $c->pg_connect[] = 'dbname=davical port=5433 user=general';
-  $c->pg_connect[] = 'dbname=davical port=5432 user=general';
+//  $c->pg_connect[] = 'dbname=davical port=5433 user=davical_app';
+  $c->pg_connect[] = 'dbname=davical port=5432 user=davical_app';
 
 
 </pre>
