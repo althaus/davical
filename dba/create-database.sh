@@ -68,7 +68,7 @@ create_db_user "${AWL_DBAUSER}"
 create_db_user "${AWL_APPUSER}"
 
 # FIXME: Need to check that the database was actually created.
-if ! createdb --encoding UTF8 "${DBNAME}" --template template0 --owner "${AWL_DBAUSER}"; then
+if ! createdb --encoding UTF8 --template template0 --owner "${AWL_DBAUSER}" "${DBNAME}" ; then
   echo "Unable to create database"
   exit 1
 fi
