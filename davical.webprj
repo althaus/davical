@@ -265,6 +265,6 @@
     </teamdata>
     <events/>
     <item url="htdocs/davical.css" uploadstatus="1" />
-    <item url="dba/update-davical-database" />
+    <item url="dba/update-davical-database" uploadstatus="1" />
   </project>
 </webproject>
