@@ -1,12 +1,12 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, access-control, calendar-access
-ETag: "45e62f9b3b6b55ac40673d4ef35948b9"
-Content-Length: 623
+ETag: "f5bcdac4101184e674bfb4112dfe4b0c"
+Content-Length: 666
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
-<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav" xmlns:C1="http://calendarserver.org/ns/" xmlns:A="http://apple.com/ns/ical/">
+<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav" xmlns:A="http://calendarserver.org/ns/" xmlns:A1="http://apple.com/ns/ical/">
  <response>
   <href>/caldav.php/user1/home/</href>
   <propstat>
@@ -16,13 +16,13 @@ Content-Type: text/xml; charset="utf-8"
      <C:calendar/>
     </resourcetype>
     <displayname>home</displayname>
+    <A:getctag>faf25336de0e470a54075c14cbcf5272</A:getctag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
   <propstat>
    <prop>
-    <C1:getctag/>
-    <A:calendar-color/>
+    <A1:calendar-color/>
     <C:calendar-description/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
