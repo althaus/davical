@@ -22,9 +22,13 @@ $session = new HTTPAuthSession();
 * access-control is rfc3744, so we will say we do it, but I doubt if we do it
 * in all (or even much of) it's glory really.
 */
-$dav = "1, 2, access-control, calendar-access";
+if ( isset($c->override_dav_header) ) {
+  $dav = $c->override_dav_header;
+}
+else {
+  $dav = "1, 2, access-control, calendar-access";
+}
 header( "DAV: $dav");
-// header( "DAV: 1, 2, access-control, calendar-access, calendar-schedule");
 
 require_once("CalDAVRequest.php");
 $request = new CalDAVRequest();
