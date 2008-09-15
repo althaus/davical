@@ -64,11 +64,13 @@ class CalDAVPrincipal
     global $session, $c;
 
     if ( $parameters == null ) return false;
+    $this->by_email = false;
     if ( is_int($parameters) ) {
       dbg_error_log( "principal", "Principal: %d", $parameters );
       $usr = getUserByID($parameters);
     }
     else if ( is_array($parameters) ) {
+      if ( ! isset($parameters['options']['allow_by_email']) ) $parameters['options']['allow_by_email'] = false;
       if ( isset($parameters['username']) ) {
         $usr = getUserByName($parameters['username']);
       }
