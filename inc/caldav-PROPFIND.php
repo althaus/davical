@@ -117,6 +117,12 @@ function namespace_array() {
 }
 
 
+function calendar_server_tag( $tag ) {
+  add_namespace("A", "http://calendarserver.org/ns/");
+  return ns_tag( $tag, 'http://calendarserver.org/ns/' );
+}
+
+
 function caldav_tag( $tag ) {
   return ns_tag( $tag, 'urn:ietf:params:xml:ns:caldav' );
 }
@@ -158,6 +164,7 @@ foreach( $request->xml_tags AS $k => $v ) {
     case 'GETCONTENTLENGTH':               /** getcontentlength- should work fine */
     case 'GETCONTENTTYPE':                 /** getcontenttype  - should work fine */
     case 'GETETAG':                        /** getetag         - should work fine */
+    case 'GETCTAG':                        /** Calendar Server extension like etag - should work fine (we just return etag) */
     case 'SUPPORTEDLOCK':                  /** supportedlock   - should work fine */
     case 'PRINCIPAL-URL':                  /** principal-url   - should work fine */
     case 'RESOURCETYPE':                   /** resourcetype    - should work fine */
@@ -291,12 +298,10 @@ function add_principal_properties( &$prop, &$not_found, &$denied ) {
   }
 
   if ( isset($attribute_list['DROPBOX-HOME-URL'] ) ) {
-    add_namespace("A", "http://calendarserver.org/ns/");
-    $prop->NewElement("A:dropbox-home-url", new XMLElement('href', $request->principal->dropbox_url) );
+    $prop->NewElement(calendar_server_tag("dropbox-home-url"), new XMLElement('href', $request->principal->dropbox_url) );
   }
   if ( isset($attribute_list['NOTIFICATIONS-URL'] ) ) {
-    add_namespace("A", "http://calendarserver.org/ns/");
-    $prop->NewElement("A:notifications-url", new XMLElement('href', $request->principal->notifications_url) );
+    $prop->NewElement(calendar_server_tag("notifications-url"), new XMLElement('href', $request->principal->notifications_url) );
   }
 
   if ( isset($attribute_list['CALENDAR-USER-ADDRESS-SET'] ) ) {
@@ -378,6 +383,10 @@ function collection_to_xml( $collection ) {
   }
   if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['GETETAG']) ) {
     $prop->NewElement("getetag", '"'.$collection->dav_etag.'"' );
+  }
+  if ( isset($attribute_list['GETCTAG']) ) {
+    // Calendar Server extension which only applies to collections.  We return the etag, which does the needful.
+    $prop->NewElement(calendar_server_tag('getctag'),$collection->dav_etag );
   }
   if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['CURRENT-USER-PRIVILEGE-SET']) ) {
     $prop->NewElement("current-user-privilege-set", privileges($request->permissions) );
