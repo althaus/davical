@@ -1,7 +1,7 @@
 #!/usr/bin/make -f
 # 
 
-package=rscds
+package=davical
 version=$(shell cat VERSION)
 
 all: inc/always.php built-docs built-po
