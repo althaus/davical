@@ -1,5 +1,9 @@
 <?php
 
+/**
+* @TODO Tidy up namespace handling in the responses.
+*/
+
 $responses = array();
 
 /**
