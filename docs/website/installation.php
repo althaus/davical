@@ -250,9 +250,7 @@ and is a regular PHP file which sets (or overrides) some specific variables.</p>
 //  $c->enable_row_linking = true;
 //  $c->default_locale = en_NZ.UTF-8;
 
-//  $c->pg_connect[] = 'dbname=davical port=5433 user=davical_app';
   $c->pg_connect[] = 'dbname=davical port=5432 user=davical_app';
-
 
 </pre>
 
