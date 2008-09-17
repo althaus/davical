@@ -2,7 +2,7 @@ davical (0.9.5.3) unstable; urgency=low
 
   * Fix translation inefficiencies (closes: #495307)
 
- -- Andrew McMillan <debian@mcmillan.net.nz>  Wed, 17 Sep 2008 23:08:49 +1200
+ -- Andrew McMillan <debian@mcmillan.net.nz>  Wed, 17 Sep 2008 23:36:16 +1200
 
 davical (0.9.5.2) unstable; urgency=low
 
