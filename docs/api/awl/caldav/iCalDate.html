@@ -1,0 +1,908 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs For Class iCalDate</title>
+			<link rel="stylesheet" href="../../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name"><img src="../../media/images/Class_logo.png"
+														alt=" Class"
+														title=" Class"
+														style="vertical-align: middle"> iCalDate</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+															<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">A Class for handling dates in iCalendar format.  We do make the simplifying assumption  that all date handling in here is normalised to GMT.  One day we might provide some  functions to do that, but for now it is done externally.</p>
+		<p class="notes">
+			Located in <a class="field" href="_inc---RRule.php.html">/inc/RRule.php</a> (line <span class="field">21</span>)
+		</p>
+		
+				
+		<pre></pre>
+	
+			</div>
+</div>
+
+
+
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+												<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																																																																																																																																																																																																																								<div class="method-definition">
+					<img src="../../media/images/Constructor.png" alt=" "/>
+											<span class="method-result">iCalDate</span>
+										<a href="#iCalDate" title="details" class="method-name">iCalDate</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$input</span>)
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#AddDays" title="details" class="method-name">AddDays</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$dd</span>)
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#AddDuration" title="details" class="method-name">AddDuration</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$duration</span>)
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#AddMonths" title="details" class="method-name">AddMonths</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$mo</span>)
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">array</span>
+										<a href="#ApplyBySetPos" title="details" class="method-name">&amp;ApplyBySetPos</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$bysplist</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$set</span>)
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">string</span>
+										<a href="#DateDifference" title="details" class="method-name">DateDifference</a>
+											(<span class="var-type">date</span>&nbsp;<span class="var-name">$from</span>)
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#DaysInMonth" title="details" class="method-name">DaysInMonth</a>
+											([<span class="var-type"></span>&nbsp;<span class="var-name">$mo</span> = <span class="var-default">false</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$yy</span> = <span class="var-default">false</span>])
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">array</span>
+										<a href="#GetMonthByDay" title="details" class="method-name">GetMonthByDay</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$byday</span>)
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">array</span>
+										<a href="#GetMonthByMonthDay" title="details" class="method-name">GetMonthByMonthDay</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$bymonthday</span>)
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">array</span>
+										<a href="#GetWeekByDay" title="details" class="method-name">GetWeekByDay</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$byday</span>)
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">boolean</span>
+										<a href="#GreaterThan" title="details" class="method-name">GreaterThan</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$lesser</span>)
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">boolean</span>
+										<a href="#LessThan" title="details" class="method-name">LessThan</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$greater</span>)
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">array</span>
+										<a href="#MonthDays" title="details" class="method-name">&amp;MonthDays</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$dow_first</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$days_in_month</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$dayspec</span>)
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#Render" title="details" class="method-name">Render</a>
+											([<span class="var-type"></span>&nbsp;<span class="var-name">$fmt</span> = <span class="var-default">'Y-m-d H:i:s'</span>])
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#SetEpochDate" title="details" class="method-name">SetEpochDate</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$input</span>)
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#SetGMTDate" title="details" class="method-name">SetGMTDate</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$input</span>)
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#SetLocalDate" title="details" class="method-name">SetLocalDate</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$input</span>)
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#SetMonthDay" title="details" class="method-name">SetMonthDay</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$dd</span>)
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#SetWeekStart" title="details" class="method-name">SetWeekStart</a>
+										()
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">boolean</span>
+										<a href="#TestByMonth" title="details" class="method-name">TestByMonth</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$monthlist</span>)
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#_EpochFromParts" title="details" class="method-name">_EpochFromParts</a>
+										()
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#_GMTEpochFromParts" title="details" class="method-name">_GMTEpochFromParts</a>
+										()
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#_GMTTextFromEpoch" title="details" class="method-name">_GMTTextFromEpoch</a>
+										()
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#_PartsFromText" title="details" class="method-name">_PartsFromText</a>
+										()
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#_TextFromEpoch" title="details" class="method-name">_TextFromEpoch</a>
+										()
+									</div>
+											</div>
+		</div>
+	</div>		
+
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+													<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+<a name="methodiCalDate" id="iCalDate"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Constructor.png" />
+		<span class="method-title">Constructor iCalDate</span> (line <span class="line-number">50</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">The constructor takes either an iCalendar date, a text string formatted as  an iCalendar date, or epoch seconds.</p>
+	
+	<div class="method-signature">
+		<span class="method-result">iCalDate</span>
+		<span class="method-name">
+			iCalDate
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$input</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$input</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodAddDays" id="AddDays"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">AddDays</span> (line <span class="line-number">254</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Add some integer number of days to a date</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			AddDays
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$dd</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$dd</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodAddDuration" id="AddDuration"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">AddDuration</span> (line <span class="line-number">282</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Add duration</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			AddDuration
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$duration</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$duration</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodAddMonths" id="AddMonths"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">AddMonths</span> (line <span class="line-number">226</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Add some number of months to a date</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			AddMonths
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$mo</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$mo</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodApplyBySetPos" id="ApplyBySetPos"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">ApplyBySetPos</span> (line <span class="line-number">547</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Given set position descriptions like '1', '3', '11', '-3' or '-1' and a set,  return the subset matching the list of set positions.</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> The subset which matches.</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			&amp;ApplyBySetPos
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$bysplist</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$set</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$bysplist</span><span class="var-description">: The list of set positions.</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$set</span><span class="var-description">: The set of days that we will apply the positions to.</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodDateDifference" id="DateDifference"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">DateDifference</span> (line <span class="line-number">318</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Produce an iCalendar format DURATION for the difference between this an another iCalDate</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> The date difference, as an iCalendar duration format</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			DateDifference
+		</span>
+					(<span class="var-type">date</span>&nbsp;<span class="var-name">$from</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">date</span>
+				<span class="var-name">$from</span><span class="var-description">: The start of the period</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodDaysInMonth" id="DaysInMonth"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">DaysInMonth</span> (line <span class="line-number">177</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">No of days in a month 1(Jan) - 12(Dec)</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			DaysInMonth
+		</span>
+					([<span class="var-type"></span>&nbsp;<span class="var-name">$mo</span> = <span class="var-default">false</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$yy</span> = <span class="var-default">false</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$mo</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$yy</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodGetMonthByDay" id="GetMonthByDay"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">GetMonthByDay</span> (line <span class="line-number">401</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Applies any BYDAY to the month to return a set of days</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> An array of the day numbers for the month which meet the rule.</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			GetMonthByDay
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$byday</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$byday</span><span class="var-description">: The BYDAY rule</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodGetMonthByMonthDay" id="GetMonthByMonthDay"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">GetMonthByMonthDay</span> (line <span class="line-number">422</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Applies any BYMONTHDAY to the month to return a set of days</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> An array of the day numbers for the month which meet the rule.</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			GetMonthByMonthDay
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$bymonthday</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$bymonthday</span><span class="var-description">: The BYMONTHDAY rule</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodGetWeekByDay" id="GetWeekByDay"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">GetWeekByDay</span> (line <span class="line-number">441</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Applies any BYDAY to the week to return a set of days</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> An array of the day numbers for the week which meet the rule.</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			GetWeekByDay
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$byday</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$byday</span><span class="var-description">: The BYDAY rule</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodGreaterThan" id="GreaterThan"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">GreaterThan</span> (line <span class="line-number">462</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Test if $this is greater than the date parameter</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> True if $this &gt; $lesser</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			GreaterThan
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$lesser</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$lesser</span><span class="var-description">: The other date, as a local time string</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodLessThan" id="LessThan"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">LessThan</span> (line <span class="line-number">477</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Test if $this is less than the date parameter</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> True if $this &lt; $greater</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			LessThan
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$greater</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$greater</span><span class="var-description">: The other date, as a local time string</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodMonthDays" id="MonthDays"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">MonthDays</span> (line <span class="line-number">496</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Given a MonthDays string like &quot;1MO&quot;, &quot;-2WE&quot; return an integer day of the month.</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> An array of the day numbers for the month which meet the rule.</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			&amp;MonthDays
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$dow_first</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$days_in_month</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$dayspec</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$dow_first</span><span class="var-description">: The day of week of the first of the month.</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$days_in_month</span><span class="var-description">: The number of days in the month.</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$dayspec</span><span class="var-description">: The specification for a month day (or days) which we parse.</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodRender" id="Render"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">Render</span> (line <span class="line-number">169</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Set the day of week used for calculation of week starts</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			Render
+		</span>
+					([<span class="var-type"></span>&nbsp;<span class="var-name">$fmt</span> = <span class="var-default">'Y-m-d H:i:s'</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$fmt</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodSetEpochDate" id="SetEpochDate"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">SetEpochDate</span> (line <span class="line-number">103</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Set the date from an epoch</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			SetEpochDate
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$input</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$input</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodSetGMTDate" id="SetGMTDate"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">SetGMTDate</span> (line <span class="line-number">83</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Set the date from a text string</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			SetGMTDate
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$input</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$input</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodSetLocalDate" id="SetLocalDate"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">SetLocalDate</span> (line <span class="line-number">93</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Set the date from a text string</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			SetLocalDate
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$input</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$input</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodSetMonthDay" id="SetMonthDay"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">SetMonthDay</span> (line <span class="line-number">214</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Set the day in the month to what we have been given</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			SetMonthDay
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$dd</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$dd</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodSetWeekStart" id="SetWeekStart"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">SetWeekStart</span> (line <span class="line-number">160</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Set the day of week used for calculation of week starts</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			SetWeekStart
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodTestByMonth" id="TestByMonth"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">TestByMonth</span> (line <span class="line-number">389</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Test to see if our _mo matches something in the list of months we have received.</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> Whether this date falls within one of those months.</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			TestByMonth
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$monthlist</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$monthlist</span><span class="var-description">: A comma-separated list of months.</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="method_EpochFromParts" id="_EpochFromParts"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">_EpochFromParts</span> (line <span class="line-number">151</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Given a local text date, convert it to an epoch</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			_EpochFromParts
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="method_GMTEpochFromParts" id="_GMTEpochFromParts"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">_GMTEpochFromParts</span> (line <span class="line-number">142</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Given a GMT text date, convert it to an epoch</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			_GMTEpochFromParts
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="method_GMTTextFromEpoch" id="_GMTTextFromEpoch"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">_GMTTextFromEpoch</span> (line <span class="line-number">121</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Given a GMT epoch date, convert it to text</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			_GMTTextFromEpoch
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="method_PartsFromText" id="_PartsFromText"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">_PartsFromText</span> (line <span class="line-number">129</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Given a text date, convert it to parts</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			_PartsFromText
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="method_TextFromEpoch" id="_TextFromEpoch"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">_TextFromEpoch</span> (line <span class="line-number">113</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Given an epoch date, convert it to text</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			_TextFromEpoch
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+						
+		</div>
+	</div>
+
+	
+	<p class="notes" id="credit">
+		Documentation generated on Thu, 18 Sep 2008 00:10:46 +1200 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
+	</p>
+	</div></body>
+</html>

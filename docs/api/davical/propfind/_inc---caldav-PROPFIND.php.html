@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs for page caldav-PROPFIND.php</title>
+			<link rel="stylesheet" href="../../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="file-name"><img src="../../media/images/Page_logo.png" alt="File" style="vertical-align: middle">/inc/caldav-PROPFIND.php</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+									<a href="#sec-includes">Includes</a>
+			|											<a href="#sec-functions">Functions</a>
+			</div>
+	<div class="info-box-body">	
+		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">CalDAV Server - handle PROPFIND method</p>
+	<ul class="tags">
+				<li><span class="field">author:</span> Andrew McMillan &lt;<a href="mailto:andrew@catalyst.net.nz">andrew@catalyst.net.nz</a>&gt;</li>
+				<li><span class="field">copyright:</span> Catalyst .Net Ltd, Andrew McMillan</li>
+				<li><span class="field">license:</span> <a href="http://gnu.org/copyleft/gpl.html">GNU GPL v2 or later</a></li>
+			</ul>
+		
+			</div>
+</div>
+		
+
+	<a name="sec-includes"></a>	
+	<div class="info-box">
+		<div class="info-box-title">Includes</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+						<span class="disabled">Includes</span>
+			|													<a href="#sec-functions">Functions</a>
+					</div>
+		<div class="info-box-body">	
+			<a name="_XMLElement_php"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<img src="../../media/images/Page.png" alt=" " />
+		<span class="include-title">
+			<span class="include-type">require_once</span>
+			(<span class="include-name">"XMLElement.php"</span>)
+			(line <span class="line-number">17</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+</div>
+<a name="_iCalendar_php"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<img src="../../media/images/Page.png" alt=" " />
+		<span class="include-title">
+			<span class="include-type">require_once</span>
+			(<span class="include-name">"iCalendar.php"</span>)
+			(line <span class="line-number">18</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+</div>
+		</div>
+	</div>
+	
+	
+	
+	<a name="sec-functions"></a>	
+	<div class="info-box">
+		<div class="info-box-title">Functions</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+										<a href="#sec-includes">Includes</a>
+				|												<span class="disabled">Functions</span>
+		</div>
+		<div class="info-box-body">	
+			<a name="functionadd_namespace" id="functionadd_namespace"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<img src="../../media/images/Function.png" />
+		<span class="method-title">add_namespace</span> (line <span class="line-number">27</span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			add_namespace
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$prefix</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$namespace</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$prefix</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$namespace</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functionadd_principal_properties" id="functionadd_principal_properties"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<img src="../../media/images/Function.png" />
+		<span class="method-title">add_principal_properties</span> (line <span class="line-number">276</span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Handles any properties related to the DAV::PRINCIPAL in the request</p>
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			add_principal_properties
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">&$prop</span>, <span class="var-type"></span>&nbsp;<span class="var-name">&$not_found</span>, <span class="var-type"></span>&nbsp;<span class="var-name">&$denied</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">&$prop</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">&$not_found</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">&$denied</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functioncaldav_tag" id="functioncaldav_tag"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<img src="../../media/images/Function.png" />
+		<span class="method-title">caldav_tag</span> (line <span class="line-number">120</span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			caldav_tag
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$tag</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$tag</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functioncollection_to_xml" id="functioncollection_to_xml"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<img src="../../media/images/Function.png" />
+		<span class="method-title">collection_to_xml</span> (line <span class="line-number">315</span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns an XML sub-tree for a single collection record from the DB</p>
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			collection_to_xml
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$collection</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$collection</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functionget_arbitrary_properties" id="functionget_arbitrary_properties"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<img src="../../media/images/Function.png" />
+		<span class="method-title">get_arbitrary_properties</span> (line <span class="line-number">252</span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Fetches any arbitrary properties that were requested by the PROPFIND into an  array, which we return.</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> The arbitrary properties.</li>
+			</ul>
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			get_arbitrary_properties
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$dav_name</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$dav_name</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functionget_collection" id="functionget_collection"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<img src="../../media/images/Function.png" />
+		<span class="method-title">get_collection</span> (line <span class="line-number">638</span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Get XML response for a single collection.  If Depth is &gt;0 then</p>
+<p class="description"><p>subsidiary collections will also be got up to $depth</p></p>
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			get_collection
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$depth</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$user_no</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$collection_path</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$depth</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$user_no</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$collection_path</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functionget_collection_contents" id="functionget_collection_contents"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<img src="../../media/images/Function.png" />
+		<span class="method-title">get_collection_contents</span> (line <span class="line-number">569</span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Get XML response for items in the collection  If '/' is requested, a list of visible users is given, otherwise  a list of calendars for the user which are parented by this path.</p>
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			get_collection_contents
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$depth</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$user_no</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$collection</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$depth</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$user_no</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$collection</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functionget_item" id="functionget_item"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<img src="../../media/images/Function.png" />
+		<span class="method-title">get_item</span> (line <span class="line-number">691</span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Get XML response for a single item.  Depth is irrelevant for this.</p>
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			get_item
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$item_path</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$item_path</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functionitem_to_xml" id="functionitem_to_xml"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<img src="../../media/images/Function.png" />
+		<span class="method-title">item_to_xml</span> (line <span class="line-number">472</span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Return XML for a single data item from the DB</p>
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			item_to_xml
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$item</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$item</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functionnamespace_array" id="functionnamespace_array"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<img src="../../media/images/Function.png" />
+		<span class="method-title">namespace_array</span> (line <span class="line-number">108</span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			namespace_array
+		</span>
+				()
+			</div>
+
+		
+	
+</div>
+<a name="functionns_tag" id="functionns_tag"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<img src="../../media/images/Function.png" />
+		<span class="method-title">ns_tag</span> (line <span class="line-number">50</span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			ns_tag
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$in_tag</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$namespace</span> = <span class="var-default">null</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$prefix</span> = <span class="var-default">null</span>])
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$in_tag</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$namespace</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$prefix</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functionprivileges" id="functionprivileges"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<img src="../../media/images/Function.png" />
+		<span class="method-title">privileges</span> (line <span class="line-number">238</span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the array of privilege names converted into XMLElements</p>
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			privileges
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$privilege_names</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$container</span> = <span class="var-default">&amp;quot;privilege&amp;quot;</span>])
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$privilege_names</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$container</span>			</li>
+				</ul>
+		
+	
+</div>
+		</div>
+	</div>
+	
+	<p class="notes" id="credit">
+		Documentation generated on Thu, 18 Sep 2008 00:10:45 +1200 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
+	</p>
+	</div></body>
+</html>
