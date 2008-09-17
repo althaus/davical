@@ -43,7 +43,7 @@ binary-common:
 	dh_testdir
 	dh_testroot
 	dh_installchangelogs
-	dh_installdocs
+	dh_installdocs --exclude=.gitignore
 #	dh_installexamples
 #	dh_installmenu
 #	dh_installdebconf
@@ -62,7 +62,7 @@ binary-common:
 #	dh_undocumented
 #	dh_strip
 #	dh_link
-	dh_compress
+	dh_compress --exclude=.js
 	dh_fixperms
 #	dh_perl
 #	dh_python
