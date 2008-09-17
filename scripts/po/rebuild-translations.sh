@@ -10,22 +10,24 @@
 POTOOLS="scripts/po"
 PODIR="po"
 LOCALEDIR="locale"
-APPLICATION="rscds"
+APPLICATION="davical"
 
 ${POTOOLS}/extract.pl htdocs inc ../awl/inc > ${PODIR}/strings.raw
 xgettext --keyword=_ -C --no-location --output=${PODIR}/messages.tmp ${PODIR}/strings.raw
-sed -e 's/CHARSET/UTF-8/' <${PODIR}/messages.tmp >${PODIR}/messages.po
+sed -e 's/CHARSET/UTF-8/' <${PODIR}/messages.tmp >${PODIR}/messages.pot
 rm ${PODIR}/messages.tmp
 
 
-for LOCALE in `grep VALUES dba/supported_locales.sql | cut -f2 -d"'"` ; do
+for LOCALE in `grep VALUES dba/supported_locales.sql | cut -f2 -d"'" | cut -f1 -d'_'` ; do
+  [ "${LOCALE}" = "en" ] && continue
   if [ ! -f ${PODIR}/${LOCALE}.po ] ; then
-    cp ${PODIR}/messages.po ${PODIR}/${LOCALE}.po
+    cp ${PODIR}/messages.pot ${PODIR}/${LOCALE}.po
   fi
-  msgmerge --quiet --width 105 --update ${PODIR}/${LOCALE}.po ${PODIR}/messages.po
+  msgmerge --quiet --width 105 --update ${PODIR}/${LOCALE}.po ${PODIR}/messages.pot
 done
 
-for LOCALE in `grep VALUES dba/supported_locales.sql | cut -f2 -d"'"` ; do
+for LOCALE in `grep VALUES dba/supported_locales.sql | cut -f2 -d"'" | cut -f1 -d'_'` ; do
+  [ "${LOCALE}" = "en" ] && continue
   mkdir -p ${LOCALEDIR}/${LOCALE}/LC_MESSAGES
   msgfmt ${PODIR}/${LOCALE}.po -o ${LOCALEDIR}/${LOCALE}/LC_MESSAGES/${APPLICATION}.mo
 done

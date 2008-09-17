@@ -22,9 +22,9 @@ $c->collections_always_exist = true;
 $c->home_calendar_name = 'home';
 $c->enable_row_linking = true;
 $c->http_auth_mode = 'Basic';
-// $c->default_locale = array('es_MX', 'es_MX.UTF-8', 'es');
+// $c->default_locale = array('es_MX', 'es_AR', 'es', 'pt');  // An array of locales to try, or just a single locale
 // $c->local_tzid = 'Pacific/Auckland';  // Perhaps we should read from /etc/timezone - I wonder how standard that is?
-$c->default_locale = "en_NZ";
+$c->default_locale = "en";
 $c->base_url = preg_replace("#/[^/]+\.php.*$#", "", $_SERVER['SCRIPT_NAME']);
 $c->base_directory = preg_replace("#/[^/]*$#", "", $_SERVER['DOCUMENT_ROOT']);
 
@@ -54,7 +54,7 @@ $c->protocol_server_port_script = sprintf( "%s://%s%s%s", (isset($_SERVER['HTTPS
                  ),
                  ($_SERVER['SCRIPT_NAME'] == '/index.php' ? '' : $_SERVER['SCRIPT_NAME']) );
 
-init_gettext( 'rscds', '../locale' );
+init_gettext( 'davical', '../locale' );
 
 /**
 * We use @file_exists because things like open_basedir might noisily deny
