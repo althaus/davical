@@ -2,7 +2,7 @@
 /**
 * CalDAV Server - handle OPTIONS method
 *
-* @package   rscds
+* @package   davical
 * @subpackage   caldav
 * @author    Andrew McMillan <andrew@catalyst.net.nz>
 * @copyright Catalyst .Net Ltd

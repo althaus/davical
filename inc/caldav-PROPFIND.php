@@ -5,8 +5,8 @@
 * @package   davical
 * @subpackage   propfind
 * @author    Andrew McMillan <andrew@catalyst.net.nz>
-* @copyright Catalyst .Net Ltd
-* @license   http://gnu.org/copyleft/gpl.html GNU GPL v2
+* @copyright Catalyst .Net Ltd, Andrew McMillan
+* @license   http://gnu.org/copyleft/gpl.html GNU GPL v2 or later
 */
 dbg_error_log("PROPFIND", "method handler");
 

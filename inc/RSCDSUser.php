@@ -1,8 +1,8 @@
 <?php
 /**
-* User maintain / view with RSCDS specific associated tables
+* User maintain / view with DAViCal specific associated tables
 *
-* @package   rscds
+* @package   davical
 * @subpackage   RSCDSUser
 * @author    Andrew McMillan <andrew@catalyst.net.nz>
 * @copyright Catalyst .Net Ltd
@@ -17,9 +17,9 @@ $c->stylesheets[] = "$c->base_url/css/browse.css";
 $c->scripts[] = "$c->base_url/js/browse.js";
 
 /**
-* A class for viewing and maintaining RSCDS User records
+* A class for viewing and maintaining DAViCal User records
 *
-* @package   rscds
+* @package   davical
 */
 class RSCDSUser extends User
 {

@@ -2,7 +2,7 @@
 /**
 * Class for parsing RRule and getting us the dates
 *
-* @package   rscds
+* @package   awl
 * @subpackage   caldav
 * @author    Andrew McMillan <andrew@catalyst.net.nz>
 * @copyright Catalyst .Net Ltd
