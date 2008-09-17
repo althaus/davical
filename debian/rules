@@ -79,7 +79,6 @@ binary-indep: build install
 
 # Build architecture dependant packages using the common target.
 binary-arch: build install
-	$(MAKE) -f debian/rules DH_OPTIONS=-a binary-common
 
 # Any other binary targets build just one binary package at a time.
 binary-%: build install
