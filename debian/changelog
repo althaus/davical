@@ -1,8 +1,11 @@
 davical (0.9.5.3) unstable; urgency=low
 
   * Fix translation inefficiencies (closes: #495307)
+  * Add the built docs into the source, since PhpDocumentor is not in Debian.
+  * Fixes for lintian cleanliness.
+  * Renaming stuff from RSCDS to DAViCal.
 
- -- Andrew McMillan <debian@mcmillan.net.nz>  Wed, 17 Sep 2008 23:36:16 +1200
+ -- Andrew McMillan <debian@mcmillan.net.nz>  Thu, 18 Sep 2008 00:14:08 +1200
 
 davical (0.9.5.2) unstable; urgency=low
 
