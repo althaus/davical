@@ -33,8 +33,9 @@ release: built-docs
 	
 clean:
 	rm -f built-docs built-po
-	-find docs/api/* ! -name "phpdoc.ini" ! -name ".gitignore" -delete
 	-find . -name "*~" -delete
 	
+clean-all: clean
+	-find docs/api/* ! -name "phpdoc.ini" ! -name ".gitignore" -delete
 
 .PHONY:  all clean release
