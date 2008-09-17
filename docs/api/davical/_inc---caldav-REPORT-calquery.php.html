@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs for page caldav-REPORT-calquery.php</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="file-name"><img src="../media/images/Page_logo.png" alt="File" style="vertical-align: middle">/inc/caldav-REPORT-calquery.php</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+															<a href="#sec-functions">Functions</a>
+			</div>
+	<div class="info-box-body">	
+		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Build the array of properties to include in the report output</p>
+		
+			</div>
+</div>
+		
+
+	
+	
+	
+	<a name="sec-functions"></a>	
+	<div class="info-box">
+		<div class="info-box-title">Functions</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+															<span class="disabled">Functions</span>
+		</div>
+		<div class="info-box-body">	
+			<a name="functionapply_filter" id="functionapply_filter"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<img src="../media/images/Function.png" />
+		<span class="method-title">apply_filter</span> (line <span class="line-number">57</span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">While we can construct our SQL to apply some filters in the query, other filters  need to be checked against the retrieved record.  This is for handling those ones.</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> True if the check succeeded, false otherwise.</li>
+			</ul>
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			apply_filter
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$filters</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$item</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$filter</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$filter</span><span class="var-description">: An array of XMLElement which is the filter definition</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$item</span><span class="var-description">: The database row retrieved for this calendar item</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$filters</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functionBuildSqlFilter" id="functionBuildSqlFilter"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<img src="../media/images/Function.png" />
+		<span class="method-title">BuildSqlFilter</span> (line <span class="line-number">228</span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Build an SQL 'WHERE' clause which implements (parts of) the filter. The  elements of the filter which are implemented in the SQL will be removed.</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> A string suitable for use as an SQL 'WHERE' clause selecting the desired records.</li>
+			</ul>
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			BuildSqlFilter
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$filter</span>, <span class="var-type">arrayref</span>&nbsp;<span class="var-name">&$filter</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type">arrayref</span>
+				<span class="var-name">&$filter</span><span class="var-description">: A reference to an array of XMLElement defining the filter</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$filter</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functionSqlFilterFragment" id="functionSqlFilterFragment"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<img src="../media/images/Function.png" />
+		<span class="method-title">SqlFilterFragment</span> (line <span class="line-number">72</span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Process a filter fragment returning an SQL fragment</p>
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			SqlFilterFragment
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$filter</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$components</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$property</span> = <span class="var-default">null</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$parameter</span> = <span class="var-default">null</span>])
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$filter</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$components</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$property</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$parameter</span>			</li>
+				</ul>
+		
+	
+</div>
+		</div>
+	</div>
+	
+	<p class="notes" id="credit">
+		Documentation generated on Thu, 18 Sep 2008 00:10:46 +1200 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
+	</p>
+	</div></body>
+</html>

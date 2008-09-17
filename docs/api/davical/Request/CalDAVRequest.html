@@ -1,0 +1,887 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs For Class CalDAVRequest</title>
+			<link rel="stylesheet" href="../../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name"><img src="../../media/images/Class_logo.png"
+														alt=" Class"
+														title=" Class"
+														style="vertical-align: middle"> CalDAVRequest</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+													<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+						|											<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">A class for collecting things to do with this request.</p>
+		<p class="notes">
+			Located in <a class="field" href="_inc---CalDAVRequest.php.html">/inc/CalDAVRequest.php</a> (line <span class="field">27</span>)
+		</p>
+		
+				
+		<pre></pre>
+	
+			</div>
+</div>
+
+
+
+	<a name="sec-var-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variable Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+						<span class="disabled">Vars</span> (<a href="#sec-vars">details</a>)
+							| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+								</div>
+		<div class="info-box-body">
+			<div class="var-summary">
+																																																																																<div class="var-title">
+					<img src="../../media/images/Variable.png" alt=" " />
+					<span class="var-type">mixed</span>
+					<a href="#$collection_id" title="details" class="var-name">$collection_id</a>
+				</div>
+																<div class="var-title">
+					<img src="../../media/images/Variable.png" alt=" " />
+					<span class="var-type">mixed</span>
+					<a href="#$collection_path" title="details" class="var-name">$collection_path</a>
+				</div>
+																<div class="var-title">
+					<img src="../../media/images/Variable.png" alt=" " />
+					<span class="var-type">mixed</span>
+					<a href="#$depth" title="details" class="var-name">$depth</a>
+				</div>
+																<div class="var-title">
+					<img src="../../media/images/Variable.png" alt=" " />
+					<span class="var-type">mixed</span>
+					<a href="#$method" title="details" class="var-name">$method</a>
+				</div>
+																<div class="var-title">
+					<img src="../../media/images/Variable.png" alt=" " />
+					<span class="var-type">mixed</span>
+					<a href="#$options" title="details" class="var-name">$options</a>
+				</div>
+																<div class="var-title">
+					<img src="../../media/images/Variable.png" alt=" " />
+					<span class="var-type">mixed</span>
+					<a href="#$principal" title="details" class="var-name">$principal</a>
+				</div>
+																<div class="var-title">
+					<img src="../../media/images/Variable.png" alt=" " />
+					<span class="var-type">mixed</span>
+					<a href="#$raw_post" title="details" class="var-name">$raw_post</a>
+				</div>
+																<div class="var-title">
+					<img src="../../media/images/Variable.png" alt=" " />
+					<span class="var-type">mixed</span>
+					<a href="#$user_agent" title="details" class="var-name">$user_agent</a>
+				</div>
+											</div>
+		</div>
+	</div>
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+																		<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+				 
+				|
+						<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																																																																																																																																																																<div class="method-definition">
+					<img src="../../media/images/Constructor.png" alt=" "/>
+											<span class="method-result">CalDAVRequest</span>
+										<a href="#CalDAVRequest" title="details" class="method-name">CalDAVRequest</a>
+											([<span class="var-type"></span>&nbsp;<span class="var-name">$options</span> = <span class="var-default">array()</span>])
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#AllowedTo" title="details" class="method-name">AllowedTo</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$activity</span>)
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#DepthRegexTail" title="details" class="method-name">DepthRegexTail</a>
+										()
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#DoResponse" title="details" class="method-name">DoResponse</a>
+											(<span class="var-type">int</span>&nbsp;<span class="var-name">$status</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$message</span> = <span class="var-default">&quot;&quot;</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$content_type</span> = <span class="var-default">&quot;text/plain; charset=\&quot;utf-8\&quot;&quot;</span>])
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">mixed</span>
+										<a href="#FailIfLocked" title="details" class="method-name">FailIfLocked</a>
+										()
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#GetDepthName" title="details" class="method-name">GetDepthName</a>
+										()
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#GetLockDetails" title="details" class="method-name">GetLockDetails</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$lock_token</span>)
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#GetLockRow" title="details" class="method-name">GetLockRow</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$lock_token</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$dav_name</span>)
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#IsCollection" title="details" class="method-name">IsCollection</a>
+										()
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#IsInfiniteDepth" title="details" class="method-name">IsInfiniteDepth</a>
+										()
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#IsLocked" title="details" class="method-name">IsLocked</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$dav_name</span>)
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#IsPrincipal" title="details" class="method-name">IsPrincipal</a>
+										()
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#setPermissions" title="details" class="method-name">setPermissions</a>
+											(<span class="var-type">int</span>&nbsp;<span class="var-name">$user_no</span>)
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">array</span>
+										<a href="#SupportedPrivileges" title="details" class="method-name">SupportedPrivileges</a>
+										()
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#UnsupportedRequest" title="details" class="method-name">UnsupportedRequest</a>
+											(<span class="var-type">array</span>&nbsp;<span class="var-name">$unsupported</span>)
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#UserFromPath" title="details" class="method-name">UserFromPath</a>
+										()
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#ValidateLockToken" title="details" class="method-name">ValidateLockToken</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$lock_token</span>)
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#XMLResponse" title="details" class="method-name">XMLResponse</a>
+											(<span class="var-type">int</span>&nbsp;<span class="var-name">$status</span>, <span class="var-type">XMLElement</span>&nbsp;<span class="var-name">$xmltree</span>)
+									</div>
+											</div>
+		</div>
+	</div>		
+
+	<a name="sec-vars"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variables</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+										<a href="#sec-var-summary">Vars</a> (<span class="disabled">details</span>)
+						
+			
+										| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+					</div>
+		<div class="info-box-body">
+			
+<a name="var$collection_id" id="$collection_id"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<img src="../../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$collection_id</span>
+						(line <span class="line-number">60</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">The ID of the collection containing this path, or of this path if it is a collection</p>
+	
+	
+		
+		
+
+</div>
+<a name="var$collection_path" id="$collection_path"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<img src="../../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$collection_path</span>
+						(line <span class="line-number">65</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">The path corresponding to the collection_id</p>
+	
+	
+		
+		
+
+</div>
+<a name="var$depth" id="$depth"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<img src="../../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$depth</span>
+						(line <span class="line-number">45</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">The depth parameter from the request headers, coerced into a valid integer: 0, 1  or DEPTH_INFINITY which is defined above.  The default is set per various RFCs.</p>
+	
+	
+		
+		
+
+</div>
+<a name="var$method" id="$method"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<img src="../../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$method</span>
+						(line <span class="line-number">39</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">The HTTP request method: PROPFIND, LOCK, REPORT, OPTIONS, etc...</p>
+	
+	
+		
+		
+
+</div>
+<a name="var$options" id="$options"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<img src="../../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$options</span>
+						(line <span class="line-number">29</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+		
+		
+
+</div>
+<a name="var$principal" id="$principal"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<img src="../../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$principal</span>
+						(line <span class="line-number">50</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">The 'principal' (user/resource/...) which this request seeks to access</p>
+	
+	
+		
+		
+
+</div>
+<a name="var$raw_post" id="$raw_post"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<img src="../../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$raw_post</span>
+						(line <span class="line-number">34</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">The raw data sent along with the request</p>
+	
+	
+		
+		
+
+</div>
+<a name="var$user_agent" id="$user_agent"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<img src="../../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$user_agent</span>
+						(line <span class="line-number">55</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">The user agent making the request.</p>
+	
+	
+		
+		
+
+</div>
+						
+		</div>
+	</div>
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+															<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+														<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+<a name="methodCalDAVRequest" id="CalDAVRequest"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Constructor.png" />
+		<span class="method-title">Constructor CalDAVRequest</span> (line <span class="line-number">70</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Create a new CalDAVRequest object.</p>
+	
+	<div class="method-signature">
+		<span class="method-result">CalDAVRequest</span>
+		<span class="method-name">
+			CalDAVRequest
+		</span>
+					([<span class="var-type"></span>&nbsp;<span class="var-name">$options</span> = <span class="var-default">array()</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$options</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodAllowedTo" id="AllowedTo"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">AllowedTo</span> (line <span class="line-number">531</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Are we allowed to do the requested activity</p>
+<p class="description"><p>+------------+------------------------------------------------------+  | METHOD     | PRIVILEGES                                           |  +------------+------------------------------------------------------+  | MKCALENDAR | DAV:bind                                             |  | REPORT     | DAV:read or CALDAV:read-free-busy (on all referenced |  |            | resources)                                           |  +------------+------------------------------------------------------+</p></p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			AllowedTo
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$activity</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$activity</span><span class="var-description">: The activity we want to do.</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodDepthRegexTail" id="DepthRegexTail"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">DepthRegexTail</span> (line <span class="line-number">377</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the tail of a Regex appropriate for this Depth, when appended to</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			DepthRegexTail
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodDoResponse" id="DoResponse"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">DoResponse</span> (line <span class="line-number">610</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Utility function we call when we have a simple status-based response to  return to the client.  Possibly</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			DoResponse
+		</span>
+					(<span class="var-type">int</span>&nbsp;<span class="var-name">$status</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$message</span> = <span class="var-default">&quot;&quot;</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$content_type</span> = <span class="var-default">&quot;text/plain; charset=\&quot;utf-8\&quot;&quot;</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">int</span>
+				<span class="var-name">$status</span><span class="var-description">: The HTTP status code to send.</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$message</span><span class="var-description">: The friendly text message to send with the response.</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$content_type</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodFailIfLocked" id="FailIfLocked"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">FailIfLocked</span> (line <span class="line-number">456</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">This will either (a) return false if no locks apply, or (b) return the lock_token  which the request successfully included to open the lock, or:  (c) respond directly to the client with the failure.</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> false (no lock) or opaquelocktoken (opened lock)</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			FailIfLocked
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodGetDepthName" id="GetDepthName"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">GetDepthName</span> (line <span class="line-number">368</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the name for this depth: 0, 1, infinity</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			GetDepthName
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodGetLockDetails" id="GetLockDetails"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">GetLockDetails</span> (line <span class="line-number">442</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the DB object associated with a lock token, or false.</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			GetLockDetails
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$lock_token</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$lock_token</span><span class="var-description">: The opaquelocktoken which we are looking for</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodGetLockRow" id="GetLockRow"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">GetLockRow</span> (line <span class="line-number">388</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the locked row, either from the cache or from the database</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			GetLockRow
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$lock_token</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$dav_name</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$dav_name</span><span class="var-description">: The resource which we want to know the lock status for</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$lock_token</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodIsCollection" id="IsCollection"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">IsCollection</span> (line <span class="line-number">491</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns true if the URL referenced by this request points at a collection.</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			IsCollection
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodIsInfiniteDepth" id="IsInfiniteDepth"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">IsInfiniteDepth</span> (line <span class="line-number">513</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns true if the request asked for infinite depth</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			IsInfiniteDepth
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodIsLocked" id="IsLocked"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">IsLocked</span> (line <span class="line-number">336</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Checks whether the resource is locked, returning any lock token, or false</p>
+<p class="description"><p>FIXME: This logic does not catch all locking scenarios.  For example an infinite  depth request should check the permissions for all collections and resources within  that.  At present we only maintain permissions on a per-collection basis though.</p></p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			IsLocked
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$dav_name</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$dav_name</span><span class="var-description">: The resource which we want to know the lock status for</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodIsPrincipal" id="IsPrincipal"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">IsPrincipal</span> (line <span class="line-number">502</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns true if the URL referenced by this request points at a principal.</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			IsPrincipal
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodsetPermissions" id="setPermissions"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">setPermissions</span> (line <span class="line-number">285</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Permissions are controlled as follows:</p>
+<p class="description"><p><ol><li>if the path is '/', the request has read privileges</li><li>if the requester is an admin, the request has read/write priviliges</li><li>if there is a &lt;user name&gt; component which matches the logged on user
+     then the request has read/write privileges</li><li>otherwise we query the defined relationships between users and use
+     the minimum privileges returned from that analysis.</li></ol></p></p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			setPermissions
+		</span>
+					(<span class="var-type">int</span>&nbsp;<span class="var-name">$user_no</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">int</span>
+				<span class="var-name">$user_no</span><span class="var-description">: The current user number</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodSupportedPrivileges" id="SupportedPrivileges"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">SupportedPrivileges</span> (line <span class="line-number">632</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Return an array of what the DAV privileges are that are supported</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> The supported privileges.</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			SupportedPrivileges
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodUnsupportedRequest" id="UnsupportedRequest"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">UnsupportedRequest</span> (line <span class="line-number">575</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Sometimes it's a perfectly formed request, but we just don't do that :-(</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			UnsupportedRequest
+		</span>
+					(<span class="var-type">array</span>&nbsp;<span class="var-name">$unsupported</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$unsupported</span><span class="var-description">: An array of the properties we don't support.</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodUserFromPath" id="UserFromPath"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">UserFromPath</span> (line <span class="line-number">244</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Work out the user whose calendar we are accessing, based on elements of the path.</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			UserFromPath
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodValidateLockToken" id="ValidateLockToken"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">ValidateLockToken</span> (line <span class="line-number">414</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Checks to see whether the lock token given matches one of the ones handed in  with the request.</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			ValidateLockToken
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$lock_token</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$lock_token</span><span class="var-description">: The opaquelocktoken which we are looking for</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodXMLResponse" id="XMLResponse"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">XMLResponse</span> (line <span class="line-number">595</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Send an XML Response.  This function will never return.</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			XMLResponse
+		</span>
+					(<span class="var-type">int</span>&nbsp;<span class="var-name">$status</span>, <span class="var-type">XMLElement</span>&nbsp;<span class="var-name">$xmltree</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">int</span>
+				<span class="var-name">$status</span><span class="var-description">: The HTTP status to respond</span>			</li>
+					<li>
+				<span class="var-type">XMLElement</span>
+				<span class="var-name">$xmltree</span><span class="var-description">: An XMLElement tree to be rendered</span>			</li>
+				</ul>
+		
+			
+	</div>
+						
+		</div>
+	</div>
+
+	
+	<p class="notes" id="credit">
+		Documentation generated on Thu, 18 Sep 2008 00:10:46 +1200 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
+	</p>
+	</div></body>
+</html>
