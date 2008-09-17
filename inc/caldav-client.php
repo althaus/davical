@@ -47,9 +47,9 @@ function __curl_read_callback( $ch, $fd, $length) {
 
 
 /**
-* A class for accessing RSCDS via CalDAV, as a client
+* A class for accessing DAViCal via CalDAV, as a client
 *
-* @package   rscds
+* @package   caldav
 */
 class CalDAVClient {
   /**

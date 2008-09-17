@@ -1,8 +1,8 @@
 <?php
 /**
-* RSCDS extensions to AWL Session handling
+* DAViCal extensions to AWL Session handling
 *
-* @package   rscds
+* @package   davical
 * @subpackage   RSCDSSession
 * @author    Andrew McMillan <andrew@catalyst.net.nz>
 * @copyright Catalyst .Net Ltd
@@ -46,7 +46,7 @@ Session::_CheckLogout();
 /**
 * A class for creating and holding session information.
 *
-* @package   rscds
+* @package   davical
 */
 class RSCDSSession extends Session
 {

@@ -2,7 +2,7 @@
 /**
 * A Class for handling HTTP Authentication
 *
-* @package rscds
+* @package davical
 * @subpackage HTTPAuthSession
 * @author Andrew McMillan <andrew@catalyst.net.nz>
 * @copyright Catalyst .Net Ltd
@@ -12,7 +12,7 @@
 /**
 * A Class for handling a session using HTTP Basic Authentication
 *
-* @package rscds
+* @package davical
 */
 class HTTPAuthSession {
   /**#@+
