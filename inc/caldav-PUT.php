@@ -29,6 +29,11 @@ $lock_opener = $request->FailIfLocked();
 
 
 if ( $is_collection  ) {
+  if ( isset($c->deny_put_collection) && $c->deny_put_collection ) {
+    $request->DoResponse( 405 ); // Method not allowed
+    return;
+  }
+
   /**
   * CalDAV does not define the result of a PUT on a collection.  We treat that
   * as an import. The code is in caldav-PUT-functions.php
