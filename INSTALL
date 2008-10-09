@@ -4,13 +4,12 @@ Installation
 Debian Users
 ------------
 
-Ideally you will be running a recent Debian release and will be able to add:
+DAViCal is in Debian Sid so you should be able to simply:
 
-deb http://debian.mcmillan.net.nz/debian unstable awm
+apt-get install davical
 
-to your /etc/apt/sources.list. Once you have done that you can use apt-get
-or synaptic or some other equivalent package manager to fetch and install
-rscds and all the dependencies.
+Or synaptic or some other equivalent package manager to fetch and install
+DAViCal and all the dependencies.
 
 Skip to the "Database Setup" part if you have done that already.
 
@@ -18,8 +17,8 @@ Skip to the "Database Setup" part if you have done that already.
 Other Linux Users
 -----------------
 
-You will need to download the latest versions of the rscds and awl packages
-from the sourceforge download page for rscds.
+You will need to download the latest versions of the davical and awl packages
+from the sourceforge download page for davical (the sf.net project is 'rscds').
 
 You will need to untar these. Preferably you will untar them from within
 the "/usr/share" directory and everything will be in it's expected location
@@ -27,8 +26,8 @@ the "/usr/share" directory and everything will be in it's expected location
 in one place).
 
 I would like to hear from non-Debian users regarding things I might have
-missed, or things you have learned about the system, so please post a
-message on the forums, or e-mail me or something.
+missed, or things you have learned about the system, so please tell us on
+IRC, or post to the mailing list or forums.
 
 
 Non-Linux Users
@@ -45,6 +44,14 @@ the path name and shell expectations coded into the database creation
 scripts are likely to need love.
 
 I'm available to answer questions, anyway :-)
+
+Getting Help
+------------
+
+The best place to get help is on IRC.  The official DAViCal
+IRC channel is #davical on irc.oftc.net
+
+There is also a mailing list, and forums on Sourceforge.
 
 
 Pre-requisites
@@ -110,12 +117,12 @@ I use a Virtual Host stanza like this:
 #
 # Virtual Host def for Debian packaged DAViCal
 <VirtualHost 123.4.56.78 >
-  DocumentRoot /usr/share/rscds/htdocs
+  DocumentRoot /usr/share/davical/htdocs
   DirectoryIndex index.php index.html
   ServerName davical.example.net
   ServerAlias calendar.example.net
-  Alias /images/ /usr/share/rscds/htdocs/images/
-  php_value include_path /usr/share/rscds/inc:/usr/share/awl/inc
+  Alias /images/ /usr/share/davical/htdocs/images/
+  php_value include_path /usr/share/davical/inc:/usr/share/awl/inc
   php_value magic_quotes_gpc 0
   php_value register_globals 0
   php_value error_reporting "E_ALL & ~E_NOTICE"
@@ -192,7 +199,7 @@ to use this, and the docs for that are elsewhere.
 
 See:
 
-http://rscds.sourceforge.net/
+http://wiki.davical.org/
 
 Which is the place where documentation will generally be kept up to
 date the most.
