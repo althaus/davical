@@ -3,7 +3,6 @@
 # This file is distributed under the same license as the rscds package.
 # Guillaume Rosquin <andrew@mcmillan,net.nz>, 2006.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: rscds 0.3.0\n"
@@ -11,26 +10,22 @@ msgstr ""
 "POT-Creation-Date: 2008-06-19 00:23+1200\n"
 "PO-Revision-Date: 2006-11-13 13:03+1300\n"
 "Last-Translator: maxime delorme <mdelorme@tennaxia.com>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language-Team: French <debian-l10n-french@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#, c-format
 msgid "- creating record for users :  %s"
-msgstr "- crÃ©ation des utilisateurs : %s"
+msgstr "- création de l'enregistrement des utilisateurs : %s"
 
-#, fuzzy, c-format
 msgid "- deactivating users : %s"
-msgstr "- desactivation des utilisateurs : %s"
+msgstr "- désactivation des utilisateurs : %s"
 
-#, fuzzy, c-format
 msgid "- nothing done on : %s"
-msgstr "- rien Ã  faire sur %s"
+msgstr "- rien à faire sur %s"
 
-#, fuzzy, c-format
 msgid "- updating user records : %s"
-msgstr "Modifier l'enregistrement de cet utilisateur"
+msgstr "- Modifier l'enregistrement de cet utilisateur"
 
 msgid "--- select a relationship type ---"
 msgstr "--- choisissez un type de relation ---"
@@ -41,27 +36,31 @@ msgstr "--- choisissez un utilisateur ou une ressource ---"
 msgid "--- select a user, group or resource ---"
 msgstr "--- choisissez un utilisateur, un groupe ou une ressource ---"
 
-msgid "<b>WARNING: all events in this path will be deleted before inserting all of the ics file</b>"
-msgstr ""
-"<b>ATTENTION : tous les Ã©vÃ©nements de ce chemin seront supprimÃ©s avant l'insertion de tous ceux du "
-"fichier ics</b>"
-
-msgid "<b>WARNING: all events in this path will be deleted before inserting allof the ics file</b>"
-msgstr ""
-"<b>ATTENTION : tous les Ã©vÃ©nements de ce chemin seront supprimÃ©s avant l'insertion de tous ceux du "
-"fichier ics</b>"
-
-#, c-format
 msgid ""
-"<h1>Log On Please</h1><p>For access to the %s you should log on withthe username and password that "
-"have been issued to you.</p><p>If you would like to request access, please e-mail %s.</p>"
+"<b>WARNING: all events in this path will be deleted before inserting all of "
+"the ics file</b>"
 msgstr ""
-"<h1>Identifiez-vous SVP</h1><p>Pour accÃ©der Ã  %s vous devez vous connecter avec l'identifiant et le "
-"mot de passe qui vous ont Ã©tÃ© attribuÃ©s.</p><p>Si vous souhaitez obtenir un accÃ¨s, veuillez envoyer un "
-"courriel Ã  %s.</p>"
+"<b>Attention : tous les événements de ce chemin seront supprimés avant "
+"l'insertion de tous ceux du fichier ics</b>"
+
+msgid ""
+"<b>WARNING: all events in this path will be deleted before inserting allof "
+"the ics file</b>"
+msgstr ""
+"<b>Attention : tous les événements de ce chemin seront supprimés avant "
+"l'insertion de tous ceux du fichier ics</b>"
+
+msgid ""
+"<h1>Log On Please</h1><p>For access to the %s you should log on withthe "
+"username and password that have been issued to you.</p><p>If you would like "
+"to request access, please e-mail %s.</p>"
+msgstr ""
+"<h1>Veuillez vous identifier</h1><p>Pour accéder à %s vous devez vous connecter "
+"avec l'identifiant et le mot de passe qui vous ont été attribués.</p><p>Si "
+"vous souhaitez obtenir un accès, veuillez envoyer un courriel à %s.</p>"
 
 msgid "A collection already exists at that location."
-msgstr "Une collection existe dÃ©jÃ  Ã  cet emplacement"
+msgstr "Une collection existe déjà à cet emplacement."
 
 msgid "Action"
 msgstr "Action"
@@ -79,53 +78,52 @@ msgid "Add"
 msgstr "Ajouter"
 
 msgid "Admin <!-- in the sense of 'systems admin' -->"
-msgstr "Administrateur"
+msgstr "Administrateur du système"
 
 msgid "Admin"
 msgstr "Administrateur"
 
-#, fuzzy
 msgid "Administers"
-msgstr "GÃ©re les groupe"
+msgstr "Administrateurs"
 
-#, c-format
 msgid "All events of user %s were deleted and replaced by those from the file."
-msgstr "Tous les Ã©vÃ©nements de l'utilisateur %s seront supprimÃ©s et remplacÃ©s par ceux du fichier"
+msgstr ""
+"Tous les événements de l'utilisateur %s seront supprimés et remplacés par "
+"ceux du fichier"
 
 msgid "All requested changes were made."
-msgstr "Tous les changements demandÃ©s ont eu lieu"
+msgstr "Tous les changements demandés ont eu lieu"
 
 msgid "All"
-msgstr ""
+msgstr "Tous"
 
 msgid "Anonymous users are not allowed to modify calendars"
 msgstr ""
+"Les utilisateurs anonymes ne sont pas autorisés à modifier les calendriers"
 
 msgid "Browse all relationship types"
 msgstr "Affiche tous les types de relations"
 
-# I.e. a listing of all users.
 msgid "Browse all users"
 msgstr "Affiche tous les utilisateurs"
 
 msgid "Busy"
-msgstr "OccupÃ©"
+msgstr "Occupé"
 
 msgid "Calendar Resource Not Found."
-msgstr "Ressource calendrier introuvable"
+msgstr "Ressource calendrier introuvable."
 
-# I.e. The list of people who can use this (calendar) software
 msgid "Calendar Users"
 msgstr "Utilisateurs du planning"
 
 msgid "Can read from"
-msgstr "Peux lire depuis"
+msgstr "Peut lire depuis"
 
 msgid "Can see free/busy time of"
-msgstr "Peux voir les disponibilitÃ© de"
+msgstr "Peut voir les disponibilités de"
 
 msgid "Changed On"
-msgstr "ChangÃ© le"
+msgstr "Changé le"
 
 msgid "Click to display that user"
 msgstr "Cliquez pour afficher cet utilisateur"
@@ -134,7 +132,7 @@ msgid "Click to display the contents of the collection"
 msgstr "Cliquez pour afficher le contenu de cette collection"
 
 msgid "Click to display user details"
-msgstr "Cliquez pour afficher les dÃ©tails de cet utilisateur"
+msgstr "Cliquez pour afficher les détails de cet utilisateur"
 
 msgid "Collection Contents"
 msgstr "Contenu de la collection"
@@ -143,105 +141,107 @@ msgid "Collection Path"
 msgstr "Chemin de la collection"
 
 msgid "Confirm Deletion of the Relationship Type"
-msgstr "Confirmer la suppression de ce type de relation"
+msgstr "Confirmez la suppression de ce type de relation"
 
 msgid "Confirm the new password."
-msgstr "Confirmer le nouveau mot de passe"
+msgstr "Confirmez le nouveau mot de passe"
 
 msgid "Confirm"
 msgstr "Confirmer"
 
 msgid "Create"
-msgstr "CrÃ©er"
+msgstr "Créer"
 
 msgid "Created On"
-msgstr "CrÃ©Ã© le"
+msgstr "Créé le"
 
 msgid "DAViCal CalDAV Server"
-msgstr ""
+msgstr "Serveur DAViCal CalDAV"
 
 msgid "Database Error"
-msgstr "Erreur base de donnÃ©es"
+msgstr "Erreur de base de données"
 
 msgid "Database Error."
-msgstr "Erreur base de donnÃ©es"
+msgstr "Erreur de base de données."
 
-#, fuzzy
 msgid "Database error"
-msgstr "Erreur base de donnÃ©es"
+msgstr "Erreur de base de données"
 
-# The type of format of the date: d/m/y, m/d/y, y-m-d
 msgid "Date Style"
 msgstr "Format des dates"
 
-#, fuzzy
 msgid "Default relationships added."
-msgstr "Relation ajoutÃ©e"
+msgstr "Relation par défaut ajoutée."
 
 msgid "Delete"
 msgstr "Supprimer"
 
 msgid "Directory on the server"
-msgstr "RÃ©pertoire du serveur"
+msgstr "Répertoire du serveur"
 
 msgid "Does the user have the right to perform this role?"
-msgstr "L'utilisateur est-il autorisÃ© Ã  jouer ce rÃ´le ?"
+msgstr "L'utilisateur est-il autorisé à jouer ce rôle ?"
 
 msgid "EMail OK"
-msgstr "Courriel vÃ©rifiÃ©"
+msgstr "Courriel vérifié"
 
 msgid "EMail"
 msgstr "Courriel"
 
-#, c-format
 msgid "ERROR: %s"
-msgstr "ERREUR: %s"
+msgstr "ERREUR : %s"
 
 msgid "ERROR: There was a database error writing the roles information!"
 msgstr ""
-"ERREUR: Il y a eu une erreur dans la base de donnÃ©es lors de l'Ã©criture des informations pour les "
-"rÃ´les !"
+"ERREUR: Il y a eu une erreur dans la base de données lors de l'écriture des "
+"informations pour les rôles !"
 
-#, fuzzy, c-format
 msgid "Edit %s"
-msgstr "Modifier"
+msgstr "Modifier %s"
 
 msgid "Edit this user record"
 msgstr "Modifier l'enregistrement de cet utilisateur"
 
-msgid "Enter a username, if you know it, and click here, to be e-mailed a temporary password."
+msgid ""
+"Enter a username, if you know it, and click here, to be e-mailed a temporary "
+"password."
 msgstr ""
-"Tapez un nom d'utilisateur, si vous le connaissez, et cliquez ici, pour recevoir un mot de passe "
-"temporaire"
+"Indiquez un nom d'utilisateur, si vous le connaissez, et cliquez ici, pour "
+"recevoir un mot de passe temporaire."
 
 msgid "Enter the name for this resource type"
-msgstr "Tapez un nom pour ce type de ressource"
+msgstr "Indiquez un nom pour ce type de ressource"
 
 msgid "Enter your username and password then click here to log in."
-msgstr "Tapez votre nom d'utilisateur et votre mot de passe puis cliquez ici pour vous connecter"
+msgstr ""
+"Indiquez votre nom d'utilisateur et votre mot de passe puis cliquez ici pour "
+"vous connecter"
 
-#, fuzzy, c-format
 msgid "Error NoUserFound with filter >%s<, attributes >%s< , dn >%s<"
 msgstr "Erreur NoUserFound avec le filtre >%s<, attributs >%s<, dn >%s<"
 
 msgid "Error querying database."
-msgstr "Erreur lors de l'interrogation de la base de donnÃ©es"
+msgstr "Erreur lors de l'interrogation de la base de données."
 
 msgid "Error writing calendar details to database."
-msgstr "Il s'est produit une erreur lors de l'Ã©criture des donnÃ©es"
+msgstr "Il s'est produit une erreur lors de l'écriture des données."
 
 msgid "European (d/m/y)"
-msgstr "EuropÃ©en (jj/mm/aa)"
+msgstr "Européen (jj/mm/aa)"
 
 # ############
 # Sorry I shall see it on the screen to understand the context of the question
 msgid "Existing resource does not match 'If-Match' header - not accepted."
-msgstr "La ressource existante ne correspond pas Ã  l'entÃªte (HTTP) 'If-Match' - pas acceptÃ©."
+msgstr ""
+"La ressource existante ne correspond pas à l'entête (HTTP) 'If-Match' - pas "
+"accepté."
 
 # ############
 # Sorry I shall see it on the screen to understand the context of the question
 msgid "Existing resource matches 'If-None-Match' header - not accepted."
-msgstr "La ressource existante correpond Ã  l'entÃªte (HTTP) 'if-None-Match' - pas acceptÃ©."
+msgstr ""
+"La ressource existante correpond à l'entête (HTTP) 'if-None-Match' - pas "
+"accepté."
 
 msgid "Finish"
 msgstr "Fin"
@@ -250,17 +250,16 @@ msgstr "Fin"
 # is called the "Really Simple CalDAV Store" (Store, in the sense of a repository
 # of things, rather than a shop).
 msgid "For access to the"
-msgstr "Pour accÃ©der Ã "
+msgstr "Pour accéder à"
 
-#, fuzzy
 msgid "FreeBusy"
-msgstr "OccupÃ©"
+msgstr "LibreOccupé"
 
 msgid "Full Name"
 msgstr "Nom complet"
 
 msgid "GO!"
-msgstr "ENTRER !"
+msgstr "ENTRER !"
 
 msgid "Group <!-- in the sense of a group of people -->"
 msgstr "Groupe"
@@ -272,13 +271,13 @@ msgid "Help on something or other"
 msgstr "Aide sur un sujet ou un autre"
 
 msgid "Help! I've forgotten my password!"
-msgstr "Au secours ! J'ai oubliÃ© mon mot de passe !"
+msgstr "Au secours ! J'ai oublié mon mot de passe !"
 
 msgid "Help"
 msgstr "Aide"
 
 msgid "Home calendar added."
-msgstr "Calendrier Home ajoutÃ©"
+msgstr "Calendrier Home ajouté."
 
 # The "Home" page link
 msgid "Home"
@@ -288,22 +287,22 @@ msgid "ISO Format (YYYY-MM-DD)"
 msgstr "Format ISO (AAAA-MM-JJ)"
 
 msgid "Id <!-- short for 'Identifier' -->"
-msgstr "NÂ°"
+msgstr "N°"
 
 msgid "Id"
-msgstr "NÂ°"
+msgstr "N°"
 
 msgid "If you have forgotten your password then"
-msgstr "Si vous avez oubliÃ© votre mot de passe alors"
+msgstr "Si vous avez oublié votre mot de passe alors"
 
 msgid "If you would like to request access, please e-mail"
-msgstr "Si vous souhaitez avoir accÃ¨s, veuillez envoyer un courriel"
+msgstr "Si vous souhaitez avoir accès, veuillez envoyer un courriel"
 
 msgid "Import ICS file"
 msgstr "Importer un fichier ics"
 
 msgid "Import all .ics files of a directory"
-msgstr "Importer tous les fichiers .ics d'un rÃ©pertoire"
+msgstr "Importer tous les fichiers .ics d'un répertoire"
 
 msgid "Invalid user name or password."
 msgstr "Nom d'utilisateur ou mot de passe incorrects."
@@ -312,17 +311,18 @@ msgid "Invalid username or password."
 msgstr "Nom d'utilisateur ou mot de passe incorrects."
 
 msgid "Is a Calendar?"
-msgstr "Est-ce un calendrier ?"
+msgstr "Est-ce un calendrier ?"
 
 # For programmatic reasons at this point the abbreviation cannot be translated :-(
 msgid "Is this access read ('R') or Read and Write ('RW')?"
-msgstr "Cet accÃ¨s est-il en lecture seule ('R') ou en lecture et Ã©criture ('RW') ?"
+msgstr ""
+"Cet accès est-il en lecture seule ('R') ou en lecture et écriture ('RW') ?"
 
 # # or, in less "IT slang":
 # IT slang should be fine, since this is the administrative pages
-# msgstr "Cet accÃ¨s est-il seulement en consultation ('R') ou en consultation et mise Ã  jour ('RW') ?"
+# msgstr "Cet accès est-il seulement en consultation ('R') ou en consultation et mise à jour ('RW') ?"
 msgid "Is this user active?"
-msgstr "Cet utilisateur est-il actif ?"
+msgstr "Cet utilisateur est-il actif ?"
 
 # The prompt for "The date on which the user was set up on this system" only 2-3 words max.
 msgid "Joined"
@@ -332,27 +332,27 @@ msgid "Language"
 msgstr "Langue"
 
 msgid "Last used"
-msgstr "DerniÃ¨re utilisation"
+msgstr "Dernière utilisation"
 
 # The column header for the column in a listing of relationships between
 # users (/resources/groups) indicating which user(/resource/group) this
 # relation is from...
 msgid "Linked From"
-msgstr "AttribuÃ© par"
+msgstr "Attribué par"
 
 # ...and which it is to.
 msgid "Linked To"
-msgstr "AttribuÃ© Ã "
+msgstr "Attribué à"
 
 msgid "Log On Please"
-msgstr "Connectez-vous SVP"
+msgstr "Veuillez vous connecter"
 
 # Log out of the <name of application>
 msgid "Log out of the"
-msgstr "Deconnectez-vous de"
+msgstr "Déconnectez-vous de"
 
 msgid "Logout"
-msgstr "Deconnection"
+msgstr "Déconnection"
 
 msgid "My Details"
 msgstr "Mes informations"
@@ -367,32 +367,33 @@ msgid "New User"
 msgstr "Nouvel utilisateur"
 
 msgid "No collection found at that location."
-msgstr "Pas de collection trouvÃ©e Ã  cet endroit"
+msgstr "Pas de collection trouvée à cet endroit."
 
 msgid "No. <!-- short for 'Number' -->"
-msgstr "NÂ°"
+msgstr "N°"
 
 msgid "No."
-msgstr "NÂ°"
+msgstr "N°"
 
 msgid "Operations on your calendar"
-msgstr "Operations sur votre calendrier"
+msgstr "Opérations sur votre calendrier"
 
-#, fuzzy
 msgid "Operations"
-msgstr "Relation"
+msgstr "Opérations"
 
 msgid "Password"
 msgstr "Mot de passe"
 
 msgid "Please Confirm Deletion"
-msgstr "Merci de confirmer la suppression"
+msgstr "Veuillez confirmer la suppression"
 
 msgid "Please note the time and advise the administrator of your system."
-msgstr "Veuillez noter l'heure et informer l'administrateur de votre systÃ¨me informatique"
+msgstr ""
+"Veuillez noter l'heure et informer l'administrateur de votre système "
+"informatique."
 
 msgid "Property is read-only"
-msgstr "Cette propriÃ©tÃ©  ne peut Ãªtre"
+msgstr "Cette propriété ne peut être"
 
 msgid "Public <!-- in the sense of being available to all users -->"
 msgstr "Public"
@@ -401,34 +402,35 @@ msgid "Public"
 msgstr "Public"
 
 msgid "REPORT body contains no XML data!"
-msgstr ""
+msgstr "REPORT ne contient pas de données XML !"
 
 msgid "REPORT body is not valid XML data!"
-msgstr ""
+msgstr "REPORT ne contient pas de données XML valides !"
 
 msgid "Read"
-msgstr ""
+msgstr "Lecture"
 
 msgid "ReadWrite"
-msgstr ""
+msgstr "Lecture Ecriture"
 
-msgid "Relationship <!-- in the sense of a work relationship between people -->"
+msgid ""
+"Relationship <!-- in the sense of a work relationship between people -->"
 msgstr "Relation de travail"
 
 msgid "Relationship Type Added."
-msgstr "Type de relation ajoutÃ©e"
+msgstr "Type de relation ajoutée."
 
 msgid "Relationship Type Deleted."
-msgstr "Type de relation supprimÃ©e"
+msgstr "Type de relation supprimée."
 
 msgid "Relationship Types"
 msgstr "Types de relations"
 
 msgid "Relationship added."
-msgstr "Relation ajoutÃ©e"
+msgstr "Relation ajoutée"
 
 msgid "Relationship deleted"
-msgstr "Relation supprimÃ©e"
+msgstr "Relation supprimée"
 
 msgid "Relationship"
 msgstr "Relation"
@@ -437,13 +439,13 @@ msgid "Relationships from this user"
 msgstr "Relations de cet utilisateur"
 
 msgid "Relationships to this user"
-msgstr "Relations Ã  cet utilisateur"
+msgstr "Relations à cet utilisateur"
 
 msgid "Relationships"
 msgstr "Relations"
 
 msgid "Repeat Rule"
-msgstr "RÃ¨gles de rÃ©pÃ©tition"
+msgstr "Règles de répétition"
 
 msgid "Report Bug"
 msgstr "Signaler une erreur"
@@ -458,19 +460,22 @@ msgstr "Signaler une erreur du logiciel"
 # which is the (hopefully short) menu option.
 # ####################################################
 # Speaking about "logiciel" (i.e. "software") would surely provide the best understanding
-msgid "Resource <!-- a thing which might be booked: a room, a carpark, a projector... -->"
+msgid ""
+"Resource <!-- a thing which might be booked: a room, a carpark, a "
+"projector... -->"
 msgstr "Ressource"
 
 msgid "Resource changed on server - not changed."
-msgstr "Ressource changÃ©e sur le serveur - non changÃ©e"
+msgstr "Ressource changée sur le serveur - non changée."
 
 # ############
 # Sorry I shall see it on the screen to understand the context of the question
 msgid "Resource does not match 'If-Match' header - not deleted"
-msgstr "Ressource ne correspond pas Ã  l'entÃªte (HTTP) 'If-Match' - non supprimÃ©"
+msgstr ""
+"Ressource ne correspond pas à l'entête (HTTP) 'If-Match' - non supprimé"
 
 msgid "Resource has changed on server - not deleted"
-msgstr "Ressource a Ã©tÃ© changÃ©e sur le serveur - non supprimÃ©e"
+msgstr "Ressource a été changée sur le serveur - non supprimée"
 
 # French uses the same word, except it adds an 'S'. Otherwise it would sound "Rezource", 
 # a bit odd except when said with a german accent.
@@ -478,7 +483,8 @@ msgid "Resource"
 msgstr "Ressource"
 
 msgid "Resources may not be changed to / from collections."
-msgstr "Les ressources ne devraient pas Ãªtre changÃ©es en/Ã  partir de collections"
+msgstr ""
+"Les ressources ne devraient pas être changées en/à partir de collections"
 
 # 'pattern' translate to "motif", but "motif" usage is mainly for graphical drawings, very rare for textual patterns
 # ########## This is definitely referring to a textual pattern
@@ -486,13 +492,19 @@ msgid "Rights"
 msgstr "Droits"
 
 msgid "Select the type of relationship from this user"
-msgstr "Choisissez le type de relations de cet utilisateur"
+msgstr "Veuillez choisir le type de relations de cet utilisateur"
 
 msgid "Select the user, resource or group to relate this user to"
-msgstr "Choisissez l'utilisateur, la ressource ou le groupe Ã  relier Ã  cet utilisateur"
+msgstr ""
+"Veuillez choisir l'utilisateur, la ressource ou le groupe à relier à cet "
+"utilisateur"
 
-msgid "Set the path to store your ics e.g. 'home' will be referenced as /caldav.php/me/home/"
-msgstr "Indiquer le chemin oÃ¹ stocker votre ics ex : 'home' pour avoir /caldav.php/moi/home/"
+msgid ""
+"Set the path to store your ics e.g. 'home' will be referenced as /caldav.php/"
+"me/home/"
+msgstr ""
+"Veuillez indiquer le chemin où stocker votre ics ex : 'home' pour avoir /"
+"caldav.php/moi/home/"
 
 msgid "Setup RSCDS"
 msgstr "Configurer RSCDS"
@@ -504,20 +516,19 @@ msgid "Show help on"
 msgstr "Afficher l'aide sur"
 
 msgid "Some properties were not able to be changed."
-msgstr "Des propriÃ©tÃ©s n'ont pu Ãªtre changÃ©es"
+msgstr "Des propriétés n'ont pu être changées"
 
-#, fuzzy
 msgid "Some properties were not able to be set."
-msgstr "Des propriÃ©tÃ©s n'ont pu Ãªtre changÃ©es"
+msgstr "Des propriétés n'ont pu être changées"
 
 msgid "Start"
-msgstr "DÃ©but"
+msgstr "Début"
 
 msgid "Submit"
-msgstr ""
+msgstr "Valider"
 
 msgid "Summary"
-msgstr "RÃ©sumÃ©"
+msgstr "Résumé"
 
 msgid "Sync LDAP with RSCDS"
 msgstr "Synchroniser RSCDS avec LDAP"
@@ -528,49 +539,56 @@ msgstr "Synchroniser RSCDS avec LDAP"
 # The error itself is a relational integrity error (you can't delete that record since
 # it is used somewhere in the database).
 msgid "That relationship type is being used. See ##RelationshipTypeUsed##"
-msgstr "Ce type de relation est encore employÃ©. Cf. ##RelationshipTypeUsed##"
+msgstr "Ce type de relation est encore employé. Cf. ##RelationshipTypeUsed##"
 
 msgid "The application program does not understand that request."
-msgstr "L'application ne comprend pas la demande"
+msgstr "L'application ne comprend pas la demande."
 
 msgid "The calendar path contains illegal characters."
-msgstr "le chemin vers le calendrier contient des caractÃ¨res interdits"
+msgstr "le chemin vers le calendrier contient des caractères interdits."
 
 # ############
 # Sorry I shall see it on the screen to understand the context of the question
 msgid "The displayname may only be set on collections or principals."
-msgstr "le nom d'affichage ne peut Ãªtre dÃ©fini que sur des collections ou des titulaires"
+msgstr ""
+"le nom d'affichage ne peut être défini que sur des collections ou des "
+"titulaires."
 
 #, c-format
-msgid "The file %s is not UTF-8 encoded, please check the error for more details."
-msgstr "Le fichier %s n'est pas encodÃ© en UTF-8, merci de verifier les erreurs pour plus d'information"
+msgid ""
+"The file %s is not UTF-8 encoded, please check the error for more details."
+msgstr ""
+"Le fichier %s n'est pas encodé en UTF-8, veuillez vérifier les erreurs pour "
+"plus d'information."
 
-# or ##TypeDeRelationsUtilisÃ©es## ?
+# or ##TypeDeRelationsUtilisées## ?
 # We are trying to provide a full description of what a 'username' is.  Feel free to
 # be verbose :-)
 msgid "The name this user can log into the system with."
-msgstr "Le nom ou pseudonyme que cet utilisateur employera pour se connecter Ã  l'application"
+msgstr ""
+"Le nom ou pseudonyme que cet utilisateur emploiera pour se connecter à "
+"l'application."
 
 msgid "The path on the server where your .ics files are."
-msgstr "rÃ©pertoire du serveur oÃ¹ sont stockÃ©s tous les fichiers .ics"
+msgstr "Le chemin sur le serveur où sont stockés tous les fichiers .ics."
 
 msgid "The preferred language for this person."
-msgstr "La langue parlÃ©e par cette personne"
+msgstr "La langue parlée par cette personne."
 
 msgid "The style of dates used for this person."
-msgstr "Le format de date utilisÃ© par cette personne"
+msgstr "Le format de date utilisé par cette personne."
 
 msgid "The user's e-mail address."
-msgstr "L'adresse courriel (e-mail) de cet utilisateur"
+msgstr "L'adresse courriel (e-mail) de cet utilisateur."
 
 msgid "The user's full name."
-msgstr "Le Nom-PrÃ©nom de l'utilisateur"
+msgstr "Le nom complet de l'utilisateur."
 
 msgid "The user's password for logging in."
-msgstr "Le mot de passe de l'utilisateur pour qu'il se connecte"
+msgstr "Le mot de passe de l'utilisateur pour qu'il se connecte."
 
 msgid "There was an error writing to the database."
-msgstr "Il s'est produit une erreur lors de l'Ã©criture des donnÃ©es"
+msgstr "Il s'est produit une erreur lors de l'écriture des données."
 
 msgid "This user's collections"
 msgstr "Les collections de cet utilisateur"
@@ -582,10 +600,10 @@ msgid "United States of America (m/d/y)"
 msgstr "Etats-Unis (mm/jj/aa)"
 
 msgid "Update"
-msgstr "Enregistrer/Mettre Ã  jour"
+msgstr "Enregistrer/Mettre à jour"
 
 msgid "Updated"
-msgstr "Mise Ã  jour"
+msgstr "Mise à jour"
 
 msgid "Upload your .ics calendar in ical format "
 msgstr "Envoyer votre calendrier .ics au format ical"
@@ -597,7 +615,7 @@ msgid "User Name"
 msgstr "Nom de l'utilisateur"
 
 msgid "User Roles"
-msgstr "RÃ´les de l'utilisateur"
+msgstr "Rôles de l'utilisateur"
 
 # Interesting point: I always read it at a singular form in France
 # #######
@@ -613,24 +631,23 @@ msgstr "Utilisateur non disponible"
 # The user is 'active' in that their account is enabled for use.  If they are
 # inactive they will not be able to log on.
 msgid "User is active"
-msgstr "Utilisateur activÃ©"
+msgstr "Utilisateur activé"
 
 # After maintaining a user's details, the changes have been written to the DB.
 msgid "User record written."
-msgstr "DonnÃ©es utilisateur correctment enregistrÃ©es."
+msgstr "Données utilisateur correctement enregistrées."
 
 msgid "Users"
 msgstr "Utilisateurs"
 
 # Display something in a non-editable way.
-#, fuzzy, c-format
 msgid "View %s"
-msgstr "Consulter"
+msgstr "Consulter %s"
 
 # Tooltip text for a link which will display the currently logged in user's
 # account details.
 msgid "View my own user record"
-msgstr "Consulter mes donnÃ©es personnelles"
+msgstr "Consulter mes données personnelles"
 
 # Tooltip text for a link which will display a particular user's
 # account details.
@@ -638,118 +655,135 @@ msgid "View this user record"
 msgstr "Consulter les informations de cet utilisateur"
 
 msgid "When the user's e-mail account was validated."
-msgstr "Date Ã  laquelle l'adresse courriel de cet utilisateur a Ã©tÃ© validÃ©e."
+msgstr "Date à laquelle l'adresse courriel de cet utilisateur a été validée."
 
 msgid "Write"
-msgstr ""
+msgstr "Ecrire"
 
 msgid "You are editing"
-msgstr "Vous rectifiez"
+msgstr "Vous modifiez"
 
 msgid "You are not authorised to use this function."
-msgstr "Vous n'Ãªtes pas autorisÃ© Ã  utiliser cette fonction."
+msgstr "Vous n'êtes pas autorisé à utiliser cette fonction."
 
 msgid "You are viewing"
 msgstr "Vous regardez"
 
 msgid "You do not have appropriate rights to view that resource."
-msgstr "Vous n'avez pas les droits appropriÃ©s pour voir cette ressource"
+msgstr "Vous n'avez pas les droits appropriés pour voir cette ressource."
 
 msgid "You do not have sufficient access to lock that"
-msgstr "Vous n'avez pas suffisamment d'accÃ¨s pour verrouiller Ã§a"
+msgstr "Vous n'avez pas suffisamment d'accès pour verrouiller ça."
 
 msgid "You may not access that calendar"
-msgstr "Vous ne pouvez accÃ©der Ã  ce calendrier"
+msgstr "Vous ne pouvez accéder à ce calendrier."
 
-#, fuzzy
 msgid "You may not access that collection"
-msgstr "Vous ne pouvez accÃ©der Ã  ce calendrier"
+msgstr "Vous ne pouvez pas accéder à ce calendrier."
 
 msgid "You may not add entries to this calendar."
-msgstr "Vous n'Ãªtes pas autorisÃ© Ã  utiliser cette fonction."
+msgstr "Vous n'êtes pas autorisé à utiliser cette fonction."
 
 msgid "You may not create a calendar there."
-msgstr "Vous ne pouvez crÃ©er de calendrier ici"
+msgstr "Vous ne pouvez créer de calendrier ici."
 
 msgid "You may not delete entries from this calendar."
-msgstr "Vous ne pouvez supprimer d'entrÃ©es de ce calendrier"
+msgstr "Vous ne pouvez supprimer d'entrées de ce calendrier."
 
 msgid "You may not modify entries on this calendar."
-msgstr "Vous ne pouvez changer les entrÃ©es de ce calendrier"
+msgstr "Vous ne pouvez modifier les entrées de ce calendrier."
 
 msgid "You must log in to use this system."
-msgstr "Vous devez vous connecter pour utiliser ce logiciel"
+msgstr "Vous devez vous connecter pour utiliser ce logiciel."
 
-#, fuzzy
 msgid "Your .ics calendar"
-msgstr "votre calendrier ics"
+msgstr "votre calendrier .ics"
 
-#, c-format
 msgid "all events of user %s were deleted and replaced by those from file %s"
-msgstr "tous les Ã©vÃ©nements de l'utilisateur %s ont Ã©tÃ© supprimÃ©s et remplacÃ© par ceux du fichier %s"
+msgstr ""
+"tous les événements de l'utilisateur %s ont été supprimés et remplacés par "
+"ceux du fichier %s."
 
-#, c-format
 msgid "directory %s is not readable"
-msgstr "le rÃ©pertoire %s n'est pas accessible en lecture"
+msgstr "le répertoire %s n'est pas accessible en lecture."
 
 msgid "drivers_ldap : Could not start TLS: ldap_start_tls() failed"
-msgstr ""
+msgstr "drivers_ldap : impossible de démarrer TLS : ldap_start_tlf() a échoué."
 
-#, fuzzy, c-format
-msgid "drivers_ldap : Failed to bind to host %1$s on port %2$s with bindDN of %3$s"
-msgstr "drivers_ldap : impossible de ce connecter Ã  LDAP sur le port %s et sur l'hÃ´te %s"
-
-#, fuzzy
-msgid "drivers_ldap : Failed to set LDAP to use protocol version 3, TLS not supported"
-msgstr "drivers_ldap : impossible de ce connecter Ã  LDAP sur le port %s et sur l'hÃ´te %s"
-
-#, fuzzy
 msgid ""
-"drivers_ldap : Unable to bind to LDAP - check your configuration for bindDN and passDN, and that your "
-"LDAP server is reachable"
+"drivers_ldap : Failed to bind to host %1$s on port %2$s with bindDN of %3$s"
 msgstr ""
-"drivers_ldap : Impossible de binder, vÃ©rifier votre  bindDN >%s< et passDN >%s< de votre configuration "
-"ou si votre serveur est accessible"
+"drivers_ldap : impossible de se connecter à l'hôte %1$s sur le port %2$s "
+"avec bindDN %3$s."
 
-#, c-format
+msgid ""
+"drivers_ldap : Failed to set LDAP to use protocol version 3, TLS not "
+"supported"
+msgstr ""
+"drivers_ldap : impossible pour LDAP d'utiliser le protocole version 3, TLS "
+"n'est pas géré."
+
+msgid ""
+"drivers_ldap : Unable to bind to LDAP - check your configuration for bindDN "
+"and passDN, and that your LDAP server is reachable"
+msgstr ""
+"drivers_ldap : Impossible de se lier à LDAP, veuillez vérifier votre bindDN "
+"et passDN de votre configuration ou si votre serveur LDAP est accessible."
+
 msgid "drivers_ldap : Unable to connect to LDAP with port %s on host %s"
-msgstr "drivers_ldap : impossible de ce connecter Ã  LDAP sur le port %s et sur l'hÃ´te %s"
-
-msgid "drivers_ldap : function ldap_connect not defined, check your php_ldap module"
 msgstr ""
-"drivers_ldap : la fonction ldap_connect n'est pas dÃ©finie, vÃ©rifier que vous avez l'extension php_ldap"
+"drivers_ldap : impossible de se connecter à LDAP sur le port %s et sur "
+"l'hôte %s."
+
+msgid ""
+"drivers_ldap : function ldap_connect not defined, check your php_ldap module"
+msgstr ""
+"drivers_ldap : la fonction ldap_connect n'est pas définie, vérifiez que vous "
+"avez l'extension php_ldap."
 
 #, c-format
 msgid "drivers_squid_pam : Unable to find %s file"
-msgstr ""
+msgstr "drivers_squid_pam : incapable de trouver le fichier %s."
 
 msgid ""
-"forget me not <!-- this is a colloquial phrase in english (the name of a flower) and is an option "
-"allowing people to log in automatically in future -->"
+"forget me not <!-- this is a colloquial phrase in english (the name of a "
+"flower) and is an option allowing people to log in automatically in future --"
+">"
 msgstr "Ne pas m'oublier <!-- other 2nd degree meaning but funny too -->"
 
 msgid "forget me not"
 msgstr "Ne pas m'oublier"
 
-#, fuzzy
 msgid "is Assistant to"
-msgstr "est assistÃ© par"
+msgstr "est assisté par"
 
 msgid "path to store your ics"
-msgstr "le chemin oÃ¹ stocker votre ics"
+msgstr "le chemin où stocker votre ics"
 
-msgid "set the path to store your ics ex:home if you get it by caldav.php/me/home/"
-msgstr "Indiquer le chemin oÃ¹ stocker votre ics ex : 'home' pour y accÃ©der via /caldav.php/moi/home/"
+msgid ""
+"set the path to store your ics ex:home if you get it by caldav.php/me/home/"
+msgstr ""
+"Indiquez le chemin où stocker votre ics. Ex : 'home' pour y accéder via /"
+"caldav.php/moi/home/."
 
-#, c-format
 msgid "the file %s is not UTF-8 encoded, please check error for more details"
-msgstr "Le fichier %s n'est pas encodÃ© en UTF-8, merci de verifier les erreurs pour plus d'information"
+msgstr ""
+"Le fichier %s n'est pas encodé en UTF-8, merci de vérifier les erreurs pour "
+"plus d'information."
 
-msgid "you should log on with the username and password that have been issued to you."
-msgstr "Vous devez vous connecter avec le nom d'utilisateur et le mot de passe qui vous ont Ã©tÃ© fournis."
+msgid ""
+"you should log on with the username and password that have been issued to "
+"you."
+msgstr ""
+"Vous devez vous connecter avec le nom d'utilisateur et le mot de passe qui "
+"vous ont été fournis."
 
-msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
-msgstr "Cette opÃ©ration execute  : <ul><li>vÃ©rifie les utilisateurs valides de l'annuaire LDAP</li>"
+msgid ""
+"This operation does the following: <ul><li>check valid users in LDAP "
+"directory</li>"
+msgstr ""
+"Cette opération exécute : <ul><li>vérifie les utilisateurs valides de "
+"l'annuaire LDAP</li>."
 
 # This is the (current, working) name of the application.  It may change
 # if I (or someone else) can think of a better one.  It's optional to
@@ -757,20 +791,23 @@ msgstr "Cette opÃ©ration execute  : <ul><li>vÃ©rifie les utilisateurs valides de
 #~ msgid "Really Simple CalDAV Store"
 #~ msgstr "Really Simple CalDAV Store"
 
-#~ msgid "if your use OpenLDAP 2.X.X maybe, unable to connect to LDAP with port %s on host %s"
+#~ msgid ""
+#~ "if your use OpenLDAP 2.X.X maybe, unable to connect to LDAP with port %s "
+#~ "on host %s"
 #~ msgstr ""
-#~ "si vous utilisez OpenLDAP 2.X.X, impossible de ce connecter Ã  serveur LDAP sur le port %s et sur "
-#~ "l'hÃ´te %s"
+#~ "si vous utilisez OpenLDAP 2.X.X, impossible de ce connecter à serveur "
+#~ "LDAP sur le port %s et sur l'hôte %s"
 
 #~ msgid ""
-#~ "You may not PUT a collection - you may only PUT things *in* one or use MKCOL/MKCALENDAR to create "
-#~ "one."
+#~ "You may not PUT a collection - you may only PUT things *in* one or use "
+#~ "MKCOL/MKCALENDAR to create one."
 #~ msgstr ""
-#~ "Vous ne pouvez pas appeler la method PUT sur une collection - vous ne pouvez le faire que sur des "
-#~ "choses *dans* une collection ou utiliser les mÃ©thodes  MKCOL/MKCALENDAR pour en crÃ©er une"
+#~ "Vous ne pouvez pas appeler la method PUT sur une collection - vous ne "
+#~ "pouvez le faire que sur des choses *dans* une collection ou utiliser les "
+#~ "méthodes  MKCOL/MKCALENDAR pour en créer une"
 
 #~ msgid "Administers Resource"
-#~ msgstr "GÃ©re la ressource"
+#~ msgstr "Gére la ressource"
 
 #~ msgid "Group?"
 #~ msgstr "Est un groupe ?"
@@ -783,16 +820,16 @@ msgstr "Cette opÃ©ration execute  : <ul><li>vÃ©rifie les utilisateurs valides de
 # of this link is the third kind
 #~ msgid "Is the target of this relationship a group of access rights?"
 #~ msgstr ""
-#~ "Est-ce que l'objectif de cette relation est de crÃ©er un groupe d'individus partageant les mÃªmes "
-#~ "droits?"
+#~ "Est-ce que l'objectif de cette relation est de créer un groupe "
+#~ "d'individus partageant les mêmes droits?"
 
 # ############
 # by the way what is the use of prefix ?
 #~ msgid "Prefix"
-#~ msgstr "PrÃ©fixe"
+#~ msgstr "Préfixe"
 
 #~ msgid "Restrict access to prefixes matching this pattern"
-#~ msgstr "Restreindre l'accÃ¨s aux prÃ©fixes correspondant Ã  ce format"
+#~ msgstr "Restreindre l'accès aux préfixes correspondant à ce format"
 
 #~ msgid "To Group?"
 #~ msgstr "Au groupe"
