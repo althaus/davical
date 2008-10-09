@@ -80,10 +80,10 @@ class CalDAVClient {
   /**
   * Constructor, initialises the class
   *
-  * @param string $base_url
-  * @param string $user
-  * @param string $pass
-  * @param string $calendar
+  * @param string $base_url  The URL for the calendar server
+  * @param string $user      The name of the user logging in
+  * @param string $pass      The password for that user
+  * @param string $calendar  The name of the calendar (not currently used)
   */
   function CalDAVClient( $base_url, $user, $pass, $calendar ) {
     $this->base_url = $base_url;
@@ -295,7 +295,7 @@ class CalDAVClient {
   *
   * @return array An array of the relative URLs, etags, and events from the server
   */
-  function GetEvents( $start, $finish ) {
+  function GetEvents( $start, $finish, $relative_url = '' ) {
     $filter = "";
     if ( $start && $finish ) {
       $filter = <<<EOFILTER
@@ -320,7 +320,7 @@ EOFILTER;
 </calendar-query>
 EOXML;
     $this->SetDepth("1");
-    $this->DoXMLRequest( 'REPORT', $xml );
+    $this->DoXMLRequest( 'REPORT', $xml, $relative_url );
     $xml_parser = xml_parser_create_ns('UTF-8');
     $this->xml_tags = array();
     xml_parser_set_option ( $xml_parser, XML_OPTION_SKIP_WHITE, 1 );
@@ -366,6 +366,6 @@ if ( isset($options["PROPFIND"] ) {
   $folder_xml = $cal->DoXMLRequest("PROPFIND", '<?xml version="1.0" encoding="utf-8" ?><propfind xmlns="DAV:"><prop><getcontentlength/><getcontenttype/><resourcetype/><getetag/></prop></propfind>' );
 }
 // Fetch all events for February
-$events = $cal->GetEventRange("20070101T000000Z","20070201T000000Z");
+$events = $cal->GetEvents("20070101T000000Z","20070201T000000Z");
 */
 
