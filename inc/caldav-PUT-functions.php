@@ -118,11 +118,13 @@ function public_events_only( $user_no, $dav_name ) {
 * @param int $user_no the user wich will receive this ics file
 * @param string $path the $path where it will be store such as /user_foo/home/
 * @param boolean $caldav_context Whether we are responding via CalDAV or interactively
+*
+* Any VEVENTs with the same UID will be concatenated together
 */
 function import_collection( $ics_content, $user_no, $path, $caldav_context ) {
   global $c;
   // According to RFC2445 we should always end with CRLF, but the CalDAV spec says
-  // that normalising XML parses often muck with it and may remove the CR.
+  // that normalising XML parsers often muck with it and may remove the CR.
   $icalendar = preg_replace('/\r?\n /', '', $ics_content );
   if ( ! ini_get('open_basedir') && (isset($c->dbg['ALL']) || isset($c->dbg['put'])) ) {
     $fh = fopen('/tmp/PUT-2.txt','w');
@@ -135,9 +137,11 @@ function import_collection( $ics_content, $user_no, $path, $caldav_context ) {
   $lines = preg_split('/\r?\n/', $icalendar );
 
   $events = array();
+  $event_ids = array();
   $timezones = array();
 
   $current = "";
+  unset($event_id);
   $state = "";
   $tzid = 'unknown';
   foreach( $lines AS $lno => $line ) {
@@ -150,7 +154,11 @@ function import_collection( $ics_content, $user_no, $path, $caldav_context ) {
     }
     else {
       $current .= $line."\n";
-      if ( $line == "END:$state" ) {
+      if ( preg_match( '/^UID:(.*)$/', $line, &$matches) ) {
+        $event_id = $matches[1];
+        dbg_error_log( "PUT", " Processing event with UID of '%s'", $event_id );
+      }
+      else if ( $line == "END:$state" ) {
         switch ( $state ) {
           case 'VTIMEZONE':
             $timezones[$tzid] = $current;
@@ -160,7 +168,15 @@ function import_collection( $ics_content, $user_no, $path, $caldav_context ) {
           case 'VTODO':
           case 'VJOURNAL':
           default:
-            $events[] = array( 'data' => $current, 'tzid' => $tzid );
+            if ( isset($event_ids[$event_id]) ) {
+              // All of the VEVENT (or whatever) with the same UID are concatenated
+              $events[$event_ids[$event_id]]['data'] .= $current;
+            }
+            else if ( isset($event_id) ) {
+              $event_ids[$event_id] = count($events);
+              $events[] = array( 'data' => $current, 'tzid' => $tzid );
+            }
+            unset($event_id);
             dbg_error_log( "PUT", " Ended %s with TZID '%s' ", $state, $tzid );
             break;
         }
