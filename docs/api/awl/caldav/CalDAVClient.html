@@ -1,0 +1,956 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs For Class CalDAVClient</title>
+			<link rel="stylesheet" href="../../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name"><img src="../../media/images/Class_logo.png"
+														alt=" Class"
+														title=" Class"
+														style="vertical-align: middle"> CalDAVClient</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+													<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+						|											<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">A class for accessing DAViCal via CalDAV, as a client</p>
+		<p class="notes">
+			Located in <a class="field" href="_inc---caldav-client.php.html">/inc/caldav-client.php</a> (line <span class="field">55</span>)
+		</p>
+		
+				
+		<pre></pre>
+	
+			</div>
+</div>
+
+
+
+	<a name="sec-var-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variable Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+						<span class="disabled">Vars</span> (<a href="#sec-vars">details</a>)
+							| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+								</div>
+		<div class="info-box-body">
+			<div class="var-summary">
+																																																																																								<div class="var-title">
+					<img src="../../media/images/Variable.png" alt=" " />
+					<span class="var-type">string</span>
+					<a href="#$base_url" title="details" class="var-name">$base_url</a>
+				</div>
+																<div class="var-title">
+					<img src="../../media/images/Variable.png" alt=" " />
+					<span class="var-type">mixed</span>
+					<a href="#$body" title="details" class="var-name">$body</a>
+				</div>
+																<div class="var-title">
+					<img src="../../media/images/Variable.png" alt=" " />
+					<span class="var-type">mixed</span>
+					<a href="#$calendar" title="details" class="var-name">$calendar</a>
+				</div>
+																<div class="var-title">
+					<img src="../../media/images/Variable.png" alt=" " />
+					<span class="var-type">resource</span>
+					<a href="#$curl" title="details" class="var-name">$curl</a>
+				</div>
+																<div class="var-title">
+					<img src="../../media/images/Variable.png" alt=" " />
+					<span class="var-type">mixed</span>
+					<a href="#$entry" title="details" class="var-name">$entry</a>
+				</div>
+																<div class="var-title">
+					<img src="../../media/images/Variable.png" alt=" " />
+					<span class="var-type">mixed</span>
+					<a href="#$headers" title="details" class="var-name">$headers</a>
+				</div>
+																<div class="var-title">
+					<img src="../../media/images/Variable.png" alt=" " />
+					<span class="var-type">mixed</span>
+					<a href="#$pass" title="details" class="var-name">$pass</a>
+				</div>
+																<div class="var-title">
+					<img src="../../media/images/Variable.png" alt=" " />
+					<span class="var-type">mixed</span>
+					<a href="#$user" title="details" class="var-name">$user</a>
+				</div>
+																<div class="var-title">
+					<img src="../../media/images/Variable.png" alt=" " />
+					<span class="var-type">string</span>
+					<a href="#$user_agent" title="details" class="var-name">$user_agent</a>
+				</div>
+											</div>
+		</div>
+	</div>
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+																		<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+				 
+				|
+						<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																																																																																																																																																<div class="method-definition">
+					<img src="../../media/images/Constructor.png" alt=" "/>
+											<span class="method-result">CalDAVClient</span>
+										<a href="#CalDAVClient" title="details" class="method-name">CalDAVClient</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$base_url</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$user</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$pass</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$calendar</span>)
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">array</span>
+										<a href="#DoCalendarQuery" title="details" class="method-name">DoCalendarQuery</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$filter</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$relative_url</span> = <span class="var-default">''</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$reponse_type</span> = <span class="var-default">'data'</span>], <span class="var-type">string</span>&nbsp;<span class="var-name">$report_type</span>)
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">int</span>
+										<a href="#DoDELETERequest" title="details" class="method-name">DoDELETERequest</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$relative_url</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$etag</span> = <span class="var-default">null</span>])
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#DoGETRequest" title="details" class="method-name">DoGETRequest</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$relative_url</span>)
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">array</span>
+										<a href="#DoOptionsRequest" title="details" class="method-name">DoOptionsRequest</a>
+											([<span class="var-type">string</span>&nbsp;<span class="var-name">$relative_url</span> = <span class="var-default">&quot;&quot;</span>])
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">string</span>
+										<a href="#DoPUTRequest" title="details" class="method-name">DoPUTRequest</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$relative_url</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$icalendar</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$etag</span> = <span class="var-default">null</span>])
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">string</span>
+										<a href="#DoRequest" title="details" class="method-name">DoRequest</a>
+											([<span class="var-type">string</span>&nbsp;<span class="var-name">$relative_url</span> = <span class="var-default">&quot;&quot;</span>])
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">array</span>
+										<a href="#DoXMLRequest" title="details" class="method-name">DoXMLRequest</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$request_method</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$xml</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$relative_url</span> = <span class="var-default">''</span>], <span class="var-type">string</span>&nbsp;<span class="var-name">$method</span>)
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">string</span>
+										<a href="#GetEntryByHref" title="details" class="method-name">GetEntryByHref</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$href</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$relative_url</span> = <span class="var-default">''</span>])
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">array</span>
+										<a href="#GetEntryByUid" title="details" class="method-name">GetEntryByUid</a>
+											(<span class="var-type">uid</span>&nbsp;<span class="var-name">$uid</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$relative_url</span> = <span class="var-default">''</span>])
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">array</span>
+										<a href="#GetEvents" title="details" class="method-name">GetEvents</a>
+											(<span class="var-type">timestamp</span>&nbsp;<span class="var-name">$start</span>, <span class="var-type">timestamp</span>&nbsp;<span class="var-name">$finish</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$relative_url</span> = <span class="var-default">''</span>])
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">array</span>
+										<a href="#GetTodos" title="details" class="method-name">GetTodos</a>
+											(<span class="var-type">timestamp</span>&nbsp;<span class="var-name">$start</span>, <span class="var-type">timestamp</span>&nbsp;<span class="var-name">$finish</span>, [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$completed</span> = <span class="var-default">false</span>], [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$cancelled</span> = <span class="var-default">false</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$relative_url</span> = <span class="var-default">&quot;&quot;</span>])
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#SetContentType" title="details" class="method-name">SetContentType</a>
+											(<span class="var-type">int</span>&nbsp;<span class="var-name">$type</span>)
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#SetDepth" title="details" class="method-name">SetDepth</a>
+											([<span class="var-type">int</span>&nbsp;<span class="var-name">$depth</span> = <span class="var-default">'infinity'</span>])
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#SetMatch" title="details" class="method-name">SetMatch</a>
+											(<span class="var-type">bool</span>&nbsp;<span class="var-name">$match</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$etag</span> = <span class="var-default">'*'</span>])
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#SetUserAgent" title="details" class="method-name">SetUserAgent</a>
+											([<span class="var-type"></span>&nbsp;<span class="var-name">$user_agent</span> = <span class="var-default">null</span>], <span class="var-type">int</span>&nbsp;<span class="var-name">$depth</span>)
+									</div>
+											</div>
+		</div>
+	</div>		
+
+	<a name="sec-vars"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variables</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+										<a href="#sec-var-summary">Vars</a> (<span class="disabled">details</span>)
+						
+			
+										| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+					</div>
+		<div class="info-box-body">
+			
+<a name="var$base_url" id="$base_url"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<img src="../../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">string</span>
+			<span class="var-name">$base_url</span>
+						(line <span class="line-number">61</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Server, username, password, calendar, $entry</p>
+	
+	
+		
+		
+
+</div>
+<a name="var$body" id="$body"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<img src="../../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$body</span>
+			 = <span class="var-default"> &quot;&quot;</span>			(line <span class="line-number">71</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+		
+		
+
+</div>
+<a name="var$calendar" id="$calendar"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<img src="../../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$calendar</span>
+						(line <span class="line-number">61</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+		
+		
+
+</div>
+<a name="var$curl" id="$curl"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<img src="../../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">resource</span>
+			<span class="var-name">$curl</span>
+						(line <span class="line-number">78</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Our cURL connection</p>
+	
+	
+		
+		
+
+</div>
+<a name="var$entry" id="$entry"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<img src="../../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$entry</span>
+						(line <span class="line-number">61</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+		
+		
+
+</div>
+<a name="var$headers" id="$headers"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<img src="../../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$headers</span>
+			 = <span class="var-default">array()</span>			(line <span class="line-number">70</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+		
+		
+
+</div>
+<a name="var$pass" id="$pass"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<img src="../../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$pass</span>
+						(line <span class="line-number">61</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+		
+		
+
+</div>
+<a name="var$user" id="$user"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<img src="../../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$user</span>
+						(line <span class="line-number">61</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+		
+		
+
+</div>
+<a name="var$user_agent" id="$user_agent"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<img src="../../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">string</span>
+			<span class="var-name">$user_agent</span>
+			 = <span class="var-default"> 'DAViCalClient'</span>			(line <span class="line-number">68</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">The useragent which is send to the caldav server</p>
+	
+	
+		
+		
+
+</div>
+						
+		</div>
+	</div>
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+															<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+														<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+<a name="methodCalDAVClient" id="CalDAVClient"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Constructor.png" />
+		<span class="method-title">Constructor CalDAVClient</span> (line <span class="line-number">89</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Constructor, initialises the class</p>
+	
+	<div class="method-signature">
+		<span class="method-result">CalDAVClient</span>
+		<span class="method-name">
+			CalDAVClient
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$base_url</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$user</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$pass</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$calendar</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$base_url</span><span class="var-description">: The URL for the calendar server</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$user</span><span class="var-description">: The name of the user logging in</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$pass</span><span class="var-description">: The password for that user</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$calendar</span><span class="var-description">: The name of the calendar (not currently used)</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodDoCalendarQuery" id="DoCalendarQuery"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">DoCalendarQuery</span> (line <span class="line-number">301</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Given XML for a calendar query, return an array of the events (/todos) in the  response.  Each event in the array will have a 'href', 'etag' and '$response_type'  part, where the 'href' is relative to the calendar and the '$response_type' contains the  definition of the calendar data in iCalendar format.</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> An array of the relative URLs, etags, and events from the server.  Each element of the array will                be an array with 'href', 'etag' and 'data' elements, corresponding to the URL, the server-supplied                etag (which only varies when the data changes) and the calendar data in iCalendar format.</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			DoCalendarQuery
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$filter</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$relative_url</span> = <span class="var-default">''</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$reponse_type</span> = <span class="var-default">'data'</span>], <span class="var-type">string</span>&nbsp;<span class="var-name">$report_type</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$filter</span><span class="var-description">: XML fragment which is the &lt;filter&gt; element of a calendar-query</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$relative_url</span><span class="var-description">: The URL relative to the base_url specified when the calendar was opened.  Default ''.</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$report_type</span><span class="var-description">: Used as a name for the array element containing the calendar data. @deprecated</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$reponse_type</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodDoDELETERequest" id="DoDELETERequest"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">DoDELETERequest</span> (line <span class="line-number">274</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">DELETE a text/icalendar resource</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> The HTTP Result Code for the DELETE</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">int</span>
+		<span class="method-name">
+			DoDELETERequest
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$relative_url</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$etag</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$relative_url</span><span class="var-description">: The URL to make the request to, relative to $base_url</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$etag</span><span class="var-description">: The etag of an existing resource to be deleted, or '*' for any resource at that URL.</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodDoGETRequest" id="DoGETRequest"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">DoGETRequest</span> (line <span class="line-number">229</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Get a single item from the server.</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			DoGETRequest
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$relative_url</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$relative_url</span><span class="var-description">: The part of the URL after the calendar</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodDoOptionsRequest" id="DoOptionsRequest"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">DoOptionsRequest</span> (line <span class="line-number">192</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Send an OPTIONS request to the server</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> The allowed options</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			DoOptionsRequest
+		</span>
+					([<span class="var-type">string</span>&nbsp;<span class="var-name">$relative_url</span> = <span class="var-default">&quot;&quot;</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$relative_url</span><span class="var-description">: The URL to make the request to, relative to $base_url</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodDoPUTRequest" id="DoPUTRequest"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">DoPUTRequest</span> (line <span class="line-number">246</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">PUT a text/icalendar resource, returning the etag</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> The content of the response from the server</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			DoPUTRequest
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$relative_url</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$icalendar</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$etag</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$relative_url</span><span class="var-description">: The URL to make the request to, relative to $base_url</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$icalendar</span><span class="var-description">: The iCalendar resource to send to the server</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$etag</span><span class="var-description">: The etag of an existing resource to be overwritten, or '*' for a new resource.</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodDoRequest" id="DoRequest"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">DoRequest</span> (line <span class="line-number">151</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Send a request to the server</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> The content of the response from the server</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			DoRequest
+		</span>
+					([<span class="var-type">string</span>&nbsp;<span class="var-name">$relative_url</span> = <span class="var-default">&quot;&quot;</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$relative_url</span><span class="var-description">: The URL to make the request to, relative to $base_url</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodDoXMLRequest" id="DoXMLRequest"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">DoXMLRequest</span> (line <span class="line-number">213</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Send an XML request to the server (e.g. PROPFIND, REPORT, MKCALENDAR)</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> An array of the allowed methods</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			DoXMLRequest
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$request_method</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$xml</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$relative_url</span> = <span class="var-default">''</span>], <span class="var-type">string</span>&nbsp;<span class="var-name">$method</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$method</span><span class="var-description">: The method (PROPFIND, REPORT, etc) to use with the request</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$xml</span><span class="var-description">: The XML to send along with the request</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$relative_url</span><span class="var-description">: The URL to make the request to, relative to $base_url</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$request_method</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodGetEntryByHref" id="GetEntryByHref"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">GetEntryByHref</span> (line <span class="line-number">457</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Get the calendar entry by HREF</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> The iCalendar of the calendar entry</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			GetEntryByHref
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$href</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$relative_url</span> = <span class="var-default">''</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$href</span><span class="var-description">: The href from a call to GetEvents or GetTodos etc.</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$relative_url</span><span class="var-description">: The URL relative to the base_url specified when the calendar was opened.  Default ''.</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodGetEntryByUid" id="GetEntryByUid"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">GetEntryByUid</span> (line <span class="line-number">430</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Get the calendar entry by UID</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> An array of the relative URL, etag, and calendar data returned from DoCalendarQuery() @see DoCalendarQuery()</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			GetEntryByUid
+		</span>
+					(<span class="var-type">uid</span>&nbsp;<span class="var-name">$uid</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$relative_url</span> = <span class="var-default">''</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$relative_url</span><span class="var-description">: The URL relative to the base_url specified when the calendar was opened.  Default ''.</span>			</li>
+					<li>
+				<span class="var-type">uid</span>
+				<span class="var-name">$uid</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodGetEvents" id="GetEvents"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">GetEvents</span> (line <span class="line-number">360</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Get the events in a range from $start to $finish.  The dates should be in the</p>
+<p class="description"><p>format yyyymmddThhmmssZ and should be in GMT.  The events are returned as an  array of event arrays.  Each event array will have a 'href', 'etag' and 'event'  part, where the 'href' is relative to the calendar and the event contains the  definition of the event in iCalendar format.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> An array of the relative URLs, etags, and events, returned from DoCalendarQuery() @see DoCalendarQuery()</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			GetEvents
+		</span>
+					(<span class="var-type">timestamp</span>&nbsp;<span class="var-name">$start</span>, <span class="var-type">timestamp</span>&nbsp;<span class="var-name">$finish</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$relative_url</span> = <span class="var-default">''</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">timestamp</span>
+				<span class="var-name">$start</span><span class="var-description">: The start time for the period</span>			</li>
+					<li>
+				<span class="var-type">timestamp</span>
+				<span class="var-name">$finish</span><span class="var-description">: The finish time for the period</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$relative_url</span><span class="var-description">: The URL relative to the base_url specified when the calendar was opened.  Default ''.</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodGetTodos" id="GetTodos"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">GetTodos</span> (line <span class="line-number">393</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Get the todo's in a range from $start to $finish.  The dates should be in the</p>
+<p class="description"><p>format yyyymmddThhmmssZ and should be in GMT.  The events are returned as an  array of event arrays.  Each event array will have a 'href', 'etag' and 'event'  part, where the 'href' is relative to the calendar and the event contains the  definition of the event in iCalendar format.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> An array of the relative URLs, etags, and events, returned from DoCalendarQuery() @see DoCalendarQuery()</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			GetTodos
+		</span>
+					(<span class="var-type">timestamp</span>&nbsp;<span class="var-name">$start</span>, <span class="var-type">timestamp</span>&nbsp;<span class="var-name">$finish</span>, [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$completed</span> = <span class="var-default">false</span>], [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$cancelled</span> = <span class="var-default">false</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$relative_url</span> = <span class="var-default">&quot;&quot;</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">timestamp</span>
+				<span class="var-name">$start</span><span class="var-description">: The start time for the period</span>			</li>
+					<li>
+				<span class="var-type">timestamp</span>
+				<span class="var-name">$finish</span><span class="var-description">: The finish time for the period</span>			</li>
+					<li>
+				<span class="var-type">boolean</span>
+				<span class="var-name">$completed</span><span class="var-description">: Whether to include completed tasks</span>			</li>
+					<li>
+				<span class="var-type">boolean</span>
+				<span class="var-name">$cancelled</span><span class="var-description">: Whether to include cancelled tasks</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$relative_url</span><span class="var-description">: The URL relative to the base_url specified when the calendar was opened.  Default ''.</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodSetContentType" id="SetContentType"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">SetContentType</span> (line <span class="line-number">139</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Add a Content-type: header.</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			SetContentType
+		</span>
+					(<span class="var-type">int</span>&nbsp;<span class="var-name">$type</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">int</span>
+				<span class="var-name">$type</span><span class="var-description">: The content type</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodSetDepth" id="SetDepth"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">SetDepth</span> (line <span class="line-number">120</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Add a Depth: header.  Valid values are 1 or infinity</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			SetDepth
+		</span>
+					([<span class="var-type">int</span>&nbsp;<span class="var-name">$depth</span> = <span class="var-default">'infinity'</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">int</span>
+				<span class="var-name">$depth</span><span class="var-description">: The depth, default to infinity</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodSetMatch" id="SetMatch"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">SetMatch</span> (line <span class="line-number">111</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Adds an If-Match or If-None-Match header</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			SetMatch
+		</span>
+					(<span class="var-type">bool</span>&nbsp;<span class="var-name">$match</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$etag</span> = <span class="var-default">'*'</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">bool</span>
+				<span class="var-name">$match</span><span class="var-description">: to Match or Not to Match, that is the question!</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$etag</span><span class="var-description">: The etag to match / not match against.</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodSetUserAgent" id="SetUserAgent"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">SetUserAgent</span> (line <span class="line-number">129</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Add a Depth: header.  Valid values are 1 or infinity</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			SetUserAgent
+		</span>
+					([<span class="var-type"></span>&nbsp;<span class="var-name">$user_agent</span> = <span class="var-default">null</span>], <span class="var-type">int</span>&nbsp;<span class="var-name">$depth</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">int</span>
+				<span class="var-name">$depth</span><span class="var-description">: The depth, default to infinity</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$user_agent</span>			</li>
+				</ul>
+		
+			
+	</div>
+						
+		</div>
+	</div>
+
+	
+	<p class="notes" id="credit">
+		Documentation generated on Sun, 19 Oct 2008 21:25:37 +1300 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
+	</p>
+	</div></body>
+</html>
