@@ -1,4 +1,4 @@
-<?
+<?php
 /**
 * A Class for connecting to a caldav server
 *
@@ -284,6 +284,68 @@ class CalDAVClient {
 
 
   /**
+  * Given XML for a calendar query, return an array of the events (/todos) in the
+  * response.  Each event in the array will have a 'href', 'etag' and '$response_type'
+  * part, where the 'href' is relative to the calendar and the '$response_type' contains the
+  * definition of the calendar data in iCalendar format.
+  *
+  * @param string $filter XML fragment which is the <filter> element of a calendar-query
+  * @param string $relative_url The URL relative to the base_url specified when the calendar was opened.  Default ''.
+  * @param string $report_type Used as a name for the array element containing the calendar data. @deprecated
+  *
+  * @return array An array of the relative URLs, etags, and events from the server.  Each element of the array will
+  *               be an array with 'href', 'etag' and 'data' elements, corresponding to the URL, the server-supplied
+  *               etag (which only varies when the data changes) and the calendar data in iCalendar format.
+  */
+  function DoCalendarQuery( $filter, $relative_url = '', $reponse_type = 'data' ) {
+
+    $xml = <<<EOXML
+<?xml version="1.0" encoding="utf-8" ?>
+<calendar-query xmlns:D="DAV:" xmlns="urn:ietf:params:xml:ns:caldav">
+  <D:prop>
+    <href/>
+    <calendar-data/>
+    <D:getetag/>
+  </D:prop>$filter
+</calendar-query>
+EOXML;
+
+    $this->SetDepth("1");
+    $this->DoXMLRequest( 'REPORT', $xml, $relative_url );
+    $xml_parser = xml_parser_create_ns('UTF-8');
+    $this->xml_tags = array();
+    xml_parser_set_option ( $xml_parser, XML_OPTION_SKIP_WHITE, 1 );
+    xml_parse_into_struct( $xml_parser, $this->response, $this->xml_tags );
+    xml_parser_free($xml_parser);
+
+    $report = array();
+    foreach( $this->xml_tags AS $k => $v ) {
+      switch( $v['tag'] ) {
+        case 'DAV::RESPONSE':
+          if ( $v['type'] == 'open' ) {
+            $response = array();
+          }
+          elseif ( $v['type'] == 'close' ) {
+            $report[] = $response;
+          }
+          break;
+        case 'DAV::HREF':
+          $response['href'] = basename( $v['value'] );
+          break;
+        case 'DAV::GETETAG':
+          $response['etag'] = preg_replace('/^"?([^"]+)"?/', '$1', $v['value']);
+          break;
+        case 'URN:IETF:PARAMS:XML:NS:CALDAV:CALENDAR-DATA':
+          $response['data'] = $v['value'];
+          $response[$report_type] = $v['value'];  // deprecated - will be removed.  Just use 'data' please :-)
+          break;
+      }
+    }
+    return $report;
+  }
+
+
+  /**
   * Get the events in a range from $start to $finish.  The dates should be in the
   * format yyyymmddThhmmssZ and should be in GMT.  The events are returned as an
   * array of event arrays.  Each event array will have a 'href', 'etag' and 'event'
@@ -292,8 +354,9 @@ class CalDAVClient {
   *
   * @param timestamp $start The start time for the period
   * @param timestamp $finish The finish time for the period
+  * @param string    $relative_url The URL relative to the base_url specified when the calendar was opened.  Default ''.
   *
-  * @return array An array of the relative URLs, etags, and events from the server
+  * @return array An array of the relative URLs, etags, and events, returned from DoCalendarQuery() @see DoCalendarQuery()
   */
   function GetEvents( $start, $finish, $relative_url = '' ) {
     $filter = "";
@@ -310,48 +373,95 @@ class CalDAVClient {
 EOFILTER;
     }
 
-    $xml = <<<EOXML
-<?xml version="1.0" encoding="utf-8" ?>
-<calendar-query xmlns:D="DAV:" xmlns="urn:ietf:params:xml:ns:caldav">
-  <D:prop>
-    <calendar-data/>
-    <D:getetag/>
-  </D:prop>$filter
-</calendar-query>
-EOXML;
-    $this->SetDepth("1");
-    $this->DoXMLRequest( 'REPORT', $xml, $relative_url );
-    $xml_parser = xml_parser_create_ns('UTF-8');
-    $this->xml_tags = array();
-    xml_parser_set_option ( $xml_parser, XML_OPTION_SKIP_WHITE, 1 );
-    xml_parse_into_struct( $xml_parser, $this->response, $this->xml_tags );
-    xml_parser_free($xml_parser);
-
-    $events = array();
-    foreach( $this->xml_tags AS $k => $v ) {
-      switch( $v['tag'] ) {
-        case 'DAV::RESPONSE':
-          if ( $v['type'] == 'open' ) {
-            $response = array();
-          }
-          elseif ( $v['type'] == 'close' ) {
-            $events[] = $response;
-          }
-          break;
-        case 'DAV::HREF':
-          $response['href'] = basename( $v['value'] );
-          break;
-        case 'DAV::GETETAG':
-          $response['etag'] = preg_replace('/^"?([^"]+)"?/', '$1', $v['value']);
-          break;
-        case 'URN:IETF:PARAMS:XML:NS:CALDAV:CALENDAR-DATA':
-          $response['event'] = $v['value'];
-          break;
-      }
-    }
-    return $events;
+    return DoCalendarQuery($filter, $relative_url, 'event');
   }
 
+
+  /**
+  * Get the todo's in a range from $start to $finish.  The dates should be in the
+  * format yyyymmddThhmmssZ and should be in GMT.  The events are returned as an
+  * array of event arrays.  Each event array will have a 'href', 'etag' and 'event'
+  * part, where the 'href' is relative to the calendar and the event contains the
+  * definition of the event in iCalendar format.
+  *
+  * @param timestamp $start The start time for the period
+  * @param timestamp $finish The finish time for the period
+  * @param boolean   $completed Whether to include completed tasks
+  * @param boolean   $cancelled Whether to include cancelled tasks
+  * @param string    $relative_url The URL relative to the base_url specified when the calendar was opened.  Default ''.
+  *
+  * @return array An array of the relative URLs, etags, and events, returned from DoCalendarQuery() @see DoCalendarQuery()
+  */
+  function GetTodos( $start, $finish, $completed = false, $cancelled = false, $relative_url = "" ) {
+
+    if ( $start && $finish ) {
+$time_range = <<<EOTIME
+                <C:time-range start="$start" end="$finish"/>
+EOTIME;
+    }
+
+    // Warning!  May contain traces of double negatives...
+    $neg_cancelled = ( $cancelled === true ? "no" : "yes" );
+    $neg_completed = ( $cancelled === true ? "no" : "yes" );
+
+    $filter = <<<EOFILTER
+  <C:filter>
+    <C:comp-filter name="VCALENDAR">
+          <C:comp-filter name="VTODO">
+                <C:prop-filter name="STATUS">
+                        <C:text-match negate-condition="$neg_completed">COMPLETED</C:text-match>
+                </C:prop-filter>
+                <C:prop-filter name="STATUS">
+                        <C:text-match negate-condition="$neg_cancelled">CANCELLED</C:text-match>
+                </C:prop-filter>$time_range
+          </C:comp-filter>
+    </C:comp-filter>
+  </C:filter>
+EOFILTER;
+
+    return DoCalendarQuery($filter, $relative_url, 'todo');
+  }
+
+
+  /**
+  * Get the calendar entry by UID
+  *
+  * @param uid
+  * @param string    $relative_url The URL relative to the base_url specified when the calendar was opened.  Default ''.
+  *
+  * @return array An array of the relative URL, etag, and calendar data returned from DoCalendarQuery() @see DoCalendarQuery()
+  */
+  function GetEntryByUid( $uid, $relative_url = '' ) {
+    $filter = "";
+    if ( $uid ) {
+      $filter = <<<EOFILTER
+  <C:filter>
+    <C:comp-filter name="VCALENDAR">
+          <C:comp-filter name="VTODO">
+                <C:prop-filter name="UID">
+                        <C:text-match icollation="i;octet">$uid</C:text-match>
+                </C:prop-filter>
+          </C:comp-filter>
+    </C:comp-filter>
+  </C:filter>
+EOFILTER;
+    }
+
+    return DoCalendarQuery($filter, $relative_url);
+  }
+
+
+  /**
+  * Get the calendar entry by HREF
+  *
+  * @param string    $href         The href from a call to GetEvents or GetTodos etc.
+  * @param string    $relative_url The URL relative to the base_url specified when the calendar was opened.  Default ''.
+  *
+  * @return string The iCalendar of the calendar entry
+  */
+  function GetEntryByHref( $href, $relative_url = '' ) {
+    return DoGETRequest( $relative_url . $href );
+  }
 
 }
 
@@ -367,5 +477,7 @@ if ( isset($options["PROPFIND"] ) {
 }
 // Fetch all events for February
 $events = $cal->GetEvents("20070101T000000Z","20070201T000000Z");
+foreach ( $events AS $k => $event ) {
+  do_something_with_event_data( $event['data'] );
+}
 */
-
