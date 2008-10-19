@@ -2,7 +2,8 @@
 /**
 * A Class for connecting to a caldav server
 *
-* @package caldav
+* @package   awl
+* @subpackage   caldav
 * @author Andrew McMillan <debian@mcmillan.net.nz>
 * @copyright Andrew McMillan
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v2
@@ -49,7 +50,7 @@ function __curl_read_callback( $ch, $fd, $length) {
 /**
 * A class for accessing DAViCal via CalDAV, as a client
 *
-* @package   caldav
+* @package   awl
 */
 class CalDAVClient {
   /**
@@ -303,7 +304,6 @@ class CalDAVClient {
 <?xml version="1.0" encoding="utf-8" ?>
 <calendar-query xmlns:D="DAV:" xmlns="urn:ietf:params:xml:ns:caldav">
   <D:prop>
-    <href/>
     <calendar-data/>
     <D:getetag/>
   </D:prop>$filter
