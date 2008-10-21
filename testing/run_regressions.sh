@@ -30,12 +30,15 @@ check_result() {
     echo "======================================="
     cat "${REGRESSION}/diffs/${TEST}"
     if [ "${ACCEPT_ALL}" = "" ] ; then
-      read -p "Accept this as new standard result [y/N]? " ACCEPT
+      read -p "Accept this as new standard result [x/y/N]? " ACCEPT
     else
       ACCEPT=${ACCEPT_ALL}
     fi
     if [ "${ACCEPT}" = "y" ] ; then
       cp "${RESULTS}/${TEST}" "${REGRESSION}/${TEST}.result"
+    elif [ "${ACCEPT}" = "x" ]; then
+      echo "./dav_test --dsn '${DSN}' --suite regression-suite --case '${TEST}' | ./normalise_result > '${RESULTS}/${TEST}'"
+      exit
     fi
   else
     echo "Test ${TEST} passed OK!"
