@@ -16,8 +16,8 @@
 * the array in $c->pg_connect.
 * used in the web interface but also the caldav Server
 */
-$c->pg_connect[] = "dbname=davical user=general";
-// $c->pg_connect[] = "dbname=davical user=general port=5433 host=somehost password=mypass";
+$c->pg_connect[] = "dbname=davical user=davical_app";
+// $c->pg_connect[] = "dbname=davical user=davical_app port=5433 host=somehost password=mypass";
 
 
 /****************************
@@ -25,24 +25,28 @@ $c->pg_connect[] = "dbname=davical user=general";
 *****************************/
 
 /**
-* default : Really Simple CalDAV Store
+* default : DAViCal CalDAV Server
 * Is used to specify the authentication realm of the server, as well as
 * being used as a name to display in various places.
 */
-$c->system_name = "Really Simple CalDAV Store";
+// $c->system_name = "DAViCal CalDAV Server";
 
 /**
 * default is false
 * If true, then events requested from someone other than the admmin or owner
 * of a calendar will not get any alarm for it.  Some client software also
-* allows you to configure calendar by calendar which ones allow alarms.
+* allows you to configure calendar by calendar which ones allow alarms, which
+* is better really, but if you aren't using such software you probably want
+* to set this to true.
 */
 $c->hide_alarm = true;
 
 /**
 *default is false
 *If true, then TODO requested  from someone other than the admmin or owner
-* of a calendar will not get any answer
+* of a calendar will not get any answer.  Often these todo are only relevant
+* to the owner, but in some shared calendar situations they might not be in
+* which case you should let this default to false.
 */
 $c->hide_TODO = true;
 
