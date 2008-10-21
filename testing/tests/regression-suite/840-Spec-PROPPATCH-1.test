@@ -14,11 +14,8 @@ BEGINDATA
 <propertyupdate xmlns="DAV:" xmlns:X="urn:mcmillan:bogus:xml:ns:rscds"> 
   <set> 
     <prop> 
-      <owner> 
-        <href>http://www.example.com/acl/users/jim</href> 
-      </owner> 
       <X:arbitrary>A completely bogus property which should be saved.</X:arbitrary>
-      <displayname>User One's Calendar</displayname> 
+      <displayname>User One's Not Calendar</displayname> 
     </prop> 
   </set> 
   <remove> 
@@ -33,12 +30,12 @@ ENDDATA
 
 QUERY
 SELECT dav_displayname, dav_etag, is_calendar,
-       modified > (current_timestamp - '30 seconds'::interval) AS changed_last_30secs
+       modified > (current_timestamp - '60 seconds'::interval) AS changed_last_60secs
   FROM collection WHERE dav_name = '/user1/home/'
 ENDQUERY
 
 QUERY
 SELECT dav_name, property_name, property_value, changed_by,
-       changed_on > (current_timestamp - '30 seconds'::interval) AS changed_last_30secs
+       changed_on > (current_timestamp - '60 seconds'::interval) AS changed_last_30secs
   FROM property ORDER BY dav_name, property_name
 ENDQUERY

@@ -1,7 +1,7 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, access-control, calendar-access
-ETag: "373430133d9c51260783bc61177aa1d3"
+ETag: "90e547688ba83623d3ba31c810afa04f"
 Content-Length: 1880
 Content-Type: text/xml; charset="utf-8"
 
@@ -24,11 +24,11 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/</href>
   <propstat>
    <prop>
-    <getcontenttype>httpd/unix-directory</getcontenttype>
     <getcontentlength/>
+    <getcontenttype>httpd/unix-directory</getcontenttype>
     <resourcetype>
-     <collection/>
      <principal/>
+     <collection/>
     </resourcetype>
    </prop>
    <status>HTTP/1.1 200 OK</status>
@@ -38,11 +38,11 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/manager1/</href>
   <propstat>
    <prop>
-    <getcontenttype>httpd/unix-directory</getcontenttype>
     <getcontentlength/>
+    <getcontenttype>httpd/unix-directory</getcontenttype>
     <resourcetype>
-     <collection/>
      <principal/>
+     <collection/>
     </resourcetype>
    </prop>
    <status>HTTP/1.1 200 OK</status>
@@ -52,11 +52,11 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/assistant1/</href>
   <propstat>
    <prop>
-    <getcontenttype>httpd/unix-directory</getcontenttype>
     <getcontentlength/>
+    <getcontenttype>httpd/unix-directory</getcontenttype>
     <resourcetype>
-     <collection/>
      <principal/>
+     <collection/>
     </resourcetype>
    </prop>
    <status>HTTP/1.1 200 OK</status>
@@ -66,11 +66,11 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/resource1/</href>
   <propstat>
    <prop>
-    <getcontenttype>httpd/unix-directory</getcontenttype>
     <getcontentlength/>
+    <getcontenttype>httpd/unix-directory</getcontenttype>
     <resourcetype>
-     <collection/>
      <principal/>
+     <collection/>
     </resourcetype>
    </prop>
    <status>HTTP/1.1 200 OK</status>
@@ -80,11 +80,11 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/resource2/</href>
   <propstat>
    <prop>
-    <getcontenttype>httpd/unix-directory</getcontenttype>
     <getcontentlength/>
+    <getcontenttype>httpd/unix-directory</getcontenttype>
     <resourcetype>
-     <collection/>
      <principal/>
+     <collection/>
     </resourcetype>
    </prop>
    <status>HTTP/1.1 200 OK</status>

@@ -1,18 +1,18 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, access-control, calendar-access
-ETag: "cffcf7a710204d19f988b512720549cd"
-Content-Length: 1383
+ETag: "72e80e517b5e1c056e229b6985200b27"
+Content-Length: 1389
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
-<multistatus xmlns="DAV:">
+<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
  <response>
   <href>/caldav.php/user1/home/AAA9318E-37D9-4319-8626-95ECD3D3B243.ics</href>
   <propstat>
    <prop>
     <getetag>"5f050eca5480bbebbe9428222570913d"</getetag>
-    <calendar-data xmlns="urn:ietf:params:xml:ns:caldav">BEGIN:VCALENDAR
+    <C:calendar-data>BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//Apple Inc.//iCal 3.0//EN
 CALSCALE:GREGORIAN
@@ -58,7 +58,7 @@ ATTACH;VALUE=URI:Basso
 END:VALARM
 END:VEVENT
 END:VCALENDAR
-</calendar-data>
+</C:calendar-data>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>

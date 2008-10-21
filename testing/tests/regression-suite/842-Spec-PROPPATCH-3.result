@@ -10,7 +10,7 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/home/</href>
   <propstat>
    <prop>
-    <DAV::RESOURCETYPE/>
+    <DAV::resourcetype/>
    </prop>
    <status>HTTP/1.1 409 Conflict</status>
    <responsedescription>Resources may not be changed to / from collections.</responsedescription>

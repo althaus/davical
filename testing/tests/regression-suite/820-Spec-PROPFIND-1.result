@@ -5,14 +5,14 @@
   <propstat>
    <prop>
     <getcontenttype>httpd/unix-directory</getcontenttype>
-    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
     <getcontentlength>12644</getcontentlength>
-    <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
     <resourcetype>
      <collection/>
      <C:calendar/>
     </resourcetype>
     <displayname>home</displayname>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
     <getetag>"faf25336de0e470a54075c14cbcf5272"</getetag>
     <acl>
      <ace>
@@ -23,7 +23,7 @@
       </grant>
      </ace>
     </acl>
-    <getcontentlanguage>en_NZ.UTF-8</getcontentlanguage>
+    <getcontentlanguage/>
     <supportedlock>
      <lockentry>
       <lockscope>

@@ -1,17 +1,17 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, access-control, calendar-access
-ETag: "62d5362cafb71b92c39ff83bfec5f16d"
-Content-Length: 1095
+ETag: "8499ce6e92d129b549025ba6ceabe941"
+Content-Length: 1101
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
-<multistatus xmlns="DAV:">
+<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
  <response>
   <href>/caldav.php/resource2/home/0A5EA1F0F2691A03E917E85F9F255448-0.ics</href>
   <propstat>
    <prop>
-    <calendar-data xmlns="urn:ietf:params:xml:ns:caldav">BEGIN:VCALENDAR
+    <C:calendar-data>BEGIN:VCALENDAR
 CALSCALE:GREGORIAN
 PRODID:-//mulberrymail.com//Mulberry v4.0//EN
 VERSION:2.0
@@ -44,7 +44,7 @@ SUMMARY:Booking resource 2
 UID:C8344958F0CC35344E063A04@D76FAF7B10D9E8D2D41F779C
 END:VEVENT
 END:VCALENDAR
-</calendar-data>
+</C:calendar-data>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>

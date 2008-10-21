@@ -1,18 +1,18 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, access-control, calendar-access
-ETag: "397326b3cb1f0f6b7c82ddcfb9d619b9"
-Content-Length: 1602
+ETag: "8bfa1d55385dd1c0d877ba64358b56d4"
+Content-Length: 1574
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
-<multistatus xmlns="DAV:">
+<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
  <response>
   <href>/davical/caldav.php/user1/home/2178279a-aec2-471f-832d-1f6df6203f2f.ics</href>
   <propstat>
    <prop>
     <getetag>"509b0f0d8a3363379f9f5727f5dd74a0"</getetag>
-    <calendar-data xmlns="urn:ietf:params:xml:ns:caldav">BEGIN:VCALENDAR
+    <C:calendar-data>BEGIN:VCALENDAR
 PRODID:-//Mozilla Calendar//NONSGML Sunbird//EN
 VERSION:2.0
 BEGIN:VTODO
@@ -26,7 +26,7 @@ DESCRIPTION:This task is incomplete and has not been cancelled (has no
  status at all)
 END:VTODO
 END:VCALENDAR
-</calendar-data>
+</C:calendar-data>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -36,7 +36,7 @@ END:VCALENDAR
   <propstat>
    <prop>
     <getetag>"cb3d9dc3e8c157f53eba3ea0e1e0f146"</getetag>
-    <calendar-data xmlns="urn:ietf:params:xml:ns:caldav">BEGIN:VCALENDAR
+    <C:calendar-data>BEGIN:VCALENDAR
 PRODID:-//Mozilla Calendar//NONSGML Sunbird//EN
 VERSION:2.0
 BEGIN:VTODO
@@ -52,7 +52,7 @@ DESCRIPTION:This task is in progress (50% complete) and has not been
  cancelled.
 END:VTODO
 END:VCALENDAR
-</calendar-data>
+</C:calendar-data>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>

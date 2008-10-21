@@ -1,7 +1,7 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, access-control, calendar-access
-ETag: "389ac8095128eacc4fd28339b0741d4d"
+ETag: "c7ca7fc8ae44ae68bf5fd56363acb923"
 Transfer-Encoding: chunked
 Content-Type: text/xml; charset="utf-8"
 
@@ -15,6 +15,7 @@ Content-Type: text/xml; charset="utf-8"
      <href>/caldav.php/user1/</href>
     </C:calendar-home-set>
     <C:calendar-user-address-set>
+     <href>mailto:user1@example.net</href>
      <href>/caldav.php/user1/</href>
     </C:calendar-user-address-set>
    </prop>
@@ -22,8 +23,8 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
   <propstat>
    <prop>
-    <A:dropbox-home-url/>
-    <A:notifications-url/>
+    <A:dropbox-home-URL/>
+    <A:notifications-URL/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
@@ -36,6 +37,7 @@ Content-Type: text/xml; charset="utf-8"
      <href>/caldav.php/user1/</href>
     </C:calendar-home-set>
     <C:calendar-user-address-set>
+     <href>mailto:user1@example.net</href>
      <href>/caldav.php/user1/</href>
     </C:calendar-user-address-set>
    </prop>
@@ -43,8 +45,8 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
   <propstat>
    <prop>
-    <A:dropbox-home-url/>
-    <A:notifications-url/>
+    <A:dropbox-home-URL/>
+    <A:notifications-URL/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
@@ -57,6 +59,7 @@ Content-Type: text/xml; charset="utf-8"
      <href>/caldav.php/user1/</href>
     </C:calendar-home-set>
     <C:calendar-user-address-set>
+     <href>mailto:user1@example.net</href>
      <href>/caldav.php/user1/</href>
     </C:calendar-user-address-set>
    </prop>
@@ -71,6 +74,7 @@ Content-Type: text/xml; charset="utf-8"
      <href>/caldav.php/user1/</href>
     </C:calendar-home-set>
     <C:calendar-user-address-set>
+     <href>mailto:user1@example.net</href>
      <href>/caldav.php/user1/</href>
     </C:calendar-user-address-set>
    </prop>
@@ -85,6 +89,7 @@ Content-Type: text/xml; charset="utf-8"
      <href>/caldav.php/user1/</href>
     </C:calendar-home-set>
     <C:calendar-user-address-set>
+     <href>mailto:user1@example.net</href>
      <href>/caldav.php/user1/</href>
     </C:calendar-user-address-set>
    </prop>
@@ -99,6 +104,7 @@ Content-Type: text/xml; charset="utf-8"
      <href>/caldav.php/user1/</href>
     </C:calendar-home-set>
     <C:calendar-user-address-set>
+     <href>mailto:user1@example.net</href>
      <href>/caldav.php/user1/</href>
     </C:calendar-user-address-set>
    </prop>
@@ -113,6 +119,7 @@ Content-Type: text/xml; charset="utf-8"
      <href>/caldav.php/user1/</href>
     </C:calendar-home-set>
     <C:calendar-user-address-set>
+     <href>mailto:user1@example.net</href>
      <href>/caldav.php/user1/</href>
     </C:calendar-user-address-set>
    </prop>
@@ -127,6 +134,7 @@ Content-Type: text/xml; charset="utf-8"
      <href>/caldav.php/user1/</href>
     </C:calendar-home-set>
     <C:calendar-user-address-set>
+     <href>mailto:user1@example.net</href>
      <href>/caldav.php/user1/</href>
     </C:calendar-user-address-set>
    </prop>
@@ -141,6 +149,7 @@ Content-Type: text/xml; charset="utf-8"
      <href>/caldav.php/user1/</href>
     </C:calendar-home-set>
     <C:calendar-user-address-set>
+     <href>mailto:user1@example.net</href>
      <href>/caldav.php/user1/</href>
     </C:calendar-user-address-set>
    </prop>
@@ -155,6 +164,7 @@ Content-Type: text/xml; charset="utf-8"
      <href>/caldav.php/user1/</href>
     </C:calendar-home-set>
     <C:calendar-user-address-set>
+     <href>mailto:user1@example.net</href>
      <href>/caldav.php/user1/</href>
     </C:calendar-user-address-set>
    </prop>
@@ -169,6 +179,7 @@ Content-Type: text/xml; charset="utf-8"
      <href>/caldav.php/user1/</href>
     </C:calendar-home-set>
     <C:calendar-user-address-set>
+     <href>mailto:user1@example.net</href>
      <href>/caldav.php/user1/</href>
     </C:calendar-user-address-set>
    </prop>
@@ -183,6 +194,7 @@ Content-Type: text/xml; charset="utf-8"
      <href>/caldav.php/user1/</href>
     </C:calendar-home-set>
     <C:calendar-user-address-set>
+     <href>mailto:user1@example.net</href>
      <href>/caldav.php/user1/</href>
     </C:calendar-user-address-set>
    </prop>
@@ -197,6 +209,7 @@ Content-Type: text/xml; charset="utf-8"
      <href>/caldav.php/user1/</href>
     </C:calendar-home-set>
     <C:calendar-user-address-set>
+     <href>mailto:user1@example.net</href>
      <href>/caldav.php/user1/</href>
     </C:calendar-user-address-set>
    </prop>
@@ -211,6 +224,7 @@ Content-Type: text/xml; charset="utf-8"
      <href>/caldav.php/user1/</href>
     </C:calendar-home-set>
     <C:calendar-user-address-set>
+     <href>mailto:user1@example.net</href>
      <href>/caldav.php/user1/</href>
     </C:calendar-user-address-set>
    </prop>
@@ -225,6 +239,7 @@ Content-Type: text/xml; charset="utf-8"
      <href>/caldav.php/user1/</href>
     </C:calendar-home-set>
     <C:calendar-user-address-set>
+     <href>mailto:user1@example.net</href>
      <href>/caldav.php/user1/</href>
     </C:calendar-user-address-set>
    </prop>
@@ -239,6 +254,7 @@ Content-Type: text/xml; charset="utf-8"
      <href>/caldav.php/user1/</href>
     </C:calendar-home-set>
     <C:calendar-user-address-set>
+     <href>mailto:user1@example.net</href>
      <href>/caldav.php/user1/</href>
     </C:calendar-user-address-set>
    </prop>
@@ -253,6 +269,7 @@ Content-Type: text/xml; charset="utf-8"
      <href>/caldav.php/user1/</href>
     </C:calendar-home-set>
     <C:calendar-user-address-set>
+     <href>mailto:user1@example.net</href>
      <href>/caldav.php/user1/</href>
     </C:calendar-user-address-set>
    </prop>
@@ -267,6 +284,7 @@ Content-Type: text/xml; charset="utf-8"
      <href>/caldav.php/user1/</href>
     </C:calendar-home-set>
     <C:calendar-user-address-set>
+     <href>mailto:user1@example.net</href>
      <href>/caldav.php/user1/</href>
     </C:calendar-user-address-set>
    </prop>
@@ -274,8 +292,8 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
   <propstat>
    <prop>
-    <A:dropbox-home-url/>
-    <A:notifications-url/>
+    <A:dropbox-home-URL/>
+    <A:notifications-URL/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
@@ -288,6 +306,7 @@ Content-Type: text/xml; charset="utf-8"
      <href>/caldav.php/user1/</href>
     </C:calendar-home-set>
     <C:calendar-user-address-set>
+     <href>mailto:user1@example.net</href>
      <href>/caldav.php/user1/</href>
     </C:calendar-user-address-set>
    </prop>
@@ -302,6 +321,7 @@ Content-Type: text/xml; charset="utf-8"
      <href>/caldav.php/user1/</href>
     </C:calendar-home-set>
     <C:calendar-user-address-set>
+     <href>mailto:user1@example.net</href>
      <href>/caldav.php/user1/</href>
     </C:calendar-user-address-set>
    </prop>

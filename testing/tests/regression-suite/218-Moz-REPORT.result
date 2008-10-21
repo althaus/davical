@@ -1,17 +1,17 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, access-control, calendar-access
-ETag: "f7c12929e08c550e63f2fb435ed40c85"
-Content-Length: 3002
+ETag: "9bb6e0d1164014233e77fccb7adac4cd"
+Content-Length: 2940
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
-<multistatus xmlns="DAV:">
+<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
  <response>
   <href>/caldav.php/user1/home/4aaf8f37-f232-4c8e-a72e-e171d4c4fe54.ics</href>
   <propstat>
    <prop>
-    <calendar-data xmlns="urn:ietf:params:xml:ns:caldav">BEGIN:VCALENDAR
+    <C:calendar-data>BEGIN:VCALENDAR
 PRODID:-//Mozilla Calendar//NONSGML Sunbird//EN
 VERSION:2.0
 BEGIN:VEVENT
@@ -47,7 +47,7 @@ RRULE:FREQ=YEARLY;INTERVAL=1;BYDAY=1SU;BYMONTH=10
 END:DAYLIGHT
 END:VTIMEZONE
 END:VCALENDAR
-</calendar-data>
+</C:calendar-data>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -56,7 +56,7 @@ END:VCALENDAR
   <href>/caldav.php/user1/home/9d050be7-8a02-4355-8ed3-02a9fc5f473f.ics</href>
   <propstat>
    <prop>
-    <calendar-data xmlns="urn:ietf:params:xml:ns:caldav">BEGIN:VCALENDAR
+    <C:calendar-data>BEGIN:VCALENDAR
 PRODID:-//Catalyst.Net.NZ//NONSGML AWL Calendar//EN
 VERSION:2.0
 BEGIN:VEVENT
@@ -66,7 +66,7 @@ DTSTART:20061223T160000
 DTEND:20061223T180000
 END:VEVENT
 END:VCALENDAR
-</calendar-data>
+</C:calendar-data>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -75,7 +75,7 @@ END:VCALENDAR
   <href>/caldav.php/user1/home/fbd57454-d966-4a14-8341-abe1edb1ae66.ics</href>
   <propstat>
    <prop>
-    <calendar-data xmlns="urn:ietf:params:xml:ns:caldav">BEGIN:VCALENDAR
+    <C:calendar-data>BEGIN:VCALENDAR
 PRODID:-//Mozilla Calendar//NONSGML Sunbird//EN
 VERSION:2.0
 BEGIN:VEVENT
@@ -110,7 +110,7 @@ RRULE:FREQ=YEARLY;INTERVAL=1;BYDAY=1SU;BYMONTH=10
 END:DAYLIGHT
 END:VTIMEZONE
 END:VCALENDAR
-</calendar-data>
+</C:calendar-data>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>

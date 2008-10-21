@@ -25,8 +25,8 @@ BEGINDATA
   <C:calendar-home-set/>
   <displayname/>
   <resourcetype/>
-  <principal-url/>
-  <alternate-uri/>
+  <principal-URL/>
+  <alternate-URI-set/>
   <group-member-set/>
   <group-membership/>
  </prop>

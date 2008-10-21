@@ -24,6 +24,6 @@ ENDDATA
 
 QUERY
 SELECT dav_displayname, dav_etag, is_calendar, 
-       modified > (current_timestamp - '5 seconds'::interval) AS changed_last_5secs 
+       modified > (current_timestamp - '60 seconds'::interval) AS changed_last_60secs 
   FROM collection WHERE dav_name = '/user1/home/';
 ENDQUERY

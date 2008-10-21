@@ -6,3 +6,14 @@ URL=http://mycaldav/caldav.php/
 HEADER=Depth: 1
 HEADER=Content-Type: text/xml; charset=utf-8
 HEAD
+
+BEGINDATA
+<?xml version="1.0" encoding="utf-8" ?>
+<D:propfind xmlns:D="DAV:">
+<D:prop>
+<D:getcontentlength/>
+<D:getcontenttype/>
+<D:resourcetype/>
+</D:prop>
+</D:propfind>
+ENDDATA

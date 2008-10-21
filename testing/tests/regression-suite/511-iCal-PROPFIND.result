@@ -1,8 +1,8 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, access-control, calendar-access
-ETag: "56a84b1b0c3881d98a25fd43c01ad94e"
-Content-Length: 659
+ETag: "f198ba2785d7ce129f5017d877e37a9b"
+Content-Length: 878
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -15,16 +15,23 @@ Content-Type: text/xml; charset="utf-8"
     <C:calendar-home-set>
      <href>/user1/</href>
     </C:calendar-home-set>
+    <C:schedule-inbox-URL>
+     <href>/user1/.in/</href>
+    </C:schedule-inbox-URL>
+    <C:schedule-outbox-URL>
+     <href>/user1/.out/</href>
+    </C:schedule-outbox-URL>
+    <C:calendar-user-address-set>
+     <href>mailto:user1@example.net</href>
+     <href>/user1/</href>
+    </C:calendar-user-address-set>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
   <propstat>
    <prop>
-    <C:calendar-user-address-set/>
-    <C:schedule-inbox-url/>
-    <C:schedule-outbox-url/>
-    <C1:dropbox-home-url/>
-    <C1:notifications-url/>
+    <C1:dropbox-home-URL/>
+    <C1:notifications-URL/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>

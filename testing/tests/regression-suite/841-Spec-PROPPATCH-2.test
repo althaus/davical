@@ -15,7 +15,6 @@ BEGINDATA
 <propertyupdate xmlns="DAV:"> 
   <set> 
     <prop> 
-      <owner/> 
       <resourcetype> 
         <collection/>
         <calendar xmlns="urn:ietf:params:xml:ns:caldav"/>
@@ -25,7 +24,7 @@ BEGINDATA
   </set> 
   <remove> 
     <prop> 
-      <owner/> 
+      <arbitrary xmlns="urn:mcmillan:bogus:xml:ns:rscds"/> 
     </prop> 
   </remove> 
 </propertyupdate>
@@ -33,6 +32,6 @@ ENDDATA
 
 QUERY
 SELECT dav_displayname, dav_etag, is_calendar, 
-       modified > (current_timestamp - '5 seconds'::interval) AS changed_last_5secs 
+       modified > (current_timestamp - '60 seconds'::interval) AS changed_last_60secs 
   FROM collection WHERE dav_name = '/user1/home/';
 ENDQUERY

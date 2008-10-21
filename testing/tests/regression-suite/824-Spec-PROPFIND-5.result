@@ -4,50 +4,17 @@
   <href>/caldav.php/user1/home/</href>
   <propstat>
    <prop>
-    <C:supported-collation-set>
-     <C:supported-collation>i;ascii-casemap</C:supported-collation>
-     <C:supported-collation>i;octet</C:supported-collation>
-    </C:supported-collation-set>
-    <C:supported-calendar-component-set>
-     <C:comp name="VEVENT"/>
-     <C:comp name="VTODO"/>
-    </C:supported-calendar-component-set>
     <getcontenttype>httpd/unix-directory</getcontenttype>
-    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
     <getcontentlength>12644</getcontentlength>
-    <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
     <resourcetype>
      <collection/>
      <C:calendar/>
     </resourcetype>
     <displayname>home</displayname>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
     <getetag>"faf25336de0e470a54075c14cbcf5272"</getetag>
-    <current-user-privilege-set>
-     <privilege>
-      <all/>
-     </privilege>
-    </current-user-privilege-set>
-    <getcontentlanguage>en_NZ.UTF-8</getcontentlanguage>
-    <supported-privilege-set>
-     <supported-privilege>
-      <all/>
-     </supported-privilege>
-     <supported-privilege>
-      <read/>
-     </supported-privilege>
-     <supported-privilege>
-      <write/>
-     </supported-privilege>
-     <supported-privilege>
-      <bind/>
-     </supported-privilege>
-     <supported-privilege>
-      <unbind/>
-     </supported-privilege>
-     <supported-privilege>
-      <write-content/>
-     </supported-privilege>
-    </supported-privilege-set>
+    <getcontentlanguage/>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>

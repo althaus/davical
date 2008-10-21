@@ -1,8 +1,8 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, access-control, calendar-access
-ETag: "f90fce514cd7d7155fcb48f704e9f171"
-Content-Length: 651
+ETag: "600c4b10a558bf4dcaff71d767733dbc"
+Content-Length: 694
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -15,6 +15,7 @@ Content-Type: text/xml; charset="utf-8"
      <href>/caldav.php/user1/</href>
     </C:calendar-home-set>
     <C:calendar-user-address-set>
+     <href>mailto:user1@example.net</href>
      <href>/caldav.php/user1/</href>
     </C:calendar-user-address-set>
    </prop>
@@ -22,8 +23,8 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
   <propstat>
    <prop>
-    <A:dropbox-home-url/>
-    <A:notifications-url/>
+    <A:dropbox-home-URL/>
+    <A:notifications-URL/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>

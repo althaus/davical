@@ -5,13 +5,13 @@
   <propstat>
    <prop>
     <getcontenttype>httpd/unix-directory</getcontenttype>
-    <getlastmodified/>
     <getcontentlength/>
-    <creationdate>YYYYMMDDThhmmss</creationdate>
     <resourcetype>
      <collection/>
     </resourcetype>
     <displayname>DAViCal CalDAV Server</displayname>
+    <getlastmodified/>
+    <creationdate>YYYYMMDDThhmmss</creationdate>
     <getetag>"38f09ba341cd927809b571496db6e4c3"</getetag>
     <acl>
      <ace>
@@ -22,7 +22,7 @@
       </grant>
      </ace>
     </acl>
-    <getcontentlanguage>en_NZ.UTF-8</getcontentlanguage>
+    <getcontentlanguage/>
     <supportedlock>
      <lockentry>
       <lockscope>
@@ -50,16 +50,6 @@
   <href>/user1/</href>
   <propstat>
    <prop>
-    <getcontenttype>httpd/unix-directory</getcontenttype>
-    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <getcontentlength/>
-    <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
-    <resourcetype>
-     <collection/>
-     <principal/>
-    </resourcetype>
-    <displayname>User 1</displayname>
-    <getetag>"7d0fd5137942261bee17da4287f71494"</getetag>
     <acl>
      <ace>
       <principal>
@@ -69,7 +59,16 @@
       </grant>
      </ace>
     </acl>
-    <getcontentlanguage>en_NZ.UTF-8</getcontentlanguage>
+    <creationdate/>
+    <displayname>User 1</displayname>
+    <getcontentlanguage/>
+    <getcontentlength/>
+    <getcontenttype>httpd/unix-directory</getcontenttype>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <resourcetype>
+     <principal/>
+     <collection/>
+    </resourcetype>
     <supportedlock>
      <lockentry>
       <lockscope>
@@ -85,10 +84,7 @@
   </propstat>
   <propstat>
    <prop>
-    <lockdiscovery/>
-    <source/>
-    <checked-in/>
-    <checked-out/>
+    <getetag/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
@@ -97,16 +93,6 @@
   <href>/manager1/</href>
   <propstat>
    <prop>
-    <getcontenttype>httpd/unix-directory</getcontenttype>
-    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <getcontentlength/>
-    <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
-    <resourcetype>
-     <collection/>
-     <principal/>
-    </resourcetype>
-    <displayname>Manager 1</displayname>
-    <getetag>"ec5b8b282c4a9c7b73d1e5bf610f0648"</getetag>
     <acl>
      <ace>
       <principal>
@@ -116,7 +102,16 @@
       </grant>
      </ace>
     </acl>
-    <getcontentlanguage>en_NZ.UTF-8</getcontentlanguage>
+    <creationdate/>
+    <displayname>Manager 1</displayname>
+    <getcontentlanguage/>
+    <getcontentlength/>
+    <getcontenttype>httpd/unix-directory</getcontenttype>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <resourcetype>
+     <principal/>
+     <collection/>
+    </resourcetype>
     <supportedlock>
      <lockentry>
       <lockscope>
@@ -132,10 +127,7 @@
   </propstat>
   <propstat>
    <prop>
-    <lockdiscovery/>
-    <source/>
-    <checked-in/>
-    <checked-out/>
+    <getetag/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
@@ -144,16 +136,6 @@
   <href>/assistant1/</href>
   <propstat>
    <prop>
-    <getcontenttype>httpd/unix-directory</getcontenttype>
-    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <getcontentlength/>
-    <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
-    <resourcetype>
-     <collection/>
-     <principal/>
-    </resourcetype>
-    <displayname>Assistant 1</displayname>
-    <getetag>"b1f51f4e0cee340892205b0d7d514134"</getetag>
     <acl>
      <ace>
       <principal>
@@ -163,7 +145,16 @@
       </grant>
      </ace>
     </acl>
-    <getcontentlanguage>en_NZ.UTF-8</getcontentlanguage>
+    <creationdate/>
+    <displayname>Assistant 1</displayname>
+    <getcontentlanguage/>
+    <getcontentlength/>
+    <getcontenttype>httpd/unix-directory</getcontenttype>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <resourcetype>
+     <principal/>
+     <collection/>
+    </resourcetype>
     <supportedlock>
      <lockentry>
       <lockscope>
@@ -179,10 +170,7 @@
   </propstat>
   <propstat>
    <prop>
-    <lockdiscovery/>
-    <source/>
-    <checked-in/>
-    <checked-out/>
+    <getetag/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
@@ -191,16 +179,6 @@
   <href>/resource1/</href>
   <propstat>
    <prop>
-    <getcontenttype>httpd/unix-directory</getcontenttype>
-    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <getcontentlength/>
-    <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
-    <resourcetype>
-     <collection/>
-     <principal/>
-    </resourcetype>
-    <displayname>Resource 1</displayname>
-    <getetag>"7877b4ffa943232dbc624c0249c27e55"</getetag>
     <acl>
      <ace>
       <principal>
@@ -210,7 +188,16 @@
       </grant>
      </ace>
     </acl>
-    <getcontentlanguage>en_NZ.UTF-8</getcontentlanguage>
+    <creationdate/>
+    <displayname>Resource 1</displayname>
+    <getcontentlanguage/>
+    <getcontentlength/>
+    <getcontenttype>httpd/unix-directory</getcontenttype>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <resourcetype>
+     <principal/>
+     <collection/>
+    </resourcetype>
     <supportedlock>
      <lockentry>
       <lockscope>
@@ -226,10 +213,7 @@
   </propstat>
   <propstat>
    <prop>
-    <lockdiscovery/>
-    <source/>
-    <checked-in/>
-    <checked-out/>
+    <getetag/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
@@ -238,16 +222,6 @@
   <href>/resource2/</href>
   <propstat>
    <prop>
-    <getcontenttype>httpd/unix-directory</getcontenttype>
-    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <getcontentlength/>
-    <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
-    <resourcetype>
-     <collection/>
-     <principal/>
-    </resourcetype>
-    <displayname>Resource 2</displayname>
-    <getetag>"658fc7067081793e3c1e27b32f935020"</getetag>
     <acl>
      <ace>
       <principal>
@@ -257,7 +231,16 @@
       </grant>
      </ace>
     </acl>
-    <getcontentlanguage>en_NZ.UTF-8</getcontentlanguage>
+    <creationdate/>
+    <displayname>Resource 2</displayname>
+    <getcontentlanguage/>
+    <getcontentlength/>
+    <getcontenttype>httpd/unix-directory</getcontenttype>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <resourcetype>
+     <principal/>
+     <collection/>
+    </resourcetype>
     <supportedlock>
      <lockentry>
       <lockscope>
@@ -273,10 +256,7 @@
   </propstat>
   <propstat>
    <prop>
-    <lockdiscovery/>
-    <source/>
-    <checked-in/>
-    <checked-out/>
+    <getetag/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>

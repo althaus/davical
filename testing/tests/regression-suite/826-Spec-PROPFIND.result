@@ -5,13 +5,13 @@
   <propstat>
    <prop>
     <getcontenttype>httpd/unix-directory</getcontenttype>
-    <getlastmodified/>
     <getcontentlength/>
-    <creationdate>YYYYMMDDThhmmss</creationdate>
     <resourcetype>
      <collection/>
     </resourcetype>
     <displayname>DAViCal CalDAV Server</displayname>
+    <getlastmodified/>
+    <creationdate>YYYYMMDDThhmmss</creationdate>
     <getetag>"38f09ba341cd927809b571496db6e4c3"</getetag>
     <acl>
      <ace>
@@ -22,7 +22,7 @@
       </grant>
      </ace>
     </acl>
-    <getcontentlanguage>en_NZ.UTF-8</getcontentlanguage>
+    <getcontentlanguage/>
     <supportedlock>
      <lockentry>
       <lockscope>

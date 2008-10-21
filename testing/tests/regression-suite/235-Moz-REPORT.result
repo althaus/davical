@@ -1,18 +1,18 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, access-control, calendar-access
-ETag: "c4532eec08793ee4b4f24deb4588f9be"
-Content-Length: 1521
+ETag: "7c1cd3dd9aa20bfd2ce309046cdff993"
+Content-Length: 1527
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
-<multistatus xmlns="DAV:">
+<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
  <response>
   <href>/caldav.php/user1/home/e70576e9-c1e0-431e-a507-0386fd82f223.ics</href>
   <propstat>
    <prop>
     <getetag>"e8060931f30c1798ac58ffbe4ec0bffc"</getetag>
-    <calendar-data xmlns="urn:ietf:params:xml:ns:caldav">BEGIN:VCALENDAR
+    <C:calendar-data>BEGIN:VCALENDAR
 PRODID:-//Mozilla Calendar//NONSGML Sunbird//EN
 VERSION:2.0
 BEGIN:VTIMEZONE
@@ -53,7 +53,7 @@ ACTION:DISPLAY
 END:VALARM
 END:VEVENT
 END:VCALENDAR
-</calendar-data>
+</C:calendar-data>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>

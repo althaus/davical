@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav" xmlns:R="urn:mcmillan:bogus:xml:ns:rscds">
+<multistatus xmlns="DAV:" xmlns:R="urn:mcmillan:bogus:xml:ns:rscds">
  <response>
   <href>/caldav.php/user1/home/</href>
   <propstat>
    <prop>
     <displayname>User One's Calendar</displayname>
-    <R:arbitrary>A completely bogus property which should be saved.</R:arbitrary>
+    <owner>
+     <href>mailto:user1@example.net</href>
+    </owner>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
   <propstat>
    <prop>
-    <owner/>
+    <R:arbitrary/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
