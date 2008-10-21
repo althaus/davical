@@ -4,8 +4,8 @@
 *
 * @package   davical
 * @subpackage   caldav
-* @author    Andrew McMillan <andrew@catalyst.net.nz>
-* @copyright Catalyst .Net Ltd
+* @author    Andrew McMillan <andrew@mcmillan.net.nz>
+* @copyright Morphoss Ltd - http://www.morphoss.com/
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v2
 */
 dbg_error_log("PROPPATCH", "method handler");
@@ -19,15 +19,15 @@ $xmltree = BuildXMLTree( $request->xml_tags, $position);
 
 // echo $xmltree->Render();
 
-if ( $xmltree->GetTag() != "DAV::PROPERTYUPDATE" ) {
+if ( $xmltree->GetTag() != "DAV::propertyupdate" ) {
   $request->DoResponse( 403 );
 }
 
 /**
 * Find the properties being set, and the properties being removed
 */
-$setprops = $xmltree->GetPath("/DAV::PROPERTYUPDATE/DAV::SET/DAV::PROP/*");
-$rmprops  = $xmltree->GetPath("/DAV::PROPERTYUPDATE/DAV::REMOVE/DAV::PROP/*");
+$setprops = $xmltree->GetPath("/DAV::propertyupdate/DAV::set/DAV::prop/*");
+$rmprops  = $xmltree->GetPath("/DAV::propertyupdate/DAV::remove/DAV::prop/*");
 
 /**
 * We build full status responses for failures.  For success we just record
@@ -50,7 +50,7 @@ foreach( $setprops AS $k => $setting ) {
 
   switch( $tag ) {
 
-    case 'DAV::DISPLAYNAME':
+    case 'DAV::displayname':
       /**
       * Can't set displayname on resources - only collections or principals
       */
@@ -74,12 +74,12 @@ foreach( $setprops AS $k => $setting ) {
       }
       break;
 
-    case 'DAV::RESOURCETYPE':
+    case 'DAV::resourcetype':
       /**
       * We don't allow a collection to change to/from a resource.  Only collections may be CalDAV calendars.
       */
-      $setcollection = count($setting->GetPath('DAV::RESOURCETYPE/DAV::COLLECTION'));
-      $setcalendar   = count($setting->GetPath('DAV::RESOURCETYPE/urn:ietf:params:xml:ns:caldav:calendar'));
+      $setcollection = count($setting->GetPath('DAV::resourcetype/DAV::collection'));
+      $setcalendar   = count($setting->GetPath('DAV::resourcetype/urn:ietf:params:xml:ns:caldav:calendar'));
       if ( $request->IsCollection() && ($setcollection || $setcalendar) ) {
         if ( $setcalendar ) {
           $sql .= sprintf( "UPDATE collection SET is_calendar = TRUE WHERE dav_name = %s;", qpg($request->path) );
@@ -98,13 +98,19 @@ foreach( $setprops AS $k => $setting ) {
     /**
     * The following properties are read-only, so they will cause the request to fail
     */
-    case 'DAV::GETETAG':
-    case 'DAV::GETCONTENTLENGTH':
-    case 'DAV::GETCONTENTTYPE':
-    case 'DAV::GETLASTMODIFIED':
-    case 'DAV::CREATIONDATE':
-    case 'DAV::LOCKDISCOVERY':
-    case 'DAV::SUPPORTEDLOCK':
+    case 'http://calendarserver.org/ns/:getctag':
+    case 'DAV::owner':
+    case 'DAV::principal-collection-set':
+    case 'urn:ietf:params:xml:ns:caldav:calendar-user-address-set':
+    case 'urn:ietf:params:xml:ns:caldav:schedule-inbox-URL':
+    case 'urn:ietf:params:xml:ns:caldav:schedule-outbox-URL':
+    case 'DAV::getetag':
+    case 'DAV::getcontentlength':
+    case 'DAV::getcontenttype':
+    case 'DAV::getlastmodified':
+    case 'DAV::creationdate':
+    case 'DAV::lockdiscovery':
+    case 'DAV::supportedlock':
       $failure['set-'.$tag] = new XMLElement( 'propstat', array(
           new XMLElement( 'prop', new XMLElement($tag)),
           new XMLElement( 'status', 'HTTP/1.1 409 Conflict' ),
@@ -130,12 +136,12 @@ foreach( $rmprops AS $k => $setting ) {
 
   switch( $tag ) {
 
-    case 'DAV::RESOURCETYPE':
+    case 'DAV::resourcetype':
       /**
       * We don't allow a collection to change to/from a resource.  Only collections may be CalDAV calendars.
       */
-      $rmcollection = (count($setting->GetPath('DAV::RESOURCETYPE/DAV::COLLECTION')) > 0);
-      $rmcalendar   = (count($setting->GetPath('DAV::RESOURCETYPE/urn:ietf:params:xml:ns:caldav:calendar')) > 0);
+      $rmcollection = (count($setting->GetPath('DAV::resourcetype/DAV::collection')) > 0);
+      $rmcalendar   = (count($setting->GetPath('DAV::resourcetype/urn:ietf:params:xml:ns:caldav:calendar')) > 0);
       if ( $request->IsCollection() && !$rmcollection ) {
         dbg_error_log( 'PROPPATCH', ' RMProperty %s : IsCollection=%d, rmcoll=%d, rmcal=%d', $tag, $request->IsCollection(), $rmcollection, $rmcalendar );
         if ( $rmcalendar ) {
@@ -156,14 +162,20 @@ foreach( $rmprops AS $k => $setting ) {
     /**
     * The following properties are read-only, so they will cause the request to fail
     */
-    case 'DAV::GETETAG':
-    case 'DAV::GETCONTENTLENGTH':
-    case 'DAV::GETCONTENTTYPE':
-    case 'DAV::GETLASTMODIFIED':
-    case 'DAV::CREATIONDATE':
-    case 'DAV::DISPLAYNAME':
-    case 'DAV::LOCKDISCOVERY':
-    case 'DAV::SUPPORTEDLOCK':
+    case 'http://calendarserver.org/ns/:getctag':
+    case 'DAV::owner':
+    case 'DAV::principal-collection-set':
+    case 'urn:ietf:params:xml:ns:caldav:CALENDAR-USER-ADDRESS-SET':
+    case 'urn:ietf:params:xml:ns:caldav:schedule-inbox-URL':
+    case 'urn:ietf:params:xml:ns:caldav:schedule-outbox-URL':
+    case 'DAV::getetag':
+    case 'DAV::getcontentlength':
+    case 'DAV::getcontenttype':
+    case 'DAV::getlastmodified':
+    case 'DAV::creationdate':
+    case 'DAV::displayname':
+    case 'DAV::lockdiscovery':
+    case 'DAV::supportedlock':
       $failure['rm-'.$tag] = new XMLElement( 'propstat', array(
           new XMLElement( 'prop', new XMLElement($tag)),
           new XMLElement( 'status', 'HTTP/1.1 409 Conflict' ),
@@ -225,4 +237,3 @@ $request->DoResponse( 500 );
 
 exit(0);
 
-?>

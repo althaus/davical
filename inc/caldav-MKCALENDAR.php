@@ -4,8 +4,8 @@
 *
 * @package   davical
 * @subpackage   caldav
-* @author    Andrew McMillan <andrew@catalyst.net.nz>
-* @copyright Catalyst .Net Ltd
+* @author    Andrew McMillan <andrew@mcmillan.net.nz>
+* @copyright Morphoss Ltd - http://www.morphoss.com/
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v2
 */
 dbg_error_log("MKCALENDAR", "method handler");
@@ -35,10 +35,10 @@ if ( isset($request->xml_tags) ) {
   $position = 0;
   $xmltree = BuildXMLTree( $request->xml_tags, $position);
   // echo $xmltree->Render();
-  if ( $xmltree->GetTag() != "URN:IETF:PARAMS:XML:NS:CALDAV:MKCALENDAR" ) {
-    $request->DoResponse( 403, "XML is not a URN:IETF:PARAMS:XML:NS:CALDAV:MKCALENDAR document" );
+  if ( $xmltree->GetTag() != "urn:ietf:params:xml:ns:caldav:mkcalendar" ) {
+    $request->DoResponse( 403, "The supplied XML is not a 'urn:ietf:params:xml:ns:caldav:mkcalendar' document" );
   }
-  $setprops = $xmltree->GetPath("/URN:IETF:PARAMS:XML:NS:CALDAV:MKCALENDAR/DAV::SET/DAV::PROP/*");
+  $setprops = $xmltree->GetPath("/urn:ietf:params:xml:ns:caldav:mkcalendar/DAV::set/DAV::prop/*");
 
   $propertysql = "";
   foreach( $setprops AS $k => $setting ) {
@@ -47,7 +47,7 @@ if ( isset($request->xml_tags) ) {
 
     switch( $tag ) {
 
-      case 'DAV::DISPLAYNAME':
+      case 'DAV::displayname':
         $displayname = $content;
         /**
         * TODO: This is definitely a bug in SOHO Organizer and we probably should respond
@@ -61,27 +61,27 @@ if ( isset($request->xml_tags) ) {
         $success[$tag] = 1;
         break;
 
-      case 'URN:IETF:PARAMS:XML:NS:CALDAV:SUPPORTED-CALENDAR-COMPONENT-SET':  /** Ignored, since we will support all component types */
-      case 'URN:IETF:PARAMS:XML:NS:CALDAV:SUPPORTED-CALENDAR-DATA':  /** Ignored, since we will support iCalendar 2.0 */
-      case 'URN:IETF:PARAMS:XML:NS:CALDAV:CALENDAR-DATA':  /** Ignored, since we will support iCalendar 2.0 */
-      case 'URN:IETF:PARAMS:XML:NS:CALDAV:MAX-RESOURCE-SIZE':  /** Ignored, since we will support arbitrary size */
-      case 'URN:IETF:PARAMS:XML:NS:CALDAV:MIN-DATE-TIME':  /** Ignored, since we will support arbitrary time */
-      case 'URN:IETF:PARAMS:XML:NS:CALDAV:MAX-DATE-TIME':  /** Ignored, since we will support arbitrary time */
-      case 'URN:IETF:PARAMS:XML:NS:CALDAV:MAX-INSTANCES':  /** Ignored, since we will support arbitrary instances */
-      case 'DAV::RESOURCETYPE':    /** Any value for resourcetype is ignored */
+      case 'urn:ietf:params:xml:ns:caldav:supported-calendar-component-set':  /** Ignored, since we will support all component types */
+      case 'urn:ietf:params:xml:ns:caldav:supported-calendar-data':  /** Ignored, since we will support iCalendar 2.0 */
+      case 'urn:ietf:params:xml:ns:caldav:calendar-data':  /** Ignored, since we will support iCalendar 2.0 */
+      case 'urn:ietf:params:xml:ns:caldav:max-resource-size':  /** Ignored, since we will support arbitrary size */
+      case 'urn:ietf:params:xml:ns:caldav:min-date-time':  /** Ignored, since we will support arbitrary time */
+      case 'urn:ietf:params:xml:ns:caldav:max-date-time':  /** Ignored, since we will support arbitrary time */
+      case 'urn:ietf:params:xml:ns:caldav:max-instances':  /** Ignored, since we will support arbitrary instances */
+      case 'DAV::resourcetype':    /** Any value for resourcetype is ignored */
         $success[$tag] = 1;
         break;
 
       /**
       * The following properties are read-only, so they will cause the request to fail
       */
-      case 'DAV::GETETAG':
-      case 'DAV::GETCONTENTLENGTH':
-      case 'DAV::GETCONTENTTYPE':
-      case 'DAV::GETLASTMODIFIED':
-      case 'DAV::CREATIONDATE':
-      case 'DAV::LOCKDISCOVERY':
-      case 'DAV::SUPPORTEDLOCK':
+      case 'DAV::getetag':
+      case 'DAV::getcontentlength':
+      case 'DAV::getcontenttype':
+      case 'DAV::getlastmodified':
+      case 'DAV::creationdate':
+      case 'DAV::lockdiscovery':
+      case 'DAV::supportedlock':
         $failure['set-'.$tag] = new XMLElement( 'propstat', array(
             new XMLElement( 'prop', new XMLElement($tag)),
             new XMLElement( 'status', 'HTTP/1.1 409 Conflict' ),
@@ -182,4 +182,3 @@ else {
 *
 */
 
-?>

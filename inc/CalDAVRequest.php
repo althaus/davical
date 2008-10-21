@@ -220,6 +220,7 @@ class CalDAVRequest
       $xml_parser = xml_parser_create_ns('UTF-8');
       $this->xml_tags = array();
       xml_parser_set_option ( $xml_parser, XML_OPTION_SKIP_WHITE, 1 );
+      xml_parser_set_option ( $xml_parser, XML_OPTION_CASE_FOLDING, 0 );
       xml_parse_into_struct( $xml_parser, $this->raw_post, $this->xml_tags );
       xml_parser_free($xml_parser);
     }

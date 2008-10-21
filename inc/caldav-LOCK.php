@@ -18,7 +18,7 @@ foreach( $request->xml_tags AS $k => $v ) {
   $tag = $v['tag'];
   dbg_error_log( "LOCK", " Handling Tag '%s' => '%s' ", $k, $v );
   switch ( $tag ) {
-    case 'DAV::LOCKINFO':
+    case 'DAV::lockinfo':
       dbg_error_log( "LOCK", ":Request: %s -> %s", $v['type'], $tag );
       if ( $v['type'] == "open" ) {
         $lockscope = "";
@@ -34,11 +34,11 @@ foreach( $request->xml_tags AS $k => $v ) {
       }
       break;
 
-    case 'DAV::OWNER':
-    case 'DAV::LOCKTYPE':
-    case 'DAV::LOCKSCOPE':
+    case 'DAV::owner':
+    case 'DAV::locktype':
+    case 'DAV::lockscope':
       dbg_error_log( "LOCK", ":Request: %s -> %s", $v['type'], $tag );
-      if ( $inside['DAV::LOCKINFO'] ) {
+      if ( $inside['DAV::lockinfo'] ) {
         if ( $v['type'] == "open" ) {
           $inside[$tag] = true;
         }
@@ -49,25 +49,25 @@ foreach( $request->xml_tags AS $k => $v ) {
       break;
 
     /*case 'DAV::SHARED': */ /** Shared lock is not supported yet */
-    case 'DAV::EXCLUSIVE':
+    case 'DAV::exclusive':
       dbg_error_log( "LOCK", ":Request: %s -> %s", $v['type'], $tag );
-      if ( $inside['DAV::LOCKSCOPE'] && $v['type'] == "complete" ) {
+      if ( $inside['DAV::lockscope'] && $v['type'] == "complete" ) {
         $lockscope = strtolower(substr($tag,5));
       }
       break;
 
     /* case 'DAV::READ': */ /** RFC2518 is pretty vague about read locks */
-    case 'DAV::WRITE':
+    case 'DAV::write':
       dbg_error_log( "LOCK", ":Request: %s -> %s", $v['type'], $tag );
-      if ( $inside['DAV::LOCKTYPE'] && $v['type'] == "complete" ) {
+      if ( $inside['DAV::locktype'] && $v['type'] == "complete" ) {
         $locktype = strtolower(substr($tag,5));
       }
       break;
 
-    case 'DAV::HREF':
+    case 'DAV::href':
       dbg_error_log( "LOCK", ":Request: %s -> %s", $v['type'], $tag );
-      dbg_log_array( "LOCK", "DAV:HREF", $v, true );
-      if ( $inside['DAV::OWNER'] && $v['type'] == "complete" ) {
+      dbg_log_array( "LOCK", "DAV:href", $v, true );
+      if ( $inside['DAV::owner'] && $v['type'] == "complete" ) {
         $lockowner = $v['value'];
       }
       break;
@@ -136,4 +136,3 @@ $prop = new XMLElement( "prop", $response, array('xmlns'=>'DAV:') );
 $xmldoc = $prop->Render(0,'<?xml version="1.0" encoding="utf-8" ?>');
 $request->DoResponse( 200, $xmldoc, 'text/xml; charset="utf-8"' );
 
-?>

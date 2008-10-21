@@ -1,6 +1,6 @@
 <?php
 /**
-* @package rscds
+* @package davical
 * @author Andrew McMillan <andrew@catalyst.net.nz>
 * @copyright Catalyst .Net Ltd
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v2
@@ -96,7 +96,7 @@ awl_set_locale($c->default_locale);
 *
 */
 $c->code_version = 0;
-$c->version_string = '0.9.5.2'; // The actual version # is replaced into that during the build /release process
+$c->version_string = '0.9.5.4'; // The actual version # is replaced into that during the build /release process
 if ( isset($c->version_string) && preg_match( '/(\d+)\.(\d+)\.(\d+)(.*)/', $c->version_string, $matches) ) {
   $c->code_major = $matches[1];
   $c->code_minor = $matches[2];

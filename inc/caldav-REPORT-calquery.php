@@ -3,20 +3,20 @@
 /**
  * Build the array of properties to include in the report output
  */
-$qry_content = $xmltree->GetContent('URN:IETF:PARAMS:XML:NS:CALDAV:CALENDAR-QUERY');
+$qry_content = $xmltree->GetContent('urn:ietf:params:xml:ns:caldav:calendar-query');
 $proptype = $qry_content[0]->GetTag();
 $properties = array();
 switch( $proptype ) {
-  case 'DAV::PROP':
-    $qry_props = $xmltree->GetPath('/URN:IETF:PARAMS:XML:NS:CALDAV:CALENDAR-QUERY/DAV::PROP/*');
+  case 'DAV::prop':
+    $qry_props = $xmltree->GetPath('/urn:ietf:params:xml:ns:caldav:calendar-query/DAV::prop/*');
     foreach( $qry_props AS $k => $v ) {
       $propertyname = preg_replace( '/^.*:/', '', $v->GetTag() );
       $properties[$propertyname] = 1;
     }
     break;
 
-  case 'DAV::ALLPROP':
-    $properties['ALLPROP'] = 1;
+  case 'DAV::allprop':
+    $properties['allprop'] = 1;
     break;
 
   default:
@@ -30,13 +30,13 @@ switch( $proptype ) {
  * VCALENDAR, but perhaps there are others.  In our case we strip it if that is
  * the case and leave it alone otherwise.
  */
-$qry_filters = $xmltree->GetPath('/URN:IETF:PARAMS:XML:NS:CALDAV:CALENDAR-QUERY/URN:IETF:PARAMS:XML:NS:CALDAV:FILTER/*');
+$qry_filters = $xmltree->GetPath('/urn:ietf:params:xml:ns:caldav:calendar-query/urn:ietf:params:xml:ns:caldav:filter/*');
 if ( count($qry_filters) == 1 ) {
   $qry_filters = $qry_filters[0];  // There can only be one FILTER element
-  if ( $qry_filters->GetTag() == "URN:IETF:PARAMS:XML:NS:CALDAV:COMP-FILTER" && $qry_filters->GetAttribute("NAME") == "VCALENDAR" )
+  if ( $qry_filters->GetTag() == "urn:ietf:params:xml:ns:caldav:comp-filter" && $qry_filters->GetAttribute("name") == "VCALENDAR" )
     $qry_filters = $qry_filters->GetContent();  // Everything is inside a VCALENDAR AFAICS
   else {
-    dbg_error_log("calquery", "Got bizarre CALDAV:FILTER[%s=%s]] which does not contain COMP-FILTER = VCALENDAR!!", $qry_filters->GetTag(), $qry_filters->GetAttribute("NAME") );
+    dbg_error_log("calquery", "Got bizarre CALDAV:FILTER[%s=%s]] which does not contain comp-filter = VCALENDAR!!", $qry_filters->GetTag(), $qry_filters->GetAttribute("name") );
     $qry_filters = false;
   }
 }
@@ -82,12 +82,12 @@ function SqlFilterFragment( $filter, $components, $property = null, $parameter =
 
     $not_defined = "";
     switch( $tag ) {
-      case 'URN:IETF:PARAMS:XML:NS:CALDAV:IS-NOT-DEFINED':
-        $not_defined = "NOT "; // then fall through to IS-DEFINED case
-      case 'URN:IETF:PARAMS:XML:NS:CALDAV:IS-DEFINED':
+      case 'urn:ietf:params:xml:ns:caldav:is-not-defined':
+        $not_defined = "not-"; // then fall through to IS-DEFINED case
+      case 'urn:ietf:params:xml:ns:caldav:is-defined':
         if ( isset( $parameter ) ) {
           $need_post_filter = true;
-          dbg_error_log("calquery", "Could not handle IS-%sDEFINED on property %s, parameter %s in SQL", $not_defined, $property, $parameter );
+          dbg_error_log("calquery", "Could not handle 'is-%sdefined' on property %s, parameter %s in SQL", $not_defined, $property, $parameter );
           return false;  // Not handled in SQL
         }
         if ( isset( $property ) ) {
@@ -111,14 +111,14 @@ function SqlFilterFragment( $filter, $components, $property = null, $parameter =
         }
         break;
 
-      case 'URN:IETF:PARAMS:XML:NS:CALDAV:TIME-RANGE':
+      case 'urn:ietf:params:xml:ns:caldav:time-range':
         /**
         * TODO: We should probably allow time range queries against other properties, since eventually some client may want to do this.
         */
         $start_column = ($components[sizeof($components)-1] == 'VTODO' ? "due" : 'dtend');     // The column we compare against the START attribute
         $finish_column = 'dtstart';  // The column we compare against the END attribute
-        $start = $v->GetAttribute("START");
-        $finish = $v->GetAttribute("END");
+        $start = $v->GetAttribute("start");
+        $finish = $v->GetAttribute("end");
         if ( isset($start) && isset($finish) ) {
           $sql .= sprintf( "AND ( (%s >= %s::timestamp with time zone AND %s <= %s::timestamp with time zone) ",
                                   $start_column, qpg($start), $finish_column, qpg($finish));
@@ -137,10 +137,10 @@ function SqlFilterFragment( $filter, $components, $property = null, $parameter =
         }
         break;
 
-      case 'URN:IETF:PARAMS:XML:NS:CALDAV:TEXT-MATCH':
+      case 'urn:ietf:params:xml:ns:caldav:text-match':
         $search = $v->GetContent();
-        $negate = $v->GetAttribute("NEGATE-CONDITION");
-        $collation = $v->GetAttribute("COLLATION");
+        $negate = $v->GetAttribute("negate-condition");
+        $collation = $v->GetAttribute("collation");
         switch( strtolower($collation) ) {
           case 'i;octet':
             $comparison = 'LIKE';
@@ -150,12 +150,14 @@ function SqlFilterFragment( $filter, $components, $property = null, $parameter =
             $comparison = 'ILIKE';
             break;
         }
-        $sql .= sprintf( "AND %s%s %s %s ", (isset($negate) && strtolower($negate) == "yes" ? "NOT ": ""),
+        dbg_error_log("calquery", " text-match: (%s IS NULL OR %s%s %s %s) ", $property, (isset($negate) && strtolower($negate) == "yes" ? "NOT ": ""),
+                                          $property, $comparison, qpg("%".$search."%") );
+        $sql .= sprintf( "AND (%s IS NULL OR %s%s %s %s) ", $property, (isset($negate) && strtolower($negate) == "yes" ? "NOT ": ""),
                                           $property, $comparison, qpg("%".$search."%") );
         break;
 
-      case 'URN:IETF:PARAMS:XML:NS:CALDAV:COMP-FILTER':
-        $comp_filter_name = $v->GetAttribute("NAME");
+      case 'urn:ietf:params:xml:ns:caldav:comp-filter':
+        $comp_filter_name = $v->GetAttribute("name");
         if ( count($components) == 0 ) {
           $sql .= "AND caldav_data.caldav_type = ".qpg($comp_filter_name)." ";
         }
@@ -167,8 +169,8 @@ function SqlFilterFragment( $filter, $components, $property = null, $parameter =
         }
         break;
 
-      case 'URN:IETF:PARAMS:XML:NS:CALDAV:PROP-FILTER':
-        $propertyname = $v->GetAttribute("NAME");
+      case 'urn:ietf:params:xml:ns:caldav:prop-filter':
+        $propertyname = $v->GetAttribute("name");
         switch( $propertyname ) {
           case 'PERCENT-COMPLETE':
             $property = 'percent_complete';
@@ -195,18 +197,18 @@ function SqlFilterFragment( $filter, $components, $property = null, $parameter =
           case 'COMPLETED':  /** TODO: this should be moved into the properties supported in SQL. */
           default:
             $need_post_filter = true;
-            dbg_error_log("calquery", "Could not handle PROP-FILTER on %s in SQL", $propertyname );
-            return false; // Can't handle PROP-FILTER conditions in the SQL for this property
+            dbg_error_log("calquery", "Could not handle 'prop-filter' on %s in SQL", $propertyname );
+            continue;
         }
         $subfilter = $v->GetContent();
         $success = SqlFilterFragment( $subfilter, $components, $property, $parameter );
         if ( $success === false ) continue; else $sql .= $success;
         break;
 
-      case 'URN:IETF:PARAMS:XML:NS:CALDAV:PARAM-FILTER':
+      case 'urn:ietf:params:xml:ns:caldav:param-filter':
         $need_post_filter = true;
         return false; // Can't handle PARAM-FILTER conditions in the SQL
-        $parameter = $v->GetAttribute("NAME");
+        $parameter = $v->GetAttribute("name");
         $subfilter = $v->GetContent();
         $success = SqlFilterFragment( $subfilter, $components, $property, $parameter );
         if ( $success === false ) continue; else $sql .= $success;
@@ -270,6 +272,6 @@ if ( $qry->Exec("calquery",__LINE__,__FILE__) && $qry->rows > 0 ) {
     }
   }
 }
-$multistatus = new XMLElement( "multistatus", $responses, array('xmlns'=>'DAV:') );
+$multistatus = new XMLElement( "multistatus", $responses, $reply->GetXmlNsArray() );
 
 $request->XMLResponse( 207, $multistatus );

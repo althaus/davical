@@ -5,9 +5,9 @@
 include_once("iCalendar.php");
 include_once("RRule.php");
 
-$fbq_content = $xmltree->GetContent('URN:IETF:PARAMS:XML:NS:CALDAV:FREE-BUSY-QUERY');
-$fbq_start = $fbq_content[0]->GetAttribute('START');
-$fbq_end   = $fbq_content[0]->GetAttribute('END');
+$fbq_content = $xmltree->GetContent('urn:ietf:params:xml:ns:caldav:free-busy-query');
+$fbq_start = $fbq_content[0]->GetAttribute('start');
+$fbq_end   = $fbq_content[0]->GetAttribute('end');
 
 if ( ! ( isset($fbq_start) || isset($fbq_end) ) ) {
   $request->DoResponse( 400, 'All valid freebusy requests MUST contain a time-range filter' );

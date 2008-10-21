@@ -14,141 +14,28 @@ if ( ! ($request->AllowedTo('read') || $request->AllowedTo('freebusy')) ) {
   $request->DoResponse( 403, translate("You may not access that calendar") );
 }
 
-require_once("XMLElement.php");
 require_once("iCalendar.php");
+require_once("XMLDocument.php");
 
 $href_list = array();
-$attribute_list = array();
+$prop_list = array();
 $unsupported = array();
 $arbitrary = array();
 
-$namespaces = array( "DAV:" => "" );
-$prefixes = array();
-function add_namespace( $prefix, $namespace ) {
-  global $namespaces;
-  global $prefixes;
-
-  if ( !isset($namespaces[$namespace]) ) {
-    if ( $prefix == "" || isset($prefixes[$prefix]) ) {
-      dbg_error_log("ERROR", "Cannot assign the same prefix to two different namespaces");
-      exit;
-    }
-    else {
-      $prefixes[$prefix] = $prefix;
-      $namespaces[$namespace] = $prefix;
-    }
-  }
-  else {
-    if ( $namespaces[$namespace] != $prefix ) {
-      dbg_error_log("ERROR", "Cannot use the same namespace with two different prefixes");
-      exit;
-    }
-  }
-}
-
-
-function ns_tag( $in_tag, $namespace=null, $prefix=null ) {
-  global $namespaces, $prefixes;
-
-  if ( $namespace == null ) {
-    // Attempt to split out from namespace:tag
-    if ( preg_match('/^(.*):([^:]+)$/', $in_tag, $matches) ) {
-      $namespace = $matches[1];
-      $tag = $matches[2];
-    }
-    else {
-      // There is nothing we can do here
-      return $in_tag;
-    }
-  }
-  else {
-    $tag = $in_tag;
-  }
-  $namespace = strtolower($namespace);
-  if ( $namespace == 'dav:' ) $namespace = 'DAV:';  // Special case for conventional naming
-  $tag = strtolower($tag);
-
-  if ( $prefix == null ) {
-    // Attempt to assign one
-    if ( isset($namespaces[$namespace]) ) {
-      $prefix = $namespaces[$namespace];
-    }
-    else {
-      //  Try and build a prefix based on the first alphabetic character of the last element of the namespace
-      if ( preg_match('/^(.*):([^:]+)$/', $namespace, $matches) ) {
-        $alpha = preg_replace( '/[^a-z]/i', '', $matches[2] );
-        $prefix = strtoupper(substr($alpha,0,1));
-      }
-      else {
-        $prefix = 'x';
-      }
-      $i = "";
-      if ( isset($prefixes[$prefix]) ) {
-        for ( $i=1; $i<10 && isset($prefixes["$prefix$i"]); $i++ ) {
-        }
-      }
-      if ( isset($prefixes["$prefix$i"]) ) {
-        dbg_error_log("ERROR", "Cannot find a free prefix for this namespace");
-        exit;
-      }
-      $prefix = "$prefix$i";
-      $namespaces[$namespace] = $prefix;
-      $prefixes[$prefix] = 1;
-    }
-  }
-
-  if ( !isset($namespaces[$namespace]) ) {
-    add_namespace( $prefix, $namespace );
-  }
-
-  return $prefix . ($prefix == "" ? "" : ":") . $tag;
-}
-
-
-function namespace_array() {
-  global $namespaces;
-
-  $ns = array();
-  foreach( $namespaces AS $n => $p ) {
-    if ( $p == "" ) $ns["xmlns"] = $n; else $ns["xmlns:$p"] = $n;
-  }
-
-  return $ns;
-}
-
-
-function calendar_server_tag( $tag ) {
-  add_namespace("A", "http://calendarserver.org/ns/");
-  return ns_tag( $tag, 'http://calendarserver.org/ns/' );
-}
-
-
-function caldav_tag( $tag ) {
-  return ns_tag( $tag, 'urn:ietf:params:xml:ns:caldav' );
-}
-
+$reply = new XMLDocument( array( "DAV:" => "" ) );
 
 foreach( $request->xml_tags AS $k => $v ) {
 
   $ns_tag = $v['tag'];
-  if ( preg_match('/^(.*):([^:]+)$/', $ns_tag, $matches) ) {
-    $namespace = $matches[1];
-    $tag = $matches[2];
-  }
-  else {
-    $namespace = "";
-    $tag = $ns_tag;
-  }
-  dbg_error_log( "PROPFIND", " Handling Tag '%s' => '%s' ", $k, $v );
+  dbg_error_log( "PROPFIND", " Handling Tag '%s' => '%s' ", $k, $ns_tag );
 
-  switch ( $tag ) {
-    case 'PROPFIND':
-    case 'PROP':
-      dbg_error_log( "PROPFIND", ":Request: %s -> %s", $v['type'], $tag );
+  switch ( $ns_tag ) {
+    case 'DAV::propfind':
+    case 'DAV::prop':
+      dbg_error_log( "PROPFIND", ":Request: %s -> %s", $v['type'], $ns_tag );
       break;
 
-    case 'HREF':
-      // dbg_log_array( "PROPFIND", "HREF", $v, true );
+    case 'DAV::href':
       $href_list[] = $v['value'];
       dbg_error_log( "PROPFIND", "Adding href '%s'", $v['value'] );
       break;
@@ -157,83 +44,87 @@ foreach( $request->xml_tags AS $k => $v ) {
     /**
     * Handled DAV properties
     */
-    case 'ACL':                            /** acl             - only vaguely supported */
-    case 'CREATIONDATE':                   /** creationdate    - should work fine */
-    case 'GETLASTMODIFIED':                /** getlastmodified - should work fine */
-    case 'DISPLAYNAME':                    /** displayname     - should work fine */
-    case 'GETCONTENTLENGTH':               /** getcontentlength- should work fine */
-    case 'GETCONTENTTYPE':                 /** getcontenttype  - should work fine */
-    case 'GETETAG':                        /** getetag         - should work fine */
-    case 'GETCTAG':                        /** Calendar Server extension like etag - should work fine (we just return etag) */
-    case 'SUPPORTEDLOCK':                  /** supportedlock   - should work fine */
-    case 'PRINCIPAL-URL':                  /** principal-url   - should work fine */
-    case 'RESOURCETYPE':                   /** resourcetype    - should work fine */
-    case 'GETCONTENTLANGUAGE':             /** resourcetype    - should return the user's chosen locale, or default locale */
-    case 'SUPPORTED-PRIVILEGE-SET':        /** supported-privilege-set    - should work fine */
-    case 'CURRENT-USER-PRIVILEGE-SET':     /** current-user-privilege-set - only vaguely supported */
-    case 'ALLPROP':                        /** allprop - limited support */
+    case 'DAV::acl':                            /** Only vaguely supported as yet.  Will need work.*/
+    case 'DAV::creationdate':                   /** should work fine */
+    case 'DAV::getlastmodified':                /** should work fine */
+    case 'DAV::displayname':                    /** should work fine */
+    case 'DAV::getcontentlength':               /** should work fine */
+    case 'DAV::getcontenttype':                 /** should work fine */
+    case 'DAV::getetag':                        /** should work fine */
+    case 'DAV::supportedlock':                  /** should work fine */
+    case 'DAV::principal-URL':                  /** should work fine */
+    case 'DAV::owner':                          /** should work fine */
+    case 'DAV::resourcetype':                   /** should work fine */
+    case 'DAV::getcontentlanguage':             /** should return the user's chosen locale, or default locale */
+    case 'DAV::current-user-privilege-set':     /** only vaguely supported */
+    case 'DAV::allprop':                        /** limited support, needs to be checked for correctness at some point */
 
     /**
     * Handled CalDAV properties
     */
-    case 'CALENDAR-HOME-SET':                /** calendar-home-set is used by iCal in Leopard - should work fine */
-      $attribute_list[$tag] = 1;
-      dbg_error_log( "PROPFIND", "Adding %s attribute '%s'", $namespace, $tag );
-      break;
-
-
-    case 'SUPPORTED-COLLATION-SET':          /** fixed server definition - should work fine */
-    case 'SUPPORTED-CALENDAR-COMPONENT-SET': /** fixed server definition - should work fine */
+    case 'urn:ietf:params:xml:ns:caldav:calendar-home-set':                /** Should work fine */
+    case 'urn:ietf:params:xml:ns:caldav:calendar-user-address-set':        /** Should work fine */
+    case 'urn:ietf:params:xml:ns:caldav:schedule-inbox-URL':               /** Support in development */
+    case 'urn:ietf:params:xml:ns:caldav:schedule-outbox-URL':              /** Support in development */
 
     /**
-    * Handled calendar-schedule properties
+    * Handled calendarserver properties
     */
-    case 'CALENDAR-USER-ADDRESS-SET':        /** CalDAV+s: slightly supported */
-//    case 'SCHEDULE-INBOX-URL':               /** CalDAV+s: not supported */
-//    case 'SCHEDULE-OUTBOX-URL':              /** CalDAV+s: not supported */
-//    case 'DROPBOX-HOME-URL':   // HTTP://CALENDARSERVER.ORG/NS/
-//    case 'NOTIFICATIONS-URL':  // HTTP://CALENDARSERVER.ORG/NS/
+    case 'http://calendarserver.org/ns/:getctag':                        /** Calendar Server extension like etag - should work fine (we just return etag) */
+
+      $prop_list[$ns_tag] = $ns_tag;
+      dbg_error_log( "PROPFIND", "Adding attribute '%s'", $ns_tag );
+      break;
+
+    /** fixed server definitions - should work fine */
+    case 'DAV::supported-collation-set':
+    case 'DAV::supported-calendar-component-set':
+    case 'DAV::principal-collection-set':
+    case 'DAV::supported-privilege-set':
+
+//    case 'dropbox-home-URL':   // HTTP://CALENDARSERVER.ORG/NS/
+//    case 'notifications-URL':  // HTTP://CALENDARSERVER.ORG/NS/
       if ( $_SERVER['PATH_INFO'] == '/' || $_SERVER['PATH_INFO'] == '' ) {
         $arbitrary[$ns_tag] = $ns_tag;
         dbg_error_log( "PROPFIND", "Adding arbitrary DAV property '%s'", $ns_tag );
       }
       else {
-        $attribute_list[$tag] = 1;
-        dbg_error_log( "PROPFIND", "Adding %s attribute '%s'", $namespace, $tag );
+        $prop_list[$ns_tag] = $ns_tag;
+        dbg_error_log( "PROPFIND", "Adding attribute '%s'", $ns_tag );
       }
       break;
 
 
-    case 'CALENDAR-TIMEZONE':           // CalDAV
-    case 'SUPPORTED-CALENDAR-DATA':     // CalDAV
-    case 'MAX-RESOURCE-SIZE':           // CalDAV
-    case 'MIN-DATE-TIME':               // CalDAV
-    case 'MAX-DATE-TIME':               // CalDAV
-    case 'MAX-INSTANCES':               // CalDAV
-    case 'MAX-ATTENDEES-PER-INSTANCE':  // CalDAV
-//    case 'CHECKED-OUT':   // DAV:
-//    case 'CHECKED-IN':    // DAV:
-//    case 'SOURCE':        // DAV:
-//    case 'LOCKDISCOVERY': // DAV:
-//    case 'EXECUTABLE':         // HTTP://APACHE.ORG/DAV/PROPS/
+    case 'urn:ietf:params:xml:ns:caldav:calendar-timezone':           // Ignored
+    case 'urn:ietf:params:xml:ns:caldav:supported-calendar-data':     // Ignored
+    case 'urn:ietf:params:xml:ns:caldav:max-resource-size':           // Ignored - should be a server setting
+    case 'urn:ietf:params:xml:ns:caldav:min-date-time':               // Ignored - should be a server setting
+    case 'urn:ietf:params:xml:ns:caldav:max-date-time':               // Ignored - should be a server setting
+    case 'urn:ietf:params:xml:ns:caldav:max-instances':               // Ignored - should be a server setting
+    case 'urn:ietf:params:xml:ns:caldav:max-attendees-per-instance':  // Ignored - should be a server setting
       /** These are ignored specifically */
       break;
 
     /**
     * Add the ones that are specifically unsupported here.
     */
+//    case 'DAV::checked-out':   // DAV:
+//    case 'DAV::checked-in':    // DAV:
+//    case 'DAV::source':        // DAV:
+//    case 'DAV::lockdiscovery': // DAV:
+//    case 'http://apache.org/dav/props/:executable':         //
     case 'This is not a supported property':  // an impossible example
-      $unsupported[$tag] = "";
-      dbg_error_log( "PROPFIND", "Unsupported tag >>%s<< in xmlns >>%s<<", $tag, $namespace);
+      $unsupported[$ns_tag] = "";
+      dbg_error_log( "PROPFIND", "Unsupported tag >>%s<< ", $ns_tag);
       break;
 
     /**
     * Arbitrary DAV properties may also be reported
     */
-    case 'CALENDAR-DESCRIPTION':        // CalDAV, informational
+    case 'urn:ietf:params:xml:ns:caldav:calendar-description':        // Supported purely as an arbitrary property
     default:
       $arbitrary[$ns_tag] = $ns_tag;
-      dbg_error_log( "PROPFIND", "Adding arbitrary DAV property '%s'", $ns_tag );
+      dbg_error_log( "PROPFIND", "Adding arbitrary property '%s'", $ns_tag );
       break;
   }
 }
@@ -281,146 +172,76 @@ function get_arbitrary_properties($dav_name) {
 * Handles any properties related to the DAV::PRINCIPAL in the request
 */
 function add_principal_properties( &$prop, &$not_found, &$denied ) {
-  global $attribute_list, $session, $c, $request;
+  global $prop_list, $session, $c, $request, $reply;
 
-  if ( isset($attribute_list['PRINCIPAL-URL'] ) ) {
-    $prop->NewElement("principal-url", new XMLElement('href', $request->principal->url ) );
-  }
+  $allprop = isset($prop_list['DAV::allprop']);
 
-  if ( isset($attribute_list['CALENDAR-HOME-SET'] ) ) {
-    $prop->NewElement(caldav_tag("calendar-home-set"), new XMLElement('href', $request->principal->calendar_home_set ) );
+  if ( isset($prop_list['DAV::principal-URL'] ) ) {
+    $prop->NewElement("principal-URL", new XMLElement('href', $request->principal->url ) );
   }
-  if ( isset($attribute_list['SCHEDULE-INBOX-URL'] ) ) {
-    $prop->NewElement(caldav_tag("schedule-inbox-url"), new XMLElement('href', $request->principal->schedule_inbox_url) );
-  }
-  if ( isset($attribute_list['SCHEDULE-OUTBOX-URL'] ) ) {
-    $prop->NewElement(caldav_tag("schedule-outbox-url"), new XMLElement('href', $request->principal->schedule_outbox_url) );
+  if ( isset($prop_list['DAV::alternate-URI-set'] ) ) {
+    $prop->NewElement("alternate-URI-set" );  // Empty - there are no alternatives!
   }
 
-  if ( isset($attribute_list['DROPBOX-HOME-URL'] ) ) {
-    $prop->NewElement(calendar_server_tag("dropbox-home-url"), new XMLElement('href', $request->principal->dropbox_url) );
+  if ( isset($prop_list['urn:ietf:params:xml:ns:caldav:calendar-home-set'] ) ) {
+    $home_set = array();
+    $chs = $request->principal->calendar_home_set;
+    foreach( $chs AS $k => $url ) {
+      $home_set[] = new XMLElement('href', $url );
+    }
+    $prop->NewElement($reply->Caldav("calendar-home-set"), $home_set );
   }
-  if ( isset($attribute_list['NOTIFICATIONS-URL'] ) ) {
-    $prop->NewElement(calendar_server_tag("notifications-url"), new XMLElement('href', $request->principal->notifications_url) );
+  if ( isset($prop_list['urn:ietf:params:xml:ns:caldav:schedule-inbox-URL'] ) ) {
+    $prop->NewElement($reply->Caldav("schedule-inbox-URL"), new XMLElement('href', $request->principal->schedule_inbox_url) );
+  }
+  if ( isset($prop_list['urn:ietf:params:xml:ns:caldav:schedule-outbox-URL'] ) ) {
+    $prop->NewElement($reply->Caldav("schedule-outbox-URL"), new XMLElement('href', $request->principal->schedule_outbox_url) );
   }
 
-  if ( isset($attribute_list['CALENDAR-USER-ADDRESS-SET'] ) ) {
+  if ( isset($prop_list['http://calendarserver.org/ns/:dropbox-home-URL'] ) ) {
+    $prop->NewElement($reply->Calendarserver("dropbox-home-URL"), new XMLElement('href', $request->principal->dropbox_url) );
+  }
+  if ( isset($prop_list['http://calendarserver.org/ns/:notifications-URL'] ) ) {
+    $prop->NewElement($reply->Calendarserver("notifications-URL"), new XMLElement('href', $request->principal->notifications_url) );
+  }
+
+  if ( isset($prop_list['urn:ietf:params:xml:ns:caldav:calendar-user-address-set'] ) ) {
     $addr_set = array();
-    foreach( $request->principal->user_address_set AS $k => $v ) {
+    $uas = $request->principal->user_address_set;
+    foreach( $uas AS $k => $v ) {
       $addr_set[] = new XMLElement('href', $v );
     }
-    $prop->NewElement(caldav_tag("calendar-user-address-set"), $addr_set );
+    $prop->NewElement($reply->Caldav("calendar-user-address-set"), $addr_set );
   }
 }
 
 
 /**
-* Returns an XML sub-tree for a single collection record from the DB
+* Handles any properties related to the DAV::PRINCIPAL in the request
 */
-function collection_to_xml( $collection ) {
-  global $arbitrary, $attribute_list, $session, $c, $request;
+function add_general_properties( &$prop, &$not_found, &$denied, $record ) {
+  global $prop_list, $session, $c, $request, $reply;
 
-  dbg_error_log("PROPFIND","Building XML Response for collection '%s'", $collection->dav_name );
+  $allprop = isset($prop_list['DAV::allprop']);
 
-  $arbitrary_results = get_arbitrary_properties($collection->dav_name);
-  $collection->properties = $arbitrary_results->found;
-
-  $url = ConstructURL($collection->dav_name);
-
-  $resourcetypes = array( new XMLElement("collection") );
-  $contentlength = false;
-  if ( $collection->is_calendar == 't' ) {
-    $resourcetypes[] = new XMLElement(caldav_tag("calendar"), false);
-    $lqry = new PgQuery("SELECT sum(length(caldav_data)) FROM caldav_data WHERE user_no = ? AND dav_name ~ ?;", $collection->user_no, $collection->dav_name.'[^/]+$' );
-    if ( $lqry->Exec("PROPFIND",__LINE__,__FILE__) && $row = $lqry->Fetch() ) {
-      $contentlength = $row->sum;
-    }
+  if ( $allprop || isset($prop_list['DAV::getlastmodified']) ) {
+    $prop->NewElement("getlastmodified", ( isset($record->modified)? $record->modified : false ));
   }
-  if ( $collection->is_principal == 't' ) {
-    $resourcetypes[] = new XMLElement("principal");
+  if ( $allprop || isset($prop_list['DAV::creationdate']) ) {
+    $prop->NewElement("creationdate", $record->created );
   }
-  $prop = new XMLElement("prop");
-  $not_found = new XMLElement("prop");
-  $denied = new XMLElement("prop");
-
-  /**
-  * First process any static values we do support
-  */
-  if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['SUPPORTED-COLLATION-SET']) ) {
-    $collations = array();
-    $collations[] = new XMLElement(caldav_tag("supported-collation"), 'i;ascii-casemap');
-    $collations[] = new XMLElement(caldav_tag("supported-collation"), 'i;octet');
-    $prop->NewElement(caldav_tag("supported-collation-set"), $collations );
-  }
-  if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['SUPPORTED-CALENDAR-COMPONENT-SET']) ) {
-    $components = array();
-    $components[] = new XMLElement(caldav_tag("comp"), '', array("name" => "VEVENT"));
-    $components[] = new XMLElement(caldav_tag("comp"), '', array("name" => "VTODO"));
-    $prop->NewElement(caldav_tag("supported-calendar-component-set"), $components );
-  }
-  if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['GETCONTENTTYPE']) ) {
-    $prop->NewElement("getcontenttype", "httpd/unix-directory" );
+  if ( $allprop || isset($prop_list['DAV::getetag']) ) {
+    $prop->NewElement("getetag", '"'.$record->dav_etag.'"' );
   }
 
-  /**
-  * Second process any dynamic values we do support
-  */
-  if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['GETLASTMODIFIED']) ) {
-    $prop->NewElement("getlastmodified", ( isset($collection->modified)? $collection->modified : false ));
+  if ( isset($prop_list['DAV::owner']) ) {
+    $prop->NewElement("owner", new XMLElement('href', 'mailto:'.$request->principal->email ) );
   }
-  if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['GETCONTENTLENGTH']) ) {
-    $prop->NewElement("getcontentlength", $contentlength );
-  }
-  if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['CREATIONDATE']) ) {
-    $prop->NewElement("creationdate", $collection->created );
-  }
-  if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['RESOURCETYPE']) ) {
-    $prop->NewElement("resourcetype", $resourcetypes );
-  }
-  if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['DISPLAYNAME']) ) {
-    $displayname = ( $collection->dav_displayname == "" ? ucfirst(trim(str_replace("/"," ", $collection->dav_name))) : $collection->dav_displayname );
-    $prop->NewElement("displayname", $displayname );
-  }
-  if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['GETETAG']) ) {
-    $prop->NewElement("getetag", '"'.$collection->dav_etag.'"' );
-  }
-  if ( isset($attribute_list['GETCTAG']) ) {
-    // Calendar Server extension which only applies to collections.  We return the etag, which does the needful.
-    $prop->NewElement(calendar_server_tag('getctag'),$collection->dav_etag );
-  }
-  if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['CURRENT-USER-PRIVILEGE-SET']) ) {
-    $prop->NewElement("current-user-privilege-set", privileges($request->permissions) );
+  if ( isset($prop_list['DAV::principal-collection-set']) ) {
+    $prop->NewElement("principal-collection-set", new XMLElement('href', ConstructURL('/') ) );
   }
 
-  if ( isset($attribute_list['CALENDAR-FREE-BUSY-SET'] ) ) {
-    if ( isset($collection->is_inbox) && $collection->is_inbox && $session->user_no == $collection->user_no ) {
-      $fb_set = array();
-      foreach( $collection->free_busy_set AS $k => $v ) {
-        $fb_set[] = new XMLElement('href', $v );
-      }
-      $prop->NewElement(caldav_tag("calendar-free-busy-set"), $fb_set );
-    }
-    else if ( $session->user_no == $collection->user_no ) {
-      $not_found->NewElement(caldav_tag("calendar-free-busy-set") );
-    }
-    else {
-      $denied->NewElement(caldav_tag("calendar-free-busy-set") );
-    }
-  }
-
-
-  /**
-  * Then look at any properties related to the principal
-  */
-  add_principal_properties( $prop, $not_found, $denied );
-
-  if ( count($collection->properties) > 0 ) {
-    foreach( $collection->properties AS $k => $v ) {
-      $prop->NewElement(ns_tag($k), $v);
-    }
-  }
-
-  if ( isset($attribute_list['ACL']) ) {
+  if ( isset($prop_list['DAV::acl']) ) {
     /**
     * FIXME: This information is semantically valid but presents an incorrect picture.
     */
@@ -430,12 +251,12 @@ function collection_to_xml( $collection ) {
     $prop->NewElement("acl", new XMLElement( "ace", array( $principal, $grant ) ) );
   }
 
-  if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['GETCONTENTLANGUAGE']) ) {
+  if ( $allprop || isset($prop_list['DAV::getcontentlanguage']) ) {
     $contentlength = strlen($item->caldav_data);
     $prop->NewElement("getcontentlanguage", $c->current_locale );
   }
 
-  if ( isset($attribute_list['SUPPORTEDLOCK']) ) {
+  if ( isset($prop_list['DAV::supportedlock']) ) {
     $prop->NewElement("supportedlock",
        new XMLElement( "lockentry",
          array(
@@ -446,20 +267,27 @@ function collection_to_xml( $collection ) {
      );
   }
 
-  if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['SUPPORTED-PRIVILEGE-SET']) ) {
+  if ( isset($prop_list['DAV::current-user-privilege-set']) ) {
+    $prop->NewElement("current-user-privilege-set", privileges($request->permissions) );
+  }
+
+  if ( isset($prop_list['DAV::supported-privilege-set']) ) {
     $prop->NewElement("supported-privilege-set", privileges( $request->SupportedPrivileges(), "supported-privilege") );
   }
+
+}
+
+
+/**
+* Build the <propstat><prop></prop><status></status></propstat> part of the response
+*/
+function build_propstat_response( $prop, $not_found, $denied, $url ) {
+
   $status = new XMLElement("status", "HTTP/1.1 200 OK" );
 
   $propstat = new XMLElement( "propstat", array( $prop, $status) );
   $href = new XMLElement("href", $url );
   $response = array($href,$propstat);
-
-  if ( count($arbitrary_results->missing) > 0 ) {
-    foreach( $arbitrary_results->missing AS $k => $v ) {
-      $not_found->NewElement(ns_tag($k), '');
-    }
-  }
 
   if ( is_array($not_found->content) && count($not_found->content) > 0 ) {
     $response[] = new XMLElement( "propstat", array( $not_found, new XMLElement("status", "HTTP/1.1 404 Not Found" )) );
@@ -476,12 +304,132 @@ function collection_to_xml( $collection ) {
 
 
 /**
+* Returns an XML sub-tree for a single collection record from the DB
+*/
+function collection_to_xml( $collection ) {
+  global $arbitrary, $prop_list, $session, $c, $request, $reply;
+
+  dbg_error_log("PROPFIND","Building XML Response for collection '%s'", $collection->dav_name );
+
+  $allprop = isset($prop_list['DAV::allprop']);
+
+  $arbitrary_results = get_arbitrary_properties($collection->dav_name);
+  $collection->properties = $arbitrary_results->found;
+
+  $url = ConstructURL($collection->dav_name);
+
+  $prop = new XMLElement("prop");
+  $not_found = new XMLElement("prop");
+  $denied = new XMLElement("prop");
+
+  /**
+  * First process any static values we do support
+  */
+  if ( isset($prop_list['urn:ietf:params:xml:ns:caldav:supported-collation-set']) ) {
+    $collations = array();
+    $collations[] = new XMLElement($reply->Caldav("supported-collation"), 'i;ascii-casemap');
+    $collations[] = new XMLElement($reply->Caldav("supported-collation"), 'i;octet');
+    $prop->NewElement($reply->Caldav("supported-collation-set"), $collations );
+  }
+  if ( isset($prop_list['urn:ietf:params:xml:ns:caldav:supported-calendar-component-set']) ) {
+    $components = array();
+    $components[] = new XMLElement($reply->Caldav("comp"), '', array("name" => "VEVENT"));
+    $components[] = new XMLElement($reply->Caldav("comp"), '', array("name" => "VTODO"));
+    $prop->NewElement($reply->Caldav("supported-calendar-component-set"), $components );
+  }
+  if ( $allprop || isset($prop_list['DAV::getcontenttype']) ) {
+    $prop->NewElement("getcontenttype", "httpd/unix-directory" );  // Strictly text/icalendar perhaps
+  }
+
+  /**
+  * Process any dynamic values we do support
+  */
+  if ( $allprop || isset($prop_list['DAV::getcontentlength'])
+                || isset($prop_list['DAV::resourcetype']) ) {
+    $resourcetypes = array( new XMLElement("collection") );
+    $contentlength = false;
+    if ( $collection->is_calendar == 't' ) {
+      $resourcetypes[] = new XMLElement($reply->Caldav("calendar"), false);
+      $lqry = new PgQuery("SELECT sum(length(caldav_data)) FROM caldav_data WHERE user_no = ? AND dav_name ~ ?;", $collection->user_no, $collection->dav_name.'[^/]+$' );
+      if ( $lqry->Exec("PROPFIND",__LINE__,__FILE__) && $row = $lqry->Fetch() ) {
+        $contentlength = $row->sum;
+      }
+    }
+    if ( $collection->is_principal == 't' ) {
+      $resourcetypes[] = new XMLElement("principal");
+    }
+    if ( $allprop || isset($prop_list['DAV::getcontentlength']) ) {
+      $prop->NewElement("getcontentlength", $contentlength );  // Not strictly correct as a GET on this URL would be longer
+    }
+    if ( $allprop || isset($prop_list['DAV::resourcetype']) ) {
+      $prop->NewElement("resourcetype", $resourcetypes );
+    }
+  }
+
+  if ( $allprop || isset($prop_list['DAV::displayname']) ) {
+    $displayname = ( $collection->dav_displayname == "" ? ucfirst(trim(str_replace("/"," ", $collection->dav_name))) : $collection->dav_displayname );
+    $prop->NewElement("displayname", $displayname );
+  }
+  if ( isset($prop_list['http://calendarserver.org/ns/:getctag']) ) {
+    // Calendar Server extension which only applies to collections.  We return the etag, which does the needful.
+    $prop->NewElement($reply->Calendarserver('getctag'),$collection->dav_etag );
+  }
+
+  if ( isset($prop_list['urn:ietf:params:xml:ns:caldav:calendar-free-busy-set'] ) ) {
+    if ( isset($collection->is_inbox) && $collection->is_inbox && $session->user_no == $collection->user_no ) {
+      $fb_set = array();
+      foreach( $collection->free_busy_set AS $k => $v ) {
+        $fb_set[] = new XMLElement('href', $v );
+      }
+      $prop->NewElement($reply->Caldav("calendar-free-busy-set"), $fb_set );
+    }
+    else if ( $session->user_no == $collection->user_no ) {
+      $not_found->NewElement($reply->Caldav("calendar-free-busy-set") );
+    }
+    else {
+      $denied->NewElement($reply->Caldav("calendar-free-busy-set") );
+    }
+  }
+
+  /**
+  * Then look at any properties related to the principal
+  */
+  add_principal_properties( $prop, $not_found, $denied );
+
+  /**
+  * And any properties that are server/request related, or standard fields
+  * from our query.
+  */
+  add_general_properties( $prop, $not_found, $denied, $collection );
+
+  /**
+  * Arbitrary collection properties
+  */
+  if ( count($collection->properties) > 0 ) {
+    foreach( $collection->properties AS $k => $v ) {
+      $prop->NewElement($reply->Tag($k), $v);
+    }
+  }
+
+  if ( count($arbitrary_results->missing) > 0 ) {
+    foreach( $arbitrary_results->missing AS $k => $v ) {
+      $not_found->NewElement($reply->Tag($k), '');
+    }
+  }
+
+  return build_propstat_response( $prop, $not_found, $denied, $url );
+}
+
+
+/**
 * Return XML for a single data item from the DB
 */
 function item_to_xml( $item ) {
-  global $attribute_list, $session, $c, $request;
+  global $prop_list, $session, $c, $request, $reply;
 
   dbg_error_log("PROPFIND","Building XML Response for item '%s'", $item->dav_name );
+
+  $allprop = isset($prop_list['DAV::allprop']);
 
   $item->properties = get_arbitrary_properties($item->dav_name);
 
@@ -492,30 +440,22 @@ function item_to_xml( $item ) {
   $denied  = new XMLElement("prop");
 
 
-  if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['GETLASTMODIFIED']) ) {
-    $prop->NewElement("getlastmodified", ( isset($item->modified)? $item->modified : false ));
-  }
-  if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['GETCONTENTLENGTH']) ) {
+  if ( $allprop || isset($prop_list['DAV::getcontentlength']) ) {
     $contentlength = strlen($item->caldav_data);
     $prop->NewElement("getcontentlength", $contentlength );
   }
-  if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['GETCONTENTTYPE']) ) {
+  if ( $allprop || isset($prop_list['DAV::getcontenttype']) ) {
     $prop->NewElement("getcontenttype", "text/calendar" );
   }
-  if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['CREATIONDATE']) ) {
-    $prop->NewElement("creationdate", $item->created );
+  if ( $allprop || isset($prop_list['DAV::displayname']) ) {
+    $prop->NewElement("displayname", $item->dav_displayname );
   }
+
   /**
   * Non-collections should return an empty resource type, it appears from RFC2518 8.1.2
   */
-  if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['RESOURCETYPE']) ) {
+  if ( $allprop || isset($prop_list['DAV::resourcetype']) ) {
     $prop->NewElement("resourcetype");
-  }
-  if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['DISPLAYNAME']) ) {
-    $prop->NewElement("displayname", $item->dav_displayname );
-  }
-  if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['GETETAG']) ) {
-    $prop->NewElement("getetag", '"'.$item->dav_etag.'"' );
   }
 
   /**
@@ -523,51 +463,12 @@ function item_to_xml( $item ) {
   */
   add_principal_properties( $prop, $not_found, $denied );
 
-  if ( isset($attribute_list['ACL']) ) {
-    /**
-    * FIXME: This information is semantically valid but presents an incorrect picture.
-    */
-    $principal = new XMLElement("principal");
-    $principal->NewElement("authenticated");
-    $grant = new XMLElement( "grant", array(privileges($request->permissions)) );
-    $prop->NewElement("acl", new XMLElement( "ace", array( $principal, $grant ) ) );
-  }
+  /**
+  * And any properties that are server/request related.
+  */
+  add_general_properties( $prop, $not_found, $denied, $item );
 
-  if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['GETCONTENTLANGUAGE']) ) {
-    $contentlength = strlen($item->caldav_data);
-    $prop->NewElement("getcontentlanguage", $c->current_locale );
-  }
-  if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['CURRENT-USER-PRIVILEGE-SET']) ) {
-    $prop->NewElement("current-user-privilege-set", privileges($request->permissions) );
-  }
-
-  if ( isset($attribute_list['ALLPROP']) || isset($attribute_list['SUPPORTEDLOCK']) ) {
-    $prop->NewElement("supportedlock",
-       new XMLElement( "lockentry",
-         array(
-           new XMLElement("lockscope", new XMLElement("exclusive")),
-           new XMLElement("locktype",  new XMLElement("write")),
-         )
-       )
-     );
-  }
-  $status = new XMLElement("status", "HTTP/1.1 200 OK" );
-
-  $propstat = new XMLElement( "propstat", array( $prop, $status) );
-  $href = new XMLElement("href", $url );
-  $response = array($href,$propstat);
-
-  if ( is_array($not_found->content) && count($not_found->content) > 0 ) {
-    $response[] = new XMLElement( "propstat", array( $not_found, new XMLElement("status", "HTTP/1.1 404 Not Found" )) );
-  }
-
-  if ( is_array($denied->content) && count($denied->content) > 0 ) {
-    $response[] = new XMLElement( "propstat", array( $denied, new XMLElement("status", "HTTP/1.1 403 Forbidden" )) );
-  }
-
-  $response = new XMLElement( "response", $response );
-
-  return $response;
+  return build_propstat_response( $prop, $not_found, $denied, $url );
 }
 
 /**
@@ -576,7 +477,7 @@ function item_to_xml( $item ) {
 * a list of calendars for the user which are parented by this path.
 */
 function get_collection_contents( $depth, $user_no, $collection ) {
-  global $session, $request;
+  global $session, $request, $reply, $prop_list;
 
   dbg_error_log("PROPFIND","Getting collection contents: Depth %d, User: %d, Path: %s", $depth, $user_no, $collection->dav_name );
 
@@ -586,7 +487,7 @@ function get_collection_contents( $depth, $user_no, $collection ) {
     * Calendar collections may not contain calendar collections.
     */
     if ( $collection->dav_name == '/' ) {
-      $sql = "SELECT user_no, user_no, '/' || username || '/' AS dav_name, md5( '/' || username || '/') AS dav_etag, ";
+      $sql = "SELECT usr.*, '/' || username || '/' AS dav_name, md5( '/' || username || '/') AS dav_etag, ";
       $sql .= "to_char(updated at time zone 'GMT',?) AS created, ";
       $sql .= "to_char(updated at time zone 'GMT',?) AS modified, ";
       $sql .= "fullname AS dav_displayname, FALSE AS is_calendar, TRUE AS is_principal FROM usr ";
@@ -603,7 +504,13 @@ function get_collection_contents( $depth, $user_no, $collection ) {
 
     if( $qry->Exec("PROPFIND",__LINE__,__FILE__) && $qry->rows > 0 ) {
       while( $subcollection = $qry->Fetch() ) {
-        $responses[] = collection_to_xml( $subcollection );
+        if ( $subcollection->is_principal == "t" ) {
+          $principal = new CalDAVPrincipal($subcollection);
+          $responses[] = $principal->RenderAsXML($prop_list, &$reply);
+        }
+        else {
+          $responses[] = collection_to_xml( $subcollection );
+        }
         if ( $depth > 0 ) {
           $responses = array_merge( $responses, get_collection_contents( $depth - 1,  $user_no, $subcollection ) );
         }
@@ -740,7 +647,8 @@ else {
   $request->DoResponse( 403, translate("You do not have appropriate rights to view that resource.") );
 }
 
-$multistatus = new XMLElement( "multistatus", $responses, namespace_array() );
+
+$multistatus = new XMLElement( "multistatus", $responses, $reply->GetXmlNsArray() );
 
 // dbg_log_array( "PROPFIND", "XML", $multistatus, true );
 $xmldoc = $multistatus->Render(0,'<?xml version="1.0" encoding="utf-8" ?>');

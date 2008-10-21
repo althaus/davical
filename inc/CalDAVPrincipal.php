@@ -53,10 +53,22 @@ class CalDAVPrincipal
   var $by_email;
 
   /**
+  * @var RFC3744: The principals that are direct members of this group.
+  */
+  var $group_member_set;
+
+  /**
+  * @var RFC3744: The groups in which the principal is directly a member.
+  */
+  var $group_membership;
+
+  /**
   * Constructor
   * @param mixed $parameters If null, an empty Principal is created.  If it
   *              is an integer then that ID is read (if possible).  If it is
-  *              an array then the Principal matching the supplied elements is read.
+  *              an array then the Principal matching the supplied elements
+  *              is read.  If it is an object then it is expected to be a 'usr'
+  *              record that was read elsewhere.
   *
   * @return boolean Whether we actually read data from the DB to initialise the record.
   */
@@ -65,7 +77,11 @@ class CalDAVPrincipal
 
     if ( $parameters == null ) return false;
     $this->by_email = false;
-    if ( is_int($parameters) ) {
+    if ( is_object($parameters) ) {
+      dbg_error_log( "principal", "Principal: record for %s", $parameters->username );
+      $usr = $parameters;
+    }
+    else if ( is_int($parameters) ) {
       dbg_error_log( "principal", "Principal: %d", $parameters );
       $usr = getUserByID($parameters);
     }
@@ -110,17 +126,43 @@ class CalDAVPrincipal
     $this->url = ConstructURL( "/".$this->username."/" );
 //    $this->url = ConstructURL( "/__uuids__/" . $this->username . "/" );
 
-    $this->calendar_home_set = ConstructURL( "/".$this->username."/" );
+//    $qry = new PgQuery("SELECT dav_name FROM collection WHERE user_no = ?", $this->user_no);
+//    // Should be only one record, but this might change in future.
+//    $qry = new PgQuery("SELECT DISTINCT parent_container FROM collection WHERE user_no = ?", $this->user_no);
+//    $this->calendar_home_set = array();
+//   if( $qry->Exec("CalDAVPrincipal",__LINE__,__FILE__) && $qry->rows > 0 ) {
+//      while( $calendar = $qry->Fetch() ) {
+//        $this->calendar_home_set[] = ConstructURL($calendar->dav_name);
+//      }
+//    }
+    $this->calendar_home_set = array( $this->url );
 
     $this->user_address_set = array(
+       "mailto:".$this->email,
        ConstructURL( "/".$this->username."/" ),
 //       ConstructURL( "/~".$this->username."/" ),
 //       ConstructURL( "/__uuids__/".$this->username."/" ),
     );
-    $this->schedule_inbox_url = sprintf( "%s.in/", $this->calendar_home_set);
-    $this->schedule_outbox_url = sprintf( "%s.out/", $this->calendar_home_set);
-    $this->dropbox_url = sprintf( "%s.drop/", $this->calendar_home_set);
-    $this->notifications_url = sprintf( "%s.notify/", $this->calendar_home_set);
+    $this->schedule_inbox_url = sprintf( "%s.in/", $this->url);
+    $this->schedule_outbox_url = sprintf( "%s.out/", $this->url);
+    $this->dropbox_url = sprintf( "%s.drop/", $this->url);
+    $this->notifications_url = sprintf( "%s.notify/", $this->url);
+
+    $this->group_member_set = array();
+    $qry = new PgQuery("SELECT * FROM relationship LEFT JOIN usr ON (from_user = usr.user_no) LEFT JOIN role_member ON (to_user = role_member.user_no) LEFT JOIN roles USING (role_no) WHERE to_user = ? AND role_name = 'Group';", $this->user_no );
+    if ( $qry->Exec("CalDAVPrincipal") && $qry->rows > 0 ) {
+      while( $membership = $qry->Fetch() ) {
+            $this->group_member_set[] = ConstructURL( "/". $membership->username . "/");
+      }
+    }
+
+    $this->group_membership = array();
+    $qry = new PgQuery("SELECT * FROM relationship LEFT JOIN usr ON (to_user = user_no) LEFT JOIN role_member USING (user_no) LEFT JOIN roles USING (role_no) WHERE from_user = ? AND role_name = 'Group';", $this->user_no );
+    if ( $qry->Exec("CalDAVPrincipal") && $qry->rows > 0 ) {
+      while( $membership = $qry->Fetch() ) {
+        $this->group_membership[] = ConstructURL( "/". $membership->username . "/");
+      }
+    }
 
     dbg_error_log( "principal", "User: %s (%d) URL: %s, Home: %s, By Email: %d", $this->username, $this->user_no, $this->url, $this->calendar_home_set, $this->by_email );
   }
@@ -167,5 +209,189 @@ class CalDAVPrincipal
   }
 
 
+  /**
+  * Returns the array of privilege names converted into XMLElements
+  */
+  function RenderPrivileges($privilege_names, $container="privilege") {
+    $privileges = array();
+    foreach( $privilege_names AS $k => $v ) {
+      $privileges[] = new XMLElement($container, new XMLElement($k));
+    }
+    return $privileges;
+  }
+
+
+  /**
+  * Render XML for a single Principal (user) from the DB
+  *
+  * @param array $properties The requested properties for this principal
+  * @param reference $reply A reference to the XMLDocument being used for the reply
+  * @param boolean $props_only Default false.  If true will only return the fragment with the properties, not a full response fragment.
+  *
+  * @return string An XML fragment with the requested properties for this principal
+  */
+  function RenderAsXML( $properties, &$reply, $props_only = false ) {
+    global $session, $c, $request;
+
+    dbg_error_log("CalDAVPrincipal",": RenderAsXML: Principal '%s'", $this->username );
+
+    $prop = new XMLElement("prop");
+    $denied = array();
+    $not_found = array();
+    foreach( $properties AS $k => $tag ) {
+      dbg_error_log("CalDAVPrincipal",": RenderAsXML: Principal Property '%s'", $tag );
+      switch( $tag ) {
+        case 'DAV::getcontenttype':
+          $prop->NewElement("getcontenttype", "httpd/unix-directory" );
+          break;
+
+        case 'DAV::resourcetype':
+          $prop->NewElement("resourcetype", array( new XMLElement("principal"), new XMLElement("collection")) );
+          break;
+
+        case 'DAV::displayname':
+          $prop->NewElement("displayname", $this->fullname );
+          break;
+
+        case 'DAV::principal-URL':
+          $prop->NewElement("principal-URL", $this->url );
+          break;
+
+        case 'DAV::getlastmodified':
+          $prop->NewElement("getlastmodified", $this->modified );
+          break;
+
+        case 'DAV::group-member-set':
+          $set = array();
+          foreach( $this->group_member_set AS $k => $url ) {
+            $set[] = new XMLElement('href', $url );
+          }
+          $prop->NewElement("group-member-set", $set );
+          break;
+
+        case 'DAV::group-membership':
+          $set = array();
+          foreach( $this->group_membership AS $k => $url ) {
+            $set[] = new XMLElement('href', $url );
+          }
+          $prop->NewElement("group-membership", $set );
+          break;
+
+        case 'urn:ietf:params:xml:ns:caldav:schedule-inbox-URL':
+          $prop->NewElement($reply->Caldav("schedule-inbox-URL"), new XMLElement('href', $this->schedule_inbox_url) );
+          break;
+
+        case 'urn:ietf:params:xml:ns:caldav:schedule-outbox-URL':
+          $prop->NewElement($reply->Caldav("schedule-outbox-URL"), new XMLElement('href', $this->schedule_outbox_url) );
+          break;
+
+        case 'http://calendarserver.org/ns/:dropbox-home-URL':
+          $prop->NewElement($reply->Calendarserver("dropbox-home-URL"), new XMLElement('href', $this->dropbox_url) );
+          break;
+
+        case 'http://calendarserver.org/ns/:notifications-URL':
+          $prop->NewElement($reply->Calendarserver("notifications-URL"), new XMLElement('href', $this->notifications_url) );
+          break;
+
+        case 'urn:ietf:params:xml:ns:caldav:calendar-home-set':
+          $set = array();
+          foreach( $this->calendar_home_set AS $k => $url ) {
+            $set[] = new XMLElement('href', $url );
+          }
+          $prop->NewElement($reply->Caldav("calendar-home-set"), $set );
+          break;
+
+        case 'urn:ietf:params:xml:ns:caldav:calendar-user-address-set':
+          $set = array();
+          foreach( $this->user_address_set AS $k => $v ) {
+            $set[] = new XMLElement('href', $v );
+          }
+          $prop->NewElement($reply->Caldav("calendar-user-address-set"), $set );
+          break;
+
+        case 'DAV::getcontentlanguage':
+          $locale = $c->current_locale;
+          if ( isset($this->locale) && $this->locale != "" ) $locale = $this->locale;
+          $prop->NewElement("getcontentlanguage", $locale );
+          break;
+
+        case 'DAV::supportedlock':
+          $prop->NewElement("supportedlock",
+            new XMLElement( "lockentry",
+              array(
+                new XMLElement("lockscope", new XMLElement("exclusive")),
+                new XMLElement("locktype",  new XMLElement("write")),
+              )
+            )
+          );
+          break;
+
+        case 'DAV::acl':
+          /**
+          * FIXME: This information is semantically valid but presents an incorrect picture.
+          */
+          $principal = new XMLElement("principal");
+          $principal->NewElement("authenticated");
+          $grant = new XMLElement( "grant", array($this->RenderPrivileges($request->permissions)) );
+          $prop->NewElement("acl", new XMLElement( "ace", array( $principal, $grant ) ) );
+          break;
+
+        case 'DAV::current-user-privilege-set':
+          $prop->NewElement("current-user-privilege-set", $this->RenderPrivileges($request->permissions) );
+          break;
+
+        case 'DAV::supported-privilege-set':
+          $prop->NewElement("supported-privilege-set", $this->RenderPrivileges( $request->SupportedPrivileges(), "supported-privilege") );
+          break;
+
+        // Empty tag responses.
+        case 'DAV::creationdate':
+        case 'DAV::alternate-URI-set':
+        case 'DAV::getcontentlength':
+          $prop->NewElement( $reply->Tag($tag));
+          break;
+
+        case 'SOME-DENIED-PROPERTY':  /** TODO: indicating the style for future expansion */
+          $denied[] = $reply->Tag($tag);
+          break;
+
+        default:
+          dbg_error_log( 'CalDAVPrincipal', "Request for unsupported property '%s' of principal.", $item->username );
+          $not_found[] = $reply->Tag($tag);
+          break;
+      }
+    }
+
+    if ( $props_only ) return $prop;
+
+    $status = new XMLElement("status", "HTTP/1.1 200 OK" );
+
+    $propstat = new XMLElement( "propstat", array( $prop, $status) );
+    $href = new XMLElement("href", $this->url );
+
+    $elements = array($href,$propstat);
+
+    if ( count($denied) > 0 ) {
+      $status = new XMLElement("status", "HTTP/1.1 403 Forbidden" );
+      $noprop = new XMLElement("prop");
+      foreach( $denied AS $k => $v ) {
+        $noprop->NewElement( strtolower($v) );
+      }
+      $elements[] = new XMLElement( "propstat", array( $noprop, $status) );
+    }
+
+    if ( count($not_found) > 0 ) {
+      $status = new XMLElement("status", "HTTP/1.1 404 Not Found" );
+      $noprop = new XMLElement("prop");
+      foreach( $not_found AS $k => $v ) {
+        $noprop->NewElement( strtolower($v) );
+      }
+      $elements[] = new XMLElement( "propstat", array( $noprop, $status) );
+    }
+
+    $response = new XMLElement( "response", $elements );
+
+    return $response;
+  }
 
 }

@@ -9,20 +9,20 @@ $responses = array();
 /**
  * Build the array of properties to include in the report output
  */
-$mg_content = $xmltree->GetContent('URN:IETF:PARAMS:XML:NS:CALDAV:CALENDAR-MULTIGET');
+$mg_content = $xmltree->GetContent('urn:ietf:params:xml:ns:caldav:calendar-multiget');
 $proptype = $mg_content[0]->GetTag();
 $properties = array();
 switch( $proptype ) {
-  case 'DAV::PROP':
-    $mg_props = $xmltree->GetPath('/URN:IETF:PARAMS:XML:NS:CALDAV:CALENDAR-MULTIGET/DAV::PROP/*');
+  case 'DAV::prop':
+    $mg_props = $xmltree->GetPath('/urn:ietf:params:xml:ns:caldav:calendar-multiget/DAV::prop/*');
     foreach( $mg_props AS $k => $v ) {
       $propertyname = preg_replace( '/^.*:/', '', $v->GetTag() );
       $properties[$propertyname] = 1;
     }
     break;
 
-  case 'DAV::ALLPROP':
-    $properties['ALLPROP'] = 1;
+  case 'DAV::allprop':
+    $properties['allprop'] = 1;
     break;
 
   default:
@@ -33,7 +33,7 @@ switch( $proptype ) {
 /**
  * Build the href list for the IN ( href, href, href, ... ) clause.
  */
-$mg_hrefs = $xmltree->GetPath('/URN:IETF:PARAMS:XML:NS:CALDAV:CALENDAR-MULTIGET/DAV::HREF');
+$mg_hrefs = $xmltree->GetPath('/urn:ietf:params:xml:ns:caldav:calendar-multiget/DAV::href');
 $href_in = '';
 foreach( $mg_hrefs AS $k => $v ) {
   /**
@@ -65,6 +65,6 @@ if ( $qry->Exec("REPORT",__LINE__,__FILE__) && $qry->rows > 0 ) {
   }
 }
 
-$multistatus = new XMLElement( "multistatus", $responses, array('xmlns'=>'DAV:') );
+$multistatus = new XMLElement( "multistatus", $responses, $reply->GetXmlNsArray() );
 
 $request->XMLResponse( 207, $multistatus );

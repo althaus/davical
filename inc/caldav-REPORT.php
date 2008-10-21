@@ -10,6 +10,8 @@
 */
 dbg_error_log("REPORT", "method handler");
 
+require_once("XMLDocument.php");
+
 if ( ! ini_get('open_basedir') && (isset($c->dbg['ALL']) || $c->dbg['report']) ) {
   $fh = fopen('/tmp/REPORT.txt','w');
   if ( $fh ) {
@@ -40,11 +42,13 @@ $denied = array();
 $unsupported = array();
 if ( isset($prop_filter) ) unset($prop_filter);
 
-if ( $xmltree->GetTag() == "URN:IETF:PARAMS:XML:NS:CALDAV:FREE-BUSY-QUERY" ) {
+if ( $xmltree->GetTag() == "urn:ietf:params:xml:ns:caldav:free-busy-query" ) {
   include("caldav-REPORT-freebusy.php");
   exit; // Not that the above include should return anyway
 }
-if ( $xmltree->GetTag() == "DAV::PRINCIPAL-PROPERTY-SEARCH" ) {
+
+$reply = new XMLDocument( array( "DAV:" => "" ) );
+if ( $xmltree->GetTag() == "DAV::principal-property-search" ) {
   include("caldav-REPORT-principal.php");
   exit; // Not that the above include should return anyway
 }
@@ -66,14 +70,14 @@ if ( ! ($request->AllowedTo('read') ) ) {
 * @return string An XML document which is the response for the calendar
 */
 function calendar_to_xml( $properties, $item ) {
-  global $session, $c, $request;
+  global $session, $c, $request, $reply;
 
   dbg_error_log("REPORT","Building XML Response for item '%s'", $item->dav_name );
 
   $denied = array();
   $caldav_data = $item->caldav_data;
   $displayname = $item->summary;
-  if ( isset($properties['CALENDAR-DATA']) || isset($properties['DISPLAYNAME']) ) {
+  if ( isset($properties['calendar-data']) || isset($properties['displayname']) ) {
     if ( !$request->AllowedTo('all') && $session->user_no != $item->user_no ){
       // the user is not admin / owner of this calendarlooking at his calendar and can not admin the other cal
       if ( $item->class == 'CONFIDENTIAL' ) {
@@ -108,27 +112,27 @@ function calendar_to_xml( $properties, $item ) {
   $prop = new XMLElement("prop");
   foreach( $properties AS $k => $v ) {
     switch( $k ) {
-      case 'GETCONTENTLENGTH':
+      case 'getcontentlength':
         $contentlength = strlen($caldav_data);
-        $prop->NewElement("getcontentlength", $contentlength );
+        $prop->NewElement($k, $contentlength );
         break;
-      case 'CALENDAR-DATA':
-        $prop->NewElement("calendar-data","$caldav_data" , array("xmlns" => "urn:ietf:params:xml:ns:caldav") );
+      case 'calendar-data':
+        $prop->NewElement($reply->Caldav($k), $caldav_data );
         break;
-      case 'GETCONTENTTYPE':
-        $prop->NewElement("getcontenttype", "text/calendar" );
+      case 'getcontenttype':
+        $prop->NewElement($k, "text/calendar" );
         break;
-      case 'RESOURCETYPE':
-        $prop->NewElement("resourcetype", new XMLElement("calendar", false, array("xmlns" => "urn:ietf:params:xml:ns:caldav")) );
+      case 'resourcetype':
+        $prop->NewElement($k, new XMLElement($reply->Caldav("calendar"), false) );
         break;
-      case 'DISPLAYNAME':
-        $prop->NewElement("displayname", $displayname );
+      case 'displayname':
+        $prop->NewElement($k, $displayname );
         break;
-      case 'GETETAG':
-        $prop->NewElement("getetag", '"'.$item->dav_etag.'"' );
+      case 'getetag':
+        $prop->NewElement($k, '"'.$item->dav_etag.'"' );
         break;
-      case 'CURRENT-USER-PRIVILEGE-SET':
-        $prop->NewElement("current-user-privilege-set", privileges($request->permissions) );
+      case '"current-user-privilege-set"':
+        $prop->NewElement($k, privileges($request->permissions) );
         break;
       case 'SOME-DENIED-PROPERTY':  /** TODO: indicating the style for future expansion */
         $denied[] = $v;
@@ -158,16 +162,15 @@ function calendar_to_xml( $properties, $item ) {
   return $response;
 }
 
-if ( $xmltree->GetTag() == "URN:IETF:PARAMS:XML:NS:CALDAV:CALENDAR-QUERY" ) {
-  $calquery = $xmltree->GetPath("/URN:IETF:PARAMS:XML:NS:CALDAV:CALENDAR-QUERY/*");
+if ( $xmltree->GetTag() == "urn:ietf:params:xml:ns:caldav:calendar-query" ) {
+  $calquery = $xmltree->GetPath("/urn:ietf:params:xml:ns:caldav:calendar-query/*");
   include("caldav-REPORT-calquery.php");
 }
-elseif ( $xmltree->GetTag() == "URN:IETF:PARAMS:XML:NS:CALDAV:CALENDAR-MULTIGET" ) {
-  $multiget = $xmltree->GetPath("/URN:IETF:PARAMS:XML:NS:CALDAV:CALENDAR-MULTIGET/*");
+elseif ( $xmltree->GetTag() == "urn:ietf:params:xml:ns:caldav:calendar-multiget" ) {
+  $multiget = $xmltree->GetPath("/urn:ietf:params:xml:ns:caldav:calendar-multiget/*");
   include("caldav-REPORT-multiget.php");
 }
 else {
   $request->DoResponse( 501, "XML is not a supported REPORT query document" );
 }
 
-?>
