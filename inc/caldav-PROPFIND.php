@@ -143,28 +143,36 @@ function privileges($privilege_names, $container="privilege") {
 
 
 /**
-* Fetches any arbitrary properties that were requested by the PROPFIND into an
-* array, which we return.
-* @return array The arbitrary properties.
+* Adds any arbitrary properties that were requested by the PROPFIND into the response.
+*
+* @param reference $prop An XMLElement of the partly constructed response
+* @param reference $not_found An XMLElement of properties which are not found
+* @param reference $denied An XMLElement of properties to which access is denied
+* @param object $record A record with a dav_name attribute which the properties apply to
 */
-function get_arbitrary_properties($dav_name) {
-  global $arbitrary;
+function add_arbitrary_properties(&$prop, &$not_found, $record) {
+  global $arbitrary, $reply;
 
-  $results = (object) array( 'found' => array(), 'missing' => $arbitrary );
+  $missing = $arbitrary;
 
   if ( count($arbitrary) > 0 ) {
     $sql = "";
     foreach( $arbitrary AS $k => $v ) {
       $sql .= ($sql == "" ? "" : ", ") . qpg($k);
     }
-    $qry = new PgQuery("SELECT property_name, property_value FROM property WHERE dav_name=? AND property_name IN ($sql)", $dav_name );
+    $qry = new PgQuery("SELECT property_name, property_value FROM property WHERE dav_name=? AND property_name IN ($sql)", $record->dav_name );
     while( $qry->Exec("PROPFIND") && $property = $qry->Fetch() ) {
-      $results->found[$property->property_name] = $property->property_value;
-      unset($results->missing[$property->property_name]);
+      $prop->NewElement($reply->Tag($property->property_name), $property->property_value);
+      unset($missing[$property->property_name]);
     }
   }
 
-  return $results;
+  if ( count($missing) > 0 ) {
+    foreach( $missing AS $k => $v ) {
+      $not_found->NewElement($reply->Tag($k), '');
+    }
+  }
+
 }
 
 
@@ -313,9 +321,6 @@ function collection_to_xml( $collection ) {
 
   $allprop = isset($prop_list['DAV::allprop']);
 
-  $arbitrary_results = get_arbitrary_properties($collection->dav_name);
-  $collection->properties = $arbitrary_results->found;
-
   $url = ConstructURL($collection->dav_name);
 
   $prop = new XMLElement("prop");
@@ -405,17 +410,7 @@ function collection_to_xml( $collection ) {
   /**
   * Arbitrary collection properties
   */
-  if ( count($collection->properties) > 0 ) {
-    foreach( $collection->properties AS $k => $v ) {
-      $prop->NewElement($reply->Tag($k), $v);
-    }
-  }
-
-  if ( count($arbitrary_results->missing) > 0 ) {
-    foreach( $arbitrary_results->missing AS $k => $v ) {
-      $not_found->NewElement($reply->Tag($k), '');
-    }
-  }
+  add_arbitrary_properties($prop, $not_found, $collection);
 
   return build_propstat_response( $prop, $not_found, $denied, $url );
 }
