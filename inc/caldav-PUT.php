@@ -29,7 +29,7 @@ $lock_opener = $request->FailIfLocked();
 
 
 if ( $is_collection  ) {
-  if ( isset($c->deny_put_collection) && $c->deny_put_collection ) {
+  if ( isset($c->readonly_webdav_collections) && $c->readonly_webdav_collections ) {
     $request->DoResponse( 405 ); // Method not allowed
     return;
   }
