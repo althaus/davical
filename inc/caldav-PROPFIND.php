@@ -243,7 +243,8 @@ function add_general_properties( &$prop, &$not_found, &$denied, $record ) {
   }
 
   if ( isset($prop_list['DAV::owner']) ) {
-    $prop->NewElement("owner", new XMLElement('href', 'mailto:'.$request->principal->email ) );
+    // After a careful reading of RFC3744 we see that this must be the principal-URL of the owner
+    $prop->NewElement("owner", new XMLElement('href', $request->principal->url ) );
   }
   if ( isset($prop_list['DAV::principal-collection-set']) ) {
     $prop->NewElement("principal-collection-set", new XMLElement('href', ConstructURL('/') ) );
