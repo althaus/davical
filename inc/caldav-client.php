@@ -337,7 +337,7 @@ EOXML;
           break;
         case 'URN:IETF:PARAMS:XML:NS:CALDAV:CALENDAR-DATA':
           $response['data'] = $v['value'];
-          $response[$report_type] = $v['value'];  // deprecated - will be removed.  Just use 'data' please :-)
+          if ( $report_type != 'data' ) $response[$report_type] = $v['value'];  // deprecated - will be removed.  Just use 'data' please :-)
           break;
       }
     }
@@ -373,7 +373,7 @@ EOXML;
 EOFILTER;
     }
 
-    return DoCalendarQuery($filter, $relative_url, 'event');
+    return DoCalendarQuery($filter, $relative_url);
   }
 
 
@@ -419,7 +419,7 @@ EOTIME;
   </C:filter>
 EOFILTER;
 
-    return DoCalendarQuery($filter, $relative_url, 'todo');
+    return DoCalendarQuery($filter, $relative_url);
   }
 
 
