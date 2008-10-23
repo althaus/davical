@@ -77,6 +77,11 @@ else {
   include_once("davical_configuration_missing.php");
   exit;
 }
+if ( isset($c->deny_put_collection) ) {
+  @dbg_error_log( "WARN", "Deprecated 'deny_put_collection' configuration item renamed to 'readonly_webdav_collections'" );
+  $c->readonly_webdav_collections = $c->deny_put_collection;
+}
+
 if ( !isset($c->page_title) ) $c->page_title = $c->system_name;
 
 if ( count($c->dbg) > 0 ) {
