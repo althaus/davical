@@ -252,7 +252,7 @@ class iCalDate {
   * Add some integer number of days to a date
   */
   function AddDays( $dd ) {
-    dbg_error_log( "RRule", " Adding %d days to %s", $dd, $this->_text );
+    $at_start = $this->_text;
     $this->_dd += $dd;
     while ( 1 > $this->_dd ) {
       $this->_mo--;
@@ -272,7 +272,7 @@ class iCalDate {
     }
     $this->_EpochFromParts();
     $this->_TextFromEpoch();
-    dbg_error_log( "RRule", " Added %d days and got %s", $dd, $this->_text );
+    dbg_error_log( "RRule", " Added %d days to %s and got %s", $dd, $at_start, $this->_text );
   }
 
 
@@ -436,20 +436,23 @@ class iCalDate {
   /**
   * Applies any BYDAY to the week to return a set of days
   * @param string $byday The BYDAY rule
+  * @param string $increasing When we are moving by months, we want any day of the week, but when by day we only want to increase. Default false.
   * @return array An array of the day numbers for the week which meet the rule.
   */
-  function GetWeekByDay($byday) {
+  function GetWeekByDay($byday, $increasing = false) {
     global $ical_weekdays;
     dbg_error_log( "RRule", " Applying BYDAY %s to week", $byday );
     $days = split(',',$byday);
     $dow = date('w',$this->_epoch);
+    $set = array();
     foreach( $days AS $k => $v ) {
       $daynum = $ical_weekdays[$v];
       $dd = $this->_dd - $dow + $daynum;
       if ( $daynum < $this->_wkst ) $dd += 7;
-      $set[$dd] = $dd;
+      if ( $dd > $this->_dd || !$increasing ) $set[$dd] = $dd;
     }
     asort( $set, SORT_NUMERIC );
+
     return $set;
   }
 
@@ -893,15 +896,15 @@ class RRule {
       $limit = 100;
       do {
         $limit--;
-          if ( $this->_started ) {
-            $next->AddDays($this->_part['INTERVAL']);
-          }
-          else {
-            $this->_started = true;
-          }
+        if ( $this->_started ) {
+          $next->AddDays($this->_part['INTERVAL']);
+        }
+        else {
+          $this->_started = true;
+        }
 
         if ( isset($this->_part['BYDAY']) ) {
-          $days = $next->GetWeekByDay($this->_part['BYDAY']);
+          $days = $next->GetWeekByDay($this->_part['BYDAY'], true );
         }
         else
           $days[$next->_dd] = $next->_dd;
