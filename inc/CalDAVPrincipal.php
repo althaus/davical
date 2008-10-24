@@ -93,6 +93,13 @@ class CalDAVPrincipal
       else if ( isset($parameters['user_no']) ) {
         $usr = getUserByID($parameters['user_no']);
       }
+      else if ( isset($parameters['email']) && isset($parameters['options']['allow_by_email']) ) {
+        $parameters['options']['allow_by_email'] = false;
+        if ( $username = $this->UsernameFromEMail($parameters['email']) ) {
+          $usr = getUserByName($username);
+          $this->by_email = true;
+        }
+      }
       else if ( isset($parameters['path']) ) {
         dbg_error_log( "principal", "Finding Principal from path: '%s', options.allow_by_email: '%s'", $parameters['path'], $parameters['options']['allow_by_email'] );
         if ( $username = $this->UsernameFromPath($parameters['path'], $parameters['options']) ) {
@@ -205,6 +212,21 @@ class CalDAVPrincipal
         $user_no = $user->user_no;
       }
     }
+    return $username;
+  }
+
+
+  /**
+  * Work out the username, based on the given e-mail
+  * @param string $email The email address to be used.
+  */
+  function UsernameFromEMail( $email ) {
+    $qry = new PgQuery("SELECT user_no, username FROM usr WHERE email = ?;", $email );
+    if ( $qry->Exec("principal") && $user = $qry->Fetch() ) {
+      $user_no = $user->user_no;
+      $username = $user->username;
+    }
+
     return $username;
   }
 

@@ -378,3 +378,55 @@ BEGIN
   RETURN newname;
 END;
 $$ LANGUAGE plpgsql;
+
+
+DROP TRIGGER caldav_data_modified ON caldav_data CASCADE;
+CREATE or REPLACE FUNCTION caldav_data_modified() RETURNS TRIGGER AS $$
+DECLARE
+  coll_id caldav_data.collection_id%TYPE;
+BEGIN
+  IF TG_OP = 'UPDATE' THEN
+    IF NEW.caldav_data = OLD.caldav_data AND NEW.collection_id = OLD.collection_id THEN
+      -- Nothing for us to do
+      RETURN NEW;
+    END IF;
+  END IF;
+
+  IF TG_OP = 'DELETE' OR TG_OP = 'UPDATE' THEN
+    UPDATE collection
+       SET modified = current_timestamp, dav_etag = md5(OLD.user_no::text||OLD.dav_name||current_timestamp::text)
+     WHERE collection_id = OLD.collection_id;
+    IF TG_OP = 'DELETE' THEN
+      RETURN OLD;
+    END IF;
+  END IF;
+
+  IF TG_OP = 'INSERT' THEN
+    UPDATE collection
+       SET modified = current_timestamp, dav_etag = md5(NEW.user_no::text||NEW.dav_name||current_timestamp::text)
+     WHERE collection_id = NEW.collection_id;
+    RETURN NEW;
+  END IF;
+
+  IF NEW.collection_id != OLD.collection_id THEN
+    UPDATE collection
+       SET modified = current_timestamp, dav_etag = md5(NEW.user_no::text||NEW.dav_name||current_timestamp::text)
+     WHERE collection_id = NEW.collection_id;
+  END IF;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+CREATE TRIGGER caldav_data_modified AFTER INSERT OR UPDATE OR DELETE ON caldav_data
+    FOR EACH ROW EXECUTE PROCEDURE caldav_data_modified();
+
+/*
+DROP TRIGGER collection_modified ON collection CASCADE;
+CREATE or REPLACE FUNCTION collection_modified() RETURNS TRIGGER AS $$
+DECLARE
+BEGIN
+
+END;
+$$ LANGUAGE plpgsql;
+CREATE TRIGGER collection_modified AFTER INSERT OR UPDATE ON collection
+    FOR EACH ROW EXECUTE PROCEDURE collection_modified();
+*/

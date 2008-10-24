@@ -18,6 +18,7 @@ $tests = array(
   , "20061117T073000" => "RRULE:FREQ=MONTHLY;BYDAY=1MO,2WE,3FR,-1SU"
   , "20061107T103000" => "RRULE:FREQ=MONTHLY;BYDAY=MO,TU,WE,TH,FR"
   , "20061107T113000" => "RRULE:FREQ=MONTHLY;BYDAY=MO,TU,WE,TH,FR;BYSETPOS=-1"
+  , "20081020T110000" => "RRULE:FREQ=DAILY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR"
 );
 
 foreach( $tests AS $start => $rrule ) {
@@ -26,7 +27,7 @@ foreach( $tests AS $start => $rrule ) {
   $rule = new RRule( new iCalDate($start), $rrule );
   $i = 0;
   do {
-    if ( ($i % 4) == 0 ) echo "\n";
+    if ( ($i % 10) == 0 ) echo "\n";
     $date = $rule->GetNext();
     if ( isset($date) ) {
       echo "   " . $date->Render();
@@ -38,4 +39,3 @@ foreach( $tests AS $start => $rrule ) {
 }
 
 exit(0);
-?>
