@@ -354,12 +354,22 @@ function collection_to_xml( $collection ) {
                 || isset($prop_list['DAV::resourcetype']) ) {
     $resourcetypes = array( new XMLElement("collection") );
     $contentlength = false;
+    if ( preg_match( '#^((/[^/]+/)\.(in|out)/)[^/]*$#', $collection->dav_name, $matches ) ) {
+      $collection->type = $matches[3];
+    }
     if ( $collection->is_calendar == 't' ) {
       $resourcetypes[] = new XMLElement($reply->Caldav("calendar"), false);
+      $resourcetypes[] = new XMLElement($reply->Caldav("schedule-calendar"), false);
       $lqry = new PgQuery("SELECT sum(length(caldav_data)) FROM caldav_data WHERE user_no = ? AND dav_name ~ ?;", $collection->user_no, $collection->dav_name.'[^/]+$' );
       if ( $lqry->Exec("PROPFIND",__LINE__,__FILE__) && $row = $lqry->Fetch() ) {
         $contentlength = $row->sum;
       }
+    }
+    else if ( $collection->type == 'in' ) {
+      $resourcetypes[] = new XMLElement($reply->Caldav("schedule-inbox"), false);
+    }
+    else if ( $collection->type == 'out' ) {
+      $resourcetypes[] = new XMLElement($reply->Caldav("schedule-outbox"), false);
     }
     if ( $collection->is_principal == 't' ) {
       $resourcetypes[] = new XMLElement("principal");
