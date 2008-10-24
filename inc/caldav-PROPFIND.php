@@ -427,8 +427,6 @@ function item_to_xml( $item ) {
 
   $allprop = isset($prop_list['DAV::allprop']);
 
-  $item->properties = get_arbitrary_properties($item->dav_name);
-
   $url = ConstructURL($item->dav_name);
 
   $prop = new XMLElement("prop");
@@ -463,6 +461,8 @@ function item_to_xml( $item ) {
   * And any properties that are server/request related.
   */
   add_general_properties( $prop, $not_found, $denied, $item );
+
+  add_arbitrary_properties($prop, $not_found, $item );
 
   return build_propstat_response( $prop, $not_found, $denied, $url );
 }
