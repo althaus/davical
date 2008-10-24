@@ -65,6 +65,12 @@ class CalDAVRequest
   var $collection_path;
 
   /**
+  * The type of collection being requested:
+  *  calendar, schedule-inbox, schedule-outbox
+  */
+  var $collection_type;
+
+  /**
   * Create a new CalDAVRequest object.
   */
   function CalDAVRequest( $options = array() ) {
@@ -196,21 +202,43 @@ class CalDAVRequest
     /**
     * Get the ID of the collection we are referring to
     */
-    if ( !isset($this->collection_id) && preg_match( '#^(/.+/.+/)[^/]*$#', $this->path, $matches ) ) {
-      $qry = new PgQuery( "SELECT collection_id FROM collection WHERE user_no = ? AND dav_name = ?;", $this->user_no, $matches[1] );
-      if ( $qry->Exec('caldav') && $qry->rows == 1 && ($row = $qry->Fetch()) ) {
-        $this->collection_id = $row->collection_id;
-        $this->collection_path = $matches[1];
+    if ( preg_match( '#^(/.+/.+/)[^/]*$#', $this->path, $matches ) ) {
+      $this->collection_type = 'calendar';
+      if ( preg_match( '#^(/[^/]+/\.(in|out)/)[^/]*$#', $this->path, $matches ) ) {
+        $this->collection_type = $matches[2];
+      }
+      if ( ! isset($this->collection_id) ) {
+        $qry = new PgQuery( "SELECT collection_id FROM collection WHERE user_no = ? AND dav_name = ?;",
+                       ($this->collection_type == 'calendar' ? $this->user_no : $session->user_no), $matches[1] );
+        if ( $qry->Exec('caldav') && $qry->rows == 1 && ($row = $qry->Fetch()) ) {
+          $this->collection_id = $row->collection_id;
+          $this->collection_path = $matches[1];
+        }
+        else if ( preg_match( '#^((/[^/]+/)\.(in|out)/)[^/]*$#', $this->path, $matches ) ) {
+          // Request is for a scheduling inbox or outbox (or something inside one) and we should auto-create it
+          $displayname = $session->fullname . ($matches[3] == 'in' ? ' Inbox' : ' Outbox');
+          $sql = <<<EOSQL
+INSERT INTO collection ( user_no, parent_container, dav_name, dav_displayname, is_calendar, created, modified )
+   VALUES( ?, ?, ?, ?, FALSE, current_timestamp, current_timestamp )
+EOSQL;
+          $qry = new PgQuery( $sql, $session->user_no, $matches[2] , $matches[1], $displayname );
+          $qry->Exec('caldav');
+          dbg_error_log( "caldav", "Created new collection as '$displayname'." );
+
+          $qry = new PgQuery( "SELECT collection_id FROM collection WHERE user_no = ? AND dav_name = ?;", $session->user_no, $matches[1] );
+          if ( $qry->Exec('caldav') && $qry->rows == 1 && ($row = $qry->Fetch()) ) {
+            $this->collection_id = $row->collection_id;
+            $this->collection_path = $matches[1];
+          }
+        }
       }
     }
-    dbg_error_log( "caldav", " Collection '%s' is %d", $this->collection_path, $this->collection_id );
-
+    dbg_error_log( "caldav", " Collection '%s' is %d, type %s", $this->collection_path, $this->collection_id, $this->collection_type );
 
     /**
     * Evaluate our permissions for accessing the target
     */
     $this->setPermissions();
-
 
     /**
     * If the content we are receiving is XML then we parse it here.  RFC2518 says we
@@ -236,8 +264,8 @@ class CalDAVRequest
       $this->etag_if_match = str_replace('"','',$_SERVER["HTTP_IF_MATCH"]);
       if ( $this->etag_if_match == '' ) unset($this->etag_if_match);
     }
-
   }
+
 
   /**
   * Work out the user whose calendar we are accessing, based on elements of the path.
@@ -532,15 +560,30 @@ class CalDAVRequest
   function AllowedTo( $activity ) {
     if ( isset($this->permissions['all']) ) return true;
     switch( $activity ) {
+      case "CALDAV:schedule-send-freebusy":
+        return isset($this->permissions['read']) || isset($this->permissions['freebusy']);
+        break;
+
+      case "CALDAV:schedule-send-invite":
+        return isset($this->permissions['read']) || isset($this->permissions['freebusy']);
+        break;
+
+      case "CALDAV:schedule-send-reply":
+        return isset($this->permissions['read']) || isset($this->permissions['freebusy']);
+        break;
+
       case 'freebusy':
         return isset($this->permissions['read']) || isset($this->permissions['freebusy']);
         break;
+
       case 'delete':
         return isset($this->permissions['write']) || isset($this->permissions['unbind']);
         break;
+
       case 'proppatch':
         return isset($this->permissions['write']) || isset($this->permissions['write-properties']);
         break;
+
       case 'modify':
         return isset($this->permissions['write']) || isset($this->permissions['write-content']);
         break;
