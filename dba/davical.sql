@@ -71,6 +71,7 @@ CREATE TABLE calendar_item (
   percent_complete NUMERIC(7,2),
   tz_id TEXT REFERENCES time_zone( tz_id ),
   status TEXT,
+  completed TIMESTAMP WITH TIME ZONE,
   dav_id INT8 UNIQUE,
   collection_id INT8 REFERENCES collection(collection_id) ON UPDATE CASCADE ON DELETE CASCADE DEFERRABLE,
 
