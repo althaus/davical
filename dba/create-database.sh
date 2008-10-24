@@ -60,7 +60,7 @@ create_plpgsql_language() {
 }
 
 try_db_user() {
-  [ "XtestX`psql -U "${1}" -qAt -c "SELECT usename FROM pg_user;" template1 2>/dev/null`" != "XtestX" ]
+  [ "XtestX`psql -U "${1}" -qAt -c \"SELECT usename FROM pg_user;\" \"${DBNAME}\" 2>/dev/null`" != "XtestX" ]
 }
 
 
