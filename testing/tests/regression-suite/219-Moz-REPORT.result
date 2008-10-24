@@ -1,8 +1,8 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
-DAV: 1, 2, access-control, calendar-access
-ETag: "9bb6e0d1164014233e77fccb7adac4cd"
-Content-Length: 2940
+DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
+ETag: "c05bea24be02dd5f855d63d138655413"
+Content-Length: 2936
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -57,7 +57,7 @@ END:VCALENDAR
   <propstat>
    <prop>
     <C:calendar-data>BEGIN:VCALENDAR
-PRODID:-//Catalyst.Net.NZ//NONSGML AWL Calendar//EN
+PRODID:-//davical.org//NONSGML AWL Calendar//EN
 VERSION:2.0
 BEGIN:VEVENT
 SUMMARY:Busy

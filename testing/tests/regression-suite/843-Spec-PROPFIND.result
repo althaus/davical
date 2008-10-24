@@ -6,7 +6,7 @@
    <prop>
     <displayname>User One's Calendar</displayname>
     <owner>
-     <href>mailto:user1@example.net</href>
+     <href>/caldav.php/user1/</href>
     </owner>
    </prop>
    <status>HTTP/1.1 200 OK</status>
