@@ -124,6 +124,15 @@ function calendar_to_xml( $properties, $item ) {
         break;
       case 'resourcetype':
         $prop->NewElement($k, new XMLElement($reply->Caldav("calendar"), false) );
+        if ( $request->collection_type == 'in' ) {
+          $prop->NewElement($k, new XMLElement($reply->Caldav("schedule-inbox"), false) );
+        }
+        else if ( $request->collection_type == 'out' ) {
+          $prop->NewElement($k, new XMLElement($reply->Caldav("schedule-outbox"), false) );
+        }
+        else {
+          $prop->NewElement($k, new XMLElement($reply->Caldav("schedule-calendar"), false) );
+        }
         break;
       case 'displayname':
         $prop->NewElement($k, $displayname );
@@ -171,6 +180,6 @@ elseif ( $xmltree->GetTag() == "urn:ietf:params:xml:ns:caldav:calendar-multiget"
   include("caldav-REPORT-multiget.php");
 }
 else {
-  $request->DoResponse( 501, "XML is not a supported REPORT query document" );
+  $request->DoResponse( 501, "The XML is not a supported REPORT query document" );
 }
 
