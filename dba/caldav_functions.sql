@@ -392,26 +392,30 @@ BEGIN
     END IF;
   END IF;
 
-  IF TG_OP = 'DELETE' OR TG_OP = 'UPDATE' THEN
+  IF TG_OP = 'INSERT' OR TG_OP = 'UPDATE' THEN
+    -- On insert or update modified, we set the NEW collection tag to the etag of the
+    -- updated row which gives us something predictable for our regression tests.
     UPDATE collection
-       SET modified = current_timestamp, dav_etag = md5(OLD.user_no::text||OLD.dav_name||current_timestamp::text)
-     WHERE collection_id = OLD.collection_id;
-    IF TG_OP = 'DELETE' THEN
-      RETURN OLD;
+       SET modified = current_timestamp, dav_etag = NEW.dav_etag
+     WHERE collection_id = NEW.collection_id;
+    IF TG_OP = 'INSERT' THEN
+      RETURN NEW;
     END IF;
   END IF;
 
-  IF TG_OP = 'INSERT' THEN
+  -- On delete or update modified, we set the OLD collection tag to the md5 of the old
+  -- path & the old etag, which again gives us something predictable for our regression tests.
+  IF TG_OP = 'DELETE' THEN
     UPDATE collection
-       SET modified = current_timestamp, dav_etag = md5(NEW.user_no::text||NEW.dav_name||current_timestamp::text)
-     WHERE collection_id = NEW.collection_id;
-    RETURN NEW;
+       SET modified = current_timestamp, dav_etag = md5(OLD.dav_name::text||OLD.dav_etag)
+     WHERE collection_id = OLD.collection_id;
+    RETURN OLD;
   END IF;
 
   IF NEW.collection_id != OLD.collection_id THEN
     UPDATE collection
-       SET modified = current_timestamp, dav_etag = md5(NEW.user_no::text||NEW.dav_name||current_timestamp::text)
-     WHERE collection_id = NEW.collection_id;
+       SET modified = current_timestamp, dav_etag = md5(OLD.dav_name::text||OLD.dav_etag)
+     WHERE collection_id = OLD.collection_id;
   END IF;
   RETURN NEW;
 END;
@@ -419,14 +423,3 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER caldav_data_modified AFTER INSERT OR UPDATE OR DELETE ON caldav_data
     FOR EACH ROW EXECUTE PROCEDURE caldav_data_modified();
 
-/*
-DROP TRIGGER collection_modified ON collection CASCADE;
-CREATE or REPLACE FUNCTION collection_modified() RETURNS TRIGGER AS $$
-DECLARE
-BEGIN
-
-END;
-$$ LANGUAGE plpgsql;
-CREATE TRIGGER collection_modified AFTER INSERT OR UPDATE ON collection
-    FOR EACH ROW EXECUTE PROCEDURE collection_modified();
-*/
