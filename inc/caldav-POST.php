@@ -41,14 +41,6 @@ function handle_freebusy_request( $ic ) {
   $component =& $ic->component->FirstNonTimezone();
   $attendees = $component->GetProperties('ATTENDEE');
 
-  $fb_response_template = new iCalendar( array( 'DTSTAMP'   => date('Ymd\THis\Z'),
-                                                'DTSTART'   => $fbq_start,
-                                                'DTEND'     => $fbq_end,
-                                                'UID'       => $ic->Get('UID'),
-                                                'ORGANIZER' => $ic->Get('ORGANIZER'),
-                                                'type'    => 'VFREEBUSY' ) );
-  $fb_response_template->component->AddProperty( new iCalProp("METHOD:REPLY") );
-
   foreach( $attendees AS $k => $attendee ) {
     $attendee_email = preg_replace( '/^mailto:/', '', $attendee->Value() );
     if ( ! ( isset($fbq_start) || isset($fbq_end) ) ) {
@@ -105,7 +97,15 @@ function handle_freebusy_request( $ic ) {
 
     $i = 0;
     $fbparams = array( "FBTYPE" => "BUSY-TENTATIVE" );
-    $fb = clone($fb_response_template);
+
+    $fb = new iCalendar( array( 'DTSTAMP'   => date('Ymd\THis\Z'),
+                                'DTSTART'   => $fbq_start,
+                                'DTEND'     => $fbq_end,
+                                'UID'       => $ic->Get('UID'),
+                                'ORGANIZER' => $ic->Get('ORGANIZER'),
+                                'type'    => 'VFREEBUSY' ) );
+    $fb->component->AddProperty( new iCalProp("METHOD:REPLY") );
+
     $fb->Add( $attendee->Name(), $attendee->Value(), $attendee->parameters );
     foreach( $busy_tentative AS $k => $v ) {
       $start = new iCalDate($v->start);
