@@ -117,7 +117,7 @@ function handle_freebusy_request( $ic ) {
           if ( $date->GreaterThan($fbq_end) ) break;
           $todate = clone($date);
           $todate->AddDuration($duration);
-          $fb->Add("FREEBUSY", sprintf("%s/%s", $date->Render('Ymd\THis'), $todate->Render('Ymd\THis') ), $fbparams );
+          $fb->Add("FREEBUSY;FBTYPE=BUSY-TENTATIVE", sprintf("%s/%s", $date->Render('Ymd\THis'), $todate->Render('Ymd\THis') ), $fbparams );
         }
       }
       else {
@@ -135,11 +135,11 @@ function handle_freebusy_request( $ic ) {
           if ( $date->GreaterThan($fbq_end) ) break;
           $todate = clone($date);
           $todate->AddDuration($duration);
-          $fb->Add("FREEBUSY", sprintf("%s/%s", $date->Render('Ymd\THis'), $todate->Render('Ymd\THis') ) );
+          $fb->Add("FREEBUSY;FBTYPE=BUSY", sprintf("%s/%s", $date->Render('Ymd\THis'), $todate->Render('Ymd\THis') ) );
         }
       }
       else {
-        $fb->Add("FREEBUSY", sprintf("%s/%s", $start->Render('Ymd\THis'), $v->finish ) );
+        $fb->Add("FREEBUSY;FBTYPE=BUSY", sprintf("%s/%s", $start->Render('Ymd\THis'), $v->finish ) );
       }
     }
 
