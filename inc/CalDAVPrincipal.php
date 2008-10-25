@@ -131,17 +131,7 @@ class CalDAVPrincipal
 
     $this->by_email = false;
     $this->url = ConstructURL( "/".$this->username."/" );
-//    $this->url = ConstructURL( "/__uuids__/" . $this->username . "/" );
 
-//    $qry = new PgQuery("SELECT dav_name FROM collection WHERE user_no = ?", $this->user_no);
-//    // Should be only one record, but this might change in future.
-//    $qry = new PgQuery("SELECT DISTINCT parent_container FROM collection WHERE user_no = ?", $this->user_no);
-//    $this->calendar_home_set = array();
-//   if( $qry->Exec("CalDAVPrincipal",__LINE__,__FILE__) && $qry->rows > 0 ) {
-//      while( $calendar = $qry->Fetch() ) {
-//        $this->calendar_home_set[] = ConstructURL($calendar->dav_name);
-//      }
-//    }
     $this->calendar_home_set = array( $this->url );
 
     $this->user_address_set = array(
@@ -168,6 +158,18 @@ class CalDAVPrincipal
     if ( $qry->Exec("CalDAVPrincipal") && $qry->rows > 0 ) {
       while( $membership = $qry->Fetch() ) {
         $this->group_membership[] = ConstructURL( "/". $membership->username . "/");
+      }
+    }
+
+    /**
+    * calendar-free-busy-set has been dropped from draft 5 of the scheduling extensions for CalDAV
+    * but we'll keep replying to it for a while longer since iCal appears to want it...
+    */
+    $qry = new PgQuery("SELECT dav_name FROM collection WHERE user_no = ? AND is_calendar", $this->user_no);
+    $this->calendar_free_busy_set = array();
+    if( $qry->Exec("CalDAVPrincipal",__LINE__,__FILE__) && $qry->rows > 0 ) {
+      while( $calendar = $qry->Fetch() ) {
+        $this->calendar_free_busy_set[] = ConstructURL($calendar->dav_name);
       }
     }
 
