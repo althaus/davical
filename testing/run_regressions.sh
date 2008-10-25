@@ -24,25 +24,42 @@ check_result() {
   fi
   diff -u "${REGRESSION}/${TEST}.result" "${RESULTS}/${TEST}" >"${REGRESSION}/diffs/${TEST}"
 
-  if [ -s "${REGRESSION}/diffs/${TEST}" -o ! -f "${REGRESSION}/${TEST}.result" ] ; then
+  if [ -s "${REGRESSION}/diffs/${TEST}" ] ; then
     echo "======================================="
     echo "Displaying diff for test ${TEST}"
     echo "======================================="
     cat "${REGRESSION}/diffs/${TEST}"
+    echo "======================================="
     if [ "${ACCEPT_ALL}" = "" ] ; then
-      read -p "Accept this as new standard result [x/y/N]? " ACCEPT
+      read -p "[${TEST}] Accept new result [e/r/v/x/y/N]? " ACCEPT
     else
       ACCEPT=${ACCEPT_ALL}
     fi
     if [ "${ACCEPT}" = "y" ] ; then
       cp "${RESULTS}/${TEST}" "${REGRESSION}/${TEST}.result"
     elif [ "${ACCEPT}" = "x" ]; then
-      echo "./dav_test --dsn '${DSN}' --suite regression-suite --case '${TEST}' | ./normalise_result > '${RESULTS}/${TEST}'"
+      echo "./dav_test --dsn '${DSN}' --suite regression-suite --case '${TEST}' --debug"
       exit
+    elif [ "${ACCEPT}" = "v" ]; then
+      echo "Showing test $REGRESSION/${TEST}.test"
+      cat "$REGRESSION/${TEST}.test"
+      return 2
+    elif [ "${ACCEPT}" = "f" ]; then
+      echo "Showing full result of ${TEST}"
+      cat "${RESULTS}/${TEST}"
+      return 2
+    elif [ "${ACCEPT}" = "e" ]; then
+      echo "Editing test $REGRESSION/${TEST}.test"
+      vi "$REGRESSION/${TEST}.test"
+      return 2
+    elif [ "${ACCEPT}" = "r" ]; then
+      echo "Rerunning test ${TEST}"
+      return 1
     fi
   else
     echo "Test ${TEST} passed OK!"
   fi
+  return 0
 }
 
 drop_database() {
@@ -87,11 +104,20 @@ for T in ${REGRESSION}/*.test ; do
   if [ "${TESTNUM}" -gt "${UNTIL}" ] ; then
     break;
   fi
-  ./dav_test --dsn "${DSN}" --suite regression-suite --case "${TEST}" | ./normalise_result > "${RESULTS}/${TEST}"
 
-  check_result "${TEST}"
+  RESULT=999
+  while [ "${RESULT}" -gt 0 ]; do
+    ./dav_test --dsn "${DSN}" --suite regression-suite --case "${TEST}" | ./normalise_result > "${RESULTS}/${TEST}"
 
-  TCOUNT=$(( ${TCOUNT} + 1 ))
+    RESULT=999
+    while [ "${RESULT}" -gt 1 ]; do
+      check_result "${TEST}"
+      RESULT=$?
+    done
+
+  done
+
+  TCOUNT="$(( ${TCOUNT} + 1 ))"
 done
 TFINISH="`date +%s`"
 
