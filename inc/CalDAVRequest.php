@@ -233,6 +233,11 @@ EOSQL;
         $this->collection = $row;
       }
     }
+    else if ( preg_match( '#/(\S+@\S+[.]\S+)/?$#', $this->path) ) {
+      $this->collection_id = -1;
+      $this->collection_type = 'email';
+      $this->collection_path = $this->path;
+    }
     else if ( preg_match( '#^(/[^/]+)/?$#', $this->path, $matches) ) {
       $this->collection_id = -1;
       $this->collection_path = $matches[1].'/';  // Enforce trailling '/'
@@ -311,7 +316,7 @@ EOSQL;
     $path_split = explode('/', $this->path );
     $this->username = $path_split[1];
     @dbg_error_log( "caldav", "Path split into at least /// %s /// %s /// %s", $path_split[1], $path_split[2], $path_split[3] );
-    if ( isset($this->options['allow_by_email']) && preg_match( '#/(\S+@\S+[.]\S+)$#', $this->path, $matches) ) {
+    if ( isset($this->options['allow_by_email']) && preg_match( '#/(\S+@\S+[.]\S+)/?$#', $this->path, $matches) ) {
       $this->by_email = $matches[1];
 //      $qry = new PgQuery("SELECT user_no FROM usr WHERE email = ? AND get_permissions(?,user_no) ~ '[FRA]';", $this->by_email, $session->user_no );
       $qry = new PgQuery("SELECT user_no FROM usr WHERE email = ?;", $this->by_email );
