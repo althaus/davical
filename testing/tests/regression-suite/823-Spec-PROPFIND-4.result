@@ -34,5 +34,14 @@
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
+  <propstat>
+   <prop>
+    <lockdiscovery/>
+    <source/>
+    <checked-in/>
+    <checked-out/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
  </response>
 </multistatus>

@@ -11,7 +11,7 @@ Content-Type: text/xml; charset="utf-8"
   <responsedescription>All requested changes were made.</responsedescription>
  </response>
 </multistatus>
-User One's Not Calendar --- faf25336de0e470a54075c14cbcf5272 --- 0 --- 1
+User One's Not Calendar --- 0 --- 1
 /user1/6E20BB7C-EFD9-4F0F-9BDC-5335E04D47E0/ --- http://apple.com/ns/ical/:calendar-color --- #391B71A0 --- 10 --- 1
 /user1/home/ --- urn:mcmillan:bogus:xml:ns:rscds:arbitrary --- A completely bogus property which should be saved. --- 10 --- 1
 /user1/SOHO+collection/ --- com.apple.ical::calendarcolor --- #FF8000FF --- 10 --- 1

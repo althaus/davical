@@ -1,7 +1,7 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
-ETag: "16d226967c6cc991117d41ae19588939"
+ETag: "deadbeefcafef00ddeadbeefcafefeed"
 Content-Length: 4261
 Content-Type: text/xml; charset="utf-8"
 
@@ -17,7 +17,7 @@ Content-Type: text/xml; charset="utf-8"
      <C:schedule-calendar/>
     </resourcetype>
     <displayname>home</displayname>
-    <getetag>"faf25336de0e470a54075c14cbcf5272"</getetag>
+    <get?tag>"deadbeefcafef00ddeadbeefcafefeed"<.get?tag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -28,7 +28,7 @@ Content-Type: text/xml; charset="utf-8"
    <prop>
     <displayname>Lunch with David</displayname>
     <resourcetype/>
-    <getetag>"2c32a2f8aba853654eb17fe037a4db4d"</getetag>
+    <get?tag>"deadbeefcafef00ddeadbeefcafefeed"<.get?tag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -39,7 +39,7 @@ Content-Type: text/xml; charset="utf-8"
    <prop>
     <displayname>A Meeting</displayname>
     <resourcetype/>
-    <getetag>"c3658901fd4689d4a1e1d6f08601ef4f"</getetag>
+    <get?tag>"deadbeefcafef00ddeadbeefcafefeed"<.get?tag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -50,7 +50,7 @@ Content-Type: text/xml; charset="utf-8"
    <prop>
     <displayname>Weekly Project Meeting</displayname>
     <resourcetype/>
-    <getetag>"a1c6404d61190f9574e2bfd69383f144"</getetag>
+    <get?tag>"deadbeefcafef00ddeadbeefcafefeed"<.get?tag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -61,7 +61,7 @@ Content-Type: text/xml; charset="utf-8"
    <prop>
     <displayname>Confidential Event</displayname>
     <resourcetype/>
-    <getetag>"08a435c2abaf38f4a50a997343c098a7"</getetag>
+    <get?tag>"deadbeefcafef00ddeadbeefcafefeed"<.get?tag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -72,7 +72,7 @@ Content-Type: text/xml; charset="utf-8"
    <prop>
     <displayname>Private Event</displayname>
     <resourcetype/>
-    <getetag>"5def8ae2b20893a1c7f4dbaeb008f2f1"</getetag>
+    <get?tag>"deadbeefcafef00ddeadbeefcafefeed"<.get?tag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -83,7 +83,7 @@ Content-Type: text/xml; charset="utf-8"
    <prop>
     <displayname>Tentative Event</displayname>
     <resourcetype/>
-    <getetag>"ac90acd649c25070b1a2a17fb31a105a"</getetag>
+    <get?tag>"deadbeefcafef00ddeadbeefcafefeed"<.get?tag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -94,7 +94,7 @@ Content-Type: text/xml; charset="utf-8"
    <prop>
     <displayname>Incomplete, uncancelled</displayname>
     <resourcetype/>
-    <getetag>"509b0f0d8a3363379f9f5727f5dd74a0"</getetag>
+    <get?tag>"deadbeefcafef00ddeadbeefcafefeed"<.get?tag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -105,7 +105,7 @@ Content-Type: text/xml; charset="utf-8"
    <prop>
     <displayname>50% Complete, uncancelled</displayname>
     <resourcetype/>
-    <getetag>"cb3d9dc3e8c157f53eba3ea0e1e0f146"</getetag>
+    <get?tag>"deadbeefcafef00ddeadbeefcafefeed"<.get?tag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -116,7 +116,7 @@ Content-Type: text/xml; charset="utf-8"
    <prop>
     <displayname>Due 7/8/7 16:30, completed</displayname>
     <resourcetype/>
-    <getetag>"00ad5eb1eb5507884710b0b66aa5d5c4"</getetag>
+    <get?tag>"deadbeefcafef00ddeadbeefcafefeed"<.get?tag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -127,7 +127,7 @@ Content-Type: text/xml; charset="utf-8"
    <prop>
     <displayname>A Cancelled Task, with a start and due date</displayname>
     <resourcetype/>
-    <getetag>"a2990674708634a311bb98a59865ca50"</getetag>
+    <get?tag>"deadbeefcafef00ddeadbeefcafefeed"<.get?tag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -138,7 +138,7 @@ Content-Type: text/xml; charset="utf-8"
    <prop>
     <displayname>Morning Meeting</displayname>
     <resourcetype/>
-    <getetag>"e8060931f30c1798ac58ffbe4ec0bffc"</getetag>
+    <get?tag>"deadbeefcafef00ddeadbeefcafefeed"<.get?tag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -149,7 +149,7 @@ Content-Type: text/xml; charset="utf-8"
    <prop>
     <displayname>Release 0.9.3</displayname>
     <resourcetype/>
-    <getetag>"8f581a053df6d833254756dfd7553d37"</getetag>
+    <get?tag>"deadbeefcafef00ddeadbeefcafefeed"<.get?tag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>

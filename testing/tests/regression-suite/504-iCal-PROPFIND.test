@@ -18,3 +18,6 @@ BEGINDATA
  </x0:prop>
 </x0:propfind>
 ENDDATA
+
+REPLACE=/<get.tag>"[0-9a-f]{32}"<.get.tag>/<get?tag>"deadbeefcafef00ddeadbeefcafefeed"<.get?tag>/
+REPLACE=/^ETag: "[0-9a-f]{32}"/ETag: "deadbeefcafef00ddeadbeefcafefeed"/

@@ -10,5 +10,10 @@ HEADER=Content-Type: text/xml; charset=utf-8
 HEADER=Chandler/0.7alpha4 (Linux)
 HEAD
 
-# The data from our first Chandler-like PROPFIND
-DATA=303-Chandler-PROPFIND-1
+BEGINDATA
+<?xml version='1.0' encoding='UTF-8'?>
+<ns0:propfind xmlns:ns0="DAV:"><ns0:prop><ns0:getetag /><ns0:resourcetype /><ns0:displayname /></ns0:prop></ns0:propfind>
+ENDDATA
+
+REPLACE=/<get.tag>"[0-9a-f]{32}"<.get.tag>/<get?tag>"deadbeefcafef00ddeadbeefcafefeed"<.get?tag>/
+REPLACE=/^ETag: "[0-9a-f]{32}"/ETag: "deadbeefcafef00ddeadbeefcafefeed"/

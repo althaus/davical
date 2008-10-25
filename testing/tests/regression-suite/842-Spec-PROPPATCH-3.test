@@ -23,7 +23,7 @@ BEGINDATA
 ENDDATA
 
 QUERY
-SELECT dav_displayname, dav_etag, is_calendar, 
+SELECT dav_displayname, is_calendar, 
        modified > (current_timestamp - '60 seconds'::interval) AS changed_last_60secs 
   FROM collection WHERE dav_name = '/user1/home/';
 ENDQUERY

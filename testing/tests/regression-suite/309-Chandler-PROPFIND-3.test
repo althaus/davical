@@ -9,5 +9,7 @@ HEADER=Depth: 0
 HEADER=Content-Type: text/xml; charset=utf-8
 HEAD
 
-# The data from our first Chandler-like PROPFIND
-DATA=303-Chandler-PROPFIND-1
+BEGINDATA
+<?xml version='1.0' encoding='UTF-8'?>
+<ns0:propfind xmlns:ns0="DAV:"><ns0:prop><ns0:getetag /><ns0:resourcetype /><ns0:displayname /></ns0:prop></ns0:propfind>
+ENDDATA

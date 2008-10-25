@@ -14,7 +14,7 @@
     <displayname>home</displayname>
     <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
     <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
-    <getetag>"faf25336de0e470a54075c14cbcf5272"</getetag>
+    <get?tag>"deadbeefcafef00ddeadbeefcafefeed"<.get?tag>
     <getcontentlanguage/>
    </prop>
    <status>HTTP/1.1 200 OK</status>

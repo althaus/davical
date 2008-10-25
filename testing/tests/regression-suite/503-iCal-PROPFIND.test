@@ -21,3 +21,7 @@ BEGINDATA
  </x0:prop>
 </x0:propfind>
 ENDDATA
+
+REPLACE=/^ETag: "[0-9a-f]{32}"/ETag: "deadbeefcafef00ddeadbeefcafefeed"/
+REPLACE=/<A:getctag>"[0-9a-f]{32}"<.A:getctag>/<A:getctag>"deadbeefcafef00ddeadbeefcafefeed"<.A:getctag>/
+
