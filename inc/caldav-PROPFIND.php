@@ -328,6 +328,11 @@ function collection_to_xml( $collection ) {
   $not_found = new XMLElement("prop");
   $denied = new XMLElement("prop");
 
+  $collection->type = ($collection->is_calendar == 't' ? 'calendar' : ($collection->is_principal == 't' ? 'principal' : '') );
+  if ( preg_match( '#^((/[^/]+/)\.(in|out)/)[^/]*$#', $collection->dav_name, $matches ) ) {
+    $collection->type = $matches[3];
+  }
+
   /**
   * First process any static values we do support
   */
@@ -354,9 +359,6 @@ function collection_to_xml( $collection ) {
                 || isset($prop_list['DAV::resourcetype']) ) {
     $resourcetypes = array( new XMLElement("collection") );
     $contentlength = false;
-    if ( preg_match( '#^((/[^/]+/)\.(in|out)/)[^/]*$#', $collection->dav_name, $matches ) ) {
-      $collection->type = $matches[3];
-    }
     if ( $collection->is_calendar == 't' ) {
       $resourcetypes[] = new XMLElement($reply->Caldav("calendar"), false);
       $resourcetypes[] = new XMLElement($reply->Caldav("schedule-calendar"), false);
@@ -388,13 +390,13 @@ function collection_to_xml( $collection ) {
   }
   if ( isset($prop_list['http://calendarserver.org/ns/:getctag']) ) {
     // Calendar Server extension which only applies to collections.  We return the etag, which does the needful.
-    $prop->NewElement($reply->Calendarserver('getctag'),$collection->dav_etag );
+    $prop->NewElement($reply->Calendarserver('getctag'),'"'.$collection->dav_etag.'"' );
   }
 
   if ( isset($prop_list['urn:ietf:params:xml:ns:caldav:calendar-free-busy-set'] ) ) {
-    if ( isset($collection->is_inbox) && $collection->is_inbox && $session->user_no == $collection->user_no ) {
+    if ( $collection->type == 'in' && $session->user_no == $collection->user_no ) {
       $fb_set = array();
-      foreach( $collection->free_busy_set AS $k => $v ) {
+      foreach( $request->principal->calendar_free_busy_set AS $k => $v ) {
         $fb_set[] = new XMLElement('href', $v );
       }
       $prop->NewElement($reply->Caldav("calendar-free-busy-set"), $fb_set );
