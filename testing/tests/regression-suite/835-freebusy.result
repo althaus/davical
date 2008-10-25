@@ -1,10 +1,10 @@
 HTTP/1.1 200 OK
 Date: Dow, 01 Jan 2000 00:00:00 GMT
-Content-Length: 2435
+Content-Length: 2431
 Content-Type: text/calendar
 
 BEGIN:VCALENDAR
-PRODID:-//Catalyst.Net.NZ//NONSGML AWL Calendar//EN
+PRODID:-//davical.org//NONSGML AWL Calendar//EN
 VERSION:2.0
 BEGIN:VFREEBUSY
 DTSTAMP:yyyymmddThhmmssZ
