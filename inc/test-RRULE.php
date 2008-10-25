@@ -27,7 +27,7 @@ foreach( $tests AS $start => $rrule ) {
   $rule = new RRule( new iCalDate($start), $rrule );
   $i = 0;
   do {
-    if ( ($i % 10) == 0 ) echo "\n";
+    if ( ($i % 4) == 0 ) echo "\n";
     $date = $rule->GetNext();
     if ( isset($date) ) {
       echo "   " . $date->Render();
