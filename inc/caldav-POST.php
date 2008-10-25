@@ -144,7 +144,7 @@ function handle_freebusy_request( $ic ) {
     }
 
     $response = new XMLElement( $reply->Caldav("response") );
-    $response->NewElement( $reply->Caldav("recipient"), new XMLElement("href",$_SERVER['HTTP_RECIPIENT']) );
+    $response->NewElement( $reply->Caldav("recipient"), new XMLElement("href",$attendee->Value()) );
     $response->NewElement( $reply->Caldav("request-status"), "2.0;Success" );  // Cargo-cult setting
     $response->NewElement( $reply->Caldav("calendar-data"), $fb->Render() );
     $responses[] = $response;
