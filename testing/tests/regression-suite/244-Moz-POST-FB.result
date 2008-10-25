@@ -1,7 +1,7 @@
 HTTP/1.1 200 OK
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
-Content-Length: 1544
+Content-Length: 1564
 Content-Type: text/plain; charset="utf-8"
 
 <schedule-response xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
@@ -13,6 +13,7 @@ Content-Type: text/plain; charset="utf-8"
   <C:calendar-data>BEGIN:VCALENDAR
 PRODID:-//davical.org//NONSGML AWL Calendar//EN
 VERSION:2.0
+CALSCALE:GREGORIAN
 METHOD:REPLY
 BEGIN:VFREEBUSY
 DTSTAMP:yyyymmddThhmmssZ

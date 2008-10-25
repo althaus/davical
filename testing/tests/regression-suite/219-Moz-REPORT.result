@@ -1,8 +1,8 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
-ETag: "c05bea24be02dd5f855d63d138655413"
-Content-Length: 2936
+ETag: "1265e5969812d13fc4b0f57df30b07d4"
+Content-Length: 2956
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -59,6 +59,7 @@ END:VCALENDAR
     <C:calendar-data>BEGIN:VCALENDAR
 PRODID:-//davical.org//NONSGML AWL Calendar//EN
 VERSION:2.0
+CALSCALE:GREGORIAN
 BEGIN:VEVENT
 SUMMARY:Busy
 CLASS:CONFIDENTIAL
