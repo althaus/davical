@@ -40,9 +40,18 @@ function handle_freebusy_request( $ic ) {
   $fbq_end   = $ic->Get('DTEND');
   $component =& $ic->component->FirstNonTimezone();
   $attendees = $component->GetProperties('ATTENDEE');
+  if ( preg_match( '# iCal/\d#', $_SERVER['HTTP_USER_AGENT']) ) {
+    dbg_error_log( "POST", "Non-compliant iCal request.  Using X-WR-ATTENDEE property" );
+    $wr_attendees = $component->GetProperties('X-WR-ATTENDEE');
+    foreach( $wr_attendees AS $k => $v ) {
+      $attendees[] = $v;
+    }
+  }
+  dbg_error_log( "POST", "Responding with free/busy for %d attendees", count($attendees) );
 
   foreach( $attendees AS $k => $attendee ) {
     $attendee_email = preg_replace( '/^mailto:/', '', $attendee->Value() );
+    dbg_error_log( "POST", "Calculating free/busy for %s", $attendee_email );
     if ( ! ( isset($fbq_start) || isset($fbq_end) ) ) {
       $request->DoResponse( 400, 'All valid freebusy requests MUST contain a DTSTART and a DTEND' );
     }
@@ -160,10 +169,10 @@ $calendar_properties = $ical->component->GetProperties('METHOD');
 $method =  $calendar_properties[0]->Value();
 switch ( $method ) {
   case 'REQUEST':
-    dbg_error_log("POST", ": Handling iTIP 'REQUEST' method.", $method );
+    dbg_error_log("POST", "Handling iTIP 'REQUEST' method.", $method );
     handle_freebusy_request( $ical );
     break;
 
   default:
-    dbg_error_log("POST", ": Unhandled '%s' method in request.", $method );
+    dbg_error_log("POST", "Unhandled '%s' method in request.", $method );
 }
