@@ -1,0 +1,34 @@
+HTTP/1.1 200 OK
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
+Content-Length: 890
+Content-Type: text/plain; charset="utf-8"
+
+<schedule-response xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
+ <C:response>
+  <C:recipient>
+   <href>mailto:user1@example.net</href>
+  </C:recipient>
+  <C:request-status>2.0;Success</C:request-status>
+  <C:calendar-data>BEGIN:VCALENDAR
+PRODID:-//davical.org//NONSGML AWL Calendar//EN
+VERSION:2.0
+METHOD:REPLY
+BEGIN:VFREEBUSY
+DTSTAMP:yyyymmddThhmmssZ
+DTSTART:20081020T110000Z
+DTEND:20081105T110000Z
+UID:c5bd82ea-cd89-4f58-8d31-336f47e44f97
+ORGANIZER:mailto:user1@example.net
+ATTENDEE;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT;CUTYPE=INDIVIDUAL:ma 
+ ilto:user1@example.net
+FREEBUSY:20081021T184500/20081021T193000
+FREEBUSY:20081023T184500/20081023T193000
+FREEBUSY:20081028T184500/20081028T193000
+FREEBUSY:20081030T184500/20081030T193000
+FREEBUSY:20081104T184500/20081104T193000
+END:VFREEBUSY
+END:VCALENDAR
+</C:calendar-data>
+ </C:response>
+</schedule-response>

@@ -1,0 +1,27 @@
+#
+# REPORT on scheduling inbox for pending VEVENT on startup
+#
+TYPE=REPORT
+URL=http://mycaldav/caldav.php/user1/.in/
+HEADER=User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.1.18pre) Gecko/20080917 Sunbird/0.9
+HEADER=Accept: text/xml
+HEADER=Accept-Language: en-us,en;q=0.5
+HEADER=Accept-Encoding: gzip,deflate
+HEADER=Accept-Charset: utf-8,*;q=0.1
+HEADER=Content-Type: text/xml; charset=utf-8
+HEADER=Depth: 1
+HEAD
+
+BEGINDATA
+<?xml version="1.0" encoding="UTF-8"?>
+<calendar-query xmlns:D="DAV:" xmlns="urn:ietf:params:xml:ns:caldav">
+  <D:prop>
+    <D:getetag/>
+  </D:prop>
+  <filter>
+    <comp-filter name="VCALENDAR">
+      <comp-filter name="VEVENT"/>
+    </comp-filter>
+  </filter>
+</calendar-query>
+ENDDATA
