@@ -249,6 +249,9 @@ function add_general_properties( &$prop, &$not_found, &$denied, $record ) {
   if ( isset($prop_list['DAV::principal-collection-set']) ) {
     $prop->NewElement("principal-collection-set", new XMLElement('href', ConstructURL('/') ) );
   }
+  if ( isset($prop_list['DAV::current-user-principal']) ) {
+    $prop->NewElement("current-user-principal", $request->current_user_principal_xml);
+  }
 
   if ( isset($prop_list['DAV::acl']) ) {
     /**
