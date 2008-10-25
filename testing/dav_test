@@ -264,6 +264,8 @@ ENDDATA
 QUERY
 SELECT something, or, other FROM table ...
 ENDQUERY
+
+REPLACE=/pattern/replacement/options
 =================================================
 
 URL      The URL to request from.
@@ -272,6 +274,7 @@ TYPE     The type of request (e.g. GET/PUT/POST/REPORT/...)
 HEAD     Whether to include the headers in the recorded response
 VERBOSE  Whether to provide the full request / response headers.
 DATA     The name of a different test in this suite to use data from.
+REPLACE  A perl regex replacement to post-process the result through.
 
 Additionally, if a file 'tests/<testsuite>/<testname>.data' exists
 the contents of that file will be sent in the body of the request.
