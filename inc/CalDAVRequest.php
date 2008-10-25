@@ -50,6 +50,12 @@ class CalDAVRequest
   var $principal;
 
   /**
+  * The 'current_user_principal_xml' the DAV:current-user-principal answer. An
+  * XMLElement object with an <href> or <unauthenticated> fragment.
+  */
+  var $current_user_principal_xml;
+
+  /**
   * The user agent making the request.
   */
   var $user_agent;
@@ -173,6 +179,63 @@ class CalDAVRequest
 
     $this->user_no = $session->user_no;
     $this->username = $session->username;
+    if ( $session->user_no > 0 ) {
+      $this->current_user_principal_url = new XMLElement('href', ConstructURL('/'.$session->username.'/') );
+    }
+    else {
+      $this->current_user_principal_url = new XMLElement('unauthenticated' );
+    }
+
+    /**
+    * RFC2518, 5.2: URL pointing to a collection SHOULD end in '/', and if it does not then
+    * we SHOULD return a Content-location header with the correction...
+    *
+    * We therefore look for a collection which matches one of the following URLs:
+    *  - The exact request.
+    *  - If the exact request, doesn't end in '/', then the request URL with a '/' appended
+    *  - The request URL truncated to the last '/'
+    * The collection URL for this request is therefore the longest row in the result, so we
+    * can "... ORDER BY LENGTH(dav_name) DESC LIMIT 1"
+    */
+    $sql = "SELECT * FROM collection WHERE dav_name = ".qpg($this->path);
+    if ( !preg_match( '#/$#', $this->path ) ) {
+      $sql .= " OR dav_name = ".qpg(preg_replace( '#[^/]*$#', '', $this->path));
+      $sql .= " OR dav_name = ".qpg($this->path."/");
+    }
+    $sql .= "ORDER BY LENGTH(dav_name) DESC LIMIT 1";
+    $qry = new PgQuery( $sql );
+    if ( $qry->Exec('caldav') && $qry->rows == 1 && ($row = $qry->Fetch()) ) {
+      if ( $row->dav_name == $this->path."/" ) {
+        $this->path = $row->dav_name;
+        dbg_error_log( "caldav", "Path is actually a collection - sending Content-Location header." );
+        header( "Content-Location: $this->path" );
+      }
+
+      if ( $row->dav_name == $this->path ) $this->_is_collection = true;
+
+      $this->collection_id = $row->collection_id;
+      $this->collection_path = $row->path;
+      $this->collection = $row;
+    }
+    else if ( preg_match( '#^((/[^/]+/)\.(in|out)/)[^/]*$#', $this->path, $matches ) ) {
+      // The request is for a scheduling inbox or outbox (or something inside one) and we should auto-create it
+      $displayname = $session->fullname . ($matches[3] == 'in' ? ' Inbox' : ' Outbox');
+      $sql = <<<EOSQL
+INSERT INTO collection ( user_no, parent_container, dav_name, dav_displayname, is_calendar, created, modified )
+    VALUES( ?, ?, ?, ?, FALSE, current_timestamp, current_timestamp )
+EOSQL;
+      $qry = new PgQuery( $sql, $session->user_no, $matches[2] , $matches[1], $displayname );
+      $qry->Exec('caldav');
+      dbg_error_log( "caldav", "Created new collection as '$displayname'." );
+
+      $qry = new PgQuery( "SELECT * FROM collection WHERE user_no = ? AND dav_name = ?;", $session->user_no, $matches[1] );
+      if ( $qry->Exec('caldav') && $qry->rows == 1 && ($row = $qry->Fetch()) ) {
+        $this->collection_id = $row->collection_id;
+        $this->collection_path = $matches[1];
+        $this->collection = $row;
+      }
+    }
+    dbg_error_log( "caldav", " Collection '%s' is %d, type %s", $this->collection_path, $this->collection_id, $this->collection_type );
 
     /**
     * Extract the user whom we are accessing
@@ -181,59 +244,6 @@ class CalDAVRequest
     if ( isset($this->principal->user_no) ) $this->user_no  = $this->principal->user_no;
     if ( isset($this->principal->username)) $this->username = $this->principal->username;
     if ( isset($this->principal->by_email)) $this->by_email = true;
-
-    /**
-    * RFC2518, 5.2: URL pointing to a collection SHOULD end in '/', and if it does not then
-    * we SHOULD return a Content-location header with the correction...
-    */
-    if ( !preg_match( '#/$#', $this->path ) ) {
-      dbg_error_log( "caldav", "Checking whether path might be a collection" );
-      $qry = new PgQuery( "SELECT collection_id FROM collection WHERE user_no = ? AND dav_name = ?;", $this->user_no, $this->path . '/');
-      if ( $qry->Exec('caldav') && $qry->rows == 1 && ($row = $qry->Fetch()) ) {
-        dbg_error_log( "caldav", "Path is actually a collection - sending Content-Location header." );
-        $this->path .= '/';
-        header( "Content-Location: $this->path" );
-        $this->_is_collection = true;
-        $this->collection_id = $row->collection_id;
-        $this->collection_path = $this->path;
-      }
-    }
-
-    /**
-    * Get the ID of the collection we are referring to
-    */
-    if ( preg_match( '#^(/.+/.+/)[^/]*$#', $this->path, $matches ) ) {
-      $this->collection_type = 'calendar';
-      if ( preg_match( '#^(/[^/]+/\.(in|out)/)[^/]*$#', $this->path, $matches ) ) {
-        $this->collection_type = $matches[2];
-      }
-      if ( ! isset($this->collection_id) ) {
-        $qry = new PgQuery( "SELECT collection_id FROM collection WHERE user_no = ? AND dav_name = ?;",
-                       ($this->collection_type == 'calendar' ? $this->user_no : $session->user_no), $matches[1] );
-        if ( $qry->Exec('caldav') && $qry->rows == 1 && ($row = $qry->Fetch()) ) {
-          $this->collection_id = $row->collection_id;
-          $this->collection_path = $matches[1];
-        }
-        else if ( preg_match( '#^((/[^/]+/)\.(in|out)/)[^/]*$#', $this->path, $matches ) ) {
-          // Request is for a scheduling inbox or outbox (or something inside one) and we should auto-create it
-          $displayname = $session->fullname . ($matches[3] == 'in' ? ' Inbox' : ' Outbox');
-          $sql = <<<EOSQL
-INSERT INTO collection ( user_no, parent_container, dav_name, dav_displayname, is_calendar, created, modified )
-   VALUES( ?, ?, ?, ?, FALSE, current_timestamp, current_timestamp )
-EOSQL;
-          $qry = new PgQuery( $sql, $session->user_no, $matches[2] , $matches[1], $displayname );
-          $qry->Exec('caldav');
-          dbg_error_log( "caldav", "Created new collection as '$displayname'." );
-
-          $qry = new PgQuery( "SELECT collection_id FROM collection WHERE user_no = ? AND dav_name = ?;", $session->user_no, $matches[1] );
-          if ( $qry->Exec('caldav') && $qry->rows == 1 && ($row = $qry->Fetch()) ) {
-            $this->collection_id = $row->collection_id;
-            $this->collection_path = $matches[1];
-          }
-        }
-      }
-    }
-    dbg_error_log( "caldav", " Collection '%s' is %d, type %s", $this->collection_path, $this->collection_id, $this->collection_type );
 
     /**
     * Evaluate our permissions for accessing the target
