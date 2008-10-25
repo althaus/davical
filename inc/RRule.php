@@ -747,10 +747,10 @@ class RRule {
       $this->_part['INTERVAL'] *= 12;
       $this->_part['FREQ'] = "MONTHLY";
     }
-    if ( $this->_part['FREQ'] == "WEEKLY" ) {
-      $this->_part['INTERVAL'] *= 7;
-      $this->_part['FREQ'] = "DAILY";
-    }
+//    if ( $this->_part['FREQ'] == "WEEKLY" ) {
+//      $this->_part['INTERVAL'] *= 7;
+//      $this->_part['FREQ'] = "DAILY";
+//    }
   }
 
 
@@ -890,6 +890,34 @@ class RRule {
       while( $limit && count($days) < 1 && ! $this->_finished );
       dbg_error_log( "RRule", " GetNext: Found %d days for MONTHLY rule", count($days) );
 
+    }
+    else if ( $this->_part['FREQ'] == "WEEKLY" ) {
+      dbg_error_log( "RRule", " GetNext: Calculating more dates for WEEKLY rule" );
+      $limit = 100;
+      do {
+        $limit--;
+        if ( $this->_started ) {
+          $next->AddDays($this->_part['INTERVAL'] * 7);
+        }
+        else {
+          $this->_started = true;
+        }
+
+        if ( isset($this->_part['BYDAY']) ) {
+          $days = $next->GetWeekByDay($this->_part['BYDAY'], false );
+        }
+        else
+          $days[$next->_dd] = $next->_dd;
+
+        if ( isset($this->_part['BYSETPOS']) ) {
+          $days = $next->ApplyBySetpos($this->_part['BYSETPOS'], $days);
+        }
+
+        $days = $this->WithinScope( $next, $days);
+      }
+      while( $limit && count($days) < 1 && ! $this->_finished );
+
+      dbg_error_log( "RRule", " GetNext: Found %d days for WEEKLY rule", count($days) );
     }
     else if ( $this->_part['FREQ'] == "DAILY" ) {
       dbg_error_log( "RRule", " GetNext: Calculating more dates for DAILY rule" );
