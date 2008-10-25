@@ -126,6 +126,14 @@ class HTTPAuthSession {
       }
     }
 
+    if ( isset($c->allow_unauthenticated) && $c->allow_unauthenticated ) {
+      $this->user_no = -1;
+      $this->username = 'guest';
+      $this->fullname = 'Unauthenticated User';
+      $this->email = 'invalid';
+      return;
+    }
+
     $this->AuthFailedResponse();
     // Does not return
   }
@@ -272,4 +280,3 @@ class HTTPAuthSession {
 
 }
 
-?>
