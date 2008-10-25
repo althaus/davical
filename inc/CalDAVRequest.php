@@ -211,8 +211,6 @@ class CalDAVRequest
         header( "Content-Location: $this->path" );
       }
 
-      if ( $row->dav_name == $this->path ) $this->_is_collection = true;
-
       $this->collection_id = $row->collection_id;
       $this->collection_path = $row->path;
       $this->collection = $row;
@@ -235,6 +233,24 @@ EOSQL;
         $this->collection = $row;
       }
     }
+    else if ( preg_match( '#^(/[^/]+)/?$#', $this->path, $matches) ) {
+      $this->collection_id = -1;
+      $this->collection_path = $matches[1].'/';  // Enforce trailling '/'
+      $this->collection_type = 'principal';
+      $this->_is_principal = true;
+      if ( $this->collection_path == $this->path."/" ) {
+        $this->path .= '/';
+        dbg_error_log( "caldav", "Path is actually a collection - sending Content-Location header." );
+        header( "Content-Location: $this->path" );
+      }
+    }
+    else if ( $this->path == '/' ) {
+      $this->collection_id = -1;
+      $this->collection_path = '/';
+      $this->collection_type = 'root';
+    }
+
+    if ( $this->collection_path == $this->path ) $this->_is_collection = true;
     dbg_error_log( "caldav", " Collection '%s' is %d, type %s", $this->collection_path, $this->collection_id, $this->collection_type );
 
     /**
@@ -261,6 +277,7 @@ EOSQL;
       xml_parser_set_option ( $xml_parser, XML_OPTION_CASE_FOLDING, 0 );
       xml_parse_into_struct( $xml_parser, $this->raw_post, $this->xml_tags );
       xml_parser_free($xml_parser);
+      dbg_error_log( "caldav", " Parsed incoming XML request body." );
     }
 
     /**
