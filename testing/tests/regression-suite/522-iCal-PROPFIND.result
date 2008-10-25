@@ -1,0 +1,105 @@
+HTTP/1.1 207 Multi-Status
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
+ETag: "c598cc4a0b0a4f8b7710fdf18a1572d3"
+Content-Length: 2365
+Content-Type: text/xml; charset="utf-8"
+
+<?xml version="1.0" encoding="utf-8" ?>
+<multistatus xmlns="DAV:" xmlns:A="http://calendarserver.org/ns/" xmlns:C="urn:ietf:params:xml:ns:caldav" xmlns:A1="http://apple.com/ns/ical/">
+ <response>
+  <href>/caldav.php/user2/</href>
+  <propstat>
+   <prop>
+    <resourcetype>
+     <collection/>
+     <principal/>
+    </resourcetype>
+    <displayname>User 2</displayname>
+    <A:getctag>"39643ecb5f1804dfdd2b37fbdc421d99"</A:getctag>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <C:calendar-free-busy-set/>
+    <C:calendar-description/>
+    <A1:calendar-color/>
+    <A1:calendar-order/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user2/home/</href>
+  <propstat>
+   <prop>
+    <resourcetype>
+     <collection/>
+     <C:calendar/>
+     <C:schedule-calendar/>
+    </resourcetype>
+    <displayname>home</displayname>
+    <A:getctag>"8a58e25fe610b860d24bb51627589acc"</A:getctag>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <C:calendar-free-busy-set/>
+    <C:calendar-description/>
+    <A1:calendar-color/>
+    <A1:calendar-order/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user2/.in/</href>
+  <propstat>
+   <prop>
+    <resourcetype>
+     <collection/>
+     <C:schedule-inbox/>
+    </resourcetype>
+    <displayname>User 2 Inbox</displayname>
+    <A:getctag>""</A:getctag>
+    <C:calendar-free-busy-set>
+     <href>/caldav.php/user2/home/</href>
+    </C:calendar-free-busy-set>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <C:calendar-description/>
+    <A1:calendar-color/>
+    <A1:calendar-order/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user2/.out/</href>
+  <propstat>
+   <prop>
+    <resourcetype>
+     <collection/>
+     <C:schedule-outbox/>
+    </resourcetype>
+    <displayname>User 2 Outbox</displayname>
+    <A:getctag>""</A:getctag>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <C:calendar-free-busy-set/>
+    <C:calendar-description/>
+    <A1:calendar-color/>
+    <A1:calendar-order/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+</multistatus>
