@@ -927,12 +927,9 @@ class RRule {
         if ( $this->_started ) {
           $next->AddDays($this->_part['INTERVAL']);
         }
-        else {
-          $this->_started = true;
-        }
 
         if ( isset($this->_part['BYDAY']) ) {
-          $days = $next->GetWeekByDay($this->_part['BYDAY'], true );
+          $days = $next->GetWeekByDay($this->_part['BYDAY'], $this->_started );
         }
         else
           $days[$next->_dd] = $next->_dd;
@@ -942,6 +939,7 @@ class RRule {
         }
 
         $days = $this->WithinScope( $next, $days);
+        $this->_started = true;
       }
       while( $limit && count($days) < 1 && ! $this->_finished );
 
