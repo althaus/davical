@@ -182,9 +182,18 @@ BEGIN
   loopcount := 100;  -- Desirable to stop an infinite loop if there is something we cannot handle
   LOOP
     -- RAISE NOTICE ''Testing date: %'', our_answer;
-    IF frequency = ''WEEKLY'' THEN
+    IF frequency = 'DAILY' THEN
+      IF byday IS NOT NULL THEN
+        LOOP
+          dow = substring( to_char( our_answer, 'DY' ) for 2);
+          EXIT WHEN byday ~* dow;
+          -- Increment for our next time through the loop...
+          our_answer := our_answer + (length::text || units)::interval;
+        END LOOP;
+      END IF;
+    ELSIF frequency = ''WEEKLY'' THEN
       -- Weekly repeats are only on specific days
-      -- I think this is not really right, since a WEEKLY on MO,WE,FR should
+      -- This is really not right, since a WEEKLY on MO,WE,FR should
       -- occur three times each week and this will only be once a week.
       dow = substring( to_char( our_answer, ''DY'' ) for 2);
     ELSIF frequency = ''MONTHLY'' THEN
