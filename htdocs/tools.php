@@ -38,7 +38,7 @@ class Tools {
   function render(){
     global $c;
     echo  $this->renderImportFromDirectory();
-    if ( $c->authenticate_hook['call'] == 'LDAP_check' && function_exists("sync_LDAP") ) {
+    if ( isset($c->authenticate_hook['call']) && $c->authenticate_hook['call'] == 'LDAP_check' && function_exists("sync_LDAP") ) {
       echo $this->renderSyncLDAP();
     }
   }
