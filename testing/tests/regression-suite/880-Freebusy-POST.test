@@ -1,0 +1,31 @@
+#
+# Testing for Spec compliance.  POST on outbox for
+# free/busy information
+#
+TYPE=POST
+URL=http://mycaldav/caldav.php/user1/.out/
+HEADER=User-Agent: draft-schedule-05 Spec Tests
+HEADER=Content-Type: text/calendar
+
+REPLACE=#<creationdate>\d{8}T\d{6}</creationdate>#<creationdate>YYYYMMDDThhmmss</creationdate>#
+
+BEGINDATA
+BEGIN:VCALENDAR
+PRODID:-//Mozilla.org/NONSGML Mozilla Calendar V1.1//EN
+VERSION:2.0
+METHOD:REQUEST
+BEGIN:VFREEBUSY
+DTSTAMP:20081019T202752Z
+ORGANIZER:mailto:user1@example.net
+DTSTART:20081021T110000Z
+DTEND:20081106T110000Z
+UID:1e680b0e-ee15-4d63-844f-3e48aa92791f
+ATTENDEE;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT;CUTYPE=INDIVIDUAL:
+ mailto:user1@example.net
+ATTENDEE;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT;CUTYPE=INDIVIDUAL:
+ mailto:user2@example.net
+END:VFREEBUSY
+END:VCALENDAR
+ENDDATA
+
+REPLACE=/^DTSTAMP:\d{4}[01]\d[0123]\dT[012]\d[0-5]\d[0-6]\dZ\r?$/DTSTAMP:yyyymmddThhmmssZ/

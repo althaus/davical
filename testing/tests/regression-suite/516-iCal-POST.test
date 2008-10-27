@@ -1,0 +1,33 @@
+#
+# Testing for how iCal does a POST for free/busy
+#
+TYPE=POST
+URL=http://mycaldav/caldav.php/user1/.out/
+HEADER=User-Agent: DAVKit/3.0.4 (652); CalendarStore/3.0.5 (841); iCal/3.0.5 (1270); Mac OS X/10.5.5 (9F33)
+HEADER=Recipient: mailto:user2@example.net
+HEADER=Content-Type: text/calendar
+HEADER=Originator: mailto:user1@example.net
+
+
+BEGINDATA
+BEGIN:VCALENDAR
+PRODID:-//Apple Inc.//iCal 3.0//EN
+CALSCALE:GREGORIAN
+VERSION:2.0
+METHOD:REQUEST
+BEGIN:VFREEBUSY
+DTSTART:20081022T054500Z
+UID:89E43E7F-911D-4052-9FE3-4782268649E0
+ORGANIZER:mailto:user1@example.net
+X-WR-ATTENDEE:mailto:user2@example.net
+DTSTAMP:20081025T112708Z
+SUMMARY:Availability for mailto:user2@example.net
+CREATED:20081025T112708Z
+DTEND:20081024T083000Z
+X-CALENDARSERVER-MASK-UID:174F9C2A-1223-40C4-9E06-6E91F2EA9491
+END:VFREEBUSY
+END:VCALENDAR
+ENDDATA
+
+REPLACE=#<creationdate>\d{8}T\d{6}</creationdate>#<creationdate>YYYYMMDDThhmmss</creationdate>#
+REPLACE=/^DTSTAMP:\d{4}[01]\d[0123]\dT[012]\d[0-5]\d[0-6]\dZ\r?$/DTSTAMP:yyyymmddThhmmssZ/
