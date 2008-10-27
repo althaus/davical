@@ -156,8 +156,10 @@ class iCalDate {
 
   /**
   * Set the day of week used for calculation of week starts
+  *
+  * @param string $weekstart The day of the week which is the first business day.
   */
-  function SetWeekStart() {
+  function SetWeekStart($weekstart) {
     global $ical_weekdays;
     $this->_wkst = $ical_weekdays[$weekstart];
   }
@@ -288,6 +290,7 @@ class iCalDate {
       if ( $matches[2] == 'W' ) $days *= 7;
       $this->AddDays( $days * $sign );
     }
+    $hh = 0;    $mi = 0;    $ss = 0;
     if ( preg_match( '/(\d+)(H)/', $time, $matches ) )  $hh = $matches[1];
     if ( preg_match( '/(\d+)(M)/', $time, $matches ) )  $mi = $matches[1];
     if ( preg_match( '/(\d+)(S)/', $time, $matches ) )  $ss = $matches[1];
@@ -722,7 +725,7 @@ class RRule {
     dbg_error_log( "RRule", " new RRule: Start: %s, RRULE: %s", $start->Render(), $this->_rule );
 
     $parts = split(';',$this->_rule);
-    $this->_part = array();
+    $this->_part = array( 'INTERVAL' => 1 );
     foreach( $parts AS $k => $v ) {
       list( $type, $value ) = split( '=', $v, 2);
       dbg_error_log( "RRule", " Parts of %s split into %s and %s", $v, $type, $value );
@@ -742,15 +745,10 @@ class RRule {
     if ( !preg_match( '/(YEAR|MONTH|WEEK|DAI)LY/', $this->_part['FREQ']) ) {
       dbg_error_log( "ERROR", " RRULE Only FREQ=(YEARLY|MONTHLY|WEEKLY|DAILY) are supported at present (%s)", $rrule );
     }
-    if ( ! isset($this->_part['INTERVAL']) ) $this->_part['INTERVAL'] = 1;
     if ( $this->_part['FREQ'] == "YEARLY" ) {
       $this->_part['INTERVAL'] *= 12;
       $this->_part['FREQ'] = "MONTHLY";
     }
-//    if ( $this->_part['FREQ'] == "WEEKLY" ) {
-//      $this->_part['INTERVAL'] *= 7;
-//      $this->_part['FREQ'] = "DAILY";
-//    }
   }
 
 
@@ -820,11 +818,6 @@ class RRule {
   */
   function &GetNext( ) {
 
-    if ( $this->_finished ) {
-      $next = null;
-      return $next;
-    }
-
     if ( $this->_current < 0 ) {
       $next = new iCalDate($this->_first);
       $this->_current++;
@@ -832,14 +825,6 @@ class RRule {
     else {
       $next = new iCalDate($this->_dates[$this->_current]);
       $this->_current++;
-
-/*
-      dbg_error_log( "RRule", " GetNext: Continuing: %s, starting from %s, consider %s, (%d'th)",
-                isset($this->_started) ,
-                (isset($next) ? $next->Render() : "not calculated"),
-                (isset($this->_dates[$this->_current]) ? $this->_dates[$this->_current]->Render():"not calculated") ,
-                $this->_current );
-*/
 
       /**
       * If we have already found some dates we may just be able to return one of those.
@@ -854,11 +839,16 @@ class RRule {
       }
     }
 
+    if ( $this->_finished ) {
+      $next = null;
+      return $next;
+    }
+
     $days = array();
     if ( isset($this->_part['WKST']) ) $next->SetWeekStart($this->_part['WKST']);
     if ( $this->_part['FREQ'] == "MONTHLY" ) {
       dbg_error_log( "RRule", " GetNext: Calculating more dates for MONTHLY rule" );
-      $limit = 100;
+      $limit = 200;
       do {
         $limit--;
         do {
@@ -870,7 +860,7 @@ class RRule {
             $this->_started = true;
           }
         }
-        while ( $limit && ! $next->TestByMonth($this->_part['BYMONTH']) );
+        while ( isset($this->_part['BYMONTH']) && $limit > 0 && ! $next->TestByMonth($this->_part['BYMONTH']) );
 
         if ( isset($this->_part['BYDAY']) ) {
           $days = $next->GetMonthByDay($this->_part['BYDAY']);
@@ -893,7 +883,7 @@ class RRule {
     }
     else if ( $this->_part['FREQ'] == "WEEKLY" ) {
       dbg_error_log( "RRule", " GetNext: Calculating more dates for WEEKLY rule" );
-      $limit = 100;
+      $limit = 200;
       do {
         $limit--;
         if ( $this->_started ) {
