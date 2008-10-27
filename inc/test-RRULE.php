@@ -67,6 +67,10 @@ $tests = array(
   , new RRuleTest( "Every working day", "20081020T103000", "RRULE:FREQ=MONTHLY;BYDAY=MO,TU,WE,TH,FR" )
   , new RRuleTest( "The last working day of each month", "20061107T113000", "RRULE:FREQ=MONTHLY;BYDAY=MO,TU,WE,TH,FR;BYSETPOS=-1" )
   , new RRuleTest( "Every working day", "20081020T110000", "RRULE:FREQ=DAILY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR" )
+  , new RRuleTest( "1st Tuesday, 2nd Wednesday, 3rd Thursday & 4th Friday, every March, June, September, October and December", "20081001T133000", "RRULE:FREQ=MONTHLY;INTERVAL=1;BYDAY=1TU,2WE,3TH,4FR;BYMONTH=3,6,9,10,12" )
+  , new RRuleTest( "Every tuesday and friday", "20081017T084500", "RRULE:FREQ=MONTHLY;INTERVAL=1;BYDAY=TU,FR" )
+  , new RRuleTest( "Every tuesday and friday", "20081017T084500", "RRULE:FREQ=WEEKLY;INTERVAL=1;BYDAY=TU,FR" )
+  , new RRuleTest( "Every tuesday and friday", "20081017T084500", "RRULE:FREQ=DAILY;INTERVAL=1;BYDAY=TU,FR" )
 );
 
 foreach( $tests AS $k => $test ) {
