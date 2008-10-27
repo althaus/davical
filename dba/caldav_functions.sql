@@ -182,10 +182,10 @@ BEGIN
   loopcount := 100;  -- Desirable to stop an infinite loop if there is something we cannot handle
   LOOP
     -- RAISE NOTICE ''Testing date: %'', our_answer;
-    IF frequency = 'DAILY' THEN
+    IF frequency = ''DAILY'' THEN
       IF byday IS NOT NULL THEN
         LOOP
-          dow = substring( to_char( our_answer, 'DY' ) for 2);
+          dow = substring( to_char( our_answer, ''DY'' ) for 2);
           EXIT WHEN byday ~* dow;
           -- Increment for our next time through the loop...
           our_answer := our_answer + (length::text || units)::interval;
