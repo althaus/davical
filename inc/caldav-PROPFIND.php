@@ -266,8 +266,7 @@ function add_general_properties( &$prop, &$not_found, &$denied, $record ) {
   }
 
   if ( $allprop || isset($prop_list['DAV::getcontentlanguage']) ) {
-    $contentlength = strlen($item->caldav_data);
-    $prop->NewElement("getcontentlanguage", $c->current_locale );
+    $prop->NewElement("getcontentlanguage", (isset($c->current_locale) ? $c->current_locale : "") );
   }
 
   if ( isset($prop_list['DAV::supportedlock']) ) {
@@ -565,7 +564,7 @@ function get_collection_contents( $depth, $user_no, $collection ) {
 * subsidiary collections will also be got up to $depth
 */
 function get_collection( $depth, $user_no, $collection_path ) {
-  global $c;
+  global $c, $request;
   $responses = array();
 
   dbg_error_log("PROPFIND","Getting collection: Depth %d, User: %d, Path: %s", $depth, $user_no, $collection_path );
@@ -575,6 +574,7 @@ function get_collection( $depth, $user_no, $collection_path ) {
     $collection->dav_etag = md5($c->system_name . $collection_path);
     $collection->is_calendar = 'f';
     $collection->is_principal = 'f';
+    $collection->user_no = 0;
     $collection->dav_displayname = $c->system_name;
     $collection->created = date('Ymd\THis');
     $responses[] = collection_to_xml( $collection );
@@ -598,10 +598,12 @@ function get_collection( $depth, $user_no, $collection_path ) {
       $responses[] = collection_to_xml( $collection );
     }
     elseif ( $c->collections_always_exist ) {
+      dbg_error_log("PROPFIND","Using $c->collections_always_exist setting is deprecated" );
       $collection->dav_name = $collection_path;
       $collection->dav_etag = md5($collection_path);
       $collection->is_calendar = 't';  // Everything is a calendar, if it always exists!
       $collection->is_principal = 'f';
+      $collection->user_no = $user_no;
       $collection->dav_displayname = $collection_path;
       $collection->created = date('Ymd"T"His');
       $responses[] = collection_to_xml( $collection );

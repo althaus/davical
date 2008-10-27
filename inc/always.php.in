@@ -1,13 +1,13 @@
 <?php
 /**
 * @package davical
-* @author Andrew McMillan <andrew@catalyst.net.nz>
-* @copyright Catalyst .Net Ltd
+* @author Andrew McMillan <andrew@mcmillan.net.nz>
+* @copyright Catalyst .Net Ltd, Morphoss Ltd <http://www.morphoss.com/>
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v2
 */
 
 // Ensure the configuration starts out as an empty object.
-unset($c);
+$c = (object) array();
 
 // Ditto for a few other global things
 unset($session); unset($request); unset($dbconn);

@@ -14,7 +14,7 @@ if ( ! $request->AllowedTo("read") ) {
   $request->DoResponse(403);
 }
 
-if ( ! ini_get('open_basedir') && (isset($c->dbg['ALL']) || $c->dbg['put']) ) {
+if ( ! ini_get('open_basedir') && (isset($c->dbg['ALL']) || (isset($c->dbg['put']) && $c->dbg['put'])) ) {
   $fh = fopen('/tmp/PUT.txt','w');
   if ( $fh ) {
     fwrite($fh,$request->raw_post);

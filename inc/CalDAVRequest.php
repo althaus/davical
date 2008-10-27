@@ -169,7 +169,7 @@ class CalDAVRequest
     *  4. otherwise we query the defined relationships between users and use
     *     the minimum privileges returned from that analysis.
     */
-    $this->path = $_SERVER['PATH_INFO'];
+    $this->path = (isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : "");
     if ( $this->path == null || $this->path == '' ) $this->path = '/';
     // dbg_error_log( "caldav", "Sanitising path '%s'", $this->path );
     $bad_chars_regex = '/[\\^\\[\\(\\\\]/';
@@ -212,7 +212,7 @@ class CalDAVRequest
       }
 
       $this->collection_id = $row->collection_id;
-      $this->collection_path = $row->path;
+      $this->collection_path = $row->dav_name;
       $this->collection = $row;
     }
     else if ( preg_match( '#^((/[^/]+/)\.(in|out)/)[^/]*$#', $this->path, $matches ) ) {
@@ -275,7 +275,7 @@ EOSQL;
     * If the content we are receiving is XML then we parse it here.  RFC2518 says we
     * should reasonably expect to see either text/xml or application/xml
     */
-    if ( preg_match( '#(application|text)/xml#', $_SERVER['CONTENT_TYPE'] ) ) {
+    if ( isset($_SERVER['CONTENT_TYPE']) && preg_match( '#(application|text)/xml#', $_SERVER['CONTENT_TYPE'] ) ) {
       $xml_parser = xml_parser_create_ns('UTF-8');
       $this->xml_tags = array();
       xml_parser_set_option ( $xml_parser, XML_OPTION_SKIP_WHITE, 1 );

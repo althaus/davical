@@ -4,8 +4,8 @@
 *
 * @package   davical
 * @subpackage   RSCDSSession
-* @author    Andrew McMillan <andrew@catalyst.net.nz>
-* @copyright Catalyst .Net Ltd
+* @author Andrew McMillan <andrew@mcmillan.net.nz>
+* @copyright Catalyst .Net Ltd, Morphoss Ltd <http://www.morphoss.com/>
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v2
 */
 
@@ -41,7 +41,7 @@ EOSQL;
 */
 require_once('Session.php');
 
-Session::_CheckLogout();
+@Session::_CheckLogout();
 
 /**
 * A class for creating and holding session information.

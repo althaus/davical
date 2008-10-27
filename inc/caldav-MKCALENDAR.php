@@ -5,7 +5,7 @@
 * @package   davical
 * @subpackage   caldav
 * @author    Andrew McMillan <andrew@mcmillan.net.nz>
-* @copyright Morphoss Ltd - http://www.morphoss.com/
+* @copyright Catalyst IT Ltd, Morphoss Ltd - http://www.morphoss.com/
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v2
 */
 dbg_error_log("MKCALENDAR", "method handler");
@@ -28,6 +28,8 @@ if ( preg_match( '#^(.*/)([^/]+)(/)?$#', $request->path, $matches ) ) {
   $displayname = $matches[2];
 }
 
+$failure = array();
+$propertysql = "";
 if ( isset($request->xml_tags) ) {
   /**
   * The MKCALENDAR request may contain XML to set some DAV properties

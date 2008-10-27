@@ -1,4 +1,5 @@
 <?php
+$save = error_reporting(0);
 require_once("MenuSet.php");
 $page_menu = new MenuSet('menu', 'menu', 'menu_active');
 $page_menu->AddOption(translate("Home"),"$c->base_url/index.php",translate("Browse all users"), false, 3900 );
@@ -17,4 +18,4 @@ $user_menu = new MenuSet('submenu', 'submenu', 'submenu_active');
 $user_menu->AddOption(translate("My Details"),"$c->base_url/usr.php?user_no=$session->user_no",translate("View my own user record"), false, 700);
 
 $active_menu_pattern = "#^$c->base_url/(index.*)?$#";
-?>
+error_reporting($save);

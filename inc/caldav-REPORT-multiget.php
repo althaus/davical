@@ -57,8 +57,8 @@ if ( isset($c->hide_TODO) && $c->hide_TODO && ! $request->AllowedTo('all') ) {
   $where .= "AND caldav_data.caldav_type NOT IN ('VTODO') ";
 }
 
+if ( isset($c->strict_result_ordering) && $c->strict_result_ordering ) $where .= " ORDER BY dav_id";
 $qry = new PgQuery( "SELECT * FROM caldav_data INNER JOIN calendar_item USING(dav_id, user_no, dav_name)". $where );
-if ( isset($c->strict_result_ordering) && $c->strict_result_ordering ) $sql .= " ORDER BY dav_id";
 if ( $qry->Exec("REPORT",__LINE__,__FILE__) && $qry->rows > 0 ) {
   while( $calendar_object = $qry->Fetch() ) {
     $responses[] = calendar_to_xml( $properties, $calendar_object );

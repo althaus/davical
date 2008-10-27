@@ -1,7 +1,16 @@
 <?php
+/**
+* CalDAV Server - handle PUT method
+*
+* @package   davical
+* @subpackage   caldav
+* @author    Andrew McMillan <andrew@morphoss.com>
+* @copyright Morphoss Ltd - http://www.morphoss.com/
+* @license   http://gnu.org/copyleft/gpl.html GNU GPL v2 or later version
+*/
 
 /**
-* Check if the user wants to put just one EVENT/TODO or a whole calendar
+* Check if the user wants to put just one VEVENT/VTODO or a whole calendar
 * if the collection = calendar = $request_container doesn't exist then create it
 * return true if it's a whole calendar
 */
@@ -113,6 +122,26 @@ function public_events_only( $user_no, $dav_name ) {
 
 
 /**
+* Create scheduling requests in the schedule inbox for the
+* @param iCalendar $ic The iCalendar object we should create scheduling requests for.
+*/
+function create_scheduling_requests( $ic ) {
+  $component =& $ic->component->FirstNonTimezone();
+  $attendees = $component->GetProperties('ATTENDEE');
+  if ( preg_match( '# iCal/\d#', $_SERVER['HTTP_USER_AGENT']) ) {
+    dbg_error_log( "POST", "Non-compliant iCal request.  Using X-WR-ATTENDEE property" );
+    $wr_attendees = $component->GetProperties('X-WR-ATTENDEE');
+    foreach( $wr_attendees AS $k => $v ) {
+      $attendees[] = $v;
+    }
+  }
+  dbg_error_log( "PUT", "Adding to scheduling inbox %d attendees", count($attendees) );
+  foreach( $attendees AS $attendee ) {
+    dbg_error_log( "PUT", "Not yet adding to schedule-inbox for %s", $attendee->Value() );
+  }
+}
+
+/**
 * This function will import a whole calendar
 * @param string $ics_content the ics file to import
 * @param int $user_no the user wich will receive this ics file
@@ -122,7 +151,7 @@ function public_events_only( $user_no, $dav_name ) {
 * Any VEVENTs with the same UID will be concatenated together
 */
 function import_collection( $ics_content, $user_no, $path, $caldav_context ) {
-  global $c;
+  global $c, $session;
   // According to RFC2445 we should always end with CRLF, but the CalDAV spec says
   // that normalising XML parsers often muck with it and may remove the CR.
   $icalendar = preg_replace('/\r?\n /', '', $ics_content );
@@ -206,7 +235,7 @@ function import_collection( $ics_content, $user_no, $path, $caldav_context ) {
 
   foreach( $events AS $k => $event ) {
     dbg_error_log( "PUT", "Putting event %d with data: %s", $k, $event['data'] );
-    $icalendar = iCalendar::iCalHeader() . $event['data'] . $timezones[$event['tzid']] . iCalendar::iCalFooter();
+    $icalendar = iCalendar::iCalHeader() . $event['data'] . (isset($timezones[$event['tzid']])?$timezones[$event['tzid']]:"") . iCalendar::iCalFooter();
     $ic = new iCalendar( array( 'icalendar' => $icalendar ) );
     $etag = md5($icalendar);
     $event_path = sprintf( "%s%d.ics", $path, $k);
@@ -273,6 +302,8 @@ EOSQL;
                               $ic->Get('due'), $ic->Get('percent-complete'), $collection->collection_id
                         );
     if ( !$qry->Exec("PUT") ) rollback_on_error( $caldav_context, $user_no, $path);
+
+    create_scheduling_requests( $ic );
   }
 
   $qry = new PgQuery("COMMIT;");
@@ -363,6 +394,10 @@ function putCalendarResource( &$request, $author, $caldav_context ) {
     if ( !$qry->Exec("PUT") ) rollback_on_error( $caldav_context, $request->user_no, $request->path);
   }
 
+  /**
+  * Build the SQL for inserting/updating the calendar_item record
+  */
+  $sql = "";
   if ( preg_match(':^(Africa|America|Antarctica|Arctic|Asia|Atlantic|Australia|Brazil|Canada|Chile|Etc|Europe|Indian|Mexico|Mideast|Pacific|US)/[a-z]+$:i', $ic->tz_locn ) ) {
     // We only set the timezone if it looks reasonable enough for us
     $sql = ( $ic->tz_locn == '' ? '' : "SET TIMEZONE TO ".qpg($ic->tz_locn).";" );
@@ -395,7 +430,7 @@ function putCalendarResource( &$request, $author, $caldav_context ) {
 
   $class = $ic->Get("class");
   /* Check and see if we should over ride the class. */
-  if ( public_events_only($user_no, $path) ) {
+  if ( public_events_only($request->user_no, $request->path) ) {
     $class = 'PUBLIC';
   }
 

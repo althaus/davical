@@ -334,7 +334,7 @@ class CalDAVPrincipal
           break;
 
         case 'DAV::getcontentlanguage':
-          $locale = $c->current_locale;
+          $locale = (isset($c->current_locale) ? $c->current_locale : "");
           if ( isset($this->locale) && $this->locale != "" ) $locale = $this->locale;
           $prop->NewElement("getcontentlanguage", $locale );
           break;
@@ -380,7 +380,7 @@ class CalDAVPrincipal
           break;
 
         default:
-          dbg_error_log( 'CalDAVPrincipal', "Request for unsupported property '%s' of principal.", $item->username );
+          dbg_error_log( 'CalDAVPrincipal', "Request for unsupported property '%s' of principal.", $this->username );
           $not_found[] = $reply->Tag($tag);
           break;
       }

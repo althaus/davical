@@ -75,7 +75,7 @@ else if ( $qry->rows > 1 ) {
         }
         $response .= $confidential->Render( false, $event->caldav_type );
       }
-      elseif ( $c->hide_alarm ) {
+      elseif ( isset($c->hide_alarm) && $c->hide_alarm ) {
         // Otherwise we hide the alarms (if configured to)
         $ical->component->ClearComponents('VALARM');
         $response .= $ical->render(true, $event->caldav_type );

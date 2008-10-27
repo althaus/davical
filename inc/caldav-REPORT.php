@@ -12,7 +12,7 @@ dbg_error_log("REPORT", "method handler");
 
 require_once("XMLDocument.php");
 
-if ( ! ini_get('open_basedir') && (isset($c->dbg['ALL']) || $c->dbg['report']) ) {
+if ( ! ini_get('open_basedir') && (isset($c->dbg['ALL']) || (isset($c->dbg['report']) && $c->dbg['report'])) ) {
   $fh = fopen('/tmp/REPORT.txt','w');
   if ( $fh ) {
     fwrite($fh,$request->raw_post);
@@ -96,9 +96,9 @@ function calendar_to_xml( $properties, $item ) {
         else {
           $confidential->Set('DTEND', $ical->Get('DTEND') );
         }
-        $caldav_data = $confidential->Render( true, $caldav_type );
+        $caldav_data = $confidential->Render( true, $item->caldav_type );
       }
-      elseif ( $c->hide_alarm ) {
+      elseif ( isset($c->hide_alarm) && $c->hide_alarm ) {
         // Otherwise we hide the alarms (if configured to)
         $ical = new iCalendar( array( "icalendar" => $caldav_data) );
         $ical->component->ClearComponents('VALARM');

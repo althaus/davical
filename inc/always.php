@@ -1,13 +1,13 @@
 <?php
 /**
 * @package davical
-* @author Andrew McMillan <andrew@catalyst.net.nz>
-* @copyright Catalyst .Net Ltd
+* @author Andrew McMillan <andrew@mcmillan.net.nz>
+* @copyright Catalyst .Net Ltd, Morphoss Ltd <http://www.morphoss.com/>
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v2
 */
 
 // Ensure the configuration starts out as an empty object.
-unset($c);
+$c = (object) array();
 
 // Ditto for a few other global things
 unset($session); unset($request); unset($dbconn);
@@ -77,6 +77,11 @@ else {
   include_once("davical_configuration_missing.php");
   exit;
 }
+if ( isset($c->deny_put_collection) ) {
+  @dbg_error_log( "WARN", "Deprecated 'deny_put_collection' configuration item renamed to 'readonly_webdav_collections'" );
+  $c->readonly_webdav_collections = $c->deny_put_collection;
+}
+
 if ( !isset($c->page_title) ) $c->page_title = $c->system_name;
 
 if ( count($c->dbg) > 0 ) {
@@ -96,7 +101,7 @@ awl_set_locale($c->default_locale);
 *
 */
 $c->code_version = 0;
-$c->version_string = '0.9.5.4'; // The actual version # is replaced into that during the build /release process
+$c->version_string = '0.9.5.90'; // The actual version # is replaced into that during the build /release process
 if ( isset($c->version_string) && preg_match( '/(\d+)\.(\d+)\.(\d+)(.*)/', $c->version_string, $matches) ) {
   $c->code_major = $matches[1];
   $c->code_minor = $matches[2];
@@ -134,7 +139,7 @@ function getUserByName( $username, $use_cache = true ) {
   // Provide some basic caching in case this ends up being overused.
   if ( $use_cache && isset( $_known_users_name[$username] ) ) return $_known_users_name[$username];
 
-  $qry = new PgQuery( "SELECT * FROM usr WHERE lower(username) = lower(?) ", $username );
+  $qry = new PgQuery( "SELECT *, to_char(updated at time zone 'GMT','Dy, DD Mon IYYY HH24:MI:SS \"GMT\"') AS modified FROM usr WHERE lower(username) = lower(?) ", $username );
   if ( $qry->Exec('always',__LINE__,__FILE__) && $qry->rows == 1 ) {
     $_known_users_name[$username] = $qry->Fetch();
     $id = $_known_users_name[$username]->user_no;
@@ -155,7 +160,7 @@ function getUserByID( $user_no, $use_cache = true ) {
   // Provide some basic caching in case this ends up being overused.
   if ( $use_cache && isset( $_known_users_id[$user_no] ) ) return $_known_users_id[$user_no];
 
-  $qry = new PgQuery( "SELECT * FROM usr WHERE user_no = ? ", intval($user_no) );
+  $qry = new PgQuery( "SELECT *, to_char(updated at time zone 'GMT','Dy, DD Mon IYYY HH24:MI:SS \"GMT\"') AS modified FROM usr WHERE user_no = ? ", intval($user_no) );
   if ( $qry->Exec('always',__LINE__,__FILE__) && $qry->rows == 1 ) {
     $_known_users_id[$user_no] = $qry->Fetch();
     $name = $_known_users_id[$user_no]->username;
