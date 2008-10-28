@@ -105,7 +105,7 @@
 					<img src="../../media/images/Method.png" alt=" "/>
 											<span class="method-result">array</span>
 										<a href="#GetWeekByDay" title="details" class="method-name">GetWeekByDay</a>
-											(<span class="var-type">string</span>&nbsp;<span class="var-name">$byday</span>)
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$byday</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$increasing</span> = <span class="var-default">false</span>])
 									</div>
 																<div class="method-definition">
 					<img src="../../media/images/Method.png" alt=" "/>
@@ -159,7 +159,7 @@
 					<img src="../../media/images/Method.png" alt=" "/>
 											<span class="method-result">void</span>
 										<a href="#SetWeekStart" title="details" class="method-name">SetWeekStart</a>
-										()
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$weekstart</span>)
 									</div>
 																<div class="method-definition">
 					<img src="../../media/images/Method.png" alt=" "/>
@@ -244,7 +244,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">AddDays</span> (line <span class="line-number">254</span>)
+		<span class="method-title">AddDays</span> (line <span class="line-number">256</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -271,7 +271,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">AddDuration</span> (line <span class="line-number">282</span>)
+		<span class="method-title">AddDuration</span> (line <span class="line-number">284</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -298,7 +298,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">AddMonths</span> (line <span class="line-number">226</span>)
+		<span class="method-title">AddMonths</span> (line <span class="line-number">228</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -325,7 +325,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">ApplyBySetPos</span> (line <span class="line-number">547</span>)
+		<span class="method-title">ApplyBySetPos</span> (line <span class="line-number">553</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -358,7 +358,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">DateDifference</span> (line <span class="line-number">318</span>)
+		<span class="method-title">DateDifference</span> (line <span class="line-number">321</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -388,7 +388,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">DaysInMonth</span> (line <span class="line-number">177</span>)
+		<span class="method-title">DaysInMonth</span> (line <span class="line-number">179</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -418,7 +418,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">GetMonthByDay</span> (line <span class="line-number">401</span>)
+		<span class="method-title">GetMonthByDay</span> (line <span class="line-number">404</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -448,7 +448,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">GetMonthByMonthDay</span> (line <span class="line-number">422</span>)
+		<span class="method-title">GetMonthByMonthDay</span> (line <span class="line-number">425</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -478,7 +478,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">GetWeekByDay</span> (line <span class="line-number">441</span>)
+		<span class="method-title">GetWeekByDay</span> (line <span class="line-number">445</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -492,13 +492,16 @@
 		<span class="method-name">
 			GetWeekByDay
 		</span>
-					(<span class="var-type">string</span>&nbsp;<span class="var-name">$byday</span>)
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$byday</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$increasing</span> = <span class="var-default">false</span>])
 			</div>
 	
 			<ul class="parameters">
 					<li>
 				<span class="var-type">string</span>
 				<span class="var-name">$byday</span><span class="var-description">: The BYDAY rule</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$increasing</span><span class="var-description">: When we are moving by months, we want any day of the week, but when by day we only want to increase. Default false.</span>			</li>
 				</ul>
 		
 			
@@ -508,7 +511,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">GreaterThan</span> (line <span class="line-number">462</span>)
+		<span class="method-title">GreaterThan</span> (line <span class="line-number">468</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -538,7 +541,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">LessThan</span> (line <span class="line-number">477</span>)
+		<span class="method-title">LessThan</span> (line <span class="line-number">483</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -568,7 +571,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">MonthDays</span> (line <span class="line-number">496</span>)
+		<span class="method-title">MonthDays</span> (line <span class="line-number">502</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -604,7 +607,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">Render</span> (line <span class="line-number">169</span>)
+		<span class="method-title">Render</span> (line <span class="line-number">171</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -712,7 +715,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">SetMonthDay</span> (line <span class="line-number">214</span>)
+		<span class="method-title">SetMonthDay</span> (line <span class="line-number">216</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -739,7 +742,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">SetWeekStart</span> (line <span class="line-number">160</span>)
+		<span class="method-title">SetWeekStart</span> (line <span class="line-number">162</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -750,9 +753,14 @@
 		<span class="method-name">
 			SetWeekStart
 		</span>
-				()
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$weekstart</span>)
 			</div>
 	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$weekstart</span><span class="var-description">: The day of the week which is the first business day.</span>			</li>
+				</ul>
 		
 			
 	</div>
@@ -761,7 +769,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">TestByMonth</span> (line <span class="line-number">389</span>)
+		<span class="method-title">TestByMonth</span> (line <span class="line-number">392</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -902,7 +910,7 @@
 
 	
 	<p class="notes" id="credit">
-		Documentation generated on Sun, 19 Oct 2008 21:25:41 +1300 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
+		Documentation generated on Tue, 28 Oct 2008 20:48:15 +1300 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
 	</p>
 	</div></body>
 </html>

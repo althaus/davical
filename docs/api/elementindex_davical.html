@@ -27,7 +27,6 @@
 	<a class="index-letter" href="elementindex_davical.html#i">i</a>
 	<a class="index-letter" href="elementindex_davical.html#l">l</a>
 	<a class="index-letter" href="elementindex_davical.html#m">m</a>
-	<a class="index-letter" href="elementindex_davical.html#n">n</a>
 	<a class="index-letter" href="elementindex_davical.html#o">o</a>
 	<a class="index-letter" href="elementindex_davical.html#p">p</a>
 	<a class="index-letter" href="elementindex_davical.html#r">r</a>
@@ -127,10 +126,19 @@
 					</dd>
 			<dt class="field">
 						<img src="media/images/Function.png" alt="Function" title="Function" />
-			<span class="method-title">add_namespace</span>
+			<span class="method-title">add_arbitrary_properties</span>
 					</dt>
 		<dd class="index-item-body">
-			<div class="index-item-details"><a href="davical/propfind/_inc---caldav-PROPFIND.php.html#functionadd_namespace">add_namespace()</a> in caldav-PROPFIND.php</div>
+			<div class="index-item-details"><a href="davical/propfind/_inc---caldav-PROPFIND.php.html#functionadd_arbitrary_properties">add_arbitrary_properties()</a> in caldav-PROPFIND.php</div>
+							<div class="index-item-description">Adds any arbitrary properties that were requested by the PROPFIND into the response.</div>
+					</dd>
+			<dt class="field">
+						<img src="media/images/Function.png" alt="Function" title="Function" />
+			<span class="method-title">add_general_properties</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="davical/propfind/_inc---caldav-PROPFIND.php.html#functionadd_general_properties">add_general_properties()</a> in caldav-PROPFIND.php</div>
+							<div class="index-item-description">Handles any properties related to the DAV::PRINCIPAL in the request</div>
 					</dd>
 			<dt class="field">
 						<img src="media/images/Function.png" alt="Function" title="Function" />
@@ -195,6 +203,14 @@
 		<dd class="index-item-body">
 			<div class="index-item-details"><a href="davical/Principal/CalDAVPrincipal.html#var$by_email">CalDAVPrincipal::$by_email</a> in CalDAVPrincipal.php</div>
 					</dd>
+			<dt class="field">
+						<img src="media/images/Function.png" alt="Function" title="Function" />
+			<span class="method-title">build_propstat_response</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="davical/propfind/_inc---caldav-PROPFIND.php.html#functionbuild_propstat_response">build_propstat_response()</a> in caldav-PROPFIND.php</div>
+							<div class="index-item-description">Build the &lt;propstat&gt;&lt;prop&gt;&lt;/prop&gt;&lt;status&gt;&lt;/status&gt;&lt;/propstat&gt; part of the response</div>
+					</dd>
 		</dl>
 	<a name="c"></a>
 	<div class="index-letter-section">
@@ -219,14 +235,6 @@
 							<div class="index-item-description">Construct a URL from the supplied dav_name</div>
 					</dd>
 			<dt class="field">
-						<img src="media/images/Function.png" alt="Function" title="Function" />
-			<span class="method-title">controlRequestContainer</span>
-					</dt>
-		<dd class="index-item-body">
-			<div class="index-item-details"><a href="davical/_inc---caldav-PUT-functions.php.html#functioncontrolRequestContainer">controlRequestContainer()</a> in caldav-PUT-functions.php</div>
-							<div class="index-item-description">Work out the location we are doing the PUT to, and check that we have the rights to  do the needful.</div>
-					</dd>
-			<dt class="field">
 						<img src="media/images/Page.png" alt="Page" title="Page" />
 			<span class="include-title">collection.php</span>
 					</dt>
@@ -239,13 +247,6 @@
 					</dt>
 		<dd class="index-item-body">
 			<div class="index-item-details"><a href="davical/_inc---caldav-LOCK.php.html">caldav-LOCK.php</a> in caldav-LOCK.php</div>
-					</dd>
-			<dt class="field">
-						<img src="media/images/Page.png" alt="Page" title="Page" />
-			<span class="include-title">caldav-PUT-functions.php</span>
-					</dt>
-		<dd class="index-item-body">
-			<div class="index-item-details"><a href="davical/_inc---caldav-PUT-functions.php.html">caldav-PUT-functions.php</a> in caldav-PUT-functions.php</div>
 					</dd>
 			<dt class="field">
 						<img src="media/images/Page.png" alt="Page" title="Page" />
@@ -307,6 +308,22 @@
 							<div class="index-item-description">Return XML for a single calendar (or todo) entry from the DB</div>
 					</dd>
 			<dt class="field">
+						<img src="media/images/Function.png" alt="Function" title="Function" />
+			<span class="method-title">controlRequestContainer</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="davical/caldav/_inc---caldav-PUT-functions.php.html#functioncontrolRequestContainer">controlRequestContainer()</a> in caldav-PUT-functions.php</div>
+							<div class="index-item-description">Work out the location we are doing the PUT to, and check that we have the rights to  do the needful.</div>
+					</dd>
+			<dt class="field">
+						<img src="media/images/Function.png" alt="Function" title="Function" />
+			<span class="method-title">create_scheduling_requests</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="davical/caldav/_inc---caldav-PUT-functions.php.html#functioncreate_scheduling_requests">create_scheduling_requests()</a> in caldav-PUT-functions.php</div>
+							<div class="index-item-description">Create scheduling requests in the schedule inbox for the</div>
+					</dd>
+			<dt class="field">
 						<img src="media/images/Page.png" alt="Page" title="Page" />
 			<span class="include-title">caldav.php</span>
 					</dt>
@@ -343,10 +360,24 @@
 					</dd>
 			<dt class="field">
 						<img src="media/images/Page.png" alt="Page" title="Page" />
+			<span class="include-title">caldav-POST.php</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="davical/caldav/_inc---caldav-POST.php.html">caldav-POST.php</a> in caldav-POST.php</div>
+					</dd>
+			<dt class="field">
+						<img src="media/images/Page.png" alt="Page" title="Page" />
 			<span class="include-title">caldav-PROPPATCH.php</span>
 					</dt>
 		<dd class="index-item-body">
 			<div class="index-item-details"><a href="davical/caldav/_inc---caldav-PROPPATCH.php.html">caldav-PROPPATCH.php</a> in caldav-PROPPATCH.php</div>
+					</dd>
+			<dt class="field">
+						<img src="media/images/Page.png" alt="Page" title="Page" />
+			<span class="include-title">caldav-PUT-functions.php</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="davical/caldav/_inc---caldav-PUT-functions.php.html">caldav-PUT-functions.php</a> in caldav-PUT-functions.php</div>
 					</dd>
 			<dt class="field">
 						<img src="media/images/Page.png" alt="Page" title="Page" />
@@ -402,20 +433,6 @@
 					</dd>
 			<dt class="field">
 						<img src="media/images/Function.png" alt="Function" title="Function" />
-			<span class="method-title">caldav_tag</span>
-					</dt>
-		<dd class="index-item-body">
-			<div class="index-item-details"><a href="davical/propfind/_inc---caldav-PROPFIND.php.html#functioncaldav_tag">caldav_tag()</a> in caldav-PROPFIND.php</div>
-					</dd>
-			<dt class="field">
-						<img src="media/images/Function.png" alt="Function" title="Function" />
-			<span class="method-title">calendar_server_tag</span>
-					</dt>
-		<dd class="index-item-body">
-			<div class="index-item-details"><a href="davical/propfind/_inc---caldav-PROPFIND.php.html#functioncalendar_server_tag">calendar_server_tag()</a> in caldav-PROPFIND.php</div>
-					</dd>
-			<dt class="field">
-						<img src="media/images/Function.png" alt="Function" title="Function" />
 			<span class="method-title">collection_to_xml</span>
 					</dt>
 		<dd class="index-item-body">
@@ -446,12 +463,20 @@
 							<div class="index-item-description">The path corresponding to the collection_id</div>
 					</dd>
 			<dt class="field">
-						<img src="media/images/Class.png" alt="Class" title="Class" />
-			CalDAVRequest
+						<img src="media/images/Variable.png" alt="Variable" title="Variable" />
+			<span class="var-title">$collection_type</span>
 					</dt>
 		<dd class="index-item-body">
-			<div class="index-item-details"><a href="davical/Request/CalDAVRequest.html">CalDAVRequest</a> in CalDAVRequest.php</div>
-							<div class="index-item-description">A class for collecting things to do with this request.</div>
+			<div class="index-item-details"><a href="davical/Request/CalDAVRequest.html#var$collection_type">CalDAVRequest::$collection_type</a> in CalDAVRequest.php</div>
+							<div class="index-item-description">The type of collection being requested:</div>
+					</dd>
+			<dt class="field">
+						<img src="media/images/Variable.png" alt="Variable" title="Variable" />
+			<span class="var-title">$current_user_principal_xml</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="davical/Request/CalDAVRequest.html#var$current_user_principal_xml">CalDAVRequest::$current_user_principal_xml</a> in CalDAVRequest.php</div>
+							<div class="index-item-description">The 'current_user_principal_xml' the DAV:current-user-principal answer. An  XMLElement object with an &lt;href&gt; or &lt;unauthenticated&gt; fragment.</div>
 					</dd>
 			<dt class="field">
 						<img src="media/images/Constructor.png" alt="Method" title="Method" />
@@ -460,6 +485,14 @@
 		<dd class="index-item-body">
 			<div class="index-item-details"><a href="davical/Request/CalDAVRequest.html#methodCalDAVRequest">CalDAVRequest::CalDAVRequest()</a> in CalDAVRequest.php</div>
 							<div class="index-item-description">Create a new CalDAVRequest object.</div>
+					</dd>
+			<dt class="field">
+						<img src="media/images/Class.png" alt="Class" title="Class" />
+			CalDAVRequest
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="davical/Request/CalDAVRequest.html">CalDAVRequest</a> in CalDAVRequest.php</div>
+							<div class="index-item-description">A class for collecting things to do with this request.</div>
 					</dd>
 			<dt class="field">
 						<img src="media/images/Page.png" alt="Page" title="Page" />
@@ -476,6 +509,20 @@
 		<div style="clear: both"></div>
 	</div>
 	<dl>
+			<dt class="field">
+						<img src="media/images/Variable.png" alt="Variable" title="Variable" />
+			<span class="var-title">$description</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="davical/RRuleTest.html#var$description">RRuleTest::$description</a> in test-RRULE.php</div>
+					</dd>
+			<dt class="field">
+						<img src="media/images/Variable.png" alt="Variable" title="Variable" />
+			<span class="var-title">$dtstart</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="davical/RRuleTest.html#var$dtstart">RRuleTest::$dtstart</a> in test-RRULE.php</div>
+					</dd>
 			<dt class="field">
 						<img src="media/images/Page.png" alt="Page" title="Page" />
 			<span class="include-title">davical_configuration_missing.php</span>
@@ -623,12 +670,18 @@
 							<div class="index-item-description">A generic function to create and fetch static objects</div>
 					</dd>
 			<dt class="field">
-						<img src="media/images/Function.png" alt="Function" title="Function" />
-			<span class="method-title">get_arbitrary_properties</span>
+						<img src="media/images/Variable.png" alt="Variable" title="Variable" />
+			<span class="var-title">$group_membership</span>
 					</dt>
 		<dd class="index-item-body">
-			<div class="index-item-details"><a href="davical/propfind/_inc---caldav-PROPFIND.php.html#functionget_arbitrary_properties">get_arbitrary_properties()</a> in caldav-PROPFIND.php</div>
-							<div class="index-item-description">Fetches any arbitrary properties that were requested by the PROPFIND into an  array, which we return.</div>
+			<div class="index-item-details"><a href="davical/Principal/CalDAVPrincipal.html#var$group_membership">CalDAVPrincipal::$group_membership</a> in CalDAVPrincipal.php</div>
+					</dd>
+			<dt class="field">
+						<img src="media/images/Variable.png" alt="Variable" title="Variable" />
+			<span class="var-title">$group_member_set</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="davical/Principal/CalDAVPrincipal.html#var$group_member_set">CalDAVPrincipal::$group_member_set</a> in CalDAVPrincipal.php</div>
 					</dd>
 			<dt class="field">
 						<img src="media/images/Function.png" alt="Function" title="Function" />
@@ -710,6 +763,13 @@
 			<div class="index-item-details"><a href="davical/_htdocs---help.php.html">help.php</a> in help.php</div>
 					</dd>
 			<dt class="field">
+						<img src="media/images/Function.png" alt="Function" title="Function" />
+			<span class="method-title">handle_freebusy_request</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="davical/caldav/_inc---caldav-POST.php.html#functionhandle_freebusy_request">handle_freebusy_request()</a> in caldav-POST.php</div>
+					</dd>
+			<dt class="field">
 						<img src="media/images/Constructor.png" alt="Method" title="Method" />
 			<span class="method-title">HTTPAuthSession</span>
 					</dt>
@@ -756,19 +816,19 @@
 			<div class="index-item-details"><a href="davical/_htdocs---index.php.html">index.php</a> in index.php</div>
 					</dd>
 			<dt class="field">
-						<img src="media/images/Function.png" alt="Function" title="Function" />
-			<span class="method-title">import_collection</span>
-					</dt>
-		<dd class="index-item-body">
-			<div class="index-item-details"><a href="davical/_inc---caldav-PUT-functions.php.html#functionimport_collection">import_collection()</a> in caldav-PUT-functions.php</div>
-							<div class="index-item-description">This function will import a whole calendar</div>
-					</dd>
-			<dt class="field">
 						<img src="media/images/Page.png" alt="Page" title="Page" />
 			<span class="include-title">interactive-page.php</span>
 					</dt>
 		<dd class="index-item-body">
 			<div class="index-item-details"><a href="davical/_inc---interactive-page.php.html">interactive-page.php</a> in interactive-page.php</div>
+					</dd>
+			<dt class="field">
+						<img src="media/images/Function.png" alt="Function" title="Function" />
+			<span class="method-title">import_collection</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="davical/caldav/_inc---caldav-PUT-functions.php.html#functionimport_collection">import_collection()</a> in caldav-PUT-functions.php</div>
+							<div class="index-item-description">This function will import a whole calendar</div>
 					</dd>
 			<dt class="field">
 						<img src="media/images/Method.png" alt="Method" title="Method" />
@@ -895,28 +955,6 @@
 							<div class="index-item-description">The HTTP request method: PROPFIND, LOCK, REPORT, OPTIONS, etc...</div>
 					</dd>
 		</dl>
-	<a name="n"></a>
-	<div class="index-letter-section">
-		<div style="float: left" class="index-letter-title">n</div>
-		<div style="float: right"><a href="#top">top</a></div>
-		<div style="clear: both"></div>
-	</div>
-	<dl>
-			<dt class="field">
-						<img src="media/images/Function.png" alt="Function" title="Function" />
-			<span class="method-title">namespace_array</span>
-					</dt>
-		<dd class="index-item-body">
-			<div class="index-item-details"><a href="davical/propfind/_inc---caldav-PROPFIND.php.html#functionnamespace_array">namespace_array()</a> in caldav-PROPFIND.php</div>
-					</dd>
-			<dt class="field">
-						<img src="media/images/Function.png" alt="Function" title="Function" />
-			<span class="method-title">ns_tag</span>
-					</dt>
-		<dd class="index-item-body">
-			<div class="index-item-details"><a href="davical/propfind/_inc---caldav-PROPFIND.php.html#functionns_tag">ns_tag()</a> in caldav-PROPFIND.php</div>
-					</dd>
-		</dl>
 	<a name="o"></a>
 	<div class="index-letter-section">
 		<div style="float: left" class="index-letter-title">o</div>
@@ -961,28 +999,11 @@
 			<div class="index-item-details"><a href="davical/_inc---page-header.php.html">page-header.php</a> in page-header.php</div>
 					</dd>
 			<dt class="field">
-						<img src="media/images/Function.png" alt="Function" title="Function" />
-			<span class="method-title">principal_to_xml</span>
+						<img src="media/images/Method.png" alt="Method" title="Method" />
+			<span class="method-title">PHPTest</span>
 					</dt>
 		<dd class="index-item-body">
-			<div class="index-item-details"><a href="davical/_inc---caldav-REPORT-principal.php.html#functionprincipal_to_xml">principal_to_xml()</a> in caldav-REPORT-principal.php</div>
-							<div class="index-item-description">Return XML for a single Principal (user) from the DB  TODO: Refactor this functionality into the CalDAVPrincipal object</div>
-					</dd>
-			<dt class="field">
-						<img src="media/images/Function.png" alt="Function" title="Function" />
-			<span class="method-title">public_events_only</span>
-					</dt>
-		<dd class="index-item-body">
-			<div class="index-item-details"><a href="davical/_inc---caldav-PUT-functions.php.html#functionpublic_events_only">public_events_only()</a> in caldav-PUT-functions.php</div>
-							<div class="index-item-description">Check if this collection should force all events to be PUBLIC.</div>
-					</dd>
-			<dt class="field">
-						<img src="media/images/Function.png" alt="Function" title="Function" />
-			<span class="method-title">putCalendarResource</span>
-					</dt>
-		<dd class="index-item-body">
-			<div class="index-item-details"><a href="davical/_inc---caldav-PUT-functions.php.html#functionputCalendarResource">putCalendarResource()</a> in caldav-PUT-functions.php</div>
-							<div class="index-item-description">Put the resource from this request</div>
+			<div class="index-item-details"><a href="davical/RRuleTest.html#methodPHPTest">RRuleTest::PHPTest()</a> in test-RRULE.php</div>
 					</dd>
 			<dt class="field">
 						<img src="media/images/Page.png" alt="Page" title="Page" />
@@ -990,6 +1011,22 @@
 					</dt>
 		<dd class="index-item-body">
 			<div class="index-item-details"><a href="davical/caldav/_htdocs---public.php.html">public.php</a> in public.php</div>
+					</dd>
+			<dt class="field">
+						<img src="media/images/Function.png" alt="Function" title="Function" />
+			<span class="method-title">public_events_only</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="davical/caldav/_inc---caldav-PUT-functions.php.html#functionpublic_events_only">public_events_only()</a> in caldav-PUT-functions.php</div>
+							<div class="index-item-description">Check if this collection should force all events to be PUBLIC.</div>
+					</dd>
+			<dt class="field">
+						<img src="media/images/Function.png" alt="Function" title="Function" />
+			<span class="method-title">putCalendarResource</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="davical/caldav/_inc---caldav-PUT-functions.php.html#functionputCalendarResource">putCalendarResource()</a> in caldav-PUT-functions.php</div>
+							<div class="index-item-description">Put the resource from this request</div>
 					</dd>
 			<dt class="field">
 						<img src="media/images/Method.png" alt="Method" title="Method" />
@@ -1024,6 +1061,20 @@
 	</div>
 	<dl>
 			<dt class="field">
+						<img src="media/images/Variable.png" alt="Variable" title="Variable" />
+			<span class="var-title">$recur</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="davical/RRuleTest.html#var$recur">RRuleTest::$recur</a> in test-RRULE.php</div>
+					</dd>
+			<dt class="field">
+						<img src="media/images/Variable.png" alt="Variable" title="Variable" />
+			<span class="var-title">$result_description</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="davical/RRuleTest.html#var$result_description">RRuleTest::$result_description</a> in test-RRULE.php</div>
+					</dd>
+			<dt class="field">
 						<img src="media/images/Page.png" alt="Page" title="Page" />
 			<span class="include-title">relationship_types.php</span>
 					</dt>
@@ -1038,11 +1089,25 @@
 			<div class="index-item-details"><a href="davical/_htdocs---roles.php.html">roles.php</a> in roles.php</div>
 					</dd>
 			<dt class="field">
+						<img src="media/images/Constructor.png" alt="Method" title="Method" />
+			<span class="method-title">RRuleTest</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="davical/RRuleTest.html#methodRRuleTest">RRuleTest::RRuleTest()</a> in test-RRULE.php</div>
+					</dd>
+			<dt class="field">
+						<img src="media/images/Class.png" alt="Class" title="Class" />
+			RRuleTest
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="davical/RRuleTest.html">RRuleTest</a> in test-RRULE.php</div>
+					</dd>
+			<dt class="field">
 						<img src="media/images/Function.png" alt="Function" title="Function" />
 			<span class="method-title">rollback_on_error</span>
 					</dt>
 		<dd class="index-item-body">
-			<div class="index-item-details"><a href="davical/_inc---caldav-PUT-functions.php.html#functionrollback_on_error">rollback_on_error()</a> in caldav-PUT-functions.php</div>
+			<div class="index-item-details"><a href="davical/caldav/_inc---caldav-PUT-functions.php.html#functionrollback_on_error">rollback_on_error()</a> in caldav-PUT-functions.php</div>
 							<div class="index-item-description">This function launches an error</div>
 					</dd>
 			<dt class="field">
@@ -1052,6 +1117,22 @@
 		<dd class="index-item-body">
 			<div class="index-item-details"><a href="davical/ldap/ldapDrivers.html#methodrequestUser">ldapDrivers::requestUser()</a> in drivers_ldap.php</div>
 							<div class="index-item-description">Returns the result of the LDAP query</div>
+					</dd>
+			<dt class="field">
+						<img src="media/images/Method.png" alt="Method" title="Method" />
+			<span class="method-title">RenderAsXML</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="davical/Principal/CalDAVPrincipal.html#methodRenderAsXML">CalDAVPrincipal::RenderAsXML()</a> in CalDAVPrincipal.php</div>
+							<div class="index-item-description">Render XML for a single Principal (user) from the DB</div>
+					</dd>
+			<dt class="field">
+						<img src="media/images/Method.png" alt="Method" title="Method" />
+			<span class="method-title">RenderPrivileges</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="davical/Principal/CalDAVPrincipal.html#methodRenderPrivileges">CalDAVPrincipal::RenderPrivileges()</a> in CalDAVPrincipal.php</div>
+							<div class="index-item-description">Returns the array of privilege names converted into XMLElements</div>
 					</dd>
 			<dt class="field">
 						<img src="media/images/Variable.png" alt="Variable" title="Variable" />
@@ -1190,6 +1271,13 @@
 		<dd class="index-item-body">
 			<div class="index-item-details"><a href="davical/_inc---caldav-REPORT-calquery.php.html#functionSqlFilterFragment">SqlFilterFragment()</a> in caldav-REPORT-calquery.php</div>
 							<div class="index-item-description">Process a filter fragment returning an SQL fragment</div>
+					</dd>
+			<dt class="field">
+						<img src="media/images/Method.png" alt="Method" title="Method" />
+			<span class="method-title">SQLTest</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="davical/RRuleTest.html#methodSQLTest">RRuleTest::SQLTest()</a> in test-RRULE.php</div>
 					</dd>
 			<dt class="field">
 						<img src="media/images/Constructor.png" alt="Method" title="Method" />
@@ -1362,6 +1450,14 @@
 					</dd>
 			<dt class="field">
 						<img src="media/images/Method.png" alt="Method" title="Method" />
+			<span class="method-title">UsernameFromEMail</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="davical/Principal/CalDAVPrincipal.html#methodUsernameFromEMail">CalDAVPrincipal::UsernameFromEMail()</a> in CalDAVPrincipal.php</div>
+							<div class="index-item-description">Work out the username, based on the given e-mail</div>
+					</dd>
+			<dt class="field">
+						<img src="media/images/Method.png" alt="Method" title="Method" />
 			<span class="method-title">UsernameFromPath</span>
 					</dt>
 		<dd class="index-item-body">
@@ -1461,7 +1557,6 @@
 	<a class="index-letter" href="elementindex_davical.html#i">i</a>
 	<a class="index-letter" href="elementindex_davical.html#l">l</a>
 	<a class="index-letter" href="elementindex_davical.html#m">m</a>
-	<a class="index-letter" href="elementindex_davical.html#n">n</a>
 	<a class="index-letter" href="elementindex_davical.html#o">o</a>
 	<a class="index-letter" href="elementindex_davical.html#p">p</a>
 	<a class="index-letter" href="elementindex_davical.html#r">r</a>

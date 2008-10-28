@@ -50,7 +50,7 @@
 								</div>
 		<div class="info-box-body">
 			<div class="var-summary">
-																																																																																<div class="var-title">
+																																																																																																<div class="var-title">
 					<img src="../../media/images/Variable.png" alt=" " />
 					<span class="var-type">mixed</span>
 					<a href="#$collection_id" title="details" class="var-name">$collection_id</a>
@@ -59,6 +59,16 @@
 					<img src="../../media/images/Variable.png" alt=" " />
 					<span class="var-type">mixed</span>
 					<a href="#$collection_path" title="details" class="var-name">$collection_path</a>
+				</div>
+																<div class="var-title">
+					<img src="../../media/images/Variable.png" alt=" " />
+					<span class="var-type">mixed</span>
+					<a href="#$collection_type" title="details" class="var-name">$collection_type</a>
+				</div>
+																<div class="var-title">
+					<img src="../../media/images/Variable.png" alt=" " />
+					<span class="var-type">mixed</span>
+					<a href="#$current_user_principal_xml" title="details" class="var-name">$current_user_principal_xml</a>
 				</div>
 																<div class="var-title">
 					<img src="../../media/images/Variable.png" alt=" " />
@@ -240,7 +250,7 @@
 		<span class="var-title">
 			<span class="var-type">mixed</span>
 			<span class="var-name">$collection_id</span>
-						(line <span class="line-number">60</span>)
+						(line <span class="line-number">66</span>)
 		</span>
 	</div>
 
@@ -260,12 +270,53 @@
 		<span class="var-title">
 			<span class="var-type">mixed</span>
 			<span class="var-name">$collection_path</span>
-						(line <span class="line-number">65</span>)
+						(line <span class="line-number">71</span>)
 		</span>
 	</div>
 
 	<!-- ========== Info from phpDoc block ========= -->
 <p class="short-description">The path corresponding to the collection_id</p>
+	
+	
+		
+		
+
+</div>
+<a name="var$collection_type" id="$collection_type"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<img src="../../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$collection_type</span>
+						(line <span class="line-number">77</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">The type of collection being requested:</p>
+<p class="description"><p>calendar, schedule-inbox, schedule-outbox</p></p>
+	
+	
+		
+		
+
+</div>
+<a name="var$current_user_principal_xml" id="$current_user_principal_xml"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<img src="../../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$current_user_principal_xml</span>
+						(line <span class="line-number">56</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">The 'current_user_principal_xml' the DAV:current-user-principal answer. An  XMLElement object with an &lt;href&gt; or &lt;unauthenticated&gt; fragment.</p>
 	
 	
 		
@@ -379,7 +430,7 @@
 		<span class="var-title">
 			<span class="var-type">mixed</span>
 			<span class="var-name">$user_agent</span>
-						(line <span class="line-number">55</span>)
+						(line <span class="line-number">61</span>)
 		</span>
 	</div>
 
@@ -411,7 +462,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Constructor.png" />
-		<span class="method-title">Constructor CalDAVRequest</span> (line <span class="line-number">70</span>)
+		<span class="method-title">Constructor CalDAVRequest</span> (line <span class="line-number">82</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -438,7 +489,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">AllowedTo</span> (line <span class="line-number">531</span>)
+		<span class="method-title">AllowedTo</span> (line <span class="line-number">591</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -466,7 +517,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">DepthRegexTail</span> (line <span class="line-number">377</span>)
+		<span class="method-title">DepthRegexTail</span> (line <span class="line-number">437</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -488,7 +539,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">DoResponse</span> (line <span class="line-number">610</span>)
+		<span class="method-title">DoResponse</span> (line <span class="line-number">685</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -521,7 +572,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">FailIfLocked</span> (line <span class="line-number">456</span>)
+		<span class="method-title">FailIfLocked</span> (line <span class="line-number">516</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -546,7 +597,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">GetDepthName</span> (line <span class="line-number">368</span>)
+		<span class="method-title">GetDepthName</span> (line <span class="line-number">428</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -568,7 +619,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">GetLockDetails</span> (line <span class="line-number">442</span>)
+		<span class="method-title">GetLockDetails</span> (line <span class="line-number">502</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -595,7 +646,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">GetLockRow</span> (line <span class="line-number">388</span>)
+		<span class="method-title">GetLockRow</span> (line <span class="line-number">448</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -625,7 +676,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">IsCollection</span> (line <span class="line-number">491</span>)
+		<span class="method-title">IsCollection</span> (line <span class="line-number">551</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -647,7 +698,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">IsInfiniteDepth</span> (line <span class="line-number">513</span>)
+		<span class="method-title">IsInfiniteDepth</span> (line <span class="line-number">573</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -669,7 +720,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">IsLocked</span> (line <span class="line-number">336</span>)
+		<span class="method-title">IsLocked</span> (line <span class="line-number">396</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -697,7 +748,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">IsPrincipal</span> (line <span class="line-number">502</span>)
+		<span class="method-title">IsPrincipal</span> (line <span class="line-number">562</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -719,7 +770,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">setPermissions</span> (line <span class="line-number">285</span>)
+		<span class="method-title">setPermissions</span> (line <span class="line-number">345</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -749,7 +800,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">SupportedPrivileges</span> (line <span class="line-number">632</span>)
+		<span class="method-title">SupportedPrivileges</span> (line <span class="line-number">707</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -774,7 +825,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">UnsupportedRequest</span> (line <span class="line-number">575</span>)
+		<span class="method-title">UnsupportedRequest</span> (line <span class="line-number">650</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -801,7 +852,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">UserFromPath</span> (line <span class="line-number">244</span>)
+		<span class="method-title">UserFromPath</span> (line <span class="line-number">304</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -823,7 +874,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">ValidateLockToken</span> (line <span class="line-number">414</span>)
+		<span class="method-title">ValidateLockToken</span> (line <span class="line-number">474</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -850,7 +901,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">XMLResponse</span> (line <span class="line-number">595</span>)
+		<span class="method-title">XMLResponse</span> (line <span class="line-number">670</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -881,7 +932,7 @@
 
 	
 	<p class="notes" id="credit">
-		Documentation generated on Sun, 19 Oct 2008 21:25:39 +1300 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
+		Documentation generated on Tue, 28 Oct 2008 20:48:13 +1300 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
 	</p>
 	</div></body>
 </html>

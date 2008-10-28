@@ -1,3 +1,18 @@
+davical (0.9.5.90) unstable; urgency=low
+
+  * Updated french debconf templates (closes: #501266)
+  * Add support for Apple getctag extensions.
+  * Add configuration to allow disabling PUT of collection.
+  * Extension of caldav-client.php inspired by Daniel Serrabou.
+  * Bugfix for importing of events with multiple VEVENT modifiers.
+  * Support for POST freebusy request.
+  * Convert RRule functions to newer PostgreSQL function syntax.
+  * Add support for proposed calendar-user-principal property.
+  * Bugfixes and coverage improvements in recurrence rule calculations.
+  * Cleaned up lots of uninitialised variable warnings.
+
+ -- Andrew McMillan <debian@mcmillan.net.nz>  Tue, 28 Oct 2008 20:43:21 +1300
+
 davical (0.9.5.3) unstable; urgency=low
 
   * Fix translation inefficiencies (closes: #495307)
