@@ -1,3 +1,9 @@
+davical (0.9.5.91) unstable; urgency=low
+
+  * Enable headers for caldav scheduling.
+
+ -- Andrew McMillan <debian@mcmillan.net.nz>  Wed, 29 Oct 2008 08:28:35 +1300
+
 davical (0.9.5.90) unstable; urgency=low
 
   * Updated french debconf templates (closes: #501266)

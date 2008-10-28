@@ -26,7 +26,7 @@ if ( isset($c->override_dav_header) ) {
   $dav = $c->override_dav_header;
 }
 else {
-  $dav = "1, 2, access-control, calendar-access";
+  $dav = "1, 2, 3, access-control, calendar-access, calendar-schedule";
 }
 header( "DAV: $dav");
 

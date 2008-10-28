@@ -54,7 +54,7 @@ if ( !$exists ) {
 if ( isset($c->override_allowed_methods) )
   $allowed = $c->override_allowed_methods;
 else {
-  $allowed = "OPTIONS, GET, HEAD, PUT, DELETE, PROPFIND, MKCOL, MKCALENDAR, LOCK, UNLOCK, REPORT, PROPPATCH";
+  $allowed = "OPTIONS, GET, HEAD, PUT, DELETE, PROPFIND, MKCOL, MKCALENDAR, LOCK, UNLOCK, REPORT, PROPPATCH, POST";
   if ( $request->path == '/' ) {
     $exists = true;
     $allowed = "OPTIONS, GET, HEAD, PROPFIND, REPORT";
