@@ -9,16 +9,16 @@
 *
 * Coverage of this function set
 *  - COUNT & UNTIL are handled, generally
-*  - DAILY frequency, including BYDAY, BYMONTH, BYMONTHDAY
-*  - WEEKLY frequency, including BYDAY, BYMONTH, BYMONTHDAY, BYSETPOS
+*  - DAILY frequency, including BYDAY, BYMONTH, BYMONTHDAY, BYWEEKNO, BYMONTHDAY
+*  - WEEKLY frequency, including BYDAY, BYMONTH, BYMONTHDAY, BYWEEKNO, BYSETPOS
 *  - MONTHLY frequency, including BYDAY, BYMONTH, BYSETPOS
-*  - YEARLY frequency, including ???
+*  - YEARLY frequency, including BYMONTH, BYMONTHDAY, BYSETPOS, BYDAY
 *
 * Not covered as yet
-*  - DAILY:   BYYEARDAY, BYWEEKNO, BYMONTHDAY, BYSETPOS*
-*  - WEEKLY:  BYYEARDAY, BYWEEKNO
+*  - DAILY:   BYYEARDAY, BYSETPOS*
+*  - WEEKLY:  BYYEARDAY
 *  - MONTHLY: BYYEARDAY, BYMONTHDAY, BYWEEKNO
-*  - YEARLY:  BYYEARDAY, BYDAY*, BYSETPOS
+*  - YEARLY:  BYYEARDAY
 *  - SECONDLY
 *  - MINUTELY
 *  - HOURLY
@@ -241,23 +241,17 @@ $$ LANGUAGE 'sql' IMMUTABLE STRICT;
 
 
 ------------------------------------------------------------------------------------------------------
--- Test the weekday of this date against the array of weekdays from the byday rule
+-- Test the weekday of this date against the array of weekdays from the BYDAY rule (FREQ=WEEKLY or less)
 ------------------------------------------------------------------------------------------------------
 CREATE or REPLACE FUNCTION test_byday_rule( TIMESTAMP WITH TIME ZONE, TEXT[] ) RETURNS BOOLEAN AS $$
 DECLARE
   testme ALIAS FOR $1;
   byday ALIAS FOR $2;
-  i INT;
-  dow TEXT;
 BEGIN
+  -- Note that this doesn't work for MONTHLY/YEARLY BYDAY clauses which might have numbers prepended
+  -- so don't call it that way...
   IF byday IS NOT NULL THEN
-    dow := substring( to_char( testme, 'DY') for 2 from 1);
-    FOR i IN 1..7 LOOP
-      IF byday[i] IS NULL THEN
-        RETURN FALSE;
-      END IF;
-      EXIT WHEN dow = byday[i];
-    END LOOP;
+    RETURN ( substring( to_char( testme, 'DY') for 2 from 1) = ANY (byday) );
   END IF;
   RETURN TRUE;
 END;
@@ -271,17 +265,9 @@ CREATE or REPLACE FUNCTION test_bymonth_rule( TIMESTAMP WITH TIME ZONE, INT[] ) 
 DECLARE
   testme ALIAS FOR $1;
   bymonth ALIAS FOR $2;
-  i INT;
-  month INT;
 BEGIN
   IF bymonth IS NOT NULL THEN
-    month := date_part( 'month', testme );
-    FOR i IN 1..12 LOOP
-      IF bymonth[i] IS NULL THEN
-        RETURN FALSE;
-      END IF;
-      EXIT WHEN month = bymonth[i];
-    END LOOP;
+    RETURN ( date_part( 'month', testme) = ANY (bymonth) );
   END IF;
   RETURN TRUE;
 END;
@@ -289,25 +275,69 @@ $$ LANGUAGE 'plpgsql' IMMUTABLE;
 
 
 ------------------------------------------------------------------------------------------------------
--- Test the month of this date against the array of months from the rule
+-- Test the day in month of this date against the array of monthdays from the rule
 ------------------------------------------------------------------------------------------------------
 CREATE or REPLACE FUNCTION test_bymonthday_rule( TIMESTAMP WITH TIME ZONE, INT[] ) RETURNS BOOLEAN AS $$
 DECLARE
   testme ALIAS FOR $1;
   bymonthday ALIAS FOR $2;
-  i INT;
-  dom INT;
 BEGIN
   IF bymonthday IS NOT NULL THEN
-    dom := date_part( 'day', testme);
-    FOR i IN 1..31 LOOP
-      IF bymonthday[i] IS NULL THEN
-        RETURN FALSE;
-      END IF;
-      EXIT WHEN dom = bymonthday[i];
-    END LOOP;
+    RETURN ( date_part( 'day', testme) = ANY (bymonthday) );
   END IF;
   RETURN TRUE;
+END;
+$$ LANGUAGE 'plpgsql' IMMUTABLE;
+
+
+------------------------------------------------------------------------------------------------------
+-- Test the day in year of this date against the array of yeardays from the rule
+------------------------------------------------------------------------------------------------------
+CREATE or REPLACE FUNCTION test_byyearday_rule( TIMESTAMP WITH TIME ZONE, INT[] ) RETURNS BOOLEAN AS $$
+DECLARE
+  testme ALIAS FOR $1;
+  byyearday ALIAS FOR $2;
+BEGIN
+  IF byyearday IS NOT NULL THEN
+    RETURN ( date_part( 'doy', testme) = ANY (byyearday) );
+  END IF;
+  RETURN TRUE;
+END;
+$$ LANGUAGE 'plpgsql' IMMUTABLE;
+
+
+------------------------------------------------------------------------------------------------------
+-- Given a cursor into a set, process the set returning the subset matching the BYSETPOS
+------------------------------------------------------------------------------------------------------
+CREATE or REPLACE FUNCTION rrule_bysetpos_filter( REFCURSOR, INT[] ) RETURNS SETOF TIMESTAMP WITH TIME ZONE AS $$
+DECLARE
+  curse ALIAS FOR $1;
+  bysetpos ALIAS FOR $2;
+  valid_date TIMESTAMP WITH TIME ZONE;
+  i INT;
+BEGIN
+
+  IF bysetpos IS NULL THEN
+    LOOP
+      FETCH curse INTO valid_date;
+      EXIT WHEN NOT FOUND;
+      RETURN NEXT valid_date;
+    END LOOP;
+  ELSE
+    FOR i IN 1..366 LOOP
+      EXIT WHEN bysetpos[i] IS NULL;
+      IF bysetpos[i] > 0 THEN
+        FETCH ABSOLUTE bysetpos[i] FROM curse INTO valid_date;
+      ELSE
+        MOVE LAST IN curse;
+        FETCH RELATIVE (bysetpos[i] + 1) FROM curse INTO valid_date;
+      END IF;
+      IF valid_date IS NOT NULL THEN
+        RETURN NEXT valid_date;
+      END IF;
+    END LOOP;
+  END IF;
+  CLOSE curse;
 END;
 $$ LANGUAGE 'plpgsql' IMMUTABLE;
 
@@ -320,8 +350,30 @@ DECLARE
   after ALIAS FOR $1;
   rrule ALIAS FOR $2;
 BEGIN
-  -- Since we don't do BYHOUR, BYMINUTE or BYSECOND yet this becomes trivial
+
+  IF rrule.bymonth IS NOT NULL AND NOT date_part('month',after) = ANY ( rrule.bymonth ) THEN
+    RETURN;
+  END IF;
+
+  IF rrule.byweekno IS NOT NULL AND NOT date_part('week',after) = ANY ( rrule.byweekno ) THEN
+    RETURN;
+  END IF;
+
+  IF rrule.byyearday IS NOT NULL AND NOT date_part('doy',after) = ANY ( rrule.byyearday ) THEN
+    RETURN;
+  END IF;
+
+  IF rrule.bymonthday IS NOT NULL AND NOT date_part('day',after) = ANY ( rrule.bymonthday ) THEN
+    RETURN;
+  END IF;
+
+  IF rrule.byday IS NOT NULL AND NOT substring( to_char( after, 'DY') for 2 from 1) = ANY ( rrule.byday ) THEN
+    RETURN;
+  END IF;
+
+  -- Since we don't do BYHOUR, BYMINUTE or BYSECOND yet this becomes a trivial
   RETURN NEXT after;
+
 END;
 $$ LANGUAGE 'plpgsql' IMMUTABLE STRICT;
 
@@ -335,36 +387,19 @@ DECLARE
   rrule ALIAS FOR $2;
   valid_date TIMESTAMP WITH TIME ZONE;
   curse REFCURSOR;
-  setpos INT;
+  weekno INT;
   i INT;
 BEGIN
 
-  OPEN curse SCROLL FOR SELECT r FROM rrule_week_byday_set(after, rrule.byday ) r;
-
-  IF rrule.bysetpos IS NULL THEN
-    LOOP
-      FETCH curse INTO valid_date;
-      EXIT WHEN NOT FOUND;
-      RETURN NEXT valid_date;
-    END LOOP;
-  ELSE
-    i := 1;
-    setpos := rrule.bysetpos[i];
-    WHILE setpos IS NOT NULL LOOP
-      IF setpos > 0 THEN
-        FETCH ABSOLUTE setpos FROM curse INTO valid_date;
-      ELSE
-        setpos := setpos + 1;
-        MOVE LAST IN curse;
-        FETCH RELATIVE setpos FROM curse INTO valid_date;
-      END IF;
-      IF next_base IS NOT NULL THEN
-        RETURN NEXT valid_date;
-      END IF;
-      i := i + 1;
-      setpos := rrule.bysetpos[i];
-    END LOOP;
+  IF rrule.byweekno IS NOT NULL THEN
+    weekno := date_part('week',after);
+    IF NOT weekno = ANY ( rrule.byweekno ) THEN
+      RETURN;
+    END IF;
   END IF;
+
+  OPEN curse SCROLL FOR SELECT r FROM rrule_week_byday_set(after, rrule.byday ) r;
+  RETURN QUERY SELECT d FROM rrule_bysetpos_filter(curse,rrule.bysetpos) d;
 
 END;
 $$ LANGUAGE 'plpgsql' IMMUTABLE STRICT;
@@ -383,43 +418,40 @@ DECLARE
   i INT;
 BEGIN
 
-  -- Need to investigate whether it is legal to set both of these, and whether
-  -- we are correct to UNION the results, or whether we should INTERSECT them.
-  OPEN curse SCROLL FOR SELECT r FROM rrule_month_byday_set(after, rrule.byday ) r
-                  UNION SELECT r FROM rrule_month_bymonthday_set(after, rrule.bymonthday ) r
-                  ORDER BY 1;
-
-  IF rrule.bysetpos IS NULL THEN
-    LOOP
-      FETCH curse INTO valid_date;
-      EXIT WHEN NOT FOUND;
-      RETURN NEXT valid_date;
-    END LOOP;
+  /**
+  * Need to investigate whether it is legal to set both of these, and whether
+  * we are correct to UNION the results, or whether we should INTERSECT them.
+  * So at this point, we refer to the specification, which grants us this
+  * wonderfully enlightening vision:
+  *
+  *     If multiple BYxxx rule parts are specified, then after evaluating the
+  *     specified FREQ and INTERVAL rule parts, the BYxxx rule parts are
+  *     applied to the current set of evaluated occurrences in the following
+  *     order: BYMONTH, BYWEEKNO, BYYEARDAY, BYMONTHDAY, BYDAY, BYHOUR,
+  *     BYMINUTE, BYSECOND and BYSETPOS; then COUNT and UNTIL are evaluated.
+  *
+  * My guess is that this means 'INTERSECT'
+  */
+  IF rrule.byday IS NOT NULL AND rrule.bymonthday IS NOT NULL THEN
+    OPEN curse SCROLL FOR SELECT r FROM rrule_month_byday_set(after, rrule.byday ) r
+                INTERSECT SELECT r FROM rrule_month_bymonthday_set(after, rrule.bymonthday ) r
+                    ORDER BY 1;
+  ELSIF rrule.bymonthday IS NOT NULL THEN
+    OPEN curse SCROLL FOR SELECT r FROM rrule_month_bymonthday_set(after, rrule.bymonthday ) r ORDER BY 1;
   ELSE
-    i := 1;
-    setpos := rrule.bysetpos[i];
-    WHILE setpos IS NOT NULL LOOP
-      IF setpos > 0 THEN
-        FETCH ABSOLUTE setpos FROM curse INTO valid_date;
-      ELSE
-        setpos := setpos + 1;
-        MOVE LAST IN curse;
-        FETCH RELATIVE setpos FROM curse INTO valid_date;
-      END IF;
-      IF valid_date IS NOT NULL THEN
-        RETURN NEXT valid_date;
-      END IF;
-      i := i + 1;
-      setpos := rrule.bysetpos[i];
-    END LOOP;
+    OPEN curse SCROLL FOR SELECT r FROM rrule_month_byday_set(after, rrule.byday ) r ORDER BY 1;
   END IF;
+
+  RETURN QUERY SELECT d FROM rrule_bysetpos_filter(curse,rrule.bysetpos) d;
 
 END;
 $$ LANGUAGE 'plpgsql' IMMUTABLE STRICT;
 
 
-
-CREATE or REPLACE FUNCTION yearly_set( TIMESTAMP WITH TIME ZONE, rrule_parts ) RETURNS SETOF TIMESTAMP WITH TIME ZONE AS $$
+------------------------------------------------------------------------------------------------------
+-- If this is YEARLY;BYMONTH, abuse MONTHLY;BYMONTH for everything except the BYSETPOS
+------------------------------------------------------------------------------------------------------
+CREATE or REPLACE FUNCTION rrule_yearly_bymonth_set( TIMESTAMP WITH TIME ZONE, rrule_parts ) RETURNS SETOF TIMESTAMP WITH TIME ZONE AS $$
 DECLARE
   after ALIAS FOR $1;
   rrule ALIAS FOR $2;
@@ -429,7 +461,7 @@ DECLARE
 BEGIN
 
   IF rrule.bymonth IS NOT NULL THEN
-    -- As far as I can see there is extremely little difference between YEARLY;BYMONTH and MONTHLY;BYMONTH except the effect of BYSETPOS
+    -- Ensure we don't pass BYSETPOS down
     rr := rrule;
     rr.bysetpos := NULL;
     FOR i IN 1..12 LOOP
@@ -445,44 +477,85 @@ END;
 $$ LANGUAGE 'plpgsql' IMMUTABLE STRICT;
 
 
-CREATE or REPLACE FUNCTION event_instances( TIMESTAMP WITH TIME ZONE, TEXT )
+------------------------------------------------------------------------------------------------------
+-- Return another year's worth of events
+------------------------------------------------------------------------------------------------------
+CREATE or REPLACE FUNCTION yearly_set( TIMESTAMP WITH TIME ZONE, rrule_parts ) RETURNS SETOF TIMESTAMP WITH TIME ZONE AS $$
+DECLARE
+  after ALIAS FOR $1;
+  rrule ALIAS FOR $2;
+  current_base TIMESTAMP WITH TIME ZONE;
+  curse REFCURSOR;
+  curser REFCURSOR;
+  i INT;
+BEGIN
+
+  IF rrule.bymonth IS NOT NULL THEN
+    OPEN curse SCROLL FOR SELECT r FROM rrule_yearly_bymonth_set(after, rrule ) r;
+    FOR current_base IN SELECT d FROM rrule_bysetpos_filter(curse,rrule.bysetpos) d LOOP
+      current_base := date_trunc( 'day', current_base ) + (after::time)::interval;
+      RETURN NEXT current_base;
+    END LOOP;
+  ELSE
+    -- We don't yet implement byweekno, byblah
+    RETURN NEXT after;
+  END IF;
+END;
+$$ LANGUAGE 'plpgsql' IMMUTABLE STRICT;
+
+
+------------------------------------------------------------------------------------------------------
+-- Combine all of that into something which we can use to generate a series from an arbitrary DTSTART/RRULE
+------------------------------------------------------------------------------------------------------
+CREATE or REPLACE FUNCTION rrule_event_instances_range( TIMESTAMP WITH TIME ZONE, TEXT, TIMESTAMP WITH TIME ZONE, TIMESTAMP WITH TIME ZONE, INT )
                                          RETURNS SETOF TIMESTAMP WITH TIME ZONE AS $$
 DECLARE
   basedate ALIAS FOR $1;
   repeatrule ALIAS FOR $2;
-  loopcount INT;
+  mindate ALIAS FOR $3;
+  maxdate ALIAS FOR $4;
+  max_count ALIAS FOR $5;
   loopmax INT;
+  loopcount INT;
   base_day TIMESTAMP WITH TIME ZONE;
   current_base TIMESTAMP WITH TIME ZONE;
   current TIMESTAMP WITH TIME ZONE;
   rrule rrule_parts%ROWTYPE;
 BEGIN
   loopcount := 0;
-  loopmax := 500;
 
   SELECT * INTO rrule FROM parse_rrule_parts( basedate, repeatrule );
   IF rrule.count IS NOT NULL THEN
     loopmax := rrule.count;
+  ELSE
+    loopmax := max_count;
   END IF;
 
   current_base := basedate;
   base_day := date_trunc('day',basedate);
-  WHILE loopcount < loopmax LOOP
+  WHILE loopcount < loopmax AND current_base <= maxdate LOOP
     IF rrule.freq = 'DAILY' THEN
       FOR current IN SELECT d FROM daily_set(current_base,rrule) d WHERE d >= base_day LOOP
-        IF test_byday_rule(current,rrule.byday) AND test_bymonthday_rule(current,rrule.bymonthday) AND test_bymonth_rule(current,rrule.bymonth) THEN
+--        IF test_byday_rule(current,rrule.byday) AND test_bymonthday_rule(current,rrule.bymonthday) AND test_bymonth_rule(current,rrule.bymonth) THEN
           EXIT WHEN rrule.until IS NOT NULL AND current > rrule.until;
-          RETURN NEXT current;
+          IF current >= mindate THEN
+            RETURN NEXT current;
+          END IF;
           loopcount := loopcount + 1;
           EXIT WHEN loopcount >= loopmax;
-        END IF;
+--        END IF;
       END LOOP;
       current_base := current_base + (rrule.interval::text || ' days')::interval;
     ELSIF rrule.freq = 'WEEKLY' THEN
       FOR current IN SELECT w FROM weekly_set(current_base,rrule) w WHERE w >= base_day LOOP
-        IF test_bymonthday_rule(current,rrule.bymonthday) AND test_bymonth_rule(current,rrule.bymonth) THEN
+        IF test_byyearday_rule(current,rrule.byyearday)
+               AND test_bymonthday_rule(current,rrule.bymonthday)
+               AND test_bymonth_rule(current,rrule.bymonth)
+        THEN
           EXIT WHEN rrule.until IS NOT NULL AND current > rrule.until;
-          RETURN NEXT current;
+          IF current >= mindate THEN
+            RETURN NEXT current;
+          END IF;
           loopcount := loopcount + 1;
           EXIT WHEN loopcount >= loopmax;
         END IF;
@@ -490,18 +563,24 @@ BEGIN
       current_base := current_base + (rrule.interval::text || ' weeks')::interval;
     ELSIF rrule.freq = 'MONTHLY' THEN
       FOR current IN SELECT m FROM monthly_set(current_base,rrule) m WHERE m >= base_day LOOP
-        IF test_bymonth_rule(current,rrule.bymonth) THEN
+--        IF /* test_byyearday_rule(current,rrule.byyearday)
+--               AND */ test_bymonth_rule(current,rrule.bymonth)
+--        THEN
           EXIT WHEN rrule.until IS NOT NULL AND current > rrule.until;
-          RETURN NEXT current;
+          IF current >= mindate THEN
+            RETURN NEXT current;
+          END IF;
           loopcount := loopcount + 1;
           EXIT WHEN loopcount >= loopmax;
-        END IF;
+--        END IF;
       END LOOP;
       current_base := current_base + (rrule.interval::text || ' months')::interval;
     ELSIF rrule.freq = 'YEARLY' THEN
       FOR current IN SELECT y FROM yearly_set(current_base,rrule) y WHERE y >= base_day LOOP
         EXIT WHEN rrule.until IS NOT NULL AND current > rrule.until;
-        RETURN NEXT current;
+        IF current >= mindate THEN
+          RETURN NEXT current;
+        END IF;
         loopcount := loopcount + 1;
         EXIT WHEN loopcount >= loopmax;
       END LOOP;
@@ -517,3 +596,17 @@ END;
 $$ LANGUAGE 'plpgsql' IMMUTABLE STRICT;
 
 
+------------------------------------------------------------------------------------------------------
+-- A simplified DTSTART/RRULE only interface which applies some performance assumptions
+------------------------------------------------------------------------------------------------------
+CREATE or REPLACE FUNCTION event_instances( TIMESTAMP WITH TIME ZONE, TEXT )
+                                         RETURNS SETOF TIMESTAMP WITH TIME ZONE AS $$
+DECLARE
+  basedate ALIAS FOR $1;
+  repeatrule ALIAS FOR $2;
+  maxdate TIMESTAMP WITH TIME ZONE;
+BEGIN
+  maxdate := current_date + '10 years'::interval;
+  RETURN QUERY SELECT d FROM rrule_event_instances_range( basedate, repeatrule, basedate, maxdate, 300 ) d;
+END;
+$$ LANGUAGE 'plpgsql' IMMUTABLE STRICT;
