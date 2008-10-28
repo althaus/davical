@@ -128,12 +128,6 @@
     <item url="scripts/po/extract.pl" uploadstatus="1" />
     <item url="scripts/po/rebuild-translations.sh" uploadstatus="1" />
     <item url="po/" uploadstatus="1" />
-    <item url="po/messages.po" uploadstatus="1" />
-    <item url="po/es_MX.po" uploadstatus="1" />
-    <item url="po/de_DE.po" uploadstatus="1" />
-    <item url="po/es_AR.po" uploadstatus="1" />
-    <item url="po/es_ES.po" uploadstatus="1" />
-    <item url="po/fr_FR.po" uploadstatus="1" />
     <item url="inc/other_translated_strings.php" uploadstatus="1" />
     <item url="docs/website/administration.php" uploadstatus="1" />
     <item url="docs/website/inc/page-middle.php" uploadstatus="1" />
@@ -196,8 +190,6 @@
     <item url="testing/tests/regression-suite/F56B49B10FC923D20FE2DC92D6580340-0.ics.data" uploadstatus="1" />
     <item url="testing/tests/regression-suite/020-Mulberry-DELETE-1.test" uploadstatus="1" />
     <item url="testing/tests/regression-suite/021-Mulberry-DELETE-2.test" uploadstatus="1" />
-    <item url="po/en_NZ.po" uploadstatus="1" />
-    <item url="po/ru_RU.po" uploadstatus="1" />
     <item url="testing/tests/regression-suite/206-Moz-PUT-1.test" uploadstatus="1" />
     <item url="testing/tests/regression-suite/4aaf8f37-f232-4c8e-a72e-e171d4c4fe54.ics.data" uploadstatus="1" />
     <item url="testing/tests/regression-suite/207-Moz-REPORT-4.data" uploadstatus="1" />
@@ -211,7 +203,6 @@
     <item url="docs/website/wikiheader.css" uploadstatus="1" />
     <item url="htdocs/collection.php" uploadstatus="1" />
     <item url="inc/CalDAVRequest.php" uploadstatus="1" />
-    <item url="po/nl_NL.po" uploadstatus="1" />
     <item url="dba/patches/1.1.6.sql" uploadstatus="1" />
     <item url="inc/caldav-LOCK.php" uploadstatus="1" />
     <item url="inc/RRule.php" uploadstatus="1" />
@@ -266,5 +257,9 @@
     <events/>
     <item url="htdocs/davical.css" uploadstatus="1" />
     <item url="dba/update-davical-database" uploadstatus="1" />
+    <item url="inc/caldav-POST.php" uploadstatus="1" />
+    <item url="htdocs/test.php" uploadstatus="1" />
+    <item url="dba/patches/1.2.4.sql" uploadstatus="1" />
+    <item url="dba/rrule_tests.sql" />
   </project>
 </webproject>
