@@ -77,7 +77,8 @@ function handle_freebusy_request( $ic ) {
     $busy_tentative = array();
     $sql = "SELECT caldav_data.caldav_data, calendar_item.rrule, calendar_item.transp, calendar_item.status, ";
     $sql .= "to_char(calendar_item.dtstart at time zone 'GMT',".iCalendar::SqlDateFormat().") AS start, ";
-    $sql .= "to_char(calendar_item.dtend at time zone 'GMT',".iCalendar::SqlDateFormat().") AS finish ";
+    $sql .= "to_char(calendar_item.dtend at time zone 'GMT',".iCalendar::SqlDateFormat().") AS finish, ";
+    $sql .= "get_permissions($session->user_no,collection.user_no) AS permissions ";
     $sql .= "FROM usr INNER JOIN collection USING (user_no) INNER JOIN caldav_data USING (collection_id) INNER JOIN calendar_item USING(dav_id)".$where;
     if ( isset($c->strict_result_ordering) && $c->strict_result_ordering ) $sql .= " ORDER BY dav_id";
     $qry = new PgQuery( $sql, $attendee_email );
