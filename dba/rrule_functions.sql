@@ -177,7 +177,7 @@ DECLARE
   i INT;
 BEGIN
 
-  month_start := date_trunc( 'month', base_date ) + (base_date::time)::interval;
+  month_start := date_trunc( 'month', in_time ) + (in_time::time)::interval;
   daysinmonth := date_part( 'days', (month_start + interval '1 month') - interval '1 day' );
 
   FOR i IN 1..31 LOOP
