@@ -4,13 +4,13 @@ Priority: extra
 Maintainer: Andrew McMillan <debian@mcmillan.net.nz>
 Standards-Version: 3.8.0
 Build-Depends: debhelper (>= 5)
-Vcs-git: git://git.catalyst.net.nz/rscds.git
-Vcs-browser: http://git.catalyst.net.nz/?p=rscds.git
+Vcs-git: git://repo.or.cz/srv/git/davical.git
+Vcs-browser: http://repo.or.cz/w/davical.git
 Homepage: http://davical.org/
 
 Package: davical
 Architecture: all
-Depends: debconf (>= 1.0.32), php5 | php4 (>= 4:4.3), php5-pgsql | php4-pgsql(>= 3:4.3.0), postgresql-client (>= 7.4) | postgresql-client-8.3 | postgresql-client-8.2 | postgresql-client-8.1, libawl-php (>=0.26), libclass-dbi-pg-perl, php5 | php4-domxml, libyaml-perl
+Depends: debconf (>= 1.0.32), php5 | php4 (>= 4:4.3), php5-pgsql | php4-pgsql(>= 3:4.3.0), postgresql-client (>= 7.4) | postgresql-client-8.3 | postgresql-client-8.2 | postgresql-client-8.1, libawl-php (>=0.33), libclass-dbi-pg-perl, php5 | php4-domxml, libyaml-perl
 Conflicts: rscds
 Description: The DAViCal CalDAV Server
  The DAViCal CalDAV Server is designed to trivially store
