@@ -97,8 +97,8 @@
 --     RRULE:FREQ=WEEKLY;COUNT=10;WKST=SU;BYDAY=TU,TH
 --
 --     ==> (1997 9:00 AM EDT)September 2,4,9,11,16,18,23,25,30;October 2
----- !SELECT * FROM event_instances('19970902T090000', 'FREQ=WEEKLY;UNTIL=19971007T000000Z;WKST=SU;BYDAY=TU,TH' ) LIMIT 500;
----- !SELECT * FROM event_instances('19970902T090000', 'FREQ=WEEKLY;COUNT=10;WKST=SU;BYDAY=TU,TH' ) LIMIT 500;
+--- SELECT * FROM event_instances('19970902T090000', 'FREQ=WEEKLY;UNTIL=19971007T000000Z;WKST=SU;BYDAY=TU,TH' ) LIMIT 500;
+--- SELECT * FROM event_instances('19970902T090000', 'FREQ=WEEKLY;COUNT=10;WKST=SU;BYDAY=TU,TH' ) LIMIT 500;
 --
 -- --------------------------------------------------------------------
 --    Every other week on Monday, Wednesday and Friday until December 24,
@@ -111,6 +111,7 @@
 --      1,3,13,15,17
 --          (1997 9:00 AM EST)October 27,29,31;November 10,12,14,24,26,28;
 --                            December 8,10,12,22
+--- !!! SELECT * FROM event_instances('19970902T090000', 'FREQ=WEEKLY;INTERVAL=2;UNTIL=19971224T000000Z;WKST=SU;BYDAY=MO,WE,FR' );
 --
 -- --------------------------------------------------------------------
 --    Every other week on Tuesday and Thursday, for 8 occurrences:
@@ -119,6 +120,7 @@
 --      RRULE:FREQ=WEEKLY;INTERVAL=2;COUNT=8;WKST=SU;BYDAY=TU,TH
 --
 --      ==> (1997 9:00 AM EDT)September 2,4,16,18,30;October 2,14,16
+--- SELECT * FROM event_instances('19970902T090000', 'FREQ=WEEKLY;INTERVAL=2;COUNT=8;WKST=SU;BYDAY=TU,TH' );
 --
 -- --------------------------------------------------------------------
 --    Monthly on the 1st Friday for ten occurrences:
@@ -130,6 +132,7 @@
 --          (1997 9:00 AM EST)November 7;Dec 5
 --          (1998 9:00 AM EST)January 2;February 6;March 6;April 3
 --          (1998 9:00 AM EDT)May 1;June 5
+--- SELECT * FROM event_instances('19970902T090000', 'FREQ=MONTHLY;COUNT=10;BYDAY=1FR' );
 --
 -- --------------------------------------------------------------------
 --    Monthly on the 1st Friday until December 24, 1997:
@@ -139,6 +142,7 @@
 --
 --      ==> (1997 9:00 AM EDT)September 5;October 3
 --          (1997 9:00 AM EST)November 7;December 5
+--- SELECT * FROM event_instances('19970902T090000', 'FREQ=MONTHLY;UNTIL=19971224T000000Z;BYDAY=1FR' );
 --
 -- --------------------------------------------------------------------
 --    Every other month on the 1st and last Sunday of the month for 10
@@ -151,6 +155,7 @@
 --          (1997 9:00 AM EST)November 2,30
 --          (1998 9:00 AM EST)January 4,25;March 1,29
 --          (1998 9:00 AM EDT)May 3,31
+--- SELECT * FROM event_instances('19970902T090000', 'FREQ=MONTHLY;INTERVAL=2;COUNT=10;BYDAY=1SU,-1SU' );
 --
 -- --------------------------------------------------------------------
 --    Monthly on the second to last Monday of the month for 6 months:
@@ -161,6 +166,7 @@
 --      ==> (1997 9:00 AM EDT)September 22;October 20
 --          (1997 9:00 AM EST)November 17;December 22
 --          (1998 9:00 AM EST)January 19;February 16
+--- SELECT * FROM event_instances('19970902T090000', 'FREQ=MONTHLY;COUNT=6;BYDAY=-2MO' );
 --
 -- --------------------------------------------------------------------
 --    Monthly on the third to the last day of the month, forever:
@@ -172,6 +178,7 @@
 --          (1997 9:00 AM EST)October 29;November 28;December 29
 --          (1998 9:00 AM EST)January 29;February 26
 --      ...
+--- SELECT * FROM event_instances('19970902T090000', 'FREQ=MONTHLY;BYMONTHDAY=-3' ) LIMIT 30;
 --
 -- --------------------------------------------------------------------
 --    Monthly on the 2nd and 15th of the month for 10 occurrences:
@@ -182,6 +189,7 @@
 --      ==> (1997 9:00 AM EDT)September 2,15;October 2,15
 --          (1997 9:00 AM EST)November 2,15;December 2,15
 --          (1998 9:00 AM EST)January 2,15
+--- ! SELECT * FROM event_instances('19970902T090000', '' );
 --
 -- --------------------------------------------------------------------
 --    Monthly on the first and last day of the month for 10 occurrences:
@@ -192,6 +200,7 @@
 --      ==> (1997 9:00 AM EDT)September 30;October 1
 --          (1997 9:00 AM EST)October 31;November 1,30;December 1,31
 --          (1998 9:00 AM EST)January 1,31;February 1
+--- ! SELECT * FROM event_instances('19970902T090000', '' );
 --
 -- --------------------------------------------------------------------
 --    Every 18 months on the 10th thru 15th of the month for 10
@@ -203,6 +212,7 @@
 --
 --      ==> (1997 9:00 AM EDT)September 10,11,12,13,14,15
 --          (1999 9:00 AM EST)March 10,11,12,13
+--- ! SELECT * FROM event_instances('19970902T090000', '' );
 --
 -- --------------------------------------------------------------------
 --    Every Tuesday, every other month:
@@ -214,6 +224,7 @@
 --          (1997 9:00 AM EST)November 4,11,18,25
 --          (1998 9:00 AM EST)January 6,13,20,27;March 3,10,17,24,31
 --      ...
+--- ! SELECT * FROM event_instances('19970902T090000', '' );
 --
 -- --------------------------------------------------------------------
 --    Yearly in June and July for 10 occurrences:
@@ -227,6 +238,7 @@
 --          (2001 9:00 AM EDT)June 10;July 10
 --      Note: Since none of the BYDAY, BYMONTHDAY or BYYEARDAY components
 --      are specified, the day is gotten from DTSTART
+--- ! SELECT * FROM event_instances('19970902T090000', '' );
 --
 -- --------------------------------------------------------------------
 --    Every other year on January, February, and March for 10 occurrences:
@@ -238,6 +250,7 @@
 --          (1999 9:00 AM EST)January 10;February 10;March 10
 --          (2001 9:00 AM EST)January 10;February 10;March 10
 --          (2003 9:00 AM EST)January 10;February 10;March 10
+--- ! SELECT * FROM event_instances('19970902T090000', '' );
 --
 -- --------------------------------------------------------------------
 --    Every 3rd year on the 1st, 100th and 200th day for 10 occurrences:
@@ -252,6 +265,7 @@
 --          (2003 9:00 AM EST)January 1
 --          (2003 9:00 AM EDT)April 10;July 19
 --          (2006 9:00 AM EST)January 1
+--- ! SELECT * FROM event_instances('19970902T090000', '' );
 --
 -- --------------------------------------------------------------------
 --    Every 20th Monday of the year, forever:
@@ -262,6 +276,7 @@
 --          (1998 9:00 AM EDT)May 18
 --          (1999 9:00 AM EDT)May 17
 --      ...
+--- ! SELECT * FROM event_instances('19970902T090000', '' );
 --
 -- --------------------------------------------------------------------
 --    Monday of week number 20 (where the default start of the week is
@@ -274,6 +289,7 @@
 --          (1998 9:00 AM EDT)May 11
 --          (1999 9:00 AM EDT)May 17
 --      ...
+--- ! SELECT * FROM event_instances('19970902T090000', '' );
 --
 -- --------------------------------------------------------------------
 --    Every Thursday in March, forever:
@@ -285,6 +301,7 @@
 --          (1998 9:00 AM EST)March 5,12,19,26
 --          (1999 9:00 AM EST)March 4,11,18,25
 --      ...
+--- ! SELECT * FROM event_instances('19970902T090000', '' );
 --
 -- --------------------------------------------------------------------
 --    Every Thursday, but only during June, July, and August, forever:
@@ -299,6 +316,7 @@
 --          (1999 9:00 AM EDT)June 3,10,17,24;July 1,8,15,22,29;
 --                        August 5,12,19,26
 --      ...
+--- ! SELECT * FROM event_instances('19970902T090000', '' );
 --
 -- --------------------------------------------------------------------
 --    Every Friday the 13th, forever:
@@ -311,6 +329,7 @@
 --          (1999 9:00 AM EDT)August 13
 --          (2000 9:00 AM EDT)October 13
 --      ...
+--- ! SELECT * FROM event_instances('19970902T090000', '' );
 --
 -- --------------------------------------------------------------------
 --    The first Saturday that follows the first Sunday of the month,
@@ -324,6 +343,7 @@
 --          (1998 9:00 AM EST)January 10;February 7;March 7
 --          (1998 9:00 AM EDT)April 11;May 9;June 13...
 --      ...
+--- ! SELECT * FROM event_instances('19970902T090000', '' );
 --
 -- --------------------------------------------------------------------
 --    Every four years, the first Tuesday after a Monday in November,
@@ -337,6 +357,7 @@
 --          (2000 9:00 AM EST)November 7
 --          (2004 9:00 AM EST)November 2
 --      ...
+--- ! SELECT * FROM event_instances('19970902T090000', '' );
 --
 -- --------------------------------------------------------------------
 --    The 3rd instance into the month of one of Tuesday, Wednesday or
@@ -347,6 +368,7 @@
 --
 --      ==> (1997 9:00 AM EDT)September 4;October 7
 --          (1997 9:00 AM EST)November 6
+--- ! SELECT * FROM event_instances('19970902T090000', '' );
 --
 -- --------------------------------------------------------------------
 --    The 2nd to last weekday of the month:
@@ -358,6 +380,7 @@
 --          (1997 9:00 AM EST)October 30;November 27;December 30
 --          (1998 9:00 AM EST)January 29;February 26;March 30
 --      ...
+--- ! SELECT * FROM event_instances('19970902T090000', '' );
 --
 -- --------------------------------------------------------------------
 --    Every 3 hours from 9:00 AM to 5:00 PM on a specific day:
@@ -366,6 +389,7 @@
 --      RRULE:FREQ=HOURLY;INTERVAL=3;UNTIL=19970902T170000Z
 --
 --      ==> (September 2, 1997 EDT)09:00,12:00,15:00
+--- !! SELECT * FROM event_instances('19970902T090000', '' );
 --
 -- --------------------------------------------------------------------
 --    Every 15 minutes for 6 occurrences:
@@ -374,6 +398,7 @@
 --      RRULE:FREQ=MINUTELY;INTERVAL=15;COUNT=6
 --
 --      ==> (September 2, 1997 EDT)09:00,09:15,09:30,09:45,10:00,10:15
+--- !! SELECT * FROM event_instances('19970902T090000', '' );
 --
 -- --------------------------------------------------------------------
 --    Every hour and a half for 4 occurrences:
@@ -382,6 +407,7 @@
 --      RRULE:FREQ=MINUTELY;INTERVAL=90;COUNT=4
 --
 --      ==> (September 2, 1997 EDT)09:00,10:30;12:00;13:30
+--- !! SELECT * FROM event_instances('19970902T090000', '' );
 --
 -- --------------------------------------------------------------------
 --    Every 20 minutes from 9:00 AM to 4:40 PM every day:
@@ -413,4 +439,5 @@
 --      RRULE:FREQ=WEEKLY;INTERVAL=2;COUNT=4;BYDAY=TU,SU;WKST=SU
 --      ==> (1997 EDT)August 5,17,19,31
 --
+--- ! SELECT * FROM event_instances('19970902T090000', '' );
 --
