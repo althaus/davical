@@ -55,6 +55,28 @@ function handle_freebusy_request( $ic ) {
     if ( ! ( isset($fbq_start) || isset($fbq_end) ) ) {
       $request->DoResponse( 400, 'All valid freebusy requests MUST contain a DTSTART and a DTEND' );
     }
+
+    $qry = new PgQuery("SELECT get_permissions(?,user_no) AS p FROM usr WHERE usr.email = ?", $session->user_no, $attendee_email );
+    if ( !$qry->Exec("POST") ) $request->DoResponse( 501, 'Database error');
+
+    $response = new XMLElement( $reply->Caldav("response") );
+    $response->NewElement( $reply->Caldav("recipient"), new XMLElement("href",$attendee->Value()) );
+
+    if ( $qry->rows == 0 ) {
+      $response->NewElement( $reply->Caldav("request-status"), "3.7;Invalid Calendar User" );
+      $response->NewElement( $reply->Caldav("calendar-data") );
+      $responses[] = $response;
+      continue;
+    }
+    if ( ! $userperms = $qry->Fetch() ) $request->DoResponse( 501, 'Database error');
+    if ( !preg_match( '/[AWRF]/', $userperms->p ) ) {
+      $response->NewElement( $reply->Caldav("request-status"), "3.8;No authority" );
+      $response->NewElement( $reply->Caldav("calendar-data") );
+      $responses[] = $response;
+      continue;
+    }
+
+    // If we make it here, then it seems we are allowed to see their data...
     $where = " WHERE usr.email = ? AND collection.is_calendar ";
     if ( isset( $fbq_start ) ) {
       $where .= "AND (dtend >= ".qpg($fbq_start)."::timestamp with time zone ";
@@ -77,8 +99,7 @@ function handle_freebusy_request( $ic ) {
     $busy_tentative = array();
     $sql = "SELECT caldav_data.caldav_data, calendar_item.rrule, calendar_item.transp, calendar_item.status, ";
     $sql .= "to_char(calendar_item.dtstart at time zone 'GMT',".iCalendar::SqlDateFormat().") AS start, ";
-    $sql .= "to_char(calendar_item.dtend at time zone 'GMT',".iCalendar::SqlDateFormat().") AS finish, ";
-    $sql .= "get_permissions($session->user_no,collection.user_no) AS permissions ";
+    $sql .= "to_char(calendar_item.dtend at time zone 'GMT',".iCalendar::SqlDateFormat().") AS finish ";
     $sql .= "FROM usr INNER JOIN collection USING (user_no) INNER JOIN caldav_data USING (collection_id) INNER JOIN calendar_item USING(dav_id)".$where;
     if ( isset($c->strict_result_ordering) && $c->strict_result_ordering ) $sql .= " ORDER BY dav_id";
     $qry = new PgQuery( $sql, $attendee_email );
