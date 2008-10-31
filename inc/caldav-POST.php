@@ -182,7 +182,7 @@ function handle_freebusy_request( $ic ) {
   }
 
   $response = new XMLElement( "schedule-response", $responses, $reply->GetXmlNsArray() );
-  $request->DoResponse( 200, $response->Render() );
+  $request->XMLResponse( 200, $response );
 }
 
 
