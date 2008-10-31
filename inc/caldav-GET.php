@@ -4,8 +4,8 @@
 *
 * @package   davical
 * @subpackage   caldav
-* @author    Andrew McMillan <andrew@catalyst.net.nz>
-* @copyright Catalyst .Net Ltd
+* @author    Andrew McMillan <andrew@mcmillan.net.nz>
+* @copyright Catalyst .Net Ltd, Morphoss Ltd <http://www.morphoss.com/>
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v2
 */
 dbg_error_log("get", "GET method handler");
@@ -29,24 +29,31 @@ if ( $request->IsCollection() ) {
 else {
   $qry = new PgQuery( "SELECT caldav_data, caldav_data.dav_etag, class, caldav_type, calendar_item.user_no FROM caldav_data INNER JOIN calendar_item USING ( dav_id ) WHERE caldav_data.user_no = ? AND caldav_data.dav_name = ?  $privacy_clause;", $request->user_no, $request->path);
 }
-dbg_error_log("get", "%s", $qry->querystring );
-if ( $qry->Exec("GET") && $qry->rows == 1 ) {
+
+if ( !$qry->Exec("GET") ) {
+  $request->DoResponse( 500, translate("Database Error") );
+}
+else if ( $qry->rows == 1 ) {
   $event = $qry->Fetch();
   header( "Etag: \"$event->dav_etag\"" );
   header( "Content-Length: ".strlen($event->caldav_data) );
   $request->DoResponse( 200, ($request->method == "HEAD" ? "" : $event->caldav_data), "text/calendar" );
 }
-else if ( $qry->rows < 1 ) {
-  /** TODO: If we are attempting to read a collection we should return an empty VCALENDAR rather than a 404 */
+else if ( $qry->rows < 1 && ! $request->IsCollection() ) {
   $request->DoResponse( 404, translate("Calendar Resource Not Found.") );
 }
-else if ( $qry->rows > 1 ) {
+else {
   /**
   * Here we are constructing a whole calendar response for this collection, including
   * the timezones that are referred to by the events we have selected.
   */
   include_once("iCalendar.php");
   $response = iCalendar::iCalHeader();
+
+  /**
+  * @TODO: CalDAVRequest should have read the collection record, so we should not have to reread it here
+  * @TODO: This should be structured to not use the iCalHeader() and iCalFooter methods.  See caldav-POST.php for the bones of a better approach.
+  */
   $collqry = new PgQuery( "SELECT * FROM collection WHERE collection.user_no = ? AND collection.dav_name = ?;", $request->user_no, $request->path);
   if ( $collqry->Exec("GET") && $collection = $collqry->Fetch() ) {
     $response .= "X-WR-CALNAME:$collection->dav_displayname\r\n";
@@ -104,8 +111,5 @@ else if ( $qry->rows > 1 ) {
   $response .= iCalendar::iCalFooter();
   header( "Content-Length: ".strlen($response) );
   $request->DoResponse( 200, ($request->method == "HEAD" ? "" : $response), "text/calendar" );
-}
-else {
-  $request->DoResponse( 500, translate("Database Error") );
 }
 
