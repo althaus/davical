@@ -470,7 +470,7 @@ EOFILTER;
 
 $cal = new CalDAVClient( "http://calendar.example.com/caldav.php/username/calendar/", "username", "password", "calendar" );
 $options = $cal->DoOptionsRequest();
-if ( isset($options["PROPFIND"] ) {
+if ( isset($options["PROPFIND"]) ) {
   // Fetch some information about the events in that calendar
   $cal->SetDepth(1);
   $folder_xml = $cal->DoXMLRequest("PROPFIND", '<?xml version="1.0" encoding="utf-8" ?><propfind xmlns="DAV:"><prop><getcontentlength/><getcontenttype/><resourcetype/><getetag/></prop></propfind>' );
