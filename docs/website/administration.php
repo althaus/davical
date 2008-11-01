@@ -28,15 +28,16 @@ for that person (or group or resource - but from now we'll just call them users)
 <h2>Types of Relationships</h2>
 <p>These define the structure of the relationships between users.</p>
 <p>A manager might want to grant full access to their calendar to an assistant, for example, so
-there should be an "Is assisted by" relationship between the manager and the assistant.</p>
+they should create an "Is assistant to" relationship between the assistant and themselves.</p>
 <p>Relationships themselves are maintained on the User maintenance screen.</p>
 <p>It can also be useful to have several people having the same kind of access to a particular
-set of resources.  The "Is a member of group" relationship is used to link users to the group,
-and then the group is linked to each resource with the "Administers Resource" relationship.</p>
+set of resources.  The "Is a member of group" relationship is used to grant each user access to
+the group, and then each resource links to the group with the "Administers Resource" relationship.</p>
 <p>You can also define other relationship types beyond the basic ones just described.</p>
 <p>Relationship links work in three ways, as follows:</p>
 <ul>
-<li>Where users relate to each other (i.e. links to non-group targets), the relationship type will define whether access is read only, or read &amp; write.</li>
+<li>Where users relate to each other (i.e. links to non-group targets), the relationship type will define whether access is free/busy only, read only,
+read &amp; write or full administrative control.</li>
 <li>Where a set of users link to a group, which does not further link to other users/resources, they will share the same access to each other.</li>
 <li>Where a set of users link to a group, which then links to other users/resources, the access restrictions will apply as the lesser of their link to that group, or the link from the group.  They will have no access to each other's calendars.</li>
 </ul>
@@ -99,16 +100,15 @@ P4  ==>> Administers Group  ==> G
 
 
 <h1>Configuring Calendar Clients for DAViCal</h1>
-<p>The <a href="http://rscds.sourceforge.net/clients.php">DAViCal client setup page on sourceforge</a> has information on how
+<p>The <a href="clients.php">DAViCal client setup page on sourceforge</a> has information on how
 to configure Evolution, Mozilla Calendar (Sunbird &amp; Lightning) and Mulberry to use remotely hosted calendars.</p>
 <p>The administrative interface has no facility for viewing or modifying calendar data.</p>
 
 <h1>Configuring DAViCal</h1>
 <p>If you can read this then things must be mostly working already.</p>
-<p>The <a href="http://rscds.sourceforge.net/installation.php">DAViCal installation page</a> on sourceforge has
+<p>The <a href="installation.php">DAViCal installation page</a> on sourceforge has
 some further information on how to install and configure this application.</p>
 
 
 <?php
  include("inc/page-footer.php");
-?>

@@ -20,10 +20,10 @@ PROPFIND requests.</p>
 </ol>
 
 <h2>Caveats</h2>
-<p>Unfortunately Mulberry is not (yet) open-source, though it is free, so we must wait on the developer to fix
-the user interface niggles when he gets around to it.</p>
 <p>Note that Mulberry has a complex user interface.  When I wrote this I went back into Mulberry and initially
 thought that DAViCal had regressed somewhat and that these instructions didn't exactly work... :-)  It turned out
 that these instructions worked <em>just fine</em> when I followed them to the letter the next day.  Go figure.
 I think I need to record some screenshots of this one...</p>
-
+<p>If you're using Mulberry on Linux you probably have really crappy fonts purporting to be Helvetica, Times
+ and Courier - go into File -&gt; Preferences -&gt; Fonts and change them to something nicer as soon as
+ possible.  Apple paid a lot of money to license those fonts, but few Linux users or distributors do.</p>
