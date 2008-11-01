@@ -1,0 +1,17 @@
+HTTP/1.1 200 OK
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
+ETag: "0a963d6aa5a4ae8d91f2f6cebe27ad96"
+Content-Length: 331
+Content-Type: text/xml; charset="utf-8"
+
+<?xml version="1.0" encoding="utf-8" ?>
+<schedule-response xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
+ <C:response>
+  <C:recipient>
+   <href>mailto:ultrabogosity@example.net</href>
+  </C:recipient>
+  <C:request-status>3.7;Invalid Calendar User</C:request-status>
+  <C:calendar-data/>
+ </C:response>
+</schedule-response>
