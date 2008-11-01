@@ -10,8 +10,6 @@ HEADER=Accept-Encoding: gzip,deflate
 HEADER=Accept-Charset: utf-8,*;q=0.1
 HEADER=Content-Type: text/calendar; charset=utf-8
 
-HEAD
-
 REPLACE=/^DTSTAMP:\d{4}[01]\d[0123]\dT[012]\d[0-5]\d[0-6]\dZ\r?$/DTSTAMP:yyyymmddThhmmssZ/
 
 BEGINDATA
