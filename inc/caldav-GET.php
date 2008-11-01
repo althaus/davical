@@ -51,8 +51,8 @@ else {
   $response = iCalendar::iCalHeader();
 
   /**
-  * TODO: CalDAVRequest should have read the collection record, so we should not have to reread it here
-  * TODO: This should be structured to not use the iCalHeader() and iCalFooter methods.  See caldav-POST.php for the bones of a better approach.
+  * @todo: CalDAVRequest should have read the collection record, so we should not have to reread it here
+  * @todo: This should be structured to not use the iCalHeader() and iCalFooter methods.  See caldav-POST.php for the bones of a better approach.
   */
   $collqry = new PgQuery( "SELECT * FROM collection WHERE collection.user_no = ? AND collection.dav_name = ?;", $request->user_no, $request->path);
   if ( $collqry->Exec("GET") && $collection = $collqry->Fetch() ) {

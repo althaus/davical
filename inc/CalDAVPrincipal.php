@@ -352,7 +352,7 @@ class CalDAVPrincipal
 
         case 'DAV::acl':
           /**
-          * FIXME: This information is semantically valid but presents an incorrect picture.
+          * @todo: This information is semantically valid but presents an incorrect picture.
           */
           $principal = new XMLElement("principal");
           $principal->NewElement("authenticated");
@@ -375,7 +375,7 @@ class CalDAVPrincipal
           $prop->NewElement( $reply->Tag($tag));
           break;
 
-        case 'SOME-DENIED-PROPERTY':  /** TODO: indicating the style for future expansion */
+        case 'SOME-DENIED-PROPERTY':  /** @todo: indicating the style for future expansion */
           $denied[] = $reply->Tag($tag);
           break;
 

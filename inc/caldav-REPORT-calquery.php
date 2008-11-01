@@ -93,7 +93,7 @@ function SqlFilterFragment( $filter, $components, $property = null, $parameter =
         if ( isset( $property ) ) {
           switch( $property ) {
             case 'created':
-            case 'completed':  /** when it can be handled in the SQL - see TODO: around line 160 below */
+            case 'completed':  /** @todo: when it can be handled in the SQL - see around line 200 below */
             case 'dtend':
             case 'dtstamp':
             case 'dtstart':
@@ -113,7 +113,7 @@ function SqlFilterFragment( $filter, $components, $property = null, $parameter =
 
       case 'urn:ietf:params:xml:ns:caldav:time-range':
         /**
-        * TODO: We should probably allow time range queries against other properties, since eventually some client may want to do this.
+        * @todo: We should probably allow time range queries against other properties, since eventually some client may want to do this.
         */
         $start_column = ($components[sizeof($components)-1] == 'VTODO' ? "due" : 'dtend');     // The column we compare against the START attribute
         $finish_column = 'dtstart';  // The column we compare against the END attribute
@@ -194,7 +194,7 @@ function SqlFilterFragment( $filter, $components, $property = null, $parameter =
             $property = strtolower($propertyname);
             break;
 
-          case 'COMPLETED':  /** TODO: this should be moved into the properties supported in SQL. */
+          case 'COMPLETED':  /** @todo: this should be moved into the properties supported in SQL. */
           default:
             $need_post_filter = true;
             dbg_error_log("calquery", "Could not handle 'prop-filter' on %s in SQL", $propertyname );
@@ -242,7 +242,7 @@ function BuildSqlFilter( $filter ) {
 $responses = array();
 
 /**
-* FIXME: Once we are past DB version 1.2.1 we can change this query more radically.  The best performance to
+* @todo: Once we are past DB version 1.2.1 we can change this query more radically.  The best performance to
 * date seems to be:
 *   SELECT caldav_data.*,calendar_item.* FROM collection JOIN calendar_item USING (collection_id,user_no)
 *         JOIN caldav_data USING (dav_id) WHERE collection.dav_name = '/user1/home/'

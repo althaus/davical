@@ -257,7 +257,7 @@ function add_general_properties( &$prop, &$not_found, &$denied, $record ) {
 
   if ( isset($prop_list['DAV::acl']) ) {
     /**
-    * FIXME: This information is semantically valid but presents an incorrect picture.
+    * @todo: This information is semantically valid but presents an incorrect picture.
     */
     $principal = new XMLElement("principal");
     $principal->NewElement("authenticated");

@@ -150,7 +150,7 @@ function calendar_to_xml( $properties, $item ) {
       case '"current-user-privilege-set"':
         $prop->NewElement($k, privileges($request->permissions) );
         break;
-      case 'SOME-DENIED-PROPERTY':  /** TODO: indicating the style for future expansion */
+      case 'SOME-DENIED-PROPERTY':  /** indicating the style for future expansion */
         $denied[] = $v;
         break;
       default:

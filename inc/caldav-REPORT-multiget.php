@@ -1,7 +1,7 @@
 <?php
 
 /**
-* @TODO Tidy up namespace handling in the responses.
+* @todo Tidy up namespace handling in the responses.
 */
 
 $responses = array();

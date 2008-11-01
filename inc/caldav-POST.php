@@ -90,7 +90,7 @@ function handle_freebusy_request( $ic ) {
     $where .= "AND (calendar_item.status != 'CANCELLED' OR calendar_item.status IS NULL) ";
 
     /**
-    * @TODO Some significant permissions need to be added around the visibility of free/busy
+    * @todo Some significant permissions need to be added around the visibility of free/busy
     *       but lets get it working first...
     */
     $where .= "AND (calendar_item.class != 'PRIVATE' OR calendar_item.class IS NULL) ";

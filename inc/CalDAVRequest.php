@@ -388,7 +388,7 @@ EOSQL;
   /**
   * Checks whether the resource is locked, returning any lock token, or false
   *
-  * FIXME: This logic does not catch all locking scenarios.  For example an infinite
+  * @todo: This logic does not catch all locking scenarios.  For example an infinite
   * depth request should check the permissions for all collections and resources within
   * that.  At present we only maintain permissions on a per-collection basis though.
   *
