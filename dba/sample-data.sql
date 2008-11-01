@@ -63,3 +63,4 @@ INSERT INTO relationship ( from_user, to_user, rt_id ) VALUES( 30, 300, 3 );
 
 -- Granting explicit free/busy permission
 INSERT INTO relationship ( from_user, to_user, rt_id ) VALUES( 11,  10, 4 );
+INSERT INTO relationship ( from_user, to_user, rt_id ) VALUES( 10,  11, 4 );
