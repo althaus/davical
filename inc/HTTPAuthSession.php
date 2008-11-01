@@ -162,7 +162,7 @@ class HTTPAuthSession {
         // generate the valid response
         $user_password = "Don't be silly! Why would a user have a password like this!!?";
         /**
-        * @todo: At this point we need to query the database for something fitting
+        * @todo At this point we need to query the database for something fitting
         * either strategy (A) or (B) above, in order to set $user_password to
         * something useful!
         */

@@ -1,8 +1,17 @@
+davical (0.9.6) unstable; urgency=low
+
+  * Corect debian/control dependencies.
+  * GET request for a collection URL with no events will now return an empty
+    VCALENDAR rather than a 404
+  * Added free/busy permission handling to the POST free/busy request handler
+
+ -- Andrew McMillan <debian@mcmillan.net.nz>  Sat, 01 Nov 2008 11:02:41 +1300
+
 davical (0.9.5.91) unstable; urgency=low
 
   * Enable headers for caldav scheduling.
 
- -- Andrew McMillan <debian@mcmillan.net.nz>  Wed, 29 Oct 2008 08:28:35 +1300
+ -- Andrew McMillan <debian@mcmillan.net.nz>  Wed, 29 Oct 2008 08:48:26 +1300
 
 davical (0.9.5.90) unstable; urgency=low
 

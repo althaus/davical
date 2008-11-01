@@ -52,7 +52,7 @@ if ( isset($request->xml_tags) ) {
       case 'DAV::displayname':
         $displayname = $content;
         /**
-        * @todo: This is definitely a bug in SOHO Organizer and we probably should respond
+        * @todo This is definitely a bug in SOHO Organizer and we probably should respond
         * with an error, rather than silently doing what they *seem* to want us to do.
         */
         if ( preg_match( '/^SOHO.Organizer.6\./', $_SERVER['HTTP_USER_AGENT'] ) ) {
@@ -144,7 +144,7 @@ else {
 }
 
 /**
-* @todo: We could also respond to the request...
+* @todo We could also respond to the request...
 *
 *   <?xml version="1.0" encoding="utf-8" ?>
 *   <C:mkcalendar xmlns:D="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">

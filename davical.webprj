@@ -178,10 +178,8 @@
     <item url="testing/tests/regression-suite/301-Chandler-HEAD-1.test" uploadstatus="1" />
     <item url="testing/tests/regression-suite/302-Chandler-OPTIONS-2.result" uploadstatus="1" />
     <item url="testing/tests/regression-suite/302-Chandler-OPTIONS-2.test" uploadstatus="1" />
-    <item url="testing/tests/regression-suite/303-Chandler-PROPFIND-1.data" uploadstatus="1" />
     <item url="testing/tests/regression-suite/303-Chandler-PROPFIND-1.result" uploadstatus="1" />
     <item url="testing/tests/regression-suite/303-Chandler-PROPFIND-1.test" uploadstatus="1" />
-    <item url="testing/tests/regression-suite/304-Chandler-PROPFIND-2.data" uploadstatus="1" />
     <item url="testing/tests/regression-suite/304-Chandler-PROPFIND-2.result" uploadstatus="1" />
     <item url="testing/tests/regression-suite/304-Chandler-PROPFIND-2.test" uploadstatus="1" />
     <item url="testing/tests/regression-suite/304-Chandler-TEST-1.data" uploadstatus="1" />
@@ -258,8 +256,7 @@
     <item url="htdocs/davical.css" uploadstatus="1" />
     <item url="dba/update-davical-database" uploadstatus="1" />
     <item url="inc/caldav-POST.php" uploadstatus="1" />
-    <item url="htdocs/test.php" uploadstatus="1" />
     <item url="dba/patches/1.2.4.sql" uploadstatus="1" />
-    <item url="dba/rrule_tests.sql" />
+    <item url="dba/rrule_tests.sql" uploadstatus="1" />
   </project>
 </webproject>
