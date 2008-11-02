@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
+ <response>
+  <href>/caldav.php/user1/</href>
+  <propstat>
+   <prop>
+    <C:calendar-home-set>
+     <href>/caldav.php/user1/</href>
+    </C:calendar-home-set>
+    <C:calendar-user-address-set>
+     <href>mailto:user1@example.net</href>
+     <href>/caldav.php/user1/</href>
+    </C:calendar-user-address-set>
+    <C:schedule-inbox-URL>
+     <href>/caldav.php/user1/.in/</href>
+    </C:schedule-inbox-URL>
+    <C:schedule-outbox-URL>
+     <href>/caldav.php/user1/.out/</href>
+    </C:schedule-outbox-URL>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+</multistatus>

@@ -1,0 +1,28 @@
+#
+# Check for REPORT calendar-query of VTODO within time range
+#
+TYPE=REPORT
+URL=http://mycaldav/caldav.php/user1/home/
+HEADER=User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.1.13pre) Gecko/20080916 Debian/unstable (Codename:sid) Iceowl/0.8
+HEADER=Accept: text/xml
+HEADER=Accept-Language: en-us,en;q=0.5
+HEADER=Accept-Encoding: gzip,deflate
+HEADER=Accept-Charset: utf-8,*;q=0.1
+HEADER=Content-Type: text/xml; charset=utf-8
+
+BEGINDATA
+<D:principal-property-search xmlns:D="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
+  <D:property-search>
+    <D:prop>
+      <C:calendar-home-set/>
+    </D:prop>
+    <D:match>/caldav.php/user1</D:match>
+  </D:property-search>
+  <D:prop>
+    <C:calendar-home-set/>
+    <C:calendar-user-address-set/>
+    <C:schedule-inbox-URL/>
+    <C:schedule-outbox-URL/>
+  </D:prop>
+</D:principal-property-search>
+ENDDATA
