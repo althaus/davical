@@ -14,16 +14,20 @@ foreach( $searches AS $k => $search ) {
   $qry_props = $search->GetPath('/DAV::property-search/DAV::prop/*');  // There may be many
   $match     = $search->GetPath('/DAV::property-search/DAV::match');   // There may only be one
   dbg_log_array( "principal", "MATCH", $match, true );
-  $match = qpg($match[0]->GetContent());
+  $match = $match[0]->GetContent();
   $subwhere = "";
   foreach( $qry_props AS $k1 => $v1 ) {
     if ( $subwhere != "" ) $subwhere .= " OR ";
     switch( $v1->GetTag() ) {
       case 'DAV::displayname':
-        $subwhere .= "username = ".$match;
+        $subwhere .= "username = ".qpg($match);
         break;
+      case 'urn:ietf:params:xml:ns:caldav:calendar-home-set':
+        $subwhere .= "username = ".qpg(preg_replace('#^.*/caldav.php/([^/]+)(/|$)#', "\\1", $match));
+        break;
+
       default:
-        printf("Unhandled tag '%s'\n", $v1->GetTag() );
+        dbg_error_log("principal", "Unhandled tag '%s' to match '%s'\n", $v1->GetTag(), $match );
     }
   }
   if ( $subwhere != "" ) {
