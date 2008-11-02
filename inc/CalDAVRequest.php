@@ -149,11 +149,11 @@ class CalDAVRequest
           break;
         }
         elseif ( strtolower(substr($v,0,7)) == 'second-' ) {
-          $this->timeout = max( intval(substr($v,7)), (isset($c->maximum_lock_timeout) ? $c->maximum_lock_timeout : 86400 * 100) );
+          $this->timeout = min( intval(substr($v,7)), (isset($c->maximum_lock_timeout) ? $c->maximum_lock_timeout : 86400 * 100) );
           break;
         }
       }
-      if ( ! isset($this->timeout) ) $this->timeout = (isset($c->default_lock_timeout) ? $c->default_lock_timeout : 900);
+      if ( ! isset($this->timeout) || $this->timeout == 0 ) $this->timeout = (isset($c->default_lock_timeout) ? $c->default_lock_timeout : 900);
     }
 
     /**
