@@ -1,3 +1,10 @@
+davical (0.9.6.1) unstable; urgency=low
+
+  * Fix LOCK timeout handling.
+  * Handle match on calendar-home-set in principal-property-search REPORT.
+
+ -- Andrew McMillan <debian@mcmillan.net.nz>  Sun, 02 Nov 2008 23:17:12 +1300
+
 davical (0.9.6) unstable; urgency=low
 
   * Corect debian/control dependencies.
