@@ -308,6 +308,10 @@ $$ LANGUAGE 'plpgsql' IMMUTABLE;
 
 ------------------------------------------------------------------------------------------------------
 -- Given a cursor into a set, process the set returning the subset matching the BYSETPOS
+--
+-- Note that this function *requires* PostgreSQL 8.3 or later for the cursor handling syntax
+-- to work.  I guess we could do it with an array, instead, for compatibility with earlier
+-- releases, since there's a maximum of 366 positions in a set.
 ------------------------------------------------------------------------------------------------------
 CREATE or REPLACE FUNCTION rrule_bysetpos_filter( REFCURSOR, INT[] ) RETURNS SETOF TIMESTAMP WITH TIME ZONE AS $$
 DECLARE
@@ -343,7 +347,11 @@ $$ LANGUAGE 'plpgsql' IMMUTABLE;
 
 
 ------------------------------------------------------------------------------------------------------
--- Return another day's worth of events
+-- Return another day's worth of events: i.e. one day that matches the criteria, since we don't
+-- currently implement sub-day scheduling.
+--
+-- This is cheeky:  The incrementing by a day is done outside the call, so we either return the
+-- empty set (if the input date fails our filters) or we return a set containing the input date.
 ------------------------------------------------------------------------------------------------------
 CREATE or REPLACE FUNCTION daily_set( TIMESTAMP WITH TIME ZONE, rrule_parts ) RETURNS SETOF TIMESTAMP WITH TIME ZONE AS $$
 DECLARE
@@ -380,6 +388,9 @@ $$ LANGUAGE 'plpgsql' IMMUTABLE STRICT;
 
 ------------------------------------------------------------------------------------------------------
 -- Return another week's worth of events
+--
+-- Doesn't handle truly obscure and unlikely stuff like BYWEEKNO=5;BYMONTH=1;BYDAY=WE,TH,FR;BYSETPOS=-2
+-- Imagine that.
 ------------------------------------------------------------------------------------------------------
 CREATE or REPLACE FUNCTION weekly_set( TIMESTAMP WITH TIME ZONE, rrule_parts ) RETURNS SETOF TIMESTAMP WITH TIME ZONE AS $$
 DECLARE
@@ -473,6 +484,7 @@ BEGIN
     -- We don't yet implement byweekno, byblah
     RETURN NEXT after;
   END IF;
+
 END;
 $$ LANGUAGE 'plpgsql' IMMUTABLE STRICT;
 
