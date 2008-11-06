@@ -27,6 +27,10 @@ foreach( $searches AS $k => $search ) {
         break;
 
       default:
+        /**
+        * @todo We should handle a lot more properties here.  principal-URL seems a likely one to be used.
+        * @todo We should catch the unsupported properties in the query and fire back an error indicating so.
+        */
         dbg_error_log("principal", "Unhandled tag '%s' to match '%s'\n", $v1->GetTag(), $match );
     }
   }
