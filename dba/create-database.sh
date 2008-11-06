@@ -54,7 +54,7 @@ EONOTE
 }
 
 create_plpgsql_language() {
-  if ! psql ${DBA} -qAt -c "SELECT lanname FROM pg_language;" template1 | grep "^plpgsql$" >/dev/null; then
+  if ! psql ${DBA} -qAt -c "SELECT lanname FROM pg_language;" "${DBNAME}" | grep "^plpgsql$" >/dev/null; then
     createlang plpgsql "${DBNAME}"
   fi
 }
