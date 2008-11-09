@@ -32,12 +32,28 @@ notes to pages somewhere under here:
 <h3>RPM Packages of DAViCal</h3>
 <p>We have created RPM packages of DAViCal and libawl-php from the .deb packages
 using "alien". These are reported to work fine, so use them and then proceed to the
-Pre-requisites section below.</p>
+Pre-requisites section below.  If you would like to work with us to create native
+RPM packages please get in touch!</p>
 
 <h3>SuSE Linux</h3>
 <p>On SuSE Linux you may need to look in /var/lib/pgsql/data/ for the pg_hba.conf file.</p>
 
-<h3>Gentoo, Slackware, BSD and the rest</h3>
+<h3>Gentoo</h3>
+Davical and the awl library ebuilds are available on the <a href="http://www.gentoo.org/proj/en/sunrise/">sunrise overlay</a>.
+You'll have to add this overlay to your system:
+<pre>
+emerge layman
+layman -f -a sunrise
+echo "source /usr/portage/local/layman/make.conf" >> /etc/make.conf
+</pre>
+
+From there, you can keep the overlay in sync with the command:
+<pre>layman -s sunrise</pre>
+
+Davical can now be installed with a normal:
+<pre>emerge davical</pre>
+
+<h3>Slackware, BSD and the rest</h3>
 
 <p>You will need to download the latest versions of the <code>DAViCal</code> and <code>awl</code> packages
 from the <a href="http://sourceforge.net/project/showfiles.php?group_id=179845">sourceforge download page for DAViCal</a>.</p>
@@ -318,4 +334,3 @@ the packaging system, but that change will not happen until early 2007.</p>
 
 <?php
  include("inc/page-footer.php");
-?>
