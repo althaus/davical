@@ -80,28 +80,34 @@ function calendar_to_xml( $properties, $item ) {
   if ( isset($properties['calendar-data']) || isset($properties['displayname']) ) {
     if ( !$request->AllowedTo('all') && $session->user_no != $item->user_no ){
       // the user is not admin / owner of this calendarlooking at his calendar and can not admin the other cal
+      /** @todo We should examine the ORGANIZER and ATTENDEE fields in the event.  If this person is there then they should see this, and perhaps get alarms also */
       if ( $item->class == 'CONFIDENTIAL' ) {
-        $ical = new iCalendar( array( "icalendar" => $caldav_data) );
+        $ical = new iCalComponent( $caldav_data );
+        $resources = $ical->GetComponents('VTIMEZONE',false);
+        $first = $resources[0];
+
         // if the event is confidential we fake one that just says "Busy"
-        $confidential = new iCalendar( array(
-                              'SUMMARY' => translate('Busy'), 'CLASS' => 'CONFIDENTIAL',
-                              'DTSTART' => $ical->Get('DTSTART')
-                          ) );
-        $rrule = $ical->Get('RRULE');
-        if ( isset($rrule) && $rrule != '' ) $confidential->Set('RRULE', $rrule);
-        $duration = $ical->Get('DURATION');
-        if ( isset($duration) && $duration != "" ) {
-          $confidential->Set('DURATION', $duration );
-        }
-        else {
-          $confidential->Set('DTEND', $ical->Get('DTEND') );
-        }
-        $caldav_data = $confidential->Render( true, $item->caldav_type );
+        $confidential = new iCalComponent();
+        $confidential->SetType($first->GetType());
+        $confidential->AddProperty( 'SUMMARY', translate('Busy') );
+        $confidential->AddProperty( 'CLASS', 'CONFIDENTIAL' );
+        $confidential->SetProperties( $first->GetProperties('DTSTART'), 'DTSTART' );
+        $confidential->SetProperties( $first->GetProperties('RRULE'), 'RRULE' );
+        $confidential->SetProperties( $first->GetProperties('DURATION'), 'DURATION' );
+        $confidential->SetProperties( $first->GetProperties('DTEND'), 'DTEND' );
+        $ical->SetComponents(array($confidential),$confidential->GetType());
+
+        $caldav_data = $ical->Render();
       }
       elseif ( isset($c->hide_alarm) && $c->hide_alarm ) {
         // Otherwise we hide the alarms (if configured to)
-        $ical = new iCalendar( array( "icalendar" => $caldav_data) );
-        $ical->component->ClearComponents('VALARM');
+        $ical = new iCalComponent( $caldav_data );
+        $timezones = $ical->GetComponents('VTIMEZONE',true);
+        $resources = $ical->GetComponents('VTIMEZONE',false);
+        foreach( $resources AS $k => $v ) {
+          $v->ClearComponents('VALARM');
+        }
+        $ical->SetComponents($timezones + $resources);
         $caldav_data = $ical->render(true, $caldav_type );
       }
     }
