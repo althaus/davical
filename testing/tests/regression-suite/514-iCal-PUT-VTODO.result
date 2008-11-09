@@ -5,4 +5,60 @@ ETag: "18134bbb51c8e25919c92a0d6265f789"
 Content-Length: 0
 Content-Type: text/plain; charset="utf-8"
 
-10 --- 18134bbb51c8e25919c92a0d6265f789 --- VTODO --- 10 --- E6BC62F3-77C6-4FB7-BDD3-6882E2F1BE74 --- 2007-11-24 22:09:25 --- 2004-01-01 12:00:00+13 --- NULL --- 2010-02-17 00:00:00+13 --- Celebrate a significant birthday --- NULL --- Organise a party --- 5 --- PUBLIC --- NULL --- NULL --- NULL --- NULL --- NULL --- NULL
+      CalDAV Data: >BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Apple Inc.//iCal 3.0//EN
+CALSCALE:GREGORIAN
+BEGIN:VTIMEZONE
+TZID:Pacific/Auckland
+BEGIN:STANDARD
+TZOFFSETFROM:+1300
+TZOFFSETTO:+1200
+DTSTART:19900318T030000
+RRULE:FREQ=YEARLY;UNTIL=20070317T140000Z;BYMONTH=3;BYDAY=3SU
+TZNAME:NZST
+END:STANDARD
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+1200
+TZOFFSETTO:+1300
+DTSTART:19901007T020000
+RRULE:FREQ=YEARLY;UNTIL=20060930T140000Z;BYMONTH=10;BYDAY=1SU
+TZNAME:NZDT
+END:DAYLIGHT
+END:VTIMEZONE
+BEGIN:VTODO
+PRIORITY:5
+SEQUENCE:7
+DESCRIPTION:Organise a party
+UID:E6BC62F3-77C6-4FB7-BDD3-6882E2F1BE74
+DTSTART;TZID=Pacific/Auckland:20040101T120000
+DTSTAMP:20071124T220925Z
+SUMMARY:Celebrate a significant birthday
+CREATED:20071124T220749Z
+X-APPLE-SORT-ORDER:2147483647
+DUE;VALUE=DATE:20100217
+END:VTODO
+END:VCALENDAR
+<
+      caldav_type: >VTODO<
+            class: >PUBLIC<
+         dav_etag: >18134bbb51c8e25919c92a0d6265f789<
+      description: >Organise a party<
+            dtend: >NULL<
+          dtstamp: >2007-11-24 22:09:25<
+          dtstart: >2004-01-01 12:00:00+13<
+              due: >2010-02-17 00:00:00+13<
+         location: >NULL<
+      logged_user: >10<
+ percent_complete: >NULL<
+         priority: >5<
+            rrule: >NULL<
+           status: >NULL<
+          summary: >Celebrate a significant birthday<
+           transp: >NULL<
+            tz_id: >Pacific/Auckland<
+              uid: >E6BC62F3-77C6-4FB7-BDD3-6882E2F1BE74<
+              url: >NULL<
+          user_no: >10<
+   ~ Modified Now: >1<
+

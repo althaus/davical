@@ -25,4 +25,6 @@ Content-Type: text/xml; charset="utf-8"
   </activelock>
  </lockdiscovery>
 </prop>
-Refreshed (should be 1) --- 1
+         ?column?: >Refreshed (should be 1)<
+  refresh_success: >1<
+

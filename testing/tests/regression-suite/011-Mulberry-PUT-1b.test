@@ -3,5 +3,52 @@
 TYPE=PUT
 URL=http://mycaldav/caldav.php/user1/home/F56B49B10FC923D20FE2DC92D6580340-0.ics
 HEADER=Content-Type: text/calendar; charset=utf-8
+HEADER=If-Match: "b000d7defa19ccb7cd21e546b54155ee"
 HEAD
-DATA=F56B49B10FC923D20FE2DC92D6580340-0.ics
+
+BEGINDATA
+BEGIN:VCALENDAR
+CALSCALE:GREGORIAN
+PRODID:-//mulberrymail.com//Mulberry v4.0//EN
+VERSION:2.0
+X-WR-CALNAME:home
+BEGIN:VTIMEZONE
+LAST-MODIFIED:20040110T032845Z
+TZID:New Zealand Standard Time
+X-LIC-LOCATION:Pacific/Auckland
+BEGIN:DAYLIGHT
+DTSTART:20000404T020000
+RRULE:FREQ=YEARLY;BYDAY=1SU;BYMONTH=4
+TZNAME:NZDT
+TZOFFSETFROM:+1200
+TZOFFSETTO:+1300
+END:DAYLIGHT
+BEGIN:STANDARD
+DTSTART:20001026T020000
+RRULE:FREQ=YEARLY;BYDAY=1SU;BYMONTH=10
+TZNAME:NZST
+TZOFFSETFROM:+1300
+TZOFFSETTO:+1200
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+DTSTAMP:20061025T101327Z
+DTSTART;TZID=New Zealand Standard Time:20061025T091500
+DURATION:PT1H
+SUMMARY:A first event, modified.
+UID:B18CBB57295D01D7661A6DD4@D76FAF7B10D9E8D2D41F779C
+END:VEVENT
+END:VCALENDAR
+ENDDATA
+
+QUERY
+SELECT caldav_data.user_no, caldav_type, logged_user, 
+       uid, dtstamp, dtstart, dtend, due, summary, location,
+       description, priority, class, transp, rrule, url,
+       percent_complete, tz_id, status,
+       ((current_timestamp AT TIME ZONE 'GMT' - last_modified) < '2 seconds'::interval) AS "~ Modified Now",
+       caldav_data AS "A1 CalDAV DATA"
+FROM caldav_data JOIN calendar_item USING(dav_name)
+WHERE caldav_data.dav_name ~ '^/user1/home/'
+ENDQUERY
+

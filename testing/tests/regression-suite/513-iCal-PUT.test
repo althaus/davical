@@ -66,7 +66,9 @@ QUERY
 SELECT caldav_data.user_no, caldav_data.dav_etag, caldav_type, logged_user, 
        uid, dtstamp, dtstart, dtend, due, summary, location,
        description, priority, class, transp, rrule, url,
-       percent_complete, tz_id, status
+       percent_complete, tz_id, status,
+       caldav_data AS " CalDAV Data",
+      ((current_timestamp AT TIME ZONE 'GMT' - last_modified) < '2 seconds'::interval) AS "~ Modified Now"
 FROM caldav_data JOIN calendar_item USING(dav_name)
 WHERE caldav_data.dav_etag =
 '087d1ea4915719b8a904ca18a9abbbe1';

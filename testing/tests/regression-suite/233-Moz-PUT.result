@@ -7,4 +7,67 @@ ETag: "e8060931f30c1798ac58ffbe4ec0bffc"
 Content-Length: 0
 Content-Type: text/plain; charset="utf-8"
 
-10 --- e8060931f30c1798ac58ffbe4ec0bffc --- VEVENT --- 10 --- e70576e9-c1e0-431e-a507-0386fd82f223 --- 2007-12-03 20:26:30 --- 2007-12-11 07:45:00+13 --- 2007-12-11 08:30:00+13 --- NULL --- Morning Meeting --- Suzies Coffee Lounge --- Twice-weekly breakfast meeting --- NULL --- PUBLIC --- NULL --- FREQ=WEEKLY;INTERVAL=1;BYDAY=TU,TH --- NULL --- NULL --- NULL --- NULL
+      CalDAV Data: >BEGIN:VCALENDAR
+PRODID:-//Mozilla Calendar//NONSGML Sunbird//EN
+VERSION:2.0
+BEGIN:VTIMEZONE
+TZID:/mozilla.org/20070129_1/Antarctica/McMurdo
+X-LIC-LOCATION:Antarctica/McMurdo
+BEGIN:STANDARD
+TZOFFSETFROM:+1300
+TZOFFSETTO:+1200
+TZNAME:NZST
+DTSTART:19700315T030000
+RRULE:FREQ=YEARLY;INTERVAL=1;BYDAY=3SU;BYMONTH=3
+END:STANDARD
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+1200
+TZOFFSETTO:+1300
+TZNAME:NZDT
+DTSTART:19701004T020000
+RRULE:FREQ=YEARLY;INTERVAL=1;BYDAY=1SU;BYMONTH=10
+END:DAYLIGHT
+END:VTIMEZONE
+BEGIN:VEVENT
+CREATED:20071203T202630Z
+LAST-MODIFIED:20071203T202834Z
+DTSTAMP:20071203T202630Z
+UID:e70576e9-c1e0-431e-a507-0386fd82f223
+SUMMARY:Morning Meeting
+RRULE:FREQ=WEEKLY;INTERVAL=1;BYDAY=TU,TH
+DTSTART;TZID=/mozilla.org/20070129_1/Antarctica/McMurdo:20071211T074500
+DTEND;TZID=/mozilla.org/20070129_1/Antarctica/McMurdo:20071211T083000
+X-MOZ-LOCATIONPATH:e70576e9-c1e0-431e-a507-0386fd82f223.ics
+LOCATION:Suzies Coffee Lounge
+DESCRIPTION:Twice-weekly breakfast meeting
+CATEGORIES:Business
+BEGIN:VALARM
+TRIGGER;VALUE=DURATION:-PT10M
+DESCRIPTION:Mozilla Alarm: Morning Meeting
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR
+<
+      caldav_type: >VEVENT<
+            class: >PUBLIC<
+         dav_etag: >e8060931f30c1798ac58ffbe4ec0bffc<
+      description: >Twice-weekly breakfast meeting<
+            dtend: >2007-12-11 08:30:00+13<
+          dtstamp: >2007-12-03 20:26:30<
+          dtstart: >2007-12-11 07:45:00+13<
+              due: >NULL<
+         location: >Suzies Coffee Lounge<
+      logged_user: >10<
+ percent_complete: >NULL<
+         priority: >NULL<
+            rrule: >FREQ=WEEKLY;INTERVAL=1;BYDAY=TU,TH<
+           status: >NULL<
+          summary: >Morning Meeting<
+           transp: >NULL<
+            tz_id: >/mozilla.org/20070129_1/Antarctica/McMurdo<
+              uid: >e70576e9-c1e0-431e-a507-0386fd82f223<
+              url: >NULL<
+          user_no: >10<
+   ~ Modified Now: >0<
+

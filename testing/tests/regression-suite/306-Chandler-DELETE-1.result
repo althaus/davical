@@ -4,4 +4,6 @@ DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 Content-Length: 0
 Content-Type: text/plain; charset="utf-8"
 
-Count of matching calendars (should be 0) --- 0
+         ?column?: >Count of matching calendars (should be 0)<
+            count: >0<
+

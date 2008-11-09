@@ -5,4 +5,65 @@ ETag: "8f581a053df6d833254756dfd7553d37"
 Content-Length: 0
 Content-Type: text/plain; charset="utf-8"
 
-10 --- 8f581a053df6d833254756dfd7553d37 --- VTODO --- 10 --- e6eb5bc9-f7f9-4a0a-94e8-8e90eefc7d08 --- 2007-12-03 20:29:15 --- 2007-12-09 13:30:00+13 --- NULL --- 2007-12-09 13:30:00+13 --- Release 0.9.3 --- NULL --- NULL --- NULL --- PUBLIC --- NULL --- NULL --- NULL --- 95.00 --- NULL --- IN-PROCESS
+      CalDAV Data: >BEGIN:VCALENDAR
+PRODID:-//Mozilla Calendar//NONSGML Sunbird//EN
+VERSION:2.0
+BEGIN:VTIMEZONE
+TZID:/mozilla.org/20070129_1/Antarctica/McMurdo
+X-LIC-LOCATION:Antarctica/McMurdo
+BEGIN:STANDARD
+TZOFFSETFROM:+1300
+TZOFFSETTO:+1200
+TZNAME:NZST
+DTSTART:19700315T030000
+RRULE:FREQ=YEARLY;INTERVAL=1;BYDAY=3SU;BYMONTH=3
+END:STANDARD
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+1200
+TZOFFSETTO:+1300
+TZNAME:NZDT
+DTSTART:19701004T020000
+RRULE:FREQ=YEARLY;INTERVAL=1;BYDAY=1SU;BYMONTH=10
+END:DAYLIGHT
+END:VTIMEZONE
+BEGIN:VTODO
+CREATED:20071203T202915Z
+LAST-MODIFIED:20071203T203021Z
+DTSTAMP:20071203T202915Z
+UID:e6eb5bc9-f7f9-4a0a-94e8-8e90eefc7d08
+SUMMARY:Release 0.9.3
+STATUS:IN-PROCESS
+DTSTART;TZID=/mozilla.org/20070129_1/Antarctica/McMurdo:20071209T133000
+DUE;TZID=/mozilla.org/20070129_1/Antarctica/McMurdo:20071209T133000
+PERCENT-COMPLETE:95
+X-MOZ-LOCATIONPATH:e6eb5bc9-f7f9-4a0a-94e8-8e90eefc7d08.ics
+BEGIN:VALARM
+TRIGGER;VALUE=DURATION:-P2D
+DESCRIPTION:Mozilla Alarm: Release 0.9.3
+ACTION:DISPLAY
+END:VALARM
+END:VTODO
+END:VCALENDAR
+<
+      caldav_type: >VTODO<
+            class: >PUBLIC<
+         dav_etag: >8f581a053df6d833254756dfd7553d37<
+      description: >NULL<
+            dtend: >NULL<
+          dtstamp: >2007-12-03 20:29:15<
+          dtstart: >2007-12-09 13:30:00+13<
+              due: >2007-12-09 13:30:00+13<
+         location: >NULL<
+      logged_user: >10<
+ percent_complete: >95.00<
+         priority: >NULL<
+            rrule: >NULL<
+           status: >IN-PROCESS<
+          summary: >Release 0.9.3<
+           transp: >NULL<
+            tz_id: >/mozilla.org/20070129_1/Antarctica/McMurdo<
+              uid: >e6eb5bc9-f7f9-4a0a-94e8-8e90eefc7d08<
+              url: >NULL<
+          user_no: >10<
+   ~ Modified Now: >0<
+

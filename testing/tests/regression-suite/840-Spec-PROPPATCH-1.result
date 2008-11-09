@@ -11,8 +11,31 @@ Content-Type: text/xml; charset="utf-8"
   <responsedescription>All requested changes were made.</responsedescription>
  </response>
 </multistatus>
-User One's Not Calendar --- 0 --- 1
-/user1/6E20BB7C-EFD9-4F0F-9BDC-5335E04D47E0/ --- http://apple.com/ns/ical/:calendar-color --- #391B71A0 --- 10 --- 1
-/user1/home/ --- urn:mcmillan:bogus:xml:ns:rscds:arbitrary --- A completely bogus property which should be saved. --- 10 --- 1
-/user1/SOHO+collection/ --- com.apple.ical::calendarcolor --- #FF8000FF --- 10 --- 1
-/user1/SOHO+collection/ --- urn:ietf:params:xml:ns:caldav:calendar-description --- Calendar description --- 10 --- 1
+changed_last_60se: >1<
+  dav_displayname: >User One's Not Calendar<
+      is_calendar: >0<
+
+       changed_by: >10<
+changed_last_30se: >1<
+         dav_name: >/user1/6E20BB7C-EFD9-4F0F-9BDC-5335E04D47E0/<
+    property_name: >http://apple.com/ns/ical/:calendar-color<
+   property_value: >#391B71A0<
+
+       changed_by: >10<
+changed_last_30se: >1<
+         dav_name: >/user1/home/<
+    property_name: >urn:mcmillan:bogus:xml:ns:rscds:arbitrary<
+   property_value: >A completely bogus property which should be saved.<
+
+       changed_by: >10<
+changed_last_30se: >1<
+         dav_name: >/user1/SOHO+collection/<
+    property_name: >com.apple.ical::calendarcolor<
+   property_value: >#FF8000FF<
+
+       changed_by: >10<
+changed_last_30se: >1<
+         dav_name: >/user1/SOHO+collection/<
+    property_name: >urn:ietf:params:xml:ns:caldav:calendar-description<
+   property_value: >Calendar description<
+

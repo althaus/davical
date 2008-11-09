@@ -11,4 +11,6 @@ Content-Type: text/xml; charset="utf-8"
   <responsedescription>All requested changes were made.</responsedescription>
  </response>
 </multistatus>
-iCal Calendar --- 1
+  dav_displayname: >iCal Calendar<
+      is_calendar: >1<
+

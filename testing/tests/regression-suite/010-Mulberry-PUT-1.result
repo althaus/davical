@@ -5,3 +5,57 @@ ETag: "b000d7defa19ccb7cd21e546b54155ee"
 Content-Length: 0
 Content-Type: text/plain; charset="utf-8"
 
+   A1 CalDAV DATA: >BEGIN:VCALENDAR
+CALSCALE:GREGORIAN
+PRODID:-//mulberrymail.com//Mulberry v4.0//EN
+VERSION:2.0
+X-WR-CALNAME:home
+BEGIN:VTIMEZONE
+LAST-MODIFIED:20040110T032845Z
+TZID:New Zealand Standard Time
+X-LIC-LOCATION:Pacific/Auckland
+BEGIN:DAYLIGHT
+DTSTART:20000404T020000
+RRULE:FREQ=YEARLY;BYDAY=1SU;BYMONTH=4
+TZNAME:NZDT
+TZOFFSETFROM:+1200
+TZOFFSETTO:+1300
+END:DAYLIGHT
+BEGIN:STANDARD
+DTSTART:20001026T020000
+RRULE:FREQ=YEARLY;BYDAY=1SU;BYMONTH=10
+TZNAME:NZST
+TZOFFSETFROM:+1300
+TZOFFSETTO:+1200
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+DTSTAMP:20061025T101327Z
+DTSTART;TZID=New Zealand Standard Time:20061025T091500
+DURATION:PT1H
+SUMMARY:A first event
+UID:B18CBB57295D01D7661A6DD4@D76FAF7B10D9E8D2D41F779C
+END:VEVENT
+END:VCALENDAR
+<
+      caldav_type: >VEVENT<
+            class: >PUBLIC<
+      description: >NULL<
+            dtend: >2006-10-25 10:15:00+13<
+          dtstamp: >2006-10-25 10:13:27<
+          dtstart: >2006-10-25 09:15:00+13<
+              due: >NULL<
+         location: >NULL<
+      logged_user: >10<
+ percent_complete: >NULL<
+         priority: >NULL<
+            rrule: >NULL<
+           status: >NULL<
+          summary: >A first event<
+           transp: >NULL<
+            tz_id: >New Zealand Standard Time<
+              uid: >B18CBB57295D01D7661A6DD4@D76FAF7B10D9E8D2D41F779C<
+              url: >NULL<
+          user_no: >10<
+   ~ Modified Now: >1<
+
