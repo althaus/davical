@@ -21,7 +21,7 @@ if ( ! $request->AllowedTo("CALDAV:schedule-send-freebusy")
   dbg_error_log( "WARN", ": POST: permissions not yet checked" );
 }
 
-if ( ! ini_get('open_basedir') && (isset($c->dbg['ALL']) || $c->dbg['post']) ) {
+if ( ! ini_get('open_basedir') && (isset($c->dbg['ALL']) || isset($c->dbg['post'])) ) {
   $fh = fopen('/tmp/POST.txt','w');
   if ( $fh ) {
     fwrite($fh,$request->raw_post);
@@ -36,13 +36,12 @@ function handle_freebusy_request( $ic ) {
   $reply = new XMLDocument( array("DAV:" => "", "urn:ietf:params:xml:ns:caldav" => "C" ) );
   $responses = array();
 
-  $fbq_start = $ic->Get('DTSTART');
-  $fbq_end   = $ic->Get('DTEND');
-  $component =& $ic->component->FirstNonTimezone();
-  $attendees = $component->GetProperties('ATTENDEE');
+  $fbq_start = $ic->GetPValue('DTSTART');
+  $fbq_end   = $ic->GetPValue('DTEND');
+  $attendees = $ic->GetProperties('ATTENDEE');
   if ( preg_match( '# iCal/\d#', $_SERVER['HTTP_USER_AGENT']) ) {
     dbg_error_log( "POST", "Non-compliant iCal request.  Using X-WR-ATTENDEE property" );
-    $wr_attendees = $component->GetProperties('X-WR-ATTENDEE');
+    $wr_attendees = $ic->GetProperties('X-WR-ATTENDEE');
     foreach( $wr_attendees AS $k => $v ) {
       $attendees[] = $v;
     }
@@ -127,17 +126,17 @@ function handle_freebusy_request( $ic ) {
 
 
     $i = 0;
+
+    $fb = new iCalComponent();
+    $fb->AddProperty( 'DTSTAMP',   date('Ymd\THis\Z') );
+    $fb->AddProperty( 'DTSTART',   $fbq_start );
+    $fb->AddProperty( 'DTEND',     $fbq_end );
+    $fb->AddProperty( 'UID',       $ic->GetPValue('UID') );
+    $fb->SetProperties( $ic->GetProperties('ORGANIZER'), 'ORGANIZER');
+    $fb->SetType('VFREEBUSY');
+
+    $fb->AddProperty( $attendee );
     $fbparams = array( "FBTYPE" => "BUSY-TENTATIVE" );
-
-    $fb = new iCalendar( array( 'DTSTAMP'   => date('Ymd\THis\Z'),
-                                'DTSTART'   => $fbq_start,
-                                'DTEND'     => $fbq_end,
-                                'UID'       => $ic->Get('UID'),
-                                'ORGANIZER' => $ic->Get('ORGANIZER'),
-                                'type'    => 'VFREEBUSY' ) );
-    $fb->component->AddProperty( new iCalProp("METHOD:REPLY") );
-
-    $fb->Add( $attendee->Name(), $attendee->Value(), $attendee->parameters );
     foreach( $busy_tentative AS $k => $v ) {
       $start = new iCalDate($v->start);
       $duration = $start->DateDifference($v->finish);
@@ -148,14 +147,15 @@ function handle_freebusy_request( $ic ) {
           if ( $date->GreaterThan($fbq_end) ) break;
           $todate = clone($date);
           $todate->AddDuration($duration);
-          $fb->Add("FREEBUSY;FBTYPE=BUSY-TENTATIVE", sprintf("%s/%s", $date->Render('Ymd\THis'), $todate->Render('Ymd\THis') ), $fbparams );
+          $fb->AddProperty("FREEBUSY", sprintf("%s/%s", $date->Render('Ymd\THis'), $todate->Render('Ymd\THis') ), $fbparams);
         }
       }
       else {
-        $fb->Add("FREEBUSY;FBTYPE=BUSY-TENTATIVE",sprintf("%s/%s", $start->Render('Ymd\THis'), $v->finish ), $fbparams );
+        $fb->AddProperty("FREEBUSY", sprintf("%s/%s", $start->Render('Ymd\THis'), $v->finish ), $fbparams );
       }
     }
 
+    $fbparams = array( "FBTYPE" => "BUSY" );
     foreach( $busy AS $k => $v ) {
       $start = new iCalDate($v->start);
       $duration = $start->DateDifference($v->finish);
@@ -166,18 +166,22 @@ function handle_freebusy_request( $ic ) {
           if ( $date->GreaterThan($fbq_end) ) break;
           $todate = clone($date);
           $todate->AddDuration($duration);
-          $fb->Add("FREEBUSY;FBTYPE=BUSY", sprintf("%s/%s", $date->Render('Ymd\THis'), $todate->Render('Ymd\THis') ) );
+          $fb->AddProperty("FREEBUSY", sprintf("%s/%s", $date->Render('Ymd\THis'), $todate->Render('Ymd\THis') ), $fbparams );
         }
       }
       else {
-        $fb->Add("FREEBUSY;FBTYPE=BUSY", sprintf("%s/%s", $start->Render('Ymd\THis'), $v->finish ) );
+        $fb->AddProperty("FREEBUSY", sprintf("%s/%s", $start->Render('Ymd\THis'), $v->finish ), $fbparams );
       }
     }
+
+    $vcal = new iCalComponent();
+    $vcal->VCalendar( array('METHOD' => 'REPLY') );
+    $vcal->AddComponent( $fb );
 
     $response = new XMLElement( $reply->Caldav("response") );
     $response->NewElement( $reply->Caldav("recipient"), new XMLElement("href",$attendee->Value()) );
     $response->NewElement( $reply->Caldav("request-status"), "2.0;Success" );  // Cargo-cult setting
-    $response->NewElement( $reply->Caldav("calendar-data"), $fb->Render() );
+    $response->NewElement( $reply->Caldav("calendar-data"), $vcal->Render() );
     $responses[] = $response;
   }
 
@@ -186,13 +190,15 @@ function handle_freebusy_request( $ic ) {
 }
 
 
-$ical = new iCalendar( array('icalendar' => $request->raw_post) );
-$calendar_properties = $ical->component->GetProperties('METHOD');
-$method =  $calendar_properties[0]->Value();
+$ical = new iCalComponent( $request->raw_post );
+$method =  $ical->GetPValue('METHOD');
+
+$resources = $ical->GetComponents('VTIMEZONE',false);
+$first = $resources[0];
 switch ( $method ) {
   case 'REQUEST':
     dbg_error_log("POST", "Handling iTIP 'REQUEST' method.", $method );
-    handle_freebusy_request( $ical );
+    handle_freebusy_request( $first );
     break;
 
   default:
