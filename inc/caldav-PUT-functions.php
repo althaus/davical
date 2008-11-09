@@ -251,13 +251,41 @@ function import_collection( $ics_content, $user_no, $path, $caldav_context ) {
 
     $dtstart = $ic->Get('dtstart');
     if ( (!isset($dtstart) || $dtstart == "") && $ic->Get('due') != "" ) {
-      $dtstart = $ic->Get('due');
+      $dtstart = $ic->Get('due');  // Dodgy fallback
     }
 
     $dtend = $ic->Get('dtend');
-    if ( (!isset($dtend) || "$dtend" == "") && $ic->Get('duration') != "" AND $dtstart != "" ) {
-      $duration = preg_replace( '#[PT]#', ' ', $ic->Get('duration') );
-      $dtend = '('.qpg($dtstart).'::timestamp with time zone + '.qpg($duration).'::interval)';
+    if ( (!isset($dtend) || "$dtend" == "") ) {
+      if ( $ic->Get('duration') != "" AND $dtstart != "" ) {
+        $duration = preg_replace( '#[PT]#', ' ', $ic->Get('duration') );
+        $dtend = '('.qpg($dtstart).'::timestamp with time zone + '.qpg($duration).'::interval)';
+      }
+      else {
+        /**
+        * For cases where a "VEVENT" calendar component specifies a "DTSTART"
+        * property with a DATE data type but no "DTEND" property, the events
+        * non-inclusive end is the end of the calendar date specified by the
+        * "DTSTART" property. For cases where a "VEVENT" calendar component specifies
+        * a "DTSTART" property with a DATE-TIME data type but no "DTEND" property,
+        * the event ends on the same calendar date and time of day specified by the
+        * "DTSTART" property.
+        *
+        * So we're looking for 'VALUE=DATE', to identify the duration, effectively.
+        *
+        */
+        $event = $ic->component->FirstNonTimezone();
+        if ( isset($event) && is_object($event) ) {
+          $dtstart_prop = $event->GetProperties('DTSTART');
+          if ( count($dtstart_prop) == 1 ) {
+            if ( $dtstart_prop[1]->GetParameterValue('VALUE') == 'DATE' )
+              $dtend = '('.qpg($dtstart)."::timestamp with time zone::date + '1 day'::interval)";
+            else
+              $dtend = qpg($dtstart);
+          }
+        }
+
+      }
+      if ( $dtend == "" ) $dtend = 'NULL';
     }
     else {
       dbg_error_log( "PUT", " DTEND: '%s', DTSTART: '%s', DURATION: '%s'", $dtend, $dtstart, $ic->Get('duration') );
@@ -280,7 +308,7 @@ function import_collection( $ics_content, $user_no, $path, $caldav_context ) {
       $class = 'PUBLIC';
     }
 
-    /*
+    /**
      * It seems that some calendar clients don't set a class...
      * RFC2445, 4.8.1.3:
      * Default is PUBLIC
@@ -320,9 +348,9 @@ EOSQL;
 */
 function putCalendarResource( &$request, $author, $caldav_context ) {
   $etag = md5($request->raw_post);
-  $ic = new iCalendar(array( 'icalendar' => $request->raw_post ));
+  $ic = new iCalComponent( $request->raw_post );
 
-  dbg_log_array( "PUT", 'EVENT', $ic->properties['VCALENDAR'][0], true );
+  dbg_log_array( "PUT", 'EVENT', $ic->components, true );
 
   /**
   * We read any existing object so we can check the ETag.
@@ -383,52 +411,71 @@ function putCalendarResource( &$request, $author, $caldav_context ) {
     }
   }
 
+  $resources = $ic->GetComponents('VTIMEZONE',false); // Not matching VTIMEZONE
+  $first = $resources[0];
+
   if ( $put_action_type == 'INSERT' ) {
     $qry = new PgQuery( "BEGIN; INSERT INTO caldav_data ( user_no, dav_name, dav_etag, caldav_data, caldav_type, logged_user, created, modified, collection_id ) VALUES( ?, ?, ?, ?, ?, ?, current_timestamp, current_timestamp, ? )",
-                           $request->user_no, $request->path, $etag, $request->raw_post, $ic->type, $author, $request->collection_id );
+                           $request->user_no, $request->path, $etag, $request->raw_post, $first->GetType(), $author, $request->collection_id );
     if ( !$qry->Exec("PUT") ) rollback_on_error( $caldav_context, $request->user_no, $request->path);
   }
   else {
     $qry = new PgQuery( "BEGIN;UPDATE caldav_data SET caldav_data=?, dav_etag=?, caldav_type=?, logged_user=?, modified=current_timestamp WHERE user_no=? AND dav_name=?",
-                           $request->raw_post, $etag, $ic->type, $author, $request->user_no, $request->path );
+                           $request->raw_post, $etag, $first->GetType(), $author, $request->user_no, $request->path );
     if ( !$qry->Exec("PUT") ) rollback_on_error( $caldav_context, $request->user_no, $request->path);
   }
 
-  /**
-  * Build the SQL for inserting/updating the calendar_item record
-  */
-  $sql = "";
-  if ( preg_match(':^(Africa|America|Antarctica|Arctic|Asia|Atlantic|Australia|Brazil|Canada|Chile|Etc|Europe|Indian|Mexico|Mideast|Pacific|US)/[a-z]+$:i', $ic->tz_locn ) ) {
-    // We only set the timezone if it looks reasonable enough for us
-    $sql = ( $ic->tz_locn == '' ? '' : "SET TIMEZONE TO ".qpg($ic->tz_locn).";" );
+  $dtstart = $first->GetPValue('DTSTART');
+  if ( (!isset($dtstart) || $dtstart == "") && $first->GetPValue('DUE') != "" ) {
+    $dtstart = $first->GetPValue('DUE');
   }
 
-  $dtstart = $ic->Get('DTSTART');
-  if ( (!isset($dtstart) || $dtstart == "") && $ic->Get('DUE') != "" ) {
-    $dtstart = $ic->Get('DUE');
-  }
+  $dtend = $first->GetPValue('DTEND');
+  if ( (!isset($dtend) || "$dtend" == "") ) {
+    if ( $first->GetPValue('DURATION') != "" AND $dtstart != "" ) {
+      $duration = preg_replace( '#[PT]#', ' ', $first->GetPValue('DURATION') );
+      $dtend = '('.qpg($dtstart).'::timestamp with time zone + '.qpg($duration).'::interval)';
+    }
+    elseif ( $first->GetType() == 'VEVENT' ) {
+      /**
+      * From RFC2445 4.6.1:
+      * For cases where a "VEVENT" calendar component specifies a "DTSTART"
+      * property with a DATE data type but no "DTEND" property, the events
+      * non-inclusive end is the end of the calendar date specified by the
+      * "DTSTART" property. For cases where a "VEVENT" calendar component specifies
+      * a "DTSTART" property with a DATE-TIME data type but no "DTEND" property,
+      * the event ends on the same calendar date and time of day specified by the
+      * "DTSTART" property.
+      *
+      * So we're looking for 'VALUE=DATE', to identify the duration, effectively.
+      *
+      */
+      $value_type = $first->GetPParamValue('DTSTART','VALUE');
+      dbg_error_log("PUT","DTSTART without DTEND. DTSTART value type is %s", $value_type );
+      if ( isset($value_type) && $value_type == 'DATE' )
+        $dtend = '('.qpg($dtstart)."::timestamp with time zone::date + '1 day'::interval)";
+      else
+        $dtend = qpg($dtstart);
 
-  $dtend = $ic->Get('DTEND');
-  if ( (!isset($dtend) || "$dtend" == "") && $ic->Get('DURATION') != "" AND $dtstart != "" ) {
-    $duration = preg_replace( '#[PT]#', ' ', $ic->Get('DURATION') );
-    $dtend = '('.qpg($dtstart).'::timestamp with time zone + '.qpg($duration).'::interval)';
+    }
+    if ( $dtend == "" ) $dtend = 'NULL';
   }
   else {
-    dbg_error_log( "PUT", " DTEND: '%s', DTSTART: '%s', DURATION: '%s'", $dtend, $dtstart, $ic->Get('DURATION') );
+    dbg_error_log( "PUT", " DTEND: '%s', DTSTART: '%s', DURATION: '%s'", $dtend, $dtstart, $first->GetPValue('DURATION') );
     $dtend = qpg($dtend);
   }
 
-  $last_modified = $ic->Get("LAST-MODIFIED");
+  $last_modified = $first->GetPValue("LAST-MODIFIED");
   if ( !isset($last_modified) || $last_modified == '' ) {
     $last_modified = gmdate( 'Ymd\THis\Z' );
   }
 
-  $dtstamp = $ic->Get("DTSTAMP");
+  $dtstamp = $first->GetPValue("DTSTAMP");
   if ( !isset($dtstamp) || $dtstamp == '' ) {
     $dtstamp = $last_modified;
   }
 
-  $class = $ic->Get("class");
+  $class = $first->GetPValue("CLASS");
   /* Check and see if we should over ride the class. */
   if ( public_events_only($request->user_no, $request->path) ) {
     $class = 'PUBLIC';
@@ -444,6 +491,41 @@ function putCalendarResource( &$request, $author, $caldav_context ) {
   }
 
 
+  /**
+  * Build the SQL for inserting/updating the calendar_item record
+  */
+  $sql = '';
+
+  /** Calculate what timezone to set, first, if possible */
+  $tzid = $first->GetPParamValue('DTSTART','TZID');
+  if ( !isset($tzid) || $tzid == "" ) $tzid = $first->GetPParamValue('DUE','TZID');
+  $timezones = $ic->GetComponents('VTIMEZONE');
+  $tz_regex = ':^(Africa|America|Antarctica|Arctic|Asia|Atlantic|Australia|Brazil|Canada|Chile|Etc|Europe|Indian|Mexico|Mideast|Pacific|US)/[a-z]+$:i';
+  foreach( $timezones AS $k => $tz ) {
+    if ( $tz->GetPValue('TZID') == $tzid ) {
+      // This is the one
+      $tz_locn = $tz->GetPValue('X-LIC-LOCATION');
+      dbg_error_log( "PUT", " Using TZID[%s] and location of [%s]", $tzid, $tz_locn );
+      if ( ! isset($tz_locn) || ! preg_match( $tz_regex, $tz_locn ) ) {
+        if ( preg_match( '#/([^/]+/[^/]+)$#', $tzid, $matches ) ) {
+          $tz_locn = $matches[1];
+        }
+      }
+      if ( isset($tz_locn) && preg_match( $tz_regex, $tz_locn ) ) {
+        dbg_error_log( "PUT", " Setting timezone to %s", $tz_locn );
+        $sql = ( $tz_locn == '' ? '' : "SET TIMEZONE TO ".qpg($tz_locn).";" );
+      }
+    }
+    $qry = new PgQuery("SELECT tz_locn FROM time_zone WHERE tz_id = ?", $tzid );
+    if ( $qry->Exec() && $qry->rows == 0 ) {
+      $qry = new PgQuery("INSERT INTO time_zone (tz_id, tz_locn, tz_spec) VALUES(?,?,?)", $tzid, $tz_locn, $tz->Render() );
+      $qry->Exec();
+    }
+    if ( !isset($tz_locn) || $tz_locn == "" ) {
+      $tz_locn = $tzid;
+    }
+  }
+
   if ( $put_action_type != 'INSERT' ) {
     $sql .= "DELETE FROM calendar_item WHERE user_no=$request->user_no AND dav_name=".qpg($request->path).";";
   }
@@ -454,11 +536,11 @@ function putCalendarResource( &$request, $author, $caldav_context ) {
   COMMIT;
 EOSQL;
 
-  $qry = new PgQuery( $sql, $request->user_no, $request->path, $etag, $ic->Get('UID'), $dtstamp,
-                            $ic->Get('DTSTART'), $ic->Get('SUMMARY'), $ic->Get('LOCATION'),
-                            $class, $ic->Get('TRANSP'), $ic->Get('DESCRIPTION'), $ic->Get('RRULE'), $ic->Get('TZ_ID'),
-                            $last_modified, $ic->Get('URL'), $ic->Get('PRIORITY'), $ic->Get('CREATED'),
-                            $ic->Get('DUE'), $ic->Get('PERCENT-COMPLETE'), $ic->Get('STATUS'), $request->collection_id
+  $qry = new PgQuery( $sql, $request->user_no, $request->path, $etag, $first->GetPValue('UID'), $dtstamp,
+                            $first->GetPValue('DTSTART'), $first->GetPValue('SUMMARY'), $first->GetPValue('LOCATION'),
+                            $class, $first->GetPValue('TRANSP'), $first->GetPValue('DESCRIPTION'), $first->GetPValue('RRULE'), $tzid,
+                            $last_modified, $first->GetPValue('URL'), $first->GetPValue('PRIORITY'), $first->GetPValue('CREATED'),
+                            $first->GetPValue('DUE'), $first->GetPValue('PERCENT-COMPLETE'), $first->GetPValue('STATUS'), $request->collection_id
                       );
   if ( !$qry->Exec("PUT") ) rollback_on_error( $caldav_context, $request->user_no, $request->path);
   dbg_error_log( "PUT", "User: %d, ETag: %s, Path: %s", $author, $etag, $request->path);
