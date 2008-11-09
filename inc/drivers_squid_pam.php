@@ -53,6 +53,12 @@ class squidPamDrivers
 function SQUID_PAM_check($username, $password ){
   global $c;
 
+  /**
+  * @todo Think of the children!  This is a horribly insecure use of unvalidated user input!  Probably it should be done with a popen or something, and it seems remarkably dodgy to expect that naively quoted strings will work in any way reliably.
+  * Meanwhile, I've quickly hacked something basic in place to improve the situation.  No quotes/backslashes in passwords for YOU!
+  */
+  $username = str_replace("'","",str_replace('"',"",str_replace('\\',"",$username)));
+  $password = str_replace("'","",str_replace('"',"",str_replace('\\',"",$password)));
   $cmd = "echo '" . $username . "' '" . $password . "' | " . $c->authenticate_hook['config']['script'] . " -n common-auth";
   $auth_result = exec($cmd);
   if ( $auth_result == "OK") {
