@@ -193,15 +193,15 @@ while( <RESULTS> ) {
 if ( defined(@{$queries}) && @{$queries} ) {
   print STDERR "Processing special queries\n" if ( $debug );
   foreach $sql_statement ( @$queries ) {
-    # run SQL statement and dump results
-    my $results = $dbh->selectall_arrayref($sql_statement);
+    # run SQL statement and dump results, into array of hashes
+    my $results = $dbh->selectall_arrayref($sql_statement, { Slice => {} } );
     foreach my $row ( @$results ) {
-      print STDERR "Processing results row\n" if ( $debug );
+      print "Query result ================================================\n" if ( $debug );
       my $sep = "";
-      foreach my $column ( @$row ) {
-        $column = 'NULL' unless ( defined($column) );
-        print $sep, $column;
-        $sep = " --- ";
+      foreach my $name ( sort keys %$row ) {
+        my $value = $row->{$name};
+        $value = 'NULL' unless ( defined($value) );
+        printf("%17.17s: >%s<\n", $name, $value );
       }
       print "\n";
     }
