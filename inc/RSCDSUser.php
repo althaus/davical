@@ -119,14 +119,12 @@ class RSCDSUser extends User
 
     if ( isset( $_GET['o']) && isset($_GET['d']) ) {
       $browser->AddOrder( $_GET['o'], $_GET['d'] );
+      if ( $_GET['o'][0] != 'fullname' ) $browser->AddOrder( 'fullname', 'A', 0, 1 );
     }
-    else
+    else {
       $browser->AddOrder( 'rt_name', 'A' );
-
-    # We always want a secondary sort on fullname.
-    if ( ! isset( $_GET['o'] ) ||
-         ( isset( $_GET['o'] ) && $_GET['o'][0] != 'fullname' ) )
       $browser->AddOrder( 'fullname', 'A', 0, 1 );
+    }
 
     if ( $c->enable_row_linking ) {
       $browser->RowFormat( "<tr onMouseover=\"LinkHref(this,1);\" title=\"".translate("Click to display that user")."\" class=\"r%d\">\n", "</tr>\n", '#even' );
@@ -170,10 +168,14 @@ class RSCDSUser extends User
     $browser->SetWhere( "to_user = $this->user_no" );
 
     if ( isset( $_GET['o']) && isset($_GET['d']) ) {
-      $browser->AddOrder( $_GET['o'], $_GET['d'], 1 );
+      $browser->AddOrder( $_GET['o'], $_GET['d'] );
+
+      if ( $_GET['o'][0] != 'fullname' ) $browser->AddOrder( 'fullname', 'A', 0, 1 );
     }
-    else
+    else {
       $browser->AddOrder( 'rt_name', 'A', 1 );
+      $browser->AddOrder( 'fullname', 'A', 0, 1 );
+    }
 
     $browser->RowFormat( "<tr onMouseover=\"LinkHref(this,1);\" title=\"".translate("Click to display that user")."\" class=\"r%d\">\n", "</tr>\n", '#even' );
     $browser->SetTranslatable( array('rt_name') );
