@@ -1,0 +1,58 @@
+#
+# PUT an iCal style event into the database
+#
+TYPE=PUT
+URL=http://mycaldav/caldav.php/user1/home/DAYPARTY-77C6-4FB7-BDD3-6882E2F1BE74.ics
+HEADER=Content-Type: text/calendar
+HEADER=User-Agent: RFC2518 Spec Tests
+HEAD
+
+
+BEGINDATA
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//davical.org//NONSGML AWL Calendar//EN
+CALSCALE:GREGORIAN
+BEGIN:VTIMEZONE
+TZID:Pacific/Auckland
+BEGIN:STANDARD
+TZOFFSETFROM:+1300
+TZOFFSETTO:+1200
+DTSTART:19900318T030000
+RRULE:FREQ=YEARLY;UNTIL=20070317T140000Z;BYMONTH=3;BYDAY=3SU
+TZNAME:NZST
+END:STANDARD
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+1200
+TZOFFSETTO:+1300
+DTSTART:19901007T020000
+RRULE:FREQ=YEARLY;UNTIL=20060930T140000Z;BYMONTH=10;BYDAY=1SU
+TZNAME:NZDT
+END:DAYLIGHT
+END:VTIMEZONE
+BEGIN:VEVENT
+DESCRIPTION:Have a party. All the best parties are monthly!
+UID:DAYPARTY-77C6-4FB7-BDD3-6882E2F1BE74
+DTSTAMP:20081024T220925Z
+SUMMARY:Party all day!
+CREATED:20081024T220749Z
+DTSTART;TZID=Pacific/Auckland;VALUE=DATE:20081114
+RRULE:FREQ=MONTHLY;INTERVAL=1;BYDAY=2FR
+END:VEVENT
+END:VCALENDAR
+ENDDATA
+
+
+QUERY
+SELECT caldav_data.user_no, caldav_data.dav_etag, caldav_type, logged_user, 
+       uid, dtstamp, dtstart, dtend, due, summary, location,
+       description, priority, class, transp, rrule, url,
+       percent_complete, tz_id, status,
+       caldav_data AS " CalDAV Data",
+      ((current_timestamp AT TIME ZONE 'GMT' - last_modified) < '2 seconds'::interval) AS "~ Modified Now",
+      dtend - dtstart AS "~Duration"
+FROM caldav_data JOIN calendar_item USING(dav_name)
+WHERE caldav_data.dav_name =
+'/user1/home/DAYPARTY-77C6-4FB7-BDD3-6882E2F1BE74.ics';
+ENDQUERY
+
