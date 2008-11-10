@@ -275,10 +275,15 @@ function import_collection( $ics_content, $user_no, $path, $caldav_context ) {
     /** Calculate what timezone to set, first, if possible */
     $tzid = $first->GetPParamValue('DTSTART','TZID');
     if ( !isset($tzid) || $tzid == "" ) $tzid = $first->GetPParamValue('DUE','TZID');
-    if ( isset($tzid) && $tzid != "" && isset($resource[$tzid]) ) {
-      $tz = $resource[$tzid];  /** We know this, since we stuck it there earlier */
-      $tz_locn = $tz->GetPValue('X-LIC-LOCATION');
-      dbg_error_log( "PUT", " Using TZID[%s] and location of [%s]", $tzid, $tz_locn );
+    if ( isset($tzid) && $tzid != "" ) {
+      if ( isset($resource[$tzid]) ) {
+        $tz = $resource[$tzid];
+        $tz_locn = $tz->GetPValue('X-LIC-LOCATION');
+      else {
+        unset($tz);
+        unset($tz_locn);
+      }
+      dbg_error_log( "PUT", " Using TZID[%s] and location of [%s]", $tzid, (isset($tz_locn) ? $tz_locn : '') );
       if ( ! isset($tz_locn) || ! preg_match( $tz_regex, $tz_locn ) ) {
         if ( preg_match( '#/([^/]+/[^/]+)$#', $tzid, $matches ) ) {
           $tz_locn = $matches[1];
@@ -289,14 +294,14 @@ function import_collection( $ics_content, $user_no, $path, $caldav_context ) {
         $sql .= ( $tz_locn == '' ? '' : "SET TIMEZONE TO ".qpg($tz_locn).";" );
         $last_tz_locn = $tz_locn;
       }
-      $qry = new PgQuery("SELECT tz_locn FROM time_zone WHERE tz_id = ?", $tzid );
-      if ( $qry->Exec() && $qry->rows == 0 ) {
-        $qry = new PgQuery("INSERT INTO time_zone (tz_id, tz_locn, tz_spec) VALUES(?,?,?)", $tzid, $tz_locn, $tz->Render() );
-        $qry->Exec();
+      if ( isset($tz) ) {
+        $qry = new PgQuery("SELECT tz_locn FROM time_zone WHERE tz_id = ?", $tzid );
+        if ( $qry->Exec() && $qry->rows == 0 ) {
+          $qry = new PgQuery("INSERT INTO time_zone (tz_id, tz_locn, tz_spec) VALUES(?,?,?)", $tzid, $tz_locn, $tz->Render() );
+          $qry->Exec();
+        }
       }
-      if ( !isset($tz_locn) || $tz_locn == "" ) {
-        $tz_locn = $tzid;
-      }
+      if ( !isset($tz_locn) || $tz_locn == "" ) $tz_locn = $tzid;
     }
     else {
       $tzid = null;
