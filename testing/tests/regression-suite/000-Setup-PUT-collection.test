@@ -68,3 +68,20 @@ X-MOZ-GENERATION:2
 END:VEVENT
 END:VCALENDAR
 ENDDATA
+
+QUERY
+SELECT caldav_data.user_no, caldav_type, logged_user, 
+       uid, dtstamp, dtstart, dtend, due, summary, location,
+       description, priority, class, transp, rrule, url,
+       percent_complete, tz_id, status,
+       caldav_data AS "A1 CalDAV DATA"
+FROM caldav_data JOIN calendar_item USING(dav_name)
+WHERE caldav_data.dav_name ~ '^/user2/home/'
+ENDQUERY
+
+QUERY
+SELECT count(*)
+  FROM caldav_data JOIN calendar_item USING(dav_name)
+  WHERE caldav_data.dav_name ~ '^/user2/home/'
+ENDQUERY
+

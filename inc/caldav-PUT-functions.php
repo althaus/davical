@@ -18,6 +18,11 @@
 include_once("iCalendar.php");
 
 /**
+* A regex which will match most reasonable timezones acceptable to PostgreSQL.
+*/
+$tz_regex = ':^(Africa|America|Antarctica|Arctic|Asia|Atlantic|Australia|Brazil|Canada|Chile|Etc|Europe|Indian|Mexico|Mideast|Pacific|US)/[a-z]+$:i';
+
+/**
 * This function launches an error
 * @param boolean $caldav_context Whether we are responding via CalDAV or interactively
 * @param int $user_no the user wich will receive this ics file
@@ -123,14 +128,13 @@ function public_events_only( $user_no, $dav_name ) {
 
 /**
 * Create scheduling requests in the schedule inbox for the
-* @param iCalendar $ic The iCalendar object we should create scheduling requests for.
+* @param iCalComponent $component The VEVENT/VTODO/... resource we are scheduling
 */
-function create_scheduling_requests( $ic ) {
-  $component =& $ic->component->FirstNonTimezone();
-  $attendees = $component->GetProperties('ATTENDEE');
+function create_scheduling_requests( $resource ) {
+  $attendees = $resource->GetPropertiesByPath('/VCALENDAR/*/ATTENDEE');
   if ( preg_match( '# iCal/\d#', $_SERVER['HTTP_USER_AGENT']) ) {
     dbg_error_log( "POST", "Non-compliant iCal request.  Using X-WR-ATTENDEE property" );
-    $wr_attendees = $component->GetProperties('X-WR-ATTENDEE');
+    $wr_attendees = $resource->GetPropertiesByPath('/VCALENDAR/*/X-WR-ATTENDEE');
     foreach( $wr_attendees AS $k => $v ) {
       $attendees[] = $v;
     }
@@ -151,75 +155,40 @@ function create_scheduling_requests( $ic ) {
 * Any VEVENTs with the same UID will be concatenated together
 */
 function import_collection( $ics_content, $user_no, $path, $caldav_context ) {
-  global $c, $session;
-  // According to RFC2445 we should always end with CRLF, but the CalDAV spec says
-  // that normalising XML parsers often muck with it and may remove the CR.
-  $icalendar = preg_replace('/\r?\n /', '', $ics_content );
+  global $c, $session, $tz_regex;
+
   if ( ! ini_get('open_basedir') && (isset($c->dbg['ALL']) || isset($c->dbg['put'])) ) {
     $fh = fopen('/tmp/PUT-2.txt','w');
     if ( $fh ) {
-      fwrite($fh,$icalendar);
+      fwrite($fh,$ics_content);
       fclose($fh);
     }
   }
 
-  $lines = preg_split('/\r?\n/', $icalendar );
+  $calendar = new iCalComponent($ics_content);
+  $timezones = $calendar->GetComponents('VTIMEZONE',true);
+  $components = $calendar->GetComponents('VTIMEZONE',false);
 
-  $events = array();
-  $event_ids = array();
-  $timezones = array();
+  $tz_ids    = array();
+  foreach( $timezones AS $k => $tz ) {
+    $tz_ids[$tz->GetPValue('TZID')] = $k;
+  }
 
-  $current = "";
-  unset($event_id);
-  $state = "";
-  $tzid = 'unknown';
-  foreach( $lines AS $lno => $line ) {
-    if ( $state == "" ) {
-      if ( preg_match( '/^BEGIN:(VEVENT|VTIMEZONE|VTODO|VJOURNAL)$/', $line, $matches ) ) {
-        $current .= $line."\n";
-        $state = $matches[1];
-        dbg_error_log( "PUT", "CalendarLine[%04d] - %s: %s", $lno, $state, $line );
-      }
-    }
-    else {
-      $current .= $line."\n";
-      if ( preg_match( '/^UID:(.*)$/', $line, &$matches) ) {
-        $event_id = $matches[1];
-        dbg_error_log( "PUT", " Processing event with UID of '%s'", $event_id );
-      }
-      else if ( $line == "END:$state" ) {
-        switch ( $state ) {
-          case 'VTIMEZONE':
-            $timezones[$tzid] = $current;
-            dbg_error_log( "PUT", " Ended VTIMEZONE for TZID '%s' ", $tzid );
-            break;
-          case 'VEVENT':
-          case 'VTODO':
-          case 'VJOURNAL':
-          default:
-            if ( isset($event_ids[$event_id]) ) {
-              // All of the VEVENT (or whatever) with the same UID are concatenated
-              $events[$event_ids[$event_id]]['data'] .= $current;
-            }
-            else if ( isset($event_id) ) {
-              $event_ids[$event_id] = count($events);
-              $events[] = array( 'data' => $current, 'tzid' => $tzid );
-            }
-            unset($event_id);
-            dbg_error_log( "PUT", " Ended %s with TZID '%s' ", $state, $tzid );
-            break;
-        }
-        $state = "";
-        $current = "";
-        $tzid = 'unknown';
-      }
-      else if ( preg_match( '/TZID[:=]([^:]+)(:|$)/', $line, $matches ) ) {
-        $tzid = $matches[1];
-        dbg_error_log( "PUT", " Found TZID of '%s' in '%s'", $tzid, $line );
-      }
+  /** Build an array of resources.  Each resource is an array of iCalComponent */
+  $resources = array();
+  foreach( $components AS $k => $comp ) {
+    $uid = $comp->GetPValue('UID');
+    if ( !isset($resources[$uid]) ) $resources[$uid] = array();
+    $resources[$uid][] = $comp;
+
+    /** Ensure we have the timezone component for this in our array as well */
+    $tzid = $comp->GetPParamValue('DTSTART', 'TZID');
+    if ( !isset($tzid) || $tzid == "" ) $tzid = $comp->GetPParamValue('DUE','TZID');
+    if ( !isset($resources[$uid][$tzid]) && isset($tz_ids[$tzid]) ) {
+      $resources[$uid][$tzid] = $timezones[$tz_ids[$tzid]];
     }
   }
-  dbg_error_log( "PUT", " Finished input after $lno lines" );
+
 
   $sql = "SELECT * FROM collection WHERE user_no = ? AND dav_name = ?;";
   $qry = new PgQuery( $sql, $user_no, $path );
@@ -230,38 +199,42 @@ function import_collection( $ics_content, $user_no, $path, $caldav_context ) {
   }
   $collection = $qry->Fetch();
 
-  $qry = new PgQuery("BEGIN; DELETE FROM calendar_item WHERE user_no=? AND dav_name ~ ?; DELETE FROM caldav_data WHERE user_no=? AND dav_name ~ ?;", $user_no, $path.'[^/]+$', $user_no, $path.'[^/]+$');
-  if ( !$qry->Exec("PUT") ) rollback_on_error( $caldav_context, $user_no, $path );
+  $qry = new PgQuery("BEGIN; DELETE FROM calendar_item WHERE user_no=? AND collection_id = ?; DELETE FROM caldav_data WHERE user_no=? AND collection_id = ?;", $user_no, $collection->collection_id, $user_no, $collection->collection_id);
+  if ( !$qry->Exec("PUT") ) rollback_on_error( $caldav_context, $user_no, $collection->collection_id );
 
-  foreach( $events AS $k => $event ) {
-    dbg_error_log( "PUT", "Putting event %d with data: %s", $k, $event['data'] );
-    $icalendar = iCalendar::iCalHeader() . $event['data'] . (isset($timezones[$event['tzid']])?$timezones[$event['tzid']]:"") . iCalendar::iCalFooter();
-    $ic = new iCalendar( array( 'icalendar' => $icalendar ) );
+  $last_tz_locn = '';
+  foreach( $resources AS $uid => $resource ) {
+    /** Construct the VCALENDAR data */
+    $vcal = new iCalComponent();
+    $vcal->VCalendar();
+    $vcal->SetComponents($resource);
+    $icalendar = $vcal->Render();
+
+    /** As ever, we mostly deal with the first resource component */
+    $first = $resource[0];
+
+    $sql = '';
     $etag = md5($icalendar);
-    $event_path = sprintf( "%s%d.ics", $path, $k);
+    $type = $first->GetType();
+    $resource_path = sprintf( "%s%s.ics", $path, $uid );
     $qry = new PgQuery( "INSERT INTO caldav_data ( user_no, dav_name, dav_etag, caldav_data, caldav_type, logged_user, created, modified, collection_id ) VALUES( ?, ?, ?, ?, ?, ?, current_timestamp, current_timestamp, ? )",
-                          $user_no, $event_path, $etag, $icalendar, $ic->type, $session->user_no, $collection->collection_id );
+                          $user_no, $resource_path, $etag, $icalendar, $type, $session->user_no, $collection->collection_id );
     if ( !$qry->Exec("PUT") ) rollback_on_error( $caldav_context, $user_no, $path );
 
-    $sql = "";
-    if ( preg_match(':^(Africa|America|Antarctica|Arctic|Asia|Atlantic|Australia|Brazil|Canada|Chile|Etc|Europe|Indian|Mexico|Mideast|Pacific|US)/[a-z]+$:i', $ic->tz_locn ) ) {
-      // We only set the timezone if it looks reasonable enough for us
-      $sql = ( $ic->tz_locn == '' ? '' : "SET TIMEZONE TO ".qpg($ic->tz_locn).";" );
+    $dtstart = $first->GetPValue('DTSTART');
+    if ( (!isset($dtstart) || $dtstart == "") && $first->GetPValue('DUE') != "" ) {
+      $dtstart = $first->GetPValue('DUE');
     }
 
-    $dtstart = $ic->Get('dtstart');
-    if ( (!isset($dtstart) || $dtstart == "") && $ic->Get('due') != "" ) {
-      $dtstart = $ic->Get('due');  // Dodgy fallback
-    }
-
-    $dtend = $ic->Get('dtend');
+    $dtend = $first->GetPValue('DTEND');
     if ( (!isset($dtend) || "$dtend" == "") ) {
-      if ( $ic->Get('duration') != "" AND $dtstart != "" ) {
-        $duration = preg_replace( '#[PT]#', ' ', $ic->Get('duration') );
+      if ( $first->GetPValue('DURATION') != "" AND $dtstart != "" ) {
+        $duration = preg_replace( '#[PT]#', ' ', $first->GetPValue('DURATION') );
         $dtend = '('.qpg($dtstart).'::timestamp with time zone + '.qpg($duration).'::interval)';
       }
-      else {
+      elseif ( $first->GetType() == 'VEVENT' ) {
         /**
+        * From RFC2445 4.6.1:
         * For cases where a "VEVENT" calendar component specifies a "DTSTART"
         * property with a DATE data type but no "DTEND" property, the events
         * non-inclusive end is the end of the calendar date specified by the
@@ -273,65 +246,77 @@ function import_collection( $ics_content, $user_no, $path, $caldav_context ) {
         * So we're looking for 'VALUE=DATE', to identify the duration, effectively.
         *
         */
-        $event = $ic->component->FirstNonTimezone();
-        if ( isset($event) && is_object($event) ) {
-          $dtstart_prop = $event->GetProperties('DTSTART');
-          if ( count($dtstart_prop) == 1 ) {
-            if ( $dtstart_prop[1]->GetParameterValue('VALUE') == 'DATE' )
-              $dtend = '('.qpg($dtstart)."::timestamp with time zone::date + '1 day'::interval)";
-            else
-              $dtend = qpg($dtstart);
-          }
-        }
+        $value_type = $first->GetPParamValue('DTSTART','VALUE');
+        dbg_error_log("PUT","DTSTART without DTEND. DTSTART value type is %s", $value_type );
+        if ( isset($value_type) && $value_type == 'DATE' )
+          $dtend = '('.qpg($dtstart)."::timestamp with time zone::date + '1 day'::interval)";
+        else
+          $dtend = qpg($dtstart);
 
       }
       if ( $dtend == "" ) $dtend = 'NULL';
     }
     else {
-      dbg_error_log( "PUT", " DTEND: '%s', DTSTART: '%s', DURATION: '%s'", $dtend, $dtstart, $ic->Get('duration') );
+      dbg_error_log( "PUT", " DTEND: '%s', DTSTART: '%s', DURATION: '%s'", $dtend, $dtstart, $first->GetPValue('DURATION') );
       $dtend = qpg($dtend);
     }
 
-    $last_modified = $ic->Get("last-modified");
-    if ( !isset($last_modified) || $last_modified == '' ) {
-      $last_modified = gmdate( 'Ymd\THis\Z' );
-    }
+    $last_modified = $first->GetPValue("LAST-MODIFIED");
+    if ( !isset($last_modified) || $last_modified == '' ) $last_modified = gmdate( 'Ymd\THis\Z' );
 
-    $dtstamp = $ic->Get("dtstamp");
-    if ( !isset($dtstamp) || $dtstamp == '' ) {
-      $dtstamp = $last_modified;
-    }
+    $dtstamp = $first->GetPValue("DTSTAMP");
+    if ( !isset($dtstamp) || $dtstamp == '' ) $dtstamp = $last_modified;
 
-    $class = $ic->Get("class");
-    /* Check and see if we should over ride the class. */
-    if ( public_events_only($user_no, $path) ) {
-      $class = 'PUBLIC';
-    }
+    /** RFC2445, 4.8.1.3: Default is PUBLIC, or also if overridden by the collection settings */
+    $class = ($collection->public_events_only == 't' ? 'PUBLIC' : $first->GetPValue("CLASS") );
+    if ( !isset($class) || $class == '' ) $class = 'PUBLIC';
 
-    /**
-     * It seems that some calendar clients don't set a class...
-     * RFC2445, 4.8.1.3:
-     * Default is PUBLIC
-     */
-    if ( !isset($class) || $class == '' ) {
-      $class = 'PUBLIC';
+
+    /** Calculate what timezone to set, first, if possible */
+    $tzid = $first->GetPParamValue('DTSTART','TZID');
+    if ( !isset($tzid) || $tzid == "" ) $tzid = $first->GetPParamValue('DUE','TZID');
+    if ( isset($tzid) && $tzid != "" && isset($resource[$tzid]) ) {
+      $tz = $resource[$tzid];  /** We know this, since we stuck it there earlier */
+      $tz_locn = $tz->GetPValue('X-LIC-LOCATION');
+      dbg_error_log( "PUT", " Using TZID[%s] and location of [%s]", $tzid, $tz_locn );
+      if ( ! isset($tz_locn) || ! preg_match( $tz_regex, $tz_locn ) ) {
+        if ( preg_match( '#/([^/]+/[^/]+)$#', $tzid, $matches ) ) {
+          $tz_locn = $matches[1];
+        }
+      }
+      if ( isset($tz_locn) && ($tz_locn != $last_tz_locn) && preg_match( $tz_regex, $tz_locn ) ) {
+        dbg_error_log( "PUT", " Setting timezone to %s", $tz_locn );
+        $sql .= ( $tz_locn == '' ? '' : "SET TIMEZONE TO ".qpg($tz_locn).";" );
+        $last_tz_locn = $tz_locn;
+      }
+      $qry = new PgQuery("SELECT tz_locn FROM time_zone WHERE tz_id = ?", $tzid );
+      if ( $qry->Exec() && $qry->rows == 0 ) {
+        $qry = new PgQuery("INSERT INTO time_zone (tz_id, tz_locn, tz_spec) VALUES(?,?,?)", $tzid, $tz_locn, $tz->Render() );
+        $qry->Exec();
+      }
+      if ( !isset($tz_locn) || $tz_locn == "" ) {
+        $tz_locn = $tzid;
+      }
+    }
+    else {
+      $tzid = null;
     }
 
     $sql .= <<<EOSQL
-  INSERT INTO calendar_item (user_no, dav_name, dav_etag, uid, dtstamp, dtstart, dtend, summary, location, class, transp,
-                      description, rrule, tz_id, last_modified, url, priority, created, due, percent_complete, collection_id )
-                   VALUES ( ?, ?, ?, ?, ?, ?, $dtend, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+    INSERT INTO calendar_item (user_no, dav_name, dav_etag, uid, dtstamp, dtstart, dtend, summary, location, class, transp,
+                      description, rrule, tz_id, last_modified, url, priority, created, due, percent_complete, status, collection_id )
+                   VALUES ( ?, ?, ?, ?, ?, ?, $dtend, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
 EOSQL;
 
-    $qry = new PgQuery( $sql, $user_no, $event_path, $etag, $ic->Get('uid'), $dtstamp,
-                              $ic->Get('dtstart'), $ic->Get('summary'), $ic->Get('location'),
-                              $class, $ic->Get('transp'), $ic->Get('description'), $ic->Get('rrule'), $ic->Get('tz_id'),
-                              $last_modified, $ic->Get('url'), $ic->Get('priority'), $ic->Get('created'),
-                              $ic->Get('due'), $ic->Get('percent-complete'), $collection->collection_id
+    $qry = new PgQuery( $sql, $user_no, $resource_path, $etag, $first->GetPValue('UID'), $dtstamp,
+                              $first->GetPValue('DTSTART'), $first->GetPValue('SUMMARY'), $first->GetPValue('LOCATION'),
+                              $class, $first->GetPValue('TRANSP'), $first->GetPValue('DESCRIPTION'), $first->GetPValue('RRULE'), $tzid,
+                              $last_modified, $first->GetPValue('URL'), $first->GetPValue('PRIORITY'), $first->GetPValue('CREATED'),
+                              $first->GetPValue('DUE'), $first->GetPValue('PERCENT-COMPLETE'), $first->GetPValue('STATUS'), $collection->collection_id
                         );
     if ( !$qry->Exec("PUT") ) rollback_on_error( $caldav_context, $user_no, $path);
 
-    create_scheduling_requests( $ic );
+    create_scheduling_requests( $vcal );
   }
 
   $qry = new PgQuery("COMMIT;");
@@ -347,6 +332,8 @@ EOSQL;
 * @return string Either 'INSERT' or 'UPDATE': the type of action that the PUT resulted in
 */
 function putCalendarResource( &$request, $author, $caldav_context ) {
+  global $tz_regex;
+
   $etag = md5($request->raw_post);
   $ic = new iCalComponent( $request->raw_post );
 
@@ -500,7 +487,6 @@ function putCalendarResource( &$request, $author, $caldav_context ) {
   $tzid = $first->GetPParamValue('DTSTART','TZID');
   if ( !isset($tzid) || $tzid == "" ) $tzid = $first->GetPParamValue('DUE','TZID');
   $timezones = $ic->GetComponents('VTIMEZONE');
-  $tz_regex = ':^(Africa|America|Antarctica|Arctic|Asia|Atlantic|Australia|Brazil|Canada|Chile|Etc|Europe|Indian|Mexico|Mideast|Pacific|US)/[a-z]+$:i';
   foreach( $timezones AS $k => $tz ) {
     if ( $tz->GetPValue('TZID') == $tzid ) {
       // This is the one
