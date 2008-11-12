@@ -19,6 +19,7 @@ $c->system_name = "DAViCal CalDAV Server";
 $c->domain_name = $_SERVER['SERVER_NAME'];
 $c->save_time_zone_defs = true;
 $c->collections_always_exist = true;
+$c->allow_get_email_visibility = false;
 $c->home_calendar_name = 'home';
 $c->enable_row_linking = true;
 $c->http_auth_mode = 'Basic';
