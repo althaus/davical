@@ -133,12 +133,22 @@ foreach( $request->xml_tags AS $k => $v ) {
 
 
 /**
+* Return an href XML element
+*/
+function href($url) {
+  global $reply;
+  return $reply->NewXMLElement('href', $url, false, 'DAV:');
+}
+
+
+/**
 * Returns the array of privilege names converted into XMLElements
 */
 function privileges($privilege_names, $container="privilege") {
+  global $reply;
   $privileges = array();
   foreach( $privilege_names AS $k => $v ) {
-    $privileges[] = new XMLElement($container, new XMLElement($k));
+    $privileges[] = $reply->NewXMLElement($container, $reply->NewXMLElement($k));
   }
   return $privileges;
 }
@@ -148,14 +158,11 @@ function privileges($privilege_names, $container="privilege") {
 * Adds any arbitrary properties that were requested by the PROPFIND into the response.
 *
 * @param reference $prop An XMLElement of the partly constructed response
-* @param reference $not_found An XMLElement of properties which are not found
 * @param reference $denied An XMLElement of properties to which access is denied
 * @param object $record A record with a dav_name attribute which the properties apply to
 */
-function add_arbitrary_properties(&$prop, &$not_found, $record) {
+function add_arbitrary_properties(&$prop, $record) {
   global $arbitrary, $reply;
-
-  $missing = $arbitrary;
 
   if ( count($arbitrary) > 0 ) {
     $sql = "";
@@ -164,64 +171,56 @@ function add_arbitrary_properties(&$prop, &$not_found, $record) {
     }
     $qry = new PgQuery("SELECT property_name, property_value FROM property WHERE dav_name=? AND property_name IN ($sql)", $record->dav_name );
     while( $qry->Exec("PROPFIND") && $property = $qry->Fetch() ) {
-      $prop->NewElement($reply->Tag($property->property_name), $property->property_value);
-      unset($missing[$property->property_name]);
+      $reply->NSElement($prop, $property->property_name, $property->property_value);
     }
   }
-
-  if ( count($missing) > 0 ) {
-    foreach( $missing AS $k => $v ) {
-      $not_found->NewElement($reply->Tag($k), '');
-    }
-  }
-
 }
 
 
 /**
 * Handles any properties related to the DAV::PRINCIPAL in the request
 */
-function add_principal_properties( &$prop, &$not_found, &$denied ) {
+function add_principal_properties( &$prop, &$denied ) {
   global $prop_list, $session, $c, $request, $reply;
 
   $allprop = isset($prop_list['DAV::allprop']);
 
   if ( isset($prop_list['DAV::principal-URL'] ) ) {
-    $prop->NewElement("principal-URL", new XMLElement('href', $request->principal->url ) );
+    $reply->DAVElement( $prop, "principal-URL", href( $request->principal->url ) );
   }
   if ( isset($prop_list['DAV::alternate-URI-set'] ) ) {
-    $prop->NewElement("alternate-URI-set" );  // Empty - there are no alternatives!
+    $reply->DAVElement( $prop, "alternate-URI-set" );  // Empty - there are no alternatives!
   }
 
   if ( isset($prop_list['urn:ietf:params:xml:ns:caldav:calendar-home-set'] ) ) {
     $home_set = array();
     $chs = $request->principal->calendar_home_set;
     foreach( $chs AS $k => $url ) {
-      $home_set[] = new XMLElement('href', $url );
+      $home_set[] = href( $url );
     }
-    $prop->NewElement($reply->Caldav("calendar-home-set"), $home_set );
+    $reply->CalDAVElement( $prop, "calendar-home-set", $home_set );
   }
   if ( isset($prop_list['urn:ietf:params:xml:ns:caldav:schedule-inbox-URL'] ) ) {
-    $prop->NewElement($reply->Caldav("schedule-inbox-URL"), new XMLElement('href', $request->principal->schedule_inbox_url) );
+    $reply->CalDAVElement( $prop, "schedule-inbox-URL", href( $request->principal->schedule_inbox_url) );
   }
   if ( isset($prop_list['urn:ietf:params:xml:ns:caldav:schedule-outbox-URL'] ) ) {
-    $prop->NewElement($reply->Caldav("schedule-outbox-URL"), new XMLElement('href', $request->principal->schedule_outbox_url) );
+    $reply->CalDAVElement( $prop, "schedule-outbox-URL", href( $request->principal->schedule_outbox_url) );
   }
 
   if ( isset($prop_list['http://calendarserver.org/ns/:dropbox-home-URL'] ) ) {
-    $prop->NewElement($reply->Calendarserver("dropbox-home-URL"), new XMLElement('href', $request->principal->dropbox_url) );
+    $reply->CalendarserverElement($prop, "dropbox-home-URL", href( $request->principal->dropbox_url) );
   }
   if ( isset($prop_list['http://calendarserver.org/ns/:notifications-URL'] ) ) {
-    $prop->NewElement($reply->Calendarserver("notifications-URL"), new XMLElement('href', $request->principal->notifications_url) );
+    $reply->CalendarserverElement($prop, "notifications-URL", href( $request->principal->notifications_url) );
   }
 
   if ( isset($prop_list['urn:ietf:params:xml:ns:caldav:calendar-user-address-set'] ) ) {
     $addr_set = array();
     $uas = $request->principal->user_address_set;
     foreach( $uas AS $k => $v ) {
-      $addr_set[] = new XMLElement('href', $v );
+      $addr_set[] = href( $v );
     }
-    $prop->NewElement($reply->Caldav("calendar-user-address-set"), $addr_set );
+    $reply->CalDAVElement( $prop, "calendar-user-address-set", $addr_set );
   }
 }
 
@@ -229,63 +228,63 @@ function add_principal_properties( &$prop, &$not_found, &$denied ) {
 /**
 * Handles any properties related to the DAV::PRINCIPAL in the request
 */
-function add_general_properties( &$prop, &$not_found, &$denied, $record ) {
+function add_general_properties( &$prop, &$denied, $record ) {
   global $prop_list, $session, $c, $request, $reply;
 
   $allprop = isset($prop_list['DAV::allprop']);
 
   if ( $allprop || isset($prop_list['DAV::getlastmodified']) ) {
-    $prop->NewElement("getlastmodified", ( isset($record->modified)? $record->modified : false ));
+    $reply->DAVElement( $prop, 'getlastmodified', ( isset($record->modified)? $record->modified : false ));
   }
   if ( $allprop || isset($prop_list['DAV::creationdate']) ) {
-    $prop->NewElement("creationdate", $record->created );
+    $reply->DAVElement( $prop, "creationdate", $record->created );
   }
   if ( $allprop || isset($prop_list['DAV::getetag']) ) {
-    $prop->NewElement("getetag", '"'.$record->dav_etag.'"' );
+    $reply->DAVElement( $prop, "getetag", '"'.$record->dav_etag.'"' );
   }
 
   if ( isset($prop_list['DAV::owner']) ) {
     // After a careful reading of RFC3744 we see that this must be the principal-URL of the owner
-    $prop->NewElement("owner", new XMLElement('href', $request->principal->url ) );
+    $reply->DAVElement( $prop, "owner", href( $request->principal->url ) );
   }
   if ( isset($prop_list['DAV::principal-collection-set']) ) {
-    $prop->NewElement("principal-collection-set", new XMLElement('href', ConstructURL('/') ) );
+    $reply->DAVElement( $prop, "principal-collection-set", href( ConstructURL('/') ) );
   }
   if ( isset($prop_list['DAV::current-user-principal']) ) {
-    $prop->NewElement("current-user-principal", $request->current_user_principal_xml);
+    $reply->DAVElement( $prop, "current-user-principal", $request->current_user_principal_xml);
   }
 
   if ( isset($prop_list['DAV::acl']) ) {
     /**
     * @todo This information is semantically valid but presents an incorrect picture.
     */
-    $principal = new XMLElement("principal");
-    $principal->NewElement("authenticated");
-    $grant = new XMLElement( "grant", array(privileges($request->permissions)) );
-    $prop->NewElement("acl", new XMLElement( "ace", array( $principal, $grant ) ) );
+    $principal = $reply->NewXMLElement("principal");
+    $reply->DAVElement( $principal, "authenticated");
+    $grant = $reply->NewXMLElement( "grant", array(privileges($request->permissions)) );
+    $reply->DAVElement( $prop, "acl", $reply->NewXMLElement( "ace", array( $principal, $grant ) ) );
   }
 
   if ( $allprop || isset($prop_list['DAV::getcontentlanguage']) ) {
-    $prop->NewElement("getcontentlanguage", (isset($c->current_locale) ? $c->current_locale : "") );
+    $reply->DAVElement( $prop, "getcontentlanguage", (isset($c->current_locale) ? $c->current_locale : "") );
   }
 
   if ( isset($prop_list['DAV::supportedlock']) ) {
-    $prop->NewElement("supportedlock",
-       new XMLElement( "lockentry",
+    $reply->DAVElement( $prop, "supportedlock",
+       $reply->NewXMLElement( "lockentry",
          array(
-           new XMLElement("lockscope", new XMLElement("exclusive")),
-           new XMLElement("locktype",  new XMLElement("write")),
+           $reply->NewXMLElement("lockscope", $reply->NewXMLElement("exclusive")),
+           $reply->NewXMLElement("locktype",  $reply->NewXMLElement("write")),
          )
        )
      );
   }
 
   if ( isset($prop_list['DAV::current-user-privilege-set']) ) {
-    $prop->NewElement("current-user-privilege-set", privileges($request->permissions) );
+    $reply->DAVElement( $prop, "current-user-privilege-set", privileges($request->permissions) );
   }
 
   if ( isset($prop_list['DAV::supported-privilege-set']) ) {
-    $prop->NewElement("supported-privilege-set", privileges( $request->SupportedPrivileges(), "supported-privilege") );
+    $reply->DAVElement( $prop, "supported-privilege-set", privileges( $request->SupportedPrivileges(), "supported-privilege") );
   }
 
 }
@@ -294,23 +293,47 @@ function add_general_properties( &$prop, &$not_found, &$denied, $record ) {
 /**
 * Build the <propstat><prop></prop><status></status></propstat> part of the response
 */
-function build_propstat_response( $prop, $not_found, $denied, $url ) {
+function build_propstat_response( $prop, $denied, $url ) {
+  global $reply, $arbitrary, $prop_list;
 
-  $status = new XMLElement("status", "HTTP/1.1 200 OK" );
+  $response = array( href($url),
+                     $reply->NewXMLElement( "propstat", array( $prop,
+                                                               $reply->NewXMLElement("status", "HTTP/1.1 200 OK" )
+                                                              )
+                                           )
+                    );
 
-  $propstat = new XMLElement( "propstat", array( $prop, $status) );
-  $href = new XMLElement("href", $url );
-  $response = array($href,$propstat);
-
-  if ( is_array($not_found->content) && count($not_found->content) > 0 ) {
-    $response[] = new XMLElement( "propstat", array( $not_found, new XMLElement("status", "HTTP/1.1 404 Not Found" )) );
+  $missed = array_merge($prop_list, $arbitrary);
+  if ( isset($missed['DAV::allprop']) ) unset($missed['DAV::allprop']);
+  foreach( $prop->content AS $k => $v ) {
+    if ( isset($missed[$v->GetNSTag()]) ) unset($missed[$v->GetNSTag()]);
+  }
+  if ( isset($denied->content) && is_array($denied->content) ) {
+    foreach( $denied->content AS $k => $v ) {
+      if ( isset($missed[$v->GetNSTag()]) ) unset($missed[$v->GetNSTag()]);
+    }
+  }
+  if ( count($missed) > 0 ) {
+    $not_found = $reply->NewXMLElement("prop", false, false, 'DAV:');
+    foreach( $missed AS $tag => $v ) {
+      $reply->NSElement($not_found, $tag);
+    }
+    $response[] = $reply->NewXMLElement( "propstat",
+                                         array( $not_found,
+                                                $reply->NewXMLElement("status", "HTTP/1.1 404 Not Found", false, 'DAV:' )
+                                              ), false, 'DAV:'
+                                        );
   }
 
   if ( is_array($denied->content) && count($denied->content) > 0 ) {
-    $response[] = new XMLElement( "propstat", array( $denied, new XMLElement("status", "HTTP/1.1 403 Forbidden" )) );
+    $response[] = $reply->NewXMLElement( "propstat",
+                                         array( $denied,
+                                                $reply->NewXMLElement("status", "HTTP/1.1 403 Forbidden", false, 'DAV:' )
+                                              ), false, 'DAV:'
+                                        );
   }
 
-  $response = new XMLElement( "response", $response );
+  $response = $reply->NewXMLElement( "response", $response, false, 'DAV:' );
 
   return $response;
 }
@@ -328,9 +351,8 @@ function collection_to_xml( $collection ) {
 
   $url = ConstructURL($collection->dav_name);
 
-  $prop = new XMLElement("prop");
-  $not_found = new XMLElement("prop");
-  $denied = new XMLElement("prop");
+  $prop = $reply->NewXMLElement( "prop", false, false, 'DAV:');
+  $denied = $reply->NewXMLElement( "prop", false, false, 'DAV:');
 
   $collection->type = ($collection->is_calendar == 't' ? 'calendar' : ($collection->is_principal == 't' ? 'principal' : '') );
   if ( preg_match( '#^((/[^/]+/)\.(in|out)/)[^/]*$#', $collection->dav_name, $matches ) ) {
@@ -342,18 +364,18 @@ function collection_to_xml( $collection ) {
   */
   if ( isset($prop_list['urn:ietf:params:xml:ns:caldav:supported-collation-set']) ) {
     $collations = array();
-    $collations[] = new XMLElement($reply->Caldav("supported-collation"), 'i;ascii-casemap');
-    $collations[] = new XMLElement($reply->Caldav("supported-collation"), 'i;octet');
+    $collations[] = $reply->NewXMLElement($reply->Caldav("supported-collation"), 'i;ascii-casemap');
+    $collations[] = $reply->NewXMLElement($reply->Caldav("supported-collation"), 'i;octet');
     $prop->NewElement($reply->Caldav("supported-collation-set"), $collations );
   }
   if ( isset($prop_list['urn:ietf:params:xml:ns:caldav:supported-calendar-component-set']) ) {
     $components = array();
-    $components[] = new XMLElement($reply->Caldav("comp"), '', array("name" => "VEVENT"));
-    $components[] = new XMLElement($reply->Caldav("comp"), '', array("name" => "VTODO"));
-    $prop->NewElement($reply->Caldav("supported-calendar-component-set"), $components );
+    $components[] = $reply->NewXMLElement( "comp", '', array("name" => "VEVENT"), false, false,'urn:ietf:params:xml:ns:caldav');
+    $components[] = $reply->NewXMLElement( "comp", '', array("name" => "VTODO"), false, false,'urn:ietf:params:xml:ns:caldav');
+    $reply->CalDAVElement($prop, "supported-calendar-component-set", $components );
   }
   if ( $allprop || isset($prop_list['DAV::getcontenttype']) ) {
-    $prop->NewElement("getcontenttype", "httpd/unix-directory" );  // Strictly text/icalendar perhaps
+    $reply->DAVElement( $prop, "getcontenttype", "httpd/unix-directory" );  // Strictly text/icalendar perhaps
   }
 
   /**
@@ -361,75 +383,72 @@ function collection_to_xml( $collection ) {
   */
   if ( $allprop || isset($prop_list['DAV::getcontentlength'])
                 || isset($prop_list['DAV::resourcetype']) ) {
-    $resourcetypes = array( new XMLElement("collection") );
+    $resourcetypes = array( $reply->NewXMLElement("collection", false, false, 'DAV:') );
     $contentlength = false;
     if ( $collection->is_calendar == 't' ) {
-      $resourcetypes[] = new XMLElement($reply->Caldav("calendar"), false);
-      $resourcetypes[] = new XMLElement($reply->Caldav("schedule-calendar"), false);
+      $resourcetypes[] = $reply->NewXMLElement( "calendar", false, false,'urn:ietf:params:xml:ns:caldav');
+      $resourcetypes[] = $reply->NewXMLElement( "schedule-calendar", false, false, 'urn:ietf:params:xml:ns:caldav' );
       $lqry = new PgQuery("SELECT sum(length(caldav_data)) FROM caldav_data WHERE user_no = ? AND dav_name ~ ?;", $collection->user_no, $collection->dav_name.'[^/]+$' );
       if ( $lqry->Exec("PROPFIND",__LINE__,__FILE__) && $row = $lqry->Fetch() ) {
         $contentlength = $row->sum;
       }
     }
     else if ( $collection->type == 'in' ) {
-      $resourcetypes[] = new XMLElement($reply->Caldav("schedule-inbox"), false);
+      $resourcetypes[] = $reply->NewXMLElement( "schedule-inbox", false, false, 'urn:ietf:params:xml:ns:caldav');
     }
     else if ( $collection->type == 'out' ) {
-      $resourcetypes[] = new XMLElement($reply->Caldav("schedule-outbox"), false);
+      $resourcetypes[] = $reply->NewXMLElement( "schedule-outbox", false, false, 'urn:ietf:params:xml:ns:caldav');
     }
     if ( $collection->is_principal == 't' ) {
-      $resourcetypes[] = new XMLElement("principal");
+      $resourcetypes[] = $reply->NewXMLElement( "principal", false, false, 'DAV:');
     }
     if ( $allprop || isset($prop_list['DAV::getcontentlength']) ) {
-      $prop->NewElement("getcontentlength", $contentlength );  // Not strictly correct as a GET on this URL would be longer
+      $reply->DAVElement( $prop, "getcontentlength", $contentlength );  // Not strictly correct as a GET on this URL would be longer
     }
     if ( $allprop || isset($prop_list['DAV::resourcetype']) ) {
-      $prop->NewElement("resourcetype", $resourcetypes );
+      $reply->DAVElement( $prop, "resourcetype", $resourcetypes );
     }
   }
 
   if ( $allprop || isset($prop_list['DAV::displayname']) ) {
     $displayname = ( $collection->dav_displayname == "" ? ucfirst(trim(str_replace("/"," ", $collection->dav_name))) : $collection->dav_displayname );
-    $prop->NewElement("displayname", $displayname );
+    $reply->DAVElement( $prop, "displayname", $displayname );
   }
   if ( isset($prop_list['http://calendarserver.org/ns/:getctag']) ) {
     // Calendar Server extension which only applies to collections.  We return the etag, which does the needful.
-    $prop->NewElement($reply->Calendarserver('getctag'),'"'.$collection->dav_etag.'"' );
+    $reply->CalendarserverElement($prop, 'getctag', '"'.$collection->dav_etag.'"');
   }
 
   if ( isset($prop_list['urn:ietf:params:xml:ns:caldav:calendar-free-busy-set'] ) ) {
     if ( $collection->type == 'in' && $session->user_no == $collection->user_no ) {
       $fb_set = array();
       foreach( $request->principal->calendar_free_busy_set AS $k => $v ) {
-        $fb_set[] = new XMLElement('href', $v );
+        $fb_set[] = href( $v, false, "DAV:" );
       }
-      $prop->NewElement($reply->Caldav("calendar-free-busy-set"), $fb_set );
+      $reply->CalDAVElement( $prop, "calendar-free-busy-set", $fb_set );
     }
-    else if ( $session->user_no == $collection->user_no ) {
-      $not_found->NewElement($reply->Caldav("calendar-free-busy-set") );
-    }
-    else {
-      $denied->NewElement($reply->Caldav("calendar-free-busy-set") );
+    else if ( $session->user_no != $collection->user_no ) {
+      $reply->CalDAVElement( $denied, "calendar-free-busy-set");
     }
   }
 
   /**
   * Then look at any properties related to the principal
   */
-  add_principal_properties( $prop, $not_found, $denied );
+  add_principal_properties( $prop, $denied );
 
   /**
   * And any properties that are server/request related, or standard fields
   * from our query.
   */
-  add_general_properties( $prop, $not_found, $denied, $collection );
+  add_general_properties( $prop, $denied, $collection );
 
   /**
   * Arbitrary collection properties
   */
-  add_arbitrary_properties($prop, $not_found, $collection);
+  add_arbitrary_properties($prop, $collection);
 
-  return build_propstat_response( $prop, $not_found, $denied, $url );
+  return build_propstat_response( $prop, $denied, $url );
 }
 
 
@@ -445,42 +464,41 @@ function item_to_xml( $item ) {
 
   $url = ConstructURL($item->dav_name);
 
-  $prop = new XMLElement("prop");
-  $not_found = new XMLElement("prop");
-  $denied  = new XMLElement("prop");
+  $prop = $reply->NewXMLElement("prop", false, false, 'DAV:');
+  $denied  = $reply->NewXMLElement("prop", false, false, 'DAV:');
 
 
   if ( $allprop || isset($prop_list['DAV::getcontentlength']) ) {
     $contentlength = strlen($item->caldav_data);
-    $prop->NewElement("getcontentlength", $contentlength );
+    $reply->DAVElement( $prop, "getcontentlength", $contentlength );
   }
   if ( $allprop || isset($prop_list['DAV::getcontenttype']) ) {
-    $prop->NewElement("getcontenttype", "text/calendar" );
+    $reply->DAVElement( $prop, "getcontenttype", "text/calendar" );
   }
   if ( $allprop || isset($prop_list['DAV::displayname']) ) {
-    $prop->NewElement("displayname", $item->dav_displayname );
+    $reply->DAVElement( $prop, "displayname", $item->dav_displayname );
   }
 
   /**
   * Non-collections should return an empty resource type, it appears from RFC2518 8.1.2
   */
   if ( $allprop || isset($prop_list['DAV::resourcetype']) ) {
-    $prop->NewElement("resourcetype");
+    $reply->DAVElement( $prop, "resourcetype");
   }
 
   /**
   * Then look at any properties related to the principal
   */
-  add_principal_properties( $prop, $not_found, $denied );
+  add_principal_properties( $prop, $denied );
 
   /**
   * And any properties that are server/request related.
   */
-  add_general_properties( $prop, $not_found, $denied, $item );
+  add_general_properties( $prop, $denied, $item );
 
-  add_arbitrary_properties($prop, $not_found, $item );
+  add_arbitrary_properties($prop, $item );
 
-  return build_propstat_response( $prop, $not_found, $denied, $url );
+  return build_propstat_response( $prop, $denied, $url );
 }
 
 /**
@@ -662,11 +680,7 @@ else {
   $request->DoResponse( 403, translate("You do not have appropriate rights to view that resource.") );
 }
 
-
-$multistatus = new XMLElement( "multistatus", $responses, $reply->GetXmlNsArray() );
-
-// dbg_log_array( "PROPFIND", "XML", $multistatus, true );
-$xmldoc = $multistatus->Render(0,'<?xml version="1.0" encoding="utf-8" ?>');
+$xmldoc = $reply->Render("multistatus", $responses);
 $etag = md5($xmldoc);
 header("ETag: \"$etag\"");
 $request->DoResponse( 207, $xmldoc, 'text/xml; charset="utf-8"' );
