@@ -10,12 +10,10 @@
 */
 dbg_error_log("get", "GET method handler");
 
+require_once("iCalendar.php");
+
 if ( ! $request->AllowedTo('read') ) {
   $request->DoResponse( 403, translate("You may not access that calendar") );
-}
-$privacy_clause = "";
-if ( ! $request->AllowedTo('all') ) {
-  $privacy_clause = "AND (calendar_item.class != 'PRIVATE' OR calendar_item.class IS NULL) ";
 }
 
 if ( $request->IsCollection() ) {
@@ -24,10 +22,10 @@ if ( $request->IsCollection() ) {
   * used as a .ics download for the whole collection, which is what we do also.
   */
   $order_clause = ( isset($c->strict_result_ordering) && $c->strict_result_ordering ? " ORDER BY dav_id" : "");
-  $qry = new PgQuery( "SELECT caldav_data, class, caldav_type, calendar_item.user_no FROM caldav_data INNER JOIN calendar_item USING ( dav_id ) WHERE caldav_data.user_no = ? AND caldav_data.dav_name ~ ? $privacy_clause $order_clause", $request->user_no, $request->path.'[^/]+$');
+  $qry = new PgQuery( "SELECT caldav_data, class, caldav_type, calendar_item.user_no, logged_user FROM caldav_data INNER JOIN calendar_item USING ( dav_id ) WHERE caldav_data.user_no = ? AND caldav_data.dav_name ~ ? $order_clause", $request->user_no, $request->path.'[^/]+$');
 }
 else {
-  $qry = new PgQuery( "SELECT caldav_data, caldav_data.dav_etag, class, caldav_type, calendar_item.user_no FROM caldav_data INNER JOIN calendar_item USING ( dav_id ) WHERE caldav_data.user_no = ? AND caldav_data.dav_name = ?  $privacy_clause;", $request->user_no, $request->path);
+  $qry = new PgQuery( "SELECT caldav_data, caldav_data.dav_etag, class, caldav_type, calendar_item.user_no, logged_user FROM caldav_data INNER JOIN calendar_item USING ( dav_id ) WHERE caldav_data.user_no = ? AND caldav_data.dav_name = ? ;", $request->user_no, $request->path);
 }
 
 if ( !$qry->Exec("GET") ) {
@@ -35,6 +33,48 @@ if ( !$qry->Exec("GET") ) {
 }
 else if ( $qry->rows == 1 ) {
   $event = $qry->Fetch();
+
+  /** Default deny... */
+  $allowed = false;
+  if ( $request->AllowedTo('all') || $session->user_no == $event->user_no || $session->user_no == $event->logged_user
+        || ( $c->allow_get_email_visibility && $resource->IsAttendee($session->email) ) ) {
+    /**
+    * These people get to see all of the event, and they should always
+    * get any alarms as well.
+    */
+    $allowed = true;
+  }
+  else if ( $event->class != 'PRIVATE' ) {
+    if ( $event->class == 'CONFIDENTIAL' && ! $request->AllowedTo('modify') ) {
+      // if the event is confidential we fake one that just says "Busy"
+      $confidential = new iCalComponent();
+      $confidential->SetType($first->GetType());
+      $confidential->AddProperty( 'SUMMARY', translate('Busy') );
+      $confidential->AddProperty( 'CLASS', 'CONFIDENTIAL' );
+      $confidential->SetProperties( $first->GetProperties('DTSTART'), 'DTSTART' );
+      $confidential->SetProperties( $first->GetProperties('RRULE'), 'RRULE' );
+      $confidential->SetProperties( $first->GetProperties('DURATION'), 'DURATION' );
+      $confidential->SetProperties( $first->GetProperties('DTEND'), 'DTEND' );
+
+      $vcal = new iCalComponent();
+      $vcal->VCalendar();
+      $vcal->AddComponent($confidential);
+      $event->caldav_data = $vcal->Render();
+      $allowed = true;
+    }
+    else {
+      /**
+      * We don't do the hide_alarm nonsense here.  It only really ever applied to Mozilla,
+      * it's fixed in 0.8+ anyway and Mozilla doesn't do GET requests... :-)
+      */
+      $allowed = true;
+    }
+  }
+
+  if ( ! $allowed ) {
+    $request->DoResponse( 403, translate("Forbidden") );
+  }
+
   header( "Etag: \"$event->dav_etag\"" );
   header( "Content-Length: ".strlen($event->caldav_data) );
   $request->DoResponse( 200, ($request->method == "HEAD" ? "" : $event->caldav_data), "text/calendar" );
@@ -47,69 +87,76 @@ else {
   * Here we are constructing a whole calendar response for this collection, including
   * the timezones that are referred to by the events we have selected.
   */
-  include_once("iCalendar.php");
-  $response = iCalendar::iCalHeader();
+  $vcal = new iCalComponent();
+  $vcal->VCalendar( array("X-WR-CALNAME" => $request->collection->dav_displayname ) );
 
-  /**
-  * @todo CalDAVRequest should have read the collection record, so we should not have to reread it here
-  * @todo This should be structured to not use the iCalHeader() and iCalFooter methods.  See caldav-POST.php for the bones of a better approach.
-  */
-  $collqry = new PgQuery( "SELECT * FROM collection WHERE collection.user_no = ? AND collection.dav_name = ?;", $request->user_no, $request->path);
-  if ( $collqry->Exec("GET") && $collection = $collqry->Fetch() ) {
-    $response .= "X-WR-CALNAME:$collection->dav_displayname\r\n";
-  }
+  $need_zones = array();
   $timezones = array();
   while( $event = $qry->Fetch() ) {
-    $ical = new iCalendar( array( "icalendar" => $event->caldav_data ) );
-    $timezones[$ical->Get("TZID")] = 1;
+    $ical = new iCalComponent( $event->caldav_data );
 
-    if ( !$request->AllowedTo('all') && $session->user_no != $event->user_no ){
+    /** Save the timezone component(s) into a minimal set for inclusion later */
+    $event_zones = $ical->GetComponents('VTIMEZONE',true);
+    foreach( $event_zones AS $k => $tz ) {
+      $tzid = $tz->GetPValue('TZID');
+      if ( !isset($tzid) ) continue ;
+      if ( $tzid != '' && !isset($timezones[$tzid]) ) {
+        $timezones[$tzid] = $tz;
+      }
+    }
+
+    /** Work out which ones are actually used here */
+    $resources = $ical->GetComponents('VTIMEZONE',false);
+    foreach( $resources AS $k => $resource ) {
+      $tzid = $resource->GetPParamValue('DTSTART', 'TZID');      if ( isset($tzid) && !isset($need_zones[$tzid]) ) $need_zones[$tzid] = 1;
+      $tzid = $resource->GetPParamValue('DUE',     'TZID');      if ( isset($tzid) && !isset($need_zones[$tzid]) ) $need_zones[$tzid] = 1;
+      $tzid = $resource->GetPParamValue('DTEND',   'TZID');      if ( isset($tzid) && !isset($need_zones[$tzid]) ) $need_zones[$tzid] = 1;
+
+      if ( $request->AllowedTo('all') || $session->user_no == $event->user_no || $session->user_no == $event->logged_user
+            || ( $c->allow_get_email_visibility && $resource->IsAttendee($session->email) ) ) {
+        /**
+        * These people get to see all of the event, and they should always
+        * get any alarms as well.
+        */
+        $vcal->AddComponent($resource);
+        continue;
+      }
+      /** No visibility even of the existence of these events if they aren't admin/owner/attendee */
+      if ( $event->class == 'PRIVATE' ) continue;
+
       // the user is not admin / owner of this calendarlooking at his calendar and can not admin the other cal
       if ( $event->class == 'CONFIDENTIAL' ) {
         // if the event is confidential we fake one that just says "Busy"
-        $confidential = new iCalendar( array(
-                              'SUMMARY' => translate('Busy'), 'CLASS' => 'CONFIDENTIAL',
-                              'DTSTART'  => $ical->Get('DTSTART')
-                          ) );
-        $rrule = $ical->Get('RRULE');
-        if ( isset($rrule) && $rrule != '' ) $confidential->Set('RRULE', $rrule);
-        $duration = $ical->Get('DURATION');
-        if ( isset($duration) && $duration != "" ) {
-          $confidential->Set('DURATION', $duration );
-        }
-        else {
-          $confidential->Set('DTEND', $ical->Get('DTEND') );
-        }
-        $response .= $confidential->Render( false, $event->caldav_type );
+        $confidential = new iCalComponent();
+        $confidential->SetType($first->GetType());
+        $confidential->AddProperty( 'SUMMARY', translate('Busy') );
+        $confidential->AddProperty( 'CLASS', 'CONFIDENTIAL' );
+        $confidential->SetProperties( $first->GetProperties('DTSTART'), 'DTSTART' );
+        $confidential->SetProperties( $first->GetProperties('RRULE'), 'RRULE' );
+        $confidential->SetProperties( $first->GetProperties('DURATION'), 'DURATION' );
+        $confidential->SetProperties( $first->GetProperties('DTEND'), 'DTEND' );
+
+        $vcal->AddComponent($confidential);
       }
       elseif ( isset($c->hide_alarm) && $c->hide_alarm ) {
         // Otherwise we hide the alarms (if configured to)
-        $ical->component->ClearComponents('VALARM');
-        $response .= $ical->render(true, $event->caldav_type );
+        $resource->ClearComponents('VALARM');
+        $vcal->AddComponent($resource);
       }
       else {
-        $response .= $ical->Render( false, $event->caldav_type );
-      }
-    }
-    else {
-      $response .= $ical->Render( false, $event->caldav_type );
-    }
-  }
-  $tzid_in = "";
-  foreach( $timezones AS $tzid => $v ) {
-    $tzid_in .= ($tzid_in == '' ? '' : ', ');
-    $tzid_in .= qpg($tzid);
-  }
-  if ( $tzid_in != "" ) {
-    $qry = new PgQuery("SELECT tz_spec FROM time_zone WHERE tz_id IN ($tzid_in) ORDER BY tz_id;");
-    if ( $qry->Exec("GET") ) {
-      while( $tz = $qry->Fetch() ) {
-        $response .= $tz->tz_spec;
+        $vcal->AddComponent($resource);
       }
     }
   }
-  $response .= iCalendar::iCalFooter();
+
+  /** Put the timezones on there that we need */
+  foreach( $need_zones AS $tzid => $v ) {
+    if ( isset($timezones[$tzid]) ) $vcal->AddComponent($timezones[$tzid]);
+  }
+
+  $response = $vcal->Render();
   header( "Content-Length: ".strlen($response) );
+  header( 'Etag: "'.$request->collection->dav_etag.'"' );
   $request->DoResponse( 200, ($request->method == "HEAD" ? "" : $response), "text/calendar" );
 }
 
