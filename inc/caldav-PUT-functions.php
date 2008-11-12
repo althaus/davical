@@ -279,6 +279,7 @@ function import_collection( $ics_content, $user_no, $path, $caldav_context ) {
       if ( isset($resource[$tzid]) ) {
         $tz = $resource[$tzid];
         $tz_locn = $tz->GetPValue('X-LIC-LOCATION');
+      }
       else {
         unset($tz);
         unset($tz_locn);
@@ -294,12 +295,10 @@ function import_collection( $ics_content, $user_no, $path, $caldav_context ) {
         $sql .= ( $tz_locn == '' ? '' : "SET TIMEZONE TO ".qpg($tz_locn).";" );
         $last_tz_locn = $tz_locn;
       }
-      if ( isset($tz) ) {
-        $qry = new PgQuery("SELECT tz_locn FROM time_zone WHERE tz_id = ?", $tzid );
-        if ( $qry->Exec() && $qry->rows == 0 ) {
-          $qry = new PgQuery("INSERT INTO time_zone (tz_id, tz_locn, tz_spec) VALUES(?,?,?)", $tzid, $tz_locn, $tz->Render() );
-          $qry->Exec();
-        }
+      $qry = new PgQuery("SELECT tz_locn FROM time_zone WHERE tz_id = ?", $tzid );
+      if ( $qry->Exec() && $qry->rows == 0 ) {
+        $qry = new PgQuery("INSERT INTO time_zone (tz_id, tz_locn, tz_spec) VALUES(?,?,?)", $tzid, $tz_locn, (isset($tz) ? $tz->Render() : null) );
+        $qry->Exec();
       }
       if ( !isset($tz_locn) || $tz_locn == "" ) $tz_locn = $tzid;
     }
