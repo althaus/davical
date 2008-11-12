@@ -1,61 +1,76 @@
+HTTP/1.1 100 Continue
+
 HTTP/1.1 201 Created
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
-ETag: "a8f2331f539bfb5ce52c464482196f85"
+ETag: "ad17bc2c8f60cf87de4a9eaa82312dea"
 Content-Length: 0
 Content-Type: text/plain; charset="utf-8"
 
    A1 CalDAV DATA: >BEGIN:VCALENDAR
-CALSCALE:GREGORIAN
-PRODID:-//mulberrymail.com//Mulberry v4.0//EN
+PRODID:-//Facebook//NONSGML Facebook Events V0.9//EN
+X-ORIGINAL-URL:http://www.facebook.com/event.php?eid=33142748183
 VERSION:2.0
-X-WR-CALNAME:home
-BEGIN:VTIMEZONE
-LAST-MODIFIED:20040110T032845Z
-TZID:New Zealand Standard Time
-X-LIC-LOCATION:Pacific/Auckland
-BEGIN:DAYLIGHT
-DTSTART:20000404T020000
-RRULE:FREQ=YEARLY;BYDAY=1SU;BYMONTH=4
-TZNAME:NZDT
-TZOFFSETFROM:+1200
-TZOFFSETTO:+1300
-END:DAYLIGHT
-BEGIN:STANDARD
-DTSTART:20001026T020000
-RRULE:FREQ=YEARLY;BYDAY=1SU;BYMONTH=10
-TZNAME:NZST
-TZOFFSETFROM:+1300
-TZOFFSETTO:+1200
-END:STANDARD
-END:VTIMEZONE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
 BEGIN:VEVENT
-DTSTAMP:20061025T101327Z
-DTSTART;TZID=New Zealand Standard Time:20061025T091500
-DURATION:PT1H
-SUMMARY:Check PUT works when we supply the correct lock token.
-UID:B18CBB57295D01D7661A6DD4@D76FAF7B10D9E8D2D41F779C
+DTSTAMP:20081030T194443
+LAST-MODIFIED:20081030T194443
+CREATED:20081030T194401
+SEQUENCE:42
+ORGANIZER:MAILTO:sigurd@sliverstripe.com
+DTSTART:20081117T180000
+DTEND:20081117T210000
+UID:e33142748183@facebook.com
+SUMMARY:Wellington Meetup and v2.3 pre-release party
+LOCATION:Southern Cross Bar/Restaurant\, Cub
+ a St/Able Smith St intersection
+URL:http://www.facebook.com/event.php?eid=33142748183
+DESCRIPTION:Food\, alcohol\, code\, and websites.
+  What more do you want in life?\n\nW
+ e're interesting in meeting up wit
+ h the local web community and thos
+ e who use SilverStripe\, so that we
+  can listen to your ideas and answ
+ er your questions\, technical or ot
+ herwise.\n\nWe'll also be demonstrat
+ ing what's coming in SilverStripe 
+ v2.3\, and you get to meet the peop
+ le behind the code!\n\n\nhttp://www.f
+ acebook.com/event.php?eid=33142748
+ 183
+CLASS:PUBLIC
+CATEGORIES:
+STATUS:CONFIRMED
+PARTSTAT:ACCEPTED
 END:VEVENT
 END:VCALENDAR
 <
       caldav_type: >VEVENT<
             class: >PUBLIC<
-      description: >NULL<
-            dtend: >2006-10-25 10:15:00+13<
-          dtstamp: >2006-10-25 10:13:27<
-          dtstart: >2006-10-25 09:15:00+13<
+      description: >Food, alcohol, code, and websites. What more do you want in life?
+
+We're interesting in meeting up with the local web community and those who use SilverStripe, so that we can listen to your ideas and answer your questions, technical or otherwise.
+
+We'll also be demonstrating what's coming in SilverStripe v2.3, and you get to meet the people behind the code!
+
+
+http://www.facebook.com/event.php?eid=33142748183<
+            dtend: >2008-11-17 21:00:00+13<
+          dtstamp: >2008-10-30 19:44:43<
+          dtstart: >2008-11-17 18:00:00+13<
               due: >NULL<
-         location: >NULL<
+         location: >Southern Cross Bar/Restaurant, Cuba St/Able Smith St intersection<
       logged_user: >10<
  percent_complete: >NULL<
          priority: >NULL<
             rrule: >NULL<
-           status: >NULL<
-          summary: >Check PUT works when we supply the correct lock token.<
+           status: >CONFIRMED<
+          summary: >Wellington Meetup and v2.3 pre-release party<
            transp: >NULL<
-            tz_id: >New Zealand Standard Time<
-              uid: >B18CBB57295D01D7661A6DD4@D76FAF7B10D9E8D2D41F779C<
-              url: >NULL<
+            tz_id: >NULL<
+              uid: >e33142748183@facebook.com<
+              url: >http://www.facebook.com/event.php?eid=33142748183<
           user_no: >10<
-   ~ Modified Now: >1<
+   ~ Modified Now: >0<
 

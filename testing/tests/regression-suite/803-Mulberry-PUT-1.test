@@ -1,8 +1,57 @@
 #
-# Attempt to put this Mulberry event into a location that is locked.
+# Attempt to put this event into a location that is locked.
+#
 TYPE=PUT
 URL=http://mycaldav/caldav.php/user1/home/i1278618276.ics
+
 HEADER=Content-Type: text/calendar; charset=utf-8
 HEAD
-DATA=F56B49B10FC923D20FE2DC92D6580340-0.ics
+
+BEGINDATA
+BEGIN:VCALENDAR
+PRODID:-//Facebook//NONSGML Facebook Events V0.9//EN
+X-ORIGINAL-URL:http://www.facebook.com/event.php?eid=33142748183
+VERSION:2.0
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+DTSTAMP:20081030T194443
+LAST-MODIFIED:20081030T194443
+CREATED:20081030T194401
+SEQUENCE:42
+ORGANIZER:MAILTO:sigurd@sliverstripe.com
+DTSTART:20081117T180000
+DTEND:20081117T210000
+UID:e33142748183@facebook.com
+SUMMARY:Wellington Meetup and v2.3 pre-release party
+LOCATION:Southern Cross Bar/Restaurant\, Cub
+ a St/Able Smith St intersection
+URL:http://www.facebook.com/event.php?eid=33142748183
+DESCRIPTION:Food\, alcohol\, code\, and websites.
+  What more do you want in life?\n\nW
+ e're interesting in meeting up wit
+ h the local web community and thos
+ e who use SilverStripe\, so that we
+  can listen to your ideas and answ
+ er your questions\, technical or ot
+ herwise.\n\nWe'll also be demonstrat
+ ing what's coming in SilverStripe 
+ v2.3\, and you get to meet the peop
+ le behind the code!\n\n\nhttp://www.f
+ acebook.com/event.php?eid=33142748
+ 183
+CLASS:PUBLIC
+CATEGORIES:
+STATUS:CONFIRMED
+PARTSTAT:ACCEPTED
+END:VEVENT
+END:VCALENDAR
+ENDDATA
+
+QUERY
+SELECT 'Should be 0' AS prompt, count(*)
+  FROM caldav_data JOIN calendar_item USING(dav_name)
+  WHERE caldav_data.dav_name ~ '^/user1/home/i1278618276.ics'
+ENDQUERY
+
 

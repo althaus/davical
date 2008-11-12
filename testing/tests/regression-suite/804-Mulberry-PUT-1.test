@@ -1,5 +1,5 @@
 #
-# Attempt to put this Mulberry event into a location that is locked.
+# Attempt to put this event into a location that is locked.
 #  - but this time supply the token so it succeeds
 #
 TYPE=PUT
@@ -17,35 +17,41 @@ HEAD
 
 BEGINDATA
 BEGIN:VCALENDAR
-CALSCALE:GREGORIAN
-PRODID:-//mulberrymail.com//Mulberry v4.0//EN
+PRODID:-//Facebook//NONSGML Facebook Events V0.9//EN
+X-ORIGINAL-URL:http://www.facebook.com/event.php?eid=33142748183
 VERSION:2.0
-X-WR-CALNAME:home
-BEGIN:VTIMEZONE
-LAST-MODIFIED:20040110T032845Z
-TZID:New Zealand Standard Time
-X-LIC-LOCATION:Pacific/Auckland
-BEGIN:DAYLIGHT
-DTSTART:20000404T020000
-RRULE:FREQ=YEARLY;BYDAY=1SU;BYMONTH=4
-TZNAME:NZDT
-TZOFFSETFROM:+1200
-TZOFFSETTO:+1300
-END:DAYLIGHT
-BEGIN:STANDARD
-DTSTART:20001026T020000
-RRULE:FREQ=YEARLY;BYDAY=1SU;BYMONTH=10
-TZNAME:NZST
-TZOFFSETFROM:+1300
-TZOFFSETTO:+1200
-END:STANDARD
-END:VTIMEZONE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
 BEGIN:VEVENT
-DTSTAMP:20061025T101327Z
-DTSTART;TZID=New Zealand Standard Time:20061025T091500
-DURATION:PT1H
-SUMMARY:Check PUT works when we supply the correct lock token.
-UID:B18CBB57295D01D7661A6DD4@D76FAF7B10D9E8D2D41F779C
+DTSTAMP:20081030T194443
+LAST-MODIFIED:20081030T194443
+CREATED:20081030T194401
+SEQUENCE:42
+ORGANIZER:MAILTO:sigurd@sliverstripe.com
+DTSTART:20081117T180000
+DTEND:20081117T210000
+UID:e33142748183@facebook.com
+SUMMARY:Wellington Meetup and v2.3 pre-release party
+LOCATION:Southern Cross Bar/Restaurant\, Cub
+ a St/Able Smith St intersection
+URL:http://www.facebook.com/event.php?eid=33142748183
+DESCRIPTION:Food\, alcohol\, code\, and websites.
+  What more do you want in life?\n\nW
+ e're interesting in meeting up wit
+ h the local web community and thos
+ e who use SilverStripe\, so that we
+  can listen to your ideas and answ
+ er your questions\, technical or ot
+ herwise.\n\nWe'll also be demonstrat
+ ing what's coming in SilverStripe 
+ v2.3\, and you get to meet the peop
+ le behind the code!\n\n\nhttp://www.f
+ acebook.com/event.php?eid=33142748
+ 183
+CLASS:PUBLIC
+CATEGORIES:
+STATUS:CONFIRMED
+PARTSTAT:ACCEPTED
 END:VEVENT
 END:VCALENDAR
 ENDDATA
