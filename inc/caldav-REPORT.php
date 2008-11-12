@@ -123,7 +123,7 @@ function calendar_to_xml( $properties, $item ) {
         $prop->NewElement($k, $contentlength );
         break;
       case 'calendar-data':
-        $prop->NewElement($reply->Caldav($k), $caldav_data );
+        $reply->CalDAVElement($prop, $k, $caldav_data );
         break;
       case 'getcontenttype':
         $prop->NewElement($k, "text/calendar" );

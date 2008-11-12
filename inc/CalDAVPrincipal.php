@@ -288,7 +288,7 @@ class CalDAVPrincipal
         case 'DAV::group-member-set':
           $set = array();
           foreach( $this->group_member_set AS $k => $url ) {
-            $set[] = new XMLElement('href', $url );
+            $set[] = $reply->href($url );
           }
           $prop->NewElement("group-member-set", $set );
           break;
@@ -296,41 +296,41 @@ class CalDAVPrincipal
         case 'DAV::group-membership':
           $set = array();
           foreach( $this->group_membership AS $k => $url ) {
-            $set[] = new XMLElement('href', $url );
+            $set[] = $reply->href($url );
           }
           $prop->NewElement("group-membership", $set );
           break;
 
         case 'urn:ietf:params:xml:ns:caldav:schedule-inbox-URL':
-          $prop->NewElement($reply->Caldav("schedule-inbox-URL"), new XMLElement('href', $this->schedule_inbox_url) );
+          $reply->CalDAVElement($prop, "schedule-inbox-URL", $reply->href($this->schedule_inbox_url) );
           break;
 
         case 'urn:ietf:params:xml:ns:caldav:schedule-outbox-URL':
-          $prop->NewElement($reply->Caldav("schedule-outbox-URL"), new XMLElement('href', $this->schedule_outbox_url) );
+          $reply->CalDAVElement($prop, "schedule-outbox-URL", $reply->href($this->schedule_outbox_url) );
           break;
 
         case 'http://calendarserver.org/ns/:dropbox-home-URL':
-          $prop->NewElement($reply->Calendarserver("dropbox-home-URL"), new XMLElement('href', $this->dropbox_url) );
+          $reply->CalendarserverElement($prop, "dropbox-home-URL", $reply->href($this->dropbox_url) );
           break;
 
         case 'http://calendarserver.org/ns/:notifications-URL':
-          $prop->NewElement($reply->Calendarserver("notifications-URL"), new XMLElement('href', $this->notifications_url) );
+          $reply->CalendarserverElement($prop, "notifications-URL", $reply->href($this->notifications_url) );
           break;
 
         case 'urn:ietf:params:xml:ns:caldav:calendar-home-set':
           $set = array();
           foreach( $this->calendar_home_set AS $k => $url ) {
-            $set[] = new XMLElement('href', $url );
+            $set[] = $reply->href( $url );
           }
-          $prop->NewElement($reply->Caldav("calendar-home-set"), $set );
+          $reply->CalDAVElement($prop, "calendar-home-set", $set );
           break;
 
         case 'urn:ietf:params:xml:ns:caldav:calendar-user-address-set':
           $set = array();
           foreach( $this->user_address_set AS $k => $v ) {
-            $set[] = new XMLElement('href', $v );
+            $set[] = $reply->href($v );
           }
-          $prop->NewElement($reply->Caldav("calendar-user-address-set"), $set );
+          $reply->CalDAVElement($prop, "calendar-user-address-set", $set );
           break;
 
         case 'DAV::getcontentlanguage':
@@ -391,7 +391,7 @@ class CalDAVPrincipal
     $status = new XMLElement("status", "HTTP/1.1 200 OK" );
 
     $propstat = new XMLElement( "propstat", array( $prop, $status) );
-    $href = new XMLElement("href", $this->url );
+    $href = $reply->href($this->url );
 
     $elements = array($href,$propstat);
 

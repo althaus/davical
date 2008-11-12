@@ -58,19 +58,19 @@ function handle_freebusy_request( $ic ) {
     $qry = new PgQuery("SELECT get_permissions(?,user_no) AS p FROM usr WHERE usr.email = ?", $session->user_no, $attendee_email );
     if ( !$qry->Exec("POST") ) $request->DoResponse( 501, 'Database error');
 
-    $response = new XMLElement( $reply->Caldav("response") );
-    $response->NewElement( $reply->Caldav("recipient"), new XMLElement("href",$attendee->Value()) );
+    $response = $reply->NewXMLElement("response", false, false, 'urn:ietf:params:xml:ns:caldav');
+    $reply->CalDAVElement($response, "recipient", $reply->href($attendee->Value()) );
 
     if ( $qry->rows == 0 ) {
-      $response->NewElement( $reply->Caldav("request-status"), "3.7;Invalid Calendar User" );
-      $response->NewElement( $reply->Caldav("calendar-data") );
+      $reply->CalDAVElement($response, "request-status", "3.7;Invalid Calendar User" );
+      $reply->CalDAVElement($response, "calendar-data" );
       $responses[] = $response;
       continue;
     }
     if ( ! $userperms = $qry->Fetch() ) $request->DoResponse( 501, 'Database error');
     if ( !preg_match( '/[AWRF]/', $userperms->p ) ) {
-      $response->NewElement( $reply->Caldav("request-status"), "3.8;No authority" );
-      $response->NewElement( $reply->Caldav("calendar-data") );
+      $reply->CalDAVElement($response, "request-status", "3.8;No authority" );
+      $reply->CalDAVElement($response, "calendar-data" );
       $responses[] = $response;
       continue;
     }
@@ -178,14 +178,14 @@ function handle_freebusy_request( $ic ) {
     $vcal->VCalendar( array('METHOD' => 'REPLY') );
     $vcal->AddComponent( $fb );
 
-    $response = new XMLElement( $reply->Caldav("response") );
-    $response->NewElement( $reply->Caldav("recipient"), new XMLElement("href",$attendee->Value()) );
-    $response->NewElement( $reply->Caldav("request-status"), "2.0;Success" );  // Cargo-cult setting
-    $response->NewElement( $reply->Caldav("calendar-data"), $vcal->Render() );
+    $response = $reply->NewXMLElement( "response", false, false, 'urn:ietf:params:xml:ns:caldav' );
+    $reply->CalDAVElement($response, "recipient", $reply->href($attendee->Value()) );
+    $reply->CalDAVElement($response, "request-status", "2.0;Success" );  // Cargo-cult setting
+    $reply->CalDAVElement($response, "calendar-data", $vcal->Render() );
     $responses[] = $response;
   }
 
-  $response = new XMLElement( "schedule-response", $responses, $reply->GetXmlNsArray() );
+  $response = $reply->NewXMLElement( "schedule-response", $responses, $reply->GetXmlNsArray() );
   $request->XMLResponse( 200, $response );
 }
 

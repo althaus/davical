@@ -133,15 +133,6 @@ foreach( $request->xml_tags AS $k => $v ) {
 
 
 /**
-* Return an href XML element
-*/
-function href($url) {
-  global $reply;
-  return $reply->NewXMLElement('href', $url, false, 'DAV:');
-}
-
-
-/**
 * Returns the array of privilege names converted into XMLElements
 */
 function privileges($privilege_names, $container="privilege") {
@@ -186,7 +177,7 @@ function add_principal_properties( &$prop, &$denied ) {
   $allprop = isset($prop_list['DAV::allprop']);
 
   if ( isset($prop_list['DAV::principal-URL'] ) ) {
-    $reply->DAVElement( $prop, "principal-URL", href( $request->principal->url ) );
+    $reply->DAVElement( $prop, "principal-URL", $reply->href( $request->principal->url ) );
   }
   if ( isset($prop_list['DAV::alternate-URI-set'] ) ) {
     $reply->DAVElement( $prop, "alternate-URI-set" );  // Empty - there are no alternatives!
@@ -196,29 +187,29 @@ function add_principal_properties( &$prop, &$denied ) {
     $home_set = array();
     $chs = $request->principal->calendar_home_set;
     foreach( $chs AS $k => $url ) {
-      $home_set[] = href( $url );
+      $home_set[] = $reply->href( $url );
     }
     $reply->CalDAVElement( $prop, "calendar-home-set", $home_set );
   }
   if ( isset($prop_list['urn:ietf:params:xml:ns:caldav:schedule-inbox-URL'] ) ) {
-    $reply->CalDAVElement( $prop, "schedule-inbox-URL", href( $request->principal->schedule_inbox_url) );
+    $reply->CalDAVElement( $prop, "schedule-inbox-URL", $reply->href( $request->principal->schedule_inbox_url) );
   }
   if ( isset($prop_list['urn:ietf:params:xml:ns:caldav:schedule-outbox-URL'] ) ) {
-    $reply->CalDAVElement( $prop, "schedule-outbox-URL", href( $request->principal->schedule_outbox_url) );
+    $reply->CalDAVElement( $prop, "schedule-outbox-URL", $reply->href( $request->principal->schedule_outbox_url) );
   }
 
   if ( isset($prop_list['http://calendarserver.org/ns/:dropbox-home-URL'] ) ) {
-    $reply->CalendarserverElement($prop, "dropbox-home-URL", href( $request->principal->dropbox_url) );
+    $reply->CalendarserverElement($prop, "dropbox-home-URL", $reply->href( $request->principal->dropbox_url) );
   }
   if ( isset($prop_list['http://calendarserver.org/ns/:notifications-URL'] ) ) {
-    $reply->CalendarserverElement($prop, "notifications-URL", href( $request->principal->notifications_url) );
+    $reply->CalendarserverElement($prop, "notifications-URL", $reply->href( $request->principal->notifications_url) );
   }
 
   if ( isset($prop_list['urn:ietf:params:xml:ns:caldav:calendar-user-address-set'] ) ) {
     $addr_set = array();
     $uas = $request->principal->user_address_set;
     foreach( $uas AS $k => $v ) {
-      $addr_set[] = href( $v );
+      $addr_set[] = $reply->href( $v );
     }
     $reply->CalDAVElement( $prop, "calendar-user-address-set", $addr_set );
   }
@@ -245,10 +236,10 @@ function add_general_properties( &$prop, &$denied, $record ) {
 
   if ( isset($prop_list['DAV::owner']) ) {
     // After a careful reading of RFC3744 we see that this must be the principal-URL of the owner
-    $reply->DAVElement( $prop, "owner", href( $request->principal->url ) );
+    $reply->DAVElement( $prop, "owner", $reply->href( $request->principal->url ) );
   }
   if ( isset($prop_list['DAV::principal-collection-set']) ) {
-    $reply->DAVElement( $prop, "principal-collection-set", href( ConstructURL('/') ) );
+    $reply->DAVElement( $prop, "principal-collection-set", $reply->href( ConstructURL('/') ) );
   }
   if ( isset($prop_list['DAV::current-user-principal']) ) {
     $reply->DAVElement( $prop, "current-user-principal", $request->current_user_principal_xml);
@@ -296,7 +287,7 @@ function add_general_properties( &$prop, &$denied, $record ) {
 function build_propstat_response( $prop, $denied, $url ) {
   global $reply, $arbitrary, $prop_list;
 
-  $response = array( href($url),
+  $response = array( $reply->href($url),
                      $reply->NewXMLElement( "propstat", array( $prop,
                                                                $reply->NewXMLElement("status", "HTTP/1.1 200 OK" )
                                                               )
@@ -423,7 +414,7 @@ function collection_to_xml( $collection ) {
     if ( $collection->type == 'in' && $session->user_no == $collection->user_no ) {
       $fb_set = array();
       foreach( $request->principal->calendar_free_busy_set AS $k => $v ) {
-        $fb_set[] = href( $v, false, "DAV:" );
+        $fb_set[] = $reply->href( $v, false, "DAV:" );
       }
       $reply->CalDAVElement( $prop, "calendar-free-busy-set", $fb_set );
     }
