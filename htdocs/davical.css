@@ -21,6 +21,12 @@ background-color: #c00000;
 color: #ffff00;
 }
 
+a.error, a.error:hover, a.error:visited {
+  background-color: #c00000;
+  color: #ffffd0;
+  text-decoration:underline;
+}
+
 h1, h2, h3, h4, h5 {
 font-weight: bold;
 font-family: Bitstream Vera Sans, Vera Sans, sans-serif;
