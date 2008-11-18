@@ -659,7 +659,7 @@ $request->UnsupportedRequest($unsupported); // Won't return if there was unsuppo
 /**
 * Something that we can handle, at least roughly correctly.
 */
-$url = $c->protocol_server_port_script . $request->path ;
+$url = ConstructURL( $request->path );
 $url = preg_replace( '#/$#', '', $url);
 if ( $request->IsCollection() ) {
   $responses = get_collection( $request->depth, $request->user_no, $request->path );
