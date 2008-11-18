@@ -14,6 +14,8 @@ my $dsn    = "davical";
 my $dbuser = "";
 my $dbpass = "";
 my $suite;
+my $webhost = 'mycaldav';
+my $althost = 'myempty';
 my $test;
 my $helpmeplease = 0;
 
@@ -27,6 +29,8 @@ GetOptions ('debug!'    => \$debug,
             'dbuser=s'  => \$dbuser,
             'dbpass=s'  => \$dbpass,
             'suite=s'   => \$suite,
+            'webhost=s' => \$webhost,
+            'althost=s' => \$althost,
             'case=s'    => \$test,
             'help'      => \$helpmeplease  );
 
@@ -148,6 +152,8 @@ while( <TEST> ) {
 
   $line =~ /^\s*URL\s*=\s*(\S.*)$/ && do {
     $url=$1;
+    $url =~ s{regression.host}{$webhost};
+    $url =~ s{alternate.host}{$althost};
   };
 
 }
