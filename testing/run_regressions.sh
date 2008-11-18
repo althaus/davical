@@ -9,6 +9,8 @@ HOSTNAME=regression
 . ./regression.conf
 
 [ -z "${DSN}" ] && DSN="${DBNAME}"
+[ -n "${HOSTNAME}" ] && WEBHOST="--webhost ${HOSTNAME}"
+[ -n "${ALTHOST}"  ] && ALTHOST="--althost ${ALTHOST}"
 
 
 UNTIL=${1:-"99999"}
@@ -38,7 +40,7 @@ check_result() {
     if [ "${ACCEPT}" = "y" ] ; then
       cp "${RESULTS}/${TEST}" "${REGRESSION}/${TEST}.result"
     elif [ "${ACCEPT}" = "x" ]; then
-      echo "./dav_test --dsn '${DSN}' --suite regression-suite --case '${TEST}' --debug"
+      echo "./dav_test --dsn '${DSN}' ${WEBHOST} ${ALTHOST} --suite regression-suite --case '${TEST}' --debug"
       exit
     elif [ "${ACCEPT}" = "v" ]; then
       echo "Showing test $REGRESSION/${TEST}.test"
@@ -107,7 +109,7 @@ for T in ${REGRESSION}/*.test ; do
 
   RESULT=999
   while [ "${RESULT}" -gt 0 ]; do
-    ./dav_test --dsn "${DSN}" --suite regression-suite --case "${TEST}" | ./normalise_result > "${RESULTS}/${TEST}"
+    ./dav_test --dsn "${DSN}" ${WEBHOST} ${ALTHOST} --suite regression-suite --case "${TEST}" | ./normalise_result > "${RESULTS}/${TEST}"
 
     RESULT=999
     while [ "${RESULT}" -gt 1 ]; do
