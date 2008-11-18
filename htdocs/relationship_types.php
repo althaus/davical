@@ -106,4 +106,3 @@ echo $browser->Render();
 echo "</form>";
 
 include("page-footer.php");
-?>
