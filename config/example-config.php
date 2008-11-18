@@ -33,16 +33,6 @@ $c->pg_connect[] = "dbname=davical user=davical_app";
 
 /**
 * default is false
-* If true, then events requested from someone other than the admmin or owner
-* of a calendar will not get any alarm for it.  Some client software also
-* allows you to configure calendar by calendar which ones allow alarms, which
-* is better really, but if you aren't using such software you probably want
-* to set this to true.
-*/
-$c->hide_alarm = true;
-
-/**
-* default is false
 * If true, then TODO requested  from someone other than the admmin or owner
 * of a calendar will not get any answer.  Often these todo are only relevant
 * to the owner, but in some shared calendar situations they might not be in
@@ -293,3 +283,37 @@ $c->admin_email ='calendar-admin@example.com';
 * of a VEVENT.  The local (server) time zone will be used as a default.
 */
 // $c->local_tzid;
+
+/**
+* default is false
+* If true, then events requested from someone other than the admmin or owner
+* of a calendar will not get any alarm for it.  Most client software also
+* allows you to configure calendar by calendar which ones allow alarms, which
+* is better really, but if you aren't using such software you might want
+* to set this to true.
+*
+* You should be aware that there are potentially problems when someone without
+* full access modifies an event, in which case any alarms will be lost!  It really
+* *is* better if you can control this client-side, in so many ways...
+*
+* @todo remove this capability when client software is more generally smarter.
+*/
+// $c->hide_alarm = false;
+
+/**
+* Many people want this, but it may be a security issue for you, so it is
+* disabled by default.  If you enable it, then confidential / private events
+* will be visible to the 'organizer' or 'attendee' lists.  The reason that
+* this becomes a security issue is that this identification needs to be based
+* on the user's e-mail address.  The user's e-mail address is generally
+* something which they can set, so they could change it to be the address of
+* an attendee of a meeting and then would be able to read the meeting.
+*
+* Without this, the only person who can view/change PRIVATE or CONFIDENTIAL
+* events in a calendar is someone with full administrative rights to the calendar
+* usually the owner.
+*
+* If the only person that devious is your sysadmin then you probably already
+* enabled this option...
+*/
+// $c->allow_get_email_visibility = false;
