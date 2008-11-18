@@ -1,0 +1,24 @@
+#
+# Testing for Spec compliance.  PROPFIND on a calendar,
+# Depth: 0, looking for the getctag, resourcetype and displayname
+#
+TYPE=PROPFIND
+AUTH=user2:user2
+URL=http://mycaldav/caldav.php/user2/home/
+HEADER=User-Agent: RFC2518 Spec Tests
+HEADER=Depth: 0
+HEADER=Content-Type: application/xml
+HEAD
+
+REPLACE=#<creationdate>\d{8}T\d{6}</creationdate>#<creationdate>YYYYMMDDThhmmss</creationdate>#
+
+BEGINDATA
+<?xml version="1.0" encoding="utf-8"?>
+<propfind xmlns="DAV:" xmlns:CS="http://calendarserver.org/ns/">
+ <prop>
+  <displayname/>
+  <CS:getctag/>
+  <resourcetype/>
+ </prop>
+</propfind>
+ENDDATA

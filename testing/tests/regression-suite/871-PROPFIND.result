@@ -1,0 +1,25 @@
+HTTP/1.1 207 Multi-Status
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
+ETag: "8fb72952c8759377c5f56633e6088a9f"
+Content-Length: 513
+Content-Type: text/xml; charset="utf-8"
+
+<?xml version="1.0" encoding="utf-8" ?>
+<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav" xmlns:A="http://calendarserver.org/ns/">
+ <response>
+  <href>/caldav.php/user2/home/</href>
+  <propstat>
+   <prop>
+    <resourcetype>
+     <collection/>
+     <C:calendar/>
+     <C:schedule-calendar/>
+    </resourcetype>
+    <displayname>home</displayname>
+    <A:getctag>"13249ced6c7527191a003f54f7e3cd25"</A:getctag>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+</multistatus>
