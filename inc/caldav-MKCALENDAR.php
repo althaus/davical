@@ -28,6 +28,9 @@ if ( preg_match( '#^(.*/)([^/]+)(/)?$#', $request->path, $matches ) ) {
   $displayname = $matches[2];
 }
 
+require_once("XMLDocument.php");
+$reply = new XMLDocument(array( "DAV:" => "", 'urn:ietf:params:xml:ns:caldav' => 'C' ));
+
 $failure = array();
 $propertysql = "";
 if ( isset($request->xml_tags) ) {
@@ -113,11 +116,10 @@ if ( isset($request->xml_tags) ) {
       ));
     }
 
-    array_unshift( $failure, new XMLElement('href', $c->protocol_server_port_script . $request->path ) );
+    array_unshift( $failure, $reply->href( ConstructURL($request->path) ) );
     $failure[] = new XMLElement('responsedescription', translate("Some properties were not able to be set.") );
 
-    $multistatus = new XMLElement( "multistatus", new XMLElement( 'response', $failure ), array('xmlns'=>'DAV:') );
-    $request->DoResponse( 207, $multistatus->Render(0,'<?xml version="1.0" encoding="utf-8" ?>'), 'text/xml; charset="utf-8"' );
+    $request->DoResponse( 207, $reply->Render("multistatus", new XMLElement( 'response', $failure )), 'text/xml; charset="utf-8"' );
 
   }
 }
