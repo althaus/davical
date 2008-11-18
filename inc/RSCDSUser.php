@@ -4,8 +4,8 @@
 *
 * @package   davical
 * @subpackage   RSCDSUser
-* @author    Andrew McMillan <andrew@catalyst.net.nz>
-* @copyright Catalyst .Net Ltd
+* @author    Andrew McMillan <andrew@mcmillan.net.nz>
+* @copyright Catalyst .Net Ltd, Morphoss Ltd <http://www.morphoss.com/>
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v2
 */
 
@@ -24,10 +24,13 @@ $c->scripts[] = "$c->base_url/js/browse.js";
 class RSCDSUser extends User
 {
 
+  var $delete_collection_confirmation_required;
+
   /**
   * Constructor - nothing fancy as yet.
   */
   function RSCDSUser( $id , $prefix = "") {
+    $this->delete_collection_confirmation_required = null;
     parent::User( $id, $prefix );
   }
 
@@ -55,12 +58,13 @@ class RSCDSUser extends User
 
     $html .= $this->RenderFields($ef,"");
 
-    $html .= $this->RenderImportIcs($ef);
     $html .= $this->RenderRoles($ef);
 
     $html .= $this->RenderRelationshipsFrom($ef);
     $html .= $this->RenderRelationshipsTo($ef);
     $html .= $this->RenderCollections($ef);
+
+    $html .= $this->RenderImportIcs($ef);
 
     $html .= "</table>\n";
     $html .= "</div>";
@@ -81,10 +85,10 @@ class RSCDSUser extends User
   */
   function RenderImportIcs( $ef, $title = null ) {
     if ( !$ef->EditMode ) return;
-    if ( $title == null ) $title = i18n("Import ICS file");
+    if ( $title == null ) $title = i18n("Import ICS file to new collection");
     $html = ( $title == "" ? "" : $ef->BreakLine(translate($title)) );
     $html .= sprintf( "<tr><th class=\"prompt\">&nbsp;</th><th style=\"text-align:left\">%s</th></tr>\n", translate("<b>WARNING: all events in this path will be deleted before inserting all of the ics file</b>"));
-    $html .= $ef->DataEntryLine( translate("path to store your ics"), "%s", "text", "path_ics",
+    $html .= $ef->DataEntryLine( translate("Calendar"), "%s", "text", "path_ics",
               array( "size" => 20,
                      "title" => translate("set the path to store your ics ex:home if you get it by caldav.php/me/home/"),
                      "help" => translate("<b>WARNING: all events in this path will be deleted before inserting all of the ics file</b>")
@@ -243,6 +247,9 @@ EOSQL;
     $browser->AddColumn( 'is_calendar', translate('Is a Calendar?'), 'centre', '', "CASE WHEN is_calendar THEN 'Yes' ELSE 'No' END" );
     $browser->AddColumn( 'created', translate('Created On') );
     $browser->AddColumn( 'modified', translate('Changed On') );
+    if ( $ef->EditMode ) {
+      $browser->AddColumn( 'TRUE', translate('Action'), 'left', "<a href=\"$c->base_url/usr.php?user_no=$this->user_no&dav_name=##URL:dav_name##&action=delete_collection\">Delete</a>" );
+    }
 
     $browser->SetJoins( 'collection LEFT JOIN usr USING (user_no)' );
     $browser->SetWhere( "collection.user_no = $this->user_no" );
@@ -257,7 +264,12 @@ EOSQL;
     $browser->DoQuery();
 
     $html = ( $title == "" ? "" : $ef->BreakLine(translate($title)) );
-    $html .= "<tr><td>&nbsp;</td><td>\n";
+    if ( isset($this->delete_collection_confirmation_required) ) {
+      $html .= "<tr><td colspan=\"2\" class=\"error\">\n";
+      $html .= sprintf('<b>Collection:</b> %s: <a class="error" href="%s&%s">%s</a>', $_GET['dav_name'], $_SERVER['REQUEST_URI'], $this->delete_collection_confirmation_required, translate("Confirm Deletion of the Collection") );
+      $html .= "</td></tr>\n";
+    }
+    $html .= "<tr><td colspan=\"2\">\n";
     $html .= $browser->Render();
     $html .= "</td></tr>\n";
 
@@ -287,6 +299,11 @@ EOSQL;
     switch( strtolower($whatever) ) {
 
       case 'deleterelationship':
+        $rc = ( $session->AllowedTo("Admin")
+                || ($this->user_no > 0 && $session->user_no == $this->user_no) );
+        break;
+
+      case 'deletecollection':
         $rc = ( $session->AllowedTo("Admin")
                 || ($this->user_no > 0 && $session->user_no == $this->user_no) );
         break;
@@ -323,9 +340,32 @@ EOSQL;
         }
         return true;
 
+      case 'delete_collection':
+        dbg_error_log("User",":HandleAction: Deleting collection %s for user %d", $_GET['dav_name'], $this->user_no );
+        if ( $this->AllowedTo("DeleteCollection") ) {
+          if ( $session->CheckConfirmationHash('GET', 'confirm') ) {
+            dbg_error_log("User",":HandleAction: Allowed to delete collection %s for user %d", $_GET['dav_name'], $this->user_no );
+            $qry = new PgQuery("DELETE FROM collection WHERE user_no=? AND dav_name=?;", $this->user_no, $_GET['dav_name'] );
+            if ( $qry->Exec() ) {
+              $c->messages[] = i18n("Collection deleted");
+             return true;
+            }
+            else {
+              $c->messages[] = i18n("There was an error writing to the database.");
+              return false;
+            }
+          }
+          else {
+            $c->messages[] = i18n("Please confirm deletion of collection - see below");
+            $this->delete_collection_confirmation_required = $session->BuildConfirmationHash('GET', 'confirm');
+            return false;
+          }
+        }
+
       default:
         return false;
     }
+    return false;
   }
 
 

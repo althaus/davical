@@ -92,4 +92,3 @@
   include("page-header.php");
   echo $user->Render($c->page_title);
   include("page-footer.php");
-?>
