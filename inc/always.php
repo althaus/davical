@@ -244,7 +244,7 @@ function ConstructURL( $partial_path ) {
 
   $url = $c->_url_script_path . $partial_path;
   $url = preg_replace( '#^(https?://.+)//#', '$1/', $url );  // Ensure we don't double any '/'
-  $url = preg_replace('#^https?://[^/]+#', '', $url );
+  $url = preg_replace('#^https?://[^/]+#', '', $url );       // Remove any protocol + hostname portion
   return $url;
 }
 

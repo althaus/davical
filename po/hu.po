@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rscds 0.7.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-06-19 00:23+1200\n"
+"POT-Creation-Date: 2008-11-18 18:29+1300\n"
 "PO-Revision-Date: 2007-05-03 15:00+0001\n"
 "Last-Translator: David Takacs <david.takacs@cafeopen.eu>\n"
 "Language-Team: \n"
@@ -110,6 +110,10 @@ msgstr "Nem található ilyen naptár-erőforrás"
 msgid "Calendar Users"
 msgstr "Naptár felhasználói"
 
+#, fuzzy
+msgid "Calendar"
+msgstr "Naptár felhasználói"
+
 msgid "Can read from"
 msgstr "Láthatja"
 
@@ -133,6 +137,14 @@ msgstr "Gyűjtemény tartalma"
 
 msgid "Collection Path"
 msgstr "Gyűjtemény elérési útja"
+
+#, fuzzy
+msgid "Collection deleted"
+msgstr "Gyűjtemény elérési útja"
+
+#, fuzzy
+msgid "Confirm Deletion of the Collection"
+msgstr "Valóban törli a kapcsolattípust?"
 
 msgid "Confirm Deletion of the Relationship Type"
 msgstr "Valóban törli a kapcsolattípust?"
@@ -231,6 +243,9 @@ msgstr "Befejezés"
 msgid "For access to the"
 msgstr "Hozzáféréshez"
 
+msgid "Forbidden"
+msgstr ""
+
 msgid "FreeBusy"
 msgstr ""
 
@@ -276,7 +291,7 @@ msgstr "Ha elfelejtette jelszavát, "
 msgid "If you would like to request access, please e-mail"
 msgstr "Ha hozzáférést szeretne kapni, írjon: "
 
-msgid "Import ICS file"
+msgid "Import ICS file to new collection"
 msgstr ""
 
 msgid "Import all .ics files of a directory"
@@ -354,6 +369,9 @@ msgstr "Jelszó"
 
 msgid "Please Confirm Deletion"
 msgstr "Törlés megerősítése"
+
+msgid "Please confirm deletion of collection - see below"
+msgstr ""
 
 msgid "Please note the time and advise the administrator of your system."
 msgstr "Jegyezze fel az időpontot és értesítse az adminisztrátort!"

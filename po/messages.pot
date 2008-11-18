@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-28 20:48+1300\n"
+"POT-Creation-Date: 2008-11-18 18:29+1300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -113,6 +113,9 @@ msgstr ""
 msgid "Calendar Users"
 msgstr ""
 
+msgid "Calendar"
+msgstr ""
+
 msgid "Can read from"
 msgstr ""
 
@@ -135,6 +138,12 @@ msgid "Collection Contents"
 msgstr ""
 
 msgid "Collection Path"
+msgstr ""
+
+msgid "Collection deleted"
+msgstr ""
+
+msgid "Confirm Deletion of the Collection"
 msgstr ""
 
 msgid "Confirm Deletion of the Relationship Type"
@@ -235,6 +244,9 @@ msgstr ""
 msgid "For access to the"
 msgstr ""
 
+msgid "Forbidden"
+msgstr ""
+
 msgid "FreeBusy"
 msgstr ""
 
@@ -280,7 +292,7 @@ msgstr ""
 msgid "If you would like to request access, please e-mail"
 msgstr ""
 
-msgid "Import ICS file"
+msgid "Import ICS file to new collection"
 msgstr ""
 
 msgid "Import all .ics files of a directory"
@@ -356,6 +368,9 @@ msgid "Password"
 msgstr ""
 
 msgid "Please Confirm Deletion"
+msgstr ""
+
+msgid "Please confirm deletion of collection - see below"
 msgstr ""
 
 msgid "Please note the time and advise the administrator of your system."

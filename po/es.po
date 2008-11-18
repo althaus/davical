@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RSCDS 0.2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-06-19 00:23+1200\n"
+"POT-Creation-Date: 2008-11-18 18:29+1300\n"
 "PO-Revision-Date: 2006-11-06 17:12+1300\n"
 "Last-Translator: Lorena Paoletti <andrew@mcmillan.net.nz>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -111,6 +111,10 @@ msgstr ""
 msgid "Calendar Users"
 msgstr "Calendario de los Usuario"
 
+#, fuzzy
+msgid "Calendar"
+msgstr "Calendario de los Usuario"
+
 msgid "Can read from"
 msgstr ""
 
@@ -136,6 +140,13 @@ msgid "Collection Contents"
 msgstr ""
 
 msgid "Collection Path"
+msgstr ""
+
+#, fuzzy
+msgid "Collection deleted"
+msgstr "Relación eliminada"
+
+msgid "Confirm Deletion of the Collection"
 msgstr ""
 
 msgid "Confirm Deletion of the Relationship Type"
@@ -239,6 +250,9 @@ msgstr ""
 msgid "For access to the"
 msgstr "Para acceder a"
 
+msgid "Forbidden"
+msgstr ""
+
 msgid "FreeBusy"
 msgstr ""
 
@@ -284,7 +298,7 @@ msgstr ""
 msgid "If you would like to request access, please e-mail"
 msgstr "Si desea obtener acceso por favor envíe un correo electrónico a"
 
-msgid "Import ICS file"
+msgid "Import ICS file to new collection"
 msgstr ""
 
 msgid "Import all .ics files of a directory"
@@ -361,6 +375,9 @@ msgid "Password"
 msgstr "Constraseña"
 
 msgid "Please Confirm Deletion"
+msgstr ""
+
+msgid "Please confirm deletion of collection - see below"
 msgstr ""
 
 msgid "Please note the time and advise the administrator of your system."

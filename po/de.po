@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RSCDS 0.2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-06-19 00:23+1200\n"
+"POT-Creation-Date: 2008-11-18 18:29+1300\n"
 "PO-Revision-Date: 2006-11-06 17:24+1300\n"
 "Last-Translator: Cristina Radalescu <andrew@mcmillan.net.nz>\n"
 "MIME-Version: 1.0\n"
@@ -115,6 +115,10 @@ msgstr "Kalenderquelle nicht gefunden."
 msgid "Calendar Users"
 msgstr "Kalender Benutzer"
 
+#, fuzzy
+msgid "Calendar"
+msgstr "Kalender Benutzer"
+
 msgid "Can read from"
 msgstr "Lesemöglichkeit bei"
 
@@ -141,6 +145,14 @@ msgstr "Sammlungsinhalt"
 
 msgid "Collection Path"
 msgstr "Sammlungpfad"
+
+#, fuzzy
+msgid "Collection deleted"
+msgstr "Sammlungpfad"
+
+#, fuzzy
+msgid "Confirm Deletion of the Collection"
+msgstr "Bestätige Löschung des Verhältnistyps"
 
 msgid "Confirm Deletion of the Relationship Type"
 msgstr "Bestätige Löschung des Verhältnistyps"
@@ -243,6 +255,9 @@ msgstr "Fertig"
 msgid "For access to the"
 msgstr "Für Zugriff auf"
 
+msgid "Forbidden"
+msgstr ""
+
 #, fuzzy
 msgid "FreeBusy"
 msgstr "Beschäftigt"
@@ -290,7 +305,8 @@ msgstr "Wenn du dein Passwort vergessen hast, dann"
 msgid "If you would like to request access, please e-mail"
 msgstr "Wenn Sie gern Zugriff anfordern wollen, bitte e-mailen"
 
-msgid "Import ICS file"
+#, fuzzy
+msgid "Import ICS file to new collection"
 msgstr "Importiere ICS-Datei"
 
 msgid "Import all .ics files of a directory"
@@ -370,6 +386,9 @@ msgstr "Neues Passwort"
 
 msgid "Please Confirm Deletion"
 msgstr "Bitte bestätigen sie das Löschen"
+
+msgid "Please confirm deletion of collection - see below"
+msgstr ""
 
 msgid "Please note the time and advise the administrator of your system."
 msgstr "Bitte notieren Sie sich die Zeit und benachrichtigen Sie Ihren Systemadministrator"

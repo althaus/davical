@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-06-19 00:23+1200\n"
+"POT-Creation-Date: 2008-11-18 18:29+1300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Eelco Maljaars <http://eelco.maljaars.net/>\n"
 "Language-Team: nl_NL <LL@li.org>\n"
@@ -111,6 +111,10 @@ msgstr ""
 msgid "Calendar Users"
 msgstr "Agenda gebruikers"
 
+#, fuzzy
+msgid "Calendar"
+msgstr "Agenda gebruikers"
+
 msgid "Can read from"
 msgstr ""
 
@@ -134,6 +138,14 @@ msgstr "Inhoud van de verzameling"
 
 msgid "Collection Path"
 msgstr "Verzamelingspad"
+
+#, fuzzy
+msgid "Collection deleted"
+msgstr "Verzamelingspad"
+
+#, fuzzy
+msgid "Confirm Deletion of the Collection"
+msgstr "Bevestig verwijderen relatie soort"
 
 msgid "Confirm Deletion of the Relationship Type"
 msgstr "Bevestig verwijderen relatie soort"
@@ -235,6 +247,9 @@ msgstr "Beeindigen"
 msgid "For access to the"
 msgstr "Voor toegang tot de"
 
+msgid "Forbidden"
+msgstr ""
+
 msgid "FreeBusy"
 msgstr ""
 
@@ -280,7 +295,7 @@ msgstr "Indien je je wachtwoord vergeten bent dan"
 msgid "If you would like to request access, please e-mail"
 msgstr "Indien je toegang wilt aanvragen, e-mail je"
 
-msgid "Import ICS file"
+msgid "Import ICS file to new collection"
 msgstr ""
 
 msgid "Import all .ics files of a directory"
@@ -358,6 +373,9 @@ msgstr "Wachtwoord"
 
 msgid "Please Confirm Deletion"
 msgstr "Bevestig verwijderen alsjeblieft"
+
+msgid "Please confirm deletion of collection - see below"
+msgstr ""
 
 msgid "Please note the time and advise the administrator of your system."
 msgstr "Noteer de tijd en breng de beheerder van jou systeem op de hoogte"

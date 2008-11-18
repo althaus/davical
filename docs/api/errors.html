@@ -10,7 +10,9 @@
 		<body>
 						<a href="#Post-parsing">Post-parsing</a><br />
 <a href="#auth-functions.php">auth-functions.php</a><br />
+<a href="#caldav-GET.php">caldav-GET.php</a><br />
 <a href="#caldav-LOCK.php">caldav-LOCK.php</a><br />
+<a href="#caldav-MKCALENDAR.php">caldav-MKCALENDAR.php</a><br />
 <a href="#caldav-POST.php">caldav-POST.php</a><br />
 <a href="#caldav-PROPFIND.php">caldav-PROPFIND.php</a><br />
 <a href="#caldav-PUT-functions.php">caldav-PUT-functions.php</a><br />
@@ -46,12 +48,12 @@
 <a name="Post-parsing"></a>
 <h1>Post-parsing</h1>
 <h2>Warnings:</h2><br />
-<b>Warning</b> - Class RSCDSUser parent User not found<br />
 <b>Warning</b> - Class RSCDSSession parent Session not found<br />
+<b>Warning</b> - Class RSCDSUser parent User not found<br />
 <a name="always.php"></a>
 <h1>always.php</h1>
 <h2>Warnings:</h2><br />
-<b>Warning on line 42</b> - Page-level DocBlock precedes "require_once "AWLUtilities.php"", use another DocBlock to document the source element<br />
+<b>Warning on line 43</b> - Page-level DocBlock precedes "require_once "AWLUtilities.php"", use another DocBlock to document the source element<br />
 <a name="auth-functions.php"></a>
 <h1>auth-functions.php</h1>
 <h2>Warnings:</h2><br />
@@ -59,10 +61,24 @@
 <h2>Errors:</h2><br />
 <b>Error on line 27</b> - "include" require_once's DocBlock has @subpackage tags, illegal. ignoring tag "@subpackage authentication"<br />
 <b>Error on line 27</b> - DocBlock has multiple @package tags, illegal. ignoring additional tag "@package davical"<br />
+<a name="caldav-GET.php"></a>
+<h1>caldav-GET.php</h1>
+<h2>Warnings:</h2><br />
+<b>Warning on line 12</b> - Page-level DocBlock precedes "require_once "iCalendar.php"", use another DocBlock to document the source element<br />
+<h2>Errors:</h2><br />
+<b>Error on line 12</b> - "include" require_once's DocBlock has @subpackage tags, illegal. ignoring tag "@subpackage caldav"<br />
+<b>Error on line 12</b> - DocBlock has multiple @package tags, illegal. ignoring additional tag "@package davical"<br />
 <a name="caldav-LOCK.php"></a>
 <h1>caldav-LOCK.php</h1>
 <h2>Warnings:</h2><br />
 <b>Warning on line 136</b> - File "/home/andrew/projects/davical/inc/caldav-LOCK.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br />
+<a name="caldav-MKCALENDAR.php"></a>
+<h1>caldav-MKCALENDAR.php</h1>
+<h2>Warnings:</h2><br />
+<b>Warning on line 30</b> - Page-level DocBlock precedes "require_once "XMLDocument.php"", use another DocBlock to document the source element<br />
+<h2>Errors:</h2><br />
+<b>Error on line 30</b> - "include" require_once's DocBlock has @subpackage tags, illegal. ignoring tag "@subpackage caldav"<br />
+<b>Error on line 30</b> - DocBlock has multiple @package tags, illegal. ignoring additional tag "@package davical"<br />
 <a name="caldav-POST.php"></a>
 <h1>caldav-POST.php</h1>
 <h2>Warnings:</h2><br />
@@ -72,8 +88,8 @@
 <h2>Warnings:</h2><br />
 <b>Warning on line 16</b> - Page-level DocBlock precedes "require_once "iCalendar.php"", use another DocBlock to document the source element<br />
 <h2>Errors:</h2><br />
-<b>Error on line 16</b> - DocBlock has multiple @package tags, illegal. ignoring additional tag "@package davical"<br />
 <b>Error on line 16</b> - "include" require_once's DocBlock has @subpackage tags, illegal. ignoring tag "@subpackage propfind"<br />
+<b>Error on line 16</b> - DocBlock has multiple @package tags, illegal. ignoring additional tag "@package davical"<br />
 <a name="caldav-PUT-functions.php"></a>
 <h1>caldav-PUT-functions.php</h1>
 <h2>Warnings:</h2><br />
@@ -100,7 +116,7 @@
 <a name="caldav-REPORT-principal.php"></a>
 <h1>caldav-REPORT-principal.php</h1>
 <h2>Warnings:</h2><br />
-<b>Warning on line 52</b> - File "/home/andrew/projects/davical/inc/caldav-REPORT-principal.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br />
+<b>Warning on line 33</b> - no @package tag was used in a DocBlock for file /home/andrew/projects/davical/inc/caldav-REPORT-principal.php<br />
 <a name="caldav-REPORT.php"></a>
 <h1>caldav-REPORT.php</h1>
 <h2>Warnings:</h2><br />
@@ -113,8 +129,8 @@
 <h2>Warnings:</h2><br />
 <b>Warning on line 10</b> - Page-level DocBlock precedes "require_once "../inc/always.php"", use another DocBlock to document the source element<br />
 <h2>Errors:</h2><br />
-<b>Error on line 10</b> - "include" require_once's DocBlock has @subpackage tags, illegal. ignoring tag "@subpackage caldav"<br />
 <b>Error on line 10</b> - DocBlock has multiple @package tags, illegal. ignoring additional tag "@package davical"<br />
+<b>Error on line 10</b> - "include" require_once's DocBlock has @subpackage tags, illegal. ignoring tag "@subpackage caldav"<br />
 <a name="CalDAVRequest.php"></a>
 <h1>CalDAVRequest.php</h1>
 <h2>Warnings:</h2><br />
@@ -187,12 +203,12 @@
 <h2>Warnings:</h2><br />
 <b>Warning on line 10</b> - Page-level DocBlock precedes "require_once "../inc/always.php"", use another DocBlock to document the source element<br />
 <h2>Errors:</h2><br />
-<b>Error on line 10</b> - "include" require_once's DocBlock has @subpackage tags, illegal. ignoring tag "@subpackage caldav"<br />
 <b>Error on line 10</b> - DocBlock has multiple @package tags, illegal. ignoring additional tag "@package davical"<br />
+<b>Error on line 10</b> - "include" require_once's DocBlock has @subpackage tags, illegal. ignoring tag "@subpackage caldav"<br />
 <a name="relationship_types.php"></a>
 <h1>relationship_types.php</h1>
 <h2>Warnings:</h2><br />
-<b>Warning on line 108</b> - File "/home/andrew/projects/davical/htdocs/relationship_types.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br />
+<b>Warning on line 107</b> - File "/home/andrew/projects/davical/htdocs/relationship_types.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br />
 <a name="roles.php"></a>
 <h1>roles.php</h1>
 <h2>Warnings:</h2><br />
@@ -212,8 +228,8 @@
 <a name="tools.php"></a>
 <h1>tools.php</h1>
 <h2>Warnings:</h2><br />
-<b>Warning on line 11</b> - Page-level DocBlock precedes "require_once "../inc/always.php"", use another DocBlock to document the source element<br />
 <b>Warning on line 11</b> - package davical is already in category Technical, will now replace with category Documentation<br />
+<b>Warning on line 11</b> - Page-level DocBlock precedes "require_once "../inc/always.php"", use another DocBlock to document the source element<br />
 <b>Warning on line 35</b> - no @package tag was used in a DocBlock for class Tools<br />
 <h2>Errors:</h2><br />
 <b>Error on line 11</b> - DocBlock has multiple @package tags, illegal. ignoring additional tag "@package davical"<br />
@@ -228,9 +244,9 @@
 <a name="usr.php"></a>
 <h1>usr.php</h1>
 <h2>Warnings:</h2><br />
-<b>Warning on line 94</b> - File "/home/andrew/projects/davical/htdocs/usr.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br />
+<b>Warning on line 93</b> - File "/home/andrew/projects/davical/htdocs/usr.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br />
 	<p class="notes" id="credit">
-		Documentation generated on Sat, 01 Nov 2008 23:07:46 +1300 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
+		Documentation generated on Tue, 18 Nov 2008 18:29:00 +1300 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
 	</p>
 	</body>
 </html>

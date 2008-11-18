@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DAViCal 0.9.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-06-19 00:23+1200\n"
+"POT-Creation-Date: 2008-11-18 18:29+1300\n"
 "PO-Revision-Date: 2008-02-27 16:04+0900\n"
 "Last-Translator: Shu NAKAMAE <griffin6630@hotmail.com>\n"
 "Language-Team: \n"
@@ -110,6 +110,10 @@ msgstr "カレンダーが見つかりません"
 msgid "Calendar Users"
 msgstr "カレンダー利用者"
 
+#, fuzzy
+msgid "Calendar"
+msgstr "カレンダー利用者"
+
 msgid "Can read from"
 msgstr "読み取り可能"
 
@@ -133,6 +137,14 @@ msgstr "コレクション内容"
 
 msgid "Collection Path"
 msgstr "コレクションパス"
+
+#, fuzzy
+msgid "Collection deleted"
+msgstr "コレクションパス"
+
+#, fuzzy
+msgid "Confirm Deletion of the Collection"
+msgstr "共有タイプの削除を確認"
 
 msgid "Confirm Deletion of the Relationship Type"
 msgstr "共有タイプの削除を確認"
@@ -230,6 +242,9 @@ msgstr "終了"
 msgid "For access to the"
 msgstr "アクセスを得るには"
 
+msgid "Forbidden"
+msgstr ""
+
 #, fuzzy
 msgid "FreeBusy"
 msgstr "予定あり"
@@ -276,7 +291,8 @@ msgstr "パスワードを忘れた場合"
 msgid "If you would like to request access, please e-mail"
 msgstr "アクセス権が欲しい場合はここへメールしてください："
 
-msgid "Import ICS file"
+#, fuzzy
+msgid "Import ICS file to new collection"
 msgstr "ICSファイルをインポート"
 
 msgid "Import all .ics files of a directory"
@@ -353,6 +369,9 @@ msgstr "パスワード"
 
 msgid "Please Confirm Deletion"
 msgstr "削除を確認して下さい。"
+
+msgid "Please confirm deletion of collection - see below"
+msgstr ""
 
 msgid "Please note the time and advise the administrator of your system."
 msgstr "時刻を記載してシステム管理者に報告して下さい。"

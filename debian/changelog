@@ -1,3 +1,17 @@
+davical (0.9.6.2) unstable; urgency=low
+
+  * Fix creation of database when template1 has pl/pgsql installed.
+  * Improvements to regression testing.
+  * Switch to use iCalComponent object rather than iCalendar, in many cases.
+  * Calculate DTEND when it is not set according to RFC2445.
+  * Much improved XML namespace handling.
+  * Configuration setting to control whether I should see appointments where I
+    am organizer/attendee, even if they are PRIVATE and not in my own calendar.
+  * Updated French translation (closes: #505861)
+  * Add facility to delete collections through the management interface.
+
+ -- Andrew McMillan <debian@mcmillan.net.nz>  Tue, 18 Nov 2008 18:22:33 +1300
+
 davical (0.9.6.1) unstable; urgency=low
 
   * Fix LOCK timeout handling.

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rscds-messages\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-06-19 00:23+1200\n"
+"POT-Creation-Date: 2008-11-18 18:29+1300\n"
 "PO-Revision-Date: 2007-03-31 00:24+0200\n"
 "Last-Translator: Rafal Slubowski <rafalslubowski@gmail.com>\n"
 "Language-Team: polski <pl@li.org>\n"
@@ -112,6 +112,10 @@ msgstr "Zasób kalendarza nie został znaleziony"
 msgid "Calendar Users"
 msgstr "Użytkownicy kalendarza"
 
+#, fuzzy
+msgid "Calendar"
+msgstr "Użytkownicy kalendarza"
+
 msgid "Can read from"
 msgstr "Może czytać z"
 
@@ -135,6 +139,14 @@ msgstr "Zawartość zbioru"
 
 msgid "Collection Path"
 msgstr "Ścieżka do zestawu"
+
+#, fuzzy
+msgid "Collection deleted"
+msgstr "Ścieżka do zestawu"
+
+#, fuzzy
+msgid "Confirm Deletion of the Collection"
+msgstr "Potwierdź usunięcie typu zależności"
 
 msgid "Confirm Deletion of the Relationship Type"
 msgstr "Potwierdź usunięcie typu zależności"
@@ -233,6 +245,9 @@ msgstr "Zakończ"
 msgid "For access to the"
 msgstr "Aby uzyskać dostęp do"
 
+msgid "Forbidden"
+msgstr ""
+
 msgid "FreeBusy"
 msgstr ""
 
@@ -278,7 +293,7 @@ msgstr "Jeśli zapomniałeś hasła, "
 msgid "If you would like to request access, please e-mail"
 msgstr "Jeśli chcesz poprosić o dostęp, wyślij e-mail do"
 
-msgid "Import ICS file"
+msgid "Import ICS file to new collection"
 msgstr ""
 
 msgid "Import all .ics files of a directory"
@@ -356,6 +371,9 @@ msgstr "Hasło"
 
 msgid "Please Confirm Deletion"
 msgstr "Proszę potwierdzić usunięcie"
+
+msgid "Please confirm deletion of collection - see below"
+msgstr ""
 
 msgid "Please note the time and advise the administrator of your system."
 msgstr ""
