@@ -4,8 +4,8 @@
 *
 * @package   davical
 * @subpackage   caldav
-* @author    Andrew McMillan <andrew@catalyst.net.nz>
-* @copyright Catalyst .Net Ltd
+* @author    Andrew McMillan <andrew@mcmillan.net.nz>
+* @copyright Catalyst .Net Ltd, Morphoss Ltd <http://www.morphoss.com/>
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v2
 */
 dbg_error_log("delete", "DELETE method handler");
@@ -45,9 +45,10 @@ if ( $request->IsCollection() ) {
     $sql = "BEGIN;";
     $sql .= "DELETE FROM collection WHERE user_no = $request->user_no AND dav_name = ". qpg($request->path).";";
     $sql .= "DELETE FROM caldav_data WHERE user_no = $request->user_no AND dav_name LIKE ?;";
+    $sql .= "DELETE FROM property WHERE dav_name LIKE ?;";
     $sql .= "DELETE FROM locks WHERE dav_name LIKE ?;";
     $sql .= "COMMIT;";
-    $qry = new PgQuery( $sql, $request->path.'%', $request->path.'%' );
+    $qry = new PgQuery( $sql, $request->path.'%', $request->path.'%', $request->path.'%' );
 
     if ( $qry->Exec("DELETE") ) {
       @dbg_error_log( "DELETE", "DELETE (collection): User: %d, ETag: %s, Path: %s", $session->user_no, $request->etag_if_match, $request->path);
@@ -73,6 +74,7 @@ else {
     }
     $qry = new PgQuery( "DELETE FROM caldav_data WHERE user_no = ? AND dav_name = ?;", $request->user_no, $request->path );
     if ( $qry->Exec("DELETE") ) {
+      $qry = new PgQuery( "DELETE FROM property WHERE dav_name = ?;", $request->path ); $qry->Exec("DELETE"); /** @todo we should write a trigger to delete property records when caldav_data or collection is deleted */
       @dbg_error_log( "DELETE", "DELETE: User: %d, ETag: %s, Path: %s", $session->user_no, $request->etag_if_match, $request->path);
       $request->DoResponse( 204 );
     }
@@ -85,4 +87,3 @@ else {
   }
 }
 
-?>
