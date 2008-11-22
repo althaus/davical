@@ -245,8 +245,8 @@ EOSQL;
     $browser->AddHidden( 'collection_link', "'<a href=\"$c->base_url/collection.php?user_no=' || user_no || '&dav_name=' || dav_name || '\">' || dav_name || '</a>'" );
     $browser->AddColumn( 'dav_name', translate('Collection Path'), 'left', '##collection_link##' );
     $browser->AddColumn( 'is_calendar', translate('Is a Calendar?'), 'centre', '', "CASE WHEN is_calendar THEN 'Yes' ELSE 'No' END" );
-    $browser->AddColumn( 'created', translate('Created On') );
-    $browser->AddColumn( 'modified', translate('Changed On') );
+    $browser->AddColumn( 'created', translate('Created On'), 'centre', '', "to_char(created,'YYYY-MM-DD HH24:MI')" );
+    $browser->AddColumn( 'modified', translate('Changed On'), 'centre', '', "to_char(created,'YYYY-MM-DD HH24:MI')" );
     if ( $ef->EditMode ) {
       $browser->AddColumn( 'TRUE', translate('Action'), 'left', "<a href=\"$c->base_url/usr.php?user_no=$this->user_no&dav_name=##URL:dav_name##&action=delete_collection\">Delete</a>" );
     }
