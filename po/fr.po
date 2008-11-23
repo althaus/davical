@@ -1,15 +1,16 @@
+# translation of fr.po to French
 # French translation for DAViCal CalDAV Server
 # Copyright (C) 2006-2008 Debian French translation team <debian-l10n-french@lists.debian.org>
 # This file is distributed under the same license as the davical package.
 #
-# maxime delorme <mdelorme@tennaxia.com>
 # Christian Perrier <bubulle@debian.org>, 2008.
+# maxime delorme <mdelorme@tennaxia.com>
 msgid ""
 msgstr ""
-"Project-Id-Version: davical_0.9.6.1_fr\n"
+"Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-11-18 18:29+1300\n"
-"PO-Revision-Date: 2008-11-11 09:09+0100\n"
+"PO-Revision-Date: 2008-11-23 14:32+0100\n"
 "Last-Translator: Christian Perrier <bubulle@debian.org>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -114,11 +115,10 @@ msgid "Calendar Resource Not Found."
 msgstr "Ressource calendrier introuvable."
 
 msgid "Calendar Users"
-msgstr "Utilisateurs du planning"
+msgstr "Utilisateurs du calendrier"
 
-#, fuzzy
 msgid "Calendar"
-msgstr "Utilisateurs du planning"
+msgstr "Calendrier"
 
 msgid "Can read from"
 msgstr "Peut lire depuis"
@@ -144,13 +144,11 @@ msgstr "Contenu de la collection"
 msgid "Collection Path"
 msgstr "Chemin de la collection"
 
-#, fuzzy
 msgid "Collection deleted"
-msgstr "Chemin de la collection"
+msgstr "Collection supprimée"
 
-#, fuzzy
 msgid "Confirm Deletion of the Collection"
-msgstr "Confirmez la suppression de ce type de relation"
+msgstr "Confirmez la suppression de la collection"
 
 msgid "Confirm Deletion of the Relationship Type"
 msgstr "Confirmez la suppression de ce type de relation"
@@ -260,7 +258,7 @@ msgid "For access to the"
 msgstr "Pour accéder à"
 
 msgid "Forbidden"
-msgstr ""
+msgstr "Interdit"
 
 msgid "FreeBusy"
 msgstr "LibreOccupé"
@@ -308,9 +306,8 @@ msgstr "Si vous avez oublié votre mot de passe alors"
 msgid "If you would like to request access, please e-mail"
 msgstr "Si vous souhaitez avoir accès, veuillez envoyer un courriel"
 
-#, fuzzy
 msgid "Import ICS file to new collection"
-msgstr "Importer un fichier ics"
+msgstr "Importer un fichier ICS dans une nouvelle collection"
 
 msgid "Import all .ics files of a directory"
 msgstr "Importer tous les fichiers .ics d'un répertoire"
@@ -398,7 +395,7 @@ msgid "Please Confirm Deletion"
 msgstr "Veuillez confirmer la suppression"
 
 msgid "Please confirm deletion of collection - see below"
-msgstr ""
+msgstr "Veuillez confirmer la suppression de la collection - voir ci-dessous"
 
 msgid "Please note the time and advise the administrator of your system."
 msgstr "Veuillez noter l'heure et informer l'administrateur de votre système informatique."
@@ -723,8 +720,7 @@ msgid "drivers_ldap : Unable to connect to LDAP with port %s on host %s"
 msgstr "drivers_ldap : impossible de se connecter à LDAP sur le port %s et sur l'hôte %s."
 
 msgid "drivers_ldap : function ldap_connect not defined, check your php_ldap module"
-msgstr ""
-"drivers_ldap : la fonction ldap_connect n'est pas définie, vérifiez que vous avez l'extension php_ldap."
+msgstr "drivers_ldap : la fonction ldap_connect n'est pas définie, vérifiez que vous avez l'extension php_ldap."
 
 #, c-format
 msgid "drivers_squid_pam : Unable to find %s file"
@@ -756,3 +752,4 @@ msgstr "Vous devez vous connecter avec le nom d'utilisateur et le mot de passe q
 
 msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
 msgstr "Cette opération exécute : <ul><li>vérifie les utilisateurs valides de l'annuaire LDAP</li>."
+
