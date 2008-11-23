@@ -29,7 +29,7 @@ CREATE TABLE caldav_data (
   modified TIMESTAMP WITH TIME ZONE,
   caldav_data TEXT,
   caldav_type TEXT,
-  logged_user INT references usr(user_no),
+  logged_user INT references usr(user_no) ON UPDATE CASCADE ON DELETE SET DEFAULT DEFERRABLE,
   dav_id INT8 UNIQUE DEFAULT nextval('dav_id_seq'),
   collection_id INT8 REFERENCES collection(collection_id) ON UPDATE CASCADE ON DELETE CASCADE DEFERRABLE,
 
@@ -48,7 +48,7 @@ CREATE TABLE time_zone (
 
 -- The parsed calendar item.  Here we have pulled those events/todos/journals apart somewhat.
 CREATE TABLE calendar_item (
-  user_no INT references usr(user_no),
+  user_no INT references usr(user_no) ON UPDATE CASCADE ON DELETE CASCADE DEFERRABLE,
   dav_name TEXT,
   dav_etag TEXT,
 
@@ -97,9 +97,9 @@ CREATE TABLE relationship_type (
 
 
 CREATE TABLE relationship (
-  from_user INT REFERENCES usr (user_no) ON UPDATE CASCADE,
-  to_user INT REFERENCES usr (user_no) ON UPDATE CASCADE,
-  rt_id INT REFERENCES relationship_type (rt_id) ON UPDATE CASCADE,
+  from_user INT REFERENCES usr (user_no) ON UPDATE CASCADE ON DELETE CASCADE,
+  to_user INT REFERENCES usr (user_no) ON UPDATE CASCADE ON DELETE CASCADE,
+  rt_id INT REFERENCES relationship_type (rt_id) ON UPDATE CASCADE ON DELETE CASCADE,
 
   PRIMARY KEY ( from_user, to_user, rt_id )
 );
@@ -123,7 +123,7 @@ CREATE TABLE property (
   property_name TEXT,
   property_value TEXT,
   changed_on TIMESTAMP DEFAULT current_timestamp,
-  changed_by INT REFERENCES usr ( user_no ),
+  changed_by INT REFERENCES usr ( user_no ) ON UPDATE CASCADE ON DELETE SET DEFAULT,
   PRIMARY KEY ( dav_name, property_name )
 );
 CREATE INDEX properties_dav_name_idx ON property(dav_name);
@@ -235,4 +235,4 @@ CREATE TABLE privilege (
 );
 
 
-SELECT new_db_revision(1,2,2, 'Fevrier' );
+SELECT new_db_revision(1,2,5, 'Mai' );
