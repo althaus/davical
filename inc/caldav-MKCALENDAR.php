@@ -124,7 +124,7 @@ if ( isset($request->xml_tags) ) {
   }
 }
 
-$sql = "SELECT * FROM collection WHERE user_no = ? AND dav_name = ?;";
+$sql = "SELECT * FROM collection WHERE dav_name = ?;";
 $qry = new PgQuery( $sql, $request->user_no, $request->path );
 if ( ! $qry->Exec("MKCALENDAR") ) {
   $request->DoResponse( 500, translate("Error querying database.") );
