@@ -18,7 +18,7 @@ $c->admin_email = 'admin@davical.example.com';
 $c->system_name = "DAViCal CalDAV Server";
 $c->domain_name = $_SERVER['SERVER_NAME'];
 $c->save_time_zone_defs = true;
-$c->collections_always_exist = true;
+$c->collections_always_exist = false;
 $c->allow_get_email_visibility = false;
 $c->home_calendar_name = 'home';
 $c->enable_row_linking = true;
@@ -102,7 +102,7 @@ awl_set_locale($c->default_locale);
 *
 */
 $c->code_version = 0;
-$c->version_string = '0.9.6.1'; // The actual version # is replaced into that during the build /release process
+$c->version_string = '0.9.6.2'; // The actual version # is replaced into that during the build /release process
 if ( isset($c->version_string) && preg_match( '/(\d+)\.(\d+)\.(\d+)(.*)/', $c->version_string, $matches) ) {
   $c->code_major = $matches[1];
   $c->code_minor = $matches[2];
