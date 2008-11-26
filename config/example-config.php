@@ -102,7 +102,7 @@ $c->admin_email ='calendar-admin@example.com';
 * creation of calendar collections.
 * Default: true
 */
-// $c->collections_always_exist = true;
+$c->collections_always_exist = false;
 
 /**
 * The name of a user's "home" calendar. This will be created for each
