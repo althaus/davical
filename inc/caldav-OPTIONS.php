@@ -33,7 +33,7 @@ else {
     $is_calendar = ($collection->is_calendar == 't');
     $exists = true;
   }
-  elseif ( $c->collections_always_exist ) {
+  elseif ( $c->collections_always_exist && preg_match( "#^/$session->username/#", $request->path) ) {
     $exists = true;
     // Possibly this should be another setting, but it seems unlikely that something that
     // can't deal with collections would issue MKCALENDAR or PROPPATCH commands.

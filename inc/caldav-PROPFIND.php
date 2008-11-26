@@ -573,7 +573,7 @@ function get_collection_contents( $depth, $user_no, $collection ) {
 * subsidiary collections will also be got up to $depth
 */
 function get_collection( $depth, $user_no, $collection_path ) {
-  global $c, $request;
+  global $session, $c, $request;
   $responses = array();
 
   dbg_error_log("PROPFIND","Getting collection: Depth %d, User: %d, Path: %s", $depth, $user_no, $collection_path );
@@ -606,7 +606,7 @@ function get_collection( $depth, $user_no, $collection_path ) {
     if( $qry->Exec("PROPFIND",__LINE__,__FILE__) && $qry->rows > 0 && $collection = $qry->Fetch() ) {
       $responses[] = collection_to_xml( $collection );
     }
-    elseif ( $c->collections_always_exist ) {
+    elseif ( $c->collections_always_exist && preg_match( "#^/$session->username/#", $collection_path) ) {
       dbg_error_log("PROPFIND","Using $c->collections_always_exist setting is deprecated" );
       $collection->dav_name = $collection_path;
       $collection->dav_etag = md5($collection_path);
