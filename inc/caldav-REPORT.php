@@ -99,12 +99,6 @@ function calendar_to_xml( $properties, $item ) {
 
         $caldav_data = $ical->Render();
       }
-      elseif ( isset($c->hide_alarm) && $c->hide_alarm ) {
-        // Otherwise we hide the alarms (if configured to)
-        $ical = new iCalComponent( $caldav_data );
-        $ical->ClearComponents( 'VALARM' );
-        $caldav_data = $ical->Render();
-      }
     }
   }
 

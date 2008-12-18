@@ -285,22 +285,6 @@ $c->collections_always_exist = false;
 // $c->local_tzid;
 
 /**
-* default is false
-* If true, then events requested from someone other than the admmin or owner
-* of a calendar will not get any alarm for it.  Most client software also
-* allows you to configure calendar by calendar which ones allow alarms, which
-* is better really, but if you aren't using such software you might want
-* to set this to true.
-*
-* You should be aware that there are potentially problems when someone without
-* full access modifies an event, in which case any alarms will be lost!  It really
-* *is* better if you can control this client-side, in so many ways...
-*
-* @todo remove this capability when client software is more generally smarter.
-*/
-// $c->hide_alarm = false;
-
-/**
 * Many people want this, but it may be a security issue for you, so it is
 * disabled by default.  If you enable it, then confidential / private events
 * will be visible to the 'organizer' or 'attendee' lists.  The reason that
