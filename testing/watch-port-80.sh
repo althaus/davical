@@ -2,6 +2,7 @@
 
 PORT=${1:-"80"}
 IFACE=${2:-"any"}
+IP=${3:-""}
 
 # Only include packets that contain data
 NOTSYNFIN=" and (((ip[2:2] - ((ip[0]&0xf)<<2)) - ((tcp[12]&0xf0)>>2)) != 0)"
@@ -9,7 +10,9 @@ DUMP="tcp port ${PORT}"
 
 IPCLAUSE=""
 if [ "${IFACE}" != "any" ]; then
-  IP="`ip addr show dev ${IFACE} | grep ' inet ' | tr -s ' ' | cut -f3 -d' ' | cut -f1 -d'/'`"
+  if [ -z "${IP}" ]; then
+    IP="`ip addr show dev ${IFACE} | grep ' inet ' | tr -s ' ' | cut -f3 -d' ' | cut -f1 -d'/'`"
+  fi
   IPCLAUSE=" and ((src host ${IP} and src port ${PORT}) or (dst host ${IP} and dst port ${PORT}))"
 fi
 
