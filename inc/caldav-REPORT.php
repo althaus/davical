@@ -102,13 +102,8 @@ function calendar_to_xml( $properties, $item ) {
       elseif ( isset($c->hide_alarm) && $c->hide_alarm ) {
         // Otherwise we hide the alarms (if configured to)
         $ical = new iCalComponent( $caldav_data );
-        $timezones = $ical->GetComponents('VTIMEZONE',true);
-        $resources = $ical->GetComponents('VTIMEZONE',false);
-        foreach( $resources AS $k => $v ) {
-          $v->ClearComponents('VALARM');
-        }
-        $ical->SetComponents($timezones + $resources);
-        $caldav_data = $ical->render(true, $caldav_type );
+        $ical->ClearComponents( 'VALARM' );
+        $caldav_data = $ical->Render();
       }
     }
   }
