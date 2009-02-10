@@ -190,6 +190,17 @@ function handle_freebusy_request( $ic ) {
 }
 
 
+function handle_cancel_request( $ic ) {
+  global $c, $session, $request;
+
+  $reply = new XMLDocument( array("DAV:" => "", "urn:ietf:params:xml:ns:caldav" => "C" ) );
+
+  $responses[] = $reply->NewXMLElement( "response", false, false, 'urn:ietf:params:xml:ns:caldav' );
+  $reply->CalDAVElement($response, "request-status", "2.0;Success" );  // Cargo-cult setting
+  $response = $reply->NewXMLElement( "schedule-response", $responses, $reply->GetXmlNsArray() );
+  $request->XMLResponse( 200, $response );
+}
+
 $ical = new iCalComponent( $request->raw_post );
 $method =  $ical->GetPValue('METHOD');
 
@@ -199,6 +210,11 @@ switch ( $method ) {
   case 'REQUEST':
     dbg_error_log("POST", "Handling iTIP 'REQUEST' method.", $method );
     handle_freebusy_request( $first );
+    break;
+
+  case 'CANCEL':
+    dbg_error_log("POST", "Handling iTIP 'CANCEL'  method.", $method );
+    handle_cancel_request( $first );
     break;
 
   default:
