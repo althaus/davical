@@ -208,7 +208,7 @@ class CalDAVRequest
       if ( $row->dav_name == $this->path."/" ) {
         $this->path = $row->dav_name;
         dbg_error_log( "caldav", "Path is actually a collection - sending Content-Location header." );
-        header( "Content-Location: $this->path" );
+        header( "Content-Location: ".ConstructURL($this->path) );
       }
 
       $this->collection_id = $row->collection_id;
@@ -246,7 +246,7 @@ EOSQL;
       if ( $this->collection_path == $this->path."/" ) {
         $this->path .= '/';
         dbg_error_log( "caldav", "Path is actually a collection - sending Content-Location header." );
-        header( "Content-Location: $this->path" );
+        header( "Content-Location: ".ConstructURL($this->path) );
       }
     }
     else if ( $this->path == '/' ) {
