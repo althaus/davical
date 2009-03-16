@@ -80,7 +80,7 @@ function calendar_to_xml( $properties, $item ) {
   if ( isset($properties['calendar-data']) || isset($properties['displayname']) ) {
     if ( !$request->AllowedTo('all') && $session->user_no != $item->user_no ){
       // the user is not admin / owner of this calendarlooking at his calendar and can not admin the other cal
-      /** @todo We should examine the ORGANIZER and ATTENDEE fields in the event.  If this person is there then they should see this, and perhaps get alarms also */
+      /** @todo We should examine the ORGANIZER and ATTENDEE fields in the event.  If this person is there then they should see this */
       if ( $item->class == 'CONFIDENTIAL' ) {
         $ical = new iCalComponent( $caldav_data );
         $resources = $ical->GetComponents('VTIMEZONE',false);
