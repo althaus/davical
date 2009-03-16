@@ -20,6 +20,8 @@ if ( $request->IsCollection() ) {
   /**
   * The CalDAV specification does not define GET on a collection, but typically this is
   * used as a .ics download for the whole collection, which is what we do also.
+  *
+  * @todo Change this to reference the collection_id of the collection at this location.
   */
   $order_clause = ( isset($c->strict_result_ordering) && $c->strict_result_ordering ? " ORDER BY dav_id" : "");
   $qry = new PgQuery( "SELECT caldav_data, class, caldav_type, calendar_item.user_no, logged_user FROM caldav_data INNER JOIN calendar_item USING ( dav_id ) WHERE caldav_data.user_no = ? AND caldav_data.dav_name ~ ? $order_clause", $request->user_no, $request->path.'[^/]+$');
@@ -31,7 +33,7 @@ else {
 if ( !$qry->Exec("GET") ) {
   $request->DoResponse( 500, translate("Database Error") );
 }
-else if ( $qry->rows == 1 ) {
+else if ( $qry->rows == 1 && ! $request->IsCollection() ) {
   $event = $qry->Fetch();
 
   /** Default deny... */
