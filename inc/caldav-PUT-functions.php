@@ -127,10 +127,25 @@ function public_events_only( $user_no, $dav_name ) {
 
 
 /**
-* Create scheduling requests in the schedule inbox for the
-* @param iCalComponent $component The VEVENT/VTODO/... resource we are scheduling
+* Create a scheduling request in the schedule inbox for the
+* @param iCalComponent $resource The VEVENT/VTODO/... resource we are scheduling
+* @param iCalProp $attendee The attendee we are scheduling
+* @return float The result of the scheduling request, per caldav-sched #3.5.4
 */
-function create_scheduling_requests( $resource ) {
+function write_scheduling_request( &$resource, $attendee ) {
+  return '5.4';
+}
+
+/**
+* Create scheduling requests in the schedule inbox for the
+* @param iCalComponent $resource The VEVENT/VTODO/... resource we are scheduling
+*/
+function create_scheduling_requests( &$resource ) {
+  if ( ! is_object($resource) ) {
+    dbg_error_log( "PUT", "create_scheduling_requests called with non-object parameter (%s)", gettype($resource) );
+    return;
+  }
+
   $attendees = $resource->GetPropertiesByPath('/VCALENDAR/*/ATTENDEE');
   if ( preg_match( '# iCal/\d#', $_SERVER['HTTP_USER_AGENT']) ) {
     dbg_error_log( "POST", "Non-compliant iCal request.  Using X-WR-ATTENDEE property" );
@@ -139,11 +154,47 @@ function create_scheduling_requests( $resource ) {
       $attendees[] = $v;
     }
   }
+  if ( count($attendees) == 0 ) {
+    dbg_error_log( "PUT", "Event has no attendees - no scheduling required.", count($attendees) );
+    return;
+  }
+
   dbg_error_log( "PUT", "Adding to scheduling inbox %d attendees", count($attendees) );
   foreach( $attendees AS $attendee ) {
-    dbg_error_log( "PUT", "Not yet adding to schedule-inbox for %s", $attendee->Value() );
+    $attendee->SetParameterValue( 'SCHEDULE-STATUS', write_scheduling_request( $resource, $attendee->Value() ) );
   }
 }
+
+
+/**
+* Update scheduling requests in the schedule inbox for the
+* @param iCalComponent $resource The VEVENT/VTODO/... resource we are scheduling
+*/
+function update_scheduling_requests( &$resource ) {
+  if ( ! is_object($resource) ) {
+    dbg_error_log( "PUT", "update_scheduling_requests called with non-object parameter (%s)", gettype($resource) );
+    return;
+  }
+
+  $attendees = $resource->GetPropertiesByPath('/VCALENDAR/*/ATTENDEE');
+  if ( preg_match( '# iCal/\d#', $_SERVER['HTTP_USER_AGENT']) ) {
+    dbg_error_log( "POST", "Non-compliant iCal request.  Using X-WR-ATTENDEE property" );
+    $wr_attendees = $resource->GetPropertiesByPath('/VCALENDAR/*/X-WR-ATTENDEE');
+    foreach( $wr_attendees AS $k => $v ) {
+      $attendees[] = $v;
+    }
+  }
+  if ( count($attendees) == 0 ) {
+    dbg_error_log( "PUT", "Event has no attendees - no scheduling required.", count($attendees) );
+    return;
+  }
+
+  dbg_error_log( "PUT", "Adding to scheduling inbox %d attendees", count($attendees) );
+  foreach( $attendees AS $attendee ) {
+    $attendee->SetParameterValue( 'SCHEDULE-STATUS', write_scheduling_request( $resource, $attendee->Value() ) );
+  }
+}
+
 
 /**
 * This function will import a whole calendar
@@ -208,6 +259,7 @@ function import_collection( $ics_content, $user_no, $path, $caldav_context ) {
     $vcal = new iCalComponent();
     $vcal->VCalendar();
     $vcal->SetComponents($resource);
+    create_scheduling_requests($vcal);
     $icalendar = $vcal->Render();
 
     /** As ever, we mostly deal with the first resource component */
@@ -406,11 +458,13 @@ function putCalendarResource( &$request, $author, $caldav_context ) {
   $first = $resources[0];
 
   if ( $put_action_type == 'INSERT' ) {
+    create_scheduling_requests($vcal);
     $qry = new PgQuery( "BEGIN; INSERT INTO caldav_data ( user_no, dav_name, dav_etag, caldav_data, caldav_type, logged_user, created, modified, collection_id ) VALUES( ?, ?, ?, ?, ?, ?, current_timestamp, current_timestamp, ? )",
                            $request->user_no, $request->path, $etag, $request->raw_post, $first->GetType(), $author, $request->collection_id );
     if ( !$qry->Exec("PUT") ) rollback_on_error( $caldav_context, $request->user_no, $request->path);
   }
   else {
+    update_scheduling_requests($vcal);
     $qry = new PgQuery( "BEGIN;UPDATE caldav_data SET caldav_data=?, dav_etag=?, caldav_type=?, logged_user=?, modified=current_timestamp WHERE user_no=? AND dav_name=?",
                            $request->raw_post, $etag, $first->GetType(), $author, $request->user_no, $request->path );
     if ( !$qry->Exec("PUT") ) rollback_on_error( $caldav_context, $request->user_no, $request->path);
