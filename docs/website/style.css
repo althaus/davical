@@ -84,18 +84,22 @@ hr {
 h1 {
   color: #600000;
   font-family: helvetica, arial, sans-serif;
-  font-size: 130%;
+  font-size: 135%;
   margin-top: 1em;
   margin-bottom: 0.3em;
   }
 
-h2 {
+h2, h3 {
   color: black;
   font-family: helvetica, arial, sans-serif;
-  font-size: 110%;
+  font-size: 115%;
   margin-top: 1em;
   margin-bottom: 0.3em;
   }
+
+h3 {
+  font-size: 100%;
+}
 
 .showcase {
   margin: 2px;
