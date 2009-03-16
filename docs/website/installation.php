@@ -8,7 +8,7 @@
 <p>Ideally you will be running a recent Debian (or Ubuntu) release and will
 be able to add:</p>
 <pre>
-deb http://debian.mcmillan.net.nz/debian unstable awm
+deb http://debian.mcmillan.net.nz/debian lenny awm
 </pre>
 <p>to your <code>/etc/apt/sources.list</code>.  Once you have done that you
 can use <code>apt-get</code> or <code>synaptic</code> or some other equivalent package
@@ -39,18 +39,18 @@ RPM packages please get in touch!</p>
 <p>On SuSE Linux you may need to look in /var/lib/pgsql/data/ for the pg_hba.conf file.</p>
 
 <h3>Gentoo</h3>
-Davical and the awl library ebuilds are available on the <a href="http://www.gentoo.org/proj/en/sunrise/">sunrise overlay</a>.
-You'll have to add this overlay to your system:
+<p>Davical and the awl library ebuilds are available on the <a href="http://www.gentoo.org/proj/en/sunrise/">sunrise overlay</a>.
+You'll have to add this overlay to your system:</p>
 <pre>
 emerge layman
 layman -f -a sunrise
 echo "source /usr/portage/local/layman/make.conf" >> /etc/make.conf
 </pre>
 
-From there, you can keep the overlay in sync with the command:
+<p>From there, you can keep the overlay in sync with the command:</p>
 <pre>layman -s sunrise</pre>
 
-Davical can now be installed with a normal:
+<p>Davical can now be installed with a normal:</p>
 <pre>emerge davical</pre>
 
 <h3>Slackware, BSD and the rest</h3>
