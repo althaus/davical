@@ -4,10 +4,10 @@
 # There is no CalDAV defined behaviour for this.
 #
 TYPE=PUT
-URL=http://mycaldav/caldav.php/user3/home/
+URL=http://mycaldav/caldav.php/User%20Six/home/
 HEADER=User-Agent: RSCDS Testing/0.9.x
 HEADER=Content-Type: text/calendar; charset=utf-8
-AUTH=user3:user3
+AUTH=User Six:user6
 
 HEAD
 
@@ -66,12 +66,12 @@ SELECT caldav_data.user_no, caldav_type, logged_user,
        percent_complete, tz_id, status,
        caldav_data AS "A1 CalDAV DATA"
 FROM caldav_data JOIN calendar_item USING(dav_name)
-WHERE caldav_data.dav_name ~ '^/user3/home/'
+WHERE caldav_data.dav_name ~ '^/User Six/home/'
 ENDQUERY
 
 QUERY
 SELECT count(*)
   FROM caldav_data JOIN calendar_item USING(dav_name)
-  WHERE caldav_data.dav_name ~ '^/user3/home/'
+  WHERE caldav_data.dav_name ~ '^/User Six/home/'
 ENDQUERY
 

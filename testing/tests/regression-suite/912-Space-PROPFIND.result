@@ -1,0 +1,81 @@
+HTTP/1.1 207 Multi-Status
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
+ETag: "d9e474e1d625534857e60566ab57af44"
+Content-Length: 1914
+Content-Type: text/xml; charset="utf-8"
+
+<?xml version="1.0" encoding="utf-8" ?>
+<multistatus xmlns="DAV:" xmlns:A="http://calendarserver.org/ns/" xmlns:C="urn:ietf:params:xml:ns:caldav" xmlns:A1="http://apple.com/ns/ical/">
+ <response>
+  <href>/caldav.php/User%20Six/</href>
+  <propstat>
+   <prop>
+    <resourcetype>
+     <collection/>
+     <principal/>
+    </resourcetype>
+    <displayname>User 6</displayname>
+    <A:getctag>"6892a953b4f6ae6179a98759c8de3de2"</A:getctag>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <C:calendar-free-busy-set/>
+    <C:calendar-description/>
+    <A1:calendar-color/>
+    <A1:calendar-order/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/User%20Six/home/</href>
+  <propstat>
+   <prop>
+    <resourcetype>
+     <collection/>
+     <C:calendar/>
+     <C:schedule-calendar/>
+    </resourcetype>
+    <displayname>home</displayname>
+    <A:getctag>"6cc47e929c65c2342a578dcba09a2492"</A:getctag>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <C:calendar-free-busy-set/>
+    <C:calendar-description/>
+    <A1:calendar-color/>
+    <A1:calendar-order/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/User%20Six/DEADBEEF-EFD9-4F0F-9BDC-5335E04D47E0/</href>
+  <propstat>
+   <prop>
+    <resourcetype>
+     <collection/>
+     <C:calendar/>
+     <C:schedule-calendar/>
+    </resourcetype>
+    <displayname>Space Calendar</displayname>
+    <A:getctag>"d0711d9c33f6c22359ee83adb7751cda"</A:getctag>
+    <A1:calendar-color>#391B71A0</A1:calendar-color>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <C:calendar-free-busy-set/>
+    <C:calendar-description/>
+    <A1:calendar-order/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+</multistatus>

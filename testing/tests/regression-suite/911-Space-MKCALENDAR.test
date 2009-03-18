@@ -1,0 +1,30 @@
+#
+# MKCALENDAR test for username with a space
+#
+TYPE=MKCALENDAR
+URL=http://mycaldav/caldav.php/User%20Six/DEADBEEF-EFD9-4F0F-9BDC-5335E04D47E0/
+HEADER=Content-Type: text/xml
+AUTH=User Six:user6
+HEAD
+
+
+BEGINDATA
+<?xml version="1.0" encoding="UTF-8" ?>
+<x0:mkcalendar xmlns:x0="urn:ietf:params:xml:ns:caldav" xmlns:x1="DAV:" xmlns:x2="http://apple.com/ns/ical/">
+ <x1:set>
+  <x1:prop>
+   <x1:displayname>Space Calendar</x1:displayname>
+   <x2:calendar-color>#391B71A0</x2:calendar-color>
+  </x1:prop>
+ </x1:set>
+</x0:mkcalendar>
+ENDDATA
+
+
+QUERY
+SELECT user_no, parent_container, dav_displayname,
+       is_calendar, public_events_only
+FROM collection
+WHERE dav_name = '/User Six/DEADBEEF-EFD9-4F0F-9BDC-5335E04D47E0/';
+ENDQUERY
+

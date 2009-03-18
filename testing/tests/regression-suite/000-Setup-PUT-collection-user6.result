@@ -48,7 +48,7 @@ END:VCALENDAR
           dtstart: >2008-10-25 13:30:00+13<
               due: >NULL<
          location: >NULL<
-      logged_user: >12<
+      logged_user: >15<
  percent_complete: >NULL<
          priority: >NULL<
             rrule: >FREQ=MONTHLY;INTERVAL=1;BYDAY=1TU,2WE,3TH,4FR;BYMONTH=3,6,9,10,12<
@@ -58,7 +58,7 @@ END:VCALENDAR
             tz_id: >Europe/Helsinki<
               uid: >55F6EC95-2D21-4FB9-9AE1-A6E020B44AEB<
               url: >NULL<
-          user_no: >12<
+          user_no: >15<
 
    A1 CalDAV DATA: >BEGIN:VCALENDAR
 PRODID:-//davical.org//NONSGML AWL Calendar//EN
@@ -102,7 +102,7 @@ END:VCALENDAR
           dtstart: >2008-10-24 08:45:00+13<
               due: >NULL<
          location: >NULL<
-      logged_user: >12<
+      logged_user: >15<
  percent_complete: >NULL<
          priority: >NULL<
             rrule: >FREQ=MONTHLY;INTERVAL=1;BYDAY=TU,FR<
@@ -112,7 +112,7 @@ END:VCALENDAR
             tz_id: >Europe/Helsinki<
               uid: >174F9C2A-1223-40C4-9E06-6E91F2EA9491<
               url: >NULL<
-          user_no: >12<
+          user_no: >15<
 
             count: >2<
 

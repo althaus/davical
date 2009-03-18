@@ -20,7 +20,7 @@ BEGINDATA
 <C:mkcalendar xmlns:D="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav" xmlns:I="com.apple.ical:">
  <D:set>
  <D:prop>
-  <D:displayname>SOHO+collection</D:displayname>
+  <D:displayname>SOHO collection</D:displayname>
   <I:calendarcolor>#0000FFFF</I:calendarcolor>
   <C:supported-calendar-component-set>
    <C:comp name="VEVENT"/>
@@ -35,5 +35,5 @@ BEGINDATA
 ENDDATA
 
 QUERY
-SELECT * FROM collection WHERE dav_name = '/user1/SOHO+collection';
+SELECT * FROM collection WHERE dav_name = '/user1/SOHO collection';
 ENDQUERY

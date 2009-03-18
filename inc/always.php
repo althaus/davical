@@ -231,11 +231,15 @@ function getStatusMessage($status) {
 
 
 /**
-* Construct a URL from the supplied dav_name
+* Construct a URL from the supplied dav_name.  The URL will be urlencoded,
+* except for any '/' characters in it.
 * @param string $partial_path  The part of the path after the script name
 */
 function ConstructURL( $partial_path ) {
   global $c;
+
+  $partial_path = rawurlencode($partial_path);
+  $partial_path = str_replace( '%2F', '/', $partial_path);
 
   if ( ! isset($c->_url_script_path) ) {
     $c->_url_script_path = (preg_match('#/$#', $c->protocol_server_port_script) ? 'caldav.php' : '');

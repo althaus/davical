@@ -1,0 +1,13 @@
+HTTP/1.1 201 Created
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
+Cache-Control: no-cache
+Content-Length: 0
+Content-Type: text/plain; charset="utf-8"
+
+  dav_displayname: >Space Calendar<
+      is_calendar: >1<
+ parent_container: >/User Six/<
+public_events_onl: >0<
+          user_no: >15<
+

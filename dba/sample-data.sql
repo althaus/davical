@@ -16,6 +16,8 @@ INSERT INTO usr ( user_no, active, email_ok, updated, username, password, fullna
     VALUES( 13, TRUE, current_date, current_date, 'user4', '**user4', 'User 4', 'user4@example.net' );
 INSERT INTO usr ( user_no, active, email_ok, updated, username, password, fullname, email )
     VALUES( 14, TRUE, current_date, current_date, 'user5', '**user5', 'User 5', 'user5@example.net' );
+INSERT INTO usr ( user_no, active, email_ok, updated, username, password, fullname, email )
+    VALUES( 15, TRUE, current_date, current_date, 'User Six', '**user6', 'User 6', 'user6@example.net' );
 
 INSERT INTO usr ( user_no, active, email_ok, updated, username, password, fullname, email )
     VALUES( 20, TRUE, current_date, current_date, 'manager1', '**manager1', 'Manager 1', 'manager1@example.net' );
