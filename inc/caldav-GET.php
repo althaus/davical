@@ -50,6 +50,11 @@ else if ( $qry->rows == 1 && ! $request->IsCollection() ) {
     if ( $event->class == 'CONFIDENTIAL' && ! $request->AllowedTo('modify') ) {
       // if the event is confidential we fake one that just says "Busy"
       $confidential = new iCalComponent();
+
+      $ical = new iCalComponent( $event->caldav_data );
+      $resources = $ical->GetComponents('VTIMEZONE',false);
+      $first = $resources[0];
+
       $confidential->SetType($event->caldav_type);
       $confidential->AddProperty( 'SUMMARY', translate('Busy') );
       $confidential->AddProperty( 'CLASS', 'CONFIDENTIAL' );
