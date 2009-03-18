@@ -50,7 +50,7 @@ else if ( $qry->rows == 1 && ! $request->IsCollection() ) {
     if ( $event->class == 'CONFIDENTIAL' && ! $request->AllowedTo('modify') ) {
       // if the event is confidential we fake one that just says "Busy"
       $confidential = new iCalComponent();
-      $confidential->SetType($first->GetType());
+      $confidential->SetType($event->caldav_type);
       $confidential->AddProperty( 'SUMMARY', translate('Busy') );
       $confidential->AddProperty( 'CLASS', 'CONFIDENTIAL' );
       $confidential->SetProperties( $first->GetProperties('DTSTART'), 'DTSTART' );
@@ -130,13 +130,13 @@ else {
       if ( $event->class == 'CONFIDENTIAL' ) {
         // if the event is confidential we fake one that just says "Busy"
         $confidential = new iCalComponent();
-        $confidential->SetType($first->GetType());
+        $confidential->SetType($resource->GetType());
         $confidential->AddProperty( 'SUMMARY', translate('Busy') );
         $confidential->AddProperty( 'CLASS', 'CONFIDENTIAL' );
-        $confidential->SetProperties( $first->GetProperties('DTSTART'), 'DTSTART' );
-        $confidential->SetProperties( $first->GetProperties('RRULE'), 'RRULE' );
-        $confidential->SetProperties( $first->GetProperties('DURATION'), 'DURATION' );
-        $confidential->SetProperties( $first->GetProperties('DTEND'), 'DTEND' );
+        $confidential->SetProperties( $resource->GetProperties('DTSTART'), 'DTSTART' );
+        $confidential->SetProperties( $resource->GetProperties('RRULE'), 'RRULE' );
+        $confidential->SetProperties( $resource->GetProperties('DURATION'), 'DURATION' );
+        $confidential->SetProperties( $resource->GetProperties('DTEND'), 'DTEND' );
 
         $vcal->AddComponent($confidential);
       }
