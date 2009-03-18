@@ -185,7 +185,6 @@
     <item url="testing/tests/regression-suite/304-Chandler-TEST-1.data" uploadstatus="1" />
     <item url="testing/tests/regression-suite/3F4CF6227300FD062D9EF3CDFB30D32D-0-modified.ics.data" uploadstatus="1" />
     <item url="testing/tests/regression-suite/3F4CF6227300FD062D9EF3CDFB30D32D-0.ics.data" uploadstatus="1" />
-    <item url="testing/tests/regression-suite/F56B49B10FC923D20FE2DC92D6580340-0.ics.data" uploadstatus="1" />
     <item url="testing/tests/regression-suite/020-Mulberry-DELETE-1.test" uploadstatus="1" />
     <item url="testing/tests/regression-suite/021-Mulberry-DELETE-2.test" uploadstatus="1" />
     <item url="testing/tests/regression-suite/206-Moz-PUT-1.test" uploadstatus="1" />
@@ -258,5 +257,12 @@
     <item url="inc/caldav-POST.php" uploadstatus="1" />
     <item url="dba/patches/1.2.4.sql" uploadstatus="1" />
     <item url="dba/rrule_tests.sql" uploadstatus="1" />
+    <item url="dba/patches/1.2.5.sql" uploadstatus="1" />
+    <item url="inc/PdoQuery.php" uploadstatus="1" />
+    <projectview name="default view" >
+      <viewitem url="inc/caldav-GET.php" />
+      <viewitem url="inc/caldav-REPORT.php" />
+      <viewitem url="inc/caldav-PUT-functions.php" />
+    </projectview>
   </project>
 </webproject>
