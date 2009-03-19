@@ -117,104 +117,95 @@ class PdoDialect {
       $value_type = gettype($value);
     }
 
-    switch ( $this->dialect ) {
-      case 'pgsql':
-        switch ( $value_type ) {
-          case 'identifier': // special case will only happen if it is passed in.
-            $rv = '"' . str_replace('"', '\\"', $value ) . '"';
-            break;
-          case 'null':
-            $rv = 'NULL';
-            break;
-          case 'integer':
-          case 'double' :
-            return $str;
-          case 'boolean':
-            $rv = $str ? 'TRUE' : 'FALSE';
-            break;
-          case 'string':
-          default:
-            $str = str_replace("'", "''", $str);
-            //PostgreSQL treats a backslash as an escape character.
-            $str = str_replace('\\', '\\\\', $str);
-            $rv = "E'$str'";
-        }
+    switch ( $value_type ) {
+      case 'identifier': // special case will only happen if it is passed in.
+        $rv = '"' . str_replace('"', '\\"', $value ) . '"';
         break;
+      case 'null':
+        $rv = 'NULL';
+        break;
+      case 'integer':
+      case 'double' :
+        return $str;
+      case 'boolean':
+        $rv = $str ? 'TRUE' : 'FALSE';
+        break;
+      case 'string':
+      default:
+        $str = str_replace("'", "''", $str);
+        if ( strpos( $str, '\\' ) !== false ) {
+          $str = str_replace('\\', '\\\\', $str);
+          if ( $this->dialect == 'pgsql' ) {
+            /** PostgreSQL wants to know when a string might contain escapes */
+            $rv = "E'$str'";
+          }
+        }
     }
 
     return $rv;
 
   }
 
-}
-
-
-/**
-* A variable of this class is normally constructed through a call to PdoDatabase::Query or PdoDatabase::Prepare,
-* associating it on construction with the database which is to be queried.
-* @package awl
-*/
-class PdoQuery {
 
   /**
-  * Where $db is a PdoDatabase object. This constructs the PdoQuery. If there are further parameters they
-  * will be in turn, the sql, and any positional parameters to replace into that, and will be passed to
-  * $this->Query() before returning.
+  * Replaces query parameters with appropriately escaped substitutions.
+  *
+  * The function takes a variable number of arguments, the first is the
+  * SQL string, with replaceable '?' characters (a la DBI).  The subsequent
+  * parameters being the values to replace into the SQL string.
+  *
+  * The values passed to the routine are analyzed for type, and quoted if
+  * they appear to need quoting.  This can go wrong for (e.g.) NULL or
+  * other special SQL values which are not straightforwardly identifiable
+  * as needing quoting (or not).  In such cases the parameter can be forced
+  * to be inserted unquoted by passing it as "array( 'plain' => $param )".
+  *
+  * @param  string The query string with replacable '?' characters.
+  * @param mixed The values to replace into the SQL string.
+  * @return The built query string
   */
-  function __construct( $db, ... ) {
+  function ReplaceParameters() {
+    $argc = func_num_args();
+    $qry = func_get_arg(0);
+    $args = func_get_args();
+
+    if ( is_array($qry) ) {
+      /**
+      * If the first argument is an array we treat that as our arguments instead
+      */
+      $qry = $args[0][0];
+      $args = $args[0];
+      $argc = count($args);
+    }
+
+    /**
+    * We only split into a maximum of $argc chunks.  Any leftover ? will remain in
+    * the string and may be replaced at Exec rather than Prepare.
+    */
+    $parts = explode( '?', $qry, $argc );
+    $querystring = $parts[0];
+    $z = count($parts);
+
+    for( $i = 1; $i < $z; $i++ ) {
+      $arg = $args[$i];
+      if ( !isset($arg) ) {
+        $querystring .= 'NULL';
+      }
+      elseif ( is_array($arg) && $arg['plain'] != '' ) {
+        // We abuse this, but people should access it through the PgQuery::Plain($v) function
+        $querystring .= $arg['plain'];
+      }
+      else {
+        $querystring .= $this->Quote($arg);  //parameter
+      }
+      $querystring .= $parts[$i]; //extras eg. ","
+    }
+    if ( isset($parts[$z]) ) $querystring .= $parts[$z]; //puts last part on the end
+
+    return $querystring;
   }
 
 
-  /**
-  * If the sql is supplied then PDO::prepare will be called with that SQL to prepare the query, and if there
-  * are positional parameters then they will be replaced into the sql_string (with appropriate escaping)
-  * before the call to PDO::prepare.
-  */
-  function Query( $sql_string, ... ) {
-  }
-
-
-  /**
-  * If there are (some) positional parameters in the prepared query, now is the last chance to supply them...
-  * before the query is executed. Returns true on success and false on error.
-  */
-  function Exec( ... ) {
-  }
-
-
-  /**
-  * Will fetch the next row from the query into an object with elements named for the fields in the result.
-  */
-  function Fetch() {
-  }
-
-
-  /**
-  * Will fetch the next row from the query into an array of fields.
-  */
-  function FetchArray() {
-  }
-
-
-  /**
-  * Will fetch all result rows from the query into an array of objects with elements named for the fields in the result.
-  */
-  function FetchAll() {
-  }
-
-
-  /**
-  * An accessor for the number of rows affected when the query was executed.
-  */
-  function Rows() {
-  }
-
-
-  /**
-  * Used to set the maximum duration for this query before it will be logged as a slow query.
-  */
-  function MaxDuration( $seconds_double ) {
-  }
 
 }
 
@@ -276,19 +267,33 @@ class PdoDatabase {
 
   /**
   * Returns a PdoQuery object created using this database, the supplied SQL string, and any parameters given.
+  * @param string $sql_query_string The SQL string containing optional variable replacements
+  * @param mixed ... Subsequent arguments are positionally replaced into the $sql_query_string
   */
-  function Prepare( $sql_string, ... ) {
+  function Prepare( ) {
+    $qry = new PdoQuery( &$this );
+    $qry->Query(func_get_args());
+    return $qry;
   }
 
 
   /**
-  * Construct and execute an SQL statement from the sql_string, replacing the parameters into it. Returns true on
-  * success and false on error.
+  * Construct and execute an SQL statement from the sql_string, replacing the parameters into it.
   *
-  * While this uses a PdoQuery internally, this is not exposed. It is intended for use with queries which are not
-  * needed after execution to know how many rows are affected, or to be able to process a result set.
+  * @param string $sql_query_string The SQL string containing optional variable replacements
+  * @param mixed ... Subsequent arguments are positionally replaced into the $sql_query_string
+  * @return mixed false on error or number of rows affected. Test failure with === false
   */
-  function Exec( $sql_string, ... ) {
+  function Exec( ) {
+    $sql_string = $this->dialect->ReplaceParameters(func_get_args());
+
+    $start = microtime(true);
+    $result = $db->exec($sql_string);
+    $duration = microtime(true) - $start;
+    $this->querytime += $duration;
+    $this->querycount++;
+
+    return $result;
   }
 
 
@@ -296,6 +301,13 @@ class PdoDatabase {
   * Begin a transaction.
   */
   function Begin() {
+    if ( $this->txnstate == 0 ) {
+      $this->db->beginTransaction();
+      $this->txnstate = 1;
+    }
+    else {
+      trigger_error("Cannot begin a transaction while a transaction is already active.", E_USER_ERROR);
+    }
   }
 
 
@@ -303,6 +315,10 @@ class PdoDatabase {
   * Complete a transaction.
   */
   function Commit() {
+    $this->txnstate = 0;
+    if ( $this->txnstate != 0 ) {
+      $this->db->commit();
+    }
   }
 
 
@@ -310,6 +326,13 @@ class PdoDatabase {
   * Cancel a transaction in progress.
   */
   function Rollback() {
+    $this->txnstate = 0;
+    if ( $this->txnstate != 0 ) {
+      $this->db->rollBack();
+    }
+    else {
+      trigger_error("Cannot rollback unless a transaction is already active.", E_USER_ERROR);
+    }
   }
 
 
@@ -318,6 +341,7 @@ class PdoDatabase {
   * has failed, or if we are not in a transaction.
   */
   function TransactionState() {
+    return $this->txnstate;
   }
 
 
@@ -325,6 +349,7 @@ class PdoDatabase {
   * Returns the total duration of quries executed so far by this object instance.
   */
   function TotalDuration() {
+    return $this->querytime;
   }
 
 
@@ -332,6 +357,7 @@ class PdoDatabase {
   * Returns the total number of quries executed by this object instance.
   */
   function TotalQueries() {
+    return $this->querycount;
   }
 
 
@@ -356,6 +382,104 @@ class PdoDatabase {
   * as if PrepareTranslated() had been called.
   */
   function TranslateAll( $onoff_boolean ) {
+  }
+
+}
+
+
+/**
+* A variable of this class is normally constructed through a call to PdoDatabase::Query or PdoDatabase::Prepare,
+* associating it on construction with the database which is to be queried.
+* @package awl
+*/
+class PdoQuery {
+
+  private $pdb;
+  private $sth;
+  private $max_duration = 2;
+
+  /**
+  * Where $db is a PdoDatabase object. This constructs the PdoQuery. If there are further parameters they
+  * will be in turn, the sql, and any positional parameters to replace into that, and will be passed to
+  * $this->Query() before returning.
+  */
+  function __construct( $db ) {
+    $this->pdb = $db;
+    if ( isset($db->default_max_duration) ) {
+      $this->max_duration = $db->default_max_duration;
+    }
+  }
+
+
+  /**
+  * If the sql is supplied then PDO::prepare will be called with that SQL to prepare the query, and if there
+  * are positional parameters then they will be replaced into the sql_string (with appropriate escaping)
+  * before the call to PDO::prepare.  Query preparation time is counted towards total query execution time.
+  */
+  function Query( ) {
+    $sql_string = $this->dialect->ReplaceParameters(func_get_args());
+
+    $start = microtime(true);
+    $this->sth = $pdb->db->prepare($sql_string);
+    $duration = microtime(true) - $start;
+    $this->querytime += $duration;
+  }
+
+
+  /**
+  * If there are (some) positional parameters in the prepared query, now is the last chance to supply them...
+  * before the query is executed. Returns true on success and false on error.
+  */
+  function Exec( ) {
+    $start = microtime(true);
+    $result = $this->sth->execute(func_get_args());
+    $duration = microtime(true) - $start;
+    $this->querytime += $duration;
+    $this->querycount++;
+
+    return $result;
+  }
+
+
+  /**
+  * Will fetch the next row from the query into an object with elements named for the fields in the result.
+  */
+  function Fetch() {
+    return $this->sth->fetchObject();
+  }
+
+
+  /**
+  * Will fetch the next row from the query into an array with numbered elements and with elements named
+  * for the fields in the result.
+  */
+  function FetchArray() {
+    return $this->sth->fetch();
+  }
+
+
+  /**
+  * Will fetch all result rows from the query into an array of objects with elements named for the fields in the result.
+  */
+  function FetchAll() {
+    return $this->sth->fetchAll(PDO::FETCH_OBJ);
+  }
+
+
+  /**
+  * An accessor for the number of rows affected when the query was executed.
+  */
+  function Rows() {
+    return $this->sth->rowCount();
+  }
+
+
+  /**
+  * Used to set the maximum duration for this query before it will be logged as a slow query.
+  * @param double $seconds The maximum duration for this statement before logging it as 'slow'
+  */
+  function MaxDuration( $seconds ) {
+    $this->max_duration = $seconds;
   }
 
 }
