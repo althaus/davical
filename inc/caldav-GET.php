@@ -62,11 +62,10 @@ else if ( $qry->rows == 1 && ! $request->IsCollection() ) {
       $confidential->SetProperties( $first->GetProperties('RRULE'), 'RRULE' );
       $confidential->SetProperties( $first->GetProperties('DURATION'), 'DURATION' );
       $confidential->SetProperties( $first->GetProperties('DTEND'), 'DTEND' );
+      $confidential->SetProperties( $first->GetProperties('UID'), 'UID' );
 
-      $vcal = new iCalComponent();
-      $vcal->VCalendar();
-      $vcal->AddComponent($confidential);
-      $event->caldav_data = $vcal->Render();
+      $ical->SetComponents( array($confidential), $confidential->GetType() );
+      $event->caldav_data = $ical->Render();
       $allowed = true;
     }
     else {
@@ -142,6 +141,7 @@ else {
         $confidential->SetProperties( $resource->GetProperties('RRULE'), 'RRULE' );
         $confidential->SetProperties( $resource->GetProperties('DURATION'), 'DURATION' );
         $confidential->SetProperties( $resource->GetProperties('DTEND'), 'DTEND' );
+        $confidential->SetProperties( $resource->GetProperties('UID'), 'UID' );
 
         $vcal->AddComponent($confidential);
       }

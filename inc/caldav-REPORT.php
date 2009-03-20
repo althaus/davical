@@ -95,6 +95,7 @@ function calendar_to_xml( $properties, $item ) {
         $confidential->SetProperties( $first->GetProperties('RRULE'), 'RRULE' );
         $confidential->SetProperties( $first->GetProperties('DURATION'), 'DURATION' );
         $confidential->SetProperties( $first->GetProperties('DTEND'), 'DTEND' );
+        $confidential->SetProperties( $first->GetProperties('UID'), 'UID' );
         $ical->SetComponents(array($confidential),$confidential->GetType());
 
         $caldav_data = $ical->Render();
