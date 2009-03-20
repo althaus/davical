@@ -1,8 +1,8 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
-ETag: "382593e900a2698b91f4c54bda9bf080"
-Content-Length: 3461
+ETag: "452f45250e12e66d9f6db823b4615a48"
+Content-Length: 3503
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -82,6 +82,7 @@ SUMMARY:Busy
 CLASS:CONFIDENTIAL
 DTSTART;TZID=/mozilla.org/20050126_1/Antarctica/McMurdo:20061223T160000
 DTEND;TZID=/mozilla.org/20050126_1/Antarctica/McMurdo:20061223T180000
+UID:9d050be7-8a02-4355-8ed3-02a9fc5f473f
 END:VEVENT
 END:VCALENDAR
 </C:calendar-data>
