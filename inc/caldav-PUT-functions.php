@@ -336,12 +336,12 @@ function import_collection( $ics_content, $user_no, $path, $caldav_context ) {
         unset($tz);
         unset($tz_locn);
       }
-      dbg_error_log( "PUT", " Using TZID[%s] and location of [%s]", $tzid, (isset($tz_locn) ? $tz_locn : '') );
       if ( ! isset($tz_locn) || ! preg_match( $tz_regex, $tz_locn ) ) {
-        if ( preg_match( '#/([^/]+/[^/]+)$#', $tzid, $matches ) ) {
+        if ( preg_match( '#([^/]+/[^/]+)$#', $tzid, $matches ) ) {
           $tz_locn = $matches[1];
         }
       }
+      dbg_error_log( "PUT", " Using TZID[%s] and location of [%s]", $tzid, (isset($tz_locn) ? $tz_locn : '') );
       if ( isset($tz_locn) && ($tz_locn != $last_tz_locn) && preg_match( $tz_regex, $tz_locn ) ) {
         dbg_error_log( "PUT", " Setting timezone to %s", $tz_locn );
         $sql .= ( $tz_locn == '' ? '' : "SET TIMEZONE TO ".qpg($tz_locn).";" );
@@ -549,12 +549,12 @@ function putCalendarResource( &$request, $author, $caldav_context ) {
     if ( $tz->GetPValue('TZID') == $tzid ) {
       // This is the one
       $tz_locn = $tz->GetPValue('X-LIC-LOCATION');
-      dbg_error_log( "PUT", " Using TZID[%s] and location of [%s]", $tzid, $tz_locn );
       if ( ! isset($tz_locn) || ! preg_match( $tz_regex, $tz_locn ) ) {
-        if ( preg_match( '#/([^/]+/[^/]+)$#', $tzid, $matches ) ) {
+        if ( preg_match( '#([^/]+/[^/]+)$#', $tzid, $matches ) ) {
           $tz_locn = $matches[1];
         }
       }
+      dbg_error_log( "PUT", " Using TZID[%s] and location of [%s]", $tzid, $tz_locn );
       if ( isset($tz_locn) && preg_match( $tz_regex, $tz_locn ) ) {
         dbg_error_log( "PUT", " Setting timezone to %s", $tz_locn );
         $sql = ( $tz_locn == '' ? '' : "SET TIMEZONE TO ".qpg($tz_locn).";" );
