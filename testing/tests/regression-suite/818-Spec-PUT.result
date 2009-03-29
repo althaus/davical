@@ -41,9 +41,9 @@ END:VCALENDAR
             class: >PUBLIC<
          dav_etag: >8600dc4a1b264a09a5f741d710497cba<
       description: >Have a microparty. All the best parties are monthly!<
-            dtend: >2008-11-21 16:00:00+13<
+            dtend: >2008-11-21 16:00:00<
           dtstamp: >2008-10-24 22:09:25<
-          dtstart: >2008-11-21 16:00:00+13<
+          dtstart: >2008-11-21 16:00:00<
               due: >NULL<
          location: >NULL<
       logged_user: >10<

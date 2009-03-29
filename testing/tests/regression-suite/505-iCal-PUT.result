@@ -54,9 +54,9 @@ END:VCALENDAR
       caldav_type: >VEVENT<
             class: >PUBLIC<
       description: >NULL<
-            dtend: >2007-11-26 00:00:00+13<
+            dtend: >2007-11-26 00:00:00<
           dtstamp: >2007-11-23 09:30:48<
-          dtstart: >2007-11-25 23:00:00+13<
+          dtstart: >2007-11-25 23:00:00<
               due: >NULL<
          location: >NULL<
       logged_user: >10<

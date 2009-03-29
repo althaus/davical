@@ -55,9 +55,9 @@ END:VCALENDAR
             class: >PUBLIC<
          dav_etag: >b7cfb403232dc83f936c15a179901d50<
       description: >NULL<
-            dtend: >2007-11-26 23:00:00+13<
+            dtend: >2007-11-26 23:00:00<
           dtstamp: >2007-11-24 08:37:09<
-          dtstart: >2007-11-26 22:00:00+13<
+          dtstart: >2007-11-26 22:00:00<
               due: >NULL<
          location: >NULL<
       logged_user: >10<

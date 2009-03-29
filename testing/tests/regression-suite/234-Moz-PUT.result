@@ -51,8 +51,8 @@ END:VCALENDAR
       description: >NULL<
             dtend: >NULL<
           dtstamp: >2007-12-03 20:29:15<
-          dtstart: >2007-12-09 13:30:00+13<
-              due: >2007-12-09 13:30:00+13<
+          dtstart: >2007-12-09 13:30:00<
+              due: >2007-12-09 13:30:00<
          location: >NULL<
       logged_user: >10<
  percent_complete: >95.00<

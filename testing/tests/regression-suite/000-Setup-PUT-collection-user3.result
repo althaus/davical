@@ -43,9 +43,9 @@ END:VCALENDAR
       caldav_type: >VEVENT<
             class: >PUBLIC<
       description: >NULL<
-            dtend: >2008-10-25 14:30:00+13<
+            dtend: >2008-10-25 14:30:00<
           dtstamp: >2008-10-24 20:07:45<
-          dtstart: >2008-10-25 13:30:00+13<
+          dtstart: >2008-10-25 13:30:00<
               due: >NULL<
          location: >NULL<
       logged_user: >12<
@@ -97,9 +97,9 @@ END:VCALENDAR
       caldav_type: >VEVENT<
             class: >PUBLIC<
       description: >NULL<
-            dtend: >2008-10-24 11:30:00+13<
+            dtend: >2008-10-24 11:30:00<
           dtstamp: >2008-10-25 11:26:53<
-          dtstart: >2008-10-24 08:45:00+13<
+          dtstart: >2008-10-24 08:45:00<
               due: >NULL<
          location: >NULL<
       logged_user: >12<

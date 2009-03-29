@@ -53,9 +53,9 @@ END:VCALENDAR
             class: >PUBLIC<
          dav_etag: >e8060931f30c1798ac58ffbe4ec0bffc<
       description: >Twice-weekly breakfast meeting<
-            dtend: >2007-12-11 08:30:00+13<
+            dtend: >2007-12-11 08:30:00<
           dtstamp: >2007-12-03 20:26:30<
-          dtstart: >2007-12-11 07:45:00+13<
+          dtstart: >2007-12-11 07:45:00<
               due: >NULL<
          location: >Suzies Coffee Lounge<
       logged_user: >10<

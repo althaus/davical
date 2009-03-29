@@ -44,9 +44,9 @@ END:VCALENDAR
       caldav_type: >VEVENT<
             class: >PUBLIC<
       description: >NULL<
-            dtend: >2008-10-20 11:30:00+13<
+            dtend: >2008-10-20 11:30:00<
           dtstamp: >2008-10-23 05:49:58<
-          dtstart: >2008-10-20 11:00:00+13<
+          dtstart: >2008-10-20 11:00:00<
               due: >NULL<
          location: >NULL<
       logged_user: >11<
@@ -99,9 +99,9 @@ END:VCALENDAR
       caldav_type: >VEVENT<
             class: >PUBLIC<
       description: >NULL<
-            dtend: >2008-10-20 10:00:00+13<
+            dtend: >2008-10-20 10:00:00<
           dtstamp: >2008-10-23 05:49:34<
-          dtstart: >2008-10-20 09:00:00+13<
+          dtstart: >2008-10-20 09:00:00<
               due: >NULL<
          location: >NULL<
       logged_user: >11<
@@ -154,9 +154,9 @@ END:VCALENDAR
       caldav_type: >VEVENT<
             class: >PUBLIC<
       description: >NULL<
-            dtend: >2008-10-24 15:00:00+13<
+            dtend: >2008-10-24 15:00:00<
           dtstamp: >2008-10-23 05:51:15<
-          dtstart: >2008-10-24 14:00:00+13<
+          dtstart: >2008-10-24 14:00:00<
               due: >NULL<
          location: >NULL<
       logged_user: >11<

@@ -46,8 +46,8 @@ END:VCALENDAR
       description: >Organise a party<
             dtend: >NULL<
           dtstamp: >2007-11-24 22:09:25<
-          dtstart: >2004-01-01 12:00:00+13<
-              due: >2010-02-17 00:00:00+13<
+          dtstart: >2004-01-01 12:00:00<
+              due: >2010-02-17 00:00:00<
          location: >NULL<
       logged_user: >10<
  percent_complete: >NULL<
