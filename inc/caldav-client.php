@@ -3,48 +3,14 @@
 * A Class for connecting to a caldav server
 *
 * @package   awl
+* removed curl - now using fsockopen
+* changed 2009 by Andres Obrero - Switzerland andres@obrero.ch
+*
 * @subpackage   caldav
 * @author Andrew McMillan <debian@mcmillan.net.nz>
 * @copyright Andrew McMillan
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v2
 */
-
-/**
-* I bet you find this hard to believe, but having to write this hack really
-* annoys the crap out of me.  WTF!  Why does PHP/Curl not have a function which
-* simply accepts a string as what the request will contain.  Oh no.  They only
-* think of "POST" and "PUT a file".  Crap.
-*
-* So the following PoS code accepts that it will be called, and asked for $length
-* bites of the $fd (which we ignore, because we get it all from the $_...data variable)
-* and so it will eat it's way through the data.
-*/
-$__curl_read_callback_pos = 0;
-$__curl_read_callback_data = "";
-function __curl_init_callback( $data ) {
-  global $__curl_read_callback_pos, $__curl_read_callback_data;
-  $__curl_read_callback_pos = 0;
-  $__curl_read_callback_data = $data;
-}
-
-/**
-* As documented in the comments on this page(!)
-*    http://nz2.php.net/curl_setopt
-*/
-function __curl_read_callback( $ch, $fd, $length) {
-  global $__curl_read_callback_pos, $__curl_read_callback_data;
-
-  if ( $__curl_read_callback_pos < 0 ) {
-    unset($fd);
-    return "";
-  }
-
-  $answer = substr($__curl_read_callback_data, $__curl_read_callback_pos, $length );
-  if ( strlen($answer) < $length ) $__curl_read_callback_pos = -1;
-  else $__curl_read_callback_pos += $length;
-
-  return $answer;
-}
 
 
 /**
@@ -54,11 +20,11 @@ function __curl_read_callback( $ch, $fd, $length) {
 */
 class CalDAVClient {
   /**
-  * Server, username, password, calendar, $entry
+  * Server, username, password, calendar
   *
   * @var string
   */
-  var $base_url, $user, $pass, $calendar, $entry;
+  var $base_url, $user, $pass, $calendar, $entry, $protocol, $server, $port;
 
   /**
   * The useragent which is send to the caldav server
@@ -69,14 +35,8 @@ class CalDAVClient {
 
   var $headers = array();
   var $body = "";
-
-  /**
-  * Our cURL connection
-  *
-  * @var resource
-  */
-  var $curl;
-
+  var $requestMethod = "GET";
+  var $httpRequest = ""; // for debugging what have we sent
 
   /**
   * Constructor, initialises the class
@@ -91,15 +51,25 @@ class CalDAVClient {
     $this->user = $user;
     $this->pass = $pass;
     $this->calendar = $calendar;
+    $this->headers = array();
 
-    $this->curl = curl_init();
-    curl_setopt($this->curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-    curl_setopt($this->curl, CURLOPT_USERPWD, "$user:$pass" );
-    curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, true );
-    curl_setopt($this->curl, CURLOPT_BINARYTRANSFER, true );
-
-    $this->headers[] = array();
-
+    if ( preg_match( '#^(https?)://([a-z0-9.-]+)(:([0-9]+))?/#', $base_url, $matches ) ) {
+      $this->server = $matches[2];
+      if ( $matches[1] == 'https' ) {
+        $this->protocol = 'ssl';
+        $this->port = 443;
+      }
+      else {
+        $this->protocol = 'http';
+        $this->port = 80;
+      }
+      if ( $matches[4] != '' ) {
+        $this->port = intval($matches[4]);
+      }
+    }
+    else {
+      trigger_error("Invalid URL: '".$base_url."'", E_USER_ERROR);
+    }
   }
 
   /**
@@ -149,35 +119,30 @@ class CalDAVClient {
   * @return string The content of the response from the server
   */
   function DoRequest( $relative_url = "" ) {
+    if(!defined("_FSOCK_TIMEOUT")){ define("_FSOCK_TIMEOUT", 10); }
+    $headers = array();
 
-    curl_setopt($this->curl, CURLOPT_URL, $this->base_url . $relative_url );
-    curl_setopt($this->curl, CURLOPT_USERAGENT, $this->user_agent );
-    curl_setopt($this->curl, CURLOPT_HTTPHEADER, $this->headers );
+    $headers[] = $this->requestMethod." ". $this->base_url . $relative_url . " HTTP/1.1";
+    $headers[] = "Authorization: Basic ".base64_encode($this->user .":". $this->pass );
+    $headers[] = "Host: ".$this->server .": ".$this->port;
 
-    /**
-    * So we don't get annoyed at self-signed certificates.  Should be a setup
-    * configuration thing really.
-    */
-    curl_setopt($this->curl, CURLOPT_SSL_VERIFYPEER, false );
-
-    $bodylen = strlen($this->body);
-    if ( $bodylen > 0 ) {
-      /**
-      * Call our magic write the data function.  You'd think there would be a
-      * simple setopt call where we could set the data to be written, but no,
-      * we have to pass a function, which passes the data.
-      */
-      curl_setopt($this->curl, CURLOPT_UPLOAD, true );
-      __curl_init_callback($this->body);
-      curl_setopt($this->curl, CURLOPT_INFILESIZE, $bodylen );
-      curl_setopt($this->curl, CURLOPT_READFUNCTION, '__curl_read_callback' );
+    foreach( $this->headers as $ii => $head ) {
+      $headers[] = $head;
     }
+    $headers[] = "Content-Length: " . strlen($this->body);
+    $headers[] = "User-Agent: " . $this->user_agent;
+    $headers[] = 'Connection: close';
+    $this->httpRequest = join("\r\n",$headers) . "\r\n\r\n" . $this->body;
 
-    $this->response = curl_exec($this->curl);
-    $this->resultcode = curl_getinfo( $this->curl, CURLINFO_HTTP_CODE);
+    $fip = fsockopen( $this->protocol . '://' . $this->server, $this->port, $errno, $errstr, _FSOCK_TIMEOUT); //error handling?
+    if ( !(get_resource_type($fip) == 'stream') ) return false;
+    if ( !fwrite($fip, $this->httpRequest) ) { fclose($fip); return false; }
+    $rsp = "";
+    while( !feof($fip) ) { $rsp .= fgets($fip,8192); }
+    fclose($fip);
 
-    $this->headers[] = array();  // reset the headers array for our next request
-
+    $this->headers = array();  // reset the headers array for our next request
+    $this->response = $rsp;
     return $this->response;
   }
 
@@ -190,9 +155,8 @@ class CalDAVClient {
   * @return array The allowed options
   */
   function DoOptionsRequest( $relative_url = "" ) {
-    curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, "OPTIONS" );
+    $this->requestMethod = "OPTIONS";
     $this->body = "";
-    curl_setopt($this->curl, CURLOPT_HEADER, true);
     $headers = $this->DoRequest($relative_url);
     $options_header = preg_replace( '/^.*Allow: ([a-z, ]+)\r?\n.*/is', '$1', $headers );
     $options = array_flip( preg_split( '/[, ]+/', $options_header ));
@@ -212,9 +176,7 @@ class CalDAVClient {
   */
   function DoXMLRequest( $request_method, $xml, $relative_url = '' ) {
     $this->body = $xml;
-
-    curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, $request_method );
-    curl_setopt($this->curl, CURLOPT_HEADER, false);
+    $this->requestMethod = $request_method;
     $this->SetContentType("text/xml");
     return $this->DoRequest($relative_url);
   }
@@ -228,9 +190,8 @@ class CalDAVClient {
   */
   function DoGETRequest( $relative_url ) {
     $this->body = "";
-    curl_setopt($this->curl, CURLOPT_HTTPGET, true);
-    curl_setopt($this->curl, CURLOPT_HEADER, false);
-    $response = $this->DoRequest( $relative_url );
+    $this->requestMethod = "GET";
+    return $this->DoRequest( $relative_url );
   }
 
 
@@ -246,8 +207,7 @@ class CalDAVClient {
   function DoPUTRequest( $relative_url, $icalendar, $etag = null ) {
     $this->body = $icalendar;
 
-    curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, "PUT" );
-    curl_setopt($this->curl, CURLOPT_HEADER, true);
+    $this->requestMethod = "PUT";
     if ( $etag != null ) {
       $this->SetMatch( ($etag != '*'), $etag );
     }
@@ -274,8 +234,7 @@ class CalDAVClient {
   function DoDELETERequest( $relative_url, $etag = null ) {
     $this->body = "";
 
-    curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, "DELETE" );
-    curl_setopt($this->curl, CURLOPT_HEADER, true);
+    $this->requestMethod = "DELETE";
     if ( $etag != null ) {
       $this->SetMatch( true, $etag );
     }
@@ -481,3 +440,50 @@ foreach ( $events AS $k => $event ) {
   do_something_with_event_data( $event['data'] );
 }
 */
+$acc = array();
+$acc["google"] = array(
+"user"=>"kunsttherapie@gmail.com",
+"pass"=>"xxxxx",
+"server"=>"ssl://www.google.com",
+"port"=>"443",
+"uri"=>"https://www.google.com/calendar/dav/kunsttherapie@gmail.com/events/",
+);
+
+$acc["davical"] = array(
+"user"=>"andres",
+"pass"=>"xxxxxx",
+"server"=>"calendar.farbraum.biz",
+"port"=>"80",
+"uri"=>"http://calendar.farbraum.biz/caldav.php/andres/home/",
+);
+//*******************************
+
+$account = $acc["davical"];
+
+//*******************************
+$cal = new CalDAVClient( $account["uri"], $account["user"], $account["pass"], "", $account["server"], $account["port"] );
+$options = $cal->DoOptionsRequest();
+print_r($options);
+
+//*******************************
+//*******************************
+
+$xmlC = <<<PROPP
+<?xml version="1.0" encoding="utf-8" ?>
+<D:propfind xmlns:D="DAV:" xmlns:CS="http://calendarserver.org/ns/">
+	<D:prop>
+		<D:displayname />
+		<CS:getctag />
+		<D:resourcetype />
+
+	</D:prop>
+</D:propfind>
+PROPP;
+if ( isset($options["PROPFIND"]) ) {
+  // Fetch some information about the events in that calendar
+  $cal->SetDepth(1);
+  $folder_xml = $cal->DoXMLRequest("PROPFIND", $xmlC);
+  print_r( $folder_xml);
+}
+//*******************************
+//*******************************
