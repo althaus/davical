@@ -128,7 +128,7 @@ function handle_freebusy_request( $ic ) {
     $i = 0;
 
     $fb = new iCalComponent();
-    $fb->AddProperty( 'DTSTAMP',   date('Ymd\THis\Z') );
+    $fb->AddProperty( 'DTSTAMP',   gmdate('Ymd\THis\Z') );
     $fb->AddProperty( 'DTSTART',   $fbq_start );
     $fb->AddProperty( 'DTEND',     $fbq_end );
     $fb->AddProperty( 'UID',       $ic->GetPValue('UID') );
@@ -147,11 +147,12 @@ function handle_freebusy_request( $ic ) {
           if ( $date->GreaterThan($fbq_end) ) break;
           $todate = clone($date);
           $todate->AddDuration($duration);
-          $fb->AddProperty("FREEBUSY", sprintf("%s/%s", $date->Render('Ymd\THis'), $todate->Render('Ymd\THis') ), $fbparams);
+          $fb->AddProperty("FREEBUSY", sprintf("%s/%s", $date->RenderGMT(), $todate->RenderGMT() ), $fbparams);
         }
       }
       else {
-        $fb->AddProperty("FREEBUSY", sprintf("%s/%s", $start->Render('Ymd\THis'), $v->finish ), $fbparams );
+        $finish = new iCalDate($v->finish);
+        $fb->AddProperty("FREEBUSY", sprintf("%s/%s", $start->RenderGMT(), $finish->RenderGMT() ), $fbparams );
       }
     }
 
@@ -166,11 +167,12 @@ function handle_freebusy_request( $ic ) {
           if ( $date->GreaterThan($fbq_end) ) break;
           $todate = clone($date);
           $todate->AddDuration($duration);
-          $fb->AddProperty("FREEBUSY", sprintf("%s/%s", $date->Render('Ymd\THis'), $todate->Render('Ymd\THis') ), $fbparams );
+          $fb->AddProperty("FREEBUSY", sprintf("%s/%s", $date->RenderGMT(), $todate->RenderGMT() ), $fbparams );
         }
       }
       else {
-        $fb->AddProperty("FREEBUSY", sprintf("%s/%s", $start->Render('Ymd\THis'), $v->finish ), $fbparams );
+        $finish = new iCalDate($v->finish);
+        $fb->AddProperty("FREEBUSY", sprintf("%s/%s", $start->RenderGMT(), $finish->RenderGMT() ), $fbparams );
       }
     }
 
