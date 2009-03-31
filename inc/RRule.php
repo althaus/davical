@@ -174,6 +174,14 @@ class iCalDate {
 
 
   /**
+  * Render the date as GMT
+  */
+  function RenderGMT( $fmt = 'Ymd\THis\Z' ) {
+    return gmdate( $fmt, $this->_epoch );
+  }
+
+
+  /**
   * No of days in a month 1(Jan) - 12(Dec)
   */
   function DaysInMonth( $mo=false, $yy=false ) {
