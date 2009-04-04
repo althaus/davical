@@ -37,6 +37,8 @@ class CalDAVClient {
   var $body = "";
   var $requestMethod = "GET";
   var $httpRequest = ""; // for debugging what have we sent
+  var $httpResponse = ""; // for debugging the response
+  var $xmlResponse = ""; // calendar data
 
   /**
   * Constructor, initialises the class
@@ -47,14 +49,14 @@ class CalDAVClient {
   * @param string $calendar  The name of the calendar (not currently used)
   */
   function CalDAVClient( $base_url, $user, $pass, $calendar ) {
-    $this->base_url = $base_url;
     $this->user = $user;
     $this->pass = $pass;
     $this->calendar = $calendar;
     $this->headers = array();
 
-    if ( preg_match( '#^(https?)://([a-z0-9.-]+)(:([0-9]+))?/#', $base_url, $matches ) ) {
+    if ( preg_match( '#^(https?)://([a-z0-9.-]+)(:([0-9]+))?(/.*)$#', $base_url, $matches ) ) {
       $this->server = $matches[2];
+      $this->base_url = $matches[5];
       if ( $matches[1] == 'https' ) {
         $this->protocol = 'ssl';
         $this->port = 443;
@@ -68,7 +70,7 @@ class CalDAVClient {
       }
     }
     else {
-      trigger_error("Invalid URL: '".$base_url."'", E_USER_ERROR);
+      trigger_error("Invalid URL: '".$base_url."'", E_USER_ERROR);
     }
   }
 
@@ -110,6 +112,21 @@ class CalDAVClient {
     $this->headers[] = "Content-type: $type";
   }
 
+  /**
+  * Split response into httpResponse and xmlResponse
+  *
+  * @param string Response from server
+   */
+  function ParseResponse( $response ) {
+      $pos = strpos($response, '<?xml');
+      if ($pos == false) {
+        $this->httpResponse = trim($response);
+      }
+      else {
+        $this->httpResponse = trim(substr($response, 0, $pos));
+        $this->xmlResponse = trim(substr($response, $pos));
+      }
+  }
 
   /**
   * Send a request to the server
@@ -142,8 +159,8 @@ class CalDAVClient {
     fclose($fip);
 
     $this->headers = array();  // reset the headers array for our next request
-    $this->response = $rsp;
-    return $this->response;
+    $this->ParseResponse($rsp);
+    return $rsp;
   }
 
 
@@ -257,28 +274,27 @@ class CalDAVClient {
   *               be an array with 'href', 'etag' and 'data' elements, corresponding to the URL, the server-supplied
   *               etag (which only varies when the data changes) and the calendar data in iCalendar format.
   */
-  function DoCalendarQuery( $filter, $relative_url = '', $reponse_type = 'data' ) {
+  function DoCalendarQuery( $filter, $relative_url = '' ) {
 
     $xml = <<<EOXML
 <?xml version="1.0" encoding="utf-8" ?>
-<calendar-query xmlns:D="DAV:" xmlns="urn:ietf:params:xml:ns:caldav">
+<C:calendar-query xmlns:D="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
   <D:prop>
-    <calendar-data/>
+    <C:calendar-data/>
     <D:getetag/>
   </D:prop>$filter
-</calendar-query>
+</C:calendar-query>
 EOXML;
 
-    $this->SetDepth("1");
     $this->DoXMLRequest( 'REPORT', $xml, $relative_url );
     $xml_parser = xml_parser_create_ns('UTF-8');
     $this->xml_tags = array();
     xml_parser_set_option ( $xml_parser, XML_OPTION_SKIP_WHITE, 1 );
-    xml_parse_into_struct( $xml_parser, $this->response, $this->xml_tags );
+    xml_parse_into_struct( $xml_parser, $this->xmlResponse, $this->xml_tags );
     xml_parser_free($xml_parser);
 
     $report = array();
-    foreach( $this->xml_tags AS $k => $v ) {
+    foreach( $this->xml_tags as $k => $v ) {
       switch( $v['tag'] ) {
         case 'DAV::RESPONSE':
           if ( $v['type'] == 'open' ) {
@@ -296,7 +312,6 @@ EOXML;
           break;
         case 'URN:IETF:PARAMS:XML:NS:CALDAV:CALENDAR-DATA':
           $response['data'] = $v['value'];
-          if ( $report_type != 'data' ) $response[$report_type] = $v['value'];  // deprecated - will be removed.  Just use 'data' please :-)
           break;
       }
     }
@@ -317,22 +332,24 @@ EOXML;
   *
   * @return array An array of the relative URLs, etags, and events, returned from DoCalendarQuery() @see DoCalendarQuery()
   */
-  function GetEvents( $start, $finish, $relative_url = '' ) {
+  function GetEvents( $start = null, $finish = null, $relative_url = '' ) {
     $filter = "";
-    if ( $start && $finish ) {
-      $filter = <<<EOFILTER
+    if ( isset($start) && isset($finish) )
+        $range = "<C:time-range start=\"$start\" end=\"$finish\"/>";
+    else
+        $range = '';
 
-  <filter>
-    <comp-filter name="VCALENDAR">
-      <comp-filter name="VEVENT">
-        <time-range start="$start" end="$finish"/>
-      </comp-filter>
-    </comp-filter>
-  </filter>
+    $filter = <<<EOFILTER
+  <C:filter>
+    <C:comp-filter name="VCALENDAR">
+      <C:comp-filter name="VEVENT">
+        $range
+      </C:comp-filter>
+    </C:comp-filter>
+  </C:filter>
 EOFILTER;
-    }
 
-    return DoCalendarQuery($filter, $relative_url);
+    return $this->DoCalendarQuery($filter, $relative_url);
   }
 
 
@@ -378,7 +395,7 @@ EOTIME;
   </C:filter>
 EOFILTER;
 
-    return DoCalendarQuery($filter, $relative_url);
+    return $this->DoCalendarQuery($filter, $relative_url);
   }
 
 
@@ -396,7 +413,7 @@ EOFILTER;
       $filter = <<<EOFILTER
   <C:filter>
     <C:comp-filter name="VCALENDAR">
-          <C:comp-filter name="VTODO">
+          <C:comp-filter name="VEVENT">
                 <C:prop-filter name="UID">
                         <C:text-match icollation="i;octet">$uid</C:text-match>
                 </C:prop-filter>
@@ -406,7 +423,7 @@ EOFILTER;
 EOFILTER;
     }
 
-    return DoCalendarQuery($filter, $relative_url);
+    return $this->DoCalendarQuery($filter, $relative_url);
   }
 
 
@@ -419,71 +436,79 @@ EOFILTER;
   * @return string The iCalendar of the calendar entry
   */
   function GetEntryByHref( $href, $relative_url = '' ) {
-    return DoGETRequest( $relative_url . $href );
+    return $this->DoGETRequest( $relative_url . $href );
   }
 
 }
 
 /**
 * Usage example
-
-$cal = new CalDAVClient( "http://calendar.example.com/caldav.php/username/calendar/", "username", "password", "calendar" );
-$options = $cal->DoOptionsRequest();
-if ( isset($options["PROPFIND"]) ) {
-  // Fetch some information about the events in that calendar
-  $cal->SetDepth(1);
-  $folder_xml = $cal->DoXMLRequest("PROPFIND", '<?xml version="1.0" encoding="utf-8" ?><propfind xmlns="DAV:"><prop><getcontentlength/><getcontenttype/><resourcetype/><getetag/></prop></propfind>' );
-}
-// Fetch all events for February
-$events = $cal->GetEvents("20070101T000000Z","20070201T000000Z");
-foreach ( $events AS $k => $event ) {
-  do_something_with_event_data( $event['data'] );
-}
 */
-$acc = array();
-$acc["google"] = array(
-"user"=>"kunsttherapie@gmail.com",
-"pass"=>"xxxxx",
-"server"=>"ssl://www.google.com",
-"port"=>"443",
-"uri"=>"https://www.google.com/calendar/dav/kunsttherapie@gmail.com/events/",
-);
 
-$acc["davical"] = array(
-"user"=>"andres",
-"pass"=>"xxxxxx",
-"server"=>"calendar.farbraum.biz",
-"port"=>"80",
-"uri"=>"http://calendar.farbraum.biz/caldav.php/andres/home/",
-);
-//*******************************
-
-$account = $acc["davical"];
-
-//*******************************
-$cal = new CalDAVClient( $account["uri"], $account["user"], $account["pass"], "", $account["server"], $account["port"] );
-$options = $cal->DoOptionsRequest();
-print_r($options);
-
-//*******************************
-//*******************************
-
-$xmlC = <<<PROPP
-<?xml version="1.0" encoding="utf-8" ?>
-<D:propfind xmlns:D="DAV:" xmlns:CS="http://calendarserver.org/ns/">
-	<D:prop>
-		<D:displayname />
-		<CS:getctag />
-		<D:resourcetype />
-
-	</D:prop>
-</D:propfind>
-PROPP;
-if ( isset($options["PROPFIND"]) ) {
-  // Fetch some information about the events in that calendar
-  $cal->SetDepth(1);
-  $folder_xml = $cal->DoXMLRequest("PROPFIND", $xmlC);
-  print_r( $folder_xml);
-}
-//*******************************
-//*******************************
+// $cal = new CalDAVClient( "http://calendar.example.com/caldav.php/username/calendar/", "username", "password", "calendar" );
+// $options = $cal->DoOptionsRequest();
+// if ( isset($options["PROPFIND"]) ) {
+//   // Fetch some information about the events in that calendar
+//   $cal->SetDepth(1);
+//   $folder_xml = $cal->DoXMLRequest("PROPFIND", '<?xml version="1.0" encoding="utf-8" ?><propfind xmlns="DAV:"><prop><getcontentlength/><getcontenttype/><resourcetype/><getetag/></prop></propfind>' );
+// }
+// // Fetch all events for February
+// $events = $cal->GetEvents("20070101T000000Z","20070201T000000Z");
+// foreach ( $events AS $k => $event ) {
+//   do_something_with_event_data( $event['data'] );
+// }
+// $acc = array();
+// $acc["google"] = array(
+// "user"=>"kunsttherapie@gmail.com",
+// "pass"=>"xxxxx",
+// "server"=>"ssl://www.google.com",
+// "port"=>"443",
+// "uri"=>"https://www.google.com/calendar/dav/kunsttherapie@gmail.com/events/",
+// );
+//
+// $acc["davical"] = array(
+// "user"=>"some_user",
+// "pass"=>"big secret",
+// "server"=>"calendar.foo.bar",
+// "port"=>"80",
+// "uri"=>"http://calendar.foo.bar/caldav.php/some_user/home/",
+// );
+// //*******************************
+//
+// $account = $acc["davical"];
+//
+// //*******************************
+// $cal = new CalDAVClient( $account["uri"], $account["user"], $account["pass"], "", $account["server"], $account["port"] );
+// $options = $cal->DoOptionsRequest();
+// print_r($options);
+//
+// //*******************************
+// //*******************************
+//
+// $xmlC = <<<PROPP
+// <?xml version="1.0" encoding="utf-8" ?>
+// <D:propfind xmlns:D="DAV:" xmlns:C="http://calendarserver.org/ns/">
+// 	<D:prop>
+// 		<D:displayname />
+// 		<C:getctag />
+// 		<D:resourcetype />
+//
+// 	</D:prop>
+// </D:propfind>
+// PROPP;
+// //if ( isset($options["PROPFIND"]) ) {
+//   // Fetch some information about the events in that calendar
+// //  $cal->SetDepth(1);
+// //  $folder_xml = $cal->DoXMLRequest("PROPFIND", $xmlC);
+// //  print_r( $folder_xml);
+// //}
+//
+// // Fetch all events for February
+// $events = $cal->GetEvents("20090201T000000Z","20090301T000000Z");
+// foreach ( $events as $k => $event ) {
+//     print_r($event['data']);
+//     print "\n---------------------------------------------\n";
+// }
+//
+// //*******************************
+// //*******************************
