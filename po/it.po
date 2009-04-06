@@ -3,12 +3,11 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-04-06 21:18+1200\n"
+"POT-Creation-Date: 2008-11-18 18:29+1300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -33,23 +32,27 @@ msgid "- updating user records : %s"
 msgstr ""
 
 msgid "--- select a relationship type ---"
-msgstr ""
+msgstr "--- seleziona il tipo di relazione ---"
 
 msgid "--- select a user or resource ---"
-msgstr ""
+msgstr "--- seleziona l'utente o la risorsa ---"
 
 msgid "--- select a user, group or resource ---"
-msgstr ""
+msgstr "--- seleziona l'utente, gruppo di risorse ---"
 
 msgid ""
 "<b>WARNING: all events in this path will be deleted before inserting all of "
 "the ics file</b>"
 msgstr ""
+"<b>ATTENZIONE: tutti gli eventi in questo path saranno cancellati dall'"
+"inserimento del file ics</b>"
 
 msgid ""
 "<b>WARNING: all events in this path will be deleted before inserting allof "
 "the ics file</b>"
 msgstr ""
+"<b>ATTENZIONE: tutti gli eventi in questo path saranno cancellati dall'"
+"inserimento del file ics</b>"
 
 #, c-format
 msgid ""
@@ -57,67 +60,70 @@ msgid ""
 "username and password that have been issued to you.</p><p>If you would like "
 "to request access, please e-mail %s.</p>"
 msgstr ""
+"<h1>Log On</h1><p>Per accedere a %s devi autenticarti con le credenziali "
+"username e password che ti sono state assegnate.</p><p>Se desideri ottenere "
+"un accesso, invia una richiesta e-mail a %s.</p>"
 
 msgid "A collection already exists at that location."
 msgstr ""
 
 msgid "Action"
-msgstr ""
+msgstr "Azione"
 
 msgid "Active"
 msgstr ""
 
 msgid "Add Relationship"
-msgstr ""
+msgstr "Aggiungi relazione"
 
 msgid "Add a new user"
-msgstr ""
+msgstr "Aggiungi un nuovo utente"
 
 msgid "Add"
-msgstr ""
+msgstr "Aggiungi"
 
 msgid "Admin <!-- in the sense of 'systems admin' -->"
-msgstr ""
+msgstr "Amministratore <!-- in the sense of 'systems admin' -->"
 
 msgid "Admin"
-msgstr ""
+msgstr "Amministratore"
 
 msgid "Administers"
-msgstr ""
+msgstr "Gestisce"
 
 #, c-format
 msgid "All events of user %s were deleted and replaced by those from the file."
 msgstr ""
 
 msgid "All requested changes were made."
-msgstr ""
+msgstr "Tutte le modifiche richieste sono state apportate."
 
 msgid "All"
-msgstr ""
+msgstr "Tutti"
 
 msgid "Anonymous users are not allowed to modify calendars"
-msgstr ""
+msgstr "Gli utenti anonimi non sono autorizzati a modificare i calendari"
 
 msgid "Browse all relationship types"
-msgstr ""
+msgstr "Vedi tutti i tipi di relazione"
 
 msgid "Browse all users"
-msgstr ""
+msgstr "Vedi tutti gli utenti"
 
 msgid "Busy"
-msgstr ""
+msgstr "Occupato"
 
 msgid "Calendar Resource Not Found."
 msgstr ""
 
 msgid "Calendar Users"
-msgstr ""
+msgstr "Calendario utenti"
 
 msgid "Calendar"
-msgstr ""
+msgstr "Calendario"
 
 msgid "Can read from"
-msgstr ""
+msgstr "Può leggere da"
 
 msgid "Can see free/busy time of"
 msgstr ""
@@ -132,81 +138,81 @@ msgid "Click to display the contents of the collection"
 msgstr ""
 
 msgid "Click to display user details"
-msgstr ""
+msgstr "Fare clic per visualizzare i dettagli dell'utente"
 
 msgid "Collection Contents"
 msgstr ""
 
 msgid "Collection Path"
-msgstr ""
+msgstr "Percorso archivio"
 
 msgid "Collection deleted"
-msgstr ""
+msgstr "Archivio cancellato"
 
 msgid "Confirm Deletion of the Collection"
-msgstr ""
+msgstr "Conferma cancellazione archivio"
 
 msgid "Confirm Deletion of the Relationship Type"
-msgstr ""
+msgstr "Conferma cancellazione del tipo di relazione"
 
 msgid "Confirm the new password."
-msgstr ""
+msgstr "Conferma la nuova password."
 
 msgid "Confirm"
-msgstr ""
+msgstr "Conferma"
 
 msgid "Create"
-msgstr ""
+msgstr "Crea"
 
 msgid "Created On"
-msgstr ""
+msgstr "Creato il"
 
 msgid "DAViCal CalDAV Server"
-msgstr ""
+msgstr "DAViCal CalDAV Server"
 
 msgid "Database Error"
-msgstr ""
+msgstr "Errore database"
 
 msgid "Database Error."
-msgstr ""
+msgstr "Errore database."
 
 msgid "Database error"
-msgstr ""
+msgstr "Errore database"
 
 msgid "Date Style"
-msgstr ""
+msgstr "Formato data"
 
 msgid "Default relationships added."
-msgstr ""
+msgstr "Relazioni di default aggiunte."
 
 msgid "Delete"
-msgstr ""
+msgstr "Elimina"
 
 msgid "Directory on the server"
-msgstr ""
+msgstr "Directory sul server"
 
 msgid "Does the user have the right to perform this role?"
-msgstr ""
+msgstr "L'utente ha i privilegi per ricoprire questo ruolo?"
 
 msgid "EMail OK"
-msgstr ""
+msgstr "E-mail OK"
 
 msgid "EMail"
-msgstr ""
+msgstr "E-mail:"
 
 #, c-format
 msgid "ERROR: %s"
-msgstr ""
+msgstr "ERRORE: %s"
 
 msgid "ERROR: There was a database error writing the roles information!"
 msgstr ""
 
 #, c-format
 msgid "Edit %s"
-msgstr ""
+msgstr "Modifica %s"
 
 msgid "Edit this user record"
-msgstr ""
+msgstr "Modifica questo record utente"
 
 msgid ""
 "Enter a username, if you know it, and click here, to be e-mailed a temporary "
@@ -214,23 +220,23 @@ msgid ""
 msgstr ""
 
 msgid "Enter the name for this resource type"
-msgstr ""
+msgstr "Immettere il nome per questo tipo di risorsa"
 
 msgid "Enter your username and password then click here to log in."
-msgstr ""
+msgstr "Inserire nome utente e password quindi clicca su log in per accedere"
 
 #, c-format
 msgid "Error NoUserFound with filter >%s<, attributes >%s< , dn >%s<"
 msgstr ""
 
 msgid "Error querying database."
-msgstr ""
+msgstr "Errore durante l'interrogazione al database."
 
 msgid "Error writing calendar details to database."
-msgstr ""
+msgstr "Errore durante la scrittura dettagli calendario nel database."
 
 msgid "European (d/m/y)"
-msgstr ""
+msgstr "Europeo (d/m/y)"
 
 msgid "Existing resource does not match 'If-Match' header - not accepted."
 msgstr ""
@@ -239,25 +245,25 @@ msgid "Existing resource matches 'If-None-Match' header - not accepted."
 msgstr ""
 
 msgid "Finish"
-msgstr ""
+msgstr "Fine"
 
 msgid "For access to the"
 msgstr ""
 
 msgid "Forbidden"
-msgstr ""
+msgstr "Negato"
 
 msgid "FreeBusy"
-msgstr ""
+msgstr "Impegnato"
 
 msgid "Full Name"
-msgstr ""
+msgstr "Nome visualizzato"
 
 msgid "GO!"
-msgstr ""
+msgstr "VAI!"
 
 msgid "Group <!-- in the sense of a group of people -->"
-msgstr ""
+msgstr "Gruppo"
 
 msgid "Group"
 msgstr ""
@@ -266,61 +272,61 @@ msgid "Help on something or other"
 msgstr ""
 
 msgid "Help! I've forgotten my password!"
-msgstr ""
+msgstr "Aiuto! Ho dimenticato la password!"
 
 msgid "Help"
-msgstr ""
+msgstr "Aiuto"
 
 msgid "Home calendar added."
 msgstr ""
 
 msgid "Home"
-msgstr ""
+msgstr "Home"
 
 msgid "ISO Format (YYYY-MM-DD)"
-msgstr ""
+msgstr "Formato ISO (YYYY-MM-DD)"
 
 msgid "Id <!-- short for 'Identifier' -->"
-msgstr ""
+msgstr "Id <!-- short for 'Identifier' -->"
 
 msgid "Id"
-msgstr ""
+msgstr "Id"
 
 msgid "If you have forgotten your password then"
-msgstr ""
+msgstr "Se hai dimenticato la password"
 
 msgid "If you would like to request access, please e-mail"
-msgstr ""
+msgstr "Se si desidera richiedere un accesso, inviare un'e-mail"
 
 msgid "Import ICS file to new collection"
-msgstr ""
+msgstr "Importa file ICS nell'archivio"
 
 msgid "Import all .ics files of a directory"
-msgstr ""
+msgstr "Importa tutti i file .ics di una directory"
 
 msgid "Invalid user name or password."
-msgstr ""
+msgstr "Nome utente o password non valida."
 
 msgid "Invalid username or password."
-msgstr ""
+msgstr "Nome utente o password non valida."
 
 msgid "Is a Calendar?"
-msgstr ""
+msgstr "È un calendario?"
 
 msgid "Is this access read ('R') or Read and Write ('RW')?"
 msgstr ""
 
 msgid "Is this user active?"
-msgstr ""
+msgstr "Questo utente è attivo?"
 
 msgid "Joined"
-msgstr ""
+msgstr "Aggiunto"
 
 msgid "Language"
-msgstr ""
+msgstr "Lingua"
 
 msgid "Last used"
-msgstr ""
+msgstr "Ultimo accesso"
 
 msgid "Linked From"
 msgstr ""
@@ -329,46 +335,46 @@ msgid "Linked To"
 msgstr ""
 
 msgid "Log On Please"
-msgstr ""
+msgstr "Autenticazione richiesta"
 
 msgid "Log out of the"
 msgstr ""
 
 msgid "Logout"
-msgstr ""
+msgstr "Esci"
 
 msgid "My Details"
-msgstr ""
+msgstr "I miei dati"
 
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 msgid "New Password"
-msgstr ""
+msgstr "Nuova password"
 
 msgid "New User"
-msgstr ""
+msgstr "Nuovo utente"
 
 msgid "No collection found at that location."
 msgstr ""
 
 msgid "No. <!-- short for 'Number' -->"
-msgstr ""
+msgstr "Nr. <!-- short for 'Number' -->"
 
 msgid "No."
-msgstr ""
+msgstr "No."
 
 msgid "Operations on your calendar"
 msgstr ""
 
 msgid "Operations"
-msgstr ""
+msgstr "Operazioni"
 
 msgid "Password"
-msgstr ""
+msgstr "Password"
 
 msgid "Please Confirm Deletion"
-msgstr ""
+msgstr "Conferma cancellazione"
 
 msgid "Please confirm deletion of collection - see below"
 msgstr ""
@@ -392,32 +398,32 @@ msgid "REPORT body is not valid XML data!"
 msgstr ""
 
 msgid "Read"
-msgstr ""
+msgstr "Lettura"
 
 msgid "ReadWrite"
-msgstr ""
+msgstr "Lettura/Scrittura"
 
 msgid ""
 "Relationship <!-- in the sense of a work relationship between people -->"
 msgstr ""
 
 msgid "Relationship Type Added."
-msgstr ""
+msgstr "Aggiunto tipo di relazione."
 
 msgid "Relationship Type Deleted."
-msgstr ""
+msgstr "Cancellato tipo di relazione."
 
 msgid "Relationship Types"
-msgstr ""
+msgstr "Tipi di relazione"
 
 msgid "Relationship added."
-msgstr ""
+msgstr "Relazione aggiunta."
 
 msgid "Relationship deleted"
-msgstr ""
+msgstr "Relazione cancellata"
 
 msgid "Relationship"
-msgstr ""
+msgstr "Relazione"
 
 msgid "Relationships from this user"
 msgstr ""
@@ -426,13 +432,13 @@ msgid "Relationships to this user"
 msgstr ""
 
 msgid "Relationships"
-msgstr ""
+msgstr "Relazioni"
 
 msgid "Repeat Rule"
 msgstr ""
 
 msgid "Report Bug"
-msgstr ""
+msgstr "Segnala Bug"
 
 msgid "Report a bug in the system"
 msgstr ""
@@ -458,7 +464,7 @@ msgid "Resources may not be changed to / from collections."
 msgstr ""
 
 msgid "Rights"
-msgstr ""
+msgstr "Privilegi"
 
 msgid "Select the type of relationship from this user"
 msgstr ""
@@ -469,7 +475,8 @@ msgstr ""
 msgid ""
 "Set the path to store your ics e.g. 'home' will be referenced as /caldav.php/"
 "me/home/"
-msgstr ""
+msgstr "Impostare il percorso per memorizzare il file ics - es. 'home' - che "
+"sarà referenziato come /caldav.php/me/home/"
 
 msgid "Setup RSCDS"
 msgstr ""
@@ -490,7 +497,7 @@ msgid "Start"
 msgstr ""
 
 msgid "Submit"
-msgstr ""
+msgstr "Invia"
 
 msgid "Summary"
 msgstr ""
@@ -549,34 +556,34 @@ msgid "United States of America (m/d/y)"
 msgstr ""
 
 msgid "Update"
-msgstr ""
+msgstr "Aggiorna"
 
 msgid "Updated"
-msgstr ""
+msgstr "Ultima modifica"
 
 msgid "Upload your .ics calendar in ical format "
 msgstr ""
 
 msgid "User Details"
-msgstr ""
+msgstr "Dettaglio utente"
 
 msgid "User Name"
-msgstr ""
+msgstr "Nome utente"
 
 msgid "User Roles"
-msgstr ""
+msgstr "Ruoli utente"
 
 msgid "User Unavailable"
-msgstr ""
+msgstr "L'utente non è disponibile"
 
 msgid "User is active"
-msgstr ""
+msgstr "L'utente è attivo"
 
 msgid "User record written."
 msgstr ""
 
 msgid "Users"
-msgstr ""
+msgstr "Utenti"
 
 #, c-format
 msgid "View %s"
@@ -592,7 +599,7 @@ msgid "When the user's e-mail account was validated."
 msgstr ""
 
 msgid "Write"
-msgstr ""
+msgstr "Scrittura"
 
 msgid "You are editing"
 msgstr ""
@@ -628,10 +635,10 @@ msgid "You may not modify entries on this calendar."
 msgstr ""
 
 msgid "You must log in to use this system."
-msgstr ""
+msgstr "È necessario autenticarsi per utilizzare questo sistema."
 
 msgid "Your .ics calendar"
-msgstr ""
+msgstr "Il tuo calendario .ics"
 
 #, c-format
 msgid "all events of user %s were deleted and replaced by those from file %s"
@@ -676,15 +683,16 @@ msgid ""
 "flower) and is an option allowing people to log in automatically in future --"
 ">"
 msgstr ""
+"Mantieni aperta la connessione"
 
 msgid "forget me not"
-msgstr ""
+msgstr "Mantieni aperta la connessione"
 
 msgid "is Assistant to"
 msgstr ""
 
 msgid "path to store your ics"
-msgstr ""
+msgstr "percorso dove memorizzare il file ics"
 
 msgid ""
 "set the path to store your ics ex:home if you get it by caldav.php/me/home/"
