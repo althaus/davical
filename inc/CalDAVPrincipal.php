@@ -399,7 +399,7 @@ class CalDAVPrincipal
       $status = new XMLElement("status", "HTTP/1.1 403 Forbidden" );
       $noprop = new XMLElement("prop");
       foreach( $denied AS $k => $v ) {
-        $noprop->NewElement( strtolower($v) );
+        $noprop->NewElement( $v );
       }
       $elements[] = new XMLElement( "propstat", array( $noprop, $status) );
     }
@@ -408,7 +408,7 @@ class CalDAVPrincipal
       $status = new XMLElement("status", "HTTP/1.1 404 Not Found" );
       $noprop = new XMLElement("prop");
       foreach( $not_found AS $k => $v ) {
-        $noprop->NewElement( strtolower($v) );
+        $noprop->NewElement( $v );
       }
       $elements[] = new XMLElement( "propstat", array( $noprop, $status) );
     }
