@@ -1,3 +1,24 @@
+davical (0.9.6.3) unstable; urgency=low
+
+  * General bug fixing.
+  * Added Italian locale from Alessandro De Zorzi
+  * Adjust timezone handling in regression testing (Markus Warg).
+  * Many fixes to caldav-client from Michael Rasmussen.
+  * Update caldav-client to use direct socket IO from Andres Obrero.
+  * Added dummy handler for POST CANCEL events for iCal compatibilty (Wolfgang Herget).
+  * Support usernames with spaces or punctuation.
+  * Correct errors in handling confidential events.
+  * Improved response to GET for calendar with a single event.
+  * Documentation corrections.
+  * Remove the misguided hide_todo configuration option.
+  * Fix a bug in hiding alarms.
+  * Deprecate 'collections_always_exist' config option and restrict it's scope.
+  * Updated French translation.
+  * Updated relational integrity constraints.
+  * Fix database versioning.
+
+ -- Andrew McMillan <debian@mcmillan.net.nz>  Fri, 10 Apr 2009 23:55:18 +1200
+
 davical (0.9.6.2) unstable; urgency=low
 
   * Fix creation of database when template1 has pl/pgsql installed.
