@@ -27,7 +27,7 @@
         		<!-- ========== Info from phpDoc block ========= -->
 <p class="short-description">A class for accessing DAViCal via CalDAV, as a client</p>
 		<p class="notes">
-			Located in <a class="field" href="_inc---caldav-client.php.html">/inc/caldav-client.php</a> (line <span class="field">55</span>)
+			Located in <a class="field" href="_inc---caldav-client.php.html">/inc/caldav-client.php</a> (line <span class="field">21</span>)
 		</p>
 		
 				
@@ -50,7 +50,7 @@
 								</div>
 		<div class="info-box-body">
 			<div class="var-summary">
-																																																																																								<div class="var-title">
+																																																																																																																																																<div class="var-title">
 					<img src="../../media/images/Variable.png" alt=" " />
 					<span class="var-type">string</span>
 					<a href="#$base_url" title="details" class="var-name">$base_url</a>
@@ -67,11 +67,6 @@
 				</div>
 																<div class="var-title">
 					<img src="../../media/images/Variable.png" alt=" " />
-					<span class="var-type">resource</span>
-					<a href="#$curl" title="details" class="var-name">$curl</a>
-				</div>
-																<div class="var-title">
-					<img src="../../media/images/Variable.png" alt=" " />
 					<span class="var-type">mixed</span>
 					<a href="#$entry" title="details" class="var-name">$entry</a>
 				</div>
@@ -83,7 +78,37 @@
 																<div class="var-title">
 					<img src="../../media/images/Variable.png" alt=" " />
 					<span class="var-type">mixed</span>
+					<a href="#$httpRequest" title="details" class="var-name">$httpRequest</a>
+				</div>
+																<div class="var-title">
+					<img src="../../media/images/Variable.png" alt=" " />
+					<span class="var-type">mixed</span>
+					<a href="#$httpResponse" title="details" class="var-name">$httpResponse</a>
+				</div>
+																<div class="var-title">
+					<img src="../../media/images/Variable.png" alt=" " />
+					<span class="var-type">mixed</span>
 					<a href="#$pass" title="details" class="var-name">$pass</a>
+				</div>
+																<div class="var-title">
+					<img src="../../media/images/Variable.png" alt=" " />
+					<span class="var-type">mixed</span>
+					<a href="#$port" title="details" class="var-name">$port</a>
+				</div>
+																<div class="var-title">
+					<img src="../../media/images/Variable.png" alt=" " />
+					<span class="var-type">mixed</span>
+					<a href="#$protocol" title="details" class="var-name">$protocol</a>
+				</div>
+																<div class="var-title">
+					<img src="../../media/images/Variable.png" alt=" " />
+					<span class="var-type">mixed</span>
+					<a href="#$requestMethod" title="details" class="var-name">$requestMethod</a>
+				</div>
+																<div class="var-title">
+					<img src="../../media/images/Variable.png" alt=" " />
+					<span class="var-type">mixed</span>
+					<a href="#$server" title="details" class="var-name">$server</a>
 				</div>
 																<div class="var-title">
 					<img src="../../media/images/Variable.png" alt=" " />
@@ -94,6 +119,16 @@
 					<img src="../../media/images/Variable.png" alt=" " />
 					<span class="var-type">string</span>
 					<a href="#$user_agent" title="details" class="var-name">$user_agent</a>
+				</div>
+																<div class="var-title">
+					<img src="../../media/images/Variable.png" alt=" " />
+					<span class="var-type">mixed</span>
+					<a href="#$xmlRequest" title="details" class="var-name">$xmlRequest</a>
+				</div>
+																<div class="var-title">
+					<img src="../../media/images/Variable.png" alt=" " />
+					<span class="var-type">mixed</span>
+					<a href="#$xmlResponse" title="details" class="var-name">$xmlResponse</a>
 				</div>
 											</div>
 		</div>
@@ -111,7 +146,7 @@
 		</div>
 		<div class="info-box-body">			
 			<div class="method-summary">
-																																																																																																																																																<div class="method-definition">
+																																																																																																																																																																																								<div class="method-definition">
 					<img src="../../media/images/Constructor.png" alt=" "/>
 											<span class="method-result">CalDAVClient</span>
 										<a href="#CalDAVClient" title="details" class="method-name">CalDAVClient</a>
@@ -121,7 +156,7 @@
 					<img src="../../media/images/Method.png" alt=" "/>
 											<span class="method-result">array</span>
 										<a href="#DoCalendarQuery" title="details" class="method-name">DoCalendarQuery</a>
-											(<span class="var-type">string</span>&nbsp;<span class="var-name">$filter</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$relative_url</span> = <span class="var-default">''</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$reponse_type</span> = <span class="var-default">'data'</span>], <span class="var-type">string</span>&nbsp;<span class="var-name">$report_type</span>)
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$filter</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$relative_url</span> = <span class="var-default">''</span>], <span class="var-type">string</span>&nbsp;<span class="var-name">$report_type</span>)
 									</div>
 																<div class="method-definition">
 					<img src="../../media/images/Method.png" alt=" "/>
@@ -175,13 +210,43 @@
 					<img src="../../media/images/Method.png" alt=" "/>
 											<span class="method-result">array</span>
 										<a href="#GetEvents" title="details" class="method-name">GetEvents</a>
-											(<span class="var-type">timestamp</span>&nbsp;<span class="var-name">$start</span>, <span class="var-type">timestamp</span>&nbsp;<span class="var-name">$finish</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$relative_url</span> = <span class="var-default">''</span>])
+											([<span class="var-type">timestamp</span>&nbsp;<span class="var-name">$start</span> = <span class="var-default">null</span>], [<span class="var-type">timestamp</span>&nbsp;<span class="var-name">$finish</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$relative_url</span> = <span class="var-default">''</span>])
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">HTTP</span>
+										<a href="#GetHttpRequest" title="details" class="method-name">GetHttpRequest</a>
+										()
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">HTTP</span>
+										<a href="#GetHttpResponse" title="details" class="method-name">GetHttpResponse</a>
+										()
 									</div>
 																<div class="method-definition">
 					<img src="../../media/images/Method.png" alt=" "/>
 											<span class="method-result">array</span>
 										<a href="#GetTodos" title="details" class="method-name">GetTodos</a>
 											(<span class="var-type">timestamp</span>&nbsp;<span class="var-name">$start</span>, <span class="var-type">timestamp</span>&nbsp;<span class="var-name">$finish</span>, [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$completed</span> = <span class="var-default">false</span>], [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$cancelled</span> = <span class="var-default">false</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$relative_url</span> = <span class="var-default">&quot;&quot;</span>])
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">raw</span>
+										<a href="#GetXmlRequest" title="details" class="method-name">GetXmlRequest</a>
+										()
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">raw</span>
+										<a href="#GetXmlResponse" title="details" class="method-name">GetXmlResponse</a>
+										()
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#ParseResponse" title="details" class="method-name">ParseResponse</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$response</span>)
 									</div>
 																<div class="method-definition">
 					<img src="../../media/images/Method.png" alt=" "/>
@@ -233,12 +298,12 @@
 		<span class="var-title">
 			<span class="var-type">string</span>
 			<span class="var-name">$base_url</span>
-						(line <span class="line-number">61</span>)
+						(line <span class="line-number">27</span>)
 		</span>
 	</div>
 
 	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">Server, username, password, calendar, $entry</p>
+<p class="short-description">Server, username, password, calendar</p>
 	
 	
 		
@@ -253,7 +318,7 @@
 		<span class="var-title">
 			<span class="var-type">mixed</span>
 			<span class="var-name">$body</span>
-			 = <span class="var-default"> &quot;&quot;</span>			(line <span class="line-number">71</span>)
+			 = <span class="var-default"> &quot;&quot;</span>			(line <span class="line-number">37</span>)
 		</span>
 	</div>
 
@@ -272,31 +337,11 @@
 		<span class="var-title">
 			<span class="var-type">mixed</span>
 			<span class="var-name">$calendar</span>
-						(line <span class="line-number">61</span>)
+						(line <span class="line-number">27</span>)
 		</span>
 	</div>
 
 	<!-- ========== Info from phpDoc block ========= -->
-	
-	
-		
-		
-
-</div>
-<a name="var$curl" id="$curl"><!-- --></A>
-<div class="evenrow">
-
-	<div class="var-header">
-		<img src="../../media/images/Variable.png" />
-		<span class="var-title">
-			<span class="var-type">resource</span>
-			<span class="var-name">$curl</span>
-						(line <span class="line-number">78</span>)
-		</span>
-	</div>
-
-	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">Our cURL connection</p>
 	
 	
 		
@@ -304,14 +349,14 @@
 
 </div>
 <a name="var$entry" id="$entry"><!-- --></A>
-<div class="oddrow">
+<div class="evenrow">
 
 	<div class="var-header">
 		<img src="../../media/images/Variable.png" />
 		<span class="var-title">
 			<span class="var-type">mixed</span>
 			<span class="var-name">$entry</span>
-						(line <span class="line-number">61</span>)
+						(line <span class="line-number">27</span>)
 		</span>
 	</div>
 
@@ -323,14 +368,52 @@
 
 </div>
 <a name="var$headers" id="$headers"><!-- --></A>
-<div class="evenrow">
+<div class="oddrow">
 
 	<div class="var-header">
 		<img src="../../media/images/Variable.png" />
 		<span class="var-title">
 			<span class="var-type">mixed</span>
 			<span class="var-name">$headers</span>
-			 = <span class="var-default">array()</span>			(line <span class="line-number">70</span>)
+			 = <span class="var-default">array()</span>			(line <span class="line-number">36</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+		
+		
+
+</div>
+<a name="var$httpRequest" id="$httpRequest"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<img src="../../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$httpRequest</span>
+			 = <span class="var-default"> &quot;&quot;</span>			(line <span class="line-number">39</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+		
+		
+
+</div>
+<a name="var$httpResponse" id="$httpResponse"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<img src="../../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$httpResponse</span>
+			 = <span class="var-default"> &quot;&quot;</span>			(line <span class="line-number">41</span>)
 		</span>
 	</div>
 
@@ -342,14 +425,90 @@
 
 </div>
 <a name="var$pass" id="$pass"><!-- --></A>
-<div class="oddrow">
+<div class="evenrow">
 
 	<div class="var-header">
 		<img src="../../media/images/Variable.png" />
 		<span class="var-title">
 			<span class="var-type">mixed</span>
 			<span class="var-name">$pass</span>
-						(line <span class="line-number">61</span>)
+						(line <span class="line-number">27</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+		
+		
+
+</div>
+<a name="var$port" id="$port"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<img src="../../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$port</span>
+						(line <span class="line-number">27</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+		
+		
+
+</div>
+<a name="var$protocol" id="$protocol"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<img src="../../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$protocol</span>
+						(line <span class="line-number">27</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+		
+		
+
+</div>
+<a name="var$requestMethod" id="$requestMethod"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<img src="../../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$requestMethod</span>
+			 = <span class="var-default"> &quot;GET&quot;</span>			(line <span class="line-number">38</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+		
+		
+
+</div>
+<a name="var$server" id="$server"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<img src="../../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$server</span>
+						(line <span class="line-number">27</span>)
 		</span>
 	</div>
 
@@ -361,14 +520,14 @@
 
 </div>
 <a name="var$user" id="$user"><!-- --></A>
-<div class="evenrow">
+<div class="oddrow">
 
 	<div class="var-header">
 		<img src="../../media/images/Variable.png" />
 		<span class="var-title">
 			<span class="var-type">mixed</span>
 			<span class="var-name">$user</span>
-						(line <span class="line-number">61</span>)
+						(line <span class="line-number">27</span>)
 		</span>
 	</div>
 
@@ -380,19 +539,57 @@
 
 </div>
 <a name="var$user_agent" id="$user_agent"><!-- --></A>
-<div class="oddrow">
+<div class="evenrow">
 
 	<div class="var-header">
 		<img src="../../media/images/Variable.png" />
 		<span class="var-title">
 			<span class="var-type">string</span>
 			<span class="var-name">$user_agent</span>
-			 = <span class="var-default"> 'DAViCalClient'</span>			(line <span class="line-number">68</span>)
+			 = <span class="var-default"> 'DAViCalClient'</span>			(line <span class="line-number">34</span>)
 		</span>
 	</div>
 
 	<!-- ========== Info from phpDoc block ========= -->
 <p class="short-description">The useragent which is send to the caldav server</p>
+	
+	
+		
+		
+
+</div>
+<a name="var$xmlRequest" id="$xmlRequest"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<img src="../../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$xmlRequest</span>
+			 = <span class="var-default"> &quot;&quot;</span>			(line <span class="line-number">40</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+		
+		
+
+</div>
+<a name="var$xmlResponse" id="$xmlResponse"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<img src="../../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$xmlResponse</span>
+			 = <span class="var-default"> &quot;&quot;</span>			(line <span class="line-number">42</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
 	
 	
 		
@@ -415,11 +612,11 @@
 		<div class="info-box-body">
 			<A NAME='method_detail'></A>
 <a name="methodCalDAVClient" id="CalDAVClient"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Constructor.png" />
-		<span class="method-title">Constructor CalDAVClient</span> (line <span class="line-number">89</span>)
+		<span class="method-title">Constructor CalDAVClient</span> (line <span class="line-number">52</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -451,11 +648,11 @@
 			
 	</div>
 <a name="methodDoCalendarQuery" id="DoCalendarQuery"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">DoCalendarQuery</span> (line <span class="line-number">301</span>)
+		<span class="method-title">DoCalendarQuery</span> (line <span class="line-number">312</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -469,7 +666,7 @@
 		<span class="method-name">
 			DoCalendarQuery
 		</span>
-					(<span class="var-type">string</span>&nbsp;<span class="var-name">$filter</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$relative_url</span> = <span class="var-default">''</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$reponse_type</span> = <span class="var-default">'data'</span>], <span class="var-type">string</span>&nbsp;<span class="var-name">$report_type</span>)
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$filter</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$relative_url</span> = <span class="var-default">''</span>], <span class="var-type">string</span>&nbsp;<span class="var-name">$report_type</span>)
 			</div>
 	
 			<ul class="parameters">
@@ -482,19 +679,16 @@
 					<li>
 				<span class="var-type">string</span>
 				<span class="var-name">$report_type</span><span class="var-description">: Used as a name for the array element containing the calendar data. @deprecated</span>			</li>
-					<li>
-				<span class="var-type"></span>
-				<span class="var-name">$reponse_type</span>			</li>
 				</ul>
 		
 			
 	</div>
 <a name="methodDoDELETERequest" id="DoDELETERequest"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">DoDELETERequest</span> (line <span class="line-number">274</span>)
+		<span class="method-title">DoDELETERequest</span> (line <span class="line-number">286</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -523,11 +717,11 @@
 			
 	</div>
 <a name="methodDoGETRequest" id="DoGETRequest"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">DoGETRequest</span> (line <span class="line-number">229</span>)
+		<span class="method-title">DoGETRequest</span> (line <span class="line-number">243</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -550,11 +744,11 @@
 			
 	</div>
 <a name="methodDoOptionsRequest" id="DoOptionsRequest"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">DoOptionsRequest</span> (line <span class="line-number">192</span>)
+		<span class="method-title">DoOptionsRequest</span> (line <span class="line-number">209</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -580,11 +774,11 @@
 			
 	</div>
 <a name="methodDoPUTRequest" id="DoPUTRequest"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">DoPUTRequest</span> (line <span class="line-number">246</span>)
+		<span class="method-title">DoPUTRequest</span> (line <span class="line-number">259</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -616,11 +810,11 @@
 			
 	</div>
 <a name="methodDoRequest" id="DoRequest"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">DoRequest</span> (line <span class="line-number">151</span>)
+		<span class="method-title">DoRequest</span> (line <span class="line-number">172</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -646,11 +840,11 @@
 			
 	</div>
 <a name="methodDoXMLRequest" id="DoXMLRequest"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">DoXMLRequest</span> (line <span class="line-number">213</span>)
+		<span class="method-title">DoXMLRequest</span> (line <span class="line-number">229</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -685,11 +879,11 @@
 			
 	</div>
 <a name="methodGetEntryByHref" id="GetEntryByHref"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">GetEntryByHref</span> (line <span class="line-number">457</span>)
+		<span class="method-title">GetEntryByHref</span> (line <span class="line-number">468</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -718,11 +912,11 @@
 			
 	</div>
 <a name="methodGetEntryByUid" id="GetEntryByUid"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">GetEntryByUid</span> (line <span class="line-number">430</span>)
+		<span class="method-title">GetEntryByUid</span> (line <span class="line-number">441</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -751,11 +945,11 @@
 			
 	</div>
 <a name="methodGetEvents" id="GetEvents"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">GetEvents</span> (line <span class="line-number">360</span>)
+		<span class="method-title">GetEvents</span> (line <span class="line-number">369</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -770,7 +964,7 @@
 		<span class="method-name">
 			GetEvents
 		</span>
-					(<span class="var-type">timestamp</span>&nbsp;<span class="var-name">$start</span>, <span class="var-type">timestamp</span>&nbsp;<span class="var-name">$finish</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$relative_url</span> = <span class="var-default">''</span>])
+					([<span class="var-type">timestamp</span>&nbsp;<span class="var-name">$start</span> = <span class="var-default">null</span>], [<span class="var-type">timestamp</span>&nbsp;<span class="var-name">$finish</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$relative_url</span> = <span class="var-default">''</span>])
 			</div>
 	
 			<ul class="parameters">
@@ -787,12 +981,62 @@
 		
 			
 	</div>
-<a name="methodGetTodos" id="GetTodos"><!-- --></a>
+<a name="methodGetHttpRequest" id="GetHttpRequest"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">GetHttpRequest</span> (line <span class="line-number">137</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Output http request headers</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> headers</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">HTTP</span>
+		<span class="method-name">
+			GetHttpRequest
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodGetHttpResponse" id="GetHttpResponse"><!-- --></a>
 <div class="oddrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">GetTodos</span> (line <span class="line-number">393</span>)
+		<span class="method-title">GetHttpResponse</span> (line <span class="line-number">145</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Output http response headers</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> headers</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">HTTP</span>
+		<span class="method-name">
+			GetHttpResponse
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodGetTodos" id="GetTodos"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">GetTodos</span> (line <span class="line-number">404</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -830,12 +1074,89 @@
 		
 			
 	</div>
+<a name="methodGetXmlRequest" id="GetXmlRequest"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">GetXmlRequest</span> (line <span class="line-number">153</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Output xml request</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> xml</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">raw</span>
+		<span class="method-name">
+			GetXmlRequest
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodGetXmlResponse" id="GetXmlResponse"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">GetXmlResponse</span> (line <span class="line-number">161</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Output xml response</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> xml</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">raw</span>
+		<span class="method-name">
+			GetXmlResponse
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodParseResponse" id="ParseResponse"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">ParseResponse</span> (line <span class="line-number">121</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Split response into httpResponse and xmlResponse</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			ParseResponse
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$response</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$response</span><span class="var-description">: Response from server</span>			</li>
+				</ul>
+		
+			
+	</div>
 <a name="methodSetContentType" id="SetContentType"><!-- --></a>
 <div class="evenrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">SetContentType</span> (line <span class="line-number">139</span>)
+		<span class="method-title">SetContentType</span> (line <span class="line-number">112</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -862,7 +1183,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">SetDepth</span> (line <span class="line-number">120</span>)
+		<span class="method-title">SetDepth</span> (line <span class="line-number">93</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -889,7 +1210,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">SetMatch</span> (line <span class="line-number">111</span>)
+		<span class="method-title">SetMatch</span> (line <span class="line-number">84</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -919,7 +1240,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">SetUserAgent</span> (line <span class="line-number">129</span>)
+		<span class="method-title">SetUserAgent</span> (line <span class="line-number">102</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -950,7 +1271,7 @@
 
 	
 	<p class="notes" id="credit">
-		Documentation generated on Tue, 18 Nov 2008 18:28:53 +1300 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
+		Documentation generated on Fri, 10 Apr 2009 23:45:50 +1200 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
 	</p>
 	</div></body>
 </html>

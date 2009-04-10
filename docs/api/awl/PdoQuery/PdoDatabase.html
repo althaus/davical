@@ -1,0 +1,575 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs For Class PdoDatabase</title>
+			<link rel="stylesheet" href="../../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name"><img src="../../media/images/Class_logo.png"
+														alt=" Class"
+														title=" Class"
+														style="vertical-align: middle"> PdoDatabase</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+													<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+						|											<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Typically there will only be a single instance of the database level class in an application.</p>
+		<p class="notes">
+			Located in <a class="field" href="_inc---PdoQuery.php.html">/inc/PdoQuery.php</a> (line <span class="field">218</span>)
+		</p>
+		
+				
+		<pre></pre>
+	
+			</div>
+</div>
+
+
+
+	<a name="sec-var-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variable Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+						<span class="disabled">Vars</span> (<a href="#sec-vars">details</a>)
+							| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+								</div>
+		<div class="info-box-body">
+			<div class="var-summary">
+																																								<div class="var-title">
+					<img src="../../media/images/Variable.png" alt=" " />
+					<span class="var-type">mixed</span>
+					<a href="#$querycount" title="details" class="var-name">$querycount</a>
+				</div>
+																<div class="var-title">
+					<img src="../../media/images/Variable.png" alt=" " />
+					<span class="var-type">mixed</span>
+					<a href="#$querytime" title="details" class="var-name">$querytime</a>
+				</div>
+																<div class="var-title">
+					<img src="../../media/images/Variable.png" alt=" " />
+					<span class="var-type">mixed</span>
+					<a href="#$txnstate" title="details" class="var-name">$txnstate</a>
+				</div>
+											</div>
+		</div>
+	</div>
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+																		<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+				 
+				|
+						<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																																																																																																																<div class="method-definition">
+					<img src="../../media/images/Constructor.png" alt=" "/>
+											<span class="method-result">PdoDatabase</span>
+										<a href="#__construct" title="details" class="method-name">__construct</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$connection_string</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$dbuser</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$dbpass</span> = <span class="var-default">null</span>], [<span class="var-type">array</span>&nbsp;<span class="var-name">$options</span> = <span class="var-default">null</span>])
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#Begin" title="details" class="method-name">Begin</a>
+										()
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#Commit" title="details" class="method-name">Commit</a>
+										()
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">mixed</span>
+										<a href="#Exec" title="details" class="method-name">Exec</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$sql_query_string</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">1</span>)
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#GetFields" title="details" class="method-name">GetFields</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$tablename_string</span>)
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#Prepare" title="details" class="method-name">Prepare</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$sql_query_string</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">1</span>)
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#PrepareTranslated" title="details" class="method-name">PrepareTranslated</a>
+										()
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#Rollback" title="details" class="method-name">Rollback</a>
+										()
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#TotalDuration" title="details" class="method-name">TotalDuration</a>
+										()
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#TotalQueries" title="details" class="method-name">TotalQueries</a>
+										()
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#TransactionState" title="details" class="method-name">TransactionState</a>
+										()
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#TranslateAll" title="details" class="method-name">TranslateAll</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$onoff_boolean</span>)
+									</div>
+											</div>
+		</div>
+	</div>		
+
+	<a name="sec-vars"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variables</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+										<a href="#sec-var-summary">Vars</a> (<span class="disabled">details</span>)
+						
+			
+										| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+					</div>
+		<div class="info-box-body">
+			
+<a name="var$querycount" id="$querycount"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<img src="../../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$querycount</span>
+			 = <span class="var-default"> 0</span>			(line <span class="line-number">241</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Holds the count of queries executed so far</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$querytime" id="$querytime"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<img src="../../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$querytime</span>
+			 = <span class="var-default"> 0</span>			(line <span class="line-number">246</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Holds the total duration of queries executed so far</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$txnstate" id="$txnstate"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<img src="../../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$txnstate</span>
+			 = <span class="var-default"> 0</span>			(line <span class="line-number">236</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Holds the state of the transaction 0 = not started, 1 = in progress, -1 = error pending rollback/commit</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+						
+		</div>
+	</div>
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+															<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+														<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+<a name="method__construct" id="__construct"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Constructor.png" />
+		<span class="method-title">Constructor __construct</span> (line <span class="line-number">262</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">The connection string is in the standard PDO format. The database won't actually be connected until the first  database query is run against it.</p>
+<p class="description"><p>The database object will also initialise and hold an PdoDialect object which will be used to provide database  specific SQL for some queries, as well as translation hooks for instances where it is necessary to modify the  SQL in transit to support additional databases.</p></p>
+	
+	<div class="method-signature">
+		<span class="method-result">PdoDatabase</span>
+		<span class="method-name">
+			__construct
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$connection_string</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$dbuser</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$dbpass</span> = <span class="var-default">null</span>], [<span class="var-type">array</span>&nbsp;<span class="var-name">$options</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$connection_string</span><span class="var-description">: The PDO connection string, in all it's glory</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$dbuser</span><span class="var-description">: The database username to connect as</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$dbpass</span><span class="var-description">: The database password to connect with</span>			</li>
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$options</span><span class="var-description">: An array of driver options</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodBegin" id="Begin"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">Begin</span> (line <span class="line-number">303</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Begin a transaction.</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			Begin
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodCommit" id="Commit"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">Commit</span> (line <span class="line-number">317</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Complete a transaction.</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			Commit
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodExec" id="Exec"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">Exec</span> (line <span class="line-number">287</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Construct and execute an SQL statement from the sql_string, replacing the parameters into it.</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> false on error or number of rows affected. Test failure with === false</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			Exec
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$sql_query_string</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">1</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sql_query_string</span><span class="var-description">: The SQL string containing optional variable replacements</span>			</li>
+					<li>
+				<span class="var-type">mixed</span>
+				<span class="var-name">1</span><span class="var-description">: ... Subsequent arguments are positionally replaced into the $sql_query_string</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodGetFields" id="GetFields"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">GetFields</span> (line <span class="line-number">368</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns an associative array of field types, keyed by field name, for the requested named table. Internally this  calls PdoDialect::GetFields to get the required SQL and then processes the query in the normal manner.</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			GetFields
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$tablename_string</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$tablename_string</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodPrepare" id="Prepare"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">Prepare</span> (line <span class="line-number">273</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns a PdoQuery object created using this database, the supplied SQL string, and any parameters given.</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			Prepare
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$sql_query_string</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">1</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sql_query_string</span><span class="var-description">: The SQL string containing optional variable replacements</span>			</li>
+					<li>
+				<span class="var-type">mixed</span>
+				<span class="var-name">1</span><span class="var-description">: ... Subsequent arguments are positionally replaced into the $sql_query_string</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodPrepareTranslated" id="PrepareTranslated"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">PrepareTranslated</span> (line <span class="line-number">376</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Operates identically to PdoDatabase::Prepare, except that PdoDialect::Translate() will be called on the query  before any processing.</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			PrepareTranslated
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodRollback" id="Rollback"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">Rollback</span> (line <span class="line-number">328</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Cancel a transaction in progress.</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			Rollback
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodTotalDuration" id="TotalDuration"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">TotalDuration</span> (line <span class="line-number">351</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the total duration of quries executed so far by this object instance.</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			TotalDuration
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodTotalQueries" id="TotalQueries"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">TotalQueries</span> (line <span class="line-number">359</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the total number of quries executed by this object instance.</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			TotalQueries
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodTransactionState" id="TransactionState"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">TransactionState</span> (line <span class="line-number">343</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the current state of a transaction, indicating if we have begun a transaction, whether the transaction  has failed, or if we are not in a transaction.</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			TransactionState
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodTranslateAll" id="TranslateAll"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">TranslateAll</span> (line <span class="line-number">384</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Switches on or off the processing flag controlling whether subsequent calls to PdoDatabase::Prepare are translated  as if PrepareTranslated() had been called.</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			TranslateAll
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$onoff_boolean</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$onoff_boolean</span>			</li>
+				</ul>
+		
+			
+	</div>
+						
+		</div>
+	</div>
+
+	
+	<p class="notes" id="credit">
+		Documentation generated on Fri, 10 Apr 2009 23:45:53 +1200 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
+	</p>
+	</div></body>
+</html>

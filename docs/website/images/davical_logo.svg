@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="260"
+   height="260"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.45.1"
+   sodipodi:docbase="/home/andrew/projects/rscds/docs/website/images"
+   sodipodi:docname="davical_logo.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   version="1.0">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     gridtolerance="10000"
+     guidetolerance="10"
+     objecttolerance="10"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.4"
+     inkscape:cx="186.53159"
+     inkscape:cy="91.978333"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     inkscape:window-width="1400"
+     inkscape:window-height="964"
+     inkscape:window-x="0"
+     inkscape:window-y="16"
+     showborder="false"
+     inkscape:showpageshadow="false"
+     borderlayer="false"
+     width="260px"
+     height="260px" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-333.14285,-376.93362)">
+    <path
+       style="fill:#be1e1d;fill-opacity:1"
+       d="M 334.57142,507.3622 L 334.57142,378.36219 L 463.57143,378.36219 L 592.57143,378.36219 L 592.57143,507.3622 L 592.57143,636.3622 L 463.57143,636.3622 L 334.57142,636.3622 L 334.57142,507.3622 z M 499.07185,622.75672 C 493.14746,602.90175 491.11905,597.99114 498.48322,597.01403 C 507.24637,595.85129 525.17483,590.84119 534.28074,585.38063 C 566.45385,566.08721 565.06199,527.45277 530.8205,489.3318 C 520.30676,477.62687 499.58375,463.01844 493.4933,463.01844 C 488.00762,463.01844 488.7541,464.57337 499.89503,476.35329 C 521.19885,498.87894 530.98513,534.27071 519.83094,548.45095 C 514.45191,556.46282 506.31071,558.78045 498.47771,560.07317 C 490.60793,561.37196 493.04847,560.11522 496.57729,547.42275 C 498.46643,540.62789 499.53226,534.58866 498.9458,534.00221 C 498.35936,533.41576 492.20868,539.12467 485.27761,546.68871 C 472.55212,560.57632 457.47861,571.42543 446.43861,575.25393 C 434.06007,579.5466 434.24777,580.29465 444.83131,584.55313 C 454.96059,588.62884 474.11695,600.68066 485.81632,613.82099 C 497.03872,626.42559 500.95411,629.06504 499.07185,622.75672 z M 439.38392,551.88512 C 439.38392,550.87509 436.76538,547.84533 433.56495,545.15235 C 417.05209,531.25767 405.11831,506.40967 405.11831,485.92195 C 405.11831,473.56527 405.56997,472.24178 411.97143,465.84032 C 417.1953,460.8506 423.25402,458.50295 430.8847,456.60205 C 436.75783,455.13896 436.10686,455.38507 432.58119,469.31727 C 430.851,476.15434 429.63739,482.16255 430.2375,482.76265 C 430.83762,483.36275 436.43374,478.21237 442.67336,471.31738 C 454.55344,458.18947 472.30744,444.41296 482.71986,441.4887 C 494.33412,438.22691 494.1929,436.12455 482.71986,432.15975 C 472.21322,428.52892 455.88897,416.68407 443.39131,403.04508 C 436.72951,395.7749 430.78413,390.32133 430.17941,390.92609 C 429.57466,391.53084 430.49125,397.47232 432.21628,404.12939 C 436.00979,418.769 436.12299,420.10756 432.83314,420.44191 C 428.50642,420.88164 414.60168,422.82606 404.64067,426.7561 C 362.70116,443.3031 360.55918,487.03575 399.64191,528.8153 C 415.53528,545.80537 439.38392,559.64927 439.38392,551.88512 z "
+       id="path2170"
+       sodipodi:nodetypes="ccccccccccsssssczssssssccsscssssssssssssc"
+       inkscape:export-filename="/home/andrew/projects/rscds/docs/website/images/davical_logo.ico"
+       inkscape:export-xdpi="11.25"
+       inkscape:export-ydpi="11.25" />
+  </g>
+</svg>
