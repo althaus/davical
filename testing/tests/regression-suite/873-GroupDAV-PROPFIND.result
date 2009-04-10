@@ -1,0 +1,170 @@
+HTTP/1.1 207 Multi-Status
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
+ETag: "3f92f65de329dbf8aac61f774c2808b9"
+Content-Length: 3832
+Content-Type: text/xml; charset="utf-8"
+
+<?xml version="1.0" encoding="utf-8" ?>
+<multistatus xmlns="DAV:" xmlns:A="http://calendarserver.org/ns/" xmlns:G="http://groupdav.org/" xmlns:C="urn:ietf:params:xml:ns:caldav" xmlns:C1="urn:ietf:params:xml:ns:carddav">
+ <response>
+  <href>/caldav.php/</href>
+  <propstat>
+   <prop>
+    <getcontenttype>httpd/unix-directory</getcontenttype>
+    <resourcetype>
+     <collection/>
+    </resourcetype>
+    <displayname>DAViCal CalDAV Server</displayname>
+    <A:getctag>"38f09ba341cd927809b571496db6e4c3"</A:getctag>
+    <getetag>"38f09ba341cd927809b571496db6e4c3"</getetag>
+    <current-user-privilege-set>
+     <privilege>
+      <read/>
+     </privilege>
+    </current-user-privilege-set>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <G:component-set/>
+    <C:supported-calendar-component-set/>
+    <C:calendar-description/>
+    <C1:supported-address-data/>
+    <C1:addressbook-description/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/</href>
+  <propstat>
+   <prop>
+    <displayname>User 1</displayname>
+    <resourcetype>
+     <principal/>
+     <collection/>
+    </resourcetype>
+    <getcontenttype>httpd/unix-directory</getcontenttype>
+    <current-user-privilege-set>
+     <privilege>
+      <read/>
+     </privilege>
+    </current-user-privilege-set>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <getetag/>
+    <A:getctag/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/manager1/</href>
+  <propstat>
+   <prop>
+    <displayname>Manager 1</displayname>
+    <resourcetype>
+     <principal/>
+     <collection/>
+    </resourcetype>
+    <getcontenttype>httpd/unix-directory</getcontenttype>
+    <current-user-privilege-set>
+     <privilege>
+      <read/>
+     </privilege>
+    </current-user-privilege-set>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <getetag/>
+    <A:getctag/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/assistant1/</href>
+  <propstat>
+   <prop>
+    <displayname>Assistant 1</displayname>
+    <resourcetype>
+     <principal/>
+     <collection/>
+    </resourcetype>
+    <getcontenttype>httpd/unix-directory</getcontenttype>
+    <current-user-privilege-set>
+     <privilege>
+      <read/>
+     </privilege>
+    </current-user-privilege-set>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <getetag/>
+    <A:getctag/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/resource1/</href>
+  <propstat>
+   <prop>
+    <displayname>Resource 1</displayname>
+    <resourcetype>
+     <principal/>
+     <collection/>
+    </resourcetype>
+    <getcontenttype>httpd/unix-directory</getcontenttype>
+    <current-user-privilege-set>
+     <privilege>
+      <read/>
+     </privilege>
+    </current-user-privilege-set>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <getetag/>
+    <A:getctag/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/resource2/</href>
+  <propstat>
+   <prop>
+    <displayname>Resource 2</displayname>
+    <resourcetype>
+     <principal/>
+     <collection/>
+    </resourcetype>
+    <getcontenttype>httpd/unix-directory</getcontenttype>
+    <current-user-privilege-set>
+     <privilege>
+      <read/>
+     </privilege>
+    </current-user-privilege-set>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <getetag/>
+    <A:getctag/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+</multistatus>

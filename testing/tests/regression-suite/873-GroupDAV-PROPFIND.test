@@ -1,0 +1,36 @@
+#
+# Testing with a GroupDAV style request for a PROPFIND on the root with a Depth 1
+#
+TYPE=PROPFIND
+URL=http://mycaldav/caldav.php/
+HEAD
+
+AUTH=user1:user1
+
+HEADER=Content-Type: text/xml
+HEADER=Depth: 1
+
+BEGINDATA
+<?xml version="1.0" encoding="utf-8"?>
+<propfind xmlns="DAV:"
+  xmlns:I="urn:ietf:params:xml:ns:caldav"
+  xmlns:C="urn:ietf:params:xml:ns:carddav"
+  xmlns:G="http://groupdav.org/"
+  xmlns:A="http://calendarserver.org/ns/"
+ >
+   <prop>
+     <displayname/>
+     <resourcetype/>
+     <getetag/>
+     <getcontenttype/>
+     <current-user-privilege-set/>
+     <G:component-set/>
+     <I:supported-calendar-component-set/>
+     <I:supported-calendar-data/>
+     <I:calendar-description/>
+     <C:supported-address-data/>
+     <C:addressbook-description/>
+     <A:getctag/>
+   </prop>
+</propfind>
+ENDDATA
