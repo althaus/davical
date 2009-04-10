@@ -473,7 +473,10 @@ EOSQL;
   * @param string $lock_token The opaquelocktoken which we are looking for
   */
   function ValidateLockToken( $lock_token ) {
-    if ( isset($this->lock_token) && $this->lock_token == $lock_token ) return true;
+    if ( isset($this->lock_token) && $this->lock_token == $lock_token ) {
+      dbg_error_log( "caldav", "They supplied a valid lock token.  Great!" );
+      return true;
+    }
     if ( isset($this->if_clause) ) {
       dbg_error_log( "caldav", "Checking lock token '%s' against '%s'", $lock_token, $this->if_clause );
       $tokens = preg_split( '/[<>]/', $this->if_clause );
