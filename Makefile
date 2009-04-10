@@ -27,7 +27,7 @@ release: built-docs
 	-ln -s . $(package)-$(version)
 	tar czf ../$(package)-$(version).tar.gz \
 	    --no-recursion --dereference $(package)-$(version) \
-	    $(shell git-ls-files |grep -v '.git'|sed -e s:^:$(package)-$(version)/:) \
+	    $(shell git ls-files |grep -v '.git'|sed -e s:^:$(package)-$(version)/:) \
 	    $(shell find $(package)-$(version)/docs/api/ ! -name "phpdoc.ini" )
 	rm $(package)-$(version)
 	
