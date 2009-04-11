@@ -9,7 +9,7 @@
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v2
 */
 
-require_once("User.php");
+require("User.php");
 require_once("classBrowser.php");
 require_once("auth-functions.php");
 
@@ -30,8 +30,14 @@ class RSCDSUser extends User
   * Constructor - nothing fancy as yet.
   */
   function RSCDSUser( $id , $prefix = "") {
+    global $c;
     $this->delete_collection_confirmation_required = null;
     parent::User( $id, $prefix );
+    if ( $this->user_no == 0 && isset($c->template_usr) && is_array($c->template_usr) ) {
+      foreach( $c->template_usr AS $k => $v ) {
+        $this->Set($k,$v);
+      }
+    }
   }
 
   /**
@@ -78,6 +84,8 @@ class RSCDSUser extends User
 
     return $html;
   }
+
+
   /**
   * Render input file to import ics in calendar user
   *
@@ -99,6 +107,7 @@ class RSCDSUser extends User
               array( "size" => 20, "title" => translate("Upload your .ics calendar in ical format ")), $this->prefix );
     return $html;
   }
+
 
   /**
   * Render the user's relationships to other users & resources
@@ -147,6 +156,7 @@ class RSCDSUser extends User
 
     return $html;
   }
+
 
   /**
   * Render the user's relationships to other users & resources

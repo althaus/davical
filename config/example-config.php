@@ -124,6 +124,18 @@ $c->collections_always_exist = false;
 // $c->default_relationships = array();
 
 
+/**
+* An array of fields on the usr record which should be set to specific
+* values when the users are created.
+* Default: none
+*/
+// $c->template_usr = array( 'active' => true,
+//                           'locale' => 'it_IT',
+//                           'date_format_type' => 'E',
+//                           'email_ok' => date('Y-m-d')
+//                         );
+
+
 /***************************************************************************
 *                                                                          *
 *                     External Authentication Sources                      *
