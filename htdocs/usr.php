@@ -8,7 +8,7 @@
 
   require_once("RSCDSUser.php");
 
-  $user_no = intval(isset($_POST['user_no']) ? $_POST['user_no'] : $_GET['user_no'] );
+  $user_no = intval(isset($_POST['user_no']) ? $_POST['user_no'] : (isset($_GET['user_no'])?$_GET['user_no']:0) );
   $user = new RSCDSUser($user_no);
   if ( $user->user_no == 0 ) {
     $c->page_title = ( $user_no != "" ? translate("User Unavailable") : translate("New User") );
