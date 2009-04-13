@@ -189,7 +189,7 @@
 --      ==> (1997 9:00 AM EDT)September 2,15;October 2,15
 --          (1997 9:00 AM EST)November 2,15;December 2,15
 --          (1998 9:00 AM EST)January 2,15
---- ! SELECT * FROM event_instances('19970902T090000', '' );
+--- SELECT * FROM event_instances('19970902T090000', 'FREQ=MONTHLY;COUNT=10;BYMONTHDAY=2,15' );
 --
 -- --------------------------------------------------------------------
 --    Monthly on the first and last day of the month for 10 occurrences:
@@ -200,7 +200,7 @@
 --      ==> (1997 9:00 AM EDT)September 30;October 1
 --          (1997 9:00 AM EST)October 31;November 1,30;December 1,31
 --          (1998 9:00 AM EST)January 1,31;February 1
---- ! SELECT * FROM event_instances('19970902T090000', '' );
+--- SELECT * FROM event_instances('19970902T090000', 'FREQ=MONTHLY;COUNT=10;BYMONTHDAY=1,-1' );
 --
 -- --------------------------------------------------------------------
 --    Every 18 months on the 10th thru 15th of the month for 10
