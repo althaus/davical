@@ -132,7 +132,8 @@ function SqlFilterFragment( $filter, $components, $property = null, $parameter =
           $sql .= sprintf( "OR event_has_exceptions(caldav_data.caldav_data) )" );
         }
         else if ( isset( $finish ) ) {
-          $sql .= sprintf( "AND %s <= %s::timestamp with time zone ", $start_column, qpg($finish) );
+          $sql .= sprintf( "AND (%s <= %s::timestamp with time zone ", $start_column, qpg($finish) );
+          $sql .= sprintf( "OR event_has_exceptions(caldav_data.caldav_data) )" );
         }
         break;
 
