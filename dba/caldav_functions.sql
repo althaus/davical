@@ -144,6 +144,8 @@ BEGIN
     IF ( count <= past_repeats ) THEN
       RETURN NULL;
     END IF;
+  ELSE
+    count := NULL;
   END IF;
 
   temp_txt := substring(repeatrule from ''BYSETPOS=([0-9-]+)(;|$)'');
@@ -217,8 +219,11 @@ BEGIN
     EXIT WHEN our_answer >= earliest;
 
     -- Give up if we have exceeded the count
-    EXIT WHEN past_repeats > count;
-    past_repeats := past_repeats + 1;
+    IF ( count IS NOT NULL AND past_repeats > count ) THEN
+      RETURN NULL;
+    ELSE
+      past_repeats := past_repeats + 1;
+    END IF;
 
     loopcount := loopcount - 1;
     IF loopcount < 0 THEN
