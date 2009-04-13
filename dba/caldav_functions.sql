@@ -95,6 +95,10 @@ DECLARE
   our_answer TIMESTAMP WITH TIME ZONE;
   loopcount INT;
 BEGIN
+  IF basedate > earliest THEN
+    RETURN basedate;
+  END IF;
+
   temp_txt   := substring(repeatrule from ''UNTIL=([0-9TZ]+)(;|$)'');
   IF temp_txt IS NOT NULL AND temp_txt::timestamp with time zone < earliest THEN
     RETURN NULL;
@@ -179,7 +183,7 @@ BEGIN
   END IF;
 
 
-  loopcount := 100;  -- Desirable to stop an infinite loop if there is something we cannot handle
+  loopcount := 500;  -- Desirable to stop an infinite loop if there is something we cannot handle
   LOOP
     -- RAISE NOTICE ''Testing date: %'', our_answer;
     IF frequency = ''DAILY'' THEN
@@ -212,9 +216,13 @@ BEGIN
 
     EXIT WHEN our_answer >= earliest;
 
+    -- Give up if we have exceeded the count
+    EXIT WHEN past_repeats > count;
+    past_repeats := past_repeats + 1;
+
     loopcount := loopcount - 1;
     IF loopcount < 0 THEN
-      RAISE EXCEPTION ''Giving up on repeat rule "%" - after 100 increments from % we are still not after %'', repeatrule, basedate, earliest;
+      RAISE NOTICE ''Giving up on repeat rule "%" - after 100 increments from % we are still not after %'', repeatrule, basedate, earliest;
       RETURN NULL;
     END IF;
 

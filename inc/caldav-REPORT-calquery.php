@@ -121,19 +121,18 @@ function SqlFilterFragment( $filter, $components, $property = null, $parameter =
         $finish = $v->GetAttribute("end");
         if ( isset($start) && isset($finish) ) {
           $sql .= sprintf( "AND ( (%s >= %s::timestamp with time zone AND %s <= %s::timestamp with time zone) ",
-                                  $start_column, qpg($start), $finish_column, qpg($finish));
-          $sql .= sprintf( "OR (calculate_later_timestamp(%s::timestamp with time zone,%s,rrule) >= %s::timestamp with time zone ", qpg($start), $finish_column, qpg($start) );
-          $sql .= sprintf( "AND calculate_later_timestamp(%s::timestamp with time zone,%s,rrule) <= %s::timestamp with time zone ", qpg($start), $start_column, qpg($finish) );
-          $sql .= sprintf( "AND calculate_later_timestamp(%s::timestamp with time zone,%s,rrule) <= ", qpg($start), $finish_column );
-          $sql .= sprintf( " calculate_later_timestamp(%s::timestamp with time zone,%s,rrule) ) ", qpg($start), $start_column );
-          $sql .= sprintf( "OR event_has_exceptions(caldav_data.caldav_data) ) " );
+                                  $finish_column, qpg($start), $start_column, qpg($finish));
+          $sql .= sprintf( "OR calculate_later_timestamp(%s::timestamp with time zone,%s,rrule) <= %s::timestamp with time zone ", qpg($start), $finish_column, qpg($finish) );
+          $sql .= sprintf( "OR calculate_later_timestamp(%s::timestamp with time zone,%s,rrule) <= %s::timestamp with time zone ", qpg($start), $start_column, qpg($finish) );
+          $sql .= sprintf( "OR event_has_exceptions(caldav_data.caldav_data) )" );
         }
         else if ( isset($start) ) {
-          $sql .= sprintf( "AND (%s >= %s::timestamp with time zone ", $start_column, qpg($start));
-          $sql .= sprintf( "OR calculate_later_timestamp(%s::timestamp with time zone,%s,rrule) >= %s::timestamp with time zone) ", qpg($start), $start_column, qpg($start) );
+          $sql .= sprintf( "AND (%s >= %s::timestamp with time zone ", $finish_column, qpg($start));
+          $sql .= sprintf( "OR calculate_later_timestamp(%s::timestamp with time zone,%s,rrule) >= %s::timestamp with time zone ", qpg($start), $finish_column, qpg($start) );
+          $sql .= sprintf( "OR event_has_exceptions(caldav_data.caldav_data) )" );
         }
         else if ( isset( $finish ) ) {
-          $sql .= sprintf( "AND %s <= %s::timestamp with time zone ", $finish_column, qpg($finish) );
+          $sql .= sprintf( "AND %s <= %s::timestamp with time zone ", $start_column, qpg($finish) );
         }
         break;
 
