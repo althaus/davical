@@ -33,9 +33,9 @@ CREATE TYPE rrule_parts AS (
   freq TEXT,
   count INT,
   interval INT,
---  bysecond INT[],
---  byminute INT[],
---  byhour INT[],
+  bysecond INT[],
+  byminute INT[],
+  byhour INT[],
   bymonthday INT[],
   byyearday INT[],
   byweekno INT[],
@@ -64,17 +64,17 @@ BEGIN
   /**
   * We can do the array conversion as a simple cast, since the strings are simple numbers, with no commas
   */
-  result.byday    := ('{' || substring(repeatrule from 'BYDAY=(([+-]?[0-9]{0,2}(MO|TU|WE|TH|FR|SA|SU),?)+)(;|$)') || '}')::text[];
+  result.byday    := string_to_array( substring(repeatrule from 'BYDAY=(([+-]?[0-9]{0,2}(MO|TU|WE|TH|FR|SA|SU),?)+)(;|$)'), ',');
 
-  result.byyearday  := ('{' || substring(repeatrule from 'BYYEARDAY=([0-9,+-]+)(;|$)') || '}')::int[];
-  result.byweekno   := ('{' || substring(repeatrule from 'BYWEEKNO=([0-9,+-]+)(;|$)') || '}')::int[];
-  result.bymonthday := ('{' || substring(repeatrule from 'BYMONTHDAY=([0-9,+-]+)(;|$)') || '}')::int[];
-  result.bymonth    := ('{' || substring(repeatrule from 'BYMONTH=(([+-]?[0-1]?[0-9],?)+)(;|$)') || '}')::int[];
-  result.bysetpos   := ('{' || substring(repeatrule from 'BYSETPOS=(([+-]?[0-9]{1,3},?)+)(;|$)') || '}')::int[];
+  result.byyearday  := string_to_array(substring(repeatrule from 'BYYEARDAY=([0-9,+-]+)(;|$)'), ',');
+  result.byweekno   := string_to_array(substring(repeatrule from 'BYWEEKNO=([0-9,+-]+)(;|$)'), ',');
+  result.bymonthday := string_to_array(substring(repeatrule from 'BYMONTHDAY=([0-9,+-]+)(;|$)'), ',');
+  result.bymonth    := string_to_array(substring(repeatrule from 'BYMONTH=(([+-]?[0-1]?[0-9],?)+)(;|$)'), ',');
+  result.bysetpos   := string_to_array(substring(repeatrule from 'BYSETPOS=(([+-]?[0-9]{1,3},?)+)(;|$)'), ',');
 
---  result.bysecond   := list_to_array(substring(repeatrule from 'BYSECOND=([0-9,]+)(;|$)'))::int[];
---  result.byminute   := list_to_array(substring(repeatrule from 'BYMINUTE=([0-9,]+)(;|$)'))::int[];
---  result.byhour     := list_to_array(substring(repeatrule from 'BYHOUR=([0-9,]+)(;|$)'))::int[];
+  result.bysecond   := string_to_array(substring(repeatrule from 'BYSECOND=([0-9,]+)(;|$)'), ',');
+  result.byminute   := string_to_array(substring(repeatrule from 'BYMINUTE=([0-9,]+)(;|$)'), ',');
+  result.byhour     := string_to_array(substring(repeatrule from 'BYHOUR=([0-9,]+)(;|$)'), ',');
 
   RETURN result;
 END;
@@ -101,6 +101,13 @@ BEGIN
     RETURN NEXT in_time;
     RETURN;
   END IF;
+
+  -- It seems that the array needs to be initialised to non-null values in PostgreSQL 8.1
+  -- The date chosen is the earliest valid date in PostgreSQL 8.1, and nobody should be
+  -- scheduling appointments for then!
+  FOR i IN 1..31 LOOP
+    results[i] := '4713-01-01 00:00:00 BC'::timestamp;
+  END LOOP;
 
   i := 1;
   dayrule := byday[i];
@@ -145,9 +152,11 @@ BEGIN
     ELSE
       -- Return all such days that are within the given month
       WHILE date_part('month', each_day) = this_month LOOP
-        results[date_part('day',each_day)] := each_day;
-        each_day := each_day + '1 week'::interval;
+        index := date_part('day',each_day);
+        -- RAISE NOTICE 'Adding "%" to list[%] for %', each_day, index, dayrule;
+        results[index] := each_day;
         -- RAISE NOTICE 'Added "%" to list for %', each_day, dayrule;
+        each_day := each_day + '1 week'::interval;
       END LOOP;
     END IF;
 
@@ -156,7 +165,7 @@ BEGIN
   END LOOP;
 
   FOR i IN 1..31 LOOP
-    IF results[i] IS NOT NULL THEN
+    IF results[i] > '4713-01-01 00:00:00 BC'::timestamp THEN
       RETURN NEXT results[i];
     END IF;
   END LOOP;
@@ -308,10 +317,6 @@ $$ LANGUAGE 'plpgsql' IMMUTABLE;
 
 ------------------------------------------------------------------------------------------------------
 -- Given a cursor into a set, process the set returning the subset matching the BYSETPOS
---
--- Note that this function *requires* PostgreSQL 8.3 or later for the cursor handling syntax
--- to work.  I guess we could do it with an array, instead, for compatibility with earlier
--- releases, since there's a maximum of 366 positions in a set.
 ------------------------------------------------------------------------------------------------------
 CREATE or REPLACE FUNCTION rrule_bysetpos_filter( REFCURSOR, INT[] ) RETURNS SETOF TIMESTAMP WITH TIME ZONE AS $$
 DECLARE
@@ -319,6 +324,8 @@ DECLARE
   bysetpos ALIAS FOR $2;
   valid_date TIMESTAMP WITH TIME ZONE;
   i INT;
+  setsize INT;
+  ourset TIMESTAMP WITH TIME ZONE[];
 BEGIN
 
   IF bysetpos IS NULL THEN
@@ -328,13 +335,22 @@ BEGIN
       RETURN NEXT valid_date;
     END LOOP;
   ELSE
+    setsize := 0;
+    FOR i IN 1..366 LOOP
+      FETCH curse INTO valid_date;
+      EXIT WHEN NOT FOUND;
+      ourset[i] := valid_date;
+      setsize = setsize + 1;
+    END LOOP;
+    -- RAISE NOTICE 'We have % in our set.', setsize;
     FOR i IN 1..366 LOOP
       EXIT WHEN bysetpos[i] IS NULL;
       IF bysetpos[i] > 0 THEN
-        FETCH ABSOLUTE bysetpos[i] FROM curse INTO valid_date;
+        valid_date := ourset[bysetpos[i]];
+        -- RAISE NOTICE 'Extracted % from position %.', valid_date, bysetpos[i];
       ELSE
-        MOVE LAST IN curse;
-        FETCH RELATIVE (bysetpos[i] + 1) FROM curse INTO valid_date;
+        valid_date := ourset[ setsize + bysetpos[i] + 1 ];
+        -- RAISE NOTICE 'Extracted % from position (% % + 1) = %.', valid_date, setsize, bysetpos[i], setsize + bysetpos[i] + 1;
       END IF;
       IF valid_date IS NOT NULL THEN
         RETURN NEXT valid_date;
@@ -396,7 +412,7 @@ CREATE or REPLACE FUNCTION weekly_set( TIMESTAMP WITH TIME ZONE, rrule_parts ) R
 DECLARE
   after ALIAS FOR $1;
   rrule ALIAS FOR $2;
-  valid_date TIMESTAMP WITH TIME ZONE;
+  rowvar RECORD;
   curse REFCURSOR;
   weekno INT;
   i INT;
@@ -409,8 +425,10 @@ BEGIN
     END IF;
   END IF;
 
-  OPEN curse SCROLL FOR SELECT r FROM rrule_week_byday_set(after, rrule.byday ) r;
-  RETURN QUERY SELECT d FROM rrule_bysetpos_filter(curse,rrule.bysetpos) d;
+  OPEN curse FOR SELECT r FROM rrule_week_byday_set(after, rrule.byday ) r;
+  FOR rowvar IN SELECT d FROM rrule_bysetpos_filter(curse,rrule.bysetpos) d LOOP
+    RETURN NEXT rowvar.d;
+  END LOOP;
 
 END;
 $$ LANGUAGE 'plpgsql' IMMUTABLE STRICT;
@@ -423,7 +441,7 @@ CREATE or REPLACE FUNCTION monthly_set( TIMESTAMP WITH TIME ZONE, rrule_parts ) 
 DECLARE
   after ALIAS FOR $1;
   rrule ALIAS FOR $2;
-  valid_date TIMESTAMP WITH TIME ZONE;
+  rowvar RECORD;
   curse REFCURSOR;
   setpos INT;
   i INT;
@@ -444,16 +462,18 @@ BEGIN
   * My guess is that this means 'INTERSECT'
   */
   IF rrule.byday IS NOT NULL AND rrule.bymonthday IS NOT NULL THEN
-    OPEN curse SCROLL FOR SELECT r FROM rrule_month_byday_set(after, rrule.byday ) r
+    OPEN curse FOR SELECT r FROM rrule_month_byday_set(after, rrule.byday ) r
                 INTERSECT SELECT r FROM rrule_month_bymonthday_set(after, rrule.bymonthday ) r
                     ORDER BY 1;
   ELSIF rrule.bymonthday IS NOT NULL THEN
-    OPEN curse SCROLL FOR SELECT r FROM rrule_month_bymonthday_set(after, rrule.bymonthday ) r ORDER BY 1;
+    OPEN curse FOR SELECT r FROM rrule_month_bymonthday_set(after, rrule.bymonthday ) r ORDER BY 1;
   ELSE
-    OPEN curse SCROLL FOR SELECT r FROM rrule_month_byday_set(after, rrule.byday ) r ORDER BY 1;
+    OPEN curse FOR SELECT r FROM rrule_month_byday_set(after, rrule.byday ) r ORDER BY 1;
   END IF;
 
-  RETURN QUERY SELECT d FROM rrule_bysetpos_filter(curse,rrule.bysetpos) d;
+  FOR rowvar IN SELECT d FROM rrule_bysetpos_filter(curse,rrule.bysetpos) d LOOP
+    RETURN NEXT rowvar.d;
+  END LOOP;
 
 END;
 $$ LANGUAGE 'plpgsql' IMMUTABLE STRICT;
@@ -461,12 +481,14 @@ $$ LANGUAGE 'plpgsql' IMMUTABLE STRICT;
 
 ------------------------------------------------------------------------------------------------------
 -- If this is YEARLY;BYMONTH, abuse MONTHLY;BYMONTH for everything except the BYSETPOS
+-- FIXME: it is wrong to abuse MONTHLY;BYMONTH in this way. We should write YEARLY;BYMONTH properly.
 ------------------------------------------------------------------------------------------------------
 CREATE or REPLACE FUNCTION rrule_yearly_bymonth_set( TIMESTAMP WITH TIME ZONE, rrule_parts ) RETURNS SETOF TIMESTAMP WITH TIME ZONE AS $$
 DECLARE
   after ALIAS FOR $1;
   rrule ALIAS FOR $2;
   current_base TIMESTAMP WITH TIME ZONE;
+  rowvar RECORD;
   rr rrule_parts;
   i INT;
 BEGIN
@@ -478,7 +500,9 @@ BEGIN
     FOR i IN 1..12 LOOP
       EXIT WHEN rr.bymonth[i] IS NULL;
       current_base := date_trunc( 'year', after ) + ((rr.bymonth[i] - 1)::text || ' months')::interval + (after::time)::interval;
-      RETURN QUERY SELECT r FROM monthly_set(current_base,rr) r;
+      FOR rowvar IN SELECT d FROM monthly_set(current_base,rr) d LOOP
+        RETURN NEXT rowvar.d;
+      END LOOP;
     END LOOP;
   ELSE
     -- We don't yet implement byweekno, byblah
@@ -497,15 +521,16 @@ DECLARE
   after ALIAS FOR $1;
   rrule ALIAS FOR $2;
   current_base TIMESTAMP WITH TIME ZONE;
+  rowvar RECORD;
   curse REFCURSOR;
   curser REFCURSOR;
   i INT;
 BEGIN
 
   IF rrule.bymonth IS NOT NULL THEN
-    OPEN curse SCROLL FOR SELECT r FROM rrule_yearly_bymonth_set(after, rrule ) r;
-    FOR current_base IN SELECT d FROM rrule_bysetpos_filter(curse,rrule.bysetpos) d LOOP
-      current_base := date_trunc( 'day', current_base ) + (after::time)::interval;
+    OPEN curse FOR SELECT r FROM rrule_yearly_bymonth_set(after, rrule ) r;
+    FOR rowvar IN SELECT d FROM rrule_bysetpos_filter(curse,rrule.bysetpos) d LOOP
+      current_base := date_trunc( 'day', rowvar.d ) + (after::time)::interval;
       RETURN NEXT current_base;
     END LOOP;
   ELSE
@@ -532,6 +557,7 @@ DECLARE
   base_day TIMESTAMP WITH TIME ZONE;
   current_base TIMESTAMP WITH TIME ZONE;
   current TIMESTAMP WITH TIME ZONE;
+  rowvar RECORD;
   rrule rrule_parts%ROWTYPE;
 BEGIN
   loopcount := 0;
@@ -547,7 +573,8 @@ BEGIN
   base_day := date_trunc('day',basedate);
   WHILE loopcount < loopmax AND current_base <= maxdate LOOP
     IF rrule.freq = 'DAILY' THEN
-      FOR current IN SELECT d FROM daily_set(current_base,rrule) d WHERE d >= base_day LOOP
+      FOR rowvar IN SELECT d FROM daily_set(current_base,rrule) d WHERE d >= base_day LOOP
+        current := rowvar.d;
 --        IF test_byday_rule(current,rrule.byday) AND test_bymonthday_rule(current,rrule.bymonthday) AND test_bymonth_rule(current,rrule.bymonth) THEN
           EXIT WHEN rrule.until IS NOT NULL AND current > rrule.until;
           IF current >= mindate THEN
@@ -559,7 +586,8 @@ BEGIN
       END LOOP;
       current_base := current_base + (rrule.interval::text || ' days')::interval;
     ELSIF rrule.freq = 'WEEKLY' THEN
-      FOR current IN SELECT w FROM weekly_set(current_base,rrule) w WHERE w >= base_day LOOP
+      FOR rowvar IN SELECT d FROM weekly_set(current_base,rrule) d WHERE d >= base_day LOOP
+        current := rowvar.d;
         IF test_byyearday_rule(current,rrule.byyearday)
                AND test_bymonthday_rule(current,rrule.bymonthday)
                AND test_bymonth_rule(current,rrule.bymonth)
@@ -574,7 +602,8 @@ BEGIN
       END LOOP;
       current_base := current_base + (rrule.interval::text || ' weeks')::interval;
     ELSIF rrule.freq = 'MONTHLY' THEN
-      FOR current IN SELECT m FROM monthly_set(current_base,rrule) m WHERE m >= base_day LOOP
+      FOR rowvar IN SELECT d FROM monthly_set(current_base,rrule) d WHERE d >= base_day LOOP
+        current := rowvar.d;
 --        IF /* test_byyearday_rule(current,rrule.byyearday)
 --               AND */ test_bymonth_rule(current,rrule.bymonth)
 --        THEN
@@ -588,7 +617,8 @@ BEGIN
       END LOOP;
       current_base := current_base + (rrule.interval::text || ' months')::interval;
     ELSIF rrule.freq = 'YEARLY' THEN
-      FOR current IN SELECT y FROM yearly_set(current_base,rrule) y WHERE y >= base_day LOOP
+      FOR rowvar IN SELECT d FROM yearly_set(current_base,rrule) d WHERE d >= base_day LOOP
+        current := rowvar.d;
         EXIT WHEN rrule.until IS NOT NULL AND current > rrule.until;
         IF current >= mindate THEN
           RETURN NEXT current;
@@ -617,8 +647,11 @@ DECLARE
   basedate ALIAS FOR $1;
   repeatrule ALIAS FOR $2;
   maxdate TIMESTAMP WITH TIME ZONE;
+  rowvar RECORD;
 BEGIN
   maxdate := current_date + '10 years'::interval;
-  RETURN QUERY SELECT d FROM rrule_event_instances_range( basedate, repeatrule, basedate, maxdate, 300 ) d;
+  FOR rowvar IN SELECT d FROM rrule_event_instances_range( basedate, repeatrule, basedate, maxdate, 300 ) d LOOP
+    RETURN NEXT rowvar.d;
+  END LOOP;
 END;
 $$ LANGUAGE 'plpgsql' IMMUTABLE STRICT;
