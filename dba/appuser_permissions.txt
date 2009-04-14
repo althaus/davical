@@ -34,6 +34,7 @@ GRANT SELECT,INSERT,UPDATE,DELETE
   ON group_member
   ON principal
   ON privilege
+  ON relationship_type
 
 GRANT SELECT,UPDATE
   ON relationship_type_rt_id_seq
@@ -51,7 +52,6 @@ GRANT SELECT,INSERT
 GRANT SELECT
   ON supported_locales
   ON awl_db_revision
-  ON relationship_type
   ON dav_resource_type
   ON principal_type
 
