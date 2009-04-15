@@ -376,30 +376,48 @@ BEGIN
 END;
 ' LANGUAGE 'plpgsql';
 
-
-CREATE or REPLACE FUNCTION rename_davical_user( TEXT, TEXT ) RETURNS TEXT AS $$
+DROP FUNCTION rename_davical_user( TEXT, TEXT );
+DROP TRIGGER usr_modified ON usr CASCADE;
+CREATE or REPLACE FUNCTION usr_modified() RETURNS TRIGGER AS $$
 DECLARE
-  oldname ALIAS FOR $1;
-  newname ALIAS FOR $2;
   oldpath TEXT;
   newpath TEXT;
 BEGIN
-  UPDATE usr SET username = newname WHERE username = oldname;
-  oldpath := '/' || oldname || '/';
-  newpath := '/' || newname || '/';
-
-  UPDATE collection
-     SET parent_container = replace( parent_container, oldpath, newpath),
-         dav_name = replace( dav_name, oldpath, newpath)
-   WHERE substring(dav_name from 1 for char_length(oldpath)) = oldpath;
-
-  UPDATE caldav_data
-     SET dav_name = replace( dav_name, oldpath, newpath)
-   WHERE substring(dav_name from 1 for char_length(oldpath)) = oldpath;
-
-  RETURN newname;
+  -- in case we trigger on other events in future
+  IF TG_OP = 'UPDATE' THEN
+    IF NEW.username != OLD.username THEN
+      oldpath := '/' || OLD.username || '/';
+      newpath := '/' || NEW.username || '/';
+      UPDATE collection
+        SET parent_container = replace( parent_container, oldpath, newpath),
+            dav_name = replace( dav_name, oldpath, newpath)
+      WHERE substring(dav_name from 1 for char_length(oldpath)) = oldpath;
+    END IF;
+  END IF;
+  RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
+CREATE TRIGGER usr_modified AFTER UPDATE ON usr
+    FOR EACH ROW EXECUTE PROCEDURE usr_modified();
+
+
+DROP TRIGGER collection_modified ON collection CASCADE;
+CREATE or REPLACE FUNCTION collection_modified() RETURNS TRIGGER AS $$
+DECLARE
+BEGIN
+  -- in case we trigger on other events in future
+  IF TG_OP = 'UPDATE' THEN
+    IF NEW.dav_name != OLD.dav_name THEN
+      UPDATE caldav_data
+        SET dav_name = replace( dav_name, OLD.dav_name, NEW.dav_name)
+      WHERE substring(dav_name from 1 for char_length(OLD.dav_name)) = OLD.dav_name;
+    END IF;
+  END IF;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+CREATE TRIGGER collection_modified AFTER UPDATE ON collection
+    FOR EACH ROW EXECUTE PROCEDURE collection_modified();
 
 
 DROP TRIGGER caldav_data_modified ON caldav_data CASCADE;
