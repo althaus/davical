@@ -1,4 +1,4 @@
-<?php 
+<?php
 /* ***** BEGIN LICENSE BLOCK *****
  * Version: NPL 1.1/GPL 2.0/LGPL 2.1
  *
@@ -49,7 +49,7 @@
  */
 
 /**
- * Takes an UTF-8 string and returns an array of ints representing the 
+ * Takes an UTF-8 string and returns an array of ints representing the
  * Unicode characters. Astral planes are supported ie. the ints in the
  * output can be > 0xFFFF. Occurrances of the BOM are ignored. Surrogates
  * are not allowed.
@@ -157,7 +157,7 @@ function utf8ToUnicode(&$str)
         }
       } else {
         /* ((0xC0 & (*in) != 0x80) && (mState != 0))
-         * 
+         *
          * Incomplete multi-octet sequence.
          */
         return false;
@@ -168,12 +168,12 @@ function utf8ToUnicode(&$str)
 }
 
 /**
- * Takes an array of ints representing the Unicode characters and returns 
+ * Takes an array of ints representing the Unicode characters and returns
  * a UTF-8 string. Astral planes are supported ie. the ints in the
  * input can be > 0xFFFF. Occurrances of the BOM are ignored. Surrogates
  * are not allowed.
  *
- * Returns false if the input array contains ints that represent 
+ * Returns false if the input array contains ints that represent
  * surrogates or are outside the Unicode range.
  */
 function unicodeToUtf8(&$arr)
@@ -201,7 +201,7 @@ function unicodeToUtf8(&$arr)
       $dest .= chr(0x80 | (($src >> 12) & 0x3f));
       $dest .= chr(0x80 | (($src >> 6) & 0x3f));
       $dest .= chr(0x80 | ($src & 0x3f));
-    } else { 
+    } else {
       // out of range
       return false;
     }
@@ -215,7 +215,7 @@ function check_string($ics){
             $error[] = $line;
         }
     }
-    if(is_array($error)){
+    if(isset($error) && is_array($error)){
         foreach($error as $line){
             dbg_error_log( "LOG check_string","error on lines %  invalid character in string %s" , ($line +1),$ics_file[$line]  );
             return false;
