@@ -78,12 +78,13 @@ $dsn .= ";port=$dbport" if ( $dbport != 5432 );
 
 print "Using database: $dbuser".'%'.$dbpass.'@'.$dsn."\n" if ( $debug );
 
+my $pg_version = get_postgresql_version();
 my $current_revision;
 my $last_results = '';  # Will hold the last SQL result from applying a patch
 
 if ( $apply_patches ) {
   $current_revision = get_current_revision();
-  printf( "The database is currently at revision %d.%d.%d.\n", $current_revision->{'schema_major'}, $current_revision->{'schema_minor'}, $current_revision->{'schema_patch'} );
+  printf( "The database is version %.1lf currently at revision %d.%d.%d.\n", $pg_version, $current_revision->{'schema_major'}, $current_revision->{'schema_minor'}, $current_revision->{'schema_patch'} );
 
   opendir( PATCHDIR, $patchdir ) or die "Can't open patch directory $patchdir";
   my @patches = grep { /^([0-9]+)\.([0-9]+)\.([0-9]+)([a-z]?)\.sql$/ } readdir(PATCHDIR);
@@ -134,7 +135,12 @@ print "Supported locales updated.\n";
 apply_sql_file( $dbadir, "caldav_functions.sql" );
 print "CalDAV functions updated.\n";
 
-apply_sql_file( $dbadir, "rrule_functions.sql" );
+if ( $pg_version >= 8.3 ) {
+  apply_sql_file( $dbadir, "rrule_functions.sql" );
+}
+else {
+  apply_sql_file( $dbadir, "rrule_functions-8.1.sql",  );
+}
 print "RRULE functions updated.\n";
 
 # Ensure the permissions are up to date
@@ -197,6 +203,30 @@ sub compare_revisions {
 
 }
 
+
+
+############################################################
+# Get the current version of PostgreSQL
+############################################################
+sub get_postgresql_version {
+
+  my $dbh = DBI->connect($dsn, $dbuser, $dbpass, { AutoCommit => 0 } ) or die "Can't connect to database $dbname";
+
+  my $current_version = $dbh->prepare( <<EOQ  ) or die $dbh->errstr;
+  SELECT regexp_replace( split_part( version(), ' ', 2), E'\.[0-9]\$', '')
+EOQ
+
+  if ( $current_version->execute() ) {
+    my $version = $current_version->fetchrow_arrayref();
+    undef $current_version;
+    $dbh->disconnect;
+    return $version->[0];
+  }
+  else {
+    die "ERROR: Cannot read current revision from database.";
+  }
+
+}
 
 
 ############################################################
