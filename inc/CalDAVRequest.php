@@ -358,7 +358,9 @@ EOSQL;
       return;
     }
 
-    $permissions = array();
+    $this->permissions = array();
+
+    if ( $this->IsPublic() ) $this->permissions['read'] = 'read';
 
     /**
     * In other cases we need to query the database for permissions
@@ -366,7 +368,6 @@ EOSQL;
     $qry = new PgQuery( "SELECT get_permissions( ?, ? ) AS perm;", $session->user_no, $this->user_no);
     if ( $qry->Exec("caldav") && $permission_result = $qry->Fetch() ) {
       $permission_result = "!".$permission_result->perm; // We prepend something to ensure we get a non-zero position.
-      $this->permissions = array();
       if ( strpos($permission_result,"A") )
         $this->permissions['all'] = 'all';
       else {
@@ -391,8 +392,6 @@ EOSQL;
   * @todo This logic does not catch all locking scenarios.  For example an infinite
   * depth request should check the permissions for all collections and resources within
   * that.  At present we only maintain permissions on a per-collection basis though.
-  *
-  * @param string $dav_name The resource which we want to know the lock status for
   */
   function IsLocked() {
     if ( !isset($this->_locks_found) ) {
@@ -420,6 +419,17 @@ EOSQL;
     }
 
     return false;  // Nothing matched
+  }
+
+
+  /**
+  * Checks whether the collection is public
+  */
+  function IsPublic() {
+    if ( isset($this->collection) && isset($this->collection->publicly_readable) && $this->collection->publicly_readable == 't' ) {
+      return true;
+    }
+    return false;
   }
 
 
