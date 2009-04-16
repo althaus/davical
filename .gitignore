@@ -1,6 +1,7 @@
 caldav.session
 rscds.session
 davical.session
+davical.webprj
 build
 build-stamp
 *.pgdump
