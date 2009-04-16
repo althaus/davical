@@ -8,13 +8,11 @@
 * @copyright Catalyst .Net Ltd
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v2
 */
-require_once("../inc/always.php");
+require("../inc/always.php");
 dbg_error_log( "caldav", " User agent: %s", ((isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : "Unfortunately Mulberry does not send a 'User-agent' header with its requests :-(")) );
 dbg_log_array( "headers", '_SERVER', $_SERVER, true );
-$session = (object) array(
-  'username' => 'public',
-  'user_no'  => -1
-);
+require("PublicSession.php");
+$session = new PublicSession();
 
 /** A simplified DAV header in this case */
 $dav = "1, 2, calendar-access";
@@ -22,6 +20,9 @@ header( "DAV: $dav");
 
 require_once("CalDAVRequest.php");
 $request = new CalDAVRequest();
+if ( !$request->IsPublic() ) {
+  $request->DoResponse( 403, translate('Anonymous users may only access public calendars') );
+}
 
 switch ( $request->method ) {
   case 'OPTIONS':    include_once("caldav-OPTIONS.php");    break;
