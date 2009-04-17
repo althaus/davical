@@ -534,10 +534,18 @@ BEGIN
   loopcount := 0;
 
   SELECT * INTO rrule FROM parse_rrule_parts( basedate, repeatrule );
+
   IF rrule.count IS NOT NULL THEN
     loopmax := rrule.count;
   ELSE
-    loopmax := max_count;
+    -- max_count is pretty arbitrary, so we scale it somewhat here depending on the frequency.
+    IF rrule.freq = 'DAILY' THEN
+      loopmax := max_count * 20;
+    ELSIF rrule.freq = 'WEEKLY' THEN
+      loopmax := max_count * 3;
+    ELSE
+      loopmax := max_count;
+    END IF;
   END IF;
 
   current_base := basedate;
@@ -619,3 +627,47 @@ BEGIN
   RETURN QUERY SELECT d FROM rrule_event_instances_range( basedate, repeatrule, basedate, maxdate, 300 ) d;
 END;
 $$ LANGUAGE 'plpgsql' IMMUTABLE STRICT;
+
+
+------------------------------------------------------------------------------------------------------
+-- In most cases we just want to know if there *is* an event overlapping the range, so we have a
+-- specific function for that.  Note that this is *not* strict, and can be called with NULLs.
+------------------------------------------------------------------------------------------------------
+CREATE or REPLACE FUNCTION rrule_event_overlaps( TIMESTAMP WITH TIME ZONE, TIMESTAMP WITH TIME ZONE, TEXT, TIMESTAMP WITH TIME ZONE, TIMESTAMP WITH TIME ZONE )
+                                         RETURNS BOOLEAN AS $$
+DECLARE
+  dtstart ALIAS FOR $1;
+  dtend ALIAS FOR $2;
+  repeatrule ALIAS FOR $3;
+  in_mindate ALIAS FOR $4;
+  in_maxdate ALIAS FOR $5;
+  mindate TIMESTAMP WITH TIME ZONE;
+  maxdate TIMESTAMP WITH TIME ZONE;
+BEGIN
+
+  IF dtstart IS NULL OR dtend IS NULL THEN
+    RETURN NULL;
+  END IF;
+
+  IF in_mindate IS NULL THEN
+    mindate := current_date - '10 years'::interval;
+  ELSE
+    mindate := in_mindate;
+  END IF;
+
+  IF in_maxdate IS NULL THEN
+    maxdate := current_date + '10 years'::interval;
+  ELSE
+    -- If we add the duration onto the event, then an overlap occurs if dtend <= increased end of range.
+    maxdate := in_maxdate + (dtend - dtstart);
+  END IF;
+
+  IF repeatrule IS NULL THEN
+    RETURN (dtstart <= maxdate AND dtend >= mindate);
+  END IF;
+
+  SELECT d INTO mindate FROM rrule_event_instances_range( dtend, repeatrule, mindate, maxdate, 3 ) d LIMIT 1;
+  RETURN FOUND;
+
+END;
+$$ LANGUAGE 'plpgsql' IMMUTABLE;
