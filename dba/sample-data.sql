@@ -41,6 +41,14 @@ INSERT INTO role_member (user_no, role_no) VALUES( 300, 2);
 
 SELECT setval('usr_user_no_seq', 1000);
 
+INSERT INTO collection (user_no, parent_container, dav_name, dav_etag,
+                 dav_displayname, is_calendar, created, modified,
+                 public_events_only, publicly_readable, collection_id)
+    SELECT user_no, '/' || username || '/',  '/' || username || '/home/', md5(username),
+           username || ' home', TRUE, current_timestamp, current_timestamp,
+           FALSE, FALSE, user_no FROM usr;
+
+SELECT setval('dav_id_seq', 1000);
 
 -- Set the insert sequence to the next number, with a minimum of 1000
 SELECT setval('relationship_type_rt_id_seq', (SELECT 10 UNION SELECT rt_id FROM relationship_type ORDER BY 1 DESC LIMIT 1) );
