@@ -2,7 +2,7 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 ETag: "deadbeefcafefeeddeadbeefcafefeed"
-Content-Length: 1124
+Content-Length: 1130
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -18,7 +18,7 @@ Content-Type: text/xml; charset="utf-8"
      <C:calendar/>
      <C:schedule-calendar/>
     </resourcetype>
-    <displayname>home</displayname>
+    <displayname>user1 home</displayname>
     <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
     <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
     <getetag>"8600dc4a1b264a09a5f741d710497cba"</getetag>

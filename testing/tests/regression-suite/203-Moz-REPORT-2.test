@@ -12,4 +12,18 @@ HEADER=Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
 HEADER=Content-Type: text/xml
 HEADER=Depth: 1
 
-DATA=202-Moz-REPORT-1
+BEGINDATA
+<?xml version="1.0" encoding="UTF-8"?>
+<calendar-query xmlns:D="DAV:" xmlns="urn:ietf:params:xml:ns:caldav">
+  <D:prop>
+    <calendar-data/>
+  </D:prop>
+  <filter>
+    <comp-filter name="VCALENDAR">
+      <comp-filter name="VEVENT">
+        <time-range start="20061009T003736Z" end="20061209T003736Z"/>
+      </comp-filter>
+    </comp-filter>
+  </filter>
+</calendar-query>
+ENDDATA

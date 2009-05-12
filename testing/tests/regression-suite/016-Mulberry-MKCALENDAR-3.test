@@ -1,5 +1,5 @@
 #
 # Make a calendar for someone else who we are allowed to write to
 TYPE=MKCALENDAR
-URL=http://mycaldav/caldav.php/resource2/home/
+URL=http://mycaldav/caldav.php/resource2/mulberry/
 HEAD
