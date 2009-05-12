@@ -677,3 +677,34 @@ BEGIN
 
 END;
 $$ LANGUAGE 'plpgsql' IMMUTABLE;
+
+
+-- Create a composite type for the parts of the RRULE.
+DROP TYPE rrule_instance CASCADE;
+CREATE TYPE rrule_instance AS (
+  dtstart TIMESTAMP WITH TIME ZONE,
+  rrule TEXT,
+  instance TIMESTAMP WITH TIME ZONE
+);
+
+CREATE or REPLACE FUNCTION rrule_event_instances( TIMESTAMP WITH TIME ZONE, TEXT )
+                                         RETURNS SETOF rrule_instance AS $$
+DECLARE
+  basedate ALIAS FOR $1;
+  repeatrule ALIAS FOR $2;
+  maxdate TIMESTAMP WITH TIME ZONE;
+  current TIMESTAMP WITH TIME ZONE;
+  result rrule_instance%ROWTYPE;
+BEGIN
+  maxdate := current_date + '10 years'::interval;
+
+  result.dtstart := basedate;
+  result.rrule   := repeatrule;
+
+  FOR current IN SELECT d FROM rrule_event_instances_range( basedate, repeatrule, basedate, maxdate, 300 ) d LOOP
+    result.instance := current;
+    RETURN NEXT result;
+  END LOOP;
+
+END;
+$$ LANGUAGE 'plpgsql' IMMUTABLE STRICT;
