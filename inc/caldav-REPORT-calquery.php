@@ -119,20 +119,8 @@ function SqlFilterFragment( $filter, $components, $property = null, $parameter =
         $finish_column = 'dtstart';  // The column we compare against the END attribute
         $start = $v->GetAttribute("start");
         $finish = $v->GetAttribute("end");
-        if ( isset($start) && isset($finish) ) {
-          $sql .= sprintf( "AND ( (%s >= %s::timestamp with time zone AND %s <= %s::timestamp with time zone) ",
-                                  $finish_column, qpg($start), $start_column, qpg($finish));
-          $sql .= sprintf( "OR calculate_later_timestamp(%s::timestamp with time zone,%s,rrule) <= %s::timestamp with time zone ", qpg($start), $finish_column, qpg($finish) );
-          $sql .= sprintf( "OR calculate_later_timestamp(%s::timestamp with time zone,%s,rrule) <= %s::timestamp with time zone ", qpg($start), $start_column, qpg($finish) );
-          $sql .= sprintf( "OR event_has_exceptions(caldav_data.caldav_data) )" );
-        }
-        else if ( isset($start) ) {
-          $sql .= sprintf( "AND (%s >= %s::timestamp with time zone ", $finish_column, qpg($start));
-          $sql .= sprintf( "OR calculate_later_timestamp(%s::timestamp with time zone,%s,rrule) >= %s::timestamp with time zone ", qpg($start), $finish_column, qpg($start) );
-          $sql .= sprintf( "OR event_has_exceptions(caldav_data.caldav_data) )" );
-        }
-        else if ( isset( $finish ) ) {
-          $sql .= sprintf( "AND (%s <= %s::timestamp with time zone ", $start_column, qpg($finish) );
+        if ( isset($start) || isset($finish) ) {
+          $sql .= "AND (rrule_event_overlaps( dtstart, dtend, rrule, ".qpg($start).", ".qpg($finish)." ) ";
           $sql .= sprintf( "OR event_has_exceptions(caldav_data.caldav_data) )" );
         }
         break;

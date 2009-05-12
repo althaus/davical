@@ -13,13 +13,7 @@ if ( ! ( isset($fbq_start) || isset($fbq_end) ) ) {
   $request->DoResponse( 400, 'All valid freebusy requests MUST contain a time-range filter' );
 }
 $where = " WHERE caldav_data.dav_name ~ ? ";
-if ( isset( $fbq_start ) ) {
-  $where .= "AND (dtend >= ".qpg($fbq_start)."::timestamp with time zone ";
-  $where .= "OR calculate_later_timestamp(".qpg($fbq_start)."::timestamp with time zone,dtend,rrule) >= ".qpg($fbq_start)."::timestamp with time zone) ";
-}
-if ( isset( $fbq_end ) ) {
-  $where .= "AND dtstart <= ".qpg($fbq_end)."::timestamp with time zone ";
-}
+$where .= "AND rrule_event_overlaps( dtstart, dtend, rrule, ".qpg($fbq_start).", ".qpg($fbq_end)." ) ";
 $where .= "AND caldav_data.caldav_type IN ( 'VEVENT', 'VFREEBUSY' ) ";
 $where .= "AND (calendar_item.transp != 'TRANSPARENT' OR calendar_item.transp IS NULL) ";
 $where .= "AND (calendar_item.status != 'CANCELLED' OR calendar_item.status IS NULL) ";

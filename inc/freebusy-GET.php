@@ -6,16 +6,12 @@ include_once("RRule.php");
 * We need to allow GET of start & finish so we can have a consistent regression test result set.  And it might be useful
 * to people as well...
 */
-if ( isset($_GET['start']) && preg_match( '/^[12][0-9]{3}(0[0-9]|1[012])[0123][0-9]T[0-2][0-9]([0-5][0-9]){2}$/', $_GET['start'] )) {
-  $start = $_GET['start'];
-}
-else {
+param_to_global('start', '/^[12][0-9]{3}(0[0-9]|1[012])[0123][0-9]T[0-2][0-9]([0-5][0-9]){2}$/' );
+if ( !isset($start) ) {
   $start = date( "Ymd\THis", time() - (86400 * 30) );
 }
-if ( isset($_GET['finish']) && preg_match( '/^[12][0-9]{3}(0[0-9]|1[012])[0123][0-9]T[0-2][0-9]([0-5][0-9]){2}$/', $_GET['finish'] )) {
-  $finish = $_GET['finish'];
-}
-else {
+param_to_global('finish', '/^[12][0-9]{3}(0[0-9]|1[012])[0123][0-9]T[0-2][0-9]([0-5][0-9]){2}$/' );
+if ( !isset($finish) ) {
   $finish = date( "Ymd\THis", time() + (86400 * 200) );
 }
 
@@ -25,8 +21,7 @@ if ( isset($request->by_email) ) {
 else {
   $where = "WHERE caldav_data.user_no = $request->user_no AND caldav_data.dav_name ~ ".qpg("^".$request->path)." ";
 }
-$where .= "AND (dtend >= '$start'::timestamp with time zone OR calculate_later_timestamp('$start'::timestamp with time zone,dtend,rrule) >= '$start'::timestamp with time zone) ";
-$where .= "AND dtstart <= '$finish'::timestamp with time zone ";
+$where .= "AND rrule_event_overlaps( dtstart, dtend, rrule, ".qpg($start).", ".qpg($finish)." ) ";
 $where .= "AND caldav_data.caldav_type IN ( 'VEVENT', 'VFREEBUSY' ) ";
 $where .= "AND (calendar_item.transp != 'TRANSPARENT' OR calendar_item.transp IS NULL) ";
 $where .= "AND (calendar_item.status != 'CANCELLED' OR calendar_item.status IS NULL) ";
