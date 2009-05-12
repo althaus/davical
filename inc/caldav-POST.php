@@ -77,12 +77,8 @@ function handle_freebusy_request( $ic ) {
 
     // If we make it here, then it seems we are allowed to see their data...
     $where = " WHERE usr.email = ? AND collection.is_calendar ";
-    if ( isset( $fbq_start ) ) {
-      $where .= "AND (dtend >= ".qpg($fbq_start)."::timestamp with time zone ";
-      $where .= "OR calculate_later_timestamp(".qpg($fbq_start)."::timestamp with time zone,dtend,rrule) >= ".qpg($fbq_start)."::timestamp with time zone) ";
-    }
-    if ( isset( $fbq_end ) ) {
-      $where .= "AND dtstart <= ".qpg($fbq_end)."::timestamp with time zone ";
+    if ( isset( $fbq_start ) || isset( $fbq_end ) ) {
+      $where .= "AND rrule_event_overlaps( dtstart, dtend, rrule, ".qpg($fbq_start).", ".qpg($fbq_end)." ) ";
     }
     $where .= "AND caldav_data.caldav_type IN ( 'VEVENT', 'VFREEBUSY' ) ";
     $where .= "AND (calendar_item.transp != 'TRANSPARENT' OR calendar_item.transp IS NULL) ";
@@ -96,6 +92,7 @@ function handle_freebusy_request( $ic ) {
 
     $busy = array();
     $busy_tentative = array();
+    /** @TODO prove this is correct */
     $sql = "SELECT caldav_data.caldav_data, calendar_item.rrule, calendar_item.transp, calendar_item.status, ";
     $sql .= "to_char(calendar_item.dtstart at time zone 'GMT',".iCalendar::SqlDateFormat().") AS start, ";
     $sql .= "to_char(calendar_item.dtend at time zone 'GMT',".iCalendar::SqlDateFormat().") AS finish ";
