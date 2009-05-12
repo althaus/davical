@@ -542,7 +542,7 @@ BEGIN
     IF rrule.freq = 'DAILY' THEN
       loopmax := max_count * 20;
     ELSIF rrule.freq = 'WEEKLY' THEN
-      loopmax := max_count * 3;
+      loopmax := max_count * 10;
     ELSE
       loopmax := max_count;
     END IF;
