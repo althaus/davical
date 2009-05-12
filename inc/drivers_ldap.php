@@ -84,25 +84,25 @@ class ldapDrivers
         }
       }
 
-      //Set the search scope to be used, default to subtree.
+      //Set the search scope to be used, default to subtree.  This sets the functions to be called later.
       if (!isset($config['scope'])) $config['scope'] = 'subtree';
       switch (strtolower($config['scope'])) {
       case "base":
-        $this->ldap_query_one = ldap_read;
-        $this->ldap_query_all = ldap_read;
+        $this->ldap_query_one = 'ldap_read';
+        $this->ldap_query_all = 'ldap_read';
         break;
       case "onelevel":
-        $this->ldap_query_one = ldap_list;
-        $this->ldap_query_all = ldap_search;
+        $this->ldap_query_one = 'ldap_list';
+        $this->ldap_query_all = 'ldap_search';
         break;
       default:
-        $this->ldap_query_one = ldap_search;
-        $this->ldap_query_all = ldap_search;
+        $this->ldap_query_one = 'ldap_search';
+        $this->ldap_query_all = 'ldap_search';
         break;
       }
 
       //connect as root
-      if (!ldap_bind($this->connect,$config['bindDN'],$config['passDN'])){
+      if (!ldap_bind($this->connect, (isset($config['bindDN']) ? $config['bindDN'] : null), (isset($config['passDN']) ? $config['passDN'] : null) ) ){
           $bindDN = isset($config['bindDN']) ? $config['bindDN'] : 'anonymous';
           $passDN = isset($config['passDN']) ? $config['passDN'] : 'anonymous';
           dbg_error_log( "LDAP", i18n('drivers_ldap : Failed to bind to host %1$s on port %2$s with bindDN of %3$s'), $host, $port, $bindDN );
@@ -113,9 +113,9 @@ class ldapDrivers
       $this->valid = true;
       //root to start search
       $this->baseDNUsers  = is_string($config['baseDNUsers']) ? array($config['baseDNUsers']) : $config['baseDNUsers'];
-      $this->filterUsers  = $config['filterUsers'];
-      $this->baseDNGroups = $config['baseDNGroups'];
-      $this->filterGroups = $config['filterGroups'];
+      $this->filterUsers  = (isset($config['filterUsers'])  ? $config['filterUsers']  : null);
+      $this->baseDNGroups = (isset($config['baseDNGroups']) ? $config['baseDNGroups'] : null);
+      $this->filterGroups = (isset($config['filterGroups']) ? $config['filterGroups'] : null);
   }
 
   /**
