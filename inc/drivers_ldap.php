@@ -219,10 +219,12 @@ function sync_user_from_LDAP( &$usr, $mapping, $ldap_values ) {
   dbg_error_log( "LDAP", "Going to sync the user from LDAP" );
   $validUserFields = get_fields('usr');
 
-  foreach ( $c->authenticate_hook['config']['default_value'] as $field => $value ) {
-    if ( isset($validUserFields[$field]) ) {
-      $usr->{$field} =  $value;
-      dbg_error_log( "LDAP", "Setting usr->%s to %s from configured defaults", $field, $value );
+  if ( isset($c->authenticate_hook['config']['default_value']) && is_array($c->authenticate_hook['config']['default_value']) ) {
+    foreach ( $c->authenticate_hook['config']['default_value'] as $field => $value ) {
+      if ( isset($validUserFields[$field]) ) {
+        $usr->{$field} =  $value;
+        dbg_error_log( "LDAP", "Setting usr->%s to %s from configured defaults", $field, $value );
+      }
     }
   }
 
