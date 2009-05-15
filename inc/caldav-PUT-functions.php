@@ -20,7 +20,7 @@ include_once("iCalendar.php");
 /**
 * A regex which will match most reasonable timezones acceptable to PostgreSQL.
 */
-$tz_regex = ':^(Africa|America|Antarctica|Arctic|Asia|Atlantic|Australia|Brazil|Canada|Chile|Etc|Europe|Indian|Mexico|Mideast|Pacific|US)/[a-z]+$:i';
+$tz_regex = ':^(Africa|America|Antarctica|Arctic|Asia|Atlantic|Australia|Brazil|Canada|Chile|Etc|Europe|Indian|Mexico|Mideast|Pacific|US)/[a-z_]+$:i';
 
 /**
 * This function launches an error
@@ -546,19 +546,32 @@ function putCalendarResource( &$request, $author, $caldav_context ) {
   if ( !isset($tzid) || $tzid == "" ) $tzid = $first->GetPParamValue('DUE','TZID');
   $timezones = $ic->GetComponents('VTIMEZONE');
   foreach( $timezones AS $k => $tz ) {
-    if ( $tz->GetPValue('TZID') == $tzid ) {
-      // This is the one
-      $tz_locn = $tz->GetPValue('X-LIC-LOCATION');
-      if ( ! isset($tz_locn) || ! preg_match( $tz_regex, $tz_locn ) ) {
-        if ( preg_match( '#([^/]+/[^/]+)$#', $tzid, $matches ) ) {
-          $tz_locn = $matches[1];
-        }
+    if ( $tz->GetPValue('TZID') != $tzid ) {
+      /**
+      * We'll pretend they didn't forget to give us a TZID and that they
+      * really hope the server is running in the timezone they supplied... but be noisy about it.
+      */
+      dbg_error_log( "ERROR", " Event includes TZID[%s] but users TZID[%s]!", $tz->GetPValue('TZID'), $tzid );
+      $tzid = $tz->GetPValue('TZID');
+    }
+    // This is the one
+    $tz_locn = $tz->GetPValue('X-LIC-LOCATION');
+    if ( ! isset($tz_locn) ) {
+      if ( preg_match( '#([^/]+/[^/]+)$#', $tzid, $matches ) )
+        $tz_locn = $matches[1];
+      else {
+        dbg_error_log( "ERROR", " Couldn't guess Olsen TZ from TZID[%s].  This may end in tears...", $tzid );
       }
-      dbg_error_log( "PUT", " Using TZID[%s] and location of [%s]", $tzid, $tz_locn );
-      if ( isset($tz_locn) && preg_match( $tz_regex, $tz_locn ) ) {
-        dbg_error_log( "PUT", " Setting timezone to %s", $tz_locn );
-        $sql = ( $tz_locn == '' ? '' : "SET TIMEZONE TO ".qpg($tz_locn).";" );
+    }
+    else {
+      if ( ! preg_match( $tz_regex, $tz_locn ) ) {
+        if ( preg_match( '#([^/]+/[^/]+)$#', $tzid, $matches ) ) $tz_locn = $matches[1];
       }
+    }
+    dbg_error_log( "PUT", " Using TZID[%s] and location of [%s]", $tzid, $tz_locn );
+    if ( isset($tz_locn) && preg_match( $tz_regex, $tz_locn ) ) {
+      dbg_error_log( "PUT", " Setting timezone to %s", $tz_locn );
+      $sql = ( $tz_locn == '' ? '' : "SET TIMEZONE TO ".qpg($tz_locn).";" );
     }
     $qry = new PgQuery("SELECT tz_locn FROM time_zone WHERE tz_id = ?", $tzid );
     if ( $qry->Exec() && $qry->rows == 0 ) {

@@ -1,0 +1,60 @@
+HTTP/1.1 201 Created
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
+ETag: "7b70c8c0621b4daac509b8198e9e13d8"
+Content-Length: 0
+Content-Type: text/plain; charset="utf-8"
+
+      CalDAV Data: >BEGIN:VCALENDAR
+PRODID:-//OSAF//NONSGML Scoooby Server//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+BEGIN:VTIMEZONE
+TZID:America/New_York
+LAST-MODIFIED:20051220T211408Z
+BEGIN:STANDARD
+DTSTART:20051030T060000
+TZOFFSETTO:-0500
+TZOFFSETFROM:+0000
+TZNAME:EST
+END:STANDARD
+BEGIN:DAYLIGHT
+DTSTART:20060402T010000
+TZOFFSETTO:-0400
+TZOFFSETFROM:-0500
+TZNAME:EDT
+END:DAYLIGHT
+END:VTIMEZONE
+BEGIN:VEVENT
+DTSTART;TZID=America/New_York:20060101T170000
+SUMMARY:Daily_NY_5pm
+UID:DE916949-731D-4DAE-BA93-48A38B2B2030
+SEQUENCE:4
+DTSTAMP:20090515T095326Z
+RRULE:FREQ=DAILY;INTERVAL=1;COUNT=1000
+DURATION:PT1H
+END:VEVENT
+END:VCALENDAR
+<
+      caldav_type: >VEVENT<
+            class: >PUBLIC<
+         dav_etag: >7b70c8c0621b4daac509b8198e9e13d8<
+      description: >NULL<
+            dtend: >2006-01-01 18:00:00<
+          dtstamp: >2009-05-15 09:53:26<
+          dtstart: >2006-01-01 17:00:00<
+              due: >NULL<
+         location: >NULL<
+      logged_user: >10<
+ percent_complete: >NULL<
+         priority: >NULL<
+            rrule: >FREQ=DAILY;INTERVAL=1;COUNT=1000<
+           status: >NULL<
+          summary: >Daily_NY_5pm<
+           transp: >NULL<
+            tz_id: >America/New_York<
+              uid: >DE916949-731D-4DAE-BA93-48A38B2B2030<
+              url: >NULL<
+          user_no: >10<
+   ~ Modified Now: >1<
+

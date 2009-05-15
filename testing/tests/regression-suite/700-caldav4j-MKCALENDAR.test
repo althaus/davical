@@ -1,0 +1,31 @@
+#
+# MKCALENDAR test for caldav4j
+#
+TYPE=MKCALENDAR
+URL=http://mycaldav/caldav.php/user1/collection/
+HEADER=Content-Type: text/xml
+HEAD
+
+
+BEGINDATA
+<?xml version="1.0"?>
+<C:mkcalendar
+xmlns:C="urn:ietf:params:xml:ns:caldav">
+    <D:set xmlns:D="DAV:">
+        <D:prop>
+            <C:calendar-description
+xml:lang="en">My sample calendar
+description</C:calendar-description>
+        </D:prop>
+    </D:set>
+</C:mkcalendar>
+ENDDATA
+
+
+QUERY
+SELECT user_no, parent_container, dav_displayname,
+       is_calendar, public_events_only
+FROM collection
+WHERE dav_name = '/user1/collection/';
+ENDQUERY
+

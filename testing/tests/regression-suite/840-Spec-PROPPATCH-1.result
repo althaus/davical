@@ -23,6 +23,13 @@ changed_last_30se: >1<
 
        changed_by: >10<
 changed_last_30se: >1<
+         dav_name: >/user1/collection/<
+    property_name: >urn:ietf:params:xml:ns:caldav:calendar-description<
+   property_value: >My sample calendar
+description<
+
+       changed_by: >10<
+changed_last_30se: >1<
          dav_name: >/user1/home/<
     property_name: >urn:mcmillan:bogus:xml:ns:rscds:arbitrary<
    property_value: >A completely bogus property which should be saved.<

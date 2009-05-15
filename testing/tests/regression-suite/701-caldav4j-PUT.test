@@ -1,0 +1,56 @@
+#
+# PUT an caldav4j regression testing event into the database
+#
+TYPE=PUT
+URL=http://mycaldav/caldav.php/user1/collection/Daily_NY_5pm.ics
+HEADER=Content-Type: text/calendar
+HEADER=User-Agent: Jakarta Commons-HttpClient/3.0
+HEAD
+
+
+BEGINDATA
+BEGIN:VCALENDAR
+PRODID:-//OSAF//NONSGML Scoooby Server//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+BEGIN:VTIMEZONE
+TZID:America/New_York
+LAST-MODIFIED:20051220T211408Z
+BEGIN:STANDARD
+DTSTART:20051030T060000
+TZOFFSETTO:-0500
+TZOFFSETFROM:+0000
+TZNAME:EST
+END:STANDARD
+BEGIN:DAYLIGHT
+DTSTART:20060402T010000
+TZOFFSETTO:-0400
+TZOFFSETFROM:-0500
+TZNAME:EDT
+END:DAYLIGHT
+END:VTIMEZONE
+BEGIN:VEVENT
+DTSTART;TZID=America/New_York:20060101T170000
+SUMMARY:Daily_NY_5pm
+UID:DE916949-731D-4DAE-BA93-48A38B2B2030
+SEQUENCE:4
+DTSTAMP:20090515T095326Z
+RRULE:FREQ=DAILY;INTERVAL=1;COUNT=1000
+DURATION:PT1H
+END:VEVENT
+END:VCALENDAR
+ENDDATA
+
+
+QUERY
+SELECT caldav_data.user_no, caldav_data.dav_etag, caldav_type, logged_user, 
+       uid, dtstamp, dtstart at time zone tz_locn as dtstart, dtend at time zone tz_locn as dtend, due, summary, location,
+       description, priority, class, transp, rrule, url,
+       percent_complete, tz_id, status,
+       caldav_data AS " CalDAV Data",
+      ((current_timestamp AT TIME ZONE 'GMT' - last_modified) < '2 seconds'::interval) AS "~ Modified Now"
+FROM caldav_data JOIN calendar_item USING(dav_name) JOIN time_zone USING (tz_id)
+WHERE caldav_data.dav_name =
+'/user1/collection/Daily_NY_5pm.ics'
+ENDQUERY
+
