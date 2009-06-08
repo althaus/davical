@@ -263,7 +263,7 @@ function LDAP_check($username, $password ){
   if ( preg_match( '/^\(/', $ldapDriver->filterUsers ) ) {
     $filter_munge = $ldapDriver->filterUsers;
   }
-  else {
+  else if ( isset($ldapDriver->filterUsers) && $ldapDriver->filterUsers != '' ) {
     $filter_munge = "($ldapDriver->filterUsers)";
   }
 
