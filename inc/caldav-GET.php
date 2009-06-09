@@ -94,7 +94,9 @@ else {
   * the timezones that are referred to by the events we have selected.
   */
   $vcal = new iCalComponent();
-  $vcal->VCalendar( array("X-WR-CALNAME" => $request->collection->dav_displayname ) );
+  if ( isset($request->collection->dav_displayname) ) {
+    $vcal->VCalendar( array("X-WR-CALNAME" => $request->collection->dav_displayname) );
+  }
 
   $need_zones = array();
   $timezones = array();
