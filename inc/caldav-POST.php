@@ -184,7 +184,7 @@ function handle_freebusy_request( $ic ) {
     $responses[] = $response;
   }
 
-  $response = $reply->NewXMLElement( "schedule-response", $responses, $reply->GetXmlNsArray() );
+  $response = $reply->NewXMLElement( "schedule-response", $responses, $reply->GetXmlNsArray(), 'urn:ietf:params:xml:ns:caldav' );
   $request->XMLResponse( 200, $response );
 }
 
