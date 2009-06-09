@@ -33,6 +33,11 @@ header( "DAV: $dav");
 require_once("CalDAVRequest.php");
 $request = new CalDAVRequest();
 
+if ( ! isset($request->collection) ) {
+  dbg_error_log( "LOG WARNING", "Attempt to %s url '%s' but no collection exists there.", $request->method, $request->path );
+  $request->DoResponse( 404, translate("There is no collection at that URL.") );
+}
+
 switch ( $request->method ) {
   case 'OPTIONS':    include_once("caldav-OPTIONS.php");    break;
   case 'REPORT':     include_once("caldav-REPORT.php");     break;
