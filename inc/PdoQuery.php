@@ -403,11 +403,13 @@ class PdoQuery {
   * will be in turn, the sql, and any positional parameters to replace into that, and will be passed to
   * $this->Query() before returning.
   */
-  function __construct( $db ) {
-    $this->pdb = $db;
+  function __construct( ) {
+    $args = func_get_args();
+    $this->pdb = array_shift( $args );
     if ( isset($db->default_max_duration) ) {
       $this->max_duration = $db->default_max_duration;
     }
+    $this->Query($args);
   }
 
 
