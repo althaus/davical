@@ -61,22 +61,22 @@ class CalDAVPrincipal
   * @var RFC3744: The groups in which the principal is directly a member.
   */
   var $group_membership;
-  
+
   /**
    * @var caldav-cu-proxy-02: The principals which this one has read permissions on.
    */
   var $read_proxy_for;
-  
+
   /**
    * @var caldav-cu-proxy-02: The principals which this one has read-write prmissions for.
    */
   var $write_proxy_for;
-  
+
    /**
    * @var caldav-cu-proxy-02: The principals which have read permissions on this one.
    */
   var $read_proxy_group;
-  
+
   /**
    * @var caldav-cu-proxy-02: The principals which have write permissions on this one.
    */
@@ -180,7 +180,7 @@ class CalDAVPrincipal
         $this->group_membership[] = ConstructURL( "/". $membership->username . "/");
       }
     }
-    
+
     $this->read_proxy_group = array();
     $this->write_proxy_group = array();
     $this->write_proxy_for = array();
@@ -211,10 +211,10 @@ class CalDAVPrincipal
       		} else /* ($relationship->to_user_no == $this->user_no) */ {
       			$this->write_proxy_group[] = ConstructURL( "/". $relationship->from_username . "/");
       		}
-      	} 
+      	}
       }
     }
-    
+
     /**
     * calendar-free-busy-set has been dropped from draft 5 of the scheduling extensions for CalDAV
     * but we'll keep replying to it for a while longer since iCal appears to want it...
