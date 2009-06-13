@@ -35,7 +35,7 @@ $request = new CalDAVRequest();
 
 if ( ! isset($request->collection) ) {
   dbg_error_log( "LOG WARNING", "Attempt to %s url '%s' but no collection exists there.", $request->method, $request->path );
-  $request->DoResponse( 404, translate("There is no collection at that URL.") );
+//  $request->DoResponse( 404, translate("There is no collection at that URL.") );
 }
 
 switch ( $request->method ) {
