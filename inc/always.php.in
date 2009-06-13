@@ -257,3 +257,12 @@ function ConstructURL( $partial_path ) {
   return $url;
 }
 
+
+/**
+* Convert a date from ISO format into the sad old HTTP format.
+* @param string $isodate The date to convert
+*/
+function ISODateToHTTPDate( $isodate ) {
+  // Use strtotime since strptime is not available on Windows platform.
+  return( gmstrftime('%a, %d %b %Y %T GMT', strtotime($isodate)) );
+}
