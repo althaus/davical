@@ -70,6 +70,7 @@ foreach( $request->xml_tags AS $k => $v ) {
     case 'urn:ietf:params:xml:ns:caldav:schedule-inbox-URL':               /** Support in development */
     case 'urn:ietf:params:xml:ns:caldav:schedule-outbox-URL':              /** Support in development */
     case 'urn:ietf:params:xml:ns:caldav:calendar-free-busy-set':           /** Deprecated, but should work fine */
+    case 'urn:ietf:params:xml:ns:caldav:supported-calendar-component-set':
 
     /**
     * Handled calendarserver properties
@@ -86,7 +87,6 @@ foreach( $request->xml_tags AS $k => $v ) {
 
     /** fixed server definitions - should work fine */
     case 'DAV::supported-collation-set':
-    case 'DAV::supported-calendar-component-set':
     case 'DAV::principal-collection-set':
     case 'DAV::supported-privilege-set':
 
@@ -421,9 +421,12 @@ function collection_to_xml( $collection ) {
     $prop->NewElement($reply->Caldav("supported-collation-set"), $collations );
   }
   if ( isset($prop_list['urn:ietf:params:xml:ns:caldav:supported-calendar-component-set']) ) {
+    // Note that this won't appear on a PROPFIND against a Principal URL, since this routine is only called for a collection
     $components = array();
-    $components[] = $reply->NewXMLElement( "comp", '', array("name" => "VEVENT"), false, false,'urn:ietf:params:xml:ns:caldav');
-    $components[] = $reply->NewXMLElement( "comp", '', array("name" => "VTODO"), false, false,'urn:ietf:params:xml:ns:caldav');
+    $set_of_components = array( "VEVENT", "VTODO", "VJOURNAL", "VTIMEZONE", "VFREEBUSY" );
+    foreach( $set_of_components AS $v ) {
+      $components[] = $reply->NewXMLElement( "comp", '', array("name" => $v), 'urn:ietf:params:xml:ns:caldav');
+    }
     $reply->CalDAVElement($prop, "supported-calendar-component-set", $components );
   }
   if ( $allprop || isset($prop_list['DAV::getcontenttype']) ) {
@@ -565,7 +568,7 @@ function item_to_xml( $item ) {
 * a list of calendars for the user which are parented by this path.
 */
 function get_collection_contents( $depth, $user_no, $collection ) {
-  global $session, $request, $reply, $prop_list;
+  global $session, $request, $reply, $prop_list, $arbitrary;
 
   dbg_error_log("PROPFIND","Getting collection contents: Depth %d, User: %d, Path: %s", $depth, $user_no, $collection->dav_name );
 
@@ -600,7 +603,7 @@ function get_collection_contents( $depth, $user_no, $collection ) {
       while( $subcollection = $qry->Fetch() ) {
         if ( $subcollection->is_principal == "t" ) {
           $principal = new CalDAVPrincipal($subcollection);
-          $responses[] = $principal->RenderAsXML($prop_list, &$reply);
+          $responses[] = $principal->RenderAsXML(array_merge($prop_list,$arbitrary), &$reply);
         }
         else {
           $responses[] = collection_to_xml( $subcollection );
@@ -646,7 +649,7 @@ function get_collection_contents( $depth, $user_no, $collection ) {
 * subsidiary collections will also be got up to $depth
 */
 function get_collection( $depth, $user_no, $collection_path ) {
-  global $session, $c, $request, $prop_list;
+  global $session, $c, $request, $prop_list, $arbitrary, $reply;
   $responses = array();
 
   dbg_error_log("PROPFIND","Getting collection: Depth %d, User: %d, Path: %s", $depth, $user_no, $collection_path );
@@ -671,11 +674,12 @@ function get_collection( $depth, $user_no, $collection_path ) {
   else {
     $user_no = intval($user_no);
     if ( preg_match( '#^/[^/]+/$#', $collection_path) ) {
-      $sql = "SELECT user_no, '/' || username || '/' AS dav_name, md5( '/' || username || '/') AS dav_etag, ";
+      $sql = "SELECT usr.*, '/' || username || '/' AS dav_name, md5( '/' || username || '/') AS dav_etag, ";
       $sql .= "to_char(updated at time zone 'GMT',?) AS created, ";
       $sql .= "to_char(updated at time zone 'GMT',?) AS modified, ";
       $sql .= "fullname AS dav_displayname, FALSE AS is_calendar, TRUE AS is_principal, 0 AS collection_id ";
       $sql .= "FROM usr WHERE user_no = $user_no ";
+      $sql .= "AND get_permissions($session->user_no,user_no) ~ '[RAW]' ";
       $sql .= "ORDER BY user_no";
     }
     else {
@@ -688,7 +692,13 @@ function get_collection( $depth, $user_no, $collection_path ) {
     }
     $qry = new PgQuery($sql, PgQuery::Plain(iCalendar::HttpDateFormat()), PgQuery::Plain(iCalendar::HttpDateFormat()) );
     if( $qry->Exec("PROPFIND",__LINE__,__FILE__) && $qry->rows > 0 && $collection = $qry->Fetch() ) {
-      $responses[] = collection_to_xml( $collection );
+      if ( $collection->is_principal == "t" ) {
+        $principal = new CalDAVPrincipal($collection);
+        $responses[] = $principal->RenderAsXML(array_merge($prop_list,$arbitrary), &$reply);
+      }
+      else {
+        $responses[] = collection_to_xml( $collection );
+      }
 
       // Caldav Proxy: 5.1 par. 2: Add child resources calendar-proxy-(read|write)
       if (($collection->is_principal && isset($prop_list['DAV::resourcetype'])) ) { // atm, only users/resources/groups are principals, so it's ok to add these.

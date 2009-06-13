@@ -311,13 +311,13 @@ class CalDAVPrincipal
   function RenderAsXML( $properties, &$reply, $props_only = false ) {
     global $session, $c, $request;
 
-    dbg_error_log("CalDAVPrincipal",": RenderAsXML: Principal '%s'", $this->username );
+    dbg_error_log("principal",": RenderAsXML: Principal '%s'", $this->username );
 
     $prop = new XMLElement("prop");
     $denied = array();
     $not_found = array();
     foreach( $properties AS $k => $tag ) {
-      dbg_error_log("CalDAVPrincipal",": RenderAsXML: Principal Property '%s'", $tag );
+      dbg_error_log("principal",": RenderAsXML: Principal Property '%s'", $tag );
       switch( $tag ) {
         case 'DAV::getcontenttype':
           $prop->NewElement("getcontenttype", "httpd/unix-directory" );
@@ -336,7 +336,11 @@ class CalDAVPrincipal
           break;
 
         case 'DAV::getlastmodified':
-          $prop->NewElement("getlastmodified", $this->modified );
+          $prop->NewElement("getlastmodified", $this->updated );
+          break;
+
+        case 'DAV::creationdate':
+          $prop->NewElement("creationdate", $this->joined );
           break;
 
         case 'DAV::group-member-set':
@@ -423,10 +427,13 @@ class CalDAVPrincipal
           break;
 
         // Empty tag responses.
-        case 'DAV::creationdate':
         case 'DAV::alternate-URI-set':
         case 'DAV::getcontentlength':
           $prop->NewElement( $reply->Tag($tag));
+          break;
+
+        case 'DAV::getetag':
+          $reply->DAVElement( $prop, "getetag", '"'.md5($this->username . $this->updated).'"' );
           break;
 
         case 'SOME-DENIED-PROPERTY':  /** @todo indicating the style for future expansion */
@@ -434,7 +441,7 @@ class CalDAVPrincipal
           break;
 
         default:
-          dbg_error_log( 'CalDAVPrincipal', "Request for unsupported property '%s' of principal.", $this->username );
+          dbg_error_log( 'principal', "Request for unsupported property '%s' of principal.", $this->username );
           $not_found[] = $reply->Tag($tag);
           break;
       }
