@@ -59,6 +59,8 @@ foreach( $request->xml_tags AS $k => $v ) {
     case 'DAV::getcontentlanguage':             /** should return the user's chosen locale, or default locale */
     case 'DAV::current-user-privilege-set':     /** only vaguely supported */
     case 'DAV::allprop':                        /** limited support, needs to be checked for correctness at some point */
+    case 'DAV::group-member-set':               /** limited support, at the moment used for caldav proxy */
+    case 'DAV::group-membership':				/** limited support, at the moment used for caldav proxy */
 
     /**
     * Handled CalDAV properties
@@ -73,6 +75,10 @@ foreach( $request->xml_tags AS $k => $v ) {
     * Handled calendarserver properties
     */
     case 'http://calendarserver.org/ns/:getctag':                        /** Calendar Server extension like etag - should work fine (we just return etag) */
+    case 'http://calendarserver.org/ns/:calendar-proxy-read-for':	 /** Calendar Server Delegation readonly */
+    case 'http://calendarserver.org/ns/:calendar-proxy-write-for':       /** Calendar Server Delegation read-write */
+    case 'http://calendarserver.org/ns/:dropbox-home-URL':
+    case 'http://calendarserver.org/ns/:notifications-URL':
 
       $prop_list[$ns_tag] = $ns_tag;
       dbg_error_log( "PROPFIND", "Adding attribute '%s'", $ns_tag );
@@ -131,6 +137,17 @@ foreach( $request->xml_tags AS $k => $v ) {
   }
 }
 
+ /**
+  * Returns a set of hrefs from a set of urls
+  */
+function href_set_from_paths( $path_set ) {
+  global $reply;
+  $href_set = array();
+  foreach ($path_set AS $k => $v) {
+     $href_set[] = $reply->href( $v );
+  }  
+  return $href_set;
+}
 
 /**
 * Returns the array of privilege names converted into XMLElements
@@ -174,6 +191,8 @@ function add_arbitrary_properties(&$prop, $record) {
 function add_principal_properties( &$prop, &$denied ) {
   global $prop_list, $session, $c, $request, $reply;
 
+  dbg_error_log("PROPFIND", "Adding principal properties");
+  
   $allprop = isset($prop_list['DAV::allprop']);
 
   if ( isset($prop_list['DAV::principal-URL'] ) ) {
@@ -181,15 +200,14 @@ function add_principal_properties( &$prop, &$denied ) {
   }
   if ( isset($prop_list['DAV::alternate-URI-set'] ) ) {
     $reply->DAVElement( $prop, "alternate-URI-set" );  // Empty - there are no alternatives!
+  } 
+  
+  if (isset($prop_list['DAV::group-membership'])) {
+  	$reply->DAVElement($prop, "group-membership", href_set_from_paths( $request->principal->group_membership ));
   }
-
+  
   if ( isset($prop_list['urn:ietf:params:xml:ns:caldav:calendar-home-set'] ) ) {
-    $home_set = array();
-    $chs = $request->principal->calendar_home_set;
-    foreach( $chs AS $k => $url ) {
-      $home_set[] = $reply->href( $url );
-    }
-    $reply->CalDAVElement( $prop, "calendar-home-set", $home_set );
+    $reply->CalDAVElement( $prop, "calendar-home-set", href_set_from_paths( $request->principal->calendar_home_set ) );
   }
   if ( isset($prop_list['urn:ietf:params:xml:ns:caldav:schedule-inbox-URL'] ) ) {
     $reply->CalDAVElement( $prop, "schedule-inbox-URL", $reply->href( $request->principal->schedule_inbox_url) );
@@ -205,13 +223,16 @@ function add_principal_properties( &$prop, &$denied ) {
     $reply->CalendarserverElement($prop, "notifications-URL", $reply->href( $request->principal->notifications_url) );
   }
 
+  // Caldav proxy (not described in rfc, but CalendarServer has it)
+  if ( isset($prop_list['http://calendarserver.org/ns/:calendar-proxy-read-for'] ) ) {
+    $reply->CalendarserverElement($prop, "calendar-proxy-read-for", href_set_from_paths( $request->principal->read_proxy_for ) );
+  }
+  if ( isset($prop_list['http://calendarserver.org/ns/:calendar-proxy-write-for'] ) ) {
+  	$reply->CalendarserverElement($prop, "calendar-proxy-write-for", href_set_from_paths( $request->principal->write_proxy_for ) );
+  }
+
   if ( isset($prop_list['urn:ietf:params:xml:ns:caldav:calendar-user-address-set'] ) ) {
-    $addr_set = array();
-    $uas = $request->principal->user_address_set;
-    foreach( $uas AS $k => $v ) {
-      $addr_set[] = $reply->href( $v );
-    }
-    $reply->CalDAVElement( $prop, "calendar-user-address-set", $addr_set );
+    $reply->CalDAVElement( $prop, "calendar-user-address-set", href_set_from_paths( $request->principal->user_address_set ) );
   }
 }
 
@@ -245,6 +266,17 @@ function add_general_properties( &$prop, &$denied, $record ) {
     $reply->DAVElement( $prop, "current-user-principal", $request->current_user_principal_xml);
   }
 
+ // caldav proxy
+  // as per 5.1 paragraph 5
+  // TODO: this duplicates code below. if possible, do said code only once.
+  if ( preg_match('#/[^/]+/calendar-proxy-(read|write)/?#', $record->dav_displayname, $matches) && isset($prop_list['DAV::group-member-set']) ) {
+  	if ($matches[1] == "read") {
+        $reply->DAVElement($prop, "group-member-set", href_set_from_paths( $request->principal->read_proxy_group ) );
+  	} else /* if ($matches[1] == "write") */ {
+  		$reply->DAVElement($prop, "group-member-set", href_set_from_paths( $request->principal->write_proxy_group ) );
+  	} 
+  }
+  
   if ( isset($prop_list['DAV::acl']) ) {
     /**
     * @todo This information is semantically valid but presents an incorrect picture.
@@ -329,6 +361,28 @@ function build_propstat_response( $prop, $denied, $url ) {
   return $response;
 }
 
+/**
+ * Add the calendar-proxy-read/write pseudocollections
+ * @param responses array of responses to which to add the collections
+ */
+function add_proxy_response( &$responses, $which, $parent_path ) {
+	global $request;
+	$collection->dav_name = $parent_path."calendar-proxy-".$which."/";
+    $collection->is_calendar = 'f';
+    $collection->is_principal = 't';
+    $collection->dav_displayname = $collection->dav_name;
+    $collection->collection_id = 0;
+    // $collection->user_no = TODO: Do we need this?
+    $collection->created = date('Ymd"T"His');
+    if ( $which == "read" ) {
+	    $collection->dav_etag = md5($c->system_name.$collection->dav_name. implode($request->principal->read_proxy_group));
+    } else if ( $which == "write" ) {
+    	$collection->dav_etag = md5($c->system_name.$collection->dav_name. implode($request->principal->write_proxy_group));
+    }
+    
+    $responses[] = collection_to_xml( $collection );
+}
+
 
 /**
 * Returns an XML sub-tree for a single collection record from the DB
@@ -393,6 +447,12 @@ function collection_to_xml( $collection ) {
     if ( $collection->is_principal == 't' ) {
       $resourcetypes[] = $reply->NewXMLElement( "principal", false, false, 'DAV:');
     }
+    
+    // As per Caldav Proxy 5.1 par. 3
+    if (preg_match('#(calendar-proxy-(read|write))#', $collection->dav_displayname, $matches) && isset($prop_list['DAV::resourcetype'])) {
+      $resourcetypes[] = $reply->NewXMLElement($matches[1], false, false, 'http://calendarserver.org/ns/');
+    }
+    
     if ( $allprop || isset($prop_list['DAV::getcontentlength']) ) {
       $reply->DAVElement( $prop, "getcontentlength", $contentlength );  // Not strictly correct as a GET on this URL would be longer
     }
@@ -579,11 +639,17 @@ function get_collection_contents( $depth, $user_no, $collection ) {
 * subsidiary collections will also be got up to $depth
 */
 function get_collection( $depth, $user_no, $collection_path ) {
-  global $session, $c, $request;
+  global $session, $c, $request, $prop_list;
   $responses = array();
 
   dbg_error_log("PROPFIND","Getting collection: Depth %d, User: %d, Path: %s", $depth, $user_no, $collection_path );
 
+  if (preg_match('#/[^/]+/calendar-proxy-(read|write)/?#',$collection_path, $match) ) {
+  	// this should be a direct query to /<somewhere>/calendar-proxy-<something>
+  	dbg_error_log("PROPFIND","Simulating calendar-proxy-read or write. Path: %s", $collection_path);
+       add_proxy_response($responses, $match[1], $collection_path);
+  }
+  
   if ( $collection_path == null || $collection_path == '/' || $collection_path == '' ) {
     $collection->dav_name = $collection_path;
     $collection->dav_etag = md5($c->system_name . $collection_path);
@@ -616,6 +682,14 @@ function get_collection( $depth, $user_no, $collection_path ) {
     $qry = new PgQuery($sql, PgQuery::Plain(iCalendar::HttpDateFormat()), PgQuery::Plain(iCalendar::HttpDateFormat()) );
     if( $qry->Exec("PROPFIND",__LINE__,__FILE__) && $qry->rows > 0 && $collection = $qry->Fetch() ) {
       $responses[] = collection_to_xml( $collection );
+      
+      // Caldav Proxy: 5.1 par. 2: Add child resources calendar-proxy-(read|write)
+      if (($collection->is_principal && isset($prop_list['DAV::resourcetype'])) ) { // atm, only users/resources/groups are principals, so it's ok to add these.
+      	// this is added when /<principal>/ is queried for resourcetype
+      	dbg_error_log("PROPFIND","Adding calendar-proxy-read and write. Path: %s", $collection->dav_name);
+      	add_proxy_response($responses, "read", $collection->dav_name);
+      	add_proxy_response($responses, "write", $collection->dav_name);
+      }
     }
     elseif ( $c->collections_always_exist && preg_match( "#^/$session->username/#", $collection_path) ) {
       dbg_error_log("PROPFIND","Using $c->collections_always_exist setting is deprecated" );

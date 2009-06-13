@@ -61,6 +61,26 @@ class CalDAVPrincipal
   * @var RFC3744: The groups in which the principal is directly a member.
   */
   var $group_membership;
+  
+  /**
+   * @var caldav-cu-proxy-02: The principals which this one has read permissions on.
+   */
+  var $read_proxy_for;
+  
+  /**
+   * @var caldav-cu-proxy-02: The principals which this one has read-write prmissions for.
+   */
+  var $write_proxy_for;
+  
+   /**
+   * @var caldav-cu-proxy-02: The principals which have read permissions on this one.
+   */
+  var $read_proxy_group;
+  
+  /**
+   * @var caldav-cu-proxy-02: The principals which have write permissions on this one.
+   */
+  var $write_proxy_group;
 
   /**
   * Constructor
@@ -160,7 +180,41 @@ class CalDAVPrincipal
         $this->group_membership[] = ConstructURL( "/". $membership->username . "/");
       }
     }
-
+    
+    $this->read_proxy_group = array();
+    $this->write_proxy_group = array();
+    $this->write_proxy_for = array();
+    $this->read_proxy_for = array();
+    // whom are we a proxy for? who is a proxy for us?
+    // (as per Caldav Proxy section 5.1 Paragraph 7 and 5)
+    $qry = new PgQuery("SELECT from_user.user_no AS from_user_no, from_user.username AS from_username,".
+					   "get_permissions(from_user.user_no, to_user.user_no) AS confers,".
+					   "to_user.user_no AS to_user_no, to_user.username AS to_username ".
+					   "FROM usr from_user, usr to_user WHERE ".
+					   "get_permissions(from_user.user_no, to_user.user_no) ~ '[AWR]' AND ".
+					   "to_user.user_no != from_user.user_no AND (from_user.user_no = ? OR ".
+					   "to_user.user_no = ?)", $this->user_no, $this->user_no );
+    if ( $qry->Exec("CalDAVPrincipal") && $qry->rows > 0 ) {
+      while( $relationship = $qry->Fetch() ) {
+      	if ($relationship->confers == "R") {
+      		if ($relationship->from_user_no == $this->user_no) {
+      		    // spec says without trailing slash, CalServ does it with slash, and so do we.
+            	$this->group_membership[] = ConstructURL( "/". $relationship->to_username . "/calendar-proxy-read/");
+                $this->read_proxy_for[] = ConstructURL( "/". $relationship->to_username . "/");
+      		} else /* ($relationship->to_user_no == $this->user_no) */ {
+      			$this->read_proxy_group[] = ConstructURL( "/". $relationship->from_username . "/");
+      		}
+      	} else if (preg_match("/[WA]/", $relationship->confers)) {
+      		if ($relationship->from_user_no == $this->user_no) {
+      			$this->group_membership[] = ConstructURL( "/". $relationship->to_username . "/calendar-proxy-write/");
+      			$this->write_proxy_for[] = ConstructURL( "/". $relationship->to_username . "/");
+      		} else /* ($relationship->to_user_no == $this->user_no) */ {
+      			$this->write_proxy_group[] = ConstructURL( "/". $relationship->from_username . "/");
+      		}
+      	} 
+      }
+    }
+    
     /**
     * calendar-free-busy-set has been dropped from draft 5 of the scheduling extensions for CalDAV
     * but we'll keep replying to it for a while longer since iCal appears to want it...
