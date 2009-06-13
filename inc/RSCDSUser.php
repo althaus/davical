@@ -202,7 +202,7 @@ class RSCDSUser extends User
       $sql = <<<EOSQL
 SELECT user_no, fullname FROM usr
  WHERE NOT EXISTS ( SELECT 0 FROM relationship WHERE (from_user = usr.user_no AND to_user = $this->user_no))
-   AND user_no != $this->user_no
+   AND user_no != $this->user_no ORDER BY fullname
 EOSQL;
       if ( isset($this->roles['Group']) ) {
         /**
