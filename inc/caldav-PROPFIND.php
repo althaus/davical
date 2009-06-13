@@ -374,7 +374,7 @@ function add_proxy_response( &$responses, $which, $parent_path ) {
   } else if ( $which == "write" ) {
     $proxy_group = $request->principal->write_proxy_group;
   }
-  if ( !isset($proxy_group) || !is_array($proxy_group) || count($proxy_group) < 1 ) {
+  if ($parent_path != '/'.$request->principal->username.'/') {
     return; // Nothing to proxy for
   }
 
