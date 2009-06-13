@@ -481,15 +481,15 @@ function collection_to_xml( $collection ) {
   }
 
   if ( isset($prop_list['urn:ietf:params:xml:ns:caldav:calendar-free-busy-set'] ) ) {
-    if ( $collection->type == 'in' && $session->user_no == $collection->user_no ) {
+    if ( $session->user_no != $collection->user_no ) {
+      $reply->CalDAVElement( $denied, "calendar-free-busy-set");
+    }
+    else if ( $collection->type == 'in' ) {
       $fb_set = array();
       foreach( $request->principal->calendar_free_busy_set AS $k => $v ) {
         $fb_set[] = $reply->href( $v, false, "DAV:" );
       }
       $reply->CalDAVElement( $prop, "calendar-free-busy-set", $fb_set );
-    }
-    else if ( $session->user_no != $collection->user_no ) {
-      $reply->CalDAVElement( $denied, "calendar-free-busy-set");
     }
   }
 
