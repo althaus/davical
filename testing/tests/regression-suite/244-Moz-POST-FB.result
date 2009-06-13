@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<schedule-response xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
+<C:schedule-response xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
  <C:response>
   <C:recipient>
    <href>mailto:user2@example.net</href>
@@ -38,4 +38,4 @@ END:VFREEBUSY
 END:VCALENDAR
 </C:calendar-data>
  </C:response>
-</schedule-response>
+</C:schedule-response>

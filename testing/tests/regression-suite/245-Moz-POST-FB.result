@@ -1,12 +1,12 @@
 HTTP/1.1 200 OK
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
-ETag: "6688f740e99f71251b662dc5b901c1b6"
-Content-Length: 314
+ETag: "6ade03a359008583053c8c3a5dc72a10"
+Content-Length: 318
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
-<schedule-response xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
+<C:schedule-response xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
  <C:response>
   <C:recipient>
    <href>mailto:user3@example.net</href>
@@ -14,4 +14,4 @@ Content-Type: text/xml; charset="utf-8"
   <C:request-status>3.8;No authority</C:request-status>
   <C:calendar-data/>
  </C:response>
-</schedule-response>
+</C:schedule-response>
