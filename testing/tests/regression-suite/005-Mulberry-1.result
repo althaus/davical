@@ -1,12 +1,12 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
-ETag: "136c6ceaf061858ef55af48153bb9c84"
-Content-Length: 1096
+ETag: "2027c908b591bbb1fa36d5fc83788d7b"
+Content-Length: 1845
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
-<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
+<multistatus xmlns="DAV:" xmlns:C="http://calendarserver.org/ns/" xmlns:C1="urn:ietf:params:xml:ns:caldav">
  <response>
   <href>/caldav.php/user1/</href>
   <propstat>
@@ -22,6 +22,36 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
  </response>
  <response>
+  <href>/caldav.php/user1/calendar-proxy-read/</href>
+  <propstat>
+   <prop>
+    <getcontenttype>httpd/unix-directory</getcontenttype>
+    <getcontentlength/>
+    <resourcetype>
+     <collection/>
+     <principal/>
+     <C:calendar-proxy-read/>
+    </resourcetype>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/calendar-proxy-write/</href>
+  <propstat>
+   <prop>
+    <getcontenttype>httpd/unix-directory</getcontenttype>
+    <getcontentlength/>
+    <resourcetype>
+     <collection/>
+     <principal/>
+     <C:calendar-proxy-write/>
+    </resourcetype>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
   <href>/caldav.php/user1/home/</href>
   <propstat>
    <prop>
@@ -29,8 +59,8 @@ Content-Type: text/xml; charset="utf-8"
     <getcontentlength/>
     <resourcetype>
      <collection/>
-     <C:calendar/>
-     <C:schedule-calendar/>
+     <C1:calendar/>
+     <C1:schedule-calendar/>
     </resourcetype>
    </prop>
    <status>HTTP/1.1 200 OK</status>
@@ -44,8 +74,8 @@ Content-Type: text/xml; charset="utf-8"
     <getcontentlength/>
     <resourcetype>
      <collection/>
-     <C:calendar/>
-     <C:schedule-calendar/>
+     <C1:calendar/>
+     <C1:schedule-calendar/>
     </resourcetype>
    </prop>
    <status>HTTP/1.1 200 OK</status>

@@ -2,12 +2,12 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 Content-Location: /caldav.php/user2/
-ETag: "647ac4da10b24009f6ae914c1d3e1241"
-Content-Length: 924
+ETag: "5e6dc6b824435a8e12bfb1abeb80095d"
+Content-Length: 969
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
-<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav" xmlns:C1="http://calendarserver.org/ns/">
+<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav" xmlns:A="http://calendarserver.org/ns/">
  <response>
   <href>/caldav.php/user2/</href>
   <propstat>
@@ -22,19 +22,18 @@ Content-Type: text/xml; charset="utf-8"
     <C:schedule-outbox-URL>
      <href>/caldav.php/user2/.out/</href>
     </C:schedule-outbox-URL>
+    <A:dropbox-home-URL>
+     <href>/caldav.php/user2/.drop/</href>
+    </A:dropbox-home-URL>
+    <A:notifications-URL>
+     <href>/caldav.php/user2/.notify/</href>
+    </A:notifications-URL>
     <C:calendar-user-address-set>
      <href>mailto:user2@example.net</href>
      <href>/caldav.php/user2/</href>
     </C:calendar-user-address-set>
    </prop>
    <status>HTTP/1.1 200 OK</status>
-  </propstat>
-  <propstat>
-   <prop>
-    <C1:dropbox-home-URL/>
-    <C1:notifications-URL/>
-   </prop>
-   <status>HTTP/1.1 404 Not Found</status>
   </propstat>
  </response>
 </multistatus>

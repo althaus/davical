@@ -2,11 +2,11 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 ETag: "deadbeefcafefeeddeadbeefcafefeed"
-Content-Length: 1130
+Content-Length: 3112
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
-<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
+<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav" xmlns:C1="http://calendarserver.org/ns/">
  <response>
   <href>/caldav.php/user1/home/</href>
   <propstat>
@@ -22,6 +22,88 @@ Content-Type: text/xml; charset="utf-8"
     <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
     <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
     <getetag>"8600dc4a1b264a09a5f741d710497cba"</getetag>
+    <getcontentlanguage/>
+    <supportedlock>
+     <lockentry>
+      <lockscope>
+       <exclusive/>
+      </lockscope>
+      <locktype>
+       <write/>
+      </locktype>
+     </lockentry>
+    </supportedlock>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <lockdiscovery/>
+    <source/>
+    <checked-in/>
+    <checked-out/>
+    <bogus-property/>
+    <contentbogosity/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/home/calendar-proxy-read/</href>
+  <propstat>
+   <prop>
+    <getcontenttype>httpd/unix-directory</getcontenttype>
+    <getcontentlength/>
+    <resourcetype>
+     <collection/>
+     <principal/>
+     <C1:calendar-proxy-read/>
+    </resourcetype>
+    <displayname>/user1/home/calendar-proxy-read/</displayname>
+    <getlastmodified/>
+    <creationdate>YYYYMMDDThhmmss</creationdate>
+    <getetag>"911baff687b9d8f2d08039da7735c799"</getetag>
+    <getcontentlanguage/>
+    <supportedlock>
+     <lockentry>
+      <lockscope>
+       <exclusive/>
+      </lockscope>
+      <locktype>
+       <write/>
+      </locktype>
+     </lockentry>
+    </supportedlock>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <lockdiscovery/>
+    <source/>
+    <checked-in/>
+    <checked-out/>
+    <bogus-property/>
+    <contentbogosity/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/home/calendar-proxy-write/</href>
+  <propstat>
+   <prop>
+    <getcontenttype>httpd/unix-directory</getcontenttype>
+    <getcontentlength/>
+    <resourcetype>
+     <collection/>
+     <principal/>
+     <C1:calendar-proxy-write/>
+    </resourcetype>
+    <displayname>/user1/home/calendar-proxy-write/</displayname>
+    <getlastmodified/>
+    <creationdate>YYYYMMDDThhmmss</creationdate>
+    <getetag>"a8d209934d2040570b50ac23ad2f7553"</getetag>
     <getcontentlanguage/>
     <supportedlock>
      <lockentry>

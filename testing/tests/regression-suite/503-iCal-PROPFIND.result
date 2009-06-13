@@ -1,8 +1,8 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
-ETag: "011216f39423de4124355f9206c17c9c"
-Content-Length: 702
+ETag: "314b5483f18deed7377a9f38a81a8dcd"
+Content-Length: 1797
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -18,6 +18,50 @@ Content-Type: text/xml; charset="utf-8"
     </resourcetype>
     <displayname>user1 home</displayname>
     <A:getctag>"421abf7e4848d2fecbf64217ed205d4b"</A:getctag>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <A1:calendar-color/>
+    <C:calendar-description/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/home/calendar-proxy-read/</href>
+  <propstat>
+   <prop>
+    <resourcetype>
+     <collection/>
+     <principal/>
+     <A:calendar-proxy-read/>
+    </resourcetype>
+    <displayname>/user1/home/calendar-proxy-read/</displayname>
+    <A:getctag>"911baff687b9d8f2d08039da7735c799"</A:getctag>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <A1:calendar-color/>
+    <C:calendar-description/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/home/calendar-proxy-write/</href>
+  <propstat>
+   <prop>
+    <resourcetype>
+     <collection/>
+     <principal/>
+     <A:calendar-proxy-write/>
+    </resourcetype>
+    <displayname>/user1/home/calendar-proxy-write/</displayname>
+    <A:getctag>"a8d209934d2040570b50ac23ad2f7553"</A:getctag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>

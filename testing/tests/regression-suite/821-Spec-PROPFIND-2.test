@@ -10,6 +10,8 @@ HEADER=Content-Type: application/xml
 
 HEAD
 
+REPLACE=#<creationdate>\d{8}T\d{6}</creationdate>#<creationdate>YYYYMMDDThhmmss</creationdate>#
+
 BEGINDATA
 <?xml version="1.0" encoding="utf-8"?>
 <propfind xmlns="DAV:">

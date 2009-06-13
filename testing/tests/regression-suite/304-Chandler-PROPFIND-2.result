@@ -1,12 +1,12 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
-ETag: "c0eb6835ba6844d697fce333ba20c9f5"
-Content-Length: 590
+ETag: "10d21233ad7a68259e2bb765a5fed6ec"
+Content-Length: 1658
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
-<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
+<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav" xmlns:C1="http://calendarserver.org/ns/">
  <response>
   <href>/caldav.php/user1/home/</href>
   <propstat>
@@ -18,6 +18,46 @@ Content-Type: text/xml; charset="utf-8"
     </resourcetype>
     <displayname>user1 home</displayname>
     <getetag>"8f581a053df6d833254756dfd7553d37"</getetag>
+    <current-user-privilege-set>
+     <privilege>
+      <all/>
+     </privilege>
+    </current-user-privilege-set>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/home/calendar-proxy-read/</href>
+  <propstat>
+   <prop>
+    <resourcetype>
+     <collection/>
+     <principal/>
+     <C1:calendar-proxy-read/>
+    </resourcetype>
+    <displayname>/user1/home/calendar-proxy-read/</displayname>
+    <getetag>"911baff687b9d8f2d08039da7735c799"</getetag>
+    <current-user-privilege-set>
+     <privilege>
+      <all/>
+     </privilege>
+    </current-user-privilege-set>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/home/calendar-proxy-write/</href>
+  <propstat>
+   <prop>
+    <resourcetype>
+     <collection/>
+     <principal/>
+     <C1:calendar-proxy-write/>
+    </resourcetype>
+    <displayname>/user1/home/calendar-proxy-write/</displayname>
+    <getetag>"a8d209934d2040570b50ac23ad2f7553"</getetag>
     <current-user-privilege-set>
      <privilege>
       <all/>
