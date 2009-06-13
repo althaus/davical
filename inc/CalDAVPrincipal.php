@@ -336,11 +336,11 @@ class CalDAVPrincipal
           break;
 
         case 'DAV::getlastmodified':
-          $prop->NewElement("getlastmodified", $this->updated );
+          $prop->NewElement("getlastmodified", ISODateToHTTPDate($this->updated) );
           break;
 
         case 'DAV::creationdate':
-          $prop->NewElement("creationdate", $this->joined );
+          $prop->NewElement("creationdate", ISODateToHTTPDate($this->joined) );
           break;
 
         case 'DAV::group-member-set':
@@ -432,6 +432,9 @@ class CalDAVPrincipal
           $prop->NewElement( $reply->Tag($tag));
           break;
 
+        case 'http://calendarserver.org/ns/:getctag':
+          $reply->CalendarServerElement( $prop, "getctag", '"'.md5($this->username . $this->updated).'"' );
+          break;
         case 'DAV::getetag':
           $reply->DAVElement( $prop, "getetag", '"'.md5($this->username . $this->updated).'"' );
           break;
