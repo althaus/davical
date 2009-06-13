@@ -59,11 +59,12 @@
       </grant>
      </ace>
     </acl>
-    <creationdate/>
+    <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
     <displayname>User 1</displayname>
     <getcontentlanguage/>
     <getcontentlength/>
     <getcontenttype>httpd/unix-directory</getcontenttype>
+    <getetag>"fd84dc1213cd7327814b2678818256b9"</getetag>
     <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
     <resourcetype>
      <principal/>
@@ -84,7 +85,10 @@
   </propstat>
   <propstat>
    <prop>
-    <getetag/>
+    <lockdiscovery/>
+    <source/>
+    <checked-in/>
+    <checked-out/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
@@ -102,11 +106,12 @@
       </grant>
      </ace>
     </acl>
-    <creationdate/>
+    <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
     <displayname>Manager 1</displayname>
     <getcontentlanguage/>
     <getcontentlength/>
     <getcontenttype>httpd/unix-directory</getcontenttype>
+    <getetag>"cc0d9a04234ddc58af945d7ee545cb53"</getetag>
     <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
     <resourcetype>
      <principal/>
@@ -127,7 +132,10 @@
   </propstat>
   <propstat>
    <prop>
-    <getetag/>
+    <lockdiscovery/>
+    <source/>
+    <checked-in/>
+    <checked-out/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
@@ -145,11 +153,12 @@
       </grant>
      </ace>
     </acl>
-    <creationdate/>
+    <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
     <displayname>Assistant 1</displayname>
     <getcontentlanguage/>
     <getcontentlength/>
     <getcontenttype>httpd/unix-directory</getcontenttype>
+    <getetag>"1f45fac9bb5e3c2c46bba2710f3276d0"</getetag>
     <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
     <resourcetype>
      <principal/>
@@ -170,7 +179,10 @@
   </propstat>
   <propstat>
    <prop>
-    <getetag/>
+    <lockdiscovery/>
+    <source/>
+    <checked-in/>
+    <checked-out/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
@@ -188,11 +200,12 @@
       </grant>
      </ace>
     </acl>
-    <creationdate/>
+    <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
     <displayname>Resource 1</displayname>
     <getcontentlanguage/>
     <getcontentlength/>
     <getcontenttype>httpd/unix-directory</getcontenttype>
+    <getetag>"558111d50505d0a41581131a5d59ce3d"</getetag>
     <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
     <resourcetype>
      <principal/>
@@ -213,7 +226,10 @@
   </propstat>
   <propstat>
    <prop>
-    <getetag/>
+    <lockdiscovery/>
+    <source/>
+    <checked-in/>
+    <checked-out/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
@@ -231,11 +247,12 @@
       </grant>
      </ace>
     </acl>
-    <creationdate/>
+    <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
     <displayname>Resource 2</displayname>
     <getcontentlanguage/>
     <getcontentlength/>
     <getcontenttype>httpd/unix-directory</getcontenttype>
+    <getetag>"422bce507895a5f03e576b6e56e10619"</getetag>
     <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
     <resourcetype>
      <principal/>
@@ -256,7 +273,10 @@
   </propstat>
   <propstat>
    <prop>
-    <getetag/>
+    <lockdiscovery/>
+    <source/>
+    <checked-in/>
+    <checked-out/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>

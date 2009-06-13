@@ -1,7 +1,7 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
-ETag: "0495b9d8990b21891a66e32a4ef9333a"
+ETag: "66e8dfdd986cf80ca4e0a454a5f403e4"
 Content-Length: 969
 Content-Type: text/xml; charset="utf-8"
 
@@ -11,10 +11,13 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/</href>
   <propstat>
    <prop>
-    <displayname>User 1</displayname>
     <C:calendar-home-set>
      <href>/caldav.php/user1/</href>
     </C:calendar-home-set>
+    <C:calendar-user-address-set>
+     <href>mailto:user1@example.net</href>
+     <href>/caldav.php/user1/</href>
+    </C:calendar-user-address-set>
     <C:schedule-inbox-URL>
      <href>/caldav.php/user1/.in/</href>
     </C:schedule-inbox-URL>
@@ -27,10 +30,7 @@ Content-Type: text/xml; charset="utf-8"
     <A:notifications-URL>
      <href>/caldav.php/user1/.notify/</href>
     </A:notifications-URL>
-    <C:calendar-user-address-set>
-     <href>mailto:user1@example.net</href>
-     <href>/caldav.php/user1/</href>
-    </C:calendar-user-address-set>
+    <displayname>User 1</displayname>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>

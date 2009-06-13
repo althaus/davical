@@ -4,16 +4,6 @@
   <href>/user1/</href>
   <propstat>
    <prop>
-    <getcontenttype>httpd/unix-directory</getcontenttype>
-    <getcontentlength/>
-    <resourcetype>
-     <collection/>
-     <principal/>
-    </resourcetype>
-    <displayname>User 1</displayname>
-    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
-    <getetag>"7d0fd5137942261bee17da4287f71494"</getetag>
     <acl>
      <ace>
       <principal>
@@ -23,7 +13,17 @@
       </grant>
      </ace>
     </acl>
+    <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
+    <displayname>User 1</displayname>
     <getcontentlanguage/>
+    <getcontentlength/>
+    <getcontenttype>httpd/unix-directory</getcontenttype>
+    <getetag>"fd84dc1213cd7327814b2678818256b9"</getetag>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <resourcetype>
+     <principal/>
+     <collection/>
+    </resourcetype>
     <supportedlock>
      <lockentry>
       <lockscope>

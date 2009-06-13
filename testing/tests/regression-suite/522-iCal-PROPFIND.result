@@ -1,7 +1,7 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
-ETag: "ad1435f71f79c917f7f36d5b517b381d"
+ETag: "06eec932e579319d51217d5a8e8d3b8b"
 Content-Length: 2371
 Content-Type: text/xml; charset="utf-8"
 
@@ -11,12 +11,12 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user2/</href>
   <propstat>
    <prop>
-    <resourcetype>
-     <collection/>
-     <principal/>
-    </resourcetype>
+    <A:getctag>"11a496e279532f7704e78273d9f4cb72"</A:getctag>
     <displayname>User 2</displayname>
-    <A:getctag>"39643ecb5f1804dfdd2b37fbdc421d99"</A:getctag>
+    <resourcetype>
+     <principal/>
+     <collection/>
+    </resourcetype>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
