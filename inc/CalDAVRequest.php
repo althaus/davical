@@ -46,6 +46,7 @@ class CalDAVRequest
 
   /**
   * The 'principal' (user/resource/...) which this request seeks to access
+  * @var CalDAVPrincipal
   */
   var $principal;
 
