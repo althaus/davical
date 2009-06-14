@@ -1,8 +1,8 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
-ETag: "5869946084923881996632ea03438a2c"
-Content-Length: 947
+ETag: "1eec1599c7beefc169bc00e1834dafa3"
+Content-Length: 971
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -19,7 +19,9 @@ Content-Type: text/xml; charset="utf-8"
      <principal/>
      <collection/>
     </resourcetype>
-    <principal-URL>/caldav.php/user1/</principal-URL>
+    <principal-URL>
+     <href>/caldav.php/user1/</href>
+    </principal-URL>
     <alternate-URI-set/>
     <group-member-set/>
     <group-membership>
