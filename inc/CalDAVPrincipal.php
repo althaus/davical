@@ -148,6 +148,8 @@ class CalDAVPrincipal
     foreach( $usr AS $k => $v ) {
       $this->{$k} = $v;
     }
+    if ( !isset($this->modified) ) $this->modified = ISODateToHTTPDate($this->updated);
+    if ( !isset($this->created) )  $this->created  = ISODateToHTTPDate($this->joined);
 
     $this->by_email = false;
     $this->url = ConstructURL( "/".$this->username."/" );
@@ -247,26 +249,19 @@ class CalDAVPrincipal
     $path_split = explode('/', $path );
     @dbg_error_log( "principal", "Path split into at least /// %s /// %s /// %s", $path_split[1], $path_split[2], $path_split[3] );
 
-    if ( substr($path,0,1) == '~' ) {
-      // URL is for a principal, by name
-      $username = substr($path_split[1],1);
-      $user = getUserByID($username);
-      $user_no = $user->user_no;
-    }
-    else {
-      $username = $path_split[1];
+    $username = $path_split[1];
+    if ( substr($username,0,1) == '~' ) $username = substr($username,1);
 
-      if ( isset($options['allow_by_email']) && preg_match( '#/(\S+@\S+[.]\S+)$#', $path, $matches) ) {
-        $email = $matches[1];
-        $qry = new PgQuery("SELECT user_no, username FROM usr WHERE email = ?;", $email );
-        if ( $qry->Exec("principal") && $user = $qry->Fetch() ) {
-          $user_no = $user->user_no;
-          $username = $user->username;
-        }
-      }
-      elseif( $user = getUserByName( $username, 'caldav') ) {
+    if ( isset($options['allow_by_email']) && preg_match( '#/(\S+@\S+[.]\S+)$#', $path, $matches) ) {
+      $email = $matches[1];
+      $qry = new PgQuery("SELECT user_no, username FROM usr WHERE email = ?;", $email );
+      if ( $qry->Exec("principal") && $user = $qry->Fetch() ) {
         $user_no = $user->user_no;
+        $username = $user->username;
       }
+    }
+    elseif( $user = getUserByName( $username, 'caldav') ) {
+      $user_no = $user->user_no;
     }
     return $username;
   }
@@ -284,6 +279,26 @@ class CalDAVPrincipal
     }
 
     return $username;
+  }
+
+
+  /**
+  * Returns a representation of the principal as a collection
+  */
+  function AsCollection() {
+    $collection = (object) array(
+                            'collection_id' => (isset($this->collection_id) ? $this->collection_id : 0),
+                            'is_calendar' => 'f',
+                            'is_principal' => 't',
+                            'user_no'  => (isset($this->user_no)  ? $this->user_no : 0),
+                            'username' => (isset($this->username) ? $this->username : 0),
+                            'email'    => (isset($this->email)    ? $this->email : ''),
+                            'created'  => (isset($this->created)  ? $this->created : date('Ymd\THis'))
+                  );
+    $collection->dav_name = (isset($this->dav_name) ? $this->dav_name : '/' . $this->username . '/');
+    $collection->dav_etag = (isset($this->dav_etag) ? $this->dav_etag : md5($this->username . $this->updated));
+    $collection->dav_displayname =  (isset($this->dav_displayname) ? $this->dav_displayname : (isset($this->fullname) ? $this->fullname : $this->username));
+    return $collection;
   }
 
 
@@ -336,27 +351,19 @@ class CalDAVPrincipal
           break;
 
         case 'DAV::getlastmodified':
-          $prop->NewElement("getlastmodified", ISODateToHTTPDate($this->updated) );
+          $prop->NewElement("getlastmodified", $this->modified );
           break;
 
         case 'DAV::creationdate':
-          $prop->NewElement("creationdate", ISODateToHTTPDate($this->joined) );
+          $prop->NewElement("creationdate", $this->created );
           break;
 
         case 'DAV::group-member-set':
-          $set = array();
-          foreach( $this->group_member_set AS $k => $url ) {
-            $set[] = $reply->href($url );
-          }
-          $prop->NewElement("group-member-set", $set );
+          $prop->NewElement("group-member-set", $reply->href($this->group_member_set) );
           break;
 
         case 'DAV::group-membership':
-          $set = array();
-          foreach( $this->group_membership AS $k => $url ) {
-            $set[] = $reply->href($url );
-          }
-          $prop->NewElement("group-membership", $set );
+          $prop->NewElement("group-membership", $reply->href($this->group_membership) );
           break;
 
         case 'urn:ietf:params:xml:ns:caldav:schedule-inbox-URL':
@@ -376,11 +383,7 @@ class CalDAVPrincipal
           break;
 
         case 'urn:ietf:params:xml:ns:caldav:calendar-home-set':
-          $set = array();
-          foreach( $this->calendar_home_set AS $k => $url ) {
-            $set[] = $reply->href( $url );
-          }
-          $reply->CalDAVElement($prop, "calendar-home-set", $set );
+          $reply->CalDAVElement($prop, "calendar-home-set", $reply->href( $this->calendar_home_set ) );
           break;
 
         case 'urn:ietf:params:xml:ns:caldav:calendar-user-address-set':

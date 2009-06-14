@@ -177,6 +177,7 @@ class CalDAVRequest
     if ( preg_match( $bad_chars_regex, $this->path ) ) {
       $this->DoResponse( 400, translate("The calendar path contains illegal characters.") );
     }
+    if ( strstr($this->path,'//') ) $this->path = preg_replace( '#//+#', '/', $this->path);
 
     $this->user_no = $session->user_no;
     $this->username = $session->username;
@@ -234,10 +235,23 @@ EOSQL;
         $this->collection = $row;
       }
     }
-    else if ( preg_match( '#/(\S+@\S+[.]\S+)/?$#', $this->path) ) {
+    else if ( preg_match( '#^((/[^/]+/)calendar-proxy-(read|write))/?[^/]*$#', $this->path, $matches ) ) {
+      $this->collection_type = 'proxy';
+      $this->_is_proxy_request = true;
+      $this->proxy_type = $matches[3];
+      $this->collection_path = $matches[1].'/';  // Enforce trailling '/'
+      if ( $this->collection_path == $this->path."/" ) {
+        $this->path .= '/';
+        dbg_error_log( "caldav", "Path is actually a (proxy) collection - sending Content-Location header." );
+        header( "Content-Location: ".ConstructURL($this->path) );
+      }
+    }
+    else if ( preg_match( '#^/(\S+@\S+[.]\S+)/?$#', $this->path) ) {
+      /** @TODO: we should deprecate this now that Evolution 2.27 can do scheduling extensions */
       $this->collection_id = -1;
       $this->collection_type = 'email';
       $this->collection_path = $this->path;
+      $this->_is_principal = true;
     }
     else if ( preg_match( '#^(/[^/]+)/?$#', $this->path, $matches) ) {
       $this->collection_id = -1;
@@ -266,6 +280,38 @@ EOSQL;
     if ( isset($this->principal->user_no) ) $this->user_no  = $this->principal->user_no;
     if ( isset($this->principal->username)) $this->username = $this->principal->username;
     if ( isset($this->principal->by_email)) $this->by_email = true;
+
+    if ( $this->collection_type == 'principal' || $this->collection_type == 'email' ) {
+      $this->collection = $this->principal->AsCollection();
+    }
+    elseif( $this->collection_type == 'root' ) {
+      $this->collection = (object) array(
+                            'collection_id' => 0,
+                            'dav_name' => '/',
+                            'dav_etag' => md5($c->system_name),
+                            'is_calendar' => 'f',
+                            'is_principal' => 'f',
+                            'user_no' => 0,
+                            'dav_displayname' => $c->system_name,
+                            'created' => date('Ymd\THis')
+                          );
+    }
+    elseif( $this->collection_type == 'proxy' ) {
+      $this->collection = (object) array(
+          'dav_name' => $this->collection_path,
+          'is_calendar' => 'f',
+          'is_principal' => 't',
+          'is_proxy' => 't',
+          'proxy_type' => $this->proxy_type,
+          'dav_displayname' => sprintf('Proxy %s for %s', $this->proxy_type, $this->principal->username),
+          'collection_id' => 0,
+          'user_no' => $this->principal->user_no,
+          'username' => $this->principal->username,
+          'email' => $this->principal->email,
+          'created' => $this->principal->created,
+          'dav_etag' => $this->principal->created
+      );
+    }
 
     /**
     * Evaluate our permissions for accessing the target
@@ -579,6 +625,17 @@ EOSQL;
       $this->_is_principal = preg_match( '#^/[^/]+/$#', $this->path );
     }
     return $this->_is_principal;
+  }
+
+
+  /**
+  * Returns true if the URL referenced by this request is within a proxy URL
+  */
+  function IsProxyRequest( ) {
+    if ( !isset($this->_is_proxy_request) ) {
+      $this->_is_proxy_request = preg_match( '#^/[^/]+/calendar-proxy-(read|write)/?[^/]*$#', $this->path );
+    }
+    return $this->_is_proxy_request;
   }
 
 

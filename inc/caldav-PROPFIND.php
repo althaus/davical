@@ -70,13 +70,13 @@ foreach( $request->xml_tags AS $k => $v ) {
     case 'urn:ietf:params:xml:ns:caldav:schedule-inbox-URL':               /** Support in development */
     case 'urn:ietf:params:xml:ns:caldav:schedule-outbox-URL':              /** Support in development */
     case 'urn:ietf:params:xml:ns:caldav:calendar-free-busy-set':           /** Deprecated, but should work fine */
-    case 'urn:ietf:params:xml:ns:caldav:supported-calendar-component-set':
+    case 'urn:ietf:params:xml:ns:caldav:supported-calendar-component-set': /** Should work fine */
 
     /**
     * Handled calendarserver properties
     */
     case 'http://calendarserver.org/ns/:getctag':                        /** Calendar Server extension like etag - should work fine (we just return etag) */
-    case 'http://calendarserver.org/ns/:calendar-proxy-read-for':	 /** Calendar Server Delegation readonly */
+    case 'http://calendarserver.org/ns/:calendar-proxy-read-for':	       /** Calendar Server Delegation readonly */
     case 'http://calendarserver.org/ns/:calendar-proxy-write-for':       /** Calendar Server Delegation read-write */
     case 'http://calendarserver.org/ns/:dropbox-home-URL':
     case 'http://calendarserver.org/ns/:notifications-URL':
@@ -202,10 +202,6 @@ function add_principal_properties( &$prop, &$denied ) {
     $reply->DAVElement( $prop, "alternate-URI-set" );  // Empty - there are no alternatives!
   }
 
-  if (isset($prop_list['DAV::group-membership'])) {
-  	$reply->DAVElement($prop, "group-membership", href_set_from_paths( $request->principal->group_membership ));
-  }
-
   if ( isset($prop_list['urn:ietf:params:xml:ns:caldav:calendar-home-set'] ) ) {
     $reply->CalDAVElement( $prop, "calendar-home-set", href_set_from_paths( $request->principal->calendar_home_set ) );
   }
@@ -221,14 +217,6 @@ function add_principal_properties( &$prop, &$denied ) {
   }
   if ( isset($prop_list['http://calendarserver.org/ns/:notifications-URL'] ) ) {
     $reply->CalendarserverElement($prop, "notifications-URL", $reply->href( $request->principal->notifications_url) );
-  }
-
-  // Caldav proxy (not described in rfc, but CalendarServer has it)
-  if ( isset($prop_list['http://calendarserver.org/ns/:calendar-proxy-read-for'] ) ) {
-    $reply->CalendarserverElement($prop, "calendar-proxy-read-for", href_set_from_paths( $request->principal->read_proxy_for ) );
-  }
-  if ( isset($prop_list['http://calendarserver.org/ns/:calendar-proxy-write-for'] ) ) {
-  	$reply->CalendarserverElement($prop, "calendar-proxy-write-for", href_set_from_paths( $request->principal->write_proxy_for ) );
   }
 
   if ( isset($prop_list['urn:ietf:params:xml:ns:caldav:calendar-user-address-set'] ) ) {
@@ -374,18 +362,23 @@ function add_proxy_response( &$responses, $which, $parent_path ) {
   } else if ( $which == "write" ) {
     $proxy_group = $request->principal->write_proxy_group;
   }
-  if ( !isset($proxy_group) || !is_array($proxy_group) || count($proxy_group) < 1 ) {
+  if ($parent_path != '/'.$request->principal->username.'/') {
     return; // Nothing to proxy for
   }
 
   $collection->dav_name = $parent_path."calendar-proxy-".$which."/";
-  $collection->is_calendar = 'f';
+  $collection->is_calendar  = 'f';
   $collection->is_principal = 't';
+  $collection->is_proxy     = 't';
+  $collection->proxy_type   = $which;
   $collection->dav_displayname = $collection->dav_name;
   $collection->collection_id = 0;
   $collection->user_no = $session->user_no;
+  $collection->username = $session->username;
+  $collection->email = $session->email;
   $collection->created = date('Ymd\THis');
   $collection->dav_etag = md5($c->system_name . $collection->dav_name . implode($proxy_group) );
+  $collection->proxy_for = $proxy_group;
 
   $responses[] = collection_to_xml( $collection );
 }
@@ -458,9 +451,9 @@ function collection_to_xml( $collection ) {
       $resourcetypes[] = $reply->NewXMLElement( "principal", false, false, 'DAV:');
     }
 
-    // As per Caldav Proxy 5.1 par. 3
-    if (preg_match('#(calendar-proxy-(read|write))#', $collection->dav_displayname, $matches) && isset($prop_list['DAV::resourcetype'])) {
-      $resourcetypes[] = $reply->NewXMLElement($matches[1], false, false, 'http://calendarserver.org/ns/');
+    if ( isset($collection->is_proxy) && $collection->is_proxy == 't' ) {
+      // As per Caldav Proxy 5.1 par. 3
+      $resourcetypes[] = $reply->NewXMLElement('calendar-proxy-'.$collection->proxy_type, false, false, 'http://calendarserver.org/ns/');
     }
 
     if ( $allprop || isset($prop_list['DAV::getcontentlength']) ) {
@@ -470,6 +463,33 @@ function collection_to_xml( $collection ) {
       $reply->DAVElement( $prop, "resourcetype", $resourcetypes );
     }
   }
+
+  if ( isset($collection->is_proxy) && $collection->is_proxy == 't' ) {
+    // Caldav proxy (not described in rfc, but CalendarServer has it)
+    if ( isset($prop_list['http://calendarserver.org/ns/:calendar-proxy-'.$collection->proxy_type.'-for'] ) ) {
+      if ( $collection->proxy_type == "read" ) {
+        $proxy_group = $request->principal->read_proxy_for;
+      } else if ( $collection->proxy_type == "write" ) {
+        $proxy_group = $request->principal->write_proxy_for;
+      }
+      $reply->CalendarserverElement($prop, 'calendar-proxy-'.$collection->proxy_type.'-for', $reply->href( $proxy_group ) );
+    }
+
+    if ( isset($prop_list['DAV::group-member-set']) ) {
+      if ( $collection->proxy_type == "read" ) {
+        $proxy_group = $request->principal->read_proxy_group;
+      } else if ( $collection->proxy_type == "write" ) {
+        $proxy_group = $request->principal->write_proxy_group;
+      }
+      $reply->DAVElement($prop, "group-member-set", $reply->href( $proxy_group ) );
+    }
+
+    if (isset($prop_list['DAV::group-membership'])) {
+      $reply->DAVElement($prop, "group-membership", $reply->href( $request->principal->group_membership ));
+    }
+
+  }
+
 
   if ( $allprop || isset($prop_list['DAV::displayname']) ) {
     $displayname = ( $collection->dav_displayname == "" ? ucfirst(trim(str_replace("/"," ", $collection->dav_name))) : $collection->dav_displayname );
@@ -578,8 +598,8 @@ function get_collection_contents( $depth, $user_no, $collection ) {
     * Calendar collections may not contain calendar collections.
     */
     if ( $collection->dav_name == '/' ) {
-      $sql = "SELECT usr.*, '/' || username || '/' AS dav_name, md5( '/' || username || '/') AS dav_etag, ";
-      $sql .= "to_char(updated at time zone 'GMT',?) AS created, ";
+      $sql = "SELECT usr.*, '/' || username || '/' AS dav_name, md5(username || updated::text) AS dav_etag, ";
+      $sql .= "to_char(joined at time zone 'GMT',?) AS created, ";
       $sql .= "to_char(updated at time zone 'GMT',?) AS modified, ";
       $sql .= "fullname AS dav_displayname, FALSE AS is_calendar, TRUE AS is_principal, ";
       $sql .= "0 AS collection_id ";
@@ -612,6 +632,12 @@ function get_collection_contents( $depth, $user_no, $collection ) {
           $responses = array_merge( $responses, get_collection_contents( $depth - 1,  $user_no, $subcollection ) );
         }
       }
+    }
+    if ( $collection->is_principal == "t" ) {
+      // Caldav Proxy: 5.1 par. 2: Add child resources calendar-proxy-(read|write)
+      dbg_error_log("PROPFIND","Adding calendar-proxy-read and write. Path: %s", $collection->dav_name);
+      add_proxy_response($responses, "read", $collection->dav_name);
+      add_proxy_response($responses, "write", $collection->dav_name);
     }
   }
 
@@ -674,8 +700,8 @@ function get_collection( $depth, $user_no, $collection_path ) {
   else {
     $user_no = intval($user_no);
     if ( preg_match( '#^/[^/]+/$#', $collection_path) ) {
-      $sql = "SELECT usr.*, '/' || username || '/' AS dav_name, md5( '/' || username || '/') AS dav_etag, ";
-      $sql .= "to_char(updated at time zone 'GMT',?) AS created, ";
+      $sql = "SELECT usr.*, '/' || username || '/' AS dav_name, md5( username || updated::text ) AS dav_etag, ";
+      $sql .= "to_char(joined at time zone 'GMT',?) AS created, ";
       $sql .= "to_char(updated at time zone 'GMT',?) AS modified, ";
       $sql .= "fullname AS dav_displayname, FALSE AS is_calendar, TRUE AS is_principal, 0 AS collection_id ";
       $sql .= "FROM usr WHERE user_no = $user_no ";
@@ -700,13 +726,6 @@ function get_collection( $depth, $user_no, $collection_path ) {
         $responses[] = collection_to_xml( $collection );
       }
 
-      // Caldav Proxy: 5.1 par. 2: Add child resources calendar-proxy-(read|write)
-      if (($collection->is_principal && isset($prop_list['DAV::resourcetype'])) ) { // atm, only users/resources/groups are principals, so it's ok to add these.
-      	// this is added when /<principal>/ is queried for resourcetype
-      	dbg_error_log("PROPFIND","Adding calendar-proxy-read and write. Path: %s", $collection->dav_name);
-      	add_proxy_response($responses, "read", $collection->dav_name);
-      	add_proxy_response($responses, "write", $collection->dav_name);
-      }
     }
     elseif ( $c->collections_always_exist && preg_match( "#^/$session->username/#", $collection_path) ) {
       dbg_error_log("PROPFIND","Using $c->collections_always_exist setting is deprecated" );
@@ -763,7 +782,19 @@ $request->UnsupportedRequest($unsupported); // Won't return if there was unsuppo
 */
 $url = ConstructURL( $request->path );
 $url = preg_replace( '#/$#', '', $url);
-if ( $request->IsCollection() ) {
+$responses = array();
+if ( $request->IsPrincipal() ) {
+  $responses[] = $request->principal->RenderAsXML(array_merge($prop_list,$arbitrary), &$reply);
+  if ( $request->depth > 0 ) {
+    $collection = (object) array( 'dav_name' => '/'.$request->username.'/', 'is_calendar' => 'f', 'is_principal' => 't' );
+    $responses = array_merge($responses, get_collection_contents( $request->depth - 1,  $request->user_no, $collection ) );
+  }
+}
+if ( $request->IsProxyRequest() ) {
+  add_proxy_response($responses, $request->proxy_type, '/' . $request->principal->username . '/' );
+  /** Nothing inside these, as yet. */
+}
+elseif ( $request->IsCollection() ) {
   $responses = get_collection( $request->depth, $request->user_no, $request->path );
 }
 elseif ( $request->AllowedTo('read') ) {
