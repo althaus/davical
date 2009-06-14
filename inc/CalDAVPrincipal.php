@@ -347,7 +347,7 @@ class CalDAVPrincipal
           break;
 
         case 'DAV::principal-URL':
-          $prop->NewElement("principal-URL", $this->url );
+          $prop->NewElement("principal-URL", $reply->href($this->url) );
           break;
 
         case 'DAV::getlastmodified':
@@ -387,11 +387,7 @@ class CalDAVPrincipal
           break;
 
         case 'urn:ietf:params:xml:ns:caldav:calendar-user-address-set':
-          $set = array();
-          foreach( $this->user_address_set AS $k => $v ) {
-            $set[] = $reply->href($v );
-          }
-          $reply->CalDAVElement($prop, "calendar-user-address-set", $set );
+          $reply->CalDAVElement($prop, "calendar-user-address-set", $reply->href($this->user_address_set) );
           break;
 
         case 'DAV::getcontentlanguage':
