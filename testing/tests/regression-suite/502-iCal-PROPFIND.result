@@ -1,7 +1,7 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
-ETag: "fd95e0f242b0645dacf9f3e49b487fed"
+ETag: "749c1102d1fa2c3e72690999c1301e66"
 Content-Length: 3273
 Content-Type: text/xml; charset="utf-8"
 
@@ -16,48 +16,6 @@ Content-Type: text/xml; charset="utf-8"
      <principal/>
      <collection/>
     </resourcetype>
-   </prop>
-   <status>HTTP/1.1 200 OK</status>
-  </propstat>
-  <propstat>
-   <prop>
-    <C:calendar-description/>
-    <A:calendar-color/>
-   </prop>
-   <status>HTTP/1.1 404 Not Found</status>
-  </propstat>
- </response>
- <response>
-  <href>/caldav.php/user1/calendar-proxy-read/</href>
-  <propstat>
-   <prop>
-    <resourcetype>
-     <collection/>
-     <principal/>
-     <C1:calendar-proxy-read/>
-    </resourcetype>
-    <displayname>/user1/calendar-proxy-read/</displayname>
-   </prop>
-   <status>HTTP/1.1 200 OK</status>
-  </propstat>
-  <propstat>
-   <prop>
-    <C:calendar-description/>
-    <A:calendar-color/>
-   </prop>
-   <status>HTTP/1.1 404 Not Found</status>
-  </propstat>
- </response>
- <response>
-  <href>/caldav.php/user1/calendar-proxy-write/</href>
-  <propstat>
-   <prop>
-    <resourcetype>
-     <collection/>
-     <principal/>
-     <C1:calendar-proxy-write/>
-    </resourcetype>
-    <displayname>/user1/calendar-proxy-write/</displayname>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -140,6 +98,48 @@ Content-Type: text/xml; charset="utf-8"
      <C:schedule-outbox/>
     </resourcetype>
     <displayname>User 1 Outbox</displayname>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <C:calendar-description/>
+    <A:calendar-color/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/calendar-proxy-read/</href>
+  <propstat>
+   <prop>
+    <resourcetype>
+     <collection/>
+     <principal/>
+     <C1:calendar-proxy-read/>
+    </resourcetype>
+    <displayname>/user1/calendar-proxy-read/</displayname>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <C:calendar-description/>
+    <A:calendar-color/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/calendar-proxy-write/</href>
+  <propstat>
+   <prop>
+    <resourcetype>
+     <collection/>
+     <principal/>
+     <C1:calendar-proxy-write/>
+    </resourcetype>
+    <displayname>/user1/calendar-proxy-write/</displayname>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>

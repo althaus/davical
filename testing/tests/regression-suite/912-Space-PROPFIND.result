@@ -1,8 +1,8 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
-ETag: "8510331a1f83da3f51348cf7afb611be"
-Content-Length: 1923
+ETag: "084b04273eb22d6346e371df5ea2a781"
+Content-Length: 3128
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -73,6 +73,54 @@ Content-Type: text/xml; charset="utf-8"
    <prop>
     <C:calendar-free-busy-set/>
     <C:calendar-description/>
+    <A1:calendar-order/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/User%20Six/calendar-proxy-read/</href>
+  <propstat>
+   <prop>
+    <resourcetype>
+     <collection/>
+     <principal/>
+     <A:calendar-proxy-read/>
+    </resourcetype>
+    <displayname>/User Six/calendar-proxy-read/</displayname>
+    <A:getctag>"7032a440adf6aaab2a81cd3bc214d153"</A:getctag>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <C:calendar-free-busy-set/>
+    <C:calendar-description/>
+    <A1:calendar-color/>
+    <A1:calendar-order/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/User%20Six/calendar-proxy-write/</href>
+  <propstat>
+   <prop>
+    <resourcetype>
+     <collection/>
+     <principal/>
+     <A:calendar-proxy-write/>
+    </resourcetype>
+    <displayname>/User Six/calendar-proxy-write/</displayname>
+    <A:getctag>"d729246362363c87ec3d13d6eaa99efa"</A:getctag>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <C:calendar-free-busy-set/>
+    <C:calendar-description/>
+    <A1:calendar-color/>
     <A1:calendar-order/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>

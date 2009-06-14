@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav" xmlns:A="http://apache.org/dav/props/" xmlns:C1="http://calendarserver.org/ns/">
+<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav" xmlns:A="http://apache.org/dav/props/">
  <response>
   <href>/caldav.php/user1/home/</href>
   <propstat>
@@ -11,52 +11,6 @@
      <C:schedule-calendar/>
     </resourcetype>
     <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-   </prop>
-   <status>HTTP/1.1 200 OK</status>
-  </propstat>
-  <propstat>
-   <prop>
-    <A:executable/>
-    <checked-in/>
-    <checked-out/>
-   </prop>
-   <status>HTTP/1.1 404 Not Found</status>
-  </propstat>
- </response>
- <response>
-  <href>/caldav.php/user1/home/calendar-proxy-read/</href>
-  <propstat>
-   <prop>
-    <getcontentlength/>
-    <resourcetype>
-     <collection/>
-     <principal/>
-     <C1:calendar-proxy-read/>
-    </resourcetype>
-    <getlastmodified/>
-   </prop>
-   <status>HTTP/1.1 200 OK</status>
-  </propstat>
-  <propstat>
-   <prop>
-    <A:executable/>
-    <checked-in/>
-    <checked-out/>
-   </prop>
-   <status>HTTP/1.1 404 Not Found</status>
-  </propstat>
- </response>
- <response>
-  <href>/caldav.php/user1/home/calendar-proxy-write/</href>
-  <propstat>
-   <prop>
-    <getcontentlength/>
-    <resourcetype>
-     <collection/>
-     <principal/>
-     <C1:calendar-proxy-write/>
-    </resourcetype>
-    <getlastmodified/>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
