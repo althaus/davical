@@ -33,9 +33,11 @@ header( "DAV: $dav");
 require_once("CalDAVRequest.php");
 $request = new CalDAVRequest();
 
-if ( ! isset($request->collection) ) {
+if ( ! ($request->IsPrincipal() || isset($request->collection) || $request->method == 'PUT' || $request->method == 'MKCALENDAR' || $request->method == 'MKCOL' ) ) {
   dbg_error_log( "LOG WARNING", "Attempt to %s url '%s' but no collection exists there.", $request->method, $request->path );
-//  $request->DoResponse( 404, translate("There is no collection at that URL.") );
+  if ( $request->method == 'GET' || $request->method == 'REPORT' ) {
+    $request->DoResponse( 404, translate("There is no collection at that URL.") );
+  }
 }
 
 switch ( $request->method ) {
