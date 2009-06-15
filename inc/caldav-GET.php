@@ -12,7 +12,7 @@ dbg_error_log("get", "GET method handler");
 
 require_once("iCalendar.php");
 
-if ( ! $request->AllowedTo('read') ) {
+if ( ! $request->AllowedTo('freebusy') ) {
   $request->DoResponse( 403, translate("You may not access that calendar") );
 }
 
@@ -47,8 +47,11 @@ else if ( $qry->rows == 1 && ! $request->IsCollection() ) {
     $allowed = true;
   }
   else if ( $event->class != 'PRIVATE' ) {
-    if ( $event->class == 'CONFIDENTIAL' && ! $request->AllowedTo('modify') ) {
-      // if the event is confidential we fake one that just says "Busy"
+    $allowed = true; // but we may well obfuscate it below
+    if ( ! $request->AllowedTo('read') || ( $event->class == 'CONFIDENTIAL' && ! $request->AllowedTo('modify') ) ) {
+      // The user is not admin / owner of this calendarlooking at his calendar and can not admin the other cal,
+      // or maybe they don't have *read* access but they got here, so they must at least have free/busy access
+      // so we will present an obfuscated version of the event that just says "Busy" (translated :-)
       $confidential = new iCalComponent();
 
       $ical = new iCalComponent( $event->caldav_data );
@@ -63,19 +66,13 @@ else if ( $qry->rows == 1 && ! $request->IsCollection() ) {
       $confidential->SetProperties( $first->GetProperties('DURATION'), 'DURATION' );
       $confidential->SetProperties( $first->GetProperties('DTEND'), 'DTEND' );
       $confidential->SetProperties( $first->GetProperties('UID'), 'UID' );
+      $confidential->SetProperties( $first->GetProperties('CREATED'), 'CREATED' );
 
       $ical->SetComponents( array($confidential), $confidential->GetType() );
       $event->caldav_data = $ical->Render();
-      $allowed = true;
-    }
-    else {
-      /**
-      * We don't do the hide_alarm nonsense here.  It only really ever applied to Mozilla,
-      * it's fixed in 0.8+ anyway and Mozilla doesn't do GET requests... :-)
-      */
-      $allowed = true;
     }
   }
+  // else $event->class == 'PRIVATE' and this person may not see it.
 
   if ( ! $allowed ) {
     $request->DoResponse( 403, translate("Forbidden") );
@@ -132,9 +129,10 @@ else {
       /** No visibility even of the existence of these events if they aren't admin/owner/attendee */
       if ( $event->class == 'PRIVATE' ) continue;
 
-      // the user is not admin / owner of this calendarlooking at his calendar and can not admin the other cal
-      if ( $event->class == 'CONFIDENTIAL' ) {
-        // if the event is confidential we fake one that just says "Busy"
+      if ( ! $request->AllowedTo('read') || $event->class == 'CONFIDENTIAL' ) {
+        // The user is not admin / owner of this calendar looking at his calendar and can not admin the other cal,
+        // or maybe they don't have *read* access but they got here, so they must at least have free/busy access
+        // so we will present an obfuscated version of the event that just says "Busy" (translated :-)
         $confidential = new iCalComponent();
         $confidential->SetType($resource->GetType());
         $confidential->AddProperty( 'SUMMARY', translate('Busy') );
@@ -144,6 +142,8 @@ else {
         $confidential->SetProperties( $resource->GetProperties('DURATION'), 'DURATION' );
         $confidential->SetProperties( $resource->GetProperties('DTEND'), 'DTEND' );
         $confidential->SetProperties( $resource->GetProperties('UID'), 'UID' );
+        $confidential->SetProperties( $resource->GetProperties('CREATED'), 'CREATED' );
+
 
         $vcal->AddComponent($confidential);
       }
