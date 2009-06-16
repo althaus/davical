@@ -5,7 +5,28 @@ dbg_log_array( "headers", '_SERVER', $_SERVER, true );
 require_once("HTTPAuthSession.php");
 $session = new HTTPAuthSession();
 
+/**
+* Submission parameters recommended by calconnect, plus some generous alternatives
+*/
+param_to_global('fb_start', '#^[a-z0-9/:.,+-]+$#i', 'start', 'from');
+param_to_global('fb_end', '#^[a-z0-9/:.,+-]+$#i', 'end', 'until', 'finish', 'to');
+param_to_global('fb_period', '#^[+-]?P?(\d+[WD]?)(T(\d+H)?(\d+M)?(\d+S)?)?+$#', 'period');
+param_to_global('fb_format', '#^\S+/\S+$#', 'format');
+param_to_global('fb_user', '#^.*$#', 'user', 'userid', 'user_no', 'email');
+param_to_global('fb_token', '#^[a-z0-9+/-]+$#i', 'token');
+
+if ( isset($fb_period) ) $fb_period = strtoupper($fb_period);
+
+if ( !isset($fb_start) || $fb_start == '' )  $fb_start  = date('Y-m-d\TH:i:s', time() - 86400 ); // no recommended default.  -1 day
+if ( (!isset($fb_period) && !isset($fb_end)) || ($fb_period == '' && $fb_end == '') )
+  $fb_period = 'P44D'; // 44 days - 2 days more than recommended default
+
 require_once("CalDAVRequest.php");
+
+if ( isset($fb_format) && $fb_format != 'text/calendar' ) {
+  $request->DoResponse( 406, 'This server only supports the text/calendar format for freebusy URLs' );
+}
+
 
 /**
 * We also allow URLs like .../freebusy.php/user@example.com to work, so long as
