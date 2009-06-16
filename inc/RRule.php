@@ -62,13 +62,14 @@ class iCalDate {
     }
 
     $this->_wkst = 1; // Monday
-    if ( preg_match( '/^\d{8}T\d{6}$/', $input ) ) {
+    if ( preg_match( '/^\d{8}[T ]\d{6}$/', $input ) ) {
       $this->SetLocalDate($input);
     }
-    else if ( preg_match( '/^\d{8}T\d{6}Z$/', $input ) ) {
+    else if ( preg_match( '/^\d{8}[T ]\d{6}Z$/', $input ) ) {
       $this->SetGMTDate($input);
     }
     else if ( intval($input) == 0 ) {
+      $this->SetLocalDate(strtotime($input));
       return;
     }
     else {
@@ -290,10 +291,11 @@ class iCalDate {
   * Add duration
   */
   function AddDuration( $duration ) {
+    if ( strstr($duration,'T') === false ) $duration .= 'T';
     list( $sign, $days, $time ) = preg_split( '/[PT]/', $duration );
     $sign = ( $sign == "-" ? -1 : 1);
     dbg_error_log( "RRule", " Adding duration to '%s' of sign: %d,  days: %s,  time: %s", $this->_text, $sign, $days, $time );
-    if ( preg_match( '/(\d)+(D|W)/', $days, $matches ) ) {
+    if ( preg_match( '/(\d+)(D|W)/', $days, $matches ) ) {
       $days = intval($matches[1]);
       if ( $matches[2] == 'W' ) $days *= 7;
       $this->AddDays( $days * $sign );
