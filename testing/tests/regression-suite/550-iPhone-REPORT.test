@@ -1,0 +1,29 @@
+#
+# Testing with a process similar to iPhone 3
+#
+TYPE=REPORT
+URL=http://mycaldav/caldav.php/user1/home/
+HEAD
+
+AUTH=user1:user1
+
+HEADER=User-Agent: DAVKit/4.0 (728.3); iCalendar/1 (34); iPhone/3.0 7A341
+HEADER=Content-Type: text/xml
+HEADER=Depth: 1
+
+BEGINDATA
+<?xml version="1.0" encoding="utf-8" ?>
+<x0:calendar-query xmlns:x0="urn:ietf:params:xml:ns:caldav" xmlns:x1="DAV:">
+  <x1:prop>
+    <x1:getetag/>
+    <x1:resourcetype/>
+  </x1:prop>
+  <x0:filter>
+    <x0:comp-filter name="VCALENDAR">
+      <x0:comp-filter name="VEVENT">
+        <x0:time-range start="20070516T060000Z" end="20080516T060000Z"/>
+      </x0:comp-filter>
+    </x0:comp-filter>
+  </x0:filter>
+</x0:calendar-query>
+ENDDATA
