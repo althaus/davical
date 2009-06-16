@@ -140,6 +140,9 @@ function calendar_to_xml( $properties, $item ) {
       case 'displayname':
         $prop->NewElement($k, $displayname );
         break;
+      case 'resourcetype':
+        $prop->NewElement($k);
+        break;
       case 'getetag':
         $prop->NewElement($k, '"'.$item->dav_etag.'"' );
         break;
