@@ -78,8 +78,6 @@ foreach( $request->xml_tags AS $k => $v ) {
     case 'http://calendarserver.org/ns/:getctag':                        /** Calendar Server extension like etag - should work fine (we just return etag) */
     case 'http://calendarserver.org/ns/:calendar-proxy-read-for':	       /** Calendar Server Delegation readonly */
     case 'http://calendarserver.org/ns/:calendar-proxy-write-for':       /** Calendar Server Delegation read-write */
-    case 'http://calendarserver.org/ns/:dropbox-home-URL':
-    case 'http://calendarserver.org/ns/:notifications-URL':
 
       $prop_list[$ns_tag] = $ns_tag;
       dbg_error_log( "PROPFIND", "Adding attribute '%s'", $ns_tag );
@@ -89,9 +87,6 @@ foreach( $request->xml_tags AS $k => $v ) {
     case 'DAV::supported-collation-set':
     case 'DAV::principal-collection-set':
     case 'DAV::supported-privilege-set':
-
-//    case 'dropbox-home-URL':   // HTTP://CALENDARSERVER.ORG/NS/
-//    case 'notifications-URL':  // HTTP://CALENDARSERVER.ORG/NS/
       if ( $_SERVER['PATH_INFO'] == '/' || $_SERVER['PATH_INFO'] == '' ) {
         $arbitrary[$ns_tag] = $ns_tag;
         dbg_error_log( "PROPFIND", "Adding arbitrary DAV property '%s'", $ns_tag );
@@ -129,6 +124,8 @@ foreach( $request->xml_tags AS $k => $v ) {
     /**
     * Arbitrary DAV properties may also be reported
     */
+    case 'http://calendarserver.org/ns/:dropbox-home-URL':    // Not yet supported (what is it supposed to do?)
+    case 'http://calendarserver.org/ns/:notifications-URL':   // Not yet supported (what is it supposed to do?)
     case 'urn:ietf:params:xml:ns:caldav:calendar-description':        // Supported purely as an arbitrary property
     default:
       $arbitrary[$ns_tag] = $ns_tag;
@@ -211,14 +208,14 @@ function add_principal_properties( &$prop, &$denied ) {
   if ( isset($prop_list['urn:ietf:params:xml:ns:caldav:schedule-outbox-URL'] ) ) {
     $reply->CalDAVElement( $prop, "schedule-outbox-URL", $reply->href( $request->principal->schedule_outbox_url) );
   }
-
+/*  Not supported - don't pretend we do!
   if ( isset($prop_list['http://calendarserver.org/ns/:dropbox-home-URL'] ) ) {
     $reply->CalendarserverElement($prop, "dropbox-home-URL", $reply->href( $request->principal->dropbox_url) );
   }
   if ( isset($prop_list['http://calendarserver.org/ns/:notifications-URL'] ) ) {
     $reply->CalendarserverElement($prop, "notifications-URL", $reply->href( $request->principal->notifications_url) );
   }
-
+*/
   if ( isset($prop_list['urn:ietf:params:xml:ns:caldav:calendar-user-address-set'] ) ) {
     $reply->CalDAVElement( $prop, "calendar-user-address-set", href_set_from_paths( $request->principal->user_address_set ) );
   }
@@ -581,6 +578,7 @@ function item_to_xml( $item ) {
 
   return build_propstat_response( $prop, $denied, $url );
 }
+
 
 /**
 * Get XML response for items in the collection

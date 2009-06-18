@@ -373,7 +373,7 @@ class CalDAVPrincipal
         case 'urn:ietf:params:xml:ns:caldav:schedule-outbox-URL':
           $reply->CalDAVElement($prop, "schedule-outbox-URL", $reply->href($this->schedule_outbox_url) );
           break;
-
+/*
         case 'http://calendarserver.org/ns/:dropbox-home-URL':
           $reply->CalendarserverElement($prop, "dropbox-home-URL", $reply->href($this->dropbox_url) );
           break;
@@ -381,7 +381,7 @@ class CalDAVPrincipal
         case 'http://calendarserver.org/ns/:notifications-URL':
           $reply->CalendarserverElement($prop, "notifications-URL", $reply->href($this->notifications_url) );
           break;
-
+*/
         case 'urn:ietf:params:xml:ns:caldav:calendar-home-set':
           $reply->CalDAVElement($prop, "calendar-home-set", $reply->href( $this->calendar_home_set ) );
           break;
