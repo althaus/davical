@@ -118,22 +118,6 @@ function calendar_to_xml( $properties, $item ) {
       case 'getcontenttype':
         $prop->NewElement($k, "text/calendar" );
         break;
-/*
-* I don't think this is correct.  We should only list these properties against
-* the (relevant) collection, not against it's contents.
-      case 'resourcetype':
-        $prop->NewElement($k, new XMLElement($reply->Caldav("calendar"), false) );
-        if ( $request->collection_type == 'in' ) {
-          $prop->NewElement($k, new XMLElement($reply->Caldav("schedule-inbox"), false) );
-        }
-        else if ( $request->collection_type == 'out' ) {
-          $prop->NewElement($k, new XMLElement($reply->Caldav("schedule-outbox"), false) );
-        }
-        else {
-          $prop->NewElement($k, new XMLElement($reply->Caldav("schedule-calendar"), false) );
-        }
-        break;
-*/
       case 'current-user-principal':
         $prop->NewElement("current-user-principal", $request->current_user_principal_xml);
         break;
@@ -141,7 +125,7 @@ function calendar_to_xml( $properties, $item ) {
         $prop->NewElement($k, $displayname );
         break;
       case 'resourcetype':
-        $prop->NewElement($k);
+        $prop->NewElement($k); // Just an empty resourcetype for a non-collection.
         break;
       case 'getetag':
         $prop->NewElement($k, '"'.$item->dav_etag.'"' );
