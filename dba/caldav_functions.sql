@@ -433,19 +433,20 @@ BEGIN
   END IF;
 
   IF TG_OP = 'INSERT' OR TG_OP = 'UPDATE' THEN
-    -- On insert or update modified, we set the NEW collection tag to the etag of the
-    -- updated row which gives us something predictable for our regression tests.
+    -- On insert or update modified, we set the NEW collection tag to the md5 of the
+    -- etag of the updated row which gives us something predictable for our regression
+    -- tests, but something different from the actual etag of the new event.
     UPDATE collection
-       SET modified = current_timestamp, dav_etag = NEW.dav_etag
+       SET modified = current_timestamp, dav_etag = md5(NEW.dav_etag)
      WHERE collection_id = NEW.collection_id;
     IF TG_OP = 'INSERT' THEN
       RETURN NEW;
     END IF;
   END IF;
 
-  -- On delete or update modified, we set the OLD collection tag to the md5 of the old
-  -- path & the old etag, which again gives us something predictable for our regression tests.
   IF TG_OP = 'DELETE' THEN
+    -- On delete we set the OLD collection tag to the md5 of the old path & the old
+    -- etag, which again gives us something predictable for our regression tests.
     UPDATE collection
        SET modified = current_timestamp, dav_etag = md5(OLD.dav_name::text||OLD.dav_etag)
      WHERE collection_id = OLD.collection_id;
@@ -453,6 +454,8 @@ BEGIN
   END IF;
 
   IF NEW.collection_id != OLD.collection_id THEN
+    -- If we've switched the collection_id of this event, then we also need to update
+    -- the etag of the old collection - as we do for delete.
     UPDATE collection
        SET modified = current_timestamp, dav_etag = md5(OLD.dav_name::text||OLD.dav_etag)
      WHERE collection_id = OLD.collection_id;

@@ -1,7 +1,7 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
-ETag: "d572340caf57bae1197d72a287654356"
+ETag: "d4bcb58c32706d332ffd4234c2280d89"
 Content-Length: 3560
 Content-Type: text/xml; charset="utf-8"
 
@@ -40,7 +40,7 @@ Content-Type: text/xml; charset="utf-8"
      <C:schedule-calendar/>
     </resourcetype>
     <displayname>user2 home</displayname>
-    <A:getctag>"13249ced6c7527191a003f54f7e3cd25"</A:getctag>
+    <A:getctag>"876883ebf6e5e80fb501f490c70803b5"</A:getctag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>

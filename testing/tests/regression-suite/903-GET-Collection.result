@@ -2,7 +2,7 @@ HTTP/1.1 200 OK
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 Content-Length: 24642
-Etag: "06663804d3bec5b85580d89056bcf54e"
+Etag: "a52157c35d64e6051e54024625d3a94a"
 Content-Type: text/calendar
 
 BEGIN:VCALENDAR
