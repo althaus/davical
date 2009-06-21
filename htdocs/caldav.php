@@ -34,6 +34,14 @@ require_once("CalDAVRequest.php");
 $request = new CalDAVRequest();
 
 if ( ! ($request->IsPrincipal() || isset($request->collection) || $request->method == 'PUT' || $request->method == 'MKCALENDAR' || $request->method == 'MKCOL' ) ) {
+  if ( preg_match( '#^/principals/users(/.*/)$#', $request->path, $matches ) ) {
+    // Although this doesn't work with the iPhone, perhaps it will with iCal...
+    /** @TODO: integrate handling this URL into CalDAVRequest.php */
+    $redirect_url = ConstructURL('/caldav.php'.$matches[1]);
+    dbg_error_log( "LOG WARNING", "Redirecting %s for '%s' to '%s'", $request->method, $request->path, $redirect_url );
+    header("Location: $redirect_url" );
+    exit(0);
+  }
   dbg_error_log( "LOG WARNING", "Attempt to %s url '%s' but no collection exists there.", $request->method, $request->path );
   if ( $request->method == 'GET' || $request->method == 'REPORT' ) {
     $request->DoResponse( 404, translate("There is no collection at that URL.") );
