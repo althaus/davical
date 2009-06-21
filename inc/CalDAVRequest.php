@@ -89,6 +89,21 @@ class CalDAVRequest
 
     $this->raw_post = file_get_contents ( 'php://input');
 
+    if ( (isset($c->dbg['ALL']) && $c->dbg['ALL']) || (isset($c->dbg['request']) && $c->dbg['request']) ) {
+      /** Log the request headers */
+      $lines = apache_request_headers();
+      dbg_error_log( "LOG ", "***************** Request Header ****************" );
+      foreach( $lines AS $v ) {
+        dbg_error_log( "LOG headers", "-->%s", $v );
+      }
+      dbg_error_log( "LOG ", "******************** Request ********************" );
+      // Log the request in all it's gory detail.
+      $lines = preg_split( '#[\r\n]+#', $this->raw_post);
+      foreach( $lines AS $v ) {
+        dbg_error_log( "LOG request", "-->%s", $v );
+      }
+    }
+
     if ( isset($debugging) && isset($_GET['method']) ) {
       $_SERVER['REQUEST_METHOD'] = $_GET['method'];
     }
@@ -759,6 +774,21 @@ EOSQL;
     @header( sprintf("HTTP/1.1 %d %s", $status, getStatusMessage($status)) );
     @header( sprintf("X-DAViCal-Version: DAViCal/%d.%d.%d; DB/%d.%d.%d", $c->code_major, $c->code_minor, $c->code_patch, $c->schema_major, $c->schema_minor, $c->schema_patch) );
     @header( "Content-type: ".$content_type );
+
+    if ( (isset($c->dbg['ALL']) && $c->dbg['ALL']) || (isset($c->dbg['response']) && $c->dbg['response']) ) {
+      $lines = headers_list();
+      dbg_error_log( "LOG ", "***************** Response Header ****************" );
+      foreach( $lines AS $v ) {
+        dbg_error_log( "LOG headers", "-->%s", $v );
+      }
+      dbg_error_log( "LOG ", "******************** Response ********************" );
+      // Log the request in all it's gory detail.
+      $lines = preg_split( '#[\r\n]+#', $message);
+      foreach( $lines AS $v ) {
+        dbg_error_log( "LOG response", "-->%s", $v );
+      }
+    }
+
     echo $message;
 
     if ( strlen($message) > 100 || strstr($message, "\n") ) {
