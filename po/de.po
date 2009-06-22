@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RSCDS 0.2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-11-18 18:29+1300\n"
+"POT-Creation-Date: 2009-06-22 14:25+1200\n"
 "PO-Revision-Date: 2006-11-06 17:24+1300\n"
 "Last-Translator: Cristina Radalescu <andrew@mcmillan.net.nz>\n"
 "MIME-Version: 1.0\n"
@@ -99,6 +99,10 @@ msgstr ""
 
 msgid "Anonymous users are not allowed to modify calendars"
 msgstr ""
+
+#, fuzzy
+msgid "Anonymous users may only access public calendars"
+msgstr "Sie können nicht auf diesen Kalender zugreifen"
 
 msgid "Browse all relationship types"
 msgstr "Nach allen Verhältnistypen durchsuchen"
@@ -546,6 +550,10 @@ msgstr "Vollständiger Name dieses Benutzers"
 
 msgid "The user's password for logging in."
 msgstr "Passwort des Benutzers zum Einloggen"
+
+#, fuzzy
+msgid "There is no collection at that URL."
+msgstr "Es wurde keine Sammlung an diesem Ort gefunden."
 
 msgid "There was an error writing to the database."
 msgstr "Ein Fehler ist aufgetreten beim Schreiben im Datenverzeichnis"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-04-06 21:18+1200\n"
+"POT-Creation-Date: 2009-06-22 14:25+1200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -96,6 +96,9 @@ msgid "All"
 msgstr ""
 
 msgid "Anonymous users are not allowed to modify calendars"
+msgstr ""
+
+msgid "Anonymous users may only access public calendars"
 msgstr ""
 
 msgid "Browse all relationship types"
@@ -534,6 +537,9 @@ msgid "The user's full name."
 msgstr ""
 
 msgid "The user's password for logging in."
+msgstr ""
+
+msgid "There is no collection at that URL."
 msgstr ""
 
 msgid "There was an error writing to the database."

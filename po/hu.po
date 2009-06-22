@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rscds 0.7.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-11-18 18:29+1300\n"
+"POT-Creation-Date: 2009-06-22 14:25+1200\n"
 "PO-Revision-Date: 2007-05-03 15:00+0001\n"
 "Last-Translator: David Takacs <david.takacs@cafeopen.eu>\n"
 "Language-Team: \n"
@@ -94,6 +94,10 @@ msgstr ""
 
 msgid "Anonymous users are not allowed to modify calendars"
 msgstr ""
+
+#, fuzzy
+msgid "Anonymous users may only access public calendars"
+msgstr "Nincs jogosultsága hozzáférni a naptárhoz"
 
 msgid "Browse all relationship types"
 msgstr "Kapcsolattípusok listája"
@@ -530,6 +534,10 @@ msgstr "Teljes név"
 
 msgid "The user's password for logging in."
 msgstr "Jelszó"
+
+#, fuzzy
+msgid "There is no collection at that URL."
+msgstr "Ezen a helyen nincs gyűjtemény."
 
 msgid "There was an error writing to the database."
 msgstr "Adatbázis-hiba történt íráskor."

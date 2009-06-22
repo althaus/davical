@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rscds-messages\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-11-18 18:29+1300\n"
+"POT-Creation-Date: 2009-06-22 14:25+1200\n"
 "PO-Revision-Date: 2007-03-31 00:24+0200\n"
 "Last-Translator: Rafal Slubowski <rafalslubowski@gmail.com>\n"
 "Language-Team: polski <pl@li.org>\n"
@@ -96,6 +96,10 @@ msgstr ""
 
 msgid "Anonymous users are not allowed to modify calendars"
 msgstr ""
+
+#, fuzzy
+msgid "Anonymous users may only access public calendars"
+msgstr "Nie masz dostępu do tego kalendarza"
 
 msgid "Browse all relationship types"
 msgstr "Przeglądaj wszystkie typy zależności"
@@ -532,6 +536,10 @@ msgstr "Imię i nazwisko użytkownika."
 
 msgid "The user's password for logging in."
 msgstr "Hasło logowania."
+
+#, fuzzy
+msgid "There is no collection at that URL."
+msgstr "Nie znaleziono zbioru w lokalizacji"
 
 msgid "There was an error writing to the database."
 msgstr "Wystąpił błąd zapisu do bazy danych."

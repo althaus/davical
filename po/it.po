@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-11-18 18:29+1300\n"
+"POT-Creation-Date: 2009-06-22 14:25+1200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -40,29 +40,21 @@ msgstr "--- seleziona l'utente o la risorsa ---"
 msgid "--- select a user, group or resource ---"
 msgstr "--- seleziona l'utente, gruppo di risorse ---"
 
-msgid ""
-"<b>WARNING: all events in this path will be deleted before inserting all of "
-"the ics file</b>"
+msgid "<b>WARNING: all events in this path will be deleted before inserting all of the ics file</b>"
 msgstr ""
-"<b>ATTENZIONE: tutti gli eventi in questo path saranno cancellati dall'"
-"inserimento del file ics</b>"
+"<b>ATTENZIONE: tutti gli eventi in questo path saranno cancellati dall'inserimento del file ics</b>"
 
-msgid ""
-"<b>WARNING: all events in this path will be deleted before inserting allof "
-"the ics file</b>"
+msgid "<b>WARNING: all events in this path will be deleted before inserting allof the ics file</b>"
 msgstr ""
-"<b>ATTENZIONE: tutti gli eventi in questo path saranno cancellati dall'"
-"inserimento del file ics</b>"
+"<b>ATTENZIONE: tutti gli eventi in questo path saranno cancellati dall'inserimento del file ics</b>"
 
 #, c-format
 msgid ""
-"<h1>Log On Please</h1><p>For access to the %s you should log on withthe "
-"username and password that have been issued to you.</p><p>If you would like "
-"to request access, please e-mail %s.</p>"
+"<h1>Log On Please</h1><p>For access to the %s you should log on withthe username and password that "
+"have been issued to you.</p><p>If you would like to request access, please e-mail %s.</p>"
 msgstr ""
-"<h1>Log On</h1><p>Per accedere a %s devi autenticarti con le credenziali "
-"username e password che ti sono state assegnate.</p><p>Se desideri ottenere "
-"un accesso, invia una richiesta e-mail a %s.</p>"
+"<h1>Log On</h1><p>Per accedere a %s devi autenticarti con le credenziali username e password che ti "
+"sono state assegnate.</p><p>Se desideri ottenere un accesso, invia una richiesta e-mail a %s.</p>"
 
 msgid "A collection already exists at that location."
 msgstr ""
@@ -102,6 +94,10 @@ msgid "All"
 msgstr "Tutti"
 
 msgid "Anonymous users are not allowed to modify calendars"
+msgstr "Gli utenti anonimi non sono autorizzati a modificare i calendari"
+
+#, fuzzy
+msgid "Anonymous users may only access public calendars"
 msgstr "Gli utenti anonimi non sono autorizzati a modificare i calendari"
 
 msgid "Browse all relationship types"
@@ -214,9 +210,7 @@ msgstr "Modifica %s"
 msgid "Edit this user record"
 msgstr "Modifica questo record utente"
 
-msgid ""
-"Enter a username, if you know it, and click here, to be e-mailed a temporary "
-"password."
+msgid "Enter a username, if you know it, and click here, to be e-mailed a temporary password."
 msgstr ""
 
 msgid "Enter the name for this resource type"
@@ -403,8 +397,7 @@ msgstr "Lettura"
 msgid "ReadWrite"
 msgstr "Lettura/Scrittura"
 
-msgid ""
-"Relationship <!-- in the sense of a work relationship between people -->"
+msgid "Relationship <!-- in the sense of a work relationship between people -->"
 msgstr ""
 
 msgid "Relationship Type Added."
@@ -443,9 +436,7 @@ msgstr "Segnala Bug"
 msgid "Report a bug in the system"
 msgstr ""
 
-msgid ""
-"Resource <!-- a thing which might be booked: a room, a carpark, a "
-"projector... -->"
+msgid "Resource <!-- a thing which might be booked: a room, a carpark, a projector... -->"
 msgstr ""
 
 msgid "Resource changed on server - not changed."
@@ -472,11 +463,10 @@ msgstr ""
 msgid "Select the user, resource or group to relate this user to"
 msgstr ""
 
-msgid ""
-"Set the path to store your ics e.g. 'home' will be referenced as /caldav.php/"
-"me/home/"
-msgstr "Impostare il percorso per memorizzare il file ics - es. 'home' - che "
-"sarà referenziato come /caldav.php/me/home/"
+msgid "Set the path to store your ics e.g. 'home' will be referenced as /caldav.php/me/home/"
+msgstr ""
+"Impostare il percorso per memorizzare il file ics - es. 'home' - che sarà referenziato come /caldav."
+"php/me/home/"
 
 msgid "Setup RSCDS"
 msgstr ""
@@ -518,8 +508,7 @@ msgid "The displayname may only be set on collections or principals."
 msgstr ""
 
 #, c-format
-msgid ""
-"The file %s is not UTF-8 encoded, please check the error for more details."
+msgid "The file %s is not UTF-8 encoded, please check the error for more details."
 msgstr ""
 
 msgid "The name this user can log into the system with."
@@ -541,6 +530,9 @@ msgid "The user's full name."
 msgstr ""
 
 msgid "The user's password for logging in."
+msgstr ""
+
+msgid "There is no collection at that URL."
 msgstr ""
 
 msgid "There was an error writing to the database."
@@ -652,26 +644,22 @@ msgid "drivers_ldap : Could not start TLS: ldap_start_tls() failed"
 msgstr ""
 
 #, c-format
-msgid ""
-"drivers_ldap : Failed to bind to host %1$s on port %2$s with bindDN of %3$s"
+msgid "drivers_ldap : Failed to bind to host %1$s on port %2$s with bindDN of %3$s"
+msgstr ""
+
+msgid "drivers_ldap : Failed to set LDAP to use protocol version 3, TLS not supported"
 msgstr ""
 
 msgid ""
-"drivers_ldap : Failed to set LDAP to use protocol version 3, TLS not "
-"supported"
-msgstr ""
-
-msgid ""
-"drivers_ldap : Unable to bind to LDAP - check your configuration for bindDN "
-"and passDN, and that your LDAP server is reachable"
+"drivers_ldap : Unable to bind to LDAP - check your configuration for bindDN and passDN, and that your "
+"LDAP server is reachable"
 msgstr ""
 
 #, c-format
 msgid "drivers_ldap : Unable to connect to LDAP with port %s on host %s"
 msgstr ""
 
-msgid ""
-"drivers_ldap : function ldap_connect not defined, check your php_ldap module"
+msgid "drivers_ldap : function ldap_connect not defined, check your php_ldap module"
 msgstr ""
 
 #, c-format
@@ -679,11 +667,9 @@ msgid "drivers_squid_pam : Unable to find %s file"
 msgstr ""
 
 msgid ""
-"forget me not <!-- this is a colloquial phrase in english (the name of a "
-"flower) and is an option allowing people to log in automatically in future --"
-">"
-msgstr ""
-"Mantieni aperta la connessione"
+"forget me not <!-- this is a colloquial phrase in english (the name of a flower) and is an option "
+"allowing people to log in automatically in future -->"
+msgstr "Mantieni aperta la connessione"
 
 msgid "forget me not"
 msgstr "Mantieni aperta la connessione"
@@ -694,20 +680,15 @@ msgstr ""
 msgid "path to store your ics"
 msgstr "percorso dove memorizzare il file ics"
 
-msgid ""
-"set the path to store your ics ex:home if you get it by caldav.php/me/home/"
+msgid "set the path to store your ics ex:home if you get it by caldav.php/me/home/"
 msgstr ""
 
 #, c-format
 msgid "the file %s is not UTF-8 encoded, please check error for more details"
 msgstr ""
 
-msgid ""
-"you should log on with the username and password that have been issued to "
-"you."
+msgid "you should log on with the username and password that have been issued to you."
 msgstr ""
 
-msgid ""
-"This operation does the following: <ul><li>check valid users in LDAP "
-"directory</li>"
+msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
 msgstr ""
