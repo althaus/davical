@@ -1,0 +1,25 @@
+#
+# Testing with a process similar to iPhone 3
+#
+TYPE=REPORT
+URL=http://mycaldav/caldav.php/user1/home/
+HEAD
+
+AUTH=user1:user1
+
+HEADER=User-Agent: DAVKit/4.0 (728.3); iCalendar/1 (34); iPhone/3.0 7A341
+HEADER=Content-Type: text/xml
+
+BEGINDATA
+<?xml version="1.0" encoding="utf-8" ?>
+<x0:calendar-multiget xmlns:x0="urn:ietf:params:xml:ns:caldav" xmlns:x1="DAV:">
+ <x1:prop>
+  <x1:getetag/>
+  <x0:calendar-data/>
+ </x1:prop>
+ <x1:href>/caldav.php/user1/home/e70576e9-c1e0-431e-a507-0386fd82f223.ics</x1:href>
+ <x1:href>/caldav.php/user1/home/71e2ae82-7870-11db-c6d6-f6927c144649.ics</x1:href>
+ <x1:href>/caldav.php/user1/home/da81c0ee-7871-11db-c6d6-f6927c144649.ics</x1:href>
+ <x1:href>/caldav.php/user1/home/AAA9318E-37D9-4319-8626-95ECD3D3B243.ics</x1:href>
+</x0:calendar-multiget>
+ENDDATA
