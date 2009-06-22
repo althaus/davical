@@ -24,6 +24,8 @@
 * using format rules as for printf and related functions.
 */
 // $c->dbg["ALL"] = 1;
+// $c->dbg["request"] = 1;   // The request headers & content
+// $c->dbg['response'] = 1;  // The response headers & content
 // $c->dbg["component"] = 1;
 // $c->dbg['caldav'] = 1;
 // $c->dbg['querystring'] = 1;
