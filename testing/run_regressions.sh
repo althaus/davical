@@ -88,7 +88,7 @@ TEST="Create-Database"
 ../dba/create-database.sh ${DBNAME} 'nimda' >"${RESULTS}/${TEST}" 2>&1
 check_result "${TEST}"
 
-TEST="Upgrade Database"
+TEST="Upgrade-Database"
 ../dba/update-davical-database --dbname=${DBNAME} --nopatch --appuser davical_app --owner davical_dba >"${RESULTS}/${TEST}" 2>&1
 check_result "${TEST}"
 
