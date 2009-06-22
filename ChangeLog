@@ -1,0 +1,36 @@
+2009-06-22  Andrew McMillan <andrew@morphoss.com>
+
+	* Release 0.9.7
+
+2009-06-22  Andrew McMillan <andrew@morphoss.com>
+
+	* Add debug logging of response/request and related headers.
+
+2009-06-20  Andrew McMillan <andrew@morphoss.com>
+
+	* Various fixes for compatibility with iPhone v3 OS.
+
+2009-06-16  Andrew McMillan <andrew@morphoss.com>
+
+	* Align freebusy.php parameter handling with proposed standard.
+
+2009-06-15  Andrew McMillan <andrew@morphoss.com>
+
+	* Allow free/busy permission to grant access to obfuscated calendar.
+
+2009-06-13  Andrew McMillan <andrew@morphoss.com>
+
+	* Stubbed implementation of calendar proxy.
+
+2009-05-12  Andrew McMillan <andrew@morphoss.com>
+
+	* Switch to RRULE functions for more accurate overlap calculation.
+
+2009-04-17  Andrew McMillan  <andrew@morphoss.com>
+
+        * Added support for publicly_readable attribute of collection
+          when accessing a /public.php/user/collection/ path.
+
+2009-04-11  Andrew McMillan <andrew@morphoss.com>
+
+	* Allow configuration of site wide user default values.
