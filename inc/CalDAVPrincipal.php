@@ -443,7 +443,7 @@ class CalDAVPrincipal
           break;
 
         default:
-          dbg_error_log( 'principal', "Request for unsupported property '%s' of principal.", $this->username );
+          dbg_error_log( 'principal', "Request for unsupported property '%s' of principal '%s'.", $tag, $this->username );
           $not_found[] = $reply->Tag($tag);
           break;
       }
