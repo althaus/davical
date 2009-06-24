@@ -16,7 +16,7 @@
 </ol>
 
 <h2>Caveats</h2>
-<p>DAViCal does not support the draft scheduling extensions to CalDAV, so you will not see the full functionality
+<p>DAViCal does not fully support the draft scheduling extensions to CalDAV, so you will not see the full functionality
   of iCal.</p>
 <p>iCal does not let you browse the calendar hierarchy to find other calendars you could view, so you will not
   see the full functionality of DAViCal either.</p>
