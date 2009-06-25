@@ -33,10 +33,10 @@ client application.</p>
 
 <h2>Screenshots</h2>
 <table border="none" cellpadding="2" cellspacing="2">
-<tr><td><img src="clients/iPhone-1.jpg"></td><td><img src="clients/iPhone-2.jpg"></td></tr>
-<tr><td>Adding an Account<br>&nbsp;</td><td>Oh noes! Click Cancel!</td></tr>
-<tr><td><img src="clients/iPhone-3.jpg"></td><td><img src="clients/iPhone-4.jpg"></td></tr>
+<tr><td><img src="clients/iPhone-1.jpg" alt="iPhone Screenshot" /></td><td><img src="clients/iPhone-2.jpg" alt="iPhone Screenshot" /></td></tr>
+<tr><td>Adding an Account</td><td>Oh noes! Click Cancel!</td></tr>
+<tr><td><img src="clients/iPhone-3.jpg" alt="iPhone Screenshot" /></td><td><img src="clients/iPhone-4.jpg" alt="iPhone Screenshot" /></td></tr>
 <tr><td>Aha!  There are "Advanced Settings" :-)</td><td>Hmmm... these things seem familiar...</td></tr>
-<tr><td><img src="clients/iPhone-5.jpg"></td><td><img src="clients/iPhone-6.jpg"></td></tr>
+<tr><td><img src="clients/iPhone-5.jpg" alt="iPhone Screenshot" /></td><td><img src="clients/iPhone-6.jpg" alt="iPhone Screenshot" /></td></tr>
 <tr><td>Typical settings for non-ssl, port 80</td><td>It works!</td></tr>
 </table>
