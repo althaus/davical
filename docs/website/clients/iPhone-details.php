@@ -16,13 +16,12 @@
 </ol>
 
 <h2>Other Settings</h2>
-<p>You may want to go into some of the other settings under "Mail, Contacts, Calendars" and set some of the other settings, including:
+<p>You may want to go into some of the other settings under "Mail, Contacts, Calendars" and set some of the other settings, including:</p>
 <ul>
 <li>Fetch New Data</li>
 <li>Time Zone Support</li>
 <li>Default Calendar</li>
 </ul>
-</p>
 <p>
 All of these should be obvious.  You can choose the calendar which an event goes into
 when you create the event, but if you want to move it to a different calendar you will
@@ -33,7 +32,6 @@ does support the more arcane possibilities which you could create with a differe
 client application.</p>
 
 <h2>Screenshots</h2>
-<p>
 <table border="none" cellpadding="2" cellspacing="2">
 <tr><td><img src="clients/iPhone-1.jpg"></td><td><img src="clients/iPhone-2.jpg"></td></tr>
 <tr><td>Adding an Account<br>&nbsp;</td><td>Oh noes! Click Cancel!</td></tr>
@@ -42,5 +40,3 @@ client application.</p>
 <tr><td><img src="clients/iPhone-5.jpg"></td><td><img src="clients/iPhone-6.jpg"></td></tr>
 <tr><td>Typical settings for non-ssl, port 80</td><td>It works!</td></tr>
 </table>
-
-</p>

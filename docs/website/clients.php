@@ -47,7 +47,7 @@
     $style = (strcmp($client_page,$v) == 0 ? ' class="selected"' : '' );
     printf( '<p%s><a%s href="clients.php?client=%s">', $style, $style, urlencode($v) );
     if ( isset($icons[$v]) ) {
-      printf( '<img src="clients/%s"><br />', urlencode($icons[$v]) );
+      printf( '<img src="clients/%s" alt="%s" /><br />', urlencode($icons[$v]), urlencode($v) );
     }
     echo "$v</a></p>\n";
   }
