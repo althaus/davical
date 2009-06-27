@@ -35,11 +35,7 @@ if ( !$session->AllowedTo("Admin") && ($user_no == 0 || $user_no != $session->us
     $browser->SetWhere( "dav_name ~ " . qpg("^".$_GET['dav_name']."[^/]+$") );
   }
 
-  if ( isset( $_GET['o']) && isset($_GET['d']) ) {
-    $browser->AddOrder( $_GET['o'], $_GET['d'] );
-  }
-  else
-    $browser->AddOrder( 'dtstart', 'A' );
+  $browser->SetOrdering( 'dtstart', 'ASC', 1 );
 
   $browser->RowFormat( "<tr class=\"r%d\">\n", "</tr>\n", '#even' );
 
