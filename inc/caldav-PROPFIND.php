@@ -55,7 +55,7 @@ foreach( $request->xml_tags AS $k => $v ) {
     case 'DAV::principal-URL':                  /** should work fine */
     case 'DAV::owner':                          /** should work fine */
     case 'DAV::resourcetype':                   /** should work fine */
-    case 'DAV::current-user-principal':         /** only vaguely supported */
+    case 'DAV::current-user-principal':         /** should work fine */
     case 'DAV::getcontentlanguage':             /** should return the user's chosen locale, or default locale */
     case 'DAV::current-user-privilege-set':     /** only vaguely supported */
     case 'DAV::allprop':                        /** limited support, needs to be checked for correctness at some point */
