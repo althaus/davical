@@ -55,8 +55,14 @@ function handle_freebusy_request( $ic ) {
       $request->DoResponse( 400, 'All valid freebusy requests MUST contain a DTSTART and a DTEND' );
     }
 
-    $qry = new PgQuery("SELECT get_permissions(?,user_no) AS p FROM usr WHERE usr.email = ?", $session->user_no, $attendee_email );
+    /** @TODO: Refactor this so we only do one query here and loop through the results */
+    $qry = new PgQuery("SELECT get_permissions(?,user_no) AS p FROM usr WHERE lower(usr.email) = lower(?)", $session->user_no, $attendee_email );
     if ( !$qry->Exec("POST") ) $request->DoResponse( 501, 'Database error');
+    if ( $qry->rows > 1 ) {
+      // Unlikely, but if we get more than one result we'll do an exact match instead.
+      $qry = new PgQuery("SELECT get_permissions(?,user_no) AS p FROM usr WHERE usr.email = ?", $session->user_no, $attendee_email );
+      if ( !$qry->Exec("POST") ) $request->DoResponse( 501, 'Database error');
+    }
 
     $response = $reply->NewXMLElement("response", false, false, 'urn:ietf:params:xml:ns:caldav');
     $reply->CalDAVElement($response, "recipient", $reply->href($attendee->Value()) );
