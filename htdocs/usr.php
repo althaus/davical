@@ -6,10 +6,10 @@
   $session->LoginRequired();
   require_once("interactive-page.php");
 
-  require_once("RSCDSUser.php");
+  require_once("DAViCalUser.php");
 
   $user_no = intval(isset($_POST['user_no']) ? $_POST['user_no'] : (isset($_GET['user_no'])?$_GET['user_no']:0) );
-  $user = new RSCDSUser($user_no);
+  $user = new DAViCalUser($user_no);
   if ( $user->user_no == 0 ) {
     $c->page_title = ( $user_no != "" ? translate("User Unavailable") : translate("New User") );
   }
@@ -26,7 +26,7 @@
         $user->PostToValues();
         if ( $user->Validate() ) {
           $user->Write();
-          $user = new RSCDSUser($user->user_no);
+          $user = new DAViCalUser($user->user_no);
           $user->EditMode = true;
           if ( $user->user_no == 0 ) {
             $c->page_title = ( $user_no != "" ? translate("User Unavailable") : translate("New User") );
@@ -70,7 +70,7 @@
         * Handle any actions, such as 'delete_relation'
         */
         if ( $user->HandleAction($_GET['action']) ) {
-          $user = new RSCDSUser($user->user_no);
+          $user = new DAViCalUser($user->user_no);
           $user->EditMode = true;
         }
       }

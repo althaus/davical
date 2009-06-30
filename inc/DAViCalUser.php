@@ -3,7 +3,7 @@
 * User maintain / view with DAViCal specific associated tables
 *
 * @package   davical
-* @subpackage   RSCDSUser
+* @subpackage   DAViCalUser
 * @author    Andrew McMillan <andrew@mcmillan.net.nz>
 * @copyright Catalyst .Net Ltd, Morphoss Ltd <http://www.morphoss.com/>
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v2
@@ -21,7 +21,7 @@ $c->scripts[] = "$c->base_url/js/browse.js";
 *
 * @package   davical
 */
-class RSCDSUser extends User
+class DAViCalUser extends User
 {
 
   var $delete_collection_confirmation_required;
@@ -29,7 +29,7 @@ class RSCDSUser extends User
   /**
   * Constructor - nothing fancy as yet.
   */
-  function RSCDSUser( $id , $prefix = "") {
+  function DAViCalUser( $id , $prefix = "") {
     global $c;
     $this->delete_collection_confirmation_required = null;
     parent::User( $id, $prefix );

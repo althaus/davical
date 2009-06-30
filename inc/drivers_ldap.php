@@ -334,7 +334,7 @@ function sync_LDAP(){
       $db_users[] = $db_user['username'];
       $db_users_info[$db_user['username']] = array('user_no' => $db_user['user_no'], 'updated' => $db_user['updated']);
     }
-    include_once("RSCDSUser.php");
+    include_once("DAViCalUser.php");
 
     $ldap_users = array_keys($ldap_users_info);
     // users only in ldap
