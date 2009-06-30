@@ -8,7 +8,7 @@ if ( $_SERVER['REQUEST_METHOD'] != "GET" && $_SERVER['REQUEST_METHOD'] != "POST"
 }
 
 include("../inc/always.php");
-include("RSCDSSession.php");
+include("DAViCalSession.php");
 $session->LoginRequired();
 
 include("interactive-page.php");

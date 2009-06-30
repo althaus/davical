@@ -3,14 +3,14 @@
 * Tools for manipulating calendars
 *
 * @package   davical
-* @subpackage   RSCDSSession
+* @subpackage   DAViCalSession
 * @author    Maxime Delorme <mdelorme@tennaxia.com>
 * @copyright Maxime Delorme
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v2
 */
 
 require_once("../inc/always.php");
-require_once("RSCDSSession.php");
+require_once("DAViCalSession.php");
 $session->LoginRequired();
 
 require_once("DataEntry.php");

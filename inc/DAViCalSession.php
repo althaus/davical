@@ -3,7 +3,7 @@
 * DAViCal extensions to AWL Session handling
 *
 * @package   davical
-* @subpackage   RSCDSSession
+* @subpackage   DAViCalSession
 * @author Andrew McMillan <andrew@mcmillan.net.nz>
 * @copyright Catalyst .Net Ltd, Morphoss Ltd <http://www.morphoss.com/>
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v2
@@ -48,18 +48,18 @@ require_once('Session.php');
 *
 * @package   davical
 */
-class RSCDSSession extends Session
+class DAViCalSession extends Session
 {
 
   /**
-  * Create a new RSCDSSession object.
+  * Create a new DAViCalSession object.
   *
   * We create a Session and extend it with some additional useful RSCDS
   * related information.
   *
   * @param string $sid A session identifier.
   */
-  function RSCDSSession( $sid="" ) {
+  function DAViCalSession( $sid="" ) {
     $this->Session($sid);
   }
 
@@ -85,7 +85,7 @@ class RSCDSSession extends Session
     $this->roles = array();
     $sql = 'SELECT role_name FROM roles JOIN role_member ON roles.role_no=role_member.role_no WHERE user_no = '.$this->user_no.';';
     $qry = new PgQuery( $sql );
-    if ( $qry->Exec('RSCDSSession') && $qry->rows > 0 ) {
+    if ( $qry->Exec('DAViCalSession') && $qry->rows > 0 ) {
       while( $role = $qry->Fetch() ) {
         $this->roles[$role->role_name] = 1;
       }
@@ -100,10 +100,10 @@ class RSCDSSession extends Session
     $this->relationships = array();
     $sql = 'SELECT relationship.rt_id, rt_name, confers FROM relationship JOIN relationship_type USING (rt_id) WHERE from_user = '.$this->user_no;
     $qry = new PgQuery( $sql );
-    if ( $qry->Exec('RSCDSSession') && $qry->rows > 0 ) {
+    if ( $qry->Exec('DAViCalSession') && $qry->rows > 0 ) {
       while( $relationship = $qry->Fetch() ) {
         $this->relationships[$relationship->rt_id] = $relationship;
-        dbg_error_log( "RSCDSSession", "Relationships: %d - %s - %d - %s - %s -", $relationship->rt_id, $relationship->rt_name, $relationship->confers );
+        dbg_error_log( "DAViCalSession", "Relationships: %d - %s - %d - %s - %s -", $relationship->rt_id, $relationship->rt_name, $relationship->confers );
       }
     }
   }
@@ -155,7 +155,7 @@ class RSCDSSession extends Session
   }
 }
 
-$session = new RSCDSSession();
+$session = new DAViCalSession();
 $session->_CheckLogin();
 
 ?>

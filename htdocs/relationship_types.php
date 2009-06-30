@@ -1,6 +1,6 @@
 <?php
 require_once("../inc/always.php");
-require_once("RSCDSSession.php");
+require_once("DAViCalSession.php");
 $session->LoginRequired();
 
 require_once("interactive-page.php");
