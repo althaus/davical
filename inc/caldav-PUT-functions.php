@@ -593,6 +593,10 @@ function putCalendarResource( &$request, $author, $caldav_context ) {
   COMMIT;
 EOSQL;
 
+  if ( function_exists('log_caldav_action') ) {
+    log_caldav_action( $put_action_type, $first->GetPValue('UID'), $request->user_no, $request->collection_id, $request->path );
+  }
+
   $qry = new PgQuery( $sql, $request->user_no, $request->path, $etag, $first->GetPValue('UID'), $dtstamp,
                             $first->GetPValue('DTSTART'), $first->GetPValue('SUMMARY'), $first->GetPValue('LOCATION'),
                             $class, $first->GetPValue('TRANSP'), $first->GetPValue('DESCRIPTION'), $first->GetPValue('RRULE'), $tzid,

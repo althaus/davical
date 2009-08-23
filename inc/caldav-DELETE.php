@@ -66,7 +66,7 @@ else {
   /**
   * We read the resource first, so we can check if it matches (or does not match)
   */
-  $qry = new PgQuery( "SELECT * FROM caldav_data WHERE user_no = ? AND dav_name = ?;", $request->user_no, $request->path );
+  $qry = new PgQuery( "SELECT dav_etag, uid FROM caldav_data JOIN calendar_item USING (dav_id) WHERE user_no = ? AND dav_name = ?;", $request->user_no, $request->path );
   if ( $qry->Exec("DELETE") && $qry->rows == 1 ) {
     $delete_row = $qry->Fetch();
     if ( (isset($request->etag_if_match) && $request->etag_if_match != $delete_row->dav_etag) ) {
@@ -76,6 +76,9 @@ else {
     if ( $qry->Exec("DELETE") ) {
       $qry = new PgQuery( "DELETE FROM property WHERE dav_name = ?;", $request->path ); $qry->Exec("DELETE"); /** @todo we should write a trigger to delete property records when caldav_data or collection is deleted */
       @dbg_error_log( "DELETE", "DELETE: User: %d, ETag: %s, Path: %s", $session->user_no, $request->etag_if_match, $request->path);
+      if ( function_exists('log_caldav_action') ) {
+        log_caldav_action( 'DELETE', $delete_row->uid, $request->user_no, $request->collection_id, $request->path );
+      }
       $request->DoResponse( 204 );
     }
     else {
