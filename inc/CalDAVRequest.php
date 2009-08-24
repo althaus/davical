@@ -186,7 +186,12 @@ class CalDAVRequest
     *     the minimum privileges returned from that analysis.
     */
     $this->path = (isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : "");
-    if ( $this->path == null || $this->path == '' ) $this->path = '/';
+    if ( $this->path == null || $this->path == '' ) {
+      $this->path = '/';
+    }
+    else {
+      $this->path = rawurldecode($this->path);
+    }
     // dbg_error_log( "caldav", "Sanitising path '%s'", $this->path );
     $bad_chars_regex = '/[\\^\\[\\(\\\\]/';
     if ( preg_match( $bad_chars_regex, $this->path ) ) {
