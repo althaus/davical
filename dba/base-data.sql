@@ -21,7 +21,7 @@ INSERT INTO relationship_type ( rt_id, rt_name, confers )
     VALUES( 1, 'Administers', 'A' );
 
 INSERT INTO relationship_type ( rt_id, rt_name, confers )
-    VALUES( 2, 'is Assistant to', 'RW' );
+    VALUES( 2, 'Can read/write to', 'RW' );
 
 INSERT INTO relationship_type ( rt_id, rt_name, confers )
     VALUES( 3, 'Can read from', 'R' );
