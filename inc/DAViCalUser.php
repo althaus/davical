@@ -199,17 +199,19 @@ class DAViCalUser extends User
     * Present an extra editable row at the bottom of the browse.
     */
     if ( $ef->EditMode ) { // && $session->AllowedTo("MaintainRelationships") ) {
-      $sql = <<<EOSQL
-SELECT user_no, fullname FROM usr
- WHERE NOT EXISTS ( SELECT 0 FROM relationship WHERE (from_user = usr.user_no AND to_user = $this->user_no))
-   AND user_no != $this->user_no ORDER BY fullname
-EOSQL;
       if ( isset($this->roles['Group']) ) {
         /**
         * We only allow individuals to link to groups at this stage.
         */
-        $sql .= 'AND NOT EXISTS (SELECT 1 FROM role_member WHERE role_no = 2 AND user_no=usr.user_no)';
+        $groupsql = 'AND NOT EXISTS (SELECT 1 FROM role_member WHERE role_no = 2 AND user_no=usr.user_no)';
       }
+      else $groupsql = '';
+
+      $sql = <<<EOSQL
+SELECT user_no, fullname FROM usr
+ WHERE NOT EXISTS ( SELECT 0 FROM relationship WHERE (from_user = usr.user_no AND to_user = $this->user_no))
+   AND user_no != $this->user_no $groupsql ORDER BY fullname
+EOSQL;
 
       if ( ! isset($this->roles['Group']) )
         $nullvalue = translate( "--- select a user, group or resource ---" );
