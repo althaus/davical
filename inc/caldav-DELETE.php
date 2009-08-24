@@ -66,7 +66,7 @@ else {
   /**
   * We read the resource first, so we can check if it matches (or does not match)
   */
-  $qry = new PgQuery( "SELECT dav_etag, uid FROM caldav_data JOIN calendar_item USING (dav_id) WHERE user_no = ? AND dav_name = ?;", $request->user_no, $request->path );
+  $qry = new PgQuery( "SELECT cd.dav_etag, ci.uid FROM caldav_data cd JOIN calendar_item ci USING (dav_id) WHERE cd.user_no = ? AND cd.dav_name = ?;", $request->user_no, $request->path );
   if ( $qry->Exec("DELETE") && $qry->rows == 1 ) {
     $delete_row = $qry->Fetch();
     if ( (isset($request->etag_if_match) && $request->etag_if_match != $delete_row->dav_etag) ) {
