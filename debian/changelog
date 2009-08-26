@@ -1,3 +1,11 @@
+davical (0.9.7.1-0) unstable; urgency=low
+
+  * New upstream release.
+  * Updated french translation from Christian Perrier (closes: #537715)
+  * Allow postgresql-client-8.4 as a possible dependency.
+
+ -- Andrew McMillan <debian@mcmillan.net.nz>  Mon, 24 Aug 2009 12:32:51 +1200
+
 davical (0.9.7-0) unstable; urgency=low
 
   * New upstream release.

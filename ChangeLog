@@ -1,9 +1,22 @@
+2009-08-24 Andrew McMillan <andrew@morphoss.com>
+
+	* Fix broken SQL when selecting user list for group.
+	* Ensure incoming URLs are decoded before we process them.
+	* Add ability to log caldav actions
+	* Updated French translation.
+
+2008-06-30 Andrew McMillan <andrew@morphoss.com>
+
+	* Remove the out of date update-rscds-database script.
+	* Rename RSCDS*(.php) to DAViCal*(.php)
+	* Rename RSCDSUser (.php) to DAViCalUser (.php)
+
+2009-06-27  Andrew McMillan <andrew@morphoss.com>
+	* Make e-mail lookup be case-insensitive if possible
+
 2009-06-22  Andrew McMillan <andrew@morphoss.com>
 
 	* Release 0.9.7
-
-2009-06-22  Andrew McMillan <andrew@morphoss.com>
-
 	* Add debug logging of response/request and related headers.
 
 2009-06-20  Andrew McMillan <andrew@morphoss.com>
