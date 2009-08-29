@@ -36,11 +36,12 @@ function rollback_on_error( $caldav_context, $user_no, $path, $message='', $erro
   if ( $caldav_context ) {
     global $request;
     $request->DoResponse( $error_no, $message );
+    // and we don't return from that, ever...
   }
-  else {
-    global $c;
-    $c->messages[] = sprintf("Status: %d, Message: %s, User: %d, Path: %s", $error_no, $message, $user_no, $path);
-  }
+
+  global $c;
+  $c->messages[] = sprintf("Status: %d, Message: %s, User: %d, Path: %s", $error_no, $message, $user_no, $path);
+
 }
 
 
@@ -381,14 +382,14 @@ EOSQL;
 
 
 /**
-* Put the resource from this request
+* Put the resource from this request - does some checking of things before
+* calling write_event to do the actual writing (without any checking).
 * @param object $request A reference to the request object
 * @param int $author The user_no who wants to put this resource on the server
 * @param boolean $caldav_context Whether we are responding via CalDAV or interactively
 * @return string Either 'INSERT' or 'UPDATE': the type of action that the PUT resulted in
 */
 function putCalendarResource( &$request, $author, $caldav_context ) {
-  global $tz_regex;
 
   $etag = md5($request->raw_post);
   $ic = new iCalComponent( $request->raw_post );
@@ -454,20 +455,55 @@ function putCalendarResource( &$request, $author, $caldav_context ) {
     }
   }
 
+  write_resource( $request->user_no, $request->path, $request->raw_post, $request->collection_id,
+                                $author, $etag, $ic, $put_action_type, $caldav_context, $log_action=true );
+
+  if ( $caldav_context ) {
+    header(sprintf('ETag: "%s"', $etag) );
+  }
+
+  return $put_action_type;
+}
+
+/**
+* Actually write the resource to the database.  All checking of whether this is reasonable
+* should be done before this is called.
+* @param int $user_no The user_no owning this resource on the server
+* @param string $path The path to the resource being written
+* @param string $caldav_data The actual resource to be written
+* @param int $collection_id The ID of the collection containing the resource being written
+* @param int $author The user_no who wants to put this resource on the server
+* @param string $etag An etag unique for this event
+* @param object $ic The parsed iCalendar object
+* @param string $put_action_type INSERT or UPDATE depending on what we are to do
+* @param boolean $caldav_context True, if we are responding via CalDAV, false for other ways of calling this
+* @param string Either 'INSERT' or 'UPDATE': the type of action we are doing
+* @param boolean $log_action Whether to log the fact that we are writing this into an action log (if configured)
+* @return boolean True for success, false for failure.
+*/
+function write_resource( $user_no, $path, $caldav_data, $collection_id, $author, $etag, $ic, $put_action_type, $caldav_context, $log_action=true ) {
+  global $tz_regex;
+
   $resources = $ic->GetComponents('VTIMEZONE',false); // Not matching VTIMEZONE
   $first = $resources[0];
 
   if ( $put_action_type == 'INSERT' ) {
     create_scheduling_requests($vcal);
     $qry = new PgQuery( "BEGIN; INSERT INTO caldav_data ( user_no, dav_name, dav_etag, caldav_data, caldav_type, logged_user, created, modified, collection_id ) VALUES( ?, ?, ?, ?, ?, ?, current_timestamp, current_timestamp, ? )",
-                           $request->user_no, $request->path, $etag, $request->raw_post, $first->GetType(), $author, $request->collection_id );
-    if ( !$qry->Exec("PUT") ) rollback_on_error( $caldav_context, $request->user_no, $request->path);
+                           $user_no, $path, $etag, $caldav_data, $first->GetType(), $author, $collection_id );
+    if ( !$qry->Exec("PUT") ) {
+      rollback_on_error( $caldav_context, $user_no, $path);
+      return false;
+    }
   }
   else {
     update_scheduling_requests($vcal);
     $qry = new PgQuery( "BEGIN;UPDATE caldav_data SET caldav_data=?, dav_etag=?, caldav_type=?, logged_user=?, modified=current_timestamp WHERE user_no=? AND dav_name=?",
-                           $request->raw_post, $etag, $first->GetType(), $author, $request->user_no, $request->path );
-    if ( !$qry->Exec("PUT") ) rollback_on_error( $caldav_context, $request->user_no, $request->path);
+                           $caldav_data, $etag, $first->GetType(), $author, $user_no, $path );
+    if ( !$qry->Exec("PUT") ) {
+      rollback_on_error( $caldav_context, $user_no, $path);
+      return false;
+    }
   }
 
   $dtstart = $first->GetPValue('DTSTART');
@@ -522,7 +558,8 @@ function putCalendarResource( &$request, $author, $caldav_context ) {
 
   $class = $first->GetPValue("CLASS");
   /* Check and see if we should over ride the class. */
-  if ( public_events_only($request->user_no, $request->path) ) {
+  /** @TODO: is there some way we can move this out of this function? Or at least get rid of the need for the SQL query here. */
+  if ( public_events_only($user_no, $path) ) {
     $class = 'PUBLIC';
   }
 
@@ -584,7 +621,7 @@ function putCalendarResource( &$request, $author, $caldav_context ) {
   }
 
   if ( $put_action_type != 'INSERT' ) {
-    $sql .= "DELETE FROM calendar_item WHERE user_no=$request->user_no AND dav_name=".qpg($request->path).";";
+    $sql .= "DELETE FROM calendar_item WHERE user_no=$user_no AND dav_name=".qpg($path).";";
   }
   $sql .= <<<EOSQL
   INSERT INTO calendar_item (user_no, dav_name, dav_etag, uid, dtstamp, dtstart, dtend, summary, location, class, transp,
@@ -593,21 +630,51 @@ function putCalendarResource( &$request, $author, $caldav_context ) {
   COMMIT;
 EOSQL;
 
-  if ( function_exists('log_caldav_action') ) {
-    log_caldav_action( $put_action_type, $first->GetPValue('UID'), $request->user_no, $request->collection_id, $request->path );
+  if ( $log_action && function_exists('log_caldav_action') ) {
+    log_caldav_action( $put_action_type, $first->GetPValue('UID'), $user_no, $collection_id, $path );
   }
 
-  $qry = new PgQuery( $sql, $request->user_no, $request->path, $etag, $first->GetPValue('UID'), $dtstamp,
+  $qry = new PgQuery( $sql, $user_no, $path, $etag, $first->GetPValue('UID'), $dtstamp,
                             $first->GetPValue('DTSTART'), $first->GetPValue('SUMMARY'), $first->GetPValue('LOCATION'),
                             $class, $first->GetPValue('TRANSP'), $first->GetPValue('DESCRIPTION'), $first->GetPValue('RRULE'), $tzid,
                             $last_modified, $first->GetPValue('URL'), $first->GetPValue('PRIORITY'), $first->GetPValue('CREATED'),
-                            $first->GetPValue('DUE'), $first->GetPValue('PERCENT-COMPLETE'), $first->GetPValue('STATUS'), $request->collection_id
+                            $first->GetPValue('DUE'), $first->GetPValue('PERCENT-COMPLETE'), $first->GetPValue('STATUS'), $collection_id
                       );
-  if ( !$qry->Exec("PUT") ) rollback_on_error( $caldav_context, $request->user_no, $request->path);
-  dbg_error_log( "PUT", "User: %d, ETag: %s, Path: %s", $author, $etag, $request->path);
+  if ( !$qry->Exec("PUT") ) {
+    rollback_on_error( $caldav_context, $user_no, $path);
+    return false;
+  }
+  dbg_error_log( "PUT", "User: %d, ETag: %s, Path: %s", $author, $etag, $path);
 
-  header(sprintf('ETag: "%s"', (isset($bogus_etag) ? $bogus_etag : $etag) ) );
-
-  return $put_action_type;
+  return true;  // Success!
 }
 
+
+
+/**
+* A slightly simpler version of write_resource which will make more sense for calling from
+* an external program.  This makes assumptions that the collection and user do exist
+* and bypasses all checks for whether it is reasonable to write this here.
+* @param string $path The path to the resource being written
+* @param string $caldav_data The actual resource to be written
+* @param string $put_action_type INSERT or UPDATE depending on what we are to do
+* @return boolean True for success, false for failure.
+*/
+function simple_write_resource( $path, $caldav_data, $put_action_type ) {
+
+  $etag = md5($caldav_data);
+  $ic = new iCalComponent( $caldav_data );
+
+  /**
+  * We pull the user_no & collection_id out of the collection table, based on the resource path
+  */
+  $collection_path = preg_replace( '#/[^/]*$#', '/', $path );
+  $qry = new PgQuery( "SELECT user_no, collection_id FROM collection WHERE dav_name = ? ", $collection_path );
+  if ( $qry->Exec('PUT:simple_write_resource') && $qry->rows == 1 ) {
+    $collection = $qry->Fetch();
+    $user_no = $collection->user_no;
+
+    return write_resource( $user_no, $path, $caldav_data, $collection->collection_id, $user_no, $etag, $ic, $put_action_type, false, false );
+  }
+  return false;
+}
