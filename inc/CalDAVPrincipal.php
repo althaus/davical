@@ -113,8 +113,7 @@ class CalDAVPrincipal
       else if ( isset($parameters['user_no']) ) {
         $usr = getUserByID($parameters['user_no']);
       }
-      else if ( isset($parameters['email']) && isset($parameters['options']['allow_by_email']) ) {
-        $parameters['options']['allow_by_email'] = false;
+      else if ( isset($parameters['email']) && $parameters['options']['allow_by_email'] ) {
         if ( $username = $this->UsernameFromEMail($parameters['email']) ) {
           $usr = getUserByName($username);
           $this->by_email = true;
@@ -124,9 +123,6 @@ class CalDAVPrincipal
         dbg_error_log( "principal", "Finding Principal from path: '%s', options.allow_by_email: '%s'", $parameters['path'], $parameters['options']['allow_by_email'] );
         if ( $username = $this->UsernameFromPath($parameters['path'], $parameters['options']) ) {
           $usr = getUserByName($username);
-          if ( isset($parameters['options']['allow_by_email']) && is_object($usr) && preg_match( '#/(\S+@\S+[.]\S+)$#', $parameters['path']) ) {
-            $this->by_email = true;
-          }
         }
       }
       else if ( isset($parameters['principal-property-search']) ) {
@@ -252,7 +248,7 @@ class CalDAVPrincipal
     $username = $path_split[1];
     if ( substr($username,0,1) == '~' ) $username = substr($username,1);
 
-    if ( isset($options['allow_by_email']) && preg_match( '#/(\S+@\S+[.]\S+)$#', $path, $matches) ) {
+    if ( isset($options['allow_by_email']) && $options['allow_by_email'] && preg_match( '#/(\S+@\S+[.]\S+)$#', $path, $matches) ) {
       $email = $matches[1];
       $qry = new PgQuery("SELECT user_no, username FROM usr WHERE email = ?;", $email );
       if ( $qry->Exec("principal") && $user = $qry->Fetch() ) {

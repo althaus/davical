@@ -266,7 +266,7 @@ EOSQL;
         header( "Content-Location: ".ConstructURL($this->path) );
       }
     }
-    else if ( preg_match( '#^/(\S+@\S+[.]\S+)/?$#', $this->path) ) {
+    else if ( $this->options['allow_by_email'] && preg_match( '#^/(\S+@\S+[.]\S+)/?$#', $this->path) ) {
       /** @TODO: we should deprecate this now that Evolution 2.27 can do scheduling extensions */
       $this->collection_id = -1;
       $this->collection_type = 'email';
