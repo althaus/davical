@@ -183,33 +183,36 @@ class CalDAVPrincipal
     $this->write_proxy_group = array();
     $this->write_proxy_for = array();
     $this->read_proxy_for = array();
-    // whom are we a proxy for? who is a proxy for us?
-    // (as per Caldav Proxy section 5.1 Paragraph 7 and 5)
-    $qry = new PgQuery("SELECT from_user.user_no AS from_user_no, from_user.username AS from_username,".
-					   "get_permissions(from_user.user_no, to_user.user_no) AS confers,".
-					   "to_user.user_no AS to_user_no, to_user.username AS to_username ".
-					   "FROM usr from_user, usr to_user WHERE ".
-					   "get_permissions(from_user.user_no, to_user.user_no) ~ '[AWR]' AND ".
-					   "to_user.user_no != from_user.user_no AND (from_user.user_no = ? OR ".
-					   "to_user.user_no = ?)", $this->user_no, $this->user_no );
-    if ( $qry->Exec("CalDAVPrincipal") && $qry->rows > 0 ) {
-      while( $relationship = $qry->Fetch() ) {
-      	if ($relationship->confers == "R") {
-      		if ($relationship->from_user_no == $this->user_no) {
-      		    // spec says without trailing slash, CalServ does it with slash, and so do we.
-            	$this->group_membership[] = ConstructURL( "/". $relationship->to_username . "/calendar-proxy-read/");
-                $this->read_proxy_for[] = ConstructURL( "/". $relationship->to_username . "/");
-      		} else /* ($relationship->to_user_no == $this->user_no) */ {
-      			$this->read_proxy_group[] = ConstructURL( "/". $relationship->from_username . "/");
-      		}
-      	} else if (preg_match("/[WA]/", $relationship->confers)) {
-      		if ($relationship->from_user_no == $this->user_no) {
-      			$this->group_membership[] = ConstructURL( "/". $relationship->to_username . "/calendar-proxy-write/");
-      			$this->write_proxy_for[] = ConstructURL( "/". $relationship->to_username . "/");
-      		} else /* ($relationship->to_user_no == $this->user_no) */ {
-      			$this->write_proxy_group[] = ConstructURL( "/". $relationship->from_username . "/");
-      		}
-      	}
+
+    if ( !isset($c->disable_caldav_proxy) || $c->disable_caldav_proxy === false ) {
+      // whom are we a proxy for? who is a proxy for us?
+      // (as per Caldav Proxy section 5.1 Paragraph 7 and 5)
+      $qry = new PgQuery("SELECT from_user.user_no AS from_user_no, from_user.username AS from_username,".
+              "get_permissions(from_user.user_no, to_user.user_no) AS confers,".
+              "to_user.user_no AS to_user_no, to_user.username AS to_username ".
+              "FROM usr from_user, usr to_user WHERE ".
+              "get_permissions(from_user.user_no, to_user.user_no) ~ '[AWR]' AND ".
+              "to_user.user_no != from_user.user_no AND (from_user.user_no = ? OR ".
+              "to_user.user_no = ?)", $this->user_no, $this->user_no );
+      if ( $qry->Exec("CalDAVPrincipal") && $qry->rows > 0 ) {
+        while( $relationship = $qry->Fetch() ) {
+          if ($relationship->confers == "R") {
+            if ($relationship->from_user_no == $this->user_no) {
+                // spec says without trailing slash, CalServ does it with slash, and so do we.
+                $this->group_membership[] = ConstructURL( "/". $relationship->to_username . "/calendar-proxy-read/");
+                  $this->read_proxy_for[] = ConstructURL( "/". $relationship->to_username . "/");
+            } else /* ($relationship->to_user_no == $this->user_no) */ {
+              $this->read_proxy_group[] = ConstructURL( "/". $relationship->from_username . "/");
+            }
+          } else if (preg_match("/[WA]/", $relationship->confers)) {
+            if ($relationship->from_user_no == $this->user_no) {
+              $this->group_membership[] = ConstructURL( "/". $relationship->to_username . "/calendar-proxy-write/");
+              $this->write_proxy_for[] = ConstructURL( "/". $relationship->to_username . "/");
+            } else /* ($relationship->to_user_no == $this->user_no) */ {
+              $this->write_proxy_group[] = ConstructURL( "/". $relationship->from_username . "/");
+            }
+          }
+        }
       }
     }
 
