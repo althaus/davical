@@ -18,7 +18,7 @@ manager to fetch and install <code>DAViCal</code> and all the dependencies.</p>
 you don't get asked for confirmation all the time:</p>
 
 <pre>
-sudo apt-key advanced --keyserver subkeys.pgp.net --recv-keys CCA377BD77494424B0DB674F8C90347F8F068012
+sudo apt-key advanced --keyserver subkeys.pgp.net --recv-keys F6E0FA5CF0307507BB23A512EAFCFEBF8FEB8EBF
 </pre>
 
 <p>Skip to the "Database Setup" part if you have done that already.</p>
@@ -112,16 +112,9 @@ and which will be granted minimum privileges for the application.</p>
 createuser --no-createdb --no-createrole davical_app
 </pre>
 
-<p>PostgreSQL 7.4 named things slightly differently, so you
-should use something like:</p>
-
-<pre>
-createuser --no-createdb --no-adduser davical_app
-</pre>
-
 <p>You may need to become the 'postgres' user to do this, in which case
 you will need to be the postgres user to create the database as well.
-For example (for PostgreSQL 8.x):</p>
+For example:</p>
 <pre>
 su postgres -c createuser --no-createdb --no-createrole davical_app
 </pre>
