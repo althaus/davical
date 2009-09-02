@@ -29,6 +29,7 @@ else {
 <a href="installation.php" class="hlink">Installation</a> |
 <a href="clients.php" class="hlink">Client Config</a> |
 <a href="administration.php" class="hlink">Administration</a> |
+<a href="background.php" class="hlink">Background</a> |
 <a href="http://wiki.davical.org/w/Main_Page" class="hlink">DAViCal Wiki</a> |
 <a href="http://andrew.mcmillan.net.nz/" class="hlink">Blog</a> |
 <a href="http://sourceforge.net/projects/rscds/" class="hlink">DAViCal on Sourceforge</a>
@@ -37,7 +38,7 @@ else {
 <div id="pageContent">
 <?php
   $tags_to_be_closed = "</div>\n";
-  if ( $two_panes ) {
+  if ( isset($two_panes) && $two_panes ) {
     $tags_to_be_closed .= $tags_to_be_closed;
     echo '<div id="leftSide">';
   }

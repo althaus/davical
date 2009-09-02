@@ -43,39 +43,24 @@ hr {
   padding-top: 64px;
   padding-right: 5px;
   display:block;
+  text-decoration: none;
   }
 
-.hlink:link {
+.hlink {
   color: #FFFFFF;
   font-family: helvetica, arial, sans-serif;
   font-size: 8pt;
   font-size: 80%;
   text-decoration: none;
-  }
-
-.hlink:active {
+}
+.hlink:link, .hlink:active, .hlink:visited {
   color: #FFFFFF;
-  font-family: helvetica, arial, sans-serif;
-  font-size: 8pt;
-  font-size: 80%;
-  text-decoration: none;
-  }
+}
 
 .hlink:hover {
   color: #FFFFFF;
-  font-family: helvetica, arial, sans-serif;
-  font-size: 8pt;
-  font-size: 80%;
   text-decoration: underline;
-  }
-
-.hlink:visited {
-  color: #FFFFFF;
-  font-family: helvetica, arial, sans-serif;
-  font-size: 8pt;
-  font-size: 80%;
-  text-decoration: none;
-  }
+}
 
 #pageContent {
   /* Not used for anything at present */
@@ -120,14 +105,14 @@ ol, ul {
 
 ul {
   list-style-type: square;
+  font-family: helvetica, arial, sans-serif;
 }
 
 li {
   list-style-position: outside;
-  margin-left: 2em;
   font-family: helvetica, arial, sans-serif;
   font-size: 90%;
-  margin-bottom: 5px;
+  margin: 0.1em 2em;
   }
 
 code {
