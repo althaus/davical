@@ -41,7 +41,7 @@ foreach( $mg_hrefs AS $k => $v ) {
    * anything up to the matching request->path (which will include any http...) and then
    * put the $request->path back on.
    */
-  $href = $request->path . preg_replace( "#^.*$request->path#", '', $v->GetContent() );
+  $href = $request->path . preg_replace( "#^.*$request->path#", '', rawurldecode($v->GetContent()) );
   dbg_error_log("REPORT", "Reporting on href '%s'", $href );
   $href_in .= ($href_in == '' ? '' : ', ');
   $href_in .= qpg($href);
