@@ -1,3 +1,17 @@
+2009-09-05  Andrew McMillan <andrew@morphoss.com>
+	* Fix call-time pass by reference warnings.
+
+2009-09-02  Andrew McMillan <andrew@morphoss.com>
+	* Allow disabling of CalDAV Proxy support for performance on large sites.
+	* Update website content.
+	* Ensure <href> elements are urldecoded in calendar-multiget
+
+2009-09-02  Andrew McMillan <andrew@morphoss.com>
+	* Allow disabling of CalDAV Proxy support for performance on large sites.
+
+2009-08-29  Andrew McMillan <andrew@morphoss.com>
+	* Restructure PUT handling to give easier API possibilities.
+
 2009-08-24 Andrew McMillan <andrew@morphoss.com>
 
 	* Fix broken SQL when selecting user list for group.
