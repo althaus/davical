@@ -52,7 +52,7 @@ foreach( $get_props AS $k1 => $v1 ) {
 if ( $qry->Exec("REPORT",__LINE__,__FILE__) && $qry->rows > 0 ) {
   while( $row = $qry->Fetch() ) {
     $principal = new CalDAVPrincipal($row);
-    $responses[] = $principal->RenderAsXML( $properties, &$reply );
+    $responses[] = $principal->RenderAsXML( $properties, $reply );
   }
 }
 

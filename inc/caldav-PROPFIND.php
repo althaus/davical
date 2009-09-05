@@ -621,7 +621,7 @@ function get_collection_contents( $depth, $user_no, $collection ) {
       while( $subcollection = $qry->Fetch() ) {
         if ( $subcollection->is_principal == "t" ) {
           $principal = new CalDAVPrincipal($subcollection);
-          $responses[] = $principal->RenderAsXML(array_merge($prop_list,$arbitrary), &$reply);
+          $responses[] = $principal->RenderAsXML(array_merge($prop_list,$arbitrary), $reply);
         }
         else {
           $responses[] = collection_to_xml( $subcollection );
@@ -718,7 +718,7 @@ function get_collection( $depth, $user_no, $collection_path ) {
     if( $qry->Exec("PROPFIND",__LINE__,__FILE__) && $qry->rows > 0 && $collection = $qry->Fetch() ) {
       if ( $collection->is_principal == "t" ) {
         $principal = new CalDAVPrincipal($collection);
-        $responses[] = $principal->RenderAsXML(array_merge($prop_list,$arbitrary), &$reply);
+        $responses[] = $principal->RenderAsXML(array_merge($prop_list,$arbitrary), $reply);
       }
       else {
         $responses[] = collection_to_xml( $collection );
@@ -782,7 +782,7 @@ $url = ConstructURL( $request->path );
 $url = preg_replace( '#/$#', '', $url);
 $responses = array();
 if ( $request->IsPrincipal() ) {
-  $responses[] = $request->principal->RenderAsXML(array_merge($prop_list,$arbitrary), &$reply);
+  $responses[] = $request->principal->RenderAsXML(array_merge($prop_list,$arbitrary), $reply);
   if ( $request->depth > 0 ) {
     $collection = (object) array( 'dav_name' => '/'.$request->username.'/', 'is_calendar' => 'f', 'is_principal' => 't' );
     $responses = array_merge($responses, get_collection_contents( $request->depth - 1,  $request->user_no, $collection ) );
