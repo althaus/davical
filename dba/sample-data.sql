@@ -45,6 +45,9 @@ INSERT INTO relationship_type ( rt_id, rt_name, rt_isgroup, confers, prefix_matc
 INSERT INTO relationship_type ( rt_id, rt_name, rt_isgroup, confers, prefix_match )
     VALUES( 4, 'Administers Resource', FALSE, 'RW', '' );
 
+-- Set the insert sequence to the next number, with a minimum of 1000
+SELECT setval('relationship_type_rt_id_seq', (SELECT 10 UNION SELECT rt_id FROM relationship_type ORDER BY 1 DESC LIMIT 1) );
+
 -- The resources for meetings
 INSERT INTO relationship ( from_user, to_user, rt_id ) VALUES( 200, 100, 4 );
 INSERT INTO relationship ( from_user, to_user, rt_id ) VALUES( 200, 101, 4 );
