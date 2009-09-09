@@ -92,6 +92,7 @@ CREATE TABLE relationship_type (
 );
 
 GRANT SELECT,INSERT,UPDATE,DELETE ON relationship_type TO general;
+GRANT SELECT,UPDATE ON relationship_type_rt_id_seq TO general;
 
 CREATE TABLE relationship (
   from_user INT REFERENCES usr (user_no) ON UPDATE CASCADE,
@@ -102,3 +103,4 @@ CREATE TABLE relationship (
 );
 
 GRANT SELECT,INSERT,UPDATE,DELETE ON relationship TO general;
+SELECT new_db_revision(1,1,1, 'January' );
