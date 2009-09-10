@@ -47,7 +47,7 @@
   </propstat>
  </response>
  <response>
-  <href>/user1/</href>
+  <href>/caldav.php/user1/</href>
   <propstat>
    <prop>
     <acl>
@@ -94,7 +94,7 @@
   </propstat>
  </response>
  <response>
-  <href>/manager1/</href>
+  <href>/caldav.php/manager1/</href>
   <propstat>
    <prop>
     <acl>
@@ -141,7 +141,7 @@
   </propstat>
  </response>
  <response>
-  <href>/assistant1/</href>
+  <href>/caldav.php/assistant1/</href>
   <propstat>
    <prop>
     <acl>
@@ -188,7 +188,7 @@
   </propstat>
  </response>
  <response>
-  <href>/resource1/</href>
+  <href>/caldav.php/resource1/</href>
   <propstat>
    <prop>
     <acl>
@@ -235,7 +235,7 @@
   </propstat>
  </response>
  <response>
-  <href>/resource2/</href>
+  <href>/caldav.php/resource2/</href>
   <propstat>
    <prop>
     <acl>

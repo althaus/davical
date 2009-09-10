@@ -132,6 +132,11 @@ class CalDAVPrincipal
     if ( !isset($usr) || !is_object($usr) ) return false;
 
     $this->InitialiseRecord($usr);
+
+    if ( is_array($parameters) && isset($parameters['path']) && preg_match('#^/principals/#', $parameters['path']) ) {
+      // Force it to match
+      $this->url = $parameters['path'];
+    }
   }
 
 
@@ -148,15 +153,15 @@ class CalDAVPrincipal
     if ( !isset($this->created) )  $this->created  = ISODateToHTTPDate($this->joined);
 
     $this->by_email = false;
-    $this->url = ConstructURL( "/".$this->username."/" );
+    $this->url = ConstructURL( "/".$this->username."/", true );
 
     $this->calendar_home_set = array( $this->url );
 
     $this->user_address_set = array(
        "mailto:".$this->email,
-       ConstructURL( "/".$this->username."/" ),
-//       ConstructURL( "/~".$this->username."/" ),
-//       ConstructURL( "/__uuids__/".$this->username."/" ),
+       ConstructURL( "/".$this->username."/", true ),
+//       ConstructURL( "/~".$this->username."/", true ),
+//       ConstructURL( "/__uuids__/".$this->username."/", true ),
     );
     $this->schedule_inbox_url = sprintf( "%s.in/", $this->url);
     $this->schedule_outbox_url = sprintf( "%s.out/", $this->url);
@@ -167,7 +172,7 @@ class CalDAVPrincipal
     $qry = new PgQuery("SELECT * FROM relationship LEFT JOIN usr ON (from_user = usr.user_no) LEFT JOIN role_member ON (to_user = role_member.user_no) LEFT JOIN roles USING (role_no) WHERE to_user = ? AND role_name = 'Group';", $this->user_no );
     if ( $qry->Exec("CalDAVPrincipal") && $qry->rows > 0 ) {
       while( $membership = $qry->Fetch() ) {
-            $this->group_member_set[] = ConstructURL( "/". $membership->username . "/");
+            $this->group_member_set[] = ConstructURL( "/". $membership->username . "/", true);
       }
     }
 
@@ -175,7 +180,7 @@ class CalDAVPrincipal
     $qry = new PgQuery("SELECT * FROM relationship LEFT JOIN usr ON (to_user = user_no) LEFT JOIN role_member USING (user_no) LEFT JOIN roles USING (role_no) WHERE from_user = ? AND role_name = 'Group';", $this->user_no );
     if ( $qry->Exec("CalDAVPrincipal") && $qry->rows > 0 ) {
       while( $membership = $qry->Fetch() ) {
-        $this->group_membership[] = ConstructURL( "/". $membership->username . "/");
+        $this->group_membership[] = ConstructURL( "/". $membership->username . "/", true);
       }
     }
 
@@ -199,17 +204,17 @@ class CalDAVPrincipal
           if ($relationship->confers == "R") {
             if ($relationship->from_user_no == $this->user_no) {
                 // spec says without trailing slash, CalServ does it with slash, and so do we.
-                $this->group_membership[] = ConstructURL( "/". $relationship->to_username . "/calendar-proxy-read/");
-                  $this->read_proxy_for[] = ConstructURL( "/". $relationship->to_username . "/");
+                $this->group_membership[] = ConstructURL( "/". $relationship->to_username . "/calendar-proxy-read/", true);
+                  $this->read_proxy_for[] = ConstructURL( "/". $relationship->to_username . "/", true);
             } else /* ($relationship->to_user_no == $this->user_no) */ {
-              $this->read_proxy_group[] = ConstructURL( "/". $relationship->from_username . "/");
+              $this->read_proxy_group[] = ConstructURL( "/". $relationship->from_username . "/", true);
             }
           } else if (preg_match("/[WA]/", $relationship->confers)) {
             if ($relationship->from_user_no == $this->user_no) {
-              $this->group_membership[] = ConstructURL( "/". $relationship->to_username . "/calendar-proxy-write/");
-              $this->write_proxy_for[] = ConstructURL( "/". $relationship->to_username . "/");
+              $this->group_membership[] = ConstructURL( "/". $relationship->to_username . "/calendar-proxy-write/", true);
+              $this->write_proxy_for[] = ConstructURL( "/". $relationship->to_username . "/", true);
             } else /* ($relationship->to_user_no == $this->user_no) */ {
-              $this->write_proxy_group[] = ConstructURL( "/". $relationship->from_username . "/");
+              $this->write_proxy_group[] = ConstructURL( "/". $relationship->from_username . "/", true);
             }
           }
         }
@@ -224,7 +229,7 @@ class CalDAVPrincipal
     $this->calendar_free_busy_set = array();
     if( $qry->Exec("CalDAVPrincipal",__LINE__,__FILE__) && $qry->rows > 0 ) {
       while( $calendar = $qry->Fetch() ) {
-        $this->calendar_free_busy_set[] = ConstructURL($calendar->dav_name);
+        $this->calendar_free_busy_set[] = ConstructURL($calendar->dav_name, true);
       }
     }
 
@@ -249,6 +254,7 @@ class CalDAVPrincipal
     @dbg_error_log( "principal", "Path split into at least /// %s /// %s /// %s", $path_split[1], $path_split[2], $path_split[3] );
 
     $username = $path_split[1];
+    if ( $path_split[1] == 'principals' ) $username = $path_split[3];
     if ( substr($username,0,1) == '~' ) $username = substr($username,1);
 
     if ( isset($options['allow_by_email']) && $options['allow_by_email'] && preg_match( '#/(\S+@\S+[.]\S+)$#', $path, $matches) ) {

@@ -51,7 +51,9 @@ if ( !isset($_SERVER['SERVER_NAME']) ) {
 /**
 * Calculate the simplest form of reference to this page, excluding the PATH_INFO following the script name.
 */
-$c->protocol_server_port_script = sprintf( "%s://%s%s%s", (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on'? 'https' : 'http'), $_SERVER['SERVER_NAME'],
+$c->protocol_server_port_script = sprintf( "%s://%s%s%s",
+                 (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on'? 'https' : 'http'),
+                 $_SERVER['SERVER_NAME'],
                  (
                    ( (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] != 'on') && $_SERVER['SERVER_PORT'] == 80 )
                            || (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' && $_SERVER['SERVER_PORT'] == 443 )
@@ -240,7 +242,7 @@ function getStatusMessage($status) {
 * except for any '/' characters in it.
 * @param string $partial_path  The part of the path after the script name
 */
-function ConstructURL( $partial_path ) {
+function ConstructURL( $partial_path, $force_script = false ) {
   global $c;
 
   $partial_path = rawurlencode($partial_path);
@@ -251,9 +253,14 @@ function ConstructURL( $partial_path ) {
     $c->_url_script_path = $c->protocol_server_port_script . $c->_url_script_path;
   }
 
-  $url = $c->_url_script_path . $partial_path;
+  $url = $c->_url_script_path;
+  if ( $force_script ) {
+    if ( ! preg_match( '#/caldav\.php$#', $url ) ) $url .= '/caldav.php';
+  }
+  $url .= $partial_path;
   $url = preg_replace( '#^(https?://.+)//#', '$1/', $url );  // Ensure we don't double any '/'
   $url = preg_replace('#^https?://[^/]+#', '', $url );       // Remove any protocol + hostname portion
+
   return $url;
 }
 

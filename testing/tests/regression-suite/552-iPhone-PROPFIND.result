@@ -1,30 +1,30 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
-ETag: "6a5ca17c5e140b8e593cf5fd51a10003"
-Content-Length: 922
+ETag: "35e75c275075534433a2b68f9691ae20"
+Content-Length: 930
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
 <multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav" xmlns:C1="http://calendarserver.org/ns/">
  <response>
-  <href>/</href>
+  <href>/principals/users/user1/</href>
   <propstat>
    <prop>
-    <displayname>DAViCal CalDAV Server</displayname>
     <C:calendar-home-set>
      <href>/caldav.php/user1/</href>
     </C:calendar-home-set>
+    <C:calendar-user-address-set>
+     <href>mailto:user1@example.net</href>
+     <href>/caldav.php/user1/</href>
+    </C:calendar-user-address-set>
     <C:schedule-inbox-URL>
      <href>/caldav.php/user1/.in/</href>
     </C:schedule-inbox-URL>
     <C:schedule-outbox-URL>
      <href>/caldav.php/user1/.out/</href>
     </C:schedule-outbox-URL>
-    <C:calendar-user-address-set>
-     <href>mailto:user1@example.net</href>
-     <href>/caldav.php/user1/</href>
-    </C:calendar-user-address-set>
+    <displayname>User 1</displayname>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>

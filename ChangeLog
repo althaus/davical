@@ -1,3 +1,7 @@
+2009-09-11  Andrew McMillan <andrew@morphoss.com>
+	* Add support for /principals/user/username so iPhone (& possibly
+	  also iCal) users have a simpler setup experience.
+
 2009-09-05  Andrew McMillan <andrew@morphoss.com>
 	* Fix call-time pass by reference warnings.
 

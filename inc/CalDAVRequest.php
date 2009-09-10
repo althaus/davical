@@ -186,13 +186,9 @@ class CalDAVRequest
     *  4. otherwise we query the defined relationships between users and use
     *     the minimum privileges returned from that analysis.
     */
-    $this->path = (isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : "");
-    if ( $this->path == null || $this->path == '' ) {
-      $this->path = '/';
-    }
-    else {
-      $this->path = rawurldecode($this->path);
-    }
+    $this->path = (isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : "/");
+    $this->path = rawurldecode($this->path);
+
     // dbg_error_log( "caldav", "Sanitising path '%s'", $this->path );
     $bad_chars_regex = '/[\\^\\[\\(\\\\]/';
     if ( preg_match( $bad_chars_regex, $this->path ) ) {
@@ -274,7 +270,7 @@ EOSQL;
       $this->collection_path = $this->path;
       $this->_is_principal = true;
     }
-    else if ( preg_match( '#^(/[^/]+)/?$#', $this->path, $matches) ) {
+    else if ( preg_match( '#^(/[^/]+)/?$#', $this->path, $matches) || preg_match( '#^(/principals/[^/]+/[^/]+)/?$#', $this->path, $matches) ) {
       $this->collection_id = -1;
       $this->collection_path = $matches[1].'/';  // Enforce trailling '/'
       $this->collection_type = 'principal';
@@ -283,6 +279,10 @@ EOSQL;
         $this->path .= '/';
         dbg_error_log( "caldav", "Path is actually a collection - sending Content-Location header." );
         header( "Content-Location: ".ConstructURL($this->path) );
+      }
+      if ( preg_match( '#^(/principals/[^/]+/[^/]+)/?$#', $this->path, $matches) ) {
+        // Force a depth of 0 on these, which are at the wrong URL.
+        $this->depth = 0;
       }
     }
     else if ( $this->path == '/' ) {
@@ -376,6 +376,8 @@ EOSQL;
     $this->user_no = $session->user_no;
     $this->username = $session->username;
 
+    @dbg_error_log( "WARN", "Call to deprecated CalDAVRequest::UserFromPath()" );
+
     if ( $this->path == '/' || $this->path == '' ) {
       dbg_error_log( "caldav", "No useful path split possible" );
       return false;
@@ -383,6 +385,7 @@ EOSQL;
 
     $path_split = explode('/', $this->path );
     $this->username = $path_split[1];
+    if ( $this->username == 'principals' ) $this->username = $path_split[3];
     @dbg_error_log( "caldav", "Path split into at least /// %s /// %s /// %s", $path_split[1], $path_split[2], $path_split[3] );
     if ( isset($this->options['allow_by_email']) && preg_match( '#/(\S+@\S+[.]\S+)/?$#', $this->path, $matches) ) {
       $this->by_email = $matches[1];
