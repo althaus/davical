@@ -271,7 +271,7 @@ class PdoDatabase {
   * @param mixed ... Subsequent arguments are positionally replaced into the $sql_query_string
   */
   function Prepare( ) {
-    $qry = new PdoQuery( &$this );
+    $qry = new PdoQuery( $this );
     $qry->Query(func_get_args());
     return $qry;
   }
