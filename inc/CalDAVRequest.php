@@ -93,8 +93,9 @@ class CalDAVRequest
       /** Log the request headers */
       $lines = apache_request_headers();
       dbg_error_log( "LOG ", "***************** Request Header ****************" );
-      foreach( $lines AS $v ) {
-        dbg_error_log( "LOG headers", "-->%s", $v );
+      dbg_error_log( "LOG ", "%s %s", $_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI'] );
+      foreach( $lines AS $k => $v ) {
+        dbg_error_log( "LOG headers", "-->%s: %s", $k, $v );
       }
       dbg_error_log( "LOG ", "******************** Request ********************" );
       // Log the request in all it's gory detail.
