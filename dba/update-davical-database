@@ -220,6 +220,7 @@ EOQ
     my $version = $current_version->fetchrow_arrayref();
     undef $current_version;
     $dbh->disconnect;
+    $version->[0] =~ s/\D+$//;  # It seems the regex in SQL is broken in 8.1, at least on CentOS 5.3
     return $version->[0];
   }
   else {
