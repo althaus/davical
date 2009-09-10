@@ -778,7 +778,7 @@ $request->UnsupportedRequest($unsupported); // Won't return if there was unsuppo
 /**
 * Something that we can handle, at least roughly correctly.
 */
-$url = ConstructURL( $request->path );
+$url = ConstructURL( isset($request->real_url) ? $request->real_url : $request->path );
 $url = preg_replace( '#/$#', '', $url);
 $responses = array();
 if ( $request->IsPrincipal() ) {
