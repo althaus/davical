@@ -334,7 +334,7 @@ class iCalDate {
     }
     if ( $from->_epoch < $this->_epoch ) {
       /** One way to simplify is to always go for positive differences */
-      return( "-". $from->DateDifference( &$self ) );
+      return( "-". $from->DateDifference( $self ) );
     }
 //    if ( $from->_yy == $this->_yy && $from->_mo == $this->_mo ) {
       /** Also somewhat simpler if we can use seconds */
