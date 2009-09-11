@@ -153,7 +153,9 @@ function privileges($privilege_names, $container='privilege') {
   global $reply;
   $privileges = array();
   foreach( $privilege_names AS $k => $v ) {
-    $privileges[] = $reply->NewXMLElement($container, $reply->NewXMLElement($k));
+    $privilege = $reply->NewXMLElement($container);
+    $reply->NSElement($privilege, $k);
+    $privileges[] = $privilege;
   }
   return $privileges;
 }
@@ -193,7 +195,7 @@ function add_principal_properties( &$prop, &$denied ) {
   $allprop = isset($prop_list['DAV::allprop']);
 
   if ( isset($prop_list['DAV::principal-URL'] ) ) {
-    $reply->DAVElement( $prop, 'principal-URL', $reply->href( $request->principal->url ) );
+    $reply->DAVElement( $prop, 'principal-URL', $reply->href( $request->principal->principal_url ) );
   }
   if ( isset($prop_list['DAV::alternate-URI-set'] ) ) {
     $reply->DAVElement( $prop, 'alternate-URI-set' );  // Empty - there are no alternatives!
