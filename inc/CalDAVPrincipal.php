@@ -153,7 +153,8 @@ class CalDAVPrincipal
     if ( !isset($this->created) )  $this->created  = ISODateToHTTPDate($this->joined);
 
     $this->by_email = false;
-    $this->url = ConstructURL( '/'.$this->username.'/', true );
+    $this->principal_url = ConstructURL( '/'.$this->username.'/', true );
+    $this->url = $this->principal_url;
 
     $this->calendar_home_set = array( $this->url );
 
@@ -311,9 +312,12 @@ class CalDAVPrincipal
   * Returns the array of privilege names converted into XMLElements
   */
   function RenderPrivileges($privilege_names, $container='privilege') {
+    global $reply;
     $privileges = array();
     foreach( $privilege_names AS $k => $v ) {
-      $privileges[] = new XMLElement($container, new XMLElement($k));
+      $privilege = new XMLElement($container);
+      $reply->NSElement($privilege,$k);
+      $privileges[] = $privilege;
     }
     return $privileges;
   }
@@ -352,7 +356,7 @@ class CalDAVPrincipal
           break;
 
         case 'DAV::principal-URL':
-          $prop->NewElement('principal-URL', $reply->href($this->url) );
+          $prop->NewElement('principal-URL', $reply->href($this->principal_url) );
           break;
 
         case 'DAV::getlastmodified':
@@ -446,12 +450,12 @@ class CalDAVPrincipal
           $prop->NewElement( $reply->Tag($tag));
           break;
 
-        case 'http://calendarserver.org/ns/:getctag':
-          $reply->CalendarServerElement( $prop, 'getctag', '"'.md5($this->username . $this->updated).'"' );
-          break;
-        case 'DAV::getetag':
-          $reply->DAVElement( $prop, 'getetag', '"'.md5($this->username . $this->updated).'"' );
-          break;
+//        case 'http://calendarserver.org/ns/:getctag':
+//          $reply->CalendarServerElement( $prop, 'getctag', '"'.md5($this->username . $this->updated).'"' );
+//          break;
+//        case 'DAV::getetag':
+//          $reply->DAVElement( $prop, 'getetag', '"'.md5($this->username . $this->updated).'"' );
+//          break;
 
         case 'SOME-DENIED-PROPERTY':  /** @todo indicating the style for future expansion */
           $denied[] = $reply->Tag($tag);
