@@ -1,8 +1,8 @@
 #
-# Testing with a process similar to iPhone 3
+# Testing with a process similar to iPhone 3.1
 #
 TYPE=PROPFIND
-URL=http://mycaldav/
+URL=http://mycaldav/caldav.php/user1/
 HEAD
 
 AUTH=user1:user1
@@ -12,20 +12,20 @@ HEADER=Content-Type: text/xml
 HEADER=Depth: 1
 
 #
-# This query from the iPhone seems to discover several things.  Firstly they
-# get the calendar-home-set URL for this path.  Secondly, they ascertain
-# whether the calendar supports scheduling, and finally, whether it
-# handles some Apple-specific extensions.
+# This query from the iPhone goes to the calendar-home-set and checks
+# what is available under that collection.
 #
 BEGINDATA
 <?xml version="1.0" encoding="utf-8"?>
-<x0:propfind xmlns:x1="urn:ietf:params:xml:ns:caldav" xmlns:x0="DAV:" xmlns:x2="http://apple.com/ns/ical/">
+<x0:propfind xmlns:x2="http://calendarserver.org/ns/" xmlns:x0="DAV:" xmlns:x3="http://apple.com/ns/ical/" xmlns:x1="urn:ietf:params:xml:ns:caldav">
  <x0:prop>
   <x0:displayname/>
   <x1:calendar-description/>
+  <x2:getctag/>
+  <x3:calendar-color/>
   <x1:supported-calendar-component-set/>
-  <x2:calendar-color/>
   <x0:resourcetype/>
+  <x0:current-user-privilege-set/>
  </x0:prop>
 </x0:propfind>
 ENDDATA

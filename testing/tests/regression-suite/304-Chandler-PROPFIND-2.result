@@ -1,8 +1,8 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
-ETag: "b0f0e90505257a98010cd129bee559bc"
-Content-Length: 590
+ETag: "d9bed0f97ea7fc603a204227a589a5fd"
+Content-Length: 1198
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -21,6 +21,39 @@ Content-Type: text/xml; charset="utf-8"
     <current-user-privilege-set>
      <privilege>
       <all/>
+     </privilege>
+     <privilege>
+      <C:read-free-busy/>
+     </privilege>
+     <privilege>
+      <read/>
+     </privilege>
+     <privilege>
+      <write/>
+     </privilege>
+     <privilege>
+      <bind/>
+     </privilege>
+     <privilege>
+      <unbind/>
+     </privilege>
+     <privilege>
+      <write-content/>
+     </privilege>
+     <privilege>
+      <write-properties/>
+     </privilege>
+     <privilege>
+      <lock/>
+     </privilege>
+     <privilege>
+      <unlock/>
+     </privilege>
+     <privilege>
+      <read-acl/>
+     </privilege>
+     <privilege>
+      <read-current-user-privilege-set/>
      </privilege>
     </current-user-privilege-set>
    </prop>

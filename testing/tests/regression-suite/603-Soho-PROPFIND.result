@@ -1,8 +1,8 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
-ETag: "ea92b512c27205b703cb6f52043bb6d3"
-Content-Length: 4476
+ETag: "4ab67c78dc7e5125f42cc92c6b177711"
+Content-Length: 4508
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -15,7 +15,7 @@ Content-Type: text/xml; charset="utf-8"
      <href>/caldav.php/user1/</href>
     </C:calendar-home-set>
     <C:calendar-user-address-set>
-     <href>mailto:user1@example.net</href>
+     <href>mailto%3Auser1%40example.net</href>
      <href>/caldav.php/user1/</href>
     </C:calendar-user-address-set>
    </prop>
@@ -37,7 +37,7 @@ Content-Type: text/xml; charset="utf-8"
      <href>/caldav.php/user1/</href>
     </C:calendar-home-set>
     <C:calendar-user-address-set>
-     <href>mailto:user1@example.net</href>
+     <href>mailto%3Auser1%40example.net</href>
      <href>/caldav.php/user1/</href>
     </C:calendar-user-address-set>
    </prop>
@@ -59,7 +59,7 @@ Content-Type: text/xml; charset="utf-8"
      <href>/caldav.php/user1/</href>
     </C:calendar-home-set>
     <C:calendar-user-address-set>
-     <href>mailto:user1@example.net</href>
+     <href>mailto%3Auser1%40example.net</href>
      <href>/caldav.php/user1/</href>
     </C:calendar-user-address-set>
    </prop>
@@ -81,7 +81,7 @@ Content-Type: text/xml; charset="utf-8"
      <href>/caldav.php/user1/</href>
     </C:calendar-home-set>
     <C:calendar-user-address-set>
-     <href>mailto:user1@example.net</href>
+     <href>mailto%3Auser1%40example.net</href>
      <href>/caldav.php/user1/</href>
     </C:calendar-user-address-set>
    </prop>
@@ -103,7 +103,7 @@ Content-Type: text/xml; charset="utf-8"
      <href>/caldav.php/user1/</href>
     </C:calendar-home-set>
     <C:calendar-user-address-set>
-     <href>mailto:user1@example.net</href>
+     <href>mailto%3Auser1%40example.net</href>
      <href>/caldav.php/user1/</href>
     </C:calendar-user-address-set>
    </prop>
@@ -125,7 +125,7 @@ Content-Type: text/xml; charset="utf-8"
      <href>/caldav.php/user1/</href>
     </C:calendar-home-set>
     <C:calendar-user-address-set>
-     <href>mailto:user1@example.net</href>
+     <href>mailto%3Auser1%40example.net</href>
      <href>/caldav.php/user1/</href>
     </C:calendar-user-address-set>
    </prop>
@@ -147,7 +147,7 @@ Content-Type: text/xml; charset="utf-8"
      <href>/caldav.php/user1/</href>
     </C:calendar-home-set>
     <C:calendar-user-address-set>
-     <href>mailto:user1@example.net</href>
+     <href>mailto%3Auser1%40example.net</href>
      <href>/caldav.php/user1/</href>
     </C:calendar-user-address-set>
    </prop>
@@ -169,7 +169,7 @@ Content-Type: text/xml; charset="utf-8"
      <href>/caldav.php/user1/</href>
     </C:calendar-home-set>
     <C:calendar-user-address-set>
-     <href>mailto:user1@example.net</href>
+     <href>mailto%3Auser1%40example.net</href>
      <href>/caldav.php/user1/</href>
     </C:calendar-user-address-set>
    </prop>

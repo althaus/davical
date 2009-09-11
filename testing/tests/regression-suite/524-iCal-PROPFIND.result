@@ -1,17 +1,16 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
-ETag: "0b389661ad23c1fac7a9bb91b9fbc49a"
-Content-Length: 3553
+ETag: "432aa6b31d8dbe82651aef6bac55ea55"
+Content-Length: 3515
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
-<multistatus xmlns="DAV:" xmlns:A="http://calendarserver.org/ns/" xmlns:C="urn:ietf:params:xml:ns:caldav">
+<multistatus xmlns="DAV:" xmlns:C="http://calendarserver.org/ns/" xmlns:C1="urn:ietf:params:xml:ns:caldav">
  <response>
   <href>/caldav.php/manager1/</href>
   <propstat>
    <prop>
-    <A:getctag>"ab4a67c917e242e0989cd278c75a510e"</A:getctag>
     <displayname>Manager 1</displayname>
     <resourcetype>
      <principal/>
@@ -28,9 +27,10 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
   <propstat>
    <prop>
-    <A:calendar-proxy-read-for/>
-    <A:calendar-proxy-write-for/>
-    <C:calendar-description/>
+    <C:getctag/>
+    <C:calendar-proxy-read-for/>
+    <C:calendar-proxy-write-for/>
+    <C1:calendar-description/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
@@ -41,11 +41,11 @@ Content-Type: text/xml; charset="utf-8"
    <prop>
     <resourcetype>
      <collection/>
-     <C:calendar/>
-     <C:schedule-calendar/>
+     <C1:calendar/>
+     <C1:schedule-calendar/>
     </resourcetype>
     <displayname>manager1 home</displayname>
-    <A:getctag>"c240642ddef994358c96da82c0361a58"</A:getctag>
+    <C:getctag>"c240642ddef994358c96da82c0361a58"</C:getctag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -53,9 +53,9 @@ Content-Type: text/xml; charset="utf-8"
    <prop>
     <group-member-set/>
     <group-membership/>
-    <A:calendar-proxy-read-for/>
-    <A:calendar-proxy-write-for/>
-    <C:calendar-description/>
+    <C:calendar-proxy-read-for/>
+    <C:calendar-proxy-write-for/>
+    <C1:calendar-description/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
@@ -67,12 +67,12 @@ Content-Type: text/xml; charset="utf-8"
     <resourcetype>
      <collection/>
      <principal/>
-     <A:calendar-proxy-read/>
+     <C:calendar-proxy-read/>
     </resourcetype>
-    <A:calendar-proxy-read-for>
+    <C:calendar-proxy-read-for>
      <href>/caldav.php/user1/</href>
      <href>/caldav.php/assistant1/</href>
-    </A:calendar-proxy-read-for>
+    </C:calendar-proxy-read-for>
     <group-member-set>
      <href>/caldav.php/user1/</href>
     </group-member-set>
@@ -82,7 +82,7 @@ Content-Type: text/xml; charset="utf-8"
      <href>/caldav.php/assistant1/calendar-proxy-read/</href>
     </group-membership>
     <displayname>/manager1/calendar-proxy-read/</displayname>
-    <A:getctag>"d6996992ae401eb02ed8fed0bfb22895"</A:getctag>
+    <C:getctag>"d6996992ae401eb02ed8fed0bfb22895"</C:getctag>
     <group-member-set>
      <href>/caldav.php/user1/</href>
     </group-member-set>
@@ -91,8 +91,8 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
   <propstat>
    <prop>
-    <A:calendar-proxy-write-for/>
-    <C:calendar-description/>
+    <C:calendar-proxy-write-for/>
+    <C1:calendar-description/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
@@ -104,9 +104,9 @@ Content-Type: text/xml; charset="utf-8"
     <resourcetype>
      <collection/>
      <principal/>
-     <A:calendar-proxy-write/>
+     <C:calendar-proxy-write/>
     </resourcetype>
-    <A:calendar-proxy-write-for/>
+    <C:calendar-proxy-write-for/>
     <group-member-set>
      <href>/caldav.php/assistant1/</href>
     </group-member-set>
@@ -116,7 +116,7 @@ Content-Type: text/xml; charset="utf-8"
      <href>/caldav.php/assistant1/calendar-proxy-read/</href>
     </group-membership>
     <displayname>/manager1/calendar-proxy-write/</displayname>
-    <A:getctag>"9849062cdad5f238a4ac4a9829bcdbcf"</A:getctag>
+    <C:getctag>"9849062cdad5f238a4ac4a9829bcdbcf"</C:getctag>
     <group-member-set>
      <href>/caldav.php/assistant1/</href>
     </group-member-set>
@@ -125,8 +125,8 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
   <propstat>
    <prop>
-    <A:calendar-proxy-read-for/>
-    <C:calendar-description/>
+    <C:calendar-proxy-read-for/>
+    <C1:calendar-description/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>

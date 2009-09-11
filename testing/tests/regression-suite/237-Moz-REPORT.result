@@ -8,7 +8,7 @@
      <href>/caldav.php/user1/</href>
     </C:calendar-home-set>
     <C:calendar-user-address-set>
-     <href>mailto:user1@example.net</href>
+     <href>mailto%3Auser1%40example.net</href>
      <href>/caldav.php/user1/</href>
     </C:calendar-user-address-set>
     <C:schedule-inbox-URL>

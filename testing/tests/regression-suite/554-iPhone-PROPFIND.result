@@ -1,37 +1,68 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
-ETag: "f31ea9144fd675f7b545ea397f934031"
+ETag: "d0eafee2ab4fcc3c0368447335612cd4"
 Transfer-Encoding: chunked
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
-<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav" xmlns:C1="http://calendarserver.org/ns/">
+<multistatus xmlns="DAV:" xmlns:C="http://calendarserver.org/ns/" xmlns:C1="urn:ietf:params:xml:ns:caldav" xmlns:A="http://apple.com/ns/ical/">
  <response>
   <href>/caldav.php/user1/</href>
   <propstat>
    <prop>
-    <C:calendar-home-set>
-     <href>/caldav.php/user1/</href>
-    </C:calendar-home-set>
-    <C:calendar-user-address-set>
-     <href>mailto:user1@example.net</href>
-     <href>/caldav.php/user1/</href>
-    </C:calendar-user-address-set>
-    <C:schedule-inbox-URL>
-     <href>/caldav.php/user1/.in/</href>
-    </C:schedule-inbox-URL>
-    <C:schedule-outbox-URL>
-     <href>/caldav.php/user1/.out/</href>
-    </C:schedule-outbox-URL>
     <displayname>User 1</displayname>
+    <resourcetype>
+     <principal/>
+     <collection/>
+    </resourcetype>
+    <current-user-privilege-set>
+     <privilege>
+      <all/>
+     </privilege>
+     <privilege>
+      <C1:read-free-busy/>
+     </privilege>
+     <privilege>
+      <read/>
+     </privilege>
+     <privilege>
+      <write/>
+     </privilege>
+     <privilege>
+      <bind/>
+     </privilege>
+     <privilege>
+      <unbind/>
+     </privilege>
+     <privilege>
+      <write-content/>
+     </privilege>
+     <privilege>
+      <write-properties/>
+     </privilege>
+     <privilege>
+      <lock/>
+     </privilege>
+     <privilege>
+      <unlock/>
+     </privilege>
+     <privilege>
+      <read-acl/>
+     </privilege>
+     <privilege>
+      <read-current-user-privilege-set/>
+     </privilege>
+    </current-user-privilege-set>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
   <propstat>
    <prop>
-    <C1:dropbox-home-URL/>
-    <C1:notifications-URL/>
+    <C:getctag/>
+    <C1:supported-calendar-component-set/>
+    <C1:calendar-description/>
+    <A:calendar-color/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
@@ -40,462 +71,65 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/home/</href>
   <propstat>
    <prop>
+    <C1:supported-calendar-component-set>
+     <C1:comp name="VEVENT"/>
+     <C1:comp name="VTODO"/>
+     <C1:comp name="VJOURNAL"/>
+     <C1:comp name="VTIMEZONE"/>
+     <C1:comp name="VFREEBUSY"/>
+    </C1:supported-calendar-component-set>
+    <resourcetype>
+     <collection/>
+     <C1:calendar/>
+     <C1:schedule-calendar/>
+    </resourcetype>
     <displayname>user1 home</displayname>
-    <C:calendar-home-set>
-     <href>/caldav.php/user1/</href>
-    </C:calendar-home-set>
-    <C:schedule-inbox-URL>
-     <href>/caldav.php/user1/.in/</href>
-    </C:schedule-inbox-URL>
-    <C:schedule-outbox-URL>
-     <href>/caldav.php/user1/.out/</href>
-    </C:schedule-outbox-URL>
-    <C:calendar-user-address-set>
-     <href>mailto:user1@example.net</href>
-     <href>/caldav.php/user1/</href>
-    </C:calendar-user-address-set>
+    <C:getctag>"9a28f344c1e0032e5967806f193a7cb7"</C:getctag>
+    <current-user-privilege-set>
+     <privilege>
+      <all/>
+     </privilege>
+     <privilege>
+      <C1:read-free-busy/>
+     </privilege>
+     <privilege>
+      <read/>
+     </privilege>
+     <privilege>
+      <write/>
+     </privilege>
+     <privilege>
+      <bind/>
+     </privilege>
+     <privilege>
+      <unbind/>
+     </privilege>
+     <privilege>
+      <write-content/>
+     </privilege>
+     <privilege>
+      <write-properties/>
+     </privilege>
+     <privilege>
+      <lock/>
+     </privilege>
+     <privilege>
+      <unlock/>
+     </privilege>
+     <privilege>
+      <read-acl/>
+     </privilege>
+     <privilege>
+      <read-current-user-privilege-set/>
+     </privilege>
+    </current-user-privilege-set>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
   <propstat>
    <prop>
-    <C1:dropbox-home-URL/>
-    <C1:notifications-URL/>
-   </prop>
-   <status>HTTP/1.1 404 Not Found</status>
-  </propstat>
- </response>
- <response>
-  <href>/caldav.php/user1/home/0575d895-a006-4ed8-9be6-0d1b6b6b1f96.ics</href>
-  <propstat>
-   <prop>
-    <displayname>Due 7/8/7 16:30, completed</displayname>
-    <C:calendar-home-set>
-     <href>/caldav.php/user1/</href>
-    </C:calendar-home-set>
-    <C:schedule-inbox-URL>
-     <href>/caldav.php/user1/.in/</href>
-    </C:schedule-inbox-URL>
-    <C:schedule-outbox-URL>
-     <href>/caldav.php/user1/.out/</href>
-    </C:schedule-outbox-URL>
-    <C:calendar-user-address-set>
-     <href>mailto:user1@example.net</href>
-     <href>/caldav.php/user1/</href>
-    </C:calendar-user-address-set>
-   </prop>
-   <status>HTTP/1.1 200 OK</status>
-  </propstat>
-  <propstat>
-   <prop>
-    <C1:dropbox-home-URL/>
-    <C1:notifications-URL/>
-   </prop>
-   <status>HTTP/1.1 404 Not Found</status>
-  </propstat>
- </response>
- <response>
-  <href>/caldav.php/user1/home/1906b3ca-4890-468a-9b58-1de74bf2c716.ics</href>
-  <propstat>
-   <prop>
-    <displayname>Private Event</displayname>
-    <C:calendar-home-set>
-     <href>/caldav.php/user1/</href>
-    </C:calendar-home-set>
-    <C:schedule-inbox-URL>
-     <href>/caldav.php/user1/.in/</href>
-    </C:schedule-inbox-URL>
-    <C:schedule-outbox-URL>
-     <href>/caldav.php/user1/.out/</href>
-    </C:schedule-outbox-URL>
-    <C:calendar-user-address-set>
-     <href>mailto:user1@example.net</href>
-     <href>/caldav.php/user1/</href>
-    </C:calendar-user-address-set>
-   </prop>
-   <status>HTTP/1.1 200 OK</status>
-  </propstat>
-  <propstat>
-   <prop>
-    <C1:dropbox-home-URL/>
-    <C1:notifications-URL/>
-   </prop>
-   <status>HTTP/1.1 404 Not Found</status>
-  </propstat>
- </response>
- <response>
-  <href>/caldav.php/user1/home/20061101T073004Z.ics</href>
-  <propstat>
-   <prop>
-    <displayname>A Meeting</displayname>
-    <C:calendar-home-set>
-     <href>/caldav.php/user1/</href>
-    </C:calendar-home-set>
-    <C:schedule-inbox-URL>
-     <href>/caldav.php/user1/.in/</href>
-    </C:schedule-inbox-URL>
-    <C:schedule-outbox-URL>
-     <href>/caldav.php/user1/.out/</href>
-    </C:schedule-outbox-URL>
-    <C:calendar-user-address-set>
-     <href>mailto:user1@example.net</href>
-     <href>/caldav.php/user1/</href>
-    </C:calendar-user-address-set>
-   </prop>
-   <status>HTTP/1.1 200 OK</status>
-  </propstat>
-  <propstat>
-   <prop>
-    <C1:dropbox-home-URL/>
-    <C1:notifications-URL/>
-   </prop>
-   <status>HTTP/1.1 404 Not Found</status>
-  </propstat>
- </response>
- <response>
-  <href>/caldav.php/user1/home/2178279a-aec2-471f-832d-1f6df6203f2f.ics</href>
-  <propstat>
-   <prop>
-    <displayname>Incomplete, uncancelled</displayname>
-    <C:calendar-home-set>
-     <href>/caldav.php/user1/</href>
-    </C:calendar-home-set>
-    <C:schedule-inbox-URL>
-     <href>/caldav.php/user1/.in/</href>
-    </C:schedule-inbox-URL>
-    <C:schedule-outbox-URL>
-     <href>/caldav.php/user1/.out/</href>
-    </C:schedule-outbox-URL>
-    <C:calendar-user-address-set>
-     <href>mailto:user1@example.net</href>
-     <href>/caldav.php/user1/</href>
-    </C:calendar-user-address-set>
-   </prop>
-   <status>HTTP/1.1 200 OK</status>
-  </propstat>
-  <propstat>
-   <prop>
-    <C1:dropbox-home-URL/>
-    <C1:notifications-URL/>
-   </prop>
-   <status>HTTP/1.1 404 Not Found</status>
-  </propstat>
- </response>
- <response>
-  <href>/caldav.php/user1/home/3F4CF6227300FD062D9EF3CDFB30D32D-0.ics</href>
-  <propstat>
-   <prop>
-    <displayname>Lunch with David</displayname>
-    <C:calendar-home-set>
-     <href>/caldav.php/user1/</href>
-    </C:calendar-home-set>
-    <C:schedule-inbox-URL>
-     <href>/caldav.php/user1/.in/</href>
-    </C:schedule-inbox-URL>
-    <C:schedule-outbox-URL>
-     <href>/caldav.php/user1/.out/</href>
-    </C:schedule-outbox-URL>
-    <C:calendar-user-address-set>
-     <href>mailto:user1@example.net</href>
-     <href>/caldav.php/user1/</href>
-    </C:calendar-user-address-set>
-   </prop>
-   <status>HTTP/1.1 200 OK</status>
-  </propstat>
-  <propstat>
-   <prop>
-    <C1:dropbox-home-URL/>
-    <C1:notifications-URL/>
-   </prop>
-   <status>HTTP/1.1 404 Not Found</status>
-  </propstat>
- </response>
- <response>
-  <href>/caldav.php/user1/home/4aaf8f37-f232-4c8e-a72e-e171d4c4fe54.ics</href>
-  <propstat>
-   <prop>
-    <displayname>Weekly Project Meeting</displayname>
-    <C:calendar-home-set>
-     <href>/caldav.php/user1/</href>
-    </C:calendar-home-set>
-    <C:schedule-inbox-URL>
-     <href>/caldav.php/user1/.in/</href>
-    </C:schedule-inbox-URL>
-    <C:schedule-outbox-URL>
-     <href>/caldav.php/user1/.out/</href>
-    </C:schedule-outbox-URL>
-    <C:calendar-user-address-set>
-     <href>mailto:user1@example.net</href>
-     <href>/caldav.php/user1/</href>
-    </C:calendar-user-address-set>
-   </prop>
-   <status>HTTP/1.1 200 OK</status>
-  </propstat>
-  <propstat>
-   <prop>
-    <C1:dropbox-home-URL/>
-    <C1:notifications-URL/>
-   </prop>
-   <status>HTTP/1.1 404 Not Found</status>
-  </propstat>
- </response>
- <response>
-  <href>/caldav.php/user1/home/71e2ae82-7870-11db-c6d6-f6927c144649.ics</href>
-  <propstat>
-   <prop>
-    <displayname>Beer O'Clock</displayname>
-    <C:calendar-home-set>
-     <href>/caldav.php/user1/</href>
-    </C:calendar-home-set>
-    <C:schedule-inbox-URL>
-     <href>/caldav.php/user1/.in/</href>
-    </C:schedule-inbox-URL>
-    <C:schedule-outbox-URL>
-     <href>/caldav.php/user1/.out/</href>
-    </C:schedule-outbox-URL>
-    <C:calendar-user-address-set>
-     <href>mailto:user1@example.net</href>
-     <href>/caldav.php/user1/</href>
-    </C:calendar-user-address-set>
-   </prop>
-   <status>HTTP/1.1 200 OK</status>
-  </propstat>
-  <propstat>
-   <prop>
-    <C1:dropbox-home-URL/>
-    <C1:notifications-URL/>
-   </prop>
-   <status>HTTP/1.1 404 Not Found</status>
-  </propstat>
- </response>
- <response>
-  <href>/caldav.php/user1/home/917b9e47-b748-4550-a566-657fbe672447.ics</href>
-  <propstat>
-   <prop>
-    <displayname>50% Complete, uncancelled</displayname>
-    <C:calendar-home-set>
-     <href>/caldav.php/user1/</href>
-    </C:calendar-home-set>
-    <C:schedule-inbox-URL>
-     <href>/caldav.php/user1/.in/</href>
-    </C:schedule-inbox-URL>
-    <C:schedule-outbox-URL>
-     <href>/caldav.php/user1/.out/</href>
-    </C:schedule-outbox-URL>
-    <C:calendar-user-address-set>
-     <href>mailto:user1@example.net</href>
-     <href>/caldav.php/user1/</href>
-    </C:calendar-user-address-set>
-   </prop>
-   <status>HTTP/1.1 200 OK</status>
-  </propstat>
-  <propstat>
-   <prop>
-    <C1:dropbox-home-URL/>
-    <C1:notifications-URL/>
-   </prop>
-   <status>HTTP/1.1 404 Not Found</status>
-  </propstat>
- </response>
- <response>
-  <href>/caldav.php/user1/home/9d050be7-8a02-4355-8ed3-02a9fc5f473f.ics</href>
-  <propstat>
-   <prop>
-    <displayname>Confidential Event</displayname>
-    <C:calendar-home-set>
-     <href>/caldav.php/user1/</href>
-    </C:calendar-home-set>
-    <C:schedule-inbox-URL>
-     <href>/caldav.php/user1/.in/</href>
-    </C:schedule-inbox-URL>
-    <C:schedule-outbox-URL>
-     <href>/caldav.php/user1/.out/</href>
-    </C:schedule-outbox-URL>
-    <C:calendar-user-address-set>
-     <href>mailto:user1@example.net</href>
-     <href>/caldav.php/user1/</href>
-    </C:calendar-user-address-set>
-   </prop>
-   <status>HTTP/1.1 200 OK</status>
-  </propstat>
-  <propstat>
-   <prop>
-    <C1:dropbox-home-URL/>
-    <C1:notifications-URL/>
-   </prop>
-   <status>HTTP/1.1 404 Not Found</status>
-  </propstat>
- </response>
- <response>
-  <href>/caldav.php/user1/home/AAA9318E-37D9-4319-8626-95ECD3D3B243.ics</href>
-  <propstat>
-   <prop>
-    <displayname>BBQ @ ML's</displayname>
-    <C:calendar-home-set>
-     <href>/caldav.php/user1/</href>
-    </C:calendar-home-set>
-    <C:schedule-inbox-URL>
-     <href>/caldav.php/user1/.in/</href>
-    </C:schedule-inbox-URL>
-    <C:schedule-outbox-URL>
-     <href>/caldav.php/user1/.out/</href>
-    </C:schedule-outbox-URL>
-    <C:calendar-user-address-set>
-     <href>mailto:user1@example.net</href>
-     <href>/caldav.php/user1/</href>
-    </C:calendar-user-address-set>
-   </prop>
-   <status>HTTP/1.1 200 OK</status>
-  </propstat>
-  <propstat>
-   <prop>
-    <C1:dropbox-home-URL/>
-    <C1:notifications-URL/>
-   </prop>
-   <status>HTTP/1.1 404 Not Found</status>
-  </propstat>
- </response>
- <response>
-  <href>/caldav.php/user1/home/b1679f77-673d-4f46-b3eb-2420e1bba301.ics</href>
-  <propstat>
-   <prop>
-    <displayname>A Cancelled Task, with a start and due date</displayname>
-    <C:calendar-home-set>
-     <href>/caldav.php/user1/</href>
-    </C:calendar-home-set>
-    <C:schedule-inbox-URL>
-     <href>/caldav.php/user1/.in/</href>
-    </C:schedule-inbox-URL>
-    <C:schedule-outbox-URL>
-     <href>/caldav.php/user1/.out/</href>
-    </C:schedule-outbox-URL>
-    <C:calendar-user-address-set>
-     <href>mailto:user1@example.net</href>
-     <href>/caldav.php/user1/</href>
-    </C:calendar-user-address-set>
-   </prop>
-   <status>HTTP/1.1 200 OK</status>
-  </propstat>
-  <propstat>
-   <prop>
-    <C1:dropbox-home-URL/>
-    <C1:notifications-URL/>
-   </prop>
-   <status>HTTP/1.1 404 Not Found</status>
-  </propstat>
- </response>
- <response>
-  <href>/caldav.php/user1/home/da81c0ee-7871-11db-c6d6-f6927c144649.ics</href>
-  <propstat>
-   <prop>
-    <displayname>Morning Mgmt Mtg</displayname>
-    <C:calendar-home-set>
-     <href>/caldav.php/user1/</href>
-    </C:calendar-home-set>
-    <C:schedule-inbox-URL>
-     <href>/caldav.php/user1/.in/</href>
-    </C:schedule-inbox-URL>
-    <C:schedule-outbox-URL>
-     <href>/caldav.php/user1/.out/</href>
-    </C:schedule-outbox-URL>
-    <C:calendar-user-address-set>
-     <href>mailto:user1@example.net</href>
-     <href>/caldav.php/user1/</href>
-    </C:calendar-user-address-set>
-   </prop>
-   <status>HTTP/1.1 200 OK</status>
-  </propstat>
-  <propstat>
-   <prop>
-    <C1:dropbox-home-URL/>
-    <C1:notifications-URL/>
-   </prop>
-   <status>HTTP/1.1 404 Not Found</status>
-  </propstat>
- </response>
- <response>
-  <href>/caldav.php/user1/home/e6eb5bc9-f7f9-4a0a-94e8-8e90eefc7d08.ics</href>
-  <propstat>
-   <prop>
-    <displayname>Release 0.9.3</displayname>
-    <C:calendar-home-set>
-     <href>/caldav.php/user1/</href>
-    </C:calendar-home-set>
-    <C:schedule-inbox-URL>
-     <href>/caldav.php/user1/.in/</href>
-    </C:schedule-inbox-URL>
-    <C:schedule-outbox-URL>
-     <href>/caldav.php/user1/.out/</href>
-    </C:schedule-outbox-URL>
-    <C:calendar-user-address-set>
-     <href>mailto:user1@example.net</href>
-     <href>/caldav.php/user1/</href>
-    </C:calendar-user-address-set>
-   </prop>
-   <status>HTTP/1.1 200 OK</status>
-  </propstat>
-  <propstat>
-   <prop>
-    <C1:dropbox-home-URL/>
-    <C1:notifications-URL/>
-   </prop>
-   <status>HTTP/1.1 404 Not Found</status>
-  </propstat>
- </response>
- <response>
-  <href>/caldav.php/user1/home/e70576e9-c1e0-431e-a507-0386fd82f223.ics</href>
-  <propstat>
-   <prop>
-    <displayname>Morning Meeting</displayname>
-    <C:calendar-home-set>
-     <href>/caldav.php/user1/</href>
-    </C:calendar-home-set>
-    <C:schedule-inbox-URL>
-     <href>/caldav.php/user1/.in/</href>
-    </C:schedule-inbox-URL>
-    <C:schedule-outbox-URL>
-     <href>/caldav.php/user1/.out/</href>
-    </C:schedule-outbox-URL>
-    <C:calendar-user-address-set>
-     <href>mailto:user1@example.net</href>
-     <href>/caldav.php/user1/</href>
-    </C:calendar-user-address-set>
-   </prop>
-   <status>HTTP/1.1 200 OK</status>
-  </propstat>
-  <propstat>
-   <prop>
-    <C1:dropbox-home-URL/>
-    <C1:notifications-URL/>
-   </prop>
-   <status>HTTP/1.1 404 Not Found</status>
-  </propstat>
- </response>
- <response>
-  <href>/caldav.php/user1/home/fbd57454-d966-4a14-8341-abe1edb1ae66.ics</href>
-  <propstat>
-   <prop>
-    <displayname>Tentative Event</displayname>
-    <C:calendar-home-set>
-     <href>/caldav.php/user1/</href>
-    </C:calendar-home-set>
-    <C:schedule-inbox-URL>
-     <href>/caldav.php/user1/.in/</href>
-    </C:schedule-inbox-URL>
-    <C:schedule-outbox-URL>
-     <href>/caldav.php/user1/.out/</href>
-    </C:schedule-outbox-URL>
-    <C:calendar-user-address-set>
-     <href>mailto:user1@example.net</href>
-     <href>/caldav.php/user1/</href>
-    </C:calendar-user-address-set>
-   </prop>
-   <status>HTTP/1.1 200 OK</status>
-  </propstat>
-  <propstat>
-   <prop>
-    <C1:dropbox-home-URL/>
-    <C1:notifications-URL/>
+    <C1:calendar-description/>
+    <A:calendar-color/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
@@ -504,27 +138,65 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/created/</href>
   <propstat>
    <prop>
+    <C1:supported-calendar-component-set>
+     <C1:comp name="VEVENT"/>
+     <C1:comp name="VTODO"/>
+     <C1:comp name="VJOURNAL"/>
+     <C1:comp name="VTIMEZONE"/>
+     <C1:comp name="VFREEBUSY"/>
+    </C1:supported-calendar-component-set>
+    <resourcetype>
+     <collection/>
+     <C1:calendar/>
+     <C1:schedule-calendar/>
+    </resourcetype>
     <displayname>created</displayname>
-    <C:calendar-home-set>
-     <href>/caldav.php/user1/</href>
-    </C:calendar-home-set>
-    <C:schedule-inbox-URL>
-     <href>/caldav.php/user1/.in/</href>
-    </C:schedule-inbox-URL>
-    <C:schedule-outbox-URL>
-     <href>/caldav.php/user1/.out/</href>
-    </C:schedule-outbox-URL>
-    <C:calendar-user-address-set>
-     <href>mailto:user1@example.net</href>
-     <href>/caldav.php/user1/</href>
-    </C:calendar-user-address-set>
+    <C:getctag>"bac273dae96780a3c8ed0c032266322c"</C:getctag>
+    <current-user-privilege-set>
+     <privilege>
+      <all/>
+     </privilege>
+     <privilege>
+      <C1:read-free-busy/>
+     </privilege>
+     <privilege>
+      <read/>
+     </privilege>
+     <privilege>
+      <write/>
+     </privilege>
+     <privilege>
+      <bind/>
+     </privilege>
+     <privilege>
+      <unbind/>
+     </privilege>
+     <privilege>
+      <write-content/>
+     </privilege>
+     <privilege>
+      <write-properties/>
+     </privilege>
+     <privilege>
+      <lock/>
+     </privilege>
+     <privilege>
+      <unlock/>
+     </privilege>
+     <privilege>
+      <read-acl/>
+     </privilege>
+     <privilege>
+      <read-current-user-privilege-set/>
+     </privilege>
+    </current-user-privilege-set>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
   <propstat>
    <prop>
-    <C1:dropbox-home-URL/>
-    <C1:notifications-URL/>
+    <C1:calendar-description/>
+    <A:calendar-color/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
@@ -533,27 +205,64 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/.in/</href>
   <propstat>
    <prop>
+    <C1:supported-calendar-component-set>
+     <C1:comp name="VEVENT"/>
+     <C1:comp name="VTODO"/>
+     <C1:comp name="VJOURNAL"/>
+     <C1:comp name="VTIMEZONE"/>
+     <C1:comp name="VFREEBUSY"/>
+    </C1:supported-calendar-component-set>
+    <resourcetype>
+     <collection/>
+     <C1:schedule-inbox/>
+    </resourcetype>
     <displayname>User 1 Inbox</displayname>
-    <C:calendar-home-set>
-     <href>/caldav.php/user1/</href>
-    </C:calendar-home-set>
-    <C:schedule-inbox-URL>
-     <href>/caldav.php/user1/.in/</href>
-    </C:schedule-inbox-URL>
-    <C:schedule-outbox-URL>
-     <href>/caldav.php/user1/.out/</href>
-    </C:schedule-outbox-URL>
-    <C:calendar-user-address-set>
-     <href>mailto:user1@example.net</href>
-     <href>/caldav.php/user1/</href>
-    </C:calendar-user-address-set>
+    <C:getctag>""</C:getctag>
+    <current-user-privilege-set>
+     <privilege>
+      <all/>
+     </privilege>
+     <privilege>
+      <C1:read-free-busy/>
+     </privilege>
+     <privilege>
+      <read/>
+     </privilege>
+     <privilege>
+      <write/>
+     </privilege>
+     <privilege>
+      <bind/>
+     </privilege>
+     <privilege>
+      <unbind/>
+     </privilege>
+     <privilege>
+      <write-content/>
+     </privilege>
+     <privilege>
+      <write-properties/>
+     </privilege>
+     <privilege>
+      <lock/>
+     </privilege>
+     <privilege>
+      <unlock/>
+     </privilege>
+     <privilege>
+      <read-acl/>
+     </privilege>
+     <privilege>
+      <read-current-user-privilege-set/>
+     </privilege>
+    </current-user-privilege-set>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
   <propstat>
    <prop>
-    <C1:dropbox-home-URL/>
-    <C1:notifications-URL/>
+    <C1:calendar-description/>
+    <A:calendar-color/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
@@ -562,27 +271,64 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/.out/</href>
   <propstat>
    <prop>
+    <C1:supported-calendar-component-set>
+     <C1:comp name="VEVENT"/>
+     <C1:comp name="VTODO"/>
+     <C1:comp name="VJOURNAL"/>
+     <C1:comp name="VTIMEZONE"/>
+     <C1:comp name="VFREEBUSY"/>
+    </C1:supported-calendar-component-set>
+    <resourcetype>
+     <collection/>
+     <C1:schedule-outbox/>
+    </resourcetype>
     <displayname>User 1 Outbox</displayname>
-    <C:calendar-home-set>
-     <href>/caldav.php/user1/</href>
-    </C:calendar-home-set>
-    <C:schedule-inbox-URL>
-     <href>/caldav.php/user1/.in/</href>
-    </C:schedule-inbox-URL>
-    <C:schedule-outbox-URL>
-     <href>/caldav.php/user1/.out/</href>
-    </C:schedule-outbox-URL>
-    <C:calendar-user-address-set>
-     <href>mailto:user1@example.net</href>
-     <href>/caldav.php/user1/</href>
-    </C:calendar-user-address-set>
+    <C:getctag>""</C:getctag>
+    <current-user-privilege-set>
+     <privilege>
+      <all/>
+     </privilege>
+     <privilege>
+      <C1:read-free-busy/>
+     </privilege>
+     <privilege>
+      <read/>
+     </privilege>
+     <privilege>
+      <write/>
+     </privilege>
+     <privilege>
+      <bind/>
+     </privilege>
+     <privilege>
+      <unbind/>
+     </privilege>
+     <privilege>
+      <write-content/>
+     </privilege>
+     <privilege>
+      <write-properties/>
+     </privilege>
+     <privilege>
+      <lock/>
+     </privilege>
+     <privilege>
+      <unlock/>
+     </privilege>
+     <privilege>
+      <read-acl/>
+     </privilege>
+     <privilege>
+      <read-current-user-privilege-set/>
+     </privilege>
+    </current-user-privilege-set>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
   <propstat>
    <prop>
-    <C1:dropbox-home-URL/>
-    <C1:notifications-URL/>
+    <C1:calendar-description/>
+    <A:calendar-color/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
@@ -591,85 +337,65 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/6E20BB7C-EFD9-4F0F-9BDC-5335E04D47E0/</href>
   <propstat>
    <prop>
+    <C1:supported-calendar-component-set>
+     <C1:comp name="VEVENT"/>
+     <C1:comp name="VTODO"/>
+     <C1:comp name="VJOURNAL"/>
+     <C1:comp name="VTIMEZONE"/>
+     <C1:comp name="VFREEBUSY"/>
+    </C1:supported-calendar-component-set>
+    <resourcetype>
+     <collection/>
+     <C1:calendar/>
+     <C1:schedule-calendar/>
+    </resourcetype>
     <displayname>iCal Calendar</displayname>
-    <C:calendar-home-set>
-     <href>/caldav.php/user1/</href>
-    </C:calendar-home-set>
-    <C:schedule-inbox-URL>
-     <href>/caldav.php/user1/.in/</href>
-    </C:schedule-inbox-URL>
-    <C:schedule-outbox-URL>
-     <href>/caldav.php/user1/.out/</href>
-    </C:schedule-outbox-URL>
-    <C:calendar-user-address-set>
-     <href>mailto:user1@example.net</href>
-     <href>/caldav.php/user1/</href>
-    </C:calendar-user-address-set>
+    <C:getctag>"ac192d10783fff90598af2facc8259df"</C:getctag>
+    <current-user-privilege-set>
+     <privilege>
+      <all/>
+     </privilege>
+     <privilege>
+      <C1:read-free-busy/>
+     </privilege>
+     <privilege>
+      <read/>
+     </privilege>
+     <privilege>
+      <write/>
+     </privilege>
+     <privilege>
+      <bind/>
+     </privilege>
+     <privilege>
+      <unbind/>
+     </privilege>
+     <privilege>
+      <write-content/>
+     </privilege>
+     <privilege>
+      <write-properties/>
+     </privilege>
+     <privilege>
+      <lock/>
+     </privilege>
+     <privilege>
+      <unlock/>
+     </privilege>
+     <privilege>
+      <read-acl/>
+     </privilege>
+     <privilege>
+      <read-current-user-privilege-set/>
+     </privilege>
+    </current-user-privilege-set>
+    <A:calendar-color>#391B71A0</A:calendar-color>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
   <propstat>
    <prop>
-    <C1:dropbox-home-URL/>
-    <C1:notifications-URL/>
-   </prop>
-   <status>HTTP/1.1 404 Not Found</status>
-  </propstat>
- </response>
- <response>
-  <href>/caldav.php/user1/6E20BB7C-EFD9-4F0F-9BDC-5335E04D47E0/6C8A0D88-E1F9-4FC1-9EDD-DA258ABF2CFA.ics</href>
-  <propstat>
-   <prop>
-    <displayname>Go to work</displayname>
-    <C:calendar-home-set>
-     <href>/caldav.php/user1/</href>
-    </C:calendar-home-set>
-    <C:schedule-inbox-URL>
-     <href>/caldav.php/user1/.in/</href>
-    </C:schedule-inbox-URL>
-    <C:schedule-outbox-URL>
-     <href>/caldav.php/user1/.out/</href>
-    </C:schedule-outbox-URL>
-    <C:calendar-user-address-set>
-     <href>mailto:user1@example.net</href>
-     <href>/caldav.php/user1/</href>
-    </C:calendar-user-address-set>
-   </prop>
-   <status>HTTP/1.1 200 OK</status>
-  </propstat>
-  <propstat>
-   <prop>
-    <C1:dropbox-home-URL/>
-    <C1:notifications-URL/>
-   </prop>
-   <status>HTTP/1.1 404 Not Found</status>
-  </propstat>
- </response>
- <response>
-  <href>/caldav.php/user1/6E20BB7C-EFD9-4F0F-9BDC-5335E04D47E0/E6BC62F3-77C6-4FB7-BDD3-6882E2F1BE74.ics</href>
-  <propstat>
-   <prop>
-    <displayname>Celebrate a significant birthday</displayname>
-    <C:calendar-home-set>
-     <href>/caldav.php/user1/</href>
-    </C:calendar-home-set>
-    <C:schedule-inbox-URL>
-     <href>/caldav.php/user1/.in/</href>
-    </C:schedule-inbox-URL>
-    <C:schedule-outbox-URL>
-     <href>/caldav.php/user1/.out/</href>
-    </C:schedule-outbox-URL>
-    <C:calendar-user-address-set>
-     <href>mailto:user1@example.net</href>
-     <href>/caldav.php/user1/</href>
-    </C:calendar-user-address-set>
-   </prop>
-   <status>HTTP/1.1 200 OK</status>
-  </propstat>
-  <propstat>
-   <prop>
-    <C1:dropbox-home-URL/>
-    <C1:notifications-URL/>
+    <C1:calendar-description/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
@@ -678,27 +404,65 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/calendar-proxy-read/</href>
   <propstat>
    <prop>
+    <C1:supported-calendar-component-set>
+     <C1:comp name="VEVENT"/>
+     <C1:comp name="VTODO"/>
+     <C1:comp name="VJOURNAL"/>
+     <C1:comp name="VTIMEZONE"/>
+     <C1:comp name="VFREEBUSY"/>
+    </C1:supported-calendar-component-set>
+    <resourcetype>
+     <collection/>
+     <principal/>
+     <C:calendar-proxy-read/>
+    </resourcetype>
     <displayname>/user1/calendar-proxy-read/</displayname>
-    <C:calendar-home-set>
-     <href>/caldav.php/user1/</href>
-    </C:calendar-home-set>
-    <C:schedule-inbox-URL>
-     <href>/caldav.php/user1/.in/</href>
-    </C:schedule-inbox-URL>
-    <C:schedule-outbox-URL>
-     <href>/caldav.php/user1/.out/</href>
-    </C:schedule-outbox-URL>
-    <C:calendar-user-address-set>
-     <href>mailto:user1@example.net</href>
-     <href>/caldav.php/user1/</href>
-    </C:calendar-user-address-set>
+    <C:getctag>"3646538a5bdbcc9a144ee36f36000214"</C:getctag>
+    <current-user-privilege-set>
+     <privilege>
+      <all/>
+     </privilege>
+     <privilege>
+      <C1:read-free-busy/>
+     </privilege>
+     <privilege>
+      <read/>
+     </privilege>
+     <privilege>
+      <write/>
+     </privilege>
+     <privilege>
+      <bind/>
+     </privilege>
+     <privilege>
+      <unbind/>
+     </privilege>
+     <privilege>
+      <write-content/>
+     </privilege>
+     <privilege>
+      <write-properties/>
+     </privilege>
+     <privilege>
+      <lock/>
+     </privilege>
+     <privilege>
+      <unlock/>
+     </privilege>
+     <privilege>
+      <read-acl/>
+     </privilege>
+     <privilege>
+      <read-current-user-privilege-set/>
+     </privilege>
+    </current-user-privilege-set>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
   <propstat>
    <prop>
-    <C1:dropbox-home-URL/>
-    <C1:notifications-URL/>
+    <C1:calendar-description/>
+    <A:calendar-color/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
@@ -707,27 +471,65 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/calendar-proxy-write/</href>
   <propstat>
    <prop>
+    <C1:supported-calendar-component-set>
+     <C1:comp name="VEVENT"/>
+     <C1:comp name="VTODO"/>
+     <C1:comp name="VJOURNAL"/>
+     <C1:comp name="VTIMEZONE"/>
+     <C1:comp name="VFREEBUSY"/>
+    </C1:supported-calendar-component-set>
+    <resourcetype>
+     <collection/>
+     <principal/>
+     <C:calendar-proxy-write/>
+    </resourcetype>
     <displayname>/user1/calendar-proxy-write/</displayname>
-    <C:calendar-home-set>
-     <href>/caldav.php/user1/</href>
-    </C:calendar-home-set>
-    <C:schedule-inbox-URL>
-     <href>/caldav.php/user1/.in/</href>
-    </C:schedule-inbox-URL>
-    <C:schedule-outbox-URL>
-     <href>/caldav.php/user1/.out/</href>
-    </C:schedule-outbox-URL>
-    <C:calendar-user-address-set>
-     <href>mailto:user1@example.net</href>
-     <href>/caldav.php/user1/</href>
-    </C:calendar-user-address-set>
+    <C:getctag>"1fe22bc6877accf64891e7c9c5428b86"</C:getctag>
+    <current-user-privilege-set>
+     <privilege>
+      <all/>
+     </privilege>
+     <privilege>
+      <C1:read-free-busy/>
+     </privilege>
+     <privilege>
+      <read/>
+     </privilege>
+     <privilege>
+      <write/>
+     </privilege>
+     <privilege>
+      <bind/>
+     </privilege>
+     <privilege>
+      <unbind/>
+     </privilege>
+     <privilege>
+      <write-content/>
+     </privilege>
+     <privilege>
+      <write-properties/>
+     </privilege>
+     <privilege>
+      <lock/>
+     </privilege>
+     <privilege>
+      <unlock/>
+     </privilege>
+     <privilege>
+      <read-acl/>
+     </privilege>
+     <privilege>
+      <read-current-user-privilege-set/>
+     </privilege>
+    </current-user-privilege-set>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
   <propstat>
    <prop>
-    <C1:dropbox-home-URL/>
-    <C1:notifications-URL/>
+    <C1:calendar-description/>
+    <A:calendar-color/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>

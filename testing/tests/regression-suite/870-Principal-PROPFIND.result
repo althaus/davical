@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<multistatus xmlns="DAV:">
+<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
  <response>
   <href>/caldav.php/user1/</href>
   <propstat>
@@ -18,7 +18,6 @@
     <getcontentlanguage/>
     <getcontentlength/>
     <getcontenttype>httpd/unix-directory</getcontenttype>
-    <getetag>"89514106d00f37cc9ee71689c450d2ef"</getetag>
     <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
     <resourcetype>
      <principal/>
@@ -39,6 +38,7 @@
   </propstat>
   <propstat>
    <prop>
+    <getetag/>
     <lockdiscovery/>
     <source/>
     <checked-in/>

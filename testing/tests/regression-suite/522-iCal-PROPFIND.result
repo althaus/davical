@@ -1,17 +1,16 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
-ETag: "d4bcb58c32706d332ffd4234c2280d89"
-Content-Length: 3560
+ETag: "91a8cf2fbee879465adb012a3716f2a6"
+Content-Length: 3520
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
-<multistatus xmlns="DAV:" xmlns:A="http://calendarserver.org/ns/" xmlns:C="urn:ietf:params:xml:ns:caldav" xmlns:A1="http://apple.com/ns/ical/">
+<multistatus xmlns="DAV:" xmlns:C="http://calendarserver.org/ns/" xmlns:C1="urn:ietf:params:xml:ns:caldav" xmlns:A="http://apple.com/ns/ical/">
  <response>
   <href>/caldav.php/user2/</href>
   <propstat>
    <prop>
-    <A:getctag>"f3a754d098fc688900631c6293d40fa5"</A:getctag>
     <displayname>User 2</displayname>
     <resourcetype>
      <principal/>
@@ -22,10 +21,11 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
   <propstat>
    <prop>
-    <C:calendar-free-busy-set/>
-    <C:calendar-description/>
-    <A1:calendar-color/>
-    <A1:calendar-order/>
+    <C:getctag/>
+    <C1:calendar-free-busy-set/>
+    <C1:calendar-description/>
+    <A:calendar-color/>
+    <A:calendar-order/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
@@ -36,20 +36,20 @@ Content-Type: text/xml; charset="utf-8"
    <prop>
     <resourcetype>
      <collection/>
-     <C:calendar/>
-     <C:schedule-calendar/>
+     <C1:calendar/>
+     <C1:schedule-calendar/>
     </resourcetype>
     <displayname>user2 home</displayname>
-    <A:getctag>"876883ebf6e5e80fb501f490c70803b5"</A:getctag>
+    <C:getctag>"876883ebf6e5e80fb501f490c70803b5"</C:getctag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
   <propstat>
    <prop>
-    <C:calendar-free-busy-set/>
-    <C:calendar-description/>
-    <A1:calendar-color/>
-    <A1:calendar-order/>
+    <C1:calendar-free-busy-set/>
+    <C1:calendar-description/>
+    <A:calendar-color/>
+    <A:calendar-order/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
@@ -60,21 +60,21 @@ Content-Type: text/xml; charset="utf-8"
    <prop>
     <resourcetype>
      <collection/>
-     <C:schedule-inbox/>
+     <C1:schedule-inbox/>
     </resourcetype>
     <displayname>User 2 Inbox</displayname>
-    <A:getctag>""</A:getctag>
-    <C:calendar-free-busy-set>
+    <C:getctag>""</C:getctag>
+    <C1:calendar-free-busy-set>
      <href>/caldav.php/user2/home/</href>
-    </C:calendar-free-busy-set>
+    </C1:calendar-free-busy-set>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
   <propstat>
    <prop>
-    <C:calendar-description/>
-    <A1:calendar-color/>
-    <A1:calendar-order/>
+    <C1:calendar-description/>
+    <A:calendar-color/>
+    <A:calendar-order/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
@@ -85,19 +85,19 @@ Content-Type: text/xml; charset="utf-8"
    <prop>
     <resourcetype>
      <collection/>
-     <C:schedule-outbox/>
+     <C1:schedule-outbox/>
     </resourcetype>
     <displayname>User 2 Outbox</displayname>
-    <A:getctag>""</A:getctag>
+    <C:getctag>""</C:getctag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
   <propstat>
    <prop>
-    <C:calendar-free-busy-set/>
-    <C:calendar-description/>
-    <A1:calendar-color/>
-    <A1:calendar-order/>
+    <C1:calendar-free-busy-set/>
+    <C1:calendar-description/>
+    <A:calendar-color/>
+    <A:calendar-order/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
@@ -109,19 +109,19 @@ Content-Type: text/xml; charset="utf-8"
     <resourcetype>
      <collection/>
      <principal/>
-     <A:calendar-proxy-read/>
+     <C:calendar-proxy-read/>
     </resourcetype>
     <displayname>/user2/calendar-proxy-read/</displayname>
-    <A:getctag>"19a2e9eecca4a20bb93c23c0ab653d77"</A:getctag>
+    <C:getctag>"19a2e9eecca4a20bb93c23c0ab653d77"</C:getctag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
   <propstat>
    <prop>
-    <C:calendar-free-busy-set/>
-    <C:calendar-description/>
-    <A1:calendar-color/>
-    <A1:calendar-order/>
+    <C1:calendar-free-busy-set/>
+    <C1:calendar-description/>
+    <A:calendar-color/>
+    <A:calendar-order/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
@@ -133,19 +133,19 @@ Content-Type: text/xml; charset="utf-8"
     <resourcetype>
      <collection/>
      <principal/>
-     <A:calendar-proxy-write/>
+     <C:calendar-proxy-write/>
     </resourcetype>
     <displayname>/user2/calendar-proxy-write/</displayname>
-    <A:getctag>"f9ade6a8d81cbc6a7a7b932981955bb4"</A:getctag>
+    <C:getctag>"f9ade6a8d81cbc6a7a7b932981955bb4"</C:getctag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
   <propstat>
    <prop>
-    <C:calendar-free-busy-set/>
-    <C:calendar-description/>
-    <A1:calendar-color/>
-    <A1:calendar-order/>
+    <C1:calendar-free-busy-set/>
+    <C1:calendar-description/>
+    <A:calendar-color/>
+    <A:calendar-order/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
