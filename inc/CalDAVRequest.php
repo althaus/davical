@@ -425,6 +425,17 @@ EOSQL;
 
     if ( $session->AllowedTo("Admin") || $session->user_no == $this->user_no ) {
       $this->permissions = array('all' => 'all' );
+      $this->permissions['urn:ietf:params:xml:ns:caldav:read-free-busy'] = 'urn:ietf:params:xml:ns:caldav:read-free-busy';
+      $this->permissions['read'] = 'read';
+      $this->permissions['write'] = 'write';
+      $this->permissions['bind'] = 'bind';      // PUT of new content (i.e. Create)
+      $this->permissions['unbind'] = 'unbind';  // DELETE
+      $this->permissions['write-content'] = 'write-content';        // PUT Modify
+      $this->permissions['write-properties'] = 'write-properties';  // PROPPATCH
+      $this->permissions['lock'] = 'lock';
+      $this->permissions['unlock'] = 'unlock';
+      $this->permissions['read-acl'] = 'read-acl';
+      $this->permissions['read-current-user-privilege-set'] = 'read-current-user-privilege-set';
       dbg_error_log( "caldav", "Full permissions for %s", ( $session->user_no == $this->user_no ? "user accessing their own hierarchy" : "a systems administrator") );
       return;
     }
@@ -439,13 +450,32 @@ EOSQL;
     $qry = new PgQuery( "SELECT get_permissions( ?, ? ) AS perm;", $session->user_no, $this->user_no);
     if ( $qry->Exec("caldav") && $permission_result = $qry->Fetch() ) {
       $permission_result = "!".$permission_result->perm; // We prepend something to ensure we get a non-zero position.
-      if ( strpos($permission_result,"A") )
+      if ( strpos($permission_result,"A") ) {
         $this->permissions['all'] = 'all';
+        $this->permissions['urn:ietf:params:xml:ns:caldav:read-free-busy'] = 'urn:ietf:params:xml:ns:caldav:read-free-busy';
+        $this->permissions['read'] = 'read';
+        $this->permissions['write'] = 'write';
+        $this->permissions['bind'] = 'bind';      // PUT of new content (i.e. Create)
+        $this->permissions['unbind'] = 'unbind';  // DELETE
+        $this->permissions['write-content'] = 'write-content';        // PUT Modify
+        $this->permissions['write-properties'] = 'write-properties';  // PROPPATCH
+        $this->permissions['lock'] = 'lock';
+        $this->permissions['unlock'] = 'unlock';
+        $this->permissions['read-acl'] = 'read-acl';
+        $this->permissions['read-current-user-privilege-set'] = 'read-current-user-privilege-set';
+      }
       else {
-        if ( strpos($permission_result,"F") )       $this->permissions['freebusy'] = 'freebusy';
+        if ( strpos($permission_result,"F") )       $this->permissions['urn:ietf:params:xml:ns:caldav:read-free-busy'] = 'urn:ietf:params:xml:ns:caldav:read-free-busy';
         if ( strpos($permission_result,"R") )       $this->permissions['read'] = 'read';
-        if ( strpos($permission_result,"W") )
+        if ( strpos($permission_result,"W") ) {
           $this->permissions['write'] = 'write';
+          $this->permissions['bind'] = 'bind';      // PUT of new content (i.e. Create)
+          $this->permissions['unbind'] = 'unbind';  // DELETE
+          $this->permissions['write-content'] = 'write-content';        // PUT Modify
+          $this->permissions['write-properties'] = 'write-properties';  // PROPPATCH
+          $this->permissions['lock'] = 'lock';
+          $this->permissions['unlock'] = 'unlock';
+        }
         else {
           if ( strpos($permission_result,"C") )       $this->permissions['bind'] = 'bind';      // PUT of new content (i.e. Create)
           if ( strpos($permission_result,"D") )       $this->permissions['unbind'] = 'unbind';  // DELETE
@@ -688,19 +718,19 @@ EOSQL;
     if ( isset($this->permissions['all']) ) return true;
     switch( $activity ) {
       case "CALDAV:schedule-send-freebusy":
-        return isset($this->permissions['read']) || isset($this->permissions['freebusy']);
+        return isset($this->permissions['read']) || isset($this->permissions['urn:ietf:params:xml:ns:caldav:read-free-busy']);
         break;
 
       case "CALDAV:schedule-send-invite":
-        return isset($this->permissions['read']) || isset($this->permissions['freebusy']);
+        return isset($this->permissions['read']) || isset($this->permissions['urn:ietf:params:xml:ns:caldav:read-free-busy']);
         break;
 
       case "CALDAV:schedule-send-reply":
-        return isset($this->permissions['read']) || isset($this->permissions['freebusy']);
+        return isset($this->permissions['read']) || isset($this->permissions['urn:ietf:params:xml:ns:caldav:read-free-busy']);
         break;
 
       case 'freebusy':
-        return isset($this->permissions['read']) || isset($this->permissions['freebusy']);
+        return isset($this->permissions['read']) || isset($this->permissions['urn:ietf:params:xml:ns:caldav:read-free-busy']);
         break;
 
       case 'delete':
@@ -816,7 +846,8 @@ EOSQL;
   * @return array The supported privileges.
   */
   function SupportedPrivileges() {
-    $privs = array( "all"=>1, "read"=>1, "write"=>1, "bind"=>1, "unbind"=>1, "write-content"=>1);
+    $privs = array( "all"=>1, "read"=>1, "write"=>1, "bind"=>1, "unbind"=>1, "write-content"=>1,
+                    "write-properties"=>1, 'urn:ietf:params:xml:ns:caldav:read-free-busy' => 1);
     return $privs;
   }
 }
