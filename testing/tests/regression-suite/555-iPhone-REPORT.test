@@ -1,0 +1,23 @@
+#
+# Testing with a process similar to iPhone 3.1
+#
+TYPE=REPORT
+URL=http://mycaldav/caldav.php/user1/home/
+HEAD
+
+AUTH=user1:user1
+
+HEADER=User-Agent: DAVKit/4.0 (728.4); iCalendar/1 (42.1); iPhone/3.1 7C144
+HEADER=Content-Type: text/xml
+HEADER=Depth: 1
+
+#
+# This query from the iPhone seems to discover several things.  Firstly they
+# get the calendar-home-set URL for this path.  Secondly, they ascertain
+# whether the calendar supports scheduling, and finally, whether it
+# handles some Apple-specific extensions.
+#
+BEGINDATA
+<?xml version="1.0" encoding="utf-8" ?>
+<x0:calendar-query xmlns:x0="urn:ietf:params:xml:ns:caldav" xmlns:x1="DAV:"><x1:prop><x1:getetag/><x1:resourcetype/></x1:prop><x0:filter><x0:comp-filter name="VCALENDAR"><x0:comp-filter name="VEVENT"><x0:time-range start="20090827T120000Z"/></x0:comp-filter></x0:comp-filter></x0:filter></x0:calendar-query>
+ENDDATA
