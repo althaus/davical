@@ -170,7 +170,7 @@ EOERRMSG;
   if ( $qry->Exec('Login',__LINE,__FILE__) && $qry->rows == 1 ) {
     $usr = $qry->Fetch();
     if ( session_validate_password( $password, $usr->password ) ) {
-      UpdateUserFromExternal();
+      UpdateUserFromExternal($usr);
       return $usr;
     }
   }
