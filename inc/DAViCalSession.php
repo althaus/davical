@@ -59,7 +59,7 @@ class DAViCalSession extends Session
   *
   * @param string $sid A session identifier.
   */
-  function DAViCalSession( $sid="" ) {
+  function DAViCalSession( $sid='' ) {
     $this->Session($sid);
   }
 
@@ -72,7 +72,7 @@ class DAViCalSession extends Session
     parent::AssignSessionDetails( $u );
     $this->GetRoles();
     $this->GetRelationships();
-    if ( function_exists("awl_set_locale") && isset($this->locale) && $this->locale != "" ) {
+    if ( function_exists('awl_set_locale') && isset($this->locale) && $this->locale != '' ) {
       awl_set_locale($this->locale);
     }
   }
@@ -103,7 +103,7 @@ class DAViCalSession extends Session
     if ( $qry->Exec('DAViCalSession') && $qry->rows > 0 ) {
       while( $relationship = $qry->Fetch() ) {
         $this->relationships[$relationship->rt_id] = $relationship;
-        dbg_error_log( "DAViCalSession", "Relationships: %d - %s - %d - %s - %s -", $relationship->rt_id, $relationship->rt_name, $relationship->confers );
+        dbg_error_log( 'DAViCalSession', 'Relationships: %d - %s - %d - %s - %s -', $relationship->rt_id, $relationship->rt_name, $relationship->confers );
       }
     }
   }
@@ -118,39 +118,39 @@ class DAViCalSession extends Session
   * @param string $roles The list of roles that the user must be a member of one of to be allowed to proceed.
   * @return boolean Whether or not the user is logged in and is a member of one of the required roles.
   */
-  function LoginRequired( $roles = "" ) {
+  function LoginRequired( $roles = '' ) {
     global $c, $session, $main_menu, $sub_menu, $tab_menu;
 
-    if ( $this->logged_in && $roles == "" ) return;
+    if ( $this->logged_in && $roles == '' ) return;
     if ( ! $this->logged_in ) {
-      $c->messages[] = i18n("You must log in to use this system.");
-      include_once("page-header.php");
-      if ( function_exists("local_index_not_logged_in") ) {
+      $c->messages[] = i18n('You must log in to use this system.');
+      include_once('page-header.php');
+      if ( function_exists('local_index_not_logged_in') ) {
         local_index_not_logged_in();
       }
       else {
         if ( $this->login_failed ) {
-          $c->messages[] = i18n("Invalid user name or password.");
+          $c->messages[] = i18n('Invalid user name or password.');
         }
-        echo "<h1>".translate("Log On Please")."</h1>\n";
-        echo "<p>".translate("For access to the")
-                  ." ".translate($c->system_name)." "
-                  .translate("you should log on with the username and password that have been issued to you.")
+        echo '<h1>'.translate('Log On Please')."</h1>\n";
+        echo '<p>'.translate('For access to the')
+                  .' '.translate($c->system_name).' '
+                  .translate('you should log on with the username and password that have been issued to you.')
             ."</p>\n";
-        echo "<p>".translate("If you would like to request access, please e-mail")." ".$c->admin_email."</p>\n";
+        echo '<p>'.translate('If you would like to request access, please e-mail').' '.$c->admin_email."</p>\n";
         echo $this->RenderLoginPanel();
       }
     }
     else {
-      $valid_roles = split(",", $roles);
+      $valid_roles = split(',', $roles);
       foreach( $valid_roles AS $k => $v ) {
         if ( $this->AllowedTo($v) ) return;
       }
-      $c->messages[] = i18n("You are not authorised to use this function.");
-      include_once("page-header.php");
+      $c->messages[] = i18n('You are not authorised to use this function.');
+      include_once('page-header.php');
     }
 
-    include("page-footer.php");
+    include('page-footer.php');
     exit;
   }
 }
@@ -158,4 +158,3 @@ class DAViCalSession extends Session
 $session = new DAViCalSession();
 $session->_CheckLogin();
 
-?>
