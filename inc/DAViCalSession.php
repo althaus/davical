@@ -121,6 +121,13 @@ class DAViCalSession extends Session
   function LoginRequired( $roles = '' ) {
     global $c, $session, $main_menu, $sub_menu, $tab_menu;
 
+    $current_domain = (isset($_SERVER['SERVER_NAME'])?$_SERVER['SERVER_NAME']:$_SERVER['SERVER_ADDR']);
+    if ( (isset($c->restrict_admin_domain) && $c->restrict_admin_domain != $current_domain)
+      || (isset($c->restrict_admin_port) && $c->restrict_admin_port != $_SERVER['SERVER_PORT'] ) ) {
+      header('Location: caldav.php');
+      dbg_error_log( 'LOG WARNING', 'Access to "%s" via "%s:%d" rejected.', $_SERVER['REQUEST_URI'], $current_domain, $_SERVER['SERVER_PORT'] );
+      exit(0);
+    }
     if ( $this->logged_in && $roles == '' ) return;
     if ( ! $this->logged_in ) {
       $c->messages[] = i18n('You must log in to use this system.');
