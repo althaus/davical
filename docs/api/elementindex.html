@@ -109,7 +109,15 @@
 			<span class="method-title">AllowedTo</span>
 					</dt>
 		<dd class="index-item-body">
-			<div class="index-item-details"><a href="davical/HTTPAuthSession/HTTPAuthSession.html#methodAllowedTo">HTTPAuthSession::AllowedTo()</a> in HTTPAuthSession.php</div>
+			<div class="index-item-details"><a href="davical/Request/CalDAVRequest.html#methodAllowedTo">CalDAVRequest::AllowedTo()</a> in CalDAVRequest.php</div>
+							<div class="index-item-description">Are we allowed to do the requested activity</div>
+					</dd>
+			<dt class="field">
+						<img src="media/images/Method.png" alt="Method" title="Method" />
+			<span class="method-title">AllowedTo</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="davical/PublicSession/PublicSession.html#methodAllowedTo">PublicSession::AllowedTo()</a> in PublicSession.php</div>
 							<div class="index-item-description">Checks whether a user is allowed to do something.</div>
 					</dd>
 			<dt class="field">
@@ -125,16 +133,8 @@
 			<span class="method-title">AllowedTo</span>
 					</dt>
 		<dd class="index-item-body">
-			<div class="index-item-details"><a href="davical/PublicSession/PublicSession.html#methodAllowedTo">PublicSession::AllowedTo()</a> in PublicSession.php</div>
+			<div class="index-item-details"><a href="davical/HTTPAuthSession/HTTPAuthSession.html#methodAllowedTo">HTTPAuthSession::AllowedTo()</a> in HTTPAuthSession.php</div>
 							<div class="index-item-description">Checks whether a user is allowed to do something.</div>
-					</dd>
-			<dt class="field">
-						<img src="media/images/Method.png" alt="Method" title="Method" />
-			<span class="method-title">AllowedTo</span>
-					</dt>
-		<dd class="index-item-body">
-			<div class="index-item-details"><a href="davical/Request/CalDAVRequest.html#methodAllowedTo">CalDAVRequest::AllowedTo()</a> in CalDAVRequest.php</div>
-							<div class="index-item-description">Are we allowed to do the requested activity</div>
 					</dd>
 			<dt class="field">
 						<img src="media/images/Method.png" alt="Method" title="Method" />
@@ -193,11 +193,25 @@
 							<div class="index-item-description">Authorisation failed, so we send some headers to say so.</div>
 					</dd>
 			<dt class="field">
+						<img src="media/images/Function.png" alt="Function" title="Function" />
+			<span class="method-title">AuthFamjama</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="davical/_inc---auth-famjama.php.html#functionAuthFamjama">AuthFamjama()</a> in auth-famjama.php</div>
+					</dd>
+			<dt class="field">
 						<img src="media/images/Page.png" alt="Page" title="Page" />
 			<span class="include-title">always.php</span>
 					</dt>
 		<dd class="index-item-body">
 			<div class="index-item-details"><a href="davical/_inc---always.php.html">always.php</a> in always.php</div>
+					</dd>
+			<dt class="field">
+						<img src="media/images/Page.png" alt="Page" title="Page" />
+			<span class="include-title">auth-famjama.php</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="davical/_inc---auth-famjama.php.html">auth-famjama.php</a> in auth-famjama.php</div>
 					</dd>
 			<dt class="field">
 						<img src="media/images/Page.png" alt="Page" title="Page" />
@@ -1667,7 +1681,7 @@
 					</dt>
 		<dd class="index-item-body">
 			<div class="index-item-details"><a href="davical/caldav/_inc---caldav-PUT-functions.php.html#functionputCalendarResource">putCalendarResource()</a> in caldav-PUT-functions.php</div>
-							<div class="index-item-description">Put the resource from this request</div>
+							<div class="index-item-description">Put the resource from this request - does some checking of things before  calling write_event to do the actual writing (without any checking).</div>
 					</dd>
 		</dl>
 	<a name="q"></a>
@@ -2072,6 +2086,14 @@
 					</dd>
 			<dt class="field">
 						<img src="media/images/Function.png" alt="Function" title="Function" />
+			<span class="method-title">simple_write_resource</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="davical/caldav/_inc---caldav-PUT-functions.php.html#functionsimple_write_resource">simple_write_resource()</a> in caldav-PUT-functions.php</div>
+							<div class="index-item-description">A slightly simpler version of write_resource which will make more sense for calling from  an external program.  This makes assumptions that the collection and user do exist  and bypasses all checks for whether it is reasonable to write this here.</div>
+					</dd>
+			<dt class="field">
+						<img src="media/images/Function.png" alt="Function" title="Function" />
 			<span class="method-title">SqlFilterFragment</span>
 					</dt>
 		<dd class="index-item-body">
@@ -2086,19 +2108,19 @@
 			<div class="index-item-details"><a href="davical/RRuleTest.html#methodSQLTest">RRuleTest::SQLTest()</a> in test-RRULE.php</div>
 					</dd>
 			<dt class="field">
+						<img src="media/images/Class.png" alt="Class" title="Class" />
+			squidPamDrivers
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="davical/ldap/squidPamDrivers.html">squidPamDrivers</a> in drivers_squid_pam.php</div>
+					</dd>
+			<dt class="field">
 						<img src="media/images/Constructor.png" alt="Method" title="Method" />
 			<span class="method-title">squidPamDrivers</span>
 					</dt>
 		<dd class="index-item-body">
 			<div class="index-item-details"><a href="davical/ldap/squidPamDrivers.html#methodsquidPamDrivers">squidPamDrivers::squidPamDrivers()</a> in drivers_squid_pam.php</div>
 							<div class="index-item-description">Constructor.</div>
-					</dd>
-			<dt class="field">
-						<img src="media/images/Class.png" alt="Class" title="Class" />
-			squidPamDrivers
-					</dt>
-		<dd class="index-item-body">
-			<div class="index-item-details"><a href="davical/ldap/squidPamDrivers.html">squidPamDrivers</a> in drivers_squid_pam.php</div>
 					</dd>
 			<dt class="field">
 						<img src="media/images/Function.png" alt="Function" title="Function" />
@@ -2409,6 +2431,14 @@
 		<dd class="index-item-body">
 			<div class="index-item-details"><a href="davical/DAViCalUser/DAViCalUser.html#methodWrite">DAViCalUser::Write()</a> in DAViCalUser.php</div>
 							<div class="index-item-description">Write the record to the file</div>
+					</dd>
+			<dt class="field">
+						<img src="media/images/Function.png" alt="Function" title="Function" />
+			<span class="method-title">write_resource</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="davical/caldav/_inc---caldav-PUT-functions.php.html#functionwrite_resource">write_resource()</a> in caldav-PUT-functions.php</div>
+							<div class="index-item-description">Actually write the resource to the database.  All checking of whether this is reasonable  should be done before this is called.</div>
 					</dd>
 			<dt class="field">
 						<img src="media/images/Function.png" alt="Function" title="Function" />

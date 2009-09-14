@@ -79,11 +79,25 @@
 							<div class="index-item-description">While we can construct our SQL to apply some filters in the query, other filters  need to be checked against the retrieved record.  This is for handling those ones.</div>
 					</dd>
 			<dt class="field">
+						<img src="media/images/Function.png" alt="Function" title="Function" />
+			<span class="method-title">AuthFamjama</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="davical/_inc---auth-famjama.php.html#functionAuthFamjama">AuthFamjama()</a> in auth-famjama.php</div>
+					</dd>
+			<dt class="field">
 						<img src="media/images/Page.png" alt="Page" title="Page" />
 			<span class="include-title">always.php</span>
 					</dt>
 		<dd class="index-item-body">
 			<div class="index-item-details"><a href="davical/_inc---always.php.html">always.php</a> in always.php</div>
+					</dd>
+			<dt class="field">
+						<img src="media/images/Page.png" alt="Page" title="Page" />
+			<span class="include-title">auth-famjama.php</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="davical/_inc---auth-famjama.php.html">auth-famjama.php</a> in auth-famjama.php</div>
 					</dd>
 			<dt class="field">
 						<img src="media/images/Function.png" alt="Function" title="Function" />
@@ -1157,7 +1171,7 @@
 					</dt>
 		<dd class="index-item-body">
 			<div class="index-item-details"><a href="davical/caldav/_inc---caldav-PUT-functions.php.html#functionputCalendarResource">putCalendarResource()</a> in caldav-PUT-functions.php</div>
-							<div class="index-item-description">Put the resource from this request</div>
+							<div class="index-item-description">Put the resource from this request - does some checking of things before  calling write_event to do the actual writing (without any checking).</div>
 					</dd>
 			<dt class="field">
 						<img src="media/images/Method.png" alt="Method" title="Method" />
@@ -1400,6 +1414,14 @@
 					</dt>
 		<dd class="index-item-body">
 			<div class="index-item-details"><a href="davical/RRuleTest.html#methodSQLTest">RRuleTest::SQLTest()</a> in test-RRULE.php</div>
+					</dd>
+			<dt class="field">
+						<img src="media/images/Function.png" alt="Function" title="Function" />
+			<span class="method-title">simple_write_resource</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="davical/caldav/_inc---caldav-PUT-functions.php.html#functionsimple_write_resource">simple_write_resource()</a> in caldav-PUT-functions.php</div>
+							<div class="index-item-description">A slightly simpler version of write_resource which will make more sense for calling from  an external program.  This makes assumptions that the collection and user do exist  and bypasses all checks for whether it is reasonable to write this here.</div>
 					</dd>
 			<dt class="field">
 						<img src="media/images/Global.png" alt="Global" title="Global" />
@@ -1657,6 +1679,14 @@
 		<div style="clear: both"></div>
 	</div>
 	<dl>
+			<dt class="field">
+						<img src="media/images/Function.png" alt="Function" title="Function" />
+			<span class="method-title">write_resource</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="davical/caldav/_inc---caldav-PUT-functions.php.html#functionwrite_resource">write_resource()</a> in caldav-PUT-functions.php</div>
+							<div class="index-item-description">Actually write the resource to the database.  All checking of whether this is reasonable  should be done before this is called.</div>
+					</dd>
 			<dt class="field">
 						<img src="media/images/Function.png" alt="Function" title="Function" />
 			<span class="method-title">write_scheduling_request</span>
