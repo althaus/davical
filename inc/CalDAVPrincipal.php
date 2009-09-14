@@ -234,7 +234,7 @@ class CalDAVPrincipal
       }
     }
 
-    dbg_error_log( 'principal', 'User: %s (%d) URL: %s, Home: %s, By Email: %d', $this->username, $this->user_no, $this->url, $this->calendar_home_set, $this->by_email );
+    dbg_error_log( 'principal', ' User: %s (%d) URL: %s, Home: %s, By Email: %d', $this->username, $this->user_no, $this->url, $this->calendar_home_set, $this->by_email );
   }
 
 

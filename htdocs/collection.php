@@ -46,4 +46,3 @@ include("page-header.php");
 echo $browser->Render();
 
 include("page-footer.php");
-?>

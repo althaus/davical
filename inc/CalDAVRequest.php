@@ -232,6 +232,7 @@ class CalDAVRequest
 
       $this->collection_id = $row->collection_id;
       $this->collection_path = $row->dav_name;
+      $this->collection_type = ($row->is_calendar == 't' ? 'calendar' : 'collection');
       $this->collection = $row;
     }
     else if ( preg_match( '#^((/[^/]+/)\.(in|out)/)[^/]*$#', $this->path, $matches ) ) {
