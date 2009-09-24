@@ -251,7 +251,8 @@ DECLARE
   in_from ALIAS FOR $1;
   in_to   ALIAS FOR $2;
   out_confers TEXT;
-  tmp_confers TEXT;
+  tmp_confers1 TEXT;
+  tmp_confers2 TEXT;
   tmp_txt TEXT;
   dbg TEXT DEFAULT '''';
   r RECORD;
@@ -278,26 +279,32 @@ BEGIN
            AND NOT EXISTS( SELECT 1 FROM role_member JOIN roles USING(role_no) WHERE role_member.user_no=r2.to_user AND roles.role_name=''Group'')
            AND NOT EXISTS( SELECT 1 FROM role_member JOIN roles USING(role_no) WHERE role_member.user_no=r1.from_user AND roles.role_name=''Group'')
   LOOP
-    -- RAISE NOTICE ''Permissions to group % from group %'', out_confers, tmp_confers;
+    -- RAISE NOTICE ''Permissions to group % from group %'', r.r1, r.r2;
     -- FIXME: This is an oversimplification
     -- dbg := ''C-'';
-    tmp_confers := r.r2;
-    IF r.r1 != tmp_confers THEN
-      IF tmp_confers ~* ''A'' THEN
+    tmp_confers1 := r.r1;
+    tmp_confers2 := r.r2;
+    IF tmp_confers1 != tmp_confers2 THEN
+      IF tmp_confers1 ~* ''A'' THEN
         -- Ensure that A is expanded to all supported privs before being used as a mask
-        tmp_confers := ''AFBRWU'';
+        tmp_confers1 := ''AFBRWU'';
       END IF;
+      IF tmp_confers2 ~* ''A'' THEN
+        -- Ensure that A is expanded to all supported privs before being used as a mask
+        tmp_confers2 := ''AFBRWU'';
+      END IF;
+      -- RAISE NOTICE ''Expanded permissions to group % from group %'', tmp_confers1, tmp_confers2;
       tmp_txt = '''';
-      FOR counter IN 1 .. length(tmp_confers) LOOP
-        IF r.r1 ~* substring(tmp_confers,counter,1) THEN
-          tmp_txt := tmp_txt || substring(tmp_confers,counter,1);
+      FOR counter IN 1 .. length(tmp_confers2) LOOP
+        IF tmp_confers1 ~* substring(tmp_confers2,counter,1) THEN
+          tmp_txt := tmp_txt || substring(tmp_confers2,counter,1);
         END IF;
       END LOOP;
-      tmp_confers := tmp_txt;
+      tmp_confers2 := tmp_txt;
     END IF;
-    FOR counter IN 1 .. length(tmp_confers) LOOP
-      IF NOT out_confers ~* substring(tmp_confers,counter,1) THEN
-        out_confers := out_confers || substring(tmp_confers,counter,1);
+    FOR counter IN 1 .. length(tmp_confers2) LOOP
+      IF NOT out_confers ~* substring(tmp_confers2,counter,1) THEN
+        out_confers := out_confers || substring(tmp_confers2,counter,1);
       END IF;
     END LOOP;
   END LOOP;
@@ -310,7 +317,7 @@ BEGIN
 
   -- RAISE NOTICE ''No complex relationships between % and %'', in_from, in_to;
 
-  SELECT rt1.confers INTO out_confers, tmp_confers FROM relationship r1 JOIN relationship_type rt1 ON ( r1.rt_id = rt1.rt_id )
+  SELECT rt1.confers INTO out_confers, tmp_confers1 FROM relationship r1 JOIN relationship_type rt1 ON ( r1.rt_id = rt1.rt_id )
               LEFT OUTER JOIN relationship r2 ON ( rt1.rt_id = r2.rt_id )
        WHERE r1.from_user = in_from AND r2.from_user = in_to AND r1.from_user != r2.from_user AND r1.to_user = r2.to_user
          AND NOT EXISTS( SELECT 1 FROM relationship r3 WHERE r3.from_user = r1.to_user ) ;
