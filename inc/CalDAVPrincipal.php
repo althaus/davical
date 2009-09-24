@@ -159,7 +159,7 @@ class CalDAVPrincipal
     $this->calendar_home_set = array( $this->url );
 
     $this->user_address_set = array(
-       rawurlencode('mailto:'.$this->email),
+       'mailto:'.$this->email,
        ConstructURL( '/'.$this->username.'/', true ),
 //       ConstructURL( '/~'.$this->username.'/', true ),
 //       ConstructURL( '/__uuids__/'.$this->username.'/', true ),
