@@ -66,7 +66,7 @@ class DAViCalUser extends User
 
     if ( isset($this->delete_user_confirmation_required) ) {
       $html .= '<p class="error">';
-      $html .= sprintf('<b>User:</b> %s: <a class="error" href="%s&%s">%s</a>', $this->Get('username'), $_SERVER['REQUEST_URI'], $this->delete_user_confirmation_required, translate('Confirm Deletion of the User') );
+      $html .= sprintf('<b>%s</b> \'%s\' <a class="error" href="%s&%s">%s</a> %s', translate('Deleting User:'), $this->Get('username'), $_SERVER['REQUEST_URI'], $this->delete_user_confirmation_required, translate('Confirm Deletion of the User'), translate('All of the user\'s calendars and events will be unrecoverably deleted.') );
       $html .= "</p>\n";
     }
 
@@ -289,7 +289,7 @@ EOSQL;
     $html = ( $title == '' ? '' : $ef->BreakLine(translate($title)) );
     if ( isset($this->delete_collection_confirmation_required) ) {
       $html .= '<tr><td colspan="2" class="error">';
-      $html .= sprintf('<b>Collection:</b> %s: <a class="error" href="%s&%s">%s</a>', $_GET['dav_name'], $_SERVER['REQUEST_URI'], $this->delete_collection_confirmation_required, translate('Confirm Deletion of the Collection') );
+      $html .= sprintf('<b>%s</b> "%s" <a class="error" href="%s&%s">%s</a> %s', translate('Deleting Collection:'), $_GET['dav_name'], $_SERVER['REQUEST_URI'], $this->delete_collection_confirmation_required, translate('Confirm Deletion of the Collection'), translate('All collection data will be unrecoverably deleted.') );
       $html .= "</td></tr>\n";
     }
     $html .= '<tr><td colspan="2">';

@@ -10,6 +10,9 @@
 
   $user_no = intval(isset($_POST['user_no']) ? $_POST['user_no'] : (isset($_GET['user_no'])?$_GET['user_no']:0) );
   $user = new DAViCalUser($user_no);
+  if ( 'insert' == $user->WriteType && $user->user_no > 0 ) {
+    $user = new DAViCalUser(0);
+  }
   if ( $user->user_no == 0 ) {
     $c->page_title = ( $user_no != "" ? translate("User Unavailable") : translate("New User") );
   }
@@ -53,7 +56,7 @@
 
   if ( $user->user_no > 0 ) {
     if ( $user->AllowedTo('update') && ! $user->EditMode ) {
-    	$user_menu->AddOption( sprintf(translate("Edit %s"), $user->Values->fullname), "$c->base_url/usr.php?user_no=$user->user_no&edit=1", translate("Edit this user record"), true, 900 );
+    	$user_menu->AddOption( sprintf(translate("Edit %s"), $user->Get('fullname')), "$c->base_url/usr.php?user_no=$user->user_no&edit=1", translate("Edit this user record"), true, 900 );
     }
     else {
       $user_menu->AddOption( sprintf(translate("View %s"), $user->Get('fullname')), "$c->base_url/usr.php?user_no=$user->user_no", translate("View this user record"), true, 900 );
