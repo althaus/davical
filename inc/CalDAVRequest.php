@@ -189,6 +189,11 @@ class CalDAVRequest
     $this->path = (isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : "/");
     $this->path = rawurldecode($this->path);
 
+    /** Allow a request for .../calendar.ics to translate into the calendar URL */
+    if ( preg_match( '#^(/[^/]+/[^/]+).ics$#', $this->path, $matches ) ) {
+      $this->path = $matches[1]. '/';
+    }
+
     // dbg_error_log( "caldav", "Sanitising path '%s'", $this->path );
     $bad_chars_regex = '/[\\^\\[\\(\\\\]/';
     if ( preg_match( $bad_chars_regex, $this->path ) ) {
@@ -234,13 +239,15 @@ class CalDAVRequest
       $this->collection_path = $row->dav_name;
       $this->collection_type = ($row->is_calendar == 't' ? 'calendar' : 'collection');
       $this->collection = $row;
+      $this->collection->type = $this->collection_type; 
     }
     else if ( preg_match( '#^((/[^/]+/)\.(in|out)/)[^/]*$#', $this->path, $matches ) ) {
       // The request is for a scheduling inbox or outbox (or something inside one) and we should auto-create it
       $displayname = $session->fullname . ($matches[3] == 'in' ? ' Inbox' : ' Outbox');
+      $this->collection_type = 'schedule-'. $matches[3]. 'box';
       $sql = <<<EOSQL
-INSERT INTO collection ( user_no, parent_container, dav_name, dav_displayname, is_calendar, created, modified )
-    VALUES( ?, ?, ?, ?, FALSE, current_timestamp, current_timestamp )
+INSERT INTO collection ( user_no, parent_container, dav_name, dav_displayname, is_calendar, created, modified, dav_etag )
+    VALUES( ?, ?, ?, ?, FALSE, current_timestamp, current_timestamp, '1' )
 EOSQL;
       $qry = new PgQuery( $sql, $session->user_no, $matches[2] , $matches[1], $displayname );
       $qry->Exec('caldav');
@@ -251,6 +258,7 @@ EOSQL;
         $this->collection_id = $row->collection_id;
         $this->collection_path = $matches[1];
         $this->collection = $row;
+        $this->collection->type = $this->collection_type; 
       }
     }
     else if ( preg_match( '#^((/[^/]+/)calendar-proxy-(read|write))/?[^/]*$#', $this->path, $matches ) ) {
@@ -315,6 +323,7 @@ EOSQL;
                             'is_principal' => 'f',
                             'user_no' => 0,
                             'dav_displayname' => $c->system_name,
+                            'type' => 'root',
                             'created' => date('Ymd\THis')
                           );
     }
@@ -324,6 +333,7 @@ EOSQL;
           'is_calendar' => 'f',
           'is_principal' => 't',
           'is_proxy' => 't',
+          'type' => 'proxy',
           'proxy_type' => $this->proxy_type,
           'dav_displayname' => sprintf('Proxy %s for %s', $this->proxy_type, $this->principal->username),
           'collection_id' => 0,
