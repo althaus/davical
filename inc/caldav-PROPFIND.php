@@ -615,6 +615,7 @@ function get_collection_contents( $depth, $user_no, $collection ) {
       $sql .= 'collection_id ';
       $sql .= 'FROM collection ';
       $sql .= 'WHERE parent_container='.qpg($collection->dav_name);
+      $sql .= "AND NOT dav_name ~ '/\.(in|out)/$'";
       $sql .= ' ORDER BY collection_id';
     }
     $qry = new PgQuery($sql, PgQuery::Plain(iCalendar::HttpDateFormat()), PgQuery::Plain(iCalendar::HttpDateFormat()));
