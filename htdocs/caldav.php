@@ -15,12 +15,8 @@ require_once("HTTPAuthSession.php");
 $session = new HTTPAuthSession();
 
 /**
-* From reading the "Scheduling Extensions to CalDAV" draft I don't think that we will
-* be doing 'calendar-schedule' any time soon.  The current spec is at:
-*    http://www.ietf.org/internet-drafts/draft-desruisseaux-caldav-sched-03.txt
-*
-* access-control is rfc3744, so we will say we do it, but I doubt if we do it
-* in all (or even much of) it's glory really.
+* access-control is rfc3744, we do some of it, but no way to say that.
+* calendar-schedule is another one we do some of, but the spec is not final yet either.
 */
 if ( isset($c->override_dav_header) ) {
   $dav = $c->override_dav_header;
