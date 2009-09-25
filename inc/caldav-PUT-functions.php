@@ -230,6 +230,7 @@ function import_collection( $ics_content, $user_no, $path, $caldav_context ) {
   $resources = array();
   foreach( $components AS $k => $comp ) {
     $uid = $comp->GetPValue('UID');
+    if ( $uid == null || $uid == '' ) continue; 
     if ( !isset($resources[$uid]) ) $resources[$uid] = array();
     $resources[$uid][] = $comp;
 
