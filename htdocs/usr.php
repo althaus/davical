@@ -35,35 +35,6 @@
             $c->page_title = $user->Get("user_no"). " - " . $user->Get("fullname");
           }
         }
-        if ( $_FILES['ics_file']['name'] && $_POST['path_ics'] ) {
-          $ics = file_get_contents($_FILES['ics_file']['tmp_name']);
-          $ics = trim($ics);
-          $path_ics = $_POST['path_ics'];
-
-          if ( substr($path_ics,-1,1) != '/' ) $path_ics .= '/';          // ensure that we target a collection
-          if ( substr($path_ics,0,1) != '/' )  $path_ics = '/'.$path_ics; // ensure that we target a collection
-
-          if ( $ics !='' ) {
-            /**
-            * If the user has uploaded a .ics file as a calendar, we fake this out
-            * as if it were a "PUT" request against a collection.  This is something
-            * of a hack.  It works though :-)
-            */
-            include('check_UTF8.php');
-            if ( check_string($ics) ) {
-              $path = "/".$user->Get("username").$path_ics;
-              include("caldav-PUT-functions.php");
-              if(controlRequestContainer($user->Get("username"),$user->user_no, $path,false) === true ){
-                import_collection($ics,$user->user_no,$path,$session->user_no);
-                $c->messages[] = sprintf(translate("All events of user %s were deleted and replaced by those from the file."),$user->Get("username"));
-              }
-            } else
-              $c->messages[] =  sprintf(translate("The file %s is not UTF-8 encoded, please check the error for more details."),$dir.'/'.$file);
-          }
-        }
-        else {
-          unset($ics);
-        }
       }
       else {
         /**
@@ -85,7 +56,7 @@
     	$user_menu->AddOption( sprintf(translate("Edit %s"), $user->Values->fullname), "$c->base_url/usr.php?user_no=$user->user_no&edit=1", translate("Edit this user record"), true, 900 );
     }
     else {
-      $user_menu->AddOption( sprintf(translate("View %s"), $user->Values->fullname), "$c->base_url/usr.php?user_no=$user->user_no", translate("View this user record"), true, 900 );
+      $user_menu->AddOption( sprintf(translate("View %s"), $user->Get('fullname')), "$c->base_url/usr.php?user_no=$user->user_no", translate("View this user record"), true, 900 );
     }
   }
 
