@@ -32,16 +32,16 @@ $c->pg_connect[] = "dbname=davical user=davical_app";
 // $c->system_name = "DAViCal CalDAV Server";
 
 /**
-* default is false
+* default: true
 * If true, then TODO requested  from someone other than the admmin or owner
 * of a calendar will not get any answer.  Often these todo are only relevant
 * to the owner, but in some shared calendar situations they might not be in
-* which case you should let this default to false.
+* which case you should set this to false.
 */
-$c->hide_TODO = true;
+// $c->hide_TODO = false;
 
 /**
-* The default is false for backward compatibility
+* default: true
 * If true, then calendars accessed via WebDAV will only be readonly.  Any
 * changes to them must be applied via CalDAV.
 *
@@ -50,7 +50,7 @@ $c->hide_TODO = true;
 * their data.  After this it is recommended to turn it off so that clients
 * which have been misconfigured are readily identifiable.
 */
-$c->readonly_webdav_collections = true;
+// $c->readonly_webdav_collections = false;
 
 /***************************************************************************
 *                                                                          *
