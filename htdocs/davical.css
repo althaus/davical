@@ -12,6 +12,10 @@ padding: 1px 1em 1px 0.5em;
 text-align: right;
 }
 
+th.prompt {
+  width:18%;
+}
+
 .error {
 /* font-weight: bold; */
 font-size: 110%;
@@ -163,9 +167,9 @@ display:inherit;
 background-color: white;
 color: white;
 font-weight: bold;
-padding: 10px 0px 0px 10px;
-margin-bottom: 0px;
-height:20px;
+padding: 0.8em 0.4em 0.2em 0;
+margin-bottom: 0;
+height:1.3em;
 border-bottom:1px solid #ABF;
 }
 
@@ -173,12 +177,12 @@ border-bottom:1px solid #ABF;
 color: #999;
 text-decoration: none;
 background-color: #DEF;
-padding: 1px 0.2em;
-margin-right: 5px;
-height:20px;
+padding: 0.2em 0.4em;
+margin-right: 0.4em;
+height:1.3em;
 border: 1px solid #ABF;
--moz-border-radius-topright: 2em;
--moz-border-radius-topleft: 2em;
+-moz-border-radius-topright: 0.8em;
+-moz-border-radius-topleft: 0.8em;
 
 }
 
@@ -189,14 +193,13 @@ background-color: #BCF;
 
 #menu a.menu_active, #menu a.menu_active:hover {
 background-color: white;
-color: #009;
+color: #008;
 border-bottom:1px solid white;
 }
 
 
 #submenu {
-margin-top:5px;
-padding-left:15px;
+margin-top:0.3em;
 background-color: white;
 color: white;
 font-weight: bold;
@@ -213,8 +216,8 @@ padding: 1px 0.2em;
 margin-right: 0.2em;
 border: 1px solid #ABF;
 height:20px;
--moz-border-radius-topright: 2em;
--moz-border-radius-topleft: 2em;
+-moz-border-radius-topright: 0.8em;
+-moz-border-radius-topleft: 0.8em;
 }
 
 #submenu a.submenu:hover, #submenu a.submenu_active:hover {
@@ -229,16 +232,22 @@ border-bottom:1px solid white;
 }
 .fsubmit {
 background-color: white;
+font-family: Bitstream Vera Sans, Vera Sans, sans-serif;
 font-weight: bold;
-border:1px solid #009;
-height:20px;
-width:90%;
-background-color: #DEF;
+border:2px solid #009;
+height:1.4em;
+line-height:1.6em;
+font-size: 1.0em;
+background-color: #ABE;
 -moz-border-radius: 2em;
 text-decoration:none;
 color:black;
-padding:0 20px;
-margin:0 20px;
+padding:0 1em 0.1em;
+margin:0 1em 0.1em;
+}
+/* To get a matching height on 'input' buttons we have to set height, not line-height */
+input.fsubmit {
+  height:1.6em;
 }
 .fsubmit:hover {
 border:2px outset #009;
@@ -246,3 +255,33 @@ border:2px outset #009;
 .fsubmit:active {
 border:2px inset #009;
 }
+
+a.error {
+font-family: Bitstream Vera Sans, Vera Sans, sans-serif;
+font-weight: bold;
+border:2px solid #800;
+height:1.4em;
+line-height:1.6em;
+font-size: 1.0em;
+background-color: #F31;
+-moz-border-radius: 2em;
+text-decoration:none;
+color:white;
+padding:0 1em 0.1em;
+margin:0 1em 0.1em;
+}
+a.error:hover {
+border:2px outset #800;
+background-color: #F31;
+}
+a.error:active {
+border:2px inset #800;
+}
+
+.w40 { width: 40em; }
+.w35 { width: 35em; }
+.w30 { width: 30em; }
+.w25 { width: 25em; }
+.w20 { width: 20em; }
+.w15 { width: 15em; }
+.w10 { width: 10em; }
