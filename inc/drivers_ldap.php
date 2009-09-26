@@ -152,7 +152,8 @@ class ldapDrivers
     * @param string $passwd password to check
     * @return array Contains selected attributes from all entries corresponding to the given filter
     */
-  function requestUser( $filter, $attributes=NULL, $passwd) {
+  function requestUser( $filter, $attributes=NULL, $username, $passwd) {
+    global $c;
 
     $entry=NULL;
     // We get the DN of the USER
@@ -175,10 +176,19 @@ class ldapDrivers
     }
 
     $dnUser = ldap_get_dn($this->connect, ldap_first_entry($this->connect,$entry));
-    if ( !@ldap_bind($this->connect, $dnUser, $passwd) ) {
-      dbg_error_log( "LDAP", "drivers_ldap : Failed to bind to user %s using password %s", $dnUser, $passwd );
-      return false;
+    
+    if ($c->authenticate_hook['config']['i_use_mode_kerberos'] == "i_know_what_i_am_doing") {
+    	dbg_error_log( "LOG", "drivers_ldap : Skipping password Check for user %s which should be the same as %s",$username , $_SERVER["REMOTE_USER"]);
+    	if ($username != $_SERVER["REMOTE_USER"]) {
+		return false;
+	 }
+    } else {
+      if ( !@ldap_bind($this->connect, $dnUser, $passwd) ) {
+        dbg_error_log( "LDAP", "drivers_ldap : Failed to bind to user %s using password %s", $dnUser, $passwd );
+        return false;
+      }
     }
+
 
     dbg_error_log( "LDAP", "drivers_ldap : Bound to user %s using password %s", $dnUser, $passwd );
 
@@ -268,8 +278,7 @@ function LDAP_check($username, $password ){
   }
 
   $filter = "(&$filter_munge(".$mapping["username"]."=$username))";
-  dbg_error_log( "LDAP", "checking user %s for password %s against LDAP",$username,$password );
-  $valid = $ldapDriver->requestUser( $filter, $attributes, $password );
+  $valid = $ldapDriver->requestUser( $filter, $attributes, $username, $password );
 
   // is a valid user or not
   if ( !$valid ) {
