@@ -99,8 +99,27 @@ function UpdateUserFromExternal( &$usr ) {
   }
 
   $qry = new PgQuery("SELECT * FROM usr WHERE user_no = $usr->user_no;" );
-  if ( $qry->Exec('Login',__LINE,__FILE__) && $qry->rows == 1 )
+  if ( $qry->Exec('Login',__LINE,__FILE__) && $qry->rows == 1 ) {
     $type = "UPDATE";
+    if ( $old = $qry->Fetch() ) {
+      $changes = false;
+      foreach( $usr AS $k => $v ) {
+        if ( $old->{$k} != $v ) {
+          $changes = true;
+          dbg_error_log("Login","User '%s' field '%s' changed from '%s' to '%s'", $usr->username, $k, $old->{$k}, $v );
+          break;
+        }
+      }
+      if ( !$changes ) {
+        dbg_error_log("Login","No changes to user record for '%s' - leaving as-is.", $usr->username );
+        if ( isset($usr->active) && $usr->active == 'f' ) return false;
+        return; // Normal case, if there are no changes
+      }
+      else {
+        dbg_error_log("Login","Changes to user record for '%s' - updating.", $usr->username );
+      }
+    }
+  }
   else
     $type = "INSERT";
 
