@@ -179,9 +179,9 @@ class ldapDrivers
     
     if ($c->authenticate_hook['config']['i_use_mode_kerberos'] == "i_know_what_i_am_doing") {
     	dbg_error_log( "LOG", "drivers_ldap : Skipping password Check for user %s which should be the same as %s",$username , $_SERVER["REMOTE_USER"]);
-    	if ($username != $_SERVER["REMOTE_USER"]) {
-		return false;
-	 }
+      if ($username != $_SERVER["REMOTE_USER"]) {
+        return false;
+      }
     } else {
       if ( !@ldap_bind($this->connect, $dnUser, $passwd) ) {
         dbg_error_log( "LDAP", "drivers_ldap : Failed to bind to user %s using password %s", $dnUser, $passwd );
