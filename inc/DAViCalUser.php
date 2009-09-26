@@ -11,7 +11,6 @@
 
 include('User.php');
 include('classBrowser.php');
-include('auth-functions.php');
 include('check_UTF8.php');
 include('caldav-PUT-functions.php');
 
