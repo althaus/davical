@@ -1,8 +1,8 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
-ETag: "749c1102d1fa2c3e72690999c1301e66"
-Content-Length: 3273
+ETag: "a05ad6040b4257724f861b2940830057"
+Content-Length: 2432
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -58,46 +58,6 @@ Content-Type: text/xml; charset="utf-8"
      <C:schedule-calendar/>
     </resourcetype>
     <displayname>created</displayname>
-   </prop>
-   <status>HTTP/1.1 200 OK</status>
-  </propstat>
-  <propstat>
-   <prop>
-    <C:calendar-description/>
-    <A:calendar-color/>
-   </prop>
-   <status>HTTP/1.1 404 Not Found</status>
-  </propstat>
- </response>
- <response>
-  <href>/caldav.php/user1/.in/</href>
-  <propstat>
-   <prop>
-    <resourcetype>
-     <collection/>
-     <C:schedule-inbox/>
-    </resourcetype>
-    <displayname>User 1 Inbox</displayname>
-   </prop>
-   <status>HTTP/1.1 200 OK</status>
-  </propstat>
-  <propstat>
-   <prop>
-    <C:calendar-description/>
-    <A:calendar-color/>
-   </prop>
-   <status>HTTP/1.1 404 Not Found</status>
-  </propstat>
- </response>
- <response>
-  <href>/caldav.php/user1/.out/</href>
-  <propstat>
-   <prop>
-    <resourcetype>
-     <collection/>
-     <C:schedule-outbox/>
-    </resourcetype>
-    <displayname>User 1 Outbox</displayname>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>

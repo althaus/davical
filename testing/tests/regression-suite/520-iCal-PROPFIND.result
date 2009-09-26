@@ -1,8 +1,8 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
-ETag: "20ec64aa0f486554b4a15959dbab091b"
-Content-Length: 779
+ETag: "baa6a205310ac96ddbd3954eb242fecc"
+Content-Length: 780
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -16,7 +16,7 @@ Content-Type: text/xml; charset="utf-8"
      <C:schedule-inbox/>
     </resourcetype>
     <displayname>User 2 Inbox</displayname>
-    <A:getctag>""</A:getctag>
+    <A:getctag>"1"</A:getctag>
     <C:calendar-free-busy-set>
      <href>/caldav.php/user2/home/</href>
     </C:calendar-free-busy-set>
