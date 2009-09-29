@@ -23,12 +23,12 @@ if ( ! ini_get('open_basedir') && (isset($c->dbg['ALL']) || (isset($c->dbg['put'
 }
 
 include_once('caldav-PUT-functions.php');
-$is_collection = controlRequestContainer( $request->username, $request->user_no, $request->path, true);
+controlRequestContainer( $request->username, $request->user_no, $request->path, true);
 
 $lock_opener = $request->FailIfLocked();
 
 
-if ( $is_collection  ) {
+if ( $request->IsCollection()  ) {
   if ( isset($c->readonly_webdav_collections) && $c->readonly_webdav_collections ) {
     $request->DoResponse( 405 ); // Method not allowed
     return;

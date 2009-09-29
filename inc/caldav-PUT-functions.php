@@ -53,18 +53,17 @@ function rollback_on_error( $caldav_context, $user_no, $path, $message='', $erro
 * @param int $user_no The user making the change
 * @param string $path The DAV path the resource is bing PUT to
 * @param boolean $caldav_context Whether we are responding via CalDAV or interactively
+* @param boolean $public Whether the collection will be public, should we need to create it
 */
-function controlRequestContainer( $username, $user_no, $path, $caldav_context ) {
+function controlRequestContainer( $username, $user_no, $path, $caldav_context, $public = null ) {
 
   // Check to see if the path is like /foo /foo/bar or /foo/bar/baz etc. (not ending with a '/', but contains at least one)
   if ( preg_match( '#^(.*/)([^/]+)$#', $path, $matches ) ) {//(
     $request_container = $matches[1];   // get everything up to the last '/'
-    $is_collection = false;        // get after the last '/'
   }
   else {
     // In this case we must have a URL with a trailing '/', so it must be a collection.
     $request_container = $path;
-    $is_collection = true;
   }
 
   /**
@@ -83,18 +82,23 @@ function controlRequestContainer( $username, $user_no, $path, $caldav_context ) 
       rollback_on_error( $caldav_context, $user_no, $path );
     }
     if ( $qry->rows == 0 ) {
+      if ( $public == null ) $public = false;
       if ( preg_match( '#^(.*/)([^/]+)/$#', $request_container, $matches ) ) {//(
         $parent_container = $matches[1];
         $displayname = $matches[2];
       }
-      $sql = "INSERT INTO collection ( user_no, parent_container, dav_name, dav_etag, dav_displayname, is_calendar, created, modified ) VALUES( ?, ?, ?, ?, ?, TRUE, current_timestamp, current_timestamp );";
-      $qry = new PgQuery( $sql, $user_no, $parent_container, $request_container, md5($user_no. $request_container), $displayname );
+      $sql = "INSERT INTO collection ( user_no, parent_container, dav_name, dav_etag, dav_displayname, is_calendar, created, modified, publicly_readable ) VALUES( ?, ?, ?, ?, ?, TRUE, current_timestamp, current_timestamp, ? );";
+      $qry = new PgQuery( $sql, $user_no, $parent_container, $request_container, md5($user_no. $request_container), $displayname, $public );
       $qry->Exec("PUT");
     }
+    else if ( isset($public) ) {
+      $collection = $qry->Fetch();
+      $qry = new PgQuery( 'UPDATE collection SET publicly_readable = ? WHERE collection_id = ?', $public, $collection->collection_id ); 
+      if ( ! $qry->Exec("PUT") ) {
+        rollback_on_error( $caldav_context, $user_no, $path );
+      }
+    }
   }
-  //I don't think useful because there is already a $request->IsCollection() that does the job
-  //Andrew If you think it's unuseful then remove $is_collection in this function
-  return $is_collection;
 }
 
 /**
