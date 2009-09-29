@@ -247,7 +247,7 @@ EOSQL;
     $browser->AddHidden( 'collection_link', "'<a href=\"$c->base_url/collection.php?user_no=' || user_no || '&dav_name=' || dav_name || '\">' || dav_name || '</a>'" );
     $browser->AddColumn( 'dav_name', translate('Collection Path'), 'left', '##collection_link##' );
     $browser->AddColumn( 'is_calendar', translate('Is a Calendar?'), 'centre', '', 'CASE WHEN is_calendar THEN \'Yes\' ELSE \'No\' END' );
-    $browser->AddColumn( 'created', translate('Created On'), 'centre', '', 'to_char(created,\'YYYY-MM-DD HH24:MI\')' );
+    $browser->AddColumn( 'publicly_readable', translate('Public'), 'centre', '', 'CASE WHEN publicly_readable THEN \'Yes\' ELSE \'No\' END' );
     $browser->AddColumn( 'modified', translate('Changed On'), 'centre', '', 'to_char(created,\'YYYY-MM-DD HH24:MI\')' );
     if ( $ef->EditMode ) {
       $browser->AddColumn( 'delete', translate('Action'), 'left', '', "'<a class=\"fsubmit\" href=\"$c->base_url/usr.php?user_no=$this->user_no&dav_name=##URL:dav_name##&action=delete_collection\">Delete</a>'" );
@@ -273,12 +273,16 @@ EOSQL;
                    ) );
       $calendar_name = '/'.$this->Get('username').'/ &nbsp;' . $calendar_name . '&nbsp;/';
 
+      $is_public = $ef->DataEntryField( '', 'checkbox', 'publicly_readable',
+              array( 'title' => translate('Should this calendar be readable without authenticating?') ) );
+
       $icalendar_file = $ef->DataEntryField( '', 'file', 'ics_file',
               array( 'size' => 20, 'title' => translate('Upload a .ics calendar in iCalendar format ')) );
 
       $browser->AddRow( array(
                       'collection_link' => $calendar_name,
-                      'created' => $icalendar_file,
+                      'modified' => $icalendar_file,
+                      'publicly_readable' => $is_public,
                       'delete' => sprintf('<input type="submit" name="submit" value="%s" class="fsubmit">', htmlspecialchars(translate('Create Calendar')))
                      ) );
     }
@@ -417,7 +421,7 @@ EOSQL;
   * Write the record to the file
   */
   function Write( ) {
-    global $session, $c, $path_ics;
+    global $session, $c, $path_ics, $publicly_readable;
 
     if ( parent::Write() ) {
       if ( $this->WriteType == 'insert' ) {
@@ -437,7 +441,9 @@ EOSQL;
         }
       }
       param_to_global('path_ics', '#^[^/]+$#');
+      param_to_global('publicly_readable', '#^(on|off)$#');
       if ( isset($path_ics) && $path_ics != '' ) {
+        dbg_error_log('User',':Write: New collection "%s", public: %s', $_POST['path_ics'], isset($_POST['publicly_readable'] ) );
         $ics = '';
         if ( isset($_FILES['ics_file']['tmp_name']) && $_FILES['ics_file']['tmp_name'] != '' ) {
           $ics = trim(file_get_contents($_FILES['ics_file']['tmp_name']));
@@ -450,8 +456,8 @@ EOSQL;
         */
         if ( check_string($ics) ) {
           $path = '/'.$this->Get('username').'/'.$path_ics.'/';
-          if( controlRequestContainer($this->Get('username'),$this->user_no, $path,false) === true ){
-            import_collection($ics,$this->user_no,$path,$session->user_no);
+          if( controlRequestContainer( $this->Get('username'), $this->user_no, $path, false, ($publicly_readable == 'on' ? true : false) ) === true ){
+            import_collection( $ics, $this->user_no, $path, $session->user_no );
             $c->messages[] = sprintf(translate('Calendar "%s" for user "%s" was created.'), $path_ics, $this->Get('username'));
           }
         }
