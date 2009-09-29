@@ -214,7 +214,8 @@ class CalDAVPrincipal
             if ($relationship->from_user_no == $this->user_no) {
               $this->group_membership[] = ConstructURL( '/'. $relationship->to_username . '/calendar-proxy-write/', true);
               $this->write_proxy_for[] = ConstructURL( '/'. $relationship->to_username . '/', true);
-            } else /* ($relationship->to_user_no == $this->user_no) */ {
+            }
+            else /* ($relationship->to_user_no == $this->user_no) */ {
               $this->write_proxy_group[] = ConstructURL( '/'. $relationship->from_username . '/', true);
             }
           }
