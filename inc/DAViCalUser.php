@@ -447,6 +447,7 @@ EOSQL;
         $ics = '';
         if ( isset($_FILES['ics_file']['tmp_name']) && $_FILES['ics_file']['tmp_name'] != '' ) {
           $ics = trim(file_get_contents($_FILES['ics_file']['tmp_name']));
+          dbg_error_log('User',':Write: Loaded %d bytes from %s', strlen($ics), $_FILES['ics_file']['tmp_name'] );
         }
 
         /**
@@ -456,10 +457,9 @@ EOSQL;
         */
         if ( check_string($ics) ) {
           $path = '/'.$this->Get('username').'/'.$path_ics.'/';
-          if( controlRequestContainer( $this->Get('username'), $this->user_no, $path, false, ($publicly_readable == 'on' ? true : false) ) === true ){
-            import_collection( $ics, $this->user_no, $path, $session->user_no );
-            $c->messages[] = sprintf(translate('Calendar "%s" for user "%s" was created.'), $path_ics, $this->Get('username'));
-          }
+          controlRequestContainer( $this->Get('username'), $this->user_no, $path, false, ($publicly_readable == 'on' ? true : false));
+          import_collection( $ics, $this->user_no, $path, $session->user_no );
+          $c->messages[] = sprintf(translate('Calendar "%s" for user "%s" was created.'), $path_ics, $this->Get('username'));
         }
         else {
           $c->messages[] =  sprintf(translate('The file is not UTF-8 encoded, please check the error for more details.') );
