@@ -376,7 +376,7 @@ BEGIN
                           WHERE from_user = user
   LOOP
     rlist := rlist
-             || CASE WHEN rlist = ' THEN ' ELSE ', ' END
+             || CASE WHEN rlist = '' THEN '' ELSE ', ' END
              || r.rt_name || '(' || r.fullname || ')';
   END LOOP;
   RETURN rlist;
