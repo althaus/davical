@@ -1,7 +1,22 @@
+2009-10-06  Andrew McMillan <andrew@morphoss.com>
+	* Release 0.9.7.3
+
+2009-09-25  Andrew McMillan <andrew@morphoss.com>
+	* Fix overzealous URL encoding of mailto:username@domain.com
+	* Expand permissions on both sides of the group expansion.
+	* Update licensing to note external LGPL sources
+	* Add a 'Delete User' option.
+	* Add facility to create collection without uploading VCALENDAR
+	* Add ability to set calendar as public on creation.
+
+2009-09-14  Andrew McMillan <andrew@morphoss.com>
+	* Allow admin access to be restricted to a particular domain.
+
 2009-09-11  Andrew McMillan <andrew@morphoss.com>
-	* Add support for /principals/user/username so iPhone (& possibly
+	* Add support for /principals/users/username so iPhone (& possibly
 	  also iCal) users have a simpler setup experience.
 	* Expand privileges to work with iPhone OS 3.1
+	* Release 0.9.7.2
 
 2009-09-05  Andrew McMillan <andrew@morphoss.com>
 	* Fix call-time pass by reference warnings.
