@@ -162,6 +162,9 @@ $c->collections_always_exist = false;
 * and he used to authenticate the user should be at least 'password,user_no'
 * awl/inc/AuthPlugins.php is a sample file not used by showing what could be
 * a hook
+*
+* $c->authenticate_hook['optional'] = true; can be set to try default authentication
+* as well in case the configured hook should report a failure.
 */
 
 /********************************/
