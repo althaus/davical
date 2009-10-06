@@ -2,7 +2,7 @@ Source: davical
 Section: web
 Priority: extra
 Maintainer: Andrew McMillan <debian@mcmillan.net.nz>
-Standards-Version: 3.8.1
+Standards-Version: 3.8.3
 Build-Depends: debhelper (>= 5)
 Vcs-git: git://repo.or.cz/davical.git
 Vcs-browser: http://repo.or.cz/w/davical.git
@@ -10,13 +10,14 @@ Homepage: http://davical.org/
 
 Package: davical
 Architecture: all
-Depends: debconf (>= 1.0.32), php5-pgsql, postgresql-client-8.4 | postgresql-client-8.3 | postgresql-client-8.2 | postgresql-client-8.1, libawl-php (>= 0.38, < 0.39), libdbd-pg-perl, libyaml-perl
+Depends: debconf (>= 1.0.32), php5-pgsql, postgresql-client-8.4 | postgresql-client-8.3 | postgresql-client-8.2 | postgresql-client-8.1, libawl-php (= 0.38), libdbd-pg-perl, libyaml-perl
 Conflicts: rscds
 Description: The DAViCal CalDAV Server
  The DAViCal CalDAV Server is designed to trivially store
  CalDAV calendars, such as those from Evolution, Sunbird/Lightning,
- Mulberry, iCal or SOHO Organizer, in a central location, providing
- shared calendars, free/busy publication and basic administration
+ Mulberry, iCal, iPhone or SOHO Organizer, in a central location,
+ providing shared calendars, free/busy publication and a basic
+ administration interface.
 
 Package: davical-doc
 Section: doc
