@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-06-22 14:25+1200\n"
+"POT-Creation-Date: 2009-10-06 09:25-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Eelco Maljaars <http://eelco.maljaars.net/>\n"
 "Language-Team: nl_NL <LL@li.org>\n"
@@ -40,9 +40,6 @@ msgstr "--- selekteer een gebruiker of resource ---"
 
 msgid "--- select a user, group or resource ---"
 msgstr "--- selekteer een gebruiker, groep of resource ---"
-
-msgid "<b>WARNING: all events in this path will be deleted before inserting all of the ics file</b>"
-msgstr ""
 
 msgid "<b>WARNING: all events in this path will be deleted before inserting allof the ics file</b>"
 msgstr ""
@@ -83,8 +80,10 @@ msgstr "Beheer"
 msgid "Administers"
 msgstr "Beheerdersgroep"
 
-#, c-format
-msgid "All events of user %s were deleted and replaced by those from the file."
+msgid "All collection data will be unrecoverably deleted."
+msgstr ""
+
+msgid "All of the user's calendars and events will be unrecoverably deleted."
 msgstr ""
 
 msgid "All requested changes were made."
@@ -115,9 +114,9 @@ msgstr ""
 msgid "Calendar Users"
 msgstr "Agenda gebruikers"
 
-#, fuzzy
-msgid "Calendar"
-msgstr "Agenda gebruikers"
+#, c-format
+msgid "Calendar \"%s\" for user \"%s\" was created."
+msgstr ""
 
 msgid "Can read from"
 msgstr ""
@@ -154,17 +153,22 @@ msgstr "Bevestig verwijderen relatie soort"
 msgid "Confirm Deletion of the Relationship Type"
 msgstr "Bevestig verwijderen relatie soort"
 
+#, fuzzy
+msgid "Confirm Deletion of the User"
+msgstr "Bevestig verwijderen relatie soort"
+
 msgid "Confirm the new password."
 msgstr "Bevestig het nieuwe wachtwoord"
 
 msgid "Confirm"
 msgstr "Bevestig"
 
+#, fuzzy
+msgid "Create Calendar"
+msgstr "Agenda gebruikers"
+
 msgid "Create"
 msgstr "Maak"
-
-msgid "Created On"
-msgstr "Gemaakt op"
 
 msgid "DAViCal CalDAV Server"
 msgstr ""
@@ -188,6 +192,14 @@ msgid "Default relationships added."
 msgstr "Relatie toegevoegd"
 
 msgid "Delete"
+msgstr "Verwijder"
+
+#, fuzzy
+msgid "Deleting Collection:"
+msgstr "Bevestig verwijderen relatie soort"
+
+#, fuzzy
+msgid "Deleting User:"
 msgstr "Verwijder"
 
 msgid "Directory on the server"
@@ -260,6 +272,9 @@ msgstr ""
 msgid "Full Name"
 msgstr "Volledige naam"
 
+msgid "GET requests are only handled on calendar collections."
+msgstr ""
+
 msgid "GO!"
 msgstr "Ga!"
 
@@ -298,9 +313,6 @@ msgstr "Indien je je wachtwoord vergeten bent dan"
 
 msgid "If you would like to request access, please e-mail"
 msgstr "Indien je toegang wilt aanvragen, e-mail je"
-
-msgid "Import ICS file to new collection"
-msgstr ""
 
 msgid "Import all .ics files of a directory"
 msgstr ""
@@ -380,6 +392,10 @@ msgstr "Bevestig verwijderen alsjeblieft"
 
 msgid "Please confirm deletion of collection - see below"
 msgstr ""
+
+#, fuzzy
+msgid "Please confirm deletion of user"
+msgstr "Bevestig verwijderen alsjeblieft"
 
 msgid "Please note the time and advise the administrator of your system."
 msgstr "Noteer de tijd en breng de beheerder van jou systeem op de hoogte"
@@ -481,6 +497,9 @@ msgstr ""
 msgid "Setup"
 msgstr ""
 
+msgid "Should this calendar be readable without authenticating?"
+msgstr ""
+
 msgid "Show help on"
 msgstr "Laat hulp zien over"
 
@@ -508,14 +527,18 @@ msgstr "Die relatiesoort wordt gebruikt, zie ##RelationshipTypeUsed##"
 msgid "The application program does not understand that request."
 msgstr "De applicatie snapt dat verzoek niet."
 
+msgid ""
+"The calendar name part of the path to store your ics. E.g. the \"home\" part of \"/caldav.php/username/"
+"home/\""
+msgstr ""
+
 msgid "The calendar path contains illegal characters."
 msgstr "Het pad naar de agenda bevat niet toegestane tekens."
 
 msgid "The displayname may only be set on collections or principals."
 msgstr ""
 
-#, c-format
-msgid "The file %s is not UTF-8 encoded, please check the error for more details."
+msgid "The file is not UTF-8 encoded, please check the error for more details."
 msgstr ""
 
 msgid "The name this user can log into the system with."
@@ -561,7 +584,7 @@ msgstr "Bijwerken"
 msgid "Updated"
 msgstr "Bijgewerkt"
 
-msgid "Upload your .ics calendar in ical format "
+msgid "Upload a .ics calendar in iCalendar format "
 msgstr ""
 
 msgid "User Details"
@@ -575,6 +598,10 @@ msgstr "Gebruikersrollen"
 
 msgid "User Unavailable"
 msgstr "Gebruiker niet beschikbaar"
+
+#, fuzzy
+msgid "User deleted"
+msgstr "Gebruikersrollen"
 
 msgid "User is active"
 msgstr "Gebruiker is geaktiveerd"
@@ -638,10 +665,6 @@ msgstr "Je mag geen items aanpassen in deze agenda"
 msgid "You must log in to use this system."
 msgstr "Je moet inloggen om dit systeem te gebruiken"
 
-#, fuzzy
-msgid "Your .ics calendar"
-msgstr "Je mag die agenda niet benaderen"
-
 #, c-format
 msgid "all events of user %s were deleted and replaced by those from file %s"
 msgstr ""
@@ -691,9 +714,6 @@ msgstr "Wordt ondersteund door"
 msgid "path to store your ics"
 msgstr ""
 
-msgid "set the path to store your ics ex:home if you get it by caldav.php/me/home/"
-msgstr ""
-
 #, c-format
 msgid "the file %s is not UTF-8 encoded, please check error for more details"
 msgstr ""
@@ -703,6 +723,13 @@ msgstr "je moet inloggen met de gebruikersnaam en het wachtwoord die je zijn toe
 
 msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
 msgstr ""
+
+#~ msgid "Created On"
+#~ msgstr "Gemaakt op"
+
+#, fuzzy
+#~ msgid "Your .ics calendar"
+#~ msgstr "Je mag die agenda niet benaderen"
 
 #~ msgid "Really Simple CalDAV Store"
 #~ msgstr "Erg Simpele CalDAV Opslag"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DAViCal 0.9.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-06-22 14:25+1200\n"
+"POT-Creation-Date: 2009-10-06 09:25-0700\n"
 "PO-Revision-Date: 2008-02-27 16:04+0900\n"
 "Last-Translator: Shu NAKAMAE <griffin6630@hotmail.com>\n"
 "Language-Team: \n"
@@ -40,9 +40,6 @@ msgstr "--- ユーザ又は資源の選択 ---"
 
 msgid "--- select a user, group or resource ---"
 msgstr "--- ユーザ、グループ又は資源の選択 ---"
-
-msgid "<b>WARNING: all events in this path will be deleted before inserting all of the ics file</b>"
-msgstr "<b>注意：このパスに現存する全てのイベントはicsファイルの挿入に伴い削除されます。</b>"
 
 msgid "<b>WARNING: all events in this path will be deleted before inserting allof the ics file</b>"
 msgstr "<b>注意：このパスに現存する全てのイベントはicsファイルの挿入に伴い削除されます。</b>"
@@ -82,9 +79,11 @@ msgstr "管理者"
 msgid "Administers"
 msgstr "管理する"
 
-#, c-format
-msgid "All events of user %s were deleted and replaced by those from the file."
-msgstr "ユーザ%sの全てのイベントは削除され、ファイルもので置き換えました。"
+msgid "All collection data will be unrecoverably deleted."
+msgstr ""
+
+msgid "All of the user's calendars and events will be unrecoverably deleted."
+msgstr ""
 
 msgid "All requested changes were made."
 msgstr "全ての要請された変更は実行されました。"
@@ -114,9 +113,9 @@ msgstr "カレンダーが見つかりません"
 msgid "Calendar Users"
 msgstr "カレンダー利用者"
 
-#, fuzzy
-msgid "Calendar"
-msgstr "カレンダー利用者"
+#, c-format
+msgid "Calendar \"%s\" for user \"%s\" was created."
+msgstr ""
 
 msgid "Can read from"
 msgstr "読み取り可能"
@@ -153,17 +152,22 @@ msgstr "共有タイプの削除を確認"
 msgid "Confirm Deletion of the Relationship Type"
 msgstr "共有タイプの削除を確認"
 
+#, fuzzy
+msgid "Confirm Deletion of the User"
+msgstr "共有タイプの削除を確認"
+
 msgid "Confirm the new password."
 msgstr "新規パスワードの確認"
 
 msgid "Confirm"
 msgstr "確認"
 
+#, fuzzy
+msgid "Create Calendar"
+msgstr "カレンダー利用者"
+
 msgid "Create"
 msgstr "作成"
-
-msgid "Created On"
-msgstr "作成日時"
 
 msgid "DAViCal CalDAV Server"
 msgstr "DAViCal CalDAV Server"
@@ -184,6 +188,14 @@ msgid "Default relationships added."
 msgstr "デフォルト共有が追加されました。"
 
 msgid "Delete"
+msgstr "削除"
+
+#, fuzzy
+msgid "Deleting Collection:"
+msgstr "共有タイプの削除を確認"
+
+#, fuzzy
+msgid "Deleting User:"
 msgstr "削除"
 
 msgid "Directory on the server"
@@ -256,6 +268,9 @@ msgstr "予定あり"
 msgid "Full Name"
 msgstr "氏名"
 
+msgid "GET requests are only handled on calendar collections."
+msgstr ""
+
 msgid "GO!"
 msgstr "実行！"
 
@@ -294,10 +309,6 @@ msgstr "パスワードを忘れた場合"
 
 msgid "If you would like to request access, please e-mail"
 msgstr "アクセス権が欲しい場合はここへメールしてください："
-
-#, fuzzy
-msgid "Import ICS file to new collection"
-msgstr "ICSファイルをインポート"
 
 msgid "Import all .ics files of a directory"
 msgstr "ディレクトリ下の全ての.icsファイルをインポートする"
@@ -376,6 +387,10 @@ msgstr "削除を確認して下さい。"
 
 msgid "Please confirm deletion of collection - see below"
 msgstr ""
+
+#, fuzzy
+msgid "Please confirm deletion of user"
+msgstr "削除を確認して下さい。"
 
 msgid "Please note the time and advise the administrator of your system."
 msgstr "時刻を記載してシステム管理者に報告して下さい。"
@@ -476,6 +491,9 @@ msgstr "RSCDSをセットアップすｒ"
 msgid "Setup"
 msgstr "セットアップ"
 
+msgid "Should this calendar be readable without authenticating?"
+msgstr ""
+
 msgid "Show help on"
 msgstr "ヘルプの表示"
 
@@ -503,14 +521,20 @@ msgstr "その共有は使用されています。##RelationshipTypeUsed##を参
 msgid "The application program does not understand that request."
 msgstr "アプリケーションがリクエストを理解できませんでした。"
 
+#, fuzzy
+msgid ""
+"The calendar name part of the path to store your ics. E.g. the \"home\" part of \"/caldav.php/username/"
+"home/\""
+msgstr "icsの保存に使用するパスを設定。'home'で次のような参照になる：/caldav.php/"
+
 msgid "The calendar path contains illegal characters."
 msgstr "カレンダーパスに不正な文字が使用されています。"
 
 msgid "The displayname may only be set on collections or principals."
 msgstr "表示名はコレクションやプリンシパルにか設定できません。"
 
-#, c-format
-msgid "The file %s is not UTF-8 encoded, please check the error for more details."
+#, fuzzy
+msgid "The file is not UTF-8 encoded, please check the error for more details."
 msgstr "ファイル%sはUTF-8でエンコードされていません、詳細はエラーを確認下さい。"
 
 msgid "The name this user can log into the system with."
@@ -556,7 +580,8 @@ msgstr "更新"
 msgid "Updated"
 msgstr "更新済み"
 
-msgid "Upload your .ics calendar in ical format "
+#, fuzzy
+msgid "Upload a .ics calendar in iCalendar format "
 msgstr ".icsカレンダーをical形式でアップロードする"
 
 msgid "User Details"
@@ -570,6 +595,10 @@ msgstr "ユーザのロール"
 
 msgid "User Unavailable"
 msgstr "ユーザは利用できません"
+
+#, fuzzy
+msgid "User deleted"
+msgstr "ユーザのロール"
 
 msgid "User is active"
 msgstr "ユーザはアクティブです"
@@ -632,9 +661,6 @@ msgstr "このカレンダーの記録を編集出来ません。"
 msgid "You must log in to use this system."
 msgstr "このシステムを利用するにはログインしなくてはなりません。"
 
-msgid "Your .ics calendar"
-msgstr "あたなの.icsカレンダー"
-
 #, c-format
 msgid "all events of user %s were deleted and replaced by those from file %s"
 msgstr "ユーザ%sのイベントは全て削除され、ファイル%sの物で置き換えました。"
@@ -686,9 +712,6 @@ msgstr "アシスタントである"
 msgid "path to store your ics"
 msgstr "icsを保存するパス"
 
-msgid "set the path to store your ics ex:home if you get it by caldav.php/me/home/"
-msgstr "icsの保存に使用するパスを設定。例）home　で　caldav.php/me/home/になる"
-
 #, c-format
 msgid "the file %s is not UTF-8 encoded, please check error for more details"
 msgstr "ファイル%sはUTF-8でエンコードされていません、詳細はエラーを確認して下さい"
@@ -698,6 +721,25 @@ msgstr "与えられたユーザ名とパスワードでログインして下さ
 
 msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
 msgstr "この操作は次のことをします：<ul><li>LDAPディレクトリで有効なユーザを確認</li>"
+
+#~ msgid "<b>WARNING: all events in this path will be deleted before inserting all of the ics file</b>"
+#~ msgstr "<b>注意：このパスに現存する全てのイベントはicsファイルの挿入に伴い削除されます。</b>"
+
+#~ msgid "All events of user %s were deleted and replaced by those from the file."
+#~ msgstr "ユーザ%sの全てのイベントは削除され、ファイルもので置き換えました。"
+
+#~ msgid "Created On"
+#~ msgstr "作成日時"
+
+#, fuzzy
+#~ msgid "Import ICS file to new collection"
+#~ msgstr "ICSファイルをインポート"
+
+#~ msgid "Your .ics calendar"
+#~ msgstr "あたなの.icsカレンダー"
+
+#~ msgid "set the path to store your ics ex:home if you get it by caldav.php/me/home/"
+#~ msgstr "icsの保存に使用するパスを設定。例）home　で　caldav.php/me/home/になる"
 
 #~ msgid "Really Simple CalDAV Store"
 #~ msgstr "Really Simple CalDAV Store"

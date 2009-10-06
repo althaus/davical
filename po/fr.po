@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-06-22 14:25+1200\n"
+"POT-Creation-Date: 2009-10-06 09:25-0700\n"
 "PO-Revision-Date: 2009-07-20 14:24+0200\n"
 "Last-Translator: Christian Perrier <bubulle@debian.org>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
@@ -43,11 +43,6 @@ msgstr "--- choisissez un utilisateur ou une ressource ---"
 
 msgid "--- select a user, group or resource ---"
 msgstr "--- choisissez un utilisateur, un groupe ou une ressource ---"
-
-msgid "<b>WARNING: all events in this path will be deleted before inserting all of the ics file</b>"
-msgstr ""
-"<b>Attention : tous les événements de ce chemin seront supprimés avant l'insertion de tous ceux du "
-"fichier ics</b>"
 
 msgid "<b>WARNING: all events in this path will be deleted before inserting allof the ics file</b>"
 msgstr ""
@@ -90,9 +85,11 @@ msgstr "Administrateur"
 msgid "Administers"
 msgstr "Administrateurs"
 
-#, c-format
-msgid "All events of user %s were deleted and replaced by those from the file."
-msgstr "Tous les événements de l'utilisateur %s seront supprimés et remplacés par ceux du fichier"
+msgid "All collection data will be unrecoverably deleted."
+msgstr ""
+
+msgid "All of the user's calendars and events will be unrecoverably deleted."
+msgstr ""
 
 msgid "All requested changes were made."
 msgstr "Toutes les modifications demandées ont eu lieu"
@@ -121,8 +118,9 @@ msgstr "Ressource calendrier introuvable."
 msgid "Calendar Users"
 msgstr "Utilisateurs du calendrier"
 
-msgid "Calendar"
-msgstr "Calendrier"
+#, c-format
+msgid "Calendar \"%s\" for user \"%s\" was created."
+msgstr ""
 
 msgid "Can read from"
 msgstr "Peut lire depuis"
@@ -157,17 +155,22 @@ msgstr "Confirmez la suppression de la collection"
 msgid "Confirm Deletion of the Relationship Type"
 msgstr "Confirmez la suppression de ce type de relation"
 
+#, fuzzy
+msgid "Confirm Deletion of the User"
+msgstr "Confirmez la suppression de la collection"
+
 msgid "Confirm the new password."
 msgstr "Confirmez le nouveau mot de passe"
 
 msgid "Confirm"
 msgstr "Confirmer"
 
+#, fuzzy
+msgid "Create Calendar"
+msgstr "Calendrier"
+
 msgid "Create"
 msgstr "Créer"
-
-msgid "Created On"
-msgstr "Créé le"
 
 msgid "DAViCal CalDAV Server"
 msgstr "Serveur DAViCal CalDAV"
@@ -188,6 +191,14 @@ msgid "Default relationships added."
 msgstr "Relation par défaut ajoutée."
 
 msgid "Delete"
+msgstr "Supprimer"
+
+#, fuzzy
+msgid "Deleting Collection:"
+msgstr "Confirmez la suppression de la collection"
+
+#, fuzzy
+msgid "Deleting User:"
 msgstr "Supprimer"
 
 msgid "Directory on the server"
@@ -270,6 +281,9 @@ msgstr "LibreOccupé"
 msgid "Full Name"
 msgstr "Nom complet"
 
+msgid "GET requests are only handled on calendar collections."
+msgstr ""
+
 msgid "GO!"
 msgstr "ENTRER !"
 
@@ -309,9 +323,6 @@ msgstr "Si vous avez oublié votre mot de passe alors"
 
 msgid "If you would like to request access, please e-mail"
 msgstr "Si vous souhaitez avoir accès, veuillez envoyer un courriel"
-
-msgid "Import ICS file to new collection"
-msgstr "Importer un fichier ICS dans une nouvelle collection"
 
 msgid "Import all .ics files of a directory"
 msgstr "Importer tous les fichiers .ics d'un répertoire"
@@ -400,6 +411,10 @@ msgstr "Veuillez confirmer la suppression"
 
 msgid "Please confirm deletion of collection - see below"
 msgstr "Veuillez confirmer la suppression de la collection - voir ci-dessous"
+
+#, fuzzy
+msgid "Please confirm deletion of user"
+msgstr "Veuillez confirmer la suppression"
 
 msgid "Please note the time and advise the administrator of your system."
 msgstr "Veuillez noter l'heure et informer l'administrateur de votre système informatique."
@@ -513,6 +528,9 @@ msgstr "Configurer RSCDS"
 msgid "Setup"
 msgstr "Configuration"
 
+msgid "Should this calendar be readable without authenticating?"
+msgstr ""
+
 msgid "Show help on"
 msgstr "Afficher l'aide sur"
 
@@ -545,6 +563,12 @@ msgstr "Ce type de relation est encore employé. Cf. ##RelationshipTypeUsed##"
 msgid "The application program does not understand that request."
 msgstr "L'application ne comprend pas la demande."
 
+#, fuzzy
+msgid ""
+"The calendar name part of the path to store your ics. E.g. the \"home\" part of \"/caldav.php/username/"
+"home/\""
+msgstr "Veuillez indiquer le chemin où stocker votre ics ex : 'home' pour avoir /caldav.php/moi/home/"
+
 msgid "The calendar path contains illegal characters."
 msgstr "le chemin vers le calendrier contient des caractères interdits."
 
@@ -553,8 +577,8 @@ msgstr "le chemin vers le calendrier contient des caractères interdits."
 msgid "The displayname may only be set on collections or principals."
 msgstr "Le nom d'affichage ne peut être défini que sur des collections ou des titulaires."
 
-#, c-format
-msgid "The file %s is not UTF-8 encoded, please check the error for more details."
+#, fuzzy
+msgid "The file is not UTF-8 encoded, please check the error for more details."
 msgstr "Le fichier %s n'est pas encodé en UTF-8, veuillez vérifier les erreurs pour plus d'information."
 
 # or ##TypeDeRelationsUtilisées## ?
@@ -602,7 +626,8 @@ msgstr "Enregistrer/Mettre à jour"
 msgid "Updated"
 msgstr "Mise à jour"
 
-msgid "Upload your .ics calendar in ical format "
+#, fuzzy
+msgid "Upload a .ics calendar in iCalendar format "
 msgstr "Envoyer votre calendrier .ics au format ical"
 
 msgid "User Details"
@@ -624,6 +649,10 @@ msgstr "Rôles de l'utilisateur"
 # Very rare to find someone able to fill several boxes at a time
 msgid "User Unavailable"
 msgstr "Utilisateur non disponible"
+
+#, fuzzy
+msgid "User deleted"
+msgstr "Rôles de l'utilisateur"
 
 # The user is 'active' in that their account is enabled for use.  If they are
 # inactive they will not be able to log on.
@@ -694,9 +723,6 @@ msgstr "Vous ne pouvez modifier les entrées de ce calendrier."
 msgid "You must log in to use this system."
 msgstr "Vous devez vous connecter pour utiliser ce logiciel."
 
-msgid "Your .ics calendar"
-msgstr "votre calendrier .ics"
-
 #, c-format
 msgid "all events of user %s were deleted and replaced by those from file %s"
 msgstr "tous les événements de l'utilisateur %s ont été supprimés et remplacés par ceux du fichier %s."
@@ -748,9 +774,6 @@ msgstr "est assisté par"
 msgid "path to store your ics"
 msgstr "le chemin où stocker votre ics"
 
-msgid "set the path to store your ics ex:home if you get it by caldav.php/me/home/"
-msgstr "Indiquez le chemin où stocker votre ics. Ex : 'home' pour y accéder via /caldav.php/moi/home/."
-
 #, c-format
 msgid "the file %s is not UTF-8 encoded, please check error for more details"
 msgstr "Le fichier %s n'est pas encodé en UTF-8, merci de vérifier les erreurs pour plus d'information."
@@ -761,3 +784,23 @@ msgstr "Vous devez vous connecter avec le nom d'utilisateur et le mot de passe q
 msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
 msgstr "Cette opération exécute : <ul><li>vérifie les utilisateurs valides de l'annuaire LDAP</li>."
 
+#~ msgid "<b>WARNING: all events in this path will be deleted before inserting all of the ics file</b>"
+#~ msgstr ""
+#~ "<b>Attention : tous les événements de ce chemin seront supprimés avant l'insertion de tous ceux du "
+#~ "fichier ics</b>"
+
+#~ msgid "All events of user %s were deleted and replaced by those from the file."
+#~ msgstr "Tous les événements de l'utilisateur %s seront supprimés et remplacés par ceux du fichier"
+
+#~ msgid "Created On"
+#~ msgstr "Créé le"
+
+#~ msgid "Import ICS file to new collection"
+#~ msgstr "Importer un fichier ICS dans une nouvelle collection"
+
+#~ msgid "Your .ics calendar"
+#~ msgstr "votre calendrier .ics"
+
+#~ msgid "set the path to store your ics ex:home if you get it by caldav.php/me/home/"
+#~ msgstr ""
+#~ "Indiquez le chemin où stocker votre ics. Ex : 'home' pour y accéder via /caldav.php/moi/home/."
