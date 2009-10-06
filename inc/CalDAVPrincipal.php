@@ -410,6 +410,19 @@ class CalDAVPrincipal
 //          $reply->CalDAVElement($prop, 'supported-calendar-component-set', $components );
 //          break;
 
+        case 'DAV::owner':
+          // After a careful reading of RFC3744 we see that this must be the principal-URL of the owner
+          $reply->DAVElement( $prop, 'owner', $reply->href( $this->principal_url ) );
+          break;
+		
+        case 'DAV::principal-collection-set':
+          $reply->DAVElement( $prop, 'principal-collection-set', $reply->href( ConstructURL('/') ) );
+          break;
+		
+        case 'DAV::current-user-principal':
+          $reply->DAVElement( $prop, 'current-user-principal', $request->current_user_principal_xml);
+          break;
+
         case 'DAV::getcontentlanguage':
           $locale = (isset($c->current_locale) ? $c->current_locale : '');
           if ( isset($this->locale) && $this->locale != '' ) $locale = $this->locale;
