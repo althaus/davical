@@ -116,7 +116,7 @@
 		</div>
 		<div class="info-box-body">			
 			<div class="method-summary">
-																																																																																																																																																																																<div class="method-definition">
+																																																																																																																																																																																								<div class="method-definition">
 					<img src="../../media/images/Constructor.png" alt=" "/>
 											<span class="method-result">CalDAVRequest</span>
 										<a href="#CalDAVRequest" title="details" class="method-name">CalDAVRequest</a>
@@ -163,6 +163,12 @@
 											<span class="method-result">void</span>
 										<a href="#GetLockRow" title="details" class="method-name">GetLockRow</a>
 											(<span class="var-type"></span>&nbsp;<span class="var-name">$lock_token</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$dav_name</span>)
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#IsCalendar" title="details" class="method-name">IsCalendar</a>
+										()
 									</div>
 																<div class="method-definition">
 					<img src="../../media/images/Method.png" alt=" "/>
@@ -501,7 +507,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">AllowedTo</span> (line <span class="line-number">716</span>)
+		<span class="method-title">AllowedTo</span> (line <span class="line-number">736</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -529,7 +535,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">DepthRegexTail</span> (line <span class="line-number">548</span>)
+		<span class="method-title">DepthRegexTail</span> (line <span class="line-number">559</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -551,7 +557,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">DoResponse</span> (line <span class="line-number">810</span>)
+		<span class="method-title">DoResponse</span> (line <span class="line-number">830</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -584,7 +590,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">FailIfLocked</span> (line <span class="line-number">630</span>)
+		<span class="method-title">FailIfLocked</span> (line <span class="line-number">641</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -609,7 +615,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">GetDepthName</span> (line <span class="line-number">539</span>)
+		<span class="method-title">GetDepthName</span> (line <span class="line-number">550</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -631,7 +637,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">GetLockDetails</span> (line <span class="line-number">616</span>)
+		<span class="method-title">GetLockDetails</span> (line <span class="line-number">627</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -658,7 +664,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">GetLockRow</span> (line <span class="line-number">559</span>)
+		<span class="method-title">GetLockRow</span> (line <span class="line-number">570</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -683,12 +689,34 @@
 		
 			
 	</div>
-<a name="methodIsCollection" id="IsCollection"><!-- --></a>
+<a name="methodIsCalendar" id="IsCalendar"><!-- --></a>
 <div class="oddrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">IsCollection</span> (line <span class="line-number">665</span>)
+		<span class="method-title">IsCalendar</span> (line <span class="line-number">687</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns true if the URL referenced by this request points at a calendar collection.</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			IsCalendar
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodIsCollection" id="IsCollection"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">IsCollection</span> (line <span class="line-number">676</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -706,11 +734,11 @@
 			
 	</div>
 <a name="methodIsInfiniteDepth" id="IsInfiniteDepth"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">IsInfiniteDepth</span> (line <span class="line-number">698</span>)
+		<span class="method-title">IsInfiniteDepth</span> (line <span class="line-number">718</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -728,11 +756,11 @@
 			
 	</div>
 <a name="methodIsLocked" id="IsLocked"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">IsLocked</span> (line <span class="line-number">496</span>)
+		<span class="method-title">IsLocked</span> (line <span class="line-number">507</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -753,11 +781,11 @@
 			
 	</div>
 <a name="methodIsPrincipal" id="IsPrincipal"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">IsPrincipal</span> (line <span class="line-number">676</span>)
+		<span class="method-title">IsPrincipal</span> (line <span class="line-number">696</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -775,11 +803,11 @@
 			
 	</div>
 <a name="methodIsProxyRequest" id="IsProxyRequest"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">IsProxyRequest</span> (line <span class="line-number">687</span>)
+		<span class="method-title">IsProxyRequest</span> (line <span class="line-number">707</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -797,11 +825,11 @@
 			
 	</div>
 <a name="methodIsPublic" id="IsPublic"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">IsPublic</span> (line <span class="line-number">528</span>)
+		<span class="method-title">IsPublic</span> (line <span class="line-number">539</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -819,11 +847,11 @@
 			
 	</div>
 <a name="methodsetPermissions" id="setPermissions"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">setPermissions</span> (line <span class="line-number">416</span>)
+		<span class="method-title">setPermissions</span> (line <span class="line-number">427</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -849,11 +877,11 @@
 			
 	</div>
 <a name="methodSupportedPrivileges" id="SupportedPrivileges"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">SupportedPrivileges</span> (line <span class="line-number">847</span>)
+		<span class="method-title">SupportedPrivileges</span> (line <span class="line-number">867</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -874,11 +902,11 @@
 			
 	</div>
 <a name="methodUnsupportedRequest" id="UnsupportedRequest"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">UnsupportedRequest</span> (line <span class="line-number">775</span>)
+		<span class="method-title">UnsupportedRequest</span> (line <span class="line-number">795</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -901,11 +929,11 @@
 			
 	</div>
 <a name="methodUserFromPath" id="UserFromPath"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">UserFromPath</span> (line <span class="line-number">372</span>)
+		<span class="method-title">UserFromPath</span> (line <span class="line-number">383</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -923,11 +951,11 @@
 			
 	</div>
 <a name="methodValidateLockToken" id="ValidateLockToken"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">ValidateLockToken</span> (line <span class="line-number">585</span>)
+		<span class="method-title">ValidateLockToken</span> (line <span class="line-number">596</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -950,11 +978,11 @@
 			
 	</div>
 <a name="methodXMLResponse" id="XMLResponse"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">XMLResponse</span> (line <span class="line-number">795</span>)
+		<span class="method-title">XMLResponse</span> (line <span class="line-number">815</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -985,7 +1013,7 @@
 
 	
 	<p class="notes" id="credit">
-		Documentation generated on Sat, 12 Sep 2009 00:11:58 +1200 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
+		Documentation generated on Tue, 06 Oct 2009 02:03:07 -0700 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
 	</p>
 	</div></body>
 </html>
