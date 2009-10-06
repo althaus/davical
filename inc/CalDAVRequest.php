@@ -683,6 +683,15 @@ EOSQL;
 
 
   /**
+  * Returns true if the URL referenced by this request points at a calendar collection.
+  */
+  function IsCalendar( ) {
+    if ( !$this->IsCollection() ) return false;
+    return $this->collection->is_calendar;
+  }
+
+
+  /**
   * Returns true if the URL referenced by this request points at a principal.
   */
   function IsPrincipal( ) {
