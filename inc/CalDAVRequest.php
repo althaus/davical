@@ -426,7 +426,7 @@ EOSQL;
   *
   */
   function setPermissions() {
-    global $session;
+    global $c, $session;
 
     if ( $this->path == '/' || $this->path == '' ) {
       $this->permissions = array("read" => 'read' );
@@ -435,25 +435,31 @@ EOSQL;
     }
 
     if ( $session->AllowedTo("Admin") || $session->user_no == $this->user_no ) {
-      $this->permissions = array('all' => 'all' );
-      $this->permissions['urn:ietf:params:xml:ns:caldav:read-free-busy'] = 'urn:ietf:params:xml:ns:caldav:read-free-busy';
-      $this->permissions['read'] = 'read';
-      $this->permissions['write'] = 'write';
-      $this->permissions['bind'] = 'bind';      // PUT of new content (i.e. Create)
-      $this->permissions['unbind'] = 'unbind';  // DELETE
-      $this->permissions['write-content'] = 'write-content';        // PUT Modify
-      $this->permissions['write-properties'] = 'write-properties';  // PROPPATCH
-      $this->permissions['lock'] = 'lock';
-      $this->permissions['unlock'] = 'unlock';
-      $this->permissions['read-acl'] = 'read-acl';
-      $this->permissions['read-current-user-privilege-set'] = 'read-current-user-privilege-set';
+      $this->permissions = array('all' => 'abstract' );
+      $this->permissions['urn:ietf:params:xml:ns:caldav:read-free-busy'] = 'real';
+      $this->permissions['read'] = 'real';
+      $this->permissions['write'] = 'aggregate';
+      $this->permissions['bind'] = 'real';      // PUT of new content (i.e. Create)
+      $this->permissions['unbind'] = 'real';  // DELETE
+      $this->permissions['write-content'] = 'real';        // PUT Modify
+      $this->permissions['write-properties'] = 'real';  // PROPPATCH
+      $this->permissions['lock'] = 'real';
+      $this->permissions['unlock'] = 'real';
+      $this->permissions['read-acl'] = 'real';
+      $this->permissions['read-current-user-privilege-set'] = 'real';
       dbg_error_log( "caldav", "Full permissions for %s", ( $session->user_no == $this->user_no ? "user accessing their own hierarchy" : "a systems administrator") );
       return;
     }
 
     $this->permissions = array();
 
-    if ( $this->IsPublic() ) $this->permissions['read'] = 'read';
+    if ( $this->IsPublic() ) {
+      $this->permissions['read'] = 'real';
+      $this->permissions['urn:ietf:params:xml:ns:caldav:read-free-busy'] = 'real';
+    }
+    else if ( isset($c->public_freebusy_url) && $c->public_freebusy_url ) {
+      $this->permissions['urn:ietf:params:xml:ns:caldav:read-free-busy'] = 'real';
+    }
 
     /**
     * In other cases we need to query the database for permissions
@@ -462,35 +468,35 @@ EOSQL;
     if ( $qry->Exec("caldav") && $permission_result = $qry->Fetch() ) {
       $permission_result = "!".$permission_result->perm; // We prepend something to ensure we get a non-zero position.
       if ( strpos($permission_result,"A") ) {
-        $this->permissions['all'] = 'all';
-        $this->permissions['urn:ietf:params:xml:ns:caldav:read-free-busy'] = 'urn:ietf:params:xml:ns:caldav:read-free-busy';
-        $this->permissions['read'] = 'read';
-        $this->permissions['write'] = 'write';
-        $this->permissions['bind'] = 'bind';      // PUT of new content (i.e. Create)
-        $this->permissions['unbind'] = 'unbind';  // DELETE
-        $this->permissions['write-content'] = 'write-content';        // PUT Modify
-        $this->permissions['write-properties'] = 'write-properties';  // PROPPATCH
-        $this->permissions['lock'] = 'lock';
-        $this->permissions['unlock'] = 'unlock';
-        $this->permissions['read-acl'] = 'read-acl';
-        $this->permissions['read-current-user-privilege-set'] = 'read-current-user-privilege-set';
+        $this->permissions['all'] = 'abstract';
+        $this->permissions['urn:ietf:params:xml:ns:caldav:read-free-busy'] = 'real';
+        $this->permissions['read'] = 'real';
+        $this->permissions['write'] = 'aggregate';
+        $this->permissions['bind'] = 'real';      // PUT of new content (i.e. Create)
+        $this->permissions['unbind'] = 'real';  // DELETE
+        $this->permissions['write-content'] = 'real';        // PUT Modify
+        $this->permissions['write-properties'] = 'real';  // PROPPATCH
+        $this->permissions['lock'] = 'real';
+        $this->permissions['unlock'] = 'real';
+        $this->permissions['read-acl'] = 'real';
+        $this->permissions['read-current-user-privilege-set'] = 'real';
       }
       else {
-        if ( strpos($permission_result,"F") )       $this->permissions['urn:ietf:params:xml:ns:caldav:read-free-busy'] = 'urn:ietf:params:xml:ns:caldav:read-free-busy';
-        if ( strpos($permission_result,"R") )       $this->permissions['read'] = 'read';
+        if ( strpos($permission_result,"F") )       $this->permissions['urn:ietf:params:xml:ns:caldav:read-free-busy'] = 'real';
+        if ( strpos($permission_result,"R") )       $this->permissions['read'] = 'real';
         if ( strpos($permission_result,"W") ) {
-          $this->permissions['write'] = 'write';
-          $this->permissions['bind'] = 'bind';      // PUT of new content (i.e. Create)
-          $this->permissions['unbind'] = 'unbind';  // DELETE
-          $this->permissions['write-content'] = 'write-content';        // PUT Modify
-          $this->permissions['write-properties'] = 'write-properties';  // PROPPATCH
-          $this->permissions['lock'] = 'lock';
-          $this->permissions['unlock'] = 'unlock';
+          $this->permissions['write'] = 'aggregate';
+          $this->permissions['bind'] = 'real';      // PUT of new content (i.e. Create)
+          $this->permissions['unbind'] = 'real';  // DELETE
+          $this->permissions['write-content'] = 'real';        // PUT Modify
+          $this->permissions['write-properties'] = 'real';  // PROPPATCH
+          $this->permissions['lock'] = 'real';
+          $this->permissions['unlock'] = 'real';
         }
         else {
-          if ( strpos($permission_result,"C") )       $this->permissions['bind'] = 'bind';      // PUT of new content (i.e. Create)
-          if ( strpos($permission_result,"D") )       $this->permissions['unbind'] = 'unbind';  // DELETE
-          if ( strpos($permission_result,"M") )       $this->permissions['write-content'] = 'write-content';  // PUT Modify
+          if ( strpos($permission_result,"C") )       $this->permissions['bind'] = 'real';      // PUT of new content (i.e. Create)
+          if ( strpos($permission_result,"D") )       $this->permissions['unbind'] = 'real';  // DELETE
+          if ( strpos($permission_result,"M") )       $this->permissions['write-content'] = 'real';  // PUT Modify
         }
       }
       dbg_error_log( "caldav", "Restricted permissions for user accessing someone elses hierarchy: %s", implode( ", ", $this->permissions ) );
@@ -722,6 +728,91 @@ EOSQL;
 
 
   /**
+  * Returns the array of privilege names converted into XMLElements
+  */
+  function RenderPrivileges($privilege_names, $container=null) {
+    global $reply;
+    $privileges = array();
+    foreach( $privilege_names AS $k => $v ) {
+      dbg_error_log( 'caldav', 'Adding privilege "%s" which is "%s".', $k, $v );
+      $privilege = new XMLElement('privilege');
+      $reply->NSElement($privilege,$k);
+      if ( isset($container) ) {
+        $privset = array($privilege);
+        if ( $v == 'abstract' ) {
+          dbg_error_log( 'caldav', '"%s" is an abstract privilege.', $v );
+          $privset[] = new XMLElement('abstract');
+        }
+        $privileges[] = new XMLElement($container,$privset);
+      }
+      else {
+        $privileges[] = $privilege;
+      }
+    }
+    return $privileges;
+  }
+
+
+  /**
+  * Return general server-related properties for this URL
+  */
+  function ServerProperty( $tag, $prop, $reply = null ) {
+    global $c, $session;
+
+    if ( $reply === null ) $reply = $GLOBALS['reply'];
+
+    switch( $tag ) {
+      case 'DAV::current-user-principal':
+        $reply->DAVElement( $prop, 'current-user-principal', $this->current_user_principal_xml);
+        break;
+
+      case 'DAV::getcontentlanguage':
+        $locale = (isset($c->current_locale) ? $c->current_locale : '');
+        if ( isset($session->locale) && $session->locale != '' ) $locale = $session->locale;
+        $prop->NewElement('getcontentlanguage', $locale );
+        break;
+
+      case 'DAV::supportedlock':
+        $prop->NewElement('supportedlock',
+          new XMLElement( 'lockentry',
+            array(
+              new XMLElement('lockscope', new XMLElement('exclusive')),
+              new XMLElement('locktype',  new XMLElement('write')),
+            )
+          )
+        );
+        break;
+
+      case 'DAV::acl':
+        /**
+        * @todo This information is semantically valid but presents an incorrect picture.
+        */
+        dbg_error_log( 'caldav', 'Processing "%s" on "%s".', $tag, $this->path );
+        $principal = new XMLElement('principal');
+        $principal->NewElement('authenticated');
+        $grant = new XMLElement( 'grant', array($this->RenderPrivileges($this->permissions)) );
+        $prop->NewElement('acl', new XMLElement( 'ace', array( $principal, $grant ) ) );
+        break;
+
+      case 'DAV::current-user-privilege-set':
+        dbg_error_log( 'caldav', 'Processing "%s" on "%s".', $tag, $this->path );
+        $prop->NewElement('current-user-privilege-set', $this->RenderPrivileges($this->permissions) );
+        break;
+
+      case 'DAV::supported-privilege-set':
+        dbg_error_log( 'caldav', 'Processing "%s" on "%s".', $tag, $this->path );
+        $prop->NewElement('supported-privilege-set', $this->RenderPrivileges( $this->SupportedPrivileges(), 'supported-privilege') );
+        break;
+
+      default:
+        dbg_error_log( 'caldav', 'Request for unsupported property "%s" of path "%s".', $tag, $this->path );
+        return false;
+    }
+    return true;
+  }
+
+
+  /**
   * Are we allowed to do the requested activity
   *
   * +------------+------------------------------------------------------+
@@ -735,6 +826,11 @@ EOSQL;
   * @param string $activity The activity we want to do.
   */
   function AllowedTo( $activity ) {
+    global $session;
+    dbg_error_log('session', 'Checking whether "%s" is allowed to "%s"', $session->username, $activity);
+    foreach( $this->permissions AS $k => $v ) {
+      dbg_error_log('session', 'Permissions "%s" is "%s"', $k, $v);
+    }
     if ( isset($this->permissions['all']) ) return true;
     switch( $activity ) {
       case "CALDAV:schedule-send-freebusy":
@@ -866,8 +962,11 @@ EOSQL;
   * @return array The supported privileges.
   */
   function SupportedPrivileges() {
-    $privs = array( "all"=>1, "read"=>1, "write"=>1, "bind"=>1, "unbind"=>1, "write-content"=>1,
-                    "write-properties"=>1, 'urn:ietf:params:xml:ns:caldav:read-free-busy' => 1);
+    $privs = array( 'all'=>'abstract', 'read'=>'real',
+                    'write'=>'real', 'bind'=>'real',
+                    'unbind'=>'real', 'write-content'=>'real',
+                    'write-properties'=>'real',
+                    'urn:ietf:params:xml:ns:caldav:read-free-busy' => 'real');
     return $privs;
   }
 }
