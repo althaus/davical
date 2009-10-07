@@ -431,7 +431,7 @@ EOSQL;
       }
       if ( isset($_POST['relate_to']) && $_POST['relate_to'] != '' && isset($_POST['relate_as']) && $_POST['relate_as'] != '' && isset($_POST['submit']) && $_POST['submit'] == htmlspecialchars(translate('Add Relationship')) ) {
         dbg_error_log('User',':Write: Adding relationship as %d to %d', $_POST['relate_as'], isset($_POST['relate_to'] ) );
-        $qry = new PgQuery('INSERT INTO relationship (from_user, to_user, rt_id ) VALUES( ?, $this->user_no, ? )', $_POST['relate_to'], $_POST['relate_as'] );
+        $qry = new PgQuery('INSERT INTO relationship (from_user, to_user, rt_id ) VALUES( ?, ?, ? )', $_POST['relate_to'], $this->user_no, $_POST['relate_as'] );
         if ( $qry->Exec() ) {
           $c->messages[] = i18n('Relationship added.');
         }
