@@ -78,10 +78,31 @@ class CalDAVRequest
   var $collection_type;
 
   /**
+  * A static structure of supported privileges.
+  */
+  var $supported_privileges;
+
+  /**
   * Create a new CalDAVRequest object.
   */
   function CalDAVRequest( $options = array() ) {
     global $session, $c, $debugging;
+
+    $this->supported_privileges = array(
+      'all' => array(
+        'read' => 'Read the content of a resource or collection',
+        'write' => array(
+          'bind' => 'Create a resource or collection',
+          'unbind' => 'Delete a resource or collection',
+          'write-content' => 'Write content',
+          'write-properties' => 'Write properties'
+        ),
+        'urn:ietf:params:xml:ns:caldav:read-free-busy' => 'Read the free/busy information for a calendar collection',
+        'read-acl' => 'Read ACLs for a resource or collection',
+        'write-acl' => 'Write ACLs for a resource or collection',
+        'unlock' => 'Remove a lock'
+      )
+    );
 
     $this->options = $options;
     if ( !isset($this->options['allow_by_email']) ) $this->options['allow_by_email'] = false;
@@ -728,26 +749,45 @@ EOSQL;
 
 
   /**
+  * Returns the array of supported privileges converted into XMLElements
+  */
+  function RenderSupportedPrivileges( $privs = null ) {
+    global $reply;
+    $privileges = array();
+    if ( $privs === null ) $privs = $this->supported_privileges;    
+    foreach( $privs AS $k => $v ) {
+      dbg_error_log( 'caldav', 'Adding privilege "%s" which is "%s".', $k, $v );
+      $privilege = new XMLElement('privilege');
+      $reply->NSElement($privilege,$k);
+      $privset = array($privilege);
+      if ( is_array($v) ) {
+        dbg_error_log( 'caldav', '"%s" is a container of sub-privileges.', $k );
+        $privset = array_merge($privset, $this->RenderSupportedPrivileges($v));
+      } 
+      else if ( $v == 'abstract' ) {
+        dbg_error_log( 'caldav', '"%s" is an abstract privilege.', $v );
+        $privset[] = new XMLElement('abstract');
+      }
+      else if ( strlen($v) > 1 ) {
+        $privset[] = new XMLElement('description', $v);
+      }
+      $privileges[] = new XMLElement('supported-privilege',$privset);
+    }
+    return $privileges;
+  }
+
+
+  /**
   * Returns the array of privilege names converted into XMLElements
   */
-  function RenderPrivileges($privilege_names, $container=null) {
+  function RenderPrivileges($privilege_names) {
     global $reply;
     $privileges = array();
     foreach( $privilege_names AS $k => $v ) {
       dbg_error_log( 'caldav', 'Adding privilege "%s" which is "%s".', $k, $v );
       $privilege = new XMLElement('privilege');
       $reply->NSElement($privilege,$k);
-      if ( isset($container) ) {
-        $privset = array($privilege);
-        if ( $v == 'abstract' ) {
-          dbg_error_log( 'caldav', '"%s" is an abstract privilege.', $v );
-          $privset[] = new XMLElement('abstract');
-        }
-        $privileges[] = new XMLElement($container,$privset);
-      }
-      else {
-        $privileges[] = $privilege;
-      }
+      $privileges[] = $privilege;
     }
     return $privileges;
   }
@@ -801,7 +841,7 @@ EOSQL;
 
       case 'DAV::supported-privilege-set':
         dbg_error_log( 'caldav', 'Processing "%s" on "%s".', $tag, $this->path );
-        $prop->NewElement('supported-privilege-set', $this->RenderPrivileges( $this->SupportedPrivileges(), 'supported-privilege') );
+        $prop->NewElement('supported-privilege-set', $this->RenderSupportedPrivileges() );
         break;
 
       default:
