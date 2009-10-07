@@ -1,0 +1,61 @@
+HTTP/1.1 207 Multi-Status
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
+ETag: "e3119e4ec64afd062ae2634ebd232f0f"
+Content-Length: 1235
+Content-Type: text/xml; charset="utf-8"
+
+<?xml version="1.0" encoding="utf-8" ?>
+<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
+ <response>
+  <href>/caldav.php/user1/</href>
+  <propstat>
+   <prop>
+    <supported-privilege-set>
+     <supported-privilege>
+      <privilege>
+       <all/>
+      </privilege>
+      <abstract/>
+     </supported-privilege>
+     <supported-privilege>
+      <privilege>
+       <read/>
+      </privilege>
+     </supported-privilege>
+     <supported-privilege>
+      <privilege>
+       <write/>
+      </privilege>
+     </supported-privilege>
+     <supported-privilege>
+      <privilege>
+       <bind/>
+      </privilege>
+     </supported-privilege>
+     <supported-privilege>
+      <privilege>
+       <unbind/>
+      </privilege>
+     </supported-privilege>
+     <supported-privilege>
+      <privilege>
+       <write-content/>
+      </privilege>
+     </supported-privilege>
+     <supported-privilege>
+      <privilege>
+       <write-properties/>
+      </privilege>
+     </supported-privilege>
+     <supported-privilege>
+      <privilege>
+       <C:read-free-busy/>
+      </privilege>
+     </supported-privilege>
+    </supported-privilege-set>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+</multistatus>
