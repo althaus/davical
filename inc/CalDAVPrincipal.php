@@ -310,21 +310,6 @@ class CalDAVPrincipal
 
 
   /**
-  * Returns the array of privilege names converted into XMLElements
-  */
-  function RenderPrivileges($privilege_names, $container='privilege') {
-    global $reply;
-    $privileges = array();
-    foreach( $privilege_names AS $k => $v ) {
-      $privilege = new XMLElement($container);
-      $reply->NSElement($privilege,$k);
-      $privileges[] = $privilege;
-    }
-    return $privileges;
-  }
-
-
-  /**
   * Render XML for a single Principal (user) from the DB
   *
   * @param array $properties The requested properties for this principal
@@ -368,6 +353,13 @@ class CalDAVPrincipal
           $prop->NewElement('creationdate', $this->created );
           break;
 
+        case 'DAV::getcontentlanguage':
+          /** Use the principal's locale by preference, otherwise system default */
+          $locale = (isset($c->current_locale) ? $c->current_locale : '');
+          if ( isset($this->locale) && $this->locale != '' ) $locale = $this->locale;
+          $prop->NewElement('getcontentlanguage', $locale );
+          break;
+
         case 'DAV::group-member-set':
           $prop->NewElement('group-member-set', $reply->href($this->group_member_set) );
           break;
@@ -400,16 +392,6 @@ class CalDAVPrincipal
           $reply->CalDAVElement($prop, 'calendar-user-address-set', $reply->href($this->user_address_set) );
           break;
 
-//        case 'urn:ietf:params:xml:ns:caldav:supported-calendar-component-set':
-//          // Note that this won't appear on a PROPFIND against a Principal URL, since this routine is only called for a collection
-//          $components = array();
-//          $set_of_components = array( 'VEVENT', 'VTODO', 'VJOURNAL', 'VTIMEZONE', 'VFREEBUSY' );
-//          foreach( $set_of_components AS $v ) {
-//            $components[] = $reply->NewXMLElement( 'comp', '', array('name' => $v), 'urn:ietf:params:xml:ns:caldav');
-//          }
-//          $reply->CalDAVElement($prop, 'supported-calendar-component-set', $components );
-//          break;
-
         case 'DAV::owner':
           // After a careful reading of RFC3744 we see that this must be the principal-URL of the owner
           $reply->DAVElement( $prop, 'owner', $reply->href( $this->principal_url ) );
@@ -419,65 +401,28 @@ class CalDAVPrincipal
           $reply->DAVElement( $prop, 'principal-collection-set', $reply->href( ConstructURL('/') ) );
           break;
 		
-        case 'DAV::current-user-principal':
-          $reply->DAVElement( $prop, 'current-user-principal', $request->current_user_principal_xml);
-          break;
-
-        case 'DAV::getcontentlanguage':
-          $locale = (isset($c->current_locale) ? $c->current_locale : '');
-          if ( isset($this->locale) && $this->locale != '' ) $locale = $this->locale;
-          $prop->NewElement('getcontentlanguage', $locale );
-          break;
-
-        case 'DAV::supportedlock':
-          $prop->NewElement('supportedlock',
-            new XMLElement( 'lockentry',
-              array(
-                new XMLElement('lockscope', new XMLElement('exclusive')),
-                new XMLElement('locktype',  new XMLElement('write')),
-              )
-            )
-          );
-          break;
-
-        case 'DAV::acl':
-          /**
-          * @todo This information is semantically valid but presents an incorrect picture.
-          */
-          $principal = new XMLElement('principal');
-          $principal->NewElement('authenticated');
-          $grant = new XMLElement( 'grant', array($this->RenderPrivileges($request->permissions)) );
-          $prop->NewElement('acl', new XMLElement( 'ace', array( $principal, $grant ) ) );
-          break;
-
-        case 'DAV::current-user-privilege-set':
-          $prop->NewElement('current-user-privilege-set', $this->RenderPrivileges($request->permissions) );
-          break;
-
-        case 'DAV::supported-privilege-set':
-          $prop->NewElement('supported-privilege-set', $this->RenderPrivileges( $request->SupportedPrivileges(), 'supported-privilege') );
-          break;
-
         // Empty tag responses.
         case 'DAV::alternate-URI-set':
         case 'DAV::getcontentlength':
           $prop->NewElement( $reply->Tag($tag));
           break;
 
-//        case 'http://calendarserver.org/ns/:getctag':
-//          $reply->CalendarServerElement( $prop, 'getctag', '"'.md5($this->username . $this->updated).'"' );
-//          break;
-//        case 'DAV::getetag':
-//          $reply->DAVElement( $prop, 'getetag', '"'.md5($this->username . $this->updated).'"' );
-//          break;
-
         case 'SOME-DENIED-PROPERTY':  /** @todo indicating the style for future expansion */
           $denied[] = $reply->Tag($tag);
           break;
 
-        default:
-          dbg_error_log( 'principal', 'Request for unsupported property "%s" of principal "%s".', $tag, $this->username );
+        case 'http://calendarserver.org/ns/:getctag':
+        case 'DAV::getetag':
+        case 'urn:ietf:params:xml:ns:caldav:supported-calendar-component-set':
+          // These will 404 on a Principal, since they don't apply
           $not_found[] = $reply->Tag($tag);
+          break;
+
+        default:
+          if ( ! $request->ServerProperty( $tag, $prop, $reply ) ) {
+            dbg_error_log( 'principal', 'Request for unsupported property "%s" of principal "%s".', $tag, $this->username );
+            $not_found[] = $reply->Tag($tag);
+          }
           break;
       }
     }
