@@ -371,6 +371,83 @@ EOSQL;
     */
     $this->setPermissions();
 
+    $this->supported_methods = array(
+      'OPTIONS' => '',
+      'PROPFIND' => '',
+      'REPORT' => '',
+      'DELETE' => '',
+      'LOCK' => '',
+      'UNLOCK' => ''
+    );
+    if ( $this->IsCollection() ) {
+      $this->supported_methods = array_merge(
+        $this->supported_methods, 
+        array(
+          'MKCOL' => '',
+          'GET' => '',
+          'HEAD' => '',
+          'PUT' => ''
+        )
+      );
+      if ( $this->IsPrincipal() ) {
+        $this->supported_methods = array_merge(
+          $this->supported_methods, 
+          array(
+            'MKCALENDAR' => ''
+          )
+        );
+      }
+      switch ( $this->collection_type ) {
+        case 'root':
+        case 'email':
+          // We just override the list completely here.
+          $this->supported_methods = array(
+            'OPTIONS' => '',
+            'GET' => '',
+            'HEAD' => '',
+            'PROPFIND' => '',
+            'REPORT' => ''
+          );
+          break;
+        case 'schedule-inbox':
+        case 'schedule-outbox':
+          $this->supported_methods = array_merge(
+            $this->supported_methods, 
+            array(
+              'POST' => ''
+            )
+          );
+          break;
+      }
+    }
+    else {
+      $this->supported_methods = array_merge(
+        $this->supp      orted_methods, 
+        array(
+          'GET' => '',
+          'HEAD' => '',
+          'PUT' => ''
+        )
+      );
+    }
+
+POST
+
+    $this->supported_reports = array(
+      'DAV::principal-property-search' => ''
+    );
+    if ( $this->IsCalendar() ) {
+      $this->supported_reports = array_merge(
+        $this->supported_reports, 
+        array(
+          'urn:ietf:params:xml:ns:caldav:calendar-query' => '',
+          'urn:ietf:params:xml:ns:caldav:calendar-multiget' => '',
+          'urn:ietf:params:xml:ns:caldav:free-busy-query' => ''
+        )
+      );
+    }
+        
+
     /**
     * If the content we are receiving is XML then we parse it here.  RFC2518 says we
     * should reasonably expect to see either text/xml or application/xml
@@ -415,7 +492,8 @@ EOSQL;
       return false;
     }
 
-    $path_split = explode('/', $this->path );
+    $pa    $this->supported_privileges = array(
+th_split = explode('/', $this->path );
     $this->username = $path_split[1];
     if ( $this->username == 'principals' ) $this->username = $path_split[3];
     @dbg_error_log( "caldav", "Path split into at least /// %s /// %s /// %s", $path_split[1], $path_split[2], $path_split[3] );
@@ -794,12 +872,30 @@ EOSQL;
 
 
   /**
+  * Returns the array of supported methods converted into XMLElements
+  */
+  function RenderSupportedMethods( ) {
+    global $reply;
+    $methods = array();
+    foreach( $this->supported_methods AS $k => $v ) {
+      dbg_error_log( 'caldav', 'Adding method "%s" which is "%s".', $k, $v );
+      $method = new XMLElement('method');
+      $reply->NSElement($method,$k);
+      $methods[] = new XMLElement('supported-method',$method);
+    }
+    return $methods;
+  }
+
+
+  /**
   * Return general server-related properties for this URL
   */
   function ServerProperty( $tag, $prop, $reply = null ) {
     global $c, $session;
 
     if ( $reply === null ) $reply = $GLOBALS['reply'];
+
+    dbg_error_log( 'caldav', 'Processing "%s" on "%s".', $tag, $this->path );
 
     switch( $tag ) {
       case 'DAV::current-user-principal':
@@ -827,7 +923,6 @@ EOSQL;
         /**
         * @todo This information is semantically valid but presents an incorrect picture.
         */
-        dbg_error_log( 'caldav', 'Processing "%s" on "%s".', $tag, $this->path );
         $principal = new XMLElement('principal');
         $principal->NewElement('authenticated');
         $grant = new XMLElement( 'grant', array($this->RenderPrivileges($this->permissions)) );
@@ -835,13 +930,19 @@ EOSQL;
         break;
 
       case 'DAV::current-user-privilege-set':
-        dbg_error_log( 'caldav', 'Processing "%s" on "%s".', $tag, $this->path );
         $prop->NewElement('current-user-privilege-set', $this->RenderPrivileges($this->permissions) );
         break;
 
       case 'DAV::supported-privilege-set':
-        dbg_error_log( 'caldav', 'Processing "%s" on "%s".', $tag, $this->path );
         $prop->NewElement('supported-privilege-set', $this->RenderSupportedPrivileges() );
+        break;
+
+      case 'DAV::supported-method-set':
+        $prop->NewElement('supported-method-set', $this->RenderSupportedMethods() );
+        break;
+
+      case 'DAV::supported-report-set':
+        $prop->NewElement('supported-report-set', $this->RenderSupportedReports() );
         break;
 
       default:
