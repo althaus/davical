@@ -4,8 +4,8 @@
 *
 * @package   davical
 * @subpackage   caldav
-* @author    Andrew McMillan <andrew@catalyst.net.nz>
-* @copyright Catalyst .Net Ltd
+* @author    Andrew McMillan <andrew@morphoss.com>
+* @copyright Catalyst .Net Ltd, Morphoss Ltd
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v2
 */
 dbg_error_log("REPORT", "method handler");
@@ -48,9 +48,16 @@ if ( $xmltree->GetTag() == "urn:ietf:params:xml:ns:caldav:free-busy-query" ) {
 }
 
 $reply = new XMLDocument( array( "DAV:" => "" ) );
-if ( $xmltree->GetTag() == "DAV::principal-property-search" ) {
-  include("caldav-REPORT-principal.php");
-  exit; // Not that the above include should return anyway
+switch( $xmltree->GetTag() ) {
+  case 'DAV::principal-property-search':
+    include("caldav-REPORT-principal.php");
+    exit; // Not that it should return anyway.
+  case 'DAV::sync-collection':
+    include("caldav-REPORT-sync-collection.php");
+    exit; // Not that it should return anyway.
+  case 'DAV::expand-property':
+    include("caldav-REPORT-expand-property.php");
+    exit; // Not that it should return anyway.
 }
 
 // Must have read privilege for all other reports
