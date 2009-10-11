@@ -422,7 +422,7 @@ EOSQL;
     }
     else {
       $this->supported_methods = array_merge(
-        $this->supp      orted_methods, 
+        $this->supported_methods, 
         array(
           'GET' => '',
           'HEAD' => '',
@@ -430,8 +430,6 @@ EOSQL;
         )
       );
     }
-
-POST
 
     $this->supported_reports = array(
       'DAV::principal-property-search' => ''
@@ -492,8 +490,7 @@ POST
       return false;
     }
 
-    $pa    $this->supported_privileges = array(
-th_split = explode('/', $this->path );
+    $path_split = explode('/', $this->path );
     $this->username = $path_split[1];
     if ( $this->username == 'principals' ) $this->username = $path_split[3];
     @dbg_error_log( "caldav", "Path split into at least /// %s /// %s /// %s", $path_split[1], $path_split[2], $path_split[3] );
