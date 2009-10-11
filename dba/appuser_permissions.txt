@@ -30,11 +30,11 @@ GRANT SELECT,INSERT,UPDATE,DELETE
   ON role_member
   ON session
   ON tmp_password
-  ON dav_resource
   ON group_member
   ON principal
-  ON privilege
   ON relationship_type
+  ON sync_tokens
+  ON sync_changes
 
 GRANT SELECT,UPDATE
   ON relationship_type_rt_id_seq
@@ -42,7 +42,6 @@ GRANT SELECT,UPDATE
   ON usr_user_no_seq
   ON roles_role_no_seq
   ON session_session_id_seq
-  ON dav_resource_type_resource_type_id_seq
   ON principal_principal_id_seq
   ON principal_type_principal_type_id_seq
 
@@ -52,6 +51,5 @@ GRANT SELECT,INSERT
 GRANT SELECT
   ON supported_locales
   ON awl_db_revision
-  ON dav_resource_type
   ON principal_type
 
