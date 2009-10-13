@@ -824,6 +824,14 @@ EOSQL;
 
 
   /**
+  * Returns the ID of the collection of, or containing this request
+  */
+  function CollectionId( ) {
+    return $this->collection_id;
+  }
+
+
+  /**
   * Returns the array of supported privileges converted into XMLElements
   */
   function RenderSupportedPrivileges( $privs = null ) {

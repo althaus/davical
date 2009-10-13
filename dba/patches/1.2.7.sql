@@ -14,8 +14,10 @@ CREATE TABLE sync_tokens (
 
 CREATE TABLE sync_changes (
   sync_time TIMESTAMP WITH TIME ZONE DEFAULT current_timestamp,
-  status INT2,
-  dav_id INT8 REFERENCES calendar_item(dav_id)
+  collection_id INT8 REFERENCES collection(collection_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  sync_status INT,
+  dav_id INT8 REFERENCES calendar_item(dav_id) ON DELETE SET NULL ON UPDATE RESTRICT,
+  dav_name TEXT
 );
 
 SELECT new_db_revision(1,2,7, 'Juli' );
@@ -38,8 +40,8 @@ BEGIN
     RETURN FALSE;
   END IF;
   SELECT dav_id INTO tmp_int FROM calendar_item WHERE dav_name = in_dav_name;
-  INSERT INTO sync_changes ( collection_id, status, dav_id)
-                     VALUES( in_collection_id, in_status::INT2, tmp_int);
+  INSERT INTO sync_changes ( collection_id, sync_status, dav_id, dav_name)
+                     VALUES( in_collection_id, in_status, tmp_int, in_dav_name);
   RETURN TRUE;
 END
 $$ LANGUAGE 'PlPgSQL' VOLATILE STRICT;
@@ -51,14 +53,16 @@ DECLARE
   in_collection_id ALIAS FOR $2;
   tmp_int INT8;
 BEGIN
-  SELECT 1 INTO tmp_int FROM sync_changes
-          WHERE collection_id = in_collection_id
-            AND sync_time > (SELECT modification_time FROM sync_tokens WHERE sync_token = in_old_sync_token)
-          LIMIT 1;
-  IF NOT FOUND THEN
-    RETURN in_old_sync_token;
+  IF in_old_sync_token > 0 THEN
+    SELECT 1 INTO tmp_int FROM sync_changes
+            WHERE collection_id = in_collection_id
+              AND sync_time > (SELECT modification_time FROM sync_tokens WHERE sync_token = in_old_sync_token)
+            LIMIT 1;
+    IF NOT FOUND THEN
+      RETURN in_old_sync_token;
+    END IF;
   END IF;
-  SELECT nextval('dav_id_seq') INTO tmp_int;
+  SELECT nextval('sync_tokens_sync_token_seq') INTO tmp_int;
   INSERT INTO sync_tokens(collection_id, sync_token) VALUES( in_collection_id, tmp_int );
   RETURN tmp_int;
 END

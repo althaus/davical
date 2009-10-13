@@ -44,6 +44,7 @@ GRANT SELECT,UPDATE
   ON session_session_id_seq
   ON principal_principal_id_seq
   ON principal_type_principal_type_id_seq
+  ON sync_tokens_sync_token_seq
 
 GRANT SELECT,INSERT
   ON time_zone

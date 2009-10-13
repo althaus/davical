@@ -1,0 +1,19 @@
+#
+# Check for support of REPORT sync-collection with no sync-token
+#
+TYPE=REPORT
+URL=http://mycaldav/caldav.php/user1/home/
+HEADER=User-agent: sync-collection changes REPORT
+HEADER=Content-type: text/xml
+HEAD
+
+BEGINDATA
+<?xml version="1.0" encoding="utf-8" ?>
+<D:sync-collection xmlns:D="DAV:">
+  <D:sync-token>1</D:sync-token>
+  <D:prop>
+    <D:getetag/>
+  </D:prop>
+</D:sync-collection>
+ENDDATA
+

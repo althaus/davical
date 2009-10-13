@@ -81,40 +81,15 @@ class DAVResource
     global $c;
 
     foreach( $row AS $k => $v ) {
+      dbg_error_log( 'resource', 'Processing resource property "%s" has "%s".', $row->dav_name, $k );
       switch ( $k ) {
-        case 'dav_name':
-          $this->href = ConstructURL( '/'.$this->dav_name.'/', true );
-          $this->{$k} = $v;
-          break;
-
         case 'dav_etag':
-          $this->unique_tag = $this->dav_etag;
-          break;
-
-        case 'caldav_data':
-          $this->content = $this->caldav_data;
-          break;
-
-        case 'updated':
-          $this->modified = ISODateToHTTPDate($this->updated);
-          break;
-
-        case 'created':
-          $this->modified = ISODateToHTTPDate($this->joined);
-          break;
-
-        case 'username':
-          $this->owner = ConstructURL( '/'.$this->username.'/', true );;
-          $this->principal_url = ConstructURL( '/'.$this->username.'/', true );;
+          $this->unique_tag = '"'.$v.'"';
           break;
 
         default:
           $this->{$k} = $v;
       }
-    }
-
-    if ( ! isset($this->content) ) {
-      $this->contenttype = 'http/unix-directory';
     }
   }
 
@@ -127,9 +102,13 @@ class DAVResource
 
     if ( $reply === null ) $reply = $GLOBALS['reply'];
 
-    dbg_error_log( 'caldav', 'Processing "%s" on "%s".', $tag, $this->path );
+    dbg_error_log( 'resource', 'Processing "%s" on "%s".', $tag, $this->dav_name );
 
     switch( $tag ) {
+      case 'DAV::href':
+        $prop->NewElement('href', ConstructURL($this->dav_name) );
+        break;  
+
       case 'DAV::getcontenttype':
         $prop->NewElement('getcontenttype', $this->contenttype );
         break;  
@@ -142,13 +121,13 @@ class DAVResource
         $prop->NewElement('displayname', $this->displayname );
         break;
 
-      case 'DAV::getlastmodified':
-        $prop->NewElement('getlastmodified', $this->modified );
-        break;
+//      case 'DAV::getlastmodified':
+//        $prop->NewElement('getlastmodified', $this->modified );
+//        break;
 
-      case 'DAV::creationdate':
-        $prop->NewElement('creationdate', $this->created );
-        break;
+//      case 'DAV::creationdate':
+//        $prop->NewElement('creationdate', $this->created );
+//        break;
 
       case 'DAV::getcontentlanguage':
         $locale = (isset($c->current_locale) ? $c->current_locale : '');
@@ -156,10 +135,10 @@ class DAVResource
         $prop->NewElement('getcontentlanguage', $locale );
         break;
 
-      case 'DAV::owner':
-        // After a careful reading of RFC3744 we see that this must be the principal-URL of the owner
-        $reply->DAVElement( $prop, 'owner', $reply->href( $this->principal_url ) );
-        break;
+//      case 'DAV::owner':
+//        // After a careful reading of RFC3744 we see that this must be the principal-URL of the owner
+//        $reply->DAVElement( $prop, 'owner', $reply->href( $this->principal_url) ) );
+//        break;
 	
       // Empty tag responses.
       case 'DAV::alternate-URI-set':
@@ -172,7 +151,7 @@ class DAVResource
           $not_found[] = $reply->Tag($tag);
         }
         else {
-          $prop->NewElement('getetag', $this->etag );
+          $prop->NewElement('getetag', $this->unique_tag );
         }
         break;
 
@@ -189,22 +168,60 @@ class DAVResource
         }
         break;
 
-      case 'DAV::sync-token':
-        if ( $this->_is_collection ) {
-          $prop->NewElement('sync-token', $this->NewSyncToken() );
-        }
-        else {
-          $not_found[] = $reply->Tag($tag);
-        }
-        break;
-
       default:
-        dbg_error_log( 'caldav', 'Request for unsupported property "%s" of path "%s".', $tag, $this->href );
+        dbg_error_log( 'resource', 'Request for unsupported property "%s" of path "%s".', $tag, $this->href );
         return false;
     }
     return true;
   }
 
+
+  /**
+  * Construct XML propstat fragment for this resource
+  *
+  * @param array $properties The requested properties for this resource
+  *
+  * @return string An XML fragment with the requested properties for this resource
+  */
+  function GetPropStat( $properties ) {
+    global $session, $c, $request, $reply;
+
+    dbg_error_log('resource',': GetPropStat: href "%s"', $this->dav_name );
+
+    $prop = new XMLElement('prop');
+    $denied = array();
+    $not_found = array();
+    foreach( $properties AS $k => $tag ) {
+      dbg_error_log( 'resource', 'Looking at resource "%s" for property [%s]"%s".', $this->href, $k, $tag );
+      if ( ! $this->ResourceProperty($tag, $prop, $reply) ) {
+        dbg_error_log( 'resource', 'Request for unsupported property "%s" of resource "%s".', $tag, $this->href );
+        $not_found[] = $reply->Tag($tag);
+      }
+    }
+    $status = new XMLElement('status', 'HTTP/1.1 200 OK' );
+
+    $elements = array( new XMLElement( 'propstat', array($prop,$status) ) );
+
+    if ( count($denied) > 0 ) {
+      $status = new XMLElement('status', 'HTTP/1.1 403 Forbidden' );
+      $noprop = new XMLElement('prop');
+      foreach( $denied AS $k => $v ) {
+        $noprop->NewElement( $v );
+      }
+      $elements[] = new XMLElement( 'propstat', array( $noprop, $status) );
+    }
+
+    if ( count($not_found) > 0 ) {
+      $status = new XMLElement('status', 'HTTP/1.1 404 Not Found' );
+      $noprop = new XMLElement('prop');
+      foreach( $not_found AS $k => $v ) {
+        $noprop->NewElement( $v );
+      }
+      $elements[] = new XMLElement( 'propstat', array( $noprop, $status) );
+    }
+    return $elements;
+  }
+  
 
   /**
   * Render XML for this resource
@@ -227,14 +244,6 @@ class DAVResource
       if ( ! $this->ResourceProperty($tag, $prop, $reply) ) {
         dbg_error_log( 'principal', 'Request for unsupported property "%s" of principal "%s".', $tag, $this->username );
         $not_found[] = $reply->Tag($tag);
-      }
-
-        default:
-          if ( ! $request->ServerProperty( $tag, $prop, $reply ) ) {
-            dbg_error_log( 'principal', 'Request for unsupported property "%s" of principal "%s".', $tag, $this->username );
-            $not_found[] = $reply->Tag($tag);
-          }
-          break;
       }
     }
 
