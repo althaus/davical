@@ -5,87 +5,20 @@ At present these regression tests are basically written to work in my
 own environment.  While I am, of course, happy to see patches that make
 them more generic they are still very much a work in progress.
 
-Mulberry
-========
-At present the most demanding client to support is Mulberry, so the first
-set of regression tests imitate Mulberry taking RSCDS through it's paces:
+In order to run them in your environment you will need to ensure both
+the Webserver and Database server run in the 'Pacific/Auckland' timezone
+since the regression testing puts a number of events into the database
+in a floating timezone, and some responses which are affected by these
+events are reported in UTC (mostly freebusy results).
 
-  1. Initial OPTIONS request at the root
-  2. Initial PROPFIND request at the root with Depth 1
-  3. Second PROPFIND request at the second level
-  4. MKCALENDAR request to create a calendar at /user1/home/
-  5. Third PROPFIND request duplicating the Second one (but finding a calendar now).
-  6. Fourth PROPFIND request solely looking for the new calendar, requesting 'getetag'
-  7. Not that Mulberry would let us do this, but we try to MKCALENDAR again at /user1/home/ to check for the error we expect.
- 10. PUT our first event into the calendar.
- 11. PUT the same event a second time, which should not give an error, but should respond with 'Replaced' rather than 'Created'.
- 12. PUT a second event into the calendar.
- 13. PROPFIND which should now show us both events.
- 14. PUT an update to that second event.
- 15. PROPFIND which should show us both events, with changes.
- 16. MKCALENDAR somewhere else that we have rights to do so.
- 17. MKCALENDAR somewhere else where we do not have rights, and which should fail.
- 18. PUT into the other calendar we have just created.
- 19. OPTIONS request against an illegal path, which should fail.
- 20. DELETE the first appointment we created, but with an If-Match header that will cause it to return a 412 Precondition Failed.
- 21. DELETE the first appointment, but this time with a correct If-Match header, it should succeed.
+On a Debian system you can do this by adding the line:
 
+  export TZ=Pacific/Auckland
 
-Evolution
-=========
-Evolution does things quite differently to Mulberry, only doing one OPTIONS request to confirm that
-calendaring support is available, and then going for REPORT and GET.  It maintains an internal cache
-so does not GET events listed in a REPORT unless they are new or changed.
+to /etc/apache2/envvars, and the line:
 
- 100. Initial unauthenticated OPTIONS request.
- 101. Initial authenticated OPTIONS request.
- 102. Initial REPORT request.
- 103. GET the second event that Mulberry put there earlier
- 104. PUT an event in the way style Evolution uses.
- 105. REPORT which should show both the Mulberry and the Evolution events.
- 106. GET the Evolution event we have added.
+  TZ = 'Pacific/Auckland'
 
+to /etc/postgresql/8.4/main/environment
 
-Mozilla Calendar
-================
-Similar to Evolution, Mozilla Calendar primarily only does OPTIONS/REPORT/GET/PUT/DELETE however
-it does not have a cache, so its REPORT requests (a) request data to be included and (b) apply
-a date range in their response.
-
- 200. Initial unauthenticated OPTIONS request.
- 201. Initial authenticated OPTIONS request.
- 202. Initial unauthenticated REPORT request.
- 203. Initial authenticated REPORT request for events from 9th October to 9th December which should find one Mulberry and one Evolution event.
- 204. REPORT request against the second calendar created by Mulberry which should only find one Mulberry event.
- 205. PROPFIND request which only 0.4 and later versions of Mozilla Calendar will do (see bug 355270).
- 206. PUT a recurring event.
- 207. REPORT on a period which will only include a subsequent instance of the recurring event.
- 208. REPORT on a period after the end of the recurring event, which will return an empty result.
-
-
-Chandler
-========
-Support for Chandler is still under development.  It appears to operate somewhat similarly to
-Mulberry, although apparently without support for MKCALENDAR at this stage, and it also tries
-to use more basic DAV functionality than other clients.  Basic operation appears to be OK,
-although it appears to write some proprietary information into a ".chandler" sub-collection.
-
- 300. Initial unauthenticated OPTIONS request.
- 301. Initial unauthenticated HEAD request.
- 302. Initial authenticated OPTIONS request.
- 303. Initial PROPFIND request.
- 304. Subsequent PROPFIND request which endeavours to retrieve permissions.
- 305. Another OPTIONS request looking at the ".chandler" subcollection.
-
---->> To Do
- Lots of things, including GET, PUT, DELETE and encouraging Chandler to create the .chandler
- collection in order to see how it does that.  At the end of these regression tests so far,
- 'Chandler' has still not discovered what events exist on the server, but in reality it does
- successfully do so.
-
-
-Your Favourite Client Here
-==========================
-I would like to have more client software available to test RSCDS against, but so far it's
-just these ones.  If you want to point me at more free software, or send me free copies of
-proprietary software, then I will add it to the list as well as make RSCDS work with it.
+You will also need to edit regression.conf as indicated in that file.

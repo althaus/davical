@@ -66,15 +66,22 @@ else {
   /**
   * We read the resource first, so we can check if it matches (or does not match)
   */
-  $qry = new PgQuery( "SELECT cd.dav_etag, ci.uid FROM caldav_data cd JOIN calendar_item ci USING (dav_id) WHERE cd.user_no = ? AND cd.dav_name = ?;", $request->user_no, $request->path );
+  $escaped_path = qpg($request->path);
+  $qry = new PgQuery( "SELECT cd.dav_etag, ci.uid, cd.collection_id FROM caldav_data cd JOIN calendar_item ci USING (dav_id) WHERE cd.user_no = ? AND cd.dav_name = $escaped_path;", $request->user_no );
   if ( $qry->Exec("DELETE") && $qry->rows == 1 ) {
     $delete_row = $qry->Fetch();
     if ( (isset($request->etag_if_match) && $request->etag_if_match != $delete_row->dav_etag) ) {
       $request->DoResponse( 412, translate("Resource has changed on server - not deleted") );
     }
-    $qry = new PgQuery( "DELETE FROM caldav_data WHERE user_no = ? AND dav_name = ?;", $request->user_no, $request->path );
+
+    $collection_id = $delete_row->collection_id;
+    $sql = <<<EOSQL
+DELETE FROM caldav_data WHERE collection_id = $collection_id AND dav_name = $escaped_path;
+SELECT write_sync_change( $collection_id, 404, $escaped_path);
+EOSQL;
+    $qry = new PgQuery( $sql );
     if ( $qry->Exec("DELETE") ) {
-      $qry = new PgQuery( "DELETE FROM property WHERE dav_name = ?;", $request->path ); $qry->Exec("DELETE"); /** @todo we should write a trigger to delete property records when caldav_data or collection is deleted */
+      $qry = new PgQuery( "DELETE FROM property WHERE dav_name = $escaped_path;" ); $qry->Exec("DELETE"); /** @todo we should write a trigger to delete property records when caldav_data or collection is deleted */
       @dbg_error_log( "DELETE", "DELETE: User: %d, ETag: %s, Path: %s", $session->user_no, $request->etag_if_match, $request->path);
       if ( function_exists('log_caldav_action') ) {
         log_caldav_action( 'DELETE', $delete_row->uid, $request->user_no, $request->collection_id, $request->path );

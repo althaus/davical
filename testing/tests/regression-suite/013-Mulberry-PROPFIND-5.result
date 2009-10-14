@@ -1,7 +1,7 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
-ETag: "d316148bfdf4f6d2cb5c4df178609e23"
+ETag: "5747e43a52649b3441d9f8cff66c0e8f"
 Content-Length: 1083
 Content-Type: text/xml; charset="utf-8"
 
@@ -23,10 +23,10 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
  </response>
  <response>
-  <href>/caldav.php/user1/home/3F4CF6227300FD062D9EF3CDFB30D32D-0.ics</href>
+  <href>/caldav.php/user1/home/F56B49B10FC923D20FE2DC92D6580340-0.ics</href>
   <propstat>
    <prop>
-    <getcontentlength>705</getcontentlength>
+    <getcontentlength>731</getcontentlength>
     <getcontenttype>text/calendar</getcontenttype>
     <resourcetype/>
    </prop>
@@ -34,10 +34,10 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
  </response>
  <response>
-  <href>/caldav.php/user1/home/F56B49B10FC923D20FE2DC92D6580340-0.ics</href>
+  <href>/caldav.php/user1/home/3F4CF6227300FD062D9EF3CDFB30D32D-0.ics</href>
   <propstat>
    <prop>
-    <getcontentlength>731</getcontentlength>
+    <getcontentlength>705</getcontentlength>
     <getcontenttype>text/calendar</getcontenttype>
     <resourcetype/>
    </prop>

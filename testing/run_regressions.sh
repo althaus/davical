@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # Run the regression tests and display differences
 #

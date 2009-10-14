@@ -40,51 +40,16 @@
   </propstat>
  </response>
  <response>
-  <href>/caldav.php/user1/home/0575d895-a006-4ed8-9be6-0d1b6b6b1f96.ics</href>
+  <href>/caldav.php/user1/home/3F4CF6227300FD062D9EF3CDFB30D32D-0.ics</href>
   <propstat>
    <prop>
-    <getcontentlength>961</getcontentlength>
+    <getcontentlength>747</getcontentlength>
     <getcontenttype>text/calendar</getcontenttype>
-    <displayname>Due 7/8/7 16:30, completed</displayname>
+    <displayname>Lunch with David</displayname>
     <resourcetype/>
     <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
     <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
-    <getetag>"00ad5eb1eb5507884710b0b66aa5d5c4"</getetag>
-    <getcontentlanguage/>
-    <supportedlock>
-     <lockentry>
-      <lockscope>
-       <exclusive/>
-      </lockscope>
-      <locktype>
-       <write/>
-      </locktype>
-     </lockentry>
-    </supportedlock>
-   </prop>
-   <status>HTTP/1.1 200 OK</status>
-  </propstat>
-  <propstat>
-   <prop>
-    <lockdiscovery/>
-    <source/>
-    <checked-in/>
-    <checked-out/>
-   </prop>
-   <status>HTTP/1.1 404 Not Found</status>
-  </propstat>
- </response>
- <response>
-  <href>/caldav.php/user1/home/1906b3ca-4890-468a-9b58-1de74bf2c716.ics</href>
-  <propstat>
-   <prop>
-    <getcontentlength>970</getcontentlength>
-    <getcontenttype>text/calendar</getcontenttype>
-    <displayname>Private Event</displayname>
-    <resourcetype/>
-    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
-    <getetag>"5def8ae2b20893a1c7f4dbaeb008f2f1"</getetag>
+    <getetag>"2c32a2f8aba853654eb17fe037a4db4d"</getetag>
     <getcontentlanguage/>
     <supportedlock>
      <lockentry>
@@ -145,76 +110,6 @@
   </propstat>
  </response>
  <response>
-  <href>/caldav.php/user1/home/2178279a-aec2-471f-832d-1f6df6203f2f.ics</href>
-  <propstat>
-   <prop>
-    <getcontentlength>415</getcontentlength>
-    <getcontenttype>text/calendar</getcontenttype>
-    <displayname>Incomplete, uncancelled</displayname>
-    <resourcetype/>
-    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
-    <getetag>"509b0f0d8a3363379f9f5727f5dd74a0"</getetag>
-    <getcontentlanguage/>
-    <supportedlock>
-     <lockentry>
-      <lockscope>
-       <exclusive/>
-      </lockscope>
-      <locktype>
-       <write/>
-      </locktype>
-     </lockentry>
-    </supportedlock>
-   </prop>
-   <status>HTTP/1.1 200 OK</status>
-  </propstat>
-  <propstat>
-   <prop>
-    <lockdiscovery/>
-    <source/>
-    <checked-in/>
-    <checked-out/>
-   </prop>
-   <status>HTTP/1.1 404 Not Found</status>
-  </propstat>
- </response>
- <response>
-  <href>/caldav.php/user1/home/3F4CF6227300FD062D9EF3CDFB30D32D-0.ics</href>
-  <propstat>
-   <prop>
-    <getcontentlength>747</getcontentlength>
-    <getcontenttype>text/calendar</getcontenttype>
-    <displayname>Lunch with David</displayname>
-    <resourcetype/>
-    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
-    <getetag>"2c32a2f8aba853654eb17fe037a4db4d"</getetag>
-    <getcontentlanguage/>
-    <supportedlock>
-     <lockentry>
-      <lockscope>
-       <exclusive/>
-      </lockscope>
-      <locktype>
-       <write/>
-      </locktype>
-     </lockentry>
-    </supportedlock>
-   </prop>
-   <status>HTTP/1.1 200 OK</status>
-  </propstat>
-  <propstat>
-   <prop>
-    <lockdiscovery/>
-    <source/>
-    <checked-in/>
-    <checked-out/>
-   </prop>
-   <status>HTTP/1.1 404 Not Found</status>
-  </propstat>
- </response>
- <response>
   <href>/caldav.php/user1/home/4aaf8f37-f232-4c8e-a72e-e171d4c4fe54.ics</href>
   <propstat>
    <prop>
@@ -225,76 +120,6 @@
     <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
     <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
     <getetag>"a1c6404d61190f9574e2bfd69383f144"</getetag>
-    <getcontentlanguage/>
-    <supportedlock>
-     <lockentry>
-      <lockscope>
-       <exclusive/>
-      </lockscope>
-      <locktype>
-       <write/>
-      </locktype>
-     </lockentry>
-    </supportedlock>
-   </prop>
-   <status>HTTP/1.1 200 OK</status>
-  </propstat>
-  <propstat>
-   <prop>
-    <lockdiscovery/>
-    <source/>
-    <checked-in/>
-    <checked-out/>
-   </prop>
-   <status>HTTP/1.1 404 Not Found</status>
-  </propstat>
- </response>
- <response>
-  <href>/caldav.php/user1/home/71e2ae82-7870-11db-c6d6-f6927c144649.ics</href>
-  <propstat>
-   <prop>
-    <getcontentlength>743</getcontentlength>
-    <getcontenttype>text/calendar</getcontenttype>
-    <displayname>Beer O'Clock</displayname>
-    <resourcetype/>
-    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
-    <getetag>"0d7a68984bf525342d22b8924a57e8e2"</getetag>
-    <getcontentlanguage/>
-    <supportedlock>
-     <lockentry>
-      <lockscope>
-       <exclusive/>
-      </lockscope>
-      <locktype>
-       <write/>
-      </locktype>
-     </lockentry>
-    </supportedlock>
-   </prop>
-   <status>HTTP/1.1 200 OK</status>
-  </propstat>
-  <propstat>
-   <prop>
-    <lockdiscovery/>
-    <source/>
-    <checked-in/>
-    <checked-out/>
-   </prop>
-   <status>HTTP/1.1 404 Not Found</status>
-  </propstat>
- </response>
- <response>
-  <href>/caldav.php/user1/home/917b9e47-b748-4550-a566-657fbe672447.ics</href>
-  <propstat>
-   <prop>
-    <getcontentlength>449</getcontentlength>
-    <getcontenttype>text/calendar</getcontenttype>
-    <displayname>50% Complete, uncancelled</displayname>
-    <resourcetype/>
-    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
-    <getetag>"cb3d9dc3e8c157f53eba3ea0e1e0f146"</getetag>
     <getcontentlanguage/>
     <supportedlock>
      <lockentry>
@@ -355,16 +180,156 @@
   </propstat>
  </response>
  <response>
-  <href>/caldav.php/user1/home/AAA9318E-37D9-4319-8626-95ECD3D3B243.ics</href>
+  <href>/caldav.php/user1/home/1906b3ca-4890-468a-9b58-1de74bf2c716.ics</href>
   <propstat>
    <prop>
-    <getcontentlength>981</getcontentlength>
+    <getcontentlength>970</getcontentlength>
     <getcontenttype>text/calendar</getcontenttype>
-    <displayname>BBQ @ ML's</displayname>
+    <displayname>Private Event</displayname>
     <resourcetype/>
     <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
     <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
-    <getetag>"5f050eca5480bbebbe9428222570913d"</getetag>
+    <getetag>"5def8ae2b20893a1c7f4dbaeb008f2f1"</getetag>
+    <getcontentlanguage/>
+    <supportedlock>
+     <lockentry>
+      <lockscope>
+       <exclusive/>
+      </lockscope>
+      <locktype>
+       <write/>
+      </locktype>
+     </lockentry>
+    </supportedlock>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <lockdiscovery/>
+    <source/>
+    <checked-in/>
+    <checked-out/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/home/fbd57454-d966-4a14-8341-abe1edb1ae66.ics</href>
+  <propstat>
+   <prop>
+    <getcontentlength>929</getcontentlength>
+    <getcontenttype>text/calendar</getcontenttype>
+    <displayname>Tentative Event</displayname>
+    <resourcetype/>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
+    <getetag>"ac90acd649c25070b1a2a17fb31a105a"</getetag>
+    <getcontentlanguage/>
+    <supportedlock>
+     <lockentry>
+      <lockscope>
+       <exclusive/>
+      </lockscope>
+      <locktype>
+       <write/>
+      </locktype>
+     </lockentry>
+    </supportedlock>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <lockdiscovery/>
+    <source/>
+    <checked-in/>
+    <checked-out/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/home/2178279a-aec2-471f-832d-1f6df6203f2f.ics</href>
+  <propstat>
+   <prop>
+    <getcontentlength>415</getcontentlength>
+    <getcontenttype>text/calendar</getcontenttype>
+    <displayname>Incomplete, uncancelled</displayname>
+    <resourcetype/>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
+    <getetag>"509b0f0d8a3363379f9f5727f5dd74a0"</getetag>
+    <getcontentlanguage/>
+    <supportedlock>
+     <lockentry>
+      <lockscope>
+       <exclusive/>
+      </lockscope>
+      <locktype>
+       <write/>
+      </locktype>
+     </lockentry>
+    </supportedlock>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <lockdiscovery/>
+    <source/>
+    <checked-in/>
+    <checked-out/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/home/917b9e47-b748-4550-a566-657fbe672447.ics</href>
+  <propstat>
+   <prop>
+    <getcontentlength>449</getcontentlength>
+    <getcontenttype>text/calendar</getcontenttype>
+    <displayname>50% Complete, uncancelled</displayname>
+    <resourcetype/>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
+    <getetag>"cb3d9dc3e8c157f53eba3ea0e1e0f146"</getetag>
+    <getcontentlanguage/>
+    <supportedlock>
+     <lockentry>
+      <lockscope>
+       <exclusive/>
+      </lockscope>
+      <locktype>
+       <write/>
+      </locktype>
+     </lockentry>
+    </supportedlock>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <lockdiscovery/>
+    <source/>
+    <checked-in/>
+    <checked-out/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/home/0575d895-a006-4ed8-9be6-0d1b6b6b1f96.ics</href>
+  <propstat>
+   <prop>
+    <getcontentlength>961</getcontentlength>
+    <getcontenttype>text/calendar</getcontenttype>
+    <displayname>Due 7/8/7 16:30, completed</displayname>
+    <resourcetype/>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
+    <getetag>"00ad5eb1eb5507884710b0b66aa5d5c4"</getetag>
     <getcontentlanguage/>
     <supportedlock>
      <lockentry>
@@ -425,51 +390,16 @@
   </propstat>
  </response>
  <response>
-  <href>/caldav.php/user1/home/da81c0ee-7871-11db-c6d6-f6927c144649.ics</href>
+  <href>/caldav.php/user1/home/e70576e9-c1e0-431e-a507-0386fd82f223.ics</href>
   <propstat>
    <prop>
-    <getcontentlength>302</getcontentlength>
+    <getcontentlength>1119</getcontentlength>
     <getcontenttype>text/calendar</getcontenttype>
-    <displayname>Morning Mgmt Mtg</displayname>
+    <displayname>Morning Meeting</displayname>
     <resourcetype/>
     <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
     <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
-    <getetag>"421abf7e4848d2fecbf64217ed205d4b"</getetag>
-    <getcontentlanguage/>
-    <supportedlock>
-     <lockentry>
-      <lockscope>
-       <exclusive/>
-      </lockscope>
-      <locktype>
-       <write/>
-      </locktype>
-     </lockentry>
-    </supportedlock>
-   </prop>
-   <status>HTTP/1.1 200 OK</status>
-  </propstat>
-  <propstat>
-   <prop>
-    <lockdiscovery/>
-    <source/>
-    <checked-in/>
-    <checked-out/>
-   </prop>
-   <status>HTTP/1.1 404 Not Found</status>
-  </propstat>
- </response>
- <response>
-  <href>/caldav.php/user1/home/DAYPARTY-77C6-4FB7-BDD3-6882E2F1BE74.ics</href>
-  <propstat>
-   <prop>
-    <getcontentlength>772</getcontentlength>
-    <getcontenttype>text/calendar</getcontenttype>
-    <displayname>Party all day!</displayname>
-    <resourcetype/>
-    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
-    <getetag>"165746adbab8bc0c8336a63cc5332ff2"</getetag>
+    <getetag>"e8060931f30c1798ac58ffbe4ec0bffc"</getetag>
     <getcontentlanguage/>
     <supportedlock>
      <lockentry>
@@ -530,16 +460,16 @@
   </propstat>
  </response>
  <response>
-  <href>/caldav.php/user1/home/e70576e9-c1e0-431e-a507-0386fd82f223.ics</href>
+  <href>/caldav.php/user1/home/71e2ae82-7870-11db-c6d6-f6927c144649.ics</href>
   <propstat>
    <prop>
-    <getcontentlength>1119</getcontentlength>
+    <getcontentlength>743</getcontentlength>
     <getcontenttype>text/calendar</getcontenttype>
-    <displayname>Morning Meeting</displayname>
+    <displayname>Beer O'Clock</displayname>
     <resourcetype/>
     <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
     <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
-    <getetag>"e8060931f30c1798ac58ffbe4ec0bffc"</getetag>
+    <getetag>"0d7a68984bf525342d22b8924a57e8e2"</getetag>
     <getcontentlanguage/>
     <supportedlock>
      <lockentry>
@@ -565,16 +495,86 @@
   </propstat>
  </response>
  <response>
-  <href>/caldav.php/user1/home/fbd57454-d966-4a14-8341-abe1edb1ae66.ics</href>
+  <href>/caldav.php/user1/home/da81c0ee-7871-11db-c6d6-f6927c144649.ics</href>
   <propstat>
    <prop>
-    <getcontentlength>929</getcontentlength>
+    <getcontentlength>302</getcontentlength>
     <getcontenttype>text/calendar</getcontenttype>
-    <displayname>Tentative Event</displayname>
+    <displayname>Morning Mgmt Mtg</displayname>
     <resourcetype/>
     <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
     <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
-    <getetag>"ac90acd649c25070b1a2a17fb31a105a"</getetag>
+    <getetag>"421abf7e4848d2fecbf64217ed205d4b"</getetag>
+    <getcontentlanguage/>
+    <supportedlock>
+     <lockentry>
+      <lockscope>
+       <exclusive/>
+      </lockscope>
+      <locktype>
+       <write/>
+      </locktype>
+     </lockentry>
+    </supportedlock>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <lockdiscovery/>
+    <source/>
+    <checked-in/>
+    <checked-out/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/home/AAA9318E-37D9-4319-8626-95ECD3D3B243.ics</href>
+  <propstat>
+   <prop>
+    <getcontentlength>981</getcontentlength>
+    <getcontenttype>text/calendar</getcontenttype>
+    <displayname>BBQ @ ML's</displayname>
+    <resourcetype/>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
+    <getetag>"5f050eca5480bbebbe9428222570913d"</getetag>
+    <getcontentlanguage/>
+    <supportedlock>
+     <lockentry>
+      <lockscope>
+       <exclusive/>
+      </lockscope>
+      <locktype>
+       <write/>
+      </locktype>
+     </lockentry>
+    </supportedlock>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <lockdiscovery/>
+    <source/>
+    <checked-in/>
+    <checked-out/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/home/DAYPARTY-77C6-4FB7-BDD3-6882E2F1BE74.ics</href>
+  <propstat>
+   <prop>
+    <getcontentlength>772</getcontentlength>
+    <getcontenttype>text/calendar</getcontenttype>
+    <displayname>Party all day!</displayname>
+    <resourcetype/>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
+    <getetag>"165746adbab8bc0c8336a63cc5332ff2"</getetag>
     <getcontentlanguage/>
     <supportedlock>
      <lockentry>

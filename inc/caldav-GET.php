@@ -17,14 +17,21 @@ if ( ! $request->AllowedTo('freebusy') ) {
 }
 
 if ( $request->IsCollection() ) {
-  /**
-  * The CalDAV specification does not define GET on a collection, but typically this is
-  * used as a .ics download for the whole collection, which is what we do also.
-  *
-  * @todo Change this to reference the collection_id of the collection at this location.
-  */
-  $order_clause = ( isset($c->strict_result_ordering) && $c->strict_result_ordering ? " ORDER BY dav_id" : "");
-  $qry = new PgQuery( "SELECT caldav_data, class, caldav_type, calendar_item.user_no, logged_user FROM caldav_data INNER JOIN calendar_item USING ( dav_id ) WHERE caldav_data.user_no = ? AND caldav_data.dav_name ~ ? $order_clause", $request->user_no, $request->path.'[^/]+$');
+  if ( $request->IsCalendar() ) {
+	  /**
+	  * The CalDAV specification does not define GET on a collection, but typically this is
+	  * used as a .ics download for the whole collection, which is what we do also.
+	  *
+	  * @todo Change this to reference the collection_id of the collection at this location.
+	  */
+	  $order_clause = ( isset($c->strict_result_ordering) && $c->strict_result_ordering ? " ORDER BY dav_id" : "");
+	  $qry = new PgQuery( "SELECT caldav_data, class, caldav_type, calendar_item.user_no, logged_user FROM caldav_data INNER JOIN calendar_item USING ( dav_id ) WHERE caldav_data.user_no = ? AND caldav_data.dav_name ~ ? $order_clause", $request->user_no, $request->path.'[^/]+$');
+  }
+  else {
+    /** RFC2616 says we must send an Allow header if we send a 405 */
+    header("Allow: PROPFIND,PROPPATCH,OPTIONS,MKCOL,REPORT,DELETE");
+    $request->DoResponse( 405, translate("GET requests are only handled on calendar collections.") );
+  }
 }
 else {
   $qry = new PgQuery( "SELECT caldav_data, caldav_data.dav_etag, class, caldav_type, calendar_item.user_no, logged_user FROM caldav_data INNER JOIN calendar_item USING ( dav_id ) WHERE caldav_data.user_no = ? AND caldav_data.dav_name = ? ;", $request->user_no, $request->path);
@@ -80,7 +87,7 @@ else if ( $qry->rows == 1 && ! $request->IsCollection() ) {
 
   header( "Etag: \"$event->dav_etag\"" );
   header( "Content-Length: ".strlen($event->caldav_data) );
-  $request->DoResponse( 200, ($request->method == "HEAD" ? "" : $event->caldav_data), "text/calendar" );
+  $request->DoResponse( 200, ($request->method == "HEAD" ? "" : $event->caldav_data), "text/calendar; charset=\"utf-8\"" );
 }
 else if ( $qry->rows < 1 && ! $request->IsCollection() ) {
   $request->DoResponse( 404, translate("Calendar Resource Not Found.") );
@@ -166,6 +173,6 @@ else {
   $response = $vcal->Render();
   header( "Content-Length: ".strlen($response) );
   header( 'Etag: "'.$request->collection->dav_etag.'"' );
-  $request->DoResponse( 200, ($request->method == "HEAD" ? "" : $response), "text/calendar" );
+  $request->DoResponse( 200, ($request->method == "HEAD" ? "" : $response), "text/calendar; charset=\"utf-8\"" );
 }
 

@@ -69,7 +69,8 @@ class PublicSession {
   * @return boolean Whether or not the user has the specified role.
   */
   function AllowedTo ( $whatever ) {
-    return ( $this->logged_in && isset($this->roles[$whatever]) && $this->roles[$whatever] );
+    dbg_error_log('session', 'Checking whether "Public" is allowed to "%s"', $whatever);
+    return ( isset($this->roles[$whatever]) && $this->roles[$whatever] );
   }
 
 }

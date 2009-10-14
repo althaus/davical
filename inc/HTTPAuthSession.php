@@ -221,7 +221,15 @@ class HTTPAuthSession {
       * It can expect that:
       *   - Configuration data will be in $c->authenticate_hook['config'], which might be an array, or whatever is needed.
       */
-      return call_user_func( $c->authenticate_hook['call'], $username, $password );
+      $hook_response = call_user_func( $c->authenticate_hook['call'], $username, $password );
+      /**
+       * make the authentication hook optional: if the flag is set, ignore a return value of 'false'
+       */
+      if (isset($c->authenticate_hook['optional']) && $c->authenticate_hook['optional']) {
+        if ($hook_response !== false) { return $hook_response; }
+      } else {
+	return $hook_response;
+      }
     }
 
     if ( $usr = getUserByName($username) ) {

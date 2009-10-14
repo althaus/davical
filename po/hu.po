@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rscds 0.7.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-06-22 14:25+1200\n"
+"POT-Creation-Date: 2009-10-06 09:25-0700\n"
 "PO-Revision-Date: 2007-05-03 15:00+0001\n"
 "Last-Translator: David Takacs <david.takacs@cafeopen.eu>\n"
 "Language-Team: \n"
@@ -40,9 +40,6 @@ msgstr "--- válasszon felhasználót vagy erőforrást ---"
 
 msgid "--- select a user, group or resource ---"
 msgstr "--- válasszon felhasználót, csoportot vagy erőforrást"
-
-msgid "<b>WARNING: all events in this path will be deleted before inserting all of the ics file</b>"
-msgstr ""
 
 msgid "<b>WARNING: all events in this path will be deleted before inserting allof the ics file</b>"
 msgstr ""
@@ -82,8 +79,10 @@ msgstr "Adminisztrátor"
 msgid "Administers"
 msgstr ""
 
-#, c-format
-msgid "All events of user %s were deleted and replaced by those from the file."
+msgid "All collection data will be unrecoverably deleted."
+msgstr ""
+
+msgid "All of the user's calendars and events will be unrecoverably deleted."
 msgstr ""
 
 msgid "All requested changes were made."
@@ -114,9 +113,9 @@ msgstr "Nem található ilyen naptár-erőforrás"
 msgid "Calendar Users"
 msgstr "Naptár felhasználói"
 
-#, fuzzy
-msgid "Calendar"
-msgstr "Naptár felhasználói"
+#, c-format
+msgid "Calendar \"%s\" for user \"%s\" was created."
+msgstr ""
 
 msgid "Can read from"
 msgstr "Láthatja"
@@ -153,17 +152,22 @@ msgstr "Valóban törli a kapcsolattípust?"
 msgid "Confirm Deletion of the Relationship Type"
 msgstr "Valóban törli a kapcsolattípust?"
 
+#, fuzzy
+msgid "Confirm Deletion of the User"
+msgstr "Valóban törli a kapcsolattípust?"
+
 msgid "Confirm the new password."
 msgstr "Új jelszó ellenőrzése"
 
 msgid "Confirm"
 msgstr "Ellenőrzés"
 
+#, fuzzy
+msgid "Create Calendar"
+msgstr "Naptár felhasználói"
+
 msgid "Create"
 msgstr "Új létrehozása"
-
-msgid "Created On"
-msgstr "Létrehozva"
 
 msgid "DAViCal CalDAV Server"
 msgstr ""
@@ -185,6 +189,14 @@ msgid "Default relationships added."
 msgstr "Kapcsolat hozzáadva."
 
 msgid "Delete"
+msgstr "Törlés"
+
+#, fuzzy
+msgid "Deleting Collection:"
+msgstr "Valóban törli a kapcsolattípust?"
+
+#, fuzzy
+msgid "Deleting User:"
 msgstr "Törlés"
 
 msgid "Directory on the server"
@@ -256,6 +268,9 @@ msgstr ""
 msgid "Full Name"
 msgstr "Teljes név"
 
+msgid "GET requests are only handled on calendar collections."
+msgstr ""
+
 msgid "GO!"
 msgstr "Mehet!"
 
@@ -294,9 +309,6 @@ msgstr "Ha elfelejtette jelszavát, "
 
 msgid "If you would like to request access, please e-mail"
 msgstr "Ha hozzáférést szeretne kapni, írjon: "
-
-msgid "Import ICS file to new collection"
-msgstr ""
 
 msgid "Import all .ics files of a directory"
 msgstr ""
@@ -376,6 +388,10 @@ msgstr "Törlés megerősítése"
 
 msgid "Please confirm deletion of collection - see below"
 msgstr ""
+
+#, fuzzy
+msgid "Please confirm deletion of user"
+msgstr "Törlés megerősítése"
 
 msgid "Please note the time and advise the administrator of your system."
 msgstr "Jegyezze fel az időpontot és értesítse az adminisztrátort!"
@@ -476,6 +492,9 @@ msgstr ""
 msgid "Setup"
 msgstr ""
 
+msgid "Should this calendar be readable without authenticating?"
+msgstr ""
+
 msgid "Show help on"
 msgstr "Súgó erről: "
 
@@ -504,14 +523,18 @@ msgstr "Ez a kapcsolattípus használatban van. Ld. ##RelationshipTypeUsed##"
 msgid "The application program does not understand that request."
 msgstr "Az alkalmazás nem tudja értelmezni a kérést."
 
+msgid ""
+"The calendar name part of the path to store your ics. E.g. the \"home\" part of \"/caldav.php/username/"
+"home/\""
+msgstr ""
+
 msgid "The calendar path contains illegal characters."
 msgstr "A naptár elérési útja érvénytelen karaktert tartalmaz."
 
 msgid "The displayname may only be set on collections or principals."
 msgstr "A megjelenített név csak gyűjteményekhez vagy megbízókhoz állítható be."
 
-#, c-format
-msgid "The file %s is not UTF-8 encoded, please check the error for more details."
+msgid "The file is not UTF-8 encoded, please check the error for more details."
 msgstr ""
 
 msgid "The name this user can log into the system with."
@@ -557,7 +580,7 @@ msgstr "Frissítés"
 msgid "Updated"
 msgstr "Frissítve"
 
-msgid "Upload your .ics calendar in ical format "
+msgid "Upload a .ics calendar in iCalendar format "
 msgstr ""
 
 msgid "User Details"
@@ -571,6 +594,10 @@ msgstr "Felhasználó szerepei"
 
 msgid "User Unavailable"
 msgstr "A felhasználó nem elérhető"
+
+#, fuzzy
+msgid "User deleted"
+msgstr "Felhasználó szerepei"
 
 msgid "User is active"
 msgstr "A felhasználó aktív"
@@ -634,10 +661,6 @@ msgstr "Nincs jogosultsága bejegyzéseket módosítani ebben a naptárban."
 msgid "You must log in to use this system."
 msgstr "Be kell jelentkeznie a rendszer használatához."
 
-#, fuzzy
-msgid "Your .ics calendar"
-msgstr "Nincs jogosultsága hozzáférni a naptárhoz"
-
 #, c-format
 msgid "all events of user %s were deleted and replaced by those from file %s"
 msgstr ""
@@ -686,9 +709,6 @@ msgstr "asszisztense neki:"
 msgid "path to store your ics"
 msgstr ""
 
-msgid "set the path to store your ics ex:home if you get it by caldav.php/me/home/"
-msgstr ""
-
 #, c-format
 msgid "the file %s is not UTF-8 encoded, please check error for more details"
 msgstr ""
@@ -698,6 +718,13 @@ msgstr "Lépjen be felhasználónevével és jelszavával."
 
 msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
 msgstr ""
+
+#~ msgid "Created On"
+#~ msgstr "Létrehozva"
+
+#, fuzzy
+#~ msgid "Your .ics calendar"
+#~ msgstr "Nincs jogosultsága hozzáférni a naptárhoz"
 
 #~ msgid "Really Simple CalDAV Store"
 #~ msgstr "Really Simple CalDAV Store"

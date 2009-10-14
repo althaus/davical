@@ -25,7 +25,7 @@ $tz_regex = ':^(Africa|America|Antarctica|Arctic|Asia|Atlantic|Australia|Brazil|
 /**
 * This function launches an error
 * @param boolean $caldav_context Whether we are responding via CalDAV or interactively
-* @param int $user_no the user wich will receive this ics file
+* @param int $user_no the user who will receive this ics file
 * @param string $path the $path where the PUT failed to store such as /user_foo/home/
 * @param string $message An optional error message to return to the client
 * @param int $error_no An optional value for the HTTP error code
@@ -517,7 +517,7 @@ function write_resource( $user_no, $path, $caldav_data, $collection_id, $author,
   }
 
   $dtend = $first->GetPValue('DTEND');
-  if ( (!isset($dtend) || "$dtend" == "") ) {
+  if ( (!isset($dtend) || $dtend == "") ) {
     if ( $first->GetPValue('DURATION') != "" AND $dtstart != "" ) {
       $duration = preg_replace( '#[PT]#', ' ', $first->GetPValue('DURATION') );
       $dtend = '('.qpg($dtstart).'::timestamp with time zone + '.qpg($duration).'::interval)';
@@ -625,26 +625,43 @@ function write_resource( $user_no, $path, $caldav_data, $collection_id, $author,
     }
   }
 
+  $escaped_path = qpg($path);
   if ( $put_action_type != 'INSERT' ) {
-    $sql .= "DELETE FROM calendar_item WHERE user_no=$user_no AND dav_name=".qpg($path).";";
-  }
-  $sql .= <<<EOSQL
-  INSERT INTO calendar_item (user_no, dav_name, dav_etag, uid, dtstamp, dtstart, dtend, summary, location, class, transp,
-                      description, rrule, tz_id, last_modified, url, priority, created, due, percent_complete, status, collection_id )
-                   VALUES ( ?, ?, ?, ?, ?, ?, $dtend, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
-  COMMIT;
+    $sql .= <<<EOSQL
+UPDATE calendar_item SET dav_etag=?, uid=?, dtstamp=?,
+                dtstart=?, dtend=$dtend, summary=?, location=?, class=?, transp=?,
+                description=?, rrule=?, tz_id=?, last_modified=?, url=?, priority=?,
+                created=?, due=?, percent_complete=?, status=? 
+       WHERE user_no=$user_no AND dav_name=$escaped_path;
+SELECT write_sync_change( $collection_id, 200, $escaped_path);
+COMMIT;
 EOSQL;
+  }
+  else {
+    $sql .= <<<EOSQL
+INSERT INTO calendar_item (user_no, dav_name, dav_etag, uid, dtstamp,
+                dtstart, dtend, summary, location, class, transp,
+                description, rrule, tz_id, last_modified, url, priority,
+                created, due, percent_complete, status, collection_id )
+   VALUES ( $user_no, $escaped_path, ?, ?, ?,
+                ?, $dtend, ?, ?, ?, ?,
+                ?, ?, ?, ?, ?, ?,
+                ?, ?, ?, ?, $collection_id );
+SELECT write_sync_change( $collection_id, 201, $escaped_path);
+COMMIT;
+EOSQL;
+  }
 
   if ( $log_action && function_exists('log_caldav_action') ) {
     log_caldav_action( $put_action_type, $first->GetPValue('UID'), $user_no, $collection_id, $path );
   }
 
-  $qry = new PgQuery( $sql, $user_no, $path, $etag, $first->GetPValue('UID'), $dtstamp,
-                            $first->GetPValue('DTSTART'), $first->GetPValue('SUMMARY'), $first->GetPValue('LOCATION'),
-                            $class, $first->GetPValue('TRANSP'), $first->GetPValue('DESCRIPTION'), $first->GetPValue('RRULE'), $tzid,
-                            $last_modified, $first->GetPValue('URL'), $first->GetPValue('PRIORITY'), $first->GetPValue('CREATED'),
-                            $first->GetPValue('DUE'), $first->GetPValue('PERCENT-COMPLETE'), $first->GetPValue('STATUS'), $collection_id
-                      );
+  $qry = new PgQuery( $sql, $etag, $first->GetPValue('UID'), $dtstamp,
+       $first->GetPValue('DTSTART'), $first->GetPValue('SUMMARY'), $first->GetPValue('LOCATION'), $class, $first->GetPValue('TRANSP'), 
+       $first->GetPValue('DESCRIPTION'), $first->GetPValue('RRULE'), $tzid,
+       $last_modified, $first->GetPValue('URL'), $first->GetPValue('PRIORITY'),
+       $first->GetPValue('CREATED'), $first->GetPValue('DUE'), $first->GetPValue('PERCENT-COMPLETE'), $first->GetPValue('STATUS')
+  );
   if ( !$qry->Exec("PUT") ) {
     rollback_on_error( $caldav_context, $user_no, $path);
     return false;

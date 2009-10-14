@@ -1,0 +1,19 @@
+#
+# Testing for Spec compliance.  PROPFIND on a principal,
+# Depth: 0, looking for the supported-privilege-set response
+#
+TYPE=PROPFIND
+URL=http://mycaldav/caldav.php/user1/
+HEADER=User-Agent: RFC3744 Spec Tests
+HEADER=Depth: 0
+HEADER=Content-Type: application/xml
+HEAD
+
+BEGINDATA
+<?xml version="1.0" encoding="utf-8"?>
+<propfind xmlns="DAV:">
+ <prop>
+  <supported-privilege-set/>
+ </prop>
+</propfind>
+ENDDATA

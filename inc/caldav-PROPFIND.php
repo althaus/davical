@@ -588,7 +588,7 @@ function item_to_xml( $item ) {
 * a list of calendars for the user which are parented by this path.
 */
 function get_collection_contents( $depth, $user_no, $collection ) {
-  global $session, $request, $reply, $prop_list, $arbitrary;
+  global $c, $session, $request, $reply, $prop_list, $arbitrary;
 
   dbg_error_log('PROPFIND','Getting collection contents: Depth %d, User: %d, Path: %s', $depth, $user_no, $collection->dav_name );
 
@@ -658,7 +658,7 @@ function get_collection_contents( $depth, $user_no, $collection ) {
     $sql .= 'summary AS dav_displayname ';
     $sql .= 'FROM caldav_data JOIN calendar_item USING( dav_id, user_no, dav_name) ';
     $sql .= 'WHERE dav_name ~ '.qpg('^'.$collection->dav_name.'[^/]+$'). $privacy_clause;
-    $sql .= 'ORDER BY dav_name';
+    if ( isset($c->strict_result_ordering) && $c->strict_result_ordering ) $sql .= " ORDER BY dav_id";
     $qry = new PgQuery($sql, PgQuery::Plain(iCalendar::HttpDateFormat()), PgQuery::Plain(iCalendar::HttpDateFormat()));
     if( $qry->Exec('PROPFIND',__LINE__,__FILE__) && $qry->rows > 0 ) {
       while( $item = $qry->Fetch() ) {

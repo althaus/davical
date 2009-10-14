@@ -1,0 +1,84 @@
+HTTP/1.1 207 Multi-Status
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
+ETag: "e01e87a334e05b0efb2deedc5fa7ae50"
+Content-Length: 2219
+Content-Type: text/xml; charset="utf-8"
+
+<?xml version="1.0" encoding="utf-8" ?>
+<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
+ <response>
+  <href>/caldav.php/user1/</href>
+  <propstat>
+   <prop>
+    <supported-privilege-set>
+     <supported-privilege>
+      <privilege>
+       <all/>
+      </privilege>
+      <supported-privilege>
+       <privilege>
+        <read/>
+       </privilege>
+       <description>Read the content of a resource or collection</description>
+      </supported-privilege>
+      <supported-privilege>
+       <privilege>
+        <write/>
+       </privilege>
+       <supported-privilege>
+        <privilege>
+         <bind/>
+        </privilege>
+        <description>Create a resource or collection</description>
+       </supported-privilege>
+       <supported-privilege>
+        <privilege>
+         <unbind/>
+        </privilege>
+        <description>Delete a resource or collection</description>
+       </supported-privilege>
+       <supported-privilege>
+        <privilege>
+         <write-content/>
+        </privilege>
+        <description>Write content</description>
+       </supported-privilege>
+       <supported-privilege>
+        <privilege>
+         <write-properties/>
+        </privilege>
+        <description>Write properties</description>
+       </supported-privilege>
+      </supported-privilege>
+      <supported-privilege>
+       <privilege>
+        <C:read-free-busy/>
+       </privilege>
+       <description>Read the free/busy information for a calendar collection</description>
+      </supported-privilege>
+      <supported-privilege>
+       <privilege>
+        <read-acl/>
+       </privilege>
+       <description>Read ACLs for a resource or collection</description>
+      </supported-privilege>
+      <supported-privilege>
+       <privilege>
+        <write-acl/>
+       </privilege>
+       <description>Write ACLs for a resource or collection</description>
+      </supported-privilege>
+      <supported-privilege>
+       <privilege>
+        <unlock/>
+       </privilege>
+       <description>Remove a lock</description>
+      </supported-privilege>
+     </supported-privilege>
+    </supported-privilege-set>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+</multistatus>
