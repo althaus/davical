@@ -168,6 +168,11 @@ class DAVResource
         }
         break;
 
+      case 'urn:ietf:params:xml:ns:caldav:calendar-data':
+        if ( isset($this->caldav_data) ) {
+        }
+        break;
+
       default:
         dbg_error_log( 'resource', 'Request for unsupported property "%s" of path "%s".', $tag, $this->href );
         return false;
