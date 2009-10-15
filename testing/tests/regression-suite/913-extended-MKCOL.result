@@ -5,9 +5,10 @@ Cache-Control: no-cache
 Content-Length: 0
 Content-Type: text/plain; charset="utf-8"
 
-  dav_displayname: >collection<
+  dav_displayname: >Extended MKCOL Calendar<
+   is_addressbook: >0<
       is_calendar: >1<
- parent_container: >/user1/<
+ parent_container: >/User Six/<
 public_events_onl: >0<
-          user_no: >10<
+          user_no: >15<
 

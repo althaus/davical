@@ -1,6 +1,6 @@
 HTTP/1.1 200 OK
 Date: Dow, 01 Jan 2000 00:00:00 GMT
-DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
+DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule, extended-mkcol
 Content-Location: /caldav.php/user1/SOHO%20collection/
 Content-Length: 237
 Content-Type: text/xml; charset="utf-8"

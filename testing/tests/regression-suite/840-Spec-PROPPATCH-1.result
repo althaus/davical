@@ -1,6 +1,6 @@
 HTTP/1.1 200 OK
 Date: Dow, 01 Jan 2000 00:00:00 GMT
-DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
+DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule, extended-mkcol
 Content-Length: 224
 Content-Type: text/xml; charset="utf-8"
 
@@ -23,18 +23,6 @@ changed_last_30se: >1<
 
        changed_by: >10<
 changed_last_30se: >1<
-         dav_name: >/user1/SOHO collection/<
-    property_name: >com.apple.ical::calendarcolor<
-   property_value: >#FF8000FF<
-
-       changed_by: >10<
-changed_last_30se: >1<
-         dav_name: >/user1/SOHO collection/<
-    property_name: >urn:ietf:params:xml:ns:caldav:calendar-description<
-   property_value: >Calendar description<
-
-       changed_by: >10<
-changed_last_30se: >1<
          dav_name: >/user1/collection/<
     property_name: >urn:ietf:params:xml:ns:caldav:calendar-description<
    property_value: >My sample calendar
@@ -45,4 +33,16 @@ changed_last_30se: >1<
          dav_name: >/user1/home/<
     property_name: >urn:mcmillan:bogus:xml:ns:rscds:arbitrary<
    property_value: >A completely bogus property which should be saved.<
+
+       changed_by: >10<
+changed_last_30se: >1<
+         dav_name: >/user1/SOHO collection/<
+    property_name: >com.apple.ical::calendarcolor<
+   property_value: >#FF8000FF<
+
+       changed_by: >10<
+changed_last_30se: >1<
+         dav_name: >/user1/SOHO collection/<
+    property_name: >urn:ietf:params:xml:ns:caldav:calendar-description<
+   property_value: >Calendar description<
 

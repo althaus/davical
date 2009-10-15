@@ -1,0 +1,23 @@
+HTTP/1.1 409 Conflict
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule, extended-mkcol
+Content-Length: 430
+Content-Type: text/plain; charset="utf-8"
+
+<?xml version="1.0" encoding="utf-8" ?>
+<mkcol-response xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
+ <propstat>
+  <prop>
+   <resourcetype/>
+   <displayname/>
+  </prop>
+  <status>HTTP/1.1 424 Failed Dependency</status>
+ </propstat>
+ <propstat>
+  <prop>
+   <creationdate/>
+  </prop>
+  <status>HTTP/1.1 409 Conflict</status>
+  <responsedescription>Property is read-only</responsedescription>
+ </propstat>
+</mkcol-response>
