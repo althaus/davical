@@ -15,7 +15,7 @@
 * return true if it's a whole calendar
 */
 
-include_once("iCalendar.php");
+include_once('iCalendar.php');
 
 /**
 * A regex which will match most reasonable timezones acceptable to PostgreSQL.
@@ -31,8 +31,8 @@ $tz_regex = ':^(Africa|America|Antarctica|Arctic|Asia|Atlantic|Australia|Brazil|
 * @param int $error_no An optional value for the HTTP error code
 */
 function rollback_on_error( $caldav_context, $user_no, $path, $message='', $error_no=500 ) {
-  if ( !$message ) $message = translate("Database error");
-  $qry = new PgQuery("ROLLBACK;"); $qry->Exec("PUT-collection");
+  if ( !$message ) $message = translate('Database error');
+  $qry = new PgQuery('ROLLBACK;'); $qry->Exec('PUT-collection');
   if ( $caldav_context ) {
     global $request;
     $request->DoResponse( $error_no, $message );
@@ -40,7 +40,7 @@ function rollback_on_error( $caldav_context, $user_no, $path, $message='', $erro
   }
 
   global $c;
-  $c->messages[] = sprintf("Status: %d, Message: %s, User: %d, Path: %s", $error_no, $message, $user_no, $path);
+  $c->messages[] = sprintf('Status: %d, Message: %s, User: %d, Path: %s', $error_no, $message, $user_no, $path);
 
 }
 
@@ -73,12 +73,12 @@ function controlRequestContainer( $username, $user_no, $path, $caldav_context, $
     /**
     * Well, it exists, and we support it, but it is against the CalDAV spec
     */
-    dbg_error_log( "WARN", " Storing events directly in user's base folders is not recommended!");
+    dbg_error_log( 'WARN', ' Storing events directly in user\'s base folders is not recommended!');
   }
   else {
-    $sql = "SELECT * FROM collection WHERE user_no = ? AND dav_name = ?;";
+    $sql = 'SELECT * FROM collection WHERE user_no = ? AND dav_name = ?;';
     $qry = new PgQuery( $sql, $user_no, $request_container );
-    if ( ! $qry->Exec("PUT") ) {
+    if ( ! $qry->Exec('PUT') ) {
       rollback_on_error( $caldav_context, $user_no, $path );
     }
     if ( $qry->rows == 0 ) {
@@ -87,14 +87,14 @@ function controlRequestContainer( $username, $user_no, $path, $caldav_context, $
         $parent_container = $matches[1];
         $displayname = $matches[2];
       }
-      $sql = "INSERT INTO collection ( user_no, parent_container, dav_name, dav_etag, dav_displayname, is_calendar, created, modified, publicly_readable ) VALUES( ?, ?, ?, ?, ?, TRUE, current_timestamp, current_timestamp, ? );";
-      $qry = new PgQuery( $sql, $user_no, $parent_container, $request_container, md5($user_no. $request_container), $displayname, $public );
-      $qry->Exec("PUT");
+      $sql = 'INSERT INTO collection ( user_no, parent_container, dav_name, dav_etag, dav_displayname, is_calendar, created, modified, publicly_readable, resourcetypes ) VALUES( ?, ?, ?, ?, ?, TRUE, current_timestamp, current_timestamp, ?, ? );';
+      $qry = new PgQuery( $sql, $user_no, $parent_container, $request_container, md5($user_no. $request_container), $displayname, $public, '<DAV::collection/><urn:ietf:params:xml:ns:caldav:calendar/>' );
+      $qry->Exec('PUT');
     }
     else if ( isset($public) ) {
       $collection = $qry->Fetch();
-      $qry = new PgQuery( 'UPDATE collection SET publicly_readable = ? WHERE collection_id = ?', $public, $collection->collection_id ); 
-      if ( ! $qry->Exec("PUT") ) {
+      $qry = new PgQuery( 'UPDATE collection SET publicly_readable = ? WHERE collection_id = ?', $public, $collection->collection_id );
+      if ( ! $qry->Exec('PUT') ) {
         rollback_on_error( $caldav_context, $user_no, $path );
       }
     }
@@ -112,9 +112,9 @@ function public_events_only( $user_no, $dav_name ) {
   // Not supported until DB versions from 1.001.010
   if ( $c->schema_version < 1001.010 ) return false;
 
-  $sql = "SELECT public_events_only ";
-  $sql .= "FROM collection ";
-  $sql .= "WHERE user_no=? AND dav_name=?";
+  $sql = 'SELECT public_events_only ';
+  $sql .= 'FROM collection ';
+  $sql .= 'WHERE user_no=? AND dav_name=?';
 
   $qry = new PgQuery($sql, $user_no, $dav_name);
 
@@ -147,24 +147,24 @@ function write_scheduling_request( &$resource, $attendee ) {
 */
 function create_scheduling_requests( &$resource ) {
   if ( ! is_object($resource) ) {
-    dbg_error_log( "PUT", "create_scheduling_requests called with non-object parameter (%s)", gettype($resource) );
+    dbg_error_log( 'PUT', 'create_scheduling_requests called with non-object parameter (%s)', gettype($resource) );
     return;
   }
 
   $attendees = $resource->GetPropertiesByPath('/VCALENDAR/*/ATTENDEE');
   if ( preg_match( '# iCal/\d#', $_SERVER['HTTP_USER_AGENT']) ) {
-    dbg_error_log( "POST", "Non-compliant iCal request.  Using X-WR-ATTENDEE property" );
+    dbg_error_log( 'POST', 'Non-compliant iCal request.  Using X-WR-ATTENDEE property' );
     $wr_attendees = $resource->GetPropertiesByPath('/VCALENDAR/*/X-WR-ATTENDEE');
     foreach( $wr_attendees AS $k => $v ) {
       $attendees[] = $v;
     }
   }
   if ( count($attendees) == 0 ) {
-    dbg_error_log( "PUT", "Event has no attendees - no scheduling required.", count($attendees) );
+    dbg_error_log( 'PUT', 'Event has no attendees - no scheduling required.', count($attendees) );
     return;
   }
 
-  dbg_error_log( "PUT", "Adding to scheduling inbox %d attendees", count($attendees) );
+  dbg_error_log( 'PUT', 'Adding to scheduling inbox %d attendees', count($attendees) );
   foreach( $attendees AS $attendee ) {
     $attendee->SetParameterValue( 'SCHEDULE-STATUS', write_scheduling_request( $resource, $attendee->Value() ) );
   }
@@ -177,24 +177,24 @@ function create_scheduling_requests( &$resource ) {
 */
 function update_scheduling_requests( &$resource ) {
   if ( ! is_object($resource) ) {
-    dbg_error_log( "PUT", "update_scheduling_requests called with non-object parameter (%s)", gettype($resource) );
+    dbg_error_log( 'PUT', 'update_scheduling_requests called with non-object parameter (%s)', gettype($resource) );
     return;
   }
 
   $attendees = $resource->GetPropertiesByPath('/VCALENDAR/*/ATTENDEE');
   if ( preg_match( '# iCal/\d#', $_SERVER['HTTP_USER_AGENT']) ) {
-    dbg_error_log( "POST", "Non-compliant iCal request.  Using X-WR-ATTENDEE property" );
+    dbg_error_log( 'POST', 'Non-compliant iCal request.  Using X-WR-ATTENDEE property' );
     $wr_attendees = $resource->GetPropertiesByPath('/VCALENDAR/*/X-WR-ATTENDEE');
     foreach( $wr_attendees AS $k => $v ) {
       $attendees[] = $v;
     }
   }
   if ( count($attendees) == 0 ) {
-    dbg_error_log( "PUT", "Event has no attendees - no scheduling required.", count($attendees) );
+    dbg_error_log( 'PUT', 'Event has no attendees - no scheduling required.', count($attendees) );
     return;
   }
 
-  dbg_error_log( "PUT", "Adding to scheduling inbox %d attendees", count($attendees) );
+  dbg_error_log( 'PUT', 'Adding to scheduling inbox %d attendees', count($attendees) );
   foreach( $attendees AS $attendee ) {
     $attendee->SetParameterValue( 'SCHEDULE-STATUS', write_scheduling_request( $resource, $attendee->Value() ) );
   }
@@ -234,30 +234,30 @@ function import_collection( $ics_content, $user_no, $path, $caldav_context ) {
   $resources = array();
   foreach( $components AS $k => $comp ) {
     $uid = $comp->GetPValue('UID');
-    if ( $uid == null || $uid == '' ) continue; 
+    if ( $uid == null || $uid == '' ) continue;
     if ( !isset($resources[$uid]) ) $resources[$uid] = array();
     $resources[$uid][] = $comp;
 
     /** Ensure we have the timezone component for this in our array as well */
     $tzid = $comp->GetPParamValue('DTSTART', 'TZID');
-    if ( !isset($tzid) || $tzid == "" ) $tzid = $comp->GetPParamValue('DUE','TZID');
+    if ( !isset($tzid) || $tzid == '' ) $tzid = $comp->GetPParamValue('DUE','TZID');
     if ( !isset($resources[$uid][$tzid]) && isset($tz_ids[$tzid]) ) {
       $resources[$uid][$tzid] = $timezones[$tz_ids[$tzid]];
     }
   }
 
 
-  $sql = "SELECT * FROM collection WHERE user_no = ? AND dav_name = ?;";
+  $sql = 'SELECT * FROM collection WHERE user_no = ? AND dav_name = ?;';
   $qry = new PgQuery( $sql, $user_no, $path );
-  if ( ! $qry->Exec("PUT") ) rollback_on_error( $caldav_context, $user_no, $path );
+  if ( ! $qry->Exec('PUT') ) rollback_on_error( $caldav_context, $user_no, $path );
   if ( ! $qry->rows == 1 ) {
-    dbg_error_log( "ERROR", " PUT: Collection does not exist at '%s' for user %d", $path, $user_no );
+    dbg_error_log( 'ERROR', ' PUT: Collection does not exist at "%s" for user %d', $path, $user_no );
     rollback_on_error( $caldav_context, $user_no, $path );
   }
   $collection = $qry->Fetch();
 
-  $qry = new PgQuery("BEGIN; DELETE FROM calendar_item WHERE user_no=? AND collection_id = ?; DELETE FROM caldav_data WHERE user_no=? AND collection_id = ?;", $user_no, $collection->collection_id, $user_no, $collection->collection_id);
-  if ( !$qry->Exec("PUT") ) rollback_on_error( $caldav_context, $user_no, $collection->collection_id );
+  $qry = new PgQuery('BEGIN; DELETE FROM calendar_item WHERE user_no=? AND collection_id = ?; DELETE FROM caldav_data WHERE user_no=? AND collection_id = ?;', $user_no, $collection->collection_id, $user_no, $collection->collection_id);
+  if ( !$qry->Exec('PUT') ) rollback_on_error( $caldav_context, $user_no, $collection->collection_id );
 
   $last_tz_locn = '';
   foreach( $resources AS $uid => $resource ) {
@@ -274,19 +274,19 @@ function import_collection( $ics_content, $user_no, $path, $caldav_context ) {
     $sql = '';
     $etag = md5($icalendar);
     $type = $first->GetType();
-    $resource_path = sprintf( "%s%s.ics", $path, $uid );
-    $qry = new PgQuery( "INSERT INTO caldav_data ( user_no, dav_name, dav_etag, caldav_data, caldav_type, logged_user, created, modified, collection_id ) VALUES( ?, ?, ?, ?, ?, ?, current_timestamp, current_timestamp, ? )",
+    $resource_path = sprintf( '%s%s.ics', $path, $uid );
+    $qry = new PgQuery( 'INSERT INTO caldav_data ( user_no, dav_name, dav_etag, caldav_data, caldav_type, logged_user, created, modified, collection_id ) VALUES( ?, ?, ?, ?, ?, ?, current_timestamp, current_timestamp, ? )',
                           $user_no, $resource_path, $etag, $icalendar, $type, $session->user_no, $collection->collection_id );
-    if ( !$qry->Exec("PUT") ) rollback_on_error( $caldav_context, $user_no, $path );
+    if ( !$qry->Exec('PUT') ) rollback_on_error( $caldav_context, $user_no, $path );
 
     $dtstart = $first->GetPValue('DTSTART');
-    if ( (!isset($dtstart) || $dtstart == "") && $first->GetPValue('DUE') != "" ) {
+    if ( (!isset($dtstart) || $dtstart == '') && $first->GetPValue('DUE') != '' ) {
       $dtstart = $first->GetPValue('DUE');
     }
 
     $dtend = $first->GetPValue('DTEND');
-    if ( (!isset($dtend) || "$dtend" == "") ) {
-      if ( $first->GetPValue('DURATION') != "" AND $dtstart != "" ) {
+    if ( (!isset($dtend) || $dtend == '') ) {
+      if ( $first->GetPValue('DURATION') != '' AND $dtstart != '' ) {
         $duration = preg_replace( '#[PT]#', ' ', $first->GetPValue('DURATION') );
         $dtend = '('.qpg($dtstart).'::timestamp with time zone + '.qpg($duration).'::interval)';
       }
@@ -305,35 +305,35 @@ function import_collection( $ics_content, $user_no, $path, $caldav_context ) {
         *
         */
         $value_type = $first->GetPParamValue('DTSTART','VALUE');
-        dbg_error_log("PUT","DTSTART without DTEND. DTSTART value type is %s", $value_type );
+        dbg_error_log('PUT','DTSTART without DTEND. DTSTART value type is %s', $value_type );
         if ( isset($value_type) && $value_type == 'DATE' )
-          $dtend = '('.qpg($dtstart)."::timestamp with time zone::date + '1 day'::interval)";
+          $dtend = '('.qpg($dtstart).'::timestamp with time zone::date + \'1 day\'::interval)';
         else
           $dtend = qpg($dtstart);
 
       }
-      if ( $dtend == "" ) $dtend = 'NULL';
+      if ( $dtend == '' ) $dtend = 'NULL';
     }
     else {
-      dbg_error_log( "PUT", " DTEND: '%s', DTSTART: '%s', DURATION: '%s'", $dtend, $dtstart, $first->GetPValue('DURATION') );
+      dbg_error_log( 'PUT', ' DTEND: "%s", DTSTART: "%s", DURATION: "%s"', $dtend, $dtstart, $first->GetPValue('DURATION') );
       $dtend = qpg($dtend);
     }
 
-    $last_modified = $first->GetPValue("LAST-MODIFIED");
+    $last_modified = $first->GetPValue('LAST-MODIFIED');
     if ( !isset($last_modified) || $last_modified == '' ) $last_modified = gmdate( 'Ymd\THis\Z' );
 
-    $dtstamp = $first->GetPValue("DTSTAMP");
+    $dtstamp = $first->GetPValue('DTSTAMP');
     if ( !isset($dtstamp) || $dtstamp == '' ) $dtstamp = $last_modified;
 
     /** RFC2445, 4.8.1.3: Default is PUBLIC, or also if overridden by the collection settings */
-    $class = ($collection->public_events_only == 't' ? 'PUBLIC' : $first->GetPValue("CLASS") );
+    $class = ($collection->public_events_only == 't' ? 'PUBLIC' : $first->GetPValue('CLASS') );
     if ( !isset($class) || $class == '' ) $class = 'PUBLIC';
 
 
     /** Calculate what timezone to set, first, if possible */
     $tzid = $first->GetPParamValue('DTSTART','TZID');
-    if ( !isset($tzid) || $tzid == "" ) $tzid = $first->GetPParamValue('DUE','TZID');
-    if ( isset($tzid) && $tzid != "" ) {
+    if ( !isset($tzid) || $tzid == '' ) $tzid = $first->GetPParamValue('DUE','TZID');
+    if ( isset($tzid) && $tzid != '' ) {
       if ( isset($resource[$tzid]) ) {
         $tz = $resource[$tzid];
         $tz_locn = $tz->GetPValue('X-LIC-LOCATION');
@@ -347,18 +347,18 @@ function import_collection( $ics_content, $user_no, $path, $caldav_context ) {
           $tz_locn = $matches[1];
         }
       }
-      dbg_error_log( "PUT", " Using TZID[%s] and location of [%s]", $tzid, (isset($tz_locn) ? $tz_locn : '') );
+      dbg_error_log( 'PUT', ' Using TZID[%s] and location of [%s]', $tzid, (isset($tz_locn) ? $tz_locn : '') );
       if ( isset($tz_locn) && ($tz_locn != $last_tz_locn) && preg_match( $tz_regex, $tz_locn ) ) {
-        dbg_error_log( "PUT", " Setting timezone to %s", $tz_locn );
-        $sql .= ( $tz_locn == '' ? '' : "SET TIMEZONE TO ".qpg($tz_locn).";" );
+        dbg_error_log( 'PUT', ' Setting timezone to %s', $tz_locn );
+        $sql .= ( $tz_locn == '' ? '' : 'SET TIMEZONE TO '.qpg($tz_locn).';' );
         $last_tz_locn = $tz_locn;
       }
-      $qry = new PgQuery("SELECT tz_locn FROM time_zone WHERE tz_id = ?", $tzid );
+      $qry = new PgQuery('SELECT tz_locn FROM time_zone WHERE tz_id = ?', $tzid );
       if ( $qry->Exec() && $qry->rows == 0 ) {
-        $qry = new PgQuery("INSERT INTO time_zone (tz_id, tz_locn, tz_spec) VALUES(?,?,?)", $tzid, $tz_locn, (isset($tz) ? $tz->Render() : null) );
+        $qry = new PgQuery('INSERT INTO time_zone (tz_id, tz_locn, tz_spec) VALUES(?,?,?)', $tzid, $tz_locn, (isset($tz) ? $tz->Render() : null) );
         $qry->Exec();
       }
-      if ( !isset($tz_locn) || $tz_locn == "" ) $tz_locn = $tzid;
+      if ( !isset($tz_locn) || $tz_locn == '' ) $tz_locn = $tzid;
     }
     else {
       $tzid = null;
@@ -376,13 +376,13 @@ EOSQL;
                               $last_modified, $first->GetPValue('URL'), $first->GetPValue('PRIORITY'), $first->GetPValue('CREATED'),
                               $first->GetPValue('DUE'), $first->GetPValue('PERCENT-COMPLETE'), $first->GetPValue('STATUS'), $collection->collection_id
                         );
-    if ( !$qry->Exec("PUT") ) rollback_on_error( $caldav_context, $user_no, $path);
+    if ( !$qry->Exec('PUT') ) rollback_on_error( $caldav_context, $user_no, $path);
 
     create_scheduling_requests( $vcal );
   }
 
-  $qry = new PgQuery("COMMIT;");
-  if ( !$qry->Exec("PUT") ) rollback_on_error( $caldav_context, $user_no, $path);
+  $qry = new PgQuery('COMMIT;');
+  if ( !$qry->Exec('PUT') ) rollback_on_error( $caldav_context, $user_no, $path);
 }
 
 
@@ -399,14 +399,14 @@ function putCalendarResource( &$request, $author, $caldav_context ) {
   $etag = md5($request->raw_post);
   $ic = new iCalComponent( $request->raw_post );
 
-  dbg_log_array( "PUT", 'EVENT', $ic->components, true );
+  dbg_log_array( 'PUT', 'EVENT', $ic->components, true );
 
   /**
   * We read any existing object so we can check the ETag.
   */
   unset($put_action_type);
-  $qry = new PgQuery( "SELECT * FROM caldav_data WHERE user_no=? AND dav_name=?", $request->user_no, $request->path );
-  if ( !$qry->Exec("PUT") || $qry->rows > 1 ) {
+  $qry = new PgQuery( 'SELECT * FROM caldav_data WHERE user_no=? AND dav_name=?', $request->user_no, $request->path );
+  if ( !$qry->Exec('PUT') || $qry->rows > 1 ) {
     rollback_on_error( $caldav_context, $request->user_no, $request->path );
   }
   elseif ( $qry->rows < 1 ) {
@@ -417,13 +417,13 @@ function putCalendarResource( &$request, $author, $caldav_context ) {
       * entity exists, the server MUST NOT perform the requested method, and
       * MUST return a 412 (Precondition Failed) response.
       */
-      rollback_on_error( $caldav_context, $request->user_no, $request->path, 412, translate("Resource changed on server - not changed.") );
+      rollback_on_error( $caldav_context, $request->user_no, $request->path, 412, translate('Resource changed on server - not changed.') );
     }
 
     $put_action_type = 'INSERT';
 
-    if ( ! $request->AllowedTo("create") ) {
-      rollback_on_error( $caldav_context, $request->user_no, $request->path, 403, translate("You may not add entries to this calendar.") );
+    if ( ! $request->AllowedTo('create') ) {
+      rollback_on_error( $caldav_context, $request->user_no, $request->path, 403, translate('You may not add entries to this calendar.') );
     }
   }
   elseif ( $qry->rows == 1 ) {
@@ -445,18 +445,18 @@ function putCalendarResource( &$request, $author, $caldav_context ) {
       * server MUST NOT perform the requested method.
       */
       if ( isset($request->etag_if_match) && $request->etag_if_match != $icalendar->dav_etag ) {
-        $error = translate( "Existing resource does not match 'If-Match' header - not accepted.");
+        $error = translate( 'Existing resource does not match "If-Match" header - not accepted.');
       }
       if ( isset($etag_none_match) && $etag_none_match != '' && ($etag_none_match == $icalendar->dav_etag || $etag_none_match == '*') ) {
-        $error = translate( "Existing resource matches 'If-None-Match' header - not accepted.");
+        $error = translate( 'Existing resource matches "If-None-Match" header - not accepted.');
       }
       $request->DoResponse( 412, $error );
     }
 
     $put_action_type = 'UPDATE';
 
-    if ( ! $request->AllowedTo("modify") ) {
-      $request->DoResponse( 403, translate("You may not modify entries on this calendar.") );
+    if ( ! $request->AllowedTo('modify') ) {
+      $request->DoResponse( 403, translate('You may not modify entries on this calendar.') );
     }
   }
 
@@ -494,31 +494,31 @@ function write_resource( $user_no, $path, $caldav_data, $collection_id, $author,
 
   if ( $put_action_type == 'INSERT' ) {
     create_scheduling_requests($vcal);
-    $qry = new PgQuery( "BEGIN; INSERT INTO caldav_data ( user_no, dav_name, dav_etag, caldav_data, caldav_type, logged_user, created, modified, collection_id ) VALUES( ?, ?, ?, ?, ?, ?, current_timestamp, current_timestamp, ? )",
+    $qry = new PgQuery( 'BEGIN; INSERT INTO caldav_data ( user_no, dav_name, dav_etag, caldav_data, caldav_type, logged_user, created, modified, collection_id ) VALUES( ?, ?, ?, ?, ?, ?, current_timestamp, current_timestamp, ? )',
                            $user_no, $path, $etag, $caldav_data, $first->GetType(), $author, $collection_id );
-    if ( !$qry->Exec("PUT") ) {
+    if ( !$qry->Exec('PUT') ) {
       rollback_on_error( $caldav_context, $user_no, $path);
       return false;
     }
   }
   else {
     update_scheduling_requests($vcal);
-    $qry = new PgQuery( "BEGIN;UPDATE caldav_data SET caldav_data=?, dav_etag=?, caldav_type=?, logged_user=?, modified=current_timestamp WHERE user_no=? AND dav_name=?",
+    $qry = new PgQuery( 'BEGIN;UPDATE caldav_data SET caldav_data=?, dav_etag=?, caldav_type=?, logged_user=?, modified=current_timestamp WHERE user_no=? AND dav_name=?',
                            $caldav_data, $etag, $first->GetType(), $author, $user_no, $path );
-    if ( !$qry->Exec("PUT") ) {
+    if ( !$qry->Exec('PUT') ) {
       rollback_on_error( $caldav_context, $user_no, $path);
       return false;
     }
   }
 
   $dtstart = $first->GetPValue('DTSTART');
-  if ( (!isset($dtstart) || $dtstart == "") && $first->GetPValue('DUE') != "" ) {
+  if ( (!isset($dtstart) || $dtstart == '') && $first->GetPValue('DUE') != '' ) {
     $dtstart = $first->GetPValue('DUE');
   }
 
   $dtend = $first->GetPValue('DTEND');
-  if ( (!isset($dtend) || $dtend == "") ) {
-    if ( $first->GetPValue('DURATION') != "" AND $dtstart != "" ) {
+  if ( (!isset($dtend) || $dtend == '') ) {
+    if ( $first->GetPValue('DURATION') != '' AND $dtstart != '' ) {
       $duration = preg_replace( '#[PT]#', ' ', $first->GetPValue('DURATION') );
       $dtend = '('.qpg($dtstart).'::timestamp with time zone + '.qpg($duration).'::interval)';
     }
@@ -537,31 +537,31 @@ function write_resource( $user_no, $path, $caldav_data, $collection_id, $author,
       *
       */
       $value_type = $first->GetPParamValue('DTSTART','VALUE');
-      dbg_error_log("PUT","DTSTART without DTEND. DTSTART value type is %s", $value_type );
+      dbg_error_log('PUT','DTSTART without DTEND. DTSTART value type is %s', $value_type );
       if ( isset($value_type) && $value_type == 'DATE' )
-        $dtend = '('.qpg($dtstart)."::timestamp with time zone::date + '1 day'::interval)";
+        $dtend = '('.qpg($dtstart).'::timestamp with time zone::date + \'1 day\'::interval)';
       else
         $dtend = qpg($dtstart);
 
     }
-    if ( $dtend == "" ) $dtend = 'NULL';
+    if ( $dtend == '' ) $dtend = 'NULL';
   }
   else {
-    dbg_error_log( "PUT", " DTEND: '%s', DTSTART: '%s', DURATION: '%s'", $dtend, $dtstart, $first->GetPValue('DURATION') );
+    dbg_error_log( 'PUT', ' DTEND: "%s", DTSTART: "%s", DURATION: "%s"', $dtend, $dtstart, $first->GetPValue('DURATION') );
     $dtend = qpg($dtend);
   }
 
-  $last_modified = $first->GetPValue("LAST-MODIFIED");
+  $last_modified = $first->GetPValue('LAST-MODIFIED');
   if ( !isset($last_modified) || $last_modified == '' ) {
     $last_modified = gmdate( 'Ymd\THis\Z' );
   }
 
-  $dtstamp = $first->GetPValue("DTSTAMP");
+  $dtstamp = $first->GetPValue('DTSTAMP');
   if ( !isset($dtstamp) || $dtstamp == '' ) {
     $dtstamp = $last_modified;
   }
 
-  $class = $first->GetPValue("CLASS");
+  $class = $first->GetPValue('CLASS');
   /* Check and see if we should over ride the class. */
   /** @TODO: is there some way we can move this out of this function? Or at least get rid of the need for the SQL query here. */
   if ( public_events_only($user_no, $path) ) {
@@ -585,7 +585,7 @@ function write_resource( $user_no, $path, $caldav_data, $collection_id, $author,
 
   /** Calculate what timezone to set, first, if possible */
   $tzid = $first->GetPParamValue('DTSTART','TZID');
-  if ( !isset($tzid) || $tzid == "" ) $tzid = $first->GetPParamValue('DUE','TZID');
+  if ( !isset($tzid) || $tzid == '' ) $tzid = $first->GetPParamValue('DUE','TZID');
   $timezones = $ic->GetComponents('VTIMEZONE');
   foreach( $timezones AS $k => $tz ) {
     if ( $tz->GetPValue('TZID') != $tzid ) {
@@ -593,7 +593,7 @@ function write_resource( $user_no, $path, $caldav_data, $collection_id, $author,
       * We'll pretend they didn't forget to give us a TZID and that they
       * really hope the server is running in the timezone they supplied... but be noisy about it.
       */
-      dbg_error_log( "ERROR", " Event includes TZID[%s] but users TZID[%s]!", $tz->GetPValue('TZID'), $tzid );
+      dbg_error_log( 'ERROR', ' Event includes TZID[%s] but users TZID[%s]!', $tz->GetPValue('TZID'), $tzid );
       $tzid = $tz->GetPValue('TZID');
     }
     // This is the one
@@ -602,7 +602,7 @@ function write_resource( $user_no, $path, $caldav_data, $collection_id, $author,
       if ( preg_match( '#([^/]+/[^/]+)$#', $tzid, $matches ) )
         $tz_locn = $matches[1];
       else {
-        dbg_error_log( "ERROR", " Couldn't guess Olsen TZ from TZID[%s].  This may end in tears...", $tzid );
+        dbg_error_log( 'ERROR', ' Couldn\'t guess Olsen TZ from TZID[%s].  This may end in tears...', $tzid );
       }
     }
     else {
@@ -610,17 +610,17 @@ function write_resource( $user_no, $path, $caldav_data, $collection_id, $author,
         if ( preg_match( '#([^/]+/[^/]+)$#', $tzid, $matches ) ) $tz_locn = $matches[1];
       }
     }
-    dbg_error_log( "PUT", " Using TZID[%s] and location of [%s]", $tzid, $tz_locn );
+    dbg_error_log( 'PUT', ' Using TZID[%s] and location of [%s]', $tzid, $tz_locn );
     if ( isset($tz_locn) && preg_match( $tz_regex, $tz_locn ) ) {
-      dbg_error_log( "PUT", " Setting timezone to %s", $tz_locn );
-      $sql = ( $tz_locn == '' ? '' : "SET TIMEZONE TO ".qpg($tz_locn).";" );
+      dbg_error_log( 'PUT', ' Setting timezone to %s', $tz_locn );
+      $sql = ( $tz_locn == '' ? '' : 'SET TIMEZONE TO '.qpg($tz_locn).';' );
     }
-    $qry = new PgQuery("SELECT tz_locn FROM time_zone WHERE tz_id = ?", $tzid );
+    $qry = new PgQuery('SELECT tz_locn FROM time_zone WHERE tz_id = ?', $tzid );
     if ( $qry->Exec() && $qry->rows == 0 ) {
-      $qry = new PgQuery("INSERT INTO time_zone (tz_id, tz_locn, tz_spec) VALUES(?,?,?)", $tzid, $tz_locn, $tz->Render() );
+      $qry = new PgQuery('INSERT INTO time_zone (tz_id, tz_locn, tz_spec) VALUES(?,?,?)', $tzid, $tz_locn, $tz->Render() );
       $qry->Exec();
     }
-    if ( !isset($tz_locn) || $tz_locn == "" ) {
+    if ( !isset($tz_locn) || $tz_locn == '' ) {
       $tz_locn = $tzid;
     }
   }
@@ -631,7 +631,7 @@ function write_resource( $user_no, $path, $caldav_data, $collection_id, $author,
 UPDATE calendar_item SET dav_etag=?, uid=?, dtstamp=?,
                 dtstart=?, dtend=$dtend, summary=?, location=?, class=?, transp=?,
                 description=?, rrule=?, tz_id=?, last_modified=?, url=?, priority=?,
-                created=?, due=?, percent_complete=?, status=? 
+                created=?, due=?, percent_complete=?, status=?
        WHERE user_no=$user_no AND dav_name=$escaped_path;
 SELECT write_sync_change( $collection_id, 200, $escaped_path);
 COMMIT;
@@ -657,16 +657,16 @@ EOSQL;
   }
 
   $qry = new PgQuery( $sql, $etag, $first->GetPValue('UID'), $dtstamp,
-       $first->GetPValue('DTSTART'), $first->GetPValue('SUMMARY'), $first->GetPValue('LOCATION'), $class, $first->GetPValue('TRANSP'), 
+       $first->GetPValue('DTSTART'), $first->GetPValue('SUMMARY'), $first->GetPValue('LOCATION'), $class, $first->GetPValue('TRANSP'),
        $first->GetPValue('DESCRIPTION'), $first->GetPValue('RRULE'), $tzid,
        $last_modified, $first->GetPValue('URL'), $first->GetPValue('PRIORITY'),
        $first->GetPValue('CREATED'), $first->GetPValue('DUE'), $first->GetPValue('PERCENT-COMPLETE'), $first->GetPValue('STATUS')
   );
-  if ( !$qry->Exec("PUT") ) {
+  if ( !$qry->Exec('PUT') ) {
     rollback_on_error( $caldav_context, $user_no, $path);
     return false;
   }
-  dbg_error_log( "PUT", "User: %d, ETag: %s, Path: %s", $author, $etag, $path);
+  dbg_error_log( 'PUT', 'User: %d, ETag: %s, Path: %s', $author, $etag, $path);
 
   return true;  // Success!
 }
@@ -691,7 +691,7 @@ function simple_write_resource( $path, $caldav_data, $put_action_type ) {
   * We pull the user_no & collection_id out of the collection table, based on the resource path
   */
   $collection_path = preg_replace( '#/[^/]*$#', '/', $path );
-  $qry = new PgQuery( "SELECT user_no, collection_id FROM collection WHERE dav_name = ? ", $collection_path );
+  $qry = new PgQuery( 'SELECT user_no, collection_id FROM collection WHERE dav_name = ? ', $collection_path );
   if ( $qry->Exec('PUT:simple_write_resource') && $qry->rows == 1 ) {
     $collection = $qry->Fetch();
     $user_no = $collection->user_no;
