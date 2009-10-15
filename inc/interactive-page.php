@@ -2,7 +2,7 @@
 $save = error_reporting(0);
 require_once("MenuSet.php");
 $page_menu = new MenuSet('menu', 'menu', 'menu_active');
-$page_menu->AddOption(translate("Home"),"$c->base_url/index.php",translate("Browse all users"), false, 3900 );
+$page_menu->AddOption(translate("Home"),"$c->base_url/index.php",translate("Home Page"), false, 3900 );
 if ( $session->AllowedTo("Admin" )) {
 //  $page_menu->AddOption(translate("Setup"),"$c->base_url/setup.php",translate("Setup RSCDS"), false, 5000 );
   $page_menu->AddOption(translate("Operations"),"$c->base_url/tools.php",translate("Operations on your calendar"), false, 5200 );
