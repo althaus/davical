@@ -28,10 +28,17 @@ if ( preg_match( '#^(.*/)([^/]+)(/)?$#', $request->path, $matches ) ) {
   $displayname = $matches[2];
 }
 
-$is_calendar = ($request->method == 'MKCALENDAR');
+$request_type = $request->method;
+$is_calendar = ($request_type == 'MKCALENDAR');
+$is_addressbook = false;
+
+$resourcetypes = '<DAV::collection/>';
+if ($is_calendar) $resourcetypes .= '<urn:ietf:params:xml:ns:caldav:calendar/>';
 
 require_once('XMLDocument.php');
 $reply = new XMLDocument(array( 'DAV:' => '', 'urn:ietf:params:xml:ns:caldav' => 'C' ));
+
+$failure_code = null;
 
 $failure = array();
 $propertysql = '';
@@ -41,16 +48,21 @@ if ( isset($request->xml_tags) ) {
   */
   $position = 0;
   $xmltree = BuildXMLTree( $request->xml_tags, $position);
+  if ( $xmltree->GetTag() == 'DAV::mkcol' ) $request_type = 'extended-mkcol';
 
-  if ( $xmltree->GetTag() != 'urn:ietf:params:xml:ns:caldav:mkcalendar' && $xmltree->GetTag() != 'DAV::mkcol') {
-    $request->DoResponse( 403, 'The supplied XML is not a "DAV::mkcol" or "urn:ietf:params:xml:ns:caldav:mkcalendar" document' );
+  if ( $xmltree->GetTag() != 'urn:ietf:params:xml:ns:caldav:mkcalendar' && $request_type != 'extended-mkcol' ) {
+    $request->DoResponse( 403, sprintf('The XML is not a "DAV::mkcol" or "urn:ietf:params:xml:ns:caldav:mkcalendar" document (%s)', $xmltree->GetTag()) );
   }
-  $setprops = $xmltree->GetPath('/*/DAV::set/DAV::prop/*');
+  $setprops = $xmltree->GetContent();   // <set>
+  $setprops = $setprops[0]->GetContent();  // <prop>
+  $setprops = $setprops[0]->GetContent();  // the array of properties.
 
   $propertysql = '';
   foreach( $setprops AS $k => $setting ) {
     $tag = $setting->GetTag();
     $content = $setting->RenderContent();
+
+    dbg_error_log( 'MKCOL', 'Processing tag "%s"', $tag);
 
     switch( $tag ) {
 
@@ -60,9 +72,10 @@ if ( isset($request->xml_tags) ) {
         if ( preg_match( '/urn:ietf:params:xml:ns:caldav:calendar/', $content ) ) {
           $is_calendar = true;
         }
-        else if ( preg_match( '/urn:ietf:params:xml:ns:carddav:addressbook/', $content ) ) {
+        if ( preg_match( '/urn:ietf:params:xml:ns:carddav:addressbook/', $content ) ) {
           $is_addressbook = true;
         }
+        $resourcetypes = preg_replace( '/\s+/', '', $content);
         $success[$tag] = 1;
         break;
 
@@ -101,10 +114,12 @@ if ( isset($request->xml_tags) ) {
       case 'DAV::lockdiscovery':
       case 'DAV::supportedlock':
         $failure['set-'.$tag] = new XMLElement( 'propstat', array(
-            new XMLElement( 'prop', new XMLElement($tag)),
+            new XMLElement( 'prop', new XMLElement($reply->Tag($tag))),
             new XMLElement( 'status', 'HTTP/1.1 409 Conflict' ),
             new XMLElement('responsedescription', translate('Property is read-only') )
         ));
+        if ( isset($failure_code) && $failure_code != 409 ) $failure_code = 207;
+        else if ( !isset($failure_code) ) $failure_code = 409;
         break;
 
       /**
@@ -121,18 +136,27 @@ if ( isset($request->xml_tags) ) {
   * If we have encountered any instances of failure, the whole damn thing fails.
   */
   if ( count($failure) > 0 ) {
+    $props = array();
+    $status = array();
     foreach( $success AS $tag => $v ) {
       // Unfortunately although these succeeded, we failed overall, so they didn't happen...
-      $failure[] = new XMLElement( 'propstat', array(
-          new XMLElement( 'prop', new XMLElement($tag)),
-          new XMLElement( 'status', 'HTTP/1.1 424 Failed Dependency' ),
-      ));
+      $props[] = new XMLElement($reply->Tag($tag));
     }
 
-    array_unshift( $failure, $reply->href( ConstructURL($request->path) ) );
-    $failure[] = new XMLElement('responsedescription', translate('Some properties were not able to be set.') );
+    $status[] = new XMLElement( 'propstat', array(
+      new XMLElement('prop', $props),
+      new XMLElement('status', 'HTTP/1.1 424 Failed Dependency' )
+    ));
 
-    $request->DoResponse( 207, $reply->Render('multistatus', new XMLElement( 'response', $failure )), 'text/xml; charset="utf-8"' );
+    if ( $request_type == 'extended-mkcol' ) {
+      $request->DoResponse( $failure_code, $reply->Render('mkcol-response', array_merge( $status, $failure ), 'text/xml; charset="utf-8"' ) );
+    }
+    else {
+      array_unshift( $failure, $reply->href( ConstructURL($request->path) ) );
+      $failure[] = new XMLElement('responsedescription', translate('Some properties were not able to be set.') );
+
+      $request->DoResponse( 207, $reply->Render('multistatus', new XMLElement( 'response', $failure )), 'text/xml; charset="utf-8"' );
+    }
 
   }
 }
@@ -146,8 +170,14 @@ if ( $qry->rows != 0 ) {
   $request->DoResponse( 405, translate('A collection already exists at that location.') );
 }
 
-$sql = 'BEGIN; INSERT INTO collection ( user_no, parent_container, dav_name, dav_etag, dav_displayname, is_calendar, created, modified ) VALUES( ?, ?, ?, ?, ?, ?, current_timestamp, current_timestamp ); $propertysql; COMMIT;';
-$qry = new PgQuery( $sql, $request->user_no, $parent_container, $request->path, md5($request->user_no. $request->path), $displayname, $is_calendar );
+$sql = '
+BEGIN;
+INSERT INTO collection ( user_no, parent_container, dav_name, dav_etag, dav_displayname,
+                         is_calendar, is_addressbook, resourcetypes, created, modified )
+                 VALUES( ?, ?, ?, ?, ?, ?, ?, ?, current_timestamp, current_timestamp );
+'. $propertysql.'; COMMIT;';
+$qry = new PgQuery( $sql, $request->user_no, $parent_container, $request->path, md5($request->user_no. $request->path), $displayname,
+                    $is_calendar, $is_addressbook, $resourcetypes );
 
 if ( $qry->Exec('MKCOL',__LINE__,__FILE__) ) {
   dbg_error_log( 'MKCOL', 'New calendar "%s" created named "%s" for user "%d" in parent "%s"', $request->path, $displayname, $session->user_no, $parent_container);
