@@ -1,7 +1,7 @@
 
--- This database update refines the constraint on usr in order to try and be
--- able to actually DELETE FROM usr WHERE user_no = x; and have the database
--- do the right thing...
+-- This database update adds support for the draft webdav-sync specification
+-- as well as some initial support for addressbook collections which will
+-- be needed to support carddav.
 
 BEGIN;
 SELECT check_db_revision(1,2,6);
@@ -16,9 +16,15 @@ CREATE TABLE sync_changes (
   sync_time TIMESTAMP WITH TIME ZONE DEFAULT current_timestamp,
   collection_id INT8 REFERENCES collection(collection_id) ON DELETE CASCADE ON UPDATE CASCADE,
   sync_status INT,
-  dav_id INT8 REFERENCES calendar_item(dav_id) ON DELETE SET NULL ON UPDATE RESTRICT,
+  dav_id INT8, -- can't REFERENCES calendar_item(dav_id) ON DELETE SET NULL ON UPDATE RESTRICT
   dav_name TEXT
 );
+CREATE INDEX sync_processing_index ON sync_changes( collection_id, dav_id, sync_time );
+
+ALTER TABLE collection ADD COLUMN is_addressbook BOOLEAN DEFAULT FALSE;
+ALTER TABLE collection ADD COLUMN resourcetypes TEXT DEFAULT '<DAV::collection/>';
+
+UPDATE collection SET resourcetypes = '<DAV::collection/><urn:ietf:params:xml:ns:caldav:calendar/>' WHERE is_calendar;
 
 SELECT new_db_revision(1,2,7, 'Juli' );
 
