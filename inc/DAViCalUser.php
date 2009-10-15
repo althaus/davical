@@ -10,7 +10,7 @@
 */
 
 include('User.php');
-include('classBrowser.php');
+require_once('classBrowser.php');  // DAViCalUser is included via drivers_ldap.php so this could already be loaded
 include('check_UTF8.php');
 include('caldav-PUT-functions.php');
 
@@ -266,7 +266,7 @@ EOSQL;
     /**
     * Present an extra editable row at the bottom of the browse.
     */
-    if ( $ef->EditMode && ('insert' != $this->WriteType) ) { 
+    if ( $ef->EditMode && ('insert' != $this->WriteType) ) {
       $calendar_name = $ef->DataEntryField( '', 'text', 'path_ics',
               array( 'size' => 10,
                      'title' => translate('The calendar name part of the path to store your ics. E.g. the "home" part of "/caldav.php/username/home/"')
