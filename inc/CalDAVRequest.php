@@ -260,7 +260,7 @@ class CalDAVRequest
       $this->collection_path = $row->dav_name;
       $this->collection_type = ($row->is_calendar == 't' ? 'calendar' : 'collection');
       $this->collection = $row;
-      $this->collection->type = $this->collection_type; 
+      $this->collection->type = $this->collection_type;
     }
     else if ( preg_match( '#^((/[^/]+/)\.(in|out)/)[^/]*$#', $this->path, $matches ) ) {
       // The request is for a scheduling inbox or outbox (or something inside one) and we should auto-create it
@@ -279,7 +279,7 @@ EOSQL;
         $this->collection_id = $row->collection_id;
         $this->collection_path = $matches[1];
         $this->collection = $row;
-        $this->collection->type = $this->collection_type; 
+        $this->collection->type = $this->collection_type;
       }
     }
     else if ( preg_match( '#^((/[^/]+/)calendar-proxy-(read|write))/?[^/]*$#', $this->path, $matches ) ) {
@@ -381,7 +381,7 @@ EOSQL;
     );
     if ( $this->IsCollection() ) {
       $this->supported_methods = array_merge(
-        $this->supported_methods, 
+        $this->supported_methods,
         array(
           'MKCOL' => '',
           'GET' => '',
@@ -391,7 +391,7 @@ EOSQL;
       );
       if ( $this->IsPrincipal() ) {
         $this->supported_methods = array_merge(
-          $this->supported_methods, 
+          $this->supported_methods,
           array(
             'MKCALENDAR' => ''
           )
@@ -412,7 +412,7 @@ EOSQL;
         case 'schedule-inbox':
         case 'schedule-outbox':
           $this->supported_methods = array_merge(
-            $this->supported_methods, 
+            $this->supported_methods,
             array(
               'POST' => ''
             )
@@ -422,7 +422,7 @@ EOSQL;
     }
     else {
       $this->supported_methods = array_merge(
-        $this->supported_methods, 
+        $this->supported_methods,
         array(
           'GET' => '',
           'HEAD' => '',
@@ -436,7 +436,7 @@ EOSQL;
     );
     if ( $this->IsCalendar() ) {
       $this->supported_reports = array_merge(
-        $this->supported_reports, 
+        $this->supported_reports,
         array(
           'urn:ietf:params:xml:ns:caldav:calendar-query' => '',
           'urn:ietf:params:xml:ns:caldav:calendar-multiget' => '',
@@ -444,7 +444,7 @@ EOSQL;
         )
       );
     }
-        
+
 
     /**
     * If the content we are receiving is XML then we parse it here.  RFC2518 says we
@@ -788,8 +788,17 @@ EOSQL;
   * Returns true if the URL referenced by this request points at a calendar collection.
   */
   function IsCalendar( ) {
-    if ( !$this->IsCollection() ) return false;
+    if ( !$this->IsCollection() || !isset($this->collection) ) return false;
     return $this->collection->is_calendar;
+  }
+
+
+  /**
+  * Returns true if the URL referenced by this request points at an addressbook collection.
+  */
+  function IsAddressBook( ) {
+    if ( !$this->IsCollection() || !isset($this->collection) ) return false;
+    return $this->collection->is_addressbook;
   }
 
 
@@ -837,7 +846,7 @@ EOSQL;
   function RenderSupportedPrivileges( $privs = null ) {
     global $reply;
     $privileges = array();
-    if ( $privs === null ) $privs = $this->supported_privileges;    
+    if ( $privs === null ) $privs = $this->supported_privileges;
     foreach( $privs AS $k => $v ) {
       dbg_error_log( 'caldav', 'Adding privilege "%s" which is "%s".', $k, $v );
       $privilege = new XMLElement('privilege');
@@ -846,7 +855,7 @@ EOSQL;
       if ( is_array($v) ) {
         dbg_error_log( 'caldav', '"%s" is a container of sub-privileges.', $k );
         $privset = array_merge($privset, $this->RenderSupportedPrivileges($v));
-      } 
+      }
       else if ( $v == 'abstract' ) {
         dbg_error_log( 'caldav', '"%s" is an abstract privilege.', $v );
         $privset[] = new XMLElement('abstract');
