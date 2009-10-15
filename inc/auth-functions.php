@@ -20,9 +20,9 @@
 *
 * @package   davical
 * @subpackage   authentication
-* @author    Andrew McMillan <andrew@catalyst.net.nz>
-* @copyright Catalyst IT Ltd
-* @license   http://gnu.org/copyleft/gpl.html GNU GPL v2
+* @author    Andrew McMillan <andrew@mcmillan.net.nz>
+* @copyright Catalyst IT Ltd, Morphoss Ltd
+* @license   http://gnu.org/copyleft/gpl.html GNU GPL v2 or later
 */
 
 require_once("AWLUtilities.php");
@@ -41,9 +41,9 @@ function CreateHomeCalendar( $username ) {
   $parent_path = "/".$username."/";
   $calendar_path = $parent_path . $c->home_calendar_name."/";
   $dav_etag = md5($usr->user_no . $calendar_path);
-  $sql = "INSERT INTO collection (user_no, parent_container, dav_name, dav_etag, dav_displayname, is_calendar, ";
-  $sql .= "created, modified) VALUES( ?, ?, ?, ?, ?, true, current_timestamp, current_timestamp );";
-  $qry = new PgQuery( $sql, $usr->user_no, $parent_path, $calendar_path, $dav_etag, $usr->fullname);
+  $sql = 'INSERT INTO collection (user_no, parent_container, dav_name, dav_etag, dav_displayname, is_calendar, ';
+  $sql .= 'created, modified, resourcetypes) VALUES( ?, ?, ?, ?, ?, true, current_timestamp, current_timestamp, ? );';
+  $qry = new PgQuery( $sql, $usr->user_no, $parent_path, $calendar_path, $dav_etag, $usr->fullname, '<DAV::collection/><urn:ietf:params:xml:ns:caldav:calendar/>');
   if ( $qry->Exec() ) {
     $c->messages[] = i18n("Home calendar added.");
     dbg_error_log("User",":Write: Created user's home calendar at '%s'", $calendar_path );
