@@ -1,7 +1,7 @@
 <?php
 
 if ( !isset($c->page_title) ) {
-  $c->page_title = translate("DAViCal CalDAV Server");
+  $c->page_title = translate('DAViCal CalDAV Server');
 }
 
 function make_help_link($matches)
@@ -11,19 +11,19 @@ function make_help_link($matches)
   // as usual: $matches[0] is the complete match
   // $matches[1] the match for the first subpattern
   // enclosed in '##...##' and so on
-  // Use like: $s = preg_replace_callback("/##([^#]+)##", "make_help_link", $s);
+  // Use like: $s = preg_replace_callback('/##([^#]+)##', 'make_help_link', $s);
 //  $help_topic = preg_replace( '/^##(.+)##$/', '$1', $matches[1]);
   $help_topic = $matches[1];
   $display_url = $help_topic;
-  if ( $GLOBALS['session']->AllowedTo("Admin") || $GLOBALS['session']->AllowedTo("Support") ) {
+  if ( $GLOBALS['session']->AllowedTo('Admin') || $GLOBALS['session']->AllowedTo('Support') ) {
     if ( strlen($display_url) > 30 ) {
-      $display_url = substr( $display_url, 0, 28 ) . "..." ;
+      $display_url = substr( $display_url, 0, 28 ) . '...' ;
     }
   }
   else {
-    $display_url = "help";
+    $display_url = 'help';
   }
-  return " <a class=\"help\" href=\"$c->base_url/help.php?h=$help_topic\" title=\"".translate("Show help on")." '$help_topic'\" target=\"_new\">[$display_url]</a> ";
+  return ' <a class="help" href="'.$c->base_url.'/help.php?h='.$help_topic.'" title="'.translate('Show help on').' &39;'.$help_topic.'&39;" target="_new">['.$display_url.']</a> ';
 }
 
 
@@ -32,7 +32,7 @@ function send_page_header() {
 
 //  echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">';
 
-  header( "Content-type: text/html; charset=utf-8" );
+  header( 'Content-type: text/html; charset="utf-8"' );
 
   echo <<<EOHDR
 <html>
@@ -43,12 +43,12 @@ function send_page_header() {
 EOHDR;
 
   foreach ( $c->stylesheets AS $stylesheet ) {
-    echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"$stylesheet\" />\n";
+    echo '<link rel="stylesheet" type="text/css" href="'.$stylesheet.'" />';
   }
   if ( isset($c->local_styles) ) {
     // Always load local styles last, so they can override prior ones...
     foreach ( $c->local_styles AS $stylesheet ) {
-      echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"$stylesheet\" />\n";
+      echo '<link rel="stylesheet" type="text/css" href="'.$stylesheet.'" />';
     }
   }
 
