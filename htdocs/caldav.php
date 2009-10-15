@@ -22,7 +22,7 @@ if ( isset($c->override_dav_header) ) {
   $dav = $c->override_dav_header;
 }
 else {
-  $dav = "1, 2, 3, access-control, calendar-access, calendar-schedule";
+  $dav = "1, 2, 3, access-control, calendar-access, calendar-schedule, extended-mkcol";
 }
 header( "DAV: $dav");
 
