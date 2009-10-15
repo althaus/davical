@@ -1,6 +1,6 @@
 <?php
 /**
-* CalDAV Server - handle MKCALENDAR method
+* CalDAV Server - handle MKCOL and MKCALENDAR method
 *
 * @package   davical
 * @subpackage   caldav
@@ -8,17 +8,17 @@
 * @copyright Catalyst IT Ltd, Morphoss Ltd - http://www.morphoss.com/
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v2
 */
-dbg_error_log("MKCALENDAR", "method handler");
+dbg_error_log('MKCOL', 'method handler');
 
 if ( ! $request->AllowedTo('mkcalendar') ) {
-  $request->DoResponse( 403, translate("You may not create a calendar there.") );
+  $request->DoResponse( 403, translate('You may not create a calendar there.') );
 }
 
 $displayname = $request->path;
 
 // Enforce trailling '/' on collection name
 if ( ! preg_match( '#/$#', $request->path ) ) {
-  dbg_error_log( "MKCALENDAR", "Add trailling '/' to '%s'", $request->path);
+  dbg_error_log( 'MKCOL', 'Add trailling "/" to "%s"', $request->path);
   $request->path .= '/';
 }
 
@@ -28,29 +28,43 @@ if ( preg_match( '#^(.*/)([^/]+)(/)?$#', $request->path, $matches ) ) {
   $displayname = $matches[2];
 }
 
-require_once("XMLDocument.php");
-$reply = new XMLDocument(array( "DAV:" => "", 'urn:ietf:params:xml:ns:caldav' => 'C' ));
+$is_calendar = ($request->method == 'MKCALENDAR');
+
+require_once('XMLDocument.php');
+$reply = new XMLDocument(array( 'DAV:' => '', 'urn:ietf:params:xml:ns:caldav' => 'C' ));
 
 $failure = array();
-$propertysql = "";
+$propertysql = '';
 if ( isset($request->xml_tags) ) {
   /**
-  * The MKCALENDAR request may contain XML to set some DAV properties
+  * The MKCOL request may contain XML to set some DAV properties
   */
   $position = 0;
   $xmltree = BuildXMLTree( $request->xml_tags, $position);
-  // echo $xmltree->Render();
-  if ( $xmltree->GetTag() != "urn:ietf:params:xml:ns:caldav:mkcalendar" ) {
-    $request->DoResponse( 403, "The supplied XML is not a 'urn:ietf:params:xml:ns:caldav:mkcalendar' document" );
-  }
-  $setprops = $xmltree->GetPath("/urn:ietf:params:xml:ns:caldav:mkcalendar/DAV::set/DAV::prop/*");
 
-  $propertysql = "";
+  if ( $xmltree->GetTag() != 'urn:ietf:params:xml:ns:caldav:mkcalendar' && $xmltree->GetTag() != 'DAV::mkcol') {
+    $request->DoResponse( 403, 'The supplied XML is not a "DAV::mkcol" or "urn:ietf:params:xml:ns:caldav:mkcalendar" document' );
+  }
+  $setprops = $xmltree->GetPath('/*/DAV::set/DAV::prop/*');
+
+  $propertysql = '';
   foreach( $setprops AS $k => $setting ) {
     $tag = $setting->GetTag();
     $content = $setting->RenderContent();
 
     switch( $tag ) {
+
+      case 'DAV::resourcetype':
+        /** Any value for resourcetype other than 'calendar' is ignored */
+        dbg_error_log( 'MKCOL', 'Extended MKCOL with resourcetype specified. "%s"', $content);
+        if ( preg_match( '/urn:ietf:params:xml:ns:caldav:calendar/', $content ) ) {
+          $is_calendar = true;
+        }
+        else if ( preg_match( '/urn:ietf:params:xml:ns:carddav:addressbook/', $content ) ) {
+          $is_addressbook = true;
+        }
+        $success[$tag] = 1;
+        break;
 
       case 'DAV::displayname':
         $displayname = $content;
@@ -59,7 +73,7 @@ if ( isset($request->xml_tags) ) {
         * with an error, rather than silently doing what they *seem* to want us to do.
         */
         if ( preg_match( '/^SOHO.Organizer.6\./', $_SERVER['HTTP_USER_AGENT'] ) ) {
-          dbg_error_log( "MKCALENDAR", "Displayname is '/' to '%s'", $request->path);
+          dbg_error_log( 'MKCOL', 'Displayname is "/" to "%s"', $request->path);
           $parent_container = $request->path;
           $request->path .= $content . '/';
         }
@@ -73,7 +87,6 @@ if ( isset($request->xml_tags) ) {
       case 'urn:ietf:params:xml:ns:caldav:min-date-time':  /** Ignored, since we will support arbitrary time */
       case 'urn:ietf:params:xml:ns:caldav:max-date-time':  /** Ignored, since we will support arbitrary time */
       case 'urn:ietf:params:xml:ns:caldav:max-instances':  /** Ignored, since we will support arbitrary instances */
-      case 'DAV::resourcetype':    /** Any value for resourcetype is ignored */
         $success[$tag] = 1;
         break;
 
@@ -90,7 +103,7 @@ if ( isset($request->xml_tags) ) {
         $failure['set-'.$tag] = new XMLElement( 'propstat', array(
             new XMLElement( 'prop', new XMLElement($tag)),
             new XMLElement( 'status', 'HTTP/1.1 409 Conflict' ),
-            new XMLElement('responsedescription', translate("Property is read-only") )
+            new XMLElement('responsedescription', translate('Property is read-only') )
         ));
         break;
 
@@ -98,7 +111,7 @@ if ( isset($request->xml_tags) ) {
       * If we don't have any special processing for the property, we just store it verbatim (which will be an XML fragment).
       */
       default:
-        $propertysql .= awl_replace_sql_args( "SELECT set_dav_property( ?, ?, ?, ? );", $request->path, $request->user_no, $tag, $content );
+        $propertysql .= awl_replace_sql_args( 'SELECT set_dav_property( ?, ?, ?, ? );', $request->path, $request->user_no, $tag, $content );
         $success[$tag] = 1;
         break;
     }
@@ -117,32 +130,32 @@ if ( isset($request->xml_tags) ) {
     }
 
     array_unshift( $failure, $reply->href( ConstructURL($request->path) ) );
-    $failure[] = new XMLElement('responsedescription', translate("Some properties were not able to be set.") );
+    $failure[] = new XMLElement('responsedescription', translate('Some properties were not able to be set.') );
 
-    $request->DoResponse( 207, $reply->Render("multistatus", new XMLElement( 'response', $failure )), 'text/xml; charset="utf-8"' );
+    $request->DoResponse( 207, $reply->Render('multistatus', new XMLElement( 'response', $failure )), 'text/xml; charset="utf-8"' );
 
   }
 }
 
-$sql = "SELECT * FROM collection WHERE dav_name = ?;";
+$sql = 'SELECT * FROM collection WHERE dav_name = ?;';
 $qry = new PgQuery( $sql, $request->path );
-if ( ! $qry->Exec("MKCALENDAR") ) {
-  $request->DoResponse( 500, translate("Error querying database.") );
+if ( ! $qry->Exec('MKCOL') ) {
+  $request->DoResponse( 500, translate('Error querying database.') );
 }
 if ( $qry->rows != 0 ) {
-  $request->DoResponse( 405, translate("A collection already exists at that location.") );
+  $request->DoResponse( 405, translate('A collection already exists at that location.') );
 }
 
-$sql = "BEGIN; INSERT INTO collection ( user_no, parent_container, dav_name, dav_etag, dav_displayname, is_calendar, created, modified ) VALUES( ?, ?, ?, ?, ?, ?, current_timestamp, current_timestamp ); $propertysql; COMMIT;";
-$qry = new PgQuery( $sql, $request->user_no, $parent_container, $request->path, md5($request->user_no. $request->path), $displayname, ($request->method == 'MKCALENDAR') );
+$sql = 'BEGIN; INSERT INTO collection ( user_no, parent_container, dav_name, dav_etag, dav_displayname, is_calendar, created, modified ) VALUES( ?, ?, ?, ?, ?, ?, current_timestamp, current_timestamp ); $propertysql; COMMIT;';
+$qry = new PgQuery( $sql, $request->user_no, $parent_container, $request->path, md5($request->user_no. $request->path), $displayname, $is_calendar );
 
-if ( $qry->Exec("MKCALENDAR",__LINE__,__FILE__) ) {
-  dbg_error_log( "MKCALENDAR", "New calendar '%s' created named '%s' for user '%d' in parent '%s'", $request->path, $displayname, $session->user_no, $parent_container);
-  header("Cache-Control: no-cache"); /** draft-caldav-15 declares this is necessary at 5.3.1 */
-  $request->DoResponse( 201, "" );
+if ( $qry->Exec('MKCOL',__LINE__,__FILE__) ) {
+  dbg_error_log( 'MKCOL', 'New calendar "%s" created named "%s" for user "%d" in parent "%s"', $request->path, $displayname, $session->user_no, $parent_container);
+  header('Cache-Control: no-cache'); /** draft-caldav-15 declares this is necessary at 5.3.1 */
+  $request->DoResponse( 201, '' );
 }
 else {
-  $request->DoResponse( 500, translate("Error writing calendar details to database.") );
+  $request->DoResponse( 500, translate('Error writing calendar details to database.') );
 }
 
 /**
