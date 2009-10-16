@@ -17,18 +17,21 @@ INSERT INTO role_member (user_no, role_no) VALUES(1, 1);
 -- Set the insert sequence to the next number, with a minimum of 1000
 SELECT setval('usr_user_no_seq', (SELECT 1000 UNION SELECT user_no FROM usr ORDER BY 1 DESC LIMIT 1) );
 
-INSERT INTO relationship_type ( rt_id, rt_name, confers )
-    VALUES( 1, 'Administers', 'A' );
+INSERT INTO relationship_type ( rt_id, rt_name, confers, bit_confers )
+    VALUES( 1, 'Administers', 'A', privilege_to_bits('DAV::all') );
 
 INSERT INTO relationship_type ( rt_id, rt_name, confers )
-    VALUES( 2, 'Can read/write to', 'RW' );
+    VALUES( 2, 'Can read/write to', 'RW', privilege_to_bits( ARRAY['DAV::read','DAV::write']) );
 
 INSERT INTO relationship_type ( rt_id, rt_name, confers )
-    VALUES( 3, 'Can read from', 'R' );
+    VALUES( 3, 'Can read from', 'R', privilege_to_bits( 'DAV::read') );
 
 INSERT INTO relationship_type ( rt_id, rt_name, confers )
-    VALUES( 4, 'Can see free/busy time of', 'F' );
+    VALUES( 4, 'Can see free/busy time of', 'F', privilege_to_bits( 'caldav:read-free-busy') );
 
+INSERT INTO principal_type (principal_type_id, principal_type_desc) VALUES( 1, 'Person' );
+INSERT INTO principal_type (principal_type_id, principal_type_desc) VALUES( 2, 'Resource' );
+INSERT INTO principal_type (principal_type_id, principal_type_desc) VALUES( 3, 'Group' );
 
 -- Set the insert sequence to the next number, with a minimum of 1000
 SELECT setval('relationship_type_rt_id_seq', (SELECT 10 UNION SELECT rt_id FROM relationship_type ORDER BY 1 DESC LIMIT 1) );
