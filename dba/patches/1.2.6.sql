@@ -1,7 +1,7 @@
 
 -- This database update converts the permissions into a bitmap stored
 -- as an integer to make calculation of merged permissions simpler
--- through simple binary 'AND' 
+-- through simple binary 'AND'
 
 CREATE or REPLACE FUNCTION legacy_privilege_to_bits( TEXT ) RETURNS BIT(24) AS $$
 DECLARE
@@ -21,22 +21,22 @@ BEGIN
   IF in_priv ~* 'R' THEN
     out_bits := out_bits | 4609::BIT(24);
   END IF;
-  
+
   -- DAV:write => DAV:write MUST contain DAV:bind, DAV:unbind, DAV:write-properties and DAV:write-content
   --    2 DAV:write-properties
   --    4 DAV:write-content
-  --   64 DAV:bind 
-  --  128 DAV:unbind 
+  --   64 DAV:bind
+  --  128 DAV:unbind
   IF in_priv ~* 'W' THEN
     out_bits := out_bits |   198::BIT(24);
   END IF;
-  
-  --   64 DAV:bind 
+
+  --   64 DAV:bind
   IF in_priv ~* 'B' THEN
     out_bits := out_bits | 64::BIT(24);
   END IF;
-  
-  --  128 DAV:unbind 
+
+  --  128 DAV:unbind
   IF in_priv ~* 'U' THEN
     out_bits := out_bits | 128::BIT(24);
   END IF;
@@ -46,9 +46,9 @@ BEGIN
   IF in_priv ~* 'F' THEN
     out_bits := out_bits | 4608::BIT(24);
   END IF;
-  
+
   RETURN out_bits;
-END 
+END
 $$
 LANGUAGE 'PlPgSQL' IMMUTABLE STRICT;
 
@@ -81,12 +81,12 @@ BEGIN
       out_priv := 'F';
     END IF;
   END IF;
-  
+
   -- DAV:write => DAV:write MUST contain DAV:bind, DAV:unbind, DAV:write-properties and DAV:write-content
   --    2 DAV:write-properties
   --    4 DAV:write-content
-  --   64 DAV:bind 
-  --  128 DAV:unbind 
+  --   64 DAV:bind
+  --  128 DAV:unbind
   IF (in_bits & 198::BIT(24)) != 0::BIT(24) THEN
     IF (in_bits & 6::BIT(24)) != 0::BIT(24) THEN
       out_priv := out_priv || 'W';
@@ -99,9 +99,9 @@ BEGIN
       END IF;
     END IF;
   END IF;
-  
+
   RETURN out_priv;
-END 
+END
 $$
 LANGUAGE 'PlPgSQL' IMMUTABLE STRICT;
 
@@ -142,7 +142,7 @@ BEGIN
   RETURN '';
   -- RAISE NOTICE 'No complex relationships between % and %', in_from, in_to;
 
-  SELECT bits_to_legacy_privilege(r1.confers) INTO out_confers FROM relationship r1 LEFT OUTER JOIN relationship r2 ON(r1.to_user = r2.to_user) 
+  SELECT bits_to_legacy_privilege(r1.confers) INTO out_confers FROM relationship r1 LEFT OUTER JOIN relationship r2 ON(r1.to_user = r2.to_user)
        WHERE r1.from_user = in_from AND r2.from_user = in_to AND r1.from_user != r2.from_user
          AND NOT EXISTS( SELECT 1 FROM relationship r3 WHERE r3.from_user = r1.to_user ) ;
 
@@ -161,7 +161,7 @@ $$ LANGUAGE 'plpgsql' IMMUTABLE STRICT;
 
 CREATE or REPLACE FUNCTION get_group_role_no() RETURNS INT AS $$
   SELECT role_no FROM roles WHERE role_name = 'Group'
-$$ LANGUAGE 'SQL' IMMUTABLE; 
+$$ LANGUAGE 'SQL' IMMUTABLE;
 
 CREATE or REPLACE FUNCTION has_legacy_privilege( INT, TEXT, INT ) RETURNS BOOLEAN AS $$
 DECLARE
@@ -175,12 +175,12 @@ BEGIN
   IF in_from = in_to THEN
     RETURN TRUE;
   END IF;
-  
+
   SELECT get_group_role_no() INTO group_role_no;
   SELECT legacy_privilege_to_bits(in_legacy_privilege) INTO in_confers;
 
   IF EXISTS(SELECT 1 FROM relationship WHERE from_user = in_from AND to_user = in_to
-                      AND (in_confers & confers) = in_confers  
+                      AND (in_confers & confers) = in_confers
                       AND NOT EXISTS(SELECT 1 FROM role_member WHERE to_user = user_no AND role_no = group_role_no) ) THEN
     -- A direct relationship from A to B that grants sufficient
     -- RAISE NOTICE 'Permissions directly granted';
@@ -188,7 +188,7 @@ BEGIN
   END IF;
 
   IF EXISTS( SELECT 1 FROM relationship r1 JOIN relationship r2 ON r1.to_user=r2.from_user
-         WHERE (in_confers & r1.confers & r2.confers) = in_confers  
+         WHERE (in_confers & r1.confers & r2.confers) = in_confers
            AND r1.from_user=in_from AND r2.to_user=in_to
            AND r2.from_user IN (SELECT user_no FROM role_member WHERE role_no=group_role_no) ) THEN
     -- An indirect relationship from A to B via group G that grants sufficient
@@ -197,7 +197,7 @@ BEGIN
   END IF;
 
   IF EXISTS( SELECT 1 FROM relationship r1 JOIN relationship r2 ON r1.to_user=r2.to_user
-         WHERE (in_confers & r1.confers & r2.confers) = in_confers  
+         WHERE (in_confers & r1.confers & r2.confers) = in_confers
            AND r1.from_user=in_from AND r2.from_user=in_to
            AND r2.to_user IN (SELECT user_no FROM role_member WHERE role_no=group_role_no)
            AND NOT EXISTS(SELECT 1 FROM relationship WHERE from_user=r2.to_user) ) THEN
@@ -240,12 +240,12 @@ BEGIN
             WHEN in_priv = 'schedule-deliver-invite'         THEN  1024
             WHEN in_priv = 'schedule-deliver-reply'          THEN  2048
             WHEN in_priv = 'schedule-query-freebusy'         THEN  4096
-            WHEN in_priv = 'schedule-send'                   THEN 57344 -- 8192 + 16384 + 32768 
-            WHEN in_priv = 'schedule-send-invite'            THEN  8192 
-            WHEN in_priv = 'schedule-send-reply'             THEN 16384 
-            WHEN in_priv = 'schedule-send-freebusy'          THEN 32768 
+            WHEN in_priv = 'schedule-send'                   THEN 57344 -- 8192 + 16384 + 32768
+            WHEN in_priv = 'schedule-send-invite'            THEN  8192
+            WHEN in_priv = 'schedule-send-reply'             THEN 16384
+            WHEN in_priv = 'schedule-send-freebusy'          THEN 32768
           ELSE 0 END)::BIT(24);
-END 
+END
 $$
 LANGUAGE 'PlPgSQL' IMMUTABLE STRICT;
 
@@ -264,15 +264,15 @@ BEGIN
   out_bits := 0::BIT(24);
   all := ~ out_bits;
   SELECT array_lower(raw_privs,1) INTO start;
-  SELECT array_upper(raw_privs,1) INTO finish; 
+  SELECT array_upper(raw_privs,1) INTO finish;
   FOR i IN start .. finish  LOOP
-    SELECT out_bits | privilege_to_bits(raw_privs[i]) INTO out_bits;   
+    SELECT out_bits | privilege_to_bits(raw_privs[i]) INTO out_bits;
     IF out_bits = all THEN
       RETURN all;
     END IF;
   END LOOP;
   RETURN out_bits;
-END 
+END
 $$
 LANGUAGE 'PlPgSQL' IMMUTABLE STRICT;
 
@@ -353,7 +353,7 @@ BEGIN
       END IF;
     END IF;
   END IF;
-  
+
   IF (in_bits & 57344::BIT(24)) != 0::BIT(24) THEN
     IF (in_bits & 57344::BIT(24)) = 57344::BIT(24) THEN
       out_priv := out_priv || ARRAY['caldav:schedule-send'];
@@ -371,7 +371,7 @@ BEGIN
   END IF;
 
   RETURN out_priv;
-END 
+END
 $$
 LANGUAGE 'PlPgSQL' IMMUTABLE STRICT;
 
@@ -393,14 +393,14 @@ SELECT check_db_revision(1,2,5);
 --
 -- RFC 3744 - DAV ACLs
 --      1 DAV:read
---   DAV:write (aggregate = 198) 
+--   DAV:write (aggregate = 198)
 --      2 DAV:write-properties
 --      4 DAV:write-content
 --      8 DAV:unlock
 --     16 DAV:read-acl
 --     32 DAV:read-current-user-privilege-set
---     64 DAV:bind 
---    128 DAV:unbind 
+--     64 DAV:bind
+--    128 DAV:unbind
 --    256 DAV:write-acl
 
 -- RFC 4791 - CalDAV
@@ -425,7 +425,7 @@ SELECT check_db_revision(1,2,5);
 -- DAV:write MUST NOT contain DAV:read, DAV:read-acl, or DAV:read-current-user-privilege-set.
 -- DAV:read MUST NOT contain DAV:write, DAV:write-acl, DAV:write-properties, or DAV:write-content.
 -- DAV:write-acl COULD contain DAV:write-properties DAV:write-content DAV:unlock DAV:bind DAV:unbind BUT why would it?
- 
+
 -- DAV:write => DAV:bind, DAV:unbind, DAV:write-properties and DAV:write-content
 
 -- RFC 4791 - CalDAV
@@ -462,22 +462,22 @@ BEGIN
   IF in_priv ~* 'R' THEN
     out_bits := out_bits | 4609::BIT(24);
   END IF;
-  
+
   -- DAV:write => DAV:write MUST contain DAV:bind, DAV:unbind, DAV:write-properties and DAV:write-content
   --    2 DAV:write-properties
   --    4 DAV:write-content
-  --   64 DAV:bind 
-  --  128 DAV:unbind 
+  --   64 DAV:bind
+  --  128 DAV:unbind
   IF in_priv ~* 'W' THEN
     out_bits := out_bits |   198::BIT(24);
   END IF;
-  
-  --   64 DAV:bind 
+
+  --   64 DAV:bind
   IF in_priv ~* 'B' THEN
     out_bits := out_bits | 64::BIT(24);
   END IF;
-  
-  --  128 DAV:unbind 
+
+  --  128 DAV:unbind
   IF in_priv ~* 'U' THEN
     out_bits := out_bits | 128::BIT(24);
   END IF;
@@ -487,20 +487,20 @@ BEGIN
   IF in_priv ~* 'F' THEN
     out_bits := out_bits | 4608::BIT(24);
   END IF;
-  
+
   RETURN out_bits;
-END 
+END
 $$
 LANGUAGE 'PlPgSQL' IMMUTABLE STRICT;
 
 
-ALTER TABLE relationship_type ADD COLUMN bit_confers BIT(24) DEFAULT legacy_privilege_to_bits('RW');
+ALTER TABLE relationship_type ADD COLUMN bit_confers BIT(24) DEFAULT privilege_to_bits(ARRAY['DAV::read','DAV::write']);
 UPDATE relationship_type SET bit_confers = legacy_privilege_to_bits(confers);
 
-ALTER TABLE relationship ADD COLUMN confers BIT(24) DEFAULT legacy_privilege_to_bits('F');
+ALTER TABLE relationship ADD COLUMN confers BIT(24) DEFAULT privilege_to_bits('caldav:read-free-busy');
 UPDATE relationship r SET confers = bit_confers FROM relationship_type rt WHERE rt.rt_id=r.rt_id;
 
-ALTER TABLE collection ADD COLUMN default_privileges BIT(24) DEFAULT legacy_privilege_to_bits('F');
+ALTER TABLE collection ADD COLUMN default_privileges BIT(24) DEFAULT privilege_to_bits('caldav:read-free-busy');
 
 INSERT INTO principal_type (principal_type_id, principal_type_desc) VALUES( 1, 'Person' );
 INSERT INTO principal_type (principal_type_id, principal_type_desc) VALUES( 2, 'Resource' );
@@ -509,7 +509,7 @@ INSERT INTO principal_type (principal_type_id, principal_type_desc) VALUES( 3, '
 -- web needs SELECT,INSERT,UPDATE,DELETE
 DROP TABLE principal CASCADE;
 CREATE TABLE principal (
-  principal_id SERIAL PRIMARY KEY,
+  principal_id DEFAULT nextval('dav_id_seq') PRIMARY KEY,
   type_id INT8 NOT NULL REFERENCES principal_type(principal_type_id) ON UPDATE CASCADE ON DELETE RESTRICT DEFERRABLE,
   user_no INT8 NULL REFERENCES usr(user_no) ON UPDATE CASCADE ON DELETE CASCADE DEFERRABLE,
   displayname TEXT,
@@ -519,30 +519,22 @@ CREATE TABLE principal (
 
 INSERT INTO principal (type_id, user_no, displayname, active, default_privileges)
          SELECT 1, user_no, fullname, active, privilege_to_bits(ARRAY['read-free-busy','schedule-send','schedule-deliver']) FROM usr
-                 WHERE NOT EXISTS(SELECT 1 FROM role_member JOIN roles USING(role_no) WHERE role_name = 'Group' AND role_member.user_no = usr.user_no) 
-                   AND NOT EXISTS(SELECT 1 FROM role_member JOIN roles USING(role_no) WHERE role_name = 'Resource' AND role_member.user_no = usr.user_no) ; 
+                 WHERE NOT EXISTS(SELECT 1 FROM role_member JOIN roles USING(role_no) WHERE role_name = 'Group' AND role_member.user_no = usr.user_no)
+                   AND NOT EXISTS(SELECT 1 FROM role_member JOIN roles USING(role_no) WHERE role_name = 'Resource' AND role_member.user_no = usr.user_no) ;
 
 INSERT INTO principal (type_id, user_no, displayname, active, default_privileges)
          SELECT 2, user_no, fullname, active, privilege_to_bits(ARRAY['read','schedule-send','schedule-deliver']) FROM usr
-                 WHERE EXISTS(SELECT 1 FROM role_member JOIN roles USING(role_no) WHERE role_name = 'Resource' AND role_member.user_no = usr.user_no); 
+                 WHERE EXISTS(SELECT 1 FROM role_member JOIN roles USING(role_no) WHERE role_name = 'Resource' AND role_member.user_no = usr.user_no);
 
 INSERT INTO principal (type_id, user_no, displayname, active, default_privileges)
          SELECT 3, user_no, fullname, active, privilege_to_bits(ARRAY['read-free-busy','schedule-send','schedule-deliver']) FROM usr
-                 WHERE EXISTS(SELECT 1 FROM role_member JOIN roles USING(role_no) WHERE role_name = 'Group' AND role_member.user_no = usr.user_no); 
+                 WHERE EXISTS(SELECT 1 FROM role_member JOIN roles USING(role_no) WHERE role_name = 'Group' AND role_member.user_no = usr.user_no);
 
 UPDATE collection SET default_privileges = CASE
                         WHEN publicly_readable THEN privilege_to_bits(ARRAY['read'])
                         ELSE (SELECT default_privileges FROM principal WHERE principal.user_no = collection.user_no)
-                  END;  
+                  END;
 
--- Allowing identification of group members.
-DROP TABLE group_member CASCADE;
-CREATE TABLE group_member (
-  group_id INT8 REFERENCES principal(principal_id) ON UPDATE CASCADE ON DELETE CASCADE DEFERRABLE,
-  member_id INT8 REFERENCES principal(principal_id) ON UPDATE CASCADE ON DELETE CASCADE DEFERRABLE
-);
-CREATE UNIQUE INDEX group_member_pk ON group_member(group_id,member_id);
-CREATE INDEX group_member_sk ON group_member(member_id);
 INSERT INTO group_member ( group_id, member_id)
               SELECT g.principal_id, m.principal_id
                 FROM relationship JOIN principal g ON(to_user=g.user_no AND g.type_id = 3)    -- Group
@@ -599,7 +591,7 @@ END;
 $$ LANGUAGE 'plpgsql' IMMUTABLE STRICT;
 
 -- A list of the principals who can proxy to this principal
-CREATE or REPLACE FUNCTION i_proxy_to( INT ) RETURNS SETOF grants AS $$ 
+CREATE or REPLACE FUNCTION i_proxy_to( INT ) RETURNS SETOF grants AS $$
 SELECT by_principal, dav_name, to_principal, privileges, is_group FROM grants WHERE by_principal = $1 AND NOT is_group
      UNION
 SELECT by_principal, dav_name, member_id, privileges, is_group FROM grants
@@ -607,14 +599,14 @@ SELECT by_principal, dav_name, member_id, privileges, is_group FROM grants
 $$ LANGUAGE 'SQL' STRICT;
 
 -- A list of the principals who this principal can proxy
-CREATE or REPLACE FUNCTION proxied_by( INT ) RETURNS SETOF grants AS $$ 
+CREATE or REPLACE FUNCTION proxied_by( INT ) RETURNS SETOF grants AS $$
 SELECT by_principal, dav_name, to_principal, privileges, is_group FROM grants WHERE to_principal = $1 AND NOT is_group
      UNION
 SELECT by_principal, dav_name, member_id, privileges, is_group FROM grants
               JOIN group_member ON (to_principal=group_id) where member_id = $1 and is_group;
 $$ LANGUAGE 'SQL' STRICT;
 
-CREATE or REPLACE FUNCTION proxy_list( INT ) RETURNS SETOF grants AS $$ 
+CREATE or REPLACE FUNCTION proxy_list( INT ) RETURNS SETOF grants AS $$
 SELECT by_principal, dav_name, to_principal, privileges, is_group FROM grants WHERE by_principal = $1 AND NOT is_group
      UNION
 SELECT by_principal, dav_name, member_id, privileges, is_group FROM grants

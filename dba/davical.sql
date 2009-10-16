@@ -1,6 +1,46 @@
--- Really Simple CalDAV Store - Database Schema
+-- DAViCal CalDAV Server - Database Schema
 --
 
+
+-- Given a verbose DAV: or CalDAV: privilege name return the bitmask
+CREATE or REPLACE FUNCTION privilege_to_bits( TEXT ) RETURNS BIT(24) AS $$
+DECLARE
+  raw_priv ALIAS FOR $1;
+  in_priv TEXT;
+BEGIN
+  in_priv := trim(lower(regexp_replace(raw_priv, '^.*:', '')));
+  IF in_priv = 'all' THEN
+    RETURN ~ 0::BIT(24);
+  END IF;
+
+  RETURN (CASE
+            WHEN in_priv = 'read'                            THEN  4609 -- 1 + 512 + 4096
+            WHEN in_priv = 'write'                           THEN   198 -- 2 + 4 + 64 + 128
+            WHEN in_priv = 'write-properties'                THEN     2
+            WHEN in_priv = 'write-content'                   THEN     4
+            WHEN in_priv = 'unlock'                          THEN     8
+            WHEN in_priv = 'read-acl'                        THEN    16
+            WHEN in_priv = 'read-current-user-privilege-set' THEN    32
+            WHEN in_priv = 'bind'                            THEN    64
+            WHEN in_priv = 'unbind'                          THEN   128
+            WHEN in_priv = 'write-acl'                       THEN   256
+            WHEN in_priv = 'read-free-busy'                  THEN  4608 --  512 + 4096
+            WHEN in_priv = 'schedule-deliver'                THEN  7168 -- 1024 + 2048 + 4096
+            WHEN in_priv = 'schedule-deliver-invite'         THEN  1024
+            WHEN in_priv = 'schedule-deliver-reply'          THEN  2048
+            WHEN in_priv = 'schedule-query-freebusy'         THEN  4096
+            WHEN in_priv = 'schedule-send'                   THEN 57344 -- 8192 + 16384 + 32768
+            WHEN in_priv = 'schedule-send-invite'            THEN  8192
+            WHEN in_priv = 'schedule-send-reply'             THEN 16384
+            WHEN in_priv = 'schedule-send-freebusy'          THEN 32768
+          ELSE 0 END)::BIT(24);
+END
+$$
+LANGUAGE 'PlPgSQL' IMMUTABLE STRICT;
+
+
+
+-- This sequence is used in a number of places so that any DAV resource will have a unique ID
 CREATE SEQUENCE dav_id_seq;
 
 -- Something that can look like a filesystem hierarchy where we store stuff
@@ -16,8 +56,13 @@ CREATE TABLE collection (
   public_events_only BOOLEAN NOT NULL DEFAULT FALSE,
   publicly_readable BOOLEAN NOT NULL DEFAULT FALSE,
   collection_id INT8 PRIMARY KEY DEFAULT nextval('dav_id_seq'),
+  default_privileges BIT(24) DEFAULT privilege_to_bits('caldav:read-free-busy'),
+  is_addressbook BOOLEAN DEFAULT FALSE,
+  resourcetypes TEXT DEFAULT '<DAV::collection/>',
   UNIQUE(user_no,dav_name)
 );
+
+UPDATE collection SET resourcetypes = '<DAV::collection/><urn:ietf:params:xml:ns:caldav:calendar/>' WHERE is_calendar;
 
 
 -- The main event.  Where we store the things the calendar throws at us.
@@ -85,6 +130,7 @@ CREATE TABLE calendar_item (
 CREATE INDEX calendar_item_collection_id_fkey ON calendar_item(collection_id);
 
 
+
 -- Each user can be related to each other user.  This mechanism can also
 -- be used to define groups of users, since some relationships are transitive.
 CREATE TABLE relationship_type (
@@ -92,7 +138,8 @@ CREATE TABLE relationship_type (
   rt_name TEXT,
   rt_togroup BOOLEAN,
   confers TEXT DEFAULT 'RW',
-  rt_fromgroup BOOLEAN
+  rt_fromgroup BOOLEAN,
+  bit_confers BIT(24) DEFAULT legacy_privilege_to_bits('RW')
 );
 
 
@@ -100,6 +147,7 @@ CREATE TABLE relationship (
   from_user INT REFERENCES usr (user_no) ON UPDATE CASCADE ON DELETE CASCADE,
   to_user INT REFERENCES usr (user_no) ON UPDATE CASCADE ON DELETE CASCADE,
   rt_id INT REFERENCES relationship_type (rt_id) ON UPDATE CASCADE ON DELETE CASCADE,
+  bit_confers BIT(24) DEFAULT legacy_privilege_to_bits('RW'),
 
   PRIMARY KEY ( from_user, to_user, rt_id )
 );
@@ -182,13 +230,16 @@ CREATE TABLE principal_type (
 
 
 -- web needs SELECT,INSERT,UPDATE,DELETE
+DROP TABLE principal CASCADE;
 CREATE TABLE principal (
-  principal_id SERIAL PRIMARY KEY,
+  principal_id DEFAULT nextval('dav_id_seq') PRIMARY KEY,
   type_id INT8 NOT NULL REFERENCES principal_type(principal_type_id) ON UPDATE CASCADE ON DELETE RESTRICT DEFERRABLE,
   user_no INT8 NULL REFERENCES usr(user_no) ON UPDATE CASCADE ON DELETE CASCADE DEFERRABLE,
   displayname TEXT,
-  active BOOLEAN
+  active BOOLEAN,
+  default_privileges BIT(24)
 );
+
 
 
 -- Allowing identification of group members.
@@ -200,39 +251,30 @@ CREATE UNIQUE INDEX group_member_pk ON group_member(group_id,member_id);
 CREATE INDEX group_member_sk ON group_member(member_id);
 
 
--- Only needs SELECT access by website. dav_resource_type will be 'principal', 'collection', 'CalDAV:calendar' and so forth.
-CREATE TABLE dav_resource_type (
-  resource_type_id SERIAL PRIMARY KEY,
-  dav_resource_type TEXT,
-  resource_type_desc TEXT
-);
-
-
-CREATE TABLE dav_resource (
-  dav_id INT8 PRIMARY KEY DEFAULT nextval('dav_id_seq'),
+CREATE TABLE grants (
+  by_principal INT8 REFERENCES principal(principal_id) ON UPDATE CASCADE ON DELETE CASCADE DEFERRABLE,
   dav_name TEXT,
-  resource_type_id INT8 REFERENCES dav_resource_type(resource_type_id) ON UPDATE CASCADE ON DELETE RESTRICT DEFERRABLE,
-  owner_id INT8 REFERENCES principal(principal_id) ON UPDATE CASCADE ON DELETE CASCADE DEFERRABLE
+  to_principal INT8 REFERENCES principal(principal_id) ON UPDATE CASCADE ON DELETE CASCADE DEFERRABLE,
+  privileges BIT(24),
+  is_group BOOLEAN,
+  PRIMARY KEY (dav_name, to_principal)
+) WITHOUT OIDS;
+
+
+CREATE TABLE sync_tokens (
+  sync_token SERIAL PRIMARY KEY,
+  collection_id INT8 REFERENCES collection(collection_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  modification_time TIMESTAMP WITH TIME ZONE DEFAULT current_timestamp
 );
 
-
-CREATE TABLE privilege (
-  granted_to_id INT8 REFERENCES principal(principal_id) ON UPDATE CASCADE ON DELETE CASCADE DEFERRABLE,
-  resource_id INT8 REFERENCES dav_resource(dav_id) ON UPDATE CASCADE ON DELETE CASCADE DEFERRABLE,
-  granted_by_id INT8 REFERENCES principal(principal_id) ON UPDATE CASCADE ON DELETE RESTRICT DEFERRABLE,
-  can_read BOOLEAN,
-  can_write BOOLEAN,
-  can_write_properties BOOLEAN,
-  can_write_content BOOLEAN,
-  can_unlock BOOLEAN,
-  can_read_acl BOOLEAN,
-  can_read_current_user_privilege_set BOOLEAN,
-  can_write_acl BOOLEAN,
-  can_bind BOOLEAN,
-  can_unbind BOOLEAN,
-  can_read_free_busy BOOLEAN,
-  PRIMARY KEY (granted_to_id, resource_id)
+CREATE TABLE sync_changes (
+  sync_time TIMESTAMP WITH TIME ZONE DEFAULT current_timestamp,
+  collection_id INT8 REFERENCES collection(collection_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  sync_status INT,
+  dav_id INT8, -- can't REFERENCES calendar_item(dav_id) ON DELETE SET NULL ON UPDATE RESTRICT
+  dav_name TEXT
 );
+CREATE INDEX sync_processing_index ON sync_changes( collection_id, dav_id, sync_time );
 
 
-SELECT new_db_revision(1,2,5, 'Mai' );
+SELECT new_db_revision(1,2,7, 'Juillet' );

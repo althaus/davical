@@ -26,7 +26,7 @@ ALTER TABLE collection ADD COLUMN resourcetypes TEXT DEFAULT '<DAV::collection/>
 
 UPDATE collection SET resourcetypes = '<DAV::collection/><urn:ietf:params:xml:ns:caldav:calendar/>' WHERE is_calendar;
 
-SELECT new_db_revision(1,2,7, 'Juli' );
+SELECT new_db_revision(1,2,7, 'Juillet' );
 
 COMMIT;
 ROLLBACK;
