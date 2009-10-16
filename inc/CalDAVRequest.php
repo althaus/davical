@@ -266,11 +266,12 @@ class CalDAVRequest
       // The request is for a scheduling inbox or outbox (or something inside one) and we should auto-create it
       $displayname = $session->fullname . ($matches[3] == 'in' ? ' Inbox' : ' Outbox');
       $this->collection_type = 'schedule-'. $matches[3]. 'box';
+      $resourcetypes = sprintf('<DAV::collection/><urn:ietf:params:xml:ns:caldav:%s/>', $this->collection_type );
       $sql = <<<EOSQL
-INSERT INTO collection ( user_no, parent_container, dav_name, dav_displayname, is_calendar, created, modified, dav_etag )
-    VALUES( ?, ?, ?, ?, FALSE, current_timestamp, current_timestamp, '1' )
+INSERT INTO collection ( user_no, parent_container, dav_name, dav_displayname, is_calendar, created, modified, dav_etag, resourcetypes )
+    VALUES( ?, ?, ?, ?, FALSE, current_timestamp, current_timestamp, '1', ? )
 EOSQL;
-      $qry = new PgQuery( $sql, $session->user_no, $matches[2] , $matches[1], $displayname );
+      $qry = new PgQuery( $sql, $session->user_no, $matches[2] , $matches[1], $displayname, $resourcetypes );
       $qry->Exec('caldav');
       dbg_error_log( "caldav", "Created new collection as '$displayname'." );
 
