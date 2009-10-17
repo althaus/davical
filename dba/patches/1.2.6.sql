@@ -498,7 +498,7 @@ ALTER TABLE relationship_type ADD COLUMN bit_confers BIT(24) DEFAULT privilege_t
 UPDATE relationship_type SET bit_confers = legacy_privilege_to_bits(confers);
 
 ALTER TABLE relationship ADD COLUMN confers BIT(24) DEFAULT privilege_to_bits('caldav:read-free-busy');
-UPDATE relationship r SET confers = bit_confers FROM relationship_type rt WHERE rt.rt_id=r.rt_id;
+UPDATE relationship r SET confers = (SELECT bit_confers FROM relationship_type rt WHERE rt.rt_id=r.rt_id);
 
 ALTER TABLE collection ADD COLUMN default_privileges BIT(24) DEFAULT privilege_to_bits('caldav:read-free-busy');
 
@@ -509,7 +509,7 @@ INSERT INTO principal_type (principal_type_id, principal_type_desc) VALUES( 3, '
 -- web needs SELECT,INSERT,UPDATE,DELETE
 DROP TABLE principal CASCADE;
 CREATE TABLE principal (
-  principal_id DEFAULT nextval('dav_id_seq') PRIMARY KEY,
+  principal_id INT8 DEFAULT nextval('dav_id_seq') PRIMARY KEY,
   type_id INT8 NOT NULL REFERENCES principal_type(principal_type_id) ON UPDATE CASCADE ON DELETE RESTRICT DEFERRABLE,
   user_no INT8 NULL REFERENCES usr(user_no) ON UPDATE CASCADE ON DELETE CASCADE DEFERRABLE,
   displayname TEXT,

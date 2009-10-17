@@ -20,13 +20,13 @@ SELECT setval('usr_user_no_seq', (SELECT 1000 UNION SELECT user_no FROM usr ORDE
 INSERT INTO relationship_type ( rt_id, rt_name, confers, bit_confers )
     VALUES( 1, 'Administers', 'A', privilege_to_bits('DAV::all') );
 
-INSERT INTO relationship_type ( rt_id, rt_name, confers )
+INSERT INTO relationship_type ( rt_id, rt_name, confers, bit_confers )
     VALUES( 2, 'Can read/write to', 'RW', privilege_to_bits( ARRAY['DAV::read','DAV::write']) );
 
-INSERT INTO relationship_type ( rt_id, rt_name, confers )
+INSERT INTO relationship_type ( rt_id, rt_name, confers, bit_confers )
     VALUES( 3, 'Can read from', 'R', privilege_to_bits( 'DAV::read') );
 
-INSERT INTO relationship_type ( rt_id, rt_name, confers )
+INSERT INTO relationship_type ( rt_id, rt_name, confers, bit_confers )
     VALUES( 4, 'Can see free/busy time of', 'F', privilege_to_bits( 'caldav:read-free-busy') );
 
 INSERT INTO principal_type (principal_type_id, principal_type_desc) VALUES( 1, 'Person' );

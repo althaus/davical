@@ -38,6 +38,31 @@ END
 $$
 LANGUAGE 'PlPgSQL' IMMUTABLE STRICT;
 
+-- Given an array of verbose DAV: or CalDAV: privilege names return the bitmask
+CREATE or REPLACE FUNCTION privilege_to_bits( TEXT[] ) RETURNS BIT(24) AS $$
+DECLARE
+  raw_privs ALIAS FOR $1;
+  in_priv TEXT;
+  out_bits BIT(24);
+  i INT;
+  all BIT(24);
+  start INT;
+  finish INT;
+BEGIN
+  out_bits := 0::BIT(24);
+  all := ~ out_bits;
+  SELECT array_lower(raw_privs,1) INTO start;
+  SELECT array_upper(raw_privs,1) INTO finish;
+  FOR i IN start .. finish  LOOP
+    SELECT out_bits | privilege_to_bits(raw_privs[i]) INTO out_bits;
+    IF out_bits = all THEN
+      RETURN all;
+    END IF;
+  END LOOP;
+  RETURN out_bits;
+END
+$$
+LANGUAGE 'PlPgSQL' IMMUTABLE STRICT;
 
 
 -- This sequence is used in a number of places so that any DAV resource will have a unique ID
@@ -139,7 +164,7 @@ CREATE TABLE relationship_type (
   rt_togroup BOOLEAN,
   confers TEXT DEFAULT 'RW',
   rt_fromgroup BOOLEAN,
-  bit_confers BIT(24) DEFAULT legacy_privilege_to_bits('RW')
+  bit_confers BIT(24) DEFAULT privilege_to_bits(ARRAY['DAV::read','DAV::write'])
 );
 
 
@@ -147,7 +172,7 @@ CREATE TABLE relationship (
   from_user INT REFERENCES usr (user_no) ON UPDATE CASCADE ON DELETE CASCADE,
   to_user INT REFERENCES usr (user_no) ON UPDATE CASCADE ON DELETE CASCADE,
   rt_id INT REFERENCES relationship_type (rt_id) ON UPDATE CASCADE ON DELETE CASCADE,
-  bit_confers BIT(24) DEFAULT legacy_privilege_to_bits('RW'),
+  confers BIT(24) DEFAULT privilege_to_bits(ARRAY['DAV::read','DAV::write']),
 
   PRIMARY KEY ( from_user, to_user, rt_id )
 );
@@ -230,9 +255,8 @@ CREATE TABLE principal_type (
 
 
 -- web needs SELECT,INSERT,UPDATE,DELETE
-DROP TABLE principal CASCADE;
 CREATE TABLE principal (
-  principal_id DEFAULT nextval('dav_id_seq') PRIMARY KEY,
+  principal_id INT8 DEFAULT nextval('dav_id_seq') PRIMARY KEY,
   type_id INT8 NOT NULL REFERENCES principal_type(principal_type_id) ON UPDATE CASCADE ON DELETE RESTRICT DEFERRABLE,
   user_no INT8 NULL REFERENCES usr(user_no) ON UPDATE CASCADE ON DELETE CASCADE DEFERRABLE,
   displayname TEXT,

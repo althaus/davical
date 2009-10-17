@@ -42,7 +42,6 @@ GRANT SELECT,UPDATE
   ON usr_user_no_seq
   ON roles_role_no_seq
   ON session_session_id_seq
-  ON principal_principal_id_seq
   ON principal_type_principal_type_id_seq
   ON sync_tokens_sync_token_seq
 

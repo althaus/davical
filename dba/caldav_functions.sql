@@ -246,7 +246,7 @@ CREATE or REPLACE FUNCTION usr_is_role( INT, TEXT ) RETURNS BOOLEAN AS $$
   SELECT EXISTS( SELECT 1 FROM role_member JOIN roles USING(role_no) WHERE role_member.user_no=$1 AND roles.role_name=$2 )
 $$ LANGUAGE 'sql' IMMUTABLE STRICT;
 
-CREATE or REPLACE FUNCTION get_permissions( INT, INT ) RETURNS TEXT AS $$
+CREATE or REPLACE FUNCTION legacy_get_permissions( INT, INT ) RETURNS TEXT AS $$
 DECLARE
   in_from ALIAS FOR $1;
   in_to   ALIAS FOR $2;
