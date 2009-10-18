@@ -31,7 +31,7 @@ EOBODY;
 
 <h3>Users, Resources and Groups</h3>
 <p>These are the things which may have collections of calendar resources (i.e. calendars).</p>
-<p><a href="../users.php">Here is a list of users (maybe :-)</a>.  You can click on any user to see the full detail
+<p><a href="<?php echo $c->base_url; ?>/users.php">Here is a list of users (maybe :-)</a>.  You can click on any user to see the full detail
 for that person (or group or resource - but from now we'll just call them users).</p>
 <p>The primary differences between them are as follows:</p>
 <ul>
