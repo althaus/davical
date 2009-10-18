@@ -4,8 +4,8 @@
 *
 * @package   davical
 * @subpackage   caldav
-* @author    Andrew McMillan <andrew@catalyst.net.nz>
-* @copyright Catalyst .Net Ltd
+* @author    Andrew McMillan <andrew@mcmillan.net.nz>
+* @copyright Catalyst .Net Ltd, Morphoss Ltd
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v2
 */
 dbg_error_log("PUT", "method handler");
@@ -29,7 +29,7 @@ $lock_opener = $request->FailIfLocked();
 
 
 if ( $request->IsCollection()  ) {
-  if ( isset($c->readonly_webdav_collections) && $c->readonly_webdav_collections ) {
+  if ( !isset($c->readonly_webdav_collections) || $c->readonly_webdav_collections == true ) {
     $request->DoResponse( 405 ); // Method not allowed
     return;
   }
