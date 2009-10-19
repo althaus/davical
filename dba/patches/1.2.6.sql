@@ -289,7 +289,6 @@ DECLARE
   in_bits ALIAS FOR $1;
   out_priv TEXT[];
 BEGIN
-  out_priv := ARRAY[]::text[];
   IF in_bits = (~ 0::BIT(24)) THEN
     out_priv := out_priv || ARRAY['DAV:all'];
   END IF;
@@ -498,7 +497,7 @@ ALTER TABLE relationship_type ADD COLUMN bit_confers BIT(24) DEFAULT privilege_t
 UPDATE relationship_type SET bit_confers = legacy_privilege_to_bits(confers);
 
 ALTER TABLE relationship ADD COLUMN confers BIT(24) DEFAULT privilege_to_bits('caldav:read-free-busy');
-UPDATE relationship r SET confers = (SELECT bit_confers FROM relationship_type rt WHERE rt.rt_id=r.rt_id);
+UPDATE relationship SET confers = (SELECT bit_confers FROM relationship_type AS rt WHERE rt.rt_id=relationship.rt_id);
 
 ALTER TABLE collection ADD COLUMN default_privileges BIT(24) DEFAULT privilege_to_bits('caldav:read-free-busy');
 
