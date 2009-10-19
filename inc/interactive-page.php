@@ -11,7 +11,7 @@ if ( $session->AllowedTo("Admin" )) {
 }
 $page_menu->AddOption(translate("Logout"),"$c->base_url/index.php?logout",translate("Log out of the").$c->system_name, false, 5400 );
 $page_menu->AddOption(translate("Help"),"$c->base_url/help.php",translate("Help on something or other"), false, 8500 );
-$page_menu->AddOption(translate("Report Bug"),"http://sourceforge.net/tracker/?func=add&group_id=179845&atid=890785",translate("Report a bug in the system"), false, 9000 );
+$page_menu->AddOption(translate("Report Bug"),"http://sourceforge.net/tracker/?func=add&group_id=179845&atid=890785",translate("Report a bug in the system"), false, 9000, true );
 
 $user_menu = new MenuSet('submenu', 'submenu', 'submenu_active');
 
