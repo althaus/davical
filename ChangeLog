@@ -1,3 +1,8 @@
+2009-10-06  Andrew McMillan <andrew@morphoss.com>
+	* Release 0.9.7.5
+	* Fix inclusion of auth-functions.php and classBrowser.php
+	* New Deutsch translation by Matthias Mohr.
+
 2009-10-07  Andrew McMillan <andrew@morphoss.com>
 	* Release 0.9.7.4
 	* Fix setting of relationships in user administration.
