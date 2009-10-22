@@ -10,7 +10,7 @@
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v2
 */
 
-require_once("auth-functions.php");
+if ( !function_exists('CreateHomeCalendar') ) include('auth-functions.php');
 
 class ldapDrivers
 {
@@ -176,7 +176,7 @@ class ldapDrivers
     }
 
     $dnUser = ldap_get_dn($this->connect, ldap_first_entry($this->connect,$entry));
-    
+
     if ($c->authenticate_hook['config']['i_use_mode_kerberos'] == "i_know_what_i_am_doing") {
     	dbg_error_log( "LOG", "drivers_ldap : Skipping password Check for user %s which should be the same as %s",$username , $_SERVER["REMOTE_USER"]);
       if ($username != $_SERVER["REMOTE_USER"]) {

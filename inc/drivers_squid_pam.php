@@ -10,7 +10,7 @@
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v2
 */
 
-require_once("auth-functions.php");
+if ( !function_exists('CreateHomeCalendar') ) include('auth-functions.php');
 
 class squidPamDrivers
 {

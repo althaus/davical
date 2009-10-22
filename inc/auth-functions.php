@@ -25,9 +25,10 @@
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v2
 */
 
+if ( function_exists('CreateHomeCalendar') ) return;
+
 require_once("AWLUtilities.php");
 require_once("DataUpdate.php");
-
 
 /**
 * Create a default home calendar for the user.
@@ -144,7 +145,7 @@ function UpdateUserFromExternal( &$usr ) {
 *
 * Use this as in the following example config snippet:
 *
-* require_once('auth-functions.php');
+*  include('auth-functions.php');
 *  $c->authenticate_hook = array(
 *      'call'   => 'AuthExternalAwl',
 *      'config' => array(
