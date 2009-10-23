@@ -1,4 +1,8 @@
-2009-10-06  Andrew McMillan <andrew@morphoss.com>
+2009-10-23  Andrew McMillan <andrew@morphoss.com>
+	* Release 0.9.7.6
+	* Fix return value from include so PHP doesn't exit.
+
+2009-10-22  Andrew McMillan <andrew@morphoss.com>
 	* Release 0.9.7.5
 	* Fix inclusion of auth-functions.php and classBrowser.php
 	* New Deutsch translation by Matthias Mohr.
