@@ -25,7 +25,6 @@
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v2 or later
 */
 
-require_once("AWLUtilities.php");
 require_once("DataUpdate.php");
 
 
