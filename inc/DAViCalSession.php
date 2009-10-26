@@ -10,11 +10,6 @@
 */
 
 /**
-* All session data is held in the database.
-*/
-require_once('PgQuery.php');
-
-/**
 * @global resource $session
 * @name $session
 * The session object is global.
@@ -30,8 +25,8 @@ $session = 1;  // Fake initialisation
 */
 function local_session_sql() {
   $sql = <<<EOSQL
-SELECT session.*, usr.*
-        FROM session JOIN usr USING(user_no)
+SELECT session.*, usr.*, principal.*
+        FROM session JOIN usr USING(user_no) JOIN principal USING(user_no)
 EOSQL;
   return $sql;
 }
@@ -39,7 +34,8 @@ EOSQL;
 /**
 * We extend the AWL Session class.
 */
-require_once('Session.php');
+require('Session.php');
+
 
 @Session::_CheckLogout();
 
@@ -59,7 +55,7 @@ class DAViCalSession extends Session
   *
   * @param string $sid A session identifier.
   */
-  function DAViCalSession( $sid='' ) {
+  function __construct( $sid='' ) {
     $this->Session($sid);
   }
 
