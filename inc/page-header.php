@@ -28,49 +28,42 @@ function make_help_link($matches)
 
 
 function send_page_header() {
-  global $session, $c, $page_menu, $user_menu, $role_menu, $relationship_menu, $active_menu_pattern;
-
-//  echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">';
+  global $session, $c, $main_menu, $related_menu;
 
   header( 'Content-type: text/html; charset="utf-8"' );
 
+  echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">';
   echo <<<EOHDR
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 <title>$c->page_title</title>
 
 EOHDR;
 
   foreach ( $c->stylesheets AS $stylesheet ) {
-    echo '<link rel="stylesheet" type="text/css" href="'.$stylesheet.'" />';
+    echo '<link rel="stylesheet" type="text/css" href="'.$stylesheet.'">';
   }
   if ( isset($c->local_styles) ) {
     // Always load local styles last, so they can override prior ones...
     foreach ( $c->local_styles AS $stylesheet ) {
-      echo '<link rel="stylesheet" type="text/css" href="'.$stylesheet.'" />';
+      echo '<link rel="stylesheet" type="text/css" href="'.$stylesheet.'">';
     }
   }
 
   if ( isset($c->print_styles) ) {
     // Finally, load print styles last, so they can override all of the above...
     foreach ( $c->print_styles AS $stylesheet ) {
-      echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"$stylesheet\" media=\"print\"/>\n";
+      echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"$stylesheet\" media=\"print\">\n";
     }
   }
 
   echo "</head>\n<body>\n";
   echo "<div id=\"pageheader\">\n";
 
-  if ( isset($page_menu) && is_object($page_menu) ) {
-    if ( isset($relationship_menu) && is_object($relationship_menu) ) {
-      $page_menu->AddSubMenu( $relationship_menu, translate("Relationships"),
-                               "$c->base_url/relationship_types.php", translate("Browse all relationship types"), false, 4050 );
-    }
-    $page_menu->AddSubMenu( $user_menu, translate("Users"), "$c->base_url/users.php", translate("Browse all users"), false, 4100 );
-//    $page_menu->AddSubMenu( $role_menu, "Roles", "/roles.php", "Browse all roles", false, 4300 );
-    $page_menu->MakeSomethingActive($active_menu_pattern);
-    echo $page_menu->Render();
+  if ( isset($main_menu) ) echo $main_menu->RenderAsCSS();
+  if ( isset($related_menu) && $related_menu->Size() > 0 ) {
+    echo $related_menu->Render( true );
   }
 
   echo "</div>\n";
@@ -89,4 +82,3 @@ EOHDR;
 
 send_page_header();
 
-?>

@@ -51,15 +51,14 @@
     }
   }
 
-  if ( $session->AllowedTo("Admin") )
-    $user_menu->AddOption(translate("New User"),"$c->base_url/usr.php?create",translate("Add a new user"), false, 10);
-
+  $related_menu->AddOption( sprintf(translate("Edit %s"), $user->Get('fullname')), $c->base_url.'/usr.php?user_no='.$user->user_no.'&edit=1', translate("Edit this user record"), true, 900 );
+  $related_menu->AddOption( sprintf(translate("View %s"), $user->Get('fullname')), $c->base_url.'/usr.php?user_no='.$user->user_no, translate("View this user record"), true, 900 );
   if ( $user->user_no > 0 ) {
     if ( $user->AllowedTo('update') && ! $user->EditMode ) {
-    	$user_menu->AddOption( sprintf(translate("Edit %s"), $user->Get('fullname')), "$c->base_url/usr.php?user_no=$user->user_no&edit=1", translate("Edit this user record"), true, 900 );
+    	$related_menu->AddOption( sprintf(translate("Edit %s"), $user->Get('fullname')), "$c->base_url/usr.php?user_no=$user->user_no&edit=1", translate("Edit this user record"), true, 900 );
     }
     else {
-      $user_menu->AddOption( sprintf(translate("View %s"), $user->Get('fullname')), "$c->base_url/usr.php?user_no=$user->user_no", translate("View this user record"), true, 900 );
+      $related_menu->AddOption( sprintf(translate("View %s"), $user->Get('fullname')), "$c->base_url/usr.php?user_no=$user->user_no", translate("View this user record"), true, 900 );
     }
   }
 
