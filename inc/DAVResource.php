@@ -13,6 +13,89 @@ require_once('AwlQuery.php');
 
 
 /**
+* Given a privilege string, or an array of privilege strings, return a bit mask
+* of the privileges.
+* @param mixed $raw_privs The string (or array of strings) of privilege names
+* @return integer A bit mask of the privileges.
+*/
+function privilege_to_bits( $raw_privs ) {
+  $out_priv = 0;
+
+  if ( gettype($raw_privs) == 'string' ) $raw_privs = array( $raw_privs );
+
+  foreach( $raw_privs AS $priv ) {
+    $priv = trim(strtolower(preg_replace( '/^.*:/', '', $priv)));
+    switch( $priv ) {
+      case 'read'                            : $out_priv &=  4609;  break;  // 1 + 512 + 4096
+      case 'write'                           : $out_priv &=   198;  break;  // 2 + 4 + 64 + 128
+      case 'write-properties'                : $out_priv &=     2;  break;
+      case 'write-content'                   : $out_priv &=     4;  break;
+      case 'unlock'                          : $out_priv &=     8;  break;
+      case 'read-acl'                        : $out_priv &=    16;  break;
+      case 'read-current-user-privilege-set' : $out_priv &=    32;  break;
+      case 'bind'                            : $out_priv &=    64;  break;
+      case 'unbind'                          : $out_priv &=   128;  break;
+      case 'write-acl'                       : $out_priv &=   256;  break;
+      case 'read-free-busy'                  : $out_priv &=  4608;  break; //  512 + 4096
+      case 'schedule-deliver'                : $out_priv &=  7168;  break; // 1024 + 2048 + 4096
+      case 'schedule-deliver-invite'         : $out_priv &=  1024;  break;
+      case 'schedule-deliver-reply'          : $out_priv &=  2048;  break;
+      case 'schedule-query-freebusy'         : $out_priv &=  4096;  break;
+      case 'schedule-send'                   : $out_priv &= 57344;  break; // 8192 + 16384 + 32768
+      case 'schedule-send-invite'            : $out_priv &=  8192;  break;
+      case 'schedule-send-reply'             : $out_priv &= 16384;  break;
+      case 'schedule-send-freebusy'          : $out_priv &= 32768;  break;
+    }
+  }
+  return $out_priv;
+}
+
+
+/**
+* Given a bit mask of the privileges, will return an array of the
+* text values of privileges.
+* @param integer $raw_bits A bit mask of the privileges.
+* @return mixed The string (or array of strings) of privilege names
+*/
+function bits_to_privilege( $raw_bits ) {
+  $out_priv = array();
+
+  if ( ($raw_bits & 16777215) == 16777215 ) $out_priv[] = 'all';
+
+  if ( (in_bits &   1) != 0 ) $out_priv[] = 'DAV::read';
+  if ( (in_bits &   8) != 0 ) $out_priv[] = 'DAV::unlock';
+  if ( (in_bits &  16) != 0 ) $out_priv[] = 'DAV::read-acl';
+  if ( (in_bits &  32) != 0 ) $out_priv[] = 'DAV::read-current-user-privilege-set';
+  if ( (in_bits & 256) != 0 ) $out_priv[] = 'DAV::write-acl';
+  if ( (in_bits & 512) != 0 ) $out_priv[] = 'urn:ietf:params:xml:ns:caldav:read-free-busy';
+
+  if ( (in_bits & 198) != 0 ) {
+    if ( (in_bits & 198) == 198 THEN $out_priv[] = 'DAV::write';
+    if ( (in_bits &   2) != 0 ) $out_priv[] = 'DAV::write-properties';
+    if ( (in_bits &   4) != 0 ) $out_priv[] = 'DAV::write-content';
+    if ( (in_bits &  64) != 0 ) $out_priv[] = 'DAV::bind';
+    if ( (in_bits & 128) != 0 ) $out_priv[] = 'DAV::unbind';
+  }
+
+  if ( (in_bits & 7168) != 0 ) {
+    if ( (in_bits & 7168) == 7168 ) $out_priv[] = 'urn:ietf:params:xml:ns:caldav:schedule-deliver';
+    if ( (in_bits & 1024) != 0 ) $out_priv[] = 'urn:ietf:params:xml:ns:caldav:schedule-deliver-invite';
+    if ( (in_bits & 2048) != 0 ) $out_priv[] = 'urn:ietf:params:xml:ns:caldav:schedule-deliver-reply';
+    if ( (in_bits & 4096) != 0 ) $out_priv[] = 'urn:ietf:params:xml:ns:caldav:schedule-query-freebusy';
+  }
+
+  if (in_bits & 57344) != 0 ) {
+    if (in_bits & 57344) == 57344 ) $out_priv[] = 'urn:ietf:params:xml:ns:caldav:schedule-send';
+    if (in_bits &  8192) != 0 ) $out_priv[] = 'urn:ietf:params:xml:ns:caldav:schedule-send-invite';
+    if (in_bits & 16384) != 0 ) $out_priv[] = 'urn:ietf:params:xml:ns:caldav:schedule-send-reply';
+    if (in_bits & 32768) != 0 ) $out_priv[] = 'urn:ietf:params:xml:ns:caldav:schedule-send-freebusy';
+  }
+
+  return $out_priv;
+}
+
+
+/**
 * A class for things to do with a DAV Resource
 *
 * @package   davical
@@ -50,9 +133,19 @@ class DAVResource
   protected $contenttype;
 
   /**
-  * @var True if this resource is a collection
+  * @var True if this resource is a collection of any kind
   */
   private $_is_collection;
+
+  /**
+  * @var An object which is the collection record for this resource, or for it's container
+  */
+  private $collection;
+
+  /**
+  * @var A bit mask representing the current user's privileges towards this DAVResource
+  */
+  private $privileges;
 
   /**
   * @var True if this resource is a principal-URL
@@ -87,6 +180,9 @@ class DAVResource
       if ( isset($parameters['path']) ) {
         $this->FromPath($parameters['path']);
       }
+    }
+    else if ( isset($parameters) && is_string($parameters) ) {
+      $this->FromPath($parameters);
     }
   }
 
@@ -129,14 +225,15 @@ class DAVResource
     /** strip doubled slashes */
     if ( strstr($this->path,'//') ) $this->path = preg_replace( '#//+#', '/', $this->path);
 
-    $this->FindCollection();
+    // $this->FetchCollection(); // Do this lazily when something refers to the data
   }
 
 
   /**
   * Find the collection associated with this resource.
   */
-  function FindCollection() {
+  function FetchCollection() {
+    globals $c, $session;
     /**
     * RFC4918, 8.3: Identifiers for collections SHOULD end in '/'
     *    - also discussed at more length in 5.2
@@ -150,22 +247,24 @@ class DAVResource
     */
     $this->collection = (object) array(
       'collection_id' => -1,
-      'type' => 'unknown',
+      'type' => 'nonexistent',
       'is_calendar' => false, 'is_principal' => false, 'is_addressbook' => false, 'resourcetypes' => '<DAV::collection/>',
-
     );
 
-    $sql = "SELECT * FROM collection WHERE dav_name = :raw_path ";
-    $params = array( ':raw_path' => $this->path);
+    $base_sql = 'SELECT collection.*, path_privileges(:session_principal, collection.dav_name), ';
+    $base_sql .= 'p.principal_id, p.type_id AS principal_type_id, p.active AS principal_active, ';
+    $base_sql .= 'p.displayname AS principal_displayname, p.default_privileges AS principal_default_privileges ';
+    $base_sql .= 'FROM collection LEFT JOIN principal p USING (user_no) WHERE ';
+    $sql = $base_sql .'dav_name = :raw_path ';
+    $params = array( ':raw_path' => $this->path, ':session_principal' => $session->principal_id );
     if ( !preg_match( '#/$#', $this->path ) ) {
       $sql .= ' OR dav_name = :up_to_slash OR dav_name = :plus_slash'
       $params[':up_to_slash'] = preg_replace( '#[^/]*$#', '', $this->path);
-      $params[':plus_slash']  = $this->path."/";
+      $params[':plus_slash']  = $this->path.'/';
     }
-    $sql .= "ORDER BY LENGTH(dav_name) DESC LIMIT 1";
+    $sql .= 'ORDER BY LENGTH(dav_name) DESC LIMIT 1';
     $qry = new AwlQuery( $sql, $params );
-    if ( $qry->Exec('caldav') && $qry->rows == 1 && ($row = $qry->Fetch()) ) {
-      $this->collection = $row;
+    if ( $qry->Exec('DAVResource') && $qry->rows == 1 && ($row = $qry->Fetch()) ) {
       $this->collection = $row;
       if ( $row->is_calendar == 't' ) $this->collection->type = 'calendar';
       else if ( $row->is_addressbook == 't' ) $this->collection->type = 'addressbook';
@@ -182,44 +281,152 @@ INSERT INTO collection ( user_no, parent_container, dav_name, dav_displayname, i
     VALUES( :user_no, :parent_container, :dav_name, :dav_displayname, FALSE, current_timestamp, current_timestamp, '1', :resourcetypes )
 EOSQL;
       $qry = new AwlQuery( $sql, $params );
-      $qry->Exec('caldav');
-      dbg_error_log( "caldav", "Created new collection as '$displayname'." );
+      $qry->Exec('DAVResource');
+      dbg_error_log( 'DAVResource', 'Created new collection as "$displayname".' );
 
-      $qry = new AwlQuery( "SELECT * FROM collection WHERE user_no = :user_no AND dav_name = :dav_name", $params );
-      if ( $qry->Exec('caldav') && $qry->rows == 1 && ($row = $qry->Fetch()) ) {
+      $qry = new AwlQuery( $base_sql . 'user_no = :user_no AND dav_name = :dav_name', $params );
+      if ( $qry->Exec('DAVResource') && $qry->rows == 1 && ($row = $qry->Fetch()) ) {
         $this->collection = $row;
         $this->collection->type = $this->collection_type;
       }
     }
     else if ( preg_match( '#^((/[^/]+/)calendar-proxy-(read|write))/?[^/]*$#', $this->path, $matches ) ) {
-      $this->collection_type = 'proxy';
+      $this->collection->type = 'proxy';
       $this->_is_proxy_request = true;
       $this->proxy_type = $matches[3];
-      $this->collection_path = $matches[1].'/';
+      $this->collection->dav_name = $matches[1].'/';
     }
-    else if ( $this->options['allow_by_email'] && preg_match( '#^/(\S+@\S+[.]\S+)/?$#', $this->path) ) {
-      /** @TODO: we should deprecate this now that Evolution 2.27 can do scheduling extensions */
-      $this->collection_id = -1;
-      $this->collection_type = 'email';
-      $this->collection_path = $this->path;
+    else if ( $this->options['allow_by_email'] && preg_match( '#^/(\S+@\S+[.]\S+)/?$#', $this->path, $matches) ) {
+      /** @TODO: perhaps we should deprecate this in favour of scheduling extensions */
+      $this->collection->type = 'principal_email';
+      $this->collection->dav_name = $matches[1].'/';
       $this->_is_principal = true;
     }
-    else if ( preg_match( '#^(/[^/]+)/?$#', $this->path, $matches) || preg_match( '#^(/principals/[^/]+/[^/]+)/?$#', $this->path, $matches) ) {
-      $this->collection_id = -1;
-      $this->collection_path = $matches[1].'/';  // Enforce trailling '/'
-      $this->collection_type = 'principal';
+    else if ( preg_match( '#^(/[^/]+)/?$#', $this->path, $matches) ) {
+      $this->collection->dav_name = $matches[1].'/';
+      $this->collection->type = 'principal';
       $this->_is_principal = true;
-      if ( preg_match( '#^(/principals/[^/]+/[^/]+)/?$#', $this->path, $matches) ) {
-        // Force a depth of 0 on these, which are at the wrong URL.
-        $this->depth = 0;
-      }
+    }
+    else if ( preg_match( '#^(/principals/[^/]+/[^/]+)/?$#', $this->path, $matches) ) {
+      $this->collection->dav_name = $matches[1].'/';
+      $this->collection->type = 'principal_link';
+      $this->_is_principal = true;
     }
     else if ( $this->path == '/' ) {
-      $this->collection_id = -1;
-      $this->collection_path = '/';
-      $this->collection_type = 'root';
+      $this->collection->dav_name = '/';
+      $this->collection->type = 'root';
     }
 
+    $this->_is_collection = ( $this->collection->dav_name == $this->path || $this->collection->dav_name == $this->path.'/' );
+    if ( $this->_is_collection ) {
+      $this->_is_calendar    = $this->collection->is_calendar;
+      $this->_is_addressbook = $this->collection->is_addressbook;
+    }
+  }
+
+
+  /**
+  * Build permissions for this URL
+  */
+  function FetchPrivileges() {
+    global $session;
+
+    if ( $this->path == '/' || $this->path == '' ) {
+      $this->privileges = 1; // read
+      dbg_error_log( 'DAVResource', 'Read permissions for user accessing /' );
+      return;
+    }
+
+    if ( $session->AllowedTo('Admin') || $session->user_no == $this->user_no ) {
+      $this->privileges = privilege_to_bits('all');
+      dbg_error_log( 'DAVResource', 'Full permissions for %s', ( $session->user_no == $this->user_no ? 'user accessing their own hierarchy' : 'an administrator') );
+      return;
+    }
+
+    $this->privileges = 0;
+    if ( !isset($this->collection) ) $this->FetchCollection();
+
+    $this->privileges = $this->collection->path_privileges;
+  }
+
+
+  /**
+  * Is the user has the privileges to do what is requested.
+  */
+  function HavePrivilegeTo( $do_what ) {
+    if ( !isset($this->privileges) ) $this->FetchPrivileges();
+    $test_bits = privilege_to_bits( $do_what );
+    return ($this->privileges & $test_bits) > 0;
+  }
+
+
+  /**
+  * Returns the array of privilege names converted into XMLElements
+  */
+  function RenderPrivileges( $privilege_names=null, $xmldoc=null ) {
+    if ( $privilege_names == null ) {
+      if ( !isset($this->privileges) ) $this->FetchPrivileges();
+      $privilege_names = bits_to_privilege($this->privileges);
+    }
+    if ( !isset($xmldoc) && isset($GLOBALS['reply']) ) $xmldoc = $GLOBALS['reply'];
+    $privileges = array();
+    foreach( $privilege_names AS $k ) {
+      dbg_error_log( 'DAVResource', 'Adding privilege "%s".', $k );
+      $privilege = new XMLElement('privilege');
+      if ( isset($xmldoc) )
+        $xmldoc->NSElement($privilege,$k);
+      else
+        $privilege->NewElement($k);
+      $privileges[] = $privilege;
+    }
+    return $privileges;
+  }
+
+
+  /**
+  * Checks whether the resource is locked, returning any lock token, or false
+  *
+  * @todo This logic does not catch all locking scenarios.  For example an infinite
+  * depth request should check the permissions for all collections and resources within
+  * that.  At present we only maintain permissions on a per-collection basis though.
+  */
+  function IsLocked( $depth = 0 ) {
+    if ( !isset($this->_locks_found) ) {
+      $this->_locks_found = array();
+      /**
+      * Find the locks that might apply and load them into an array
+      */
+      $sql = 'SELECT * FROM locks WHERE :this_path::text ~ (\'^\'||dav_name||:match_end)::text';
+      $qry = new AwlQuery($sql, array( ':this_path' => $this->path, ':match_end' => ($depth == DEPTH_INFINITY ? '' : '$') ) );
+      if ( $qry->Exec('DAVResource',__LINE__,__FILE__) ) {
+        while( $lock_row = $qry->Fetch() ) {
+          $this->_locks_found[$lock_row->opaquelocktoken] = $lock_row;
+        }
+      }
+      else {
+        $this->DoResponse(500,i18n("Database Error"));
+        // Does not return.
+      }
+    }
+
+    foreach( $this->_locks_found AS $lock_token => $lock_row ) {
+      if ( $lock_row->depth == DEPTH_INFINITY || $lock_row->dav_name == $this->path ) {
+        return $lock_token;
+      }
+    }
+
+    return false;  // Nothing matched
+  }
+
+
+  /**
+  * Checks whether the target collection is publicly_readable
+  */
+  function IsPublic() {
+    if ( isset($this->collection) && isset($this->collection->publicly_readable) && $this->collection->publicly_readable == 't' ) {
+      return true;
+    }
+    return false;
   }
 
 
