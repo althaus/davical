@@ -235,12 +235,14 @@ class AwlQuery
     else                  $this->connection = null;
 
     $argc = func_num_args();
+    $args = func_get_args();
 
-    $this->querystring = func_get_arg(0);
+    $this->querystring = array_shift($args);
     if ( 1 < $argc ) {
-      $args = func_get_args();
-      array_shift($args);
-      $this->Bind($args);
+      if ( is_array($args[0]) )
+        $this->Bind($args[0]);
+      else
+        $this->Bind($args);
     }
 
     return $this;
@@ -329,6 +331,22 @@ class AwlQuery
       $this->error_info = $this->connection->errorInfo();
     }
     else $this->error_info = null;
+  }
+
+
+  /**
+  * Return the query string we are planning to execute
+  */
+  function QueryString() {
+    return $this->querystring;
+  }
+
+
+  /**
+  * Return the parameters we are planning to substitute into the query string
+  */
+  function Parameters() {
+    return $this->bound_parameters;
   }
 
 
