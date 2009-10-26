@@ -281,7 +281,7 @@ $c->collections_always_exist = false;
 * are supported on your system.
 *
 * People interested in providing new translations are directed to the Wiki:
-*   http://rscds.sourceforge.net/moin/TranslatingRscds
+*   http://rscds.sourceforge.net/moin/Translating_DAViCal
 **/
 // $c->default_locale = "en_NZ";
 
