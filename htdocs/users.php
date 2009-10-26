@@ -8,11 +8,11 @@
 * @copyright Catalyst .Net Ltd
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v2
 */
-require_once("../inc/always.php");
-require_once("DAViCalSession.php");
+require_once('../inc/always.php');
+require_once('DAViCalSession.php');
 $session->LoginRequired();
 
-require_once("interactive-page.php");
+require_once('interactive-page.php');
 
 /**
 * Translate relationship names in the relationship_list for each user. See
@@ -35,11 +35,11 @@ if ( $qry->Exec('users') && $qry->rows > 0 ) {
   }
 }
 
-  require_once("classBrowser.php");
-  $c->stylesheets[] = "css/browse.css";
-  $c->scripts[] = "js/browse.js";
+  require_once('classBrowser.php');
+  $c->stylesheets[] = 'css/browse.css';
+  $c->scripts[] = 'js/browse.js';
 
-  $browser = new Browser(translate("Calendar Users"));
+  $browser = new Browser(translate('Calendar Users'));
 
   $browser->AddColumn( 'user_no', translate('No.'), 'right', '##user_link##' );
   $browser->AddColumn( 'username', translate('Name') );
@@ -47,33 +47,23 @@ if ( $qry->Exec('users') && $qry->rows > 0 ) {
   $browser->AddColumn( 'fullname', translate('Full Name') );
   $browser->AddColumn( 'email', translate('EMail') );
   $browser->AddColumn( 'relations', translate('Relationships'), '', '', 'relationship_list(user_no)', '', '', 'translate_relationship_list' );
-  $browser->AddOrder( 'username', 'A' );
+  $browser->SetOrdering( 'username', 'A' );
 
   $browser->SetJoins( 'usr' );
 
-  if ( isset( $_GET['o']) && isset($_GET['d']) ) {
-    $browser->AddOrder( $_GET['o'], $_GET['d'] );
-  }
-  else
-    $browser->AddOrder( 'user_no', 'A' );
-
   if ( $c->enable_row_linking ) {
-    $browser->RowFormat( "<tr onMouseover=\"LinkHref(this,1);\" title=\"".translate("Click to display user details")."\" class=\"r%d\">\n", "</tr>\n", '#even' );
+    $browser->RowFormat( '<tr onMouseover="LinkHref(this,1);" title="'.translate('Click to display user details').'" class="r%d">', '</tr>', '#even' );
   }
   else {
-    $browser->RowFormat( "<tr class=\"r%d\">\n", "</tr>\n", '#even' );
+    $browser->RowFormat( '<tr class="r%d">', '</tr>', '#even' );
   }
   $browser->DoQuery();
 
-  $c->page_title = translate("Calendar Users");
+  $c->page_title = translate('Calendar Users');
 
-  if ( $session->AllowedTo("Admin") )
-    $user_menu->AddOption(translate("New User"),"$c->base_url/usr.php?create",translate("Add a new user"), false, 10);
 
-  $active_menu_pattern = "#^$c->base_url/user#";
-
-include("page-header.php");
+include('page-header.php');
 
 echo $browser->Render();
 
-include("page-footer.php");
+include('page-footer.php');
