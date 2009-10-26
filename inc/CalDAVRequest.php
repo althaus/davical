@@ -10,8 +10,8 @@
 * @package   davical
 * @subpackage   Request
 * @author    Andrew McMillan <andrew@mcmillan.net.nz>
-* @copyright Catalyst .Net Ltd
-* @license   http://gnu.org/copyleft/gpl.html GNU GPL v2
+* @copyright Catalyst .Net Ltd, Morphoss Ltd
+* @license   http://gnu.org/copyleft/gpl.html GNU GPL v3 or later
 */
 
 require_once("XMLElement.php");
@@ -166,7 +166,7 @@ class CalDAVRequest
     * MOVE/COPY use a "Destination" header and (optionally) an "Overwrite" one.
     */
     if ( isset($_SERVER['HTTP_DESTINATION']) ) $this->destination = $_SERVER['HTTP_DESTINATION'];
-    $this->overwrite = ( isset($_SERVER['HTTP_OVERWRITE']) ? $_SERVER['HTTP_OVERWRITE'] : 'T' ); // RFC2518, 9.6 says default True.
+    $this->overwrite = ( isset($_SERVER['HTTP_OVERWRITE']) && ($_SERVER['HTTP_OVERWRITE'] == 'F') ? false : true ); // RFC4918, 9.8.4 says default True.
 
     /**
     * LOCK things use an "If" header to hold the lock in some cases, and "Lock-token" in others
@@ -1100,7 +1100,7 @@ EOSQL;
       }
     }
 
-    echo $message;
+    echo translate($message);
 
     if ( strlen($message) > 100 || strstr($message, "\n") ) {
       $message = substr( preg_replace("#\s+#m", ' ', $message ), 0, 100) . (strlen($message) > 100 ? "..." : "");
