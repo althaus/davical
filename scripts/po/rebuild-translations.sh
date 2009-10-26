@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 # Rebuild all of our strings to be translated.  Written for
-# the Really Simple CalDAV Store by Andrew McMillan vaguely
+# the DAViCal CalDAV Server by Andrew McMillan vaguely
 # based on something that originally came from Horde.
 #
 
@@ -11,8 +11,17 @@ POTOOLS="scripts/po"
 PODIR="po"
 LOCALEDIR="locale"
 APPLICATION="davical"
+AWL_LOCATION="../awl"
 
-${POTOOLS}/extract.pl htdocs inc ../awl/inc > ${PODIR}/strings.raw
+if [ ! -d "${AWL_LOCATION}" ]; then
+  AWL_LOCATION=/usr/share/awl
+  if [ ! -d "${AWL_LOCATION}" ]; then
+    echo "I can't find a location for the AWL libraries and I need those strings too"
+    exit 1
+  fi
+fi
+
+${POTOOLS}/extract.pl htdocs inc ${AWL_LOCATION}/inc > ${PODIR}/strings.raw
 xgettext --keyword=_ -C --no-location --output=${PODIR}/messages.tmp ${PODIR}/strings.raw
 sed -e 's/CHARSET/UTF-8/' <${PODIR}/messages.tmp >${PODIR}/messages.pot
 rm ${PODIR}/messages.tmp
