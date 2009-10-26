@@ -105,8 +105,8 @@ INSERT INTO group_member ( group_id, member_id)
                 FROM relationship JOIN principal g ON(to_user=g.user_no AND g.type_id = 3)    -- Group
                                   JOIN principal m ON(from_user=m.user_no AND m.type_id = 1); -- Person
 
-INSERT INTO grants ( by_principal, dav_name, to_principal, privileges, is_group )
-   SELECT pby.principal_id AS by_principal, '/' ||t.username||'/' AS dav_name, pto.principal_id AS to_principal,
+INSERT INTO grants ( by_principal, to_principal, privileges, is_group )
+   SELECT pby.principal_id AS by_principal, pto.principal_id AS to_principal,
                                   confers AS privileges, pto.type_id > 2 AS is_group
      FROM relationship r JOIN usr f ON(f.user_no=r.from_user)
                          JOIN usr t ON(t.user_no=r.to_user)

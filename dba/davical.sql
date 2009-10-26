@@ -277,7 +277,7 @@ CREATE INDEX group_member_sk ON group_member(member_id);
 
 CREATE TABLE grants (
   by_principal INT8 REFERENCES principal(principal_id) ON UPDATE CASCADE ON DELETE CASCADE DEFERRABLE,
-  dav_name TEXT,
+  by_collection INT8 REFERENCES collection(collection_id) ON UPDATE CASCADE ON DELETE CASCADE DEFERRABLE,
   to_principal INT8 REFERENCES principal(principal_id) ON UPDATE CASCADE ON DELETE CASCADE DEFERRABLE,
   privileges BIT(24),
   is_group BOOLEAN,
@@ -299,6 +299,5 @@ CREATE TABLE sync_changes (
   dav_name TEXT
 );
 CREATE INDEX sync_processing_index ON sync_changes( collection_id, dav_id, sync_time );
-
 
 SELECT new_db_revision(1,2,7, 'Juillet' );

@@ -545,7 +545,7 @@ DROP TABLE privilege CASCADE;
 
 CREATE TABLE grants (
   by_principal INT8 REFERENCES principal(principal_id) ON UPDATE CASCADE ON DELETE CASCADE DEFERRABLE,
-  dav_name TEXT,
+  by_collection INT8 REFERENCES collection(collection_id) ON UPDATE CASCADE ON DELETE CASCADE DEFERRABLE,
   to_principal INT8 REFERENCES principal(principal_id) ON UPDATE CASCADE ON DELETE CASCADE DEFERRABLE,
   privileges BIT(24),
   is_group BOOLEAN,
@@ -553,8 +553,8 @@ CREATE TABLE grants (
 ) WITHOUT OIDS;
 
 
-INSERT INTO grants ( by_principal, dav_name, to_principal, privileges, is_group )
-   SELECT pby.principal_id AS by_principal, '/' ||t.username||'/' AS dav_name, pto.principal_id AS to_principal,
+INSERT INTO grants ( by_principal, to_principal, privileges, is_group )
+   SELECT pby.principal_id AS by_principal, pto.principal_id AS to_principal,
                                   confers AS privileges, pto.type_id > 2 AS is_group
      FROM relationship r JOIN usr f ON(f.user_no=r.from_user)
                          JOIN usr t ON(t.user_no=r.to_user)
@@ -562,60 +562,6 @@ INSERT INTO grants ( by_principal, dav_name, to_principal, privileges, is_group 
                          JOIN principal pto ON(pto.user_no=f.user_no)
      WHERE rt_id < 4 AND pby.type_id < 3;
 
-
-CREATE or REPLACE FUNCTION get_permissions_new( INT, INT ) RETURNS BIT(24) AS $$
-DECLARE
-  in_accessor ALIAS FOR $1;
-  in_grantor  ALIAS FOR $2;
-  out_conferred BIT(24);
-BEGIN
-  out_conferred := 0::BIT(24);
-  -- Self can always have full access
-  IF in_grantor = in_accessor THEN
-    RETURN ~ out_conferred;
-  END IF;
-
-  SELECT bit_or(subquery.privileges) INTO out_conferred FROM
-     (SELECT privileges FROM grants WHERE by_principal = in_grantor AND to_principal = in_accessor AND NOT is_group
-                       UNION
-      SELECT privileges FROM grants JOIN group_member ON (to_principal=group_id AND member_id=in_accessor)
-                       WHERE by_principal = in_grantor AND is_group
-     ) AS subquery ;
-  IF out_conferred IS NULL THEN
-    SELECT default_privileges INTO out_conferred FROM principal WHERE principal_id = in_grantor;
-  END IF;
-
-  RETURN out_conferred;
-END;
-$$ LANGUAGE 'plpgsql' IMMUTABLE STRICT;
-
--- A list of the principals who can proxy to this principal
-CREATE or REPLACE FUNCTION i_proxy_to( INT ) RETURNS SETOF grants AS $$
-SELECT by_principal, dav_name, to_principal, privileges, is_group FROM grants WHERE by_principal = $1 AND NOT is_group
-     UNION
-SELECT by_principal, dav_name, member_id, privileges, is_group FROM grants
-              JOIN group_member ON (to_principal=group_id) where by_principal = $1 and is_group;
-$$ LANGUAGE 'SQL' STRICT;
-
--- A list of the principals who this principal can proxy
-CREATE or REPLACE FUNCTION proxied_by( INT ) RETURNS SETOF grants AS $$
-SELECT by_principal, dav_name, to_principal, privileges, is_group FROM grants WHERE to_principal = $1 AND NOT is_group
-     UNION
-SELECT by_principal, dav_name, member_id, privileges, is_group FROM grants
-              JOIN group_member ON (to_principal=group_id) where member_id = $1 and is_group;
-$$ LANGUAGE 'SQL' STRICT;
-
-CREATE or REPLACE FUNCTION proxy_list( INT ) RETURNS SETOF grants AS $$
-SELECT by_principal, dav_name, to_principal, privileges, is_group FROM grants WHERE by_principal = $1 AND NOT is_group
-     UNION
-SELECT by_principal, dav_name, member_id, privileges, is_group FROM grants
-              JOIN group_member ON (to_principal=group_id) where by_principal = $1 and is_group
-     UNION
-SELECT by_principal, dav_name, to_principal, privileges, is_group FROM grants WHERE to_principal = $1 AND NOT is_group
-     UNION
-SELECT by_principal, dav_name, member_id, privileges, is_group FROM grants
-              JOIN group_member ON (to_principal=group_id) where member_id = $1 and is_group;
-$$ LANGUAGE 'SQL' STRICT;
 
 SELECT new_db_revision(1,2,6, 'Juin' );
 
