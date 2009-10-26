@@ -7,7 +7,7 @@
 * @subpackage   ldap
 * @author    Maxime Delorme <mdelorme@tennaxia.net>
 * @copyright Maxime Delorme
-* @license   http://gnu.org/copyleft/gpl.html GNU GPL v2
+* @license   http://gnu.org/copyleft/gpl.html GNU GPL v2 or later
 */
 
 require_once("auth-functions.php");
@@ -176,7 +176,7 @@ class ldapDrivers
     }
 
     $dnUser = ldap_get_dn($this->connect, ldap_first_entry($this->connect,$entry));
-    
+
     if ($c->authenticate_hook['config']['i_use_mode_kerberos'] == "i_know_what_i_am_doing") {
     	dbg_error_log( "LOG", "drivers_ldap : Skipping password Check for user %s which should be the same as %s",$username , $_SERVER["REMOTE_USER"]);
       if ($username != $_SERVER["REMOTE_USER"]) {
@@ -343,7 +343,7 @@ function sync_LDAP(){
       $db_users[] = $db_user['username'];
       $db_users_info[$db_user['username']] = array('user_no' => $db_user['user_no'], 'updated' => $db_user['updated']);
     }
-    include_once("DAViCalUser.php");
+    require_once("DAViCalUser.php");
 
     $ldap_users = array_keys($ldap_users_info);
     // users only in ldap
