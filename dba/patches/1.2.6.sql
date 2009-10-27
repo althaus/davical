@@ -548,9 +548,10 @@ CREATE TABLE grants (
   by_collection INT8 REFERENCES collection(collection_id) ON UPDATE CASCADE ON DELETE CASCADE DEFERRABLE,
   to_principal INT8 REFERENCES principal(principal_id) ON UPDATE CASCADE ON DELETE CASCADE DEFERRABLE,
   privileges BIT(24),
-  is_group BOOLEAN,
-  PRIMARY KEY (dav_name, to_principal)
+  is_group BOOLEAN
 ) WITHOUT OIDS;
+CREATE UNIQUE INDEX grants_pk1 ON grants(by_principal,to_principal);
+CREATE UNIQUE INDEX grants_pk2 ON grants(by_collection,to_principal);
 
 
 INSERT INTO grants ( by_principal, to_principal, privileges, is_group )
