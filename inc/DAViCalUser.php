@@ -91,7 +91,7 @@ class DAViCalUser extends User
       $html .= $ef->SubmitButton( 'submit', (('insert' == $this->WriteType) ? translate('Create') : translate('Update')) );
       if ( 'insert' != $this->WriteType ) {
         $html .= '&nbsp; &nbsp; &nbsp; &nbsp; ';
-        $html .= sprintf('<a class="fsubmit" href="%s/usr.php?user_no=%s&action=delete_user">Delete User</a>', $c->base_url, $this->user_no );
+        $html .= sprintf('<a class="fsubmit" href="%s/usr.php?user_no=%s&action=delete_user">%s</a>', $c->base_url, $this->user_no, translate('Delete User') );
       }
       $html .= '</div>';
       $html .= $ef->EndForm();
