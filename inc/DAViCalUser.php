@@ -7,12 +7,14 @@
 * @author    Andrew McMillan <andrew@mcmillan.net.nz>
 * @copyright Catalyst .Net Ltd, Morphoss Ltd <http://www.morphoss.com/>
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v2
+*
+* @TODO: split this (& parent class) into a data-dealing class and a UI class in some way
 */
 
-include('User.php');
-require_once('classBrowser.php');  // DAViCalUser is included via drivers_ldap.php so this could already be loaded
-include('check_UTF8.php');
-include('caldav-PUT-functions.php');
+require('User.php');
+require_once('classBrowser.php');  // DAViCalUser is included via drivers_ldap.php (yuck!) so this could already be loaded
+require('check_UTF8.php');
+require('caldav-PUT-functions.php');
 
 $c->stylesheets[] = $c->base_url.'/css/browse.css';
 $c->scripts[] = $c->base_url.'/js/browse.js';
