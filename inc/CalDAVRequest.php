@@ -891,14 +891,27 @@ EOSQL;
   */
   function RenderSupportedMethods( ) {
     global $reply;
-    $methods = array();
+    $methods = new XMLElement('supported-method-set');
     foreach( $this->supported_methods AS $k => $v ) {
       dbg_error_log( 'caldav', 'Adding method "%s" which is "%s".', $k, $v );
-      $method = new XMLElement('method');
-      $reply->NSElement($method,$k);
-      $methods[] = new XMLElement('supported-method',$method);
+      $reply->NSElement( $methods, 'DAV::supported-method', null, array('name' => $k) );
     }
     return $methods;
+  }
+
+
+  /**
+  * Returns the array of supported methods converted into XMLElements
+  */
+  function RenderSupportedReports( ) {
+    global $reply;
+    $reports = array();
+    foreach( $this->supported_reports AS $k => $v ) {
+      dbg_error_log( 'caldav', 'Adding supported report "%s" which is "%s".', $k, $v );
+      $report = new XMLElement('supported-report');
+      $reply->NSElement($report, $k );
+    }
+    return new XMLElement('supported-report-set', $reports);
   }
 
 
@@ -1100,7 +1113,8 @@ EOSQL;
       }
     }
 
-    echo translate($message);
+    header( "Content-Length: ".strlen($message) );
+    echo $message;
 
     if ( strlen($message) > 100 || strstr($message, "\n") ) {
       $message = substr( preg_replace("#\s+#m", ' ', $message ), 0, 100) . (strlen($message) > 100 ? "..." : "");
