@@ -70,7 +70,7 @@ function bits_to_privilege( $raw_bits ) {
   if ( (in_bits & 512) != 0 ) $out_priv[] = 'urn:ietf:params:xml:ns:caldav:read-free-busy';
 
   if ( (in_bits & 198) != 0 ) {
-    if ( (in_bits & 198) == 198 THEN $out_priv[] = 'DAV::write';
+    if ( (in_bits & 198) == 198 ) $out_priv[] = 'DAV::write';
     if ( (in_bits &   2) != 0 ) $out_priv[] = 'DAV::write-properties';
     if ( (in_bits &   4) != 0 ) $out_priv[] = 'DAV::write-content';
     if ( (in_bits &  64) != 0 ) $out_priv[] = 'DAV::bind';
@@ -84,11 +84,11 @@ function bits_to_privilege( $raw_bits ) {
     if ( (in_bits & 4096) != 0 ) $out_priv[] = 'urn:ietf:params:xml:ns:caldav:schedule-query-freebusy';
   }
 
-  if (in_bits & 57344) != 0 ) {
-    if (in_bits & 57344) == 57344 ) $out_priv[] = 'urn:ietf:params:xml:ns:caldav:schedule-send';
-    if (in_bits &  8192) != 0 ) $out_priv[] = 'urn:ietf:params:xml:ns:caldav:schedule-send-invite';
-    if (in_bits & 16384) != 0 ) $out_priv[] = 'urn:ietf:params:xml:ns:caldav:schedule-send-reply';
-    if (in_bits & 32768) != 0 ) $out_priv[] = 'urn:ietf:params:xml:ns:caldav:schedule-send-freebusy';
+  if ( (in_bits & 57344) != 0 ) {
+    if ( (in_bits & 57344) == 57344 ) $out_priv[] = 'urn:ietf:params:xml:ns:caldav:schedule-send';
+    if ( (in_bits &  8192) != 0 ) $out_priv[] = 'urn:ietf:params:xml:ns:caldav:schedule-send-invite';
+    if ( (in_bits & 16384) != 0 ) $out_priv[] = 'urn:ietf:params:xml:ns:caldav:schedule-send-reply';
+    if ( (in_bits & 32768) != 0 ) $out_priv[] = 'urn:ietf:params:xml:ns:caldav:schedule-send-freebusy';
   }
 
   return $out_priv;
@@ -103,9 +103,14 @@ function bits_to_privilege( $raw_bits ) {
 class DAVResource
 {
   /**
-  * @var The URL of the resource
+  * @var The partial URL of the resource within our namespace
   */
-  protected $href;
+  protected $dav_name;
+
+  /**
+  * @var Boolean: does the resource actually exist yet?
+  */
+  protected $exists;
 
   /**
   * @var The principal URL of the owner of the resource
@@ -133,11 +138,6 @@ class DAVResource
   protected $contenttype;
 
   /**
-  * @var True if this resource is a collection of any kind
-  */
-  private $_is_collection;
-
-  /**
   * @var An object which is the collection record for this resource, or for it's container
   */
   private $collection;
@@ -146,6 +146,11 @@ class DAVResource
   * @var A bit mask representing the current user's privileges towards this DAVResource
   */
   private $privileges;
+
+  /**
+  * @var True if this resource is a collection of any kind
+  */
+  private $_is_collection;
 
   /**
   * @var True if this resource is a principal-URL
@@ -169,8 +174,17 @@ class DAVResource
   *     read elsewhere.
   */
   function __construct( $parameters = null ) {
-    $this->_is_principal = false;
+    $this->exists        = null;
+    $this->dav_name      = null;
+    $this->principal_url = null;
+    $this->unique_tag    = null;
+    $this->content       = null;
+    $this->resourcetype  = null;
+    $this->contenttype   = null;
+    $this->privileges    = null;
+
     $this->_is_collection = false;
+    $this->_is_principal = false;
     $this->_is_calendar = false;
     $this->_is_addressbook = false;
     if ( isset($parameters) && is_object($parameters) ) {
@@ -194,6 +208,9 @@ class DAVResource
   function FromRow($row) {
     global $c;
 
+    if ( $row == null ) return;
+
+    $this->exists = true;
     foreach( $row AS $k => $v ) {
       dbg_error_log( 'resource', 'Processing resource property "%s" has "%s".', $row->dav_name, $k );
       switch ( $k ) {
@@ -215,17 +232,23 @@ class DAVResource
   function FromPath($inpath) {
     global $c;
 
-    $this->path = rawurldecode($inpath);
+    $ourpath = rawurldecode($inpath);
 
     /** Allow a path like .../username/calendar.ics to translate into the calendar URL */
-    if ( preg_match( '#^(/[^/]+/[^/]+).ics$#', $this->path, $matches ) ) {
-      $this->path = $matches[1]. '/';
+    if ( preg_match( '#^(/[^/]+/[^/]+).ics$#', $ourpath, $matches ) ) {
+      $ourpath = $matches[1]. '/';
     }
 
     /** strip doubled slashes */
-    if ( strstr($this->path,'//') ) $this->path = preg_replace( '#//+#', '/', $this->path);
+    if ( strstr($ourpath,'//') ) $ourpath = preg_replace( '#//+#', '/', $ourpath);
 
-    // $this->FetchCollection(); // Do this lazily when something refers to the data
+    /** remove any leading protocol/server/port/prefix... */
+    $base_path = ConstructURL('/');
+    $this->dav_name = str_replace( $base_path, '/', $ourpath );
+
+    if ( substr($this->dav_name,0,1) != '/' ) {
+      $this->dav_name = '/'.$this->dav_name;
+    }
   }
 
 
@@ -233,7 +256,7 @@ class DAVResource
   * Find the collection associated with this resource.
   */
   function FetchCollection() {
-    globals $c, $session;
+    global $c, $session;
     /**
     * RFC4918, 8.3: Identifiers for collections SHOULD end in '/'
     *    - also discussed at more length in 5.2
@@ -256,11 +279,11 @@ class DAVResource
     $base_sql .= 'p.displayname AS principal_displayname, p.default_privileges AS principal_default_privileges ';
     $base_sql .= 'FROM collection LEFT JOIN principal p USING (user_no) WHERE ';
     $sql = $base_sql .'dav_name = :raw_path ';
-    $params = array( ':raw_path' => $this->path, ':session_principal' => $session->principal_id );
-    if ( !preg_match( '#/$#', $this->path ) ) {
-      $sql .= ' OR dav_name = :up_to_slash OR dav_name = :plus_slash'
-      $params[':up_to_slash'] = preg_replace( '#[^/]*$#', '', $this->path);
-      $params[':plus_slash']  = $this->path.'/';
+    $params = array( ':raw_path' => $this->dav_name, ':session_principal' => $session->principal_id );
+    if ( !preg_match( '#/$#', $this->dav_name ) ) {
+      $sql .= ' OR dav_name = :up_to_slash OR dav_name = :plus_slash';
+      $params[':up_to_slash'] = preg_replace( '#[^/]*$#', '', $this->dav_name);
+      $params[':plus_slash']  = $this->dav_name.'/';
     }
     $sql .= 'ORDER BY LENGTH(dav_name) DESC LIMIT 1';
     $qry = new AwlQuery( $sql, $params );
@@ -270,7 +293,7 @@ class DAVResource
       else if ( $row->is_addressbook == 't' ) $this->collection->type = 'addressbook';
       else $this->collection->type = 'collection';
     }
-    else if ( preg_match( '#^((/[^/]+/)\.(in|out)/)[^/]*$#', $this->path, $matches ) ) {
+    else if ( preg_match( '#^((/[^/]+/)\.(in|out)/)[^/]*$#', $this->dav_name, $matches ) ) {
       // The request is for a scheduling inbox or outbox (or something inside one) and we should auto-create it
       $params = array( ':user_no' => $session->user_no, ':parent_container' => $matches[2], ':dav_name' => $matches[1] );
       $params['displayname'] = $session->fullname . ($matches[3] == 'in' ? ' Inbox' : ' Outbox');
@@ -290,38 +313,59 @@ EOSQL;
         $this->collection->type = $this->collection_type;
       }
     }
-    else if ( preg_match( '#^((/[^/]+/)calendar-proxy-(read|write))/?[^/]*$#', $this->path, $matches ) ) {
+    else if ( preg_match( '#^((/[^/]+/)calendar-proxy-(read|write))/?[^/]*$#', $this->dav_name, $matches ) ) {
       $this->collection->type = 'proxy';
       $this->_is_proxy_request = true;
       $this->proxy_type = $matches[3];
       $this->collection->dav_name = $matches[1].'/';
     }
-    else if ( $this->options['allow_by_email'] && preg_match( '#^/(\S+@\S+[.]\S+)/?$#', $this->path, $matches) ) {
+    else if ( $this->options['allow_by_email'] && preg_match( '#^/(\S+@\S+[.]\S+)/?$#', $this->dav_name, $matches) ) {
       /** @TODO: perhaps we should deprecate this in favour of scheduling extensions */
       $this->collection->type = 'principal_email';
       $this->collection->dav_name = $matches[1].'/';
       $this->_is_principal = true;
     }
-    else if ( preg_match( '#^(/[^/]+)/?$#', $this->path, $matches) ) {
+    else if ( preg_match( '#^(/[^/]+)/?$#', $this->dav_name, $matches) ) {
       $this->collection->dav_name = $matches[1].'/';
       $this->collection->type = 'principal';
       $this->_is_principal = true;
     }
-    else if ( preg_match( '#^(/principals/[^/]+/[^/]+)/?$#', $this->path, $matches) ) {
+    else if ( preg_match( '#^(/principals/[^/]+/[^/]+)/?$#', $this->dav_name, $matches) ) {
       $this->collection->dav_name = $matches[1].'/';
       $this->collection->type = 'principal_link';
       $this->_is_principal = true;
     }
-    else if ( $this->path == '/' ) {
+    else if ( $this->dav_name == '/' ) {
       $this->collection->dav_name = '/';
       $this->collection->type = 'root';
     }
 
-    $this->_is_collection = ( $this->collection->dav_name == $this->path || $this->collection->dav_name == $this->path.'/' );
+    $this->_is_collection = ( $this->collection->dav_name == $this->dav_name || $this->collection->dav_name == $this->dav_name.'/' );
     if ( $this->_is_collection ) {
       $this->_is_calendar    = $this->collection->is_calendar;
       $this->_is_addressbook = $this->collection->is_addressbook;
+      $this->contenttype = 'httpd/unix-directory';
     }
+  }
+
+
+  /**
+  * Retrieve the actual resource.
+  */
+  function FetchResource() {
+    global $c, $session;
+
+    if ( isset($this->exists) ) return;   // True or false, we've got what we can already
+    if ( !isset($this->collection) ) $this->FetchCollection();
+    if ( $this->_is_collection ) return;   // We have all we're going to read
+
+    $sql = <<<EOQRY
+SELECT * FROM caldav_data LEFT JOIN calendar_item USING (collection_id,dav_id)
+     WHERE caldav_data.dav_name = :dav_name
+EOQRY;
+    $params = array( ':dav_name' => $this->dav_name );
+    $qry = new AwlQuery( $sql, $params );
+
   }
 
 
@@ -331,7 +375,7 @@ EOSQL;
   function FetchPrivileges() {
     global $session;
 
-    if ( $this->path == '/' || $this->path == '' ) {
+    if ( $this->dav_name == '/' || $this->dav_name == '' ) {
       $this->privileges = 1; // read
       dbg_error_log( 'DAVResource', 'Read permissions for user accessing /' );
       return;
@@ -397,7 +441,7 @@ EOSQL;
       * Find the locks that might apply and load them into an array
       */
       $sql = 'SELECT * FROM locks WHERE :this_path::text ~ (\'^\'||dav_name||:match_end)::text';
-      $qry = new AwlQuery($sql, array( ':this_path' => $this->path, ':match_end' => ($depth == DEPTH_INFINITY ? '' : '$') ) );
+      $qry = new AwlQuery($sql, array( ':this_path' => $this->dav_name, ':match_end' => ($depth == DEPTH_INFINITY ? '' : '$') ) );
       if ( $qry->Exec('DAVResource',__LINE__,__FILE__) ) {
         while( $lock_row = $qry->Fetch() ) {
           $this->_locks_found[$lock_row->opaquelocktoken] = $lock_row;
@@ -410,12 +454,24 @@ EOSQL;
     }
 
     foreach( $this->_locks_found AS $lock_token => $lock_row ) {
-      if ( $lock_row->depth == DEPTH_INFINITY || $lock_row->dav_name == $this->path ) {
+      if ( $lock_row->depth == DEPTH_INFINITY || $lock_row->dav_name == $this->dav_name ) {
         return $lock_token;
       }
     }
 
     return false;  // Nothing matched
+  }
+
+
+  /**
+  * Checks whether this resource actually exists, in the virtual sense, within the hierarchy
+  */
+  function Exists() {
+    if ( isset($this->exists) ) return $this->exists;
+    if ( isset($this->collection) && isset($this->collection->publicly_readable) && $this->collection->publicly_readable == 't' ) {
+      return true;
+    }
+    return false;
   }
 
 
@@ -446,7 +502,7 @@ EOSQL;
         break;
 
       case 'DAV::getcontenttype':
-        $prop->NewElement('getcontenttype', $this->contenttype );
+        if ( isset($this->contenttype) ) $prop->NewElement('getcontenttype', $this->contenttype );
         break;
 
       case 'DAV::resourcetype':
@@ -454,16 +510,16 @@ EOSQL;
         break;
 
       case 'DAV::displayname':
-        $prop->NewElement('displayname', $this->displayname );
+        if ( isset($this->displayname) ) $prop->NewElement('displayname', $this->displayname );
         break;
 
-//      case 'DAV::getlastmodified':
-//        $prop->NewElement('getlastmodified', $this->modified );
-//        break;
+      case 'DAV::getlastmodified':
+        $prop->NewElement('getlastmodified', $this->last_modified );
+        break;
 
-//      case 'DAV::creationdate':
-//        $prop->NewElement('creationdate', $this->created );
-//        break;
+      case 'DAV::creationdate':
+        $prop->NewElement('creationdate', $this->created );
+        break;
 
       case 'DAV::getcontentlanguage':
         $locale = (isset($c->current_locale) ? $c->current_locale : '');
@@ -471,10 +527,10 @@ EOSQL;
         $prop->NewElement('getcontentlanguage', $locale );
         break;
 
-//      case 'DAV::owner':
-//        // After a careful reading of RFC3744 we see that this must be the principal-URL of the owner
-//        $reply->DAVElement( $prop, 'owner', $reply->href( $this->principal_url) ) );
-//        break;
+      case 'DAV::owner':
+        // After a careful reading of RFC3744 we see that this must be the principal-URL of the owner
+        $reply->DAVElement( $prop, 'owner', $reply->href( $this->principal_url) );
+        break;
 
       // Empty tag responses.
       case 'DAV::alternate-URI-set':
@@ -510,7 +566,7 @@ EOSQL;
         break;
 
       default:
-        dbg_error_log( 'resource', 'Request for unsupported property "%s" of path "%s".', $tag, $this->href );
+        dbg_error_log( 'resource', 'Request for unsupported property "%s" of path "%s".', $tag, $this->dav_name );
         return false;
     }
     return true;
@@ -533,9 +589,9 @@ EOSQL;
     $denied = array();
     $not_found = array();
     foreach( $properties AS $k => $tag ) {
-      dbg_error_log( 'resource', 'Looking at resource "%s" for property [%s]"%s".', $this->href, $k, $tag );
+      dbg_error_log( 'resource', 'Looking at resource "%s" for property [%s]"%s".', $this->dav_name, $k, $tag );
       if ( ! $this->ResourceProperty($tag, $prop, $reply) ) {
-        dbg_error_log( 'resource', 'Request for unsupported property "%s" of resource "%s".', $tag, $this->href );
+        dbg_error_log( 'resource', 'Request for unsupported property "%s" of resource "%s".', $tag, $this->dav_name );
         $not_found[] = $reply->Tag($tag);
       }
     }
@@ -593,7 +649,7 @@ EOSQL;
     $status = new XMLElement('status', 'HTTP/1.1 200 OK' );
 
     $propstat = new XMLElement( 'propstat', array( $prop, $status) );
-    $href = $reply->href($this->url );
+    $href = $reply->href( ConstructURL($this->dav_name) ); /** TODO: make ::href() into an accessor */
 
     $elements = array($href,$propstat);
 
