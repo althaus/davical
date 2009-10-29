@@ -8,7 +8,7 @@ require_once("interactive-page.php");
 $user_no = ( isset($_GET['user_no']) ? intval($_GET['user_no']) : 0 );
 
 if ( !$session->AllowedTo("Admin") && ($user_no == 0 || $user_no != $session->user_no) ) {
-  $c->messages[] = "You may only review the contents of your own collections in this interface.";
+  $c->messages[] = i18n('You may only review the contents of your own collections in this interface.');
   include("page-header.php");
   include("page-footer.php");
   exit(0);

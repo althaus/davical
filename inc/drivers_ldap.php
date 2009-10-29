@@ -63,7 +63,7 @@ class ldapDrivers
           $this->connect=ldap_connect($host);
 
       if (! $this->connect){
-          $c->messages[] = sprintf(i18n( "drivers_ldap : Unable to connect to LDAP with port %s on host %s"), $port,$host );
+          $c->messages[] = sprintf(translate( 'drivers_ldap : Unable to connect to LDAP with port %s on host %s'), $port, $host );
           $this->valid=false;
           return ;
       }
@@ -73,12 +73,12 @@ class ldapDrivers
       // Start TLS if desired (requires protocol version 3)
       if (isset($config['startTLS'])) {
         if (!ldap_set_option($this->connect, LDAP_OPT_PROTOCOL_VERSION, 3)) {
-          $c->messages[] = sprintf(i18n( "drivers_ldap : Failed to set LDAP to use protocol version 3, TLS not supported") );
+          $c->messages[] = i18n('drivers_ldap : Failed to set LDAP to use protocol version 3, TLS not supported');
           $this->valid=false;
           return;
         }
         if (!ldap_start_tls($this->connect)) {
-          $c->messages[] = sprintf(i18n( "drivers_ldap : Could not start TLS: ldap_start_tls() failed") );
+          $c->messages[] = i18n('drivers_ldap : Could not start TLS: ldap_start_tls() failed');
           $this->valid=false;
           return;
         }
@@ -129,8 +129,12 @@ class ldapDrivers
     foreach($this->baseDNUsers as $baseDNUsers) {
       $entry = $query($this->connect,$baseDNUsers,$this->filterUsers,$attributes);
 
-      if (!ldap_first_entry($this->connect,$entry))
-        $c->messages[] = sprintf(i18n("Error NoUserFound with filter >%s<, attributes >%s< , dn >%s<"),$this->filterUsers,join(', ',$attributes), $baseDNUsers);
+      if (!ldap_first_entry($this->connect,$entry)) {
+        $c->messages[] = sprintf(translate('Error NoUserFound with filter >%s<, attributes >%s< , dn >%s<'),
+                                 $this->filterUsers,
+                                 join(', ', $attributes),
+                                 $baseDNUsers);
+      }
 
       for($i = ldap_first_entry($this->connect,$entry);
           $i && $arr = ldap_get_attributes($this->connect,$i);

@@ -464,7 +464,7 @@ EOSQL;
           $c->messages[] = sprintf(translate('Calendar "%s" for user "%s" was created.'), $path_ics, $this->Get('username'));
         }
         else {
-          $c->messages[] =  sprintf(translate('The file is not UTF-8 encoded, please check the error for more details.') );
+          $c->messages[] =  i18n('The file is not UTF-8 encoded, please check the error for more details.');
         }
       }
       return true;

@@ -40,7 +40,7 @@ function rollback_on_error( $caldav_context, $user_no, $path, $message='', $erro
   }
 
   global $c;
-  $c->messages[] = sprintf('Status: %d, Message: %s, User: %d, Path: %s', $error_no, $message, $user_no, $path);
+  $c->messages[] = sprintf(translate('Status: %d, Message: %s, User: %d, Path: %s'), $error_no, $message, $user_no, $path);
 
 }
 

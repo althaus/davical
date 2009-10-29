@@ -29,10 +29,6 @@ if(isset($_POST['import_from_directory'])){
 }
 
 
-include("page-header.php");
-$Tools = new Tools();
-
-$Tools->render();
 class Tools {
 
   function render(){
@@ -132,17 +128,17 @@ class Tools {
           if ( check_string($ics) ) {
             $path = "/".substr($file,0,-4).$path_ics;
             dbg_error_log( "importFromDirectory", "importing to $path");
-            include_once("caldav-PUT-functions.php");
+            require_once("caldav-PUT-functions.php");
             if ( $user = getUserByName(substr($file,0,-4),'importFromDirectory',__LINE__,__FILE__)) {
               $user_no = $user->user_no;
             }
             if(controlRequestContainer(substr($file,0,-4),$user_no, $path,false) === -1)
               continue;
             import_collection($ics,$user_no,$path,1);
-            $c->messages[] = sprintf(translate("all events of user %s were deleted and replaced by those from file %s"),substr($file,0,-4),$dir.'/'.$file);
+            $c->messages[] = sprintf(translate('all events of user %s were deleted and replaced by those from file %s'),substr($file,0,-4),$dir.'/'.$file);
           }
           else {
-            $c->messages[] =  sprintf(translate("the file %s is not UTF-8 encoded, please check error for more details"),$dir.'/'.$file);
+            $c->messages[] = sprintf(translate('the file %s is not UTF-8 encoded, please check error for more details'),$dir.'/'.$file);
           }
         }
       }
@@ -151,5 +147,8 @@ class Tools {
   }
 }
 
-include("page-footer.php");
+$Tools = new Tools();
 
+include("page-header.php");
+$Tools->render();
+include("page-footer.php");

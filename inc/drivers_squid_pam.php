@@ -39,7 +39,7 @@ class squidPamDrivers
   {
       global $c;
       if (! file_exists($config)){
-          $c->messages[] = sprintf(i18n( "drivers_squid_pam : Unable to find %s file"), $config );
+          $c->messages[] = sprintf(i18n( 'drivers_squid_pam : Unable to find %s file'), $config );
           $this->valid=false;
           return ;
       }
