@@ -135,7 +135,7 @@ class ldapDrivers
                                  join(', ', $attributes),
                                  $baseDNUsers);
       }
-
+      $row = array();
       for($i = ldap_first_entry($this->connect,$entry);
           $i && $arr = ldap_get_attributes($this->connect,$i);
           $i = ldap_next_entry($this->connect,$i) ) {
