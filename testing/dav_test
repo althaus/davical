@@ -13,14 +13,15 @@ my $debug  = 0;
 my $dsn    = "davical";
 my $dbuser = "";
 my $dbpass = "";
-my $suite;
 my $webhost = 'mycaldav';
 my $althost = 'myempty';
-my $test;
+my $testdef;
+my $suite;
+my $case;
 my $helpmeplease = 0;
 
 my $dbadir = $0;
-$dbadir =~ s#/[^/]*$##;
+$dbadir =~ s{/[^/]*$}{};
 my $patchdir = $dbadir . "/patches";
 
 
@@ -28,20 +29,16 @@ GetOptions ('debug!'    => \$debug,
             'dsn=s'     => \$dsn,
             'dbuser=s'  => \$dbuser,
             'dbpass=s'  => \$dbpass,
-            'suite=s'   => \$suite,
             'webhost=s' => \$webhost,
             'althost=s' => \$althost,
-            'case=s'    => \$test,
+            'test=s'    => \$testdef,
+            'suite=s'   => \$suite,
+            'case=s'    => \$case,
             'help'      => \$helpmeplease  );
 
-usage() if ( $helpmeplease || !defined($suite) || !defined($test));
+usage() if ( $helpmeplease || ((!defined($suite) || !defined($case)) && !defined($testdef)));
 
-############################################################
-# Open database connection. Note that the standard PostgreSQL
-# environment variables will also work with DBD::Pg.
-############################################################
-$dsn = "dbi:Pg:dbname=$dsn";
-my $dbh = DBI->connect($dsn, $dbuser, $dbpass, { AutoCommit => 0 } ) or die "Can't connect to database $dsn";
+my $dbh;
 
 
 my @arguments = ( "--basic", "--proxy", "" );
@@ -52,7 +49,13 @@ my $url;
 my $is_head_request = 0;
 my @auth = ( "--user", "user1:user1" );
 
-my $datafile = "tests/$suite/$test.data";
+if ( !defined($testdef) ) {
+  $testdef = "tests/$suite/$case.test";
+}
+
+my $datafile = $testdef;
+$datafile =~ s{\.test$}{};
+$datafile .= '.data';
 
 my $state = "";
 my $data_binary;
@@ -63,7 +66,7 @@ my $sql_values = {};
 my $queries = ();
 my $replacements = ();
 
-open( TEST, '<', "tests/$suite/$test.test" ) or die "Can't open 'tests/$suite/$test.test'";
+open( TEST, '<', $testdef ) or die "Can't open '$testdef'";
 while( <TEST> ) {
   my $line = $_;
 
@@ -111,7 +114,19 @@ while( <TEST> ) {
   };
 
   $line =~ /^\s*DATA\s*=\s*(\S.*)$/ && do {
-    $datafile="tests/$suite/$1.data";
+    my $basename = $1;
+    if ( -e "tests/$suite/$basename.data" ) {
+      $datafile="tests/$suite/$basename.data";
+    }
+    elsif ( -e "$basename.data" ) {
+      $datafile="$basename.data";
+    }
+    elsif ( -e $basename ) {
+      $datafile=$basename;
+    }
+    else {
+      die "Can't find DATA file $basename or $basename.data";
+    }
   };
 
   $line =~ /^BEGINDATA\s*$/ && do {
@@ -197,6 +212,7 @@ while( <RESULTS> ) {
 }
 
 if ( defined(@{$queries}) && @{$queries} ) {
+  opendb() unless defined($dbh);
   print STDERR "Processing special queries\n" if ( $debug );
   foreach $sql_statement ( @$queries ) {
     # run SQL statement and dump results, into array of hashes
@@ -228,16 +244,28 @@ sub get_sql_value {
   my $values  = shift;
   my $sql = shift;
 
+  opendb() unless defined($dbh);
   my $results = $dbh->selectall_arrayref($sql);
   print STDERR "RESULT for $varname is ", $results->[0][0], "\n" if ( $debug );
   $values->{$varname} = (defined($results->[0][0]) ? $results->[0][0] : "");
+}
+
+=item opendb()
+Opens the database connection to the global $dbh handle.
+Note that the standard PostgreSQL environment variables will also work
+with DBD::Pg.
+=cut
+sub opendb {
+  $dsn = "dbi:Pg:dbname=$dsn";
+  $dbh = DBI->connect($dsn, $dbuser, $dbpass, { AutoCommit => 0 } ) or die "Can't connect to database $dsn";
 }
 
 
 sub usage {
   print <<EOERROR ;
 
-Usage:   dav_test [DB opts] --suite <testsuite> --case <testname>
+Usage:
+  dav_test [DB opts] [--suite <testsuite> --case <testname>] | [--test <filename>]
 
 This program will read the file 'tests/<testsuite>/<testname>.test
 and follow the instructions there.
