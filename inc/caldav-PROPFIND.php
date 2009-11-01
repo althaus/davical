@@ -61,6 +61,8 @@ foreach( $request->xml_tags AS $k => $v ) {
     case 'DAV::allprop':                        /** limited support, needs to be checked for correctness at some point */
     case 'DAV::group-member-set':               /** limited support, at the moment used for caldav proxy */
     case 'DAV::group-membership':				/** limited support, at the moment used for caldav proxy */
+    case 'DAV::supported-method-set':           /** Should work fine */
+    case 'DAV::supported-report-set':           /** Should work fine */
 
     /**
     * Handled CalDAV properties
@@ -296,6 +298,14 @@ function add_general_properties( &$prop, &$denied, $record ) {
   if ( isset($prop_list['DAV::supported-privilege-set']) ) {
     $reply->DAVElement( $prop, 'supported-privilege-set', privileges( $request->SupportedPrivileges(), 'supported-privilege') );
   }
+
+  if ( isset($prop_list['DAV::supported-method-set']) ) {
+    $reply->DAVElement( $prop, 'supported-method-set', $request->BuildSupportedMethods() );
+  }
+  if ( isset($prop_list['DAV::supported-report-set']) ) {
+    $reply->DAVElement( $prop, 'supported-report-set', $request->BuildSupportedReports() );
+  }
+
 
 }
 
