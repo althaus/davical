@@ -408,10 +408,12 @@ function collection_to_xml( $collection ) {
   $prop = $reply->NewXMLElement( 'prop', false, false, 'DAV:');
   $denied = $reply->NewXMLElement( 'prop', false, false, 'DAV:');
 
-  $collection->type = ($collection->is_calendar == 't' ? 'calendar' : ($collection->is_principal == 't' ? 'principal' : '') );
+  $collection->type = ($collection->is_calendar == 't' ? 'calendar' :
+                        (isset($collection->is_addressbook) && $collection->is_addressbook == 't' ? 'addressbook' : '') );
   if ( preg_match( '#^((/[^/]+/)\.(in|out)/)[^/]*$#', $collection->dav_name, $matches ) ) {
-    $collection->type = $matches[3];
+    $collection->type = 'schedule-'.$matches[3].'box';
   }
+  dbg_error_log('PROPFIND','Collection "%s" is type "%s"', $collection->dav_name, $collection->type );
 
   /**
   * First process any static values we do support
@@ -422,10 +424,12 @@ function collection_to_xml( $collection ) {
     $collations[] = $reply->NewXMLElement($reply->Caldav('supported-collation'), 'i;octet');
     $prop->NewElement($reply->Caldav('supported-collation-set'), $collations );
   }
-  if ( isset($prop_list['urn:ietf:params:xml:ns:caldav:supported-calendar-component-set']) && $request->IsCalendar() ) {
-    // Note that this won't appear on a PROPFIND against a Principal URL, since this routine is only called for a collection
+  if ( isset($prop_list['urn:ietf:params:xml:ns:caldav:supported-calendar-component-set']) && ($collection->type == 'calendar' || $collection->type == 'schedule-inbox' ||$collection->type == 'schedule-outbox') ) {
     $components = array();
-    $set_of_components = array( 'VEVENT', 'VTODO', 'VJOURNAL', 'VTIMEZONE', 'VFREEBUSY' );
+    if ( $collection->type == 'calendar' )
+      $set_of_components = array( 'VEVENT', 'VTODO', 'VJOURNAL', 'VTIMEZONE', 'VFREEBUSY' );
+    else
+      $set_of_components = array( 'VEVENT', 'VTODO', 'VFREEBUSY' );
     foreach( $set_of_components AS $v ) {
       $components[] = $reply->NewXMLElement( 'comp', '', array('name' => $v), 'urn:ietf:params:xml:ns:caldav');
     }
@@ -442,22 +446,15 @@ function collection_to_xml( $collection ) {
                 || isset($prop_list['DAV::resourcetype']) ) {
     $resourcetypes = array( $reply->NewXMLElement('collection', false, false, 'DAV:') );
     $contentlength = false;
-    if ( $collection->is_calendar == 't' ) {
+    if ( $collection->type == 'schedule-inbox' || $collection->type == 'schedule-outbox' ) {
+      $resourcetypes[] = $reply->NewXMLElement( $collection->type, false, false, 'urn:ietf:params:xml:ns:caldav');
+    }
+    else if ( $collection->is_calendar == 't' ) {
       $resourcetypes[] = $reply->NewXMLElement( 'calendar', false, false,'urn:ietf:params:xml:ns:caldav');
-      $resourcetypes[] = $reply->NewXMLElement( 'schedule-calendar', false, false, 'urn:ietf:params:xml:ns:caldav' );
       $lqry = new PgQuery('SELECT sum(length(caldav_data)) FROM caldav_data WHERE user_no = ? AND dav_name ~ ?', $collection->user_no, $collection->dav_name.'[^/]+$' );
       if ( $lqry->Exec('PROPFIND',__LINE__,__FILE__) && $row = $lqry->Fetch() ) {
         $contentlength = $row->sum;
       }
-    }
-    else if ( $collection->type == 'in' ) {
-      $resourcetypes[] = $reply->NewXMLElement( 'schedule-inbox', false, false, 'urn:ietf:params:xml:ns:caldav');
-    }
-    else if ( $collection->type == 'out' ) {
-      $resourcetypes[] = $reply->NewXMLElement( 'schedule-outbox', false, false, 'urn:ietf:params:xml:ns:caldav');
-    }
-    if ( $collection->is_principal == 't' ) {
-      $resourcetypes[] = $reply->NewXMLElement( 'principal', false, false, 'DAV:');
     }
 
     if ( isset($collection->is_proxy) && $collection->is_proxy == 't' ) {
@@ -795,6 +792,9 @@ $url = ConstructURL( $request->path );
 $url = preg_replace( '#/$#', '', $url);
 $responses = array();
 if ( $request->IsPrincipal() ) {
+  if ( $request->principal->Exists() !== true ) {
+    $request->DoResponse( 404, translate('That resource is not present on this server.') );
+  }
   $responses[] = $request->principal->RenderAsXML(array_merge($prop_list,$arbitrary), $reply);
   if ( $request->depth > 0 ) {
     $collection = (object) array( 'dav_name' => '/'.$request->username.'/', 'is_calendar' => 'f', 'is_principal' => 't' );
@@ -807,9 +807,15 @@ elseif ( $request->IsProxyRequest() ) {
 }
 elseif ( $request->IsCollection() ) {
   $responses = get_collection( $request->depth, $request->user_no, $request->path );
+  if ( count($responses) < 1 ) {
+    $request->DoResponse( 404, translate('That resource is not present on this server.') );
+  }
 }
 elseif ( $request->AllowedTo('read') ) {
   $responses = get_item( $request->path );
+  if ( count($responses) < 1 ) {
+    $request->DoResponse( 404, translate('That resource is not present on this server.') );
+  }
 }
 else {
   $request->DoResponse( 403, translate('You do not have appropriate rights to view that resource.') );
