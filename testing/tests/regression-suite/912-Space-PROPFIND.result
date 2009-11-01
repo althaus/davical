@@ -1,8 +1,8 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule, extended-mkcol
-ETag: "cbdd4eaa0e099bc7a2dba03c79b70e16"
-Content-Length: 3086
+ETag: "c73f9be8b8862552e7cf90dbe97ca4f9"
+Content-Length: 2992
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -37,7 +37,6 @@ Content-Type: text/xml; charset="utf-8"
     <resourcetype>
      <collection/>
      <C1:calendar/>
-     <C1:schedule-calendar/>
     </resourcetype>
     <displayname>User Six home</displayname>
     <C:getctag>"759d51f273f3a052dc930a6795f6e070"</C:getctag>
@@ -61,7 +60,6 @@ Content-Type: text/xml; charset="utf-8"
     <resourcetype>
      <collection/>
      <C1:calendar/>
-     <C1:schedule-calendar/>
     </resourcetype>
     <displayname>Space Calendar</displayname>
     <C:getctag>"d0711d9c33f6c22359ee83adb7751cda"</C:getctag>
@@ -84,7 +82,6 @@ Content-Type: text/xml; charset="utf-8"
    <prop>
     <resourcetype>
      <collection/>
-     <principal/>
      <C:calendar-proxy-read/>
     </resourcetype>
     <displayname>/User Six/calendar-proxy-read/</displayname>
@@ -108,7 +105,6 @@ Content-Type: text/xml; charset="utf-8"
    <prop>
     <resourcetype>
      <collection/>
-     <principal/>
      <C:calendar-proxy-write/>
     </resourcetype>
     <displayname>/User Six/calendar-proxy-write/</displayname>

@@ -1,9 +1,7 @@
-HTTP/1.1 207 Multi-Status
+HTTP/1.1 404 Not Found
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule, extended-mkcol
-ETag: "07474790757c5e1b526ce4901889d6d3"
-Content-Length: 68
-Content-Type: text/xml; charset="utf-8"
+Content-Length: 44
+Content-Type: text/plain; charset="utf-8"
 
-<?xml version="1.0" encoding="utf-8" ?>
-<multistatus xmlns="DAV:"/>
+That resource is not present on this server.

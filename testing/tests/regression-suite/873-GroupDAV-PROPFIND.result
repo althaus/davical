@@ -1,23 +1,16 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule, extended-mkcol
-ETag: "2838d6f29caac1487eb93606999277dc"
-Content-Length: 4835
+ETag: "8498716b46690758ce031acc2e8605dd"
+Content-Length: 4642
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
-<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav" xmlns:A="http://calendarserver.org/ns/" xmlns:G="http://groupdav.org/" xmlns:C1="urn:ietf:params:xml:ns:carddav">
+<multistatus xmlns="DAV:" xmlns:A="http://calendarserver.org/ns/" xmlns:C="urn:ietf:params:xml:ns:caldav" xmlns:G="http://groupdav.org/" xmlns:C1="urn:ietf:params:xml:ns:carddav">
  <response>
   <href>/caldav.php/</href>
   <propstat>
    <prop>
-    <C:supported-calendar-component-set>
-     <C:comp name="VEVENT"/>
-     <C:comp name="VTODO"/>
-     <C:comp name="VJOURNAL"/>
-     <C:comp name="VTIMEZONE"/>
-     <C:comp name="VFREEBUSY"/>
-    </C:supported-calendar-component-set>
     <getcontenttype>httpd/unix-directory</getcontenttype>
     <resourcetype>
      <collection/>
@@ -35,6 +28,7 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
   <propstat>
    <prop>
+    <C:supported-calendar-component-set/>
     <G:component-set/>
     <C:calendar-description/>
     <C1:supported-address-data/>

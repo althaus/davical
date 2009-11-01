@@ -1,8 +1,8 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule, extended-mkcol
-ETag: "5771fd61ef8348f364c7fc69c578028a"
-Transfer-Encoding: chunked
+ETag: "fee4dee2807c6063429ae2b8914f0786"
+Content-Length: 8347
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -81,7 +81,6 @@ Content-Type: text/xml; charset="utf-8"
     <resourcetype>
      <collection/>
      <C1:calendar/>
-     <C1:schedule-calendar/>
     </resourcetype>
     <displayname>user1 home</displayname>
     <C:getctag>"9a28f344c1e0032e5967806f193a7cb7"</C:getctag>
@@ -148,7 +147,6 @@ Content-Type: text/xml; charset="utf-8"
     <resourcetype>
      <collection/>
      <C1:calendar/>
-     <C1:schedule-calendar/>
     </resourcetype>
     <displayname>created</displayname>
     <C:getctag>"bac273dae96780a3c8ed0c032266322c"</C:getctag>
@@ -215,7 +213,6 @@ Content-Type: text/xml; charset="utf-8"
     <resourcetype>
      <collection/>
      <C1:calendar/>
-     <C1:schedule-calendar/>
     </resourcetype>
     <displayname>iCal Calendar</displayname>
     <C:getctag>"ac192d10783fff90598af2facc8259df"</C:getctag>
@@ -272,16 +269,8 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/calendar-proxy-read/</href>
   <propstat>
    <prop>
-    <C1:supported-calendar-component-set>
-     <C1:comp name="VEVENT"/>
-     <C1:comp name="VTODO"/>
-     <C1:comp name="VJOURNAL"/>
-     <C1:comp name="VTIMEZONE"/>
-     <C1:comp name="VFREEBUSY"/>
-    </C1:supported-calendar-component-set>
     <resourcetype>
      <collection/>
-     <principal/>
      <C:calendar-proxy-read/>
     </resourcetype>
     <displayname>/user1/calendar-proxy-read/</displayname>
@@ -329,6 +318,7 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
   <propstat>
    <prop>
+    <C1:supported-calendar-component-set/>
     <C1:calendar-description/>
     <A:calendar-color/>
    </prop>
@@ -339,16 +329,8 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/calendar-proxy-write/</href>
   <propstat>
    <prop>
-    <C1:supported-calendar-component-set>
-     <C1:comp name="VEVENT"/>
-     <C1:comp name="VTODO"/>
-     <C1:comp name="VJOURNAL"/>
-     <C1:comp name="VTIMEZONE"/>
-     <C1:comp name="VFREEBUSY"/>
-    </C1:supported-calendar-component-set>
     <resourcetype>
      <collection/>
-     <principal/>
      <C:calendar-proxy-write/>
     </resourcetype>
     <displayname>/user1/calendar-proxy-write/</displayname>
@@ -396,6 +378,7 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
   <propstat>
    <prop>
+    <C1:supported-calendar-component-set/>
     <C1:calendar-description/>
     <A:calendar-color/>
    </prop>
