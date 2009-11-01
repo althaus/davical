@@ -30,6 +30,11 @@ class CalDAVPrincipal
   var $url;
 
   /**
+  * @var Identifies whether this principal exists in the DB yet
+  */
+  private $exists;
+
+  /**
   * @var RFC4791: Identifies the URL(s) of any WebDAV collections that contain
   * calendar collections owned by the associated principal resource.
   */
@@ -95,6 +100,8 @@ class CalDAVPrincipal
   function CalDAVPrincipal( $parameters = null ) {
     global $session, $c;
 
+    $this->exists = null;
+
     if ( $parameters == null ) return false;
     $this->by_email = false;
     if ( is_object($parameters) ) {
@@ -129,8 +136,12 @@ class CalDAVPrincipal
         $usr = $this->PropertySearch($parameters['principal-property-search']);
       }
     }
-    if ( !isset($usr) || !is_object($usr) ) return false;
+    if ( !isset($usr) || !is_object($usr) ) {
+      $this->exists = false;
+      return false;
+    }
 
+    $this->exists = true;
     $this->InitialiseRecord($usr);
 
     if ( is_array($parameters) && isset($parameters['path']) && preg_match('#^/principals/#', $parameters['path']) ) {
@@ -290,6 +301,15 @@ class CalDAVPrincipal
 
 
   /**
+  * Does this principal exist?
+  * @return boolean Whether or not it exists.
+  */
+  function Exists() {
+    return $this->exists;
+  }
+
+
+  /**
   * Returns a representation of the principal as a collection
   */
   function AsCollection() {
@@ -302,9 +322,11 @@ class CalDAVPrincipal
                             'email'    => (isset($this->email)    ? $this->email : ''),
                             'created'  => (isset($this->created)  ? $this->created : date('Ymd\THis'))
                   );
-    $collection->dav_name = (isset($this->dav_name) ? $this->dav_name : '/' . $this->username . '/');
-    $collection->dav_etag = (isset($this->dav_etag) ? $this->dav_etag : md5($this->username . $this->updated));
-    $collection->dav_displayname =  (isset($this->dav_displayname) ? $this->dav_displayname : (isset($this->fullname) ? $this->fullname : $this->username));
+    if ( $this->exists ) {
+      $collection->dav_name = (isset($this->dav_name) ? $this->dav_name : '/' . $this->username . '/');
+      $collection->dav_etag = (isset($this->dav_etag) ? $this->dav_etag : md5($this->username . $this->updated));
+      $collection->dav_displayname =  (isset($this->dav_displayname) ? $this->dav_displayname : (isset($this->fullname) ? $this->fullname : $this->username));
+    }
     return $collection;
   }
 
@@ -396,11 +418,11 @@ class CalDAVPrincipal
           // After a careful reading of RFC3744 we see that this must be the principal-URL of the owner
           $reply->DAVElement( $prop, 'owner', $reply->href( $this->principal_url ) );
           break;
-		
+
         case 'DAV::principal-collection-set':
           $reply->DAVElement( $prop, 'principal-collection-set', $reply->href( ConstructURL('/') ) );
           break;
-		
+
         // Empty tag responses.
         case 'DAV::alternate-URI-set':
         case 'DAV::getcontentlength':
