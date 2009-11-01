@@ -1,7 +1,0 @@
-#
-# DELETE a calendar entry by Evolution
-#
-TYPE=DELETE
-URL=http://mycaldav/caldav.php/andrew/20061007T100911Z.ics
-HEADER=If-None-Match: "19eae6c3442ae90f29f17463e64576bc"
-HEAD

@@ -1,6 +1,0 @@
-#
-# Test the initial OPTIONS for the root
-#
-TYPE=OPTIONS
-URL=http://mycaldav/caldav.php/andrew/.chandler/
-HEAD

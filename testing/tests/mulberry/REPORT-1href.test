@@ -1,7 +1,0 @@
-#
-# Test the REPORT request
-#
-TYPE=REPORT
-URL=http://mycaldav/caldav.php/andrew/mulberry/
-HEADER=Content-Type: text/xml; charset=utf-8
-HEAD
