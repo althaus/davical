@@ -381,22 +381,9 @@ EOSQL;
       'UNLOCK' => ''
     );
     if ( $this->IsCollection() ) {
-      $this->supported_methods = array_merge(
-        $this->supported_methods,
-        array(
-          'MKCOL' => '',
-          'GET' => '',
-          'HEAD' => '',
-          'PUT' => ''
-        )
-      );
       if ( $this->IsPrincipal() ) {
-        $this->supported_methods = array_merge(
-          $this->supported_methods,
-          array(
-            'MKCALENDAR' => ''
-          )
-        );
+        $this->supported_methods['MKCALENDAR'] = '';
+        $this->supported_methods['MKCOL'] = '';
       }
       switch ( $this->collection_type ) {
         case 'root':
@@ -404,8 +391,6 @@ EOSQL;
           // We just override the list completely here.
           $this->supported_methods = array(
             'OPTIONS' => '',
-            'GET' => '',
-            'HEAD' => '',
             'PROPFIND' => '',
             'REPORT' => ''
           );
@@ -418,6 +403,14 @@ EOSQL;
               'POST' => ''
             )
           );
+          break;
+        case 'calendar':
+          $this->supported_methods['GET'] = '';
+          $this->supported_methods['HEAD'] = '';
+          break;
+        case 'collection':
+          $this->supported_methods['MKCOL'] = '';
+          $this->supported_methods['MKCALENDAR'] = '';
           break;
       }
     }
@@ -790,7 +783,7 @@ EOSQL;
   */
   function IsCalendar( ) {
     if ( !$this->IsCollection() || !isset($this->collection) ) return false;
-    return $this->collection->is_calendar;
+    return $this->collection->is_calendar == 't';
   }
 
 
@@ -799,7 +792,7 @@ EOSQL;
   */
   function IsAddressBook( ) {
     if ( !$this->IsCollection() || !isset($this->collection) ) return false;
-    return $this->collection->is_addressbook;
+    return $this->collection->is_addressbook == 't';
   }
 
 
@@ -844,7 +837,7 @@ EOSQL;
   /**
   * Returns the array of supported privileges converted into XMLElements
   */
-  function RenderSupportedPrivileges( $privs = null ) {
+  function BuildSupportedPrivileges( $privs = null ) {
     global $reply;
     $privileges = array();
     if ( $privs === null ) $privs = $this->supported_privileges;
@@ -855,7 +848,7 @@ EOSQL;
       $privset = array($privilege);
       if ( is_array($v) ) {
         dbg_error_log( 'caldav', '"%s" is a container of sub-privileges.', $k );
-        $privset = array_merge($privset, $this->RenderSupportedPrivileges($v));
+        $privset = array_merge($privset, $this->BuildSupportedPrivileges($v));
       }
       else if ( $v == 'abstract' ) {
         dbg_error_log( 'caldav', '"%s" is an abstract privilege.', $v );
@@ -873,7 +866,7 @@ EOSQL;
   /**
   * Returns the array of privilege names converted into XMLElements
   */
-  function RenderPrivileges($privilege_names) {
+  function BuildPrivileges($privilege_names) {
     global $reply;
     $privileges = array();
     foreach( $privilege_names AS $k => $v ) {
@@ -889,12 +882,12 @@ EOSQL;
   /**
   * Returns the array of supported methods converted into XMLElements
   */
-  function RenderSupportedMethods( ) {
+  function BuildSupportedMethods( ) {
     global $reply;
-    $methods = new XMLElement('supported-method-set');
+    $methods = array();
     foreach( $this->supported_methods AS $k => $v ) {
       dbg_error_log( 'caldav', 'Adding method "%s" which is "%s".', $k, $v );
-      $reply->NSElement( $methods, 'DAV::supported-method', null, array('name' => $k) );
+      $methods[] = new XMLElement( 'supported-method', null, array('name' => $k) );
     }
     return $methods;
   }
@@ -903,15 +896,16 @@ EOSQL;
   /**
   * Returns the array of supported methods converted into XMLElements
   */
-  function RenderSupportedReports( ) {
+  function BuildSupportedReports( ) {
     global $reply;
     $reports = array();
     foreach( $this->supported_reports AS $k => $v ) {
       dbg_error_log( 'caldav', 'Adding supported report "%s" which is "%s".', $k, $v );
       $report = new XMLElement('supported-report');
       $reply->NSElement($report, $k );
+      $reports[] = $report;
     }
-    return new XMLElement('supported-report-set', $reports);
+    return $reports;
   }
 
 
@@ -953,24 +947,24 @@ EOSQL;
         */
         $principal = new XMLElement('principal');
         $principal->NewElement('authenticated');
-        $grant = new XMLElement( 'grant', array($this->RenderPrivileges($this->permissions)) );
+        $grant = new XMLElement( 'grant', array($this->BuildPrivileges($this->permissions)) );
         $prop->NewElement('acl', new XMLElement( 'ace', array( $principal, $grant ) ) );
         break;
 
       case 'DAV::current-user-privilege-set':
-        $prop->NewElement('current-user-privilege-set', $this->RenderPrivileges($this->permissions) );
+        $prop->NewElement('current-user-privilege-set', $this->BuildPrivileges($this->permissions) );
         break;
 
       case 'DAV::supported-privilege-set':
-        $prop->NewElement('supported-privilege-set', $this->RenderSupportedPrivileges() );
+        $prop->NewElement('supported-privilege-set', $this->BuildSupportedPrivileges() );
         break;
 
       case 'DAV::supported-method-set':
-        $prop->NewElement('supported-method-set', $this->RenderSupportedMethods() );
+        $prop->NewElement('supported-method-set', $this->BuildSupportedMethods() );
         break;
 
       case 'DAV::supported-report-set':
-        $prop->NewElement('supported-report-set', $this->RenderSupportedReports() );
+        $prop->NewElement('supported-report-set', $this->BuildSupportedReports() );
         break;
 
       default:
