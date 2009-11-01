@@ -260,6 +260,9 @@ class CalDAVRequest
       $this->collection_path = $row->dav_name;
       $this->collection_type = ($row->is_calendar == 't' ? 'calendar' : 'collection');
       $this->collection = $row;
+      if ( preg_match( '#^((/[^/]+/)\.(in|out)/)[^/]*$#', $this->path, $matches ) ) {
+        $this->collection_type = 'schedule-'. $matches[3]. 'box';
+      }
       $this->collection->type = $this->collection_type;
     }
     else if ( preg_match( '#^((/[^/]+/)\.(in|out)/)[^/]*$#', $this->path, $matches ) ) {
@@ -381,10 +384,10 @@ EOSQL;
       'UNLOCK' => ''
     );
     if ( $this->IsCollection() ) {
-      if ( $this->IsPrincipal() ) {
+/*      if ( $this->IsPrincipal() ) {
         $this->supported_methods['MKCALENDAR'] = '';
         $this->supported_methods['MKCOL'] = '';
-      }
+      } */
       switch ( $this->collection_type ) {
         case 'root':
         case 'email':
@@ -400,17 +403,23 @@ EOSQL;
           $this->supported_methods = array_merge(
             $this->supported_methods,
             array(
-              'POST' => ''
+              'POST' => '', 'GET' => '', 'PUT' => '', 'HEAD' => '', 'PROPPATCH' => ''
             )
           );
           break;
         case 'calendar':
           $this->supported_methods['GET'] = '';
+          $this->supported_methods['PUT'] = '';
           $this->supported_methods['HEAD'] = '';
           break;
         case 'collection':
+        case 'principal':
+          $this->supported_methods['GET'] = '';
+          $this->supported_methods['PUT'] = '';
+          $this->supported_methods['HEAD'] = '';
           $this->supported_methods['MKCOL'] = '';
           $this->supported_methods['MKCALENDAR'] = '';
+          $this->supported_methods['PROPPATCH'] = '';
           break;
       }
     }
