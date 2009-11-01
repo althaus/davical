@@ -422,7 +422,7 @@ function collection_to_xml( $collection ) {
     $collations[] = $reply->NewXMLElement($reply->Caldav('supported-collation'), 'i;octet');
     $prop->NewElement($reply->Caldav('supported-collation-set'), $collations );
   }
-  if ( isset($prop_list['urn:ietf:params:xml:ns:caldav:supported-calendar-component-set']) ) {
+  if ( isset($prop_list['urn:ietf:params:xml:ns:caldav:supported-calendar-component-set']) && $request->IsCalendar() ) {
     // Note that this won't appear on a PROPFIND against a Principal URL, since this routine is only called for a collection
     $components = array();
     $set_of_components = array( 'VEVENT', 'VTODO', 'VJOURNAL', 'VTIMEZONE', 'VFREEBUSY' );
