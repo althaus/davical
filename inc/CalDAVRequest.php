@@ -654,6 +654,15 @@ EOSQL;
 
 
   /**
+  * Returns the dav_name of the resource in our internal namespace
+  */
+  function dav_name() {
+    if ( isset($this->path) ) return $this->path;
+    return null;
+  }
+
+
+  /**
   * Returns the name for this depth: 0, 1, infinity
   */
   function GetDepthName( ) {
