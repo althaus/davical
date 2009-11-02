@@ -1,0 +1,31 @@
+#
+# Testing with a process similar to iCal4
+#
+TYPE=PROPFIND
+URL=http://regression.host/caldav.php/user1/
+HEAD
+
+HEADER=DAVKit/4.0 (729); CalendarStore/4.0 (965); iCal/4.0 (1362); Mac OS X/10.6.1 (10B504)
+HEADER=Content-Type: text/xml
+HEADER=Depth: 0
+
+#
+# Looking for interesting stuff like xmpp-uri
+#
+BEGINDATA
+<?xml version="1.0" encoding="utf-8"?>
+<x0:propfind xmlns:x1="urn:ietf:params:xml:ns:caldav" xmlns:x0="DAV:" xmlns:x2="http://calendarserver.org/ns/">
+ <x0:prop>
+  <x0:principal-collection-set/>
+  <x1:calendar-home-set/>
+  <x1:calendar-user-address-set/>
+  <x1:schedule-inbox-URL/>
+  <x1:schedule-outbox-URL/>
+  <x2:dropbox-home-URL/>
+  <x2:xmpp-uri/>
+  <x0:displayname/>
+  <x0:principal-URL/>
+  <x0:supported-report-set/>
+ </x0:prop>
+</x0:propfind>
+ENDDATA

@@ -1,0 +1,16 @@
+#
+# Testing with a process similar to iCal4
+#
+TYPE=PROPPATCH
+URL=http://regression.host/caldav.php/user1/home/
+HEAD
+
+HEADER=DAVKit/4.0 (729); CalendarStore/4.0 (965); iCal/4.0 (1362); Mac OS X/10.6.1 (10B504)
+HEADER=Content-Type: text/xml
+
+#
+#
+BEGINDATA
+<?xml version="1.0" encoding="utf-8" ?>
+<x0:propertyupdate xmlns:x0="DAV:" xmlns:x1="http://apple.com/ns/ical/"><x0:set><x0:prop><x1:calendar-color>#0252D4FF</x1:calendar-color></x0:prop></x0:set></x0:propertyupdate>
+ENDDATA

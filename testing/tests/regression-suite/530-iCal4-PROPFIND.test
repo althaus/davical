@@ -1,0 +1,22 @@
+#
+# Testing with a process similar to iCal4
+#
+TYPE=PROPFIND
+URL=http://regression.host/caldav.php/user1/
+HEAD
+
+HEADER=DAVKit/4.0 (729); CalendarStore/4.0 (965); iCal/4.0 (1362); Mac OS X/10.6.1 (10B504)
+HEADER=Content-Type: text/xml
+HEADER=Depth: 0
+
+#
+# Woohoo!  Searching for the current-user-principal...
+#
+BEGINDATA
+<?xml version="1.0" encoding="utf-8"?>
+<x0:propfind xmlns:x0="DAV:">
+ <x0:prop>
+  <x0:principal-URL/>
+ </x0:prop>
+</x0:propfind>
+ENDDATA

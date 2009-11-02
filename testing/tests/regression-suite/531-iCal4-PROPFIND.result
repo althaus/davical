@@ -1,0 +1,55 @@
+HTTP/1.1 207 Multi-Status
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule, extended-mkcol
+ETag: "e276a4e60173436301d34b97d06938e2"
+Content-Length: 1365
+Content-Type: text/xml; charset="utf-8"
+
+<?xml version="1.0" encoding="utf-8" ?>
+<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav" xmlns:A="http://calendarserver.org/ns/">
+ <response>
+  <href>/caldav.php/user1/</href>
+  <propstat>
+   <prop>
+    <principal-collection-set>
+     <href>/caldav.php/</href>
+    </principal-collection-set>
+    <C:calendar-home-set>
+     <href>/caldav.php/user1/</href>
+    </C:calendar-home-set>
+    <C:calendar-user-address-set>
+     <href>mailto:user1@example.net</href>
+     <href>/caldav.php/user1/</href>
+    </C:calendar-user-address-set>
+    <C:schedule-inbox-URL>
+     <href>/caldav.php/user1/.in/</href>
+    </C:schedule-inbox-URL>
+    <C:schedule-outbox-URL>
+     <href>/caldav.php/user1/.out/</href>
+    </C:schedule-outbox-URL>
+    <displayname>User 1</displayname>
+    <principal-URL>
+     <href>/caldav.php/user1/</href>
+    </principal-URL>
+    <supported-report-set>
+     <supported-report>
+      <principal-property-search/>
+     </supported-report>
+     <supported-report>
+      <sync-collection/>
+     </supported-report>
+    </supported-report-set>
+    <A:dropbox-home-URL>
+     <href>/caldav.php/user1/.drop/</href>
+    </A:dropbox-home-URL>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <A:xmpp-uri/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+</multistatus>
