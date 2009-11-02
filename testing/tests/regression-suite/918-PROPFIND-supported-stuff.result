@@ -1,0 +1,58 @@
+HTTP/1.1 207 Multi-Status
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule, extended-mkcol
+ETag: "7ab339431007ed0a57ad3bd440868790"
+Content-Length: 1474
+Content-Type: text/xml; charset="utf-8"
+
+<?xml version="1.0" encoding="utf-8" ?>
+<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
+ <response>
+  <href>/caldav.php/user1/home/</href>
+  <propstat>
+   <prop>
+    <C:supported-calendar-component-set>
+     <C:comp name="VEVENT"/>
+     <C:comp name="VTODO"/>
+     <C:comp name="VJOURNAL"/>
+     <C:comp name="VTIMEZONE"/>
+     <C:comp name="VFREEBUSY"/>
+    </C:supported-calendar-component-set>
+    <resourcetype>
+     <collection/>
+     <C:calendar/>
+    </resourcetype>
+    <displayname>User One's Calendar</displayname>
+    <supported-method-set>
+     <supported-method name="OPTIONS"/>
+     <supported-method name="PROPFIND"/>
+     <supported-method name="REPORT"/>
+     <supported-method name="DELETE"/>
+     <supported-method name="LOCK"/>
+     <supported-method name="UNLOCK"/>
+     <supported-method name="GET"/>
+     <supported-method name="PUT"/>
+     <supported-method name="HEAD"/>
+    </supported-method-set>
+    <supported-report-set>
+     <supported-report>
+      <principal-property-search/>
+     </supported-report>
+     <supported-report>
+      <sync-collection/>
+     </supported-report>
+     <supported-report>
+      <C:calendar-query/>
+     </supported-report>
+     <supported-report>
+      <C:calendar-multiget/>
+     </supported-report>
+     <supported-report>
+      <C:free-busy-query/>
+     </supported-report>
+    </supported-report-set>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+</multistatus>

@@ -1,0 +1,51 @@
+HTTP/1.1 207 Multi-Status
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule, extended-mkcol
+ETag: "d0b4d2ea75d0b115c8b3c8bb0d5c6391"
+Content-Length: 1247
+Content-Type: text/xml; charset="utf-8"
+
+<?xml version="1.0" encoding="utf-8" ?>
+<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
+ <response>
+  <href>/caldav.php/user1/</href>
+  <propstat>
+   <prop>
+    <displayname>User 1</displayname>
+    <resourcetype>
+     <principal/>
+     <collection/>
+    </resourcetype>
+    <supported-method-set>
+     <supported-method name="OPTIONS"/>
+     <supported-method name="PROPFIND"/>
+     <supported-method name="REPORT"/>
+     <supported-method name="DELETE"/>
+     <supported-method name="LOCK"/>
+     <supported-method name="UNLOCK"/>
+     <supported-method name="GET"/>
+     <supported-method name="PUT"/>
+     <supported-method name="HEAD"/>
+     <supported-method name="MKCOL"/>
+     <supported-method name="MKCALENDAR"/>
+     <supported-method name="PROPPATCH"/>
+    </supported-method-set>
+    <supported-report-set>
+     <supported-report>
+      <principal-property-search/>
+     </supported-report>
+     <supported-report>
+      <sync-collection/>
+     </supported-report>
+    </supported-report-set>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <C:supported-calendar-component-set/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+</multistatus>

@@ -1,0 +1,26 @@
+#
+# PROPFIND looking for supported-methods supported-reports etc
+#
+# Bogus resource in collection
+#
+TYPE=PROPFIND
+URL=http://regression.host/caldav.php/user1/home/bogusnonexistentresource.ics
+HEADER=Content-Type: text/xml; charset="UTF-8"
+HEADER=Depth: 0
+HEAD
+
+
+BEGINDATA
+<?xml version="1.0" encoding="UTF-8" ?>
+<propfind xmlns="DAV:" xmlns:caldav="urn:ietf:params:xml:ns:caldav">
+ <prop>
+  <displayname/>
+  <resourcetype/>
+  <supported-method-set/>
+  <supported-report-set/>
+  <caldav:supported-calendar-component-set/>
+ </prop>
+</propfind>
+ENDDATA
+
+
