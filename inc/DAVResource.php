@@ -24,8 +24,8 @@ function privilege_to_bits( $raw_privs ) {
   if ( gettype($raw_privs) == 'string' ) $raw_privs = array( $raw_privs );
 
   foreach( $raw_privs AS $priv ) {
-    $priv = trim(strtolower(preg_replace( '/^.*:/', '', $priv)));
-    switch( $priv ) {
+    $trim_priv = trim(strtolower(preg_replace( '/^.*:/', '', $priv)));
+    switch( $trim_priv ) {
       case 'read'                            : $out_priv &=  4609;  break;  // 1 + 512 + 4096
       case 'write'                           : $out_priv &=   198;  break;  // 2 + 4 + 64 + 128
       case 'write-properties'                : $out_priv &=     2;  break;
@@ -45,6 +45,9 @@ function privilege_to_bits( $raw_privs ) {
       case 'schedule-send-invite'            : $out_priv &=  8192;  break;
       case 'schedule-send-reply'             : $out_priv &= 16384;  break;
       case 'schedule-send-freebusy'          : $out_priv &= 32768;  break;
+      default:
+        dbg_error_log( 'ERROR', 'Cannot convert privilege of "%s" into bits.', $priv );
+
     }
   }
   return $out_priv;
@@ -113,17 +116,12 @@ class DAVResource
   protected $exists;
 
   /**
-  * @var The principal URL of the owner of the resource
-  */
-  protected $principal_url;
-
-  /**
   * @var The unique etag associated with the current version of the resource
   */
   protected $unique_tag;
 
   /**
-  * @var The actual resource content
+  * @var The actual resource content, if it exists and is not a collection
   */
   protected $content;
 
@@ -141,6 +139,11 @@ class DAVResource
   * @var An object which is the collection record for this resource, or for it's container
   */
   private $collection;
+
+  /**
+  * @var An object which is the principal for this resource, or would be if it existed.
+  */
+  private $principal;
 
   /**
   * @var A bit mask representing the current user's privileges towards this DAVResource
@@ -168,6 +171,21 @@ class DAVResource
   private $_is_addressbook;
 
   /**
+  * @var An array of the methods we support on this resource.
+  */
+  private $supported_methods;
+
+  /**
+  * @var An array of the reports we support on this resource.
+  */
+  private $supported_reports;
+
+  /**
+  * @var An array of the component types we support on this resource.
+  */
+  private $supported_components;
+
+  /**
   * Constructor
   * @param mixed $parameters If null, an empty Resourced is created.
   *     If it is an object then it is expected to be a record that was
@@ -176,9 +194,10 @@ class DAVResource
   function __construct( $parameters = null ) {
     $this->exists        = null;
     $this->dav_name      = null;
-    $this->principal_url = null;
     $this->unique_tag    = null;
     $this->content       = null;
+    $this->collection    = null;
+    $this->principal     = null;
     $this->resourcetype  = null;
     $this->contenttype   = null;
     $this->privileges    = null;
@@ -289,16 +308,21 @@ class DAVResource
     $qry = new AwlQuery( $sql, $params );
     if ( $qry->Exec('DAVResource') && $qry->rows == 1 && ($row = $qry->Fetch()) ) {
       $this->collection = $row;
-      if ( $row->is_calendar == 't' ) $this->collection->type = 'calendar';
-      else if ( $row->is_addressbook == 't' ) $this->collection->type = 'addressbook';
-      else $this->collection->type = 'collection';
+      if ( $row->is_calendar == 't' )
+        $this->collection->type = 'calendar';
+      else if ( $row->is_addressbook == 't' )
+        $this->collection->type = 'addressbook';
+      else if ( preg_match( '#^((/[^/]+/)\.(in|out)/)[^/]*$#', $this->dav_name, $matches ) )
+        $this->collection->type = 'schedule-'. $matches[3]. 'box';
+      else
+        $this->collection->type = 'collection';
     }
     else if ( preg_match( '#^((/[^/]+/)\.(in|out)/)[^/]*$#', $this->dav_name, $matches ) ) {
       // The request is for a scheduling inbox or outbox (or something inside one) and we should auto-create it
       $params = array( ':user_no' => $session->user_no, ':parent_container' => $matches[2], ':dav_name' => $matches[1] );
       $params['displayname'] = $session->fullname . ($matches[3] == 'in' ? ' Inbox' : ' Outbox');
-      $this->collection_type = 'schedule-'. $matches[3]. 'box';
-      $params['resourcetypes'] = sprintf('<DAV::collection/><urn:ietf:params:xml:ns:caldav:%s/>', $this->collection_type );
+      $this->collection->type = 'schedule-'. $matches[3]. 'box';
+      $params['resourcetypes'] = sprintf('<DAV::collection/><urn:ietf:params:xml:ns:caldav:%s/>', $this->collection->type );
       $sql = <<<EOSQL
 INSERT INTO collection ( user_no, parent_container, dav_name, dav_displayname, is_calendar, created, modified, dav_etag, resourcetypes )
     VALUES( :user_no, :parent_container, :dav_name, :dav_displayname, FALSE, current_timestamp, current_timestamp, '1', :resourcetypes )
@@ -310,7 +334,6 @@ EOSQL;
       $qry = new AwlQuery( $base_sql . 'user_no = :user_no AND dav_name = :dav_name', $params );
       if ( $qry->Exec('DAVResource') && $qry->rows == 1 && ($row = $qry->Fetch()) ) {
         $this->collection = $row;
-        $this->collection->type = $this->collection_type;
       }
     }
     else if ( preg_match( '#^((/[^/]+/)calendar-proxy-(read|write))/?[^/]*$#', $this->dav_name, $matches ) ) {
@@ -350,6 +373,15 @@ EOSQL;
 
 
   /**
+  * Find the principal associated with this resource.
+  */
+  function FetchPrincipal() {
+    global $c, $session;
+    $this->principal = new CalDAVPrincipal( array( "path" => $this->dav_name ) );
+  }
+
+
+  /**
   * Retrieve the actual resource.
   */
   function FetchResource() {
@@ -364,8 +396,15 @@ SELECT * FROM caldav_data LEFT JOIN calendar_item USING (collection_id,dav_id)
      WHERE caldav_data.dav_name = :dav_name
 EOQRY;
     $params = array( ':dav_name' => $this->dav_name );
-    $qry = new AwlQuery( $sql, $params );
 
+    $qry = new AwlQuery( $sql, $params );
+    if ( $qry->Exec('DAVResource') && $qry->rows > 0 ) {
+      $this->exists = true;
+      $this->resource = $qry->Fetch();
+    }
+    else {
+      $this->exists = false;
+    }
   }
 
 
@@ -407,7 +446,7 @@ EOQRY;
   /**
   * Returns the array of privilege names converted into XMLElements
   */
-  function RenderPrivileges( $privilege_names=null, $xmldoc=null ) {
+  function BuildPrivileges( $privilege_names=null, $xmldoc=null ) {
     if ( $privilege_names == null ) {
       if ( !isset($this->privileges) ) $this->FetchPrivileges();
       $privilege_names = bits_to_privilege($this->privileges);
@@ -424,6 +463,76 @@ EOQRY;
       $privileges[] = $privilege;
     }
     return $privileges;
+  }
+
+
+  /**
+  * Returns the array of supported methods
+  */
+  function FetchSupportedMethods( ) {
+    if ( isset($this->supported_methods) ) return $this->supported_methods;
+    if ( !isset($this->collection) ) $this->FetchCollection();
+
+    $this->supported_methods = array(
+      'OPTIONS' => '',
+      'PROPFIND' => '',
+      'REPORT' => '',
+      'DELETE' => '',
+      'LOCK' => '',
+      'UNLOCK' => ''
+    );
+    if ( $this->IsCollection() ) {
+/*      if ( $this->IsPrincipal() ) {
+        $this->supported_methods['MKCALENDAR'] = '';
+        $this->supported_methods['MKCOL'] = '';
+      } */
+      switch ( $this->collection->type ) {
+        case 'root':
+        case 'email':
+          // We just override the list completely here.
+          $this->supported_methods = array(
+            'OPTIONS' => '',
+            'PROPFIND' => '',
+            'REPORT' => ''
+          );
+          break;
+        case 'schedule-inbox':
+        case 'schedule-outbox':
+          $this->supported_methods = array_merge(
+            $this->supported_methods,
+            array(
+              'POST' => '', 'GET' => '', 'PUT' => '', 'HEAD' => '', 'PROPPATCH' => ''
+            )
+          );
+          break;
+        case 'calendar':
+          $this->supported_methods['GET'] = '';
+          $this->supported_methods['PUT'] = '';
+          $this->supported_methods['HEAD'] = '';
+          break;
+        case 'collection':
+        case 'principal':
+          $this->supported_methods['GET'] = '';
+          $this->supported_methods['PUT'] = '';
+          $this->supported_methods['HEAD'] = '';
+          $this->supported_methods['MKCOL'] = '';
+          $this->supported_methods['MKCALENDAR'] = '';
+          $this->supported_methods['PROPPATCH'] = '';
+          break;
+      }
+    }
+    else {
+      $this->supported_methods = array_merge(
+        $this->supported_methods,
+        array(
+          'GET' => '',
+          'HEAD' => '',
+          'PUT' => ''
+        )
+      );
+    }
+
+    return $this->supported_methods;
   }
 
 
@@ -476,13 +585,67 @@ EOQRY;
 
 
   /**
+  * Returns the dav_name of the resource in our internal namespace
+  */
+  function dav_name() {
+    if ( isset($this->dav_name) ) return $this->dav_name;
+    return null;
+  }
+
+
+  /**
+  * Returns the principal-URL for this resource
+  */
+  function principal_url() {
+    if ( !isset($this->principal) ) $this->FetchPrincipal();
+    if ( $this->principal->Exists() ) {
+      return $this->principal->principal_url;
+    }
+    return null;
+  }
+
+
+  /**
   * Checks whether the target collection is publicly_readable
   */
   function IsPublic() {
-    if ( isset($this->collection) && isset($this->collection->publicly_readable) && $this->collection->publicly_readable == 't' ) {
-      return true;
+    if ( !isset($this->collection) ) $this->FetchCollection();
+    return ( isset($this->collection->publicly_readable) && $this->collection->publicly_readable == 't' ) {
+  }
+
+
+  /**
+  * Return the type of whatever contains this resource, or would if it existed.
+  */
+  function ContainerType() {
+    if ( !isset($this->collection) ) $this->FetchCollection();
+    if ( $this->IsPrincipal() ) return 'root';
+    if ( !$this->IsCollection() ) return $this->collection->type;
+
+    if ( ! isset($this->collection->parent_container) ) return null;
+
+    if ( isset($this->parent_container_type) ) return $this->parent_container_type;
+
+    if ( preg_match('#/[^/]+/#', $this->collection->parent_container) ) {
+      $this->parent_container_type = 'principal';
     }
-    return false;
+    else {
+      $qry = new AwlQuery('SELECT * FROM collection WHERE dav_name = :parent_name',
+                                array( ':parent_name' => $this->collection->parent_container ) );
+      if ( $qry->Exec('DAVResource') && $qry->rows > 0 && $parent = $qry->Fetch() ) {
+        if ( $parent->is_calendar == 't' )
+          $this->parent_container_type = 'calendar';
+        else if ( $parent->is_addressbook == 't' )
+          $this->parent_container_type = 'addressbook';
+        else if ( preg_match( '#^((/[^/]+/)\.(in|out)/)[^/]*$#', $this->dav_name, $matches ) )
+          $this->parent_container_type = 'schedule-'. $matches[3]. 'box';
+        else
+          $this->parent_container_type = 'collection';
+      }
+      else
+        $this->parent_container_type = null;
+    }
+    return $this->parent_container_type;
   }
 
 
@@ -529,7 +692,7 @@ EOQRY;
 
       case 'DAV::owner':
         // After a careful reading of RFC3744 we see that this must be the principal-URL of the owner
-        $reply->DAVElement( $prop, 'owner', $reply->href( $this->principal_url) );
+        $reply->DAVElement( $prop, 'owner', $reply->href( $this->principal_url() ) );
         break;
 
       // Empty tag responses.
@@ -553,7 +716,7 @@ EOQRY;
 
       case 'http://calendarserver.org/ns/:getctag':
         if ( $this->_is_collection ) {
-          $prop->NewElement('http://calendarserver.org/ns/:getctag', $this->etag );
+          $prop->NewElement('http://calendarserver.org/ns/:getctag', $this->unique_tag );
         }
         else {
           $not_found[] = $reply->Tag($tag);
@@ -639,7 +802,7 @@ EOQRY;
     $not_found = array();
     foreach( $properties AS $k => $tag ) {
       if ( ! $this->ResourceProperty($tag, $prop, $reply) ) {
-        dbg_error_log( 'principal', 'Request for unsupported property "%s" of principal "%s".', $tag, $this->username );
+        dbg_error_log( 'DAVResource', 'Request for unsupported property "%s" of principal "%s".', $tag, $this->username );
         $not_found[] = $reply->Tag($tag);
       }
     }
