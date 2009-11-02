@@ -510,7 +510,7 @@ function collection_to_xml( $collection ) {
     if ( $session->user_no != $collection->user_no ) {
       $reply->CalDAVElement( $denied, 'calendar-free-busy-set');
     }
-    else if ( $collection->type == 'in' ) {
+    else if ( $collection->type == 'schedule-inbox' ) {
       $fb_set = array();
       foreach( $request->principal->calendar_free_busy_set AS $k => $v ) {
         $fb_set[] = $reply->href( $v, false, 'DAV:' );
