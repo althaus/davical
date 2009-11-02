@@ -437,6 +437,9 @@ EOSQL;
     $this->supported_reports = array(
       'DAV::principal-property-search' => ''
     );
+    if ( $this->IsCollection() ) {
+      $this->supported_reports['DAV::sync-collection'] = '';
+    }
     if ( $this->IsCalendar() ) {
       $this->supported_reports = array_merge(
         $this->supported_reports,
