@@ -1,8 +1,8 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule, extended-mkcol
-ETag: "fee4dee2807c6063429ae2b8914f0786"
-Content-Length: 8347
+ETag: "1a702c2797c2d778c5593aba5ab5b166"
+Content-Length: 8374
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -83,7 +83,7 @@ Content-Type: text/xml; charset="utf-8"
      <C1:calendar/>
     </resourcetype>
     <displayname>user1 home</displayname>
-    <C:getctag>"9a28f344c1e0032e5967806f193a7cb7"</C:getctag>
+    <C:getctag>"86a1e7300c8b748329ad3617974ad08a"</C:getctag>
     <current-user-privilege-set>
      <privilege>
       <all/>
@@ -122,13 +122,13 @@ Content-Type: text/xml; charset="utf-8"
       <read-current-user-privilege-set/>
      </privilege>
     </current-user-privilege-set>
+    <A:calendar-color>#0252D4FF</A:calendar-color>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
   <propstat>
    <prop>
     <C1:calendar-description/>
-    <A:calendar-color/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>

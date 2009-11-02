@@ -5,7 +5,7 @@
   <propstat>
    <prop>
     <getcontenttype>httpd/unix-directory</getcontenttype>
-    <getcontentlength>14202</getcontentlength>
+    <getcontentlength>14878</getcontentlength>
     <resourcetype>
      <collection/>
      <C:calendar/>

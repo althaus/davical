@@ -5,7 +5,7 @@
   <propstat>
    <prop>
     <getcontenttype>httpd/unix-directory</getcontenttype>
-    <getcontentlength>14202</getcontentlength>
+    <getcontentlength>14878</getcontentlength>
     <resourcetype>
      <collection/>
      <C:calendar/>
@@ -539,6 +539,41 @@
     <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
     <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
     <getetag>"5f050eca5480bbebbe9428222570913d"</getetag>
+    <getcontentlanguage/>
+    <supportedlock>
+     <lockentry>
+      <lockscope>
+       <exclusive/>
+      </lockscope>
+      <locktype>
+       <write/>
+      </locktype>
+     </lockentry>
+    </supportedlock>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <lockdiscovery/>
+    <source/>
+    <checked-in/>
+    <checked-out/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/home/70D23799-4A68-4905-AB9F-4D47BA693CFD.ics</href>
+  <propstat>
+   <prop>
+    <getcontentlength>676</getcontentlength>
+    <getcontenttype>text/calendar</getcontenttype>
+    <displayname>New Event</displayname>
+    <resourcetype/>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
+    <getetag>"257b9df4aaf573a578af4aadd033abf4"</getetag>
     <getcontentlanguage/>
     <supportedlock>
      <lockentry>
