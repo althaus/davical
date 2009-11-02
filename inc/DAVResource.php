@@ -610,7 +610,7 @@ EOQRY;
   */
   function IsPublic() {
     if ( !isset($this->collection) ) $this->FetchCollection();
-    return ( isset($this->collection->publicly_readable) && $this->collection->publicly_readable == 't' ) {
+    return ( isset($this->collection->publicly_readable) && $this->collection->publicly_readable == 't' );
   }
 
 
