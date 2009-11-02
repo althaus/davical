@@ -180,6 +180,12 @@ class CalDAVPrincipal
     $this->dropbox_url = sprintf( '%s.drop/', $this->url);
     $this->notifications_url = sprintf( '%s.notify/', $this->url);
 
+    if ( isset ( $c->notifications_server ) ) { 
+      $this->xmpp_uri = 'xmpp:pubsub.'.$c->notifications_server['host'].'?pubsub;node=/home/'.$c->notifications_server['host'];
+      $this->xmpp_uri .= '/'.preg_replace ( '/@.*$/', '', $c->notifications_server['jid'] ).'/DAViCal'.$this->url; 
+      $this->xmpp_server = $c->notifications_server['host'];
+    }
+
     $this->group_member_set = array();
     $qry = new PgQuery('SELECT * FROM relationship LEFT JOIN usr ON (from_user = usr.user_no) LEFT JOIN role_member ON (to_user = role_member.user_no) LEFT JOIN roles USING (role_no) WHERE to_user = ? AND role_name = '."'Group'", $this->user_no );
     if ( $qry->Exec('CalDAVPrincipal') && $qry->rows > 0 ) {
@@ -404,6 +410,20 @@ class CalDAVPrincipal
 
         case 'http://calendarserver.org/ns/:notifications-URL':
           $reply->CalendarserverElement($prop, 'notifications-URL', $reply->href($this->notifications_url) );
+          break;
+
+        case 'http://calendarserver.org/ns/:xmpp-server':
+          if ( isset ( $this->xmpp_uri ) )
+            $reply->CalendarserverElement($prop, 'xmpp-server', $this->xmpp_server );
+          else
+            $not_found[] = $reply->Tag($tag);
+          break;
+
+        case 'http://calendarserver.org/ns/:xmpp-uri':
+          if ( isset ( $this->xmpp_uri ) )
+            $reply->CalendarserverElement($prop, 'xmpp-uri', $this->xmpp_uri );
+          else
+            $not_found[] = $reply->Tag($tag);
           break;
 
         case 'urn:ietf:params:xml:ns:caldav:calendar-home-set':

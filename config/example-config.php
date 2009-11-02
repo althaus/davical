@@ -316,3 +316,26 @@ $c->collections_always_exist = false;
 * enabled this option...
 */
 // $c->allow_get_email_visibility = false;
+
+
+ /***************************************************************************
+*                                                                          *
+*                         Push Notification Server                         *
+*                                                                          *
+***************************************************************************/
+
+/*
+ * This enable XMPP PubSub push notifications to clients that request them.
+ * N.B. this will publish urls for ALL updates and does NOT restrict
+ * subscription permissions on the jabber server!  That means anyone with
+ * read access to the pubsub tree of your jabber server can watch for updates,
+ * they will only see URL's to the updated entries not the calendar data.
+ *
+ * Only tested with ejabberd 2.0.x
+ */
+
+// $c->notifications_server = array( 'host' => $_SERVER['SERVER_NAME'],      // jabber server hostname
+//                                  'jid'  => 'user@example.com',           // user(JID) to login/ publish as                                  'password' => '',                       // password for above account
+//                  //              'debug_jid' => 'otheruser@example.com'  // send a copy of all publishes to this jid
+//                                );
+// include ( 'pubsub.php' );
