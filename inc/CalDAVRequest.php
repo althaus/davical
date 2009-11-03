@@ -387,7 +387,8 @@ EOSQL;
       'REPORT' => '',
       'DELETE' => '',
       'LOCK' => '',
-      'UNLOCK' => ''
+      'UNLOCK' => '',
+      'MOVE' => ''
     );
     if ( $this->IsCollection() ) {
 /*      if ( $this->IsPrincipal() ) {
