@@ -351,6 +351,14 @@ class AwlQuery
 
 
   /**
+  * Return the count of rows retrieved/affected
+  */
+  function rows() {
+    return $this->rows;
+  }
+
+
+  /**
   * Execute the query, logging any debugging.
   *
   * <b>Example</b>

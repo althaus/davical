@@ -4,9 +4,9 @@
 *
 * @package   davical
 * @subpackage   caldav
-* @author    Andrew McMillan <andrew@catalyst.net.nz>
-* @copyright Catalyst .Net Ltd
-* @license   http://gnu.org/copyleft/gpl.html GNU GPL v2
+* @author    Andrew McMillan <andrew@mcmillan.net.nz>
+* @copyright Catalyst .Net Ltd, Morphoss Ltd <http://www.morphoss.com/>
+* @license   http://gnu.org/copyleft/gpl.html GNU GPL v2 or later
 */
 dbg_error_log("OPTIONS", "method handler");
 
@@ -53,8 +53,11 @@ if ( !$exists ) {
 */
 if ( isset($c->override_allowed_methods) )
   $allowed = $c->override_allowed_methods;
+else if ( isset($request->supported_methods) ) {
+  $allowed = implode( ', ', array_keys($request->supported_methods) );
+}
 else {
-  $allowed = "OPTIONS, GET, HEAD, PUT, DELETE, PROPFIND, MKCOL, MKCALENDAR, LOCK, UNLOCK, REPORT, PROPPATCH, POST";
+  $allowed = "OPTIONS, GET, HEAD, PUT, DELETE, PROPFIND, MKCOL, MKCALENDAR, LOCK, UNLOCK, REPORT, PROPPATCH, POST, MOVE";
   if ( $request->path == '/' ) {
     $exists = true;
     $allowed = "OPTIONS, GET, HEAD, PROPFIND, REPORT";
@@ -65,4 +68,3 @@ header( "Allow: $allowed");
 
 $request->DoResponse( 200, "" );
 
-?>

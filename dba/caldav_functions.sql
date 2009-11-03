@@ -417,7 +417,8 @@ BEGIN
   IF TG_OP = 'UPDATE' THEN
     IF NEW.dav_name != OLD.dav_name THEN
       UPDATE caldav_data
-        SET dav_name = replace( dav_name, OLD.dav_name, NEW.dav_name)
+        SET dav_name = replace( dav_name, OLD.dav_name, NEW.dav_name),
+            user_no = NEW.user_no
       WHERE substring(dav_name from 1 for char_length(OLD.dav_name)) = OLD.dav_name;
     END IF;
   END IF;
@@ -473,6 +474,44 @@ END;
 $$ LANGUAGE plpgsql;
 CREATE TRIGGER caldav_data_modified AFTER INSERT OR UPDATE OR DELETE ON caldav_data
     FOR EACH ROW EXECUTE PROCEDURE caldav_data_modified();
+
+
+DROP TRIGGER caldav_data_sync_dav_id ON caldav_data CASCADE;
+DROP TRIGGER calendar_item_sync_dav_id ON calendar_item CASCADE;
+CREATE or REPLACE FUNCTION sync_dav_id ( ) RETURNS TRIGGER AS $$
+  DECLARE
+  BEGIN
+
+    IF TG_OP = 'DELETE' THEN
+      -- Just let the ON DELETE CASCADE handle this case
+      RETURN OLD;
+    END IF;
+
+    IF NEW.dav_id IS NULL THEN
+      NEW.dav_id = nextval('dav_id_seq');
+    END IF;
+
+    IF TG_OP = 'UPDATE' THEN
+      IF OLD.dav_id != NEW.dav_id OR OLD.collection_id != NEW.collection_id
+                 OR OLD.user_no != NEW.user_no OR OLD.dav_name != NEW.dav_name THEN
+        UPDATE calendar_item SET dav_id = NEW.dav_id, user_no = NEW.user_no,
+                        collection_id = NEW.collection_id, dav_name = NEW.dav_name
+            WHERE dav_name = OLD.dav_name OR dav_id = OLD.dav_id;
+      END IF;
+      RETURN NEW;
+    END IF;
+
+    UPDATE calendar_item SET dav_id = NEW.dav_id, user_no = NEW.user_no,
+                    collection_id = NEW.collection_id, dav_name = NEW.dav_name
+          WHERE dav_name = NEW.dav_name OR dav_id = NEW.dav_id;
+
+    RETURN NEW;
+
+  END
+$$ LANGUAGE 'plpgsql';
+CREATE TRIGGER caldav_data_sync_dav_id AFTER INSERT OR UPDATE ON caldav_data
+    FOR EACH ROW EXECUTE PROCEDURE sync_dav_id();
+
 
 
 -- New in 1.2.6
@@ -927,14 +966,14 @@ BEGIN
   -- We need to canonicalise the path, so:
   -- If it matches '/' + some characters (+ optional '/')  => a principal URL
   IF in_path ~ '^/[^/]+/?$' THEN
-    alt1_path := replace(in_path, '/', '')
+    alt1_path := replace(in_path, '/', '');
     SELECT principal_privileges(in_accessor,principal_id) INTO out_conferred FROM usr JOIN principal USING(user_no) WHERE username = alt1_path;
     RETURN out_conferred;
   END IF;
 
   -- Otherwise look for the longest segment matching up to the last '/', or if we append one, or if we replace a final '.ics' with one.
   alt1_path := in_path;
-  IF alt1_path ~ '\.ics$' THEN
+  IF alt1_path ~ E'\\.ics$' THEN
     alt1_path := substr(alt1_path, 1, length(alt1_path) - 4) || '/';
   END IF;
   alt2_path := regexp_replace( in_path, '[^/]*$', '');

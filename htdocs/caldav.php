@@ -53,6 +53,7 @@ switch ( $request->method ) {
   case 'MKCOL':      include_once("caldav-MKCOL.php");      break;
   case 'PUT':        include_once("caldav-PUT.php");        break;
   case 'POST':       include_once("caldav-POST.php");       break;
+  case 'MOVE':       include_once("caldav-MOVE.php");       break;
   case 'GET':        include_once("caldav-GET.php");        break;
   case 'HEAD':       include_once("caldav-GET.php");        break;
   case 'DELETE':     include_once("caldav-DELETE.php");     break;

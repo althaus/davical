@@ -26,25 +26,25 @@ function privilege_to_bits( $raw_privs ) {
   foreach( $raw_privs AS $priv ) {
     $trim_priv = trim(strtolower(preg_replace( '/^.*:/', '', $priv)));
     switch( $trim_priv ) {
-      case 'read'                            : $out_priv &=  4609;  break;  // 1 + 512 + 4096
-      case 'write'                           : $out_priv &=   198;  break;  // 2 + 4 + 64 + 128
-      case 'write-properties'                : $out_priv &=     2;  break;
-      case 'write-content'                   : $out_priv &=     4;  break;
-      case 'unlock'                          : $out_priv &=     8;  break;
-      case 'read-acl'                        : $out_priv &=    16;  break;
-      case 'read-current-user-privilege-set' : $out_priv &=    32;  break;
-      case 'bind'                            : $out_priv &=    64;  break;
-      case 'unbind'                          : $out_priv &=   128;  break;
-      case 'write-acl'                       : $out_priv &=   256;  break;
-      case 'read-free-busy'                  : $out_priv &=  4608;  break; //  512 + 4096
-      case 'schedule-deliver'                : $out_priv &=  7168;  break; // 1024 + 2048 + 4096
-      case 'schedule-deliver-invite'         : $out_priv &=  1024;  break;
-      case 'schedule-deliver-reply'          : $out_priv &=  2048;  break;
-      case 'schedule-query-freebusy'         : $out_priv &=  4096;  break;
-      case 'schedule-send'                   : $out_priv &= 57344;  break; // 8192 + 16384 + 32768
-      case 'schedule-send-invite'            : $out_priv &=  8192;  break;
-      case 'schedule-send-reply'             : $out_priv &= 16384;  break;
-      case 'schedule-send-freebusy'          : $out_priv &= 32768;  break;
+      case 'read'                            : $out_priv |=  4609;  break;  // 1 + 512 + 4096
+      case 'write'                           : $out_priv |=   198;  break;  // 2 + 4 + 64 + 128
+      case 'write-properties'                : $out_priv |=     2;  break;
+      case 'write-content'                   : $out_priv |=     4;  break;
+      case 'unlock'                          : $out_priv |=     8;  break;
+      case 'read-acl'                        : $out_priv |=    16;  break;
+      case 'read-current-user-privilege-set' : $out_priv |=    32;  break;
+      case 'bind'                            : $out_priv |=    64;  break;
+      case 'unbind'                          : $out_priv |=   128;  break;
+      case 'write-acl'                       : $out_priv |=   256;  break;
+      case 'read-free-busy'                  : $out_priv |=  4608;  break; //  512 + 4096
+      case 'schedule-deliver'                : $out_priv |=  7168;  break; // 1024 + 2048 + 4096
+      case 'schedule-deliver-invite'         : $out_priv |=  1024;  break;
+      case 'schedule-deliver-reply'          : $out_priv |=  2048;  break;
+      case 'schedule-query-freebusy'         : $out_priv |=  4096;  break;
+      case 'schedule-send'                   : $out_priv |= 57344;  break; // 8192 + 16384 + 32768
+      case 'schedule-send-invite'            : $out_priv |=  8192;  break;
+      case 'schedule-send-reply'             : $out_priv |= 16384;  break;
+      case 'schedule-send-freebusy'          : $out_priv |= 32768;  break;
       default:
         dbg_error_log( 'ERROR', 'Cannot convert privilege of "%s" into bits.', $priv );
 
@@ -123,7 +123,7 @@ class DAVResource
   /**
   * @var The actual resource content, if it exists and is not a collection
   */
-  protected $content;
+  protected $resource;
 
   /**
   * @var The type of the resource, possibly multiple
@@ -195,7 +195,7 @@ class DAVResource
     $this->exists        = null;
     $this->dav_name      = null;
     $this->unique_tag    = null;
-    $this->content       = null;
+    $this->resource      = null;
     $this->collection    = null;
     $this->principal     = null;
     $this->resourcetype  = null;
@@ -231,7 +231,7 @@ class DAVResource
 
     $this->exists = true;
     foreach( $row AS $k => $v ) {
-      dbg_error_log( 'resource', 'Processing resource property "%s" has "%s".', $row->dav_name, $k );
+      dbg_error_log( 'DAVResource', 'Processing resource property "%s" has "%s".', $row->dav_name, $k );
       switch ( $k ) {
         case 'dav_etag':
           $this->unique_tag = '"'.$v.'"';
@@ -258,16 +258,20 @@ class DAVResource
       $ourpath = $matches[1]. '/';
     }
 
+    /** remove any leading protocol/server/port/prefix... */
+    $base_path = ConstructURL('/');
+    if ( preg_match( '%^(.*?)'.str_replace('%', '\\%',$base_path).'(.*)$%', $ourpath, $matches ) ) {
+      if ( $matches[1] == '' || $matches[1] == $c->protocol_server_port ) {
+        $ourpath = $matches[2];
+      }
+    }
+
     /** strip doubled slashes */
     if ( strstr($ourpath,'//') ) $ourpath = preg_replace( '#//+#', '/', $ourpath);
 
-    /** remove any leading protocol/server/port/prefix... */
-    $base_path = ConstructURL('/');
-    $this->dav_name = str_replace( $base_path, '/', $ourpath );
+    if ( substr($ourpath,0,1) != '/' ) $ourpath = '/'.$ourpath;
 
-    if ( substr($this->dav_name,0,1) != '/' ) {
-      $this->dav_name = '/'.$this->dav_name;
-    }
+    $this->dav_name = $ourpath;
   }
 
 
@@ -300,13 +304,13 @@ class DAVResource
     $sql = $base_sql .'dav_name = :raw_path ';
     $params = array( ':raw_path' => $this->dav_name, ':session_principal' => $session->principal_id );
     if ( !preg_match( '#/$#', $this->dav_name ) ) {
-      $sql .= ' OR dav_name = :up_to_slash OR dav_name = :plus_slash';
+      $sql .= ' OR dav_name = :up_to_slash OR dav_name = :plus_slash ';
       $params[':up_to_slash'] = preg_replace( '#[^/]*$#', '', $this->dav_name);
       $params[':plus_slash']  = $this->dav_name.'/';
     }
     $sql .= 'ORDER BY LENGTH(dav_name) DESC LIMIT 1';
     $qry = new AwlQuery( $sql, $params );
-    if ( $qry->Exec('DAVResource') && $qry->rows == 1 && ($row = $qry->Fetch()) ) {
+    if ( $qry->Exec('DAVResource') && $qry->rows() == 1 && ($row = $qry->Fetch()) ) {
       $this->collection = $row;
       if ( $row->is_calendar == 't' )
         $this->collection->type = 'calendar';
@@ -331,8 +335,9 @@ EOSQL;
       $qry->Exec('DAVResource');
       dbg_error_log( 'DAVResource', 'Created new collection as "$displayname".' );
 
-      $qry = new AwlQuery( $base_sql . 'user_no = :user_no AND dav_name = :dav_name', $params );
-      if ( $qry->Exec('DAVResource') && $qry->rows == 1 && ($row = $qry->Fetch()) ) {
+      $params = array( ':raw_path' => $this->dav_name, ':session_principal' => $session->principal_id );
+      $qry = new AwlQuery( $base_sql . ' dav_name = :raw_path', $params );
+      if ( $qry->Exec('DAVResource') && $qry->rows() == 1 && ($row = $qry->Fetch()) ) {
         $this->collection = $row;
       }
     }
@@ -341,12 +346,6 @@ EOSQL;
       $this->_is_proxy_request = true;
       $this->proxy_type = $matches[3];
       $this->collection->dav_name = $matches[1].'/';
-    }
-    else if ( $this->options['allow_by_email'] && preg_match( '#^/(\S+@\S+[.]\S+)/?$#', $this->dav_name, $matches) ) {
-      /** @TODO: perhaps we should deprecate this in favour of scheduling extensions */
-      $this->collection->type = 'principal_email';
-      $this->collection->dav_name = $matches[1].'/';
-      $this->_is_principal = true;
     }
     else if ( preg_match( '#^(/[^/]+)/?$#', $this->dav_name, $matches) ) {
       $this->collection->dav_name = $matches[1].'/';
@@ -362,12 +361,31 @@ EOSQL;
       $this->collection->dav_name = '/';
       $this->collection->type = 'root';
     }
+    else {
+      dbg_error_log( 'DAVResource', 'No collection for path "%s".', $this->dav_name );
+      $this->collection->exists = false;
+      $this->collection->dav_name = preg_replace('{/[^/]*$}', '/', $this->dav_name);
+    }
 
     $this->_is_collection = ( $this->collection->dav_name == $this->dav_name || $this->collection->dav_name == $this->dav_name.'/' );
     if ( $this->_is_collection ) {
-      $this->_is_calendar    = $this->collection->is_calendar;
-      $this->_is_addressbook = $this->collection->is_addressbook;
+      $this->dav_name = $this->collection->dav_name;
+      $this->_is_calendar    = ($this->collection->type == 'calendar');
+      $this->_is_addressbook = ($this->collection->type == 'addressbook');
       $this->contenttype = 'httpd/unix-directory';
+      if ( isset($this->collection->dav_etag) ) $this->unique_tag = $this->collection->dav_etag;
+      if ( isset($this->collection->created) )  $this->created = $this->collection->created;
+      if ( isset($this->collection->modified) ) $this->modified = $this->collection->modified;
+      if ( isset($this->collection->resourcetype) )
+        $this->resourcetype = $this->collection->resourcetype;
+      else {
+        $this->resourcetype = '<DAV::collection/>';
+        if ( $this->_is_principal )
+          $this->resourcetype .= '<DAV::principal/>';
+        else {
+          $this->exists = (!isset($this->collection->exists) || $this->collection->exists);
+        }
+      }
     }
   }
 
@@ -378,6 +396,13 @@ EOSQL;
   function FetchPrincipal() {
     global $c, $session;
     $this->principal = new CalDAVPrincipal( array( "path" => $this->dav_name ) );
+    if ( $this->IsPrincipal() ) {
+      $this->contenttype = 'httpd/unix-directory';
+      $this->unique_tag = $this->principal->dav_etag;
+      $this->created = $this->principal->created;
+      $this->modified = $this->principal->modified;
+      $this->resourcetype = '<DAV::principal/>';
+    }
   }
 
 
@@ -398,9 +423,14 @@ EOQRY;
     $params = array( ':dav_name' => $this->dav_name );
 
     $qry = new AwlQuery( $sql, $params );
-    if ( $qry->Exec('DAVResource') && $qry->rows > 0 ) {
+    if ( $qry->Exec('DAVResource') && $qry->rows() > 0 ) {
       $this->exists = true;
       $this->resource = $qry->Fetch();
+      $this->unique_tag = $this->resource->dav_etag;
+      $this->created = $this->resource->created;
+      $this->modified = $this->resource->modified;
+      $this->contenttype = 'text/calendar';
+      $this->resourcetype = '';
     }
     else {
       $this->exists = false;
@@ -416,20 +446,44 @@ EOQRY;
 
     if ( $this->dav_name == '/' || $this->dav_name == '' ) {
       $this->privileges = 1; // read
-      dbg_error_log( 'DAVResource', 'Read permissions for user accessing /' );
+//      dbg_error_log( 'DAVResource', 'Read permissions for user accessing /' );
       return;
     }
 
-    if ( $session->AllowedTo('Admin') || $session->user_no == $this->user_no ) {
+    if ( $session->AllowedTo('Admin') ) {
       $this->privileges = privilege_to_bits('all');
-      dbg_error_log( 'DAVResource', 'Full permissions for %s', ( $session->user_no == $this->user_no ? 'user accessing their own hierarchy' : 'an administrator') );
+//      dbg_error_log( 'DAVResource', 'Full permissions for an administrator.' );
       return;
     }
+
+    if ( $this->IsPrincipal() ) {
+      if ( !isset($this->principal) ) $this->FetchPrincipal();
+      $this->privileges = $this->principal->Privileges();
+//      dbg_error_log( 'DAVResource', 'Privileges of "%s" for user accessing principal "%s"', $this->privileges, $this->principal->username );
+      return;
+    }
+
 
     $this->privileges = 0;
     if ( !isset($this->collection) ) $this->FetchCollection();
+    if ( !isset($this->collection->path_privileges) ) {
+      $parent_path = preg_replace('{/[^/]*/$}', '/', $this->collection->dav_name );
+//      dbg_error_log( 'DAVResource', 'Checking privileges of "%s" - parent of "%s"', $parent_path, $this->collection->dav_name );
+      $parent = new DAVResource( $parent_path );
+
+      $this->collection->path_privileges = $parent->Privileges();
+    }
 
     $this->privileges = $this->collection->path_privileges;
+  }
+
+
+  /**
+  * Return the privileges bits for the current session user to this resource
+  */
+  function Privileges() {
+    if ( !isset($this->privileges) ) $this->FetchPrivileges();
+    return $this->privileges;
   }
 
 
@@ -439,6 +493,7 @@ EOQRY;
   function HavePrivilegeTo( $do_what ) {
     if ( !isset($this->privileges) ) $this->FetchPrivileges();
     $test_bits = privilege_to_bits( $do_what );
+//    dbg_error_log( 'DAVResource', 'Testing privileges of "%s"(%d) against allowed "%s" => "%s"', $do_what, $test_bits, $this->privileges, ($this->privileges & $test_bits) );
     return ($this->privileges & $test_bits) > 0;
   }
 
@@ -454,7 +509,7 @@ EOQRY;
     if ( !isset($xmldoc) && isset($GLOBALS['reply']) ) $xmldoc = $GLOBALS['reply'];
     $privileges = array();
     foreach( $privilege_names AS $k ) {
-      dbg_error_log( 'DAVResource', 'Adding privilege "%s".', $k );
+//      dbg_error_log( 'DAVResource', 'Adding privilege "%s".', $k );
       $privilege = new XMLElement('privilege');
       if ( isset($xmldoc) )
         $xmldoc->NSElement($privilege,$k);
@@ -573,14 +628,55 @@ EOQRY;
 
 
   /**
+  * Checks whether this resource is a collection
+  */
+  function IsCollection() {
+    return $this->_is_collection;
+  }
+
+
+  /**
+  * Checks whether this resource is a principal
+  */
+  function IsPrincipal() {
+    return $this->_is_collection;
+  }
+
+
+  /**
+  * Checks whether this resource is a calendar
+  */
+  function IsCalendar() {
+    return $this->_is_calendar;
+  }
+
+
+  /**
+  * Checks whether this resource is an addressbook
+  */
+  function IsAddressbook() {
+    return $this->_is_addressbook;
+  }
+
+
+  /**
   * Checks whether this resource actually exists, in the virtual sense, within the hierarchy
   */
   function Exists() {
-    if ( isset($this->exists) ) return $this->exists;
-    if ( isset($this->collection) && isset($this->collection->publicly_readable) && $this->collection->publicly_readable == 't' ) {
-      return true;
+    if ( ! isset($this->exists) ) {
+      if ( $this->IsPrincipal() ) {
+        if ( !isset($this->principal) ) $this->FetchPrincipal();
+        $this->exists = $this->principal->Exists();
+      }
+      else if ( $this->IsCollection() ) {
+        if ( !isset($this->collection) ) $this->FetchCollection();
+      }
+      else {
+        if ( !isset($this->resource) ) $this->FetchResource();
+      }
     }
-    return false;
+    dbg_error_log('DAVResource',' Checking whether "%s" exists.  It would appear %s.', $this->dav_name, ($this->exists ? 'so' : 'not') );
+    return $this->exists;
   }
 
 
@@ -602,6 +698,23 @@ EOQRY;
       return $this->principal->principal_url;
     }
     return null;
+  }
+
+
+  /**
+  * Returns the principal-URL for this resource
+  */
+  function unique_tag() {
+    if ( isset($this->unique_tag) ) return $this->unique_tag;
+    if ( $this->IsCollection() && !isset($this->collection) ) {
+      $this->FetchCollection();
+      if ( $this->IsPrincipal() && !isset($this->principal) ) $this->FetchPrincipal();
+    }
+    else if ( !isset($this->resource) ) $this->FetchResource();
+
+    if ( $this->exists !== true || !isset($this->unique_tag) ) $this->unique_tag = '';
+
+    return $this->unique_tag;
   }
 
 
@@ -632,7 +745,7 @@ EOQRY;
     else {
       $qry = new AwlQuery('SELECT * FROM collection WHERE dav_name = :parent_name',
                                 array( ':parent_name' => $this->collection->parent_container ) );
-      if ( $qry->Exec('DAVResource') && $qry->rows > 0 && $parent = $qry->Fetch() ) {
+      if ( $qry->Exec('DAVResource') && $qry->rows() > 0 && $parent = $qry->Fetch() ) {
         if ( $parent->is_calendar == 't' )
           $this->parent_container_type = 'calendar';
         else if ( $parent->is_addressbook == 't' )
@@ -650,14 +763,55 @@ EOQRY;
 
 
   /**
+  * Return general server-related properties, in plain form
+  */
+  function GetProperty( $name ) {
+    global $c, $session;
+
+//    dbg_error_log( 'DAVResource', 'Processing "%s".', $name );
+    $value = null;
+
+    switch( $name ) {
+      case 'collection_id':
+        if ( !isset($this->collection) ) $this->FetchCollection();
+        return $this->collection->collection_id;
+        break;
+
+      default:
+        if ( $this->_is_principal ) {
+          if ( !isset($this->principal) ) $this->FetchPrincipal();
+          if ( isset($this->principal->{$name}) ) return $this->principal->{$name};
+          if ( isset($this->collection->{$name}) ) return $this->collection->{$name};
+        }
+        else if ( $this->_is_collection ) {
+          if ( !isset($this->collection) ) $this->FetchCollection();
+          if ( isset($this->collection->{$name}) ) return $this->collection->{$name};
+          if ( isset($this->principal->{$name}) ) return $this->principal->{$name};
+        }
+        else {
+          if ( !isset($this->resource) ) $this->FetchResource();
+          if ( isset($this->resource->{$name}) ) return $this->resource->{$name};
+          if ( !isset($this->principal) ) $this->FetchPrincipal();
+          if ( isset($this->principal->{$name}) ) return $this->principal->{$name};
+          if ( !isset($this->collection) ) $this->FetchCollection();
+          if ( isset($this->collection->{$name}) ) return $this->collection->{$name};
+        }
+        dbg_error_log( 'ERROR', 'Request for property "%s" which is not understood.', $name );
+    }
+
+    return $value;
+  }
+
+
+  /**
   * Return general server-related properties for this URL
   */
-  function ResourceProperty( $tag, $prop, $reply = null ) {
+  function ResourceProperty( $tag, $prop, $reply = null, &$denied ) {
     global $c, $session;
 
     if ( $reply === null ) $reply = $GLOBALS['reply'];
 
-    dbg_error_log( 'resource', 'Processing "%s" on "%s".', $tag, $this->dav_name );
+    dbg_error_log( 'DAVResource', 'Processing "%s" on "%s".', $tag, $this->dav_name );
 
     switch( $tag ) {
       case 'DAV::href':
@@ -677,7 +831,7 @@ EOQRY;
         break;
 
       case 'DAV::getlastmodified':
-        $prop->NewElement('getlastmodified', $this->last_modified );
+        $prop->NewElement('getlastmodified', $this->modified );
         break;
 
       case 'DAV::creationdate':
@@ -703,7 +857,7 @@ EOQRY;
 
       case 'DAV::getetag':
         if ( $this->_is_collection ) {
-          $not_found[] = $reply->Tag($tag);
+          return false;
         }
         else {
           $prop->NewElement('getetag', $this->unique_tag );
@@ -719,17 +873,22 @@ EOQRY;
           $prop->NewElement('http://calendarserver.org/ns/:getctag', $this->unique_tag );
         }
         else {
-          $not_found[] = $reply->Tag($tag);
+          return false;
         }
         break;
 
       case 'urn:ietf:params:xml:ns:caldav:calendar-data':
-        if ( isset($this->caldav_data) ) {
+        if ( $this->_is_collection ) {
+          if ( !isset($this->resource) ) $this->FetchResource();
+          $reply->CalDAVElement($prop, $k, $this->resource->caldav_data );
+        }
+        else {
+          return false;
         }
         break;
 
       default:
-        dbg_error_log( 'resource', 'Request for unsupported property "%s" of path "%s".', $tag, $this->dav_name );
+        dbg_error_log( 'DAVResource', 'Request for unsupported property "%s" of path "%s".', $tag, $this->dav_name );
         return false;
     }
     return true;
@@ -746,15 +905,15 @@ EOQRY;
   function GetPropStat( $properties ) {
     global $session, $c, $request, $reply;
 
-    dbg_error_log('resource',': GetPropStat: href "%s"', $this->dav_name );
+    dbg_error_log('DAVResource',': GetPropStat: href "%s"', $this->dav_name );
 
     $prop = new XMLElement('prop');
     $denied = array();
     $not_found = array();
     foreach( $properties AS $k => $tag ) {
-      dbg_error_log( 'resource', 'Looking at resource "%s" for property [%s]"%s".', $this->dav_name, $k, $tag );
-      if ( ! $this->ResourceProperty($tag, $prop, $reply) ) {
-        dbg_error_log( 'resource', 'Request for unsupported property "%s" of resource "%s".', $tag, $this->dav_name );
+//      dbg_error_log( 'DAVResource', 'Looking at resource "%s" for property [%s]"%s".', $this->dav_name, $k, $tag );
+      if ( ! $this->ResourceProperty($tag, $prop, $reply, $denied ) ) {
+        dbg_error_log( 'DAVResource', 'Request for unsupported property "%s" of resource "%s".', $tag, $this->dav_name );
         $not_found[] = $reply->Tag($tag);
       }
     }
@@ -795,7 +954,7 @@ EOQRY;
   function RenderAsXML( $properties, &$reply, $props_only = false ) {
     global $session, $c, $request;
 
-    dbg_error_log('principal',': RenderAsXML: Principal "%s"', $this->username );
+    dbg_error_log('DAVResource',': RenderAsXML: Principal "%s"', $this->username );
 
     $prop = new XMLElement('prop');
     $denied = array();
@@ -812,7 +971,7 @@ EOQRY;
     $status = new XMLElement('status', 'HTTP/1.1 200 OK' );
 
     $propstat = new XMLElement( 'propstat', array( $prop, $status) );
-    $href = $reply->href( ConstructURL($this->dav_name) ); /** TODO: make ::href() into an accessor */
+    $href = $reply->href( ConstructURL($this->dav_name) ); /** @TODO: make ::href() into an accessor */
 
     $elements = array($href,$propstat);
 

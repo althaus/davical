@@ -209,41 +209,39 @@ CREATE TABLE freebusy_ticket (
 );
 
 
-CREATE or REPLACE FUNCTION sync_dav_id ( ) RETURNS TRIGGER AS '
+
+CREATE or REPLACE FUNCTION sync_dav_id ( ) RETURNS TRIGGER AS $$
   DECLARE
   BEGIN
 
-    IF TG_OP = ''DELETE'' THEN
+    IF TG_OP = 'DELETE' THEN
       -- Just let the ON DELETE CASCADE handle this case
       RETURN OLD;
     END IF;
 
     IF NEW.dav_id IS NULL THEN
-      NEW.dav_id = nextval(''dav_id_seq'');
+      NEW.dav_id = nextval('dav_id_seq');
     END IF;
 
-    IF TG_OP = ''UPDATE'' THEN
-      IF OLD.dav_id = NEW.dav_id THEN
-        -- Nothing to do
-        RETURN NEW;
+    IF TG_OP = 'UPDATE' THEN
+      IF OLD.dav_id != NEW.dav_id OR OLD.collection_id != NEW.collection_id
+                 OR OLD.user_no != NEW.user_no OR OLD.dav_name != NEW.dav_name THEN
+        UPDATE calendar_item SET dav_id = NEW.dav_id, user_no = NEW.user_no,
+                        collection_id = NEW.collection_id, dav_name = NEW.dav_name
+            WHERE dav_name = OLD.dav_name OR dav_id = OLD.dav_id;
       END IF;
+      RETURN NEW;
     END IF;
 
-    IF TG_RELNAME = ''caldav_data'' THEN
-      UPDATE calendar_item SET dav_id = NEW.dav_id WHERE user_no = NEW.user_no AND dav_name = NEW.dav_name;
-    ELSE
-      UPDATE caldav_data SET dav_id = NEW.dav_id WHERE user_no = NEW.user_no AND dav_name = NEW.dav_name;
-    END IF;
+    UPDATE calendar_item SET dav_id = NEW.dav_id, user_no = NEW.user_no,
+                    collection_id = NEW.collection_id, dav_name = NEW.dav_name
+          WHERE dav_name = NEW.dav_name OR dav_id = NEW.dav_id;
 
     RETURN NEW;
 
   END
-' LANGUAGE 'plpgsql';
-
+$$ LANGUAGE 'plpgsql';
 CREATE TRIGGER caldav_data_sync_dav_id AFTER INSERT OR UPDATE ON caldav_data
-    FOR EACH ROW EXECUTE PROCEDURE sync_dav_id();
-
-CREATE TRIGGER calendar_item_sync_dav_id AFTER INSERT OR UPDATE ON calendar_item
     FOR EACH ROW EXECUTE PROCEDURE sync_dav_id();
 
 

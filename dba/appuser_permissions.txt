@@ -35,6 +35,7 @@ GRANT SELECT,INSERT,UPDATE,DELETE
   ON relationship_type
   ON sync_tokens
   ON sync_changes
+  ON grants
 
 GRANT SELECT,UPDATE
   ON relationship_type_rt_id_seq

@@ -68,7 +68,7 @@ if ( !isset($_SERVER['SERVER_NAME']) ) {
 /**
 * Calculate the simplest form of reference to this page, excluding the PATH_INFO following the script name.
 */
-$c->protocol_server_port_script = sprintf( '%s://%s%s%s',
+$c->protocol_server_port = sprintf( '%s://%s%s',
                  (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on'? 'https' : 'http'),
                  $_SERVER['SERVER_NAME'],
                  (
@@ -76,8 +76,8 @@ $c->protocol_server_port_script = sprintf( '%s://%s%s%s',
                            || (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' && $_SERVER['SERVER_PORT'] == 443 )
                    ? ''
                    : ':'.$_SERVER['SERVER_PORT']
-                 ),
-                 ($_SERVER['SCRIPT_NAME'] == '/index.php' ? '' : $_SERVER['SCRIPT_NAME']) );
+                 ) );
+$c->protocol_server_port_script = $c->protocol_server_port . ($_SERVER['SCRIPT_NAME'] == '/index.php' ? '' : $_SERVER['SCRIPT_NAME']);
 
 init_gettext( 'davical', '../locale' );
 
@@ -167,7 +167,11 @@ function getUserByName( $username, $use_cache = true ) {
   // Provide some basic caching in case this ends up being overused.
   if ( $use_cache && isset( $_known_users_name[$username] ) ) return $_known_users_name[$username];
 
-  $qry = new PgQuery( "SELECT *, to_char(updated at time zone 'GMT','Dy, DD Mon IYYY HH24:MI:SS \"GMT\"') AS modified FROM usr WHERE lower(username) = lower(?) ", $username );
+  global $session;
+  if ( isset($session->user_no) )
+    $qry = new PgQuery( "SELECT *, to_char(updated at time zone 'GMT','Dy, DD Mon IYYY HH24:MI:SS \"GMT\"') AS modified, principal.*, user_privileges(?,usr.user_no) AS privileges FROM usr LEFT JOIN principal USING(user_no) WHERE lower(username) = lower(?) ", $session->user_no, $username );
+  else
+    $qry = new PgQuery( "SELECT *, to_char(updated at time zone 'GMT','Dy, DD Mon IYYY HH24:MI:SS \"GMT\"') AS modified, principal.*, 0::BIT(24) AS privileges FROM usr LEFT JOIN principal USING(user_no) WHERE lower(username) = lower(?) ", $username );
   if ( $qry->Exec('always',__LINE__,__FILE__) && $qry->rows == 1 ) {
     $_known_users_name[$username] = $qry->Fetch();
     $id = $_known_users_name[$username]->user_no;
@@ -188,7 +192,8 @@ function getUserByID( $user_no, $use_cache = true ) {
   // Provide some basic caching in case this ends up being overused.
   if ( $use_cache && isset( $_known_users_id[$user_no] ) ) return $_known_users_id[$user_no];
 
-  $qry = new PgQuery( "SELECT *, to_char(updated at time zone 'GMT','Dy, DD Mon IYYY HH24:MI:SS \"GMT\"') AS modified FROM usr WHERE user_no = ? ", intval($user_no) );
+  global $session;
+  $qry = new PgQuery( "SELECT *, to_char(updated at time zone 'GMT','Dy, DD Mon IYYY HH24:MI:SS \"GMT\"') AS modified, principal.*, user_privileges(?,usr.user_no) AS privileges FROM usr LEFT JOIN principal USING(user_no) WHERE user_no = ? ", $session->user_no, intval($user_no) );
   if ( $qry->Exec('always',__LINE__,__FILE__) && $qry->rows == 1 ) {
     $_known_users_id[$user_no] = $qry->Fetch();
     $name = $_known_users_id[$user_no]->username;

@@ -163,6 +163,8 @@ class CalDAVPrincipal
     if ( !isset($this->modified) ) $this->modified = ISODateToHTTPDate($this->updated);
     if ( !isset($this->created) )  $this->created  = ISODateToHTTPDate($this->joined);
 
+    $this->dav_etag = md5($this->username . $this->updated);
+
     $this->by_email = false;
     $this->principal_url = ConstructURL( '/'.$this->username.'/', true );
     $this->url = $this->principal_url;
@@ -180,9 +182,9 @@ class CalDAVPrincipal
     $this->dropbox_url = sprintf( '%s.drop/', $this->url);
     $this->notifications_url = sprintf( '%s.notify/', $this->url);
 
-    if ( isset ( $c->notifications_server ) ) { 
+    if ( isset ( $c->notifications_server ) ) {
       $this->xmpp_uri = 'xmpp:pubsub.'.$c->notifications_server['host'].'?pubsub;node=/home/'.$c->notifications_server['host'];
-      $this->xmpp_uri .= '/'.preg_replace ( '/@.*$/', '', $c->notifications_server['jid'] ).'/DAViCal'.$this->url; 
+      $this->xmpp_uri .= '/'.preg_replace ( '/@.*$/', '', $c->notifications_server['jid'] ).'/DAViCal'.$this->url;
       $this->xmpp_server = $c->notifications_server['host'];
     }
 
@@ -284,7 +286,7 @@ class CalDAVPrincipal
         $username = $user->username;
       }
     }
-    elseif( $user = getUserByName( $username, 'caldav') ) {
+    elseif( $user = getUserByName( $username, 'principal') ) {
       $user_no = $user->user_no;
     }
     return $username;
@@ -312,6 +314,14 @@ class CalDAVPrincipal
   */
   function Exists() {
     return $this->exists;
+  }
+
+
+  /**
+  * Return the privileges bits for the current session user to this resource
+  */
+  function Privileges() {
+    return $this->privileges;
   }
 
 

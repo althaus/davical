@@ -365,9 +365,9 @@ function import_collection( $ics_content, $user_no, $path, $caldav_context ) {
     }
 
     $sql .= <<<EOSQL
-    INSERT INTO calendar_item (user_no, dav_name, dav_etag, uid, dtstamp, dtstart, dtend, summary, location, class, transp,
+    INSERT INTO calendar_item (user_no, dav_name, dav_id, dav_etag, uid, dtstamp, dtstart, dtend, summary, location, class, transp,
                       description, rrule, tz_id, last_modified, url, priority, created, due, percent_complete, status, collection_id )
-                   VALUES ( ?, ?, ?, ?, ?, ?, $dtend, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+                   VALUES ( ?, ?, currval('dav_id_seq'), ?, ?, ?, ?, $dtend, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
 EOSQL;
 
     $qry = new PgQuery( $sql, $user_no, $resource_path, $etag, $first->GetPValue('UID'), $dtstamp,
@@ -417,13 +417,13 @@ function putCalendarResource( &$request, $author, $caldav_context ) {
       * entity exists, the server MUST NOT perform the requested method, and
       * MUST return a 412 (Precondition Failed) response.
       */
-      rollback_on_error( $caldav_context, $request->user_no, $request->path, 412, translate('Resource changed on server - not changed.') );
+      rollback_on_error( $caldav_context, $request->user_no, $request->path, translate('Resource changed on server - not changed.'), 412 );
     }
 
     $put_action_type = 'INSERT';
 
     if ( ! $request->AllowedTo('create') ) {
-      rollback_on_error( $caldav_context, $request->user_no, $request->path, 403, translate('You may not add entries to this calendar.') );
+      rollback_on_error( $caldav_context, $request->user_no, $request->path, translate('You may not add entries to this calendar.'), 403 );
     }
   }
   elseif ( $qry->rows == 1 ) {
@@ -447,7 +447,7 @@ function putCalendarResource( &$request, $author, $caldav_context ) {
       if ( isset($request->etag_if_match) && $request->etag_if_match != $icalendar->dav_etag ) {
         $error = translate( 'Existing resource does not match "If-Match" header - not accepted.');
       }
-      if ( isset($etag_none_match) && $etag_none_match != '' && ($etag_none_match == $icalendar->dav_etag || $etag_none_match == '*') ) {
+      if ( isset($request->etag_none_match) && $request->etag_none_match != '' && ($request->etag_none_match == $icalendar->dav_etag || $request->etag_none_match == '*') ) {
         $error = translate( 'Existing resource matches "If-None-Match" header - not accepted.');
       }
       $request->DoResponse( 412, $error );
@@ -490,12 +490,21 @@ function write_resource( $user_no, $path, $caldav_data, $collection_id, $author,
   global $tz_regex;
 
   $resources = $ic->GetComponents('VTIMEZONE',false); // Not matching VTIMEZONE
-  $first = $resources[0];
+  if ( !isset($resources[0]) ) {
+    $resource_type = 'Unknown';
+    /** @TODO: Handle writing non-calendar resources, like address book entries or random file data */
+    rollback_on_error( $caldav_context, $user_no, $path, translate('No calendar content'), 412 );
+    return false;
+  }
+  else {
+    $first = $resources[0];
+    $resource_type = $first->GetType();
+  }
 
   if ( $put_action_type == 'INSERT' ) {
     create_scheduling_requests($vcal);
     $qry = new PgQuery( 'BEGIN; INSERT INTO caldav_data ( user_no, dav_name, dav_etag, caldav_data, caldav_type, logged_user, created, modified, collection_id ) VALUES( ?, ?, ?, ?, ?, ?, current_timestamp, current_timestamp, ? )',
-                           $user_no, $path, $etag, $caldav_data, $first->GetType(), $author, $collection_id );
+                           $user_no, $path, $etag, $caldav_data, $resource_type, $author, $collection_id );
     if ( !$qry->Exec('PUT') ) {
       rollback_on_error( $caldav_context, $user_no, $path);
       return false;
@@ -504,7 +513,7 @@ function write_resource( $user_no, $path, $caldav_data, $collection_id, $author,
   else {
     update_scheduling_requests($vcal);
     $qry = new PgQuery( 'BEGIN;UPDATE caldav_data SET caldav_data=?, dav_etag=?, caldav_type=?, logged_user=?, modified=current_timestamp WHERE user_no=? AND dav_name=?',
-                           $caldav_data, $etag, $first->GetType(), $author, $user_no, $path );
+                           $caldav_data, $etag, $resource_type, $author, $user_no, $path );
     if ( !$qry->Exec('PUT') ) {
       rollback_on_error( $caldav_context, $user_no, $path);
       return false;
@@ -639,11 +648,11 @@ EOSQL;
   }
   else {
     $sql .= <<<EOSQL
-INSERT INTO calendar_item (user_no, dav_name, dav_etag, uid, dtstamp,
+INSERT INTO calendar_item (user_no, dav_name, dav_id, dav_etag, uid, dtstamp,
                 dtstart, dtend, summary, location, class, transp,
                 description, rrule, tz_id, last_modified, url, priority,
                 created, due, percent_complete, status, collection_id )
-   VALUES ( $user_no, $escaped_path, ?, ?, ?,
+   VALUES ( $user_no, $escaped_path, currval('dav_id_seq'), ?, ?, ?,
                 ?, $dtend, ?, ?, ?, ?,
                 ?, ?, ?, ?, ?, ?,
                 ?, ?, ?, ?, $collection_id );

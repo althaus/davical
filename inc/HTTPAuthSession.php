@@ -23,25 +23,25 @@ class HTTPAuthSession {
   * User ID number
   * @var user_no int
   */
-  var $user_no;
+  public $user_no;
 
   /**
   * User e-mail
   * @var email string
   */
-  var $email;
+  public $email;
 
   /**
   * User full name
   * @var fullname string
   */
-  var $fullname;
+  public $fullname;
 
   /**
   * Group rights
   * @var groups array
   */
-  var $groups;
+  public $groups;
   /**#@-*/
 
   /**
@@ -228,7 +228,7 @@ class HTTPAuthSession {
       if (isset($c->authenticate_hook['optional']) && $c->authenticate_hook['optional']) {
         if ($hook_response !== false) { return $hook_response; }
       } else {
-	return $hook_response;
+        return $hook_response;
       }
     }
 

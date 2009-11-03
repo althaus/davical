@@ -78,6 +78,12 @@ class CalDAVRequest
   var $collection_type;
 
   /**
+  * The type of collection being requested:
+  *  calendar, schedule-inbox, schedule-outbox
+  */
+  protected $exists;
+
+  /**
   * A static structure of supported privileges.
   */
   var $supported_privileges;
