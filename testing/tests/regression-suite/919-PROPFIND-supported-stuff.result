@@ -1,8 +1,8 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule, extended-mkcol
-ETag: "8a5e441890faec00d4749e0e30ee1733"
-Content-Length: 1259
+ETag: "e344ccee2e02d032cd5381aeb0a285a1"
+Content-Length: 1296
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -28,6 +28,7 @@ Content-Type: text/xml; charset="utf-8"
      <supported-method name="DELETE"/>
      <supported-method name="LOCK"/>
      <supported-method name="UNLOCK"/>
+     <supported-method name="MOVE"/>
      <supported-method name="POST"/>
      <supported-method name="GET"/>
      <supported-method name="PUT"/>
