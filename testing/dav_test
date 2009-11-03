@@ -162,7 +162,10 @@ while( <TEST> ) {
   };
 
   $line =~ /^\s*HEADER\s*=\s*(\S.*)$/ && do {
-    push @arguments, "--header", $1;
+    my $arg = $1;
+    $arg =~ s{regression.host}{$webhost};
+    $arg =~ s{alternate.host}{$althost};
+    push @arguments, "--header", $arg;
   };
 
   $line =~ /^\s*URL\s*=\s*(\S.*)$/ && do {
@@ -213,6 +216,7 @@ while( <RESULTS> ) {
 
 if ( defined(@{$queries}) && @{$queries} ) {
   opendb() unless defined($dbh);
+  print "\n";
   print STDERR "Processing special queries\n" if ( $debug );
   foreach $sql_statement ( @$queries ) {
     # run SQL statement and dump results, into array of hashes
