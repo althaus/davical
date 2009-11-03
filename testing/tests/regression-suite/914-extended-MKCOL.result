@@ -5,6 +5,7 @@ Cache-Control: no-cache
 Content-Length: 0
 Content-Type: text/plain; charset="utf-8"
 
+
   dav_displayname: >Extended MKCOL Address Book<
    is_addressbook: >1<
       is_calendar: >0<

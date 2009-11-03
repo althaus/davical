@@ -11,6 +11,7 @@ Content-Type: text/xml; charset="utf-8"
   <responsedescription>All requested changes were made.</responsedescription>
  </response>
 </multistatus>
+
 changed_last_60se: >1<
   dav_displayname: >User One's Calendar<
       is_calendar: >1<

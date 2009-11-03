@@ -5,6 +5,7 @@ ETag: "7b70c8c0621b4daac509b8198e9e13d8"
 Content-Length: 0
 Content-Type: text/plain; charset="utf-8"
 
+
       CalDAV Data: >BEGIN:VCALENDAR
 PRODID:-//OSAF//NONSGML Scoooby Server//EN
 VERSION:2.0
