@@ -213,8 +213,12 @@ $resources = $ical->GetComponents('VTIMEZONE',false);
 $first = $resources[0];
 switch ( $method ) {
   case 'REQUEST':
-    dbg_error_log("POST", "Handling iTIP 'REQUEST' method.", $method );
-    handle_freebusy_request( $first );
+    dbg_error_log('POST', 'Handling iTIP "REQUEST" method with "%s" component.', $method, $first->GetType() );
+    if ( $first->GetType() == 'VFREEBUSY' )
+      handle_freebusy_request( $first );
+    else {
+      dbg_error_log('POST', 'Ignoring iTIP "REQUEST" with "%s" component.', $first->GetType() );
+    }
     break;
 
   case 'CANCEL':
