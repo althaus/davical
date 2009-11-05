@@ -84,10 +84,12 @@ CREATE TABLE collection (
   default_privileges BIT(24) DEFAULT privilege_to_bits('caldav:read-free-busy'),
   is_addressbook BOOLEAN DEFAULT FALSE,
   resourcetypes TEXT DEFAULT '<DAV::collection/>',
+  in_freebusy_set BOOLEAN DEFAULT TRUE,
+  schedule_transp TEXT DEFAULT 'opaque',
+  timezone TEXT REFERENCES timezones('tz_id') ON DELETE RESTRICT ON UPDATE CASCADE,
+  description TEXT DEFAULT '',
   UNIQUE(user_no,dav_name)
 );
-
-UPDATE collection SET resourcetypes = '<DAV::collection/><urn:ietf:params:xml:ns:caldav:calendar/>' WHERE is_calendar;
 
 
 -- The main event.  Where we store the things the calendar throws at us.

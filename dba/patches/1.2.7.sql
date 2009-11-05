@@ -23,6 +23,10 @@ CREATE INDEX sync_processing_index ON sync_changes( collection_id, dav_id, sync_
 
 ALTER TABLE collection ADD COLUMN is_addressbook BOOLEAN DEFAULT FALSE;
 ALTER TABLE collection ADD COLUMN resourcetypes TEXT DEFAULT '<DAV::collection/>';
+ALTER TABLE collection ADD COLUMN in_freebusy_set BOOLEAN DEFAULT TRUE;
+ALTER TABLE collection ADD COLUMN schedule_transp TEXT DEFAULT 'opaque';
+ALTER TABLE collection ADD COLUMN timezone TEXT REFERENCES timezones('tz_id') ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE collection ADD COLUMN description TEXT DEFAULT '';
 
 UPDATE collection SET resourcetypes = '<DAV::collection/><urn:ietf:params:xml:ns:caldav:calendar/>' WHERE is_calendar;
 
