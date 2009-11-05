@@ -68,6 +68,16 @@ LANGUAGE 'PlPgSQL' IMMUTABLE STRICT;
 -- This sequence is used in a number of places so that any DAV resource will have a unique ID
 CREATE SEQUENCE dav_id_seq;
 
+
+-- Not particularly needed, perhaps, except as a way to collect
+-- a bunch of valid iCalendar time zone specifications... :-)
+CREATE TABLE time_zone (
+  tz_id TEXT PRIMARY KEY,
+  tz_locn TEXT,
+  tz_spec TEXT
+);
+
+
 -- Something that can look like a filesystem hierarchy where we store stuff
 CREATE TABLE collection (
   user_no INT references usr(user_no) ON UPDATE CASCADE ON DELETE CASCADE DEFERRABLE,
@@ -86,7 +96,7 @@ CREATE TABLE collection (
   resourcetypes TEXT DEFAULT '<DAV::collection/>',
   in_freebusy_set BOOLEAN DEFAULT TRUE,
   schedule_transp TEXT DEFAULT 'opaque',
-  timezone TEXT REFERENCES timezones('tz_id') ON DELETE RESTRICT ON UPDATE CASCADE,
+  timezone TEXT REFERENCES time_zone(tz_id) ON DELETE SET NULL ON UPDATE CASCADE,
   description TEXT DEFAULT '',
   UNIQUE(user_no,dav_name)
 );
@@ -108,15 +118,6 @@ CREATE TABLE caldav_data (
   PRIMARY KEY ( user_no, dav_name )
 );
 CREATE INDEX caldav_data_collection_id_fkey ON caldav_data(collection_id);
-
--- Not particularly needed, perhaps, except as a way to collect
--- a bunch of valid iCalendar time zone specifications... :-)
-CREATE TABLE time_zone (
-  tz_id TEXT PRIMARY KEY,
-  tz_locn TEXT,
-  tz_spec TEXT
-);
-
 
 -- The parsed calendar item.  Here we have pulled those events/todos/journals apart somewhat.
 CREATE TABLE calendar_item (
