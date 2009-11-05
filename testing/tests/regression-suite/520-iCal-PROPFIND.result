@@ -1,6 +1,7 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule, extended-mkcol
+Allow: OPTIONS, PROPFIND, REPORT, DELETE, LOCK, UNLOCK, MOVE, POST, GET, PUT, HEAD, PROPPATCH
 ETag: "baa6a205310ac96ddbd3954eb242fecc"
 Content-Length: 780
 Content-Type: text/xml; charset="utf-8"

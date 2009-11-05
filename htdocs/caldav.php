@@ -29,6 +29,9 @@ header( "DAV: $dav");
 require_once("CalDAVRequest.php");
 $request = new CalDAVRequest();
 
+$allowed = implode( ', ', array_keys($request->supported_methods) );
+header( "Allow: $allowed");
+
 if ( ! ($request->IsPrincipal() || isset($request->collection) || $request->method == 'PUT' || $request->method == 'MKCALENDAR' || $request->method == 'MKCOL' ) ) {
   if ( preg_match( '#^/principals/users(/.*/)$#', $request->path, $matches ) ) {
     // Although this doesn't work with the iPhone, perhaps it will with iCal...
