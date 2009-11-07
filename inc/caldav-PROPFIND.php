@@ -260,9 +260,9 @@ function add_general_properties( &$prop, &$denied, $record ) {
   // TODO: this duplicates code below. if possible, do said code only once.
   if ( preg_match('#/[^/]+/calendar-proxy-(read|write)/?#', $record->dav_displayname, $matches) && isset($prop_list['DAV::group-member-set']) ) {
   	if ($matches[1] == 'read') {
-        $reply->DAVElement($prop, 'group-member-set', href_set_from_paths( $request->principal->read_proxy_group ) );
+        $reply->DAVElement($prop, 'group-member-set', href_set_from_paths( $request->principal->ReadProxyGroup() ) );
   	} else /* if ($matches[1] == 'write') */ {
-  		$reply->DAVElement($prop, 'group-member-set', href_set_from_paths( $request->principal->write_proxy_group ) );
+  		$reply->DAVElement($prop, 'group-member-set', href_set_from_paths( $request->principal->WriteProxyGroup() ) );
   	}
   }
 
@@ -365,14 +365,15 @@ function build_propstat_response( $prop, $denied, $url ) {
 function add_proxy_response( &$responses, $which, $parent_path ) {
 	global $request, $c, $session;
 
-  $collection = (object) '';
-  if ( $which == 'read' ) {
-    $proxy_group = $request->principal->read_proxy_group;
-  } else if ( $which == 'write' ) {
-    $proxy_group = $request->principal->write_proxy_group;
-  }
   if ($parent_path != '/'.$request->principal->username.'/') {
     return; // Nothing to proxy for
+  }
+
+  $collection = (object) '';
+  if ( $which == 'read' ) {
+    $proxy_group = $request->principal->ReadProxyGroup();
+  } else if ( $which == 'write' ) {
+    $proxy_group = $request->principal->WriteProxyGroup();
   }
 
   $collection->dav_name = $parent_path.'calendar-proxy-'.$which.'/';
@@ -474,24 +475,24 @@ function collection_to_xml( $collection ) {
     // Caldav proxy (not described in rfc, but CalendarServer has it)
     if ( isset($prop_list['http://calendarserver.org/ns/:calendar-proxy-'.$collection->proxy_type.'-for'] ) ) {
       if ( $collection->proxy_type == 'read' ) {
-        $proxy_group = $request->principal->read_proxy_for;
+        $proxy_group = $request->principal->ReadProxyFor();
       } else if ( $collection->proxy_type == 'write' ) {
-        $proxy_group = $request->principal->write_proxy_for;
+        $proxy_group = $request->principal->WriteProxyFor();
       }
       $reply->CalendarserverElement($prop, 'calendar-proxy-'.$collection->proxy_type.'-for', $reply->href( $proxy_group ) );
     }
 
     if ( isset($prop_list['DAV::group-member-set']) ) {
       if ( $collection->proxy_type == 'read' ) {
-        $proxy_group = $request->principal->read_proxy_group;
+        $proxy_group = $request->principal->ReadProxyGroup();
       } else if ( $collection->proxy_type == 'write' ) {
-        $proxy_group = $request->principal->write_proxy_group;
+        $proxy_group = $request->principal->WriteProxyGroup();
       }
       $reply->DAVElement($prop, 'group-member-set', $reply->href( $proxy_group ) );
     }
 
     if (isset($prop_list['DAV::group-membership'])) {
-      $reply->DAVElement($prop, 'group-membership', $reply->href( $request->principal->group_membership ));
+      $reply->DAVElement($prop, 'group-membership', $reply->href( $request->principal->GroupMembership() ));
     }
 
   }

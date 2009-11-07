@@ -65,27 +65,27 @@ class CalDAVPrincipal
   /**
   * @var RFC3744: The groups in which the principal is directly a member.
   */
-  var $group_membership;
+  protected $group_membership;
 
   /**
    * @var caldav-cu-proxy-02: The principals which this one has read permissions on.
    */
-  var $read_proxy_for;
+  protected $read_proxy_for;
 
   /**
    * @var caldav-cu-proxy-02: The principals which this one has read-write prmissions for.
    */
-  var $write_proxy_for;
+  protected $write_proxy_for;
 
    /**
    * @var caldav-cu-proxy-02: The principals which have read permissions on this one.
    */
-  var $read_proxy_group;
+  protected $read_proxy_group;
 
   /**
    * @var caldav-cu-proxy-02: The principals which have write permissions on this one.
    */
-  var $write_proxy_group;
+  protected $write_proxy_group;
 
   /**
   * Constructor
@@ -196,6 +196,34 @@ class CalDAVPrincipal
       }
     }
 
+    $this->group_membership = null;
+    $this->read_proxy_group = null;
+    $this->write_proxy_group = null;
+    $this->write_proxy_for = null;
+    $this->read_proxy_for = null;
+
+    /**
+    * calendar-free-busy-set has been dropped from draft 5 of the scheduling extensions for CalDAV
+    * but we'll keep replying to it for a while longer since iCal appears to want it...
+    */
+    $qry = new PgQuery('SELECT dav_name FROM collection WHERE user_no = ? AND is_calendar', $this->user_no);
+    $this->calendar_free_busy_set = array();
+    if( $qry->Exec('CalDAVPrincipal',__LINE__,__FILE__) && $qry->rows > 0 ) {
+      while( $calendar = $qry->Fetch() ) {
+        $this->calendar_free_busy_set[] = ConstructURL($calendar->dav_name, true);
+      }
+    }
+
+    dbg_error_log( 'principal', ' User: %s (%d) URL: %s, Home: %s, By Email: %d', $this->username, $this->user_no, $this->url, $this->calendar_home_set, $this->by_email );
+  }
+
+
+  /**
+  * Split this out so we do it as infrequently as possible, given the cost.
+  */
+  function FetchProxyGroups() {
+    global $c;
+
     $this->group_membership = array();
     $qry = new PgQuery('SELECT * FROM relationship LEFT JOIN usr ON (to_user = user_no) LEFT JOIN role_member USING (user_no) LEFT JOIN roles USING (role_no) WHERE from_user = ? AND role_name = '."'Group'", $this->user_no );
     if ( $qry->Exec('CalDAVPrincipal') && $qry->rows > 0 ) {
@@ -241,20 +269,51 @@ class CalDAVPrincipal
         }
       }
     }
+  }
 
-    /**
-    * calendar-free-busy-set has been dropped from draft 5 of the scheduling extensions for CalDAV
-    * but we'll keep replying to it for a while longer since iCal appears to want it...
-    */
-    $qry = new PgQuery('SELECT dav_name FROM collection WHERE user_no = ? AND is_calendar', $this->user_no);
-    $this->calendar_free_busy_set = array();
-    if( $qry->Exec('CalDAVPrincipal',__LINE__,__FILE__) && $qry->rows > 0 ) {
-      while( $calendar = $qry->Fetch() ) {
-        $this->calendar_free_busy_set[] = ConstructURL($calendar->dav_name, true);
-      }
-    }
 
-    dbg_error_log( 'principal', ' User: %s (%d) URL: %s, Home: %s, By Email: %d', $this->username, $this->user_no, $this->url, $this->calendar_home_set, $this->by_email );
+  /**
+  * Accessor for the read proxy group
+  */
+  function ReadProxyGroup() {
+    if ( !isset($this->read_proxy_group) ) $this->FetchProxyGroups();
+    return $this->read_proxy_group;
+  }
+
+
+  /**
+  * Accessor for the write proxy group
+  */
+  function WriteProxyGroup() {
+    if ( !isset($this->write_proxy_group) ) $this->FetchProxyGroups();
+    return $this->write_proxy_group;
+  }
+
+
+  /**
+  * Accessor for the read proxy for
+  */
+  function ReadProxyFor() {
+    if ( !isset($this->read_proxy_for) ) $this->FetchProxyGroups();
+    return $this->read_proxy_for;
+  }
+
+
+  /**
+  * Accessor for the write proxy for
+  */
+  function WriteProxyFor() {
+    if ( !isset($this->write_proxy_for) ) $this->FetchProxyGroups();
+    return $this->write_proxy_for;
+  }
+
+
+  /**
+  * Accessor for the group membership
+  */
+  function GroupMembership() {
+    if ( !isset($this->group_membership) ) $this->FetchProxyGroups();
+    return $this->group_membership;
   }
 
 
@@ -403,7 +462,7 @@ class CalDAVPrincipal
           break;
 
         case 'DAV::group-membership':
-          $prop->NewElement('group-membership', $reply->href($this->group_membership) );
+          $prop->NewElement('group-membership', $reply->href($this->GroupMembership()) );
           break;
 
         case 'urn:ietf:params:xml:ns:caldav:schedule-inbox-URL':
