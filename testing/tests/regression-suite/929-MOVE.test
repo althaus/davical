@@ -10,7 +10,7 @@ HEAD
 QUERY
 SELECT dav_name,
        user_no,
-       modified,
+       (modified > (current_timestamp - '1 hour'::interval)) AS mod_in_last_hour,
        dav_etag
 FROM collection
 WHERE collection.dav_name ~ '(entire|movedcalendar)';
