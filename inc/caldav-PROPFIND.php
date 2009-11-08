@@ -10,6 +10,10 @@
 */
 dbg_error_log('PROPFIND', 'method handler');
 
+if ( isset($c->new_propfind) && $c->new_propfind ) {
+
+}
+
 if ( ! ($request->AllowedTo('read') || $request->AllowedTo('freebusy')) ) {
   $request->DoResponse( 403, translate('You may not access that calendar') );
 }
