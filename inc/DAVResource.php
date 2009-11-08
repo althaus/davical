@@ -230,15 +230,19 @@ class DAVResource
     if ( $row == null ) return;
 
     $this->exists = true;
+    $this->_is_collection = preg_match( '{/$}', $row->dav_name );
+
     foreach( $row AS $k => $v ) {
       dbg_error_log( 'DAVResource', 'Processing resource property "%s" has "%s".', $row->dav_name, $k );
+      $this->resource->{$k} = $v;
       switch ( $k ) {
         case 'dav_etag':
           $this->unique_tag = '"'.$v.'"';
           break;
 
-        default:
-          $this->{$k} = $v;
+        case 'is_calendar':    if ( $this->_is_collection) $this->_is_calendar = ($v == 't');     break;
+        case 'is_addressbook': if ( $this->_is_collection) $this->_is_addressbook = ($v == 't');  break;
+        case 'is_principal':   if ( $this->_is_collection) $this->_is_principal = ($v == 't');    break;
       }
     }
   }
