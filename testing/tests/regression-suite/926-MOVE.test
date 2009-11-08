@@ -1,0 +1,21 @@
+#
+# MOVE an event from one location to another
+#
+TYPE=MOVE
+URL=http://regression.host/caldav.php/user1/home/DAYPARTY-77C6-4FB7-BDD3-6882E2F1BE74.ics
+HEADER=User-Agent: RFC4918 Spec Tests
+HEADER=Destination: /caldav.php/resource1/home/DAYPARTY-77C6-4FB7-BDD3-6882E2F1BE74.ics
+HEAD
+
+QUERY
+SELECT caldav_data.dav_name AS data_name,
+       calendar_item.dav_name AS item_name,
+       modified,
+       caldav_data.user_no AS cd_user_no,
+       calendar_item.user_no AS ci_user_no,
+       caldav_data.collection_id AS cd_collection,
+       calendar_item.collection_id AS ci_collection
+FROM caldav_data JOIN calendar_item USING(dav_id)
+WHERE caldav_data.dav_name ~ 'DAYPARTY-77C6-4FB7-BDD3-6882E2F1BE74.ics';
+ENDQUERY
+

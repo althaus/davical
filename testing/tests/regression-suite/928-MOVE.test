@@ -1,0 +1,18 @@
+#
+# MOVE an event from one location to another
+#
+TYPE=MOVE
+URL=http://regression.host/caldav.php/user1/entire/
+HEADER=User-Agent: RFC4918 Spec Tests
+HEADER=Destination: /caldav.php/user1/movedcalendar/
+HEAD
+
+QUERY
+SELECT dav_name,
+       user_no,
+       modified,
+       dav_etag
+FROM collection
+WHERE collection.dav_name ~ '(entire|movedcalendar)';
+ENDQUERY
+
