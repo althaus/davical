@@ -242,7 +242,7 @@ function add_general_properties( &$prop, &$denied, $record ) {
     $reply->DAVElement( $prop, 'getlastmodified', ( isset($record->modified)? $record->modified : false ));
   }
   if ( $allprop || isset($prop_list['DAV::creationdate']) ) {
-    $reply->DAVElement( $prop, 'creationdate', $record->created );
+    $reply->DAVElement( $prop, 'creationdate', DateToISODate($record->created) );
   }
   if ( $allprop || isset($prop_list['DAV::getetag']) ) {
     $reply->DAVElement( $prop, 'getetag', '"'.$record->dav_etag.'"' );
@@ -478,27 +478,19 @@ function collection_to_xml( $collection ) {
   if ( isset($collection->is_proxy) && $collection->is_proxy == 't' ) {
     // Caldav proxy (not described in rfc, but CalendarServer has it)
     if ( isset($prop_list['http://calendarserver.org/ns/:calendar-proxy-'.$collection->proxy_type.'-for'] ) ) {
-      if ( $collection->proxy_type == 'read' ) {
-        $proxy_group = $request->principal->ReadProxyFor();
-      } else if ( $collection->proxy_type == 'write' ) {
-        $proxy_group = $request->principal->WriteProxyFor();
-      }
+      $proxy_group = $request->principal->ProxyFor($collection->proxy_type);
       $reply->CalendarserverElement($prop, 'calendar-proxy-'.$collection->proxy_type.'-for', $reply->href( $proxy_group ) );
     }
 
-    if ( isset($prop_list['DAV::group-member-set']) ) {
-      if ( $collection->proxy_type == 'read' ) {
-        $proxy_group = $request->principal->ReadProxyGroup();
-      } else if ( $collection->proxy_type == 'write' ) {
-        $proxy_group = $request->principal->WriteProxyGroup();
-      }
-      $reply->DAVElement($prop, 'group-member-set', $reply->href( $proxy_group ) );
-    }
+  }
 
-    if (isset($prop_list['DAV::group-membership'])) {
-      $reply->DAVElement($prop, 'group-membership', $reply->href( $request->principal->GroupMembership() ));
-    }
+  if ( isset($prop_list['DAV::group-member-set']) ) {
+    $proxy_group = array_merge( $request->principal->ReadProxyGroup(), $request->principal->WriteProxyGroup());
+    $reply->DAVElement($prop, 'group-member-set', $reply->href( $proxy_group ) );
+  }
 
+  if (isset($prop_list['DAV::group-membership'])) {
+    $reply->DAVElement($prop, 'group-membership', $reply->href( $request->principal->GroupMembership() ));
   }
 
 
