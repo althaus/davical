@@ -940,7 +940,7 @@ EOSQL;
   /**
   * Return general server-related properties for this URL
   */
-  function ServerProperty( $tag, $prop, $reply = null ) {
+  function ServerProperty( $tag, $prop, &$reply = null ) {
     global $c, $session;
 
     if ( $reply === null ) $reply = $GLOBALS['reply'];

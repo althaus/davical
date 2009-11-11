@@ -103,7 +103,7 @@ if ( $qry->Exec("REPORT",__LINE__,__FILE__) ) {
       );
       if ( $object->sync_status != 404 ) {
         $dav_resource = new DAVResource($object);
-        $resultset = array_merge( $resultset, $dav_resource->GetPropStat($proplist) );
+        $resultset = array_merge( $resultset, $dav_resource->GetPropStat($proplist,$reply) );
       }
       $responses[] = new XMLElement( 'sync-response', $resultset );
       $first_status = $object->sync_status;

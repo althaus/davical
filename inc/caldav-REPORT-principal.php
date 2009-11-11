@@ -39,7 +39,7 @@ foreach( $searches AS $k => $search ) {
   }
 }
 if ( $where != "" ) $where = "WHERE $where";
-$sql = "SELECT * FROM usr $where";
+$sql = "SELECT * FROM usr JOIN principal USING(user_no) $where";
 $qry = new PgQuery($sql);
 
 

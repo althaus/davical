@@ -417,7 +417,7 @@ class AwlQuery
 
     if ( ! $success ) {
       // query failed
-      $this->errorstring = sprintf( 'SQL error "%s" - %s"', $this->error_info[0], $this->error_info[2]);
+      $this->errorstring = sprintf( 'SQL error "%s" - %s"', $this->error_info[0], (isset($this->error_info[2]) ? $this->error_info[2] : ''));
       $this->_log_query( $this->location, 'QF', $this->errorstring, $line, $file );
     }
     elseif ( $this->execution_time > $this->query_time_warning ) {

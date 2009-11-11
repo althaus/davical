@@ -298,3 +298,12 @@ function ISODateToHTTPDate( $isodate ) {
   // Use strtotime since strptime is not available on Windows platform.
   return( gmstrftime('%a, %d %b %Y %T GMT', strtotime($isodate)) );
 }
+
+/**
+* Convert a date into ISO format into the sparkly new ISO format.
+* @param string $indate The date to convert
+*/
+function DateToISODate( $indate ) {
+  // Use strtotime since strptime is not available on Windows platform.
+  return( date('c', strtotime($indate)) );
+}

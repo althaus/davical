@@ -60,7 +60,12 @@ class CalDAVPrincipal
   /**
   * @var RFC3744: The principals that are direct members of this group.
   */
-  var $group_member_set;
+  protected $_is_group;
+
+  /**
+  * @var RFC3744: The principals that are direct members of this group.
+  */
+  protected $group_member_set;
 
   /**
   * @var RFC3744: The groups in which the principal is directly a member.
@@ -160,10 +165,12 @@ class CalDAVPrincipal
     foreach( $usr AS $k => $v ) {
       $this->{$k} = $v;
     }
-    if ( !isset($this->modified) ) $this->modified = ISODateToHTTPDate($this->updated);
-    if ( !isset($this->created) )  $this->created  = ISODateToHTTPDate($this->joined);
+    if ( !isset($this->modified) ) $this->modified = $this->updated;
+    if ( !isset($this->created) )  $this->created  = $this->joined;
 
     $this->dav_etag = md5($this->username . $this->updated);
+
+    $this->_is_group = (isset($usr->type_id) && $usr->type_id == 3);
 
     $this->by_email = false;
     $this->principal_url = ConstructURL( '/'.$this->username.'/', true );
@@ -188,15 +195,24 @@ class CalDAVPrincipal
       $this->xmpp_server = $c->notifications_server['host'];
     }
 
-    $this->group_member_set = array();
-    $qry = new PgQuery('SELECT * FROM relationship LEFT JOIN usr ON (from_user = usr.user_no) LEFT JOIN role_member ON (to_user = role_member.user_no) LEFT JOIN roles USING (role_no) WHERE to_user = ? AND role_name = '."'Group'", $this->user_no );
-    if ( $qry->Exec('CalDAVPrincipal') && $qry->rows > 0 ) {
-      while( $membership = $qry->Fetch() ) {
-            $this->group_member_set[] = ConstructURL( '/'. $membership->username . '/', true);
+    if ( $this->_is_group ) {
+      $this->group_member_set = array();
+      $qry = new PgQuery('SELECT * FROM group_member JOIN principal ON (principal_id=member_id) JOIN usr USING(user_no) WHERE group_id = ?', $this->principal_id );
+      if ( $qry->Exec('CalDAVPrincipal') && $qry->rows > 0 ) {
+        while( $member = $qry->Fetch() ) {
+          $this->group_member_set[] = ConstructURL( '/'. $member->username . '/', true);
+        }
       }
     }
 
-    $this->group_membership = null;
+    $this->group_membership = array();
+    $qry = new PgQuery('SELECT * FROM group_member JOIN principal ON (principal_id=group_id) JOIN usr USING(user_no) WHERE member_id = ?', $this->principal_id );
+    if ( $qry->Exec('CalDAVPrincipal') && $qry->rows > 0 ) {
+      while( $group = $qry->Fetch() ) {
+        $this->group_membership[] = ConstructURL( '/'. $group->username . '/', true);
+      }
+    }
+
     $this->read_proxy_group = null;
     $this->write_proxy_group = null;
     $this->write_proxy_for = null;
@@ -206,7 +222,7 @@ class CalDAVPrincipal
     * calendar-free-busy-set has been dropped from draft 5 of the scheduling extensions for CalDAV
     * but we'll keep replying to it for a while longer since iCal appears to want it...
     */
-    $qry = new PgQuery('SELECT dav_name FROM collection WHERE user_no = ? AND is_calendar', $this->user_no);
+    $qry = new PgQuery('SELECT dav_name FROM collection WHERE user_no = ? AND is_calendar ORDER BY user_no, collection_id', $this->user_no);
     $this->calendar_free_busy_set = array();
     if( $qry->Exec('CalDAVPrincipal',__LINE__,__FILE__) && $qry->rows > 0 ) {
       while( $calendar = $qry->Fetch() ) {
@@ -223,14 +239,6 @@ class CalDAVPrincipal
   */
   function FetchProxyGroups() {
     global $c;
-
-    $this->group_membership = array();
-    $qry = new PgQuery('SELECT * FROM relationship LEFT JOIN usr ON (to_user = user_no) LEFT JOIN role_member USING (user_no) LEFT JOIN roles USING (role_no) WHERE from_user = ? AND role_name = '."'Group'", $this->user_no );
-    if ( $qry->Exec('CalDAVPrincipal') && $qry->rows > 0 ) {
-      while( $membership = $qry->Fetch() ) {
-        $this->group_membership[] = ConstructURL( '/'. $membership->username . '/', true);
-      }
-    }
 
     $this->read_proxy_group = array();
     $this->write_proxy_group = array();
@@ -252,14 +260,12 @@ class CalDAVPrincipal
           if ($relationship->confers == 'R') {
             if ($relationship->from_user_no == $this->user_no) {
                 // spec says without trailing slash, CalServ does it with slash, and so do we.
-                $this->group_membership[] = ConstructURL( '/'. $relationship->to_username . '/calendar-proxy-read/', true);
                   $this->read_proxy_for[] = ConstructURL( '/'. $relationship->to_username . '/', true);
             } else /* ($relationship->to_user_no == $this->user_no) */ {
               $this->read_proxy_group[] = ConstructURL( '/'. $relationship->from_username . '/', true);
             }
           } else if (preg_match('/[WA]/', $relationship->confers)) {
             if ($relationship->from_user_no == $this->user_no) {
-              $this->group_membership[] = ConstructURL( '/'. $relationship->to_username . '/calendar-proxy-write/', true);
               $this->write_proxy_for[] = ConstructURL( '/'. $relationship->to_username . '/', true);
             }
             else /* ($relationship->to_user_no == $this->user_no) */ {
@@ -291,29 +297,30 @@ class CalDAVPrincipal
 
 
   /**
-  * Accessor for the read proxy for
+  * Accessor for read or write proxy
+  * @param string read/write - which sort of proxy list is requested.
   */
-  function ReadProxyFor() {
+  function ProxyFor( $type ) {
     if ( !isset($this->read_proxy_for) ) $this->FetchProxyGroups();
+    if ( $type == 'write' ) return $this->write_proxy_for;
     return $this->read_proxy_for;
   }
 
 
   /**
-  * Accessor for the write proxy for
+  * Accessor for the group membership - the groups this principal is a member of
   */
-  function WriteProxyFor() {
-    if ( !isset($this->write_proxy_for) ) $this->FetchProxyGroups();
-    return $this->write_proxy_for;
+  function GroupMembership() {
+    return $this->group_membership;
   }
 
 
   /**
-  * Accessor for the group membership
+  * Accessor for the group member set - the members of this group
   */
-  function GroupMembership() {
-    if ( !isset($this->group_membership) ) $this->FetchProxyGroups();
-    return $this->group_membership;
+  function GroupMemberSet() {
+    if ( ! $this->_is_group ) return null;
+    return $this->group_member_set;
   }
 
 
@@ -345,7 +352,7 @@ class CalDAVPrincipal
         $username = $user->username;
       }
     }
-    elseif( $user = getUserByName( $username, 'principal') ) {
+    elseif( $user = getUserByName( $username) ) {
       $user_no = $user->user_no;
     }
     return $username;
@@ -377,6 +384,15 @@ class CalDAVPrincipal
 
 
   /**
+  * Is this a group principal?
+  * @return boolean Whether this is a group principal
+  */
+  function IsGroup() {
+    return $this->_is_group;
+  }
+
+
+  /**
   * Return the privileges bits for the current session user to this resource
   */
   function Privileges() {
@@ -391,6 +407,7 @@ class CalDAVPrincipal
     $collection = (object) array(
                             'collection_id' => (isset($this->collection_id) ? $this->collection_id : 0),
                             'is_calendar' => 'f',
+                            'is_addressbook' => 'f',
                             'is_principal' => 't',
                             'user_no'  => (isset($this->user_no)  ? $this->user_no : 0),
                             'username' => (isset($this->username) ? $this->username : 0),
@@ -405,6 +422,117 @@ class CalDAVPrincipal
     return $collection;
   }
 
+  /**
+  * Returns properties which are specific to this principal
+  */
+  function PrincipalProperty( $tag, $prop, &$reply, &$denied ) {
+
+    dbg_error_log('principal',': RenderAsXML: Principal Property "%s"', $tag );
+    switch( $tag ) {
+      case 'DAV::getcontenttype':
+        $prop->NewElement('getcontenttype', 'httpd/unix-directory' );
+        break;
+
+      case 'DAV::resourcetype':
+        $prop->NewElement('resourcetype', array( new XMLElement('principal'), new XMLElement('collection')) );
+        break;
+
+      case 'DAV::displayname':
+        $prop->NewElement('displayname', $this->fullname );
+        break;
+
+      case 'DAV::principal-URL':
+        $prop->NewElement('principal-URL', $reply->href($this->principal_url) );
+        break;
+
+      case 'DAV::getlastmodified':
+        $prop->NewElement('getlastmodified', ISODateToHTTPDate($this->modified) );
+        break;
+
+      case 'DAV::creationdate':
+        $prop->NewElement('creationdate', DateToISODate($this->created) );
+        break;
+
+      case 'DAV::getcontentlanguage':
+        /** Use the principal's locale by preference, otherwise system default */
+        $locale = (isset($c->current_locale) ? $c->current_locale : '');
+        if ( isset($this->locale) && $this->locale != '' ) $locale = $this->locale;
+        $prop->NewElement('getcontentlanguage', $locale );
+        break;
+
+      case 'DAV::group-member-set':
+        if ( ! $this->_is_group ) return false;
+        $prop->NewElement('group-member-set', $reply->href($this->group_member_set) );
+        break;
+
+      case 'DAV::group-membership':
+        $prop->NewElement('group-membership', $reply->href($this->GroupMembership()) );
+        break;
+
+      case 'urn:ietf:params:xml:ns:caldav:schedule-inbox-URL':
+        $reply->CalDAVElement($prop, 'schedule-inbox-URL', $reply->href($this->schedule_inbox_url) );
+        break;
+
+      case 'urn:ietf:params:xml:ns:caldav:schedule-outbox-URL':
+        $reply->CalDAVElement($prop, 'schedule-outbox-URL', $reply->href($this->schedule_outbox_url) );
+        break;
+
+      case 'http://calendarserver.org/ns/:dropbox-home-URL':
+        $reply->CalendarserverElement($prop, 'dropbox-home-URL', $reply->href($this->dropbox_url) );
+        break;
+
+      case 'http://calendarserver.org/ns/:notifications-URL':
+        $reply->CalendarserverElement($prop, 'notifications-URL', $reply->href($this->notifications_url) );
+        break;
+
+      case 'http://calendarserver.org/ns/:xmpp-server':
+        if ( ! isset( $this->xmpp_uri ) ) return false;
+        $reply->CalendarserverElement($prop, 'xmpp-server', $this->xmpp_server );
+        break;
+
+      case 'http://calendarserver.org/ns/:xmpp-uri':
+        if ( ! isset( $this->xmpp_uri ) ) return false;
+        $reply->CalendarserverElement($prop, 'xmpp-uri', $this->xmpp_uri );
+        break;
+
+      case 'urn:ietf:params:xml:ns:caldav:calendar-home-set':
+        $reply->CalDAVElement($prop, 'calendar-home-set', $reply->href( $this->calendar_home_set ) );
+        break;
+
+      case 'urn:ietf:params:xml:ns:caldav:calendar-free-busy-set':
+        $reply->CalDAVElement( $prop, 'calendar-free-busy-set', $reply->href( $this->calendar_free_busy_set ) );
+        break;
+
+      case 'urn:ietf:params:xml:ns:caldav:calendar-user-address-set':
+        $reply->CalDAVElement($prop, 'calendar-user-address-set', $reply->href($this->user_address_set) );
+        break;
+
+      case 'DAV::owner':
+        // After a careful reading of RFC3744 we see that this must be the principal-URL of the owner
+        $reply->DAVElement( $prop, 'owner', $reply->href( $this->principal_url ) );
+        break;
+
+      case 'DAV::principal-collection-set':
+        $reply->DAVElement( $prop, 'principal-collection-set', $reply->href( ConstructURL('/') ) );
+        break;
+
+      // Empty tag responses.
+      case 'DAV::alternate-URI-set':
+        $prop->NewElement( $reply->Tag($tag));
+        break;
+
+      case 'SOME-DENIED-PROPERTY':  /** @todo indicating the style for future expansion */
+        $denied[] = $reply->Tag($tag);
+        break;
+
+      default:
+        return false;
+        break;
+    }
+
+    return true;
+  }
+
 
   /**
   * Render XML for a single Principal (user) from the DB
@@ -416,7 +544,7 @@ class CalDAVPrincipal
   * @return string An XML fragment with the requested properties for this principal
   */
   function RenderAsXML( $properties, &$reply, $props_only = false ) {
-    global $session, $c, $request;
+    global $request;
 
     dbg_error_log('principal',': RenderAsXML: Principal "%s"', $this->username );
 
@@ -424,117 +552,9 @@ class CalDAVPrincipal
     $denied = array();
     $not_found = array();
     foreach( $properties AS $k => $tag ) {
-      dbg_error_log('principal',': RenderAsXML: Principal Property "%s"', $tag );
-      switch( $tag ) {
-        case 'DAV::getcontenttype':
-          $prop->NewElement('getcontenttype', 'httpd/unix-directory' );
-          break;
-
-        case 'DAV::resourcetype':
-          $prop->NewElement('resourcetype', array( new XMLElement('principal'), new XMLElement('collection')) );
-          break;
-
-        case 'DAV::displayname':
-          $prop->NewElement('displayname', $this->fullname );
-          break;
-
-        case 'DAV::principal-URL':
-          $prop->NewElement('principal-URL', $reply->href($this->principal_url) );
-          break;
-
-        case 'DAV::getlastmodified':
-          $prop->NewElement('getlastmodified', $this->modified );
-          break;
-
-        case 'DAV::creationdate':
-          $prop->NewElement('creationdate', $this->created );
-          break;
-
-        case 'DAV::getcontentlanguage':
-          /** Use the principal's locale by preference, otherwise system default */
-          $locale = (isset($c->current_locale) ? $c->current_locale : '');
-          if ( isset($this->locale) && $this->locale != '' ) $locale = $this->locale;
-          $prop->NewElement('getcontentlanguage', $locale );
-          break;
-
-        case 'DAV::group-member-set':
-          $prop->NewElement('group-member-set', $reply->href($this->group_member_set) );
-          break;
-
-        case 'DAV::group-membership':
-          $prop->NewElement('group-membership', $reply->href($this->GroupMembership()) );
-          break;
-
-        case 'urn:ietf:params:xml:ns:caldav:schedule-inbox-URL':
-          $reply->CalDAVElement($prop, 'schedule-inbox-URL', $reply->href($this->schedule_inbox_url) );
-          break;
-
-        case 'urn:ietf:params:xml:ns:caldav:schedule-outbox-URL':
-          $reply->CalDAVElement($prop, 'schedule-outbox-URL', $reply->href($this->schedule_outbox_url) );
-          break;
-
-        case 'http://calendarserver.org/ns/:dropbox-home-URL':
-          $reply->CalendarserverElement($prop, 'dropbox-home-URL', $reply->href($this->dropbox_url) );
-          break;
-
-        case 'http://calendarserver.org/ns/:notifications-URL':
-          $reply->CalendarserverElement($prop, 'notifications-URL', $reply->href($this->notifications_url) );
-          break;
-
-        case 'http://calendarserver.org/ns/:xmpp-server':
-          if ( isset ( $this->xmpp_uri ) )
-            $reply->CalendarserverElement($prop, 'xmpp-server', $this->xmpp_server );
-          else
-            $not_found[] = $reply->Tag($tag);
-          break;
-
-        case 'http://calendarserver.org/ns/:xmpp-uri':
-          if ( isset ( $this->xmpp_uri ) )
-            $reply->CalendarserverElement($prop, 'xmpp-uri', $this->xmpp_uri );
-          else
-            $not_found[] = $reply->Tag($tag);
-          break;
-
-        case 'urn:ietf:params:xml:ns:caldav:calendar-home-set':
-          $reply->CalDAVElement($prop, 'calendar-home-set', $reply->href( $this->calendar_home_set ) );
-          break;
-
-        case 'urn:ietf:params:xml:ns:caldav:calendar-user-address-set':
-          $reply->CalDAVElement($prop, 'calendar-user-address-set', $reply->href($this->user_address_set) );
-          break;
-
-        case 'DAV::owner':
-          // After a careful reading of RFC3744 we see that this must be the principal-URL of the owner
-          $reply->DAVElement( $prop, 'owner', $reply->href( $this->principal_url ) );
-          break;
-
-        case 'DAV::principal-collection-set':
-          $reply->DAVElement( $prop, 'principal-collection-set', $reply->href( ConstructURL('/') ) );
-          break;
-
-        // Empty tag responses.
-        case 'DAV::alternate-URI-set':
-        case 'DAV::getcontentlength':
-          $prop->NewElement( $reply->Tag($tag));
-          break;
-
-        case 'SOME-DENIED-PROPERTY':  /** @todo indicating the style for future expansion */
-          $denied[] = $reply->Tag($tag);
-          break;
-
-        case 'http://calendarserver.org/ns/:getctag':
-        case 'DAV::getetag':
-        case 'urn:ietf:params:xml:ns:caldav:supported-calendar-component-set':
-          // These will 404 on a Principal, since they don't apply
-          $not_found[] = $reply->Tag($tag);
-          break;
-
-        default:
-          if ( ! $request->ServerProperty( $tag, $prop, $reply ) ) {
-            dbg_error_log( 'principal', 'Request for unsupported property "%s" of principal "%s".', $tag, $this->username );
-            $not_found[] = $reply->Tag($tag);
-          }
-          break;
+      if ( ! $this->PrincipalProperty( $tag, $prop, $reply, $denied ) && ! $request->ServerProperty( $tag, $prop, $reply ) ) {
+        dbg_error_log( 'principal', 'Request for unsupported property "%s" of principal "%s".', $tag, $this->username );
+        $not_found[] = $reply->Tag($tag);
       }
     }
 

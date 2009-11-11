@@ -60,13 +60,6 @@ switch( $xmltree->GetTag() ) {
     exit; // Not that it should return anyway.
 }
 
-// Must have read privilege for all other reports
-if ( ! ($request->AllowedTo('read') ) ) {
-  // If they got this far they *do* have freebusy access, so can know the
-  // calendar really exists.  Informing them is therefore OK.
-  $request->DoResponse( 404, translate("You may not access that calendar") );
-}
-
 
 /**
 * Return XML for a single calendar (or todo) entry from the DB
@@ -88,7 +81,7 @@ function calendar_to_xml( $properties, $item ) {
     if ( !$request->AllowedTo('all') && $session->user_no != $item->user_no ){
       // the user is not admin / owner of this calendarlooking at his calendar and can not admin the other cal
       /** @todo We should examine the ORGANIZER and ATTENDEE fields in the event.  If this person is there then they should see this */
-      if ( $item->class == 'CONFIDENTIAL' ) {
+      if ( $item->class == 'CONFIDENTIAL' || !$request->AllowedTo('read') ) {
         $ical = new iCalComponent( $caldav_data );
         $resources = $ical->GetComponents('VTIMEZONE',false);
         $first = $resources[0];
@@ -106,6 +99,7 @@ function calendar_to_xml( $properties, $item ) {
         $ical->SetComponents(array($confidential),$confidential->GetType());
 
         $caldav_data = $ical->Render();
+        $displayname = translate('Busy');
       }
     }
   }

@@ -15,7 +15,7 @@
 * return true if it's a whole calendar
 */
 
-include_once('iCalendar.php');
+require_once('iCalendar.php');
 
 /**
 * A regex which will match most reasonable timezones acceptable to PostgreSQL.

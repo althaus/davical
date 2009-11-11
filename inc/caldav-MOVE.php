@@ -120,7 +120,7 @@ if ( $src->IsCollection()  ) {
   $sql = 'UPDATE collection SET dav_name = :dst_name ';
   $params = array(':dst_name' => $dst_name);
   if ( $src_user_no != $dst_user_no ) {
-    $sql .= ', user_no = :dst_user_no';
+    $sql .= ', user_no = :dst_user_no ';
     $params[':dst_user_no'] = $dst_user_no;
   }
   $sql .= 'WHERE collection_id = :src_collection';
