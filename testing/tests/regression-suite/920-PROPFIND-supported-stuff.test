@@ -17,6 +17,7 @@ BEGINDATA
   <supported-method-set/>
   <supported-report-set/>
   <caldav:supported-calendar-component-set/>
+  <caldav:supported-calendar-data/>
  </prop>
 </propfind>
 ENDDATA

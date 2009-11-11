@@ -34,7 +34,7 @@ check_result() {
     cat "${REGRESSION}/diffs/${TEST}"
     echo "======================================="
     if [ "${ACCEPT_ALL}" = "" ] ; then
-      read -p "[${TEST}] Accept new result [e/r/v/x/y/N]? " ACCEPT
+      read -p "[${TEST}] Accept new result [e/r/v/f/x/y/N]? " ACCEPT
     else
       ACCEPT=${ACCEPT_ALL}
     fi

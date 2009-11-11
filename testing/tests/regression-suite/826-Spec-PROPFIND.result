@@ -11,7 +11,7 @@
     </resourcetype>
     <displayname>DAViCal CalDAV Server</displayname>
     <getlastmodified/>
-    <creationdate>YYYYMMDDThhmmss</creationdate>
+    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
     <getetag>"38f09ba341cd927809b571496db6e4c3"</getetag>
     <acl>
      <ace>

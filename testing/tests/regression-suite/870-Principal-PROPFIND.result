@@ -13,10 +13,9 @@
       </grant>
      </ace>
     </acl>
-    <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
+    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
     <displayname>User 1</displayname>
     <getcontentlanguage/>
-    <getcontentlength/>
     <getcontenttype>httpd/unix-directory</getcontenttype>
     <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
     <resourcetype>
@@ -38,6 +37,7 @@
   </propstat>
   <propstat>
    <prop>
+    <getcontentlength/>
     <getetag/>
     <lockdiscovery/>
     <source/>

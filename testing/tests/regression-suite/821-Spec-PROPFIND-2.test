@@ -10,7 +10,7 @@ HEADER=Content-Type: application/xml
 
 HEAD
 
-REPLACE=#<creationdate>\d{8}T\d{6}</creationdate>#<creationdate>YYYYMMDDThhmmss</creationdate>#
+REPLACE=#<creationdate>2\d{3}-\d\d-\d\dT\d\d:\d\d:\d\d[+-]\d\d:\d\d</creationdate>#<creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>#
 
 BEGINDATA
 <?xml version="1.0" encoding="utf-8"?>

@@ -9,7 +9,7 @@
     <displayname>Morning Mgmt Mtg</displayname>
     <resourcetype/>
     <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <creationdate>Dow, 01 Jan 2000 00:00:00 GMT</creationdate>
+    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
     <getetag>"421abf7e4848d2fecbf64217ed205d4b"</getetag>
     <acl>
      <ace>
