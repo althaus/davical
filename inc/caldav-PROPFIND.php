@@ -606,9 +606,9 @@ function get_collection_contents( $depth, $user_no, $collection ) {
       $sql .= "to_char(joined at time zone 'GMT',?) AS created, ";
       $sql .= "to_char(updated at time zone 'GMT',?) AS modified, ";
       $sql .= 'fullname AS dav_displayname, FALSE AS is_calendar, TRUE AS is_principal, ';
-      $sql .= '0 AS collection_id ';
-      $sql .= 'FROM usr ';
-      $sql .= "WHERE get_permissions($session->user_no,user_no) ~ '[RAW]' ";
+      $sql .= '0 AS collection_id, principal.* ';
+      $sql .= 'FROM usr JOIN principal USING(user_no) ';
+      $sql .= "WHERE get_permissions($session->user_no,user_no::int) ~ '[RAW]' ";
       $sql .= 'ORDER BY user_no';
     }
     else {
@@ -616,8 +616,8 @@ function get_collection_contents( $depth, $user_no, $collection ) {
       $sql .= "to_char(created at time zone 'GMT',?) AS created, ";
       $sql .= "to_char(modified at time zone 'GMT',?) AS modified, ";
       $sql .= 'dav_displayname, is_calendar, FALSE AS is_principal, ';
-      $sql .= 'collection_id ';
-      $sql .= 'FROM collection ';
+      $sql .= 'collection_id, principal.* ';
+      $sql .= 'FROM collection JOIN principal USING(user_no) ';
       $sql .= 'WHERE parent_container='.qpg($collection->dav_name);
       $sql .= "AND NOT dav_name ~ '/\.(in|out)/$'";
       $sql .= ' ORDER BY collection_id';
@@ -697,6 +697,8 @@ function get_collection( $depth, $user_no, $collection_path ) {
     $collection->is_calendar = 'f';
     $collection->is_principal = 'f';
     $collection->user_no = 0;
+    $collection->principal_id = 0;
+    $collection->type_id = 0;
     $collection->collection_id = 0;
     $collection->dav_displayname = $c->system_name;
     $collection->created = date('Ymd\THis');
@@ -705,43 +707,32 @@ function get_collection( $depth, $user_no, $collection_path ) {
   else {
     $user_no = intval($user_no);
     if ( preg_match( '#^/[^/]+/$#', $collection_path) ) {
-      $sql = "SELECT usr.*, '/' || username || '/' AS dav_name, md5( username || updated::text ) AS dav_etag, ";
-      $sql .= "to_char(joined at time zone 'GMT',?) AS created, ";
-      $sql .= "to_char(updated at time zone 'GMT',?) AS modified, ";
-      $sql .= 'fullname AS dav_displayname, FALSE AS is_calendar, TRUE AS is_principal, 0 AS collection_id ';
-      $sql .= "FROM usr WHERE user_no = $user_no ";
-      $sql .= "AND get_permissions($session->user_no,user_no) ~ '[RAW]' ";
-      $sql .= 'ORDER BY user_no';
+      $principal = new CalDAVPrincipal($user_no);
+      $responses[] = $principal->RenderAsXML(array_merge($prop_list,$arbitrary), $reply);
     }
     else {
       $sql = 'SELECT user_no, dav_name, dav_etag, ';
       $sql .= "to_char(created at time zone 'GMT',?) AS created, ";
       $sql .= "to_char(modified at time zone 'GMT',?) AS modified, ";
       $sql .= 'dav_displayname, is_calendar, FALSE AS is_principal, collection_id ';
-      $sql .= 'FROM collection WHERE dav_name = '.qpg($collection_path);
+      $sql .= 'FROM collection JOIN principal USING(user_no) WHERE dav_name = '.qpg($collection_path);
       $sql .= ' ORDER BY collection_id';
-    }
-    $qry = new PgQuery($sql, PgQuery::Plain(iCalendar::HttpDateFormat()), PgQuery::Plain(iCalendar::HttpDateFormat()) );
-    if( $qry->Exec('PROPFIND',__LINE__,__FILE__) && $qry->rows > 0 && $collection = $qry->Fetch() ) {
-      if ( $collection->is_principal == 't' ) {
-        $principal = new CalDAVPrincipal($collection);
-        $responses[] = $principal->RenderAsXML(array_merge($prop_list,$arbitrary), $reply);
-      }
-      else {
+
+      $qry = new PgQuery($sql, PgQuery::Plain(iCalendar::HttpDateFormat()), PgQuery::Plain(iCalendar::HttpDateFormat()) );
+      if( $qry->Exec('PROPFIND',__LINE__,__FILE__) && $qry->rows > 0 && $collection = $qry->Fetch() ) {
         $responses[] = collection_to_xml( $collection );
       }
-
-    }
-    elseif ( $c->collections_always_exist && preg_match( "#^/$session->username/#", $collection_path) ) {
-      dbg_error_log('PROPFIND',"Using $c->collections_always_exist setting is deprecated" );
-      $collection->dav_name = $collection_path;
-      $collection->dav_etag = md5($collection_path);
-      $collection->is_calendar = 't';  // Everything is a calendar, if it always exists!
-      $collection->is_principal = 'f';
-      $collection->user_no = $user_no;
-      $collection->dav_displayname = $collection_path;
-      $collection->created = date('Ymd"T"His');
-      $responses[] = collection_to_xml( $collection );
+      elseif ( $c->collections_always_exist && preg_match( "#^/$session->username/#", $collection_path) ) {
+        dbg_error_log('PROPFIND',"Using $c->collections_always_exist setting is deprecated" );
+        $collection->dav_name = $collection_path;
+        $collection->dav_etag = md5($collection_path);
+        $collection->is_calendar = 't';  // Everything is a calendar, if it always exists!
+        $collection->is_principal = 'f';
+        $collection->user_no = $user_no;
+        $collection->dav_displayname = $collection_path;
+        $collection->created = date('Ymd"T"His');
+        $responses[] = collection_to_xml( $collection );
+      }
     }
   }
   if ( $depth > 0 && isset($collection) ) {
