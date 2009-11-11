@@ -4,15 +4,6 @@
   <href>/</href>
   <propstat>
    <prop>
-    <getcontenttype>httpd/unix-directory</getcontenttype>
-    <getcontentlength/>
-    <resourcetype>
-     <collection/>
-    </resourcetype>
-    <displayname>DAViCal CalDAV Server</displayname>
-    <getlastmodified/>
-    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
-    <getetag>"38f09ba341cd927809b571496db6e4c3"</getetag>
     <acl>
      <ace>
       <principal>
@@ -22,7 +13,14 @@
       </grant>
      </ace>
     </acl>
+    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
+    <displayname>DAViCal CalDAV Server</displayname>
     <getcontentlanguage/>
+    <getcontenttype>httpd/unix-directory</getcontenttype>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <resourcetype>
+     <collection/>
+    </resourcetype>
     <supportedlock>
      <lockentry>
       <lockscope>
@@ -38,6 +36,8 @@
   </propstat>
   <propstat>
    <prop>
+    <getcontentlength/>
+    <getetag/>
     <lockdiscovery/>
     <source/>
     <checked-in/>

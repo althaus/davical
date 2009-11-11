@@ -2,8 +2,8 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule, extended-mkcol
 Allow: OPTIONS, PROPFIND, REPORT, DELETE, LOCK, UNLOCK, MOVE, GET, PUT, HEAD
-ETag: "715df5d03cab642c1ad154ce5f8d1215"
-Content-Length: 1511
+ETag: "b746a56fbc685d73e859509f25cf192d"
+Content-Length: 1584
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -12,18 +12,11 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/home/</href>
   <propstat>
    <prop>
-    <C:supported-calendar-component-set>
-     <C:comp name="VEVENT"/>
-     <C:comp name="VTODO"/>
-     <C:comp name="VJOURNAL"/>
-     <C:comp name="VTIMEZONE"/>
-     <C:comp name="VFREEBUSY"/>
-    </C:supported-calendar-component-set>
+    <displayname>User One's Calendar</displayname>
     <resourcetype>
      <collection/>
      <C:calendar/>
     </resourcetype>
-    <displayname>User One's Calendar</displayname>
     <supported-method-set>
      <supported-method name="OPTIONS"/>
      <supported-method name="PROPFIND"/>
@@ -53,6 +46,14 @@ Content-Type: text/xml; charset="utf-8"
       <C:free-busy-query/>
      </supported-report>
     </supported-report-set>
+    <C:supported-calendar-component-set>
+     <C:comp name="VEVENT"/>
+     <C:comp name="VTODO"/>
+     <C:comp name="VJOURNAL"/>
+     <C:comp name="VTIMEZONE"/>
+     <C:comp name="VFREEBUSY"/>
+    </C:supported-calendar-component-set>
+    <C:supported-calendar-data>text/calendar</C:supported-calendar-data>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>

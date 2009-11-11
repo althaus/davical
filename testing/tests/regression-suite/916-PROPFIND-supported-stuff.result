@@ -2,7 +2,7 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule, extended-mkcol
 Allow: OPTIONS, PROPFIND, REPORT
-ETag: "664e69097dfcef6d40d4deb9b15b462a"
+ETag: "25de4f4ea6f4dde4766a128616c9ade4"
 Content-Length: 891
 Content-Type: text/xml; charset="utf-8"
 
@@ -12,10 +12,10 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/</href>
   <propstat>
    <prop>
+    <displayname>DAViCal CalDAV Server</displayname>
     <resourcetype>
      <collection/>
     </resourcetype>
-    <displayname>DAViCal CalDAV Server</displayname>
     <supported-method-set>
      <supported-method name="OPTIONS"/>
      <supported-method name="PROPFIND"/>

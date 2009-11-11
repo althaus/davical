@@ -2,21 +2,21 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule, extended-mkcol
 Allow: OPTIONS, PROPFIND, REPORT, DELETE, LOCK, UNLOCK, MOVE, POST, GET, PUT, HEAD, PROPPATCH
-ETag: "1b624afb2d5c7862977d9a31163d01b1"
-Content-Length: 423
+ETag: "7b9c0b8208dacb0433461fd66140cc9a"
+Content-Length: 425
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
-<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav" xmlns:A="http://calendarserver.org/ns/">
+<multistatus xmlns="DAV:" xmlns:C="http://calendarserver.org/ns/" xmlns:C1="urn:ietf:params:xml:ns:caldav">
  <response>
   <href>/caldav.php/user1/.in/</href>
   <propstat>
    <prop>
+    <C:getctag>"1"</C:getctag>
     <resourcetype>
      <collection/>
-     <C:schedule-inbox/>
+     <C1:schedule-inbox/>
     </resourcetype>
-    <A:getctag>"1"</A:getctag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>

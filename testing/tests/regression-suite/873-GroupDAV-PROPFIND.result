@@ -2,35 +2,394 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule, extended-mkcol
 Allow: OPTIONS, PROPFIND, REPORT
-ETag: "347b2ac9ab4fb77de6f07f6d20b67fcb"
-Content-Length: 1030
+ETag: "4f8ed125097724d9b6dad906e317f01d"
+Content-Length: 8948
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
-<multistatus xmlns="DAV:" xmlns:A="http://calendarserver.org/ns/" xmlns:C="urn:ietf:params:xml:ns:caldav" xmlns:G="http://groupdav.org/" xmlns:C1="urn:ietf:params:xml:ns:carddav">
+<multistatus xmlns="DAV:" xmlns:G="http://groupdav.org/" xmlns:C="urn:ietf:params:xml:ns:caldav" xmlns:C1="urn:ietf:params:xml:ns:carddav" xmlns:C2="http://calendarserver.org/ns/">
  <response>
   <href>/caldav.php/</href>
   <propstat>
    <prop>
-    <getcontenttype>httpd/unix-directory</getcontenttype>
+    <displayname>DAViCal CalDAV Server</displayname>
     <resourcetype>
      <collection/>
     </resourcetype>
-    <displayname>DAViCal CalDAV Server</displayname>
-    <A:getctag>"38f09ba341cd927809b571496db6e4c3"</A:getctag>
-    <getetag>"38f09ba341cd927809b571496db6e4c3"</getetag>
+    <getcontenttype>httpd/unix-directory</getcontenttype>
     <current-user-privilege-set>
      <privilege>
       <read/>
      </privilege>
     </current-user-privilege-set>
+    <C2:getctag/>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
   <propstat>
    <prop>
-    <C:supported-calendar-component-set/>
+    <getetag/>
     <G:component-set/>
+    <C:supported-calendar-component-set/>
+    <C:supported-calendar-data/>
+    <C:calendar-description/>
+    <C1:supported-address-data/>
+    <C1:addressbook-description/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/</href>
+  <propstat>
+   <prop>
+    <displayname>User 1</displayname>
+    <resourcetype>
+     <collection/>
+     <principal/>
+    </resourcetype>
+    <getcontenttype>httpd/unix-directory</getcontenttype>
+    <current-user-privilege-set>
+     <privilege>
+      <all/>
+     </privilege>
+     <privilege>
+      <read/>
+     </privilege>
+     <privilege>
+      <unlock/>
+     </privilege>
+     <privilege>
+      <read-acl/>
+     </privilege>
+     <privilege>
+      <read-current-user-privilege-set/>
+     </privilege>
+     <privilege>
+      <write-acl/>
+     </privilege>
+     <privilege>
+      <C:read-free-busy/>
+     </privilege>
+     <privilege>
+      <write/>
+     </privilege>
+     <privilege>
+      <write-properties/>
+     </privilege>
+     <privilege>
+      <write-content/>
+     </privilege>
+     <privilege>
+      <bind/>
+     </privilege>
+     <privilege>
+      <unbind/>
+     </privilege>
+     <privilege>
+      <C:schedule-deliver/>
+     </privilege>
+     <privilege>
+      <C:schedule-deliver-invite/>
+     </privilege>
+     <privilege>
+      <C:schedule-deliver-reply/>
+     </privilege>
+     <privilege>
+      <C:schedule-query-freebusy/>
+     </privilege>
+     <privilege>
+      <C:schedule-send/>
+     </privilege>
+     <privilege>
+      <C:schedule-send-invite/>
+     </privilege>
+     <privilege>
+      <C:schedule-send-reply/>
+     </privilege>
+     <privilege>
+      <C:schedule-send-freebusy/>
+     </privilege>
+    </current-user-privilege-set>
+    <C2:getctag>89514106d00f37cc9ee71689c450d2ef</C2:getctag>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <getetag/>
+    <G:component-set/>
+    <C:supported-calendar-component-set/>
+    <C:supported-calendar-data/>
+    <C:calendar-description/>
+    <C1:supported-address-data/>
+    <C1:addressbook-description/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/manager1/</href>
+  <propstat>
+   <prop>
+    <displayname>Manager 1</displayname>
+    <resourcetype>
+     <collection/>
+     <principal/>
+    </resourcetype>
+    <getcontenttype>httpd/unix-directory</getcontenttype>
+    <current-user-privilege-set>
+     <privilege>
+      <read/>
+     </privilege>
+     <privilege>
+      <C:read-free-busy/>
+     </privilege>
+     <privilege>
+      <C:schedule-query-freebusy/>
+     </privilege>
+    </current-user-privilege-set>
+    <C2:getctag>ab4a67c917e242e0989cd278c75a510e</C2:getctag>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <getetag/>
+    <G:component-set/>
+    <C:supported-calendar-component-set/>
+    <C:supported-calendar-data/>
+    <C:calendar-description/>
+    <C1:supported-address-data/>
+    <C1:addressbook-description/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/assistant1/</href>
+  <propstat>
+   <prop>
+    <displayname>Assistant 1</displayname>
+    <resourcetype>
+     <collection/>
+     <principal/>
+    </resourcetype>
+    <getcontenttype>httpd/unix-directory</getcontenttype>
+    <current-user-privilege-set>
+     <privilege>
+      <read/>
+     </privilege>
+     <privilege>
+      <C:read-free-busy/>
+     </privilege>
+     <privilege>
+      <write/>
+     </privilege>
+     <privilege>
+      <write-properties/>
+     </privilege>
+     <privilege>
+      <write-content/>
+     </privilege>
+     <privilege>
+      <bind/>
+     </privilege>
+     <privilege>
+      <unbind/>
+     </privilege>
+     <privilege>
+      <C:schedule-query-freebusy/>
+     </privilege>
+    </current-user-privilege-set>
+    <C2:getctag>4d470212545b8dd76f702fe2444accad</C2:getctag>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <getetag/>
+    <G:component-set/>
+    <C:supported-calendar-component-set/>
+    <C:supported-calendar-data/>
+    <C:calendar-description/>
+    <C1:supported-address-data/>
+    <C1:addressbook-description/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/resource1/</href>
+  <propstat>
+   <prop>
+    <displayname>Resource 1</displayname>
+    <resourcetype>
+     <collection/>
+     <principal/>
+    </resourcetype>
+    <getcontenttype>httpd/unix-directory</getcontenttype>
+    <current-user-privilege-set>
+     <privilege>
+      <all/>
+     </privilege>
+     <privilege>
+      <read/>
+     </privilege>
+     <privilege>
+      <unlock/>
+     </privilege>
+     <privilege>
+      <read-acl/>
+     </privilege>
+     <privilege>
+      <read-current-user-privilege-set/>
+     </privilege>
+     <privilege>
+      <write-acl/>
+     </privilege>
+     <privilege>
+      <C:read-free-busy/>
+     </privilege>
+     <privilege>
+      <write/>
+     </privilege>
+     <privilege>
+      <write-properties/>
+     </privilege>
+     <privilege>
+      <write-content/>
+     </privilege>
+     <privilege>
+      <bind/>
+     </privilege>
+     <privilege>
+      <unbind/>
+     </privilege>
+     <privilege>
+      <C:schedule-deliver/>
+     </privilege>
+     <privilege>
+      <C:schedule-deliver-invite/>
+     </privilege>
+     <privilege>
+      <C:schedule-deliver-reply/>
+     </privilege>
+     <privilege>
+      <C:schedule-query-freebusy/>
+     </privilege>
+     <privilege>
+      <C:schedule-send/>
+     </privilege>
+     <privilege>
+      <C:schedule-send-invite/>
+     </privilege>
+     <privilege>
+      <C:schedule-send-reply/>
+     </privilege>
+     <privilege>
+      <C:schedule-send-freebusy/>
+     </privilege>
+    </current-user-privilege-set>
+    <C2:getctag>c8ebc60237eb353a52e7278c96e50a74</C2:getctag>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <getetag/>
+    <G:component-set/>
+    <C:supported-calendar-component-set/>
+    <C:supported-calendar-data/>
+    <C:calendar-description/>
+    <C1:supported-address-data/>
+    <C1:addressbook-description/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/resource2/</href>
+  <propstat>
+   <prop>
+    <displayname>Resource 2</displayname>
+    <resourcetype>
+     <collection/>
+     <principal/>
+    </resourcetype>
+    <getcontenttype>httpd/unix-directory</getcontenttype>
+    <current-user-privilege-set>
+     <privilege>
+      <all/>
+     </privilege>
+     <privilege>
+      <read/>
+     </privilege>
+     <privilege>
+      <unlock/>
+     </privilege>
+     <privilege>
+      <read-acl/>
+     </privilege>
+     <privilege>
+      <read-current-user-privilege-set/>
+     </privilege>
+     <privilege>
+      <write-acl/>
+     </privilege>
+     <privilege>
+      <C:read-free-busy/>
+     </privilege>
+     <privilege>
+      <write/>
+     </privilege>
+     <privilege>
+      <write-properties/>
+     </privilege>
+     <privilege>
+      <write-content/>
+     </privilege>
+     <privilege>
+      <bind/>
+     </privilege>
+     <privilege>
+      <unbind/>
+     </privilege>
+     <privilege>
+      <C:schedule-deliver/>
+     </privilege>
+     <privilege>
+      <C:schedule-deliver-invite/>
+     </privilege>
+     <privilege>
+      <C:schedule-deliver-reply/>
+     </privilege>
+     <privilege>
+      <C:schedule-query-freebusy/>
+     </privilege>
+     <privilege>
+      <C:schedule-send/>
+     </privilege>
+     <privilege>
+      <C:schedule-send-invite/>
+     </privilege>
+     <privilege>
+      <C:schedule-send-reply/>
+     </privilege>
+     <privilege>
+      <C:schedule-send-freebusy/>
+     </privilege>
+    </current-user-privilege-set>
+    <C2:getctag>22a1e83f9f1b185fee3c792c15015af0</C2:getctag>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <getetag/>
+    <G:component-set/>
+    <C:supported-calendar-component-set/>
+    <C:supported-calendar-data/>
     <C:calendar-description/>
     <C1:supported-address-data/>
     <C1:addressbook-description/>

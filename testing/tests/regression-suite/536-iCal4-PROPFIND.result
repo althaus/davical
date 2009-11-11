@@ -2,8 +2,8 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule, extended-mkcol
 Allow: OPTIONS, PROPFIND, REPORT, DELETE, LOCK, UNLOCK, MOVE, GET, PUT, HEAD
-ETag: "4681e93922d452d1b126c73bf5c2b112"
-Content-Length: 4373
+ETag: "78317cedf5ac64209ccd8079a3194e8f"
+Content-Length: 4421
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -16,17 +16,22 @@ Content-Type: text/xml; charset="utf-8"
      <collection/>
      <C:calendar/>
     </resourcetype>
-    <getetag>"9a28f344c1e0032e5967806f193a7cb7"</getetag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <getetag/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
   </propstat>
  </response>
  <response>
   <href>/caldav.php/user1/home/3F4CF6227300FD062D9EF3CDFB30D32D-0.ics</href>
   <propstat>
    <prop>
-    <resourcetype/>
     <getetag>"2c32a2f8aba853654eb17fe037a4db4d"</getetag>
+    <resourcetype/>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -35,8 +40,8 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/home/20061101T073004Z.ics</href>
   <propstat>
    <prop>
-    <resourcetype/>
     <getetag>"c3658901fd4689d4a1e1d6f08601ef4f"</getetag>
+    <resourcetype/>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -45,8 +50,8 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/home/4aaf8f37-f232-4c8e-a72e-e171d4c4fe54.ics</href>
   <propstat>
    <prop>
-    <resourcetype/>
     <getetag>"a1c6404d61190f9574e2bfd69383f144"</getetag>
+    <resourcetype/>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -55,8 +60,8 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/home/9d050be7-8a02-4355-8ed3-02a9fc5f473f.ics</href>
   <propstat>
    <prop>
-    <resourcetype/>
     <getetag>"08a435c2abaf38f4a50a997343c098a7"</getetag>
+    <resourcetype/>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -65,8 +70,8 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/home/1906b3ca-4890-468a-9b58-1de74bf2c716.ics</href>
   <propstat>
    <prop>
-    <resourcetype/>
     <getetag>"5def8ae2b20893a1c7f4dbaeb008f2f1"</getetag>
+    <resourcetype/>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -75,8 +80,8 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/home/fbd57454-d966-4a14-8341-abe1edb1ae66.ics</href>
   <propstat>
    <prop>
-    <resourcetype/>
     <getetag>"ac90acd649c25070b1a2a17fb31a105a"</getetag>
+    <resourcetype/>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -85,8 +90,8 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/home/2178279a-aec2-471f-832d-1f6df6203f2f.ics</href>
   <propstat>
    <prop>
-    <resourcetype/>
     <getetag>"509b0f0d8a3363379f9f5727f5dd74a0"</getetag>
+    <resourcetype/>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -95,8 +100,8 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/home/917b9e47-b748-4550-a566-657fbe672447.ics</href>
   <propstat>
    <prop>
-    <resourcetype/>
     <getetag>"cb3d9dc3e8c157f53eba3ea0e1e0f146"</getetag>
+    <resourcetype/>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -105,8 +110,8 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/home/0575d895-a006-4ed8-9be6-0d1b6b6b1f96.ics</href>
   <propstat>
    <prop>
-    <resourcetype/>
     <getetag>"00ad5eb1eb5507884710b0b66aa5d5c4"</getetag>
+    <resourcetype/>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -115,8 +120,8 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/home/b1679f77-673d-4f46-b3eb-2420e1bba301.ics</href>
   <propstat>
    <prop>
-    <resourcetype/>
     <getetag>"a2990674708634a311bb98a59865ca50"</getetag>
+    <resourcetype/>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -125,8 +130,8 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/home/e70576e9-c1e0-431e-a507-0386fd82f223.ics</href>
   <propstat>
    <prop>
-    <resourcetype/>
     <getetag>"e8060931f30c1798ac58ffbe4ec0bffc"</getetag>
+    <resourcetype/>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -135,8 +140,8 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/home/e6eb5bc9-f7f9-4a0a-94e8-8e90eefc7d08.ics</href>
   <propstat>
    <prop>
-    <resourcetype/>
     <getetag>"8f581a053df6d833254756dfd7553d37"</getetag>
+    <resourcetype/>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -145,8 +150,8 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/home/71e2ae82-7870-11db-c6d6-f6927c144649.ics</href>
   <propstat>
    <prop>
-    <resourcetype/>
     <getetag>"0d7a68984bf525342d22b8924a57e8e2"</getetag>
+    <resourcetype/>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -155,8 +160,8 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/home/da81c0ee-7871-11db-c6d6-f6927c144649.ics</href>
   <propstat>
    <prop>
-    <resourcetype/>
     <getetag>"421abf7e4848d2fecbf64217ed205d4b"</getetag>
+    <resourcetype/>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -165,8 +170,8 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/home/AAA9318E-37D9-4319-8626-95ECD3D3B243.ics</href>
   <propstat>
    <prop>
-    <resourcetype/>
     <getetag>"5f050eca5480bbebbe9428222570913d"</getetag>
+    <resourcetype/>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>

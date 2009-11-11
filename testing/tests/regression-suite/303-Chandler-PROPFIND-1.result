@@ -2,8 +2,8 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule, extended-mkcol
 Allow: OPTIONS, PROPFIND, REPORT, DELETE, LOCK, UNLOCK, MOVE, GET, PUT, HEAD
-ETag: "08e937393d0e55c9d0696f5e48d9e18c"
-Content-Length: 447
+ETag: "61420f7d691185526594a0de01390d2f"
+Content-Length: 495
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -17,9 +17,14 @@ Content-Type: text/xml; charset="utf-8"
      <C:calendar/>
     </resourcetype>
     <displayname>user1 home</displayname>
-    <getetag>"f94fbdb733bc8367373bff1ec573ba36"</getetag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <getetag/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
   </propstat>
  </response>
 </multistatus>

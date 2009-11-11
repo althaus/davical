@@ -4,17 +4,15 @@
   <href>/caldav.php/user1/home/</href>
   <propstat>
    <prop>
+    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
+    <displayname>user1 home</displayname>
+    <getcontentlanguage/>
     <getcontenttype>httpd/unix-directory</getcontenttype>
-    <getcontentlength>14878</getcontentlength>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
     <resourcetype>
      <collection/>
      <C:calendar/>
     </resourcetype>
-    <displayname>user1 home</displayname>
-    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
-    <getetag>"735679d819034badbcddd8aa6029bc3d"</getetag>
-    <getcontentlanguage/>
     <supportedlock>
      <lockentry>
       <lockscope>
@@ -30,6 +28,8 @@
   </propstat>
   <propstat>
    <prop>
+    <getcontentlength/>
+    <getetag/>
     <lockdiscovery/>
     <source/>
     <checked-in/>
@@ -42,14 +42,14 @@
   <href>/caldav.php/user1/home/3F4CF6227300FD062D9EF3CDFB30D32D-0.ics</href>
   <propstat>
    <prop>
+    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
+    <displayname>Lunch with David</displayname>
+    <getcontentlanguage/>
     <getcontentlength>747</getcontentlength>
     <getcontenttype>text/calendar</getcontenttype>
-    <displayname>Lunch with David</displayname>
-    <resourcetype/>
-    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
     <getetag>"2c32a2f8aba853654eb17fe037a4db4d"</getetag>
-    <getcontentlanguage/>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <resourcetype/>
     <supportedlock>
      <lockentry>
       <lockscope>
@@ -77,14 +77,14 @@
   <href>/caldav.php/user1/home/20061101T073004Z.ics</href>
   <propstat>
    <prop>
+    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
+    <displayname>A Meeting</displayname>
+    <getcontentlanguage/>
     <getcontentlength>1059</getcontentlength>
     <getcontenttype>text/calendar</getcontenttype>
-    <displayname>A Meeting</displayname>
-    <resourcetype/>
-    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
     <getetag>"c3658901fd4689d4a1e1d6f08601ef4f"</getetag>
-    <getcontentlanguage/>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <resourcetype/>
     <supportedlock>
      <lockentry>
       <lockscope>
@@ -112,14 +112,14 @@
   <href>/caldav.php/user1/home/4aaf8f37-f232-4c8e-a72e-e171d4c4fe54.ics</href>
   <propstat>
    <prop>
+    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
+    <displayname>Weekly Project Meeting</displayname>
+    <getcontentlanguage/>
     <getcontentlength>999</getcontentlength>
     <getcontenttype>text/calendar</getcontenttype>
-    <displayname>Weekly Project Meeting</displayname>
-    <resourcetype/>
-    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
     <getetag>"a1c6404d61190f9574e2bfd69383f144"</getetag>
-    <getcontentlanguage/>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <resourcetype/>
     <supportedlock>
      <lockentry>
       <lockscope>
@@ -147,14 +147,14 @@
   <href>/caldav.php/user1/home/9d050be7-8a02-4355-8ed3-02a9fc5f473f.ics</href>
   <propstat>
    <prop>
+    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
+    <displayname>Confidential Event</displayname>
+    <getcontentlanguage/>
     <getcontentlength>956</getcontentlength>
     <getcontenttype>text/calendar</getcontenttype>
-    <displayname>Confidential Event</displayname>
-    <resourcetype/>
-    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
     <getetag>"08a435c2abaf38f4a50a997343c098a7"</getetag>
-    <getcontentlanguage/>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <resourcetype/>
     <supportedlock>
      <lockentry>
       <lockscope>
@@ -182,14 +182,14 @@
   <href>/caldav.php/user1/home/1906b3ca-4890-468a-9b58-1de74bf2c716.ics</href>
   <propstat>
    <prop>
+    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
+    <displayname>Private Event</displayname>
+    <getcontentlanguage/>
     <getcontentlength>970</getcontentlength>
     <getcontenttype>text/calendar</getcontenttype>
-    <displayname>Private Event</displayname>
-    <resourcetype/>
-    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
     <getetag>"5def8ae2b20893a1c7f4dbaeb008f2f1"</getetag>
-    <getcontentlanguage/>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <resourcetype/>
     <supportedlock>
      <lockentry>
       <lockscope>
@@ -217,14 +217,14 @@
   <href>/caldav.php/user1/home/fbd57454-d966-4a14-8341-abe1edb1ae66.ics</href>
   <propstat>
    <prop>
+    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
+    <displayname>Tentative Event</displayname>
+    <getcontentlanguage/>
     <getcontentlength>929</getcontentlength>
     <getcontenttype>text/calendar</getcontenttype>
-    <displayname>Tentative Event</displayname>
-    <resourcetype/>
-    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
     <getetag>"ac90acd649c25070b1a2a17fb31a105a"</getetag>
-    <getcontentlanguage/>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <resourcetype/>
     <supportedlock>
      <lockentry>
       <lockscope>
@@ -252,14 +252,14 @@
   <href>/caldav.php/user1/home/2178279a-aec2-471f-832d-1f6df6203f2f.ics</href>
   <propstat>
    <prop>
+    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
+    <displayname>Incomplete, uncancelled</displayname>
+    <getcontentlanguage/>
     <getcontentlength>415</getcontentlength>
     <getcontenttype>text/calendar</getcontenttype>
-    <displayname>Incomplete, uncancelled</displayname>
-    <resourcetype/>
-    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
     <getetag>"509b0f0d8a3363379f9f5727f5dd74a0"</getetag>
-    <getcontentlanguage/>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <resourcetype/>
     <supportedlock>
      <lockentry>
       <lockscope>
@@ -287,14 +287,14 @@
   <href>/caldav.php/user1/home/917b9e47-b748-4550-a566-657fbe672447.ics</href>
   <propstat>
    <prop>
+    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
+    <displayname>50% Complete, uncancelled</displayname>
+    <getcontentlanguage/>
     <getcontentlength>449</getcontentlength>
     <getcontenttype>text/calendar</getcontenttype>
-    <displayname>50% Complete, uncancelled</displayname>
-    <resourcetype/>
-    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
     <getetag>"cb3d9dc3e8c157f53eba3ea0e1e0f146"</getetag>
-    <getcontentlanguage/>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <resourcetype/>
     <supportedlock>
      <lockentry>
       <lockscope>
@@ -322,14 +322,14 @@
   <href>/caldav.php/user1/home/0575d895-a006-4ed8-9be6-0d1b6b6b1f96.ics</href>
   <propstat>
    <prop>
+    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
+    <displayname>Due 7/8/7 16:30, completed</displayname>
+    <getcontentlanguage/>
     <getcontentlength>961</getcontentlength>
     <getcontenttype>text/calendar</getcontenttype>
-    <displayname>Due 7/8/7 16:30, completed</displayname>
-    <resourcetype/>
-    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
     <getetag>"00ad5eb1eb5507884710b0b66aa5d5c4"</getetag>
-    <getcontentlanguage/>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <resourcetype/>
     <supportedlock>
      <lockentry>
       <lockscope>
@@ -357,14 +357,14 @@
   <href>/caldav.php/user1/home/b1679f77-673d-4f46-b3eb-2420e1bba301.ics</href>
   <propstat>
    <prop>
+    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
+    <displayname>A Cancelled Task, with a start and due date</displayname>
+    <getcontentlanguage/>
     <getcontentlength>1001</getcontentlength>
     <getcontenttype>text/calendar</getcontenttype>
-    <displayname>A Cancelled Task, with a start and due date</displayname>
-    <resourcetype/>
-    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
     <getetag>"a2990674708634a311bb98a59865ca50"</getetag>
-    <getcontentlanguage/>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <resourcetype/>
     <supportedlock>
      <lockentry>
       <lockscope>
@@ -392,14 +392,14 @@
   <href>/caldav.php/user1/home/e70576e9-c1e0-431e-a507-0386fd82f223.ics</href>
   <propstat>
    <prop>
+    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
+    <displayname>Morning Meeting</displayname>
+    <getcontentlanguage/>
     <getcontentlength>1119</getcontentlength>
     <getcontenttype>text/calendar</getcontenttype>
-    <displayname>Morning Meeting</displayname>
-    <resourcetype/>
-    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
     <getetag>"e8060931f30c1798ac58ffbe4ec0bffc"</getetag>
-    <getcontentlanguage/>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <resourcetype/>
     <supportedlock>
      <lockentry>
       <lockscope>
@@ -427,14 +427,14 @@
   <href>/caldav.php/user1/home/e6eb5bc9-f7f9-4a0a-94e8-8e90eefc7d08.ics</href>
   <propstat>
    <prop>
+    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
+    <displayname>Release 0.9.3</displayname>
+    <getcontentlanguage/>
     <getcontentlength>1013</getcontentlength>
     <getcontenttype>text/calendar</getcontenttype>
-    <displayname>Release 0.9.3</displayname>
-    <resourcetype/>
-    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
     <getetag>"8f581a053df6d833254756dfd7553d37"</getetag>
-    <getcontentlanguage/>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <resourcetype/>
     <supportedlock>
      <lockentry>
       <lockscope>
@@ -462,14 +462,14 @@
   <href>/caldav.php/user1/home/71e2ae82-7870-11db-c6d6-f6927c144649.ics</href>
   <propstat>
    <prop>
+    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
+    <displayname>Beer O'Clock</displayname>
+    <getcontentlanguage/>
     <getcontentlength>743</getcontentlength>
     <getcontenttype>text/calendar</getcontenttype>
-    <displayname>Beer O'Clock</displayname>
-    <resourcetype/>
-    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
     <getetag>"0d7a68984bf525342d22b8924a57e8e2"</getetag>
-    <getcontentlanguage/>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <resourcetype/>
     <supportedlock>
      <lockentry>
       <lockscope>
@@ -497,14 +497,14 @@
   <href>/caldav.php/user1/home/da81c0ee-7871-11db-c6d6-f6927c144649.ics</href>
   <propstat>
    <prop>
+    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
+    <displayname>Morning Mgmt Mtg</displayname>
+    <getcontentlanguage/>
     <getcontentlength>302</getcontentlength>
     <getcontenttype>text/calendar</getcontenttype>
-    <displayname>Morning Mgmt Mtg</displayname>
-    <resourcetype/>
-    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
     <getetag>"421abf7e4848d2fecbf64217ed205d4b"</getetag>
-    <getcontentlanguage/>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <resourcetype/>
     <supportedlock>
      <lockentry>
       <lockscope>
@@ -532,14 +532,14 @@
   <href>/caldav.php/user1/home/AAA9318E-37D9-4319-8626-95ECD3D3B243.ics</href>
   <propstat>
    <prop>
+    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
+    <displayname>BBQ @ ML's</displayname>
+    <getcontentlanguage/>
     <getcontentlength>981</getcontentlength>
     <getcontenttype>text/calendar</getcontenttype>
-    <displayname>BBQ @ ML's</displayname>
-    <resourcetype/>
-    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
     <getetag>"5f050eca5480bbebbe9428222570913d"</getetag>
-    <getcontentlanguage/>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <resourcetype/>
     <supportedlock>
      <lockentry>
       <lockscope>
@@ -567,14 +567,14 @@
   <href>/caldav.php/user1/home/70D23799-4A68-4905-AB9F-4D47BA693CFD.ics</href>
   <propstat>
    <prop>
+    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
+    <displayname>New Event</displayname>
+    <getcontentlanguage/>
     <getcontentlength>676</getcontentlength>
     <getcontenttype>text/calendar</getcontenttype>
-    <displayname>New Event</displayname>
-    <resourcetype/>
-    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
     <getetag>"257b9df4aaf573a578af4aadd033abf4"</getetag>
-    <getcontentlanguage/>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <resourcetype/>
     <supportedlock>
      <lockentry>
       <lockscope>
@@ -602,14 +602,14 @@
   <href>/caldav.php/user1/home/DAYPARTY-77C6-4FB7-BDD3-6882E2F1BE74.ics</href>
   <propstat>
    <prop>
+    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
+    <displayname>Party all day!</displayname>
+    <getcontentlanguage/>
     <getcontentlength>772</getcontentlength>
     <getcontenttype>text/calendar</getcontenttype>
-    <displayname>Party all day!</displayname>
-    <resourcetype/>
-    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
     <getetag>"165746adbab8bc0c8336a63cc5332ff2"</getetag>
-    <getcontentlanguage/>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <resourcetype/>
     <supportedlock>
      <lockentry>
       <lockscope>
@@ -637,14 +637,14 @@
   <href>/caldav.php/user1/home/MICROPARTY-77C6-4FB7-BDD3-6882E2F1BE74.ics</href>
   <propstat>
    <prop>
+    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
+    <displayname>Woohoo!  Time to Par-tay!</displayname>
+    <getcontentlanguage/>
     <getcontentlength>786</getcontentlength>
     <getcontenttype>text/calendar</getcontenttype>
-    <displayname>Woohoo!  Time to Par-tay!</displayname>
-    <resourcetype/>
-    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
     <getetag>"8600dc4a1b264a09a5f741d710497cba"</getetag>
-    <getcontentlanguage/>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <resourcetype/>
     <supportedlock>
      <lockentry>
       <lockscope>

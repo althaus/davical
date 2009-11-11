@@ -4,15 +4,6 @@
   <href>/</href>
   <propstat>
    <prop>
-    <getcontenttype>httpd/unix-directory</getcontenttype>
-    <getcontentlength/>
-    <resourcetype>
-     <collection/>
-    </resourcetype>
-    <displayname>DAViCal CalDAV Server</displayname>
-    <getlastmodified/>
-    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
-    <getetag>"38f09ba341cd927809b571496db6e4c3"</getetag>
     <acl>
      <ace>
       <principal>
@@ -22,7 +13,14 @@
       </grant>
      </ace>
     </acl>
+    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
+    <displayname>DAViCal CalDAV Server</displayname>
     <getcontentlanguage/>
+    <getcontenttype>httpd/unix-directory</getcontenttype>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <resourcetype>
+     <collection/>
+    </resourcetype>
     <supportedlock>
      <lockentry>
       <lockscope>
@@ -38,6 +36,243 @@
   </propstat>
   <propstat>
    <prop>
+    <getcontentlength/>
+    <getetag/>
+    <lockdiscovery/>
+    <source/>
+    <checked-in/>
+    <checked-out/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/user1/</href>
+  <propstat>
+   <prop>
+    <acl>
+     <ace>
+      <principal>
+       <authenticated/>
+      </principal>
+      <grant>
+      </grant>
+     </ace>
+    </acl>
+    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
+    <displayname>User 1</displayname>
+    <getcontentlanguage/>
+    <getcontenttype>httpd/unix-directory</getcontenttype>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <resourcetype>
+     <collection/>
+     <principal/>
+    </resourcetype>
+    <supportedlock>
+     <lockentry>
+      <lockscope>
+       <exclusive/>
+      </lockscope>
+      <locktype>
+       <write/>
+      </locktype>
+     </lockentry>
+    </supportedlock>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <getcontentlength/>
+    <getetag/>
+    <lockdiscovery/>
+    <source/>
+    <checked-in/>
+    <checked-out/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/manager1/</href>
+  <propstat>
+   <prop>
+    <acl>
+     <ace>
+      <principal>
+       <authenticated/>
+      </principal>
+      <grant>
+      </grant>
+     </ace>
+    </acl>
+    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
+    <displayname>Manager 1</displayname>
+    <getcontentlanguage/>
+    <getcontenttype>httpd/unix-directory</getcontenttype>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <resourcetype>
+     <collection/>
+     <principal/>
+    </resourcetype>
+    <supportedlock>
+     <lockentry>
+      <lockscope>
+       <exclusive/>
+      </lockscope>
+      <locktype>
+       <write/>
+      </locktype>
+     </lockentry>
+    </supportedlock>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <getcontentlength/>
+    <getetag/>
+    <lockdiscovery/>
+    <source/>
+    <checked-in/>
+    <checked-out/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/assistant1/</href>
+  <propstat>
+   <prop>
+    <acl>
+     <ace>
+      <principal>
+       <authenticated/>
+      </principal>
+      <grant>
+      </grant>
+     </ace>
+    </acl>
+    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
+    <displayname>Assistant 1</displayname>
+    <getcontentlanguage/>
+    <getcontenttype>httpd/unix-directory</getcontenttype>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <resourcetype>
+     <collection/>
+     <principal/>
+    </resourcetype>
+    <supportedlock>
+     <lockentry>
+      <lockscope>
+       <exclusive/>
+      </lockscope>
+      <locktype>
+       <write/>
+      </locktype>
+     </lockentry>
+    </supportedlock>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <getcontentlength/>
+    <getetag/>
+    <lockdiscovery/>
+    <source/>
+    <checked-in/>
+    <checked-out/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/resource1/</href>
+  <propstat>
+   <prop>
+    <acl>
+     <ace>
+      <principal>
+       <authenticated/>
+      </principal>
+      <grant>
+      </grant>
+     </ace>
+    </acl>
+    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
+    <displayname>Resource 1</displayname>
+    <getcontentlanguage/>
+    <getcontenttype>httpd/unix-directory</getcontenttype>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <resourcetype>
+     <collection/>
+     <principal/>
+    </resourcetype>
+    <supportedlock>
+     <lockentry>
+      <lockscope>
+       <exclusive/>
+      </lockscope>
+      <locktype>
+       <write/>
+      </locktype>
+     </lockentry>
+    </supportedlock>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <getcontentlength/>
+    <getetag/>
+    <lockdiscovery/>
+    <source/>
+    <checked-in/>
+    <checked-out/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/resource2/</href>
+  <propstat>
+   <prop>
+    <acl>
+     <ace>
+      <principal>
+       <authenticated/>
+      </principal>
+      <grant>
+      </grant>
+     </ace>
+    </acl>
+    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
+    <displayname>Resource 2</displayname>
+    <getcontentlanguage/>
+    <getcontenttype>httpd/unix-directory</getcontenttype>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <resourcetype>
+     <collection/>
+     <principal/>
+    </resourcetype>
+    <supportedlock>
+     <lockentry>
+      <lockscope>
+       <exclusive/>
+      </lockscope>
+      <locktype>
+       <write/>
+      </locktype>
+     </lockentry>
+    </supportedlock>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <getcontentlength/>
+    <getetag/>
     <lockdiscovery/>
     <source/>
     <checked-in/>

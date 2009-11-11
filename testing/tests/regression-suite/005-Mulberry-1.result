@@ -2,8 +2,8 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule, extended-mkcol
 Allow: OPTIONS, PROPFIND, REPORT, DELETE, LOCK, UNLOCK, MOVE, GET, PUT, HEAD, MKCOL, MKCALENDAR, PROPPATCH
-ETag: "742b769399effa71f619302b6ee9897e"
-Content-Length: 1842
+ETag: "297a698b8d8c51217f0de910462dc6d8"
+Content-Length: 2206
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -14,8 +14,8 @@ Content-Type: text/xml; charset="utf-8"
    <prop>
     <getcontenttype>httpd/unix-directory</getcontenttype>
     <resourcetype>
-     <principal/>
      <collection/>
+     <principal/>
     </resourcetype>
    </prop>
    <status>HTTP/1.1 200 OK</status>
@@ -32,13 +32,18 @@ Content-Type: text/xml; charset="utf-8"
   <propstat>
    <prop>
     <getcontenttype>httpd/unix-directory</getcontenttype>
-    <getcontentlength/>
     <resourcetype>
      <collection/>
      <C:calendar/>
     </resourcetype>
    </prop>
    <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <getcontentlength/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
   </propstat>
  </response>
  <response>
@@ -46,7 +51,6 @@ Content-Type: text/xml; charset="utf-8"
   <propstat>
    <prop>
     <getcontenttype>httpd/unix-directory</getcontenttype>
-    <getcontentlength/>
     <resourcetype>
      <collection/>
      <C:calendar/>
@@ -54,13 +58,18 @@ Content-Type: text/xml; charset="utf-8"
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
+  <propstat>
+   <prop>
+    <getcontentlength/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
  </response>
  <response>
   <href>/caldav.php/user1/calendar-proxy-read/</href>
   <propstat>
    <prop>
     <getcontenttype>httpd/unix-directory</getcontenttype>
-    <getcontentlength/>
     <resourcetype>
      <collection/>
      <C1:calendar-proxy-read/>
@@ -68,19 +77,30 @@ Content-Type: text/xml; charset="utf-8"
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
+  <propstat>
+   <prop>
+    <getcontentlength/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
  </response>
  <response>
   <href>/caldav.php/user1/calendar-proxy-write/</href>
   <propstat>
    <prop>
     <getcontenttype>httpd/unix-directory</getcontenttype>
-    <getcontentlength/>
     <resourcetype>
      <collection/>
      <C1:calendar-proxy-write/>
     </resourcetype>
    </prop>
    <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <getcontentlength/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
   </propstat>
  </response>
 </multistatus>

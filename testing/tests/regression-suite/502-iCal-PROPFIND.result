@@ -2,8 +2,8 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule, extended-mkcol
 Allow: OPTIONS, PROPFIND, REPORT, DELETE, LOCK, UNLOCK, MOVE, GET, PUT, HEAD, MKCOL, MKCALENDAR, PROPPATCH
-ETag: "1e048c7a336b37ab6c6dda2b9c852867"
-Content-Length: 2340
+ETag: "3d57f5e85f8e7d0fe3398eeace49ce1a"
+Content-Length: 3181
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -14,8 +14,8 @@ Content-Type: text/xml; charset="utf-8"
    <prop>
     <displayname>User 1</displayname>
     <resourcetype>
-     <principal/>
      <collection/>
+     <principal/>
     </resourcetype>
    </prop>
    <status>HTTP/1.1 200 OK</status>
@@ -32,11 +32,11 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/home/</href>
   <propstat>
    <prop>
+    <displayname>user1 home</displayname>
     <resourcetype>
      <collection/>
      <C:calendar/>
     </resourcetype>
-    <displayname>user1 home</displayname>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -52,11 +52,51 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/created/</href>
   <propstat>
    <prop>
+    <displayname>created</displayname>
     <resourcetype>
      <collection/>
      <C:calendar/>
     </resourcetype>
-    <displayname>created</displayname>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <C:calendar-description/>
+    <A:calendar-color/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/.in/</href>
+  <propstat>
+   <prop>
+    <displayname>User 1 Inbox</displayname>
+    <resourcetype>
+     <collection/>
+     <C:schedule-inbox/>
+    </resourcetype>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <C:calendar-description/>
+    <A:calendar-color/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/.out/</href>
+  <propstat>
+   <prop>
+    <displayname>User 1 Outbox</displayname>
+    <resourcetype>
+     <collection/>
+     <C:schedule-outbox/>
+    </resourcetype>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -72,11 +112,11 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/calendar-proxy-read/</href>
   <propstat>
    <prop>
+    <displayname>/user1/calendar-proxy-read/</displayname>
     <resourcetype>
      <collection/>
      <C1:calendar-proxy-read/>
     </resourcetype>
-    <displayname>/user1/calendar-proxy-read/</displayname>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -92,11 +132,11 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/calendar-proxy-write/</href>
   <propstat>
    <prop>
+    <displayname>/user1/calendar-proxy-write/</displayname>
     <resourcetype>
      <collection/>
      <C1:calendar-proxy-write/>
     </resourcetype>
-    <displayname>/user1/calendar-proxy-write/</displayname>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>

@@ -2,8 +2,8 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule, extended-mkcol
 Allow: OPTIONS, PROPFIND, REPORT, DELETE, LOCK, UNLOCK, MOVE, GET, PUT, HEAD
-ETag: "5a857967af12b3c375f6880c8a5d2b54"
-Content-Length: 4239
+ETag: "2e9da41da3450d7ccfe49fb10bb32c62"
+Content-Length: 4287
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -17,18 +17,23 @@ Content-Type: text/xml; charset="utf-8"
      <C:calendar/>
     </resourcetype>
     <displayname>user1 home</displayname>
-    <getetag>"f94fbdb733bc8367373bff1ec573ba36"</getetag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <getetag/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
   </propstat>
  </response>
  <response>
   <href>/caldav.php/user1/home/3F4CF6227300FD062D9EF3CDFB30D32D-0.ics</href>
   <propstat>
    <prop>
-    <displayname>Lunch with David</displayname>
-    <resourcetype/>
     <getetag>"2c32a2f8aba853654eb17fe037a4db4d"</getetag>
+    <resourcetype/>
+    <displayname>Lunch with David</displayname>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -37,9 +42,9 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/home/20061101T073004Z.ics</href>
   <propstat>
    <prop>
-    <displayname>A Meeting</displayname>
-    <resourcetype/>
     <getetag>"c3658901fd4689d4a1e1d6f08601ef4f"</getetag>
+    <resourcetype/>
+    <displayname>A Meeting</displayname>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -48,9 +53,9 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/home/4aaf8f37-f232-4c8e-a72e-e171d4c4fe54.ics</href>
   <propstat>
    <prop>
-    <displayname>Weekly Project Meeting</displayname>
-    <resourcetype/>
     <getetag>"a1c6404d61190f9574e2bfd69383f144"</getetag>
+    <resourcetype/>
+    <displayname>Weekly Project Meeting</displayname>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -59,9 +64,9 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/home/9d050be7-8a02-4355-8ed3-02a9fc5f473f.ics</href>
   <propstat>
    <prop>
-    <displayname>Confidential Event</displayname>
-    <resourcetype/>
     <getetag>"08a435c2abaf38f4a50a997343c098a7"</getetag>
+    <resourcetype/>
+    <displayname>Confidential Event</displayname>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -70,9 +75,9 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/home/1906b3ca-4890-468a-9b58-1de74bf2c716.ics</href>
   <propstat>
    <prop>
-    <displayname>Private Event</displayname>
-    <resourcetype/>
     <getetag>"5def8ae2b20893a1c7f4dbaeb008f2f1"</getetag>
+    <resourcetype/>
+    <displayname>Private Event</displayname>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -81,9 +86,9 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/home/fbd57454-d966-4a14-8341-abe1edb1ae66.ics</href>
   <propstat>
    <prop>
-    <displayname>Tentative Event</displayname>
-    <resourcetype/>
     <getetag>"ac90acd649c25070b1a2a17fb31a105a"</getetag>
+    <resourcetype/>
+    <displayname>Tentative Event</displayname>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -92,9 +97,9 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/home/2178279a-aec2-471f-832d-1f6df6203f2f.ics</href>
   <propstat>
    <prop>
-    <displayname>Incomplete, uncancelled</displayname>
-    <resourcetype/>
     <getetag>"509b0f0d8a3363379f9f5727f5dd74a0"</getetag>
+    <resourcetype/>
+    <displayname>Incomplete, uncancelled</displayname>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -103,9 +108,9 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/home/917b9e47-b748-4550-a566-657fbe672447.ics</href>
   <propstat>
    <prop>
-    <displayname>50% Complete, uncancelled</displayname>
-    <resourcetype/>
     <getetag>"cb3d9dc3e8c157f53eba3ea0e1e0f146"</getetag>
+    <resourcetype/>
+    <displayname>50% Complete, uncancelled</displayname>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -114,9 +119,9 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/home/0575d895-a006-4ed8-9be6-0d1b6b6b1f96.ics</href>
   <propstat>
    <prop>
-    <displayname>Due 7/8/7 16:30, completed</displayname>
-    <resourcetype/>
     <getetag>"00ad5eb1eb5507884710b0b66aa5d5c4"</getetag>
+    <resourcetype/>
+    <displayname>Due 7/8/7 16:30, completed</displayname>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -125,9 +130,9 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/home/b1679f77-673d-4f46-b3eb-2420e1bba301.ics</href>
   <propstat>
    <prop>
-    <displayname>A Cancelled Task, with a start and due date</displayname>
-    <resourcetype/>
     <getetag>"a2990674708634a311bb98a59865ca50"</getetag>
+    <resourcetype/>
+    <displayname>A Cancelled Task, with a start and due date</displayname>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -136,9 +141,9 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/home/e70576e9-c1e0-431e-a507-0386fd82f223.ics</href>
   <propstat>
    <prop>
-    <displayname>Morning Meeting</displayname>
-    <resourcetype/>
     <getetag>"e8060931f30c1798ac58ffbe4ec0bffc"</getetag>
+    <resourcetype/>
+    <displayname>Morning Meeting</displayname>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -147,9 +152,9 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/home/e6eb5bc9-f7f9-4a0a-94e8-8e90eefc7d08.ics</href>
   <propstat>
    <prop>
-    <displayname>Release 0.9.3</displayname>
-    <resourcetype/>
     <getetag>"8f581a053df6d833254756dfd7553d37"</getetag>
+    <resourcetype/>
+    <displayname>Release 0.9.3</displayname>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>

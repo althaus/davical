@@ -4,13 +4,6 @@
   <href>/caldav.php/user1/home/da81c0ee-7871-11db-c6d6-f6927c144649.ics</href>
   <propstat>
    <prop>
-    <getcontentlength>302</getcontentlength>
-    <getcontenttype>text/calendar</getcontenttype>
-    <displayname>Morning Mgmt Mtg</displayname>
-    <resourcetype/>
-    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
-    <getetag>"421abf7e4848d2fecbf64217ed205d4b"</getetag>
     <acl>
      <ace>
       <principal>
@@ -20,7 +13,14 @@
       </grant>
      </ace>
     </acl>
+    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
+    <displayname>User 1</displayname>
     <getcontentlanguage/>
+    <getcontentlength>302</getcontentlength>
+    <getcontenttype>text/calendar</getcontenttype>
+    <getetag>421abf7e4848d2fecbf64217ed205d4b</getetag>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <resourcetype/>
     <supportedlock>
      <lockentry>
       <lockscope>

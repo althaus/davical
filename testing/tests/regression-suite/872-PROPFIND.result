@@ -2,24 +2,24 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule, extended-mkcol
 Allow: OPTIONS, PROPFIND, REPORT, DELETE, LOCK, UNLOCK, MOVE, GET, PUT, HEAD
-ETag: "800ca97cec1b737be874e0ec11094f59"
-Content-Length: 1670
+ETag: "3c452449775154783d2af77d88c2aacf"
+Content-Length: 1632
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
-<multistatus xmlns="DAV:" xmlns:A="http://calendarserver.org/ns/" xmlns:C="http://complete/bollocks/ns/">
+<multistatus xmlns="DAV:" xmlns:C="http://calendarserver.org/ns/" xmlns:C1="http://complete/bollocks/ns/">
  <response>
   <href>/caldav.php/user2/home/</href>
   <propstat>
    <prop>
-    <A:getctag>"876883ebf6e5e80fb501f490c70803b5"</A:getctag>
-    <getetag>"876883ebf6e5e80fb501f490c70803b5"</getetag>
+    <C:getctag>"876883ebf6e5e80fb501f490c70803b5"</C:getctag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
   <propstat>
    <prop>
-    <C:gobbledegook/>
+    <getetag/>
+    <C1:gobbledegook/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
@@ -34,8 +34,8 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
   <propstat>
    <prop>
-    <A:getctag/>
-    <C:gobbledegook/>
+    <C:getctag/>
+    <C1:gobbledegook/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
@@ -50,8 +50,8 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
   <propstat>
    <prop>
-    <A:getctag/>
-    <C:gobbledegook/>
+    <C:getctag/>
+    <C1:gobbledegook/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
@@ -66,8 +66,8 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
   <propstat>
    <prop>
-    <A:getctag/>
-    <C:gobbledegook/>
+    <C:getctag/>
+    <C1:gobbledegook/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>

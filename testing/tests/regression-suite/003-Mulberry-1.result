@@ -2,8 +2,8 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule, extended-mkcol
 Allow: OPTIONS, PROPFIND, REPORT, DELETE, LOCK, UNLOCK, MOVE, GET, PUT, HEAD, MKCOL, MKCALENDAR, PROPPATCH
-ETag: "9c4b160fa7eb31181d61f76632747b73"
-Content-Length: 1532
+ETag: "f7655907e64525c7ecaa409f800e8f8b"
+Content-Length: 1805
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -14,8 +14,8 @@ Content-Type: text/xml; charset="utf-8"
    <prop>
     <getcontenttype>httpd/unix-directory</getcontenttype>
     <resourcetype>
-     <principal/>
      <collection/>
+     <principal/>
     </resourcetype>
    </prop>
    <status>HTTP/1.1 200 OK</status>
@@ -32,7 +32,6 @@ Content-Type: text/xml; charset="utf-8"
   <propstat>
    <prop>
     <getcontenttype>httpd/unix-directory</getcontenttype>
-    <getcontentlength/>
     <resourcetype>
      <collection/>
      <C:calendar/>
@@ -40,13 +39,18 @@ Content-Type: text/xml; charset="utf-8"
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
+  <propstat>
+   <prop>
+    <getcontentlength/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
  </response>
  <response>
   <href>/caldav.php/user1/calendar-proxy-read/</href>
   <propstat>
    <prop>
     <getcontenttype>httpd/unix-directory</getcontenttype>
-    <getcontentlength/>
     <resourcetype>
      <collection/>
      <C1:calendar-proxy-read/>
@@ -54,19 +58,30 @@ Content-Type: text/xml; charset="utf-8"
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
+  <propstat>
+   <prop>
+    <getcontentlength/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
  </response>
  <response>
   <href>/caldav.php/user1/calendar-proxy-write/</href>
   <propstat>
    <prop>
     <getcontenttype>httpd/unix-directory</getcontenttype>
-    <getcontentlength/>
     <resourcetype>
      <collection/>
      <C1:calendar-proxy-write/>
     </resourcetype>
    </prop>
    <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <getcontentlength/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
   </propstat>
  </response>
 </multistatus>

@@ -2,8 +2,8 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule, extended-mkcol
 Allow: OPTIONS, PROPFIND, REPORT, DELETE, LOCK, UNLOCK, MOVE, GET, PUT, HEAD
-ETag: "7a5d19d17420dc10cae2a172cb9b8722"
-Content-Length: 1170
+ETag: "7db106b1d8af7d7dbc29599051f440b6"
+Content-Length: 1757
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -12,39 +12,12 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/home/</href>
   <propstat>
    <prop>
-    <resourcetype>
-     <collection/>
-     <C:calendar/>
-    </resourcetype>
-    <displayname>user1 home</displayname>
-    <getetag>"f94fbdb733bc8367373bff1ec573ba36"</getetag>
     <current-user-privilege-set>
      <privilege>
       <all/>
      </privilege>
      <privilege>
-      <C:read-free-busy/>
-     </privilege>
-     <privilege>
       <read/>
-     </privilege>
-     <privilege>
-      <write/>
-     </privilege>
-     <privilege>
-      <bind/>
-     </privilege>
-     <privilege>
-      <unbind/>
-     </privilege>
-     <privilege>
-      <write-content/>
-     </privilege>
-     <privilege>
-      <write-properties/>
-     </privilege>
-     <privilege>
-      <lock/>
      </privilege>
      <privilege>
       <unlock/>
@@ -55,9 +28,65 @@ Content-Type: text/xml; charset="utf-8"
      <privilege>
       <read-current-user-privilege-set/>
      </privilege>
+     <privilege>
+      <write-acl/>
+     </privilege>
+     <privilege>
+      <C:read-free-busy/>
+     </privilege>
+     <privilege>
+      <write/>
+     </privilege>
+     <privilege>
+      <write-properties/>
+     </privilege>
+     <privilege>
+      <write-content/>
+     </privilege>
+     <privilege>
+      <bind/>
+     </privilege>
+     <privilege>
+      <unbind/>
+     </privilege>
+     <privilege>
+      <C:schedule-deliver/>
+     </privilege>
+     <privilege>
+      <C:schedule-deliver-invite/>
+     </privilege>
+     <privilege>
+      <C:schedule-deliver-reply/>
+     </privilege>
+     <privilege>
+      <C:schedule-query-freebusy/>
+     </privilege>
+     <privilege>
+      <C:schedule-send/>
+     </privilege>
+     <privilege>
+      <C:schedule-send-invite/>
+     </privilege>
+     <privilege>
+      <C:schedule-send-reply/>
+     </privilege>
+     <privilege>
+      <C:schedule-send-freebusy/>
+     </privilege>
     </current-user-privilege-set>
+    <resourcetype>
+     <collection/>
+     <C:calendar/>
+    </resourcetype>
+    <displayname>user1 home</displayname>
    </prop>
    <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <getetag/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
   </propstat>
  </response>
 </multistatus>

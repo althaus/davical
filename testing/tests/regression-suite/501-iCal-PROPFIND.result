@@ -2,7 +2,7 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule, extended-mkcol
 Allow: OPTIONS, PROPFIND, REPORT, DELETE, LOCK, UNLOCK, MOVE, GET, PUT, HEAD, MKCOL, MKCALENDAR, PROPPATCH
-ETag: "ba72f57f10a42d6b3d94e346924be098"
+ETag: "66e8dfdd986cf80ca4e0a454a5f403e4"
 Content-Length: 969
 Content-Type: text/xml; charset="utf-8"
 
@@ -25,13 +25,13 @@ Content-Type: text/xml; charset="utf-8"
     <C:schedule-outbox-URL>
      <href>/caldav.php/user1/.out/</href>
     </C:schedule-outbox-URL>
-    <displayname>User 1</displayname>
     <A:dropbox-home-URL>
      <href>/caldav.php/user1/.drop/</href>
     </A:dropbox-home-URL>
     <A:notifications-URL>
      <href>/caldav.php/user1/.notify/</href>
     </A:notifications-URL>
+    <displayname>User 1</displayname>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>

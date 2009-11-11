@@ -5,7 +5,6 @@
   <propstat>
    <prop>
     <getcontenttype>httpd/unix-directory</getcontenttype>
-    <getcontentlength>14878</getcontentlength>
     <resourcetype>
      <collection/>
      <C:calendar/>
@@ -13,8 +12,10 @@
     <displayname>user1 home</displayname>
     <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
     <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
-    <getetag>"735679d819034badbcddd8aa6029bc3d"</getetag>
     <getcontentlanguage/>
+    <owner>
+     <href>/caldav.php/user1/</href>
+    </owner>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>

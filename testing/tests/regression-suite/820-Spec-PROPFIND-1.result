@@ -4,16 +4,6 @@
   <href>/caldav.php/user1/home/</href>
   <propstat>
    <prop>
-    <getcontenttype>httpd/unix-directory</getcontenttype>
-    <getcontentlength>14878</getcontentlength>
-    <resourcetype>
-     <collection/>
-     <C:calendar/>
-    </resourcetype>
-    <displayname>user1 home</displayname>
-    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
-    <getetag>"735679d819034badbcddd8aa6029bc3d"</getetag>
     <acl>
      <ace>
       <principal>
@@ -23,7 +13,15 @@
       </grant>
      </ace>
     </acl>
+    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
+    <displayname>user1 home</displayname>
     <getcontentlanguage/>
+    <getcontenttype>httpd/unix-directory</getcontenttype>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <resourcetype>
+     <collection/>
+     <C:calendar/>
+    </resourcetype>
     <supportedlock>
      <lockentry>
       <lockscope>
@@ -39,6 +37,8 @@
   </propstat>
   <propstat>
    <prop>
+    <getcontentlength/>
+    <getetag/>
     <lockdiscovery/>
     <source/>
     <checked-in/>

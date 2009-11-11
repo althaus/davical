@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
  <response>
-  <href>/caldav.php/user1/</href>
+  <href>/%7Euser1/</href>
   <propstat>
    <prop>
     <acl>
@@ -19,8 +19,8 @@
     <getcontenttype>httpd/unix-directory</getcontenttype>
     <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
     <resourcetype>
-     <principal/>
      <collection/>
+     <principal/>
     </resourcetype>
     <supportedlock>
      <lockentry>

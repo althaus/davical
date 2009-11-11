@@ -2,48 +2,28 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule, extended-mkcol
 Allow: OPTIONS, PROPFIND, REPORT, DELETE, LOCK, UNLOCK, MOVE, GET, PUT, HEAD, MKCOL, MKCALENDAR, PROPPATCH
-ETag: "1a702c2797c2d778c5593aba5ab5b166"
-Content-Length: 8374
+ETag: "ca16ae2f358c4719219d0f3a6696fd39"
+Content-Length: 15401
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
-<multistatus xmlns="DAV:" xmlns:C="http://calendarserver.org/ns/" xmlns:C1="urn:ietf:params:xml:ns:caldav" xmlns:A="http://apple.com/ns/ical/">
+<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav" xmlns:C1="http://calendarserver.org/ns/" xmlns:A="http://apple.com/ns/ical/">
  <response>
   <href>/caldav.php/user1/</href>
   <propstat>
    <prop>
     <displayname>User 1</displayname>
+    <C1:getctag>89514106d00f37cc9ee71689c450d2ef</C1:getctag>
     <resourcetype>
-     <principal/>
      <collection/>
+     <principal/>
     </resourcetype>
     <current-user-privilege-set>
      <privilege>
       <all/>
      </privilege>
      <privilege>
-      <C1:read-free-busy/>
-     </privilege>
-     <privilege>
       <read/>
-     </privilege>
-     <privilege>
-      <write/>
-     </privilege>
-     <privilege>
-      <bind/>
-     </privilege>
-     <privilege>
-      <unbind/>
-     </privilege>
-     <privilege>
-      <write-content/>
-     </privilege>
-     <privilege>
-      <write-properties/>
-     </privilege>
-     <privilege>
-      <lock/>
      </privilege>
      <privilege>
       <unlock/>
@@ -54,16 +34,60 @@ Content-Type: text/xml; charset="utf-8"
      <privilege>
       <read-current-user-privilege-set/>
      </privilege>
+     <privilege>
+      <write-acl/>
+     </privilege>
+     <privilege>
+      <C:read-free-busy/>
+     </privilege>
+     <privilege>
+      <write/>
+     </privilege>
+     <privilege>
+      <write-properties/>
+     </privilege>
+     <privilege>
+      <write-content/>
+     </privilege>
+     <privilege>
+      <bind/>
+     </privilege>
+     <privilege>
+      <unbind/>
+     </privilege>
+     <privilege>
+      <C:schedule-deliver/>
+     </privilege>
+     <privilege>
+      <C:schedule-deliver-invite/>
+     </privilege>
+     <privilege>
+      <C:schedule-deliver-reply/>
+     </privilege>
+     <privilege>
+      <C:schedule-query-freebusy/>
+     </privilege>
+     <privilege>
+      <C:schedule-send/>
+     </privilege>
+     <privilege>
+      <C:schedule-send-invite/>
+     </privilege>
+     <privilege>
+      <C:schedule-send-reply/>
+     </privilege>
+     <privilege>
+      <C:schedule-send-freebusy/>
+     </privilege>
     </current-user-privilege-set>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
   <propstat>
    <prop>
-    <C:getctag/>
-    <C1:supported-calendar-component-set/>
-    <C1:calendar-description/>
+    <C:calendar-description/>
     <A:calendar-color/>
+    <C:supported-calendar-component-set/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
@@ -72,46 +96,26 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/home/</href>
   <propstat>
    <prop>
-    <C1:supported-calendar-component-set>
-     <C1:comp name="VEVENT"/>
-     <C1:comp name="VTODO"/>
-     <C1:comp name="VJOURNAL"/>
-     <C1:comp name="VTIMEZONE"/>
-     <C1:comp name="VFREEBUSY"/>
-    </C1:supported-calendar-component-set>
+    <displayname>user1 home</displayname>
+    <C1:getctag>"86a1e7300c8b748329ad3617974ad08a"</C1:getctag>
+    <A:calendar-color>#0252D4FF</A:calendar-color>
+    <C:supported-calendar-component-set>
+     <C:comp name="VEVENT"/>
+     <C:comp name="VTODO"/>
+     <C:comp name="VJOURNAL"/>
+     <C:comp name="VTIMEZONE"/>
+     <C:comp name="VFREEBUSY"/>
+    </C:supported-calendar-component-set>
     <resourcetype>
      <collection/>
-     <C1:calendar/>
+     <C:calendar/>
     </resourcetype>
-    <displayname>user1 home</displayname>
-    <C:getctag>"86a1e7300c8b748329ad3617974ad08a"</C:getctag>
     <current-user-privilege-set>
      <privilege>
       <all/>
      </privilege>
      <privilege>
-      <C1:read-free-busy/>
-     </privilege>
-     <privilege>
       <read/>
-     </privilege>
-     <privilege>
-      <write/>
-     </privilege>
-     <privilege>
-      <bind/>
-     </privilege>
-     <privilege>
-      <unbind/>
-     </privilege>
-     <privilege>
-      <write-content/>
-     </privilege>
-     <privilege>
-      <write-properties/>
-     </privilege>
-     <privilege>
-      <lock/>
      </privilege>
      <privilege>
       <unlock/>
@@ -122,14 +126,58 @@ Content-Type: text/xml; charset="utf-8"
      <privilege>
       <read-current-user-privilege-set/>
      </privilege>
+     <privilege>
+      <write-acl/>
+     </privilege>
+     <privilege>
+      <C:read-free-busy/>
+     </privilege>
+     <privilege>
+      <write/>
+     </privilege>
+     <privilege>
+      <write-properties/>
+     </privilege>
+     <privilege>
+      <write-content/>
+     </privilege>
+     <privilege>
+      <bind/>
+     </privilege>
+     <privilege>
+      <unbind/>
+     </privilege>
+     <privilege>
+      <C:schedule-deliver/>
+     </privilege>
+     <privilege>
+      <C:schedule-deliver-invite/>
+     </privilege>
+     <privilege>
+      <C:schedule-deliver-reply/>
+     </privilege>
+     <privilege>
+      <C:schedule-query-freebusy/>
+     </privilege>
+     <privilege>
+      <C:schedule-send/>
+     </privilege>
+     <privilege>
+      <C:schedule-send-invite/>
+     </privilege>
+     <privilege>
+      <C:schedule-send-reply/>
+     </privilege>
+     <privilege>
+      <C:schedule-send-freebusy/>
+     </privilege>
     </current-user-privilege-set>
-    <A:calendar-color>#0252D4FF</A:calendar-color>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
   <propstat>
    <prop>
-    <C1:calendar-description/>
+    <C:calendar-description/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
@@ -138,46 +186,25 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/created/</href>
   <propstat>
    <prop>
-    <C1:supported-calendar-component-set>
-     <C1:comp name="VEVENT"/>
-     <C1:comp name="VTODO"/>
-     <C1:comp name="VJOURNAL"/>
-     <C1:comp name="VTIMEZONE"/>
-     <C1:comp name="VFREEBUSY"/>
-    </C1:supported-calendar-component-set>
+    <displayname>created</displayname>
+    <C1:getctag>"bac273dae96780a3c8ed0c032266322c"</C1:getctag>
+    <C:supported-calendar-component-set>
+     <C:comp name="VEVENT"/>
+     <C:comp name="VTODO"/>
+     <C:comp name="VJOURNAL"/>
+     <C:comp name="VTIMEZONE"/>
+     <C:comp name="VFREEBUSY"/>
+    </C:supported-calendar-component-set>
     <resourcetype>
      <collection/>
-     <C1:calendar/>
+     <C:calendar/>
     </resourcetype>
-    <displayname>created</displayname>
-    <C:getctag>"bac273dae96780a3c8ed0c032266322c"</C:getctag>
     <current-user-privilege-set>
      <privilege>
       <all/>
      </privilege>
      <privilege>
-      <C1:read-free-busy/>
-     </privilege>
-     <privilege>
       <read/>
-     </privilege>
-     <privilege>
-      <write/>
-     </privilege>
-     <privilege>
-      <bind/>
-     </privilege>
-     <privilege>
-      <unbind/>
-     </privilege>
-     <privilege>
-      <write-content/>
-     </privilege>
-     <privilege>
-      <write-properties/>
-     </privilege>
-     <privilege>
-      <lock/>
      </privilege>
      <privilege>
       <unlock/>
@@ -188,13 +215,234 @@ Content-Type: text/xml; charset="utf-8"
      <privilege>
       <read-current-user-privilege-set/>
      </privilege>
+     <privilege>
+      <write-acl/>
+     </privilege>
+     <privilege>
+      <C:read-free-busy/>
+     </privilege>
+     <privilege>
+      <write/>
+     </privilege>
+     <privilege>
+      <write-properties/>
+     </privilege>
+     <privilege>
+      <write-content/>
+     </privilege>
+     <privilege>
+      <bind/>
+     </privilege>
+     <privilege>
+      <unbind/>
+     </privilege>
+     <privilege>
+      <C:schedule-deliver/>
+     </privilege>
+     <privilege>
+      <C:schedule-deliver-invite/>
+     </privilege>
+     <privilege>
+      <C:schedule-deliver-reply/>
+     </privilege>
+     <privilege>
+      <C:schedule-query-freebusy/>
+     </privilege>
+     <privilege>
+      <C:schedule-send/>
+     </privilege>
+     <privilege>
+      <C:schedule-send-invite/>
+     </privilege>
+     <privilege>
+      <C:schedule-send-reply/>
+     </privilege>
+     <privilege>
+      <C:schedule-send-freebusy/>
+     </privilege>
     </current-user-privilege-set>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
   <propstat>
    <prop>
-    <C1:calendar-description/>
+    <C:calendar-description/>
+    <A:calendar-color/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/.in/</href>
+  <propstat>
+   <prop>
+    <displayname>User 1 Inbox</displayname>
+    <C1:getctag>"1"</C1:getctag>
+    <C:supported-calendar-component-set>
+     <C:comp name="VEVENT"/>
+     <C:comp name="VTODO"/>
+     <C:comp name="VFREEBUSY"/>
+    </C:supported-calendar-component-set>
+    <resourcetype>
+     <collection/>
+     <C:schedule-inbox/>
+    </resourcetype>
+    <current-user-privilege-set>
+     <privilege>
+      <all/>
+     </privilege>
+     <privilege>
+      <read/>
+     </privilege>
+     <privilege>
+      <unlock/>
+     </privilege>
+     <privilege>
+      <read-acl/>
+     </privilege>
+     <privilege>
+      <read-current-user-privilege-set/>
+     </privilege>
+     <privilege>
+      <write-acl/>
+     </privilege>
+     <privilege>
+      <C:read-free-busy/>
+     </privilege>
+     <privilege>
+      <write/>
+     </privilege>
+     <privilege>
+      <write-properties/>
+     </privilege>
+     <privilege>
+      <write-content/>
+     </privilege>
+     <privilege>
+      <bind/>
+     </privilege>
+     <privilege>
+      <unbind/>
+     </privilege>
+     <privilege>
+      <C:schedule-deliver/>
+     </privilege>
+     <privilege>
+      <C:schedule-deliver-invite/>
+     </privilege>
+     <privilege>
+      <C:schedule-deliver-reply/>
+     </privilege>
+     <privilege>
+      <C:schedule-query-freebusy/>
+     </privilege>
+     <privilege>
+      <C:schedule-send/>
+     </privilege>
+     <privilege>
+      <C:schedule-send-invite/>
+     </privilege>
+     <privilege>
+      <C:schedule-send-reply/>
+     </privilege>
+     <privilege>
+      <C:schedule-send-freebusy/>
+     </privilege>
+    </current-user-privilege-set>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <C:calendar-description/>
+    <A:calendar-color/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/.out/</href>
+  <propstat>
+   <prop>
+    <displayname>User 1 Outbox</displayname>
+    <C1:getctag>"1"</C1:getctag>
+    <C:supported-calendar-component-set>
+     <C:comp name="VEVENT"/>
+     <C:comp name="VTODO"/>
+     <C:comp name="VFREEBUSY"/>
+    </C:supported-calendar-component-set>
+    <resourcetype>
+     <collection/>
+     <C:schedule-outbox/>
+    </resourcetype>
+    <current-user-privilege-set>
+     <privilege>
+      <all/>
+     </privilege>
+     <privilege>
+      <read/>
+     </privilege>
+     <privilege>
+      <unlock/>
+     </privilege>
+     <privilege>
+      <read-acl/>
+     </privilege>
+     <privilege>
+      <read-current-user-privilege-set/>
+     </privilege>
+     <privilege>
+      <write-acl/>
+     </privilege>
+     <privilege>
+      <C:read-free-busy/>
+     </privilege>
+     <privilege>
+      <write/>
+     </privilege>
+     <privilege>
+      <write-properties/>
+     </privilege>
+     <privilege>
+      <write-content/>
+     </privilege>
+     <privilege>
+      <bind/>
+     </privilege>
+     <privilege>
+      <unbind/>
+     </privilege>
+     <privilege>
+      <C:schedule-deliver/>
+     </privilege>
+     <privilege>
+      <C:schedule-deliver-invite/>
+     </privilege>
+     <privilege>
+      <C:schedule-deliver-reply/>
+     </privilege>
+     <privilege>
+      <C:schedule-query-freebusy/>
+     </privilege>
+     <privilege>
+      <C:schedule-send/>
+     </privilege>
+     <privilege>
+      <C:schedule-send-invite/>
+     </privilege>
+     <privilege>
+      <C:schedule-send-reply/>
+     </privilege>
+     <privilege>
+      <C:schedule-send-freebusy/>
+     </privilege>
+    </current-user-privilege-set>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <C:calendar-description/>
     <A:calendar-color/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
@@ -204,46 +452,26 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/6E20BB7C-EFD9-4F0F-9BDC-5335E04D47E0/</href>
   <propstat>
    <prop>
-    <C1:supported-calendar-component-set>
-     <C1:comp name="VEVENT"/>
-     <C1:comp name="VTODO"/>
-     <C1:comp name="VJOURNAL"/>
-     <C1:comp name="VTIMEZONE"/>
-     <C1:comp name="VFREEBUSY"/>
-    </C1:supported-calendar-component-set>
+    <displayname>iCal Calendar</displayname>
+    <C1:getctag>"ac192d10783fff90598af2facc8259df"</C1:getctag>
+    <A:calendar-color>#391B71A0</A:calendar-color>
+    <C:supported-calendar-component-set>
+     <C:comp name="VEVENT"/>
+     <C:comp name="VTODO"/>
+     <C:comp name="VJOURNAL"/>
+     <C:comp name="VTIMEZONE"/>
+     <C:comp name="VFREEBUSY"/>
+    </C:supported-calendar-component-set>
     <resourcetype>
      <collection/>
-     <C1:calendar/>
+     <C:calendar/>
     </resourcetype>
-    <displayname>iCal Calendar</displayname>
-    <C:getctag>"ac192d10783fff90598af2facc8259df"</C:getctag>
     <current-user-privilege-set>
      <privilege>
       <all/>
      </privilege>
      <privilege>
-      <C1:read-free-busy/>
-     </privilege>
-     <privilege>
       <read/>
-     </privilege>
-     <privilege>
-      <write/>
-     </privilege>
-     <privilege>
-      <bind/>
-     </privilege>
-     <privilege>
-      <unbind/>
-     </privilege>
-     <privilege>
-      <write-content/>
-     </privilege>
-     <privilege>
-      <write-properties/>
-     </privilege>
-     <privilege>
-      <lock/>
      </privilege>
      <privilege>
       <unlock/>
@@ -254,14 +482,58 @@ Content-Type: text/xml; charset="utf-8"
      <privilege>
       <read-current-user-privilege-set/>
      </privilege>
+     <privilege>
+      <write-acl/>
+     </privilege>
+     <privilege>
+      <C:read-free-busy/>
+     </privilege>
+     <privilege>
+      <write/>
+     </privilege>
+     <privilege>
+      <write-properties/>
+     </privilege>
+     <privilege>
+      <write-content/>
+     </privilege>
+     <privilege>
+      <bind/>
+     </privilege>
+     <privilege>
+      <unbind/>
+     </privilege>
+     <privilege>
+      <C:schedule-deliver/>
+     </privilege>
+     <privilege>
+      <C:schedule-deliver-invite/>
+     </privilege>
+     <privilege>
+      <C:schedule-deliver-reply/>
+     </privilege>
+     <privilege>
+      <C:schedule-query-freebusy/>
+     </privilege>
+     <privilege>
+      <C:schedule-send/>
+     </privilege>
+     <privilege>
+      <C:schedule-send-invite/>
+     </privilege>
+     <privilege>
+      <C:schedule-send-reply/>
+     </privilege>
+     <privilege>
+      <C:schedule-send-freebusy/>
+     </privilege>
     </current-user-privilege-set>
-    <A:calendar-color>#391B71A0</A:calendar-color>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
   <propstat>
    <prop>
-    <C1:calendar-description/>
+    <C:calendar-description/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
@@ -270,39 +542,18 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/calendar-proxy-read/</href>
   <propstat>
    <prop>
+    <displayname>/user1/calendar-proxy-read/</displayname>
+    <C1:getctag>"c26fa324d66fa84a0da8e1ec8c4566fd"</C1:getctag>
     <resourcetype>
      <collection/>
-     <C:calendar-proxy-read/>
+     <C1:calendar-proxy-read/>
     </resourcetype>
-    <displayname>/user1/calendar-proxy-read/</displayname>
-    <C:getctag>"c26fa324d66fa84a0da8e1ec8c4566fd"</C:getctag>
     <current-user-privilege-set>
      <privilege>
       <all/>
      </privilege>
      <privilege>
-      <C1:read-free-busy/>
-     </privilege>
-     <privilege>
       <read/>
-     </privilege>
-     <privilege>
-      <write/>
-     </privilege>
-     <privilege>
-      <bind/>
-     </privilege>
-     <privilege>
-      <unbind/>
-     </privilege>
-     <privilege>
-      <write-content/>
-     </privilege>
-     <privilege>
-      <write-properties/>
-     </privilege>
-     <privilege>
-      <lock/>
      </privilege>
      <privilege>
       <unlock/>
@@ -313,15 +564,60 @@ Content-Type: text/xml; charset="utf-8"
      <privilege>
       <read-current-user-privilege-set/>
      </privilege>
+     <privilege>
+      <write-acl/>
+     </privilege>
+     <privilege>
+      <C:read-free-busy/>
+     </privilege>
+     <privilege>
+      <write/>
+     </privilege>
+     <privilege>
+      <write-properties/>
+     </privilege>
+     <privilege>
+      <write-content/>
+     </privilege>
+     <privilege>
+      <bind/>
+     </privilege>
+     <privilege>
+      <unbind/>
+     </privilege>
+     <privilege>
+      <C:schedule-deliver/>
+     </privilege>
+     <privilege>
+      <C:schedule-deliver-invite/>
+     </privilege>
+     <privilege>
+      <C:schedule-deliver-reply/>
+     </privilege>
+     <privilege>
+      <C:schedule-query-freebusy/>
+     </privilege>
+     <privilege>
+      <C:schedule-send/>
+     </privilege>
+     <privilege>
+      <C:schedule-send-invite/>
+     </privilege>
+     <privilege>
+      <C:schedule-send-reply/>
+     </privilege>
+     <privilege>
+      <C:schedule-send-freebusy/>
+     </privilege>
     </current-user-privilege-set>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
   <propstat>
    <prop>
-    <C1:supported-calendar-component-set/>
-    <C1:calendar-description/>
+    <C:calendar-description/>
     <A:calendar-color/>
+    <C:supported-calendar-component-set/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
@@ -330,39 +626,18 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/calendar-proxy-write/</href>
   <propstat>
    <prop>
+    <displayname>/user1/calendar-proxy-write/</displayname>
+    <C1:getctag>"1fe22bc6877accf64891e7c9c5428b86"</C1:getctag>
     <resourcetype>
      <collection/>
-     <C:calendar-proxy-write/>
+     <C1:calendar-proxy-write/>
     </resourcetype>
-    <displayname>/user1/calendar-proxy-write/</displayname>
-    <C:getctag>"1fe22bc6877accf64891e7c9c5428b86"</C:getctag>
     <current-user-privilege-set>
      <privilege>
       <all/>
      </privilege>
      <privilege>
-      <C1:read-free-busy/>
-     </privilege>
-     <privilege>
       <read/>
-     </privilege>
-     <privilege>
-      <write/>
-     </privilege>
-     <privilege>
-      <bind/>
-     </privilege>
-     <privilege>
-      <unbind/>
-     </privilege>
-     <privilege>
-      <write-content/>
-     </privilege>
-     <privilege>
-      <write-properties/>
-     </privilege>
-     <privilege>
-      <lock/>
      </privilege>
      <privilege>
       <unlock/>
@@ -373,15 +648,60 @@ Content-Type: text/xml; charset="utf-8"
      <privilege>
       <read-current-user-privilege-set/>
      </privilege>
+     <privilege>
+      <write-acl/>
+     </privilege>
+     <privilege>
+      <C:read-free-busy/>
+     </privilege>
+     <privilege>
+      <write/>
+     </privilege>
+     <privilege>
+      <write-properties/>
+     </privilege>
+     <privilege>
+      <write-content/>
+     </privilege>
+     <privilege>
+      <bind/>
+     </privilege>
+     <privilege>
+      <unbind/>
+     </privilege>
+     <privilege>
+      <C:schedule-deliver/>
+     </privilege>
+     <privilege>
+      <C:schedule-deliver-invite/>
+     </privilege>
+     <privilege>
+      <C:schedule-deliver-reply/>
+     </privilege>
+     <privilege>
+      <C:schedule-query-freebusy/>
+     </privilege>
+     <privilege>
+      <C:schedule-send/>
+     </privilege>
+     <privilege>
+      <C:schedule-send-invite/>
+     </privilege>
+     <privilege>
+      <C:schedule-send-reply/>
+     </privilege>
+     <privilege>
+      <C:schedule-send-freebusy/>
+     </privilege>
     </current-user-privilege-set>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
   <propstat>
    <prop>
-    <C1:supported-calendar-component-set/>
-    <C1:calendar-description/>
+    <C:calendar-description/>
     <A:calendar-color/>
+    <C:supported-calendar-component-set/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
