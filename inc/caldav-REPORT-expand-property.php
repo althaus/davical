@@ -1,32 +1,81 @@
 <?php
-$responses = array();
+
+require_once('DAVResource.php');
+
+/**
+* Given a <response><href>...</href><propstat><prop><someprop/></prop><status>HTTP/1.1 200 OK</status></propstat>...</response>
+* pull out the content of <someprop>content</someprop> and check to see if it has any href elements.  If it *does* then
+* recurse into them, looking for the next deeper nesting of properties.
+*/
+function get_href_containers( &$multistatus_response ) {
+  $propstat_set = $multistatus_response->GetPath('/DAV::response/DAV::propstat/');
+  $propstat_200 = null;
+  foreach( $propstat_set AS $k => $v ) {
+    $status = $v->GetElements('status');
+    if ( preg_match( '{^HTTP/\S+\s+200}', $status[0]->GetContent() ) ) {
+      $propstat_200 = $v;
+      break;
+    }
+  }
+  if ( isset($propstat_200) ) {
+    $properties = $propstat_200->GetPath('/DAV::propstat/DAV::prop/*');
+    $href_containers = array();
+    foreach( $properties AS $k => $property ) {
+      $hrefs = $property->GetElements('href');
+      if ( count($hrefs) > 0 ) {
+        $href_containers[] = &$property;
+      }
+    }
+    if ( count($href_containers) > 0 ) {
+      return $href_containers;
+    }
+  }
+  return null;
+}
+
+
+/**
+* Expand the properties, recursing as needed
+*/
+function expand_properties( $urls, $ptree, &$reply ) {
+  if ( !is_array($urls) )  $urls = array($urls);
+  if ( !is_array($ptree) ) $ptree = array($ptree);
+
+  $responses = array();
+  foreach( $urls AS $m => $url ) {
+    $resource = new DAVResource($url);
+    $props = array();
+    $subtrees = array();
+    foreach( $ptree AS $n => $property ) {
+      $pname = $property->GetAttribute('name');
+      $pns = $property->GetAttribute('namespace');
+      if ( isset($pns) ) $pname = $pns .':'. $pname;
+      $props[] = $pname;
+      $subtrees[$pname] = $property->GetContent();
+    }
+    $part_response = $resource->RenderAsXML( $props, $reply );
+    if ( isset($part_response) ) {
+      $href_containers = get_href_containers($part_response);
+      if ( isset($href_containers) ) {
+        foreach( $href_containers AS $h => $property ) {
+          $hrefs = $property->GetContent();
+          $pname = $property->GetNSTag();
+          $property->SetContent( expand_properties($paths, $subtrees[$pname], $reply) );
+        }
+      }
+      $responses[] = $part_response;
+    }
+  }
+
+  return $responses;
+}
+
 
 /**
  * Build the array of properties to include in the report output
  */
-$props = $xmltree->GetPath('/DAV::expand-property/DAV::property');
-$proplist = array();
-foreach( $props AS $k => $v ) {
-  $proplist[] = $v->GetContent();
-}
-function display_status( $status_code ) {
-  return sprintf( 'HTTP/1.1 %03d %s', $status_code, getStatusMessage($status_code) );
-}
-  
-$sql = "SELECT * FROM sync_changes LEFT JOIN calendar_item USING (dav_id) LEFT JOIN caldav_data USING (dav_id) WHERE sync_time > (SELECT modification_time FROM sync_tokens WHERE sync_token = ?)";
-$qry = new PgQuery($sql);
+$property_tree = $xmltree->GetPath('/DAV::expand-property/DAV::property');
 
-if ( $qry->Exec("REPORT",__LINE__,__FILE__) && $qry->rows > 0 ) {
-  while( $object = $qry->Fetch() ) {
-    $href = new XMLElement( 'dav_name', ConstructURL($change->href) ); 
-    $status = new XMLElement( 'status', display_status($change->status) );
-    if ( $status != 404 ) {
-      $propstat = $request->ObjectPropStat($proplist, $object);
-    } 
-    $responses[] = new XMLElement( 'sync-response', array() );
-  }
-}
-
-$multistatus = new XMLElement( "multistatus", $responses, $reply->GetXmlNsArray() );
+$multistatus = new XMLElement( "multistatus", expand_properties( $request->path, $property_tree, $reply), $reply->GetXmlNsArray() );
 
 $request->XMLResponse( 207, $multistatus );
