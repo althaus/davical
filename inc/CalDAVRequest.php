@@ -442,7 +442,8 @@ EOSQL;
     }
 
     $this->supported_reports = array(
-      'DAV::principal-property-search' => ''
+      'DAV::principal-property-search' => '',
+      'DAV::expand-property' => ''
     );
     if ( $this->IsCollection() ) {
       $this->supported_reports['DAV::sync-collection'] = '';
