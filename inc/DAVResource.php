@@ -327,27 +327,7 @@ class DAVResource
   function FromPath($inpath) {
     global $c;
 
-    $ourpath = rawurldecode($inpath);
-
-    /** Allow a path like .../username/calendar.ics to translate into the calendar URL */
-    if ( preg_match( '#^(/[^/]+/[^/]+).ics$#', $ourpath, $matches ) ) {
-      $ourpath = $matches[1]. '/';
-    }
-
-    /** remove any leading protocol/server/port/prefix... */
-    $base_path = ConstructURL('/');
-    if ( preg_match( '%^(.*?)'.str_replace('%', '\\%',$base_path).'(.*)$%', $ourpath, $matches ) ) {
-      if ( $matches[1] == '' || $matches[1] == $c->protocol_server_port ) {
-        $ourpath = $matches[2];
-      }
-    }
-
-    /** strip doubled slashes */
-    if ( strstr($ourpath,'//') ) $ourpath = preg_replace( '#//+#', '/', $ourpath);
-
-    if ( substr($ourpath,0,1) != '/' ) $ourpath = '/'.$ourpath;
-
-    $this->dav_name = $ourpath;
+    $this->dav_name = DeconstructURL($inpath);
 
     $this->FetchCollection();
     if ( $this->_is_collection ) {
@@ -800,7 +780,7 @@ EOQRY;
         if ( !isset($this->resource) ) $this->FetchResource();
       }
     }
-    dbg_error_log('DAVResource',' Checking whether "%s" exists.  It would appear %s.', $this->dav_name, ($this->exists ? 'so' : 'not') );
+//    dbg_error_log('DAVResource',' Checking whether "%s" exists.  It would appear %s.', $this->dav_name, ($this->exists ? 'so' : 'not') );
     return $this->exists;
   }
 
@@ -920,7 +900,7 @@ EOQRY;
           if ( isset($this->principal->{$name}) ) return $this->principal->{$name};
           if ( isset($this->collection->{$name}) ) return $this->collection->{$name};
         }
-        dbg_error_log( 'DAVResource', ':GetProperty: Failed to find property "%s" on "%s".', $name, $this->dav_name );
+//        dbg_error_log( 'DAVResource', ':GetProperty: Failed to find property "%s" on "%s".', $name, $this->dav_name );
     }
 
     return $value;
@@ -974,7 +954,7 @@ EOQRY;
         $resourcetypes = $prop->NewElement('resourcetype' );
         $type_list = $this->GetProperty('resourcetype');
         if ( !is_array($type_list) ) return true;
-        dbg_error_log( 'DAVResource', ':ResourceProperty: "%s" are "%s".', $tag, implode(', ',$type_list) );
+//        dbg_error_log( 'DAVResource', ':ResourceProperty: "%s" are "%s".', $tag, implode(', ',$type_list) );
         foreach( $type_list AS $k => $v ) {
           if ( $v == '' ) continue;
           $reply->NSElement( $resourcetypes, $v );
@@ -1075,7 +1055,7 @@ EOQRY;
             $reply->NSElement($prop, $tag, $this->dead_properties[$tag] );
           }
           else {
-            dbg_error_log( 'DAVResource', 'Request for unsupported property "%s" of path "%s".', $tag, $this->dav_name );
+//            dbg_error_log( 'DAVResource', 'Request for unsupported property "%s" of path "%s".', $tag, $this->dav_name );
             return false;
           }
         }
@@ -1111,7 +1091,7 @@ EOQRY;
         $found = $this->principal->PrincipalProperty( $tag, $prop, $reply, $denied );
       }
       if ( ! $found && ! $request->ServerProperty($tag, $prop, $reply) ) {
-        dbg_error_log( 'DAVResource', 'Request for unsupported property "%s" of resource "%s".', $tag, $this->dav_name );
+//        dbg_error_log( 'DAVResource', 'Request for unsupported property "%s" of resource "%s".', $tag, $this->dav_name );
         $not_found[] = $reply->Tag($tag);
       }
     }
@@ -1159,7 +1139,7 @@ EOQRY;
     if ( !$this->Exists() ) return null;
 
     if ( $props_only ) {
-      dbg_error_log('LOG WARNING','DAVResource::RenderAsXML Called misguidedly - should be to DAVResource::GetPropStat' );
+      dbg_error_log('LOG WARNING','DAVResource::RenderAsXML Called misguidedly - should be call to DAVResource::GetPropStat' );
       return $this->GetPropStat( $properties, $reply, true );
     }
 

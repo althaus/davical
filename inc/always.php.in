@@ -291,6 +291,38 @@ function ConstructURL( $partial_path, $force_script = false ) {
 
 
 /**
+* Deconstruct a dav_name from the supplied URL.  The dav_name will be urldecoded.
+*
+* @param string $partial_path  The part of the path after the script name
+*/
+function DeconstructURL( $url, $force_script = false ) {
+  global $c;
+
+  $dav_name = rawurldecode($url);
+
+  /** Allow a path like .../username/calendar.ics to translate into the calendar URL */
+  if ( preg_match( '#^(/[^/]+/[^/]+).ics$#', $dav_name, $matches ) ) {
+    $dav_name = $matches[1]. '/';
+  }
+
+  /** remove any leading protocol/server/port/prefix... */
+  if ( !isset($c->deconstruction_base_path) ) $c->deconstruction_base_path = ConstructURL('/');
+  if ( preg_match( '%^(.*?)'.str_replace('%', '\\%',$c->deconstruction_base_path).'(.*)$%', $dav_name, $matches ) ) {
+    if ( $matches[1] == '' || $matches[1] == $c->protocol_server_port ) {
+      $dav_name = $matches[2];
+    }
+  }
+
+  /** strip doubled slashes */
+  if ( strstr($dav_name,'//') ) $dav_name = preg_replace( '#//+#', '/', $dav_name);
+
+  if ( substr($dav_name,0,1) != '/' ) $dav_name = '/'.$dav_name;
+
+  return $dav_name;
+}
+
+
+/**
 * Convert a date from ISO format into the sad old HTTP format.
 * @param string $isodate The date to convert
 */
