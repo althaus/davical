@@ -2,8 +2,8 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule, extended-mkcol
 Allow: OPTIONS, PROPFIND, REPORT
-ETag: "25de4f4ea6f4dde4766a128616c9ade4"
-Content-Length: 891
+ETag: "91b94178e74aa071ad65559e6f0941f3"
+Content-Length: 965
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -24,6 +24,9 @@ Content-Type: text/xml; charset="utf-8"
     <supported-report-set>
      <supported-report>
       <principal-property-search/>
+     </supported-report>
+     <supported-report>
+      <expand-property/>
      </supported-report>
      <supported-report>
       <sync-collection/>
