@@ -217,7 +217,9 @@ class DAVResource
     $this->resourcetypes = null;
     $this->contenttype   = null;
     $this->privileges    = null;
-    $this->dead_properties = null;
+    $this->dead_properties   = null;
+    $this->supported_methods = null;
+    $this->supported_reports = null;
 
     $this->_is_collection  = false;
     $this->_is_principal   = false;
@@ -630,7 +632,8 @@ EOQRY;
       'REPORT' => '',
       'DELETE' => '',
       'LOCK' => '',
-      'UNLOCK' => ''
+      'UNLOCK' => '',
+      'MOVE' => ''
     );
     if ( $this->IsCollection() ) {
 /*      if ( $this->IsPrincipal() ) {
@@ -684,6 +687,64 @@ EOQRY;
     }
 
     return $this->supported_methods;
+  }
+
+
+  /**
+  * Returns the array of supported methods converted into XMLElements
+  */
+  function BuildSupportedMethods( ) {
+    if ( !isset($this->supported_methods) ) $this->FetchSupportedMethods();
+    $methods = array();
+    foreach( $this->supported_methods AS $k => $v ) {
+//      dbg_error_log( 'DAVResource', ':BuildSupportedMethods: Adding method "%s" which is "%s".', $k, $v );
+      $methods[] = new XMLElement( 'supported-method', null, array('name' => $k) );
+    }
+    return $methods;
+  }
+
+
+  /**
+  * Returns the array of supported reports
+  */
+  function FetchSupportedReports( ) {
+    if ( isset($this->supported_reports) ) return $this->supported_reports;
+
+    $this->supported_reports = array(
+      'DAV::principal-property-search' => '',
+      'DAV::expand-property' => '',
+      'DAV::sync-collection' => ''
+    );
+
+    if ( !isset($this->collection) ) $this->FetchCollection();
+
+    if ( $this->collection->is_calendar ) {
+      $this->supported_reports = array_merge(
+        $this->supported_reports,
+        array(
+          'urn:ietf:params:xml:ns:caldav:calendar-query' => '',
+          'urn:ietf:params:xml:ns:caldav:calendar-multiget' => '',
+          'urn:ietf:params:xml:ns:caldav:free-busy-query' => ''
+        )
+      );
+    }
+    return $this->supported_reports;
+  }
+
+
+  /**
+  * Returns the array of supported reports converted into XMLElements
+  */
+  function BuildSupportedReports( &$reply ) {
+    if ( !isset($this->supported_reports) ) $this->FetchSupportedReports();
+    $reports = array();
+    foreach( $this->supported_reports AS $k => $v ) {
+      dbg_error_log( 'DAVResource', ':BuildSupportedReports: Adding supported report "%s" which is "%s".', $k, $v );
+      $report = new XMLElement('supported-report');
+      $reply->NSElement($report, $k );
+      $reports[] = $report;
+    }
+    return $reports;
   }
 
 
@@ -915,7 +976,9 @@ EOQRY;
     $allprop = array_merge( (isset($this->dead_properties)?$this->dead_properties:array()), array(
       'DAV::getcontenttype', 'DAV::resourcetype', 'DAV::getcontentlength', 'DAV::displayname', 'DAV::getlastmodified',
       'DAV::creationdate', 'DAV::getetag', 'DAV::getcontentlanguage', 'DAV::supportedlock', 'DAV::lockdiscovery',
-      'DAV::owner', 'DAV::principal-URL', 'DAV::current-user-principal'
+      'DAV::owner', 'DAV::principal-URL', 'DAV::current-user-principal',
+      'urn:ietf:params:xml:ns:carddav:max-resource-size', 'urn:ietf:params:xml:ns:carddav:supported-address-data',
+      'urn:ietf:params:xml:ns:carddav:addressbook-description', 'urn:ietf:params:xml:ns:carddav:addressbook-home-set'
     ) );
 
     return $allprop;
@@ -1034,6 +1097,14 @@ EOQRY;
         $reply->CalDAVElement($prop, 'supported-calendar-component-set', $components );
         break;
 
+      case 'DAV::supported-method-set':
+        $prop->NewElement('supported-method-set', $this->BuildSupportedMethods() );
+        break;
+
+      case 'DAV::supported-report-set':
+        $prop->NewElement('supported-report-set', $this->BuildSupportedReports( $reply ) );
+        break;
+
       case 'SOME-DENIED-PROPERTY':  /** @todo indicating the style for future expansion */
         $denied[] = $reply->Tag($tag);
         break;
@@ -1042,6 +1113,18 @@ EOQRY;
         if ( $this->_is_collection ) return false;
         if ( !isset($this->resource) ) $this->FetchResource();
         $reply->NSElement($prop, $tag, $this->resource->caldav_data );
+        break;
+
+      case 'urn:ietf:params:xml:ns:carddav:max-resource-size':
+        if ( ! $this->_is_collection || !$this->_is_addressbook ) return false;
+        $reply->NSElement($prop, $tag, 65500 );
+        break;
+
+      case 'urn:ietf:params:xml:ns:carddav:supported-address-data':
+        if ( ! $this->_is_collection || !$this->_is_addressbook ) return false;
+        $address_data = $reply->NewXMLElement( 'address-data', false,
+                      array( 'content-type' => 'text/vcard', 'version' => '3.0'), 'urn:ietf:params:xml:ns:carddav');
+        $reply->NSElement($prop, $tag, $address_data );
         break;
 
       default:
