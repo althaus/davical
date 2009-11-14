@@ -36,7 +36,8 @@ class CalDAVPrincipal
 
   /**
   * @var RFC4791: Identifies the URL(s) of any WebDAV collections that contain
-  * calendar collections owned by the associated principal resource.
+  * calendar collections owned by the associated principal resource. In DAViCal
+  * this is also the place where there might be addressbooks too.
   */
   var $calendar_home_set;
 
@@ -93,6 +94,11 @@ class CalDAVPrincipal
   protected $write_proxy_group;
 
   /**
+   * @var CardDAV: The URL to an addressbook entry for this principal
+   */
+  protected $principal_address;
+
+  /**
   * Constructor
   * @param mixed $parameters If null, an empty Principal is created.  If it
   *              is an integer then that ID is read (if possible).  If it is
@@ -102,7 +108,7 @@ class CalDAVPrincipal
   *
   * @return boolean Whether we actually read data from the DB to initialise the record.
   */
-  function CalDAVPrincipal( $parameters = null ) {
+  function __construct( $parameters = null ) {
     global $session, $c;
 
     $this->exists = null;
@@ -175,6 +181,8 @@ class CalDAVPrincipal
     $this->by_email = false;
     $this->principal_url = ConstructURL( '/'.$this->username.'/', true );
     $this->url = $this->principal_url;
+
+    $this->principal_address = $this->principal_url . 'principal.vcf';
 
     $this->calendar_home_set = array( $this->url );
 
@@ -495,8 +503,9 @@ class CalDAVPrincipal
         $reply->CalendarserverElement($prop, 'xmpp-uri', $this->xmpp_uri );
         break;
 
+      case 'urn:ietf:params:xml:ns:carddav:addressbook-home-set':
       case 'urn:ietf:params:xml:ns:caldav:calendar-home-set':
-        $reply->CalDAVElement($prop, 'calendar-home-set', $reply->href( $this->calendar_home_set ) );
+        $reply->NSElement($prop, $tag, $reply->href( $this->calendar_home_set ) );
         break;
 
       case 'urn:ietf:params:xml:ns:caldav:calendar-free-busy-set':
