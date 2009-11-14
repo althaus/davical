@@ -91,7 +91,7 @@ class CalDAVRequest
   /**
   * Create a new CalDAVRequest object.
   */
-  function CalDAVRequest( $options = array() ) {
+  function __construct( $options = array() ) {
     global $session, $c, $debugging;
 
     $this->supported_privileges = array(
@@ -443,12 +443,10 @@ EOSQL;
 
     $this->supported_reports = array(
       'DAV::principal-property-search' => '',
-      'DAV::expand-property' => ''
+      'DAV::expand-property' => '',
+      'DAV::sync-collection' => ''
     );
-    if ( $this->IsCollection() ) {
-      $this->supported_reports['DAV::sync-collection'] = '';
-    }
-    if ( $this->IsCalendar() ) {
+    if ( isset($this->collection) && $this->collection->is_calendar ) {
       $this->supported_reports = array_merge(
         $this->supported_reports,
         array(
