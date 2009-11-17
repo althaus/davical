@@ -1,0 +1,67 @@
+HTTP/1.1 207 Multi-Status
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule, extended-mkcol
+Allow: OPTIONS, PROPFIND, REPORT, DELETE, LOCK, UNLOCK, MOVE, GET, PUT, HEAD, MKCOL, MKCALENDAR, PROPPATCH
+ETag: "d5cc117a7382cebe6ed7ca36b21af7e6"
+Content-Length: 1535
+Content-Type: text/xml; charset="utf-8"
+
+<?xml version="1.0" encoding="utf-8" ?>
+<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
+ <response>
+  <href>/caldav.php/user1/</href>
+  <propstat>
+   <prop>
+    <group-membership>
+     <response>
+      <href>/caldav.php/resmgr1/</href>
+      <propstat>
+       <prop>
+        <displayname>Resource Managers</displayname>
+        <C:calendar-home-set>
+         <response>
+          <href>/caldav.php/resmgr1/</href>
+          <propstat>
+           <prop>
+            <resourcetype>
+             <collection/>
+             <principal/>
+            </resourcetype>
+           </prop>
+           <status>HTTP/1.1 200 OK</status>
+          </propstat>
+         </response>
+        </C:calendar-home-set>
+       </prop>
+       <status>HTTP/1.1 200 OK</status>
+      </propstat>
+     </response>
+     <response>
+      <href>/caldav.php/teamclient1/</href>
+      <propstat>
+       <prop>
+        <displayname>Team for Client1</displayname>
+        <C:calendar-home-set>
+         <response>
+          <href>/caldav.php/teamclient1/</href>
+          <propstat>
+           <prop>
+            <resourcetype>
+             <collection/>
+             <principal/>
+            </resourcetype>
+           </prop>
+           <status>HTTP/1.1 200 OK</status>
+          </propstat>
+         </response>
+        </C:calendar-home-set>
+       </prop>
+       <status>HTTP/1.1 200 OK</status>
+      </propstat>
+     </response>
+    </group-membership>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+</multistatus>

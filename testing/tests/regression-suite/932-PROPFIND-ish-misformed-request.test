@@ -1,0 +1,22 @@
+#
+# PROPFIND with badly formed request should usefully error
+#
+# The <D:property-search> tag should enclose the <D:prop>
+#
+TYPE=PROPFIND
+URL=http://regression.host/caldav.php/user1/
+HEADER=Content-Type: text/xml; charset="UTF-8"
+HEADER=Depth: 0
+HEAD
+
+
+BEGINDATA
+<D:principal-property-search xmlns:D="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
+  <D:property-search/>
+  <D:prop>
+    <C:calendar-home-set/>
+  </D:prop>
+</D:principal-property-search>
+ENDDATA
+
+

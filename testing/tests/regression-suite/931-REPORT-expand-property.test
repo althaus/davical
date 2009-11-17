@@ -1,0 +1,23 @@
+#
+# expand-property REPORT 
+#
+TYPE=REPORT
+URL=http://regression.host/caldav.php/user1/
+HEADER=Content-Type: text/xml; charset="UTF-8"
+HEADER=Depth: 0
+HEAD
+
+
+BEGINDATA
+<?xml version="1.0" encoding="utf-8" ?>
+<expand-property xmlns="DAV:">
+ <property name="group-membership">
+  <property name="displayname"/>
+  <property name="calendar-home-set" namespace="urn:ietf:params:xml:ns:caldav">
+   <property name="resourcetype"/>
+  </property>
+ </property>
+</expand-property>
+ENDDATA
+
+
