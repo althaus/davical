@@ -261,7 +261,6 @@ CREATE TABLE principal (
   type_id INT8 NOT NULL REFERENCES principal_type(principal_type_id) ON UPDATE CASCADE ON DELETE RESTRICT DEFERRABLE,
   user_no INT8 NULL REFERENCES usr(user_no) ON UPDATE CASCADE ON DELETE CASCADE DEFERRABLE,
   displayname TEXT,
-  active BOOLEAN,
   default_privileges BIT(24)
 );
 
