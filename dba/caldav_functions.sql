@@ -365,7 +365,7 @@ END;
 $$ LANGUAGE 'plpgsql' STRICT;
 
 -- List a user's relationships as a text string
-CREATE or REPLACE FUNCTION relationship_list( INTEGER ) RETURNS TEXT AS $$
+CREATE or REPLACE FUNCTION relationship_list( INT8 ) RETURNS TEXT AS $$
 DECLARE
   user ALIAS FOR $1;
   r RECORD;
@@ -998,30 +998,30 @@ $$ LANGUAGE 'plpgsql' IMMUTABLE STRICT;
 
 
 -- A list of the principals who can proxy to this principal
-CREATE or REPLACE FUNCTION i_proxy_to( INT ) RETURNS SETOF grants AS $$
-SELECT by_principal, dav_name, to_principal, privileges, is_group FROM grants WHERE by_principal = $1 AND NOT is_group AND by_collection IS NULL
+CREATE or REPLACE FUNCTION i_proxy_to( INT8 ) RETURNS SETOF grants AS $$
+SELECT by_principal, by_collection, to_principal, privileges, is_group FROM grants WHERE by_principal = $1 AND NOT is_group AND by_collection IS NULL
      UNION
-SELECT by_principal, dav_name, member_id, privileges, is_group FROM grants
+SELECT by_principal, by_collection, member_id, privileges, is_group FROM grants
               JOIN group_member ON (to_principal=group_id) where by_principal = $1 and is_group AND by_collection IS NULL;
 $$ LANGUAGE 'SQL' STRICT;
 
 -- A list of the principals who this principal can proxy
-CREATE or REPLACE FUNCTION proxied_by( INT ) RETURNS SETOF grants AS $$
-SELECT by_principal, dav_name, to_principal, privileges, is_group FROM grants WHERE to_principal = $1 AND NOT is_group AND by_collection IS NULL
+CREATE or REPLACE FUNCTION proxied_by( INT8 ) RETURNS SETOF grants AS $$
+SELECT by_principal, by_collection, to_principal, privileges, is_group FROM grants WHERE to_principal = $1 AND NOT is_group AND by_collection IS NULL
      UNION
-SELECT by_principal, dav_name, member_id, privileges, is_group FROM grants
+SELECT by_principal, by_collection, member_id, privileges, is_group FROM grants
               JOIN group_member ON (to_principal=group_id) where member_id = $1 and is_group AND by_collection IS NULL;
 $$ LANGUAGE 'SQL' STRICT;
 
-CREATE or REPLACE FUNCTION proxy_list( INT ) RETURNS SETOF grants AS $$
-SELECT by_principal, dav_name, to_principal, privileges, is_group FROM grants WHERE by_principal = $1 AND NOT is_group AND by_collection IS NULL
+CREATE or REPLACE FUNCTION proxy_list( INT8 ) RETURNS SETOF grants AS $$
+SELECT by_principal, by_collection, to_principal, privileges, is_group FROM grants WHERE by_principal = $1 AND NOT is_group AND by_collection IS NULL
      UNION
-SELECT by_principal, dav_name, member_id, privileges, is_group FROM grants
+SELECT by_principal, by_collection, member_id, privileges, is_group FROM grants
               JOIN group_member ON (to_principal=group_id) where by_principal = $1 and is_group AND by_collection IS NULL
      UNION
-SELECT by_principal, dav_name, to_principal, privileges, is_group FROM grants WHERE to_principal = $1 AND NOT is_group AND by_collection IS NULL
+SELECT by_principal, by_collection, to_principal, privileges, is_group FROM grants WHERE to_principal = $1 AND NOT is_group AND by_collection IS NULL
      UNION
-SELECT by_principal, dav_name, member_id, privileges, is_group FROM grants
+SELECT by_principal, by_collection, member_id, privileges, is_group FROM grants
               JOIN group_member ON (to_principal=group_id) where member_id = $1 and is_group AND by_collection IS NULL;
 $$ LANGUAGE 'SQL' STRICT;
 
