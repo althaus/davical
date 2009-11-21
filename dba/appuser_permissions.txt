@@ -36,6 +36,7 @@ GRANT SELECT,INSERT,UPDATE,DELETE
   ON sync_tokens
   ON sync_changes
   ON grants
+  ON dav_principal
 
 GRANT SELECT,UPDATE
   ON relationship_type_rt_id_seq
