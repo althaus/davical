@@ -131,6 +131,9 @@ if ( $apply_patches ) {
 apply_sql_file( $dbadir, "supported_locales.sql" );
 print "Supported locales updated.\n";
 
+# update any views
+apply_sql_folder( $dbadir, 'views', "Updated view: " );
+
 # Ensure the functions are up to date
 apply_sql_file( $dbadir, "caldav_functions.sql" );
 print "CalDAV functions updated.\n";
@@ -201,6 +204,33 @@ sub compare_revisions {
 
   return 0;
 
+}
+
+
+
+############################################################
+=item folder_ordering()
+Function to allow us to sort folders which may have a number
+prefix.
+=cut
+############################################################
+sub folder_ordering {
+  my $a = shift;
+  my $b = shift;
+
+  my $numeric_a = 999999;
+  my $numeric_b = 999999;
+  if ( $a =~ m{^(\d+)-} ) { $numeric_a = $1; }
+  if ( $b =~ m{^(\d+)-} ) { $numeric_b = $1; }
+
+  return -1 if ( $numeric_a < $numeric_b );
+  return  1 if ( $numeric_a > $numeric_b );
+
+  # Fall back on alphanumeric comparison
+  return -1 if ( $a lt $b );
+  return  1 if ( $a lt $b );
+
+  return 0;
 }
 
 
@@ -300,6 +330,35 @@ sub apply_sql_file {
   $last_results =~ s/^.*NOTICE: //m;
 }
 
+
+############################################################
+=item apply_sql_folder
+Applies the SQL files in a folder in order, with some magic to apply
+specifically versioned ones by preference.
+=cut
+sub apply_sql_folder {
+  my $dbadir = shift;
+  my $folder_name = shift;
+  my $announce_prefix = shift;
+
+  my $folder = $dbadir . '/' . $folder_name;
+  opendir( FOLDER, $folder ) or die "Can't open SQL directory $folder";
+  my @sql_files = grep { /^[^.].*\.sql$/ } readdir(FOLDER);
+  closedir(FOLDER);
+  @sql_files = grep( !/-\d+.\d+\.sql$/, @sql_files);
+  @sql_files = sort { folder_ordering($a,$b); } @sql_files;
+
+  for ( my $i=0; $i <= $#sql_files;  $i++ ) {
+    my $apply_file = $sql_files[$i];
+    my $testfile = $folder . '/' . $apply_file;
+    $testfile =~ s{\.sql$}{-$pg_version.sql};
+    $apply_file = $testfile if ( -f $testfile );
+
+    apply_sql_file( $folder, $apply_file );
+    print $announce_prefix, $apply_file, " applied.\n";
+  }
+
+}
 
 
 ############################################################
