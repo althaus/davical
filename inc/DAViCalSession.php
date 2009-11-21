@@ -89,12 +89,12 @@ class DAViCalSession extends Session
   }
 
 
-/**
-* Method used to get the user's relationships
-*/
+  /**
+  * Method used to get the user's relationships
+  */
   function GetRelationships () {
     $this->relationships = array();
-    $sql = 'SELECT relationship.rt_id, rt_name, confers FROM relationship JOIN relationship_type USING (rt_id) WHERE from_user = '.$this->user_no;
+    $sql = 'SELECT r.rt_id, rt_name, r.confers FROM relationship r JOIN relationship_type USING (rt_id) WHERE from_user = '.$this->user_no;
     $qry = new PgQuery( $sql );
     if ( $qry->Exec('DAViCalSession') && $qry->rows > 0 ) {
       while( $relationship = $qry->Fetch() ) {
