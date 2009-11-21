@@ -368,17 +368,17 @@ class DAVResource
     );
 
     $base_sql = 'SELECT collection.*, path_privileges(:session_principal, collection.dav_name), ';
-    $base_sql .= 'p.principal_id, p.type_id AS principal_type_id, p.active AS principal_active, ';
+    $base_sql .= 'p.principal_id, p.type_id AS principal_type_id, ';
     $base_sql .= 'p.displayname AS principal_displayname, p.default_privileges AS principal_default_privileges ';
     $base_sql .= 'FROM collection LEFT JOIN principal p USING (user_no) WHERE ';
-    $sql = $base_sql .'dav_name = :raw_path ';
+    $sql = $base_sql .'collection.dav_name = :raw_path ';
     $params = array( ':raw_path' => $this->dav_name, ':session_principal' => $session->principal_id );
     if ( !preg_match( '#/$#', $this->dav_name ) ) {
-      $sql .= ' OR dav_name = :up_to_slash OR dav_name = :plus_slash ';
+      $sql .= ' OR collection.dav_name = :up_to_slash OR collection.dav_name = :plus_slash ';
       $params[':up_to_slash'] = preg_replace( '#[^/]*$#', '', $this->dav_name);
       $params[':plus_slash']  = $this->dav_name.'/';
     }
-    $sql .= 'ORDER BY LENGTH(dav_name) DESC LIMIT 1';
+    $sql .= 'ORDER BY LENGTH(collection.dav_name) DESC LIMIT 1';
     $qry = new AwlQuery( $sql, $params );
     if ( $qry->Exec('DAVResource') && $qry->rows() == 1 && ($row = $qry->Fetch()) ) {
       $this->collection = $row;
