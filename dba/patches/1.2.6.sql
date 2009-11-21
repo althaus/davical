@@ -225,7 +225,7 @@ BEGIN
   END IF;
 
   RETURN (CASE
-            WHEN in_priv = 'read'                            THEN  4609 -- 1 + 512 + 4096
+            WHEN in_priv = 'read'                            THEN     1
             WHEN in_priv = 'write'                           THEN   198 -- 2 + 4 + 64 + 128
             WHEN in_priv = 'write-properties'                THEN     2
             WHEN in_priv = 'write-content'                   THEN     4
@@ -235,7 +235,7 @@ BEGIN
             WHEN in_priv = 'bind'                            THEN    64
             WHEN in_priv = 'unbind'                          THEN   128
             WHEN in_priv = 'write-acl'                       THEN   256
-            WHEN in_priv = 'read-free-busy'                  THEN  4608 --  512 + 4096
+            WHEN in_priv = 'read-free-busy'                  THEN   512
             WHEN in_priv = 'schedule-deliver'                THEN  7168 -- 1024 + 2048 + 4096
             WHEN in_priv = 'schedule-deliver-invite'         THEN  1024
             WHEN in_priv = 'schedule-deliver-reply'          THEN  2048
@@ -392,7 +392,7 @@ SELECT check_db_revision(1,2,5);
 --
 -- RFC 3744 - DAV ACLs
 --      1 DAV:read
---   DAV:write (aggregate = 198)
+--   DAV:write (aggregate = 198 = write-properties & write-content & bind & unbind)
 --      2 DAV:write-properties
 --      4 DAV:write-content
 --      8 DAV:unlock
@@ -439,6 +439,7 @@ SELECT check_db_revision(1,2,5);
 -- Me!!!
 -- CalDAV:read-free-busy privilege SHOULD contain CALDAV:schedule-query-freebusy
 -- => DAV:read privilege SHOULD contain CALDAV:schedule-query-freebusy
+-- We do this outside of these privileges though.
 
 
 -- This legacy conversion function will eventually be removed, once all logic
