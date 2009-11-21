@@ -11,7 +11,7 @@ function Go( url ) {
 */
 function LinkTo( tag, url ) {
   tag.style.cursor = "pointer";
-  tag.setAttribute('onClick', "Go('" + url.replace('&amp;','&') + "')");
+  tag.setAttribute('onClick', "Go('" + url.replace(/&amp;/g,'&') + "')");
   tag.setAttribute('onMouseOut', "window.status='';return true;");
   window.status = window.location.protocol + '//' + document.domain + url;
   tag.setAttribute('onMouseover', "window.status = window.location.protocol + '//' + document.domain + '" + url + "';return true;");
