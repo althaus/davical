@@ -537,7 +537,7 @@ UPDATE collection SET default_privileges = CASE
 INSERT INTO group_member ( group_id, member_id)
               SELECT g.principal_id, m.principal_id
                 FROM relationship JOIN principal g ON(to_user=g.user_no AND g.type_id = 3)    -- Group
-                                  JOIN principal m ON(from_user=m.user_no AND m.type_id = 1); -- Person
+                                  JOIN principal m ON(from_user=m.user_no AND m.type_id = IN (1, 2) ); -- Person or Resource
 
 DROP TABLE dav_resource_type CASCADE;
 DROP TABLE dav_resource CASCADE;

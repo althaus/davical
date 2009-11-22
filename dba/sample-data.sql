@@ -28,10 +28,10 @@ INSERT INTO usr ( user_no, active, email_ok, updated, username, password, fullna
 
 INSERT INTO usr ( user_no, active, email_ok, updated, username, password, fullname, email )
     VALUES( 100, TRUE, current_date, current_date, 'resource1', '*salt*unpossible', 'Resource 1', 'resource1@example.net' );
-INSERT INTO role_member (user_no, role_no) VALUES( 100, 3);
+INSERT INTO role_member (user_no, role_no) VALUES( 100, 4);
 INSERT INTO usr ( user_no, active, email_ok, updated, username, password, fullname, email )
     VALUES( 101, TRUE, current_date, current_date, 'resource2', '*salt*unpossible', 'Resource 2', 'resource2@example.net' );
-INSERT INTO role_member (user_no, role_no) VALUES( 101, 3);
+INSERT INTO role_member (user_no, role_no) VALUES( 101, 4);
 
 INSERT INTO usr ( user_no, active, email_ok, updated, username, password, fullname, email )
     VALUES( 200, TRUE, current_date, current_date, 'resmgr1', '*salt*unpossible', 'Resource Managers', 'resource-managers@example.net' );
@@ -103,7 +103,7 @@ UPDATE relationship r SET confers = (SELECT bit_confers FROM relationship_type r
 INSERT INTO group_member ( group_id, member_id)
               SELECT g.principal_id, m.principal_id
                 FROM relationship JOIN principal g ON(to_user=g.user_no AND g.type_id = 3)    -- Group
-                                  JOIN principal m ON(from_user=m.user_no AND m.type_id = 1); -- Person
+                                  JOIN principal m ON(from_user=m.user_no AND m.type_id IN (1,2)); -- Person | Resource
 
 INSERT INTO grants ( by_principal, to_principal, privileges, is_group )
    SELECT pby.principal_id AS by_principal, pto.principal_id AS to_principal,
