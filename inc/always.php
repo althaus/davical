@@ -35,6 +35,7 @@ $c->http_auth_mode = 'Basic';
 $c->default_locale = 'en';
 $c->base_url = preg_replace('#/[^/]+\.php.*$#', '', $_SERVER['SCRIPT_NAME']);
 $c->base_directory = preg_replace('#/[^/]*$#', '', $_SERVER['DOCUMENT_ROOT']);
+$c->default_privileges = array('read-free-busy', 'schedule-query-freebusy');
 
 $c->stylesheets = array( $c->base_url.'/davical.css' );
 $c->images      = $c->base_url . '/images';
@@ -338,4 +339,102 @@ function ISODateToHTTPDate( $isodate ) {
 function DateToISODate( $indate ) {
   // Use strtotime since strptime is not available on Windows platform.
   return( date('c', strtotime($indate)) );
+}
+
+/**
+* Given a privilege string, or an array of privilege strings, return a bit mask
+* of the privileges.
+* @param mixed $raw_privs The string (or array of strings) of privilege names
+* @return integer A bit mask of the privileges.
+*/
+define("DAVICAL_MAXPRIV", "65535");
+function privilege_to_bits( $raw_privs ) {
+  $out_priv = 0;
+
+  if ( gettype($raw_privs) == 'string' ) $raw_privs = array( $raw_privs );
+
+  foreach( $raw_privs AS $priv ) {
+    $trim_priv = trim(strtolower(preg_replace( '/^.*:/', '', $priv)));
+    switch( $trim_priv ) {
+      case 'read'                            : $out_priv |=     1;  break;
+      case 'write-properties'                : $out_priv |=     2;  break;
+      case 'write-content'                   : $out_priv |=     4;  break;
+      case 'unlock'                          : $out_priv |=     8;  break;
+      case 'read-acl'                        : $out_priv |=    16;  break;
+      case 'read-current-user-privilege-set' : $out_priv |=    32;  break;
+      case 'bind'                            : $out_priv |=    64;  break;
+      case 'unbind'                          : $out_priv |=   128;  break;
+      case 'write-acl'                       : $out_priv |=   256;  break;
+      case 'read-free-busy'                  : $out_priv |=   512;  break;
+      case 'schedule-deliver-invite'         : $out_priv |=  1024;  break;
+      case 'schedule-deliver-reply'          : $out_priv |=  2048;  break;
+      case 'schedule-query-freebusy'         : $out_priv |=  4096;  break;
+      case 'schedule-send-invite'            : $out_priv |=  8192;  break;
+      case 'schedule-send-reply'             : $out_priv |= 16384;  break;
+      case 'schedule-send-freebusy'          : $out_priv |= 32768;  break;
+
+      /** Aggregates of Privileges */
+      case 'write'                           : $out_priv |=   198;  break; // 2 + 4 + 64 + 128
+      case 'schedule-deliver'                : $out_priv |=  7168;  break; // 1024 + 2048 + 4096
+      case 'schedule-send'                   : $out_priv |= 57344;  break; // 8192 + 16384 + 32768
+      case 'all'                             : $out_priv  = DAVICAL_MAXPRIV;  break;
+      default:
+        dbg_error_log( 'ERROR', 'Cannot convert privilege of "%s" into bits.', $priv );
+
+    }
+  }
+
+  // 'all' will include future privileges
+  if ( $out_priv >= DAVICAL_MAXPRIV ) $out_priv = pow(2,25) - 1;
+  return $out_priv;
+}
+
+
+/**
+* Given a bit mask of the privileges, will return an array of the
+* text values of privileges.
+* @param integer $raw_bits A bit mask of the privileges.
+* @return mixed The string (or array of strings) of privilege names
+*/
+function bits_to_privilege( $raw_bits ) {
+  $out_priv = array();
+
+  if ( is_string($raw_bits) ) {
+    $raw_bits = bindec($raw_bits);
+  }
+
+  if ( ($raw_bits & DAVICAL_MAXPRIV) == DAVICAL_MAXPRIV ) $out_priv[] = 'all';
+
+  if ( ($raw_bits &   1) != 0 ) $out_priv[] = 'DAV::read';
+  if ( ($raw_bits &   8) != 0 ) $out_priv[] = 'DAV::unlock';
+  if ( ($raw_bits &  16) != 0 ) $out_priv[] = 'DAV::read-acl';
+  if ( ($raw_bits &  32) != 0 ) $out_priv[] = 'DAV::read-current-user-privilege-set';
+  if ( ($raw_bits & 256) != 0 ) $out_priv[] = 'DAV::write-acl';
+  if ( ($raw_bits & 512) != 0 ) $out_priv[] = 'urn:ietf:params:xml:ns:caldav:read-free-busy';
+
+  if ( ($raw_bits & 198) != 0 ) {
+    if ( ($raw_bits & 198) == 198 ) $out_priv[] = 'DAV::write';
+    if ( ($raw_bits &   2) != 0 ) $out_priv[] = 'DAV::write-properties';
+    if ( ($raw_bits &   4) != 0 ) $out_priv[] = 'DAV::write-content';
+    if ( ($raw_bits &  64) != 0 ) $out_priv[] = 'DAV::bind';
+    if ( ($raw_bits & 128) != 0 ) $out_priv[] = 'DAV::unbind';
+  }
+
+  if ( ($raw_bits & 7168) != 0 ) {
+    if ( ($raw_bits & 7168) == 7168 ) $out_priv[] = 'urn:ietf:params:xml:ns:caldav:schedule-deliver';
+    if ( ($raw_bits & 1024) != 0 ) $out_priv[] = 'urn:ietf:params:xml:ns:caldav:schedule-deliver-invite';
+    if ( ($raw_bits & 2048) != 0 ) $out_priv[] = 'urn:ietf:params:xml:ns:caldav:schedule-deliver-reply';
+    if ( ($raw_bits & 4096) != 0 ) $out_priv[] = 'urn:ietf:params:xml:ns:caldav:schedule-query-freebusy';
+  }
+
+  if ( ($raw_bits & 57344) != 0 ) {
+    if ( ($raw_bits & 57344) == 57344 ) $out_priv[] = 'urn:ietf:params:xml:ns:caldav:schedule-send';
+    if ( ($raw_bits &  8192) != 0 ) $out_priv[] = 'urn:ietf:params:xml:ns:caldav:schedule-send-invite';
+    if ( ($raw_bits & 16384) != 0 ) $out_priv[] = 'urn:ietf:params:xml:ns:caldav:schedule-send-reply';
+    if ( ($raw_bits & 32768) != 0 ) $out_priv[] = 'urn:ietf:params:xml:ns:caldav:schedule-send-freebusy';
+  }
+
+//  dbg_error_log( 'DAVResource', ' Privilege bit "%s" is "%s".', $raw_bits, implode(', ', $out_priv) );
+
+  return $out_priv;
 }
