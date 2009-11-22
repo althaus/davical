@@ -21,6 +21,9 @@ $help_menu->AddOption(translate('Report Bug'),'http://sourceforge.net/tracker/?f
 
 $user_menu = new MenuSet('submenu', 'submenu', 'submenu_active');
 $user_menu->AddOption(translate('View My Details'),$c->base_url.'/usr.php?user_no='.$session->user_no,translate('View my own user record'));
+$user_menu->AddOption(translate('List Users'),$c->base_url.'/davical.php?action=browse&t=principal&type=1');
+$user_menu->AddOption(translate('List Resources'),$c->base_url.'/davical.php?action=browse&t=principal&type=2');
+$user_menu->AddOption(translate('List Groups'),$c->base_url.'/davical.php?action=browse&t=principal&type=3');
 
 $admin_menu = new MenuSet('submenu', 'submenu', 'submenu_active');
 if ( $session->AllowedTo('Admin' )) {
