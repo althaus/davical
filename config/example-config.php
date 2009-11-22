@@ -111,6 +111,7 @@ $c->collections_always_exist = false;
 */
 // $c->home_calendar_name = 'home';
 
+
 /**
 * An array of groups / permissions which should be automatically added
 * for each new user created.  This is a crude mechanism which we
@@ -122,6 +123,20 @@ $c->collections_always_exist = false;
 * Default: none
 */
 // $c->default_relationships = array();
+
+
+/**
+* An array of the privileges which will be configured for a user by default
+* from the possible set of real privileges:
+*   'read', 'write-properties', 'write-content', 'unlock', 'read-acl', 'read-current-user-privilege-set',
+*   'bind', 'unbind', 'write-acl', 'read-free-busy',
+*   'schedule-deliver-invite', 'schedule-deliver-reply', 'schedule-query-freebusy',
+*   'schedule-send-invite', 'schedule-send-reply', 'schedule-send-freebusy'
+*
+* Or also from these aggregated privileges:
+*   'write', 'schedule-deliver', 'schedule-send', 'all'
+*/
+// $c->default_privileges = array('read-free-busy', 'schedule-query-freebusy');
 
 
 /**
