@@ -790,9 +790,6 @@ $$
 LANGUAGE 'PlPgSQL' IMMUTABLE STRICT;
 
 
--- This legacy conversion function will eventually be removed, once all logic
--- has been converted to use bitmaps, or to use the bits_to_priv() output.
---
 -- NOTE: Round-trip through this and then back through privilege_to_bits
 --       function is lossy!  Through privilege_to_bits() and back through
 --       this one is not.
@@ -995,6 +992,70 @@ BEGIN
 END;
 $$ LANGUAGE 'plpgsql' IMMUTABLE STRICT;
 
+
+-- List a user's memberships as a text string
+CREATE or REPLACE FUNCTION is_member_of_list( INT8 ) RETURNS TEXT AS $$
+DECLARE
+  in_member_id ALIAS FOR $1;
+  m RECORD;
+  mlist TEXT;
+BEGIN
+  mlist := '';
+  FOR m IN SELECT displayname FROM group_member JOIN principal ON (group_id = principal_id)
+                          WHERE member_id = in_member_id
+  LOOP
+    mlist := mlist
+             || CASE WHEN mlist = '' THEN '' ELSE ', ' END
+             || m.displayname;
+  END LOOP;
+  RETURN mlist;
+END;
+$$ LANGUAGE 'plpgsql';
+
+
+-- List a user's members as a text string
+CREATE or REPLACE FUNCTION has_members_list( INT8 ) RETURNS TEXT AS $$
+DECLARE
+  in_member_id ALIAS FOR $1;
+  m RECORD;
+  mlist TEXT;
+BEGIN
+  mlist := '';
+  FOR m IN SELECT displayname FROM group_member JOIN principal ON (member_id = principal_id)
+                          WHERE group_id = in_member_id
+  LOOP
+    mlist := mlist
+             || CASE WHEN mlist = '' THEN '' ELSE ', ' END
+             || m.displayname;
+  END LOOP;
+  RETURN mlist;
+END;
+$$ LANGUAGE 'plpgsql';
+
+
+-- List the privileges as a text string
+CREATE or REPLACE FUNCTION privileges_list( BIT(24) ) RETURNS TEXT AS $$
+DECLARE
+  in_privileges ALIAS FOR $1;
+  privileges TEXT[];
+  plist TEXT;
+  start INT;
+  finish INT;
+  i INT;
+BEGIN
+  plist := '';
+
+  privileges := bits_to_privilege(in_privileges);
+  SELECT array_lower(privileges,1) INTO start;
+  SELECT array_upper(privileges,1) INTO finish;
+  FOR i IN start .. finish  LOOP
+    plist := plist
+             || CASE WHEN plist = '' THEN '' ELSE ', ' END
+             || privileges[i];
+  END LOOP;
+  RETURN plist;
+END;
+$$ LANGUAGE 'plpgsql';
 
 
 -- A list of the principals who can proxy to this principal
