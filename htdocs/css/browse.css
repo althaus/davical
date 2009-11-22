@@ -20,11 +20,11 @@ tr.r0:hover, tr.r1:hover {
 background-color:#AADEFF;
 }
 
-.r0 {
+tr.r0 {
 background-color: white;
 }
 
-.r1 {
+tr.r1 {
 background-color: #DEF;
 }
 
@@ -38,4 +38,8 @@ text-align:right;
 
 .left {
 text-align:left;
+}
+
+#browser h2 {
+  margin: 0.8em 0 0.1em;
 }
