@@ -4,10 +4,16 @@
 
 DROP VIEW dav_principal CASCADE;
 CREATE OR REPLACE VIEW dav_principal AS
-  SELECT user_no, usr.active AS user_active, joined AS created, updated AS last_changed,
-         username, password, fullname, email, '/' || username || '/' AS dav_name,
+  SELECT user_no, usr.active AS user_active, joined AS created, updated AS modified,
+         username, password, fullname, email,
          email_ok, date_format_type, locale,
-         principal_id, type_id, displayname, default_privileges
+         principal_id, type_id, displayname, default_privileges,
+         TRUE AS is_principal,
+         FALSE AS is_calendar,
+         principal_id AS collection_id,
+         FALSE AS is_addressbook,
+          '/' || username || '/' AS dav_name,
+         '<DAV::collection/><DAV::principal/>'::text AS resourcetypes
     FROM usr JOIN principal USING(user_no);
 
 CREATE or REPLACE RULE dav_principal_insert AS ON INSERT TO dav_principal
@@ -17,8 +23,8 @@ DO INSTEAD
     VALUES(
       COALESCE( NEW.user_no, nextval('usr_user_no_seq')),
       COALESCE( NEW.user_active, TRUE),
-      COALESCE( NEW.created, current_timestamp),
-      COALESCE( NEW.last_changed, current_timestamp),
+      current_timestamp,
+      current_timestamp,
       NEW.username, NEW.password,
       COALESCE( NEW.fullname, NEW.displayname ),
       NEW.email, NEW.email_ok,
