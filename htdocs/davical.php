@@ -5,6 +5,8 @@ require_once('classBrowser.php');
 include("DAViCalSession.php");
 $session->LoginRequired();
 
+require_once('AwlQuery.php');
+
 param_to_global('action', '{(edit|browse)}', 'action');
 param_to_global('component', '{[a-z0-9-_]+}', 't');
 param_to_global('id', '{[a-z0-9-_]+}', 'id');
