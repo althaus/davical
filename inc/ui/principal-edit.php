@@ -2,8 +2,8 @@
 
 // Editor component for company records
 $editor = new Editor(translate('Principal'), 'dav_principal');
-$editor->AddField( 'date_format_type', null, "SELECT 'E', 'European' UNION SELECT 'U', 'US Format' UNION SELECT 'I', 'ISO Format'" );
-$editor->AddField( 'type_id', null, 'SELECT principal_type_id, principal_type_desc FROM principal_type ORDER BY principal_type_id' );
+$editor->SetLookup( 'date_format_type', "SELECT 'E', 'European' UNION SELECT 'U', 'US Format' UNION SELECT 'I', 'ISO Format'" );
+$editor->SetLookup( 'type_id', 'SELECT principal_type_id, principal_type_desc FROM principal_type ORDER BY principal_type_id' );
 param_to_global('id', 'int', 'old_id', 'principal_id' );
 $editor->SetWhere( 'principal_id='.$id );
 
@@ -11,8 +11,12 @@ $privilege_names = array( 'read', 'write-properties', 'write-content', 'unlock',
                          'bind', 'unbind', 'write-acl', 'read-free-busy', 'schedule-deliver-invite', 'schedule-deliver-reply',
                          'schedule-query-freebusy', 'schedule-send-invite', 'schedule-send-reply', 'schedule-send-freebusy' );
 
+/**
+* @Todo: This needs to open up somewhat.
+*/
+$can_write_principal = ($session->AllowedTo('Admin') || $session->principal_id == $id );
 $pwstars = '@@@@@@@@@@';
-if ( $editor->IsSubmit() ) {
+if ( $can_write_principal && $editor->IsSubmit() ) {
   $editor->WhereNewRecord( "principal_id=(SELECT CURRVAL('dav_id_seq'))" );
   unset($_POST['password']);
   if ( $_POST['newpass1'] != '' && $_POST['newpass1'] != $pwstars ) {
@@ -188,14 +192,66 @@ $page_elements[] = $browser;
 
 
 if ( $editor->Value('type_id') == 3 ) {
+
+  $grouprow = new Editor("Group Members", "group_member");
+  /**
+  * @Todo: Need write-acl privs on the group user, too.
+  */
+  $priv_needed = privilege_to_bits('read-acl');
+//  $grouprow->SetLookup( 'member_id', 'SELECT principal_id, displayname FROM dav_principal WHERE principal_privileges('.$session->principal_id.',principal_id) & '.$priv_needed.'::BIT(24) != 0::BIT(24)');
+  $grouprow->SetLookup( 'member_id', 'SELECT principal_id, displayname FROM dav_principal WHERE principal_id NOT IN (SELECT member_id FROM group_member WHERE group_id = '.$id.')');
+  $grouprow->SetSubmitName( 'savegrouprow' );
+
+  if ( $can_write_principal ) {
+    if ( $grouprow->IsSubmit() ) {
+      $_POST['group_id'] = $id;
+      $member_id = intval($_POST['member_id']);
+      $grouprow->SetWhere( "group_id=".qpg($id)." AND member_id=$member_id");
+      $grouprow->Write( );
+      unset($_GET['member_id']);
+    }
+    elseif ( isset($_GET['delete_member']) ) {
+      $qry = new AwlQuery("DELETE FROM group_member WHERE group_id=:group_id AND member_id = :member_id",
+                            array( ':group_id' => $id, ':member_id' => intval($_GET['delete_member']) ));
+      $qry->Exec('principal-edit');
+    }
+  }
+
+  function edit_group_row( $row_data ) {
+    global $grouprow, $id;
+
+    $form_url = preg_replace( '#&(edit|delete)_group=\d+#', '', $_SERVER['REQUEST_URI'] );
+
+    $template = <<<EOTEMPLATE
+<form method="POST" enctype="multipart/form-data" id="rowentry" action="$form_url">
+  <td class="left"><input type="hidden" name="id" value="$id"></td>
+  <td class="left" colspan="3">##member_id.select## &nbsp; ##Add.submit##</td>
+  <td class="center"></td>
+</form>
+
+EOTEMPLATE;
+
+    $grouprow->SetTemplate( $template );
+    $grouprow->Title("");
+    if ( $row_data->group_id > -1 ) $grouprow->SetRecord( $row_data );
+
+    return $grouprow->Render();
+  }
+
   $browser = new Browser(translate('Group Members'));
 
   $browser->AddColumn( 'group_id', translate('ID'), 'right', '##principal_link##' );
   $rowurl = $c->base_url . '/davical.php?action=edit&t=principal&id=';
+  $browser->AddHidden( 'principal_id' );
   $browser->AddHidden( 'principal_link', "'<a href=\"$rowurl' || principal_id || '\">' || principal_id || '</a>'" );
   $browser->AddColumn( 'displayname', translate('Display Name') );
   $browser->AddColumn( 'member_of', translate('Is Member of'), '', '', 'is_member_of_list(principal_id)' );
   $browser->AddColumn( 'members', translate('Has Members'), '', '', 'has_members_list(principal_id)' );
+
+  if ( $can_write_principal ) {
+    $del_link  = "<a href=\"/davical.php?action=edit&t=principal&id=$id&delete_member=##principal_id##\" class=\"submit\">Delete</a>";
+    $browser->AddColumn( 'action', 'Action', 'center', '', "'$edit_link&nbsp;$del_link'" );
+  }
 
   $browser->SetOrdering( 'displayname', 'A' );
 
@@ -210,6 +266,13 @@ if ( $editor->Value('type_id') == 3 ) {
   }
   $browser->DoQuery();
   $page_elements[] = $browser;
+
+  if ( $can_write_principal ) {
+    $extra_row = array( 'group_id' => -1 );
+    $browser->MatchedRow('group_id', -1, 'edit_group_row');
+    $extra_row = (object) $extra_row;
+    $browser->AddRow($extra_row);
+  }
 }
 
 
