@@ -135,6 +135,9 @@ class CalDAVRequest
     if ( isset($debugging) && isset($_GET['method']) ) {
       $_SERVER['REQUEST_METHOD'] = $_GET['method'];
     }
+    else if ( $_SERVER['REQUEST_METHOD'] == 'POST' && isset($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE']) ){
+      $_SERVER['REQUEST_METHOD'] = $_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'];
+    }
     $this->method = $_SERVER['REQUEST_METHOD'];
 
     $this->user_agent = ((isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : "Probably Mulberry"));
