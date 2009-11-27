@@ -25,7 +25,7 @@ class EditorField
   var $LookupSql;
   var $OptionList;
 
-  function EditorField( $field, $sql="", $lookup_sql="" ) {
+  function __construct( $field, $sql="", $lookup_sql="" ) {
     global $session;
     $this->Field      = $field;
     $this->Sql        = $sql;
@@ -116,7 +116,7 @@ class Editor
   var $SubmitName;
   var $Id;
 
-  function Editor( $title = "", $fields = null ) {
+  function __construct( $title = "", $fields = null ) {
     global $c, $session, $form_id_increment;
     $this->Title = $title;
     $this->Order = "";
@@ -156,7 +156,9 @@ class Editor
   }
 
   function SetLookup( $field, $lookup_sql ) {
-    $this->Fields[$field]->SetLookup( $lookup_sql );
+    if (is_object($this->Fields[$field])) {
+      $this->Fields[$field]->SetLookup( $lookup_sql );
+    }
   }
 
   function Value( $value_field_name ) {
