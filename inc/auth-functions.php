@@ -128,7 +128,7 @@ function UpdateUserFromExternal( &$usr ) {
   /**
   * We disallow login by inactive users _after_ we have updated the local copy
   */
-  if ( isset($usr->active) && $usr->active == 'f' ) return false;
+  if ( isset($usr->active) && ($usr->active === 'f' || $usr->active === false) ) return false;
 
   if ( $type == 'INSERT' ) {
     CreateHomeCalendar($usr->username);
