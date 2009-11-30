@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+#!/usr/bin/env perl -w
 #
 # Update the DAViCal database by repeatedly applying patches to it
 # in the correct order.
