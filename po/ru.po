@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rscds 0.3.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-10-06 09:25-0700\n"
+"POT-Creation-Date: 2009-12-01 10:34+1300\n"
 "PO-Revision-Date: 2006-11-13 23:07+0500\n"
 "Last-Translator: Nick Khazov <m2k3d0n@users.sourceforge.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -78,6 +78,9 @@ msgstr ""
 msgid "Administers"
 msgstr ""
 
+msgid "Administration"
+msgstr ""
+
 msgid "All collection data will be unrecoverably deleted."
 msgstr ""
 
@@ -105,7 +108,13 @@ msgstr "Просмотреть всех пользователей"
 msgid "Busy"
 msgstr ""
 
+msgid "Calendar Principals"
+msgstr ""
+
 msgid "Calendar Resource Not Found."
+msgstr ""
+
+msgid "Calendar Timezone"
 msgstr ""
 
 msgid "Calendar Users"
@@ -120,6 +129,10 @@ msgstr ""
 
 msgid "Can see free/busy time of"
 msgstr ""
+
+#, fuzzy
+msgid "Change Password"
+msgstr "Неверное имя пользователя или пароль."
 
 msgid "Changed On"
 msgstr ""
@@ -136,14 +149,30 @@ msgstr "Нажмите чтобы отобразить эту связь"
 msgid "Click to display user details"
 msgstr "Нажмите чтобы отобразить эту связь"
 
+#, fuzzy
+msgid "Click to edit principal details"
+msgstr "Нажмите чтобы отобразить эту связь"
+
 msgid "Collection Contents"
 msgstr ""
+
+#, fuzzy
+msgid "Collection Grants"
+msgstr "Связь удалена"
+
+#, fuzzy
+msgid "Collection ID"
+msgstr "Связь удалена"
 
 msgid "Collection Path"
 msgstr ""
 
 #, fuzzy
 msgid "Collection deleted"
+msgstr "Связь удалена"
+
+#, fuzzy
+msgid "Collection"
 msgstr "Связь удалена"
 
 msgid "Confirm Deletion of the Collection"
@@ -154,6 +183,10 @@ msgstr ""
 
 msgid "Confirm Deletion of the User"
 msgstr ""
+
+#, fuzzy
+msgid "Confirm Password"
+msgstr "Неверное имя пользователя или пароль."
 
 #, fuzzy
 msgid "Confirm the new password."
@@ -167,10 +200,29 @@ msgstr "Подаренные"
 msgid "Create Calendar"
 msgstr "Создать"
 
+#, fuzzy
+msgid "Create New Collection"
+msgstr "Создать"
+
+msgid "Create New Principal"
+msgstr ""
+
+msgid "Create Resources"
+msgstr ""
+
 msgid "Create"
 msgstr "Создать"
 
+msgid "DAV Path"
+msgstr ""
+
 msgid "DAViCal CalDAV Server"
+msgstr ""
+
+msgid "DAViCal Homepage"
+msgstr ""
+
+msgid "DAViCal Wiki"
 msgstr ""
 
 msgid "Database Error"
@@ -182,12 +234,25 @@ msgstr ""
 msgid "Database error"
 msgstr ""
 
+msgid "Date Format Style"
+msgstr ""
+
 msgid "Date Style"
+msgstr ""
+
+msgid "Default Privileges"
 msgstr ""
 
 #, fuzzy
 msgid "Default relationships added."
 msgstr "Связь добавлена."
+
+msgid "Delete Resources"
+msgstr ""
+
+#, fuzzy
+msgid "Delete User"
+msgstr "Удалить"
 
 msgid "Delete"
 msgstr "Удалить"
@@ -199,7 +264,16 @@ msgstr ""
 msgid "Deleting User:"
 msgstr "Удалить"
 
+msgid "Description"
+msgstr ""
+
 msgid "Directory on the server"
+msgstr ""
+
+msgid "Display Name"
+msgstr ""
+
+msgid "Displayname"
 msgstr ""
 
 msgid "Does the user have the right to perform this role?"
@@ -216,6 +290,12 @@ msgstr "Электронная почта"
 msgid "ERROR: %s"
 msgstr ""
 
+msgid "ERROR: The full name may not be blank."
+msgstr ""
+
+msgid "ERROR: The new password must match the confirmed password."
+msgstr ""
+
 msgid "ERROR: There was a database error writing the roles information!"
 msgstr ""
 
@@ -226,6 +306,9 @@ msgstr ""
 #, fuzzy
 msgid "Edit this user record"
 msgstr "Посмотреть мою учетную запись"
+
+msgid "Email Address"
+msgstr ""
 
 msgid "Enter a username, if you know it, and click here, to be e-mailed a temporary password."
 msgstr ""
@@ -250,10 +333,10 @@ msgstr "Произошла ошибка при записи в базу данн
 msgid "European (d/m/y)"
 msgstr ""
 
-msgid "Existing resource does not match 'If-Match' header - not accepted."
+msgid "Existing resource does not match \"If-Match\" header - not accepted."
 msgstr ""
 
-msgid "Existing resource matches 'If-None-Match' header - not accepted."
+msgid "Existing resource matches \"If-None-Match\" header - not accepted."
 msgstr ""
 
 msgid "Finish"
@@ -271,21 +354,39 @@ msgstr ""
 msgid "Full Name"
 msgstr ""
 
+msgid "Fullname"
+msgstr ""
+
 msgid "GET requests are only handled on calendar collections."
 msgstr ""
 
 msgid "GO!"
 msgstr ""
 
+msgid "Go to the DAViCal Feature Requests"
+msgstr ""
+
 msgid "Group <!-- in the sense of a group of people -->"
+msgstr ""
+
+msgid "Group Members"
+msgstr ""
+
+msgid "Group Memberships"
+msgstr ""
+
+msgid "Group Principals"
 msgstr ""
 
 #, fuzzy
 msgid "Group"
 msgstr "Группа?"
 
-msgid "Help on something or other"
-msgstr "Помощь в чем-то или другое"
+msgid "Has Members"
+msgstr ""
+
+msgid "Help on the current screen"
+msgstr ""
 
 msgid "Help! I've forgotten my password!"
 msgstr ""
@@ -293,11 +394,18 @@ msgstr ""
 msgid "Help"
 msgstr "Помощь"
 
+#, fuzzy
+msgid "Home Page"
+msgstr "Домой"
+
 msgid "Home calendar added."
 msgstr ""
 
 msgid "Home"
 msgstr "Домой"
+
+msgid "ID"
+msgstr ""
 
 msgid "ISO Format (YYYY-MM-DD)"
 msgstr ""
@@ -314,6 +422,10 @@ msgstr ""
 msgid "If you would like to request access, please e-mail"
 msgstr "Если вы хотите получить доступ, пожалуйста, пошлите электронное письмо"
 
+#, fuzzy
+msgid "Import Calendars"
+msgstr "Создать"
+
 msgid "Import all .ics files of a directory"
 msgstr ""
 
@@ -324,7 +436,17 @@ msgstr "Неверное имя пользователя или пароль."
 msgid "Invalid username or password."
 msgstr "Неверное имя пользователя или пароль."
 
+msgid "Is Member of"
+msgstr ""
+
+#, fuzzy
+msgid "Is a Calendar"
+msgstr "Создать"
+
 msgid "Is a Calendar?"
+msgstr ""
+
+msgid "Is an Addressbook"
 msgstr ""
 
 msgid "Is this access read ('R') or Read and Write ('RW')?"
@@ -348,17 +470,26 @@ msgstr "Связан от"
 msgid "Linked To"
 msgstr "Связан с"
 
+#, fuzzy
+msgid "List Groups"
+msgstr "Группа?"
+
+msgid "List Resources"
+msgstr ""
+
+#, fuzzy
+msgid "List Users"
+msgstr "Пользователи"
+
 msgid "Log On Please"
 msgstr "Пожалуйста, зарегистрируйтесь"
 
-msgid "Log out of the"
+#, fuzzy
+msgid "Log out of DAViCal"
 msgstr "Отключиться от"
 
 msgid "Logout"
 msgstr "Отключиться"
-
-msgid "My Details"
-msgstr "Мои данные"
 
 msgid "Name"
 msgstr ""
@@ -370,6 +501,9 @@ msgstr ""
 msgid "New User"
 msgstr "Пользователи"
 
+msgid "No calendar content"
+msgstr ""
+
 msgid "No collection found at that location."
 msgstr ""
 
@@ -379,14 +513,22 @@ msgstr ""
 msgid "No."
 msgstr ""
 
+msgid "Not overwriting existing destination resource"
+msgstr ""
+
+msgid "Opaque"
+msgstr ""
+
 msgid "Operations on your calendar"
 msgstr ""
 
-#, fuzzy
-msgid "Operations"
-msgstr "Связь"
+msgid "Override a Lock"
+msgstr ""
 
 msgid "Password"
+msgstr ""
+
+msgid "Path"
 msgstr ""
 
 msgid "Please Confirm Deletion"
@@ -401,6 +543,24 @@ msgstr ""
 msgid "Please note the time and advise the administrator of your system."
 msgstr ""
 
+msgid "Principal Collections"
+msgstr ""
+
+msgid "Principal Grants"
+msgstr ""
+
+msgid "Principal ID"
+msgstr ""
+
+msgid "Principal Type"
+msgstr ""
+
+msgid "Principal"
+msgstr ""
+
+msgid "Privileges"
+msgstr ""
+
 msgid "Property is read-only"
 msgstr ""
 
@@ -410,10 +570,22 @@ msgstr ""
 msgid "Public"
 msgstr ""
 
+msgid "Publicly Readable"
+msgstr ""
+
 msgid "REPORT body contains no XML data!"
 msgstr ""
 
 msgid "REPORT body is not valid XML data!"
+msgstr ""
+
+msgid "Read Access Controls"
+msgstr ""
+
+msgid "Read Current User's Access"
+msgstr ""
+
+msgid "Read Free/Busy Information"
 msgstr ""
 
 msgid "Read"
@@ -464,7 +636,13 @@ msgstr "Сообщить об ошибке"
 msgid "Report a bug in the system"
 msgstr "Сообщить об ошибке в системе"
 
+msgid "Request Feature"
+msgstr ""
+
 msgid "Resource <!-- a thing which might be booked: a room, a carpark, a projector... -->"
+msgstr ""
+
+msgid "Resource Calendar Principals"
 msgstr ""
 
 msgid "Resource changed on server - not changed."
@@ -485,6 +663,27 @@ msgstr ""
 msgid "Rights"
 msgstr ""
 
+msgid "Schedule Transparency"
+msgstr ""
+
+msgid "Scheduling: Deliver a Reply"
+msgstr ""
+
+msgid "Scheduling: Deliver an Invitation"
+msgstr ""
+
+msgid "Scheduling: Query free/busy"
+msgstr ""
+
+msgid "Scheduling: Send a Reply"
+msgstr ""
+
+msgid "Scheduling: Send an Invitation"
+msgstr ""
+
+msgid "Scheduling: Send free/busy"
+msgstr ""
+
 msgid "Select the type of relationship from this user"
 msgstr "Выберите тип связи от этого пользователя"
 
@@ -494,7 +693,7 @@ msgstr "Выберите пользователя, ресурс или груп�
 msgid "Set the path to store your ics e.g. 'home' will be referenced as /caldav.php/me/home/"
 msgstr ""
 
-msgid "Setup RSCDS"
+msgid "Setup DAViCal"
 msgstr ""
 
 msgid "Setup"
@@ -512,7 +711,17 @@ msgstr ""
 msgid "Some properties were not able to be set."
 msgstr ""
 
+msgid "Source resource does not exist."
+msgstr ""
+
+msgid "Special collections may not contain a calendar or other special collection."
+msgstr ""
+
 msgid "Start"
+msgstr ""
+
+#, c-format
+msgid "Status: %d, Message: %s, User: %d, Path: %s"
 msgstr ""
 
 msgid "Submit"
@@ -525,6 +734,12 @@ msgid "Sync LDAP with RSCDS"
 msgstr ""
 
 msgid "That relationship type is being used. See ##RelationshipTypeUsed##"
+msgstr ""
+
+msgid "That resource is not present on this server."
+msgstr ""
+
+msgid "The DAViCal Home Page"
 msgstr ""
 
 msgid "The application program does not understand that request."
@@ -574,6 +789,12 @@ msgstr "Произошла ошибка при записи в базу данн
 msgid "This user's collections"
 msgstr ""
 
+msgid "To ID"
+msgstr ""
+
+msgid "Transparent"
+msgstr ""
+
 msgid "Type"
 msgstr ""
 
@@ -587,11 +808,24 @@ msgstr "Обновить"
 msgid "Updated"
 msgstr "Обновить"
 
+msgid "Upgrade DAViCal database schema"
+msgstr ""
+
+msgid "Upgrade Database"
+msgstr ""
+
 msgid "Upload a .ics calendar in iCalendar format "
+msgstr ""
+
+msgid "User Calendar Principals"
 msgstr ""
 
 #, fuzzy
 msgid "User Details"
+msgstr "Мои данные"
+
+#, fuzzy
+msgid "User Functions"
 msgstr "Мои данные"
 
 msgid "User Name"
@@ -614,12 +848,17 @@ msgstr ""
 msgid "User record written."
 msgstr ""
 
-msgid "Users"
+#, fuzzy
+msgid "Username"
 msgstr "Пользователи"
 
 #, c-format
 msgid "View %s"
 msgstr ""
+
+#, fuzzy
+msgid "View My Details"
+msgstr "Мои данные"
 
 msgid "View my own user record"
 msgstr "Посмотреть мою учетную запись"
@@ -628,7 +867,19 @@ msgstr "Посмотреть мою учетную запись"
 msgid "View this user record"
 msgstr "Посмотреть мою учетную запись"
 
+msgid "Visit the DAViCal Wiki"
+msgstr ""
+
 msgid "When the user's e-mail account was validated."
+msgstr ""
+
+msgid "Write Access Controls"
+msgstr ""
+
+msgid "Write Data"
+msgstr ""
+
+msgid "Write Metadata"
 msgstr ""
 
 msgid "Write"
@@ -667,6 +918,9 @@ msgid "You may not delete entries from this calendar."
 msgstr ""
 
 msgid "You may not modify entries on this calendar."
+msgstr ""
+
+msgid "You may only review the contents of your own collections in this interface."
 msgstr ""
 
 msgid "You must log in to use this system."
@@ -729,6 +983,13 @@ msgstr "вы должны войти под тем именем польззов
 
 msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
 msgstr ""
+
+#~ msgid "Help on something or other"
+#~ msgstr "Помощь в чем-то или другое"
+
+#, fuzzy
+#~ msgid "Operations"
+#~ msgstr "Связь"
 
 #~ msgid "Really Simple CalDAV Store"
 #~ msgstr "Действительно простое хранилище CalDAV"

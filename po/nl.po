@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-10-06 09:25-0700\n"
+"POT-Creation-Date: 2009-12-01 10:34+1300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Eelco Maljaars <http://eelco.maljaars.net/>\n"
 "Language-Team: nl_NL <LL@li.org>\n"
@@ -80,6 +80,10 @@ msgstr "Beheer"
 msgid "Administers"
 msgstr "Beheerdersgroep"
 
+#, fuzzy
+msgid "Administration"
+msgstr "Beheerdersgroep"
+
 msgid "All collection data will be unrecoverably deleted."
 msgstr ""
 
@@ -108,8 +112,16 @@ msgstr "Blader door alle gebruikers"
 msgid "Busy"
 msgstr ""
 
+#, fuzzy
+msgid "Calendar Principals"
+msgstr "Agenda gebruikers"
+
 msgid "Calendar Resource Not Found."
 msgstr ""
+
+#, fuzzy
+msgid "Calendar Timezone"
+msgstr "Agenda gebruikers"
 
 msgid "Calendar Users"
 msgstr "Agenda gebruikers"
@@ -124,6 +136,10 @@ msgstr ""
 msgid "Can see free/busy time of"
 msgstr ""
 
+#, fuzzy
+msgid "Change Password"
+msgstr "Nieuw wachtwoord"
+
 msgid "Changed On"
 msgstr "Veranderd op"
 
@@ -136,14 +152,30 @@ msgstr "Klik om de inhoud van de verzameling te tonen"
 msgid "Click to display user details"
 msgstr "Klik om de gebruikersdetails te tonen"
 
+#, fuzzy
+msgid "Click to edit principal details"
+msgstr "Klik om de gebruikersdetails te tonen"
+
 msgid "Collection Contents"
 msgstr "Inhoud van de verzameling"
+
+#, fuzzy
+msgid "Collection Grants"
+msgstr "Verzamelingspad"
+
+#, fuzzy
+msgid "Collection ID"
+msgstr "Verzamelingspad"
 
 msgid "Collection Path"
 msgstr "Verzamelingspad"
 
 #, fuzzy
 msgid "Collection deleted"
+msgstr "Verzamelingspad"
+
+#, fuzzy
+msgid "Collection"
 msgstr "Verzamelingspad"
 
 #, fuzzy
@@ -157,6 +189,10 @@ msgstr "Bevestig verwijderen relatie soort"
 msgid "Confirm Deletion of the User"
 msgstr "Bevestig verwijderen relatie soort"
 
+#, fuzzy
+msgid "Confirm Password"
+msgstr "Bevestig het nieuwe wachtwoord"
+
 msgid "Confirm the new password."
 msgstr "Bevestig het nieuwe wachtwoord"
 
@@ -167,10 +203,30 @@ msgstr "Bevestig"
 msgid "Create Calendar"
 msgstr "Agenda gebruikers"
 
+#, fuzzy
+msgid "Create New Collection"
+msgstr "Bevestig verwijderen relatie soort"
+
+msgid "Create New Principal"
+msgstr ""
+
+#, fuzzy
+msgid "Create Resources"
+msgstr "Resource"
+
 msgid "Create"
 msgstr "Maak"
 
+msgid "DAV Path"
+msgstr ""
+
 msgid "DAViCal CalDAV Server"
+msgstr ""
+
+msgid "DAViCal Homepage"
+msgstr ""
+
+msgid "DAViCal Wiki"
 msgstr ""
 
 #, fuzzy
@@ -184,12 +240,27 @@ msgstr "Database fout"
 msgid "Database error"
 msgstr "Database fout"
 
+#, fuzzy
+msgid "Date Format Style"
+msgstr "Datum stijl"
+
 msgid "Date Style"
 msgstr "Datum stijl"
+
+msgid "Default Privileges"
+msgstr ""
 
 #, fuzzy
 msgid "Default relationships added."
 msgstr "Relatie toegevoegd"
+
+#, fuzzy
+msgid "Delete Resources"
+msgstr "Resource"
+
+#, fuzzy
+msgid "Delete User"
+msgstr "Verwijder"
 
 msgid "Delete"
 msgstr "Verwijder"
@@ -202,7 +273,16 @@ msgstr "Bevestig verwijderen relatie soort"
 msgid "Deleting User:"
 msgstr "Verwijder"
 
+msgid "Description"
+msgstr ""
+
 msgid "Directory on the server"
+msgstr ""
+
+msgid "Display Name"
+msgstr ""
+
+msgid "Displayname"
 msgstr ""
 
 msgid "Does the user have the right to perform this role?"
@@ -218,6 +298,12 @@ msgstr "E-mail"
 msgid "ERROR: %s"
 msgstr "Fout: %s"
 
+msgid "ERROR: The full name may not be blank."
+msgstr ""
+
+msgid "ERROR: The new password must match the confirmed password."
+msgstr ""
+
 msgid "ERROR: There was a database error writing the roles information!"
 msgstr "Fout: Database fout bij het schrijven van rolleninformatie"
 
@@ -227,6 +313,9 @@ msgstr "Verander"
 
 msgid "Edit this user record"
 msgstr "Verander deze gebruiker"
+
+msgid "Email Address"
+msgstr ""
 
 msgid "Enter a username, if you know it, and click here, to be e-mailed a temporary password."
 msgstr ""
@@ -251,10 +340,12 @@ msgstr "Fout bij het schrijven van agendadetails naar de database"
 msgid "European (d/m/y)"
 msgstr "Europees (d/m/y)"
 
-msgid "Existing resource does not match 'If-Match' header - not accepted."
+#, fuzzy
+msgid "Existing resource does not match \"If-Match\" header - not accepted."
 msgstr "Bestaande resource komt niet overeen met 'If-Match' kopregel - niet geaccepteerd"
 
-msgid "Existing resource matches 'If-None-Match' header - not accepted."
+#, fuzzy
+msgid "Existing resource matches \"If-None-Match\" header - not accepted."
 msgstr "Bestaande resource komt overeen met 'If-None-Match' kopregel - niet geaccepteerd"
 
 msgid "Finish"
@@ -272,20 +363,39 @@ msgstr ""
 msgid "Full Name"
 msgstr "Volledige naam"
 
+#, fuzzy
+msgid "Fullname"
+msgstr "Volledige naam"
+
 msgid "GET requests are only handled on calendar collections."
 msgstr ""
 
 msgid "GO!"
 msgstr "Ga!"
 
+msgid "Go to the DAViCal Feature Requests"
+msgstr ""
+
 msgid "Group <!-- in the sense of a group of people -->"
 msgstr "Groep"
+
+msgid "Group Members"
+msgstr ""
+
+msgid "Group Memberships"
+msgstr ""
+
+msgid "Group Principals"
+msgstr ""
 
 msgid "Group"
 msgstr "Groepeer"
 
-msgid "Help on something or other"
-msgstr "Hulp bij iets of anders"
+msgid "Has Members"
+msgstr ""
+
+msgid "Help on the current screen"
+msgstr ""
 
 msgid "Help! I've forgotten my password!"
 msgstr "Help, ik ben mijn wachtwoord vergeten!"
@@ -293,11 +403,18 @@ msgstr "Help, ik ben mijn wachtwoord vergeten!"
 msgid "Help"
 msgstr "Hulp"
 
+#, fuzzy
+msgid "Home Page"
+msgstr "Thuis"
+
 msgid "Home calendar added."
 msgstr ""
 
 msgid "Home"
 msgstr "Thuis"
+
+msgid "ID"
+msgstr ""
 
 msgid "ISO Format (YYYY-MM-DD)"
 msgstr "ISO formaat (YYYY-MM-DD)"
@@ -314,6 +431,10 @@ msgstr "Indien je je wachtwoord vergeten bent dan"
 msgid "If you would like to request access, please e-mail"
 msgstr "Indien je toegang wilt aanvragen, e-mail je"
 
+#, fuzzy
+msgid "Import Calendars"
+msgstr "Agenda gebruikers"
+
 msgid "Import all .ics files of a directory"
 msgstr ""
 
@@ -323,8 +444,19 @@ msgstr "Verkeerde gebruikersnaam of wachtwoord"
 msgid "Invalid username or password."
 msgstr "Verkeerde gebruikersnaam of wachtwoord"
 
+#, fuzzy
+msgid "Is Member of"
+msgstr "Is lid van de groep"
+
+#, fuzzy
+msgid "Is a Calendar"
+msgstr "Is een agenda?"
+
 msgid "Is a Calendar?"
 msgstr "Is een agenda?"
+
+msgid "Is an Addressbook"
+msgstr ""
 
 msgid "Is this access read ('R') or Read and Write ('RW')?"
 msgstr "Is deze toegang lezen ('R') of lezen en schrijven ('RW')"
@@ -347,17 +479,27 @@ msgstr "Gekoppeld van"
 msgid "Linked To"
 msgstr "Gekoppeld aan"
 
+#, fuzzy
+msgid "List Groups"
+msgstr "Groepeer"
+
+#, fuzzy
+msgid "List Resources"
+msgstr "Resource"
+
+#, fuzzy
+msgid "List Users"
+msgstr "Gebruikers"
+
 msgid "Log On Please"
 msgstr "Log in alsjeblieft"
 
-msgid "Log out of the"
+#, fuzzy
+msgid "Log out of DAViCal"
 msgstr "Log uit van de"
 
 msgid "Logout"
 msgstr "Log uit"
-
-msgid "My Details"
-msgstr "Mijn details"
 
 msgid "Name"
 msgstr "Naam"
@@ -368,6 +510,9 @@ msgstr "Nieuw wachtwoord"
 msgid "New User"
 msgstr "Nieuwe gebruiker"
 
+msgid "No calendar content"
+msgstr ""
+
 msgid "No collection found at that location."
 msgstr "Geen verzamelingen gevonden op die plaats"
 
@@ -377,15 +522,23 @@ msgstr "Nr."
 msgid "No."
 msgstr "Nee."
 
+msgid "Not overwriting existing destination resource"
+msgstr ""
+
+msgid "Opaque"
+msgstr ""
+
 msgid "Operations on your calendar"
 msgstr ""
 
-#, fuzzy
-msgid "Operations"
-msgstr "Relatie"
+msgid "Override a Lock"
+msgstr ""
 
 msgid "Password"
 msgstr "Wachtwoord"
+
+msgid "Path"
+msgstr ""
 
 msgid "Please Confirm Deletion"
 msgstr "Bevestig verwijderen alsjeblieft"
@@ -400,6 +553,25 @@ msgstr "Bevestig verwijderen alsjeblieft"
 msgid "Please note the time and advise the administrator of your system."
 msgstr "Noteer de tijd en breng de beheerder van jou systeem op de hoogte"
 
+#, fuzzy
+msgid "Principal Collections"
+msgstr "Bevestig verwijderen relatie soort"
+
+msgid "Principal Grants"
+msgstr ""
+
+msgid "Principal ID"
+msgstr ""
+
+msgid "Principal Type"
+msgstr ""
+
+msgid "Principal"
+msgstr ""
+
+msgid "Privileges"
+msgstr ""
+
 msgid "Property is read-only"
 msgstr ""
 
@@ -409,10 +581,22 @@ msgstr "Publiek"
 msgid "Public"
 msgstr "Publiek"
 
+msgid "Publicly Readable"
+msgstr ""
+
 msgid "REPORT body contains no XML data!"
 msgstr ""
 
 msgid "REPORT body is not valid XML data!"
+msgstr ""
+
+msgid "Read Access Controls"
+msgstr ""
+
+msgid "Read Current User's Access"
+msgstr ""
+
+msgid "Read Free/Busy Information"
 msgstr ""
 
 msgid "Read"
@@ -460,8 +644,14 @@ msgstr "Rapporteer softwarefout"
 msgid "Report a bug in the system"
 msgstr "Rapporteer een softwarefout in het systeem"
 
+msgid "Request Feature"
+msgstr ""
+
 msgid "Resource <!-- a thing which might be booked: a room, a carpark, a projector... -->"
 msgstr "Resource"
+
+msgid "Resource Calendar Principals"
+msgstr ""
 
 msgid "Resource changed on server - not changed."
 msgstr ""
@@ -482,6 +672,27 @@ msgstr ""
 msgid "Rights"
 msgstr "Rechten"
 
+msgid "Schedule Transparency"
+msgstr ""
+
+msgid "Scheduling: Deliver a Reply"
+msgstr ""
+
+msgid "Scheduling: Deliver an Invitation"
+msgstr ""
+
+msgid "Scheduling: Query free/busy"
+msgstr ""
+
+msgid "Scheduling: Send a Reply"
+msgstr ""
+
+msgid "Scheduling: Send an Invitation"
+msgstr ""
+
+msgid "Scheduling: Send free/busy"
+msgstr ""
+
 msgid "Select the type of relationship from this user"
 msgstr "Selekteer het soort relatie van deze gebruiker"
 
@@ -491,7 +702,7 @@ msgstr "Selekteer de gebruiker, resource of groep om deze gebruiker aan te koppe
 msgid "Set the path to store your ics e.g. 'home' will be referenced as /caldav.php/me/home/"
 msgstr ""
 
-msgid "Setup RSCDS"
+msgid "Setup DAViCal"
 msgstr ""
 
 msgid "Setup"
@@ -509,8 +720,18 @@ msgstr ""
 msgid "Some properties were not able to be set."
 msgstr ""
 
+msgid "Source resource does not exist."
+msgstr ""
+
+msgid "Special collections may not contain a calendar or other special collection."
+msgstr ""
+
 msgid "Start"
 msgstr "Start"
+
+#, c-format
+msgid "Status: %d, Message: %s, User: %d, Path: %s"
+msgstr ""
 
 msgid "Submit"
 msgstr ""
@@ -523,6 +744,12 @@ msgstr ""
 
 msgid "That relationship type is being used. See ##RelationshipTypeUsed##"
 msgstr "Die relatiesoort wordt gebruikt, zie ##RelationshipTypeUsed##"
+
+msgid "That resource is not present on this server."
+msgstr ""
+
+msgid "The DAViCal Home Page"
+msgstr ""
 
 msgid "The application program does not understand that request."
 msgstr "De applicatie snapt dat verzoek niet."
@@ -572,6 +799,12 @@ msgstr "Er is een fout opgetreden bij het schrijven naar de database"
 msgid "This user's collections"
 msgstr "Verzamelingen van deze gebruiker"
 
+msgid "To ID"
+msgstr ""
+
+msgid "Transparent"
+msgstr ""
+
 msgid "Type"
 msgstr "Soort"
 
@@ -584,10 +817,23 @@ msgstr "Bijwerken"
 msgid "Updated"
 msgstr "Bijgewerkt"
 
+msgid "Upgrade DAViCal database schema"
+msgstr ""
+
+msgid "Upgrade Database"
+msgstr ""
+
 msgid "Upload a .ics calendar in iCalendar format "
 msgstr ""
 
+msgid "User Calendar Principals"
+msgstr ""
+
 msgid "User Details"
+msgstr "Gebruikersdetails"
+
+#, fuzzy
+msgid "User Functions"
 msgstr "Gebruikersdetails"
 
 msgid "User Name"
@@ -609,12 +855,17 @@ msgstr "Gebruiker is geaktiveerd"
 msgid "User record written."
 msgstr "Gebruikersgegevens geschreven"
 
-msgid "Users"
-msgstr "Gebruikers"
+#, fuzzy
+msgid "Username"
+msgstr "Gebruikersnaam"
 
 #, fuzzy, c-format
 msgid "View %s"
 msgstr "Beeld"
+
+#, fuzzy
+msgid "View My Details"
+msgstr "Mijn details"
 
 msgid "View my own user record"
 msgstr "Bekijk mijn eigen gebruikersgegevens"
@@ -622,8 +873,20 @@ msgstr "Bekijk mijn eigen gebruikersgegevens"
 msgid "View this user record"
 msgstr "Bekijk deze gebruikersgegevens"
 
+msgid "Visit the DAViCal Wiki"
+msgstr ""
+
 msgid "When the user's e-mail account was validated."
 msgstr "Wanneer het e-mail account van de gebruiker bevestigd is"
+
+msgid "Write Access Controls"
+msgstr ""
+
+msgid "Write Data"
+msgstr ""
+
+msgid "Write Metadata"
+msgstr ""
 
 msgid "Write"
 msgstr ""
@@ -661,6 +924,9 @@ msgstr "Je mag geen items verwijderen uit deze agenda"
 
 msgid "You may not modify entries on this calendar."
 msgstr "Je mag geen items aanpassen in deze agenda"
+
+msgid "You may only review the contents of your own collections in this interface."
+msgstr ""
 
 msgid "You must log in to use this system."
 msgstr "Je moet inloggen om dit systeem te gebruiken"
@@ -724,6 +990,13 @@ msgstr "je moet inloggen met de gebruikersnaam en het wachtwoord die je zijn toe
 msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
 msgstr ""
 
+#~ msgid "Help on something or other"
+#~ msgstr "Hulp bij iets of anders"
+
+#, fuzzy
+#~ msgid "Operations"
+#~ msgstr "Relatie"
+
 #~ msgid "Created On"
 #~ msgstr "Gemaakt op"
 
@@ -747,9 +1020,6 @@ msgstr ""
 
 #~ msgid "Group?"
 #~ msgstr "Groepeer?"
-
-#~ msgid "Is a member of group"
-#~ msgstr "Is lid van de groep"
 
 #~ msgid "Is the target of this relationship a group of access rights?"
 #~ msgstr "Is het doel van deze relatie een groep van toegangsrechten?"

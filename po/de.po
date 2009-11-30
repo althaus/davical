@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RSCDS 0.2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-10-06 09:25-0700\n"
+"POT-Creation-Date: 2009-12-01 10:34+1300\n"
 "PO-Revision-Date: 2006-11-06 17:24+1300\n"
 "Last-Translator: Cristina Radalescu <andrew@mcmillan.net.nz>\n"
 "MIME-Version: 1.0\n"
@@ -50,9 +50,8 @@ msgid ""
 "<h1>Log On Please</h1><p>For access to the %s you should log on withthe username and password that "
 "have been issued to you.</p><p>If you would like to request access, please e-mail %s.</p>"
 msgstr ""
-"<h1>Bitte melde Dich an!</h1><p>Für den Zugang zu %s wird der Benutzername "
-"und das Passwort benötigt, das zugeteilt wurde.</p><p>Soll ein Neuzugang "
-"beantragt werden, schreibe bitte eine E-Mail an %s</p>"
+"<h1>Bitte melde Dich an!</h1><p>Für den Zugang zu %s wird der Benutzername und das Passwort benötigt, "
+"das zugeteilt wurde.</p><p>Soll ein Neuzugang beantragt werden, schreibe bitte eine E-Mail an %s</p>"
 
 msgid "A collection already exists at that location."
 msgstr "An dem Ort existiert bereits eine Collection."
@@ -83,6 +82,10 @@ msgstr "Administrator"
 msgid "Administers"
 msgstr "administriert"
 
+#, fuzzy
+msgid "Administration"
+msgstr "administriert"
+
 msgid "All collection data will be unrecoverably deleted."
 msgstr "Alle Kalender, Termine und Ressource-Daten werden unwiderruflich gelöscht."
 
@@ -111,8 +114,16 @@ msgstr "Nach allen Benutzern durchsuchen"
 msgid "Busy"
 msgstr "Beschäftigt"
 
+#, fuzzy
+msgid "Calendar Principals"
+msgstr "Kalender Benutzer"
+
 msgid "Calendar Resource Not Found."
 msgstr "Kalender-Ressource nicht gefunden."
+
+#, fuzzy
+msgid "Calendar Timezone"
+msgstr "Kalender Benutzer"
 
 msgid "Calendar Users"
 msgstr "Kalender Benutzer"
@@ -126,6 +137,10 @@ msgstr "Lesemöglichkeit bei"
 
 msgid "Can see free/busy time of"
 msgstr "Beschäftigungsstatus bei"
+
+#, fuzzy
+msgid "Change Password"
+msgstr "Neues Passwort"
 
 msgid "Changed On"
 msgstr "Geändert an"
@@ -142,8 +157,20 @@ msgstr "Anklicken, um den Inhalt dieser Collection anzuzeigen"
 msgid "Click to display user details"
 msgstr "Anklicken, um die Benutzerdetails zu sehen"
 
+#, fuzzy
+msgid "Click to edit principal details"
+msgstr "Anklicken, um die Benutzerdetails zu sehen"
+
 msgid "Collection Contents"
 msgstr "Collection-Inhalt"
+
+#, fuzzy
+msgid "Collection Grants"
+msgstr "Collection-Pfad"
+
+#, fuzzy
+msgid "Collection ID"
+msgstr "Collection-Pfad"
 
 msgid "Collection Path"
 msgstr "Collection-Pfad"
@@ -151,6 +178,10 @@ msgstr "Collection-Pfad"
 #, fuzzy
 msgid "Collection deleted"
 msgstr "Collection gelöscht"
+
+#, fuzzy
+msgid "Collection"
+msgstr "Collection-Pfad"
 
 #, fuzzy
 msgid "Confirm Deletion of the Collection"
@@ -163,6 +194,10 @@ msgstr "Bestätige Löschung des Verhältnistyps"
 msgid "Confirm Deletion of the User"
 msgstr "Bestätige die Löschung des Benutzers"
 
+#, fuzzy
+msgid "Confirm Password"
+msgstr "Neues Passwort bestätigen"
+
 msgid "Confirm the new password."
 msgstr "Neues Passwort bestätigen"
 
@@ -173,10 +208,30 @@ msgstr "Bestätige"
 msgid "Create Calendar"
 msgstr "Kalender erstellen"
 
+#, fuzzy
+msgid "Create New Collection"
+msgstr "Lösche Collection:"
+
+msgid "Create New Principal"
+msgstr ""
+
+#, fuzzy
+msgid "Create Resources"
+msgstr "Ressource"
+
 msgid "Create"
 msgstr "Erstellen"
 
+msgid "DAV Path"
+msgstr ""
+
 msgid "DAViCal CalDAV Server"
+msgstr ""
+
+msgid "DAViCal Homepage"
+msgstr ""
+
+msgid "DAViCal Wiki"
 msgstr ""
 
 #, fuzzy
@@ -190,12 +245,27 @@ msgstr "Datenbank Fehler."
 msgid "Database error"
 msgstr "Datenbank Fehler"
 
+#, fuzzy
+msgid "Date Format Style"
+msgstr "Datumsformat"
+
 msgid "Date Style"
 msgstr "Datumsformat"
+
+msgid "Default Privileges"
+msgstr ""
 
 #, fuzzy
 msgid "Default relationships added."
 msgstr "Standardverhältnis hinzugefügt."
+
+#, fuzzy
+msgid "Delete Resources"
+msgstr "Ressource"
+
+#, fuzzy
+msgid "Delete User"
+msgstr "Lösche Benutzer:"
 
 msgid "Delete"
 msgstr "Löschen"
@@ -208,8 +278,17 @@ msgstr "Lösche Collection:"
 msgid "Deleting User:"
 msgstr "Lösche Benutzer:"
 
+msgid "Description"
+msgstr ""
+
 msgid "Directory on the server"
 msgstr "Ordner auf dem Server"
+
+msgid "Display Name"
+msgstr ""
+
+msgid "Displayname"
+msgstr ""
 
 msgid "Does the user have the right to perform this role?"
 msgstr "Hat der Benutzer das Recht diese Rolle auszuüben?"
@@ -224,6 +303,12 @@ msgstr "E-Mail"
 msgid "ERROR: %s"
 msgstr "FEHLER: %s"
 
+msgid "ERROR: The full name may not be blank."
+msgstr ""
+
+msgid "ERROR: The new password must match the confirmed password."
+msgstr ""
+
 msgid "ERROR: There was a database error writing the roles information!"
 msgstr "FEHLER: Beim Schreiben der Rolleninformation ist ein Datenbankfehler aufgetreten!"
 
@@ -233,6 +318,9 @@ msgstr "Bearbeite %s"
 
 msgid "Edit this user record"
 msgstr "Benutzerdaten bearbeiten"
+
+msgid "Email Address"
+msgstr ""
 
 msgid "Enter a username, if you know it, and click here, to be e-mailed a temporary password."
 msgstr "Gebe den Benutzernamen an und klicke hier um ein temporäres Passwort per E-Mail zu bekommen."
@@ -257,10 +345,12 @@ msgstr "Ein Fehler ist aufgetreten beim Schreiben im Datenverzeichnis"
 msgid "European (d/m/y)"
 msgstr "Europäisch (tt.mm.jjjj)"
 
-msgid "Existing resource does not match 'If-Match' header - not accepted."
+#, fuzzy
+msgid "Existing resource does not match \"If-Match\" header - not accepted."
 msgstr "Die existierende Quelle passt nicht zum 'IF-Match'-Kopf - nicht akzeptiert."
 
-msgid "Existing resource matches 'If-None-Match' header - not accepted."
+#, fuzzy
+msgid "Existing resource matches \"If-None-Match\" header - not accepted."
 msgstr "Die existierende Quelle passt nicht zum 'IF-None-Match'-Kopf - nicht akzeptiert."
 
 msgid "Finish"
@@ -279,20 +369,39 @@ msgstr "Frei/Beschäftigt"
 msgid "Full Name"
 msgstr "Vollständiger Name"
 
+#, fuzzy
+msgid "Fullname"
+msgstr "Vollständiger Name"
+
 msgid "GET requests are only handled on calendar collections."
 msgstr "GET-Abfragen können nur bei Kalendern durchgeführt werden."
 
 msgid "GO!"
 msgstr "LOS!"
 
+msgid "Go to the DAViCal Feature Requests"
+msgstr ""
+
 msgid "Group <!-- in the sense of a group of people -->"
 msgstr "Gruppe <!-- im Sinne einer Gruppe Menschen -->"
+
+msgid "Group Members"
+msgstr ""
+
+msgid "Group Memberships"
+msgstr ""
+
+msgid "Group Principals"
+msgstr ""
 
 msgid "Group"
 msgstr "Gruppe"
 
-msgid "Help on something or other"
-msgstr "Hilfestellung oder Sonstiges"
+msgid "Has Members"
+msgstr ""
+
+msgid "Help on the current screen"
+msgstr ""
 
 msgid "Help! I've forgotten my password!"
 msgstr "Hilfe! Ich habe mein Passwort vergessen!"
@@ -300,11 +409,18 @@ msgstr "Hilfe! Ich habe mein Passwort vergessen!"
 msgid "Help"
 msgstr "Hilfe"
 
+#, fuzzy
+msgid "Home Page"
+msgstr "Startseite"
+
 msgid "Home calendar added."
 msgstr "Startkalender hinzugefügt."
 
 msgid "Home"
 msgstr "Startseite"
+
+msgid "ID"
+msgstr ""
 
 msgid "ISO Format (YYYY-MM-DD)"
 msgstr "ISO Format (JJJJ-MM-TT)"
@@ -322,6 +438,10 @@ msgstr "Wenn das Passwort vergessen wurde, dann"
 msgid "If you would like to request access, please e-mail"
 msgstr "Zur Freischaltung des Zugriffs bitte E-Mail schicken..."
 
+#, fuzzy
+msgid "Import Calendars"
+msgstr "Kalender erstellen"
+
 msgid "Import all .ics files of a directory"
 msgstr "Importiere alle ICS-Dateien eines Ordners"
 
@@ -332,8 +452,18 @@ msgstr "Ungültiger Benutzername oder Passwort."
 msgid "Invalid username or password."
 msgstr "Ungültiger Benutzername oder Passwort."
 
+msgid "Is Member of"
+msgstr ""
+
+#, fuzzy
+msgid "Is a Calendar"
+msgstr "Ist dies ein Kalender?"
+
 msgid "Is a Calendar?"
 msgstr "Ist dies ein Kalender?"
+
+msgid "Is an Addressbook"
+msgstr ""
 
 msgid "Is this access read ('R') or Read and Write ('RW')?"
 msgstr "Ist dieser Zugriffsmodus Lesen ('R') oder Lesen und Schreiben ('RW')?"
@@ -356,17 +486,27 @@ msgstr "Verlinkt von"
 msgid "Linked To"
 msgstr "Verlinkt nach"
 
+#, fuzzy
+msgid "List Groups"
+msgstr "Gruppe"
+
+#, fuzzy
+msgid "List Resources"
+msgstr "Ressource"
+
+#, fuzzy
+msgid "List Users"
+msgstr "Benutzer"
+
 msgid "Log On Please"
 msgstr "Bitte Einloggen"
 
-msgid "Log out of the"
+#, fuzzy
+msgid "Log out of DAViCal"
 msgstr "Ausloggen von"
 
 msgid "Logout"
 msgstr "Logout"
-
-msgid "My Details"
-msgstr "Meine Angaben"
 
 msgid "Name"
 msgstr "Name"
@@ -377,6 +517,10 @@ msgstr "Neues Passwort"
 msgid "New User"
 msgstr "Neuer Benutzer"
 
+#, fuzzy
+msgid "No calendar content"
+msgstr "Startkalender hinzugefügt."
+
 msgid "No collection found at that location."
 msgstr "Es wurde keine Collection unter dieser URL gefunden."
 
@@ -386,16 +530,24 @@ msgstr "Nr."
 msgid "No."
 msgstr "Nr."
 
+msgid "Not overwriting existing destination resource"
+msgstr ""
+
+msgid "Opaque"
+msgstr ""
+
 msgid "Operations on your calendar"
 msgstr "Arbeitsabläufe an deinem Kalender"
 
-#, fuzzy
-msgid "Operations"
-msgstr "Verhältnis"
+msgid "Override a Lock"
+msgstr ""
 
 #, fuzzy
 msgid "Password"
 msgstr "Passwort"
+
+msgid "Path"
+msgstr ""
 
 msgid "Please Confirm Deletion"
 msgstr "Bitte bestätige die Löschung"
@@ -410,6 +562,25 @@ msgstr "Bitte bestätige die Löschung des Benutzzers"
 msgid "Please note the time and advise the administrator of your system."
 msgstr "Bitte notieren Sie sich die Zeit und benachrichtigen Sie Ihren Systemadministrator"
 
+#, fuzzy
+msgid "Principal Collections"
+msgstr "Lösche Collection:"
+
+msgid "Principal Grants"
+msgstr ""
+
+msgid "Principal ID"
+msgstr ""
+
+msgid "Principal Type"
+msgstr ""
+
+msgid "Principal"
+msgstr ""
+
+msgid "Privileges"
+msgstr ""
+
 msgid "Property is read-only"
 msgstr "Besitzrecht ist Nur-Lesen"
 
@@ -419,11 +590,23 @@ msgstr "Öffentlich"
 msgid "Public"
 msgstr "Öffentlich"
 
+msgid "Publicly Readable"
+msgstr ""
+
 msgid "REPORT body contains no XML data!"
 msgstr "REPORT-Body enhält keine XML-Daten!"
 
 msgid "REPORT body is not valid XML data!"
 msgstr "REPORT-Body enthält keine gültigen XML-Daten!"
+
+msgid "Read Access Controls"
+msgstr ""
+
+msgid "Read Current User's Access"
+msgstr ""
+
+msgid "Read Free/Busy Information"
+msgstr ""
 
 msgid "Read"
 msgstr "Lesen"
@@ -470,8 +653,14 @@ msgstr "Fehler berichten"
 msgid "Report a bug in the system"
 msgstr "Fehler im System melden"
 
+msgid "Request Feature"
+msgstr ""
+
 msgid "Resource <!-- a thing which might be booked: a room, a carpark, a projector... -->"
 msgstr "Ressource"
+
+msgid "Resource Calendar Principals"
+msgstr ""
 
 msgid "Resource changed on server - not changed."
 msgstr "Ressource hat sich auf dem Server geändert - nicht verändert"
@@ -491,6 +680,27 @@ msgstr "Ressource kann nicht zu / auf Collections geändert werden."
 msgid "Rights"
 msgstr "Rechte"
 
+msgid "Schedule Transparency"
+msgstr ""
+
+msgid "Scheduling: Deliver a Reply"
+msgstr ""
+
+msgid "Scheduling: Deliver an Invitation"
+msgstr ""
+
+msgid "Scheduling: Query free/busy"
+msgstr ""
+
+msgid "Scheduling: Send a Reply"
+msgstr ""
+
+msgid "Scheduling: Send an Invitation"
+msgstr ""
+
+msgid "Scheduling: Send free/busy"
+msgstr ""
+
 msgid "Select the type of relationship from this user"
 msgstr "Verhältnisstyp dieses Nutzers auswählen"
 
@@ -498,13 +708,15 @@ msgid "Select the user, resource or group to relate this user to"
 msgstr "Wähle Benutzer, Ressource oder Gruppe um diesen Benutzer zu zuordnen"
 
 msgid "Set the path to store your ics e.g. 'home' will be referenced as /caldav.php/me/home/"
-msgstr "Setzte den Pfad um ICS-Dateien aufzubewahren; \"home\" wird z.B. als \"/caldav.php/me/home/\" verwendet"
+msgstr ""
+"Setzte den Pfad um ICS-Dateien aufzubewahren; \"home\" wird z.B. als \"/caldav.php/me/home/\" verwendet"
 
-msgid "Setup RSCDS"
-msgstr "Einrichtung"
+msgid "Setup DAViCal"
+msgstr ""
 
 msgid "Setup"
 msgstr "Einrichtung"
+
 msgid "Should this calendar be readable without authenticating?"
 msgstr "Soll dieser Kalender ohne Authentisierung lesbar sein?"
 
@@ -517,8 +729,18 @@ msgstr "Manche Eignerrechte konnten nicht geändert werden."
 msgid "Some properties were not able to be set."
 msgstr "Manche Eignerrechte konnten nicht gesetzt werden."
 
+msgid "Source resource does not exist."
+msgstr ""
+
+msgid "Special collections may not contain a calendar or other special collection."
+msgstr ""
+
 msgid "Start"
 msgstr "Start"
+
+#, c-format
+msgid "Status: %d, Message: %s, User: %d, Path: %s"
+msgstr ""
 
 msgid "Submit"
 msgstr "Abschicken"
@@ -532,13 +754,22 @@ msgstr "Synchronisiere LDAP mit DAViCal"
 msgid "That relationship type is being used. See ##RelationshipTypeUsed##"
 msgstr "Dieser Verhaeltnistyp wird bereits verwendet. Siehe ##Verhältnisstypbenutzung##"
 
+msgid "That resource is not present on this server."
+msgstr ""
+
+msgid "The DAViCal Home Page"
+msgstr ""
+
 msgid "The application program does not understand that request."
 msgstr "Das Programm versteht diese Anfrage nicht."
 
 #, fuzzy
 msgid ""
-"The calendar name part of the path to store your ics. E.g. the \"home\" part of \"/caldav.php/username/home/\""
-msgstr "Setzte den Kalenderpfad um Deine ICS-Dateien aufzubewahren; z.B. \"home\" aus \"/caldav.php/username/home/\""
+"The calendar name part of the path to store your ics. E.g. the \"home\" part of \"/caldav.php/username/"
+"home/\""
+msgstr ""
+"Setzte den Kalenderpfad um Deine ICS-Dateien aufzubewahren; z.B. \"home\" aus \"/caldav.php/username/"
+"home/\""
 
 msgid "The calendar path contains illegal characters."
 msgstr "Der Kalenderpfad enthält ungültige Zeichen."
@@ -581,6 +812,12 @@ msgstr "Ein Fehler ist aufgetreten beim Schreiben im Datenverzeichnis"
 msgid "This user's collections"
 msgstr "Die Collections dieses Benutzers"
 
+msgid "To ID"
+msgstr ""
+
+msgid "Transparent"
+msgstr ""
+
 msgid "Type"
 msgstr "Typ"
 
@@ -593,11 +830,24 @@ msgstr "Aktualisieren"
 msgid "Updated"
 msgstr "aktualisiert"
 
+msgid "Upgrade DAViCal database schema"
+msgstr ""
+
+msgid "Upgrade Database"
+msgstr ""
+
 #, fuzzy
 msgid "Upload a .ics calendar in iCalendar format "
 msgstr "Lade deine ICS-Kalender im iCal-Format hoch "
 
+msgid "User Calendar Principals"
+msgstr ""
+
 msgid "User Details"
+msgstr "Benutzerangaben"
+
+#, fuzzy
+msgid "User Functions"
 msgstr "Benutzerangaben"
 
 msgid "User Name"
@@ -619,12 +869,17 @@ msgstr "Benutzer ist aktiv"
 msgid "User record written."
 msgstr "Benutzerdatensatz geschrieben"
 
-msgid "Users"
-msgstr "Benutzer"
+#, fuzzy
+msgid "Username"
+msgstr "Benutzername"
 
 #, fuzzy, c-format
 msgid "View %s"
 msgstr "Anzeigen"
+
+#, fuzzy
+msgid "View My Details"
+msgstr "Meine Angaben"
 
 msgid "View my own user record"
 msgstr "Meine eigenen Benutzerdaten anzeigen"
@@ -632,8 +887,21 @@ msgstr "Meine eigenen Benutzerdaten anzeigen"
 msgid "View this user record"
 msgstr "Diesen Benutzerdatensatz anzeigen"
 
+msgid "Visit the DAViCal Wiki"
+msgstr ""
+
 msgid "When the user's e-mail account was validated."
 msgstr "Wann die E-Mail Adresse des Benutzers bestätigt wurde."
+
+msgid "Write Access Controls"
+msgstr ""
+
+#, fuzzy
+msgid "Write Data"
+msgstr "Schreiben"
+
+msgid "Write Metadata"
+msgstr ""
 
 msgid "Write"
 msgstr "Schreiben"
@@ -672,6 +940,9 @@ msgstr "Du kannst keine Einträge vond diesem Kalender löschen."
 
 msgid "You may not modify entries on this calendar."
 msgstr "Du kannst keine Einträge dieses Kaländers ändern."
+
+msgid "You may only review the contents of your own collections in this interface."
+msgstr ""
 
 msgid "You must log in to use this system."
 msgstr "Vor Benutzung bitte ins System einloggen."
@@ -734,9 +1005,20 @@ msgstr "Melde Dich mit dem zugeteilten Benutzernamen und Passwort an."
 msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
 msgstr "Diese Operation macht das folgende: <ul><li>Prüfen der gültigen Benutzer im LDAP-Server</li>"
 
+#~ msgid "Help on something or other"
+#~ msgstr "Hilfestellung oder Sonstiges"
+
+#, fuzzy
+#~ msgid "Operations"
+#~ msgstr "Verhältnis"
+
+#~ msgid "Setup RSCDS"
+#~ msgstr "Einrichtung"
+
 #~ msgid "<b>WARNING: all events in this path will be deleted before inserting all of the ics file</b>"
 #~ msgstr ""
-#~ "<b>WARNUNG: Alle Termine in diesem Pfad werden gelöscht, bevor die Daten der ICS-Datei einfügt werden</b>"
+#~ "<b>WARNUNG: Alle Termine in diesem Pfad werden gelöscht, bevor die Daten der ICS-Datei einfügt "
+#~ "werden</b>"
 
 #~ msgid "All events of user %s were deleted and replaced by those from the file."
 #~ msgstr "Alle Termine des Benutzers %s sind gelöscht und mit denen der Datei ersetzt worden."

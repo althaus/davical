@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-10-06 09:25-0700\n"
+"POT-Creation-Date: 2009-12-01 10:34+1300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -80,6 +80,9 @@ msgstr ""
 msgid "Administers"
 msgstr ""
 
+msgid "Administration"
+msgstr ""
+
 msgid "All collection data will be unrecoverably deleted."
 msgstr ""
 
@@ -107,7 +110,13 @@ msgstr ""
 msgid "Busy"
 msgstr ""
 
+msgid "Calendar Principals"
+msgstr ""
+
 msgid "Calendar Resource Not Found."
+msgstr ""
+
+msgid "Calendar Timezone"
 msgstr ""
 
 msgid "Calendar Users"
@@ -123,6 +132,9 @@ msgstr ""
 msgid "Can see free/busy time of"
 msgstr ""
 
+msgid "Change Password"
+msgstr ""
+
 msgid "Changed On"
 msgstr ""
 
@@ -135,13 +147,25 @@ msgstr ""
 msgid "Click to display user details"
 msgstr ""
 
+msgid "Click to edit principal details"
+msgstr ""
+
 msgid "Collection Contents"
+msgstr ""
+
+msgid "Collection Grants"
+msgstr ""
+
+msgid "Collection ID"
 msgstr ""
 
 msgid "Collection Path"
 msgstr ""
 
 msgid "Collection deleted"
+msgstr ""
+
+msgid "Collection"
 msgstr ""
 
 msgid "Confirm Deletion of the Collection"
@@ -153,6 +177,9 @@ msgstr ""
 msgid "Confirm Deletion of the User"
 msgstr ""
 
+msgid "Confirm Password"
+msgstr ""
+
 msgid "Confirm the new password."
 msgstr ""
 
@@ -162,10 +189,28 @@ msgstr ""
 msgid "Create Calendar"
 msgstr ""
 
+msgid "Create New Collection"
+msgstr ""
+
+msgid "Create New Principal"
+msgstr ""
+
+msgid "Create Resources"
+msgstr ""
+
 msgid "Create"
 msgstr ""
 
+msgid "DAV Path"
+msgstr ""
+
 msgid "DAViCal CalDAV Server"
+msgstr ""
+
+msgid "DAViCal Homepage"
+msgstr ""
+
+msgid "DAViCal Wiki"
 msgstr ""
 
 msgid "Database Error"
@@ -177,10 +222,22 @@ msgstr ""
 msgid "Database error"
 msgstr ""
 
+msgid "Date Format Style"
+msgstr ""
+
 msgid "Date Style"
 msgstr ""
 
+msgid "Default Privileges"
+msgstr ""
+
 msgid "Default relationships added."
+msgstr ""
+
+msgid "Delete Resources"
+msgstr ""
+
+msgid "Delete User"
 msgstr ""
 
 msgid "Delete"
@@ -192,7 +249,16 @@ msgstr ""
 msgid "Deleting User:"
 msgstr ""
 
+msgid "Description"
+msgstr ""
+
 msgid "Directory on the server"
+msgstr ""
+
+msgid "Display Name"
+msgstr ""
+
+msgid "Displayname"
 msgstr ""
 
 msgid "Does the user have the right to perform this role?"
@@ -208,6 +274,12 @@ msgstr ""
 msgid "ERROR: %s"
 msgstr ""
 
+msgid "ERROR: The full name may not be blank."
+msgstr ""
+
+msgid "ERROR: The new password must match the confirmed password."
+msgstr ""
+
 msgid "ERROR: There was a database error writing the roles information!"
 msgstr ""
 
@@ -216,6 +288,9 @@ msgid "Edit %s"
 msgstr ""
 
 msgid "Edit this user record"
+msgstr ""
+
+msgid "Email Address"
 msgstr ""
 
 msgid ""
@@ -242,10 +317,10 @@ msgstr ""
 msgid "European (d/m/y)"
 msgstr ""
 
-msgid "Existing resource does not match 'If-Match' header - not accepted."
+msgid "Existing resource does not match \"If-Match\" header - not accepted."
 msgstr ""
 
-msgid "Existing resource matches 'If-None-Match' header - not accepted."
+msgid "Existing resource matches \"If-None-Match\" header - not accepted."
 msgstr ""
 
 msgid "Finish"
@@ -263,19 +338,37 @@ msgstr ""
 msgid "Full Name"
 msgstr ""
 
+msgid "Fullname"
+msgstr ""
+
 msgid "GET requests are only handled on calendar collections."
 msgstr ""
 
 msgid "GO!"
 msgstr ""
 
+msgid "Go to the DAViCal Feature Requests"
+msgstr ""
+
 msgid "Group <!-- in the sense of a group of people -->"
+msgstr ""
+
+msgid "Group Members"
+msgstr ""
+
+msgid "Group Memberships"
+msgstr ""
+
+msgid "Group Principals"
 msgstr ""
 
 msgid "Group"
 msgstr ""
 
-msgid "Help on something or other"
+msgid "Has Members"
+msgstr ""
+
+msgid "Help on the current screen"
 msgstr ""
 
 msgid "Help! I've forgotten my password!"
@@ -284,10 +377,16 @@ msgstr ""
 msgid "Help"
 msgstr ""
 
+msgid "Home Page"
+msgstr ""
+
 msgid "Home calendar added."
 msgstr ""
 
 msgid "Home"
+msgstr ""
+
+msgid "ID"
 msgstr ""
 
 msgid "ISO Format (YYYY-MM-DD)"
@@ -305,6 +404,9 @@ msgstr ""
 msgid "If you would like to request access, please e-mail"
 msgstr ""
 
+msgid "Import Calendars"
+msgstr ""
+
 msgid "Import all .ics files of a directory"
 msgstr ""
 
@@ -314,7 +416,16 @@ msgstr ""
 msgid "Invalid username or password."
 msgstr ""
 
+msgid "Is Member of"
+msgstr ""
+
+msgid "Is a Calendar"
+msgstr ""
+
 msgid "Is a Calendar?"
+msgstr ""
+
+msgid "Is an Addressbook"
 msgstr ""
 
 msgid "Is this access read ('R') or Read and Write ('RW')?"
@@ -338,16 +449,22 @@ msgstr ""
 msgid "Linked To"
 msgstr ""
 
+msgid "List Groups"
+msgstr ""
+
+msgid "List Resources"
+msgstr ""
+
+msgid "List Users"
+msgstr ""
+
 msgid "Log On Please"
 msgstr ""
 
-msgid "Log out of the"
+msgid "Log out of DAViCal"
 msgstr ""
 
 msgid "Logout"
-msgstr ""
-
-msgid "My Details"
 msgstr ""
 
 msgid "Name"
@@ -359,6 +476,9 @@ msgstr ""
 msgid "New User"
 msgstr ""
 
+msgid "No calendar content"
+msgstr ""
+
 msgid "No collection found at that location."
 msgstr ""
 
@@ -368,13 +488,22 @@ msgstr ""
 msgid "No."
 msgstr ""
 
+msgid "Not overwriting existing destination resource"
+msgstr ""
+
+msgid "Opaque"
+msgstr ""
+
 msgid "Operations on your calendar"
 msgstr ""
 
-msgid "Operations"
+msgid "Override a Lock"
 msgstr ""
 
 msgid "Password"
+msgstr ""
+
+msgid "Path"
 msgstr ""
 
 msgid "Please Confirm Deletion"
@@ -389,6 +518,24 @@ msgstr ""
 msgid "Please note the time and advise the administrator of your system."
 msgstr ""
 
+msgid "Principal Collections"
+msgstr ""
+
+msgid "Principal Grants"
+msgstr ""
+
+msgid "Principal ID"
+msgstr ""
+
+msgid "Principal Type"
+msgstr ""
+
+msgid "Principal"
+msgstr ""
+
+msgid "Privileges"
+msgstr ""
+
 msgid "Property is read-only"
 msgstr ""
 
@@ -398,10 +545,22 @@ msgstr ""
 msgid "Public"
 msgstr ""
 
+msgid "Publicly Readable"
+msgstr ""
+
 msgid "REPORT body contains no XML data!"
 msgstr ""
 
 msgid "REPORT body is not valid XML data!"
+msgstr ""
+
+msgid "Read Access Controls"
+msgstr ""
+
+msgid "Read Current User's Access"
+msgstr ""
+
+msgid "Read Free/Busy Information"
 msgstr ""
 
 msgid "Read"
@@ -450,9 +609,15 @@ msgstr ""
 msgid "Report a bug in the system"
 msgstr ""
 
+msgid "Request Feature"
+msgstr ""
+
 msgid ""
 "Resource <!-- a thing which might be booked: a room, a carpark, a "
 "projector... -->"
+msgstr ""
+
+msgid "Resource Calendar Principals"
 msgstr ""
 
 msgid "Resource changed on server - not changed."
@@ -473,6 +638,27 @@ msgstr ""
 msgid "Rights"
 msgstr ""
 
+msgid "Schedule Transparency"
+msgstr ""
+
+msgid "Scheduling: Deliver a Reply"
+msgstr ""
+
+msgid "Scheduling: Deliver an Invitation"
+msgstr ""
+
+msgid "Scheduling: Query free/busy"
+msgstr ""
+
+msgid "Scheduling: Send a Reply"
+msgstr ""
+
+msgid "Scheduling: Send an Invitation"
+msgstr ""
+
+msgid "Scheduling: Send free/busy"
+msgstr ""
+
 msgid "Select the type of relationship from this user"
 msgstr ""
 
@@ -484,7 +670,7 @@ msgid ""
 "me/home/"
 msgstr ""
 
-msgid "Setup RSCDS"
+msgid "Setup DAViCal"
 msgstr ""
 
 msgid "Setup"
@@ -502,7 +688,18 @@ msgstr ""
 msgid "Some properties were not able to be set."
 msgstr ""
 
+msgid "Source resource does not exist."
+msgstr ""
+
+msgid ""
+"Special collections may not contain a calendar or other special collection."
+msgstr ""
+
 msgid "Start"
+msgstr ""
+
+#, c-format
+msgid "Status: %d, Message: %s, User: %d, Path: %s"
 msgstr ""
 
 msgid "Submit"
@@ -515,6 +712,12 @@ msgid "Sync LDAP with RSCDS"
 msgstr ""
 
 msgid "That relationship type is being used. See ##RelationshipTypeUsed##"
+msgstr ""
+
+msgid "That resource is not present on this server."
+msgstr ""
+
+msgid "The DAViCal Home Page"
 msgstr ""
 
 msgid "The application program does not understand that request."
@@ -564,6 +767,12 @@ msgstr ""
 msgid "This user's collections"
 msgstr ""
 
+msgid "To ID"
+msgstr ""
+
+msgid "Transparent"
+msgstr ""
+
 msgid "Type"
 msgstr ""
 
@@ -576,10 +785,22 @@ msgstr ""
 msgid "Updated"
 msgstr ""
 
+msgid "Upgrade DAViCal database schema"
+msgstr ""
+
+msgid "Upgrade Database"
+msgstr ""
+
 msgid "Upload a .ics calendar in iCalendar format "
 msgstr ""
 
+msgid "User Calendar Principals"
+msgstr ""
+
 msgid "User Details"
+msgstr ""
+
+msgid "User Functions"
 msgstr ""
 
 msgid "User Name"
@@ -600,11 +821,14 @@ msgstr ""
 msgid "User record written."
 msgstr ""
 
-msgid "Users"
+msgid "Username"
 msgstr ""
 
 #, c-format
 msgid "View %s"
+msgstr ""
+
+msgid "View My Details"
 msgstr ""
 
 msgid "View my own user record"
@@ -613,7 +837,19 @@ msgstr ""
 msgid "View this user record"
 msgstr ""
 
+msgid "Visit the DAViCal Wiki"
+msgstr ""
+
 msgid "When the user's e-mail account was validated."
+msgstr ""
+
+msgid "Write Access Controls"
+msgstr ""
+
+msgid "Write Data"
+msgstr ""
+
+msgid "Write Metadata"
 msgstr ""
 
 msgid "Write"
@@ -650,6 +886,10 @@ msgid "You may not delete entries from this calendar."
 msgstr ""
 
 msgid "You may not modify entries on this calendar."
+msgstr ""
+
+msgid ""
+"You may only review the contents of your own collections in this interface."
 msgstr ""
 
 msgid "You must log in to use this system."
