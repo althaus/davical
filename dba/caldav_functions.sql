@@ -799,7 +799,6 @@ DECLARE
   in_bits ALIAS FOR $1;
   out_priv TEXT[];
 BEGIN
-  out_priv := ARRAY[];
   IF in_bits = (~ 0::BIT(24)) THEN
     out_priv := out_priv || ARRAY['DAV:all'];
   END IF;
