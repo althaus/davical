@@ -55,8 +55,8 @@ $privilege_xlate = array(
   'unlock' => translate('Override a Lock'),
   'read-acl' => translate('Read Access Controls'),
   'read-current-user-privilege-set' => translate('Read Current User\'s Access'),
-  'bind' => translate('Create Resources'),
-  'unbind' => translate('Delete Resources'),
+  'bind' => translate('Create Events/Collections'),
+  'unbind' => translate('Delete Events/Collections'),
   'write-acl' => translate('Write Access Controls'),
   'read-free-busy' => translate('Read Free/Busy Information'),
   'schedule-deliver-invite' => translate('Scheduling: Deliver an Invitation'),
@@ -293,7 +293,7 @@ EOTEMPLATE;
       $grantrow->Write( );
       unset($_GET['to_principal']);
     }
-    elseif ( isset($_GET['delete_grant']) ) {        
+    elseif ( isset($_GET['delete_grant']) ) {
       $qry = new AwlQuery("DELETE FROM grants WHERE by_principal=:grantor_id AND to_principal = :to_principal",
                             array( ':grantor_id' => $id, ':to_principal' => intval($_GET['delete_grant']) ));
       $qry->Exec('principal-edit');
@@ -302,7 +302,7 @@ EOTEMPLATE;
 
   function edit_grant_row( $row_data ) {
     global $grantrow, $id, $privilege_xlate, $privilege_names;
-    
+
     if ( $row_data->to_principal > -1 ) {
       $grantrow->SetRecord( $row_data );
     }
@@ -382,7 +382,7 @@ if ( $can_write_principal ) {
   if ( isset($_GET['edit_grant']) ) {
     $browser->MatchedRow('to_principal', $_GET['edit_grant'], 'edit_grant_row');
   }
-  else {        
+  else {
     $extra_row = array( 'to_principal' => -1 );
     $browser->MatchedRow('to_principal', -1, 'edit_grant_row');
     $extra_row = (object) $extra_row;
