@@ -202,6 +202,11 @@ if ( $editor->Value('type_id') == 3 ) {
 
   if ( $can_write_principal ) {
     if ( $grouprow->IsSubmit() ) {
+      if ( $grouprow->IsUpdate() ) {
+        $c->messages[] = translate('Updating Member of this Group Principal');
+      else
+        $c->messages[] = translate('Adding new member to this Group Principal');
+
       $_POST['group_id'] = $id;
       $member_id = intval($_POST['member_id']);
       $grouprow->SetWhere( "group_id=".qpg($id)." AND member_id=$member_id");
@@ -212,6 +217,7 @@ if ( $editor->Value('type_id') == 3 ) {
       $qry = new AwlQuery("DELETE FROM group_member WHERE group_id=:group_id AND member_id = :member_id",
                             array( ':group_id' => $id, ':member_id' => intval($_GET['delete_member']) ));
       $qry->Exec('principal-edit');
+      $c->messages[] = translate('Member deleted from this Group Principal');
     }
   }
 
@@ -266,6 +272,7 @@ EOTEMPLATE;
   $page_elements[] = $browser;
 
   if ( $can_write_principal ) {
+    $browser->RowFormat( '<tr class="r%d">', '</tr>', '#even' );
     $extra_row = array( 'group_id' => -1 );
     $browser->MatchedRow('group_id', -1, 'edit_group_row');
     $extra_row = (object) $extra_row;
@@ -279,6 +286,10 @@ EOTEMPLATE;
   $grantrow->SetLookup( 'to_principal', 'SELECT principal_id, displayname FROM dav_principal WHERE principal_id NOT IN (SELECT member_id FROM group_member WHERE group_id = '.$id.')' );
   if ( $can_write_principal ) {
     if ( $grantrow->IsSubmit() ) {
+      if ( $grouprow->IsUpdate() ) {
+        $c->messages[] = translate('Updating grants by this Principal');
+      else
+        $c->messages[] = translate('Granting new privileges from this Principal');
       $_POST['by_principal'] = $id;
       $to_principal = intval($_POST['to_principal']);
       $orig_to_id =  intval($_POST['orig_to_id']);
@@ -297,6 +308,7 @@ EOTEMPLATE;
       $qry = new AwlQuery("DELETE FROM grants WHERE by_principal=:grantor_id AND to_principal = :to_principal",
                             array( ':grantor_id' => $id, ':to_principal' => intval($_GET['delete_grant']) ));
       $qry->Exec('principal-edit');
+      $c->messages[] = translate('Deleted a grant from this Principal');
     }
   }
 
@@ -383,6 +395,7 @@ if ( $can_write_principal ) {
     $browser->MatchedRow('to_principal', $_GET['edit_grant'], 'edit_grant_row');
   }
   else {
+    $browser->RowFormat( '<tr class="r%d">', '</tr>', '#even' );
     $extra_row = array( 'to_principal' => -1 );
     $browser->MatchedRow('to_principal', -1, 'edit_grant_row');
     $extra_row = (object) $extra_row;
