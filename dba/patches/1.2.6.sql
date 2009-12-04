@@ -516,17 +516,17 @@ CREATE TABLE principal (
   default_privileges BIT(24)
 );
 
-INSERT INTO principal (type_id, user_no, displayname, active, default_privileges)
-         SELECT 1, user_no, fullname, active, privilege_to_bits(ARRAY['read-free-busy','schedule-send','schedule-deliver']) FROM usr
+INSERT INTO principal (type_id, user_no, displayname, default_privileges)
+         SELECT 1, user_no, fullname, privilege_to_bits(ARRAY['read-free-busy','schedule-send','schedule-deliver']) FROM usr
                  WHERE NOT EXISTS(SELECT 1 FROM role_member JOIN roles USING(role_no) WHERE role_name = 'Group' AND role_member.user_no = usr.user_no)
                    AND NOT EXISTS(SELECT 1 FROM role_member JOIN roles USING(role_no) WHERE role_name = 'Resource' AND role_member.user_no = usr.user_no) ;
 
-INSERT INTO principal (type_id, user_no, displayname, active, default_privileges)
-         SELECT 2, user_no, fullname, active, privilege_to_bits(ARRAY['read','schedule-send','schedule-deliver']) FROM usr
+INSERT INTO principal (type_id, user_no, displayname, default_privileges)
+         SELECT 2, user_no, fullname, privilege_to_bits(ARRAY['read','schedule-send','schedule-deliver']) FROM usr
                  WHERE EXISTS(SELECT 1 FROM role_member JOIN roles USING(role_no) WHERE role_name = 'Resource' AND role_member.user_no = usr.user_no);
 
-INSERT INTO principal (type_id, user_no, displayname, active, default_privileges)
-         SELECT 3, user_no, fullname, active, privilege_to_bits(ARRAY['read-free-busy','schedule-send','schedule-deliver']) FROM usr
+INSERT INTO principal (type_id, user_no, displayname, default_privileges)
+         SELECT 3, user_no, fullname, privilege_to_bits(ARRAY['read-free-busy','schedule-send','schedule-deliver']) FROM usr
                  WHERE EXISTS(SELECT 1 FROM role_member JOIN roles USING(role_no) WHERE role_name = 'Group' AND role_member.user_no = usr.user_no);
 
 UPDATE collection SET default_privileges = CASE
@@ -537,7 +537,7 @@ UPDATE collection SET default_privileges = CASE
 INSERT INTO group_member ( group_id, member_id)
               SELECT g.principal_id, m.principal_id
                 FROM relationship JOIN principal g ON(to_user=g.user_no AND g.type_id = 3)    -- Group
-                                  JOIN principal m ON(from_user=m.user_no AND m.type_id = IN (1, 2) ); -- Person or Resource
+                                  JOIN principal m ON(from_user=m.user_no AND m.type_id IN (1, 2) ); -- Person or Resource
 
 DROP TABLE dav_resource_type CASCADE;
 DROP TABLE dav_resource CASCADE;
