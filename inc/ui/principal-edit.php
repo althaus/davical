@@ -173,7 +173,7 @@ $c->stylesheets[] = 'css/browse.css';
 $c->scripts[] = 'js/browse.js';
 
 $browser->AddColumn( 'group_id', translate('ID'), 'right', '##principal_link##' );
-$rowurl = $c->base_url . '/davical.php?action=edit&t=principal&id=';
+$rowurl = $c->base_url . '/admin.php?action=edit&t=principal&id=';
 $browser->AddHidden( 'principal_link', "'<a href=\"$rowurl' || principal_id || '\">' || principal_id || '</a>'" );
 $browser->AddColumn( 'displayname', translate('Display Name') );
 $browser->AddColumn( 'member_of', translate('Is Member of'), '', '', 'is_member_of_list(principal_id)' );
@@ -239,7 +239,7 @@ EOTEMPLATE;
   $browser = new Browser(translate('Group Members'));
 
   $browser->AddColumn( 'group_id', translate('ID'), 'right', '##principal_link##' );
-  $rowurl = $c->base_url . '/davical.php?action=edit&t=principal&id=';
+  $rowurl = $c->base_url . '/admin.php?action=edit&t=principal&id=';
   $browser->AddHidden( 'principal_id' );
   $browser->AddHidden( 'principal_link', "'<a href=\"$rowurl' || principal_id || '\">' || principal_id || '</a>'" );
   $browser->AddColumn( 'displayname', translate('Display Name') );
@@ -247,7 +247,7 @@ EOTEMPLATE;
   $browser->AddColumn( 'members', translate('Has Members'), '', '', 'has_members_list(principal_id)' );
 
   if ( $can_write_principal ) {
-    $del_link  = "<a href=\"/davical.php?action=edit&t=principal&id=$id&delete_member=##principal_id##\" class=\"submit\">Delete</a>";
+    $del_link  = "<a href=\"/admin.php?action=edit&t=principal&id=$id&delete_member=##principal_id##\" class=\"submit\">Delete</a>";
     $browser->AddColumn( 'action', 'Action', 'center', '', "'$edit_link&nbsp;$del_link'" );
   }
 
@@ -351,7 +351,7 @@ EOTEMPLATE;
 $browser = new Browser(translate('Principal Grants'));
 
 $browser->AddColumn( 'to_principal', translate('To ID'), 'right', '##principal_link##' );
-$rowurl = $c->base_url . '/davical.php?action=edit&t=principal&id=';
+$rowurl = $c->base_url . '/admin.php?action=edit&t=principal&id=';
 $browser->AddHidden( 'principal_link', "'<a href=\"$rowurl' || to_principal || '\">' || to_principal || '</a>'" );
 $browser->AddHidden( 'grant_privileges', 'privileges' );
 $browser->AddColumn( 'displayname', translate('Display Name') );
@@ -359,8 +359,8 @@ $browser->AddColumn( 'privs', translate('Privileges'), '', '', 'privileges_list(
 $browser->AddColumn( 'members', translate('Has Members'), '', '', 'has_members_list(principal_id)' );
 
 if ( $can_write_principal ) {
-  $del_link  = "<a href=\"/davical.php?action=edit&t=principal&id=$id&delete_grant=##to_principal##\" class=\"submit\">Delete</a>";
-  $edit_link  = "<a href=\"/davical.php?action=edit&t=principal&id=$id&edit_grant=##to_principal##\" class=\"submit\">Edit</a>";
+  $del_link  = "<a href=\"/admin.php?action=edit&t=principal&id=$id&delete_grant=##to_principal##\" class=\"submit\">Delete</a>";
+  $edit_link  = "<a href=\"/admin.php?action=edit&t=principal&id=$id&edit_grant=##to_principal##\" class=\"submit\">Edit</a>";
   $browser->AddColumn( 'action', 'Action', 'center', '', "'$edit_link&nbsp;$del_link'" );
 }
 
@@ -394,7 +394,7 @@ if ( $can_write_principal ) {
 $browser = new Browser(translate('Principal Collections'));
 
 $browser->AddColumn( 'collection_id', translate('ID'), 'right', '##collection_link##' );
-$rowurl = $c->base_url . '/davical.php?action=edit&t=collection&id=';
+$rowurl = $c->base_url . '/admin.php?action=edit&t=collection&id=';
 $browser->AddHidden( 'collection_link', "'<a href=\"$rowurl' || collection_id || '\">' || collection_id || '</a>'" );
 $browser->AddColumn( 'dav_name', translate('Path') );
 $browser->AddColumn( 'dav_displayname', translate('Display Name') );

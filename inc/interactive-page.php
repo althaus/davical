@@ -9,6 +9,9 @@ $wiki_help = '';
 if ( isset($_SERVER['SCRIPT_NAME']) ) {
   $wiki_help = preg_replace('#^.*/#', '', $_SERVER['SCRIPT_NAME']);
   $wiki_help = preg_replace('#\.php.*$#', '', $wiki_help);
+  if ( $wiki_help == 'admin' ) {
+    $wiki_help .= '/' . $_GET['t'] . '/' . $_GET['action'];
+  }
   $wiki_help = 'w/Help/'.$wiki_help;
 }
 
@@ -20,10 +23,10 @@ $help_menu->AddOption(translate('Request Feature'),'http://davical.uservoice.com
 $help_menu->AddOption(translate('Report Bug'),'http://sourceforge.net/tracker/?func=add&group_id=179845&atid=890785',translate('Report a bug in the system'), false, 9000, true );
 
 $user_menu = new MenuSet('submenu', 'submenu', 'submenu_active');
-$user_menu->AddOption(translate('View My Details'),$c->base_url.'/usr.php?user_no='.$session->user_no,translate('View my own user record'));
-$user_menu->AddOption(translate('List Users'),$c->base_url.'/davical.php?action=browse&t=principal&type=1');
-$user_menu->AddOption(translate('List Resources'),$c->base_url.'/davical.php?action=browse&t=principal&type=2');
-$user_menu->AddOption(translate('List Groups'),$c->base_url.'/davical.php?action=browse&t=principal&type=3');
+$user_menu->AddOption(translate('View My Details'),$c->base_url.'/admin.php?action=edit&t=principal&id='.$session->principal_id,translate('View my own principal record'));
+$user_menu->AddOption(translate('List Users'),$c->base_url.'/admin.php?action=browse&t=principal&type=1');
+$user_menu->AddOption(translate('List Resources'),$c->base_url.'/admin.php?action=browse&t=principal&type=2');
+$user_menu->AddOption(translate('List Groups'),$c->base_url.'/admin.php?action=browse&t=principal&type=3');
 
 $admin_menu = new MenuSet('submenu', 'submenu', 'submenu_active');
 if ( $session->AllowedTo('Admin' )) {
@@ -31,7 +34,7 @@ if ( $session->AllowedTo('Admin' )) {
   $admin_menu->AddOption(translate('Upgrade Database'),$c->base_url.'/upgrade.php',translate('Upgrade DAViCal database schema') );
   $admin_menu->AddOption(translate('Import Calendars'),$c->base_url.'/tools.php',translate('Operations on your calendar') );
   $admin_menu->AddOption( translate('Relationships'), $c->base_url.'/relationship_types.php', translate('Browse all relationship types') );
-  $user_menu->AddOption(translate('New User'),$c->base_url.'/usr.php?create',translate('Add a new user'));
+  $user_menu->AddOption(translate('New User'),$c->base_url.'/admin.php?action=edit&t=principal',translate('Add a new principal (user, resource or group)'));
 }
 
 $related_menu = new MenuSet('related', 'menu', 'menu_active');

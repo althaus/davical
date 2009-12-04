@@ -260,7 +260,7 @@ EOTEMPLATE;
 $browser = new Browser(translate('Collection Grants'));
 
 $browser->AddColumn( 'to_principal', translate('To ID'), 'right', '##principal_link##' );
-$rowurl = $c->base_url . '/davical.php?action=edit&t=collection&id=';
+$rowurl = $c->base_url . '/admin.php?action=edit&t=collection&id=';
 $browser->AddHidden( 'principal_link', "'<a href=\"$rowurl' || to_principal || '\">' || to_principal || '</a>'" );
 $browser->AddHidden( 'grant_privileges', 'privileges' );
 $browser->AddColumn( 'displayname', translate('Display Name') );
@@ -268,8 +268,8 @@ $browser->AddColumn( 'privs', translate('Privileges'), '', '', 'privileges_list(
 $browser->AddColumn( 'members', translate('Has Members'), '', '', 'has_members_list(principal_id)' );
 
 if ( $can_write_collection ) {
-  $del_link  = "<a href=\"/davical.php?action=edit&t=collection&id=$id&delete_grant=##to_principal##\" class=\"submit\">Delete</a>";
-  $edit_link  = "<a href=\"/davical.php?action=edit&t=collection&id=$id&edit_grant=##to_principal##\" class=\"submit\">Edit</a>";
+  $del_link  = "<a href=\"/admin.php?action=edit&t=collection&id=$id&delete_grant=##to_principal##\" class=\"submit\">Delete</a>";
+  $edit_link  = "<a href=\"/admin.php?action=edit&t=collection&id=$id&edit_grant=##to_principal##\" class=\"submit\">Edit</a>";
   $browser->AddColumn( 'action', 'Action', 'center', '', "'$edit_link&nbsp;$del_link'" );
 }
 

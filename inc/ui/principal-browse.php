@@ -12,7 +12,7 @@ if ( isset($principal_type) ) {
 
 $browser->AddColumn( 'principal_id', translate('ID'), 'right', '##principal_link##' );
 $browser->AddColumn( 'username', translate('Name') );
-$rowurl = $c->base_url . '/davical.php?action=edit&t=principal&id=';
+$rowurl = $c->base_url . '/admin.php?action=edit&t=principal&id=';
 $browser->AddHidden( 'principal_link', "'<a href=\"$rowurl' || principal_id || '\">' || principal_id || '</a>'" );
 $browser->AddColumn( 'displayname', translate('Display Name') );
 $browser->AddColumn( 'email', translate('EMail') );
