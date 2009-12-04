@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs for page AwlQuery.php</title>
+			<link rel="stylesheet" href="../../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="file-name"><img src="../../media/images/Page_logo.png" alt="File" style="vertical-align: middle">/inc/AwlQuery.php</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+							<a href="#sec-classes">Classes</a>
+			|							<a href="#sec-includes">Includes</a>
+			|											<a href="#sec-functions">Functions</a>
+			</div>
+	<div class="info-box-body">	
+		<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">author:</span> Andrew McMillan &lt;<a href="mailto:andrew@morphoss.com">andrew@morphoss.com</a>&gt;</li>
+				<li><span class="field">copyright:</span> Morphoss Ltd</li>
+				<li><span class="field">license:</span> <a href="http://gnu.org/copyleft/gpl.html">GNU GPL v3 or later</a></li>
+			</ul>
+		
+			</div>
+</div>
+		
+	<a name="sec-classes"></a>	
+	<div class="info-box">
+		<div class="info-box-title">Classes</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+			<span class="disabled">Classes</span>
+			|							<a href="#sec-includes">Includes</a>
+				|																<a href="#sec-functions">Functions</a>
+					</div>
+		<div class="info-box-body">	
+			<table cellpadding="2" cellspacing="0" class="class-table">
+				<tr>
+					<th class="class-table-header">Class</th>
+					<th class="class-table-header">Description</th>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em; vertical-align: top; white-space: nowrap">
+						<img src="../../media/images/Class.png"
+								 alt=" class"
+								 title=" class"/>
+						<a href="../../awl/AWLDB/AwlQuery.html">AwlQuery</a>
+					</td>
+					<td>
+											The AwlQuery Class.
+										</td>
+				</tr>
+							</table>
+		</div>
+	</div>
+
+	<a name="sec-includes"></a>	
+	<div class="info-box">
+		<div class="info-box-title">Includes</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-classes">Classes</a>
+				|						<span class="disabled">Includes</span>
+			|													<a href="#sec-functions">Functions</a>
+					</div>
+		<div class="info-box-body">	
+			<a name="_AwlDatabase_php"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<img src="../../media/images/Page.png" alt=" " />
+		<span class="include-title">
+			<span class="include-type">require_once</span>
+			(<span class="include-name"><a href="../../awl/AwlDatabase/_inc---AwlDatabase.php.html">'AwlDatabase.php'</a></span>)
+			(line <span class="line-number">11</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+</div>
+		</div>
+	</div>
+	
+	
+	
+	<a name="sec-functions"></a>	
+	<div class="info-box">
+		<div class="info-box-title">Functions</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-classes">Classes</a>
+				|										<a href="#sec-includes">Includes</a>
+				|												<span class="disabled">Functions</span>
+		</div>
+		<div class="info-box-body">	
+			<a name="functionduration" id="functionduration"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<img src="../../media/images/Function.png" />
+		<span class="method-title">duration</span> (line <span class="line-number">107</span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">A duration (in decimal seconds) between two times which are the result of calls to microtime()</p>
+<p class="description"><p>This simple function is used by the AwlQuery class because the  microtime function doesn't return a decimal time, so a simple  subtraction is not sufficient.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> difference</li>
+			</ul>
+	<div class="method-signature">
+		<span class="method-result">double</span>
+		<span class="method-name">
+			duration
+		</span>
+					(<span class="var-type">microtime</span>&nbsp;<span class="var-name">$t1</span>, <span class="var-type">microtime</span>&nbsp;<span class="var-name">$t2</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type">microtime</span>
+				<span class="var-name">$t1</span><span class="var-description">: start time</span>			</li>
+					<li>
+				<span class="var-type">microtime</span>
+				<span class="var-name">$t2</span><span class="var-description">: end time</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="function_awl_connect_configured_database" id="function_awl_connect_configured_database"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<img src="../../media/images/Function.png" />
+		<span class="method-title">_awl_connect_configured_database</span> (line <span class="line-number">40</span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Connect to the database defined in the $c-&gt;db_connect[] (or $c-&gt;pg_connect) arrays</p>
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			_awl_connect_configured_database
+		</span>
+				()
+			</div>
+
+		
+	
+</div>
+		</div>
+	</div>
+	
+	<p class="notes" id="credit">
+		Documentation generated on Tue, 01 Dec 2009 10:37:45 +1300 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
+	</p>
+	</div></body>
+</html>
