@@ -897,7 +897,7 @@ EOQRY;
   * Return general server-related properties for this URL
   */
   function ResourceProperty( $tag, $prop, &$reply, &$denied ) {
-    global $c, $session;
+    global $c, $session, $request;
 
 //    dbg_error_log( 'DAVResource', 'Processing "%s" on "%s".', $tag, $this->dav_name );
 
@@ -1011,6 +1011,10 @@ EOQRY;
 
       case 'DAV::supported-report-set':
         $prop->NewElement('supported-report-set', $this->BuildSupportedReports( $reply ) );
+        break;
+
+      case 'DAV::current-user-principal':
+        $prop->NewElement('current-user-principal', $reply->href( $request->principal->principal_url ) );
         break;
 
       case 'SOME-DENIED-PROPERTY':  /** @todo indicating the style for future expansion */
