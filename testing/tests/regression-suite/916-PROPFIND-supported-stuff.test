@@ -16,6 +16,7 @@ BEGINDATA
   <resourcetype/>
   <supported-method-set/>
   <supported-report-set/>
+  <current-user-principal/>
   <caldav:supported-calendar-component-set/>
  </prop>
 </propfind>

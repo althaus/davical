@@ -2,8 +2,8 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule, extended-mkcol
 Allow: OPTIONS, PROPFIND, REPORT
-ETag: "91b94178e74aa071ad65559e6f0941f3"
-Content-Length: 965
+ETag: "abfbbcc5572e1a2e160eac87352f15ca"
+Content-Length: 1061
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -32,6 +32,9 @@ Content-Type: text/xml; charset="utf-8"
       <sync-collection/>
      </supported-report>
     </supported-report-set>
+    <current-user-principal>
+     <href>/caldav.php/user1/</href>
+    </current-user-principal>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
