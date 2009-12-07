@@ -49,7 +49,7 @@ class CalDAVClient {
   * @param string $pass      The password for that user
   * @param string $calendar  The name of the calendar (not currently used)
   */
-  function CalDAVClient( $base_url, $user, $pass, $calendar ) {
+  function CalDAVClient( $base_url, $user, $pass, $calendar = '' ) {
     $this->user = $user;
     $this->pass = $pass;
     $this->calendar = $calendar;
@@ -85,13 +85,12 @@ class CalDAVClient {
     $this->headers[] = sprintf( "%s-Match: %s", ($match ? "If" : "If-None"), $etag);
   }
 
-  /**
-  * Add a Depth: header.  Valid values are 1 or infinity
+  * Add a Depth: header.  Valid values are 0, 1 or infinity
   *
   * @param int $depth  The depth, default to infinity
   */
-  function SetDepth( $depth = 'infinity' ) {
-    $this->headers[] = "Depth: ". ($depth == 1 ? "1" : "infinity" );
+  function SetDepth( $depth = '0' ) {
+    $this->headers[] = 'Depth: '. ($depth == '1' ? "1" : ($depth == 'infinity' ? $depth : "0") );
   }
 
   /**
@@ -120,7 +119,7 @@ class CalDAVClient {
    */
   function ParseResponse( $response ) {
       $pos = strpos($response, '<?xml');
-      if ($pos == false) {
+      if ($pos === false) {
         $this->httpResponse = trim($response);
       }
       else {
