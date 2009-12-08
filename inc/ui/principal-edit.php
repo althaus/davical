@@ -137,7 +137,7 @@ label.privilege {
 </style>
 <table>
  <tr> <th class="right">$prompt_principal_id:</th>           <td class="left">##principal_id.value##</td> </tr>
- <tr> <th class="right">$prompt_username:</th>          <td class="left">##xxxxusername.input.10##</td> </tr>
+ <tr> <th class="right">$prompt_username:</th>          <td class="left">##xxxxusername.input.50##</td> </tr>
  <tr> <th class="right">$prompt_password_1:</th>   <td class="left">##newpass1.password.$pwstars##</td> </tr>
  <tr> <th class="right">$prompt_password_1:</th>  <td class="left">##newpass2.password.$pwstars##</td> </tr>
  <tr> <th class="right">$prompt_fullname:</th>         <td class="left">##fullname.input.50##</td> </tr>
