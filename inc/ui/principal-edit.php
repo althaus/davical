@@ -202,7 +202,7 @@ if ( $editor->Value('type_id') == 3 ) {
 
   if ( $can_write_principal ) {
     if ( $grouprow->IsSubmit() ) {
-      if ( $grouprow->IsUpdate() ) {
+      if ( $grouprow->IsUpdate() )
         $c->messages[] = translate('Updating Member of this Group Principal');
       else
         $c->messages[] = translate('Adding new member to this Group Principal');
@@ -286,7 +286,7 @@ EOTEMPLATE;
   $grantrow->SetLookup( 'to_principal', 'SELECT principal_id, displayname FROM dav_principal WHERE principal_id NOT IN (SELECT member_id FROM group_member WHERE group_id = '.$id.')' );
   if ( $can_write_principal ) {
     if ( $grantrow->IsSubmit() ) {
-      if ( $grouprow->IsUpdate() ) {
+      if ( $grouprow->IsUpdate() )
         $c->messages[] = translate('Updating grants by this Principal');
       else
         $c->messages[] = translate('Granting new privileges from this Principal');
