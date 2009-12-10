@@ -87,6 +87,7 @@ function CreateDefaultRelationships( $username ) {
 * @param object $usr The user details we read from the remote.
 */
 function UpdateUserFromExternal( &$usr ) {
+  global $c;
   /**
   * When we're doing the create we will usually need to generate a user number
   */
@@ -131,6 +132,9 @@ function UpdateUserFromExternal( &$usr ) {
   if ( isset($usr->active) && ($usr->active === 'f' || $usr->active === false) ) return false;
 
   if ( $type == 'INSERT' ) {
+    $privs = decbin(privilege_to_bits($c->default_privileges));
+    $qry = new PgQuery( 'INSERT INTO principal( type_id, user_no, displayname, default_privileges) SELECT 1, user_no, fullname, ?::BIT(24) FROM usr WHERE username=?', $privs, $usr->username );
+    $qry->Exec('Login',__LINE,__FILE__);
     CreateHomeCalendar($usr->username);
     CreateDefaultRelationships($usr->username);
   }
