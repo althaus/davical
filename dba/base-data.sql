@@ -10,7 +10,7 @@ INSERT INTO roles ( role_no, role_name ) VALUES( 4, 'Resource');
 SELECT setval('roles_role_no_seq', (SELECT 10 UNION SELECT role_no FROM roles ORDER BY 1 DESC LIMIT 1) );
 
 INSERT INTO usr ( user_no, active, email_ok, updated, username, password, fullname, email )
-    VALUES ( 1, TRUE, current_date, current_date, 'admin', '**nimda', 'Calendar Administrator', 'calendars@example.net' );
+    VALUES ( 1, TRUE, current_date, current_date, 'admin', '**nimda', 'DAViCal Administrator', 'calendars@example.net' );
 
 INSERT INTO role_member (user_no, role_no) VALUES(1, 1);
 
@@ -32,6 +32,9 @@ INSERT INTO relationship_type ( rt_id, rt_name, confers, bit_confers )
 INSERT INTO principal_type (principal_type_id, principal_type_desc) VALUES( 1, 'Person' );
 INSERT INTO principal_type (principal_type_id, principal_type_desc) VALUES( 2, 'Resource' );
 INSERT INTO principal_type (principal_type_id, principal_type_desc) VALUES( 3, 'Group' );
+
+INSERT INTO principal ( type_id, user_no, displayname, default_privileges )
+    VALUES ( 1, 1, 'DAViCal Administrator', 0::BIT(24) );
 
 -- Set the insert sequence to the next number, with a minimum of 1000
 SELECT setval('relationship_type_rt_id_seq', (SELECT 10 UNION SELECT rt_id FROM relationship_type ORDER BY 1 DESC LIMIT 1) );

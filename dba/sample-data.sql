@@ -56,15 +56,18 @@ INSERT INTO collection (user_no, parent_container, dav_name, dav_etag,
 INSERT INTO principal (type_id, user_no, displayname, default_privileges)
          SELECT 1, user_no, fullname, privilege_to_bits(ARRAY['read-free-busy','schedule-send','schedule-deliver']) FROM usr
                  WHERE NOT EXISTS(SELECT 1 FROM role_member JOIN roles USING(role_no) WHERE role_name = 'Group' AND role_member.user_no = usr.user_no)
-                   AND NOT EXISTS(SELECT 1 FROM role_member JOIN roles USING(role_no) WHERE role_name = 'Resource' AND role_member.user_no = usr.user_no) ;
+                   AND NOT EXISTS(SELECT 1 FROM role_member JOIN roles USING(role_no) WHERE role_name = 'Resource' AND role_member.user_no = usr.user_no)
+                   AND NOT EXISTS(SELECT 1 FROM principal WHERE principal.user_no = usr.user_no);
 
 INSERT INTO principal (type_id, user_no, displayname, default_privileges)
          SELECT 2, user_no, fullname, privilege_to_bits(ARRAY['read','schedule-send','schedule-deliver']) FROM usr
-                 WHERE EXISTS(SELECT 1 FROM role_member JOIN roles USING(role_no) WHERE role_name = 'Resource' AND role_member.user_no = usr.user_no);
+                 WHERE EXISTS(SELECT 1 FROM role_member JOIN roles USING(role_no) WHERE role_name = 'Resource' AND role_member.user_no = usr.user_no)
+                   AND NOT EXISTS(SELECT 1 FROM principal WHERE principal.user_no = usr.user_no);
 
 INSERT INTO principal (type_id, user_no, displayname, default_privileges)
          SELECT 3, user_no, fullname, privilege_to_bits(ARRAY['read-free-busy','schedule-send','schedule-deliver']) FROM usr
-                 WHERE EXISTS(SELECT 1 FROM role_member JOIN roles USING(role_no) WHERE role_name = 'Group' AND role_member.user_no = usr.user_no);
+                 WHERE EXISTS(SELECT 1 FROM role_member JOIN roles USING(role_no) WHERE role_name = 'Group' AND role_member.user_no = usr.user_no)
+                   AND NOT EXISTS(SELECT 1 FROM principal WHERE principal.user_no = usr.user_no);
 
 SELECT setval('dav_id_seq', 1000);
 
