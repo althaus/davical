@@ -427,4 +427,5 @@ else {
 $browser->DoQuery();
 $page_elements[] = $browser;
 
+$page_elements[] = '<a href="'.$rowurl.'&user_no='.intval($editor->Value('user_no')).'" class="submit">Create Collection</a>';
 
