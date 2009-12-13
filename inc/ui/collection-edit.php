@@ -3,6 +3,9 @@
 // Editor component for company records
 $editor = new Editor(translate('Collection'), 'collection');
 param_to_global('id', 'int', 'old_id', 'collection_id' );
+param_to_global('user_no', 'int' );
+param_to_global('collection_name', '{^[^\\\\/]+$}' );
+if ( isset($user_no) ) $usr = GetUserByID($user_no);
 $editor->SetLookup( 'timezone', 'SELECT \'\', \'*** Unknown ***\' UNION SELECT tz_id, tz_locn FROM time_zone WHERE tz_id = tz_locn AND length(tz_spec) > 100 ORDER BY 1' );
 $editor->SetLookup( 'schedule_transp', sprintf('SELECT \'opaque\', \'%s\' UNION SELECT \'transp\', \'%s\'', translate('Opaque'), translate('Transparent') ) );
 
@@ -17,7 +20,7 @@ $privilege_names = array( 'read', 'write-properties', 'write-content', 'unlock',
                          'bind', 'unbind', 'write-acl', 'read-free-busy', 'schedule-deliver-invite', 'schedule-deliver-reply',
                          'schedule-query-freebusy', 'schedule-send-invite', 'schedule-send-reply', 'schedule-send-freebusy' );
 
-$can_write_collection = ($session->AllowedTo('Admin') || $session->principal_id == $id );
+$can_write_collection = ($session->AllowedTo('Admin') || $session->user_no == $user_no );
 
 $pwstars = '@@@@@@@@@@';
 if ( $can_write_collection && $editor->IsSubmit() ) {
@@ -29,6 +32,11 @@ if ( $can_write_collection && $editor->IsSubmit() ) {
     $_POST['default_privileges'] = sprintf('%024s',decbin($privs));
     $editor->Assign('default_privileges', $privs_dec);
   }
+  $is_update = ( $_POST['_editor_action'][$editor->Id] == 'update' );
+  if ( !$is_update && isset($collection_name) && isset($user_no) && is_object($usr) ) {
+    $_POST['dav_name'] = sprintf('/%s/%s/', $usr->username, $collection_name );
+  }
+  if ( $_POST['timezone'] == '' ) unset($_POST['timezone']);
   $editor->Write();
 }
 else {
@@ -41,6 +49,8 @@ else {
   $c->page_title = $editor->Title(translate('Create New Collection'));
   $privs = decbin(privilege_to_bits($c->default_privileges));
   $editor->Assign('default_privileges', $privs);
+  $editor->Assign('username', $usr->username);
+  $editor->Assign('user_no', $usr->user_no);
 }
 
 $privilege_xlate = array(
@@ -72,7 +82,9 @@ for( $i=0; $i<count($privilege_names); $i++ ) {
 $privileges_set .= '</div>';
 
 $prompt_collection_id = translate('Collection ID');
+$value_id = ( $editor->Available() ? '##collection_id.hidden####collection_id.value##' : translate('New Collection'));
 $prompt_dav_name = translate('DAV Path');
+$value_dav_name = ( $editor->Available() ? '##dav_name.value##' : '/##user_no.hidden####username.value##/##collection_name.input.20##' );
 $prompt_displayname = translate('Displayname');
 $prompt_public = translate('Publicly Readable');
 $prompt_calendar = translate('Is a Calendar');
@@ -146,8 +158,8 @@ label.privilege {
 }
 </style>
 <table>
- <tr> <th class="right">$prompt_collection_id:</th>    <td class="left">##collection_id.value##</td> </tr>
- <tr> <th class="right">$prompt_dav_name:</th>         <td class="left">/caldav.php##dav_name.value##</td> </tr>
+ <tr> <th class="right">$prompt_collection_id:</th>    <td class="left">$value_id</td> </tr>
+ <tr> <th class="right">$prompt_dav_name:</th>         <td class="left">/caldav.php$value_dav_name</td> </tr>
  <tr> <th class="right">$prompt_displayname:</th>      <td class="left">##dav_displayname.input.50##</td> </tr>
  <tr> <th class="right">$prompt_public:</th>           <td class="left">##publicly_readable.checkbox##</td> </tr>
  <tr> <th class="right">$prompt_calendar:</th>         <td class="left">##is_calendar.checkbox##</td> </tr>
@@ -179,124 +191,126 @@ $editor->SetTemplate( $template );
 $page_elements[] = $editor;
 
 
-$c->stylesheets[] = 'css/browse.css';
-$c->scripts[] = 'js/browse.js';
+if ( $editor->Available() ) {
+
+  $c->stylesheets[] = 'css/browse.css';
+  $c->scripts[] = 'js/browse.js';
 
 
-$grantrow = new Editor("Grants", "grants");
-$grantrow->SetSubmitName( 'savegrantrow' );
-$grantrow->SetLookup( 'to_principal', 'SELECT principal_id, displayname FROM dav_principal WHERE principal_id NOT IN (SELECT member_id FROM group_member WHERE group_id = '.$id.')' );
-if ( $can_write_collection ) {
-  if ( $grantrow->IsSubmit() ) {
-    $_POST['by_collection'] = $id;
-    $to_principal = intval($_POST['to_principal']);
-    $orig_to_id =  intval($_POST['orig_to_id']);
-    $grantrow->SetWhere( "by_collection=".qpg($id)." AND to_principal=$orig_to_id");
-    if ( isset($_POST['grant_privileges']) ) {
-      $privilege_bitpos = array_flip($privilege_names);
-      $priv_names = array_keys($_POST['grant_privileges']);
-      $privs = privilege_to_bits($priv_names);
-      $_POST['privileges'] = sprintf('%024s',decbin($privs));
-      $grantrow->Assign('privileges', $privs_dec);
+  $grantrow = new Editor("Grants", "grants");
+  $grantrow->SetSubmitName( 'savegrantrow' );
+  $grantrow->SetLookup( 'to_principal', 'SELECT principal_id, displayname FROM dav_principal WHERE principal_id NOT IN (SELECT member_id FROM group_member WHERE group_id = '.$id.')' );
+  if ( $can_write_collection ) {
+    if ( $grantrow->IsSubmit() ) {
+      $_POST['by_collection'] = $id;
+      $to_principal = intval($_POST['to_principal']);
+      $orig_to_id =  intval($_POST['orig_to_id']);
+      $grantrow->SetWhere( "by_collection=".qpg($id)." AND to_principal=$orig_to_id");
+      if ( isset($_POST['grant_privileges']) ) {
+        $privilege_bitpos = array_flip($privilege_names);
+        $priv_names = array_keys($_POST['grant_privileges']);
+        $privs = privilege_to_bits($priv_names);
+        $_POST['privileges'] = sprintf('%024s',decbin($privs));
+        $grantrow->Assign('privileges', $privs_dec);
+      }
+      $grantrow->Write( );
+      unset($_GET['to_principal']);
     }
-    $grantrow->Write( );
-    unset($_GET['to_principal']);
-  }
-  elseif ( isset($_GET['delete_grant']) ) {
-    $qry = new AwlQuery("DELETE FROM grants WHERE by_collection=:grantor_id AND to_principal = :to_principal",
-                          array( ':grantor_id' => $id, ':to_principal' => intval($_GET['delete_grant']) ));
-    $qry->Exec('collection-edit');
-  }
-}
-
-function edit_grant_row( $row_data ) {
-  global $grantrow, $id, $privilege_xlate, $privilege_names;
-
-  if ( $row_data->to_principal > -1 ) {
-    $grantrow->SetRecord( $row_data );
+    elseif ( isset($_GET['delete_grant']) ) {
+      $qry = new AwlQuery("DELETE FROM grants WHERE by_collection=:grantor_id AND to_principal = :to_principal",
+                            array( ':grantor_id' => $id, ':to_principal' => intval($_GET['delete_grant']) ));
+      $qry->Exec('collection-edit');
+    }
   }
 
-  $grant_privileges = bindec($grantrow->Value('grant_privileges'));
-  $privileges_set = '<div id="privileges">';
-  for( $i=0; $i < count($privilege_names); $i++ ) {
-    $privilege_set = ( (1 << $i) & $grant_privileges ? ' CHECKED' : '');
-    $privileges_set .= '<label class="privilege"><input name="grant_privileges['.$privilege_names[$i].']" id="grant_privileges_'.$privilege_names[$i].'" type="checkbox"'.$privilege_set.'>'.$privilege_xlate[$privilege_names[$i]].'</label>'."\n";
-  }
-  $privileges_set .= '</div>';
+  function edit_grant_row( $row_data ) {
+    global $grantrow, $id, $privilege_xlate, $privilege_names;
 
-  $orig_to_id = $row_data->to_principal;
-  $form_id = $grantrow->Id();
-  $form_url = preg_replace( '#&(edit|delete)_grant=\d+#', '', $_SERVER['REQUEST_URI'] );
+    if ( $row_data->to_principal > -1 ) {
+      $grantrow->SetRecord( $row_data );
+    }
 
-  $template = <<<EOTEMPLATE
+    $grant_privileges = bindec($grantrow->Value('grant_privileges'));
+    $privileges_set = '<div id="privileges">';
+    for( $i=0; $i < count($privilege_names); $i++ ) {
+      $privilege_set = ( (1 << $i) & $grant_privileges ? ' CHECKED' : '');
+      $privileges_set .= '<label class="privilege"><input name="grant_privileges['.$privilege_names[$i].']" id="grant_privileges_'.$privilege_names[$i].'" type="checkbox"'.$privilege_set.'>'.$privilege_xlate[$privilege_names[$i]].'</label>'."\n";
+    }
+    $privileges_set .= '</div>';
+
+    $orig_to_id = $row_data->to_principal;
+    $form_id = $grantrow->Id();
+    $form_url = preg_replace( '#&(edit|delete)_grant=\d+#', '', $_SERVER['REQUEST_URI'] );
+
+    $template = <<<EOTEMPLATE
 <form method="POST" enctype="multipart/form-data" id="form_$form_id" action="$form_url">
   <td class="left" colspan="2"><input type="hidden" name="id" value="$id"><input type="hidden" name="orig_to_id" value="$orig_to_id">##to_principal.select##</td>
   <td class="left" colspan="2">
 <input type="button" value="All" class="submit" title="Toggle all privileges" onclick="toggle_privileges('grant_privileges', 'all', 'form_$form_id');">
 <input type="button" value="Read/Write" class="submit" title="Set read+write privileges"
- onclick="toggle_privileges('grant_privileges', 'read', 'write-properties', 'write-content', 'bind', 'unbind', 'read-free-busy',
+onclick="toggle_privileges('grant_privileges', 'read', 'write-properties', 'write-content', 'bind', 'unbind', 'read-free-busy',
                             'read-current-user-privilege-set', 'schedule-deliver-invite', 'schedule-deliver-reply', 'schedule-query-freebusy',
                             'schedule-send-invite', 'schedule-send-reply', 'schedule-send-freebusy' );">
 <input type="button" value="Read" class="submit" title="Set read privileges"
- onclick="toggle_privileges('grant_privileges', 'read', 'read-free-busy', 'schedule-query-freebusy', 'read-current-user-privilege-set' );">
+onclick="toggle_privileges('grant_privileges', 'read', 'read-free-busy', 'schedule-query-freebusy', 'read-current-user-privilege-set' );">
 <input type="button" value="Free/Busy" class="submit" title="Set free/busy privileges"
- onclick="toggle_privileges('grant_privileges', 'read-free-busy', 'schedule-query-freebusy' );">
+onclick="toggle_privileges('grant_privileges', 'read-free-busy', 'schedule-query-freebusy' );">
 <input type="button" value="Schedule Deliver" class="submit" title="Set schedule-deliver privileges"
- onclick="toggle_privileges('grant_privileges', 'schedule-deliver-invite', 'schedule-deliver-reply', 'schedule-query-freebusy' );">
+onclick="toggle_privileges('grant_privileges', 'schedule-deliver-invite', 'schedule-deliver-reply', 'schedule-query-freebusy' );">
 <input type="button" value="Schedule Send" class="submit" title="Set schedule-deliver privileges"
- onclick="toggle_privileges('grant_privileges', 'schedule-send-invite', 'schedule-send-reply', 'schedule-send-freebusy' );">
+onclick="toggle_privileges('grant_privileges', 'schedule-send-invite', 'schedule-send-reply', 'schedule-send-freebusy' );">
 <br>$privileges_set
   <td class="center">##submit##</td>
 </form>
 
 EOTEMPLATE;
 
-  $grantrow->SetTemplate( $template );
-  $grantrow->Title("");
+    $grantrow->SetTemplate( $template );
+    $grantrow->Title("");
 
-  return $grantrow->Render();
-}
+    return $grantrow->Render();
+  }
 
-$browser = new Browser(translate('Collection Grants'));
+  $browser = new Browser(translate('Collection Grants'));
 
-$browser->AddColumn( 'to_principal', translate('To ID'), 'right', '##principal_link##' );
-$rowurl = $c->base_url . '/admin.php?action=edit&t=collection&id=';
-$browser->AddHidden( 'principal_link', "'<a href=\"$rowurl' || to_principal || '\">' || to_principal || '</a>'" );
-$browser->AddHidden( 'grant_privileges', 'privileges' );
-$browser->AddColumn( 'displayname', translate('Display Name') );
-$browser->AddColumn( 'privs', translate('Privileges'), '', '', 'privileges_list(privileges)' );
-$browser->AddColumn( 'members', translate('Has Members'), '', '', 'has_members_list(principal_id)' );
+  $browser->AddColumn( 'to_principal', translate('To ID'), 'right', '##principal_link##' );
+  $rowurl = $c->base_url . '/admin.php?action=edit&t=collection&id=';
+  $browser->AddHidden( 'principal_link', "'<a href=\"$rowurl' || to_principal || '\">' || to_principal || '</a>'" );
+  $browser->AddHidden( 'grant_privileges', 'privileges' );
+  $browser->AddColumn( 'displayname', translate('Display Name') );
+  $browser->AddColumn( 'privs', translate('Privileges'), '', '', 'privileges_list(privileges)' );
+  $browser->AddColumn( 'members', translate('Has Members'), '', '', 'has_members_list(principal_id)' );
 
-if ( $can_write_collection ) {
-  $del_link  = "<a href=\"/admin.php?action=edit&t=collection&id=$id&delete_grant=##to_principal##\" class=\"submit\">Delete</a>";
-  $edit_link  = "<a href=\"/admin.php?action=edit&t=collection&id=$id&edit_grant=##to_principal##\" class=\"submit\">Edit</a>";
-  $browser->AddColumn( 'action', 'Action', 'center', '', "'$edit_link&nbsp;$del_link'" );
-}
+  if ( $can_write_collection ) {
+    $del_link  = "<a href=\"/admin.php?action=edit&t=collection&id=$id&delete_grant=##to_principal##\" class=\"submit\">Delete</a>";
+    $edit_link  = "<a href=\"/admin.php?action=edit&t=collection&id=$id&edit_grant=##to_principal##\" class=\"submit\">Edit</a>";
+    $browser->AddColumn( 'action', 'Action', 'center', '', "'$edit_link&nbsp;$del_link'" );
+  }
 
-$browser->SetOrdering( 'displayname', 'A' );
+  $browser->SetOrdering( 'displayname', 'A' );
 
-$browser->SetJoins( "grants LEFT JOIN dav_principal ON (to_principal = principal_id) " );
-$browser->SetWhere( 'by_collection = '.$id );
+  $browser->SetJoins( "grants LEFT JOIN dav_principal ON (to_principal = principal_id) " );
+  $browser->SetWhere( 'by_collection = '.$id );
 
-if ( $c->enable_row_linking ) {
-  $browser->RowFormat( '<tr onMouseover="LinkHref(this,1);" title="'.translate('Click to edit principal details').'" class="r%d">', '</tr>', '#even' );
-}
-else {
-  $browser->RowFormat( '<tr class="r%d">', '</tr>', '#even' );
-}
-$browser->DoQuery();
-$page_elements[] = $browser;
-
-if ( $can_write_collection ) {
-  if ( isset($_GET['edit_grant']) ) {
-    $browser->MatchedRow('to_principal', $_GET['edit_grant'], 'edit_grant_row');
+  if ( $c->enable_row_linking ) {
+    $browser->RowFormat( '<tr onMouseover="LinkHref(this,1);" title="'.translate('Click to edit principal details').'" class="r%d">', '</tr>', '#even' );
   }
   else {
-    $extra_row = array( 'to_principal' => -1 );
-    $browser->MatchedRow('to_principal', -1, 'edit_grant_row');
-    $extra_row = (object) $extra_row;
-    $browser->AddRow($extra_row);
+    $browser->RowFormat( '<tr class="r%d">', '</tr>', '#even' );
+  }
+  $browser->DoQuery();
+  $page_elements[] = $browser;
+
+  if ( $can_write_collection ) {
+    if ( isset($_GET['edit_grant']) ) {
+      $browser->MatchedRow('to_principal', $_GET['edit_grant'], 'edit_grant_row');
+    }
+    else {
+      $extra_row = array( 'to_principal' => -1 );
+      $browser->MatchedRow('to_principal', -1, 'edit_grant_row');
+      $extra_row = (object) $extra_row;
+      $browser->AddRow($extra_row);
+    }
   }
 }
-
 
