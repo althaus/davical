@@ -34,7 +34,7 @@ if ( $session->AllowedTo('Admin' )) {
   $admin_menu->AddOption(translate('Upgrade Database'),$c->base_url.'/upgrade.php',translate('Upgrade DAViCal database schema') );
   $admin_menu->AddOption(translate('Import Calendars'),$c->base_url.'/tools.php',translate('Operations on your calendar') );
   $admin_menu->AddOption( translate('Relationships'), $c->base_url.'/relationship_types.php', translate('Browse all relationship types') );
-  $user_menu->AddOption(translate('New User'),$c->base_url.'/admin.php?action=edit&t=principal',translate('Add a new principal (user, resource or group)'));
+  $user_menu->AddOption(translate('New Principal'),$c->base_url.'/admin.php?action=edit&t=principal',translate('Add a new principal (user, resource or group)'));
 }
 
 $related_menu = new MenuSet('related', 'menu', 'menu_active');
