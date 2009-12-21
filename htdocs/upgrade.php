@@ -23,7 +23,7 @@ useful will be gratefully received.
 <br>&nbsp;
 </p>
 <h2>Current Versions</h2>
-You are currently DAViCal version $c->version_string.
+You are currently running DAViCal version $c->version_string.
 The database schema should be at version $want_dbversion and it is at version $c->schema_major.$c->schema_minor.$c->schema_patch.
 <br>&nbsp;
 </p>
