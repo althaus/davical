@@ -198,8 +198,7 @@ class CalDAVPrincipal
     $this->notifications_url = sprintf( '%s.notify/', $this->url);
 
     if ( isset ( $c->notifications_server ) ) {
-      $this->xmpp_uri = 'xmpp:pubsub.'.$c->notifications_server['host'].'?pubsub;node=/home/'.$c->notifications_server['host'];
-      $this->xmpp_uri .= '/'.preg_replace ( '/@.*$/', '', $c->notifications_server['jid'] ).'/DAViCal'.$this->url;
+      $this->xmpp_uri = 'xmpp:pubsub.'.$c->notifications_server['host'].'?pubsub;node=/davical-'.$this->principal_id;
       $this->xmpp_server = $c->notifications_server['host'];
     }
 
