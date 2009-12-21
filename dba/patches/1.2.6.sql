@@ -563,6 +563,8 @@ INSERT INTO grants ( by_principal, to_principal, privileges, is_group )
                          JOIN principal pto ON(pto.user_no=f.user_no)
      WHERE rt_id < 4 AND pby.type_id < 3;
 
+-- It's always safe to kill these collections, so they will be recreated with the correct resourcetype
+DELETE FROM collection WHERE dav_name ~ E'/\.(in|out)/$';
 
 SELECT new_db_revision(1,2,6, 'Juin' );
 
