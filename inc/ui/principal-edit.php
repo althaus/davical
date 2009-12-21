@@ -283,10 +283,14 @@ EOTEMPLATE;
 
   $grantrow = new Editor("Grants", "grants");
   $grantrow->SetSubmitName( 'savegrantrow' );
-  $grantrow->SetLookup( 'to_principal', 'SELECT principal_id, displayname FROM dav_principal WHERE principal_id NOT IN (SELECT member_id FROM group_member WHERE group_id = '.$id.')' );
+  $edit_grant_clause = '';
+  if ( isset($_GET['edit_grant']) ) {
+    $edit_grant_clause = ' AND to_principal != '.intval($_GET['edit_grant']);
+  }
+  $grantrow->SetLookup( 'to_principal', 'SELECT principal_id, displayname FROM dav_principal WHERE principal_id NOT IN (SELECT to_principal FROM grants WHERE by_principal = '.$id.$edit_grant_clause.')' );
   if ( $can_write_principal ) {
     if ( $grantrow->IsSubmit() ) {
-      if ( $grouprow->IsUpdate() )
+      if ( $grantrow->IsUpdate() )
         $c->messages[] = translate('Updating grants by this Principal');
       else
         $c->messages[] = translate('Granting new privileges from this Principal');

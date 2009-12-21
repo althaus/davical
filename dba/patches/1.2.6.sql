@@ -500,7 +500,7 @@ UPDATE relationship_type SET bit_confers = legacy_privilege_to_bits(confers);
 ALTER TABLE relationship ADD COLUMN confers BIT(24) DEFAULT privilege_to_bits('caldav:read-free-busy');
 UPDATE relationship SET confers = (SELECT bit_confers FROM relationship_type AS rt WHERE rt.rt_id=relationship.rt_id);
 
-ALTER TABLE collection ADD COLUMN default_privileges BIT(24) DEFAULT privilege_to_bits('caldav:read-free-busy');
+ALTER TABLE collection ADD COLUMN default_privileges BIT(24);
 
 INSERT INTO principal_type (principal_type_id, principal_type_desc) VALUES( 1, 'Person' );
 INSERT INTO principal_type (principal_type_id, principal_type_desc) VALUES( 2, 'Resource' );
@@ -531,7 +531,7 @@ INSERT INTO principal (type_id, user_no, displayname, default_privileges)
 
 UPDATE collection SET default_privileges = CASE
                         WHEN publicly_readable THEN privilege_to_bits(ARRAY['read'])
-                        ELSE (SELECT default_privileges FROM principal WHERE principal.user_no = collection.user_no)
+                        ELSE NULL
                   END;
 
 INSERT INTO group_member ( group_id, member_id)

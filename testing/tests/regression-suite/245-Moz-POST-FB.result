@@ -2,8 +2,8 @@ HTTP/1.1 200 OK
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule, extended-mkcol
 Allow: OPTIONS, PROPFIND, REPORT, DELETE, LOCK, UNLOCK, MOVE, POST, GET, PUT, HEAD, PROPPATCH
-ETag: "6ade03a359008583053c8c3a5dc72a10"
-Content-Length: 318
+ETag: "ae241cc30505f7f7148b7fee176731fb"
+Content-Length: 968
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -12,7 +12,26 @@ Content-Type: text/xml; charset="utf-8"
   <C:recipient>
    <href>mailto:user3@example.net</href>
   </C:recipient>
-  <C:request-status>3.8;No authority</C:request-status>
-  <C:calendar-data/>
+  <C:request-status>2.0;Success</C:request-status>
+  <C:calendar-data>BEGIN:VCALENDAR
+PRODID:-//davical.org//NONSGML AWL Calendar//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+METHOD:REPLY
+BEGIN:VFREEBUSY
+DTSTAMP:yyyymmddThhmmssZ
+DTSTART:20081020T110000Z
+DTEND:20081105T110000Z
+UID:c5bd82ea-cd89-4f58-8d31-336f47e44f97
+ORGANIZER:mailto:user1@example.net
+ATTENDEE;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT;CUTYPE=INDIVIDUAL: 
+ mailto:user3@example.net
+FREEBUSY;FBTYPE=BUSY:20081024T054500Z/20081023T193000Z
+FREEBUSY;FBTYPE=BUSY:20081027T164500Z/20081027T193000Z
+FREEBUSY;FBTYPE=BUSY:20081030T164500Z/20081030T193000Z
+FREEBUSY;FBTYPE=BUSY:20081103T164500Z/20081103T193000Z
+END:VFREEBUSY
+END:VCALENDAR
+</C:calendar-data>
  </C:response>
 </C:schedule-response>

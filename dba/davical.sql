@@ -91,7 +91,7 @@ CREATE TABLE collection (
   public_events_only BOOLEAN NOT NULL DEFAULT FALSE,
   publicly_readable BOOLEAN NOT NULL DEFAULT FALSE,
   collection_id INT8 PRIMARY KEY DEFAULT nextval('dav_id_seq'),
-  default_privileges BIT(24) DEFAULT privilege_to_bits('caldav:read-free-busy'),
+  default_privileges BIT(24),
   is_addressbook BOOLEAN DEFAULT FALSE,
   resourcetypes TEXT DEFAULT '<DAV::collection/>',
   in_freebusy_set BOOLEAN DEFAULT TRUE,

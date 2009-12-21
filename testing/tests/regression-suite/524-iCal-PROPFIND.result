@@ -2,8 +2,8 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule, extended-mkcol
 Allow: OPTIONS, PROPFIND, REPORT, DELETE, LOCK, UNLOCK, MOVE, GET, PUT, HEAD, MKCOL, MKCALENDAR, PROPPATCH
-ETag: "220fe991d684589214ff030857a16459"
-Content-Length: 2525
+ETag: "a599c80c9c8cc0c6600ebfd664ecc806"
+Content-Length: 3805
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -19,7 +19,13 @@ Content-Type: text/xml; charset="utf-8"
      <principal/>
     </resourcetype>
     <group-membership>
+     <href>/caldav.php/assistant1/</href>
      <href>/caldav.php/teamclient1/</href>
+     <href>/caldav.php/user1/</href>
+     <href>/caldav.php/user1/calendar-proxy-read/</href>
+     <href>/caldav.php/assistant1/calendar-proxy-read/</href>
+     <href>/caldav.php/resource1/calendar-proxy-read/</href>
+     <href>/caldav.php/resource2/calendar-proxy-read/</href>
     </group-membership>
    </prop>
    <status>HTTP/1.1 200 OK</status>
@@ -43,7 +49,13 @@ Content-Type: text/xml; charset="utf-8"
      <C1:calendar/>
     </resourcetype>
     <group-membership>
+     <href>/caldav.php/assistant1/</href>
      <href>/caldav.php/teamclient1/</href>
+     <href>/caldav.php/user1/</href>
+     <href>/caldav.php/user1/calendar-proxy-read/</href>
+     <href>/caldav.php/assistant1/calendar-proxy-read/</href>
+     <href>/caldav.php/resource1/calendar-proxy-read/</href>
+     <href>/caldav.php/resource2/calendar-proxy-read/</href>
     </group-membership>
    </prop>
    <status>HTTP/1.1 200 OK</status>
@@ -60,14 +72,20 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/manager1/calendar-proxy-read/</href>
   <propstat>
    <prop>
-    <C:getctag>"81833b8410a85c2e86dd32ae4470e72b"</C:getctag>
+    <C:getctag>"ccdfbfa2e7ee6c47d3ea8f134d415b89"</C:getctag>
     <displayname>/manager1/calendar-proxy-read/</displayname>
     <resourcetype>
      <collection/>
      <C:calendar-proxy-read/>
     </resourcetype>
     <group-membership>
+     <href>/caldav.php/assistant1/</href>
      <href>/caldav.php/teamclient1/</href>
+     <href>/caldav.php/user1/</href>
+     <href>/caldav.php/user1/calendar-proxy-read/</href>
+     <href>/caldav.php/assistant1/calendar-proxy-read/</href>
+     <href>/caldav.php/resource1/calendar-proxy-read/</href>
+     <href>/caldav.php/resource2/calendar-proxy-read/</href>
     </group-membership>
    </prop>
    <status>HTTP/1.1 200 OK</status>
@@ -84,14 +102,20 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/manager1/calendar-proxy-write/</href>
   <propstat>
    <prop>
-    <C:getctag>"9849062cdad5f238a4ac4a9829bcdbcf"</C:getctag>
+    <C:getctag>"ff25f14bac404c0aae34b5e75618d479"</C:getctag>
     <displayname>/manager1/calendar-proxy-write/</displayname>
     <resourcetype>
      <collection/>
      <C:calendar-proxy-write/>
     </resourcetype>
     <group-membership>
+     <href>/caldav.php/assistant1/</href>
      <href>/caldav.php/teamclient1/</href>
+     <href>/caldav.php/user1/</href>
+     <href>/caldav.php/user1/calendar-proxy-read/</href>
+     <href>/caldav.php/assistant1/calendar-proxy-read/</href>
+     <href>/caldav.php/resource1/calendar-proxy-read/</href>
+     <href>/caldav.php/resource2/calendar-proxy-read/</href>
     </group-membership>
    </prop>
    <status>HTTP/1.1 200 OK</status>

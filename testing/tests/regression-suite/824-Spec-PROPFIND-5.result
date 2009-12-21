@@ -16,6 +16,9 @@
     <owner>
      <href>/caldav.php/user1/</href>
     </owner>
+    <current-user-principal>
+     <href>/caldav.php/user1/</href>
+    </current-user-principal>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>

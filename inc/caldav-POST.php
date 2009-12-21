@@ -56,11 +56,11 @@ function handle_freebusy_request( $ic ) {
     }
 
     /** @TODO: Refactor this so we only do one query here and loop through the results */
-    $qry = new PgQuery("SELECT get_permissions(?,user_no) AS p FROM usr WHERE lower(usr.email) = lower(?)", $session->user_no, $attendee_email );
+    $qry = new PgQuery("SELECT pprivs(?,principal_id,?) AS p FROM usr JOIN principal USING(user_no) WHERE lower(usr.email) = lower(?)", $session->principal_id, $c->permission_scan_depth, $attendee_email );
     if ( !$qry->Exec("POST") ) $request->DoResponse( 501, 'Database error');
     if ( $qry->rows > 1 ) {
       // Unlikely, but if we get more than one result we'll do an exact match instead.
-      $qry = new PgQuery("SELECT get_permissions(?,user_no) AS p FROM usr WHERE usr.email = ?", $session->user_no, $attendee_email );
+      $qry = new PgQuery("SELECT pprivs(?,principal_id,?) AS p FROM usr JOIN principal USING(user_no) WHERE usr.email = ?", $session->principal_id, $c->permission_scan_depth, $attendee_email );
       if ( !$qry->Exec("POST") ) $request->DoResponse( 501, 'Database error');
     }
 
@@ -74,7 +74,7 @@ function handle_freebusy_request( $ic ) {
       continue;
     }
     if ( ! $userperms = $qry->Fetch() ) $request->DoResponse( 501, 'Database error');
-    if ( !preg_match( '/[AWRF]/', $userperms->p ) ) {
+    if ( (privilege_to_bits('schedule-query-freebusy') & bindec($userperms->p)) == 0 ) {
       $reply->CalDAVElement($response, "request-status", "3.8;No authority" );
       $reply->CalDAVElement($response, "calendar-data" );
       $responses[] = $response;

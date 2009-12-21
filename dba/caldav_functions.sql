@@ -900,9 +900,11 @@ BEGIN
 
   SELECT bit_or(subquery.privileges) INTO out_conferred FROM
      (SELECT privileges FROM grants WHERE by_principal = in_grantor AND to_principal = in_accessor AND NOT is_group AND by_collection IS NULL
-                       UNION
+                UNION
       SELECT privileges FROM grants JOIN group_member ON (to_principal=group_id AND member_id=in_accessor)
                        WHERE by_principal = in_grantor AND is_group AND by_collection IS NULL
+                UNION
+      SELECT 32::BIT(24) FROM group_member WHERE group_id = in_grantor AND member_id=in_accessor
      ) AS subquery ;
   IF out_conferred IS NULL THEN
     SELECT default_privileges INTO out_conferred FROM principal WHERE principal_id = in_grantor;
@@ -911,6 +913,7 @@ BEGIN
   RETURN out_conferred;
 END;
 $$ LANGUAGE 'plpgsql' IMMUTABLE STRICT;
+
 
 
 -- Privileges from accessor to grantor, by user_no
@@ -927,10 +930,19 @@ BEGIN
   END IF;
 
   SELECT bit_or(subquery.privileges) INTO out_conferred FROM
-     (SELECT privileges FROM grants JOIN principal ON (to_principal=principal_id) WHERE user_no = in_grantor AND to_principal = in_accessor AND NOT is_group AND by_collection IS NULL
-                       UNION
-      SELECT privileges FROM grants JOIN group_member ON (to_principal=group_id AND member_id=in_accessor) JOIN principal ON (by_principal=principal_id)
-                       WHERE user_no = in_grantor AND is_group AND by_collection IS NULL
+     (SELECT privileges FROM grants JOIN principal by_p ON (by_principal=by_p.principal_id)
+                        JOIN principal to_p ON (to_principal=to_p.principal_id)
+                        WHERE by_p.user_no = in_grantor AND to_p.user_no = in_accessor AND by_collection IS NULL
+                 UNION
+      SELECT privileges FROM grants JOIN group_member ON (to_principal=group_id AND member_id=in_accessor)
+                        JOIN principal by_p ON (by_principal=principal_id)
+                        JOIN principal to_p ON (member_id=to_p.principal_id)
+                       WHERE by_p.user_no = in_grantor AND to_p.user_no = in_accessor AND by_collection IS NULL
+                UNION
+      SELECT 32::BIT(24) FROM group_member
+                        JOIN principal by_p ON (group_id=by_p.principal_id)
+                        JOIN principal to_p ON (member_id=to_p.principal_id)
+       WHERE group_id = in_grantor AND member_id=in_accessor
      ) AS subquery ;
   IF out_conferred IS NULL THEN
     SELECT default_privileges INTO out_conferred FROM principal WHERE user_no = in_grantor;
@@ -992,6 +1004,160 @@ END;
 $$ LANGUAGE 'plpgsql' IMMUTABLE STRICT;
 
 
+
+-- Expanded group memberships out to some depth
+CREATE or REPLACE FUNCTION expand_memberships( INT8, INT ) RETURNS SETOF INT8 AS $$
+  SELECT group_id FROM group_member WHERE member_id = $1
+      UNION
+  SELECT expanded.g_id FROM (SELECT CASE WHEN $2 > 0 THEN expand_memberships( group_id, $2 - 1) END AS g_id
+                               FROM group_member WHERE member_id = $1) AS expanded
+                       WHERE expanded.g_id IS NOT NULL;
+$$ LANGUAGE 'SQL' STABLE STRICT;
+
+-- Expanded group members out to some depth
+CREATE or REPLACE FUNCTION expand_members( INT8, INT ) RETURNS SETOF INT8 AS $$
+  SELECT member_id FROM group_member WHERE group_id = $1
+      UNION
+  SELECT expanded.m_id FROM (SELECT CASE WHEN $2 > 0 THEN expand_members( member_id, $2 - 1) END AS m_id
+                               FROM group_member WHERE group_id = $1) AS expanded
+                       WHERE expanded.m_id IS NOT NULL;
+$$ LANGUAGE 'SQL' STABLE STRICT;
+
+
+
+
+-- Privileges from accessor to grantor, by principal_id
+CREATE or REPLACE FUNCTION pprivs( INT8, INT8, INT ) RETURNS BIT(24) AS $$
+DECLARE
+  in_accessor ALIAS FOR $1;
+  in_grantor  ALIAS FOR $2;
+  in_depth    ALIAS FOR $3;
+  out_conferred BIT(24);
+BEGIN
+  out_conferred := 0::BIT(24);
+  -- Self can always have full access
+  IF in_grantor = in_accessor THEN
+    RETURN ~ out_conferred;
+  END IF;
+
+  SELECT bit_or(subquery.privileges) INTO out_conferred FROM
+    (
+      SELECT privileges FROM grants WHERE by_principal=in_grantor AND by_collection IS NULL
+                                          AND (to_principal=in_accessor OR to_principal IN (SELECT expand_memberships(in_accessor,in_depth)))
+            UNION
+      SELECT 32::BIT(24) AS privileges FROM expand_memberships(in_accessor,in_depth) WHERE expand_memberships = in_grantor
+    ) AS subquery ;
+
+  IF out_conferred IS NULL THEN
+    SELECT default_privileges INTO out_conferred FROM principal WHERE principal_id = in_grantor;
+  END IF;
+
+  RETURN out_conferred;
+END;
+$$ LANGUAGE 'plpgsql' STABLE STRICT;
+
+
+-- Privileges from accessor to grantor, by user_no
+CREATE or REPLACE FUNCTION uprivs( INT8, INT8, INT ) RETURNS BIT(24) AS $$
+DECLARE
+  in_accessor ALIAS FOR $1;
+  in_grantor  ALIAS FOR $2;
+  in_depth    ALIAS FOR $3;
+  out_conferred BIT(24);
+BEGIN
+  out_conferred := 0::BIT(24);
+  -- Self can always have full access
+  IF in_grantor = in_accessor THEN
+    RETURN ~ out_conferred;
+  END IF;
+
+  SELECT pprivs( p1.principal_id, p2.principal_id, in_depth ) INTO out_conferred
+          FROM principal p1, principal p2
+          WHERE p1.user_no = in_accessor AND p2.user_no = in_grantor;
+
+  RETURN out_conferred;
+END;
+$$ LANGUAGE 'plpgsql' STABLE STRICT;
+
+
+-- Privileges from accessor (by principal_id) to path
+CREATE or REPLACE FUNCTION path_privs( INT8, TEXT, INT ) RETURNS BIT(24) AS $$
+DECLARE
+  in_accessor ALIAS FOR $1;
+  in_path  ALIAS FOR $2;
+  in_depth    ALIAS FOR $3;
+
+  alt1_path TEXT;
+  alt2_path TEXT;
+  grantor_collection    INT8;
+  grantor_principal     INT8;
+  collection_path       TEXT;
+  collection_privileges BIT(24);
+  out_conferred         BIT(24);
+BEGIN
+  out_conferred := 0::BIT(24);
+
+  IF in_path ~ '^/?$' THEN
+    -- RAISE NOTICE 'Collection is root: Collection: %', in_path;
+    RETURN 1; -- basic read privileges on root directory
+  END IF;
+
+  -- We need to canonicalise the path, so:
+  -- If it matches '/' + some characters (+ optional '/')  => a principal URL
+  IF in_path ~ '^/[^/]+/?$' THEN
+    alt1_path := replace(in_path, '/', '');
+    SELECT pprivs(in_accessor,principal_id, in_depth) INTO out_conferred FROM usr JOIN principal USING(user_no) WHERE username = alt1_path;
+    -- RAISE NOTICE 'Path is Principal: Principal: %, Collection: %, Permissions: %', in_accessor, in_path, out_conferred;
+    RETURN out_conferred;
+  END IF;
+
+  -- Otherwise look for the longest segment matching up to the last '/', or if we append one, or if we replace a final '.ics' with one.
+  alt1_path := in_path;
+  IF alt1_path ~ E'\\.ics$' THEN
+    alt1_path := substr(alt1_path, 1, length(alt1_path) - 4) || '/';
+  END IF;
+  alt2_path := regexp_replace( in_path, '[^/]*$', '');
+  SELECT collection.collection_id, grantor.principal_id, collection.dav_name, collection.default_privileges
+    INTO grantor_collection, grantor_principal, collection_path, collection_privileges
+                      FROM collection JOIN principal grantor USING (user_no)
+                      WHERE dav_name = in_path || '/' OR dav_name = alt1_path OR dav_name = alt2_path
+                      ORDER BY LENGTH(collection.dav_name) DESC LIMIT 1;
+
+  -- Self will always need full access to their own collections!
+  IF grantor_principal = in_accessor THEN
+    -- RAISE NOTICE 'Principal IS owner: Principal: %, Collection: %', in_accessor, in_path;
+    RETURN ~ out_conferred;
+  END IF;
+
+  SELECT privileges INTO out_conferred FROM grants
+                   WHERE by_collection = grantor_collection
+                     AND (to_principal=in_accessor OR to_principal IN (SELECT expand_memberships(in_accessor,in_depth)));
+
+  IF out_conferred IS NULL THEN
+    IF collection_privileges IS NULL THEN
+      IF grantor_principal IS NULL THEN
+        alt1_path := regexp_replace( in_path, '/[^/]+/?$', '/');
+        SELECT path_privs(in_accessor,alt1_path,in_depth) INTO out_conferred;
+        -- RAISE NOTICE 'Collection is NULL: Principal: %, Collection: %, Permissions: %', in_accessor, in_path, out_conferred;
+      ELSE
+        SELECT pprivs(in_accessor,grantor_principal,in_depth) INTO out_conferred;
+        -- RAISE NOTICE 'Collection priveleges are NULL: Principal: %, Collection: %, Permissions: %', in_accessor, in_path, out_conferred;
+      END IF;
+    ELSE
+      out_conferred := collection_privileges;
+      -- RAISE NOTICE 'Default Collection priveleges apply: Principal: %, Collection: %, Permissions: %', in_accessor, in_path, out_conferred;
+    END IF;
+  END IF;
+
+  RETURN out_conferred;
+END;
+$$ LANGUAGE 'plpgsql' STABLE STRICT;
+
+
+-- CREATE or REPLACE FUNCTION get_permissions( INT, INT ) RETURNS TEXT AS $$
+--   SELECT bits_to_legacy_privilege(user_privileges( $1, $2 ));
+-- $$ LANGUAGE 'sql' IMMUTABLE STRICT;
+
 -- List a user's memberships as a text string
 CREATE or REPLACE FUNCTION is_member_of_list( INT8 ) RETURNS TEXT AS $$
 DECLARE
@@ -1000,16 +1166,16 @@ DECLARE
   mlist TEXT;
 BEGIN
   mlist := '';
-  FOR m IN SELECT displayname FROM group_member JOIN principal ON (group_id = principal_id)
+  FOR m IN SELECT displayname, group_id FROM group_member JOIN principal ON (group_id = principal_id)
                           WHERE member_id = in_member_id
   LOOP
     mlist := mlist
              || CASE WHEN mlist = '' THEN '' ELSE ', ' END
-             || m.displayname;
+             || COALESCE( m.displayname, m.group_id::text);
   END LOOP;
   RETURN mlist;
 END;
-$$ LANGUAGE 'plpgsql';
+$$ LANGUAGE 'plpgsql' STRICT;
 
 
 -- List a user's members as a text string
@@ -1020,16 +1186,16 @@ DECLARE
   mlist TEXT;
 BEGIN
   mlist := '';
-  FOR m IN SELECT displayname FROM group_member JOIN principal ON (member_id = principal_id)
+  FOR m IN SELECT displayname, group_id FROM group_member JOIN principal ON (member_id = principal_id)
                           WHERE group_id = in_member_id
   LOOP
     mlist := mlist
              || CASE WHEN mlist = '' THEN '' ELSE ', ' END
-             || m.displayname;
+             || COALESCE( m.displayname, m.group_id::text);
   END LOOP;
   RETURN mlist;
 END;
-$$ LANGUAGE 'plpgsql';
+$$ LANGUAGE 'plpgsql' STRICT;
 
 
 -- List the privileges as a text string
@@ -1054,16 +1220,137 @@ BEGIN
   END LOOP;
   RETURN plist;
 END;
-$$ LANGUAGE 'plpgsql';
+$$ LANGUAGE 'plpgsql' IMMUTABLE STRICT;
+
+
+DROP TRIGGER principal_modified ON principal CASCADE;
+CREATE or REPLACE FUNCTION principal_modified() RETURNS TRIGGER AS $$
+DECLARE
+BEGIN
+  -- in case we trigger on other events in future
+  IF TG_OP = 'UPDATE' THEN
+    IF NEW.type_id != OLD.type_id THEN
+      UPDATE grants
+        SET is_group = (NEW.type_id = 3)
+      WHERE grants.to_principal = NEW.principal_id;
+    END IF;
+  END IF;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+CREATE TRIGGER principal_modified AFTER UPDATE ON principal
+    FOR EACH ROW EXECUTE PROCEDURE principal_modified();
+
+
+DROP TRIGGER grants_modified ON grants CASCADE;
+CREATE or REPLACE FUNCTION grants_modified() RETURNS TRIGGER AS $$
+DECLARE
+  old_to_principal INT8;
+  new_is_group BOOL;
+BEGIN
+  -- in case we trigger on other events in future
+  IF TG_OP = 'INSERT' THEN
+    old_to_principal := NULL;
+  ELSE
+    old_to_principal := OLD.to_principal;
+  END IF;
+  IF TG_OP = 'INSERT' OR NEW.to_principal != old_to_principal THEN
+    SELECT (type_id = 3) INTO new_is_group FROM principal WHERE principal_id = NEW.to_principal;
+    IF NEW.is_group != new_is_group THEN
+      NEW.is_group := new_is_group;
+    END IF;
+  END IF;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+CREATE TRIGGER grants_modified AFTER INSERT OR UPDATE ON grants
+    FOR EACH ROW EXECUTE PROCEDURE grants_modified();
+
+
+
+-- An expanded list of the grants this principal has access to
+CREATE or REPLACE FUNCTION g_has_proxy_access_to( INT8, INT ) RETURNS SETOF grants AS $$
+  SELECT $1, by_collection, by_principal,
+         (CASE WHEN by_collection IS NULL THEN pprivs($1,by_principal,$2)
+               ELSE path_privs($1,(SELECT dav_name FROM collection WHERE collection_id = by_collection),$2)
+           END) AS privileges,
+         coalesce((principal.type_id=3), FALSE) AS is_group
+    FROM (
+      SELECT by_principal, by_collection FROM grants
+           WHERE to_principal IN (SELECT $1 UNION SELECT expand_memberships($1,$2))
+             AND (privileges & 5::BIT(24)) != 0::BIT(24)
+             AND by_principal != $1
+         UNION
+      SELECT principal_id AS by_principal, NULL::INT8 FROM principal
+           WHERE (default_privileges & 5::BIT(24)) != 0::BIT(24)
+             AND principal_id != $1
+    ) subquery LEFT JOIN principal ON (subquery.by_principal = principal_id);
+$$ LANGUAGE 'SQL' STABLE STRICT;
+
+
+-- A list of the principals who can proxy to this principal
+CREATE or REPLACE FUNCTION g_grants_proxy_access_from( INT8, INT ) RETURNS SETOF grants AS $$
+  SELECT DISTINCT ON (grants.by_principal) by_principal, NULL::INT8, $1 AS to_principal, pprivs(by_principal,$1,$2), (principal.type_id=3) AS is_group
+    FROM grants JOIN principal ON (by_principal = principal_id)
+   WHERE by_collection IS NULL AND by_principal != $1
+     AND by_principal IN (SELECT $1 UNION SELECT expand_members(g2.to_principal,$2) FROM grants g2 WHERE g2.by_principal = $1)
+   ;
+$$ LANGUAGE 'SQL' STABLE STRICT;
+
+
+
+
+-- An expanded list of the grants this principal has access to
+CREATE or REPLACE FUNCTION p_has_proxy_access_to( INT8, INT ) RETURNS SETOF INT8 AS $$
+  SELECT by_principal
+    FROM (
+      SELECT by_principal FROM grants
+           WHERE to_principal IN (SELECT $1 UNION SELECT expand_memberships($1,$2))
+             AND (privileges & 5::BIT(24)) != 0::BIT(24)
+             AND by_collection IS NULL
+             AND by_principal != $1
+      UNION
+      SELECT principal_id AS by_principal FROM principal
+           WHERE (default_privileges & 5::BIT(24)) != 0::BIT(24)
+             AND principal_id != $1
+    ) subquery;
+$$ LANGUAGE 'SQL' STABLE STRICT;
+
+
+-- A list of the principals who can proxy to this principal
+CREATE or REPLACE FUNCTION grants_proxy_access_from_p( INT8, INT ) RETURNS SETOF INT8 AS $$
+  SELECT DISTINCT by_principal
+    FROM grants
+   WHERE by_collection IS NULL AND by_principal != $1
+     AND by_principal IN (SELECT expand_members(g2.to_principal,$2) FROM grants g2 WHERE g2.by_principal = $1)
+   ;
+$$ LANGUAGE 'SQL' STABLE STRICT;
+
 
 
 -- A list of the principals who can proxy to this principal
 CREATE or REPLACE FUNCTION i_proxy_to( INT8 ) RETURNS SETOF grants AS $$
-SELECT by_principal, by_collection, to_principal, privileges, is_group FROM grants WHERE by_principal = $1 AND NOT is_group AND by_collection IS NULL
-     UNION
-SELECT by_principal, by_collection, member_id, privileges, is_group FROM grants
-              JOIN group_member ON (to_principal=group_id) where by_principal = $1 and is_group AND by_collection IS NULL;
+  SELECT by_principal, by_collection, to_principal, bit_or(privileges), bool_or(is_group)
+    FROM (SELECT by_principal, by_collection, to_principal, pprivs(to_principal,by_principal,2) AS privileges, is_group FROM grants WHERE by_principal = $1 AND by_collection IS NULL
+                  UNION
+          SELECT $1, NULL, group_id, 32::BIT(24), TRUE FROM group_member WHERE member_id = $1
+                  UNION
+          SELECT $1, NULL, principal_id, pprivs(principal_id,$1,2) AS privileges, (type_id=3) AS is_group FROM principal WHERE (default_privileges & 5::BIT(24)) != 0::BIT(24)
+                  UNION
+          SELECT $1, collection_id, NULL, path_privs($1,collection.dav_name,2) AS privileges, FALSE AS is_group FROM collection WHERE (default_privileges & 5::BIT(24)) != 0::BIT(24)
+          ) a GROUP BY 1, 2, 3;
 $$ LANGUAGE 'SQL' STRICT;
+
+
+CREATE or REPLACE FUNCTION i_proxy_for( INT8 ) RETURNS SETOF grants AS $$
+SELECT by_principal, by_collection, to_principal, bit_or(privileges), bool_or(is_group)
+      FROM (SELECT by_principal, by_collection, to_principal, privileges, is_group FROM grants WHERE to_principal = $1
+                    UNION
+            SELECT member_id, NULL, $1, 32::BIT(24), TRUE FROM group_member WHERE group_id = $1
+           ) a GROUP BY 1, 2, 3;
+$$ LANGUAGE 'SQL' STRICT;
+
+
 
 -- A list of the principals who this principal can proxy
 CREATE or REPLACE FUNCTION proxied_by( INT8 ) RETURNS SETOF grants AS $$

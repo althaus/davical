@@ -344,6 +344,7 @@ EOSQL;
     if ( isset($this->principal->user_no) ) $this->user_no  = $this->principal->user_no;
     if ( isset($this->principal->username)) $this->username = $this->principal->username;
     if ( isset($this->principal->by_email)) $this->by_email = true;
+    if ( isset($this->principal->principal_id)) $this->principal_id = $this->principal->principal_id;
 
     if ( $this->collection_type == 'principal' || $this->collection_type == 'email' ) {
       $this->collection = $this->principal->AsCollection();
@@ -497,6 +498,7 @@ EOSQL;
 
     $this->user_no = $session->user_no;
     $this->username = $session->username;
+    $this->principal_id = $session->principal_id;
 
     @dbg_error_log( "WARN", "Call to deprecated CalDAVRequest::UserFromPath()" );
 
@@ -511,15 +513,17 @@ EOSQL;
     @dbg_error_log( "caldav", "Path split into at least /// %s /// %s /// %s", $path_split[1], $path_split[2], $path_split[3] );
     if ( isset($this->options['allow_by_email']) && preg_match( '#/(\S+@\S+[.]\S+)/?$#', $this->path, $matches) ) {
       $this->by_email = $matches[1];
-//      $qry = new PgQuery("SELECT user_no FROM usr WHERE email = ? AND get_permissions(?,user_no) ~ '[FRA]';", $this->by_email, $session->user_no );
-      $qry = new PgQuery("SELECT user_no FROM usr WHERE email = ?;", $this->by_email );
+      $qry = new PgQuery("SELECT user_no, principal_id, username FROM usr JOIN principal USING (user_no) WHERE email = ?;", $this->by_email );
       if ( $qry->Exec("caldav") && $user = $qry->Fetch() ) {
         $this->user_no = $user->user_no;
+        $this->username = $user->username;
+        $this->principal_id = $user->principal_id;
       }
     }
     elseif( $user = getUserByName($this->username,'caldav',__LINE__,__FILE__)) {
       $this->principal = $user;
       $this->user_no = $user->user_no;
+      $this->principal_id = $user->principal_id;
     }
   }
 
@@ -575,40 +579,22 @@ EOSQL;
     /**
     * In other cases we need to query the database for permissions
     */
-    $qry = new PgQuery( "SELECT get_permissions( ?, ? ) AS perm;", $session->user_no, $this->user_no);
+    if ( isset($this->by_email) ) {
+      $qry = new PgQuery( "SELECT pprivs( ?, ?, ? ) AS perm", $session->principal_id, $this->principal_id, $c->permission_scan_depth );
+    }
+    else {
+      $qry = new PgQuery( "SELECT path_privs( ?, ?, ? ) AS perm", $session->principal_id, $this->path, $c->permission_scan_depth );
+    }
     if ( $qry->Exec("caldav") && $permission_result = $qry->Fetch() ) {
-      $permission_result = "!".$permission_result->perm; // We prepend something to ensure we get a non-zero position.
-      if ( strpos($permission_result,"A") ) {
-        $this->permissions['all'] = 'abstract';
-        $this->permissions['urn:ietf:params:xml:ns:caldav:read-free-busy'] = 'real';
-        $this->permissions['read'] = 'real';
-        $this->permissions['write'] = 'aggregate';
-        $this->permissions['bind'] = 'real';      // PUT of new content (i.e. Create)
-        $this->permissions['unbind'] = 'real';  // DELETE
-        $this->permissions['write-content'] = 'real';        // PUT Modify
-        $this->permissions['write-properties'] = 'real';  // PROPPATCH
-        $this->permissions['lock'] = 'real';
-        $this->permissions['unlock'] = 'real';
-        $this->permissions['read-acl'] = 'real';
-        $this->permissions['read-current-user-privilege-set'] = 'real';
-      }
-      else {
-        if ( strpos($permission_result,"F") )       $this->permissions['urn:ietf:params:xml:ns:caldav:read-free-busy'] = 'real';
-        if ( strpos($permission_result,"R") )       $this->permissions['read'] = 'real';
-        if ( strpos($permission_result,"W") ) {
-          $this->permissions['write'] = 'aggregate';
-          $this->permissions['bind'] = 'real';      // PUT of new content (i.e. Create)
-          $this->permissions['unbind'] = 'real';  // DELETE
-          $this->permissions['write-content'] = 'real';        // PUT Modify
-          $this->permissions['write-properties'] = 'real';  // PROPPATCH
-          $this->permissions['lock'] = 'real';
-          $this->permissions['unlock'] = 'real';
+      $privs = bits_to_privilege($permission_result->perm);
+      foreach( $privs AS $k => $v ) {
+        switch( $v ) {
+          case 'DAV::all':    $type = 'abstract';   break;
+          case 'DAV::write':  $type = 'aggregate';  break;
+          default: $type = 'real';
         }
-        else {
-          if ( strpos($permission_result,"C") )       $this->permissions['bind'] = 'real';      // PUT of new content (i.e. Create)
-          if ( strpos($permission_result,"D") )       $this->permissions['unbind'] = 'real';  // DELETE
-          if ( strpos($permission_result,"M") )       $this->permissions['write-content'] = 'real';  // PUT Modify
-        }
+        $v = str_replace('DAV::', '', $v);
+        $this->permissions[$v] = $type;
       }
       dbg_error_log( "caldav", "Restricted permissions for user accessing someone elses hierarchy: %s", implode( ", ", $this->permissions ) );
     }

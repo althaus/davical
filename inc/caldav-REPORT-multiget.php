@@ -48,18 +48,17 @@ foreach( $mg_hrefs AS $k => $v ) {
 }
 
 $where = " WHERE caldav_data.dav_name ~ ".qpg("^".$request->path)." ";
-if ( $href_in != "" ) {
-  $where .= " AND caldav_data.dav_name IN ( $href_in ) ";
-}
-$where .= "AND (calendar_item.class != 'PRIVATE' OR calendar_item.class IS NULL OR get_permissions($session->user_no,calendar_item.user_no) ~ 'A') ";
+$where .= "AND caldav_data.dav_name IN ( $href_in ) ";
+$where .= "AND (calendar_item.class != 'PRIVATE' OR calendar_item.class IS NULL ";
+$where .=      "OR (uprivs($session->user_no,calendar_item.user_no,$c->permission_scan_depth) = privilege_to_bits('all')) ) ";
 
 if ( isset($c->hide_TODO) && $c->hide_TODO && ! $request->AllowedTo('all') ) {
   $where .= "AND caldav_data.caldav_type NOT IN ('VTODO') ";
 }
 
-if ( isset($c->strict_result_ordering) && $c->strict_result_ordering ) $where .= " ORDER BY dav_id";
-$qry = new PgQuery( "SELECT * FROM caldav_data INNER JOIN calendar_item USING(dav_id, user_no, dav_name)". $where );
-if ( $qry->Exec("REPORT",__LINE__,__FILE__) && $qry->rows > 0 ) {
+if ( isset($c->strict_result_ordering) && $c->strict_result_ordering ) $where .= " ORDER BY caldav_data.dav_id";
+$qry = new PgQuery( "SELECT caldav_data.*,calendar_item.* FROM caldav_data INNER JOIN calendar_item USING(dav_id, user_no, dav_name, collection_id) LEFT JOIN collection USING(collection_id)". $where );
+if ( $qry->Exec('REPORT',__LINE__,__FILE__) && $qry->rows > 0 ) {
   while( $calendar_object = $qry->Fetch() ) {
     $responses[] = calendar_to_xml( $properties, $calendar_object );
   }

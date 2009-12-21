@@ -205,7 +205,7 @@ class CalDAVPrincipal
 
     if ( $this->_is_group ) {
       $this->group_member_set = array();
-      $qry = new PgQuery('SELECT * FROM group_member JOIN principal ON (principal_id=member_id) JOIN usr USING(user_no) WHERE group_id = ?', $this->principal_id );
+      $qry = new PgQuery('SELECT usr.username FROM group_member JOIN principal ON (principal_id=member_id) JOIN usr USING(user_no) WHERE group_id = ?', $this->principal_id );
       if ( $qry->Exec('CalDAVPrincipal') && $qry->rows > 0 ) {
         while( $member = $qry->Fetch() ) {
           $this->group_member_set[] = ConstructURL( '/'. $member->username . '/', true);
@@ -214,7 +214,7 @@ class CalDAVPrincipal
     }
 
     $this->group_membership = array();
-    $qry = new PgQuery('SELECT * FROM group_member JOIN principal ON (principal_id=group_id) JOIN usr USING(user_no) WHERE member_id = ?', $this->principal_id );
+    $qry = new PgQuery('SELECT usr.username FROM group_member JOIN principal ON (principal_id=group_id) JOIN usr USING(user_no) WHERE member_id = ? UNION SELECT usr.username FROM group_member LEFT JOIN grants ON (to_principal=group_id) JOIN principal ON (principal_id=by_principal) JOIN usr USING(user_no) WHERE member_id = ? and by_principal != member_id', $this->principal_id, $this->principal_id );
     if ( $qry->Exec('CalDAVPrincipal') && $qry->rows > 0 ) {
       while( $group = $qry->Fetch() ) {
         $this->group_membership[] = ConstructURL( '/'. $group->username . '/', true);
@@ -254,31 +254,34 @@ class CalDAVPrincipal
     $this->read_proxy_for = array();
 
     if ( !isset($c->disable_caldav_proxy) || $c->disable_caldav_proxy === false ) {
+
+      $write_priv = privilege_to_bits(array('write'));
       // whom are we a proxy for? who is a proxy for us?
       // (as per Caldav Proxy section 5.1 Paragraph 7 and 5)
-      $qry = new PgQuery('SELECT from_user.user_no AS from_user_no, from_user.username AS from_username,'.
-              'get_permissions(from_user.user_no, to_user.user_no) AS confers,'.
-              'to_user.user_no AS to_user_no, to_user.username AS to_username '.
-              'FROM usr from_user, usr to_user WHERE '.
-              "get_permissions(from_user.user_no, to_user.user_no) ~ '[AWR]' AND ".
-              'to_user.user_no != from_user.user_no AND (from_user.user_no = ? OR '.
-              'to_user.user_no = ?)', $this->user_no, $this->user_no );
+      $sql = 'SELECT principal_id, username, pprivs(?,principal_id,?) FROM principal JOIN usr USING(user_no) WHERE principal_id IN (SELECT * from p_has_proxy_access_to(?,?))';
+      $qry = new PgQuery($sql, $this->principal_id, $c->permission_scan_depth, $this->principal_id, $c->permission_scan_depth );
       if ( $qry->Exec('CalDAVPrincipal') && $qry->rows > 0 ) {
         while( $relationship = $qry->Fetch() ) {
-          if ($relationship->confers == 'R') {
-            if ($relationship->from_user_no == $this->user_no) {
-                // spec says without trailing slash, CalServ does it with slash, and so do we.
-                  $this->read_proxy_for[] = ConstructURL( '/'. $relationship->to_username . '/', true);
-            } else /* ($relationship->to_user_no == $this->user_no) */ {
-              $this->read_proxy_group[] = ConstructURL( '/'. $relationship->from_username . '/', true);
-            }
-          } else if (preg_match('/[WA]/', $relationship->confers)) {
-            if ($relationship->from_user_no == $this->user_no) {
-              $this->write_proxy_for[] = ConstructURL( '/'. $relationship->to_username . '/', true);
-            }
-            else /* ($relationship->to_user_no == $this->user_no) */ {
-              $this->write_proxy_group[] = ConstructURL( '/'. $relationship->from_username . '/', true);
-            }
+          if ( (bindec($relationship->pprivs) & $write_priv) != 0 ) {
+            $this->write_proxy_for[] = ConstructURL( '/'. $relationship->username . '/', true);
+            $this->group_membership[] = ConstructURL( '/'. $relationship->username . '/calendar-proxy-write/', true);
+          }
+          else {
+            $this->read_proxy_for[] = ConstructURL( '/'. $relationship->username . '/', true);
+            $this->group_membership[] = ConstructURL( '/'. $relationship->username . '/calendar-proxy-read/', true);
+          }
+        }
+      }
+
+      $sql = 'SELECT principal_id, username, pprivs(?,principal_id,?) FROM principal JOIN usr USING(user_no) WHERE principal_id IN (SELECT * from grants_proxy_access_from_p(?,?))';
+      $qry = new PgQuery($sql, $this->principal_id, $c->permission_scan_depth, $this->principal_id, $c->permission_scan_depth );
+      if ( $qry->Exec('CalDAVPrincipal') && $qry->rows > 0 ) {
+        while( $relationship = $qry->Fetch() ) {
+          if ( bindec($relationship->pprivs) & $write_priv ) {
+            $this->write_proxy_group[] = ConstructURL( '/'. $relationship->username . '/', true);
+          }
+          else {
+            $this->read_proxy_group[] = ConstructURL( '/'. $relationship->username . '/', true);
           }
         }
       }
@@ -319,6 +322,7 @@ class CalDAVPrincipal
   * Accessor for the group membership - the groups this principal is a member of
   */
   function GroupMembership() {
+    if ( !isset($this->read_proxy_group) ) $this->FetchProxyGroups();
     return $this->group_membership;
   }
 
@@ -489,9 +493,9 @@ class CalDAVPrincipal
         $reply->CalendarserverElement($prop, 'dropbox-home-URL', $reply->href($this->dropbox_url) );
         break;
 
-      case 'http://calendarserver.org/ns/:notifications-URL':
-        $reply->CalendarserverElement($prop, 'notifications-URL', $reply->href($this->notifications_url) );
-        break;
+#      case 'http://calendarserver.org/ns/:notifications-URL':
+#        $reply->CalendarserverElement($prop, 'notifications-URL', $reply->href($this->notifications_url) );
+#        break;
 
       case 'http://calendarserver.org/ns/:xmpp-server':
         if ( ! isset( $this->xmpp_uri ) ) return false;

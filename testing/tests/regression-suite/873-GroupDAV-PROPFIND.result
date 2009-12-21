@@ -2,8 +2,8 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule, extended-mkcol
 Allow: OPTIONS, PROPFIND, REPORT
-ETag: "4f8ed125097724d9b6dad906e317f01d"
-Content-Length: 8948
+ETag: "8dade0339d83135c772d8f0838cc8339"
+Content-Length: 8407
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -140,13 +140,31 @@ Content-Type: text/xml; charset="utf-8"
     <getcontenttype>httpd/unix-directory</getcontenttype>
     <current-user-privilege-set>
      <privilege>
-      <read/>
-     </privilege>
-     <privilege>
       <C:read-free-busy/>
      </privilege>
      <privilege>
+      <C:schedule-deliver/>
+     </privilege>
+     <privilege>
+      <C:schedule-deliver-invite/>
+     </privilege>
+     <privilege>
+      <C:schedule-deliver-reply/>
+     </privilege>
+     <privilege>
       <C:schedule-query-freebusy/>
+     </privilege>
+     <privilege>
+      <C:schedule-send/>
+     </privilege>
+     <privilege>
+      <C:schedule-send-invite/>
+     </privilege>
+     <privilege>
+      <C:schedule-send-reply/>
+     </privilege>
+     <privilege>
+      <C:schedule-send-freebusy/>
      </privilege>
     </current-user-privilege-set>
     <C2:getctag>ab4a67c917e242e0989cd278c75a510e</C2:getctag>
@@ -178,28 +196,31 @@ Content-Type: text/xml; charset="utf-8"
     <getcontenttype>httpd/unix-directory</getcontenttype>
     <current-user-privilege-set>
      <privilege>
-      <read/>
-     </privilege>
-     <privilege>
       <C:read-free-busy/>
      </privilege>
      <privilege>
-      <write/>
+      <C:schedule-deliver/>
      </privilege>
      <privilege>
-      <write-properties/>
+      <C:schedule-deliver-invite/>
      </privilege>
      <privilege>
-      <write-content/>
-     </privilege>
-     <privilege>
-      <bind/>
-     </privilege>
-     <privilege>
-      <unbind/>
+      <C:schedule-deliver-reply/>
      </privilege>
      <privilege>
       <C:schedule-query-freebusy/>
+     </privilege>
+     <privilege>
+      <C:schedule-send/>
+     </privilege>
+     <privilege>
+      <C:schedule-send-invite/>
+     </privilege>
+     <privilege>
+      <C:schedule-send-reply/>
+     </privilege>
+     <privilege>
+      <C:schedule-send-freebusy/>
      </privilege>
     </current-user-privilege-set>
     <C2:getctag>4d470212545b8dd76f702fe2444accad</C2:getctag>
@@ -231,40 +252,10 @@ Content-Type: text/xml; charset="utf-8"
     <getcontenttype>httpd/unix-directory</getcontenttype>
     <current-user-privilege-set>
      <privilege>
-      <all/>
-     </privilege>
-     <privilege>
       <read/>
      </privilege>
      <privilege>
-      <unlock/>
-     </privilege>
-     <privilege>
-      <read-acl/>
-     </privilege>
-     <privilege>
-      <read-current-user-privilege-set/>
-     </privilege>
-     <privilege>
-      <write-acl/>
-     </privilege>
-     <privilege>
       <C:read-free-busy/>
-     </privilege>
-     <privilege>
-      <write/>
-     </privilege>
-     <privilege>
-      <write-properties/>
-     </privilege>
-     <privilege>
-      <write-content/>
-     </privilege>
-     <privilege>
-      <bind/>
-     </privilege>
-     <privilege>
-      <unbind/>
      </privilege>
      <privilege>
       <C:schedule-deliver/>
@@ -320,40 +311,10 @@ Content-Type: text/xml; charset="utf-8"
     <getcontenttype>httpd/unix-directory</getcontenttype>
     <current-user-privilege-set>
      <privilege>
-      <all/>
-     </privilege>
-     <privilege>
       <read/>
      </privilege>
      <privilege>
-      <unlock/>
-     </privilege>
-     <privilege>
-      <read-acl/>
-     </privilege>
-     <privilege>
-      <read-current-user-privilege-set/>
-     </privilege>
-     <privilege>
-      <write-acl/>
-     </privilege>
-     <privilege>
       <C:read-free-busy/>
-     </privilege>
-     <privilege>
-      <write/>
-     </privilege>
-     <privilege>
-      <write-properties/>
-     </privilege>
-     <privilege>
-      <write-content/>
-     </privilege>
-     <privilege>
-      <bind/>
-     </privilege>
-     <privilege>
-      <unbind/>
      </privilege>
      <privilege>
       <C:schedule-deliver/>

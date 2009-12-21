@@ -27,6 +27,7 @@ $c->domain_name = (isset($_SERVER['SERVER_NAME'])?$_SERVER['SERVER_NAME']:$_SERV
 $c->save_time_zone_defs = true;
 $c->collections_always_exist = false;
 $c->allow_get_email_visibility = false;
+$c->permission_scan_depth = 2;
 $c->home_calendar_name = 'home';
 $c->enable_row_linking = true;
 $c->http_auth_mode = 'Basic';
@@ -124,7 +125,7 @@ awl_set_locale($c->default_locale);
 *
 */
 $c->code_version = 0;
-$c->version_string = '0.9.7.4'; // The actual version # is replaced into that during the build /release process
+$c->version_string = '0.9.7.99'; // The actual version # is replaced into that during the build /release process
 if ( isset($c->version_string) && preg_match( '/(\d+)\.(\d+)\.(\d+)(.*)/', $c->version_string, $matches) ) {
   $c->code_major = $matches[1];
   $c->code_minor = $matches[2];
@@ -352,6 +353,8 @@ function privilege_to_bits( $raw_privs ) {
   $out_priv = 0;
 
   if ( gettype($raw_privs) == 'string' ) $raw_privs = array( $raw_privs );
+
+  if ( ! is_array($raw_privs) ) $raw_privs = array($raw_privs);
 
   foreach( $raw_privs AS $priv ) {
     $trim_priv = trim(strtolower(preg_replace( '/^.*:/', '', $priv)));

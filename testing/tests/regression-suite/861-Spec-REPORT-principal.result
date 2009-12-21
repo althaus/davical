@@ -2,8 +2,8 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule, extended-mkcol
 Allow: OPTIONS, PROPFIND, REPORT
-ETag: "8f4ecca4cebdbf26f6a439035ec65d61"
-Content-Length: 4038
+ETag: "135496e5aa8c45c3ba999c28f7ffec62"
+Content-Length: 4037
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -15,7 +15,7 @@ Content-Type: text/xml; charset="utf-8"
     <C:calendar-home-set>
      <href>/caldav.php/admin/</href>
     </C:calendar-home-set>
-    <displayname>Calendar Administrator</displayname>
+    <displayname>DAViCal Administrator</displayname>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
