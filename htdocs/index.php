@@ -29,9 +29,9 @@ EOBODY;
 <p>To do that you will need to use a CalDAV capable calendaring application such as Evolution, Sunbird, Thunderbird
 (with the Lightning extension) or Mulberry.</p>
 
-<h3>Users, Resources and Groups</h3>
+<h3>Principals: Users, Resources and Groups</h3>
 <p>These are the things which may have collections of calendar resources (i.e. calendars).</p>
-<p><a href="<?php echo $c->base_url; ?>/users.php">Here is a list of users (maybe :-)</a>.  You can click on any user to see the full detail
+<p><a href="<?php echo $c->base_url; ?>/admin.php?action=browse&t=principal&type=1">Here is a list of users (maybe :-)</a>.  You can click on any user to see the full detail
 for that person (or group or resource - but from now we'll just call them users).</p>
 <p>The primary differences between them are as follows:</p>
 <ul>
@@ -40,20 +40,11 @@ for that person (or group or resource - but from now we'll just call them users)
 <li>Groups provide an intermediate linking to minimise administration overhead.  They might not have calendars, and they will not usually log on.</li>
 </ul>
 
-<h3>Types of Relationships</h3>
-<p>These define the structure of the relationships between users.</p>
-<p>A manager might want to grant full access to their calendar to an assistant, for example, so
-there should be an "Is assisted by" relationship between the manager and the assistant.</p>
-<p>Relationships themselves are maintained on the User maintenance screen.</p>
-<p>It can also be useful to have several people having the same kind of access to a particular
-set of resources.  The "Is a member of group" relationship is used to link users to the group,
-and then the group is linked to each resource with the "Administers Resource" relationship.</p>
-<p>You can also define other relationship types beyond the basic ones just described.</p>
-<p>Relationship links work in three ways, as follows:</p>
+<h3>Groups &amp; Grants</h3>
 <ul>
-<li>Where users relate to each other (i.e. links to non-group targets), the relationship type will define whether access is read only, or read &amp; write.</li>
-<li>Where a set of users link to a group, which does not further link to other users/resources, they will share the same access to each other.</li>
-<li>Where a set of users link to a group, which then links to other users/resources, the access restrictions will apply as the lesser of their link to that group, or the link from the group.  They will have no access to each other's calendars.</li>
+<li>Grants specify the access rights to a collection or a principal</li>
+<li>Groups allow those granted rights to be assigned to a set of many principals in one action</li>
+<li>Groups may be members of other groups, but complex nesting will hurt system performance</li>
 </ul>
 
 <h2>Configuring Calendar Clients for DAViCal</h2>
