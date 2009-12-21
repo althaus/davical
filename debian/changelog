@@ -1,3 +1,9 @@
+davical (0.9.7.99-1) unstable; urgency=low
+
+  * Testing release.
+
+ -- Andrew McMillan <debian@mcmillan.net.nz>  Mon, 21 Dec 2009 23:25:02 +1300
+
 davical (0.9.7.6-0) unstable; urgency=low
 
   * New upstream release.
