@@ -580,10 +580,10 @@ EOSQL;
     * In other cases we need to query the database for permissions
     */
     if ( isset($this->by_email) ) {
-      $qry = new PgQuery( "SELECT pprivs( ?, ?, ? ) AS perm", $session->principal_id, $this->principal_id, $c->permission_scan_depth );
+      $qry = new PgQuery( "SELECT pprivs( ?::int8, ?::int8, ?::int ) AS perm", $session->principal_id, $this->principal_id, $c->permission_scan_depth );
     }
     else {
-      $qry = new PgQuery( "SELECT path_privs( ?, ?, ? ) AS perm", $session->principal_id, $this->path, $c->permission_scan_depth );
+      $qry = new PgQuery( "SELECT path_privs( ?::int8, ?::text, ?::int ) AS perm", $session->principal_id, $this->path, $c->permission_scan_depth );
     }
     if ( $qry->Exec("caldav") && $permission_result = $qry->Fetch() ) {
       $privs = bits_to_privilege($permission_result->perm);

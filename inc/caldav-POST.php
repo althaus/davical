@@ -56,11 +56,11 @@ function handle_freebusy_request( $ic ) {
     }
 
     /** @TODO: Refactor this so we only do one query here and loop through the results */
-    $qry = new PgQuery("SELECT pprivs(?,principal_id,?) AS p FROM usr JOIN principal USING(user_no) WHERE lower(usr.email) = lower(?)", $session->principal_id, $c->permission_scan_depth, $attendee_email );
+    $qry = new PgQuery("SELECT pprivs(?::int8,principal_id,?::int) AS p FROM usr JOIN principal USING(user_no) WHERE lower(usr.email) = lower(?)", $session->principal_id, $c->permission_scan_depth, $attendee_email );
     if ( !$qry->Exec("POST") ) $request->DoResponse( 501, 'Database error');
     if ( $qry->rows > 1 ) {
       // Unlikely, but if we get more than one result we'll do an exact match instead.
-      $qry = new PgQuery("SELECT pprivs(?,principal_id,?) AS p FROM usr JOIN principal USING(user_no) WHERE usr.email = ?", $session->principal_id, $c->permission_scan_depth, $attendee_email );
+      $qry = new PgQuery("SELECT pprivs(?::int8,principal_id,?::int) AS p FROM usr JOIN principal USING(user_no) WHERE usr.email = ?", $session->principal_id, $c->permission_scan_depth, $attendee_email );
       if ( !$qry->Exec("POST") ) $request->DoResponse( 501, 'Database error');
     }
 

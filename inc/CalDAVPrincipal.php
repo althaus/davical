@@ -257,7 +257,7 @@ class CalDAVPrincipal
       $write_priv = privilege_to_bits(array('write'));
       // whom are we a proxy for? who is a proxy for us?
       // (as per Caldav Proxy section 5.1 Paragraph 7 and 5)
-      $sql = 'SELECT principal_id, username, pprivs(?,principal_id,?) FROM principal JOIN usr USING(user_no) WHERE principal_id IN (SELECT * from p_has_proxy_access_to(?,?))';
+      $sql = 'SELECT principal_id, username, pprivs(?::int8,principal_id,?::int) FROM principal JOIN usr USING(user_no) WHERE principal_id IN (SELECT * from p_has_proxy_access_to(?,?))';
       $qry = new PgQuery($sql, $this->principal_id, $c->permission_scan_depth, $this->principal_id, $c->permission_scan_depth );
       if ( $qry->Exec('CalDAVPrincipal') && $qry->rows > 0 ) {
         while( $relationship = $qry->Fetch() ) {
@@ -272,7 +272,7 @@ class CalDAVPrincipal
         }
       }
 
-      $sql = 'SELECT principal_id, username, pprivs(?,principal_id,?) FROM principal JOIN usr USING(user_no) WHERE principal_id IN (SELECT * from grants_proxy_access_from_p(?,?))';
+      $sql = 'SELECT principal_id, username, pprivs(?::int8,principal_id,?::int) FROM principal JOIN usr USING(user_no) WHERE principal_id IN (SELECT * from grants_proxy_access_from_p(?,?))';
       $qry = new PgQuery($sql, $this->principal_id, $c->permission_scan_depth, $this->principal_id, $c->permission_scan_depth );
       if ( $qry->Exec('CalDAVPrincipal') && $qry->rows > 0 ) {
         while( $relationship = $qry->Fetch() ) {

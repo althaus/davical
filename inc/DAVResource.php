@@ -275,7 +275,7 @@ class DAVResource
       'is_calendar' => false, 'is_principal' => false, 'is_addressbook' => false
     );
 
-    $base_sql = 'SELECT collection.*, path_privs(:session_principal, collection.dav_name,:scan_depth), ';
+    $base_sql = 'SELECT collection.*, path_privs(:session_principal::int8, collection.dav_name,:scan_depth::int), ';
     $base_sql .= 'p.principal_id, p.type_id AS principal_type_id, ';
     $base_sql .= 'p.displayname AS principal_displayname, p.default_privileges AS principal_default_privileges ';
     $base_sql .= 'FROM collection LEFT JOIN principal p USING (user_no) WHERE ';

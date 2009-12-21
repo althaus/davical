@@ -171,7 +171,7 @@ function getUserByName( $username, $use_cache = true ) {
 
   global $c, $session;
   if ( isset($session->user_no) )
-    $qry = new PgQuery( "SELECT *, to_char(updated at time zone 'GMT','Dy, DD Mon IYYY HH24:MI:SS \"GMT\"') AS modified, principal.*, pprivs(?,principal.principal_id,?) AS privileges FROM usr LEFT JOIN principal USING(user_no) WHERE lower(username) = lower(?) ", $session->principal_id, $c->permission_scan_depth, $username );
+    $qry = new PgQuery( "SELECT *, to_char(updated at time zone 'GMT','Dy, DD Mon IYYY HH24:MI:SS \"GMT\"') AS modified, principal.*, pprivs(?::int8,principal.principal_id,?::int) AS privileges FROM usr LEFT JOIN principal USING(user_no) WHERE lower(username) = lower(?) ", $session->principal_id, $c->permission_scan_depth, $username );
   else
     $qry = new PgQuery( "SELECT *, to_char(updated at time zone 'GMT','Dy, DD Mon IYYY HH24:MI:SS \"GMT\"') AS modified, principal.*, 0::BIT(24) AS privileges FROM usr LEFT JOIN principal USING(user_no) WHERE lower(username) = lower(?) ", $username );
   if ( $qry->Exec('always',__LINE__,__FILE__) && $qry->rows == 1 ) {
@@ -195,7 +195,7 @@ function getUserByID( $user_no, $use_cache = true ) {
   if ( $use_cache && isset( $_known_users_id[$user_no] ) ) return $_known_users_id[$user_no];
 
   global $c, $session;
-  $qry = new PgQuery( "SELECT *, to_char(updated at time zone 'GMT','Dy, DD Mon IYYY HH24:MI:SS \"GMT\"') AS modified, principal.*, pprivs(?,principal.principal_id,?) AS privileges FROM usr LEFT JOIN principal USING(user_no) WHERE user_no = ? ", $session->principal_id, $c->permission_scan_depth, intval($user_no) );
+  $qry = new PgQuery( "SELECT *, to_char(updated at time zone 'GMT','Dy, DD Mon IYYY HH24:MI:SS \"GMT\"') AS modified, principal.*, pprivs(?::int8,principal.principal_id,?::int) AS privileges FROM usr LEFT JOIN principal USING(user_no) WHERE user_no = ? ", $session->principal_id, $c->permission_scan_depth, intval($user_no) );
   if ( $qry->Exec('always',__LINE__,__FILE__) && $qry->rows == 1 ) {
     $_known_users_id[$user_no] = $qry->Fetch();
     $name = $_known_users_id[$user_no]->username;

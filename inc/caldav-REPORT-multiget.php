@@ -50,7 +50,7 @@ foreach( $mg_hrefs AS $k => $v ) {
 $where = " WHERE caldav_data.dav_name ~ ".qpg("^".$request->path)." ";
 $where .= "AND caldav_data.dav_name IN ( $href_in ) ";
 $where .= "AND (calendar_item.class != 'PRIVATE' OR calendar_item.class IS NULL ";
-$where .=      "OR (uprivs($session->user_no,calendar_item.user_no,$c->permission_scan_depth) = privilege_to_bits('all')) ) ";
+$where .=      "OR (uprivs($session->user_no::int8,calendar_item.user_no,$c->permission_scan_depth::int) = privilege_to_bits('all')) ) ";
 
 if ( isset($c->hide_TODO) && $c->hide_TODO && ! $request->AllowedTo('all') ) {
   $where .= "AND caldav_data.caldav_type NOT IN ('VTODO') ";
