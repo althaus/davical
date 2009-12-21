@@ -14,11 +14,19 @@ $session->LoginRequired();
 include("interactive-page.php");
 include("page-header.php");
 
+$want_dbversion = implode('.',$c->want_dbversion);
+
   echo <<<EOBODY
 <h1>Upgrade</h1>
 <p>Currently this page does nothing.  Suggestions or patches to make it do something
 useful will be gratefully received.
-
+<br>&nbsp;
+</p>
+<h2>Current Versions</h2>
+You are currently DAViCal version $c->version_string.
+The database schema should be at version $want_dbversion and it is at version $c->schema_major.$c->schema_minor.$c->schema_patch.
+<br>&nbsp;
+</p>
 <h2>Upgrading DAViCal Versions</h2>
 <p>The <a href="http://wiki.davical.org/w/Update-davical-database">update-davical-database</a> should be run
 manually after upgrading the software to a new version of DAViCal.</p>
@@ -27,5 +35,4 @@ manually after upgrading the software to a new version of DAViCal.</p>
 script, but until then I'm afraid you do need to run it.
 EOBODY;
 
-<?php
 include("page-footer.php");
