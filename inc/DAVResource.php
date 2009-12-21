@@ -275,12 +275,12 @@ class DAVResource
       'is_calendar' => false, 'is_principal' => false, 'is_addressbook' => false
     );
 
-    $base_sql = 'SELECT collection.*, path_privileges(:session_principal, collection.dav_name), ';
+    $base_sql = 'SELECT collection.*, path_privs(:session_principal, collection.dav_name,:scan_depth), ';
     $base_sql .= 'p.principal_id, p.type_id AS principal_type_id, ';
     $base_sql .= 'p.displayname AS principal_displayname, p.default_privileges AS principal_default_privileges ';
     $base_sql .= 'FROM collection LEFT JOIN principal p USING (user_no) WHERE ';
     $sql = $base_sql .'collection.dav_name = :raw_path ';
-    $params = array( ':raw_path' => $this->dav_name, ':session_principal' => $session->principal_id );
+    $params = array( ':raw_path' => $this->dav_name, ':session_principal' => $session->principal_id, ':scan_depth' => $c->permission_scan_depth );
     if ( !preg_match( '#/$#', $this->dav_name ) ) {
       $sql .= ' OR collection.dav_name = :up_to_slash OR collection.dav_name = :plus_slash ';
       $params[':up_to_slash'] = preg_replace( '#[^/]*$#', '', $this->dav_name);
@@ -472,16 +472,16 @@ EOQRY;
 
 
     $this->privileges = 0;
-    if ( !isset($this->collection->path_privileges) ) {
+    if ( !isset($this->collection->path_privs) ) {
       $parent_path = preg_replace('{/[^/]*/$}', '/', $this->collection->dav_name );
       dbg_error_log( 'DAVResource', 'Checking privileges of "%s" - parent of "%s"', $parent_path, $this->collection->dav_name );
       $parent = new DAVResource( $parent_path );
 
-      $this->collection->path_privileges = $parent->Privileges();
+      $this->collection->path_privs = $parent->Privileges();
       $this->collection->user_no = $parent->GetProperty('user_no');
     }
 
-    $this->privileges = $this->collection->path_privileges;
+    $this->privileges = $this->collection->path_privs;
   }
 
 

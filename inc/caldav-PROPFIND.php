@@ -98,7 +98,7 @@ function get_collection_contents( $depth, $user_no, $collection ) {
     /**
     * Calendar/Addressbook collections may not contain collections, so we won't look
     */
-    $params = array( ':session_principal' => $session->principal_id );
+    $params = array( ':session_principal' => $session->principal_id, ':scan_depth' => $c->permission_scan_depth );
     if ( $collection->dav_name() == '/' ) {
       $sql = "SELECT usr.*, '/' || username || '/' AS dav_name, md5(username || updated::text) AS dav_etag, ";
       $sql .= "to_char(joined at time zone 'GMT',$date_format) AS created, ";
@@ -107,13 +107,13 @@ function get_collection_contents( $depth, $user_no, $collection ) {
       $sql .= 'principal_id AS collection_id, ';
       $sql .= 'principal.* ';
       $sql .= 'FROM usr JOIN principal USING (user_no) ';
-      $sql .= "WHERE (principal_privileges(:session_principal,principal.principal_id) & 1::BIT(24))::INT4::BOOLEAN ";
+      $sql .= "WHERE (pprivs(:session_principal::int8,principal.principal_id,:scan_depth::int) & 1::BIT(24))::INT4::BOOLEAN ";
       $sql .= 'ORDER BY usr.user_no';
     }
     else {
       $sql = 'SELECT principal.*, collection.*, \'collection\' AS type FROM collection LEFT JOIN principal USING (user_no) ';
       $sql .= 'WHERE parent_container = :this_dav_name ';
-      $sql .= "AND (path_privileges(:session_principal,collection.dav_name) & 1::BIT(24))::INT4::BOOLEAN ";
+      $sql .= "AND (path_privs(:session_principal::int8,collection.dav_name,:scan_depth::int) & 1::BIT(24))::INT4::BOOLEAN ";
       $sql .= ' ORDER BY collection_id';
       $params[':this_dav_name'] = $collection->dav_name();
     }
