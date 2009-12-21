@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DAViCal 0.9.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-12-01 10:34+1300\n"
+"POT-Creation-Date: 2009-12-21 23:23+1300\n"
 "PO-Revision-Date: 2008-02-27 16:04+0900\n"
 "Last-Translator: Shu NAKAMAE <griffin6630@hotmail.com>\n"
 "Language-Team: \n"
@@ -64,11 +64,11 @@ msgstr "アクティブ"
 msgid "Add Relationship"
 msgstr "共有を追加"
 
-msgid "Add a new user"
-msgstr "新規ユーザの追加"
-
 msgid "Add"
 msgstr "追加"
+
+msgid "Adding new member to this Group Principal"
+msgstr ""
 
 msgid "Admin <!-- in the sense of 'systems admin' -->"
 msgstr "Admin <!-- 「システムアドミン」の感覚 ==>"
@@ -101,9 +101,6 @@ msgstr ""
 #, fuzzy
 msgid "Anonymous users may only access public calendars"
 msgstr "そのカレンダーにアクセス出来ません。"
-
-msgid "Browse all relationship types"
-msgstr "全ての共有タイプを閲覧"
 
 msgid "Browse all users"
 msgstr "全てのユーザを閲覧"
@@ -203,6 +200,10 @@ msgid "Create Calendar"
 msgstr "カレンダー利用者"
 
 #, fuzzy
+msgid "Create Events/Collections"
+msgstr "共有タイプの削除を確認"
+
+#, fuzzy
 msgid "Create New Collection"
 msgstr "共有タイプの削除を確認"
 
@@ -210,8 +211,11 @@ msgid "Create New Principal"
 msgstr ""
 
 #, fuzzy
-msgid "Create Resources"
-msgstr "資源"
+msgid "Create Principal"
+msgstr "カレンダー利用者"
+
+msgid "Create a new principal (i.e. a new user, resource or group)"
+msgstr ""
 
 msgid "Create"
 msgstr "作成"
@@ -251,8 +255,8 @@ msgid "Default relationships added."
 msgstr "デフォルト共有が追加されました。"
 
 #, fuzzy
-msgid "Delete Resources"
-msgstr "資源"
+msgid "Delete Events/Collections"
+msgstr "共有タイプの削除を確認"
 
 #, fuzzy
 msgid "Delete User"
@@ -260,6 +264,9 @@ msgstr "削除"
 
 msgid "Delete"
 msgstr "削除"
+
+msgid "Deleted a grant from this Principal"
+msgstr ""
 
 #, fuzzy
 msgid "Deleting Collection:"
@@ -370,6 +377,9 @@ msgid "GO!"
 msgstr "実行！"
 
 msgid "Go to the DAViCal Feature Requests"
+msgstr ""
+
+msgid "Granting new privileges from this Principal"
 msgstr ""
 
 msgid "Group <!-- in the sense of a group of people -->"
@@ -496,8 +506,15 @@ msgstr "ログアウトする"
 msgid "Logout"
 msgstr "ログアウト"
 
+msgid "Member deleted from this Group Principal"
+msgstr ""
+
 msgid "Name"
 msgstr "名前"
+
+#, fuzzy
+msgid "New Collection"
+msgstr "コレクションパス"
 
 msgid "New Password"
 msgstr "新しいパスワード"
@@ -814,6 +831,12 @@ msgstr "更新"
 msgid "Updated"
 msgstr "更新済み"
 
+msgid "Updating Member of this Group Principal"
+msgstr ""
+
+msgid "Updating grants by this Principal"
+msgstr ""
+
 msgid "Upgrade DAViCal database schema"
 msgstr ""
 
@@ -865,7 +888,8 @@ msgstr "%sを閲覧"
 msgid "View My Details"
 msgstr "私の詳細"
 
-msgid "View my own user record"
+#, fuzzy
+msgid "View my own principal record"
 msgstr "自分のユーザ記録を閲覧する"
 
 msgid "View this user record"
@@ -988,6 +1012,20 @@ msgstr "与えられたユーザ名とパスワードでログインして下さ
 
 msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
 msgstr "この操作は次のことをします：<ul><li>LDAPディレクトリで有効なユーザを確認</li>"
+
+#~ msgid "Add a new user"
+#~ msgstr "新規ユーザの追加"
+
+#~ msgid "Browse all relationship types"
+#~ msgstr "全ての共有タイプを閲覧"
+
+#, fuzzy
+#~ msgid "Create Resources"
+#~ msgstr "資源"
+
+#, fuzzy
+#~ msgid "Delete Resources"
+#~ msgstr "資源"
 
 #~ msgid "Help on something or other"
 #~ msgstr "何かに関してヘルプ"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-12-01 10:34+1300\n"
+"POT-Creation-Date: 2009-12-21 23:23+1300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Eelco Maljaars <http://eelco.maljaars.net/>\n"
 "Language-Team: nl_NL <LL@li.org>\n"
@@ -64,11 +64,11 @@ msgstr "Aktief"
 msgid "Add Relationship"
 msgstr "Voeg relatie toe"
 
-msgid "Add a new user"
-msgstr "Voeg een gebruiker toe"
-
 msgid "Add"
 msgstr "Voeg toe"
+
+msgid "Adding new member to this Group Principal"
+msgstr ""
 
 msgid "Admin <!-- in the sense of 'systems admin' -->"
 msgstr "Beheerder"
@@ -102,9 +102,6 @@ msgstr ""
 #, fuzzy
 msgid "Anonymous users may only access public calendars"
 msgstr "Je mag die agenda niet benaderen"
-
-msgid "Browse all relationship types"
-msgstr "Blader door alle soorten relaties"
 
 msgid "Browse all users"
 msgstr "Blader door alle gebruikers"
@@ -204,6 +201,10 @@ msgid "Create Calendar"
 msgstr "Agenda gebruikers"
 
 #, fuzzy
+msgid "Create Events/Collections"
+msgstr "Bevestig verwijderen relatie soort"
+
+#, fuzzy
 msgid "Create New Collection"
 msgstr "Bevestig verwijderen relatie soort"
 
@@ -211,8 +212,11 @@ msgid "Create New Principal"
 msgstr ""
 
 #, fuzzy
-msgid "Create Resources"
-msgstr "Resource"
+msgid "Create Principal"
+msgstr "Agenda gebruikers"
+
+msgid "Create a new principal (i.e. a new user, resource or group)"
+msgstr ""
 
 msgid "Create"
 msgstr "Maak"
@@ -255,8 +259,8 @@ msgid "Default relationships added."
 msgstr "Relatie toegevoegd"
 
 #, fuzzy
-msgid "Delete Resources"
-msgstr "Resource"
+msgid "Delete Events/Collections"
+msgstr "Bevestig verwijderen relatie soort"
 
 #, fuzzy
 msgid "Delete User"
@@ -264,6 +268,9 @@ msgstr "Verwijder"
 
 msgid "Delete"
 msgstr "Verwijder"
+
+msgid "Deleted a grant from this Principal"
+msgstr ""
 
 #, fuzzy
 msgid "Deleting Collection:"
@@ -374,6 +381,9 @@ msgid "GO!"
 msgstr "Ga!"
 
 msgid "Go to the DAViCal Feature Requests"
+msgstr ""
+
+msgid "Granting new privileges from this Principal"
 msgstr ""
 
 msgid "Group <!-- in the sense of a group of people -->"
@@ -501,8 +511,15 @@ msgstr "Log uit van de"
 msgid "Logout"
 msgstr "Log uit"
 
+msgid "Member deleted from this Group Principal"
+msgstr ""
+
 msgid "Name"
 msgstr "Naam"
+
+#, fuzzy
+msgid "New Collection"
+msgstr "Verzamelingspad"
 
 msgid "New Password"
 msgstr "Nieuw wachtwoord"
@@ -817,6 +834,12 @@ msgstr "Bijwerken"
 msgid "Updated"
 msgstr "Bijgewerkt"
 
+msgid "Updating Member of this Group Principal"
+msgstr ""
+
+msgid "Updating grants by this Principal"
+msgstr ""
+
 msgid "Upgrade DAViCal database schema"
 msgstr ""
 
@@ -867,7 +890,8 @@ msgstr "Beeld"
 msgid "View My Details"
 msgstr "Mijn details"
 
-msgid "View my own user record"
+#, fuzzy
+msgid "View my own principal record"
 msgstr "Bekijk mijn eigen gebruikersgegevens"
 
 msgid "View this user record"
@@ -989,6 +1013,20 @@ msgstr "je moet inloggen met de gebruikersnaam en het wachtwoord die je zijn toe
 
 msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
 msgstr ""
+
+#~ msgid "Add a new user"
+#~ msgstr "Voeg een gebruiker toe"
+
+#~ msgid "Browse all relationship types"
+#~ msgstr "Blader door alle soorten relaties"
+
+#, fuzzy
+#~ msgid "Create Resources"
+#~ msgstr "Resource"
+
+#, fuzzy
+#~ msgid "Delete Resources"
+#~ msgstr "Resource"
 
 #~ msgid "Help on something or other"
 #~ msgstr "Hulp bij iets of anders"

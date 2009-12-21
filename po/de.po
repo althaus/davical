@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RSCDS 0.2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-12-01 10:34+1300\n"
+"POT-Creation-Date: 2009-12-21 23:23+1300\n"
 "PO-Revision-Date: 2006-11-06 17:24+1300\n"
 "Last-Translator: Cristina Radalescu <andrew@mcmillan.net.nz>\n"
 "MIME-Version: 1.0\n"
@@ -66,11 +66,11 @@ msgstr "Aktiv"
 msgid "Add Relationship"
 msgstr "Füge Verhältnis hinzu"
 
-msgid "Add a new user"
-msgstr "Neuen Benutzer hinzufügen"
-
 msgid "Add"
 msgstr "Hinzufügen"
+
+msgid "Adding new member to this Group Principal"
+msgstr ""
 
 msgid "Admin <!-- in the sense of 'systems admin' -->"
 msgstr "Systemadministrator"
@@ -104,9 +104,6 @@ msgstr "Unangemeldete Benutzer dürfen Kalender nicht verändern"
 #, fuzzy
 msgid "Anonymous users may only access public calendars"
 msgstr "Unangemeldete Benutzer dürfen nur auf öffentliche Kalender zugreifen"
-
-msgid "Browse all relationship types"
-msgstr "Nach allen Verhältnistypen durchsuchen"
 
 msgid "Browse all users"
 msgstr "Nach allen Benutzern durchsuchen"
@@ -209,6 +206,10 @@ msgid "Create Calendar"
 msgstr "Kalender erstellen"
 
 #, fuzzy
+msgid "Create Events/Collections"
+msgstr "Lösche Collection:"
+
+#, fuzzy
 msgid "Create New Collection"
 msgstr "Lösche Collection:"
 
@@ -216,8 +217,11 @@ msgid "Create New Principal"
 msgstr ""
 
 #, fuzzy
-msgid "Create Resources"
-msgstr "Ressource"
+msgid "Create Principal"
+msgstr "Kalender Benutzer"
+
+msgid "Create a new principal (i.e. a new user, resource or group)"
+msgstr ""
 
 msgid "Create"
 msgstr "Erstellen"
@@ -260,8 +264,8 @@ msgid "Default relationships added."
 msgstr "Standardverhältnis hinzugefügt."
 
 #, fuzzy
-msgid "Delete Resources"
-msgstr "Ressource"
+msgid "Delete Events/Collections"
+msgstr "Lösche Collection:"
 
 #, fuzzy
 msgid "Delete User"
@@ -269,6 +273,9 @@ msgstr "Lösche Benutzer:"
 
 msgid "Delete"
 msgstr "Löschen"
+
+msgid "Deleted a grant from this Principal"
+msgstr ""
 
 #, fuzzy
 msgid "Deleting Collection:"
@@ -380,6 +387,9 @@ msgid "GO!"
 msgstr "LOS!"
 
 msgid "Go to the DAViCal Feature Requests"
+msgstr ""
+
+msgid "Granting new privileges from this Principal"
 msgstr ""
 
 msgid "Group <!-- in the sense of a group of people -->"
@@ -508,8 +518,15 @@ msgstr "Ausloggen von"
 msgid "Logout"
 msgstr "Logout"
 
+msgid "Member deleted from this Group Principal"
+msgstr ""
+
 msgid "Name"
 msgstr "Name"
+
+#, fuzzy
+msgid "New Collection"
+msgstr "Collection-Pfad"
 
 msgid "New Password"
 msgstr "Neues Passwort"
@@ -830,6 +847,12 @@ msgstr "Aktualisieren"
 msgid "Updated"
 msgstr "aktualisiert"
 
+msgid "Updating Member of this Group Principal"
+msgstr ""
+
+msgid "Updating grants by this Principal"
+msgstr ""
+
 msgid "Upgrade DAViCal database schema"
 msgstr ""
 
@@ -881,7 +904,8 @@ msgstr "Anzeigen"
 msgid "View My Details"
 msgstr "Meine Angaben"
 
-msgid "View my own user record"
+#, fuzzy
+msgid "View my own principal record"
 msgstr "Meine eigenen Benutzerdaten anzeigen"
 
 msgid "View this user record"
@@ -1004,6 +1028,20 @@ msgstr "Melde Dich mit dem zugeteilten Benutzernamen und Passwort an."
 
 msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
 msgstr "Diese Operation macht das folgende: <ul><li>Prüfen der gültigen Benutzer im LDAP-Server</li>"
+
+#~ msgid "Add a new user"
+#~ msgstr "Neuen Benutzer hinzufügen"
+
+#~ msgid "Browse all relationship types"
+#~ msgstr "Nach allen Verhältnistypen durchsuchen"
+
+#, fuzzy
+#~ msgid "Create Resources"
+#~ msgstr "Ressource"
+
+#, fuzzy
+#~ msgid "Delete Resources"
+#~ msgstr "Ressource"
 
 #~ msgid "Help on something or other"
 #~ msgstr "Hilfestellung oder Sonstiges"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rscds 0.3.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-12-01 10:34+1300\n"
+"POT-Creation-Date: 2009-12-21 23:23+1300\n"
 "PO-Revision-Date: 2006-11-13 23:07+0500\n"
 "Last-Translator: Nick Khazov <m2k3d0n@users.sourceforge.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -63,10 +63,10 @@ msgstr ""
 msgid "Add Relationship"
 msgstr "Связь"
 
-msgid "Add a new user"
+msgid "Add"
 msgstr ""
 
-msgid "Add"
+msgid "Adding new member to this Group Principal"
 msgstr ""
 
 msgid "Admin <!-- in the sense of 'systems admin' -->"
@@ -98,9 +98,6 @@ msgstr ""
 
 msgid "Anonymous users may only access public calendars"
 msgstr ""
-
-msgid "Browse all relationship types"
-msgstr "Просматривать все типы связей"
 
 msgid "Browse all users"
 msgstr "Просмотреть всех пользователей"
@@ -201,13 +198,20 @@ msgid "Create Calendar"
 msgstr "Создать"
 
 #, fuzzy
+msgid "Create Events/Collections"
+msgstr "Создать"
+
+#, fuzzy
 msgid "Create New Collection"
 msgstr "Создать"
 
 msgid "Create New Principal"
 msgstr ""
 
-msgid "Create Resources"
+msgid "Create Principal"
+msgstr ""
+
+msgid "Create a new principal (i.e. a new user, resource or group)"
 msgstr ""
 
 msgid "Create"
@@ -247,8 +251,9 @@ msgstr ""
 msgid "Default relationships added."
 msgstr "Связь добавлена."
 
-msgid "Delete Resources"
-msgstr ""
+#, fuzzy
+msgid "Delete Events/Collections"
+msgstr "Создать"
 
 #, fuzzy
 msgid "Delete User"
@@ -256,6 +261,9 @@ msgstr "Удалить"
 
 msgid "Delete"
 msgstr "Удалить"
+
+msgid "Deleted a grant from this Principal"
+msgstr ""
 
 msgid "Deleting Collection:"
 msgstr ""
@@ -364,6 +372,9 @@ msgid "GO!"
 msgstr ""
 
 msgid "Go to the DAViCal Feature Requests"
+msgstr ""
+
+msgid "Granting new privileges from this Principal"
 msgstr ""
 
 msgid "Group <!-- in the sense of a group of people -->"
@@ -491,8 +502,15 @@ msgstr "Отключиться от"
 msgid "Logout"
 msgstr "Отключиться"
 
+msgid "Member deleted from this Group Principal"
+msgstr ""
+
 msgid "Name"
 msgstr ""
+
+#, fuzzy
+msgid "New Collection"
+msgstr "Связь удалена"
 
 msgid "New Password"
 msgstr ""
@@ -808,6 +826,12 @@ msgstr "Обновить"
 msgid "Updated"
 msgstr "Обновить"
 
+msgid "Updating Member of this Group Principal"
+msgstr ""
+
+msgid "Updating grants by this Principal"
+msgstr ""
+
 msgid "Upgrade DAViCal database schema"
 msgstr ""
 
@@ -860,7 +884,8 @@ msgstr ""
 msgid "View My Details"
 msgstr "Мои данные"
 
-msgid "View my own user record"
+#, fuzzy
+msgid "View my own principal record"
 msgstr "Посмотреть мою учетную запись"
 
 #, fuzzy
@@ -983,6 +1008,9 @@ msgstr "вы должны войти под тем именем польззов
 
 msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
 msgstr ""
+
+#~ msgid "Browse all relationship types"
+#~ msgstr "Просматривать все типы связей"
 
 #~ msgid "Help on something or other"
 #~ msgstr "Помощь в чем-то или другое"

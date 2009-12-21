@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-12-01 10:34+1300\n"
+"POT-Creation-Date: 2009-12-21 23:23+1300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -65,10 +65,10 @@ msgstr ""
 msgid "Add Relationship"
 msgstr ""
 
-msgid "Add a new user"
+msgid "Add"
 msgstr ""
 
-msgid "Add"
+msgid "Adding new member to this Group Principal"
 msgstr ""
 
 msgid "Admin <!-- in the sense of 'systems admin' -->"
@@ -99,9 +99,6 @@ msgid "Anonymous users are not allowed to modify calendars"
 msgstr ""
 
 msgid "Anonymous users may only access public calendars"
-msgstr ""
-
-msgid "Browse all relationship types"
 msgstr ""
 
 msgid "Browse all users"
@@ -189,13 +186,19 @@ msgstr ""
 msgid "Create Calendar"
 msgstr ""
 
+msgid "Create Events/Collections"
+msgstr ""
+
 msgid "Create New Collection"
 msgstr ""
 
 msgid "Create New Principal"
 msgstr ""
 
-msgid "Create Resources"
+msgid "Create Principal"
+msgstr ""
+
+msgid "Create a new principal (i.e. a new user, resource or group)"
 msgstr ""
 
 msgid "Create"
@@ -234,13 +237,16 @@ msgstr ""
 msgid "Default relationships added."
 msgstr ""
 
-msgid "Delete Resources"
+msgid "Delete Events/Collections"
 msgstr ""
 
 msgid "Delete User"
 msgstr ""
 
 msgid "Delete"
+msgstr ""
+
+msgid "Deleted a grant from this Principal"
 msgstr ""
 
 msgid "Deleting Collection:"
@@ -348,6 +354,9 @@ msgid "GO!"
 msgstr ""
 
 msgid "Go to the DAViCal Feature Requests"
+msgstr ""
+
+msgid "Granting new privileges from this Principal"
 msgstr ""
 
 msgid "Group <!-- in the sense of a group of people -->"
@@ -467,7 +476,13 @@ msgstr ""
 msgid "Logout"
 msgstr ""
 
+msgid "Member deleted from this Group Principal"
+msgstr ""
+
 msgid "Name"
+msgstr ""
+
+msgid "New Collection"
 msgstr ""
 
 msgid "New Password"
@@ -785,6 +800,12 @@ msgstr ""
 msgid "Updated"
 msgstr ""
 
+msgid "Updating Member of this Group Principal"
+msgstr ""
+
+msgid "Updating grants by this Principal"
+msgstr ""
+
 msgid "Upgrade DAViCal database schema"
 msgstr ""
 
@@ -831,7 +852,7 @@ msgstr ""
 msgid "View My Details"
 msgstr ""
 
-msgid "View my own user record"
+msgid "View my own principal record"
 msgstr ""
 
 msgid "View this user record"

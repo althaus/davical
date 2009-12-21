@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rscds 0.7.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-12-01 10:34+1300\n"
+"POT-Creation-Date: 2009-12-21 23:23+1300\n"
 "PO-Revision-Date: 2007-05-03 15:00+0001\n"
 "Last-Translator: David Takacs <david.takacs@cafeopen.eu>\n"
 "Language-Team: \n"
@@ -64,11 +64,11 @@ msgstr "Aktív"
 msgid "Add Relationship"
 msgstr "Kapcsolat hozzáadása"
 
-msgid "Add a new user"
-msgstr "Felhasználó hozzáadása"
-
 msgid "Add"
 msgstr "Hozzáadás"
+
+msgid "Adding new member to this Group Principal"
+msgstr ""
 
 msgid "Admin <!-- in the sense of 'systems admin' -->"
 msgstr "Adminisztrátor"
@@ -100,9 +100,6 @@ msgstr ""
 #, fuzzy
 msgid "Anonymous users may only access public calendars"
 msgstr "Nincs jogosultsága hozzáférni a naptárhoz"
-
-msgid "Browse all relationship types"
-msgstr "Kapcsolattípusok listája"
 
 msgid "Browse all users"
 msgstr "Felhasználók listája"
@@ -202,6 +199,10 @@ msgid "Create Calendar"
 msgstr "Naptár felhasználói"
 
 #, fuzzy
+msgid "Create Events/Collections"
+msgstr "Valóban törli a kapcsolattípust?"
+
+#, fuzzy
 msgid "Create New Collection"
 msgstr "Valóban törli a kapcsolattípust?"
 
@@ -209,8 +210,11 @@ msgid "Create New Principal"
 msgstr ""
 
 #, fuzzy
-msgid "Create Resources"
-msgstr "Erőforrás"
+msgid "Create Principal"
+msgstr "Naptár felhasználói"
+
+msgid "Create a new principal (i.e. a new user, resource or group)"
+msgstr ""
 
 msgid "Create"
 msgstr "Új létrehozása"
@@ -251,8 +255,8 @@ msgid "Default relationships added."
 msgstr "Kapcsolat hozzáadva."
 
 #, fuzzy
-msgid "Delete Resources"
-msgstr "Erőforrás"
+msgid "Delete Events/Collections"
+msgstr "Valóban törli a kapcsolattípust?"
 
 #, fuzzy
 msgid "Delete User"
@@ -260,6 +264,9 @@ msgstr "Törlés"
 
 msgid "Delete"
 msgstr "Törlés"
+
+msgid "Deleted a grant from this Principal"
+msgstr ""
 
 #, fuzzy
 msgid "Deleting Collection:"
@@ -369,6 +376,9 @@ msgid "GO!"
 msgstr "Mehet!"
 
 msgid "Go to the DAViCal Feature Requests"
+msgstr ""
+
+msgid "Granting new privileges from this Principal"
 msgstr ""
 
 msgid "Group <!-- in the sense of a group of people -->"
@@ -495,8 +505,15 @@ msgstr "Kilépés innen:"
 msgid "Logout"
 msgstr "Kilépés"
 
+msgid "Member deleted from this Group Principal"
+msgstr ""
+
 msgid "Name"
 msgstr "Név"
+
+#, fuzzy
+msgid "New Collection"
+msgstr "Gyűjtemény elérési útja"
 
 msgid "New Password"
 msgstr "Új jelszó"
@@ -811,6 +828,12 @@ msgstr "Frissítés"
 msgid "Updated"
 msgstr "Frissítve"
 
+msgid "Updating Member of this Group Principal"
+msgstr ""
+
+msgid "Updating grants by this Principal"
+msgstr ""
+
 msgid "Upgrade DAViCal database schema"
 msgstr ""
 
@@ -861,7 +884,8 @@ msgstr "Megtekintés"
 msgid "View My Details"
 msgstr "Adataim"
 
-msgid "View my own user record"
+#, fuzzy
+msgid "View my own principal record"
 msgstr "Adataim"
 
 msgid "View this user record"
@@ -982,6 +1006,20 @@ msgstr "Lépjen be felhasználónevével és jelszavával."
 
 msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
 msgstr ""
+
+#~ msgid "Add a new user"
+#~ msgstr "Felhasználó hozzáadása"
+
+#~ msgid "Browse all relationship types"
+#~ msgstr "Kapcsolattípusok listája"
+
+#, fuzzy
+#~ msgid "Create Resources"
+#~ msgstr "Erőforrás"
+
+#, fuzzy
+#~ msgid "Delete Resources"
+#~ msgstr "Erőforrás"
 
 #~ msgid "Help on something or other"
 #~ msgstr "Segítség"

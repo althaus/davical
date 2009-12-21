@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-12-01 10:34+1300\n"
+"POT-Creation-Date: 2009-12-21 23:23+1300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -64,11 +64,11 @@ msgstr ""
 msgid "Add Relationship"
 msgstr "Aggiungi relazione"
 
-msgid "Add a new user"
-msgstr "Aggiungi un nuovo utente"
-
 msgid "Add"
 msgstr "Aggiungi"
+
+msgid "Adding new member to this Group Principal"
+msgstr ""
 
 msgid "Admin <!-- in the sense of 'systems admin' -->"
 msgstr "Amministratore <!-- in the sense of 'systems admin' -->"
@@ -101,9 +101,6 @@ msgstr "Gli utenti anonimi non sono autorizzati a modificare i calendari"
 #, fuzzy
 msgid "Anonymous users may only access public calendars"
 msgstr "Gli utenti anonimi non sono autorizzati a modificare i calendari"
-
-msgid "Browse all relationship types"
-msgstr "Vedi tutti i tipi di relazione"
 
 msgid "Browse all users"
 msgstr "Vedi tutti gli utenti"
@@ -201,13 +198,21 @@ msgid "Create Calendar"
 msgstr "Calendario"
 
 #, fuzzy
+msgid "Create Events/Collections"
+msgstr "Conferma cancellazione archivio"
+
+#, fuzzy
 msgid "Create New Collection"
 msgstr "Conferma cancellazione archivio"
 
 msgid "Create New Principal"
 msgstr ""
 
-msgid "Create Resources"
+#, fuzzy
+msgid "Create Principal"
+msgstr "Calendario utenti"
+
+msgid "Create a new principal (i.e. a new user, resource or group)"
 msgstr ""
 
 msgid "Create"
@@ -247,8 +252,9 @@ msgstr ""
 msgid "Default relationships added."
 msgstr "Relazioni di default aggiunte."
 
-msgid "Delete Resources"
-msgstr ""
+#, fuzzy
+msgid "Delete Events/Collections"
+msgstr "Conferma cancellazione archivio"
 
 #, fuzzy
 msgid "Delete User"
@@ -256,6 +262,9 @@ msgstr "Elimina"
 
 msgid "Delete"
 msgstr "Elimina"
+
+msgid "Deleted a grant from this Principal"
+msgstr ""
 
 #, fuzzy
 msgid "Deleting Collection:"
@@ -363,6 +372,9 @@ msgid "GO!"
 msgstr "VAI!"
 
 msgid "Go to the DAViCal Feature Requests"
+msgstr ""
+
+msgid "Granting new privileges from this Principal"
 msgstr ""
 
 msgid "Group <!-- in the sense of a group of people -->"
@@ -487,8 +499,15 @@ msgstr ""
 msgid "Logout"
 msgstr "Esci"
 
+msgid "Member deleted from this Group Principal"
+msgstr ""
+
 msgid "Name"
 msgstr "Nome"
+
+#, fuzzy
+msgid "New Collection"
+msgstr "Percorso archivio"
 
 msgid "New Password"
 msgstr "Nuova password"
@@ -806,6 +825,12 @@ msgstr "Aggiorna"
 msgid "Updated"
 msgstr "Ultima modifica"
 
+msgid "Updating Member of this Group Principal"
+msgstr ""
+
+msgid "Updating grants by this Principal"
+msgstr ""
+
 msgid "Upgrade DAViCal database schema"
 msgstr ""
 
@@ -856,7 +881,7 @@ msgstr ""
 msgid "View My Details"
 msgstr "I miei dati"
 
-msgid "View my own user record"
+msgid "View my own principal record"
 msgstr ""
 
 msgid "View this user record"
@@ -977,6 +1002,12 @@ msgstr ""
 
 msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
 msgstr ""
+
+#~ msgid "Add a new user"
+#~ msgstr "Aggiungi un nuovo utente"
+
+#~ msgid "Browse all relationship types"
+#~ msgstr "Vedi tutti i tipi di relazione"
 
 #~ msgid "Operations"
 #~ msgstr "Operazioni"

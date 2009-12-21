@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rscds-messages\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-12-01 10:34+1300\n"
+"POT-Creation-Date: 2009-12-21 23:23+1300\n"
 "PO-Revision-Date: 2007-03-31 00:24+0200\n"
 "Last-Translator: Rafal Slubowski <rafalslubowski@gmail.com>\n"
 "Language-Team: polski <pl@li.org>\n"
@@ -66,11 +66,11 @@ msgstr "Aktywny"
 msgid "Add Relationship"
 msgstr "Dodaj zależność"
 
-msgid "Add a new user"
-msgstr "Dodaj nowego użytkownika"
-
 msgid "Add"
 msgstr "Dodaj"
+
+msgid "Adding new member to this Group Principal"
+msgstr ""
 
 msgid "Admin <!-- in the sense of 'systems admin' -->"
 msgstr "Administrator"
@@ -103,9 +103,6 @@ msgstr ""
 #, fuzzy
 msgid "Anonymous users may only access public calendars"
 msgstr "Nie masz dostępu do tego kalendarza"
-
-msgid "Browse all relationship types"
-msgstr "Przeglądaj wszystkie typy zależności"
 
 msgid "Browse all users"
 msgstr "Przeglądaj wszystkich użytkowników"
@@ -205,6 +202,10 @@ msgid "Create Calendar"
 msgstr "Użytkownicy kalendarza"
 
 #, fuzzy
+msgid "Create Events/Collections"
+msgstr "Potwierdź usunięcie typu zależności"
+
+#, fuzzy
 msgid "Create New Collection"
 msgstr "Potwierdź usunięcie typu zależności"
 
@@ -212,8 +213,11 @@ msgid "Create New Principal"
 msgstr ""
 
 #, fuzzy
-msgid "Create Resources"
-msgstr "Zasób"
+msgid "Create Principal"
+msgstr "Użytkownicy kalendarza"
+
+msgid "Create a new principal (i.e. a new user, resource or group)"
+msgstr ""
 
 msgid "Create"
 msgstr "Utwórz"
@@ -254,8 +258,8 @@ msgid "Default relationships added."
 msgstr "Zależność została dodana."
 
 #, fuzzy
-msgid "Delete Resources"
-msgstr "Zasób"
+msgid "Delete Events/Collections"
+msgstr "Potwierdź usunięcie typu zależności"
 
 #, fuzzy
 msgid "Delete User"
@@ -263,6 +267,9 @@ msgstr "Usuń"
 
 msgid "Delete"
 msgstr "Usuń"
+
+msgid "Deleted a grant from this Principal"
+msgstr ""
 
 #, fuzzy
 msgid "Deleting Collection:"
@@ -372,6 +379,9 @@ msgid "GO!"
 msgstr "Uruchom!"
 
 msgid "Go to the DAViCal Feature Requests"
+msgstr ""
+
+msgid "Granting new privileges from this Principal"
 msgstr ""
 
 msgid "Group <!-- in the sense of a group of people -->"
@@ -498,8 +508,15 @@ msgstr "Wyloguj się z"
 msgid "Logout"
 msgstr "Wyloguj się"
 
+msgid "Member deleted from this Group Principal"
+msgstr ""
+
 msgid "Name"
 msgstr "Nazwa"
+
+#, fuzzy
+msgid "New Collection"
+msgstr "Ścieżka do zestawu"
 
 msgid "New Password"
 msgstr "Nowe hasło"
@@ -814,6 +831,12 @@ msgstr "Aktualizuj"
 msgid "Updated"
 msgstr "Zaktualizowano"
 
+msgid "Updating Member of this Group Principal"
+msgstr ""
+
+msgid "Updating grants by this Principal"
+msgstr ""
+
 msgid "Upgrade DAViCal database schema"
 msgstr ""
 
@@ -864,7 +887,8 @@ msgstr "Zobacz"
 msgid "View My Details"
 msgstr "Moje dane"
 
-msgid "View my own user record"
+#, fuzzy
+msgid "View my own principal record"
 msgstr "Zobacz swoje dane"
 
 msgid "View this user record"
@@ -985,6 +1009,20 @@ msgstr "powinieneś zalogować się swoją nazwą użytkownika i hasłem."
 
 msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
 msgstr ""
+
+#~ msgid "Add a new user"
+#~ msgstr "Dodaj nowego użytkownika"
+
+#~ msgid "Browse all relationship types"
+#~ msgstr "Przeglądaj wszystkie typy zależności"
+
+#, fuzzy
+#~ msgid "Create Resources"
+#~ msgstr "Zasób"
+
+#, fuzzy
+#~ msgid "Delete Resources"
+#~ msgstr "Zasób"
 
 #, fuzzy
 #~ msgid "Operations"
