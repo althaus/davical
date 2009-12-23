@@ -1,0 +1,29 @@
+#
+# Testing with a process similar to iCal4
+#
+TYPE=PROPFIND
+URL=http://regression.host/caldav.php/user1/home/
+HEAD
+
+HEADER=DAVKit/4.0 (729); CalendarStore/4.0 (965); iCal/4.0 (1362); Mac OS X/10.6.1 (10B504)
+HEADER=Content-Type: text/xml
+HEADER=Depth: 0
+
+#
+# Looking for interesting stuff like xmpp-uri
+#
+BEGINDATA
+<?xml version="1.0" encoding="utf-8"?>
+<x0:propfind xmlns:x0="DAV:" xmlns:x3="http://apple.com/ns/ical/" xmlns:x1="http://calendarserver.org/ns/" xmlns:x2="urn:ietf:params:xml:ns:caldav">
+ <x0:prop>
+  <x0:displayname/>
+  <x2:calendar-description/>
+  <x3:calendar-color/>
+  <x3:calendar-order/>
+  <x2:supported-calendar-component-set/>
+  <x2:schedule-calendar-transp/>
+  <x2:schedule-default-calendar-URL/>
+  <x2:calendar-timezone/>
+ </x0:prop>
+</x0:propfind>
+ENDDATA
