@@ -51,15 +51,16 @@ switch ( $request->method ) {
   case 'OPTIONS':    include_once('caldav-OPTIONS.php');    break;
   case 'REPORT':     include_once('caldav-REPORT.php');     break;
   case 'PROPFIND':   include('caldav-PROPFIND.php');   break;
+  case 'PUT':        include('caldav-PUT.php');        break;
+  case 'GET':        include('caldav-GET.php');        break;
+  case 'HEAD':       include('caldav-GET.php');        break;
   case 'PROPPATCH':  include('caldav-PROPPATCH.php');  break;
   case 'MKCALENDAR': include('caldav-MKCOL.php');      break;
   case 'MKCOL':      include('caldav-MKCOL.php');      break;
-  case 'PUT':        include('caldav-PUT.php');        break;
+  case 'DELETE':     include('caldav-DELETE.php');     break;
   case 'POST':       include('caldav-POST.php');       break;
   case 'MOVE':       include('caldav-MOVE.php');       break;
-  case 'GET':        include('caldav-GET.php');        break;
-  case 'HEAD':       include('caldav-GET.php');        break;
-  case 'DELETE':     include('caldav-DELETE.php');     break;
+  case 'ACL':        include('caldav-ACL.php');        break;
   case 'LOCK':       include('caldav-LOCK.php');       break;
   case 'UNLOCK':     include('caldav-LOCK.php');       break;
 

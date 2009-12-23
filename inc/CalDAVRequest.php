@@ -392,7 +392,8 @@ EOSQL;
       'DELETE' => '',
       'LOCK' => '',
       'UNLOCK' => '',
-      'MOVE' => ''
+      'MOVE' => '',
+      'ACL' => ''
     );
     if ( $this->IsCollection() ) {
 /*      if ( $this->IsPrincipal() ) {
