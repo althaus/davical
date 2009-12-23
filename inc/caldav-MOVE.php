@@ -169,7 +169,7 @@ else {
 
 }
 
-$qry = new PgQuery('COMMIT');
+$qry = new AwlQuery('COMMIT');
 if ( !$qry->Exec('move') ) rollback(500);
 
 $request->DoResponse( 200 );
