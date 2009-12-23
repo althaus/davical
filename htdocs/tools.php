@@ -112,10 +112,8 @@ class Tools {
     }
     if ($handle = opendir($dir)) {
       while (false !== ($file = readdir($handle))) {
-        if ($file != "." && $file != ".." && substr($file,-4) != '.ics') {
-          continue;
-        }
-        if(!is_readable($dir.'/'.$file)){
+        if ($file == "." || $file == ".." || substr($file,-4) != '.ics') continue;
+        if ( !is_readable($dir.'/'.$file) ) {
           dbg_error_log( "importFromDirectory", "ics file '%s' is not readable",$dir .'/'.$file);
           continue;
         }
