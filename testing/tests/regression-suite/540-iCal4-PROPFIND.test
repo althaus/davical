@@ -1,0 +1,22 @@
+#
+# Testing with a process similar to iCal4
+#
+TYPE=PROPFIND
+URL=http://regression.host/
+HEAD
+
+HEADER=User-Agent: DAVKit/4.0.1 (730); CalendarStore/4.0.1 (973); iCal/4.0.1 (1374); Mac OS X/10.6.2 (10C540)
+HEADER=Depth: 0
+HEADER=Content-Type: text/xml
+
+#
+# Finding where to start from, part 2.
+#
+BEGINDATA
+<?xml version="1.0" encoding="utf-8"?>
+<x0:propfind xmlns:x0="DAV:">
+ <x0:prop>
+  <x0:current-user-principal/>
+ </x0:prop>
+</x0:propfind>
+ENDDATA
