@@ -56,28 +56,10 @@ function CreateHomeCalendar( $username ) {
 
 
 /**
-* Create default relationships
+* Defunct function for creating default relationships.
 * @param string $username The username of the user we are creating relationships for.
 */
 function CreateDefaultRelationships( $username ) {
-  global $session, $c;
-  if ( ! isset($c->default_relationships) || !is_array($c->default_relationships) || count($c->default_relationships) == 0 ) return false;
-
-  $usr = getUserByName( $username );
-  $sql = "";
-  foreach( $c->default_relationships AS $to_user => $permission ) {
-    $sql .= "INSERT INTO relationship (from_user, to_user, rt_id) ";
-    $sql .= "VALUES( $usr->user_no, $to_user, (select rt_id from relationship_type where confers = '$permission' order by rt_id limit 1) );";
-  }
-  $qry = new PgQuery( $sql );
-  if ( $qry->Exec() ) {
-    $c->messages[] = i18n("Default relationships added.");
-    dbg_error_log("User",":Write: Added default relationships" );
-  }
-  else {
-    $c->messages[] = i18n("There was an error writing to the database.");
-    return false;
-  }
   return true;
 }
 
@@ -136,7 +118,6 @@ function UpdateUserFromExternal( &$usr ) {
     $qry = new PgQuery( 'INSERT INTO principal( type_id, user_no, displayname, default_privileges) SELECT 1, user_no, fullname, ?::BIT(24) FROM usr WHERE username=?', $privs, $usr->username );
     $qry->Exec('Login',__LINE,__FILE__);
     CreateHomeCalendar($usr->username);
-    CreateDefaultRelationships($usr->username);
   }
 }
 
