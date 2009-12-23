@@ -1,7 +1,7 @@
 HTTP/1.1 200 OK
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule, extended-mkcol
-Allow: OPTIONS, PROPFIND, REPORT, DELETE, LOCK, UNLOCK, MOVE, GET, PUT, HEAD
+Allow: OPTIONS, PROPFIND, REPORT, DELETE, LOCK, UNLOCK, MOVE, ACL, GET, PUT, HEAD
 Content-Length: 224
 Content-Type: text/xml; charset="utf-8"
 
@@ -41,34 +41,6 @@ changed_last_30se: >1<
          dav_name: >/user1/home/<
     property_name: >http://apple.com/ns/ical/:calendar-order<
    property_value: >1<
-
-       changed_by: >10<
-changed_last_30se: >1<
-         dav_name: >/user1/home/<
-    property_name: >urn:ietf:params:xml:ns:caldav:calendar-timezone<
-   property_value: >BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//Apple Inc.//iCal 4.0//EN
-CALSCALE:GREGORIAN
-BEGIN:VTIMEZONE
-TZID:Europe/Prague
-BEGIN:DAYLIGHT
-TZOFFSETFROM:+0100
-RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
-DTSTART:19810329T020000
-TZNAME:GMT+02:00
-TZOFFSETTO:+0200
-END:DAYLIGHT
-BEGIN:STANDARD
-TZOFFSETFROM:+0200
-RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
-DTSTART:19961027T030000
-TZNAME:GMT+01:00
-TZOFFSETTO:+0100
-END:STANDARD
-END:VTIMEZONE
-END:VCALENDAR
-<
 
        changed_by: >10<
 changed_last_30se: >1<
