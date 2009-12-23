@@ -10,6 +10,8 @@
 */
 dbg_error_log("PROPPATCH", "method handler");
 
+require_once('iCalendar.php');
+
 if ( ! $request->AllowedTo('write-properties') ) {
   $request->DoResponse( 403 );
 }
@@ -95,6 +97,17 @@ foreach( $setprops AS $k => $setting ) {
       }
       break;
 
+    case 'urn:ietf:params:xml:ns:caldav:calendar-timezone':
+      $tzcomponent = $setting->GetPath('urn:ietf:params:xml:ns:caldav:calendar-timezone');
+      $tzstring = $tzcomponent[0]->GetContent();
+      $calendar = new iCalendar( array( 'icalendar' => $tzstring) );
+      $timezones = $calendar->component->GetComponents('VTIMEZONE');
+      if ( $timezones === false || count($timezones) == 0 ) break;
+      $tz = $timezones[0];  // Backward compatibility
+      $tzid = $tz->GetPValue('TZID');
+      $sql .= sprintf( 'UPDATE collection SET timezone = %s WHERE dav_name = %s;', qpg($tzid), qpg($request->path) );
+      break;
+
     /**
     * The following properties are read-only, so they will cause the request to fail
     */
@@ -157,6 +170,10 @@ foreach( $rmprops AS $k => $setting ) {
         ));
         dbg_error_log( 'PROPPATCH', ' RMProperty %s Resources may not be changed to / from Collections.', $tag);
       }
+      break;
+
+    case 'urn:ietf:params:xml:ns:caldav:calendar-timezone':
+      $sql .= sprintf( "UPDATE collection SET timezone = NULL WHERE dav_name = %s;", qpg($request->path) );
       break;
 
     /**

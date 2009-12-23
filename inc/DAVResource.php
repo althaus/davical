@@ -277,8 +277,11 @@ class DAVResource
 
     $base_sql = 'SELECT collection.*, path_privs(:session_principal::int8, collection.dav_name,:scan_depth::int), ';
     $base_sql .= 'p.principal_id, p.type_id AS principal_type_id, ';
-    $base_sql .= 'p.displayname AS principal_displayname, p.default_privileges AS principal_default_privileges ';
-    $base_sql .= 'FROM collection LEFT JOIN principal p USING (user_no) WHERE ';
+    $base_sql .= 'p.displayname AS principal_displayname, p.default_privileges AS principal_default_privileges, ';
+    $base_sql .= 'time_zone.tz_spec ';
+    $base_sql .= 'FROM collection LEFT JOIN principal p USING (user_no) ';
+    $base_sql .= 'LEFT JOIN time_zone ON (collection.timezone=time_zone.tz_id) ';
+    $base_sql .= 'WHERE ';
     $sql = $base_sql .'collection.dav_name = :raw_path ';
     $params = array( ':raw_path' => $this->dav_name, ':session_principal' => $session->principal_id, ':scan_depth' => $c->permission_scan_depth );
     if ( !preg_match( '#/$#', $this->dav_name ) ) {
@@ -1019,6 +1022,16 @@ EOQRY;
 
       case 'SOME-DENIED-PROPERTY':  /** @todo indicating the style for future expansion */
         $denied[] = $reply->Tag($tag);
+        break;
+
+      case 'urn:ietf:params:xml:ns:caldav:calendar-timezone':
+        if ( ! $this->_is_collection ) return false;
+        if ( !isset($this->collection->tz_spec) || $this->collection->tz_spec == '' ) return false;
+
+        $cal = new iCalComponent();
+        $cal->VCalendar();
+        $cal->AddComponent( new iCalComponent($this->collection->tz_spec) );
+        $reply->NSElement($prop, $tag, $cal->Render() );
         break;
 
       case 'urn:ietf:params:xml:ns:caldav:calendar-data':
