@@ -97,6 +97,14 @@ foreach( $setprops AS $k => $setting ) {
       }
       break;
 
+    case 'urn:ietf:params:xml:ns:caldav:calendar-free-busy-set':
+      $failure['set-'.$tag] = new XMLElement( 'propstat', array(
+          new XMLElement( 'prop', new XMLElement($tag)),
+          new XMLElement( 'status', 'HTTP/1.1 409 Conflict' ),
+          new XMLElement( 'responsedescription', translate("The calendar-free-busy-set is superseded by the schedule-transp property of a calendar collection.") )
+      ));
+      break;
+
     case 'urn:ietf:params:xml:ns:caldav:calendar-timezone':
       $tzcomponent = $setting->GetPath('urn:ietf:params:xml:ns:caldav:calendar-timezone');
       $tzstring = $tzcomponent[0]->GetContent();
