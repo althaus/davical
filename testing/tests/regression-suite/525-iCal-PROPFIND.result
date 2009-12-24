@@ -1,0 +1,47 @@
+HTTP/1.1 207 Multi-Status
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy
+ETag: "d5cc88f137d733e311ab4e4f73e88ed8"
+Content-Length: 1357
+Content-Type: text/xml; charset="utf-8"
+
+<?xml version="1.0" encoding="utf-8" ?>
+<multistatus xmlns="DAV:" xmlns:C="http://calendarserver.org/ns/" xmlns:C1="urn:ietf:params:xml:ns:caldav">
+ <response>
+  <href>/caldav.php/manager1/calendar-proxy-read/</href>
+  <propstat>
+   <prop>
+    <C:getctag>"ccdfbfa2e7ee6c47d3ea8f134d415b89"</C:getctag>
+    <displayname>/manager1/calendar-proxy-read/</displayname>
+    <resourcetype>
+     <collection/>
+     <C:calendar-proxy-read/>
+    </resourcetype>
+    <group-membership>
+     <href>/caldav.php/assistant1/</href>
+     <href>/caldav.php/teamclient1/</href>
+     <href>/caldav.php/user1/</href>
+     <href>/caldav.php/user1/calendar-proxy-read/</href>
+     <href>/caldav.php/assistant1/calendar-proxy-read/</href>
+     <href>/caldav.php/resource1/calendar-proxy-read/</href>
+     <href>/caldav.php/resource2/calendar-proxy-read/</href>
+    </group-membership>
+    <C:calendar-proxy-read-for>
+     <href>/caldav.php/user1/</href>
+     <href>/caldav.php/assistant1/</href>
+     <href>/caldav.php/resource1/</href>
+     <href>/caldav.php/resource2/</href>
+    </C:calendar-proxy-read-for>
+    <C:calendar-proxy-write-for/>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <C1:calendar-description/>
+    <group-member-set/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+</multistatus>
