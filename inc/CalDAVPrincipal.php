@@ -284,6 +284,10 @@ class CalDAVPrincipal
           }
         }
       }
+//      @dbg_error_log( 'principal', 'Read-proxy-for:    %s', implode(',',$this->read_proxy_for) );
+//      @dbg_error_log( 'principal', 'Write-proxy-for:   %s', implode(',',$this->write_proxy_for) );
+//      @dbg_error_log( 'principal', 'Read-proxy-group:  %s', implode(',',$this->read_proxy_group) );
+//      @dbg_error_log( 'principal', 'Write-proxy-group: %s', implode(',',$this->write_proxy_group) );
     }
   }
 
