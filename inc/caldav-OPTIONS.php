@@ -45,5 +45,8 @@ if ( !$exists ) {
   $request->DoResponse( 404, translate("No collection found at that location.") );
 }
 
+$allowed = implode( ', ', array_keys($request->supported_methods) );
+header( 'Allow: '.$allowed);
+
 $request->DoResponse( 200, "" );
 
