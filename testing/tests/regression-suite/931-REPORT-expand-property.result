@@ -1,8 +1,8 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy
-ETag: "28de2f8aacb30df4a2b3631090940876"
-Content-Length: 6499
+ETag: "8ce7facb0ad078e6ae7e49d14209f922"
+Content-Length: 3759
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -18,18 +18,7 @@ Content-Type: text/xml; charset="utf-8"
        <prop>
         <displayname>Manager 1</displayname>
         <C:calendar-home-set>
-         <response>
-          <href>/caldav.php/manager1/</href>
-          <propstat>
-           <prop>
-            <resourcetype>
-             <collection/>
-             <principal/>
-            </resourcetype>
-           </prop>
-           <status>HTTP/1.1 200 OK</status>
-          </propstat>
-         </response>
+         <href>/caldav.php/manager1/</href>
         </C:calendar-home-set>
        </prop>
        <status>HTTP/1.1 200 OK</status>
@@ -41,18 +30,7 @@ Content-Type: text/xml; charset="utf-8"
        <prop>
         <displayname>Resource 1</displayname>
         <C:calendar-home-set>
-         <response>
-          <href>/caldav.php/resource1/</href>
-          <propstat>
-           <prop>
-            <resourcetype>
-             <collection/>
-             <principal/>
-            </resourcetype>
-           </prop>
-           <status>HTTP/1.1 200 OK</status>
-          </propstat>
-         </response>
+         <href>/caldav.php/resource1/</href>
         </C:calendar-home-set>
        </prop>
        <status>HTTP/1.1 200 OK</status>
@@ -64,18 +42,7 @@ Content-Type: text/xml; charset="utf-8"
        <prop>
         <displayname>Assistant 1</displayname>
         <C:calendar-home-set>
-         <response>
-          <href>/caldav.php/assistant1/</href>
-          <propstat>
-           <prop>
-            <resourcetype>
-             <collection/>
-             <principal/>
-            </resourcetype>
-           </prop>
-           <status>HTTP/1.1 200 OK</status>
-          </propstat>
-         </response>
+         <href>/caldav.php/assistant1/</href>
         </C:calendar-home-set>
        </prop>
        <status>HTTP/1.1 200 OK</status>
@@ -87,18 +54,7 @@ Content-Type: text/xml; charset="utf-8"
        <prop>
         <displayname>Resource 2</displayname>
         <C:calendar-home-set>
-         <response>
-          <href>/caldav.php/resource2/</href>
-          <propstat>
-           <prop>
-            <resourcetype>
-             <collection/>
-             <principal/>
-            </resourcetype>
-           </prop>
-           <status>HTTP/1.1 200 OK</status>
-          </propstat>
-         </response>
+         <href>/caldav.php/resource2/</href>
         </C:calendar-home-set>
        </prop>
        <status>HTTP/1.1 200 OK</status>
@@ -110,18 +66,7 @@ Content-Type: text/xml; charset="utf-8"
        <prop>
         <displayname>Resource Managers</displayname>
         <C:calendar-home-set>
-         <response>
-          <href>/caldav.php/resmgr1/</href>
-          <propstat>
-           <prop>
-            <resourcetype>
-             <collection/>
-             <principal/>
-            </resourcetype>
-           </prop>
-           <status>HTTP/1.1 200 OK</status>
-          </propstat>
-         </response>
+         <href>/caldav.php/resmgr1/</href>
         </C:calendar-home-set>
        </prop>
        <status>HTTP/1.1 200 OK</status>
@@ -133,18 +78,7 @@ Content-Type: text/xml; charset="utf-8"
        <prop>
         <displayname>Team for Client1</displayname>
         <C:calendar-home-set>
-         <response>
-          <href>/caldav.php/teamclient1/</href>
-          <propstat>
-           <prop>
-            <resourcetype>
-             <collection/>
-             <principal/>
-            </resourcetype>
-           </prop>
-           <status>HTTP/1.1 200 OK</status>
-          </propstat>
-         </response>
+         <href>/caldav.php/teamclient1/</href>
         </C:calendar-home-set>
        </prop>
        <status>HTTP/1.1 200 OK</status>
@@ -156,18 +90,7 @@ Content-Type: text/xml; charset="utf-8"
        <prop>
         <displayname>manager1 proxy read</displayname>
         <C:calendar-home-set>
-         <response>
-          <href>/caldav.php/manager1/</href>
-          <propstat>
-           <prop>
-            <resourcetype>
-             <collection/>
-             <principal/>
-            </resourcetype>
-           </prop>
-           <status>HTTP/1.1 200 OK</status>
-          </propstat>
-         </response>
+         <href>/caldav.php/manager1/</href>
         </C:calendar-home-set>
        </prop>
        <status>HTTP/1.1 200 OK</status>
@@ -179,18 +102,7 @@ Content-Type: text/xml; charset="utf-8"
        <prop>
         <displayname>assistant1 proxy read</displayname>
         <C:calendar-home-set>
-         <response>
-          <href>/caldav.php/assistant1/</href>
-          <propstat>
-           <prop>
-            <resourcetype>
-             <collection/>
-             <principal/>
-            </resourcetype>
-           </prop>
-           <status>HTTP/1.1 200 OK</status>
-          </propstat>
-         </response>
+         <href>/caldav.php/assistant1/</href>
         </C:calendar-home-set>
        </prop>
        <status>HTTP/1.1 200 OK</status>
@@ -202,18 +114,7 @@ Content-Type: text/xml; charset="utf-8"
        <prop>
         <displayname>resource1 proxy write</displayname>
         <C:calendar-home-set>
-         <response>
-          <href>/caldav.php/resource1/</href>
-          <propstat>
-           <prop>
-            <resourcetype>
-             <collection/>
-             <principal/>
-            </resourcetype>
-           </prop>
-           <status>HTTP/1.1 200 OK</status>
-          </propstat>
-         </response>
+         <href>/caldav.php/resource1/</href>
         </C:calendar-home-set>
        </prop>
        <status>HTTP/1.1 200 OK</status>
@@ -225,18 +126,7 @@ Content-Type: text/xml; charset="utf-8"
        <prop>
         <displayname>resource2 proxy write</displayname>
         <C:calendar-home-set>
-         <response>
-          <href>/caldav.php/resource2/</href>
-          <propstat>
-           <prop>
-            <resourcetype>
-             <collection/>
-             <principal/>
-            </resourcetype>
-           </prop>
-           <status>HTTP/1.1 200 OK</status>
-          </propstat>
-         </response>
+         <href>/caldav.php/resource2/</href>
         </C:calendar-home-set>
        </prop>
        <status>HTTP/1.1 200 OK</status>

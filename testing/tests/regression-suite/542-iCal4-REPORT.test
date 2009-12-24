@@ -1,0 +1,29 @@
+#
+# Testing with a process similar to iCal4
+#
+TYPE=REPORT
+URL=http://regression.host/caldav.php/user1/
+HEAD
+
+HEADER=DAVKit/4.0 (729); CalendarStore/4.0 (965); iCal/4.0 (1362); Mac OS X/10.6.1 (10B504)
+HEADER=Content-Type: text/xml
+HEADER=Depth: 0
+
+#
+# Looking for proxied delegations with expand-property report
+#
+BEGINDATA
+<?xml version="1.0" encoding="utf-8" ?>
+<expand-property xmlns="DAV:">
+ <property name="calendar-proxy-write-for" namespace="http://calendarserver.org/ns/">
+  <property name="displayname"/>
+  <property name="principal-URL"/>
+  <property name="calendar-user-address-set" namespace="urn:ietf:params:xml:ns:caldav"/>
+ </property>
+ <property name="calendar-proxy-read-for" namespace="http://calendarserver.org/ns/">
+  <property name="displayname"/>
+  <property name="principal-URL"/>
+  <property name="calendar-user-address-set" namespace="urn:ietf:params:xml:ns:caldav"/>
+ </property>
+</expand-property>
+ENDDATA

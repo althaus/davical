@@ -1,8 +1,8 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy
-ETag: "a599c80c9c8cc0c6600ebfd664ecc806"
-Content-Length: 3805
+ETag: "4c09176bb349246638136eaa6c5a40d0"
+Content-Length: 4845
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -26,6 +26,13 @@ Content-Type: text/xml; charset="utf-8"
      <href>/caldav.php/resource1/calendar-proxy-read/</href>
      <href>/caldav.php/resource2/calendar-proxy-read/</href>
     </group-membership>
+    <C:calendar-proxy-read-for>
+     <href>/caldav.php/user1/</href>
+     <href>/caldav.php/assistant1/</href>
+     <href>/caldav.php/resource1/</href>
+     <href>/caldav.php/resource2/</href>
+    </C:calendar-proxy-read-for>
+    <C:calendar-proxy-write-for/>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -56,6 +63,13 @@ Content-Type: text/xml; charset="utf-8"
      <href>/caldav.php/resource1/calendar-proxy-read/</href>
      <href>/caldav.php/resource2/calendar-proxy-read/</href>
     </group-membership>
+    <C:calendar-proxy-read-for>
+     <href>/caldav.php/user1/</href>
+     <href>/caldav.php/assistant1/</href>
+     <href>/caldav.php/resource1/</href>
+     <href>/caldav.php/resource2/</href>
+    </C:calendar-proxy-read-for>
+    <C:calendar-proxy-write-for/>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -86,6 +100,13 @@ Content-Type: text/xml; charset="utf-8"
      <href>/caldav.php/resource1/calendar-proxy-read/</href>
      <href>/caldav.php/resource2/calendar-proxy-read/</href>
     </group-membership>
+    <C:calendar-proxy-read-for>
+     <href>/caldav.php/user1/</href>
+     <href>/caldav.php/assistant1/</href>
+     <href>/caldav.php/resource1/</href>
+     <href>/caldav.php/resource2/</href>
+    </C:calendar-proxy-read-for>
+    <C:calendar-proxy-write-for/>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -116,6 +137,13 @@ Content-Type: text/xml; charset="utf-8"
      <href>/caldav.php/resource1/calendar-proxy-read/</href>
      <href>/caldav.php/resource2/calendar-proxy-read/</href>
     </group-membership>
+    <C:calendar-proxy-read-for>
+     <href>/caldav.php/user1/</href>
+     <href>/caldav.php/assistant1/</href>
+     <href>/caldav.php/resource1/</href>
+     <href>/caldav.php/resource2/</href>
+    </C:calendar-proxy-read-for>
+    <C:calendar-proxy-write-for/>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
