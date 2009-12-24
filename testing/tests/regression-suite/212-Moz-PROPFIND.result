@@ -1,8 +1,7 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
-DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule, extended-mkcol
+DAV: 1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy
 Content-Location: /caldav.php/user1/home/
-Allow: OPTIONS, PROPFIND, REPORT, DELETE, LOCK, UNLOCK, MOVE, ACL, GET, PUT, HEAD
 ETag: "334c8abc0ac73261cdbf963fc7269d76"
 Content-Length: 347
 Content-Type: text/xml; charset="utf-8"

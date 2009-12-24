@@ -2,8 +2,7 @@ HTTP/1.1 100 Continue
 
 HTTP/1.1 201 Created
 Date: Dow, 01 Jan 2000 00:00:00 GMT
-DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule, extended-mkcol
-Allow: OPTIONS, PROPFIND, REPORT, DELETE, LOCK, UNLOCK, MOVE, ACL, GET, HEAD, PUT
+DAV: 1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy
 ETag: "c057c3eb789b944e76f4d77fccf36ea1"
 Content-Length: 0
 Content-Type: text/plain; charset="utf-8"

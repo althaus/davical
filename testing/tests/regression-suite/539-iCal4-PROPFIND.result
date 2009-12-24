@@ -1,7 +1,6 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
-DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule, extended-mkcol
-Allow: OPTIONS, PROPFIND, REPORT
+DAV: 1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy
 ETag: "dfef5d203b227bafbee76592e8924179"
 Content-Length: 291
 Content-Type: text/xml; charset="utf-8"

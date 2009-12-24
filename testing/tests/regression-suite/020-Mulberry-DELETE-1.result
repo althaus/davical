@@ -1,7 +1,6 @@
 HTTP/1.1 412 Precondition Failed
 Date: Dow, 01 Jan 2000 00:00:00 GMT
-DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule, extended-mkcol
-Allow: OPTIONS, PROPFIND, REPORT, DELETE, LOCK, UNLOCK, MOVE, ACL, GET, HEAD, PUT
+DAV: 1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy
 Content-Length: 44
 Content-Type: text/plain; charset="utf-8"
 
