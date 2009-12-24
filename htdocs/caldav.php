@@ -22,7 +22,7 @@ if ( isset($c->override_dav_header) ) {
   $dav = $c->override_dav_header;
 }
 else {
-  $dav = '1, 2, 3, access-control, calendar-access, calendar-schedule, extended-mkcol';
+  $dav = '1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy';
 }
 header( 'DAV: '.$dav);
 
@@ -30,7 +30,7 @@ require_once('CalDAVRequest.php');
 $request = new CalDAVRequest();
 
 $allowed = implode( ', ', array_keys($request->supported_methods) );
-header( 'Allow: '.$allowed);
+// header( 'Allow: '.$allowed);
 
 if ( ! ($request->IsPrincipal() || isset($request->collection) || $request->method == 'PUT' || $request->method == 'MKCALENDAR' || $request->method == 'MKCOL' ) ) {
   if ( preg_match( '#^/principals/users(/.*/)$#', $request->path, $matches ) ) {
