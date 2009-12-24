@@ -980,7 +980,6 @@ EOQRY;
       case 'http://calendarserver.org/ns/:calendar-proxy-read-for':
         $proxy_type = 'read';
       case 'http://calendarserver.org/ns/:calendar-proxy-write-for':
-        if ( ! $this->_is_proxy_request ) return true;
         if ( !isset($proxy_type) ) $proxy_type = 'write';
         $reply->CalendarserverElement($prop, 'calendar-proxy-'.$proxy_type.'-for', $reply->href( $this->principal->ProxyFor($proxy_type) ) );
         break;
