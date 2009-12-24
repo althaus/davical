@@ -1,8 +1,8 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy
-ETag: "d0106b2b3cddd962bafded74285d643d"
-Content-Length: 1658
+ETag: "abd3df8ba7b00d965c7a77b891cb4e16"
+Content-Length: 1850
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -30,22 +30,34 @@ Content-Type: text/xml; charset="utf-8"
     </supported-method-set>
     <supported-report-set>
      <supported-report>
-      <principal-property-search/>
+      <report>
+       <principal-property-search/>
+      </report>
      </supported-report>
      <supported-report>
-      <expand-property/>
+      <report>
+       <expand-property/>
+      </report>
      </supported-report>
      <supported-report>
-      <sync-collection/>
+      <report>
+       <sync-collection/>
+      </report>
      </supported-report>
      <supported-report>
-      <C:calendar-query/>
+      <report>
+       <C:calendar-query/>
+      </report>
      </supported-report>
      <supported-report>
-      <C:calendar-multiget/>
+      <report>
+       <C:calendar-multiget/>
+      </report>
      </supported-report>
      <supported-report>
-      <C:free-busy-query/>
+      <report>
+       <C:free-busy-query/>
+      </report>
      </supported-report>
     </supported-report-set>
     <C:supported-calendar-component-set>

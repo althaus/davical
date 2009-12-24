@@ -918,9 +918,9 @@ EOSQL;
     $reports = array();
     foreach( $this->supported_reports AS $k => $v ) {
       dbg_error_log( 'caldav', 'Adding supported report "%s" which is "%s".', $k, $v );
-      $report = new XMLElement('supported-report');
+      $report = new XMLElement('report');
       $reply->NSElement($report, $k );
-      $reports[] = $report;
+      $reports[] = new XMLElement('supported-report', $report );
     }
     return $reports;
   }
