@@ -29,7 +29,7 @@ function get_href_containers( &$multistatus_response ) {
 //      dbg_error_log('REPORT',' get_href_containers: Checking property "%s" for hrefs.', $property->GetNSTag() );
       $hrefs = $property->GetElements('href');
       if ( count($hrefs) > 0 ) {
-        $href_containers[] = &$property;
+        $href_containers[] = $property;
       }
     }
     if ( count($href_containers) > 0 ) {
@@ -41,9 +41,9 @@ function get_href_containers( &$multistatus_response ) {
 
 
 /**
-* Expand the properties, recursing as needed
+* Expand the properties, recursing only once
 */
-function expand_properties( $urls, $ptree, &$reply ) {
+function expand_properties( $urls, $ptree, &$reply, $recurse_again = true ) {
   if ( !is_array($urls) )  $urls = array($urls);
   if ( !is_array($ptree) ) $ptree = array($ptree);
 
@@ -53,6 +53,7 @@ function expand_properties( $urls, $ptree, &$reply ) {
     $props = array();
     $subtrees = array();
     foreach( $ptree AS $n => $property ) {
+      if ( ! is_object($property) ) continue;
       $pname = $property->GetAttribute('name');
       $pns = $property->GetAttribute('namespace');
       if ( !isset($pns) || $pns == '' ) $pns = 'DAV:';  // Not sure if this is the correct way to default this.
@@ -62,24 +63,27 @@ function expand_properties( $urls, $ptree, &$reply ) {
     }
     $part_response = $resource->RenderAsXML( $props, $reply );
     if ( isset($part_response) ) {
-      $href_containers = get_href_containers($part_response);
-      if ( isset($href_containers) ) {
-        foreach( $href_containers AS $h => $property ) {
-          $hrefs = $property->GetElements();
-          $pname = $property->GetTag();
-          $pns = $property->GetAttribute('xmlns');
-          if ( !isset($pns) || $pns == '' ) $pns = 'DAV:';  // Not sure if this is the correct way to default this.
-          $pname = $pns .':'. $pname;
-          $paths = array();
-          foreach( $hrefs AS $k => $v ) {
-            $paths[] = $v->GetContent();
+      if ( $recurse_again ) {
+        $href_containers = get_href_containers($part_response);
+        if ( isset($href_containers) ) {
+          foreach( $href_containers AS $h => $property ) {
+            $hrefs = $property->GetElements();
+            $pname = $property->GetTag();
+            $pns = $property->GetAttribute('xmlns');
+            if ( !isset($pns) || $pns == '' ) $pns = 'DAV:';  // Not sure if this is the correct way to default this.
+            $pname = $pns .':'. $pname;
+            $paths = array();
+            foreach( $hrefs AS $k => $v ) {
+              $content = $v->GetContent();
+              $paths[] = $content;
+            }
+//            dbg_error_log('REPORT',' Found property "%s" contains hrefs "%s"', $pname, implode(', ',$paths) );
+            $property->SetContent( expand_properties($paths, $subtrees[$pname], $reply, false) );
           }
-//          dbg_error_log('REPORT',' Found property "%s" contains hrefs "%s"', $pname, implode(', ',$paths) );
-          $property->SetContent( expand_properties($paths, $subtrees[$pname], $reply) );
         }
-      }
-      else {
+//      else {
 //        dbg_error_log('REPORT',' No href containers in response to "%s"', implode(', ', $props ) );
+//      }
       }
       $responses[] = $part_response;
     }
