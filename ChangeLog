@@ -1,3 +1,166 @@
+2009-12-24  Andrew McMillan  <andrew@morphoss.com>
+	* Release 0.9.8
+	* Slightly updated TODO.
+	* Move the Allow response back into OPTIONS where it really belongs.
+	* Deny setting of deprecated free-busy-set.
+	* iCal4 wants to see 'calendar-proxy' in the DAV header.
+
+2009-12-24  Patrick Näf Moser  <patrick@moser-naef.ch>
+	* Updated german translation.
+
+2009-12-23  Andrew McMillan  <andrew@morphoss.com>
+	* Updated results including ACL support indication.
+	* Regression test for caldav:calendar-timezone retrieval.
+	* Move caldav:calendar-timezone into the collection table.
+	* Basic framework for starting on ACL method handler.
+	* COMMIT with the same DB connection we BEGAN on!
+	* Remove irrlevant functionality to CreateDefaultRelationships.
+	  A stub is retained in case external organisations have written
+	  some auth plugin which does use it.
+	* Correct logic when processing directory of files.
+	* A couple more tests for iCal4 interoperability.
+
+2009-12-22  Andrew McMillan  <andrew@morphoss.com>
+	* Depend on correct libawl-php version.
+
+2009-12-21  Andrew McMillan  <andrew@morphoss.com>
+	* Display DAViCal version & schema wanted / actual versions.
+	* Kill the schedule-in/out box on upgrade so they are recreated.
+	* Clarify menu wording.  Remove relationships page (yay!).
+	* Add simple placeholder pages for planned setup / upgrade activities.
+	* Force function parameter types for older PostgreSQL versions.
+	* Remove unused functions.
+
+2009-12-21  Rob Ostensen  <rob@boxacle.net>
+	* Publish/Subscribe notification for DAViCal by Rob Ostensen.
+
+2009-12-21  Andrew McMillan  <andrew@morphoss.com>
+	* Switched everything over to the new permissions model.
+
+2009-12-16  Andrew McMillan  <andrew@morphoss.com>
+	* Better use of getent to extract user fullname. Debian bug #561288.
+
+2009-12-13  Andrew McMillan  <andrew@morphoss.com>
+	* Retitle 'New User' to 'New Principal'
+	* Link to create a new collection.
+	* Allow for creation of new calendars for a user_no.
+
+2009-12-11  Andrew McMillan  <andrew@morphoss.com>
+	* Correctly create a principal record for the administrator.
+	* We now need to create a principal record along with a usr one.
+
+2009-12-08  Andrew McMillan  <andrew@morphoss.com>
+	* Make the username field larger.
+	* Replacement for older caldav-client which goes further.
+	  Now handles discovery of the principal URL and the user's calendars.
+	* Test for current-user-principal support.
+	* Fix handling of DELETE followed by CREATE case.
+	* Restore support for current-user-principal property.
+
+2009-12-05  Andrew McMillan  <andrew@morphoss.com>
+	* Provide some better visual feedback when grants/members are added/changed.
+
+2009-12-04  Andrew McMillan  <andrew@morphoss.com>
+	* Try and clarify the terminology for bind/unbind.
+	* Another attempt at supporting older DB versions.
+	* Fix initialisation of empty array for older Pg versions.
+	* Allow building of built-po without building everything else.
+	* Rename davical.php to admin.php which is more appropriate.
+	* Correct for active column removed from principal.
+
+2009-11-27  Andrew McMillan  <debian@mcmillan.net.nz>
+	* Add/edit grants on collections.
+	* Now able to edit /create grants to specific users or groups.
+	* Use first perl in path.
+	* Add some page-end padding.
+	* Ensure we still get active if we got a real boolean.
+	* Add some error avoidance to SetLookup.
+
+2009-11-24  Andrew McMillan  <andrew@morphoss.com>
+	* Output with updates to upgrade-davical-database
+	* Allow admin / principal to add groups to themselves
+
+2009-11-23  Andrew McMillan  <andrew@morphoss.com>
+	* Add support for the X-HTTP-Method-Override header.
+
+2009-11-22  Andrew McMillan  <andrew@morphoss.com>
+	* New screens for browsing/editing Principals & Collections.
+	* CSS tweaks for new maintenance screens.
+	* Fix conversion of Resource users.
+	* New functions for listing memberships, members and privileges.
+	* Document default privileges in example config.
+	* Add default privileges setting.  Move privileges functions out of DAVResource.php
+	* Granting for collection_id rather than dav_name now.
+	* Grant access to dav_principal view.
+	* Don't have an 'active' column on the principal.
+	* Definition of a dav_principal writable view of usr+principal
+	* Add ability to apply a folder of SQL rather than just a single file.
+
+2009-11-15  Andrew McMillan  <andrew@morphoss.com>
+	* Add support for supported-method-set / suported-report-set
+	* Sprinkle some minimal CardDAV support in there.
+
+2009-11-14  Andrew McMillan  <andrew@morphoss.com>
+	* A basic regression test for the expand-property report.
+	* Add expand-property report to the supported reports.
+	* Move URL deconstruction into DeconstructURL function.
+	* Implement the expand-property report.
+
+2009-11-12  Andrew McMillan  <andrew@morphoss.com>
+	* New PROPFIND implementation.
+	* Correct <creationdate> format & group-member* responses.
+
+2009-11-07  Andrew McMillan  <andrew@morphoss.com>
+	* Be as lazy as possible about doing that horrible proxy query.
+
+2009-11-05  Andrew McMillan  <andrew@morphoss.com>
+	* Add some more fields onto the collections table.
+	* Only respond with freebusy to a VFREEBUSY request.
+
+2009-11-04  Andrew McMillan  <andrew@morphoss.com>
+	* Add MOVE to the supported method set.
+	* Allow for replacing the regression.host in headers as well.
+	* Updated test results, mostly due to adding a newline to dav_test output.
+
+2009-11-02  Andrew McMillan  <andrew@morphoss.com>
+	* Regression tests for the supported-* properties.
+	* New tests following the iCal4 client through one path.
+	* Support for the DAV MOVE method.
+	* Add a dav_name() accessor for forward compatibility.
+	* List support for the DAV::sync-collection report
+
+2009-11-02  Rob Ostensen  <caveman+davical@caveman.name>
+	* First cut of support for pubsub push notifications by Rob Ostensen.
+
+2009-11-02  Andrew McMillan  <andrew@morphoss.com>
+	* Correct response for schedule-inbox.
+	* Improving response on non-existent resources.
+	* Add a test for existence of the referenced principal.
+	* Return supported-calendar-component-set only on a calendar.
+
+2009-10-30  Andrew McMillan  <andrew@morphoss.com>
+	* Allow test case to be fully specified on the command line by filename.
+
+2009-10-30  Matthias Mohr  <Matthias@Mohrenclan.de>
+	* Translatability improvements from Matthias Mohr.
+
+2009-10-28  Andrew McMillan  <andrew@morphoss.com>
+	* Implementations of supported-report-set and supported-method-set.
+
+2009-10-27  Andrew McMillan  <andrew@morphoss.com>
+	* Translate 'Delete User' button as pointed out by Matthias Mohr
+	* Revert include changes on further evaluation.
+	* Also collect the current user principal record into $session.
+	* Updated translation from Matthias Mohr.
+	* Menu restructuring.
+	* Updates to styles, including CSS menus.
+	* Update the help page to point to more useful links.
+	* Add DB version upgrade detection code.
+	* Add a script for building always.php to include DB version also.
+	* Correct translations URL.
+	* Structure changes for grants on collections.
+	* Be more robust about finding the AWL code location.
+	* Revert to require_once().
 
 2009-10-23  Andrew McMillan <andrew@morphoss.com>
 	* Release 0.9.7.6
