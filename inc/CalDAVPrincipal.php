@@ -492,10 +492,6 @@ class CalDAVPrincipal
         $reply->CalendarserverElement($prop, 'dropbox-home-URL', $reply->href($this->dropbox_url) );
         break;
 
-#      case 'http://calendarserver.org/ns/:notifications-URL':
-#        $reply->CalendarserverElement($prop, 'notifications-URL', $reply->href($this->notifications_url) );
-#        break;
-
       case 'http://calendarserver.org/ns/:xmpp-server':
         if ( ! isset( $this->xmpp_uri ) ) return false;
         $reply->CalendarserverElement($prop, 'xmpp-server', $this->xmpp_server );
