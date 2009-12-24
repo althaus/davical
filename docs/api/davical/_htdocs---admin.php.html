@@ -3,13 +3,13 @@
   <html xmlns="http://www.w3.org/1999/xhtml">
 		<head>
 			<!-- template designed by Marco Von Ballmoos -->
-			<title>Docs for page browse.php</title>
+			<title>Docs for page admin.php</title>
 			<link rel="stylesheet" href="../media/stylesheet.css" />
 			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
 		</head>
 		<body>
 			<div class="page-body">			
-<h2 class="file-name"><img src="../media/images/Page_logo.png" alt="File" style="vertical-align: middle">/htdocs/browse.php</h2>
+<h2 class="file-name"><img src="../media/images/Page_logo.png" alt="File" style="vertical-align: middle">/htdocs/admin.php</h2>
 
 <a name="sec-description"></a>
 <div class="info-box">
@@ -34,19 +34,34 @@
 														</div>
 		<div class="info-box-body">	
 			<a name="_page-footer_php"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 	
 	<div>
 		<img src="../media/images/Page.png" alt=" " />
 		<span class="include-title">
 			<span class="include-type">include</span>
 			(<span class="include-name"><a href="../davical/_inc---page-footer.php.html">page-footer.php</a></span>)
-			(line <span class="line-number">39</span>)
+			(line <span class="line-number">50</span>)
 		</span>
 	</div>
 
 	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">Page elements could be an array of viewers, browsers or something else  that supports the Render() method...</p>
+<p class="short-description">Page elements could be an array of viewers, browsers or something else  that supports the Render() method... or a non-object which we assume is  just a string of text that we echo.</p>
+	
+</div>
+<a name="_page-header_php"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<img src="../media/images/Page.png" alt=" " />
+		<span class="include-title">
+			<span class="include-type">include</span>
+			(<span class="include-name"><a href="../davical/_inc---page-header.php.html">page-header.php</a></span>)
+			(line <span class="line-number">28</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
 	
 </div>
 <a name="_DAViCalSession_php"><!-- --></a>
@@ -57,7 +72,7 @@
 		<span class="include-title">
 			<span class="include-type">include</span>
 			(<span class="include-name"><a href="../davical/DAViCalSession/_inc---DAViCalSession.php.html">DAViCalSession.php</a></span>)
-			(line <span class="line-number">4</span>)
+			(line <span class="line-number">5</span>)
 		</span>
 	</div>
 
@@ -72,22 +87,37 @@
 		<span class="include-title">
 			<span class="include-type">include</span>
 			(<span class="include-name"><a href="../davical/_inc---page-header.php.html">page-header.php</a></span>)
-			(line <span class="line-number">17</span>)
+			(line <span class="line-number">23</span>)
 		</span>
 	</div>
 
 	<!-- ========== Info from phpDoc block ========= -->
 	
 </div>
-<a name="_components/$component-browse_php"><!-- --></a>
+<a name="_page-footer_php"><!-- --></a>
 <div class="evenrow">
 	
 	<div>
 		<img src="../media/images/Page.png" alt=" " />
 		<span class="include-title">
+			<span class="include-type">include</span>
+			(<span class="include-name"><a href="../davical/_inc---page-footer.php.html">page-footer.php</a></span>)
+			(line <span class="line-number">24</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+</div>
+<a name="_$code_file"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<img src="../media/images/Page.png" alt=" " />
+		<span class="include-title">
 			<span class="include-type">include_once</span>
-			(<span class="include-name">"components/$component-browse.php"</span>)
-			(line <span class="line-number">13</span>)
+			(<span class="include-name">$code_file</span>)
+			(line <span class="line-number">21</span>)
 		</span>
 	</div>
 
@@ -95,7 +125,7 @@
 	
 </div>
 <a name="___/inc/always_php"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 	
 	<div>
 		<img src="../media/images/Page.png" alt=" " />
@@ -103,6 +133,21 @@
 			<span class="include-type">require_once</span>
 			(<span class="include-name"><a href="../davical/_inc---always.php.html">'../inc/always.php'</a></span>)
 			(line <span class="line-number">2</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+</div>
+<a name="_AwlQuery_php"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<img src="../media/images/Page.png" alt=" " />
+		<span class="include-title">
+			<span class="include-type">require_once</span>
+			(<span class="include-name"><a href="../awl/AWLDB/_inc---AwlQuery.php.html">AwlQuery.php</a></span>)
+			(line <span class="line-number">8</span>)
 		</span>
 	</div>
 
@@ -117,6 +162,21 @@
 		<span class="include-title">
 			<span class="include-type">require_once</span>
 			(<span class="include-name">'classBrowser.php'</span>)
+			(line <span class="line-number">4</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+</div>
+<a name="_classEditor_php"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<img src="../media/images/Page.png" alt=" " />
+		<span class="include-title">
+			<span class="include-type">require_once</span>
+			(<span class="include-name">'classEditor.php'</span>)
 			(line <span class="line-number">3</span>)
 		</span>
 	</div>
@@ -124,15 +184,15 @@
 	<!-- ========== Info from phpDoc block ========= -->
 	
 </div>
-<a name="_interactive_page_php"><!-- --></a>
-<div class="oddrow">
+<a name="_interactive-page_php"><!-- --></a>
+<div class="evenrow">
 	
 	<div>
 		<img src="../media/images/Page.png" alt=" " />
 		<span class="include-title">
 			<span class="include-type">require_once</span>
-			(<span class="include-name">'interactive_page.php'</span>)
-			(line <span class="line-number">10</span>)
+			(<span class="include-name"><a href="../davical/_inc---interactive-page.php.html">interactive-page.php</a></span>)
+			(line <span class="line-number">17</span>)
 		</span>
 	</div>
 
@@ -146,7 +206,7 @@
 	
 	
 	<p class="notes" id="credit">
-		Documentation generated on Tue, 01 Dec 2009 10:37:46 +1300 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
+		Documentation generated on Thu, 24 Dec 2009 22:09:45 +1300 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
 	</p>
 	</div></body>
 </html>
