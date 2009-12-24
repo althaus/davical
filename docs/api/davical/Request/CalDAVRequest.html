@@ -50,7 +50,7 @@
 								</div>
 		<div class="info-box-body">
 			<div class="var-summary">
-																																																																																																<div class="var-title">
+																																																																																																																<div class="var-title">
 					<img src="../../media/images/Variable.png" alt=" " />
 					<span class="var-type">mixed</span>
 					<a href="#$collection_id" title="details" class="var-name">$collection_id</a>
@@ -78,6 +78,11 @@
 																<div class="var-title">
 					<img src="../../media/images/Variable.png" alt=" " />
 					<span class="var-type">mixed</span>
+					<a href="#$exists" title="details" class="var-name">$exists</a>
+				</div>
+																<div class="var-title">
+					<img src="../../media/images/Variable.png" alt=" " />
+					<span class="var-type">mixed</span>
 					<a href="#$method" title="details" class="var-name">$method</a>
 				</div>
 																<div class="var-title">
@@ -94,6 +99,11 @@
 					<img src="../../media/images/Variable.png" alt=" " />
 					<span class="var-type">mixed</span>
 					<a href="#$raw_post" title="details" class="var-name">$raw_post</a>
+				</div>
+																<div class="var-title">
+					<img src="../../media/images/Variable.png" alt=" " />
+					<span class="var-type">mixed</span>
+					<a href="#$supported_privileges" title="details" class="var-name">$supported_privileges</a>
 				</div>
 																<div class="var-title">
 					<img src="../../media/images/Variable.png" alt=" " />
@@ -116,10 +126,10 @@
 		</div>
 		<div class="info-box-body">			
 			<div class="method-summary">
-																																																																																																																																																																																								<div class="method-definition">
+																																																																																																																																																																																																																																																								<div class="method-definition">
 					<img src="../../media/images/Constructor.png" alt=" "/>
 											<span class="method-result">CalDAVRequest</span>
-										<a href="#CalDAVRequest" title="details" class="method-name">CalDAVRequest</a>
+										<a href="#__construct" title="details" class="method-name">__construct</a>
 											([<span class="var-type"></span>&nbsp;<span class="var-name">$options</span> = <span class="var-default">array()</span>])
 									</div>
 																<div class="method-definition">
@@ -127,6 +137,42 @@
 											<span class="method-result">void</span>
 										<a href="#AllowedTo" title="details" class="method-name">AllowedTo</a>
 											(<span class="var-type">string</span>&nbsp;<span class="var-name">$activity</span>)
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#BuildPrivileges" title="details" class="method-name">BuildPrivileges</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$privilege_names</span>)
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#BuildSupportedMethods" title="details" class="method-name">BuildSupportedMethods</a>
+										()
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#BuildSupportedPrivileges" title="details" class="method-name">BuildSupportedPrivileges</a>
+											([<span class="var-type"></span>&nbsp;<span class="var-name">$privs</span> = <span class="var-default">null</span>])
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#BuildSupportedReports" title="details" class="method-name">BuildSupportedReports</a>
+										()
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#CollectionId" title="details" class="method-name">CollectionId</a>
+										()
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#dav_name" title="details" class="method-name">dav_name</a>
+										()
 									</div>
 																<div class="method-definition">
 					<img src="../../media/images/Method.png" alt=" "/>
@@ -163,6 +209,12 @@
 											<span class="method-result">void</span>
 										<a href="#GetLockRow" title="details" class="method-name">GetLockRow</a>
 											(<span class="var-type"></span>&nbsp;<span class="var-name">$lock_token</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$dav_name</span>)
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#IsAddressBook" title="details" class="method-name">IsAddressBook</a>
+										()
 									</div>
 																<div class="method-definition">
 					<img src="../../media/images/Method.png" alt=" "/>
@@ -205,6 +257,12 @@
 											<span class="method-result">void</span>
 										<a href="#IsPublic" title="details" class="method-name">IsPublic</a>
 										()
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#ServerProperty" title="details" class="method-name">ServerProperty</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$tag</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$prop</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">&$reply</span> = <span class="var-default">null</span>])
 									</div>
 																<div class="method-definition">
 					<img src="../../media/images/Method.png" alt=" "/>
@@ -261,7 +319,7 @@
 		<div class="info-box-body">
 			
 <a name="var$collection_id" id="$collection_id"><!-- --></A>
-<div class="oddrow">
+<div class="evenrow">
 
 	<div class="var-header">
 		<img src="../../media/images/Variable.png" />
@@ -281,7 +339,7 @@
 
 </div>
 <a name="var$collection_path" id="$collection_path"><!-- --></A>
-<div class="evenrow">
+<div class="oddrow">
 
 	<div class="var-header">
 		<img src="../../media/images/Variable.png" />
@@ -301,7 +359,7 @@
 
 </div>
 <a name="var$collection_type" id="$collection_type"><!-- --></A>
-<div class="oddrow">
+<div class="evenrow">
 
 	<div class="var-header">
 		<img src="../../media/images/Variable.png" />
@@ -322,7 +380,7 @@
 
 </div>
 <a name="var$current_user_principal_xml" id="$current_user_principal_xml"><!-- --></A>
-<div class="evenrow">
+<div class="oddrow">
 
 	<div class="var-header">
 		<img src="../../media/images/Variable.png" />
@@ -342,7 +400,7 @@
 
 </div>
 <a name="var$depth" id="$depth"><!-- --></A>
-<div class="oddrow">
+<div class="evenrow">
 
 	<div class="var-header">
 		<img src="../../media/images/Variable.png" />
@@ -355,6 +413,30 @@
 
 	<!-- ========== Info from phpDoc block ========= -->
 <p class="short-description">The depth parameter from the request headers, coerced into a valid integer: 0, 1  or DEPTH_INFINITY which is defined above.  The default is set per various RFCs.</p>
+	
+	
+		
+		
+
+</div>
+<a name="var$exists" id="$exists"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<img src="../../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$exists</span>
+						(line <span class="line-number">84</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">The type of collection being requested:</p>
+<p class="description"><p>calendar, schedule-inbox, schedule-outbox</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
 	
 	
 		
@@ -440,8 +522,28 @@
 		
 
 </div>
-<a name="var$user_agent" id="$user_agent"><!-- --></A>
+<a name="var$supported_privileges" id="$supported_privileges"><!-- --></A>
 <div class="evenrow">
+
+	<div class="var-header">
+		<img src="../../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$supported_privileges</span>
+						(line <span class="line-number">89</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">A static structure of supported privileges.</p>
+	
+	
+		
+		
+
+</div>
+<a name="var$user_agent" id="$user_agent"><!-- --></A>
+<div class="oddrow">
 
 	<div class="var-header">
 		<img src="../../media/images/Variable.png" />
@@ -475,12 +577,12 @@
 		</div>
 		<div class="info-box-body">
 			<A NAME='method_detail'></A>
-<a name="methodCalDAVRequest" id="CalDAVRequest"><!-- --></a>
-<div class="oddrow">
+<a name="method__construct" id="__construct"><!-- --></a>
+<div class="evenrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Constructor.png" />
-		<span class="method-title">Constructor CalDAVRequest</span> (line <span class="line-number">83</span>)
+		<span class="method-title">Constructor __construct</span> (line <span class="line-number">94</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -489,7 +591,7 @@
 	<div class="method-signature">
 		<span class="method-result">CalDAVRequest</span>
 		<span class="method-name">
-			CalDAVRequest
+			__construct
 		</span>
 					([<span class="var-type"></span>&nbsp;<span class="var-name">$options</span> = <span class="var-default">array()</span>])
 			</div>
@@ -503,11 +605,11 @@
 			
 	</div>
 <a name="methodAllowedTo" id="AllowedTo"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">AllowedTo</span> (line <span class="line-number">736</span>)
+		<span class="method-title">AllowedTo</span> (line <span class="line-number">1007</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -530,12 +632,154 @@
 		
 			
 	</div>
-<a name="methodDepthRegexTail" id="DepthRegexTail"><!-- --></a>
+<a name="methodBuildPrivileges" id="BuildPrivileges"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">BuildPrivileges</span> (line <span class="line-number">885</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the array of privilege names converted into XMLElements</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			BuildPrivileges
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$privilege_names</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$privilege_names</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodBuildSupportedMethods" id="BuildSupportedMethods"><!-- --></a>
 <div class="oddrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">DepthRegexTail</span> (line <span class="line-number">559</span>)
+		<span class="method-title">BuildSupportedMethods</span> (line <span class="line-number">901</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the array of supported methods converted into XMLElements</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			BuildSupportedMethods
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodBuildSupportedPrivileges" id="BuildSupportedPrivileges"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">BuildSupportedPrivileges</span> (line <span class="line-number">856</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the array of supported privileges converted into XMLElements</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			BuildSupportedPrivileges
+		</span>
+					([<span class="var-type"></span>&nbsp;<span class="var-name">$privs</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$privs</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodBuildSupportedReports" id="BuildSupportedReports"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">BuildSupportedReports</span> (line <span class="line-number">915</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the array of supported methods converted into XMLElements</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			BuildSupportedReports
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodCollectionId" id="CollectionId"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">CollectionId</span> (line <span class="line-number">848</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the ID of the collection of, or containing this request</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			CollectionId
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methoddav_name" id="dav_name"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">dav_name</span> (line <span class="line-number">654</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the dav_name of the resource in our internal namespace</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			dav_name
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodDepthRegexTail" id="DepthRegexTail"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">DepthRegexTail</span> (line <span class="line-number">672</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -553,11 +797,11 @@
 			
 	</div>
 <a name="methodDoResponse" id="DoResponse"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">DoResponse</span> (line <span class="line-number">830</span>)
+		<span class="method-title">DoResponse</span> (line <span class="line-number">1106</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -586,11 +830,11 @@
 			
 	</div>
 <a name="methodFailIfLocked" id="FailIfLocked"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">FailIfLocked</span> (line <span class="line-number">641</span>)
+		<span class="method-title">FailIfLocked</span> (line <span class="line-number">754</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -611,11 +855,11 @@
 			
 	</div>
 <a name="methodGetDepthName" id="GetDepthName"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">GetDepthName</span> (line <span class="line-number">550</span>)
+		<span class="method-title">GetDepthName</span> (line <span class="line-number">663</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -633,11 +877,11 @@
 			
 	</div>
 <a name="methodGetLockDetails" id="GetLockDetails"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">GetLockDetails</span> (line <span class="line-number">627</span>)
+		<span class="method-title">GetLockDetails</span> (line <span class="line-number">740</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -660,11 +904,11 @@
 			
 	</div>
 <a name="methodGetLockRow" id="GetLockRow"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">GetLockRow</span> (line <span class="line-number">570</span>)
+		<span class="method-title">GetLockRow</span> (line <span class="line-number">683</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -689,12 +933,34 @@
 		
 			
 	</div>
+<a name="methodIsAddressBook" id="IsAddressBook"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">IsAddressBook</span> (line <span class="line-number">809</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns true if the URL referenced by this request points at an addressbook collection.</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			IsAddressBook
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
 <a name="methodIsCalendar" id="IsCalendar"><!-- --></a>
 <div class="oddrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">IsCalendar</span> (line <span class="line-number">687</span>)
+		<span class="method-title">IsCalendar</span> (line <span class="line-number">800</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -716,7 +982,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">IsCollection</span> (line <span class="line-number">676</span>)
+		<span class="method-title">IsCollection</span> (line <span class="line-number">789</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -738,7 +1004,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">IsInfiniteDepth</span> (line <span class="line-number">718</span>)
+		<span class="method-title">IsInfiniteDepth</span> (line <span class="line-number">840</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -760,7 +1026,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">IsLocked</span> (line <span class="line-number">507</span>)
+		<span class="method-title">IsLocked</span> (line <span class="line-number">611</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -785,7 +1051,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">IsPrincipal</span> (line <span class="line-number">696</span>)
+		<span class="method-title">IsPrincipal</span> (line <span class="line-number">818</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -807,7 +1073,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">IsProxyRequest</span> (line <span class="line-number">707</span>)
+		<span class="method-title">IsProxyRequest</span> (line <span class="line-number">829</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -829,7 +1095,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">IsPublic</span> (line <span class="line-number">539</span>)
+		<span class="method-title">IsPublic</span> (line <span class="line-number">643</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -846,12 +1112,45 @@
 		
 			
 	</div>
-<a name="methodsetPermissions" id="setPermissions"><!-- --></a>
+<a name="methodServerProperty" id="ServerProperty"><!-- --></a>
 <div class="evenrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">setPermissions</span> (line <span class="line-number">427</span>)
+		<span class="method-title">ServerProperty</span> (line <span class="line-number">931</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Return general server-related properties for this URL</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			ServerProperty
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$tag</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$prop</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">&$reply</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$tag</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$prop</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">&$reply</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodsetPermissions" id="setPermissions"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">setPermissions</span> (line <span class="line-number">543</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -877,11 +1176,11 @@
 			
 	</div>
 <a name="methodSupportedPrivileges" id="SupportedPrivileges"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">SupportedPrivileges</span> (line <span class="line-number">867</span>)
+		<span class="method-title">SupportedPrivileges</span> (line <span class="line-number">1144</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -902,11 +1201,11 @@
 			
 	</div>
 <a name="methodUnsupportedRequest" id="UnsupportedRequest"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">UnsupportedRequest</span> (line <span class="line-number">795</span>)
+		<span class="method-title">UnsupportedRequest</span> (line <span class="line-number">1071</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -929,11 +1228,11 @@
 			
 	</div>
 <a name="methodUserFromPath" id="UserFromPath"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">UserFromPath</span> (line <span class="line-number">383</span>)
+		<span class="method-title">UserFromPath</span> (line <span class="line-number">496</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -951,11 +1250,11 @@
 			
 	</div>
 <a name="methodValidateLockToken" id="ValidateLockToken"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">ValidateLockToken</span> (line <span class="line-number">596</span>)
+		<span class="method-title">ValidateLockToken</span> (line <span class="line-number">709</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -978,11 +1277,11 @@
 			
 	</div>
 <a name="methodXMLResponse" id="XMLResponse"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">XMLResponse</span> (line <span class="line-number">815</span>)
+		<span class="method-title">XMLResponse</span> (line <span class="line-number">1091</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -1013,7 +1312,7 @@
 
 	
 	<p class="notes" id="credit">
-		Documentation generated on Tue, 06 Oct 2009 02:03:07 -0700 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
+		Documentation generated on Thu, 24 Dec 2009 22:09:51 +1300 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
 	</p>
 	</div></body>
 </html>
