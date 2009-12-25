@@ -510,6 +510,21 @@ EOQRY;
 
 
   /**
+  * Check if we have the needed privilege or send an error response.
+  *
+  * @param string $privilege The name of the needed privilege.
+  */
+  function NeedPrivilege( $privilege ) {
+    global $request;
+
+    if ( $this->HavePrivilegeTo($privilege) ) return;
+
+    $request->NeedPrivilege( $privilege, $this->dav_name );
+    exit(0);  // Unecessary, but might clarify things
+  }
+
+
+  /**
   * Returns the array of privilege names converted into XMLElements
   */
   function BuildPrivileges( $privilege_names=null, &$xmldoc=null ) {

@@ -1098,12 +1098,18 @@ EOSQL;
 
 
   /**
-  * Send a need-privileges error response.  This function will never return.
+  * Send a need-privileges error response.  This function will only return
+  * if the $href is not supplied and the current user has the specified
+  * permission for the request path.
   *
-  * @param string $href The unconstructed URI where we needed the privilege.
   * @param string $privilege The name of the needed privilege.
+  * @param string $href The unconstructed URI where we needed the privilege.
   */
-  function NeedPrivilege( $href, $privilege ) {
+  function NeedPrivilege( $privilege, $href=null ) {
+    if ( !isset($href) ) {
+      if ( $request->AllowedTo($privilege) ) return;
+    }
+
     $reply = new XMLDocument();
     $xml = new XMLElement( 'need-privileges',
              new XMLElement( 'resource', array(

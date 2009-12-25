@@ -12,9 +12,7 @@ dbg_error_log("ACL", "method handler");
 
 require_once('DAVResource.php');
 
-if ( ! ( $request->AllowedTo('read-acl') || $request->AllowedTo('read-current-user-privilege-set') || $request->AllowedTo('write-acl') ) ) {
-  $request->DoResponse(403);
-}
+$request->NeedPrivilege('DAV::write-acl');
 
 if ( ! ini_get('open_basedir') && (isset($c->dbg['ALL']) || (isset($c->dbg['put']) && $c->dbg['put'])) ) {
   $fh = fopen('/tmp/MOVE.txt','w');
