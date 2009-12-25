@@ -1070,7 +1070,12 @@ EOQRY;
         break;
 
       case 'DAV::current-user-privilege-set':
-        $reply->NSElement($prop, $tag, $this->BuildPrivileges() );
+        if ( $this->HavePrivilegeTo('DAV::read-current-user-privilege-set') ) {
+          $reply->NSElement($prop, $tag, $this->BuildPrivileges() );
+        }
+        else {
+          $denied[] = $tag;
+        }
         break;
 
       case 'urn:ietf:params:xml:ns:caldav:supported-calendar-data':
@@ -1137,7 +1142,12 @@ EOQRY;
         break;
 
       case 'DAV::acl':
-        $reply->NSElement($prop, $tag, $this->GetACL( $reply ) );
+        if ( $this->HavePrivilegeTo('DAV::read-acl') ) {
+          $reply->NSElement($prop, $tag, $this->GetACL( $reply ) );
+        }
+        else {
+          $denied[] = $tag;
+        }
         break;
 
       default:
