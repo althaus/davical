@@ -1017,6 +1017,14 @@ EOQRY;
         $reply->NSElement($prop, $tag, array( new XMLElement('grant-only'), new XMLElement('no-invert') ) );
         break;
 
+      case 'DAV::inherited-acl-set':
+        $inherited_acls = array();
+        if ( ! $this->_is_collection ) {
+          $inherited_acls[] = $reply->href(ConstructURL($this->collection->dav_name));
+        }
+        $reply->NSElement($prop, $tag, $inherited_acls );
+        break;
+
       case 'DAV::owner':
         // After a careful reading of RFC3744 we see that this must be the principal-URL of the owner
         $reply->DAVElement( $prop, 'owner', $reply->href( $this->principal_url() ) );
