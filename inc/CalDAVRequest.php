@@ -1110,15 +1110,14 @@ EOSQL;
       if ( $this->AllowedTo($privilege) ) return;
     }
 
-    $reply = new XMLDocument();
+    $reply = new XMLDocument( array('DAV:' => '') );
+    $privnode = new XMLElement( 'privilege' );
+    $reply->NSElement( $privnode, $privilege );
     $xml = new XMLElement( 'need-privileges',
-             new XMLElement( 'resource', array(
-               $reply->href( ConstructURL($href) ),
-               new XMLElement( 'privilege', $reply->NSElement( $privilege ) ),
-             ))
+             new XMLElement( 'resource', array( $reply->href(ConstructURL($href)), $privnode) )
            );
     $xmldoc = $reply->Render('error',$xml);
-    $this->DoResponse( $status, $xmldoc, 'text/xml; charset="utf-8"' );
+    $this->DoResponse( 403, $xmldoc, 'text/xml; charset="utf-8"' );
     exit(0);  // Unecessary, but might clarify things
   }
 
