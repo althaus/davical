@@ -1,8 +1,8 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy
-ETag: "e01e87a334e05b0efb2deedc5fa7ae50"
-Content-Length: 2219
+ETag: "db14e561f31da3f7787f47ce081c2537"
+Content-Length: 4150
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -65,6 +65,12 @@ Content-Type: text/xml; charset="utf-8"
       </supported-privilege>
       <supported-privilege>
        <privilege>
+        <read-current-user-privilege-set/>
+       </privilege>
+       <description>Read the details of the current user's access control to this resource.</description>
+      </supported-privilege>
+      <supported-privilege>
+       <privilege>
         <write-acl/>
        </privilege>
        <description>Write ACLs for a resource or collection</description>
@@ -74,6 +80,52 @@ Content-Type: text/xml; charset="utf-8"
         <unlock/>
        </privilege>
        <description>Remove a lock</description>
+      </supported-privilege>
+      <supported-privilege>
+       <privilege>
+        <C:schedule-deliver/>
+       </privilege>
+       <supported-privilege>
+        <privilege>
+         <C:schedule-deliver-invite/>
+        </privilege>
+        <description>Deliver scheduling invitations from an organiser to this scheduling inbox</description>
+       </supported-privilege>
+       <supported-privilege>
+        <privilege>
+         <C:schedule-deliver-reply/>
+        </privilege>
+        <description>Deliver scheduling replies from an attendee to this scheduling inbox</description>
+       </supported-privilege>
+       <supported-privilege>
+        <privilege>
+         <C:schedule-query-freebusy/>
+        </privilege>
+        <description>Allow free/busy enquiries targeted at the owner of this scheduling inbox</description>
+       </supported-privilege>
+      </supported-privilege>
+      <supported-privilege>
+       <privilege>
+        <C:schedule-send/>
+       </privilege>
+       <supported-privilege>
+        <privilege>
+         <C:schedule-send-invite/>
+        </privilege>
+        <description>Send scheduling invitations as an organiser from the owner of this scheduling outbox.</description>
+       </supported-privilege>
+       <supported-privilege>
+        <privilege>
+         <C:schedule-send-reply/>
+        </privilege>
+        <description>Send scheduling replies as an attendee from the owner of this scheduling outbox.</description>
+       </supported-privilege>
+       <supported-privilege>
+        <privilege>
+         <C:schedule-send-freebusy/>
+        </privilege>
+        <description>Send free/busy enquiries</description>
+       </supported-privilege>
       </supported-privilege>
      </supported-privilege>
     </supported-privilege-set>

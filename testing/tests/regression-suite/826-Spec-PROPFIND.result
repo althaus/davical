@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<multistatus xmlns="DAV:">
+<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
  <response>
   <href>/</href>
   <propstat>
@@ -10,6 +10,62 @@
        <authenticated/>
       </principal>
       <grant>
+       <privilege>
+        <read/>
+       </privilege>
+       <privilege>
+        <read-acl/>
+       </privilege>
+       <privilege>
+        <read-current-user-privilege-set/>
+       </privilege>
+      </grant>
+     </ace>
+     <ace>
+      <principal>
+       <href>/assistant1/</href>
+      </principal>
+      <grant>
+       <privilege>
+        <read/>
+       </privilege>
+       <privilege>
+        <C:read-free-busy/>
+       </privilege>
+       <privilege>
+        <write/>
+       </privilege>
+       <privilege>
+        <write-properties/>
+       </privilege>
+       <privilege>
+        <write-content/>
+       </privilege>
+       <privilege>
+        <bind/>
+       </privilege>
+       <privilege>
+        <unbind/>
+       </privilege>
+       <privilege>
+        <C:schedule-query-freebusy/>
+       </privilege>
+      </grant>
+     </ace>
+     <ace>
+      <principal>
+       <href>/teamclient1/</href>
+      </principal>
+      <grant>
+       <privilege>
+        <read/>
+       </privilege>
+       <privilege>
+        <C:read-free-busy/>
+       </privilege>
+       <privilege>
+        <C:schedule-query-freebusy/>
+       </privilege>
       </grant>
      </ace>
     </acl>
