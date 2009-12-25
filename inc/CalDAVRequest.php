@@ -1107,7 +1107,7 @@ EOSQL;
   */
   function NeedPrivilege( $privilege, $href=null ) {
     if ( !isset($href) ) {
-      if ( $request->AllowedTo($privilege) ) return;
+      if ( $this->AllowedTo($privilege) ) return;
     }
 
     $reply = new XMLDocument();
