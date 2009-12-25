@@ -483,9 +483,11 @@ EOQRY;
 
       $this->collection->path_privs = $parent->Privileges();
       $this->collection->user_no = $parent->GetProperty('user_no');
+      $this->collection->principal_id = $parent->GetProperty('principal_id');
     }
 
     $this->privileges = $this->collection->path_privs;
+    if ( is_string($this->privileges) ) $this->privileges = bindec( $this->privileges );
   }
 
 
@@ -504,7 +506,7 @@ EOQRY;
   function HavePrivilegeTo( $do_what ) {
     if ( !isset($this->privileges) ) $this->FetchPrivileges();
     $test_bits = privilege_to_bits( $do_what );
-//    dbg_error_log( 'DAVResource', 'Testing privileges of "%s"(%d) against allowed "%s" => "%s"', $do_what, $test_bits, $this->privileges, ($this->privileges & $test_bits) );
+//    dbg_error_log( 'DAVResource', 'Testing privileges of "%s" (%s) against allowed "%s" => "%s" (%s)', $do_what, decbin($test_bits), decbin($this->privileges), ($this->privileges & $test_bits), decbin($this->privileges & $test_bits) );
     return ($this->privileges & $test_bits) > 0;
   }
 
