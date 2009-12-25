@@ -347,6 +347,7 @@ EOSQL;
       $this->collection->type = 'root';
       $this->collection->exists = true;
       $this->collection->displayname = $c->system_name;
+      $this->collection->default_privileges = (1 | 16 | 32);
     }
     else {
       dbg_error_log( 'DAVResource', 'No collection for path "%s".', $this->dav_name );
@@ -455,7 +456,7 @@ EOQRY;
     global $session;
 
     if ( $this->dav_name == '/' || $this->dav_name == '' ) {
-      $this->privileges = 1; // read
+      $this->privileges = (1 | 16 | 32); // read + read-acl + read-current-user-privilege-set
       dbg_error_log( 'DAVResource', 'Read permissions for user accessing /' );
       return;
     }
@@ -835,6 +836,61 @@ EOQRY;
 
 
   /**
+  * Return ACL settings
+  */
+  function GetACL( &$xmldoc ) {
+    global $c, $session;
+
+    if ( !isset($this->principal) ) $this->FetchPrincipal();
+    $default_privs = $this->principal->default_privileges;
+    if ( isset($this->collection->default_privileges) ) $default_privs = $this->collection->default_privileges;
+
+    $acl = array();
+    $privilege_names = bits_to_privilege($default_privs);
+    $privileges = array();
+    foreach( $privilege_names AS $k ) {
+      $privilege = new XMLElement('privilege');
+      if ( isset($xmldoc) )
+        $xmldoc->NSElement($privilege,$k);
+      else
+        $privilege->NewElement($k);
+      $privileges[] = $privilege;
+    }
+    $acl[] = new XMLElement('ace', array(
+                new XMLElement('principal', new XMLElement('authenticated')),
+                new XMLElement('grant', $privileges ) )
+              );
+
+    $qry = new AwlQuery('SELECT dav_principal.dav_name, grants.* FROM grants JOIN dav_principal ON (to_principal=principal_id) WHERE by_collection = :collection_id OR by_principal = :principal_id ORDER BY by_collection',
+                                array( ':collection_id' => $this->collection->collection_id, ':principal_id' => $this->principal->principal_id ) );
+    if ( $qry->Exec('DAVResource') && $qry->rows() > 0 ) {
+      $by_collection = null;
+      while( $grant = $qry->Fetch() ) {
+        if ( !isset($by_collection) ) $by_collection = isset($grant->by_collection);
+        if ( $by_collection &&  !isset($grant->by_collection) ) break;
+
+        $privilege_names = bits_to_privilege($grant->privileges);
+        $privileges = array();
+        foreach( $privilege_names AS $k ) {
+          $privilege = new XMLElement('privilege');
+          if ( isset($xmldoc) )
+            $xmldoc->NSElement($privilege,$k);
+          else
+            $privilege->NewElement($k);
+          $privileges[] = $privilege;
+        }
+        $acl[] = new XMLElement('ace', array(
+                        new XMLElement('principal', $xmldoc->href(ConstructURL($grant->dav_name))),
+                        new XMLElement('grant', $privileges ) )
+                  );
+      }
+    }
+    return $acl;
+
+  }
+
+
+  /**
   * Return general server-related properties, in plain form
   */
   function GetProperty( $name ) {
@@ -1049,6 +1105,10 @@ EOQRY;
         $address_data = $reply->NewXMLElement( 'address-data', false,
                       array( 'content-type' => 'text/vcard', 'version' => '3.0'), 'urn:ietf:params:xml:ns:carddav');
         $reply->NSElement($prop, $tag, $address_data );
+        break;
+
+      case 'DAV::acl':
+        $reply->NSElement($prop, $tag, $this->GetACL( $reply ) );
         break;
 
       default:
