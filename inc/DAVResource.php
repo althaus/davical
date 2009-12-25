@@ -1013,6 +1013,10 @@ EOQRY;
         $reply->NSElement($prop, $tag, $locale );
         break;
 
+      case 'DAV::acl-restrictions':
+        $reply->NSElement($prop, $tag, array( new XMLElement('grant-only'), new XMLElement('no-invert') ) );
+        break;
+
       case 'DAV::owner':
         // After a careful reading of RFC3744 we see that this must be the principal-URL of the owner
         $reply->DAVElement( $prop, 'owner', $reply->href( $this->principal_url() ) );
