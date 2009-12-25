@@ -96,17 +96,30 @@ class CalDAVRequest
 
     $this->supported_privileges = array(
       'all' => array(
-        'read' => 'Read the content of a resource or collection',
+        'read' => translate('Read the content of a resource or collection'),
         'write' => array(
-          'bind' => 'Create a resource or collection',
-          'unbind' => 'Delete a resource or collection',
-          'write-content' => 'Write content',
-          'write-properties' => 'Write properties'
+          'bind' => translate('Create a resource or collection'),
+          'unbind' => translate('Delete a resource or collection'),
+          'write-content' => translate('Write content'),
+          'write-properties' => translate('Write properties')
         ),
-        'urn:ietf:params:xml:ns:caldav:read-free-busy' => 'Read the free/busy information for a calendar collection',
-        'read-acl' => 'Read ACLs for a resource or collection',
-        'write-acl' => 'Write ACLs for a resource or collection',
-        'unlock' => 'Remove a lock'
+        'urn:ietf:params:xml:ns:caldav:read-free-busy' => translate('Read the free/busy information for a calendar collection'),
+        'read-acl' => translate('Read ACLs for a resource or collection'),
+        'read-current-user-privilege-set' => translate('Read the details of the current user\'s access control to this resource.'),
+        'write-acl' => translate('Write ACLs for a resource or collection'),
+        'unlock' => translate('Remove a lock'),
+
+        'urn:ietf:params:xml:ns:caldav:schedule-deliver' => array(
+          'urn:ietf:params:xml:ns:caldav:schedule-deliver-invite'=> translate('Deliver scheduling invitations from an organiser to this scheduling inbox'),
+          'urn:ietf:params:xml:ns:caldav:schedule-deliver-reply' => translate('Deliver scheduling replies from an attendee to this scheduling inbox'),
+          'urn:ietf:params:xml:ns:caldav:schedule-query-freebusy' => translate('Allow free/busy enquiries targeted at the owner of this scheduling inbox')
+        ),
+
+        'urn:ietf:params:xml:ns:caldav:schedule-send' => array(
+          'urn:ietf:params:xml:ns:caldav:schedule-send-invite' => translate('Send scheduling invitations as an organiser from the owner of this scheduling outbox.'),
+          'urn:ietf:params:xml:ns:caldav:schedule-send-reply' => translate('Send scheduling replies as an attendee from the owner of this scheduling outbox.'),
+          'urn:ietf:params:xml:ns:caldav:schedule-send-freebusy' => translate('Send free/busy enquiries')
+        )
       )
     );
 
@@ -1136,19 +1149,5 @@ EOSQL;
     exit(0);
   }
 
-
-  /**
-  * Return an array of what the DAV privileges are that are supported
-  *
-  * @return array The supported privileges.
-  */
-  function SupportedPrivileges() {
-    $privs = array( 'all'=>'abstract', 'read'=>'real',
-                    'write'=>'real', 'bind'=>'real',
-                    'unbind'=>'real', 'write-content'=>'real',
-                    'write-properties'=>'real',
-                    'urn:ietf:params:xml:ns:caldav:read-free-busy' => 'real');
-    return $privs;
-  }
 }
 
