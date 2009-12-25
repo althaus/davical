@@ -1096,6 +1096,27 @@ EOSQL;
     }
   }
 
+
+  /**
+  * Send a need-privileges error response.  This function will never return.
+  *
+  * @param string $href The unconstructed URI where we needed the privilege.
+  * @param string $privilege The name of the needed privilege.
+  */
+  function NeedPrivilege( $href, $privilege ) {
+    $reply = new XMLDocument();
+    $xml = new XMLElement( 'need-privileges',
+             new XMLElement( 'resource', array(
+               $reply->href( ConstructURL($href) ),
+               new XMLElement( 'privilege', $reply->NSElement( $privilege ) ),
+             ))
+           );
+    $xmldoc = $reply->Render('error',$xml);
+    $this->DoResponse( $status, $xmldoc, 'text/xml; charset="utf-8"' );
+    exit(0);  // Unecessary, but might clarify things
+  }
+
+
   /**
   * Send an XML Response.  This function will never return.
   *
