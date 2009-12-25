@@ -5,99 +5,117 @@
 <h1>Administration Functions</h1>
 <p>The administration of this application should be fairly simple.  You can administer:</p>
 <ul>
-<li>Users (or Resources or Groups) and the relationships between them</li>
-<li>The types of relationships that are available</li>
+<li>Principals (Users, Resources or Groups)</li>
+<li>Membership of groups</li>
+<li>Privileges granted by a principal or collection to another principal</li>
 
 </ul>
 <p><i>There is no ability to view and / or maintain calendars or events from within this administrative interface.</i></p>
 <p>To do that you will need to use a CalDAV capable calendaring application such as Evolution, Sunbird, Thunderbird
-(with the Lightning extension) or Mulberry.</p>
+(with the Lightning extension), Mulberry, Apple iCal, an iPhone or something else.</p>
 
 <h2>Users, Resources and Groups</h2>
 <p>These are the things which may have collections of calendar resources (i.e. calendars).</p>
-<p>In the list of users you can click on any user to see the full detail
-for that person (or group or resource - but from now we'll just call them users).</p>
-<p>The primary differences between them are as follows:</p>
+<p>In the lists of principals you can click on any principal to see the full detail
+for that record.</p>
+<p>The primary differences between the types of principal are as follows:</p>
 <ul>
 <li>Users will probably have calendars, and are likely to also log on to the system.</li>
 
 <li>Resources do have calendars, but they will not usually log on.</li>
 <li>Groups provide an intermediate linking to minimise administration overhead.  They might not have calendars, and they will not usually log on.</li>
 </ul>
+<p>These differences are more conceptual than actual, however: in the DAV specification they are really all 'principals' and all equal.</p>
 
-<h2>Types of Relationships</h2>
-<p>These define the structure of the relationships between users.</p>
-<p>A manager might want to grant full access to their calendar to an assistant, for example, so
-they should create an "Is assistant to" relationship between the assistant and themselves.</p>
-<p>Relationships themselves are maintained on the User maintenance screen.</p>
-<p>It can also be useful to have several people having the same kind of access to a particular
-set of resources.  The "Is a member of group" relationship is used to grant each user access to
-the group, and then each resource links to the group with the "Administers Resource" relationship.</p>
-<p>You can also define other relationship types beyond the basic ones just described.</p>
-<p>Relationship links work in three ways, as follows:</p>
+<h2>Groups</h2>
+<p>Groups exist to simplify the maintenance of privileges.  Rather than assigning a write privilege
+ to each individual with write access, you can create a group with the members being the people
+ needing write access, and assign the write privilege to that group.</p>
+<p>In this way as people come and go you can maintain the members of the group and it is easier to see
+ who has the desired level of access.  If the needed level of access changes, you can change the grant
+ to the individual group, rather than to each member of the group</p>
+
+<h2>Privileges</h2>
+<p>The basic DAV permissions are as follows:</p>
+<p>read, write-properties, write-content, unlock, read-acl, read-current-user-privilege-set, write-acl, bind &amp; unbind</p>
+
+<p>There are also a couple of useful aggregates of those, which are:</p>
 <ul>
-<li>Where users relate to each other (i.e. links to non-group targets), the relationship type will define whether access is free/busy only, read only,
-read &amp; write or full administrative control.</li>
-<li>Where a set of users link to a group, which does not further link to other users/resources, they will share the same access to each other.</li>
-<li>Where a set of users link to a group, which then links to other users/resources, the access restrictions will apply as the lesser of their link to that group, or the link from the group.  They will have no access to each other's calendars.</li>
+<li> write - aggregate of write-properties, write-content, bind &amp; unbind</li>
+<li> all   - aggregate of all permissions</li>
 </ul>
+<p>Since none of those covered publication of Free/Busy information, CalDAV introduced an additional <em>read-free-busy</em></p>
+<p>Unfortunately that didn't cover all of the possibilities of scheduling privileges, so the
+ CalDAV Scheduling Extensions to WebDAV has added several further permissions:</p>
+<p>schedule-deliver-invite, schedule-deliver-reply, schedule-query-freebusy, schedule-send-invite,
+ schedule-send-reply, schedule-send-freebusy
+ </p>
+<p>Two more aggregate permissions are also added with this RFC:</p>
+<ul>
+<li> CALDAV:schedule-deliver - CALDAV:schedule-deliver-invite, CALDAV:schedule-deliver-reply and CALDAV:schedule-query-freebusy</li>
+<li> CALDAV:schedule-send - CALDAV:schedule-send-invite, CALDAV:schedule-send-reply and CALDAV:schedule-send-freebusy</li>
+</ul>
+<p>That's all way too complicated, even if it does need to be there under the covers.  Mostly you just need to know
+ about <em>read</em>, <em>write</em> &amp; <em>free-busy</em></p>
 
-<h3>Some Examples</h3>
+<h2>Some Examples</h2>
 
-<h4>Several people administer a set of resources</h4>
+<h3>Several people administer a set of resources</h3>
 <p>Suppose you have some resources, R1, R2 and R3 and you want to centralise the booking
 of the resources through an administrative assistant, A1.  When A1 is away you want to
 have a backup person, so you also want A2 to be able to do that.</p>
-<p>In a case like this you should create an intermediate group "G" and set up
-relationships ("Administers Resource") from "G" to each of the resources to be
-administered.  For each of the people able to administer those resources you
-should create relationships ("Administers Group") to the group.  Other people
-who may view the resources, but not change them, can be related to the group
-as "is a member of" which will grant them read only privileges to all of the
-group's resources.</p>
+<p>In a case like this you should create an intermediate group "G" and make each
+ of the people you want to be able to administer those resources members of that
+ group.</p>
+<p>Each of the resources should be set up to grant default privileges to everyone
+ to see the full schedule (<em>read</em> privilege), and the resources should be
+ set up to grant <em>write</em> (or possibly <em>all</em>) privileges to the group "G".</p>
+<p>In this case you might only set up a single principal for the resources, and have
+ multiple calendars, one for each resource.</p>
 <pre>
-A1  ==>> Administers Group    ==> G
-A2  ==>> Administers Group    ==> G
-G   ==>> Administers Resource ==> R1
-G   ==>> Administers Resource ==> R2
-G   ==>> Administers Resource ==> R3
-P1  ==>> is a member of       ==> G
-P2  ==>> is a member of       ==> G
+A1  ==>> is a member of    ==> G
+A2  ==>> is a member of    ==> G
+R1  ==>> grants write privilege to ==> G
+R2  ==>> grants write privilege to ==> G
+R3  ==>> grants write privilege to ==> G
+P1  is a different principal with no specifically granted privilege
 </pre>
 <p>P1 will be able to see all of the scheduled events for R1, R2 and R3, but will
 not be able to create, delete or modify them.  A1 and A2 will be able to see,
 create and modify all the events.</p>
 
 <h4>An administrative assistant has full access to a managers calendar</h4>
-<p>In this case you set a relationship from the administrative assistant
-to the manager of "is Assistant to"</p>
-<pre>
-A1  ==>> is Assistant to ==> Manager
-</pre>
-<p>(Actually I see there is a bug there in 0.4.0, in that the relationship type
-is named the wrong way around as "Is Assisted by", so I'll rename that
-in 0.4.1 :-)</p>
+<p>In this case the manager will simply grant the desired specific privileges to their assistant.</p>
 
-<h4>A team can see each others calendars</h4>
+<h4>A team wish to see each others calendars</h4>
 <p>In this case you should create a group "G", which all team members are
-linked to as "is a member of".</p>
+members of, and each team member will grant whatever privileges they wish to that group.</p>
 <pre>
 P1  ==>> is a member of  ==> G
+P1  ==>> grants read privilege to ==> G
 P2  ==>> is a member of  ==> G
+P2  ==>> grants read privilege to ==> G
 P3  ==>> is a member of  ==> G
+P3  ==>> grants write privilege to ==> G
 P4  ==>> is a member of  ==> G
+P4  ==>> grants read-free-busy privilege to ==> G
 </pre>
 
 <h4>A team can modify each others calendars</h4>
-<p>In this case you should create a group "G", which all team members are
-linked to as "Administers Group".</p>
+<p>Similar to above, you should create a group "G", which all team members are
+members of, and each team member will grant <em>write</em> privileges to that group.</p>
 <pre>
-P1  ==>> Administers Group  ==> G
-P2  ==>> Administers Group  ==> G
-P3  ==>> Administers Group  ==> G
-P4  ==>> Administers Group  ==> G
+P1  ==>> is a member of  ==> G
+P1  ==>> grants write privilege to ==> G
+P2  ==>> is a member of  ==> G
+P2  ==>> grants write privilege to ==> G
+P3  ==>> is a member of  ==> G
+P3  ==>> grants write privilege to ==> G
+P4  ==>> is a member of  ==> G
+P4  ==>> grants write privilege to ==> G
 </pre>
 
+<p>Also see the Permissions page on the DAViCal Wiki: <a href="http://wiki.davical.org/w/Permissions" title="The Permissions page on the DAViCal Wiki">http://wiki.davical.org/w/Permissions</a>.</p>
 
 <h1>Configuring Calendar Clients for DAViCal</h1>
 <p>The <a href="clients.php">DAViCal client setup page on sourceforge</a> has information on how
