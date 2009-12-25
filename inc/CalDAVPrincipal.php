@@ -411,6 +411,7 @@ class CalDAVPrincipal
   * Return the privileges bits for the current session user to this resource
   */
   function Privileges() {
+    if ( is_string($this->privileges) ) $this->privileges = bindec( $this->privileges );
     return $this->privileges;
   }
 
