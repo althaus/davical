@@ -12,9 +12,7 @@ dbg_error_log("MOVE", "method handler");
 
 require_once('DAVResource.php');
 
-if ( ! $request->AllowedTo("read") ) {
-  $request->DoResponse(403);
-}
+$request->NeedPrivilege('DAV::unbind');
 
 if ( ! ini_get('open_basedir') && (isset($c->dbg['ALL']) || (isset($c->dbg['put']) && $c->dbg['put'])) ) {
   $fh = fopen('/tmp/MOVE.txt','w');
@@ -27,13 +25,13 @@ if ( ! ini_get('open_basedir') && (isset($c->dbg['ALL']) || (isset($c->dbg['put'
 $lock_opener = $request->FailIfLocked();
 
 if ( $request->path == '/' || $request->IsPrincipal() || $request->destination == '' ) {
-  $request->DoResponse( 403 );
+  $request->NeedPrivilege('DAV::unbind', '/');
 }
 
 $dest = new DAVResource($request->destination);
 
 if ( $dest->dav_name() == '/' || $dest->IsPrincipal() ) {
-  $request->DoResponse( 403 );
+  $request->NeedPrivilege('DAV::bind', '/');
 }
 
 if ( ! $request->overwrite && $dest->Exists() ) {
@@ -86,9 +84,9 @@ else {
   }
 }
 
-if ( ! $src->HavePrivilegeTo('DAV::unbind') ) $request->DoResponse( 403 );
-if ( ! $dest->HavePrivilegeTo('DAV::write') ) $request->DoResponse( 403 );
-if ( ! $dest->Exists() && !$dest->HavePrivilegeTo('DAV::bind') ) $request->DoResponse( 403 );
+$src->NeedPrivilege('DAV::unbind');
+$dest->NeedPrivilege('DAV::write-content');
+if ( ! $dest->Exists() ) $dest->NeedPrivilege('DAV::bind');
 
 
 function rollback( $response_code = 412 ) {
