@@ -14,7 +14,7 @@
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v3 or later
 */
 
-require_once("XMLElement.php");
+require_once("XMLDocument.php");
 require_once("CalDAVPrincipal.php");
 
 define('DEPTH_INFINITY', 9999);
@@ -82,6 +82,11 @@ class CalDAVRequest
   *  calendar, schedule-inbox, schedule-outbox
   */
   protected $exists;
+
+  /**
+  * The decimal privileges allowed by this user to the identified resource.
+  */
+  protected $privileges;
 
   /**
   * A static structure of supported privileges.
@@ -558,60 +563,52 @@ EOSQL;
     global $c, $session;
 
     if ( $this->path == '/' || $this->path == '' ) {
-      $this->permissions = array("read" => 'read' );
-      dbg_error_log( "caldav", "Read permissions for user accessing /" );
-      return;
+      $this->privileges = privilege_to_bits( array('read','read-free-busy','read-acl'));
+      dbg_error_log( "caldav", "Full read permissions for user accessing /" );
     }
-
-    if ( $session->AllowedTo("Admin") || $session->user_no == $this->user_no ) {
-      $this->permissions = array('all' => 'abstract' );
-      $this->permissions['urn:ietf:params:xml:ns:caldav:read-free-busy'] = 'real';
-      $this->permissions['read'] = 'real';
-      $this->permissions['write'] = 'aggregate';
-      $this->permissions['bind'] = 'real';      // PUT of new content (i.e. Create)
-      $this->permissions['unbind'] = 'real';  // DELETE
-      $this->permissions['write-content'] = 'real';        // PUT Modify
-      $this->permissions['write-properties'] = 'real';  // PROPPATCH
-      $this->permissions['lock'] = 'real';
-      $this->permissions['unlock'] = 'real';
-      $this->permissions['read-acl'] = 'real';
-      $this->permissions['read-current-user-privilege-set'] = 'real';
+    else if ( $session->AllowedTo("Admin") || $session->user_no == $this->user_no ) {
+      $this->privileges = privilege_to_bits('all');
       dbg_error_log( "caldav", "Full permissions for %s", ( $session->user_no == $this->user_no ? "user accessing their own hierarchy" : "a systems administrator") );
-      return;
-    }
-
-    $this->permissions = array();
-
-    if ( $this->IsPublic() ) {
-      $this->permissions['read'] = 'real';
-      $this->permissions['urn:ietf:params:xml:ns:caldav:read-free-busy'] = 'real';
-    }
-    else if ( isset($c->public_freebusy_url) && $c->public_freebusy_url ) {
-      $this->permissions['urn:ietf:params:xml:ns:caldav:read-free-busy'] = 'real';
-    }
-
-    /**
-    * In other cases we need to query the database for permissions
-    */
-    if ( isset($this->by_email) ) {
-      $qry = new PgQuery( "SELECT pprivs( ?::int8, ?::int8, ?::int ) AS perm", $session->principal_id, $this->principal_id, $c->permission_scan_depth );
     }
     else {
-      $qry = new PgQuery( "SELECT path_privs( ?::int8, ?::text, ?::int ) AS perm", $session->principal_id, $this->path, $c->permission_scan_depth );
-    }
-    if ( $qry->Exec("caldav") && $permission_result = $qry->Fetch() ) {
-      $privs = bits_to_privilege($permission_result->perm);
-      foreach( $privs AS $k => $v ) {
-        switch( $v ) {
-          case 'DAV::all':    $type = 'abstract';   break;
-          case 'DAV::write':  $type = 'aggregate';  break;
-          default: $type = 'real';
-        }
-        $v = str_replace('DAV::', '', $v);
-        $this->permissions[$v] = $type;
+      $this->privileges = 0;
+      if ( $this->IsPublic() ) {
+        $this->privileges = privilege_to_bits(array('read','read-free-busy'));
+        dbg_error_log( "caldav", "Basic read permissions for user accessing a public collection" );
       }
-      dbg_error_log( "caldav", "Restricted permissions for user accessing someone elses hierarchy: %s", implode( ", ", $this->permissions ) );
+      else if ( isset($c->public_freebusy_url) && $c->public_freebusy_url ) {
+        $this->privileges = privilege_to_bits('read-free-busy');
+        dbg_error_log( "caldav", "Basic free/busy permissions for user accessing a public free/busy URL" );
+      }
+
+      /**
+      * In other cases we need to query the database for permissions
+      */
+      if ( isset($this->by_email) ) {
+        $qry = new PgQuery( "SELECT pprivs( ?::int8, ?::int8, ?::int ) AS perm", $session->principal_id, $this->principal_id, $c->permission_scan_depth );
+      }
+      else {
+        $qry = new PgQuery( "SELECT path_privs( ?::int8, ?::text, ?::int ) AS perm", $session->principal_id, $this->path, $c->permission_scan_depth );
+      }
+      if ( $qry->Exec("caldav") && $permission_result = $qry->Fetch() )
+        $this->privileges &= bindec($permission_result->perm);
+
+      dbg_error_log( "caldav", "Restricted permissions for user accessing someone elses hierarchy: %s", decbin($this->privileges) );
     }
+
+    /** convert privileges into older style permissions */
+    $this->permissions = array();
+    $privs = bits_to_privilege($this->privileges);
+    foreach( $privs AS $k => $v ) {
+      switch( $v ) {
+        case 'DAV::all':    $type = 'abstract';   break;
+        case 'DAV::write':  $type = 'aggregate';  break;
+        default: $type = 'real';
+      }
+      $v = str_replace('DAV::', '', $v);
+      $this->permissions[$v] = $type;
+    }
+
   }
 
 
@@ -1070,12 +1067,37 @@ EOSQL;
       case 'unlock':
       default:
         return isset($this->permissions[$activity]);
+        $test_bits = privilege_to_bits( $activity );
+//      dbg_error_log( 'caldav', 'Testing privileges of "%s" (%s) against allowed "%s" => "%s" (%s)',
+//          (is_array($privileges) ? implode(',',$privileges) : $privileges), decbin($test_bits),
+//             decbin($this->privileges), ($this->privileges & $test_bits), decbin($this->privileges & $test_bits) );
+        return (($this->privileges & $test_bits) > 0 );
         break;
     }
 
     return false;
   }
 
+
+
+  /**
+  * Return the privileges bits for the current session user to this resource
+  */
+  function Privileges() {
+    return $this->privileges;
+  }
+
+
+  /**
+  * Is the user has the privileges to do what is requested.
+  */
+  function HavePrivilegeTo( $do_what ) {
+    $test_bits = privilege_to_bits( $do_what );
+//    dbg_error_log( 'caldav', 'Testing privileges of "%s" (%s) against allowed "%s" => "%s" (%s)',
+//             (is_array($do_what) ? implode(',',$do_what) : $do_what), decbin($test_bits),
+//              decbin($this->privileges), ($this->privileges & $test_bits), decbin($this->privileges & $test_bits) );
+    return ($this->privileges & $test_bits) > 0;
+  }
 
 
   /**
@@ -1105,17 +1127,15 @@ EOSQL;
   * @param string $privilege The name of the needed privilege.
   * @param string $href The unconstructed URI where we needed the privilege.
   */
-  function NeedPrivilege( $privilege, $href=null ) {
-    if ( !isset($href) ) {
-      if ( $this->AllowedTo($privilege) ) return;
-    }
+  function NeedPrivilege( $privileges, $href=null ) {
+    if ( is_string($privileges) ) $privileges = array( $privileges );
+    if ( !isset($href) && $this->HavePrivilegeTo($privileges) ) return;
 
     $reply = new XMLDocument( array('DAV:' => '') );
-    $privnode = new XMLElement( 'privilege' );
-    $reply->NSElement( $privnode, $privilege );
-    $xml = new XMLElement( 'need-privileges',
-             new XMLElement( 'resource', array( $reply->href(ConstructURL($href)), $privnode) )
-           );
+    $privnodes = array( $reply->href(ConstructURL($href)), new XMLElement( 'privilege' ) );
+    // RFC3744 specifies that we can only respond with one needed privilege, so we pick the first.
+    $reply->NSElement( $privnodes[1], $privileges[0] );
+    $xml = new XMLElement( 'need-privileges', new XMLElement( 'resource', $privnodes) );
     $xmldoc = $reply->Render('error',$xml);
     $this->DoResponse( 403, $xmldoc, 'text/xml; charset="utf-8"' );
     exit(0);  // Unecessary, but might clarify things
