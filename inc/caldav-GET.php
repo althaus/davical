@@ -12,9 +12,8 @@ dbg_error_log("get", "GET method handler");
 
 require_once("iCalendar.php");
 
-if ( ! $request->AllowedTo('freebusy') ) {
-  $request->DoResponse( 403, translate("You may not access that calendar") );
-}
+
+$request->NeedPrivilege( array('urn:ietf:params:xml:ns:caldav:read-free-busy','DAV::read') );
 
 if ( $request->IsCollection() ) {
   if ( $request->IsCalendar() ) {
@@ -42,6 +41,7 @@ if ( !$qry->Exec("GET") ) {
 }
 else if ( $qry->rows == 1 && ! $request->IsCollection() ) {
   $event = $qry->Fetch();
+  $resource = new iCalComponent( $event->caldav_data );
 
   /** Default deny... */
   $allowed = false;
@@ -55,7 +55,7 @@ else if ( $qry->rows == 1 && ! $request->IsCollection() ) {
   }
   else if ( $event->class != 'PRIVATE' ) {
     $allowed = true; // but we may well obfuscate it below
-    if ( ! $request->AllowedTo('read') || ( $event->class == 'CONFIDENTIAL' && ! $request->AllowedTo('modify') ) ) {
+    if ( ! $request->HavePrivilegeTo('DAV::read') || ( $event->class == 'CONFIDENTIAL' && ! $request->HavePrivilegeTo('DAV::write-content') ) ) {
       // The user is not admin / owner of this calendarlooking at his calendar and can not admin the other cal,
       // or maybe they don't have *read* access but they got here, so they must at least have free/busy access
       // so we will present an obfuscated version of the event that just says "Busy" (translated :-)
@@ -136,7 +136,7 @@ else {
       /** No visibility even of the existence of these events if they aren't admin/owner/attendee */
       if ( $event->class == 'PRIVATE' ) continue;
 
-      if ( ! $request->AllowedTo('read') || $event->class == 'CONFIDENTIAL' ) {
+      if ( ! $request->HavePrivilegeTo('DAV::read') || $event->class == 'CONFIDENTIAL' ) {
         // The user is not admin / owner of this calendar looking at his calendar and can not admin the other cal,
         // or maybe they don't have *read* access but they got here, so they must at least have free/busy access
         // so we will present an obfuscated version of the event that just says "Busy" (translated :-)
