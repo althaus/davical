@@ -1211,7 +1211,7 @@ EOQRY;
       $status = new XMLElement('status', 'HTTP/1.1 403 Forbidden' );
       $noprop = new XMLElement('prop');
       foreach( $denied AS $k => $v ) {
-        $noprop->NewElement( $v );
+        $reply->NSElement($noprop, $v);
       }
       $elements[] = new XMLElement( 'propstat', array( $noprop, $status) );
     }
@@ -1220,7 +1220,7 @@ EOQRY;
       $status = new XMLElement('status', 'HTTP/1.1 404 Not Found' );
       $noprop = new XMLElement('prop');
       foreach( $not_found AS $k => $v ) {
-        $noprop->NewElement( $v );
+        $reply->NSElement($noprop, $v);
       }
       $elements[] = new XMLElement( 'propstat', array( $noprop, $status) );
     }
