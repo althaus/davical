@@ -54,7 +54,7 @@ if ( $qry->Exec("freebusy",__LINE__,__FILE__) && $qry->rows > 0 ) {
     if ( $calendar_object->transp != "TRANSPARENT" ) {
       switch ( $calendar_object->status ) {
         case "TENTATIVE":
-          dbg_error_log( "REPORT", " FreeBusy: tentative appointment: %s, %s", $calendar_object->start, $calendar_object->finish );
+          dbg_error_log( "freebusy", " FreeBusy: tentative appointment: %s, %s", $calendar_object->start, $calendar_object->finish );
           $busy_tentative[] = $calendar_object;
           break;
 
@@ -63,7 +63,7 @@ if ( $qry->Exec("freebusy",__LINE__,__FILE__) && $qry->rows > 0 ) {
           break;
 
         default:
-          dbg_error_log( "REPORT", " FreeBusy: Not transparent, tentative or cancelled: %s, %s", $calendar_object->start, $calendar_object->finish );
+          dbg_error_log( "freebusy", " FreeBusy: Not transparent, tentative or cancelled: %s, %s", $calendar_object->start, $calendar_object->finish );
           $busy[] = $calendar_object;
           break;
       }
