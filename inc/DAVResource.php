@@ -853,6 +853,27 @@ EOQRY;
 
 
   /**
+  * BuildACE - construct an XMLElement subtree for a DAV::ace
+  */
+  function BuildACE( &$xmldoc, $privs, $principal ) {
+    $privilege_names = bits_to_privilege($privs);
+    $privileges = array();
+    foreach( $privilege_names AS $k ) {
+      $privilege = new XMLElement('privilege');
+      if ( isset($xmldoc) )
+        $xmldoc->NSElement($privilege,$k);
+      else
+        $privilege->NewElement($k);
+      $privileges[] = $privilege;
+    }
+    $ace = new XMLElement('ace', array(
+                new XMLElement('principal', $principal),
+                new XMLElement('grant', $privileges ) )
+              );
+    return $ace;
+  }
+
+  /**
   * Return ACL settings
   */
   function GetACL( &$xmldoc ) {
@@ -863,20 +884,7 @@ EOQRY;
     if ( isset($this->collection->default_privileges) ) $default_privs = $this->collection->default_privileges;
 
     $acl = array();
-    $privilege_names = bits_to_privilege($default_privs);
-    $privileges = array();
-    foreach( $privilege_names AS $k ) {
-      $privilege = new XMLElement('privilege');
-      if ( isset($xmldoc) )
-        $xmldoc->NSElement($privilege,$k);
-      else
-        $privilege->NewElement($k);
-      $privileges[] = $privilege;
-    }
-    $acl[] = new XMLElement('ace', array(
-                new XMLElement('principal', new XMLElement('authenticated')),
-                new XMLElement('grant', $privileges ) )
-              );
+    $acl[] = $this->BuildACE($xmldoc, pow(2,25) - 1, new XMLElement('owner') );
 
     $qry = new AwlQuery('SELECT dav_principal.dav_name, grants.* FROM grants JOIN dav_principal ON (to_principal=principal_id) WHERE by_collection = :collection_id OR by_principal = :principal_id ORDER BY by_collection',
                                 array( ':collection_id' => $this->collection->collection_id, ':principal_id' => $this->principal->principal_id ) );
@@ -885,23 +893,12 @@ EOQRY;
       while( $grant = $qry->Fetch() ) {
         if ( !isset($by_collection) ) $by_collection = isset($grant->by_collection);
         if ( $by_collection &&  !isset($grant->by_collection) ) break;
-
-        $privilege_names = bits_to_privilege($grant->privileges);
-        $privileges = array();
-        foreach( $privilege_names AS $k ) {
-          $privilege = new XMLElement('privilege');
-          if ( isset($xmldoc) )
-            $xmldoc->NSElement($privilege,$k);
-          else
-            $privilege->NewElement($k);
-          $privileges[] = $privilege;
-        }
-        $acl[] = new XMLElement('ace', array(
-                        new XMLElement('principal', $xmldoc->href(ConstructURL($grant->dav_name))),
-                        new XMLElement('grant', $privileges ) )
-                  );
+        $acl[] = $this->BuildACE($xmldoc, $grant->privileges, $xmldoc->href(ConstructURL($grant->dav_name)) );
       }
     }
+
+    $acl[] = $this->BuildACE($xmldoc, $default_privs, new XMLElement('authenticated') );
+
     return $acl;
 
   }
