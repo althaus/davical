@@ -147,6 +147,14 @@ class AwlDatabase extends AwlDBDialect {
   function TranslateAll( $onoff_boolean ) {
   }
 
+
+  /**
+  *
+  */
+  function ErrorInfo() {
+    return $this->db->errorInfo();
+  }
+
 }
 
 
