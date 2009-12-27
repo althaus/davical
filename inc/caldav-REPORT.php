@@ -11,6 +11,7 @@
 dbg_error_log("REPORT", "method handler");
 
 require_once("XMLDocument.php");
+require_once('DAVResource.php');
 
 if ( ! ini_get('open_basedir') && (isset($c->dbg['ALL']) || (isset($c->dbg['report']) && $c->dbg['report'])) ) {
   $fh = fopen('/tmp/REPORT.txt','w');

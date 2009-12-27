@@ -1,7 +1,5 @@
 <?php
 
-require_once('DAVResource.php');
-
 /**
 * Given a <response><href>...</href><propstat><prop><someprop/></prop><status>HTTP/1.1 200 OK</status></propstat>...</response>
 * pull out the content of <someprop>content</someprop> and check to see if it has any href elements.  If it *does* then

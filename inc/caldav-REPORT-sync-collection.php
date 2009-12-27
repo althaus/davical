@@ -9,7 +9,6 @@
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v2 or later
 */
 
-require("DAVResource.php");
 $responses = array();
 
 /**
