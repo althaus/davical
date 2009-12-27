@@ -1235,7 +1235,7 @@ EOQRY;
       $status = new XMLElement('status', 'HTTP/1.1 404 Not Found' );
       $noprop = new XMLElement('prop');
       foreach( $not_found AS $k => $v ) {
-        $reply->NSElement($noprop, $v);
+        $noprop->NewElement($v);
       }
       $elements[] = new XMLElement( 'propstat', array( $noprop, $status) );
     }
