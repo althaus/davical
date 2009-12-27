@@ -113,7 +113,7 @@ class iCalDate {
   */
   function _TextFromEpoch() {
     $this->_text = date('Ymd\THis', $this->_epoch );
-    dbg_error_log( "RRule", " Text %s from epoch %d", $this->_text, $this->_epoch );
+//    dbg_error_log( "RRule", " Text %s from epoch %d", $this->_text, $this->_epoch );
   }
 
   /**
@@ -121,7 +121,7 @@ class iCalDate {
   */
   function _GMTTextFromEpoch() {
     $this->_text = gmdate('Ymd\THis', $this->_epoch );
-    dbg_error_log( "RRule", " Text %s from epoch %d", $this->_text, $this->_epoch );
+//    dbg_error_log( "RRule", " Text %s from epoch %d", $this->_text, $this->_epoch );
   }
 
   /**
@@ -142,7 +142,7 @@ class iCalDate {
   */
   function _GMTEpochFromParts() {
     $this->_epoch = gmmktime ( $this->_hh, $this->_mi, $this->_ss, $this->_mo, $this->_dd, $this->_yy );
-    dbg_error_log( "RRule", " Epoch %d from %04d-%02d-%02d %02d:%02d:%02d", $this->_epoch, $this->_yy, $this->_mo, $this->_dd, $this->_hh, $this->_mi, $this->_ss );
+//    dbg_error_log( "RRule", " Epoch %d from %04d-%02d-%02d %02d:%02d:%02d", $this->_epoch, $this->_yy, $this->_mo, $this->_dd, $this->_hh, $this->_mi, $this->_ss );
   }
 
 
@@ -151,7 +151,7 @@ class iCalDate {
   */
   function _EpochFromParts() {
     $this->_epoch = mktime ( $this->_hh, $this->_mi, $this->_ss, $this->_mo, $this->_dd, $this->_yy );
-    dbg_error_log( "RRule", " Epoch %d from %04d-%02d-%02d %02d:%02d:%02d", $this->_epoch, $this->_yy, $this->_mo, $this->_dd, $this->_hh, $this->_mi, $this->_ss );
+//    dbg_error_log( "RRule", " Epoch %d from %04d-%02d-%02d %02d:%02d:%02d", $this->_epoch, $this->_yy, $this->_mo, $this->_dd, $this->_hh, $this->_mi, $this->_ss );
   }
 
 
@@ -235,7 +235,7 @@ class iCalDate {
   * Add some number of months to a date
   */
   function AddMonths( $mo ) {
-    dbg_error_log( "RRule", " Adding %d months to %s", $mo, $this->_text );
+//    dbg_error_log( "RRule", " Adding %d months to %s", $mo, $this->_text );
     $this->_mo += $mo;
     while ( $this->_mo < 1 ) {
       $this->_mo += 12;
@@ -255,7 +255,7 @@ class iCalDate {
     }
     $this->_EpochFromParts();
     $this->_TextFromEpoch();
-    dbg_error_log( "RRule", " Added %d months and got %s", $mo, $this->_text );
+//    dbg_error_log( "RRule", " Added %d months and got %s", $mo, $this->_text );
   }
 
 
@@ -283,7 +283,7 @@ class iCalDate {
     }
     $this->_EpochFromParts();
     $this->_TextFromEpoch();
-    dbg_error_log( "RRule", " Added %d days to %s and got %s", $dd, $at_start, $this->_text );
+//    dbg_error_log( "RRule", " Added %d days to %s and got %s", $dd, $at_start, $this->_text );
   }
 
 
@@ -294,7 +294,7 @@ class iCalDate {
     if ( strstr($duration,'T') === false ) $duration .= 'T';
     list( $sign, $days, $time ) = preg_split( '/[PT]/', $duration );
     $sign = ( $sign == "-" ? -1 : 1);
-    dbg_error_log( "RRule", " Adding duration to '%s' of sign: %d,  days: %s,  time: %s", $this->_text, $sign, $days, $time );
+//    dbg_error_log( "RRule", " Adding duration to '%s' of sign: %d,  days: %s,  time: %s", $this->_text, $sign, $days, $time );
     if ( preg_match( '/(\d+)(D|W)/', $days, $matches ) ) {
       $days = intval($matches[1]);
       if ( $matches[2] == 'W' ) $days *= 7;
@@ -305,7 +305,7 @@ class iCalDate {
     if ( preg_match( '/(\d+)(M)/', $time, $matches ) )  $mi = $matches[1];
     if ( preg_match( '/(\d+)(S)/', $time, $matches ) )  $ss = $matches[1];
 
-    dbg_error_log( "RRule", " Adding %02d:%02d:%02d * %d to %02d:%02d:%02d", $hh, $mi, $ss, $sign, $this->_hh, $this->_mi, $this->_ss );
+//    dbg_error_log( "RRule", " Adding %02d:%02d:%02d * %d to %02d:%02d:%02d", $hh, $mi, $ss, $sign, $this->_hh, $this->_mi, $this->_ss );
     $this->_hh += ($hh * $sign);
     $this->_mi += ($mi * $sign);
     $this->_ss += ($ss * $sign);
@@ -400,7 +400,7 @@ class iCalDate {
   * @return boolean Whether this date falls within one of those months.
   */
   function TestByMonth( $monthlist ) {
-    dbg_error_log( "RRule", " Testing BYMONTH %s against month %d", (isset($monthlist) ? $monthlist : "no month list"), $this->_mo );
+//    dbg_error_log( "RRule", " Testing BYMONTH %s against month %d", (isset($monthlist) ? $monthlist : "no month list"), $this->_mo );
     if ( !isset($monthlist) ) return true;  // If BYMONTH is not specified any month is OK
     $months = array_flip(split( ',',$monthlist ));
     return isset($months[$this->_mo]);
@@ -412,7 +412,7 @@ class iCalDate {
   * @return array An array of the day numbers for the month which meet the rule.
   */
   function GetMonthByDay($byday) {
-    dbg_error_log( "RRule", " Applying BYDAY %s to month", $byday );
+//    dbg_error_log( "RRule", " Applying BYDAY %s to month", $byday );
     $days_in_month = $this->DaysInMonth();
     $dayrules = split(',',$byday);
     $set = array();
@@ -433,7 +433,7 @@ class iCalDate {
   * @return array An array of the day numbers for the month which meet the rule.
   */
   function GetMonthByMonthDay($bymonthday) {
-    dbg_error_log( "RRule", " Applying BYMONTHDAY %s to month", $bymonthday );
+//    dbg_error_log( "RRule", " Applying BYMONTHDAY %s to month", $bymonthday );
     $days_in_month = $this->DaysInMonth();
     $dayrules = split(',',$bymonthday);
     $set = array();
@@ -454,7 +454,7 @@ class iCalDate {
   */
   function GetWeekByDay($byday, $increasing = false) {
     global $ical_weekdays;
-    dbg_error_log( "RRule", " Applying BYDAY %s to week", $byday );
+//    dbg_error_log( "RRule", " Applying BYDAY %s to week", $byday );
     $days = split(',',$byday);
     $dow = date('w',$this->_epoch);
     $set = array();
@@ -511,7 +511,7 @@ class iCalDate {
   */
   function &MonthDays($dow_first, $days_in_month, $dayspec) {
     global $ical_weekdays;
-    dbg_error_log( "RRule", "MonthDays: Getting days for '%s'. %d days starting on a %d", $dayspec, $days_in_month, $dow_first );
+//    dbg_error_log( "RRule", "MonthDays: Getting days for '%s'. %d days starting on a %d", $dayspec, $days_in_month, $dow_first );
     $set = array();
     preg_match( '/([0-9-]*)(MO|TU|WE|TH|FR|SA|SU)/', $dayspec, $matches);
     $numeric = intval($matches[1]);
@@ -520,7 +520,7 @@ class iCalDate {
     $first_matching_day = 1 + ($dow - $dow_first);
     while ( $first_matching_day < 1 ) $first_matching_day += 7;
 
-    dbg_error_log( "RRule", " MonthDays: Looking at %d for first match on (%s/%s), %d for numeric", $first_matching_day, $matches[1], $matches[2], $numeric );
+//    dbg_error_log( "RRule", " MonthDays: Looking at %d for first match on (%s/%s), %d for numeric", $first_matching_day, $matches[1], $matches[2], $numeric );
 
     while( $first_matching_day <= $days_in_month ) {
       $set[] = $first_matching_day;
@@ -561,7 +561,7 @@ class iCalDate {
   * @return array The subset which matches.
   */
   function &ApplyBySetPos($bysplist, $set) {
-    dbg_error_log( "RRule", " ApplyBySetPos: Applying set position '%s' to set of %d days", $bysplist, count($set) );
+//    dbg_error_log( "RRule", " ApplyBySetPos: Applying set position '%s' to set of %d days", $bysplist, count($set) );
     $subset = array();
     sort( $set, SORT_NUMERIC );
     $max = count($set);
@@ -738,7 +738,7 @@ class RRule {
     $this->_part = array( 'INTERVAL' => 1 );
     foreach( $parts AS $k => $v ) {
       list( $type, $value ) = split( '=', $v, 2);
-      dbg_error_log( "RRule", " Parts of %s split into %s and %s", $v, $type, $value );
+//      dbg_error_log( "RRule", " Parts of %s split into %s and %s", $v, $type, $value );
       $this->_part[$type] = $value;
     }
 
@@ -796,7 +796,7 @@ class RRule {
         $test->SetMonthDay($day);
       }
 
-      dbg_error_log( "RRule", " WithinScope: Testing if %s is within scope", count($relative_days), $test->Render() );
+//      dbg_error_log( "RRule", " WithinScope: Testing if %s is within scope", count($relative_days), $test->Render() );
 
       if ( isset($this->_part['UNTIL']) && $test->GreaterThan($this->_part['UNTIL']) ) {
         $this->_finished = true;
@@ -806,7 +806,7 @@ class RRule {
       // if ( $this->_current >= 0 && $test->LessThan($this->_dates[$this->_current]) ) continue;
 
       if ( !$test->LessThan($this->_first) ) {
-        dbg_error_log( "RRule", " WithinScope: Looks like %s is within scope", $test->Render() );
+//        dbg_error_log( "RRule", " WithinScope: Looks like %s is within scope", $test->Render() );
         $ok_days[$day] = $test;
         $ptr++;
       }
@@ -840,7 +840,7 @@ class RRule {
       * If we have already found some dates we may just be able to return one of those.
       */
       if ( isset($this->_dates[$this->_current]) ) {
-        dbg_error_log( "RRule", " GetNext: Returning %s, (%d'th)", $this->_dates[$this->_current]->Render(), $this->_current );
+//        dbg_error_log( "RRule", " GetNext: Returning %s, (%d'th)", $this->_dates[$this->_current]->Render(), $this->_current );
         return $this->_dates[$this->_current];
       }
       else {
@@ -857,7 +857,7 @@ class RRule {
     $days = array();
     if ( isset($this->_part['WKST']) ) $next->SetWeekStart($this->_part['WKST']);
     if ( $this->_part['FREQ'] == "MONTHLY" ) {
-      dbg_error_log( "RRule", " GetNext: Calculating more dates for MONTHLY rule" );
+//      dbg_error_log( "RRule", " GetNext: Calculating more dates for MONTHLY rule" );
       $limit = 200;
       do {
         $limit--;
@@ -888,11 +888,11 @@ class RRule {
         $days = $this->WithinScope( $next, $days);
       }
       while( $limit && count($days) < 1 && ! $this->_finished );
-      dbg_error_log( "RRule", " GetNext: Found %d days for MONTHLY rule", count($days) );
+//      dbg_error_log( "RRule", " GetNext: Found %d days for MONTHLY rule", count($days) );
 
     }
     else if ( $this->_part['FREQ'] == "WEEKLY" ) {
-      dbg_error_log( "RRule", " GetNext: Calculating more dates for WEEKLY rule" );
+//      dbg_error_log( "RRule", " GetNext: Calculating more dates for WEEKLY rule" );
       $limit = 200;
       do {
         $limit--;
@@ -917,10 +917,10 @@ class RRule {
       }
       while( $limit && count($days) < 1 && ! $this->_finished );
 
-      dbg_error_log( "RRule", " GetNext: Found %d days for WEEKLY rule", count($days) );
+//      dbg_error_log( "RRule", " GetNext: Found %d days for WEEKLY rule", count($days) );
     }
     else if ( $this->_part['FREQ'] == "DAILY" ) {
-      dbg_error_log( "RRule", " GetNext: Calculating more dates for DAILY rule" );
+//      dbg_error_log( "RRule", " GetNext: Calculating more dates for DAILY rule" );
       $limit = 100;
       do {
         $limit--;
@@ -943,7 +943,7 @@ class RRule {
       }
       while( $limit && count($days) < 1 && ! $this->_finished );
 
-      dbg_error_log( "RRule", " GetNext: Found %d days for DAILY rule", count($days) );
+//      dbg_error_log( "RRule", " GetNext: Found %d days for DAILY rule", count($days) );
     }
 
     $ptr = $this->_current;
@@ -952,11 +952,11 @@ class RRule {
     }
 
     if ( isset($this->_dates[$this->_current]) ) {
-      dbg_error_log( "RRule", " GetNext: Returning %s, (%d'th)", $this->_dates[$this->_current]->Render(), $this->_current );
+//      dbg_error_log( "RRule", " GetNext: Returning %s, (%d'th)", $this->_dates[$this->_current]->Render(), $this->_current );
       return $this->_dates[$this->_current];
     }
     else {
-      dbg_error_log( "RRule", " GetNext: Returning null date" );
+//      dbg_error_log( "RRule", " GetNext: Returning null date" );
       $next = null;
       return $next;
     }
