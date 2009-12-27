@@ -9,6 +9,12 @@ $responses = array();
 $searches = $xmltree->GetPath('/DAV::principal-property-search/DAV::property-search');
 dbg_log_array( "principal", "SEARCH", $searches, true );
 
+$clause_joiner = " AND ";
+$CS_search_test = $xmltree->GetAttribute('test');
+if ( isset($CS_search_test) && $CS_search_test == 'anyof' ) {
+  $clause_joiner = " OR ";
+}
+
 $where = "";
 foreach( $searches AS $k => $search ) {
   $qry_props = $search->GetPath('/DAV::property-search/DAV::prop/*');  // There may be many
@@ -20,10 +26,17 @@ foreach( $searches AS $k => $search ) {
     if ( $subwhere != "" ) $subwhere .= " OR ";
     switch( $v1->GetTag() ) {
       case 'DAV::displayname':
-        $subwhere .= "username = ".qpg($match);
+        $subwhere .= "displayname ~* ".qpg('***='.$match);
         break;
+
+      case 'urn:ietf:params:xml:ns:caldav:calendar-user-address-set':
+        $match = preg_replace('#^.*/caldav.php/([^/]+)(/.*)?$#', "\\1", $match);
+        $match = qpg('***=' . preg_replace('#^mailto:#', '', $match));
+        $subwhere .= sprintf('(email ~* %s OR username ~* %s)', $match, $match );
+        break;
+
       case 'urn:ietf:params:xml:ns:caldav:calendar-home-set':
-        $subwhere .= "username = ".qpg(preg_replace('#^.*/caldav.php/([^/]+)(/|$)#', "\\1", $match));
+        $subwhere .= "dav_name ~* ".qpg(preg_replace('#^.*/caldav.php#', '', $match));
         break;
 
       default:
@@ -35,12 +48,12 @@ foreach( $searches AS $k => $search ) {
     }
   }
   if ( $subwhere != "" ) {
-    $where .= sprintf( "%s(%s)", ($where == "" ? "" : " AND "), $subwhere );
+    $where .= sprintf( "%s(%s)", ($where == "" ? "" : $clause_joiner), $subwhere );
   }
 }
 if ( $where != "" ) $where = "WHERE $where";
-$sql = "SELECT * FROM usr JOIN principal USING(user_no) $where";
-$qry = new PgQuery($sql);
+$sql = "SELECT * FROM dav_principal $where LIMIT 100";
+$qry = new AwlQuery($sql);
 
 
 $get_props = $xmltree->GetPath('/DAV::principal-property-search/DAV::prop/*');
@@ -49,9 +62,9 @@ foreach( $get_props AS $k1 => $v1 ) {
   $properties[] = $v1->GetTag();
 }
 
-if ( $qry->Exec("REPORT",__LINE__,__FILE__) && $qry->rows > 0 ) {
+if ( $qry->Exec("REPORT",__LINE__,__FILE__) && $qry->rows() > 0 ) {
   while( $row = $qry->Fetch() ) {
-    $principal = new CalDAVPrincipal($row);
+    $principal = new DAVResource($row);
     $responses[] = $principal->RenderAsXML( $properties, $reply );
   }
 }
