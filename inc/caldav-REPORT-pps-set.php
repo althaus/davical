@@ -21,8 +21,8 @@ function property_response( &$xmldoc, $property ) {
 
 $principal_search_property_set = array(
   'DAV::displayname',
-  'http://calendarserver.org/ns/:email-address-set',
-  'urn:ietf:params:xml:ns:caldav:calendar-home-set'
+  'urn:ietf:params:xml:ns:caldav:calendar-home-set',
+  'urn:ietf:params:xml:ns:caldav:calendar-user-address-set'
 );
 
 $responses = array();
