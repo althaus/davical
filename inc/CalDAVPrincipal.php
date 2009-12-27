@@ -134,7 +134,6 @@ class CalDAVPrincipal
       else if ( isset($parameters['email']) && $parameters['options']['allow_by_email'] ) {
         if ( $username = $this->UsernameFromEMail($parameters['email']) ) {
           $usr = getUserByName($username);
-          $this->by_email = true;
         }
       }
       else if ( isset($parameters['path']) ) {
@@ -178,7 +177,6 @@ class CalDAVPrincipal
 
     $this->_is_group = (isset($usr->type_id) && $usr->type_id == 3);
 
-    $this->by_email = false;
     $this->principal_url = ConstructURL( '/'.$this->username.'/', true );
     $this->url = $this->principal_url;
 
@@ -237,7 +235,7 @@ class CalDAVPrincipal
       }
     }
 
-    dbg_error_log( 'principal', ' User: %s (%d) URL: %s, Home: %s, By Email: %d', $this->username, $this->user_no, $this->url, $this->calendar_home_set, $this->by_email );
+    dbg_error_log( 'principal', ' User: %s (%d) URL: %s, Home: %s, By Email: %d', $this->username, $this->user_no, $this->url, implode(',',$this->calendar_home_set), $this->by_email );
   }
 
 
@@ -359,16 +357,8 @@ class CalDAVPrincipal
     if ( $path_split[1] == 'principals' ) $username = $path_split[3];
     if ( substr($username,0,1) == '~' ) $username = substr($username,1);
 
-    if ( isset($options['allow_by_email']) && $options['allow_by_email'] && preg_match( '#/(\S+@\S+[.]\S+)$#', $path, $matches) ) {
-      $email = $matches[1];
-      $qry = new PgQuery('SELECT user_no, username FROM usr WHERE email = ?;', $email );
-      if ( $qry->Exec('principal') && $user = $qry->Fetch() ) {
-        $user_no = $user->user_no;
-        $username = $user->username;
-      }
-    }
-    elseif( $user = getUserByName( $username) ) {
-      $user_no = $user->user_no;
+    if ( isset($options['allow_by_email']) && $options['allow_by_email'] && preg_match( '#^(\S+@\S+[.]\S+)$#', $username) ) {
+      $username = $this->UsernameFromEMail($username);
     }
     return $username;
   }
@@ -379,13 +369,14 @@ class CalDAVPrincipal
   * @param string $email The email address to be used.
   */
   function UsernameFromEMail( $email ) {
-    $qry = new PgQuery('SELECT user_no, username FROM usr WHERE email = ?;', $email );
+    @dbg_error_log( 'principal', 'Retrieving username from e-mail address "%s" ', $email );
+    $qry = new PgQuery('SELECT username FROM usr WHERE email = ?;', $email );
     if ( $qry->Exec('principal') && $user = $qry->Fetch() ) {
-      $user_no = $user->user_no;
       $username = $user->username;
+      $this->by_email = true;
+      return $username;
     }
-
-    return $username;
+    return null;
   }
 
 
