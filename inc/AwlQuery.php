@@ -389,10 +389,12 @@ class AwlQuery
     }
 
 
+    $success = true;
     $t1 = microtime(true); // get start time
     if ( isset($this->sth) && $this->sth !== false ) {
       if ( ! $this->sth->execute( $this->bound_parameters ) ) {
         $this->error_info = $this->sth->errorInfo();
+        $success = false;
       }
       else $this->error_info = null;
     }
@@ -405,11 +407,11 @@ class AwlQuery
       $this->sth = $this->connection->query( $this->querystring );
       if ( ! $this->sth ) {
         $this->error_info = $this->connection->errorInfo();
+        $success = false;
       }
       else $this->error_info = null;
     }
-    $success = !isset($this->error_info);
-    $this->rows = $this->sth->rowCount();
+    if ( $success ) $this->rows = $this->sth->rowCount();
     $t2 = microtime(true); // get end time
     $i_took = $t2 - $t1;
     $c->total_query_time += $i_took;
