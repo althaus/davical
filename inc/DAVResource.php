@@ -1105,6 +1105,21 @@ EOQRY;
         $prop->NewElement('supported-report-set', $this->BuildSupportedReports( $reply ) );
         break;
 
+      case 'DAV::supportedlock':
+        $prop->NewElement('supportedlock',
+          new XMLElement( 'lockentry',
+            array(
+              new XMLElement('lockscope', new XMLElement('exclusive')),
+              new XMLElement('locktype',  new XMLElement('write')),
+            )
+          )
+        );
+        break;
+
+      case 'DAV::supported-privilege-set':
+        $prop->NewElement('supported-privilege-set', $request->BuildSupportedPrivileges($reply) );
+        break;
+
       case 'DAV::current-user-principal':
         $prop->NewElement('current-user-principal', $reply->href( $request->principal->principal_url ) );
         break;
