@@ -13,6 +13,16 @@
     <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
     <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
     <getcontentlanguage/>
+    <supportedlock>
+     <lockentry>
+      <lockscope>
+       <exclusive/>
+      </lockscope>
+      <locktype>
+       <write/>
+      </locktype>
+     </lockentry>
+    </supportedlock>
     <owner>
      <href>/caldav.php/user1/</href>
     </owner>

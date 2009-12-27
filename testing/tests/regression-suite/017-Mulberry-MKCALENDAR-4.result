@@ -1,7 +1,17 @@
 HTTP/1.1 403 Forbidden
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy
-Content-Length: 36
-Content-Type: text/plain; charset="utf-8"
+Content-Length: 219
+Content-Type: text/xml; charset="utf-8"
 
-You may not create a calendar there.
+<?xml version="1.0" encoding="utf-8" ?>
+<error xmlns="DAV:">
+ <need-privileges>
+  <resource>
+   <href>/caldav.php/admin/home/</href>
+   <privilege>
+    <bind/>
+   </privilege>
+  </resource>
+ </need-privileges>
+</error>

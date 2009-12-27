@@ -12,6 +12,16 @@
     <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
     <getetag>421abf7e4848d2fecbf64217ed205d4b</getetag>
     <getcontentlanguage/>
+    <supportedlock>
+     <lockentry>
+      <lockscope>
+       <exclusive/>
+      </lockscope>
+      <locktype>
+       <write/>
+      </locktype>
+     </lockentry>
+    </supportedlock>
     <owner>
      <href>/caldav.php/user1/</href>
     </owner>

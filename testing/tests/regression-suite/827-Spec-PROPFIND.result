@@ -227,89 +227,6 @@
   <href>/manager1/</href>
   <propstat>
    <prop>
-    <acl>
-     <ace>
-      <principal>
-       <authenticated/>
-      </principal>
-      <grant>
-       <privilege>
-        <C:read-free-busy/>
-       </privilege>
-       <privilege>
-        <C:schedule-deliver/>
-       </privilege>
-       <privilege>
-        <C:schedule-deliver-invite/>
-       </privilege>
-       <privilege>
-        <C:schedule-deliver-reply/>
-       </privilege>
-       <privilege>
-        <C:schedule-query-freebusy/>
-       </privilege>
-       <privilege>
-        <C:schedule-send/>
-       </privilege>
-       <privilege>
-        <C:schedule-send-invite/>
-       </privilege>
-       <privilege>
-        <C:schedule-send-reply/>
-       </privilege>
-       <privilege>
-        <C:schedule-send-freebusy/>
-       </privilege>
-      </grant>
-     </ace>
-     <ace>
-      <principal>
-       <href>/assistant1/</href>
-      </principal>
-      <grant>
-       <privilege>
-        <read/>
-       </privilege>
-       <privilege>
-        <C:read-free-busy/>
-       </privilege>
-       <privilege>
-        <write/>
-       </privilege>
-       <privilege>
-        <write-properties/>
-       </privilege>
-       <privilege>
-        <write-content/>
-       </privilege>
-       <privilege>
-        <bind/>
-       </privilege>
-       <privilege>
-        <unbind/>
-       </privilege>
-       <privilege>
-        <C:schedule-query-freebusy/>
-       </privilege>
-      </grant>
-     </ace>
-     <ace>
-      <principal>
-       <href>/teamclient1/</href>
-      </principal>
-      <grant>
-       <privilege>
-        <read/>
-       </privilege>
-       <privilege>
-        <C:read-free-busy/>
-       </privilege>
-       <privilege>
-        <C:schedule-query-freebusy/>
-       </privilege>
-      </grant>
-     </ace>
-    </acl>
     <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
     <displayname>Manager 1</displayname>
     <getcontentlanguage/>
@@ -334,6 +251,12 @@
   </propstat>
   <propstat>
    <prop>
+    <acl/>
+   </prop>
+   <status>HTTP/1.1 403 Forbidden</status>
+  </propstat>
+  <propstat>
+   <prop>
     <getcontentlength/>
     <getetag/>
     <lockdiscovery/>
@@ -348,58 +271,6 @@
   <href>/assistant1/</href>
   <propstat>
    <prop>
-    <acl>
-     <ace>
-      <principal>
-       <authenticated/>
-      </principal>
-      <grant>
-       <privilege>
-        <C:read-free-busy/>
-       </privilege>
-       <privilege>
-        <C:schedule-deliver/>
-       </privilege>
-       <privilege>
-        <C:schedule-deliver-invite/>
-       </privilege>
-       <privilege>
-        <C:schedule-deliver-reply/>
-       </privilege>
-       <privilege>
-        <C:schedule-query-freebusy/>
-       </privilege>
-       <privilege>
-        <C:schedule-send/>
-       </privilege>
-       <privilege>
-        <C:schedule-send-invite/>
-       </privilege>
-       <privilege>
-        <C:schedule-send-reply/>
-       </privilege>
-       <privilege>
-        <C:schedule-send-freebusy/>
-       </privilege>
-      </grant>
-     </ace>
-     <ace>
-      <principal>
-       <href>/teamclient1/</href>
-      </principal>
-      <grant>
-       <privilege>
-        <read/>
-       </privilege>
-       <privilege>
-        <C:read-free-busy/>
-       </privilege>
-       <privilege>
-        <C:schedule-query-freebusy/>
-       </privilege>
-      </grant>
-     </ace>
-    </acl>
     <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
     <displayname>Assistant 1</displayname>
     <getcontentlanguage/>
@@ -421,6 +292,12 @@
     </supportedlock>
    </prop>
    <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <acl/>
+   </prop>
+   <status>HTTP/1.1 403 Forbidden</status>
   </propstat>
   <propstat>
    <prop>
