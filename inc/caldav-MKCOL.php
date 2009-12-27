@@ -10,9 +10,7 @@
 */
 dbg_error_log('MKCOL', 'method handler');
 
-if ( ! $request->AllowedTo('bind') ) {
-  $request->DoResponse( 403, translate('You may not create a calendar there.') );
-}
+$request->NeedPrivilege('DAV::bind');
 
 $displayname = $request->path;
 
@@ -51,7 +49,7 @@ if ( isset($request->xml_tags) ) {
   if ( $xmltree->GetTag() == 'DAV::mkcol' ) $request_type = 'extended-mkcol';
 
   if ( $xmltree->GetTag() != 'urn:ietf:params:xml:ns:caldav:mkcalendar' && $request_type != 'extended-mkcol' ) {
-    $request->DoResponse( 403, sprintf('The XML is not a "DAV::mkcol" or "urn:ietf:params:xml:ns:caldav:mkcalendar" document (%s)', $xmltree->GetTag()) );
+    $request->DoResponse( 406, sprintf('The XML is not a "DAV::mkcol" or "urn:ietf:params:xml:ns:caldav:mkcalendar" document (%s)', $xmltree->GetTag()) );
   }
   $setprops = $xmltree->GetContent();   // <set>
   $setprops = $setprops[0]->GetContent();  // <prop>
