@@ -1,0 +1,20 @@
+#
+# PROPFIND looking for supported-methods supported-reports etc
+#
+TYPE=PROPFIND
+URL=http://regression.host/caldav.php/
+HEADER=Content-Type: text/xml; charset="UTF-8"
+HEADER=Depth: 0
+HEAD
+
+
+BEGINDATA
+<?xml version="1.0" encoding="UTF-8" ?>
+<propfind xmlns="DAV:" xmlns:caldav="urn:ietf:params:xml:ns:caldav">
+ <prop>
+  <supported-privilege-set/>
+ </prop>
+</propfind>
+ENDDATA
+
+

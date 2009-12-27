@@ -1,0 +1,13 @@
+#
+# GET attempt against a URL we don't have access to
+#
+TYPE=GET
+URL=http://regression.host/caldav.php/user1/home/20061101T073004Z.ics
+HEAD
+
+AUTH=user5:user5
+
+BEGINDATA
+ENDDATA
+
+

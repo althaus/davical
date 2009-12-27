@@ -19,7 +19,7 @@ BEGINDATA
   <prop>
    <displayname/>
   </prop>
-  <match>user1</match>
+  <match>user 1</match>
  </property-search>
  <prop>
   <C:calendar-home-set/>

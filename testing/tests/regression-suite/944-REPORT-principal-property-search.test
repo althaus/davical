@@ -1,0 +1,26 @@
+#
+# Do a principal-property-search REPORT request
+TYPE=REPORT
+URL=http://regression.host/caldav.php/
+HEAD
+
+HEADER=Content-Type: text/xml
+
+
+BEGINDATA
+<?xml version="1.0" encoding="utf-8" ?>
+<principal-property-search xmlns="DAV:" xmlns:CalDAV="urn:ietf:params:xml:ns:caldav">
+ <property-search>
+  <prop>
+   <CalDAV:calendar-user-address-set/>
+  </prop>
+  <match>user1@ex</match>
+ </property-search>
+ <prop>
+  <CalDAV:calendar-user-address-set/>
+  <CalDAV:calendar-user-type/>
+  <displayname/>
+  <principal-URL/>
+ </prop>
+</principal-property-search>
+ENDDATA

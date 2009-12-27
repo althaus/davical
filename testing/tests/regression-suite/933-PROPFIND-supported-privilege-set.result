@@ -1,0 +1,136 @@
+HTTP/1.1 207 Multi-Status
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy
+ETag: "ad3defe4bec3b3af2799d11bf03c5f40"
+Content-Length: 4144
+Content-Type: text/xml; charset="utf-8"
+
+<?xml version="1.0" encoding="utf-8" ?>
+<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
+ <response>
+  <href>/caldav.php/</href>
+  <propstat>
+   <prop>
+    <supported-privilege-set>
+     <supported-privilege>
+      <privilege>
+       <all/>
+      </privilege>
+      <supported-privilege>
+       <privilege>
+        <read/>
+       </privilege>
+       <description>Read the content of a resource or collection</description>
+      </supported-privilege>
+      <supported-privilege>
+       <privilege>
+        <write/>
+       </privilege>
+       <supported-privilege>
+        <privilege>
+         <bind/>
+        </privilege>
+        <description>Create a resource or collection</description>
+       </supported-privilege>
+       <supported-privilege>
+        <privilege>
+         <unbind/>
+        </privilege>
+        <description>Delete a resource or collection</description>
+       </supported-privilege>
+       <supported-privilege>
+        <privilege>
+         <write-content/>
+        </privilege>
+        <description>Write content</description>
+       </supported-privilege>
+       <supported-privilege>
+        <privilege>
+         <write-properties/>
+        </privilege>
+        <description>Write properties</description>
+       </supported-privilege>
+      </supported-privilege>
+      <supported-privilege>
+       <privilege>
+        <C:read-free-busy/>
+       </privilege>
+       <description>Read the free/busy information for a calendar collection</description>
+      </supported-privilege>
+      <supported-privilege>
+       <privilege>
+        <read-acl/>
+       </privilege>
+       <description>Read ACLs for a resource or collection</description>
+      </supported-privilege>
+      <supported-privilege>
+       <privilege>
+        <read-current-user-privilege-set/>
+       </privilege>
+       <description>Read the details of the current user's access control to this resource.</description>
+      </supported-privilege>
+      <supported-privilege>
+       <privilege>
+        <write-acl/>
+       </privilege>
+       <description>Write ACLs for a resource or collection</description>
+      </supported-privilege>
+      <supported-privilege>
+       <privilege>
+        <unlock/>
+       </privilege>
+       <description>Remove a lock</description>
+      </supported-privilege>
+      <supported-privilege>
+       <privilege>
+        <C:schedule-deliver/>
+       </privilege>
+       <supported-privilege>
+        <privilege>
+         <C:schedule-deliver-invite/>
+        </privilege>
+        <description>Deliver scheduling invitations from an organiser to this scheduling inbox</description>
+       </supported-privilege>
+       <supported-privilege>
+        <privilege>
+         <C:schedule-deliver-reply/>
+        </privilege>
+        <description>Deliver scheduling replies from an attendee to this scheduling inbox</description>
+       </supported-privilege>
+       <supported-privilege>
+        <privilege>
+         <C:schedule-query-freebusy/>
+        </privilege>
+        <description>Allow free/busy enquiries targeted at the owner of this scheduling inbox</description>
+       </supported-privilege>
+      </supported-privilege>
+      <supported-privilege>
+       <privilege>
+        <C:schedule-send/>
+       </privilege>
+       <supported-privilege>
+        <privilege>
+         <C:schedule-send-invite/>
+        </privilege>
+        <description>Send scheduling invitations as an organiser from the owner of this scheduling outbox.</description>
+       </supported-privilege>
+       <supported-privilege>
+        <privilege>
+         <C:schedule-send-reply/>
+        </privilege>
+        <description>Send scheduling replies as an attendee from the owner of this scheduling outbox.</description>
+       </supported-privilege>
+       <supported-privilege>
+        <privilege>
+         <C:schedule-send-freebusy/>
+        </privilege>
+        <description>Send free/busy enquiries</description>
+       </supported-privilege>
+      </supported-privilege>
+     </supported-privilege>
+    </supported-privilege-set>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+</multistatus>

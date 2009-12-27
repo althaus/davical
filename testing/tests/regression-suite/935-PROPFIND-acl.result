@@ -1,7 +1,14 @@
+HTTP/1.1 207 Multi-Status
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy
+ETag: "086405bbb629ed2167aa99d2f293cd2c"
+Content-Length: 3430
+Content-Type: text/xml; charset="utf-8"
+
 <?xml version="1.0" encoding="utf-8" ?>
 <multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
  <response>
-  <href>/</href>
+  <href>/caldav.php/user1/</href>
   <propstat>
    <prop>
     <acl>
@@ -74,7 +81,7 @@
      </ace>
      <ace>
       <principal>
-       <href>/assistant1/</href>
+       <href>/caldav.php/assistant1/</href>
       </principal>
       <grant>
        <privilege>
@@ -105,7 +112,7 @@
      </ace>
      <ace>
       <principal>
-       <href>/teamclient1/</href>
+       <href>/caldav.php/teamclient1/</href>
       </principal>
       <grant>
        <privilege>
@@ -125,48 +132,37 @@
       </principal>
       <grant>
        <privilege>
-        <read/>
+        <C:read-free-busy/>
        </privilege>
        <privilege>
-        <read-acl/>
+        <C:schedule-deliver/>
        </privilege>
        <privilege>
-        <read-current-user-privilege-set/>
+        <C:schedule-deliver-invite/>
+       </privilege>
+       <privilege>
+        <C:schedule-deliver-reply/>
+       </privilege>
+       <privilege>
+        <C:schedule-query-freebusy/>
+       </privilege>
+       <privilege>
+        <C:schedule-send/>
+       </privilege>
+       <privilege>
+        <C:schedule-send-invite/>
+       </privilege>
+       <privilege>
+        <C:schedule-send-reply/>
+       </privilege>
+       <privilege>
+        <C:schedule-send-freebusy/>
        </privilege>
       </grant>
      </ace>
     </acl>
-    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
-    <displayname>DAViCal CalDAV Server</displayname>
-    <getcontentlanguage/>
-    <getcontenttype>httpd/unix-directory</getcontenttype>
-    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <resourcetype>
-     <collection/>
-    </resourcetype>
-    <supportedlock>
-     <lockentry>
-      <lockscope>
-       <exclusive/>
-      </lockscope>
-      <locktype>
-       <write/>
-      </locktype>
-     </lockentry>
-    </supportedlock>
    </prop>
    <status>HTTP/1.1 200 OK</status>
-  </propstat>
-  <propstat>
-   <prop>
-    <getcontentlength/>
-    <getetag/>
-    <lockdiscovery/>
-    <source/>
-    <checked-in/>
-    <checked-out/>
-   </prop>
-   <status>HTTP/1.1 404 Not Found</status>
   </propstat>
  </response>
 </multistatus>

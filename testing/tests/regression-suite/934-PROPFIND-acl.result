@@ -1,7 +1,14 @@
+HTTP/1.1 207 Multi-Status
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy
+ETag: "3c91706759f813f5818c9b8c0ce93749"
+Content-Length: 3241
+Content-Type: text/xml; charset="utf-8"
+
 <?xml version="1.0" encoding="utf-8" ?>
 <multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
  <response>
-  <href>/</href>
+  <href>/caldav.php/</href>
   <propstat>
    <prop>
     <acl>
@@ -74,7 +81,7 @@
      </ace>
      <ace>
       <principal>
-       <href>/assistant1/</href>
+       <href>/caldav.php/assistant1/</href>
       </principal>
       <grant>
        <privilege>
@@ -105,7 +112,7 @@
      </ace>
      <ace>
       <principal>
-       <href>/teamclient1/</href>
+       <href>/caldav.php/teamclient1/</href>
       </principal>
       <grant>
        <privilege>
@@ -136,37 +143,20 @@
       </grant>
      </ace>
     </acl>
-    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
-    <displayname>DAViCal CalDAV Server</displayname>
-    <getcontentlanguage/>
-    <getcontenttype>httpd/unix-directory</getcontenttype>
-    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <resourcetype>
-     <collection/>
-    </resourcetype>
-    <supportedlock>
-     <lockentry>
-      <lockscope>
-       <exclusive/>
-      </lockscope>
-      <locktype>
-       <write/>
-      </locktype>
-     </lockentry>
-    </supportedlock>
+    <current-user-privilege-set>
+     <privilege>
+      <read/>
+     </privilege>
+     <privilege>
+      <read-acl/>
+     </privilege>
+     <privilege>
+      <read-current-user-privilege-set/>
+     </privilege>
+    </current-user-privilege-set>
+    <inherited-acl-set/>
    </prop>
    <status>HTTP/1.1 200 OK</status>
-  </propstat>
-  <propstat>
-   <prop>
-    <getcontentlength/>
-    <getetag/>
-    <lockdiscovery/>
-    <source/>
-    <checked-in/>
-    <checked-out/>
-   </prop>
-   <status>HTTP/1.1 404 Not Found</status>
   </propstat>
  </response>
 </multistatus>

@@ -7,11 +7,44 @@
     <acl>
      <ace>
       <principal>
-       <authenticated/>
+       <owner/>
       </principal>
       <grant>
        <privilege>
+        <all/>
+       </privilege>
+       <privilege>
+        <read/>
+       </privilege>
+       <privilege>
+        <unlock/>
+       </privilege>
+       <privilege>
+        <read-acl/>
+       </privilege>
+       <privilege>
+        <read-current-user-privilege-set/>
+       </privilege>
+       <privilege>
+        <write-acl/>
+       </privilege>
+       <privilege>
         <C:read-free-busy/>
+       </privilege>
+       <privilege>
+        <write/>
+       </privilege>
+       <privilege>
+        <write-properties/>
+       </privilege>
+       <privilege>
+        <write-content/>
+       </privilege>
+       <privilege>
+        <bind/>
+       </privilege>
+       <privilege>
+        <unbind/>
        </privilege>
        <privilege>
         <C:schedule-deliver/>
@@ -83,6 +116,40 @@
        </privilege>
        <privilege>
         <C:schedule-query-freebusy/>
+       </privilege>
+      </grant>
+     </ace>
+     <ace>
+      <principal>
+       <authenticated/>
+      </principal>
+      <grant>
+       <privilege>
+        <C:read-free-busy/>
+       </privilege>
+       <privilege>
+        <C:schedule-deliver/>
+       </privilege>
+       <privilege>
+        <C:schedule-deliver-invite/>
+       </privilege>
+       <privilege>
+        <C:schedule-deliver-reply/>
+       </privilege>
+       <privilege>
+        <C:schedule-query-freebusy/>
+       </privilege>
+       <privilege>
+        <C:schedule-send/>
+       </privilege>
+       <privilege>
+        <C:schedule-send-invite/>
+       </privilege>
+       <privilege>
+        <C:schedule-send-reply/>
+       </privilege>
+       <privilege>
+        <C:schedule-send-freebusy/>
        </privilege>
       </grant>
      </ace>

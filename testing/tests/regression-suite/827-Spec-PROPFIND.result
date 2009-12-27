@@ -7,11 +7,17 @@
     <acl>
      <ace>
       <principal>
-       <authenticated/>
+       <owner/>
       </principal>
       <grant>
        <privilege>
+        <all/>
+       </privilege>
+       <privilege>
         <read/>
+       </privilege>
+       <privilege>
+        <unlock/>
        </privilege>
        <privilege>
         <read-acl/>
@@ -19,15 +25,8 @@
        <privilege>
         <read-current-user-privilege-set/>
        </privilege>
-      </grant>
-     </ace>
-     <ace>
-      <principal>
-       <href>/assistant1/</href>
-      </principal>
-      <grant>
        <privilege>
-        <read/>
+        <write-acl/>
        </privilege>
        <privilege>
         <C:read-free-busy/>
@@ -46,74 +45,6 @@
        </privilege>
        <privilege>
         <unbind/>
-       </privilege>
-       <privilege>
-        <C:schedule-query-freebusy/>
-       </privilege>
-      </grant>
-     </ace>
-     <ace>
-      <principal>
-       <href>/teamclient1/</href>
-      </principal>
-      <grant>
-       <privilege>
-        <read/>
-       </privilege>
-       <privilege>
-        <C:read-free-busy/>
-       </privilege>
-       <privilege>
-        <C:schedule-query-freebusy/>
-       </privilege>
-      </grant>
-     </ace>
-    </acl>
-    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
-    <displayname>DAViCal CalDAV Server</displayname>
-    <getcontentlanguage/>
-    <getcontenttype>httpd/unix-directory</getcontenttype>
-    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <resourcetype>
-     <collection/>
-    </resourcetype>
-    <supportedlock>
-     <lockentry>
-      <lockscope>
-       <exclusive/>
-      </lockscope>
-      <locktype>
-       <write/>
-      </locktype>
-     </lockentry>
-    </supportedlock>
-   </prop>
-   <status>HTTP/1.1 200 OK</status>
-  </propstat>
-  <propstat>
-   <prop>
-    <getcontentlength/>
-    <getetag/>
-    <lockdiscovery/>
-    <source/>
-    <checked-in/>
-    <checked-out/>
-   </prop>
-   <status>HTTP/1.1 404 Not Found</status>
-  </propstat>
- </response>
- <response>
-  <href>/user1/</href>
-  <propstat>
-   <prop>
-    <acl>
-     <ace>
-      <principal>
-       <authenticated/>
-      </principal>
-      <grant>
-       <privilege>
-        <C:read-free-busy/>
        </privilege>
        <privilege>
         <C:schedule-deliver/>
@@ -185,6 +116,209 @@
        </privilege>
        <privilege>
         <C:schedule-query-freebusy/>
+       </privilege>
+      </grant>
+     </ace>
+     <ace>
+      <principal>
+       <authenticated/>
+      </principal>
+      <grant>
+       <privilege>
+        <read/>
+       </privilege>
+       <privilege>
+        <read-acl/>
+       </privilege>
+       <privilege>
+        <read-current-user-privilege-set/>
+       </privilege>
+      </grant>
+     </ace>
+    </acl>
+    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
+    <displayname>DAViCal CalDAV Server</displayname>
+    <getcontentlanguage/>
+    <getcontenttype>httpd/unix-directory</getcontenttype>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <resourcetype>
+     <collection/>
+    </resourcetype>
+    <supportedlock>
+     <lockentry>
+      <lockscope>
+       <exclusive/>
+      </lockscope>
+      <locktype>
+       <write/>
+      </locktype>
+     </lockentry>
+    </supportedlock>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <getcontentlength/>
+    <getetag/>
+    <lockdiscovery/>
+    <source/>
+    <checked-in/>
+    <checked-out/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/user1/</href>
+  <propstat>
+   <prop>
+    <acl>
+     <ace>
+      <principal>
+       <owner/>
+      </principal>
+      <grant>
+       <privilege>
+        <all/>
+       </privilege>
+       <privilege>
+        <read/>
+       </privilege>
+       <privilege>
+        <unlock/>
+       </privilege>
+       <privilege>
+        <read-acl/>
+       </privilege>
+       <privilege>
+        <read-current-user-privilege-set/>
+       </privilege>
+       <privilege>
+        <write-acl/>
+       </privilege>
+       <privilege>
+        <C:read-free-busy/>
+       </privilege>
+       <privilege>
+        <write/>
+       </privilege>
+       <privilege>
+        <write-properties/>
+       </privilege>
+       <privilege>
+        <write-content/>
+       </privilege>
+       <privilege>
+        <bind/>
+       </privilege>
+       <privilege>
+        <unbind/>
+       </privilege>
+       <privilege>
+        <C:schedule-deliver/>
+       </privilege>
+       <privilege>
+        <C:schedule-deliver-invite/>
+       </privilege>
+       <privilege>
+        <C:schedule-deliver-reply/>
+       </privilege>
+       <privilege>
+        <C:schedule-query-freebusy/>
+       </privilege>
+       <privilege>
+        <C:schedule-send/>
+       </privilege>
+       <privilege>
+        <C:schedule-send-invite/>
+       </privilege>
+       <privilege>
+        <C:schedule-send-reply/>
+       </privilege>
+       <privilege>
+        <C:schedule-send-freebusy/>
+       </privilege>
+      </grant>
+     </ace>
+     <ace>
+      <principal>
+       <href>/assistant1/</href>
+      </principal>
+      <grant>
+       <privilege>
+        <read/>
+       </privilege>
+       <privilege>
+        <C:read-free-busy/>
+       </privilege>
+       <privilege>
+        <write/>
+       </privilege>
+       <privilege>
+        <write-properties/>
+       </privilege>
+       <privilege>
+        <write-content/>
+       </privilege>
+       <privilege>
+        <bind/>
+       </privilege>
+       <privilege>
+        <unbind/>
+       </privilege>
+       <privilege>
+        <C:schedule-query-freebusy/>
+       </privilege>
+      </grant>
+     </ace>
+     <ace>
+      <principal>
+       <href>/teamclient1/</href>
+      </principal>
+      <grant>
+       <privilege>
+        <read/>
+       </privilege>
+       <privilege>
+        <C:read-free-busy/>
+       </privilege>
+       <privilege>
+        <C:schedule-query-freebusy/>
+       </privilege>
+      </grant>
+     </ace>
+     <ace>
+      <principal>
+       <authenticated/>
+      </principal>
+      <grant>
+       <privilege>
+        <C:read-free-busy/>
+       </privilege>
+       <privilege>
+        <C:schedule-deliver/>
+       </privilege>
+       <privilege>
+        <C:schedule-deliver-invite/>
+       </privilege>
+       <privilege>
+        <C:schedule-deliver-reply/>
+       </privilege>
+       <privilege>
+        <C:schedule-query-freebusy/>
+       </privilege>
+       <privilege>
+        <C:schedule-send/>
+       </privilege>
+       <privilege>
+        <C:schedule-send-invite/>
+       </privilege>
+       <privilege>
+        <C:schedule-send-reply/>
+       </privilege>
+       <privilege>
+        <C:schedule-send-freebusy/>
        </privilege>
       </grant>
      </ace>
@@ -318,14 +452,44 @@
     <acl>
      <ace>
       <principal>
-       <authenticated/>
+       <owner/>
       </principal>
       <grant>
+       <privilege>
+        <all/>
+       </privilege>
        <privilege>
         <read/>
        </privilege>
        <privilege>
+        <unlock/>
+       </privilege>
+       <privilege>
+        <read-acl/>
+       </privilege>
+       <privilege>
+        <read-current-user-privilege-set/>
+       </privilege>
+       <privilege>
+        <write-acl/>
+       </privilege>
+       <privilege>
         <C:read-free-busy/>
+       </privilege>
+       <privilege>
+        <write/>
+       </privilege>
+       <privilege>
+        <write-properties/>
+       </privilege>
+       <privilege>
+        <write-content/>
+       </privilege>
+       <privilege>
+        <bind/>
+       </privilege>
+       <privilege>
+        <unbind/>
        </privilege>
        <privilege>
         <C:schedule-deliver/>
@@ -393,6 +557,43 @@
        </privilege>
        <privilege>
         <unbind/>
+       </privilege>
+       <privilege>
+        <C:schedule-deliver/>
+       </privilege>
+       <privilege>
+        <C:schedule-deliver-invite/>
+       </privilege>
+       <privilege>
+        <C:schedule-deliver-reply/>
+       </privilege>
+       <privilege>
+        <C:schedule-query-freebusy/>
+       </privilege>
+       <privilege>
+        <C:schedule-send/>
+       </privilege>
+       <privilege>
+        <C:schedule-send-invite/>
+       </privilege>
+       <privilege>
+        <C:schedule-send-reply/>
+       </privilege>
+       <privilege>
+        <C:schedule-send-freebusy/>
+       </privilege>
+      </grant>
+     </ace>
+     <ace>
+      <principal>
+       <authenticated/>
+      </principal>
+      <grant>
+       <privilege>
+        <read/>
+       </privilege>
+       <privilege>
+        <C:read-free-busy/>
        </privilege>
        <privilege>
         <C:schedule-deliver/>
@@ -462,14 +663,44 @@
     <acl>
      <ace>
       <principal>
-       <authenticated/>
+       <owner/>
       </principal>
       <grant>
+       <privilege>
+        <all/>
+       </privilege>
        <privilege>
         <read/>
        </privilege>
        <privilege>
+        <unlock/>
+       </privilege>
+       <privilege>
+        <read-acl/>
+       </privilege>
+       <privilege>
+        <read-current-user-privilege-set/>
+       </privilege>
+       <privilege>
+        <write-acl/>
+       </privilege>
+       <privilege>
         <C:read-free-busy/>
+       </privilege>
+       <privilege>
+        <write/>
+       </privilege>
+       <privilege>
+        <write-properties/>
+       </privilege>
+       <privilege>
+        <write-content/>
+       </privilege>
+       <privilege>
+        <bind/>
+       </privilege>
+       <privilege>
+        <unbind/>
        </privilege>
        <privilege>
         <C:schedule-deliver/>
@@ -537,6 +768,43 @@
        </privilege>
        <privilege>
         <unbind/>
+       </privilege>
+       <privilege>
+        <C:schedule-deliver/>
+       </privilege>
+       <privilege>
+        <C:schedule-deliver-invite/>
+       </privilege>
+       <privilege>
+        <C:schedule-deliver-reply/>
+       </privilege>
+       <privilege>
+        <C:schedule-query-freebusy/>
+       </privilege>
+       <privilege>
+        <C:schedule-send/>
+       </privilege>
+       <privilege>
+        <C:schedule-send-invite/>
+       </privilege>
+       <privilege>
+        <C:schedule-send-reply/>
+       </privilege>
+       <privilege>
+        <C:schedule-send-freebusy/>
+       </privilege>
+      </grant>
+     </ace>
+     <ace>
+      <principal>
+       <authenticated/>
+      </principal>
+      <grant>
+       <privilege>
+        <read/>
+       </privilege>
+       <privilege>
+        <C:read-free-busy/>
        </privilege>
        <privilege>
         <C:schedule-deliver/>
