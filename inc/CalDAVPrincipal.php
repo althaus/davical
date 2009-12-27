@@ -556,7 +556,7 @@ class CalDAVPrincipal
     $denied = array();
     $not_found = array();
     foreach( $properties AS $k => $tag ) {
-      if ( ! $this->PrincipalProperty( $tag, $prop, $reply, $denied ) && ! $request->ServerProperty( $tag, $prop, $reply ) ) {
+      if ( ! $this->PrincipalProperty( $tag, $prop, $reply, $denied ) ) {
         dbg_error_log( 'principal', 'Request for unsupported property "%s" of principal "%s".', $tag, $this->username );
         $not_found[] = $reply->Tag($tag);
       }

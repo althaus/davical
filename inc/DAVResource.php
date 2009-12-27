@@ -1211,7 +1211,7 @@ EOQRY;
        if ( !isset($this->principal) ) $this->FetchPrincipal();
         $found = $this->principal->PrincipalProperty( $tag, $prop, $reply, $denied );
       }
-      if ( ! $found && ! $request->ServerProperty($tag, $prop, $reply) ) {
+      if ( ! $found ) {
 //        dbg_error_log( 'DAVResource', 'Request for unsupported property "%s" of resource "%s".', $tag, $this->dav_name );
         $not_found[] = $reply->Tag($tag);
       }

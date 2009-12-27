@@ -330,6 +330,7 @@ EOSQL;
       $this->collection_type = 'email';
       $this->collection_path = $this->path;
       $this->_is_principal = true;
+//      $this->by_email = true;
     }
     else if ( preg_match( '#^(/[^/]+)/?$#', $this->path, $matches) || preg_match( '#^(/principals/[^/]+/[^/]+)/?$#', $this->path, $matches) ) {
       $this->collection_id = -1;
@@ -361,7 +362,7 @@ EOSQL;
     $this->principal = new CalDAVPrincipal( array( "path" => $this->path, "options" => $this->options ) );
     if ( isset($this->principal->user_no) ) $this->user_no  = $this->principal->user_no;
     if ( isset($this->principal->username)) $this->username = $this->principal->username;
-    if ( isset($this->principal->by_email)) $this->by_email = true;
+    if ( isset($this->principal->by_email) && $this->principal->by_email) $this->by_email = true;
     if ( isset($this->principal->principal_id)) $this->principal_id = $this->principal->principal_id;
 
     if ( $this->collection_type == 'principal' || $this->collection_type == 'email' ) {
@@ -414,10 +415,6 @@ EOSQL;
       'ACL' => ''
     );
     if ( $this->IsCollection() ) {
-/*      if ( $this->IsPrincipal() ) {
-        $this->supported_methods['MKCALENDAR'] = '';
-        $this->supported_methods['MKCOL'] = '';
-      } */
       switch ( $this->collection_type ) {
         case 'root':
         case 'email':
@@ -584,14 +581,14 @@ EOSQL;
       /**
       * In other cases we need to query the database for permissions
       */
-      if ( isset($this->by_email) ) {
+      if ( isset($this->by_email) && $this->by_email ) {
         $qry = new PgQuery( "SELECT pprivs( ?::int8, ?::int8, ?::int ) AS perm", $session->principal_id, $this->principal_id, $c->permission_scan_depth );
       }
       else {
         $qry = new PgQuery( "SELECT path_privs( ?::int8, ?::text, ?::int ) AS perm", $session->principal_id, $this->path, $c->permission_scan_depth );
       }
       if ( $qry->Exec("caldav") && $permission_result = $qry->Fetch() )
-        $this->privileges &= bindec($permission_result->perm);
+        $this->privileges |= bindec($permission_result->perm);
 
       dbg_error_log( "caldav", "Restricted permissions for user accessing someone elses hierarchy: %s", decbin($this->privileges) );
     }
@@ -864,8 +861,7 @@ EOSQL;
   /**
   * Returns the array of supported privileges converted into XMLElements
   */
-  function BuildSupportedPrivileges( $privs = null ) {
-    global $reply;
+  function BuildSupportedPrivileges( &$reply, $privs = null ) {
     $privileges = array();
     if ( $privs === null ) $privs = $this->supported_privileges;
     foreach( $privs AS $k => $v ) {
@@ -875,7 +871,7 @@ EOSQL;
       $privset = array($privilege);
       if ( is_array($v) ) {
         dbg_error_log( 'caldav', '"%s" is a container of sub-privileges.', $k );
-        $privset = array_merge($privset, $this->BuildSupportedPrivileges($v));
+        $privset = array_merge($privset, $this->BuildSupportedPrivileges($reply,$v));
       }
       else if ( $v == 'abstract' ) {
         dbg_error_log( 'caldav', '"%s" is an abstract privilege.', $v );
@@ -887,118 +883,6 @@ EOSQL;
       $privileges[] = new XMLElement('supported-privilege',$privset);
     }
     return $privileges;
-  }
-
-
-  /**
-  * Returns the array of privilege names converted into XMLElements
-  */
-  function BuildPrivileges($privilege_names) {
-    global $reply;
-    $privileges = array();
-    foreach( $privilege_names AS $k => $v ) {
-      dbg_error_log( 'caldav', 'Adding privilege "%s" which is "%s".', $k, $v );
-      $privilege = new XMLElement('privilege');
-      $reply->NSElement($privilege,$k);
-      $privileges[] = $privilege;
-    }
-    return $privileges;
-  }
-
-
-  /**
-  * Returns the array of supported methods converted into XMLElements
-  */
-  function BuildSupportedMethods( ) {
-    global $reply;
-    $methods = array();
-    foreach( $this->supported_methods AS $k => $v ) {
-      dbg_error_log( 'caldav', 'Adding method "%s" which is "%s".', $k, $v );
-      $methods[] = new XMLElement( 'supported-method', null, array('name' => $k) );
-    }
-    return $methods;
-  }
-
-
-  /**
-  * Returns the array of supported methods converted into XMLElements
-  */
-  function BuildSupportedReports( ) {
-    global $reply;
-    $reports = array();
-    foreach( $this->supported_reports AS $k => $v ) {
-      dbg_error_log( 'caldav', 'Adding supported report "%s" which is "%s".', $k, $v );
-      $report = new XMLElement('report');
-      $reply->NSElement($report, $k );
-      $reports[] = new XMLElement('supported-report', $report );
-    }
-    return $reports;
-  }
-
-
-  /**
-  * Return general server-related properties for this URL
-  */
-  function ServerProperty( $tag, $prop, &$reply = null ) {
-    global $c, $session;
-
-    if ( $reply === null ) $reply = $GLOBALS['reply'];
-
-    dbg_error_log( 'caldav', 'Processing "%s" on "%s".', $tag, $this->path );
-
-    switch( $tag ) {
-      case 'DAV::current-user-principal':
-        $reply->DAVElement( $prop, 'current-user-principal', $this->current_user_principal_xml);
-        break;
-
-      case 'DAV::getcontentlanguage':
-        $locale = (isset($c->current_locale) ? $c->current_locale : '');
-        if ( isset($session->locale) && $session->locale != '' ) $locale = $session->locale;
-        $prop->NewElement('getcontentlanguage', $locale );
-        break;
-
-      case 'DAV::supportedlock':
-        $prop->NewElement('supportedlock',
-          new XMLElement( 'lockentry',
-            array(
-              new XMLElement('lockscope', new XMLElement('exclusive')),
-              new XMLElement('locktype',  new XMLElement('write')),
-            )
-          )
-        );
-        break;
-
-      case 'DAV::acl':
-        /**
-        * @todo This information is semantically valid but presents an incorrect picture.
-        */
-        $principal = new XMLElement('principal');
-        $principal->NewElement('authenticated');
-        $grant = new XMLElement( 'grant', array($this->BuildPrivileges($this->permissions)) );
-        $prop->NewElement('acl', new XMLElement( 'ace', array( $principal, $grant ) ) );
-        break;
-
-      case 'DAV::current-user-privilege-set':
-        $prop->NewElement('current-user-privilege-set', $this->BuildPrivileges($this->permissions) );
-        break;
-
-      case 'DAV::supported-privilege-set':
-        $prop->NewElement('supported-privilege-set', $this->BuildSupportedPrivileges() );
-        break;
-
-      case 'DAV::supported-method-set':
-        $prop->NewElement('supported-method-set', $this->BuildSupportedMethods() );
-        break;
-
-      case 'DAV::supported-report-set':
-        $prop->NewElement('supported-report-set', $this->BuildSupportedReports() );
-        break;
-
-      default:
-        dbg_error_log( 'caldav', 'Request for unsupported property "%s" of path "%s".', $tag, $this->path );
-        return false;
-    }
-    return true;
   }
 
 
@@ -1017,12 +901,13 @@ EOSQL;
   */
   function AllowedTo( $activity ) {
     global $session;
-    dbg_error_log('session', 'Checking whether "%s" is allowed to "%s"', $session->username, $activity);
-    foreach( $this->permissions AS $k => $v ) {
-      dbg_error_log('session', 'Permissions "%s" is "%s"', $k, $v);
-    }
+    dbg_error_log('caldav', 'Checking whether "%s" is allowed to "%s"', $session->username, $activity);
     if ( isset($this->permissions['all']) ) return true;
     switch( $activity ) {
+      case 'all':
+        return false; // If they got this far then they don't
+        break;
+
       case "CALDAV:schedule-send-freebusy":
         return isset($this->permissions['read']) || isset($this->permissions['urn:ietf:params:xml:ns:caldav:read-free-busy']);
         break;
@@ -1062,14 +947,10 @@ EOSQL;
         if ( $this->path == '/' ) return false;
         break;
 
-      case 'read':
-      case 'lock':
-      case 'unlock':
       default:
-        return isset($this->permissions[$activity]);
         $test_bits = privilege_to_bits( $activity );
-//      dbg_error_log( 'caldav', 'Testing privileges of "%s" (%s) against allowed "%s" => "%s" (%s)',
-//          (is_array($privileges) ? implode(',',$privileges) : $privileges), decbin($test_bits),
+//        dbg_error_log( 'caldav', 'request::AllowedTo("%s") (%s) against allowed "%s" => "%s" (%s)',
+//             (is_array($activity) ? implode(',',$activity) : $activity), decbin($test_bits),
 //             decbin($this->privileges), ($this->privileges & $test_bits), decbin($this->privileges & $test_bits) );
         return (($this->privileges & $test_bits) > 0 );
         break;
@@ -1093,7 +974,7 @@ EOSQL;
   */
   function HavePrivilegeTo( $do_what ) {
     $test_bits = privilege_to_bits( $do_what );
-//    dbg_error_log( 'caldav', 'Testing privileges of "%s" (%s) against allowed "%s" => "%s" (%s)',
+//    dbg_error_log( 'caldav', 'request::HavePrivilegeTo("%s") [%s] against allowed "%s" => "%s" (%s)',
 //             (is_array($do_what) ? implode(',',$do_what) : $do_what), decbin($test_bits),
 //              decbin($this->privileges), ($this->privileges & $test_bits), decbin($this->privileges & $test_bits) );
     return ($this->privileges & $test_bits) > 0;
@@ -1129,7 +1010,10 @@ EOSQL;
   */
   function NeedPrivilege( $privileges, $href=null ) {
     if ( is_string($privileges) ) $privileges = array( $privileges );
-    if ( !isset($href) && $this->HavePrivilegeTo($privileges) ) return;
+    if ( !isset($href) ) {
+      if ( $this->HavePrivilegeTo($privileges) ) return;
+      $href = $this->path;
+    }
 
     $reply = new XMLDocument( array('DAV:' => '') );
     $privnodes = array( $reply->href(ConstructURL($href)), new XMLElement( 'privilege' ) );
