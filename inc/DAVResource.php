@@ -641,6 +641,7 @@ EOQRY;
 
     $this->supported_reports = array(
       'DAV::principal-property-search' => '',
+      'DAV::principal-search-property-set' => '',
       'DAV::expand-property' => '',
       'DAV::sync-collection' => ''
     );

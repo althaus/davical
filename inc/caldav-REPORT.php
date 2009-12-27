@@ -52,6 +52,9 @@ switch( $xmltree->GetTag() ) {
   case 'DAV::principal-property-search':
     include("caldav-REPORT-principal.php");
     exit; // Not that it should return anyway.
+  case 'DAV::principal-search-property-set':
+    include("caldav-REPORT-pps-set.php");
+    exit; // Not that it should return anyway.
   case 'DAV::sync-collection':
     include("caldav-REPORT-sync-collection.php");
     exit; // Not that it should return anyway.
