@@ -7,7 +7,9 @@
     <acl>
      <ace>
       <principal>
-       <owner/>
+       <property>
+        <owner/>
+       </property>
       </principal>
       <grant>
        <privilege>

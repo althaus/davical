@@ -885,7 +885,7 @@ EOQRY;
     if ( isset($this->collection->default_privileges) ) $default_privs = $this->collection->default_privileges;
 
     $acl = array();
-    $acl[] = $this->BuildACE($xmldoc, pow(2,25) - 1, new XMLElement('owner') );
+    $acl[] = $this->BuildACE($xmldoc, pow(2,25) - 1, new XMLElement('property', new XMLElement('owner')) );
 
     $qry = new AwlQuery('SELECT dav_principal.dav_name, grants.* FROM grants JOIN dav_principal ON (to_principal=principal_id) WHERE by_collection = :collection_id OR by_principal = :principal_id ORDER BY by_collection',
                                 array( ':collection_id' => $this->collection->collection_id, ':principal_id' => $this->principal->principal_id ) );
