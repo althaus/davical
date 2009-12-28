@@ -382,6 +382,11 @@ class AwlQuery
 
     if ( isset($debuggroups['querystring']) || isset($c->dbg['querystring']) || isset($c->dbg['ALL']) ) {
       $this->_log_query( $this->location, 'DBGQ', $this->querystring, $line, $file );
+      if ( isset($this->bound_parameters) && !isset($this->sth) ) {
+        foreach( $this->bound_parameters AS $k => $v ) {
+          $this->_log_query( $this->location, 'DBGQ', sprintf('    "%s" => "%s"', $k, $v), $line, $file );
+        }
+      }
     }
 
     if ( isset($this->bound_parameters) && !isset($this->sth) ) {
@@ -421,6 +426,12 @@ class AwlQuery
       // query failed
       $this->errorstring = sprintf( 'SQL error "%s" - %s"', $this->error_info[0], (isset($this->error_info[2]) ? $this->error_info[2] : ''));
       $this->_log_query( $this->location, 'QF', $this->errorstring, $line, $file );
+      $this->_log_query( $this->location, 'QF', $this->querystring, $line, $file );
+      if ( isset($this->bound_parameters) && !isset($this->sth) ) {
+        foreach( $this->bound_parameters AS $k => $v ) {
+          $this->_log_query( $this->location, 'QF', sprintf('    "%s" => "%s"', $k, $v), $line, $file );
+        }
+      }
     }
     elseif ( $this->execution_time > $this->query_time_warning ) {
      // if execution time is too long
