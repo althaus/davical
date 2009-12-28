@@ -88,9 +88,132 @@ $resource = new DAVResource( $request->path );
    would allow unauthenticated access to resources.
 */
 
-$ace = $xmltree->GetPath("/DAV::acl/DAV::ace/*");
+function precondition_failed($precondition, $explanation = '') {
+  global $request;
+  $xmldoc = sprintf('<?xml version="1.0" encoding="utf-8" ?>
+<error xmlns="DAV:">
+  <%s/>%s
+</error>', $precondition, $explanation );
 
-foreach( $ace AS $k => $v ) {
+  $request->DoResponse( 403, $xmldoc, 'text/xml; charset="utf-8"' );
+  exit(0);  // Unecessary, but might clarify things
 }
+
+function malformed_request( $text = 'Bad request' ) {
+  global $request;
+  $request->DoResponse( 400, $text );
+  exit(0);  // Unecessary, but might clarify things
+}
+
+
+$position = 0;
+$xmltree = BuildXMLTree( $request->xml_tags, $position);
+$aces = $xmltree->GetPath("/DAV::acl/*");
+
+$grantor = new DAVResource($request->path);
+if ( ! $grantor->Exists() ) $request->DoResponse( 404 );
+$by_principal  = null;
+$by_collection = null;
+if ( $grantor->IsPrincipal() ) $by_principal = $grantor->GetProperty('principal_id');
+else if ( $grantor->IsCollection() ) $by_collection = $grantor->GetProperty('collection_id');
+else precondition_failed('not-supported-privilege','ACLs may only be applied to Principals or Collections');
+
+$qry = new AwlQuery('BEGIN');
+$qry->Exec('ACL',__FILE__,__LINE__);
+
+foreach( $aces AS $k => $ace ) {
+  $elements = $ace->GetContent();
+  $principal = $elements[0];
+  $grant = $elements[1];
+  if ( $principal->GetTag() != 'DAV::principal' ) malformed_request('ACL request must contain a principal, not '.$principal->GetTag());
+  $grant_tag = $grant->GetTag();
+  if ( $grant_tag == 'DAV::deny' )   precondition_failed('grant-only');
+  if ( $grant_tag == 'DAV::invert' ) precondition_failed('no-invert');
+  if ( $grant->GetTag() != 'DAV::grant' ) malformed_request('ACL request must contain a principal for each ACE');
+
+  $privilege_names = array();
+  $xml_privs = $grant->GetPath("/DAV::grant/DAV::privilege/*");
+  foreach( $xml_privs AS $k => $priv ) {
+    $privilege_names[] = $priv->GetTag();
+  }
+  $privileges = privilege_to_bits($privilege_names);
+
+  $principal_content = $principal->GetContent();
+  if ( count($principal_content) != 1 ) malformed_request('ACL request must contain exactly one principal per ACE');
+  $principal_content = $principal_content[0];
+  switch( $principal_content->GetTag() ) {
+    case 'DAV::property':
+      $principal_property = $principal_content->GetContent();
+      if ( $principal_property[0]->GetTag() != 'DAV::owner' ) precondition_failed( 'recognized-principal' );
+      if ( privilege_to_bits('all') != $privileges ) {
+        precondition_failed( 'no-protected-ace-conflict', 'Owner must always have all permissions' );
+      }
+      continue;  // and then we ignore it, since it's protected
+      break;
+
+    case 'DAV::unauthenticated':
+      precondition_failed( 'allowed-principal', 'May not set privileges for unauthenticated users' );
+      break;
+
+    case 'DAV::href':
+      $principal_type = 'href';
+      $principal = new DAVResource( DeconstructURL($principal_content->GetContent()) );
+      if ( ! $principal->Exists() || !$principal->IsPrincipal() )
+        precondition_failed('recognized-principal', 'Principal "' + $principal_content->GetContent() + '" not found.');
+      $sqlparms = array( ':to_principal' => $principal->GetProperty('principal_id') );
+      $where = 'WHERE to_principal=:to_principal AND ';
+      if ( isset($by_principal) ) {
+        $sqlparms[':by_principal'] = $by_principal;
+        $where .= 'by_principal = :by_principal';
+      }
+      else {
+        $sqlparms[':by_collection'] = $by_collection;
+        $where .= 'by_collection = :by_collection';
+      }
+      $qry = new AwlQuery('SELECT privileges FROM grants '.$where, $sqlparms);
+      if ( $qry->Exec('ACL',__FILE__,__LINE__) && $qry->rows() == 1 && $current = $qry->Fetch() ) {
+        $sql = 'UPDATE grants SET privileges=:privileges::INT::BIT(24) '.$where;
+      }
+      else {
+        $sqlparms[':by_principal'] = $by_principal;
+        $sqlparms[':by_collection'] = $by_collection;
+        $sql = 'INSERT INTO grants (by_principal, by_collection, to_principal, privileges) VALUES(:by_principal, :by_collection, :to_principal, :privileges::INT::BIT(24))';
+      }
+      $sqlparms[':privileges'] = $privileges;
+      $qry = new AwlQuery($sql, $sqlparms);
+      $qry->Exec('ACL',__FILE__,__LINE__);
+      break;
+
+    case 'DAV::authenticated':
+      $principal_type = 'authenticated';
+      if ( bindec($grantor->GetProperty('default_privileges')) == $privileges ) continue; // There is no change, so skip it
+      $sqlparms = array( ':privileges' => $privileges );
+      if ( isset($by_collection) ) {
+        $sql = 'UPDATE collection SET default_privileges=:privileges::INT::BIT(24) WHERE collection_id=:by_collection';
+        $sqlparms[':by_collection'] = $by_collection;
+      }
+      else {
+        $sql = 'UPDATE principal SET default_privileges=:privileges::INT::BIT(24) WHERE principal_id=:by_principal';
+        $sqlparms[':by_principal'] = $by_principal;
+      }
+      $qry = new AwlQuery($sql, $sqlparms);
+      $qry->Exec('ACL',__FILE__,__LINE__);
+      break;
+
+    case 'DAV::all':
+//      $principal_type = 'all';
+      precondition_failed( 'allowed-principal', 'May not set privileges for unauthenticated users' );
+      break;
+
+    default:
+      precondition_failed( 'recognized-principal' );
+      break;
+  }
+
+}
+
+$qry = new AwlQuery('COMMIT');
+$qry->Exec('ACL',__FILE__,__LINE__);
+
 
 $request->DoResponse( 200 );

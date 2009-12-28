@@ -1,0 +1,25 @@
+HTTP/1.1 200 OK
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy
+Content-Length: 0
+Content-Type: text/plain; charset="utf-8"
+
+
+    by_collection: >NULL<
+     by_principal: >3<
+      displayname: >User 4<
+       privileges: >000000000001001000100001<
+     to_principal: >6<
+
+    by_collection: >NULL<
+     by_principal: >3<
+      displayname: >Assistant 1<
+       privileges: >000000000001001011000111<
+     to_principal: >10<
+
+    by_collection: >NULL<
+     by_principal: >3<
+      displayname: >Team for Client1<
+       privileges: >000000000001001000000001<
+     to_principal: >14<
+

@@ -1,0 +1,56 @@
+#
+# ACL setting default privileges on a collection to nothing, and
+#     specific privileges to include read-acl.
+#
+TYPE=ACL
+URL=http://regression.host/caldav.php/user1/
+HEADER=User-Agent: RFC3744 Spec Tests
+HEADER=Content-Type: text/xml; charset="UTF-8"
+HEAD
+
+
+BEGINDATA
+<?xml version="1.0" encoding="utf-8" ?>
+<acl xmlns="DAV:" xmlns:CalDAV="urn:ietf:params:xml:ns:caldav">
+  <ace>
+    <principal>
+      <property><owner/></property>
+    </principal>
+    <grant>
+      <privilege><all/></privilege>
+    </grant>
+  </ace>
+  <ace>
+    <principal>
+      <href>/caldav.php/user4/</href>
+    </principal>
+    <grant>
+      <privilege><read/></privilege>
+      <privilege><read-acl/></privilege>
+      <privilege><read-current-user-privilege-set/></privilege>
+      <privilege><CalDAV:read-free-busy/></privilege>
+      <privilege><CalDAV:schedule-deliver/></privilege>
+      <privilege><CalDAV:schedule-send/></privilege>
+      <privilege><write/></privilege>
+      <privilege><bind/></privilege>
+      <privilege><unbind/></privilege>
+      <privilege><unlock/></privilege>
+    </grant>
+  </ace>
+  <ace>
+    <principal><authenticated/></principal>
+    <grant>
+      <privilege/>
+    </grant>
+  </ace>
+</acl>
+ENDDATA
+
+QUERY
+SELECT by_principal, by_collection, privileges, p_to.displayname, to_principal
+   FROM grants JOIN dav_principal p_to ON (to_principal=principal_id)
+          LEFT JOIN collection ON (by_collection=collection.collection_id)
+          LEFT JOIN dav_principal p_by ON (by_principal=p_by.principal_id)
+  WHERE p_by.username = 'user1'
+ENDQUERY
+
