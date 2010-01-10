@@ -149,7 +149,7 @@ if [ "$ADMINPW" = "" ] ; then
   # OK.  They didn't supply one, and pwgen didn't work, so we hack something
   # together from /dev/random ...
   export LC_ALL=C
-  ADMINPW="`dd if=/dev/urandom bs=512 count=1 2>/dev/null | tr -c -d "a-km-zA-HJ-NP-Y0-9" | cut -c2-9`"
+  ADMINPW="`dd if=/dev/urandom bs=512 count=1 2>/dev/null | tr -c -d 'a-km-zA-HJ-NP-Y0-9' | cut -c2-9`"
 fi
 
 if [ "$ADMINPW" = "" ] ; then
