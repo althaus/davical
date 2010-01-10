@@ -5,6 +5,8 @@ Desirable
  - the ability to see a better list of event data in the admin interface
 
 Important
+ - Add ability to delete users & collections
+ - Expose the Admin option to maintenance by admins.
  - Implement support for the ACL method
  - Implement support for updating the acl via PROPPATCH
  - Implement the DAV::acl-principal-prop-set report from RFC3744
