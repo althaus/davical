@@ -222,6 +222,10 @@ class Editor
     return $is_update;
   }
 
+  function IsCreate() {
+    return ! $this->IsUpdate();
+  }
+
   function SetWhere( $where_clause ) {
     $this->Where = $where_clause;
   }
