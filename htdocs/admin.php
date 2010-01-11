@@ -12,7 +12,7 @@ param_to_global('component', '{[a-z0-9-_]+}', 't');
 param_to_global('id', '{[a-z0-9-_]+}', 'id');
 
 $c->stylesheets[] = 'css/'.$action.'.css';
-$c->scripts[] = 'js/'.$action.'.js';
+// $c->scripts[] = 'js/'.$action.'.js';
 
 require_once('interactive-page.php');
 
