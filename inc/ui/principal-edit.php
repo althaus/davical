@@ -34,7 +34,18 @@ if ( $can_write_principal && $editor->IsSubmit() ) {
     $_POST['default_privileges'] = sprintf('%024s',decbin($privs));
     $editor->Assign('default_privileges', $privs_dec);
   }
+  if ( $editor->IsCreate() ) {
+    $c->messages[] = i18n("Creating new Principal record.");
+  }
+  else {
+    $c->messages[] = i18n("Updating Principal record.");
+  }
   $editor->Write();
+  if ( $_POST['type_id'] != 3 && $editor->IsCreate() ) {
+    /** We only add the default calendar if it isn't a group, and this is a create action */
+    require_once('auth-functions.php');
+    CreateHomeCalendar($editor->Value('username'));
+  }
 }
 else {
   $editor->GetRecord();
@@ -415,7 +426,8 @@ $rowurl = $c->base_url . '/admin.php?action=edit&t=collection&id=';
 $browser->AddHidden( 'collection_link', "'<a href=\"$rowurl' || collection_id || '\">' || collection_id || '</a>'" );
 $browser->AddColumn( 'dav_name', translate('Path') );
 $browser->AddColumn( 'dav_displayname', translate('Display Name') );
-$browser->AddColumn( 'privs', translate('Privileges'), '', '', 'privileges_list(default_privileges)' );
+$browser->AddColumn( 'privs', translate('Privileges'), '', '',
+        "COALESCE( privileges_list(default_privileges), '[".translate('default principal privileges')."]')" );
 
 $browser->SetOrdering( 'dav_name', 'A' );
 
