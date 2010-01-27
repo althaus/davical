@@ -94,6 +94,12 @@ if ( @file_exists('/etc/davical/'.$_SERVER['SERVER_NAME'].'-conf.php') ) {
 else if ( @file_exists('/etc/davical/config.php') ) {
   include('/etc/davical/config.php');
 }
+else if ( @file_exists('/usr/local/etc/davical/'.$_SERVER['SERVER_NAME'].'-conf.php') ) {
+  include('/usr/local/etc/davical/'.$_SERVER['SERVER_NAME'].'-conf.php');
+}
+else if ( @file_exists('/usr/local/etc/davical/config.php') ) {
+  include('/usr/local/etc/davical/config.php');
+}
 else if ( @file_exists('../config/config.php') ) {
   include('../config/config.php');
 }
