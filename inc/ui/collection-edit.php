@@ -12,7 +12,10 @@ $editor->SetLookup( 'schedule_transp', sprintf('SELECT \'opaque\', \'%s\' UNION 
 
 $editor->AddAttribute('timezone', 'id', 'fld_timezone' );
 $editor->AddAttribute('schedule_transp', 'id', 'fld_schedule_transp' );
-$editor->AddAttribute('is_calendar', 'onclick', 'toggle_enabled(self.checked,\'fld_timezone\',\'fld_schedule_transp\');');
+$editor->AddAttribute('is_calendar', 'id', 'fld_is_calendar');
+$editor->AddAttribute('is_addressbook', 'id', 'fld_is_addressbook');
+$editor->AddAttribute('is_calendar', 'onclick', 'toggle_enabled(\'fld_is_calendar\',\'=fld_timezone\',\'=fld_schedule_transp\',\'!fld_is_addressbook\');');
+$editor->AddAttribute('is_addressbook', 'onclick', 'toggle_enabled(\'fld_is_addressbook\',\'!fld_is_calendar\');');
 
 $editor->SetWhere( 'collection_id='.$id );
 
@@ -137,13 +140,20 @@ function toggle_enabled() {
   var argv = toggle_enabled.arguments;
   var argc = argv.length;
 
+  var fld_checkbox =  document.getElementById(argv[0]);
+
   if ( argc < 2 ) {
     return;
   }
 
   for (var i = 1; i < argc; i++) {
-    var f = document.getElementById(argv[i]);
-    f.disabled = !argv[0];
+    var fld_id = argv[i].substr(1);
+    var fld_logical = argv[i].substr(0,1);
+    var f = document.getElementById(fld_id);
+    if ( fld_logical == '=' )
+      f.disabled = !fld_checkbox.checked;
+    else
+      f.disabled = fld_checkbox.checked;
   }
 }
 </script>
@@ -185,6 +195,11 @@ label.privilege {
  <tr> <th class="right"></th>                   <td class="left" colspan="2">##submit##</td> </tr>
 </table>
 </form>
+<script language="javascript">
+toggle_enabled('fld_is_calendar','=fld_timezone','=fld_schedule_transp','!fld_is_addressbook');
+toggle_enabled('fld_is_addressbook','!fld_is_calendar');
+</script>
+
 EOTEMPLATE;
 
 $editor->SetTemplate( $template );
