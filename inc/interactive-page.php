@@ -1,5 +1,5 @@
 <?php
-if ( ! class_exists('MenuSet') ) include('MenuSet.php');
+require_once('MenuSet.php');
 
 
 $home_menu = new MenuSet('submenu', 'submenu', 'submenu_active');
