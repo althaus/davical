@@ -59,22 +59,22 @@ SELECT collection.*, caldav_data.*, calendar_item.*, sync_changes.*
                          LEFT JOIN caldav_data USING (collection_id,dav_id)
      WHERE collection.collection_id = ?
        AND sync_time > (SELECT modification_time FROM sync_tokens WHERE sync_token = ?)
-   ORDER BY collection.collection_id, sync_changes.dav_id, sync_changes.sync_time
+   ORDER BY collection.collection_id, sync_changes.dav_name, sync_changes.sync_time
 EOSQL;
   $qry = new PgQuery($sql, $request->CollectionId(), $sync_token);
 }
 
-$last_dav_id = -1;
+$last_dav_name = '';
 $first_status = 0;
 
 if ( $qry->Exec("REPORT",__LINE__,__FILE__) ) {
   while( $object = $qry->Fetch() ) {
-    if ( $object->dav_id == $last_dav_id ) {
+    if ( $object->dav_name == $last_dav_name ) {
       /** The complex case: this is the second or subsequent for this dav_id */
       if ( $object->sync_status == 404 ) {
         if ( $first_status == 201 ) {
           array_pop($responses);
-          $last_dav_id = -1;
+          $last_dav_name = '';
           $first_status = 0;
         }
         else {
@@ -116,7 +116,7 @@ if ( $qry->Exec("REPORT",__LINE__,__FILE__) ) {
       }
       $responses[] = new XMLElement( 'sync-response', $resultset );
       $first_status = $object->sync_status;
-      $last_dav_id  = $object->dav_id;
+      $last_dav_name  = $object->dav_name;
     }
   }
   $responses[] = new XMLElement( 'sync-token', $new_token );
