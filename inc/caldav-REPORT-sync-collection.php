@@ -53,7 +53,8 @@ EOSQL;
 }
 else {
   $sql = <<<EOSQL
-SELECT * FROM collection LEFT JOIN sync_changes USING(collection_id)
+SELECT collection.*, caldav_data.*, calendar_item.*, sync_changes.*
+  FROM collection LEFT JOIN sync_changes USING(collection_id)
                          LEFT JOIN calendar_item USING (collection_id,dav_id)
                          LEFT JOIN caldav_data USING (collection_id,dav_id)
      WHERE collection.collection_id = ?
