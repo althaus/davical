@@ -43,6 +43,7 @@ if ( $request->IsCollection() ) {
     }
 
     $sql = "BEGIN;";
+    $sql .= "SELECT write_sync_change( collection_id, 404, caldav_data.dav_name) FROM caldav_data WHERE user_no = $request->user_no AND dav_name LIKE ". qpg($request->path.'%').";";
     $sql .= "DELETE FROM collection WHERE user_no = $request->user_no AND dav_name = ". qpg($request->path).";";
     $sql .= "DELETE FROM caldav_data WHERE user_no = $request->user_no AND dav_name LIKE ?;";
     $sql .= "DELETE FROM property WHERE dav_name LIKE ?;";
