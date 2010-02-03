@@ -72,20 +72,13 @@ if ( $qry->Exec("REPORT",__LINE__,__FILE__) ) {
     if ( $object->dav_name == $last_dav_name ) {
       /** The complex case: this is the second or subsequent for this dav_id */
       if ( $object->sync_status == 404 ) {
-        if ( $first_status == 201 ) {
-          array_pop($responses);
-          $last_dav_name = '';
-          $first_status = 0;
-        }
-        else {
-          array_pop($responses);
-          $resultset = array(
-            new XMLElement( 'href', ConstructURL($object->dav_name) ),
-            new XMLElement( 'status', display_status($object->sync_status) )
-          );
-          $responses[] = new XMLElement( 'sync-response', $resultset );
-          $first_status = 404;
-        }
+        array_pop($responses);
+        $resultset = array(
+          new XMLElement( 'href', ConstructURL($object->dav_name) ),
+          new XMLElement( 'status', display_status($object->sync_status) )
+        );
+        $responses[] = new XMLElement( 'sync-response', $resultset );
+        $first_status = 404;
       }
       else if ( $object->sync_status == 201 && $first_status == 404 ) {
         // ... Delete ... Create ... is indicated as a create, but don't forget we started with a delete
