@@ -3,13 +3,13 @@
   <html xmlns="http://www.w3.org/1999/xhtml">
 		<head>
 			<!-- template designed by Marco Von Ballmoos -->
-			<title>Docs for page caldav-REPORT-sync-collection.php</title>
+			<title>Docs for page caldav-REPORT-pps-set.php</title>
 			<link rel="stylesheet" href="../../media/stylesheet.css" />
 			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
 		</head>
 		<body>
 			<div class="page-body">			
-<h2 class="file-name"><img src="../../media/images/Page_logo.png" alt="File" style="vertical-align: middle">/inc/caldav-REPORT-sync-collection.php</h2>
+<h2 class="file-name"><img src="../../media/images/Page_logo.png" alt="File" style="vertical-align: middle">/inc/caldav-REPORT-pps-set.php</h2>
 
 <a name="sec-description"></a>
 <div class="info-box">
@@ -20,7 +20,7 @@
 			</div>
 	<div class="info-box-body">	
 		<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">CalDAV Server - handle sync-collection report (draft-daboo-webdav-sync-01)</p>
+<p class="short-description">DAViCal CalDAV Server - handle principal-search-property-set report (RFC3744)</p>
 	<ul class="tags">
 				<li><span class="field">author:</span> Andrew McMillan &lt;<a href="mailto:andrew@mcmillan.net.nz">andrew@mcmillan.net.nz</a>&gt;</li>
 				<li><span class="field">copyright:</span> Morphoss Ltd - http://www.morphoss.com/</li>
@@ -42,28 +42,31 @@
 															<span class="disabled">Functions</span>
 		</div>
 		<div class="info-box-body">	
-			<a name="functiondisplay_status" id="functiondisplay_status"><!-- --></a>
-<div class="oddrow">
+			<a name="functionproperty_response" id="functionproperty_response"><!-- --></a>
+<div class="evenrow">
 	
 	<div>
 		<img src="../../media/images/Function.png" />
-		<span class="method-title">display_status</span> (line <span class="line-number">32</span>)
+		<span class="method-title">property_response</span> (line <span class="line-number">16</span>)
 	</div> 
 
 	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">Build the array of properties to include in the report output</p>
+<p class="short-description">Wrap an individual property name as needed</p>
 	<div class="method-signature">
 		<span class="method-result">void</span>
 		<span class="method-name">
-			display_status
+			property_response
 		</span>
-					(<span class="var-type"></span>&nbsp;<span class="var-name">$status_code</span>)
+					(<span class="var-type"></span>&nbsp;<span class="var-name">&$xmldoc</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$property</span>)
 			</div>
 
 			<ul class="parameters">
 					<li>
 				<span class="var-type"></span>
-				<span class="var-name">$status_code</span>			</li>
+				<span class="var-name">&$xmldoc</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$property</span>			</li>
 				</ul>
 		
 	
