@@ -1,3 +1,57 @@
+2010-02-03  Andrew McMillan  <andrew@morphoss.com>
+	* Release 0.9.8.1
+	* Update the sync changes for deletion of a calendar.
+	* Always report DELETE action in sync-changes
+	* Report correct href with DELETE action in sync report.
+
+2010-02-01  Andrew McMillan  <andrew@morphoss.com>
+	* Remove misguided include logic.
+	* Editor widget class has been moved into AWL.
+
+2010-01-30  Andrew McMillan  <andrew@morphoss.com>
+	* Fix up the javascript around enabling fields when calendar/addressbook.
+	* Move version display to setup.php and do basic dependency checks.
+
+2010-01-27  Andrew McMillan  <andrew@morphoss.com>
+	* Allow config files to be under /usr/local
+
+2010-01-11  Andrew McMillan  <andrew@morphoss.com>
+	* We don't need to reference a $action . '.js' file.
+	* Create a default calendar when a User or Resource principal is created.
+
+2010-01-10  Andrew McMillan  <andrew@morphoss.com>
+	* Add a utility IsCreate() method opposite to IsUpdate().
+	* Try and reduce the odds of an extra quote in the password.
+
+2009-12-28  Andrew McMillan  <andrew@morphoss.com>
+	* Basic support for the ACL method.  Working, but needs work.
+	* Improve logging of parameterised queries.
+
+2009-12-27  Andrew McMillan  <andrew@morphoss.com>
+	* DAV::owner should be wrapped with DAV::property in DAV::ace response.
+	* Return 406 Not Acceptable for invalid XML request.
+	* Refactor principal-property-search REPORT.
+	* Use calendar-user-address-set for search rather than CS extension.
+	* Move DAVResource inclusion to REPORT wrapper.
+	* Comment out debugging messages for peformance.
+	* Fix problems with logging of failed queries.
+	* Add pass-through for PDO ErrorInfo() method.
+	* New regression tests and updated results.
+	* Add support for principal-search-property-set REPORT per RFC3744
+	* Refactor the construction of DAV::acl and report owner acl
+
+2009-12-26  Andrew McMillan  <andrew@morphoss.com>
+	* Current regression test results.
+	* Move MKCOL/MKCALENDAR to NeedPrivilege()
+	* Correct log facility.
+	* Strip  redundant code from CalDAVRequest
+	* Revert misguided namespacing change on Not Found properties.
+	* Move response for supported-lock and supported-privilege-set into DAVResource.php
+	* Fix logic for calculating by_email
+	* New style privilege checking.
+	* Switch to NeedPrivilege() method for checking privileges.
+	* Switch privileges to use the new model.
+
 2009-12-24  Andrew McMillan  <andrew@morphoss.com>
 	* Release 0.9.8
 	* Slightly updated TODO.
