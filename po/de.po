@@ -6,12 +6,10 @@
 # - ing-Form in die Ich-Form übersetzen, aber ohne Pronomen "ich". Zum
 #   Beispiel "Deleting user" = "Lösche Benutzer"
 # - Aufforderungen falls möglich nicht in die Du-Form übersetzen, also z.B.
-#   "Change password" = "Passwort ändern" (und nicht "Ändere das Passwort").
+#   "Change password" = "Kennwort ändern" (und nicht "Ändere das Kennwort").
 #   Diese Textbausteine sind oft Beschriftungen für Knöpfe und dergleichen,
 #   also Funktionsbezeichnungen, und nicht wirklich Aufforderungen an den
 #   Benutzer.
-# - Du-Form und nicht die Sie-Form verwenden. "Du", "Dein" etc. werden klein
-#   geschrieben.
 #
 # Begriffe (falls für einen Begriff keine bessere Übersetzung gefunden werden
 # kann, macht es Sinn, sich an die Übersetzungen anderer Kalender-orientierter
@@ -25,13 +23,21 @@
 # - Collection = Sammlung (von Evolution übernommen)
 # - Schedule, scheduling = Terminplan, Terminplanung
 # - Deliver, delivery = Zustellen, Zustellung (von Evolution übernommen)
+# - Privileges = Privilegien, (nicht: "Rechte/Berechtigung", da Begriff aus WebDAV)
 #
-# Noch nicht übersetzte Begriffe:
-# - Principal
-# - Grant
+# Nicht übersetzte Begriffe:
+# - Principal -> Begriff aus WebDAV
+#
+# Hinweise:
+# Im Gegensatz zu bisherigen Übersetzung ist "You" nun stets mit "Sie"
+# übersetzt. Die "Du"-Form wirkt zumindest in D bei technischen Systemen stets 
+# sehr unprofessionell.
+
 #
 # Cristina Radalescu <andrew@mcmillan.net.nz>, 2006.
 # Patrick Näf Moser <herzbube@herzbube.ch>, 2009.
+# Peter Schäfer-Hutter <peter.schaefer@gmx.de>, 2010.
+#
 #, fuzzy
 msgid ""
 msgstr ""
@@ -62,24 +68,24 @@ msgstr "- aktualisere Benutzereinträge : %s"
 
 #, fuzzy
 msgid "--- select a relationship type ---"
-msgstr "--- Wähle einen Beziehungstyp ---"
+msgstr "--- Wählen Sie einen Beziehungstyp ---"
 
 msgid "--- select a user or resource ---"
-msgstr "--- Wähle einen Benutzer oder eine Ressource ---"
+msgstr "--- Wählen Sie einen Benutzer oder eine Ressource ---"
 
 msgid "--- select a user, group or resource ---"
-msgstr "--- Wähle einen Benutzer, eine Gruppe oder eine Ressource ---"
+msgstr "--- Wählen Sie einen Benutzer, eine Gruppe oder eine Ressource ---"
 
 msgid "<b>WARNING: all events in this path will be deleted before inserting allof the ics file</b>"
-msgstr "<b>WARNUNG: Vor dem Einfügen der .ics Datei werden alle Termine in diesem Pfad gelöscht</b>"
+msgstr "<b>WARNUNG: Vor dem Einfügen der ICS-Kalenderdatei werden alle Termine in diesem Pfad gelöscht</b>"
 
 #, c-format
 msgid ""
 "<h1>Log On Please</h1><p>For access to the %s you should log on withthe username and password that "
 "have been issued to you.</p><p>If you would like to request access, please e-mail %s.</p>"
 msgstr ""
-"<h1>Bitte anmelden</h1><p>Um auf %s zuzugreifen musst du dich mit dem dirzugeteilten Benutzernamen und "
-"Passwort anmelden.</p><p>Um einen Neuzugang zu beantragen, schreibe bitte eine Email an %s.</p>"
+"<h1>Bitte anmelden</h1><p>Um auf %s zuzugreifen, müssen Sie sich mit dem Ihnen genannten Benutzernamen und "
+"Kennwort anmelden.</p><p>Um einen Zugang zu beantragen, schreiben Sie eine E-Mail an %s.</p>"
 
 msgid "A collection already exists at that location."
 msgstr "An dieser Stelle gibt es bereits eine Sammlung."
@@ -100,7 +106,7 @@ msgstr "Hinzufügen"
 
 # TODO - Group Principal übersetzen
 msgid "Adding new member to this Group Principal"
-msgstr "Füge neues Mitglied zu dieser Group Principal hinzu"
+msgstr "Füge neues Mitglied zu diesem Gruppen-Principal hinzu"
 
 msgid "Admin <!-- in the sense of 'systems admin' -->"
 msgstr "Systemadministrator"
@@ -138,7 +144,7 @@ msgstr "Nicht angemeldete Benutzer dürfen nur auf öffentliche Kalender zugreif
 
 # TODO - Bessere Übersetzung von "browse"
 msgid "Browse all users"
-msgstr "Alle Benutzer durchsuchen"
+msgstr "Alle Benutzer auflisten"
 
 # TODO - Kontext bestimmen, "busy" könnte auch mit "belegt" (ähnlicher Sinn wie
 # "besetzt") oder "beschäftigt" (wörtliche Übersetzung) übersetzt werden
@@ -176,7 +182,7 @@ msgstr "Verfügbarkeit sichtbar von "
 
 #, fuzzy
 msgid "Change Password"
-msgstr "Passwort ändern"
+msgstr "Kennwort ändern"
 
 # TODO - Kontext bestimmen
 msgid "Changed On"
@@ -194,25 +200,23 @@ msgstr "Klicken, um den Inhalt der Sammlung anzuzeigen"
 msgid "Click to display user details"
 msgstr "Klicken, um Benutzerangaben anzuzeigen"
 
-# TODO - Principal übersetzen
 #, fuzzy
 msgid "Click to edit principal details"
-msgstr "Klicken, um Principal Daten zu bearbeiten"
+msgstr "Klicken um Details des Principal zu bearbeiten"
 
 msgid "Collection Contents"
 msgstr "Inhalt der Sammlung"
 
-# TODO - Grants übersetzen
 #, fuzzy
 msgid "Collection Grants"
-msgstr "Sammlungs-Grants"
+msgstr "Berechtigungen der Sammlung"
 
 #, fuzzy
 msgid "Collection ID"
-msgstr "Sammlung ID"
+msgstr "Sammlungs-ID"
 
 msgid "Collection Path"
-msgstr "Pfad zur Sammlung"
+msgstr "Sammlungs-Pfad"
 
 #, fuzzy
 msgid "Collection deleted"
@@ -234,10 +238,10 @@ msgstr "Löschen des Benutzers bestätigen"
 
 #, fuzzy
 msgid "Confirm Password"
-msgstr "Passwort bestätigen"
+msgstr "Kennwort bestätigen"
 
 msgid "Confirm the new password."
-msgstr "Neues Passwort bestätigen"
+msgstr "Neues Kennwort bestätigen"
 
 # TODO - Kontext bestimmen
 msgid "Confirm"
@@ -317,9 +321,8 @@ msgstr "Lösche Benutzer"
 msgid "Delete"
 msgstr "Löschen"
 
-# TODO - Grant und Principal übersetzen
 msgid "Deleted a grant from this Principal"
-msgstr "Einen Grant dieses Principals gelöscht"
+msgstr "Eine Berechtigung dieses Principals gelöscht"
 
 #, fuzzy
 msgid "Deleting Collection:"
@@ -359,10 +362,10 @@ msgid "ERROR: The full name may not be blank."
 msgstr "FEHLER: Der vollständige Name darf nicht leer sein."
 
 msgid "ERROR: The new password must match the confirmed password."
-msgstr "FEHLER: Das neue Passwort muss mit dem bestätigten Passwort übereinstimmen."
+msgstr "FEHLER: Kennwort und Kennwortbestätigung müssen übereinstimmen."
 
 msgid "ERROR: There was a database error writing the roles information!"
-msgstr "FEHLER: Beim Schreiben der Rolleninformationen ist ein Datenbankfehler aufgetreten!"
+msgstr "FEHLER: Datenbankfehler beim Speichern der Rolleninformation!"
 
 # TODO - Kontext bestimmen
 #, fuzzy, c-format
@@ -373,18 +376,18 @@ msgid "Edit this user record"
 msgstr "Benutzereintrag bearbeiten"
 
 msgid "Email Address"
-msgstr "Email-Adresse"
+msgstr "E-Mail-Adresse"
 
 msgid "Enter a username, if you know it, and click here, to be e-mailed a temporary password."
 msgstr ""
-"Gib einen Benutzernamen ein, falls du ihn weisst, dann klicke hier, um ein temporäres Passwort "
+"Geben Sie Ihren Benutzernamen ein (falls bekannt) und klicken Sie hier um ein temporäres Kennwort "
 "zugeschickt zu bekommen."
 
 msgid "Enter the name for this resource type"
 msgstr "Namen dieses Ressourcen-Typs eingeben"
 
 msgid "Enter your username and password then click here to log in."
-msgstr "Gib deinen Benutzernamen und dein Passwort ein, dann klicke hier, um Dich anzumelden."
+msgstr "Geben Sie Benutzernamen und Kennwort ein und klicken Sie hier, um sich anzumelden."
 
 #, c-format
 msgid "Error NoUserFound with filter >%s<, attributes >%s< , dn >%s<"
@@ -439,7 +442,7 @@ msgstr "LOS!"
 
 # TODO - Bessere Übersetzung von "Feature Request"
 msgid "Go to the DAViCal Feature Requests"
-msgstr "Gehe zur Liste mit DAViCal Feature-Anträgen"
+msgstr "Gehe zur DAViCal Feature-Wunschliste"
 
 # TODO - Bessere Übersetzung von "from this Principal"
 msgid "Granting new privileges from this Principal"
@@ -456,7 +459,7 @@ msgstr "Gruppenmitgliedschaft"
 
 # TODO - Group Principals übersetzen
 msgid "Group Principals"
-msgstr "Group Principals"
+msgstr "Gruppen Principals"
 
 msgid "Group"
 msgstr "Gruppe"
@@ -466,10 +469,10 @@ msgstr "Hat Mitglieder"
 
 # TODO - Bessere Übersetzung von "screen"
 msgid "Help on the current screen"
-msgstr "Hilfe zur aktuellen Bildschirmmaske"
+msgstr "Hilfe zur aktuellen Seite"
 
 msgid "Help! I've forgotten my password!"
-msgstr "Hilfe! Ich habe mein Passwort vergessen!"
+msgstr "Hilfe! Ich habe mein Kennwort vergessen!"
 
 msgid "Help"
 msgstr "Hilfe"
@@ -499,25 +502,25 @@ msgstr "Id"
 
 # TODO - Kontext bestimmen
 msgid "If you have forgotten your password then"
-msgstr "Falls du dein Passwort vergessen hast, dann"
+msgstr "Falls Sie Ihr Kennwort vergessen haben, dann"
 
 # TODO - Kontext bestimmen (evt. muss "an" hinzugefügt werden)
 msgid "If you would like to request access, please e-mail"
-msgstr "Um einen Neuzugang zu beantragen, schreibe bitte eine Email"
+msgstr "Um einen Neuzugang zu beantragen, schreiben Sie bitte eine E-Mail"
 
 #, fuzzy
 msgid "Import Calendars"
 msgstr "Kalender importieren"
 
 msgid "Import all .ics files of a directory"
-msgstr "Alle .ics Dateien eines Ordners importieren"
+msgstr "Alle ICS-Kalenderdateien eines Ordners importieren"
 
 msgid "Invalid user name or password."
-msgstr "Benutzername oder Passwort ungültig."
+msgstr "Benutzername oder Kennwort ungültig."
 
 #, fuzzy
 msgid "Invalid username or password."
-msgstr "Benutzername oder Passwort ungültig."
+msgstr "Benutzername oder Kennwort ungültig."
 
 msgid "Is Member of"
 msgstr "Ist Mitglied von"
@@ -571,14 +574,14 @@ msgstr "Bitte anmelden"
 
 #, fuzzy
 msgid "Log out of DAViCal"
-msgstr "Bei DAViCal abmelden"
+msgstr "Von DAViCal abmelden"
 
 msgid "Logout"
 msgstr "Abmelden"
 
 # TODO - Group Principal übersetzen
 msgid "Member deleted from this Group Principal"
-msgstr "Mitglied wurde aus diesem Group Principal entfernt"
+msgstr "Mitglied wurde von diesem Gruppen-Principal entfernt"
 
 msgid "Name"
 msgstr "Name"
@@ -588,7 +591,7 @@ msgid "New Collection"
 msgstr "Neue Sammlung"
 
 msgid "New Password"
-msgstr "Neues Passwort"
+msgstr "Neues Kennwort"
 
 msgid "New User"
 msgstr "Neuer Benutzer"
@@ -599,7 +602,7 @@ msgid "No calendar content"
 msgstr "Kalender hat keinen Inhalt"
 
 msgid "No collection found at that location."
-msgstr "Keine Sammlung gefunden an dieser Stelle."
+msgstr "Keine Sammlung an dieser Stelle gefunden."
 
 msgid "No. <!-- short for 'Number' -->"
 msgstr "Nr."
@@ -617,14 +620,14 @@ msgstr "Nicht transparent"
 
 # TODO - Bessere Übersetzung von "operations on"
 msgid "Operations on your calendar"
-msgstr "Arbeitsabläufe an deinem Kalender"
+msgstr "Aktionen an Ihrem Kalender"
 
 msgid "Override a Lock"
 msgstr "Eine Sperre übersteuern"
 
 #, fuzzy
 msgid "Password"
-msgstr "Passwort"
+msgstr "Kennwort"
 
 msgid "Path"
 msgstr "Pfad"
@@ -640,31 +643,28 @@ msgid "Please confirm deletion of user"
 msgstr "Löschen des Benutzers bitte bestätigen"
 
 msgid "Please note the time and advise the administrator of your system."
-msgstr "Notiere bitte die Zeit und benachrichtige den Administrator deines Systems."
+msgstr "Notieren Sie bitte die Zeit und benachrichtigen Sie den Administrator des Systems."
 
-# TODO - Principal übersetzen
+# Principal ist ein stehender Begriff in WebDAV
 #, fuzzy
 msgid "Principal Collections"
 msgstr "Principal Sammlungen"
 
-# TODO - Principal Grants übersetzen
 msgid "Principal Grants"
-msgstr "Principal Grants"
+msgstr "Principal Berechtigungen"
 
-# TODO - Principal übersetzen
 msgid "Principal ID"
 msgstr "Principal ID"
 
-# TODO - Principal übersetzen
 msgid "Principal Type"
 msgstr "Principal Typ"
 
-# TODO - Principal übersetzen
 msgid "Principal"
 msgstr "Principal"
 
+# Privileges=Privilegien ist ein stehender Begriff in WebDAV
 msgid "Privileges"
-msgstr "Rechte"
+msgstr "Privilegien"
 
 msgid "Property is read-only"
 msgstr "Eigenschaft ist schreibgeschützt"
@@ -900,7 +900,7 @@ msgid "The user's full name."
 msgstr "Der vollständige Name des Benutzers."
 
 msgid "The user's password for logging in."
-msgstr "Das Passwort, mit dem der Benutzer sich anmeldet."
+msgstr "Kennwort, mit dem der Benutzer sich anmeldet."
 
 #, fuzzy
 msgid "There is no collection at that URL."
@@ -932,13 +932,12 @@ msgstr "Aktualisieren"
 msgid "Updated"
 msgstr "Aktualisiert"
 
-# TODO - Übersetzen von "Group Principal"
+# Principal ist ein Begriff aus WebDAV/CalDAV
 msgid "Updating Member of this Group Principal"
-msgstr "Aktualisiere Mitglied dieser Group Principal"
+msgstr "Aktualisiere Mitglied des Gruppen-Principal"
 
-# TODO - Übersetzen von "Grant" und "Principal"
 msgid "Updating grants by this Principal"
-msgstr "Aktualisiere Grants dieses Principals"
+msgstr "Aktualisiere Berechtigungen des Principal"
 
 msgid "Upgrade DAViCal database schema"
 msgstr "Aktualisiere DAViCal Datenbankschema"
@@ -948,11 +947,10 @@ msgstr "Aktualisiere Datenbank"
 
 #, fuzzy
 msgid "Upload a .ics calendar in iCalendar format "
-msgstr "Einen .ics Kalender im iCalendar Format hochladen "
+msgstr "Eine ICS-Kalenderdatei im iCalendar-Format hochladen "
 
-# TODO - Übersetzen von "Principal"
 msgid "User Calendar Principals"
-msgstr "Benutzer-Kalender Principals"
+msgstr "Principal des Benutzer-Kalenders"
 
 msgid "User Details"
 msgstr "Benutzerangaben"
@@ -978,7 +976,7 @@ msgid "User is active"
 msgstr "Benutzer ist aktiv"
 
 msgid "User record written."
-msgstr "Benutzereintrag geschrieben."
+msgstr "Benutzereintrag gespeichert."
 
 #, fuzzy
 msgid "Username"
@@ -990,12 +988,11 @@ msgstr "%s anzeigen"
 
 #, fuzzy
 msgid "View My Details"
-msgstr "Meine Angaben anzeigen"
+msgstr "Eigene Angaben anzeigen"
 
-# TODO - Übersetzen von "Principal"
 #, fuzzy
 msgid "View my own principal record"
-msgstr "Meinen Principal-Eintrag anzeigen"
+msgstr "Eigenen Haupteintrag anzeigen"
 
 msgid "View this user record"
 msgstr "Diesen Benutzereintrag anzeigen"
@@ -1005,65 +1002,61 @@ msgstr "DAViCal Wiki besuchen"
 
 # TODO - Kontext bestimmen
 msgid "When the user's e-mail account was validated."
-msgstr "Wann die Gültigkeit des Email-Kontos des Benutzers bestätigt wurde."
+msgstr "Sobald das E-Mail-Konto des Benutzers bestätigt wurde."
 
 msgid "Write Access Controls"
-msgstr "Zugriffs-Einstellungen schreiben"
+msgstr "Zugriffsberechtigungen speichern"
 
 #, fuzzy
 msgid "Write Data"
-msgstr "Daten schreiben"
+msgstr "Daten speichern"
 
 msgid "Write Metadata"
-msgstr "Metadaten schreiben"
+msgstr "Metadaten speichern"
 
-# TODO - Kontext bestimmen
 msgid "Write"
-msgstr "Schreiben"
+msgstr "Speichern"
 
-# TODO - Bessere Übersetzung ("Du" ist störend)
 msgid "You are editing"
-msgstr "Du bearbeitest die Daten von"
+msgstr "Sie bearbeiten"
 
 msgid "You are not authorised to use this function."
 msgstr "Keine Berechtigung, um diese Funktion auszuführen."
 
-# TODO - Bessere Übersetzung ("Du" ist störend)
 msgid "You are viewing"
-msgstr "Du siehst die Daten von"
+msgstr "Sie sehen"
 
 msgid "You do not have appropriate rights to view that resource."
-msgstr "Keine ausreichende Berechtigung, um diese Ressource anzuzeigen."
+msgstr "Sie haben keine Zugriffsberechtigung auf diese Ressource."
 
 msgid "You do not have sufficient access to lock that"
-msgstr "Keine ausreichende Berechtigung, um dies zu sperren"
+msgstr "Ihre Berechtigung reicht nicht aus um dies zu sperren"
 
 msgid "You may not access that calendar"
-msgstr "Keine Berechtigung, um auf diesen Kalender zuzugreifen"
+msgstr "Sie haben keine Zugriffsberechtigung für diesen Kalender"
 
 #, fuzzy
 msgid "You may not access that collection"
-msgstr "Keine Berechtigung, um auf diese Sammlung zuzugreifen"
+msgstr "Sie haben keine Zugriffsberechtigung für diese Sammlung"
 
 #, fuzzy
 msgid "You may not add entries to this calendar."
-msgstr "Keine Berechtigung, um Einträge diesem Kalender hinzuzufügen."
+msgstr "Sie haben nicht die Berechtigung, Einträge in diesen Kalender hinzuzufügen."
 
 msgid "You may not create a calendar there."
-msgstr "Keine Berechtigung, um einen Kalender an dieser Stelle zu erzeugen."
+msgstr "Sie haben nicht die Berechtigung einen Kalender dort zu erzeugen."
 
 msgid "You may not delete entries from this calendar."
-msgstr "Keine Berechtigung, um Einträge aus diesem Kalender zu löschen."
+msgstr "Sie haben keine Berechtigung Einträge dieses Kalenders zu löschen."
 
 msgid "You may not modify entries on this calendar."
-msgstr "Keine Berechtigung, um Einträge in diesem Kalender zu ändern."
+msgstr "Sie haben keine Berechtigung Einträge dieses Kalenders zu ändern."
 
-# TODO - Bessere Übersetzung für "Interface"
 msgid "You may only review the contents of your own collections in this interface."
-msgstr "In diesem Interface können nur die Inhalte der eigenen Sammlungen angesehen werden."
+msgstr "Hier können Sie nur die Inhalte der eigenen Sammlungen ansehen."
 
 msgid "You must log in to use this system."
-msgstr "Du musst Dich anmelden, um dieses System nutzen zu können."
+msgstr "Sie müssen sich anmelden um dieses System zu nutzen."
 
 #, c-format
 msgid "all events of user %s were deleted and replaced by those from file %s"
@@ -1113,17 +1106,17 @@ msgid "is Assistant to"
 msgstr "ist Assistent von"
 
 msgid "path to store your ics"
-msgstr "Pfad, in dem .ics Dateien gespeichert werden sollen"
+msgstr "Pfad, in dem die ICS-Kalenderdateien gespeichert werden sollen"
 
 #, c-format
 msgid "the file %s is not UTF-8 encoded, please check error for more details"
 msgstr "Die Datei %s ist nicht UTF-8 codiert; weitere Details stehen in der Fehlermeldung."
 
 msgid "you should log on with the username and password that have been issued to you."
-msgstr "Du musst dich mit dem dir zugeteilten Benutzernamen und Passwort anmelden."
+msgstr "Melden Sie sich mit dem Ihnen genannten Benutzernamen und Kennwort an."
 
 msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
-msgstr "Diese Funktion tut folgendes: <ul><li>Gültige Benutzer im LDAP Verzeichnis überprüfen</li>"
+msgstr "Folgendes wird durchgeführt: <ul><li>Gültige Benutzer im LDAP Verzeichnis überprüfen</li>"
 
 #, fuzzy
 #~ msgid "Default relationships added."
@@ -1133,72 +1126,71 @@ msgstr "Diese Funktion tut folgendes: <ul><li>Gültige Benutzer im LDAP Verzeich
 #~ msgstr "Neuen Benutzer hinzufügen"
 
 #~ msgid "Browse all relationship types"
-#~ msgstr "Nach allen Verhältnistypen durchsuchen"
+#~ msgstr "Allen Beziehungstypen auflisten"
 
 #, fuzzy
 #~ msgid "Create Resources"
-#~ msgstr "Ressource"
+#~ msgstr "Ressource erzeugen"
 
 #, fuzzy
 #~ msgid "Delete Resources"
-#~ msgstr "Ressource"
+#~ msgstr "Ressource löschen"
 
 #~ msgid "Help on something or other"
-#~ msgstr "Hilfestellung oder Sonstiges"
+#~ msgstr "Hilfe"
 
 #, fuzzy
 #~ msgid "Operations"
-#~ msgstr "Verhältnis"
+#~ msgstr "Verwaltung"
 
 #~ msgid "Setup RSCDS"
-#~ msgstr "Einrichtung"
+#~ msgstr "Konfiguration"
 
 #~ msgid "<b>WARNING: all events in this path will be deleted before inserting all of the ics file</b>"
 #~ msgstr ""
-#~ "<b>WARNUNG: Alle Termine in diesem Pfad werden gelöscht, bevor die Daten der ICS-Datei einfügt "
-#~ "werden</b>"
+#~ "<b>WARNUNG: Alle Termine in diesem Pfad werden gelöscht, bevor die Daten der ICS-Kalenderdatei eingefügt werden</b>"
 
 #~ msgid "All events of user %s were deleted and replaced by those from the file."
-#~ msgstr "Alle Termine des Benutzers %s sind gelöscht und mit denen der Datei ersetzt worden."
+#~ msgstr "Alle Termine des Benutzers %s sind gelöscht und mit denen aus der Datei ersetzt worden."
 
 #, fuzzy
 #~ msgid "Created On"
-#~ msgstr "Erstellt bei"
+#~ msgstr "Erstellt am"
 
 #, fuzzy
 #~ msgid "Import ICS file to new collection"
-#~ msgstr "Importiere ICS-Datei in eine neue Collection"
+#~ msgstr "Importiere ICS-Kalenderdatei in eine neue Sammlung"
 
 #~ msgid "Your .ics calendar"
-#~ msgstr "Dein ICS-Kalender"
+#~ msgstr "Ihre ICS-Kalenderdatei"
 
 #~ msgid "set the path to store your ics ex:home if you get it by caldav.php/me/home/"
 #~ msgstr ""
-#~ "Setze den Pfad um deine ICS aufzubewahren z.B. 'home' wenn du es von 'caldav.php/me/home/' bekommst"
+#~ "Setzen Sie den Pfad um Ihre ICS-Kalenderdatei aufzubewahren (bspw. 'home', wenn sie von 'caldav.php/me/home/' stammt)"
 
 #~ msgid "Really Simple CalDAV Store"
-#~ msgstr "Wirklich einfacher CalDAV Store"
+#~ msgstr "Ganz einfacher CalDAV Store"
 
 #~ msgid "if your use OpenLDAP 2.X.X maybe, unable to connect to LDAP with port %s on host %s"
-#~ msgstr "Nutzt du vielleicht OpenLDAP 2.X.X? Keine Verbindung zu LDAP am Port %s des Hosts %s"
+#~ msgstr "Nutzen Sie vielleicht OpenLDAP 2.X.X? Keine Verbindung zu LDAP am Port %s des Hosts %s"
 
 #~ msgid "Group?"
 #~ msgstr "Gruppe?"
 
 #~ msgid "Is the target of this relationship a group of access rights?"
-#~ msgstr "Ist das Ziel dieses Verhältnisses eine Gruppe von Zugriffsrechten?"
+#~ msgstr "Ist das Ziel dieser Beziehung eine Gruppe von Zugriffsrechten?"
 
 #~ msgid "Prefix"
-#~ msgstr "Vorwahl"
+#~ msgstr "Präfix"
 
 #~ msgid "Restrict access to prefixes matching this pattern"
-#~ msgstr "Zugriff auf Praefixe beschraenken, die auf dieses Muster zutreffen"
+#~ msgstr "Zugriff auf Präfixe beschränken, die auf dieses Muster zutreffen"
 
 #~ msgid "To Group?"
 #~ msgstr "Zur Gruppe?"
 
 #~ msgid "Relationship Type Updated."
-#~ msgstr "Verhältnistyp aktualisiert"
+#~ msgstr "Beziehungstyp aktualisiert"
 
 #~ msgid "Email"
 #~ msgstr "E-Mail"
