@@ -18,6 +18,7 @@ $can_write_principal = ($session->AllowedTo('Admin') || $session->principal_id =
 $pwstars = '@@@@@@@@@@';
 if ( $can_write_principal && $editor->IsSubmit() ) {
   $editor->WhereNewRecord( "principal_id=(SELECT CURRVAL('dav_id_seq'))" );
+  if ( ! $session->AllowedTo('Admin') ) unset($_POST['admin_role']);
   unset($_POST['password']);
   if ( $_POST['newpass1'] != '' && $_POST['newpass1'] != $pwstars ) {
     if ( $_POST['newpass1'] == $_POST['newpass2'] ) {
@@ -264,7 +265,7 @@ EOTEMPLATE;
   $browser->AddColumn( 'members', translate('Has Members'), '', '', 'has_members_list(principal_id)' );
 
   if ( $can_write_principal ) {
-    $del_link  = "<a href=\"/admin.php?action=edit&t=principal&id=$id&delete_member=##principal_id##\" class=\"submit\">Delete</a>";
+    $del_link  = '<a href="'.$c->base_url.'/admin.php?action=edit&t=principal&id='.$id.'&delete_member=##principal_id##" class="submit">Delete</a>';
     $browser->AddColumn( 'action', 'Action', 'center', '', "'$edit_link&nbsp;$del_link'" );
   }
 
@@ -386,8 +387,8 @@ $browser->AddColumn( 'privs', translate('Privileges'), '', '', 'privileges_list(
 $browser->AddColumn( 'members', translate('Has Members'), '', '', 'has_members_list(principal_id)' );
 
 if ( $can_write_principal ) {
-  $del_link  = "<a href=\"/admin.php?action=edit&t=principal&id=$id&delete_grant=##to_principal##\" class=\"submit\">Delete</a>";
-  $edit_link  = "<a href=\"/admin.php?action=edit&t=principal&id=$id&edit_grant=##to_principal##\" class=\"submit\">Edit</a>";
+  $del_link  = '<a href="'.$c->base_url.'/admin.php?action=edit&t=principal&id='.$id.'&delete_grant=##to_principal##" class="submit">Delete</a>';
+  $edit_link  = '<a href="'.$c->base_url.'/admin.php?action=edit&t=principal&id='.$id.'&edit_grant=##to_principal##" class="submit">Edit</a>';
   $browser->AddColumn( 'action', 'Action', 'center', '', "'$edit_link&nbsp;$del_link'" );
 }
 
