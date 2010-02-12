@@ -234,7 +234,7 @@ if ( $editor->Value('type_id') == 3 ) {
   }
 
   function edit_group_row( $row_data ) {
-    global $grouprow, $id;
+    global $grouprow, $id, $c;
 
     $form_url = preg_replace( '#&(edit|delete)_group=\d+#', '', $_SERVER['REQUEST_URI'] );
 
@@ -329,7 +329,7 @@ EOTEMPLATE;
   }
 
   function edit_grant_row( $row_data ) {
-    global $grantrow, $id, $privilege_xlate, $privilege_names;
+    global $grantrow, $id, $c, $privilege_xlate, $privilege_names;
 
     if ( $row_data->to_principal > -1 ) {
       $grantrow->SetRecord( $row_data );

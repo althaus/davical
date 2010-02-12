@@ -169,7 +169,7 @@ label.privilege {
 </style>
 <table>
  <tr> <th class="right">$prompt_collection_id:</th>    <td class="left">$value_id</td> </tr>
- <tr> <th class="right">$prompt_dav_name:</th>         <td class="left">/caldav.php$value_dav_name</td> </tr>
+ <tr> <th class="right">$prompt_dav_name:</th>         <td class="left">$c->base_name/caldav.php$value_dav_name</td> </tr>
  <tr> <th class="right">$prompt_displayname:</th>      <td class="left">##dav_displayname.input.50##</td> </tr>
  <tr> <th class="right">$prompt_public:</th>           <td class="left">##publicly_readable.checkbox##</td> </tr>
  <tr> <th class="right">$prompt_calendar:</th>         <td class="left">##is_calendar.checkbox##</td> </tr>

@@ -43,4 +43,3 @@ else {
 $browser->DoQuery();
 $page_elements[] = $browser;
 
-
