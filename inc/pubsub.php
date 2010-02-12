@@ -8,7 +8,7 @@
  *********************************************************************/
 
 
-class xmpp 
+class xmpp
 {
 	private $connection,$streamTagBegin,$streamTagEnd,$mesgcount=0,$ready,$moredata=false,$username,$stream,$xmlparser,$xquery;
 	private $namespaces = Array();
@@ -75,8 +75,8 @@ class xmpp
 		socket_set_blocking ( $this->connection, false );
 		return true;
 	}
-	
-	// handles the features tag, mostly related to authentication 
+
+	// handles the features tag, mostly related to authentication
 	private function handleFeatures ( &$node )
 	{
 		if ( $this->debug ) $this->log ( 'handling features' );
@@ -84,7 +84,7 @@ class xmpp
 		{
 			$this->sendQueue[] = "<starttls xmlns='urn:ietf:params:xml:ns:xmpp-tls'/>";
 			return;
-		} 
+		}
 		$elements = $this->query ( '*/MECHANISM', $node );
 		if ( ! is_null ( $elements )  && $elements !== false )
 		{
@@ -110,7 +110,7 @@ class xmpp
 		}
 	}
 
-	// handle proceed tag/enable tls 
+	// handle proceed tag/enable tls
 	private function enableTLS ( $node )
 	{
 		stream_set_blocking ( $this->connection, true );
@@ -141,15 +141,15 @@ class xmpp
 				$HA1 = md5 ( $X . ':' . $challenge['nonce'] . ':' . $cnonce . ':' . $this->jid . $this->resource );
 				$HA2 = md5 ( "AUTHENTICATE:xmpp/" . $this->server );
 				$resp = md5 ( $HA1 . ':' . $challenge['nonce'] . ':00000001:' . $cnonce . ':auth' . $HA2 );
-				$this->sendQueue[] = "<response xmlns='urn:ietf:params:xml:ns:xmpp-sasl'>" . 
-					base64_encode("username=\"" . preg_replace('/@.*$/','',$this->jid) . "\"," . 
+				$this->sendQueue[] = "<response xmlns='urn:ietf:params:xml:ns:xmpp-sasl'>" .
+					base64_encode("username=\"" . preg_replace('/@.*$/','',$this->jid) . "\"," .
 					"realm=\"" . $this->server . "\",nonce=\"" . $challenge['nonce'] . "\",cnonce=\"". $cnonce . "\"," .
-					"nc=00000001,qop=auth,digest-uri=\"xmpp/" . $this->server . "\",response=" . $resp . 
+					"nc=00000001,qop=auth,digest-uri=\"xmpp/" . $this->server . "\",response=" . $resp .
 					",charset=utf-8,authzid=\"". $this->jid . $this->resource . "\"" ) . "</response>" // note the PID component to the resource, just incase
 					;
 			}
 			elseif ( $challenge['rspauth'] )
-				$this->sendQueue[] = "<response xmlns='urn:ietf:params:xml:ns:xmpp-sasl'/>" ; 
+				$this->sendQueue[] = "<response xmlns='urn:ietf:params:xml:ns:xmpp-sasl'/>" ;
 		}
 	}
 
@@ -187,7 +187,7 @@ class xmpp
 			$this->sendQueue[] = "<iq xmlns='jabber:client' type='set' id='" . ( $this->mesgcount++ ) . "'><session xmlns='urn:ietf:params:xml:ns:xmpp-session'/></iq>";
 			$this->sendQueue[] = "<iq xmlns='jabber:client' type='get' id='" . ( $this->mesgcount++ ) . "'><query xmlns='jabber:iq:roster' /></iq>";
 		}
-		if ( $node->getAttribute ( 'id' ) == '2' && $this->command['2'] == true ) 
+		if ( $node->getAttribute ( 'id' ) == '2' && $this->command['2'] == true )
 		{
 			$this->nextreply = $this->mesgcount++;
 			$this->sendQueue[] = "<presence id='" . $this->nextreply . "' ><status>" . $this->status . '</status></presence>';
@@ -218,7 +218,7 @@ class xmpp
 		$this->close ();
 	}
 
-	//  disco a pubsub collection 
+	//  disco a pubsub collection
 	private function disco ( $to, $type, $name )
 	{
 		$msg = $this->mesgcount++;
@@ -230,7 +230,7 @@ class xmpp
 		$this->go();
 	}
 
-	//  result from disco   
+	//  result from disco
 	private function discoResult ( &$node )
 	{
 		if ( $this->debug ) $this->log ( $node->ownerDocument->saveXML($node) );
@@ -238,7 +238,7 @@ class xmpp
 		$identity = $this->query ( '*/IDENTITY', $node );
 		if ( @is_array ( $this->pubsub [ 'create' ] [ $id ] ) && 0 == $identity->length )
 		{
-			$this->pubsubCreateNode( $this->pubsub [ 'create' ] [ $id ] [ 0 ], 
+			$this->pubsubCreateNode( $this->pubsub [ 'create' ] [ $id ] [ 0 ],
 				$this->pubsub [ 'create' ] [ $id ] [ 1 ],
 				$this->pubsub [ 'create' ] [ $id ] [ 2 ],
 				$this->pubsub [ 'create' ] [ $id ] [ 3 ] );
@@ -261,7 +261,7 @@ class xmpp
 		if ( 1 > strlen ( $to ) )
 			$to = 'pubsub.' . $this->server;
 		if ( 1 > strlen ( $type ) )
-			$type = 'set'; 
+			$type = 'set';
 		if ( 'hometree' == $this->pubsubLayout )
 			$node = '/home/' . $this->server . '/' . $this->username . $name;
 		else
@@ -270,7 +270,7 @@ class xmpp
 		$this->disco ( $to, 'info', $node );
 	}
 
-	//	create a pubsub collection/leaf node 
+	//	create a pubsub collection/leaf node
 	private function pubsubCreateNode ( $to, $type, $name, $configure = null )
 	{
 		if ( 'hometree' == $this->pubsubLayout )
@@ -348,9 +348,9 @@ class xmpp
 		if ( 1 > strlen ( $to ) )
 			$to = 'pubsub.' . $this->server;
 		if ( 1 > strlen ( $type ) )
-			$type = 'set'; 
+			$type = 'set';
 		if ( 1 > strlen ( $nodeId ) )
-			$id = "id='$nodeId'"; 
+			$id = "id='$nodeId'";
 		else
 			$id = '';
 		if ( 'hometree' == $this->pubsubLayout )
@@ -396,7 +396,7 @@ class xmpp
 			$errnode = $this->query ( 'ERROR', $node );
 			if ( $errnode->length > 0 && (  '403' == $errnode->item( 0 )->getAttribute ( 'code' ) || '500' == $errnode->item( 0 )->getAttribute ( 'code' ) ) )
 			{
-				if ( 'CREATE' == $node->firstChild->firstChild->tagName ) 
+				if ( 'CREATE' == $node->firstChild->firstChild->tagName )
 				{
 					$pubnode = $node->firstChild->firstChild->getAttribute ( 'node' );
 					if ( $this->debug ) $this->log ( "403 error during CREATE for node '" . $pubnode . "' ");
@@ -408,10 +408,10 @@ class xmpp
 						foreach ( explode ( '/', $name ) as $v )
 						{
 							$newnode .= '/' . $v;
-							$a[] = array ( 
-								'call' => 'create', 
-								'to' => $node->getAttribute ( 'from' ), 
-								'name' => $newnode ); 
+							$a[] = array (
+								'call' => 'create',
+								'to' => $node->getAttribute ( 'from' ),
+								'name' => $newnode );
 						}
 						foreach ( array_reverse ( $a ) as $v )
 							array_unshift ( $this->pubsubNext, $v );
@@ -426,10 +426,10 @@ class xmpp
 					$pubnode = $node->firstChild->firstChild->getAttribute ( 'node' );
 					if ( $this->debug ) $this->log ( "404 error during PUBLISH for node '" . $pubnode . "' ");
 					$publish = $this->query ( '//*/PUBLISH', $node );
-					$this->pubsubNext[] = array ( 
-						'call' => 'publish', 
-						'to' => $node->getAttribute ( 'from' ), 
-						'name' => preg_replace ( '/^.*?\/' . $this->username . '/','', $pubnode ) , 
+					$this->pubsubNext[] = array (
+						'call' => 'publish',
+						'to' => $node->getAttribute ( 'from' ),
+						'name' => preg_replace ( '/^.*?\/' . $this->username . '/','', $pubnode ) ,
 						'contents' => $publish->item( 0 )->firstChild->nodeValue );
 					if ( $this->debug ) $this->log ( "attempting to create node '" . $this->pubsubNext[0]['name'] . "' ");
 					$this->pubsubCreateNode ( $node->getAttribute ( 'from' ) ,'set', preg_replace ( '/^.*?\/' . $this->username . '/','', $pubnode ) );
@@ -445,7 +445,7 @@ class xmpp
 			$this->pubsubDoNext ( );
 	}
 
-	// do next pubsub request 
+	// do next pubsub request
 	private function pubsubDoNext ( )
 	{
 		if ( 0 < count ( $this->pubsubNext ) )
@@ -470,7 +470,7 @@ class xmpp
 		$this->loggedIn = false;
 		$this->streamTagBegin = '<'."?xml version='1.0'?"."><stream:stream to='" . $this->server . "' xmlns:stream='http://etherx.jabber.org/streams' xmlns='jabber:client' version='1.0'>";
 		$this->streamTagEnd = '</stream:stream>';
-		$this->sendQueue[] = $this->streamTagBegin; 
+		$this->sendQueue[] = $this->streamTagBegin;
 		$this->recvHandlers['stream:features'] = 'handleFeatures' ;
 		$this->recvHandlers['features'] = 'handleFeatures' ;
 		$this->recvHandlers['proceed'] = 'enableTLS' ;
@@ -501,7 +501,7 @@ class xmpp
 			if ( 4094 < strlen ( $data ) )
 			{
 				$count = 0;
-				while ( 0 != strlen ( $moredata = fgets ( $this->connection, 1024 ) ) && 20 < $count++ )  
+				while ( 0 != strlen ( $moredata = fgets ( $this->connection, 1024 ) ) && 20 < $count++ )
 				{
 					$data .= $moredata;
 					usleep ( 10 );
@@ -540,28 +540,26 @@ class xmpp
 				$rname = strtolower ( $rnode->localName );
 				if ( $this->debug ) $this->log ( " processing $rname ");
 				if ( isset ( $this->recvHandlers[$rname] ) ) //&& is_callable ( $this->recvHandlers[$r->name] ) )
-				{ 
-					flush();
+				{
 					if ( method_exists ( $this, $this->recvHandlers[$rname] ) )
 						call_user_func_array ( array ( $this, $this->recvHandlers[$rname] ),  array ( &$rnode ) );
 					else
 						call_user_func_array ( $this->recvHandlers[$rname], array ( &$rnode ) );
-				} 
+				}
 			}
-			flush();
 			$count++;
 			if ( $count > 20 )
 			{
 				if ( $this->idle === true )
 				{
-					$count = 0;	
+					$count = 0;
 					usleep ( 200 );
 				}
 				else
 				{
-					if ( $this->ready == true && count ( $this->handleCommand ) <= count ( $this->command ) ) 
+					if ( $this->ready == true && count ( $this->handleCommand ) <= count ( $this->command ) )
 					{
-						$count = 0;	
+						$count = 0;
 						return ;
 					}
 				}
@@ -588,7 +586,7 @@ class xmpp
 					$this->xquery->registerNamespace ( $matches[1], $v );
 					$this->namespaces [ $matches[1] ] = $v;
 					$namespace = $v;
-					if ( $this->debug ) $this->log ( " adding namespace $k => $v "); 
+					if ( $this->debug ) $this->log ( " adding namespace $k => $v ");
 				}
 			}
 		if ( $namespace != '' )
@@ -604,7 +602,7 @@ class xmpp
 	private function endElement ( $parser, $name )
 	{
 		$this->depth--;
-		//if ( $this->debug ) $this->log ( "depth: " . $this->depth . " processDepth: " . $this->processDepth . " "); 
+		//if ( $this->debug ) $this->log ( "depth: " . $this->depth . " processDepth: " . $this->processDepth . " ");
 		if ( $this->depth == $this->processDepth || 'STREAM:STREAM' == $name || 'STREAM:FEATURES' == $name || 'PROCEED' == $name )
 		{
 			if ( $this->debug ) $this->log ( " adding $name to tags to process ");
@@ -633,7 +631,7 @@ class xmpp
 		$this->currentXMLNode = $this->doc->appendChild ( $this->doc->createElement ( 'start' ) );
 	}
 
-	// xml XPath query 
+	// xml XPath query
 	private function query ( $expression, &$node = '' )
 	{
 		if ( '' == $node )
@@ -671,7 +669,7 @@ class xmpp
 		}
 	}
 
-	// add a send or recv handler, direction = [ send | recv ], command = command to handle, handler = function ref 
+	// add a send or recv handler, direction = [ send | recv ], command = command to handle, handler = function ref
 	public function addHandler ( $direction, $command, $handler )
 	{
 		if ( 'send' == $direction )
@@ -680,7 +678,7 @@ class xmpp
 			$this->recvHandler[$command] = $handler;
 	}
 
-	// handle logging 
+	// handle logging
 	private function log ( $message )
 	{
 		error_log ( 'XMPP: ' . $message );
@@ -720,5 +718,5 @@ function log_caldav_action( $action_type, $uid, $user_no, $collection_id, $dav_n
 	$t->pubsubCreate ( '', 'set', '/davical-' . $row->principal_id, '<x xmlns="jabber:x:data" type="submit"><field var="FORM_TYPE" type="hidden"><value>http://jabber.org/protocol/pubsub#node_config</value></field><field var="pubsub#access_model"><value>open</value></field><field var=\'pubsub#type\'>plist-apple<value></value></field></x>' );
 	$t->pubsubPublish ( '', 'set', '/davical-' . $row->principal_id , '<item xmlns="plist-apple" id="' . $uid . ' " ><plistfrag xmlns="plist-apple"><key>davical</key><string>' . $uid . '</string></plistfrag></item>', $uid );
 	$t->close();
-}	
+}
 
