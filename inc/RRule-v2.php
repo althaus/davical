@@ -145,33 +145,37 @@ class RepeatRule {
     global $rrule_expand_limit;
 
     if ( $this->finished ) return;
-    if ( !isset($this->current_base) ) {
-      $this->current_base = clone($this->base);
-    }
-    else {
-      $this->current_base->modify( $this->frequency_string );
-    }
-    if ( $GLOBALS['debug_rrule'] ) printf( "Getting more instances from: '%s' - %d\n", $this->current_base->format('c'), count($this->instances) );
-    $this->current_set = array( clone($this->current_base) );
-    foreach( $rrule_expand_limit[$this->freq] AS $bytype => $action ) {
-      if ( isset($this->{$bytype}) ) $this->{$action.'_'.$bytype}();
-    }
-    sort($this->current_set);
-    if ( isset($this->bysetpos) ) $this->limit_bysetpos();
-
-    $position = count($this->instances) - 1;
-    if ( $GLOBALS['debug_rrule'] ) printf( "Inserting %d from current_set into position %d\n", count($this->current_set), $position + 1 );
-    foreach( $this->current_set AS $k => $instance ) {
-      if ( $instance < $this->base ) continue;
-      if ( isset($this->until) && $instance > $this->until ) {
-        $this->finished = true;
-        return;
+    $got_more = false;
+    while( !$this->finished && !$got_more ) {
+      if ( !isset($this->current_base) ) {
+        $this->current_base = clone($this->base);
       }
-      if ( !isset($this->instances[$position]) || $instance != $this->instances[$position] ) {
-        $position++;
-        $this->instances[$position] = $instance;
-        if ( $GLOBALS['debug_rrule'] ) printf( "Added date %s into position %d in current set\n", $instance->format('c'), $position );
-        if ( isset($this->count) && ($position + 1) >= $this->count ) $this->finished = true;
+      else {
+        $this->current_base->modify( $this->frequency_string );
+      }
+      if ( $GLOBALS['debug_rrule'] ) printf( "Getting more instances from: '%s' - %d\n", $this->current_base->format('c'), count($this->instances) );
+      $this->current_set = array( clone($this->current_base) );
+      foreach( $rrule_expand_limit[$this->freq] AS $bytype => $action ) {
+        if ( isset($this->{$bytype}) ) $this->{$action.'_'.$bytype}();
+      }
+      sort($this->current_set);
+      if ( isset($this->bysetpos) ) $this->limit_bysetpos();
+
+      $position = count($this->instances) - 1;
+      if ( $GLOBALS['debug_rrule'] ) printf( "Inserting %d from current_set into position %d\n", count($this->current_set), $position + 1 );
+      foreach( $this->current_set AS $k => $instance ) {
+        if ( $instance < $this->base ) continue;
+        if ( isset($this->until) && $instance > $this->until ) {
+          $this->finished = true;
+          return;
+        }
+        if ( !isset($this->instances[$position]) || $instance != $this->instances[$position] ) {
+          $got_more = true;
+          $position++;
+          $this->instances[$position] = $instance;
+          if ( $GLOBALS['debug_rrule'] ) printf( "Added date %s into position %d in current set\n", $instance->format('c'), $position );
+          if ( isset($this->count) && ($position + 1) >= $this->count ) $this->finished = true;
+        }
       }
     }
   }
@@ -323,14 +327,27 @@ class RepeatRule {
     $this->current_set = array();
     foreach( $instances AS $k => $instance ) {
       foreach( $this->{$element_name} AS $k => $element_value ) {
+        /* if ( $GLOBALS['debug_rrule'] ) */ printf( "Limiting '$fmt_char' on '%s' => '%s' ?=? '%s' \n", $instance->format('c'), $instance->format($fmt_char), $element_value );
         if ( $instance->format($fmt_char) == $element_value ) $this->current_set[] = $instance;
+      }
+    }
+  }
+
+  private function limit_byday() {
+    $fmt_char = 'w';
+    $instances = $this->current_set;
+    $this->current_set = array();
+    foreach( $this->byday AS $k => $weekday ) {
+      $dow = (strpos('**SUMOTUWETHFRSA', $weekday) / 2) - 1;
+      foreach( $instances AS $k => $instance ) {
+        if ( $GLOBALS['debug_rrule'] ) printf( "Limiting '$fmt_char' on '%s' => '%s' ?=? '%s' (%d) \n", $instance->format('c'), $instance->format($fmt_char), $weekday, $dow );
+        if ( $instance->format($fmt_char) == $dow ) $this->current_set[] = $instance;
       }
     }
   }
 
   private function limit_bymonth()    {   $this->limit_generally( 'm', 'bymonth' );     }
   private function limit_byyearday()  {   $this->limit_generally( 'z', 'byyearday' );   }
-  private function limit_byday()      {   $this->limit_generally( 'w', 'byday' );       }
   private function limit_bymonthday() {   $this->limit_generally( 'd', 'bymonthday' );  }
   private function limit_byhour()     {   $this->limit_generally( 'H', 'byhour' );      }
   private function limit_byminute()   {   $this->limit_generally( 'i', 'byminute' );    }
