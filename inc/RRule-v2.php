@@ -27,6 +27,7 @@ $rrule_expand_limit = array(
 );
 
 $GLOBALS['debug_rrule'] = false;
+// $GLOBALS['debug_rrule'] = true;
 
 class RepeatRule {
 
@@ -146,17 +147,16 @@ class RepeatRule {
     if ( $this->finished ) return;
     if ( !isset($this->current_base) ) {
       $this->current_base = clone($this->base);
-      $need_some = true;
     }
     else {
       $this->current_base->modify( $this->frequency_string );
-      $need_some = false;
     }
-    if ( $GLOBALS['debug_rrule'] ) printf( "Getting more instances from: '%s' %s - %d\n", $this->current_base->format('c'), ($need_some ? '(need some)' : ''), count($this->instances) );
+    if ( $GLOBALS['debug_rrule'] ) printf( "Getting more instances from: '%s' - %d\n", $this->current_base->format('c'), count($this->instances) );
     $this->current_set = array( clone($this->current_base) );
     foreach( $rrule_expand_limit[$this->freq] AS $bytype => $action ) {
       if ( isset($this->{$bytype}) ) $this->{$action.'_'.$bytype}();
     }
+    sort($this->current_set);
     if ( isset($this->bysetpos) ) $this->limit_bysetpos();
 
     $position = count($this->instances) - 1;
@@ -170,13 +170,10 @@ class RepeatRule {
       if ( !isset($this->instances[$position]) || $instance != $this->instances[$position] ) {
         $position++;
         $this->instances[$position] = $instance;
-//        $need_some = false;
         if ( $GLOBALS['debug_rrule'] ) printf( "Added date %s into position %d in current set\n", $instance->format('c'), $position );
         if ( isset($this->count) && ($position + 1) >= $this->count ) $this->finished = true;
       }
     }
-
-//    if ( $need_some ) $this->GetMoreInstances();
   }
 
 
@@ -198,19 +195,6 @@ class RepeatRule {
     }
     return $date;
   }
-
-
-/*
-  private function expand_byyear() {
-    $instances = $this->current_set;
-    $current_set = array();
-    foreach( $instances AS $k => $instance ) {
-      foreach( $this->byyear AS $k => $year ) {
-        $current_set[] = $this->date_mask( clone($instance), $year, null, null, null, null, null);
-      }
-    }
-  }
-*/
 
 
   private function expand_bymonth() {
@@ -252,6 +236,7 @@ class RepeatRule {
             $dow = (strpos('**SUMOTUWETHFRSA', $matches[3]) / 2) - 1;
             $first_dom = 1 + $dow - $dow_of_first;  if ( $first_dom < 1 ) $first_dom +=7;  // e.g. 1st=WE, dow=MO => 1+1-3=-1 => MO is 6th, etc.
             $whichweek = intval($matches[2]);
+            if ( $GLOBALS['debug_rrule'] ) printf( "Expanding MONTHLY $weekday from date %s\n", $instance->format('c') );
             if ( $whichweek > 0 ) {
               $whichweek--;
               $monthday = $first_dom;
@@ -264,12 +249,16 @@ class RepeatRule {
                 $monthday += (7 * $whichweek);
               }
               if ( $monthday > 0 && $monthday <= $days_in_month ) {
-                $this->current_set[] = $this->date_mask( clone($instance), null, null, $monthday, null, null, null);
+                $expanded = $this->date_mask( clone($instance), null, null, $monthday, null, null, null);
+                if ( $GLOBALS['debug_rrule'] ) printf( "Expanded MONTHLY $weekday now $monthday into date %s\n", $expanded->format('c') );
+                $this->current_set[] = $expanded;
               }
             }
             else {
               for( $monthday = $first_dom; $monthday <= $days_in_month; $monthday += 7 ) {
-                $this->current_set[] = $this->date_mask( clone($instance), null, null, $monthday, null, null, null);
+                $expanded = $this->date_mask( clone($instance), null, null, $monthday, null, null, null);
+                if ( $GLOBALS['debug_rrule'] ) printf( "Expanded MONTHLY $weekday now $monthday into date %s\n", $expanded->format('c') );
+                $this->current_set[] = $expanded;
               }
             }
           }
