@@ -26,6 +26,8 @@ $rrule_expand_limit = array(
                       'byday' => 'limit', 'byhour' => 'limit', 'byminute' => 'limit', 'bysecond' => 'limit' ),
 );
 
+$rrule_day_numbers = array( 'SU' => 0, 'MO' => 1, 'TU' => 2, 'WE' => 3, 'TH' => 4, 'FR' => 5, 'SA' => 6 );
+
 $GLOBALS['debug_rrule'] = false;
 // $GLOBALS['debug_rrule'] = true;
 
@@ -146,7 +148,9 @@ class RepeatRule {
 
     if ( $this->finished ) return;
     $got_more = false;
-    while( !$this->finished && !$got_more ) {
+    $loop_limit = 10;
+    $loops = 0;
+    while( !$this->finished && !$got_more && $loops++ < $loop_limit ) {
       if ( !isset($this->current_base) ) {
         $this->current_base = clone($this->base);
       }
@@ -157,6 +161,7 @@ class RepeatRule {
       $this->current_set = array( clone($this->current_base) );
       foreach( $rrule_expand_limit[$this->freq] AS $bytype => $action ) {
         if ( isset($this->{$bytype}) ) $this->{$action.'_'.$bytype}();
+        if ( !isset($this->current_set[0]) ) break;
       }
       sort($this->current_set);
       if ( isset($this->bysetpos) ) $this->limit_bysetpos();
@@ -206,7 +211,9 @@ class RepeatRule {
     $this->current_set = array();
     foreach( $instances AS $k => $instance ) {
       foreach( $this->bymonth AS $k => $month ) {
-        $this->current_set[] = $this->date_mask( clone($instance), null, $month, null, null, null, null);
+        $expanded = $this->date_mask( clone($instance), null, $month, null, null, null, null);
+        if ( $GLOBALS['debug_rrule'] ) printf( "Expanded BYMONTH $month into date %s\n", $expanded->format('c') );
+        $this->current_set[] = $expanded;
       }
     }
   }
@@ -221,71 +228,139 @@ class RepeatRule {
     }
   }
 
+
+  private function expand_byday_in_week( $day_in_week ) {
+    global $rrule_day_numbers;
+
+    /**
+    * @TODO: This should really allow for WKST, since if we start a series
+    * on (eg.) TH and interval > 1, a MO, TU, FR repeat will not be in the
+    * same week with this code.
+    */
+    $dow_of_instance = $day_in_week->format('w'); // 0 == Sunday
+    foreach( $this->byday AS $k => $weekday ) {
+      $dow = $rrule_day_numbers[$weekday];
+      $offset = $dow - $dow_of_instance;
+      if ( $offset < 0 ) $offset += 7;
+      $expanded = clone($day_in_week);
+      $expanded->modify( sprintf('+%d day', $offset) );
+      $this->current_set[] = $expanded;
+      if ( $GLOBALS['debug_rrule'] ) printf( "Expanded BYDAY(W) $weekday into date %s\n", $expanded->format('c') );
+    }
+  }
+
+
+  private function expand_byday_in_month( $day_in_month ) {
+    global $rrule_day_numbers;
+
+    $first_of_month = $this->date_mask( clone($day_in_month), null, null, 1, null, null, null);
+    $dow_of_first = $first_of_month->format('w'); // 0 == Sunday
+    $days_in_month = cal_days_in_month(CAL_GREGORIAN, $first_of_month->format('m'), $first_of_month->format('Y'));
+    foreach( $this->byday AS $k => $weekday ) {
+      if ( preg_match('{([+-])?(\d)?(MO|TU|WE|TH|FR|SA|SU)}', $weekday, $matches ) ) {
+        $dow = $rrule_day_numbers[$matches[3]];
+        $first_dom = 1 + $dow - $dow_of_first;  if ( $first_dom < 1 ) $first_dom +=7;  // e.g. 1st=WE, dow=MO => 1+1-3=-1 => MO is 6th, etc.
+        $whichweek = intval($matches[2]);
+        if ( $GLOBALS['debug_rrule'] ) printf( "Expanding BYDAY(M) $weekday in month of %s\n", $instance->format('c') );
+        if ( $whichweek > 0 ) {
+          $whichweek--;
+          $monthday = $first_dom;
+          if ( $matches[1] == '-' ) {
+            $monthday += 35;
+            while( $monthday > $days_in_month ) $monthday -= 7;
+            $monthday -= (7 * $whichweek);
+          }
+          else {
+            $monthday += (7 * $whichweek);
+          }
+          if ( $monthday > 0 && $monthday <= $days_in_month ) {
+            $expanded = $this->date_mask( clone($day_in_month), null, null, $monthday, null, null, null);
+            if ( $GLOBALS['debug_rrule'] ) printf( "Expanded BYDAY(M) $weekday now $monthday into date %s\n", $expanded->format('c') );
+            $this->current_set[] = $expanded;
+          }
+        }
+        else {
+          for( $monthday = $first_dom; $monthday <= $days_in_month; $monthday += 7 ) {
+            $expanded = $this->date_mask( clone($day_in_month), null, null, $monthday, null, null, null);
+            if ( $GLOBALS['debug_rrule'] ) printf( "Expanded BYDAY(M) $weekday now $monthday into date %s\n", $expanded->format('c') );
+            $this->current_set[] = $expanded;
+          }
+        }
+      }
+    }
+  }
+
+
+  private function expand_byday_in_year( $day_in_year ) {
+    global $rrule_day_numbers;
+
+    $first_of_year = $this->date_mask( clone($day_in_year), null, 1, 1, null, null, null);
+    $dow_of_first = $first_of_year->format('w'); // 0 == Sunday
+    $days_in_year = 337 + cal_days_in_month(CAL_GREGORIAN, 2, $first_of_year->format('Y'));
+    foreach( $this->byday AS $k => $weekday ) {
+      if ( preg_match('{([+-])?(\d)?(MO|TU|WE|TH|FR|SA|SU)}', $weekday, $matches ) ) {
+        $expanded = clone($first_of_year);
+        $dow = $rrule_day_numbers[$matches[3]];
+        $first_doy = 1 + $dow - $dow_of_first;  if ( $first_doy < 1 ) $first_doy +=7;  // e.g. 1st=WE, dow=MO => 1+1-3=-1 => MO is 6th, etc.
+        $whichweek = intval($matches[2]);
+        if ( $GLOBALS['debug_rrule'] ) printf( "Expanding BYDAY(Y) $weekday from date %s\n", $instance->format('c') );
+        if ( $whichweek > 0 ) {
+          $whichweek--;
+          $yearday = $first_doy;
+          if ( $matches[1] == '-' ) {
+            $yearday += 371;
+            while( $yearday > $days_in_year ) $yearday -= 7;
+            $yearday -= (7 * $whichweek);
+          }
+          else {
+            $yearday += (7 * $whichweek);
+          }
+          if ( $yearday > 0 && $yearday <= $days_in_year ) {
+            $expanded->modify(sprintf('+%d day', $yearday - 1));
+            if ( $GLOBALS['debug_rrule'] ) printf( "Expanded BYDAY(Y) $weekday now $yearday into date %s\n", $expanded->format('c') );
+            $this->current_set[] = $expanded;
+          }
+        }
+        else {
+          $expanded->modify(sprintf('+%d day', $first_doy - 1));
+          for( $yearday = $first_doy; $yearday <= $days_in_year; $yearday += 7 ) {
+            if ( $GLOBALS['debug_rrule'] ) printf( "Expanded BYDAY(Y) $weekday now $yearday into date %s\n", $expanded->format('c') );
+            $this->current_set[] = clone($expanded);
+            $expanded->modify('+1 week');
+          }
+        }
+      }
+    }
+  }
+
+
   private function expand_byday() {
-    if ( $this->freq == 'MONTHLY' ) {
-      if ( isset($this->bymonthday) ) {
-        $this->limit_byday();  /** Per RFC5545 3.3.10 from note 1 to table */
+    if ( !isset($this->current_set[0]) ) return;
+    if ( $this->freq == 'MONTHLY' || $this->freq == 'YEARLY' ) {
+      if ( isset($this->bymonthday) || isset($this->byyearday) ) {
+        $this->limit_byday();  /** Per RFC5545 3.3.10 from note 1&2 to table */
         return;
       }
-      $first_of_month = $this->date_mask( clone($this->current_set[0]), null, null, 1, null, null, null);
-      $dow_of_first = $first_of_month->format('w'); // 0 == Sunday
-      $days_in_month = cal_days_in_month(CAL_GREGORIAN, $first_of_month->format('m'), $first_of_month->format('Y'));
     }
     $instances = $this->current_set;
     $this->current_set = array();
     foreach( $instances AS $k => $instance ) {
       if ( $this->freq == 'MONTHLY' ) {
-        foreach( $this->byday AS $k => $weekday ) {
-          if ( preg_match('{([+-])?(\d)?(MO|TU|WE|TH|FR|SA|SU)}', $weekday, $matches ) ) {
-            $dow = (strpos('**SUMOTUWETHFRSA', $matches[3]) / 2) - 1;
-            $first_dom = 1 + $dow - $dow_of_first;  if ( $first_dom < 1 ) $first_dom +=7;  // e.g. 1st=WE, dow=MO => 1+1-3=-1 => MO is 6th, etc.
-            $whichweek = intval($matches[2]);
-            if ( $GLOBALS['debug_rrule'] ) printf( "Expanding MONTHLY $weekday from date %s\n", $instance->format('c') );
-            if ( $whichweek > 0 ) {
-              $whichweek--;
-              $monthday = $first_dom;
-              if ( $matches[1] == '-' ) {
-                $monthday += 35;
-                while( $monthday > $days_in_month ) $monthday -= 7;
-                $monthday -= (7 * $whichweek);
-              }
-              else {
-                $monthday += (7 * $whichweek);
-              }
-              if ( $monthday > 0 && $monthday <= $days_in_month ) {
-                $expanded = $this->date_mask( clone($instance), null, null, $monthday, null, null, null);
-                if ( $GLOBALS['debug_rrule'] ) printf( "Expanded MONTHLY $weekday now $monthday into date %s\n", $expanded->format('c') );
-                $this->current_set[] = $expanded;
-              }
-            }
-            else {
-              for( $monthday = $first_dom; $monthday <= $days_in_month; $monthday += 7 ) {
-                $expanded = $this->date_mask( clone($instance), null, null, $monthday, null, null, null);
-                if ( $GLOBALS['debug_rrule'] ) printf( "Expanded MONTHLY $weekday now $monthday into date %s\n", $expanded->format('c') );
-                $this->current_set[] = $expanded;
-              }
-            }
-          }
-        }
+        $this->expand_byday_in_month($instance);
       }
       else if ( $this->freq == 'WEEKLY' ) {
-        /**
-        * @TODO: This should really allow for WKST, since if we start a series
-        * on (eg.) TH and interval > 1, a MO, TU, FR repeat will not be in the
-        * same week with this code.
-        */
-        $dow_of_instance = $instance->format('w'); // 0 == Sunday
-        foreach( $this->byday AS $k => $weekday ) {
-          $dow = (strpos('**SUMOTUWETHFRSA', $weekday) / 2) - 1;
-          $offset = $dow - $dow_of_instance;
-          if ( $offset < 0 ) $offset += 7;
-          $this_expand = clone($instance);
-          $this_expand->modify( sprintf('+%d day', $offset) );
-          $this->current_set[] = $this_expand;
-          if ( $GLOBALS['debug_rrule'] ) printf( "Expanded WEEKLY $weekday into date %s\n", $this_expand->format('c') );
-        }
+        $this->expand_byday_in_week($instance);
       }
       else { // YEARLY
+        if ( isset($this->bymonth) ) {
+          $this->expand_byday_in_month($instance);
+        }
+        else if ( isset($this->byweekno) ) {
+          $this->expand_byday_in_week($instance);
+        }
+        else {
+          $this->expand_byday_in_year($instance);
+        }
       }
 
     }
@@ -327,18 +402,20 @@ class RepeatRule {
     $this->current_set = array();
     foreach( $instances AS $k => $instance ) {
       foreach( $this->{$element_name} AS $k => $element_value ) {
-        /* if ( $GLOBALS['debug_rrule'] ) */ printf( "Limiting '$fmt_char' on '%s' => '%s' ?=? '%s' \n", $instance->format('c'), $instance->format($fmt_char), $element_value );
+        if ( $GLOBALS['debug_rrule'] ) printf( "Limiting '$fmt_char' on '%s' => '%s' ?=? '%s' \n", $instance->format('c'), $instance->format($fmt_char), $element_value );
         if ( $instance->format($fmt_char) == $element_value ) $this->current_set[] = $instance;
       }
     }
   }
 
   private function limit_byday() {
+    global $rrule_day_numbers;
+
     $fmt_char = 'w';
     $instances = $this->current_set;
     $this->current_set = array();
     foreach( $this->byday AS $k => $weekday ) {
-      $dow = (strpos('**SUMOTUWETHFRSA', $weekday) / 2) - 1;
+      $dow = $rrule_day_numbers[$weekday];
       foreach( $instances AS $k => $instance ) {
         if ( $GLOBALS['debug_rrule'] ) printf( "Limiting '$fmt_char' on '%s' => '%s' ?=? '%s' (%d) \n", $instance->format('c'), $instance->format($fmt_char), $weekday, $dow );
         if ( $instance->format($fmt_char) == $dow ) $this->current_set[] = $instance;
