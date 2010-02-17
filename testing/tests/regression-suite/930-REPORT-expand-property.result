@@ -1,7 +1,7 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy
-ETag: "fcb2b06e2039d4cfe89b55caeb0098ef"
+ETag: "3fc7af8b9dcea1aa7ead9fa8cfeb7efd"
 Content-Length: 3601
 Content-Type: text/xml; charset="utf-8"
 
@@ -13,7 +13,33 @@ Content-Type: text/xml; charset="utf-8"
    <prop>
     <group-membership>
      <response>
+      <href>/caldav.php/assistant1/</href>
+      <propstat>
+       <prop>
+        <getcontenttype>httpd/unix-directory</getcontenttype>
+        <resourcetype>
+         <collection/>
+         <principal/>
+        </resourcetype>
+       </prop>
+       <status>HTTP/1.1 200 OK</status>
+      </propstat>
+     </response>
+     <response>
       <href>/caldav.php/manager1/</href>
+      <propstat>
+       <prop>
+        <getcontenttype>httpd/unix-directory</getcontenttype>
+        <resourcetype>
+         <collection/>
+         <principal/>
+        </resourcetype>
+       </prop>
+       <status>HTTP/1.1 200 OK</status>
+      </propstat>
+     </response>
+     <response>
+      <href>/caldav.php/resmgr1/</href>
       <propstat>
        <prop>
         <getcontenttype>httpd/unix-directory</getcontenttype>
@@ -39,33 +65,7 @@ Content-Type: text/xml; charset="utf-8"
       </propstat>
      </response>
      <response>
-      <href>/caldav.php/assistant1/</href>
-      <propstat>
-       <prop>
-        <getcontenttype>httpd/unix-directory</getcontenttype>
-        <resourcetype>
-         <collection/>
-         <principal/>
-        </resourcetype>
-       </prop>
-       <status>HTTP/1.1 200 OK</status>
-      </propstat>
-     </response>
-     <response>
       <href>/caldav.php/resource2/</href>
-      <propstat>
-       <prop>
-        <getcontenttype>httpd/unix-directory</getcontenttype>
-        <resourcetype>
-         <collection/>
-         <principal/>
-        </resourcetype>
-       </prop>
-       <status>HTTP/1.1 200 OK</status>
-      </propstat>
-     </response>
-     <response>
-      <href>/caldav.php/resmgr1/</href>
       <propstat>
        <prop>
         <getcontenttype>httpd/unix-directory</getcontenttype>

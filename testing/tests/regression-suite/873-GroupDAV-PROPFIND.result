@@ -1,7 +1,7 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy
-ETag: "31ce8bd9c40357ae067a52cf8c75cadc"
+ETag: "fc63ca0d363b588cc41c31aea73f4518"
 Content-Length: 8564
 Content-Type: text/xml; charset="utf-8"
 
@@ -116,7 +116,7 @@ Content-Type: text/xml; charset="utf-8"
       <C:schedule-send-freebusy/>
      </privilege>
     </current-user-privilege-set>
-    <C2:getctag>89514106d00f37cc9ee71689c450d2ef</C2:getctag>
+    <C2:getctag>fcd66a046424de224fa18618b49e0d89</C2:getctag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>

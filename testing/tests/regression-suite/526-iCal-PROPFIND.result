@@ -1,7 +1,7 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy
-ETag: "a5e9b2d6ceab834c384219859234d38c"
+ETag: "fc0f5539296edf051d8a53d6a2bfe8cc"
 Content-Length: 764
 Content-Type: text/xml; charset="utf-8"
 
@@ -12,11 +12,11 @@ Content-Type: text/xml; charset="utf-8"
   <propstat>
    <prop>
     <group-membership>
-     <href>/caldav.php/manager1/</href>
-     <href>/caldav.php/resource1/</href>
      <href>/caldav.php/assistant1/</href>
-     <href>/caldav.php/resource2/</href>
+     <href>/caldav.php/manager1/</href>
      <href>/caldav.php/resmgr1/</href>
+     <href>/caldav.php/resource1/</href>
+     <href>/caldav.php/resource2/</href>
      <href>/caldav.php/teamclient1/</href>
      <href>/caldav.php/manager1/calendar-proxy-read/</href>
      <href>/caldav.php/assistant1/calendar-proxy-read/</href>

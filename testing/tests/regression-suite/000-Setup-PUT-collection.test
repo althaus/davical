@@ -7,13 +7,14 @@ TYPE=PUT
 URL=http://mycaldav/caldav.php/user2/home/
 HEADER=User-Agent: RSCDS Testing/0.7.x
 HEADER=Content-Type: text/calendar; charset=utf-8
-AUTH=user2:user2
+AUTH=admin:nimda
 
 HEAD
 
 BEGINDATA
 BEGIN:VCALENDAR
 PRODID:-//Mozilla.org/NONSGML Mozilla Calendar V1.1//EN
+X-WR-CALNAME:User 2's Calendar, as uploaded by Admin
 VERSION:2.0
 BEGIN:VTIMEZONE
 TZID:Pacific/Auckland

@@ -50,7 +50,7 @@ END:VCALENDAR
           dtstart: >2008-10-20 11:00:00<
               due: >NULL<
          location: >NULL<
-      logged_user: >11<
+      logged_user: >1<
  percent_complete: >NULL<
          priority: >NULL<
             rrule: >FREQ=DAILY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR<
@@ -105,7 +105,7 @@ END:VCALENDAR
           dtstart: >2008-10-20 09:00:00<
               due: >NULL<
          location: >NULL<
-      logged_user: >11<
+      logged_user: >1<
  percent_complete: >NULL<
          priority: >NULL<
             rrule: >FREQ=WEEKLY;INTERVAL=1<
@@ -160,7 +160,7 @@ END:VCALENDAR
           dtstart: >2008-10-24 14:00:00<
               due: >NULL<
          location: >NULL<
-      logged_user: >11<
+      logged_user: >1<
  percent_complete: >NULL<
          priority: >NULL<
             rrule: >FREQ=WEEKLY;INTERVAL=1<

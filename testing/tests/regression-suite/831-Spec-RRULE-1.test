@@ -11,3 +11,5 @@ HEAD
 # This is a special type of request which just calls a PHP
 # program specifically for exercising the RRULE library.
 #
+
+REPLACE=/P: 0\.\d{4}  & S: 0\.\d{4}//

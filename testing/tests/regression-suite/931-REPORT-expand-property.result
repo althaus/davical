@@ -1,7 +1,7 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy
-ETag: "8ce7facb0ad078e6ae7e49d14209f922"
+ETag: "0d81b1b934eb738f04a8d9aee626b2f4"
 Content-Length: 3759
 Content-Type: text/xml; charset="utf-8"
 
@@ -13,12 +13,36 @@ Content-Type: text/xml; charset="utf-8"
    <prop>
     <group-membership>
      <response>
+      <href>/caldav.php/assistant1/</href>
+      <propstat>
+       <prop>
+        <displayname>Assistant 1</displayname>
+        <C:calendar-home-set>
+         <href>/caldav.php/assistant1/</href>
+        </C:calendar-home-set>
+       </prop>
+       <status>HTTP/1.1 200 OK</status>
+      </propstat>
+     </response>
+     <response>
       <href>/caldav.php/manager1/</href>
       <propstat>
        <prop>
         <displayname>Manager 1</displayname>
         <C:calendar-home-set>
          <href>/caldav.php/manager1/</href>
+        </C:calendar-home-set>
+       </prop>
+       <status>HTTP/1.1 200 OK</status>
+      </propstat>
+     </response>
+     <response>
+      <href>/caldav.php/resmgr1/</href>
+      <propstat>
+       <prop>
+        <displayname>Resource Managers</displayname>
+        <C:calendar-home-set>
+         <href>/caldav.php/resmgr1/</href>
         </C:calendar-home-set>
        </prop>
        <status>HTTP/1.1 200 OK</status>
@@ -37,36 +61,12 @@ Content-Type: text/xml; charset="utf-8"
       </propstat>
      </response>
      <response>
-      <href>/caldav.php/assistant1/</href>
-      <propstat>
-       <prop>
-        <displayname>Assistant 1</displayname>
-        <C:calendar-home-set>
-         <href>/caldav.php/assistant1/</href>
-        </C:calendar-home-set>
-       </prop>
-       <status>HTTP/1.1 200 OK</status>
-      </propstat>
-     </response>
-     <response>
       <href>/caldav.php/resource2/</href>
       <propstat>
        <prop>
         <displayname>Resource 2</displayname>
         <C:calendar-home-set>
          <href>/caldav.php/resource2/</href>
-        </C:calendar-home-set>
-       </prop>
-       <status>HTTP/1.1 200 OK</status>
-      </propstat>
-     </response>
-     <response>
-      <href>/caldav.php/resmgr1/</href>
-      <propstat>
-       <prop>
-        <displayname>Resource Managers</displayname>
-        <C:calendar-home-set>
-         <href>/caldav.php/resmgr1/</href>
         </C:calendar-home-set>
        </prop>
        <status>HTTP/1.1 200 OK</status>
