@@ -64,7 +64,7 @@ switch ( $request->method ) {
   case 'LOCK':       include('caldav-LOCK.php');       break;
   case 'UNLOCK':     include('caldav-LOCK.php');       break;
 
-  case 'TESTRRULE':  include('test-RRULE.php');        break;
+  case 'TESTRRULE':  include('test-RRULE-v2.php');     break;
 
   default:
     dbg_error_log( 'caldav', 'Unhandled request method >>%s<<', $request->method );

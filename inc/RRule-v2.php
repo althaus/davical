@@ -31,6 +31,73 @@ $rrule_day_numbers = array( 'SU' => 0, 'MO' => 1, 'TU' => 2, 'WE' => 3, 'TH' => 
 $GLOBALS['debug_rrule'] = false;
 // $GLOBALS['debug_rrule'] = true;
 
+
+class RepeatRuleDateTime extends DateTime {
+  public static $Format = 'Y-m-d H:i:s';
+
+  public function __construct($date = null, DateTimeZone $dtz = null) {
+    if($dtz === null) {
+      $dtz = new DateTimeZone(date_default_timezone_get());
+    }
+    parent::__construct($date, $dtz);
+  }
+
+
+  public function __toString() {
+    return (string)parent::format(self::$Format) . ' ' . parent::getTimeZone()->getName();
+  }
+
+
+  public function AtGMT() {
+    $gmt = parent::__clone();
+    $dtz = parent::getTimezone();
+    $offset = $dtz->getOffset($gmt);
+    $gmt->modify( $offset . ' seconds' );
+    return $gmt->format('Ymd\THis\Z');
+  }
+
+
+  public function setTimeZone( $tz ) {
+    parent::setTimeZone( $tz );
+    return $this;
+  }
+
+
+  function setDate( $year=null, $month=null, $day=null ) {
+    if ( !isset($year) )  $year  = parent::format('Y');
+    if ( !isset($month) ) $month = parent::format('m');
+    if ( !isset($day) )   $day   = parent::format('d');
+    parent::setDate( $year , $month , $day );
+    return $this;
+  }
+
+  function year() {
+    return parent::format('Y');
+  }
+
+  function month() {
+    return parent::format('m');
+  }
+
+  function day() {
+    return parent::format('d');
+  }
+
+  function hour() {
+    return parent::format('H');
+  }
+
+  function minute() {
+    return parent::format('i');
+  }
+
+  function second() {
+    return parent::format('s');
+  }
+
+}
+
+
 class RepeatRule {
 
   private $base;
@@ -56,10 +123,10 @@ class RepeatRule {
 
 
   public function __construct( $basedate, $rrule ) {
-    $this->base = ( is_object($basedate) ? $basedate : new DateTime($basedate) );
+    $this->base = ( is_object($basedate) ? $basedate : new RepeatRuleDateTime($basedate) );
 
     if ( preg_match('{FREQ=([A-Z]+)(;|$)}', $rrule, $m) ) $this->freq = $m[1];
-    if ( preg_match('{UNTIL=([0-9TZ]+)(;|$)}', $rrule, $m) ) $this->until = new DateTime($m[1]);
+    if ( preg_match('{UNTIL=([0-9TZ]+)(;|$)}', $rrule, $m) ) $this->until = new RepeatRuleDateTime($m[1]);
     if ( preg_match('{COUNT=([0-9]+)(;|$)}', $rrule, $m) ) $this->count = $m[1];
     if ( preg_match('{INTERVAL=([0-9]+)(;|$)}', $rrule, $m) ) $this->interval = $m[1];
     if ( preg_match('{WKST=(MO|TU|WE|TH|FR|SA|SU)(;|$)}', $rrule, $m) ) $this->wkst = $m[1];
