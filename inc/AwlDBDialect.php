@@ -15,6 +15,8 @@
 * @compatibility Requires PHP 5.1 or later
 */
 
+if ( !defined('E_USER_ERROR') ) define('E_USER_ERROR',256);
+
 /**
 * The AwlDBDialect class handles
 * @package awl
@@ -59,9 +61,13 @@ class AwlDBDialect {
       $this->dialect = $matches[1];
     }
     else {
-      trigger_error("Unsupported database connection '".$connection_string."'", E_USER_ERROR);
+      trigger_error("Unsupported database connection '".$connection_string."'",E_USER_ERROR);
     }
-    $this->db = new PDO( $connection_string, $dbuser, $dbpass, $options );
+    try {
+      $this->db = new PDO( $connection_string, $dbuser, $dbpass, $options );
+    } catch (PDOException $e) {
+      trigger_error("PDO connection error '".$connection_string."': ".$e->getMessage(),E_USER_ERROR);
+    }
   }
 
 
@@ -71,7 +77,7 @@ class AwlDBDialect {
   */
   function SetSearchPath( $search_path = null ) {
     if ( !isset($this->dialect) ) {
-      trigger_error("Unsupported database dialect", E_USER_ERROR);
+      trigger_error("Unsupported database dialect",E_USER_ERROR);
     }
 
     switch ( $this->dialect ) {
@@ -103,6 +109,8 @@ class AwlDBDialect {
           $version .= preg_replace( '/^PostgreSQL (\d+\.\d+)\..*$/i', '$1', $row[0]);
         }
         break;
+      default:
+        return null;
     }
     $this->version = $version;
     return $version;
