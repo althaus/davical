@@ -225,6 +225,13 @@ function import_collection( $ics_content, $user_no, $path, $caldav_context ) {
   $timezones = $calendar->GetComponents('VTIMEZONE',true);
   $components = $calendar->GetComponents('VTIMEZONE',false);
 
+  $displayname = $calendar->GetPValue('X-WR-CALNAME');
+  if ( isset($displayname) ) {
+    $sql = 'UPDATE collection SET dav_displayname = ? WHERE dav_name = ?';
+    $qry = new PgQuery( $sql, $displayname, $path );
+    if ( ! $qry->Exec('PUT') ) rollback_on_error( $caldav_context, $user_no, $path );
+  }
+
   $tz_ids    = array();
   foreach( $timezones AS $k => $tz ) {
     $tz_ids[$tz->GetPValue('TZID')] = $k;
