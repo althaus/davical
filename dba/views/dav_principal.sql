@@ -68,3 +68,10 @@ DO INSTEAD
     WHERE principal_id=OLD.principal_id;
 );
 
+CREATE or REPLACE RULE dav_principal_delete AS ON DELETE TO dav_principal
+DO INSTEAD
+(
+  DELETE FROM usr WHERE user_no=OLD.user_no;
+  DELETE FROM principal WHERE principal_id=OLD.principal_id;
+);
+
