@@ -7,9 +7,22 @@ $session->LoginRequired();
 include("interactive-page.php");
 include("page-header.php");
 
+include("AwlQuery.php");
+
 /** @TODO: work out something more than true/false returns for dependency checks */
 function check_pdo() {
   return class_exists('PDO');
+}
+
+function check_pdo_pgsql() {
+  global $_awl_dbconn;
+  if ( !class_exists('PDO') ) return false;
+
+  if ( !isset($_awl_dbconn) || $_awl_dbconn === false ) _awl_connect_configured_database();
+  if ( $_awl_dbconn === false ) return false;
+/*  $version = $_awl_dbconn->GetVersion();
+  if ( !isset($version) ) return false;*/
+  return true;
 }
 
 function check_pgsql() {
@@ -26,9 +39,22 @@ function check_schema_version() {
   return false;
 }
 
+function check_davical_version() {
+  global $c;
+  $url = 'http://www.davical.org/current_davical_version';
+  $version_file = @fopen($url, 'r');
+  if ( ! $version_file ) return "Could not retrieve '$url'";
+  $current_version = trim(fread( $version_file,12));
+  fclose($version_file);
+  return ( $c->version_string == $current_version );
+}
+
+
 $dependencies = array(
+  'Current DAViCal version '. $c->version_string => 'check_davical_version',
   'DAViCal DB Schema version '. implode('.',$c->want_dbversion) => 'check_schema_version',
   'PHP PDO module available' => 'check_pdo',
+  'PDO PostgreSQL divers' => 'check_pdo_pgsql',
   'PHP PostgreSQL available' => 'check_pgsql' /*,
   'YAML' => 'php5-syck' */
 );
@@ -41,7 +67,7 @@ $dep_tpl = '<tr class="%s">
 ';
 foreach( $dependencies AS $k => $v ) {
   $ok = $v();
-  $dependencies_table .= sprintf( $dep_tpl, ($ok ? 'dep_ok' : 'dep_fail'), $k,  ($ok ? 'OK' : 'Failed') );
+  $dependencies_table .= sprintf( $dep_tpl, ($ok === true ? 'dep_ok' : 'dep_fail'), $k,  (is_string($ok) ? $ok : ($ok ? 'OK' : 'Failed')) );
 }
 
 $want_dbversion = implode('.',$c->want_dbversion);
