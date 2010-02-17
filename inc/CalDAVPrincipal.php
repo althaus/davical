@@ -202,7 +202,7 @@ class CalDAVPrincipal
 
     if ( $this->_is_group ) {
       $this->group_member_set = array();
-      $qry = new PgQuery('SELECT usr.username FROM group_member JOIN principal ON (principal_id=member_id) JOIN usr USING(user_no) WHERE group_id = ?', $this->principal_id );
+      $qry = new PgQuery('SELECT usr.username FROM group_member JOIN principal ON (principal_id=member_id) JOIN usr USING(user_no) WHERE group_id = ? ORDER BY principal.principal_id ', $this->principal_id );
       if ( $qry->Exec('CalDAVPrincipal') && $qry->rows > 0 ) {
         while( $member = $qry->Fetch() ) {
           $this->group_member_set[] = ConstructURL( '/'. $member->username . '/', true);
@@ -211,7 +211,7 @@ class CalDAVPrincipal
     }
 
     $this->group_membership = array();
-    $qry = new PgQuery('SELECT usr.username FROM group_member JOIN principal ON (principal_id=group_id) JOIN usr USING(user_no) WHERE member_id = ? UNION SELECT usr.username FROM group_member LEFT JOIN grants ON (to_principal=group_id) JOIN principal ON (principal_id=by_principal) JOIN usr USING(user_no) WHERE member_id = ? and by_principal != member_id', $this->principal_id, $this->principal_id );
+    $qry = new PgQuery('SELECT usr.username FROM group_member JOIN principal ON (principal_id=group_id) JOIN usr USING(user_no) WHERE member_id = ? UNION SELECT usr.username FROM group_member LEFT JOIN grants ON (to_principal=group_id) JOIN principal ON (principal_id=by_principal) JOIN usr USING(user_no) WHERE member_id = ? and by_principal != member_id ORDER BY 1', $this->principal_id, $this->principal_id );
     if ( $qry->Exec('CalDAVPrincipal') && $qry->rows > 0 ) {
       while( $group = $qry->Fetch() ) {
         $this->group_membership[] = ConstructURL( '/'. $group->username . '/', true);
