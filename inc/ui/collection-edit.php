@@ -16,6 +16,9 @@ $editor->AddAttribute('is_calendar', 'id', 'fld_is_calendar');
 $editor->AddAttribute('is_addressbook', 'id', 'fld_is_addressbook');
 $editor->AddAttribute('is_calendar', 'onclick', 'toggle_enabled(\'fld_is_calendar\',\'=fld_timezone\',\'=fld_schedule_transp\',\'!fld_is_addressbook\');');
 $editor->AddAttribute('is_addressbook', 'onclick', 'toggle_enabled(\'fld_is_addressbook\',\'!fld_is_calendar\');');
+$editor->AddField('specific_privileges','default_privileges IS NULL');
+$editor->AddAttribute('specific_privileges', 'id', 'fld_specific_privileges');
+$editor->AddAttribute('specific_privileges', 'onclick', 'toggle_visible(\'fld_specific_privileges\',\'!privileges_settings\');');
 
 $editor->SetWhere( 'collection_id='.$id );
 
@@ -23,12 +26,35 @@ $privilege_names = array( 'read', 'write-properties', 'write-content', 'unlock',
                          'bind', 'unbind', 'write-acl', 'read-free-busy', 'schedule-deliver-invite', 'schedule-deliver-reply',
                          'schedule-query-freebusy', 'schedule-send-invite', 'schedule-send-reply', 'schedule-send-freebusy' );
 
-$can_write_collection = ($session->AllowedTo('Admin') || $session->user_no == $user_no );
+$params = array(
+  'session_principal' => $session->principal_id,
+  'scan_depth'        => $c->permission_scan_depth
+);
+$is_update = ( $_POST['_editor_action'][$editor->Id] == 'update' );
+if ( !$is_update && isset($collection_name) && isset($user_no) && is_object($usr) ) {
+  $_POST['dav_name'] = sprintf('/%s/%s/', $usr->username, $collection_name );
+  $params['collection_path'] = $_POST['dav_name'];
+  $privsql = 'SELECT path_privs( :session_principal, :collection_path, :scan_depth) AS priv';
+}
+else {
+  $params['collection_id'] = $id;
+  $privsql = 'SELECT path_privs( :session_principal, dav_name, :scan_depth) AS priv FROM collection WHERE collection_id = :collection_id';
+}
+
+$privqry = new AwlQuery( $privsql, $params );
+$privqry->Exec('admin-collection-edit');
+$permissions = $privqry->Fetch();
+$can_write_collection = ($session->AllowedTo('Admin') || ($permissions->priv & privilege_to_bits('DAV::bind')) );
+
+dbg_error_log("ERROR", "Can write collection: %s", ($can_write_collection? 'yes' : 'no') );
 
 $pwstars = '@@@@@@@@@@';
 if ( $can_write_collection && $editor->IsSubmit() ) {
   $editor->WhereNewRecord( "collection_id=(SELECT CURRVAL('dav_id_seq'))" );
-  if ( isset($_POST['default_privileges']) ) {
+  if ( $_POST['specific_privileges'] == 'on' ) {
+    $_POST['default_privileges'] = '';
+  }
+  else if ( isset($_POST['default_privileges']) ) {
     $privilege_bitpos = array_flip($privilege_names);
     $priv_names = array_keys($_POST['default_privileges']);
     $privs = privilege_to_bits($priv_names);
@@ -36,9 +62,6 @@ if ( $can_write_collection && $editor->IsSubmit() ) {
     $editor->Assign('default_privileges', $privs_dec);
   }
   $is_update = ( $_POST['_editor_action'][$editor->Id] == 'update' );
-  if ( !$is_update && isset($collection_name) && isset($user_no) && is_object($usr) ) {
-    $_POST['dav_name'] = sprintf('/%s/%s/', $usr->username, $collection_name );
-  }
   if ( $_POST['timezone'] == '' ) unset($_POST['timezone']);
   $editor->Write();
 }
@@ -92,6 +115,7 @@ $prompt_displayname = translate('Displayname');
 $prompt_public = translate('Publicly Readable');
 $prompt_calendar = translate('Is a Calendar');
 $prompt_addressbook = translate('Is an Addressbook');
+$prompt_specific_privileges = translate('Specific Privileges');
 $prompt_privileges = translate('Default Privileges');
 $prompt_description = translate('Description');
 $prompt_schedule_transp = translate('Schedule Transparency');
@@ -156,6 +180,27 @@ function toggle_enabled() {
       f.disabled = fld_checkbox.checked;
   }
 }
+
+function toggle_visible() {
+  var argv = toggle_visible.arguments;
+  var argc = argv.length;
+
+  var fld_checkbox =  document.getElementById(argv[0]);
+
+  if ( argc < 2 ) {
+    return;
+  }
+
+  for (var i = 1; i < argc; i++) {
+    var block_id = argv[i].substr(1);
+    var block_logical = argv[i].substr(0,1);
+    var b = document.getElementById(block_id);
+    if ( block_logical == '!' )
+      b.style.display = (fld_checkbox.checked ? 'none' : '');
+    else
+      b.style.display = (!fld_checkbox.checked ? 'none' : '');
+  }
+}
 </script>
 <style>
 th.right, label.privilege {
@@ -174,7 +219,8 @@ label.privilege {
  <tr> <th class="right">$prompt_public:</th>           <td class="left">##publicly_readable.checkbox##</td> </tr>
  <tr> <th class="right">$prompt_calendar:</th>         <td class="left">##is_calendar.checkbox##</td> </tr>
  <tr> <th class="right">$prompt_addressbook:</th>      <td class="left">##is_addressbook.checkbox##</td> </tr>
- <tr> <th class="right">$prompt_privileges:</th><td class="left">
+ <tr> <th class="right">$prompt_privileges:</th><td class="left">##specific_privileges.checkbox## &nbsp; &nbsp; &nbsp;
+ <div id="privileges_settings">
 <input type="button" value="All" class="submit" title="Toggle all privileges" onclick="toggle_privileges('default_privileges', 'all', 'editor_1');">
 <input type="button" value="Read/Write" class="submit" title="Set read+write privileges"
  onclick="toggle_privileges('default_privileges', 'read', 'write-properties', 'write-content', 'bind', 'unbind', 'read-free-busy',
@@ -188,7 +234,7 @@ label.privilege {
  onclick="toggle_privileges('default_privileges', 'schedule-deliver-invite', 'schedule-deliver-reply', 'schedule-query-freebusy' );">
 <input type="button" value="Schedule Send" class="submit" title="Set schedule-deliver privileges"
  onclick="toggle_privileges('default_privileges', 'schedule-send-invite', 'schedule-send-reply', 'schedule-send-freebusy' );">
-<br>$privileges_set</td> </tr>
+<br>$privileges_set</div></td> </tr>
  <tr> <th class="right">$prompt_timezone:</th>         <td class="left">##timezone.select##</td> </tr>
  <tr> <th class="right">$prompt_schedule_transp:</th>  <td class="left">##schedule_transp.select##</td> </tr>
  <tr> <th class="right">$prompt_description:</th>      <td class="left">##description.textarea.78x6##</td> </tr>
@@ -198,9 +244,11 @@ label.privilege {
 <script language="javascript">
 toggle_enabled('fld_is_calendar','=fld_timezone','=fld_schedule_transp','!fld_is_addressbook');
 toggle_enabled('fld_is_addressbook','!fld_is_calendar');
+toggle_visible('fld_specific_privileges','!privileges_settings');
 </script>
 
 EOTEMPLATE;
+
 
 $editor->SetTemplate( $template );
 $page_elements[] = $editor;
