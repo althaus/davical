@@ -52,7 +52,7 @@ foreach( $searches AS $k => $search ) {
   }
 }
 if ( $where != "" ) $where = "WHERE $where";
-$sql = "SELECT * FROM dav_principal $where LIMIT 100";
+$sql = "SELECT * FROM dav_principal $where ORDER BY principal_id LIMIT 100";
 $qry = new AwlQuery($sql);
 
 
