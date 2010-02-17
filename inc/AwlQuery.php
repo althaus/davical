@@ -231,8 +231,8 @@ class AwlQuery
     $this->execution_time = 0;
     $this->error_info = null;
     $this->rownum = -1;
-    if ( isset($dbconn) ) $this->connection = $_awl_dbconn;
-    else                  $this->connection = null;
+    if ( isset($_awl_dbconn) ) $this->connection = $_awl_dbconn;
+    else                       $this->connection = null;
 
     $argc = func_num_args();
     $args = func_get_args();
