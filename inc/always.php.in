@@ -10,7 +10,7 @@
 $c = (object) array();
 
 // Ditto for a few other global things
-unset($session); unset($request); unset($dbconn);
+unset($session); unset($request); unset($dbconn); unset($_awl_dbconn);
 
 // An ultra-simple exception handler to catch errors that occur
 // before we get a more functional exception handler in place...
