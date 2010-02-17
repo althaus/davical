@@ -15,10 +15,10 @@ $privilege_names = array( 'read', 'write-properties', 'write-content', 'unlock',
                          'schedule-query-freebusy', 'schedule-send-invite', 'schedule-send-reply', 'schedule-send-freebusy' );
 
 $delete_collection_confirmation_required = null;
-$delete_user_confirmation_required = null;
+$delete_principal_confirmation_required = null;
 
 function handle_subaction( $subaction ) {
-  global $session, $c, $id, $delete_collection_confirmation_required, $delete_user_confirmation_required;
+  global $session, $c, $id, $editor, $delete_collection_confirmation_required, $delete_principal_confirmation_required;
 
   dbg_error_log('admin-principal-edit',':handle_action: Action %s', $subaction );
 
@@ -270,11 +270,11 @@ if ( isset($delete_principal_confirmation_required) ) {
   $html = '<p class="error">';
   $html .= sprintf('<b>%s</b> \'%s\' <a class="error" href="%s&%s">%s</a> %s',
        translate('Deleting Principal:'), $editor->Value('displayname'), $_SERVER['REQUEST_URI'],
-        $delete_user_confirmation_required, translate('Confirm Deletion of the Principal'),
+        $delete_principal_confirmation_required, translate('Confirm Deletion of the Principal'),
         translate('All of the principal\'s calendars and events will be unrecoverably deleted.') );
   $html .= "</p>\n";
+  $page_elements[] = $html;
 }
-$page_elements[] = $html;
 
 
 $browser = new Browser(translate('Group Memberships'));
@@ -549,8 +549,8 @@ if ( isset($delete_collection_confirmation_required) ) {
                translate('Confirm Deletion of the Collection'),
                translate('All collection data will be unrecoverably deleted.') );
   $html .= "</td></tr></table>\n";
+  $page_elements[] = $html;
 }
-$page_elements[] = $html;
 
 $page_elements[] = '<a href="'.$rowurl.'&user_no='.intval($editor->Value('user_no')).'" class="submit">Create Collection</a>';
 
