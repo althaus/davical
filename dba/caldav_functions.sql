@@ -351,7 +351,10 @@ DECLARE
   tmp_int INT;
 BEGIN
   -- Check that there is either a resource, collection or user at this location.
-  IF NOT EXISTS( SELECT 1 FROM caldav_data WHERE dav_name = path UNION SELECT 1 FROM collection WHERE dav_name = path ) THEN
+  IF NOT EXISTS(        SELECT 1 FROM caldav_data WHERE dav_name = path
+                  UNION SELECT 1 FROM collection WHERE dav_name = path
+                  UNION SELECT 1 FROM dav_principal WHERE dav_name = path
+               ) THEN
     RETURN FALSE;
   END IF;
   SELECT changed_by INTO tmp_int FROM property WHERE dav_name = path AND property_name = key;
