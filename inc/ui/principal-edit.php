@@ -7,13 +7,80 @@ $editor->SetLookup( 'type_id', 'SELECT principal_type_id, principal_type_desc FR
 param_to_global('id', 'int', 'old_id', 'principal_id' );
 $editor->SetWhere( 'principal_id='.$id );
 
+$editor->AddField('is_admin', 'EXISTS( SELECT 1 FROM role_member WHERE role_no = 1 AND role_member.user_no = dav_principal.user_no )' );
+$editor->AddAttribute('is_admin', 'title', translate('An "Administrator" user has full rights to the whole DAViCal System'));
+
 $privilege_names = array( 'read', 'write-properties', 'write-content', 'unlock', 'read-acl', 'read-current-user-privilege-set',
                          'bind', 'unbind', 'write-acl', 'read-free-busy', 'schedule-deliver-invite', 'schedule-deliver-reply',
                          'schedule-query-freebusy', 'schedule-send-invite', 'schedule-send-reply', 'schedule-send-freebusy' );
 
-/**
-* @Todo: This needs to open up somewhat.
-*/
+$delete_collection_confirmation_required = null;
+$delete_user_confirmation_required = null;
+
+function handle_subaction( $subaction ) {
+  global $session, $c, $id, $delete_collection_confirmation_required, $delete_user_confirmation_required;
+
+  dbg_error_log('admin-principal-edit',':handle_action: Action %s', $subaction );
+
+  switch( $subaction ) {
+    case 'delete_collection':
+      dbg_error_log('admin-principal-edit',':handle_action: Deleting collection %s for principal %d', $_GET['dav_name'], $id );
+      if ( $session->AllowedTo('Admin')
+                || ($id > 0 && $session->principal_id == $id) ) {
+        if ( $session->CheckConfirmationHash('GET', 'confirm') ) {
+          dbg_error_log('admin-principal-edit',':handle_action: Allowed to delete collection %s for principal %d', $_GET['dav_name'], $id );
+          $qry = new AwlQuery('DELETE FROM collection WHERE dav_name=?;', $_GET['dav_name'] );
+          if ( $qry->Exec() ) {
+            $c->messages[] = i18n('Collection deleted');
+            return true;
+          }
+          else {
+            $c->messages[] = i18n('There was an error writing to the database.');
+            return false;
+          }
+        }
+        else {
+          $c->messages[] = i18n('Please confirm deletion of collection - see below');
+          $delete_collection_confirmation_required = $session->BuildConfirmationHash('GET', 'confirm');
+          return false;
+        }
+      }
+      break;
+
+    case 'delete_principal':
+      dbg_error_log('admin-principal-edit',':handle_action: Deleting principal %d', $id );
+      if ( $session->AllowedTo('Admin') ) {
+        if ( $session->CheckConfirmationHash('GET', 'confirm') ) {
+          dbg_error_log('admin-principal-edit',':handle_action: Allowed to delete principal %d -%s', $id, $editor->Value('username') );
+          $qry = new AwlQuery('DELETE FROM dav_principal WHERE principal_id=?;', $id );
+          if ( $qry->Exec() ) {
+            $c->messages[] = i18n('Principal deleted');
+            return true;
+          }
+          else {
+            $c->messages[] = i18n('There was an error writing to the database.');
+            return false;
+          }
+        }
+        else {
+          $c->messages[] = i18n('Please confirm deletion of the principal');
+          $delete_principal_confirmation_required = $session->BuildConfirmationHash('GET', 'confirm');
+          return false;
+        }
+      }
+      break;
+
+    default:
+      return false;
+  }
+  return false;
+}
+
+if ( isset($_GET['subaction']) ) {
+  handle_subaction($_GET['subaction']);
+}
+
+
 $can_write_principal = ($session->AllowedTo('Admin') || $session->principal_id == $id );
 $pwstars = '@@@@@@@@@@';
 if ( $can_write_principal && $editor->IsSubmit() ) {
@@ -46,6 +113,19 @@ if ( $can_write_principal && $editor->IsSubmit() ) {
     /** We only add the default calendar if it isn't a group, and this is a create action */
     require_once('auth-functions.php');
     CreateHomeCalendar($editor->Value('username'));
+  }
+  if ( $session->AllowedTo('Admin') ) {
+    if ( $_POST['is_admin'] == 'on' ) {
+      $sql = 'INSERT INTO role_member (role_no, user_no) SELECT 1, dav_principal.user_no FROM dav_principal WHERE user_no = :user_no AND NOT EXISTS(SELECT 1 FROM role_member rm WHERE rm.role_no = 1 AND rm.user_no = dav_principal.user_no )';
+      $editor->Assign('is_admin', 't');
+    }
+    else {
+      $sql = 'DELETE FROM role_member WHERE role_no = 1 AND user_no = :user_no';
+      $editor->Assign('is_admin', 'f');
+    }
+    $params['user_no'] = $editor->Value('user_no');
+    $qry = new AwlQuery( $sql, $params );
+    $qry->Exec('admin-principal-edit');
   }
 }
 else {
@@ -95,8 +175,14 @@ $prompt_password_1 = translate('Confirm Password');
 $prompt_fullname = translate('Fullname');
 $prompt_email = translate('Email Address');
 $prompt_date_format = translate('Date Format Style');
+$prompt_admin = translate('Administrator');
 $prompt_type = translate('Principal Type');
 $prompt_privileges = translate('Default Privileges');
+
+$admin_row_entry = '';
+if ( $session->AllowedTo('Admin') ) {
+  $admin_row_entry = ' <tr> <th class="right">'.$prompt_admin.':</th><td class="left">##is_admin.checkbox##</td> </tr>';
+}
 
 $id = $editor->Value('principal_id');
 $template = <<<EOTEMPLATE
@@ -156,6 +242,7 @@ label.privilege {
  <tr> <th class="right">$prompt_email:</th>             <td class="left">##email.input.50##</td> </tr>
  <tr> <th class="right">$prompt_date_format:</th>  <td class="left">##date_format_type.select##</td> </tr>
  <tr> <th class="right">$prompt_type:</th>    <td class="left">##type_id.select##</td> </tr>
+ $admin_row_entry
  <tr> <th class="right">$prompt_privileges:</th><td class="left">
 <input type="button" value="All" class="submit" title="Toggle all privileges" onclick="toggle_privileges('default_privileges', 'all', 'editor_1');">
 <input type="button" value="Read/Write" class="submit" title="Set read+write privileges"
@@ -178,6 +265,16 @@ EOTEMPLATE;
 
 $editor->SetTemplate( $template );
 $page_elements[] = $editor;
+
+if ( isset($delete_principal_confirmation_required) ) {
+  $html = '<p class="error">';
+  $html .= sprintf('<b>%s</b> \'%s\' <a class="error" href="%s&%s">%s</a> %s',
+       translate('Deleting Principal:'), $editor->Value('displayname'), $_SERVER['REQUEST_URI'],
+        $delete_user_confirmation_required, translate('Confirm Deletion of the Principal'),
+        translate('All of the principal\'s calendars and events will be unrecoverably deleted.') );
+  $html .= "</p>\n";
+}
+$page_elements[] = $html;
 
 
 $browser = new Browser(translate('Group Memberships'));
@@ -406,6 +503,7 @@ else {
 $browser->DoQuery();
 $page_elements[] = $browser;
 
+
 if ( $can_write_principal ) {
   if ( isset($_GET['edit_grant']) ) {
     $browser->MatchedRow('to_principal', $_GET['edit_grant'], 'edit_grant_row');
@@ -443,6 +541,16 @@ else {
 }
 $browser->DoQuery();
 $page_elements[] = $browser;
+if ( isset($delete_collection_confirmation_required) ) {
+  $html = '<table><tr><td class="error">';
+  $html .= sprintf('<b>%s</b> "%s" <a class="error" href="%s&%s">%s</a> %s',
+               translate('Deleting Collection:'), $_GET['dav_name'], $_SERVER['REQUEST_URI'],
+               $delete_collection_confirmation_required,
+               translate('Confirm Deletion of the Collection'),
+               translate('All collection data will be unrecoverably deleted.') );
+  $html .= "</td></tr></table>\n";
+}
+$page_elements[] = $html;
 
 $page_elements[] = '<a href="'.$rowurl.'&user_no='.intval($editor->Value('user_no')).'" class="submit">Create Collection</a>';
 
