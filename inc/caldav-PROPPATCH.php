@@ -57,13 +57,13 @@ foreach( $setprops AS $k => $setting ) {
       * Can't set displayname on resources - only collections or principals
       */
       if ( $request->IsCollection() || $request->IsPrincipal() ) {
-        if ( $request->IsCollection() ) {
-          $sql .= sprintf( "UPDATE collection SET dav_displayname = %s, modified = current_timestamp WHERE dav_name = %s;",
-                                            qpg($content), qpg($request->path) );
+        if ( $request->IsPrincipal() ) {
+          $sql .= sprintf( "UPDATE dav_principal SET fullname = %s, displayname = %s, modified = current_timestamp WHERE user_no = %s;",
+                                            qpg($content), qpg($content), $request->user_no );
         }
         else {
-          $sql .= sprintf( "UPDATE usr SET fullname = %s, updated = current_timestamp WHERE user_no = %s;",
-                                            qpg($content), $request->user_no );
+          $sql .= sprintf( "UPDATE collection SET dav_displayname = %s, modified = current_timestamp WHERE dav_name = %s;",
+                                            qpg($content), qpg($request->path) );
         }
         $success[$tag] = 1;
       }

@@ -1,0 +1,35 @@
+#
+# Check for support of PROPPATCH method
+#
+# An attempt to set an arbitrary property on a principal
+#
+TYPE=PROPPATCH
+URL=http://mycaldav/caldav.php/user1/
+HEADER=User-agent: SpecTest PROPPATCH
+HEADER=Content-type: text/xml
+HEAD
+
+BEGINDATA
+<?xml version="1.0" encoding="utf-8" ?> 
+<propertyupdate xmlns="DAV:" xmlns:DC="http://dotcal.com/principal-properties"> 
+  <set> 
+    <prop> 
+      <displayname>User 1</displayname> 
+    </prop> 
+  </set> 
+  <remove> 
+    <prop> 
+      <DC:country/>
+      <DC:countrycode/>
+    </prop> 
+  </remove> 
+</propertyupdate>
+ENDDATA
+
+QUERY
+SELECT fullname, displayname FROM dav_principal WHERE dav_name = '/user1/';
+ENDQUERY
+
+QUERY
+SELECT * FROM property WHERE dav_name = '/user1/';
+ENDQUERY

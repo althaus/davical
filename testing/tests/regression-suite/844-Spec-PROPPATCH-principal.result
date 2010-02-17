@@ -1,0 +1,27 @@
+HTTP/1.1 200 OK
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy
+Content-Length: 219
+Content-Type: text/xml; charset="utf-8"
+
+<?xml version="1.0" encoding="utf-8" ?>
+<multistatus xmlns="DAV:">
+ <response>
+  <href>/caldav.php/user1/</href>
+  <responsedescription>All requested changes were made.</responsedescription>
+ </response>
+</multistatus>
+
+      displayname: >User Number One PROPPATCH'd in<
+         fullname: >User Number One PROPPATCH'd in<
+
+       changed_by: >10<
+         dav_name: >/user1/<
+    property_name: >http://dotcal.com/principal-properties:country<
+   property_value: >New Zealand<
+
+       changed_by: >10<
+         dav_name: >/user1/<
+    property_name: >http://dotcal.com/principal-properties:countrycode<
+   property_value: >NZ<
+
