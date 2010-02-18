@@ -138,27 +138,27 @@ for( $i=0; $i<count($privilege_names); $i++ ) {
 }
 $privileges_set .= '</div>';
 
-$prompt_collection_id = htmlentities(translate('Collection ID'));
-$value_id = ( $editor->Available() ? '##collection_id.hidden####collection_id.value##' : htmlentities(translate('New Collection')));
-$prompt_dav_name = htmlentities(translate('DAV Path'));
+$prompt_collection_id = translate('Collection ID');
+$value_id = ( $editor->Available() ? '##collection_id.hidden####collection_id.value##' : translate('New Collection'));
+$prompt_dav_name = translate('DAV Path');
 $value_dav_name = ( $editor->Available() ? '##dav_name.value##' : '/##user_no.hidden####username.value##/ ##collection_name.input.30##' );
-$prompt_load_file = htmlentities(translate('Load From File'));
-$prompt_displayname = htmlentities(translate('Displayname'));
-$prompt_public = htmlentities(translate('Publicly Readable'));
-$prompt_calendar = htmlentities(translate('Is a Calendar'));
-$prompt_addressbook = htmlentities(translate('Is an Addressbook'));
-$prompt_use_default_privs = htmlentities(translate('Specific Privileges'));
-$prompt_privileges = htmlentities(translate('Default Privileges'));
-$prompt_description = htmlentities(translate('Description'));
-$prompt_schedule_transp = htmlentities(translate('Schedule Transparency'));
-$prompt_timezone = htmlentities(translate('Calendar Timezone'));
+$prompt_load_file = translate('Load From File');
+$prompt_displayname = translate('Displayname');
+$prompt_public = translate('Publicly Readable');
+$prompt_calendar = translate('Is a Calendar');
+$prompt_addressbook = translate('Is an Addressbook');
+$prompt_use_default_privs = translate('Specific Privileges');
+$prompt_privileges = translate('Default Privileges');
+$prompt_description = translate('Description');
+$prompt_schedule_transp = translate('Schedule Transparency');
+$prompt_timezone = translate('Calendar Timezone');
 
-$btn_all = htmlentities(translate('All'));             $btn_all_title = htmlentities(translate('Toggle all privileges'));
-$btn_rw  = htmlentities(translate('Read/Write'));      $btn_rw_title = htmlentities(translate('Set read+write privileges'));
-$btn_read = htmlentities(translate('Read'));           $btn_read_title = htmlentities(translate('Set read privileges'));
-$btn_fb = htmlentities(translate('Free/Busy'));        $btn_fb_title = htmlentities(translate('Set free/busy privileges'));
-$btn_sd = htmlentities(translate('Schedule Deliver')); $btn_sd_title = htmlentities(translate('Set schedule-deliver privileges'));
-$btn_ss = htmlentities(translate('Schedule Send'));    $btn_ss_title = htmlentities(translate('Set schedule-deliver privileges'));
+$btn_all = htmlspecialchars(translate('All'));             $btn_all_title = htmlspecialchars(translate('Toggle all privileges'));
+$btn_rw  = htmlspecialchars(translate('Read/Write'));      $btn_rw_title = htmlspecialchars(translate('Set read+write privileges'));
+$btn_read = htmlspecialchars(translate('Read'));           $btn_read_title = htmlspecialchars(translate('Set read privileges'));
+$btn_fb = htmlspecialchars(translate('Free/Busy'));        $btn_fb_title = htmlspecialchars(translate('Set free/busy privileges'));
+$btn_sd = htmlspecialchars(translate('Schedule Deliver')); $btn_sd_title = htmlspecialchars(translate('Set schedule-deliver privileges'));
+$btn_ss = htmlspecialchars(translate('Schedule Send'));    $btn_ss_title = htmlspecialchars(translate('Set schedule-deliver privileges'));
 
 
 $id = $editor->Value('collection_id');
@@ -390,7 +390,7 @@ EOTEMPLATE;
   if ( $can_write_collection ) {
     $del_link  = "<a href=\"/admin.php?action=edit&t=collection&id=$id&delete_grant=##to_principal##\" class=\"submit\">Delete</a>";
     $edit_link  = "<a href=\"/admin.php?action=edit&t=collection&id=$id&edit_grant=##to_principal##\" class=\"submit\">Edit</a>";
-    $browser->AddColumn( 'action', 'Action', 'center', '', "'$edit_link&nbsp;$del_link'" );
+    $browser->AddColumn( 'action', translate('Action'), 'center', '', "'$edit_link&nbsp;$del_link'" );
   }
 
   $browser->SetOrdering( 'displayname', 'A' );

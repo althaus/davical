@@ -34,7 +34,7 @@ if ( isset($principal_type) ) {
 $c->page_title = $browser->Title();
 
 if ( $c->enable_row_linking ) {
-  $browser->RowFormat( '<tr onMouseover="LinkHref(this,1);" title="'.translate('Click to display user details').'" class="r%d">', '</tr>', '#even' );
+  $browser->RowFormat( '<tr onMouseover="LinkHref(this,1);" title="'.htmlspecialchars(translate('Click to display user details')).'" class="r%d">', '</tr>', '#even' );
 }
 else {
   $browser->RowFormat( '<tr class="r%d">', '</tr>', '#even' );

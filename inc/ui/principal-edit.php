@@ -170,24 +170,24 @@ for( $i=0; $i<count($privilege_names); $i++ ) {
 }
 $privileges_set .= '</div>';
 
-$prompt_principal_id = htmlentities(translate('Principal ID'));
-$prompt_username = htmlentities(translate('Username'));
-$prompt_password_1 = htmlentities(translate('Change Password'));
-$prompt_password_1 = htmlentities(translate('Confirm Password'));
-$prompt_fullname = htmlentities(translate('Fullname'));
-$prompt_email = htmlentities(translate('Email Address'));
-$prompt_date_format = htmlentities(translate('Date Format Style'));
-$prompt_admin = htmlentities(translate('Administrator'));
-$prompt_locale = htmlentities(translate('Locale'));
-$prompt_type = htmlentities(translate('Principal Type'));
-$prompt_privileges = htmlentities(translate('Default Privileges'));
+$prompt_principal_id = translate('Principal ID');
+$prompt_username = translate('Username');
+$prompt_password_1 = translate('Change Password');
+$prompt_password_1 = translate('Confirm Password');
+$prompt_fullname = translate('Fullname');
+$prompt_email = translate('Email Address');
+$prompt_date_format = translate('Date Format Style');
+$prompt_admin = translate('Administrator');
+$prompt_locale = translate('Locale');
+$prompt_type = translate('Principal Type');
+$prompt_privileges = translate('Default Privileges');
 
-$btn_all = htmlentities(translate('All'));             $btn_all_title = htmlentities(translate('Toggle all privileges'));
-$btn_rw  = htmlentities(translate('Read/Write'));      $btn_rw_title = htmlentities(translate('Set read+write privileges'));
-$btn_read = htmlentities(translate('Read'));           $btn_read_title = htmlentities(translate('Set read privileges'));
-$btn_fb = htmlentities(translate('Free/Busy'));        $btn_fb_title = htmlentities(translate('Set free/busy privileges'));
-$btn_sd = htmlentities(translate('Schedule Deliver')); $btn_sd_title = htmlentities(translate('Set schedule-deliver privileges'));
-$btn_ss = htmlentities(translate('Schedule Send'));    $btn_ss_title = htmlentities(translate('Set schedule-deliver privileges'));
+$btn_all = htmlspecialchars(translate('All'));             $btn_all_title = htmlspecialchars(translate('Toggle all privileges'));
+$btn_rw  = htmlspecialchars(translate('Read/Write'));      $btn_rw_title = htmlspecialchars(translate('Set read+write privileges'));
+$btn_read = htmlspecialchars(translate('Read'));           $btn_read_title = htmlspecialchars(translate('Set read privileges'));
+$btn_fb = htmlspecialchars(translate('Free/Busy'));        $btn_fb_title = htmlspecialchars(translate('Set free/busy privileges'));
+$btn_sd = htmlspecialchars(translate('Schedule Deliver')); $btn_sd_title = htmlspecialchars(translate('Set schedule-deliver privileges'));
+$btn_ss = htmlspecialchars(translate('Schedule Send'));    $btn_ss_title = htmlspecialchars(translate('Set schedule-deliver privileges'));
 
 $admin_row_entry = '';
 $delete_principal_button = '';
