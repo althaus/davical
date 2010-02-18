@@ -40,7 +40,7 @@ $related_menu = new MenuSet('related', 'menu', 'menu_active');
 
 $main_menu = new MenuSet('menu', 'menu', 'menu_active');
 $main_menu->AddSubMenu($home_menu, translate('Home'), $c->base_url.'/index.php', translate('Home Page'), false, 1000);
-$main_menu->AddSubMenu($user_menu, translate('User Functions'), $c->base_url.'/users.php', translate('Browse all users'), false, 2000);
+$main_menu->AddSubMenu($user_menu, translate('User Functions'), $c->base_url.'/admin.php?action=browse&t=principal&type=1', translate('Browse all users'), false, 2000);
 $main_menu->AddSubMenu($admin_menu, translate('Administration'), $c->base_url.'/index.php', translate('Administration'), false, 3000);
 $main_menu->AddSubMenu($help_menu, translate('Help'), $c->base_url.'/help.php',translate('Help on the current screen'), false, 9000);
 
