@@ -70,12 +70,17 @@ a.order, a.invisilink {
   margin: 0;
   vertical-align: text-bottom;
   border: thin outset;
+  -moz-border-radius: 3px;
 }
 
 
 .submit:hover {
   color: #FFD700;
   border: thin inset;
+}
+
+a.submit {
+ padding: 0.07em 0.25em;
 }
 
 
