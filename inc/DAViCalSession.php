@@ -67,7 +67,6 @@ class DAViCalSession extends Session
   function AssignSessionDetails( $u ) {
     parent::AssignSessionDetails( $u );
     $this->GetRoles();
-    $this->GetRelationships();
     if ( function_exists('awl_set_locale') && isset($this->locale) && $this->locale != '' ) {
       awl_set_locale($this->locale);
     }
@@ -84,22 +83,6 @@ class DAViCalSession extends Session
     if ( $qry->Exec('DAViCalSession') && $qry->rows > 0 ) {
       while( $role = $qry->Fetch() ) {
         $this->roles[$role->role_name] = 1;
-      }
-    }
-  }
-
-
-  /**
-  * Method used to get the user's relationships
-  */
-  function GetRelationships () {
-    $this->relationships = array();
-    $sql = 'SELECT r.rt_id, rt_name, r.confers FROM relationship r JOIN relationship_type USING (rt_id) WHERE from_user = '.$this->user_no;
-    $qry = new PgQuery( $sql );
-    if ( $qry->Exec('DAViCalSession') && $qry->rows > 0 ) {
-      while( $relationship = $qry->Fetch() ) {
-        $this->relationships[$relationship->rt_id] = $relationship;
-        dbg_error_log( 'DAViCalSession', 'Relationships: %d - %s - %d - %s - %s -', $relationship->rt_id, $relationship->rt_name, $relationship->confers );
       }
     }
   }
