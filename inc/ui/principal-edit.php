@@ -4,6 +4,8 @@
 $editor = new Editor(translate('Principal'), 'dav_principal');
 $editor->SetLookup( 'date_format_type', "SELECT 'E', 'European' UNION SELECT 'U', 'US Format' UNION SELECT 'I', 'ISO Format'" );
 $editor->SetLookup( 'type_id', 'SELECT principal_type_id, principal_type_desc FROM principal_type ORDER BY principal_type_id' );
+$editor->SetLookup( 'locale', 'SELECT \'\', \''.translate("*** Default Locale ***").'\' UNION SELECT locale, locale_name_locale FROM supported_locales ORDER BY 1 ASC' );
+$editor->AddAttribute( 'locale', 'title', translate("The preferred language for this person.") );
 param_to_global('id', 'int', 'old_id', 'principal_id' );
 $editor->SetWhere( 'principal_id='.$id );
 
@@ -168,20 +170,30 @@ for( $i=0; $i<count($privilege_names); $i++ ) {
 }
 $privileges_set .= '</div>';
 
-$prompt_principal_id = translate('Principal ID');
-$prompt_username = translate('Username');
-$prompt_password_1 = translate('Change Password');
-$prompt_password_1 = translate('Confirm Password');
-$prompt_fullname = translate('Fullname');
-$prompt_email = translate('Email Address');
-$prompt_date_format = translate('Date Format Style');
-$prompt_admin = translate('Administrator');
-$prompt_type = translate('Principal Type');
-$prompt_privileges = translate('Default Privileges');
+$prompt_principal_id = htmlentities(translate('Principal ID'));
+$prompt_username = htmlentities(translate('Username'));
+$prompt_password_1 = htmlentities(translate('Change Password'));
+$prompt_password_1 = htmlentities(translate('Confirm Password'));
+$prompt_fullname = htmlentities(translate('Fullname'));
+$prompt_email = htmlentities(translate('Email Address'));
+$prompt_date_format = htmlentities(translate('Date Format Style'));
+$prompt_admin = htmlentities(translate('Administrator'));
+$prompt_locale = htmlentities(translate('Locale'));
+$prompt_type = htmlentities(translate('Principal Type'));
+$prompt_privileges = htmlentities(translate('Default Privileges'));
+
+$btn_all = htmlentities(translate('All'));             $btn_all_title = htmlentities(translate('Toggle all privileges'));
+$btn_rw  = htmlentities(translate('Read/Write'));      $btn_rw_title = htmlentities(translate('Set read+write privileges'));
+$btn_read = htmlentities(translate('Read'));           $btn_read_title = htmlentities(translate('Set read privileges'));
+$btn_fb = htmlentities(translate('Free/Busy'));        $btn_fb_title = htmlentities(translate('Set free/busy privileges'));
+$btn_sd = htmlentities(translate('Schedule Deliver')); $btn_sd_title = htmlentities(translate('Set schedule-deliver privileges'));
+$btn_ss = htmlentities(translate('Schedule Send'));    $btn_ss_title = htmlentities(translate('Set schedule-deliver privileges'));
 
 $admin_row_entry = '';
+$delete_principal_button = '';
 if ( $session->AllowedTo('Admin') ) {
   $admin_row_entry = ' <tr> <th class="right">'.$prompt_admin.':</th><td class="left">##is_admin.checkbox##</td> </tr>';
+  $delete_principal_button = '<a href="'.$c->base_url . '/admin.php?action=edit&t=principal&subaction=delete_principal&id='.$id.'" class="submit">' . translate("Delete Principal") . '</a>';
 }
 
 $id = $editor->Value('principal_id');
@@ -234,28 +246,34 @@ label.privilege {
 }
 </style>
 <table>
- <tr> <th class="right">$prompt_principal_id:</th>           <td class="left">##principal_id.value##</td> </tr>
+ <tr> <th class="right">$prompt_principal_id:</th><td class="left">
+  <table width="100%" class="form_inner"><tr>
+   <td>##principal_id.value##</td>
+   <td align="right">$delete_principal_button</td>
+  </tr></table>
+ </td></tr>
  <tr> <th class="right">$prompt_username:</th>          <td class="left">##xxxxusername.input.50##</td> </tr>
  <tr> <th class="right">$prompt_password_1:</th>   <td class="left">##newpass1.password.$pwstars##</td> </tr>
  <tr> <th class="right">$prompt_password_1:</th>  <td class="left">##newpass2.password.$pwstars##</td> </tr>
  <tr> <th class="right">$prompt_fullname:</th>         <td class="left">##fullname.input.50##</td> </tr>
  <tr> <th class="right">$prompt_email:</th>             <td class="left">##email.input.50##</td> </tr>
+ <tr> <th class="right">$prompt_locale:</th>    <td class="left">##locale.select##</td> </tr>
  <tr> <th class="right">$prompt_date_format:</th>  <td class="left">##date_format_type.select##</td> </tr>
  <tr> <th class="right">$prompt_type:</th>    <td class="left">##type_id.select##</td> </tr>
  $admin_row_entry
  <tr> <th class="right">$prompt_privileges:</th><td class="left">
-<input type="button" value="All" class="submit" title="Toggle all privileges" onclick="toggle_privileges('default_privileges', 'all', 'editor_1');">
-<input type="button" value="Read/Write" class="submit" title="Set read+write privileges"
+<input type="button" value="$btn_all" class="submit" title="$btn_all_title" onclick="toggle_privileges('default_privileges', 'all', 'editor_1');">
+<input type="button" value="$btn_rw" class="submit" title="$btn_rw_title"
  onclick="toggle_privileges('default_privileges', 'read', 'write-properties', 'write-content', 'bind', 'unbind', 'read-free-busy',
                             'read-current-user-privilege-set', 'schedule-deliver-invite', 'schedule-deliver-reply', 'schedule-query-freebusy',
                             'schedule-send-invite', 'schedule-send-reply', 'schedule-send-freebusy' );">
-<input type="button" value="Read" class="submit" title="Set read privileges"
+<input type="button" value="$btn_read" class="submit" title="$btn_read_title"
  onclick="toggle_privileges('default_privileges', 'read', 'read-free-busy', 'schedule-query-freebusy', 'read-current-user-privilege-set' );">
-<input type="button" value="Free/Busy" class="submit" title="Set free/busy privileges"
+<input type="button" value="$btn_fb" class="submit" title="$btn_fb_title"
  onclick="toggle_privileges('default_privileges', 'read-free-busy', 'schedule-query-freebusy' );">
-<input type="button" value="Schedule Deliver" class="submit" title="Set schedule-deliver privileges"
+<input type="button" value="$btn_sd" class="submit" title="$btn_sd_title"
  onclick="toggle_privileges('default_privileges', 'schedule-deliver-invite', 'schedule-deliver-reply', 'schedule-query-freebusy' );">
-<input type="button" value="Schedule Send" class="submit" title="Set schedule-deliver privileges"
+<input type="button" value="$btn_ss" class="submit" title="$btn_ss_title"
  onclick="toggle_privileges('default_privileges', 'schedule-send-invite', 'schedule-send-reply', 'schedule-send-freebusy' );">
 <br>$privileges_set</td> </tr>
  <tr> <th class="right"></th>                   <td class="left" colspan="2">##submit##</td> </tr>
@@ -362,8 +380,8 @@ EOTEMPLATE;
   $browser->AddColumn( 'members', translate('Has Members'), '', '', 'has_members_list(principal_id)' );
 
   if ( $can_write_principal ) {
-    $del_link  = '<a href="'.$c->base_url.'/admin.php?action=edit&t=principal&id='.$id.'&delete_member=##principal_id##" class="submit">Delete</a>';
-    $browser->AddColumn( 'action', 'Action', 'center', '', "'$edit_link&nbsp;$del_link'" );
+    $del_link  = '<a href="'.$c->base_url.'/admin.php?action=edit&t=principal&id='.$id.'&delete_member=##principal_id##" class="submit">'.translate('Delete').'</a>';
+    $browser->AddColumn( 'action', translate('Action'), 'center', '', "'$edit_link&nbsp;$del_link'" );
   }
 
   $browser->SetOrdering( 'displayname', 'A' );
@@ -427,6 +445,8 @@ EOTEMPLATE;
 
   function edit_grant_row( $row_data ) {
     global $grantrow, $id, $c, $privilege_xlate, $privilege_names;
+    global $btn_all, $btn_all_title, $btn_rw, $btn_rw_title, $btn_read, $btn_read_title;
+    global $btn_fb, $btn_fb_title, $btn_sd, $btn_sd_title, $btn_ss, $btn_ss_title;
 
     if ( $row_data->to_principal > -1 ) {
       $grantrow->SetRecord( $row_data );
@@ -448,18 +468,18 @@ EOTEMPLATE;
 <form method="POST" enctype="multipart/form-data" id="form_$form_id" action="$form_url">
   <td class="left" colspan="2"><input type="hidden" name="id" value="$id"><input type="hidden" name="orig_to_id" value="$orig_to_id">##to_principal.select##</td>
   <td class="left" colspan="2">
-<input type="button" value="All" class="submit" title="Toggle all privileges" onclick="toggle_privileges('grant_privileges', 'all', 'form_$form_id');">
-<input type="button" value="Read/Write" class="submit" title="Set read+write privileges"
+<input type="button" value="$btn_all" class="submit" title="$btn_all_title" onclick="toggle_privileges('grant_privileges', 'all', 'editor_1');">
+<input type="button" value="$btn_rw" class="submit" title="$btn_rw_title"
  onclick="toggle_privileges('grant_privileges', 'read', 'write-properties', 'write-content', 'bind', 'unbind', 'read-free-busy',
                             'read-current-user-privilege-set', 'schedule-deliver-invite', 'schedule-deliver-reply', 'schedule-query-freebusy',
                             'schedule-send-invite', 'schedule-send-reply', 'schedule-send-freebusy' );">
-<input type="button" value="Read" class="submit" title="Set read privileges"
+<input type="button" value="$btn_read" class="submit" title="$btn_read_title"
  onclick="toggle_privileges('grant_privileges', 'read', 'read-free-busy', 'schedule-query-freebusy', 'read-current-user-privilege-set' );">
-<input type="button" value="Free/Busy" class="submit" title="Set free/busy privileges"
+<input type="button" value="$btn_fb" class="submit" title="$btn_fb_title"
  onclick="toggle_privileges('grant_privileges', 'read-free-busy', 'schedule-query-freebusy' );">
-<input type="button" value="Schedule Deliver" class="submit" title="Set schedule-deliver privileges"
+<input type="button" value="$btn_sd" class="submit" title="$btn_sd_title"
  onclick="toggle_privileges('grant_privileges', 'schedule-deliver-invite', 'schedule-deliver-reply', 'schedule-query-freebusy' );">
-<input type="button" value="Schedule Send" class="submit" title="Set schedule-deliver privileges"
+<input type="button" value="$btn_ss" class="submit" title="$btn_ss_title"
  onclick="toggle_privileges('grant_privileges', 'schedule-send-invite', 'schedule-send-reply', 'schedule-send-freebusy' );">
 <br>$privileges_set
   <td class="center">##submit##</td>
@@ -484,9 +504,9 @@ $browser->AddColumn( 'privs', translate('Privileges'), '', '', 'privileges_list(
 $browser->AddColumn( 'members', translate('Has Members'), '', '', 'has_members_list(principal_id)' );
 
 if ( $can_write_principal ) {
-  $del_link  = '<a href="'.$c->base_url.'/admin.php?action=edit&t=principal&id='.$id.'&delete_grant=##to_principal##" class="submit">Delete</a>';
-  $edit_link  = '<a href="'.$c->base_url.'/admin.php?action=edit&t=principal&id='.$id.'&edit_grant=##to_principal##" class="submit">Edit</a>';
-  $browser->AddColumn( 'action', 'Action', 'center', '', "'$edit_link&nbsp;$del_link'" );
+  $del_link  = '<a href="'.$c->base_url.'/admin.php?action=edit&t=principal&id='.$id.'&delete_grant=##to_principal##" class="submit">'.translate('Delete').'</a>';
+  $edit_link  = '<a href="'.$c->base_url.'/admin.php?action=edit&t=principal&id='.$id.'&edit_grant=##to_principal##" class="submit">'.translate('Edit').'</a>';
+  $browser->AddColumn( 'action', translate('Action'), 'center', '', "'$edit_link&nbsp;$del_link'" );
 }
 
 $browser->SetOrdering( 'displayname', 'A' );
@@ -525,13 +545,18 @@ $rowurl = $c->base_url . '/admin.php?action=edit&t=collection&id=';
 $browser->AddHidden( 'collection_link', "'<a href=\"$rowurl' || collection_id || '\">' || collection_id || '</a>'" );
 $browser->AddColumn( 'dav_name', translate('Path') );
 $browser->AddColumn( 'dav_displayname', translate('Display Name') );
+$browser->AddColumn( 'publicly_readable', translate('Public'), 'centre', '', 'CASE WHEN publicly_readable THEN \''.translate('Yes').'\' ELSE \''.translate('No').'\' END' );
 $browser->AddColumn( 'privs', translate('Privileges'), '', '',
-        "COALESCE( privileges_list(default_privileges), '[".translate('default principal privileges')."]')" );
+        "COALESCE( privileges_list(default_privileges), '[".translate('from principal')."]')" );
+$delurl = $c->base_url . '/admin.php?action=edit&t=principal&id='.$id.'&dav_name=##URL:dav_name##&subaction=delete_collection';
+$browser->AddColumn( 'delete', translate('Action'), 'center', '', "'<a class=\"submit\" href=\"$delurl\">".translate('Delete')."</a>'" );
 
 $browser->SetOrdering( 'dav_name', 'A' );
 
 $browser->SetJoins( "collection " );
 $browser->SetWhere( 'user_no = '.intval($editor->Value('user_no')) );
+
+$browser->AddRow( array( 'dav_name' => '<a href="'.$rowurl.'&user_no='.intval($editor->Value('user_no')).'" class="submit">'.translate('Create Collection').'</a>' ));
 
 if ( $c->enable_row_linking ) {
   $browser->RowFormat( '<tr onMouseover="LinkHref(this,1);" title="'.translate('Click to edit principal details').'" class="r%d">', '</tr>', '#even' );
@@ -552,5 +577,4 @@ if ( isset($delete_collection_confirmation_required) ) {
   $page_elements[] = $html;
 }
 
-$page_elements[] = '<a href="'.$rowurl.'&user_no='.intval($editor->Value('user_no')).'" class="submit">Create Collection</a>';
 

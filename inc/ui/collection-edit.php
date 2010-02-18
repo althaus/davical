@@ -14,11 +14,16 @@ $editor->AddAttribute('timezone', 'id', 'fld_timezone' );
 $editor->AddAttribute('schedule_transp', 'id', 'fld_schedule_transp' );
 $editor->AddAttribute('is_calendar', 'id', 'fld_is_calendar');
 $editor->AddAttribute('is_addressbook', 'id', 'fld_is_addressbook');
-$editor->AddAttribute('is_calendar', 'onclick', 'toggle_enabled(\'fld_is_calendar\',\'=fld_timezone\',\'=fld_schedule_transp\',\'!fld_is_addressbook\');');
+$editor->AddAttribute('is_calendar', 'onclick', 'toggle_enabled(\'fld_is_calendar\',\'=fld_timezone\',\'=fld_schedule_transp\',\'!fld_is_addressbook\',\'=fld_ics_file\');');
 $editor->AddAttribute('is_addressbook', 'onclick', 'toggle_enabled(\'fld_is_addressbook\',\'!fld_is_calendar\');');
-$editor->AddField('specific_privileges','default_privileges IS NULL');
-$editor->AddAttribute('specific_privileges', 'id', 'fld_specific_privileges');
-$editor->AddAttribute('specific_privileges', 'onclick', 'toggle_visible(\'fld_specific_privileges\',\'!privileges_settings\');');
+
+$editor->AddField('use_default_privs','default_privileges IS NULL');
+$editor->AddAttribute('use_default_privs', 'id', 'fld_use_default_privs');
+$editor->AddAttribute('use_default_privs', 'onclick', 'toggle_visible(\'fld_use_default_privs\',\'!privileges_settings\');');
+
+$editor->AddField('ics_file', "''");
+$editor->AddAttribute('ics_file', 'title', translate('Upload a .ics calendar in iCalendar format to initialise or replace this calendar.'));
+$editor->AddAttribute('ics_file', 'id', 'fld_ics_file');
 
 $editor->SetWhere( 'collection_id='.$id );
 
@@ -33,6 +38,7 @@ $params = array(
 $is_update = ( $_POST['_editor_action'][$editor->Id] == 'update' );
 if ( !$is_update && isset($collection_name) && isset($user_no) && is_object($usr) ) {
   $_POST['dav_name'] = sprintf('/%s/%s/', $usr->username, $collection_name );
+  $_POST['parent_container'] = sprintf('/%s/', $usr->username );
   $params['collection_path'] = $_POST['dav_name'];
   $privsql = 'SELECT path_privs( :session_principal, :collection_path, :scan_depth) AS priv';
 }
@@ -51,7 +57,7 @@ dbg_error_log("ERROR", "Can write collection: %s", ($can_write_collection? 'yes'
 $pwstars = '@@@@@@@@@@';
 if ( $can_write_collection && $editor->IsSubmit() ) {
   $editor->WhereNewRecord( "collection_id=(SELECT CURRVAL('dav_id_seq'))" );
-  if ( $_POST['specific_privileges'] == 'on' ) {
+  if ( $_POST['use_default_privs'] == 'on' ) {
     $_POST['default_privileges'] = '';
   }
   else if ( isset($_POST['default_privileges']) ) {
@@ -64,6 +70,30 @@ if ( $can_write_collection && $editor->IsSubmit() ) {
   $is_update = ( $_POST['_editor_action'][$editor->Id] == 'update' );
   if ( $_POST['timezone'] == '' ) unset($_POST['timezone']);
   $editor->Write();
+  if ( isset($_FILES['ics_file']['tmp_name']) && $_FILES['ics_file']['tmp_name'] != '' ) {
+    /**
+    * If the user has uploaded a .ics file as a calendar, we fake this out
+    * as if it were a "PUT" request against a collection.  This is something
+    * of a hack.  It works though :-)
+    */
+    $ics = trim(file_get_contents($_FILES['ics_file']['tmp_name']));
+    dbg_error_log('User',':Write: Loaded %d bytes from %s', strlen($ics), $_FILES['ics_file']['tmp_name'] );
+    include_once('check_UTF8.php');
+    if ( !check_string($ics) ) $ics = force_utf8($ics);
+
+    if ( check_string($ics) ) {
+      $path = $editor->Value('dav_name');
+      $user_no = $editor->Value('user_no');
+      $username = $editor->Value('username');
+      include_once('caldav-PUT-functions.php');
+      controlRequestContainer( $username, $user_no, $path, false, ($publicly_readable == 'on' ? true : false));
+      import_collection( $ics, $user_no, $path, $session->user_no );
+      $c->messages[] = sprintf(translate('Calendar "%s" was loaded from file.'), $path);
+    }
+    else {
+      $c->messages[] =  i18n('The file is not UTF-8 encoded, please check the error for more details.');
+    }
+  }
 }
 else {
   $editor->GetRecord();
@@ -77,6 +107,8 @@ else {
   $editor->Assign('default_privileges', $privs);
   $editor->Assign('username', $usr->username);
   $editor->Assign('user_no', $usr->user_no);
+  $editor->Assign('is_calendar', 't' );
+  $editor->Assign('use_default_privs', 't');
 }
 
 $privilege_xlate = array(
@@ -98,7 +130,6 @@ $privilege_xlate = array(
   'schedule-send-freebusy' => translate('Scheduling: Send free/busy')
 );
 
-
 $default_privileges = bindec($editor->Value('default_privileges'));
 $privileges_set = '<div id="privileges">';
 for( $i=0; $i<count($privilege_names); $i++ ) {
@@ -107,19 +138,28 @@ for( $i=0; $i<count($privilege_names); $i++ ) {
 }
 $privileges_set .= '</div>';
 
-$prompt_collection_id = translate('Collection ID');
-$value_id = ( $editor->Available() ? '##collection_id.hidden####collection_id.value##' : translate('New Collection'));
-$prompt_dav_name = translate('DAV Path');
-$value_dav_name = ( $editor->Available() ? '##dav_name.value##' : '/##user_no.hidden####username.value##/##collection_name.input.20##' );
-$prompt_displayname = translate('Displayname');
-$prompt_public = translate('Publicly Readable');
-$prompt_calendar = translate('Is a Calendar');
-$prompt_addressbook = translate('Is an Addressbook');
-$prompt_specific_privileges = translate('Specific Privileges');
-$prompt_privileges = translate('Default Privileges');
-$prompt_description = translate('Description');
-$prompt_schedule_transp = translate('Schedule Transparency');
-$prompt_timezone = translate('Calendar Timezone');
+$prompt_collection_id = htmlentities(translate('Collection ID'));
+$value_id = ( $editor->Available() ? '##collection_id.hidden####collection_id.value##' : htmlentities(translate('New Collection')));
+$prompt_dav_name = htmlentities(translate('DAV Path'));
+$value_dav_name = ( $editor->Available() ? '##dav_name.value##' : '/##user_no.hidden####username.value##/ ##collection_name.input.30##' );
+$prompt_load_file = htmlentities(translate('Load From File'));
+$prompt_displayname = htmlentities(translate('Displayname'));
+$prompt_public = htmlentities(translate('Publicly Readable'));
+$prompt_calendar = htmlentities(translate('Is a Calendar'));
+$prompt_addressbook = htmlentities(translate('Is an Addressbook'));
+$prompt_use_default_privs = htmlentities(translate('Specific Privileges'));
+$prompt_privileges = htmlentities(translate('Default Privileges'));
+$prompt_description = htmlentities(translate('Description'));
+$prompt_schedule_transp = htmlentities(translate('Schedule Transparency'));
+$prompt_timezone = htmlentities(translate('Calendar Timezone'));
+
+$btn_all = htmlentities(translate('All'));             $btn_all_title = htmlentities(translate('Toggle all privileges'));
+$btn_rw  = htmlentities(translate('Read/Write'));      $btn_rw_title = htmlentities(translate('Set read+write privileges'));
+$btn_read = htmlentities(translate('Read'));           $btn_read_title = htmlentities(translate('Set read privileges'));
+$btn_fb = htmlentities(translate('Free/Busy'));        $btn_fb_title = htmlentities(translate('Set free/busy privileges'));
+$btn_sd = htmlentities(translate('Schedule Deliver')); $btn_sd_title = htmlentities(translate('Set schedule-deliver privileges'));
+$btn_ss = htmlentities(translate('Schedule Send'));    $btn_ss_title = htmlentities(translate('Set schedule-deliver privileges'));
+
 
 $id = $editor->Value('collection_id');
 $template = <<<EOTEMPLATE
@@ -215,24 +255,25 @@ label.privilege {
 <table>
  <tr> <th class="right">$prompt_collection_id:</th>    <td class="left">$value_id</td> </tr>
  <tr> <th class="right">$prompt_dav_name:</th>         <td class="left">$c->base_name/caldav.php$value_dav_name</td> </tr>
+ <tr> <th class="right">$prompt_load_file:</th>        <td class="left">##ics_file.file.60##</td> </tr>
  <tr> <th class="right">$prompt_displayname:</th>      <td class="left">##dav_displayname.input.50##</td> </tr>
  <tr> <th class="right">$prompt_public:</th>           <td class="left">##publicly_readable.checkbox##</td> </tr>
  <tr> <th class="right">$prompt_calendar:</th>         <td class="left">##is_calendar.checkbox##</td> </tr>
  <tr> <th class="right">$prompt_addressbook:</th>      <td class="left">##is_addressbook.checkbox##</td> </tr>
- <tr> <th class="right">$prompt_privileges:</th><td class="left">##specific_privileges.checkbox## &nbsp; &nbsp; &nbsp;
+ <tr> <th class="right">$prompt_privileges:</th><td class="left">##use_default_privs.checkbox## &nbsp; &nbsp; &nbsp;
  <div id="privileges_settings">
-<input type="button" value="All" class="submit" title="Toggle all privileges" onclick="toggle_privileges('default_privileges', 'all', 'editor_1');">
-<input type="button" value="Read/Write" class="submit" title="Set read+write privileges"
+<input type="button" value="$btn_all" class="submit" title="$btn_all_title" onclick="toggle_privileges('default_privileges', 'all', 'editor_1');">
+<input type="button" value="$btn_rw" class="submit" title="$btn_rw_title"
  onclick="toggle_privileges('default_privileges', 'read', 'write-properties', 'write-content', 'bind', 'unbind', 'read-free-busy',
                             'read-current-user-privilege-set', 'schedule-deliver-invite', 'schedule-deliver-reply', 'schedule-query-freebusy',
                             'schedule-send-invite', 'schedule-send-reply', 'schedule-send-freebusy' );">
-<input type="button" value="Read" class="submit" title="Set read privileges"
+<input type="button" value="$btn_read" class="submit" title="$btn_read_title"
  onclick="toggle_privileges('default_privileges', 'read', 'read-free-busy', 'schedule-query-freebusy', 'read-current-user-privilege-set' );">
-<input type="button" value="Free/Busy" class="submit" title="Set free/busy privileges"
+<input type="button" value="$btn_fb" class="submit" title="$btn_fb_title"
  onclick="toggle_privileges('default_privileges', 'read-free-busy', 'schedule-query-freebusy' );">
-<input type="button" value="Schedule Deliver" class="submit" title="Set schedule-deliver privileges"
+<input type="button" value="$btn_sd" class="submit" title="$btn_sd_title"
  onclick="toggle_privileges('default_privileges', 'schedule-deliver-invite', 'schedule-deliver-reply', 'schedule-query-freebusy' );">
-<input type="button" value="Schedule Send" class="submit" title="Set schedule-deliver privileges"
+<input type="button" value="$btn_ss" class="submit" title="$btn_ss_title"
  onclick="toggle_privileges('default_privileges', 'schedule-send-invite', 'schedule-send-reply', 'schedule-send-freebusy' );">
 <br>$privileges_set</div></td> </tr>
  <tr> <th class="right">$prompt_timezone:</th>         <td class="left">##timezone.select##</td> </tr>
@@ -242,9 +283,9 @@ label.privilege {
 </table>
 </form>
 <script language="javascript">
-toggle_enabled('fld_is_calendar','=fld_timezone','=fld_schedule_transp','!fld_is_addressbook');
+toggle_enabled('fld_is_calendar','=fld_timezone','=fld_schedule_transp','!fld_is_addressbook','=fld_ics_file');
 toggle_enabled('fld_is_addressbook','!fld_is_calendar');
-toggle_visible('fld_specific_privileges','!privileges_settings');
+toggle_visible('fld_use_default_privs','!privileges_settings');
 </script>
 
 EOTEMPLATE;
@@ -288,6 +329,8 @@ if ( $editor->Available() ) {
 
   function edit_grant_row( $row_data ) {
     global $grantrow, $id, $privilege_xlate, $privilege_names;
+    global $btn_all, $btn_all_title, $btn_rw, $btn_rw_title, $btn_read, $btn_read_title;
+    global $btn_fb, $btn_fb_title, $btn_sd, $btn_sd_title, $btn_ss, $btn_ss_title;
 
     if ( $row_data->to_principal > -1 ) {
       $grantrow->SetRecord( $row_data );
@@ -309,19 +352,19 @@ if ( $editor->Available() ) {
 <form method="POST" enctype="multipart/form-data" id="form_$form_id" action="$form_url">
   <td class="left" colspan="2"><input type="hidden" name="id" value="$id"><input type="hidden" name="orig_to_id" value="$orig_to_id">##to_principal.select##</td>
   <td class="left" colspan="2">
-<input type="button" value="All" class="submit" title="Toggle all privileges" onclick="toggle_privileges('grant_privileges', 'all', 'form_$form_id');">
-<input type="button" value="Read/Write" class="submit" title="Set read+write privileges"
-onclick="toggle_privileges('grant_privileges', 'read', 'write-properties', 'write-content', 'bind', 'unbind', 'read-free-busy',
+<input type="button" value="$btn_all" class="submit" title="$btn_all_title" onclick="toggle_privileges('grant_privileges', 'all', 'editor_1');">
+<input type="button" value="$btn_rw" class="submit" title="$btn_rw_title"
+ onclick="toggle_privileges('grant_privileges', 'read', 'write-properties', 'write-content', 'bind', 'unbind', 'read-free-busy',
                             'read-current-user-privilege-set', 'schedule-deliver-invite', 'schedule-deliver-reply', 'schedule-query-freebusy',
                             'schedule-send-invite', 'schedule-send-reply', 'schedule-send-freebusy' );">
-<input type="button" value="Read" class="submit" title="Set read privileges"
-onclick="toggle_privileges('grant_privileges', 'read', 'read-free-busy', 'schedule-query-freebusy', 'read-current-user-privilege-set' );">
-<input type="button" value="Free/Busy" class="submit" title="Set free/busy privileges"
-onclick="toggle_privileges('grant_privileges', 'read-free-busy', 'schedule-query-freebusy' );">
-<input type="button" value="Schedule Deliver" class="submit" title="Set schedule-deliver privileges"
-onclick="toggle_privileges('grant_privileges', 'schedule-deliver-invite', 'schedule-deliver-reply', 'schedule-query-freebusy' );">
-<input type="button" value="Schedule Send" class="submit" title="Set schedule-deliver privileges"
-onclick="toggle_privileges('grant_privileges', 'schedule-send-invite', 'schedule-send-reply', 'schedule-send-freebusy' );">
+<input type="button" value="$btn_read" class="submit" title="$btn_read_title"
+ onclick="toggle_privileges('grant_privileges', 'read', 'read-free-busy', 'schedule-query-freebusy', 'read-current-user-privilege-set' );">
+<input type="button" value="$btn_fb" class="submit" title="$btn_fb_title"
+ onclick="toggle_privileges('grant_privileges', 'read-free-busy', 'schedule-query-freebusy' );">
+<input type="button" value="$btn_sd" class="submit" title="$btn_sd_title"
+ onclick="toggle_privileges('grant_privileges', 'schedule-deliver-invite', 'schedule-deliver-reply', 'schedule-query-freebusy' );">
+<input type="button" value="$btn_ss" class="submit" title="$btn_ss_title"
+ onclick="toggle_privileges('grant_privileges', 'schedule-send-invite', 'schedule-send-reply', 'schedule-send-freebusy' );">
 <br>$privileges_set
   <td class="center">##submit##</td>
 </form>
