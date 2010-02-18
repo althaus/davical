@@ -106,7 +106,7 @@ class Tools {
     }
     $dir = $_POST["directory_path"];
     if(!is_readable($dir)){
-      $c->messages[] = sprintf(i18n('directory %s is not readable'),htmlentities($dir));
+      $c->messages[] = sprintf(i18n('directory %s is not readable'),htmlspecialchars($dir));
       dbg_error_log( "importFromDirectory", "directory is not readable");
       return ;
     }
