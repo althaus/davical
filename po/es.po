@@ -8,13 +8,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RSCDS 0.2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-12-21 23:23+1300\n"
+"POT-Creation-Date: 2010-02-18 21:09+1300\n"
 "PO-Revision-Date: 2006-11-06 17:12+1300\n"
 "Last-Translator: Lorena Paoletti <andrew@mcmillan.net.nz>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+msgid "*** Default Locale ***"
+msgstr ""
 
 #, c-format
 msgid "- creating record for users :  %s"
@@ -84,7 +87,14 @@ msgstr "Administrador"
 msgid "Administration"
 msgstr "Administrador"
 
+#, fuzzy
+msgid "Administrator"
+msgstr "Administrador"
+
 msgid "All collection data will be unrecoverably deleted."
+msgstr ""
+
+msgid "All of the principal's calendars and events will be unrecoverably deleted."
 msgstr ""
 
 msgid "All of the user's calendars and events will be unrecoverably deleted."
@@ -96,10 +106,19 @@ msgstr ""
 msgid "All"
 msgstr ""
 
+msgid "Allow free/busy enquiries targeted at the owner of this scheduling inbox"
+msgstr ""
+
+msgid "An \"Administrator\" user has full rights to the whole DAViCal System"
+msgstr ""
+
 msgid "Anonymous users are not allowed to modify calendars"
 msgstr ""
 
 msgid "Anonymous users may only access public calendars"
+msgstr ""
+
+msgid "Apply Changes"
 msgstr ""
 
 msgid "Browse all users"
@@ -124,6 +143,10 @@ msgstr "Calendario de los Usuario"
 
 #, c-format
 msgid "Calendar \"%s\" for user \"%s\" was created."
+msgstr ""
+
+#, c-format
+msgid "Calendar \"%s\" was loaded from file."
 msgstr ""
 
 msgid "Can read from"
@@ -180,6 +203,10 @@ msgstr "Relación eliminada"
 msgid "Confirm Deletion of the Collection"
 msgstr ""
 
+#, fuzzy
+msgid "Confirm Deletion of the Principal"
+msgstr "Calendario de los Usuario"
+
 msgid "Confirm Deletion of the Relationship Type"
 msgstr ""
 
@@ -201,6 +228,10 @@ msgid "Create Calendar"
 msgstr "Calendario de los Usuario"
 
 #, fuzzy
+msgid "Create Collection"
+msgstr "Calendario de los Usuario"
+
+#, fuzzy
 msgid "Create Events/Collections"
 msgstr "Calendario de los Usuario"
 
@@ -218,8 +249,16 @@ msgstr "Calendario de los Usuario"
 msgid "Create a new principal (i.e. a new user, resource or group)"
 msgstr ""
 
+#, fuzzy
+msgid "Create a resource or collection"
+msgstr "Calendario de los Usuario"
+
 msgid "Create"
 msgstr "Crear"
+
+#, fuzzy
+msgid "Creating new Principal record."
+msgstr "Calendario de los Usuario"
 
 msgid "DAV Path"
 msgstr ""
@@ -255,16 +294,20 @@ msgid "Default Privileges"
 msgstr ""
 
 #, fuzzy
-msgid "Default relationships added."
-msgstr "Relación incorporada."
+msgid "Delete Events/Collections"
+msgstr "Calendario de los Usuario"
 
 #, fuzzy
-msgid "Delete Events/Collections"
+msgid "Delete Principal"
 msgstr "Calendario de los Usuario"
 
 #, fuzzy
 msgid "Delete User"
 msgstr "Borrar"
+
+#, fuzzy
+msgid "Delete a resource or collection"
+msgstr "Calendario de los Usuario"
 
 msgid "Delete"
 msgstr "Borrar"
@@ -276,8 +319,18 @@ msgid "Deleting Collection:"
 msgstr ""
 
 #, fuzzy
+msgid "Deleting Principal:"
+msgstr "Calendario de los Usuario"
+
+#, fuzzy
 msgid "Deleting User:"
 msgstr "Borrar"
+
+msgid "Deliver scheduling invitations from an organiser to this scheduling inbox"
+msgstr ""
+
+msgid "Deliver scheduling replies from an attendee to this scheduling inbox"
+msgstr ""
 
 msgid "Description"
 msgstr ""
@@ -320,6 +373,10 @@ msgstr "Editar"
 msgid "Edit this user record"
 msgstr "Mostrar el registro de éste usuario"
 
+#, fuzzy
+msgid "Edit"
+msgstr "Editar"
+
 msgid "Email Address"
 msgstr ""
 
@@ -359,6 +416,9 @@ msgid "For access to the"
 msgstr "Para acceder a"
 
 msgid "Forbidden"
+msgstr ""
+
+msgid "Free/Busy"
 msgstr ""
 
 msgid "FreeBusy"
@@ -497,6 +557,12 @@ msgstr "Recurso"
 msgid "List Users"
 msgstr "Usuarios"
 
+msgid "Load From File"
+msgstr ""
+
+msgid "Locale"
+msgstr ""
+
 msgid "Log On Please"
 msgstr "Conectarse por favor"
 
@@ -529,6 +595,10 @@ msgstr ""
 msgid "No collection found at that location."
 msgstr ""
 
+#, fuzzy
+msgid "No"
+msgstr "No"
+
 msgid "No. <!-- short for 'Number' -->"
 msgstr "No"
 
@@ -559,6 +629,9 @@ msgstr ""
 msgid "Please confirm deletion of collection - see below"
 msgstr ""
 
+msgid "Please confirm deletion of the principal"
+msgstr ""
+
 msgid "Please confirm deletion of user"
 msgstr ""
 
@@ -576,6 +649,10 @@ msgstr ""
 
 msgid "Principal Type"
 msgstr ""
+
+#, fuzzy
+msgid "Principal deleted"
+msgstr "Relación eliminada"
 
 msgid "Principal"
 msgstr ""
@@ -601,6 +678,9 @@ msgstr ""
 msgid "REPORT body is not valid XML data!"
 msgstr ""
 
+msgid "Read ACLs for a resource or collection"
+msgstr ""
+
 msgid "Read Access Controls"
 msgstr ""
 
@@ -610,7 +690,20 @@ msgstr ""
 msgid "Read Free/Busy Information"
 msgstr ""
 
+#, fuzzy
+msgid "Read the content of a resource or collection"
+msgstr "Hacer clic para mostrar esa relación"
+
+msgid "Read the details of the current user's access control to this resource."
+msgstr ""
+
+msgid "Read the free/busy information for a calendar collection"
+msgstr ""
+
 msgid "Read"
+msgstr ""
+
+msgid "Read/Write"
 msgstr ""
 
 msgid "ReadWrite"
@@ -645,6 +738,9 @@ msgstr "Relaciones hacia éste usuario"
 
 msgid "Relationships"
 msgstr "Relaciones"
+
+msgid "Remove a lock"
+msgstr ""
 
 msgid "Repeat Rule"
 msgstr ""
@@ -682,6 +778,12 @@ msgstr ""
 msgid "Rights"
 msgstr "Derechos"
 
+msgid "Schedule Deliver"
+msgstr ""
+
+msgid "Schedule Send"
+msgstr ""
+
 msgid "Schedule Transparency"
 msgstr ""
 
@@ -709,6 +811,27 @@ msgstr "Seleccionar el tipo de relación de salida desde éste usuario"
 msgid "Select the user, resource or group to relate this user to"
 msgstr "Seleccionar el usuario, recurso o grupo con el cual relacionar a éste usuario"
 
+msgid "Send free/busy enquiries"
+msgstr ""
+
+msgid "Send scheduling invitations as an organiser from the owner of this scheduling outbox."
+msgstr ""
+
+msgid "Send scheduling replies as an attendee from the owner of this scheduling outbox."
+msgstr ""
+
+msgid "Set free/busy privileges"
+msgstr ""
+
+msgid "Set read privileges"
+msgstr ""
+
+msgid "Set read+write privileges"
+msgstr ""
+
+msgid "Set schedule-deliver privileges"
+msgstr ""
+
 msgid "Set the path to store your ics e.g. 'home' will be referenced as /caldav.php/me/home/"
 msgstr ""
 
@@ -734,6 +857,9 @@ msgid "Source resource does not exist."
 msgstr ""
 
 msgid "Special collections may not contain a calendar or other special collection."
+msgstr ""
+
+msgid "Specific Privileges"
 msgstr ""
 
 msgid "Start"
@@ -770,6 +896,10 @@ msgid ""
 msgstr ""
 
 msgid "The calendar path contains illegal characters."
+msgstr ""
+
+msgid ""
+"The calendar-free-busy-set is superseded by the schedule-transp property of a calendar collection."
 msgstr ""
 
 msgid "The displayname may only be set on collections or principals."
@@ -811,6 +941,9 @@ msgstr ""
 msgid "To ID"
 msgstr ""
 
+msgid "Toggle all privileges"
+msgstr ""
+
 msgid "Transparent"
 msgstr ""
 
@@ -829,6 +962,10 @@ msgstr "Actualizado"
 msgid "Updating Member of this Group Principal"
 msgstr ""
 
+#, fuzzy
+msgid "Updating Principal record."
+msgstr "Mostrar mi registro de usuario"
+
 msgid "Updating grants by this Principal"
 msgstr ""
 
@@ -839,6 +976,9 @@ msgid "Upgrade Database"
 msgstr ""
 
 msgid "Upload a .ics calendar in iCalendar format "
+msgstr ""
+
+msgid "Upload a .ics calendar in iCalendar format to initialise or replace this calendar."
 msgstr ""
 
 msgid "User Calendar Principals"
@@ -895,6 +1035,9 @@ msgstr ""
 msgid "When the user's e-mail account was validated."
 msgstr "Cuando fue validada la cuenta de correo del usuario."
 
+msgid "Write ACLs for a resource or collection"
+msgstr ""
+
 msgid "Write Access Controls"
 msgstr ""
 
@@ -904,7 +1047,16 @@ msgstr ""
 msgid "Write Metadata"
 msgstr ""
 
+msgid "Write content"
+msgstr ""
+
+msgid "Write properties"
+msgstr ""
+
 msgid "Write"
+msgstr ""
+
+msgid "Yes"
 msgstr ""
 
 msgid "You are editing"
@@ -922,9 +1074,6 @@ msgstr ""
 msgid "You do not have sufficient access to lock that"
 msgstr ""
 
-msgid "You may not access that calendar"
-msgstr ""
-
 #, fuzzy
 msgid "You may not access that collection"
 msgstr "No está autorizado a utilizar ésta función."
@@ -932,9 +1081,6 @@ msgstr "No está autorizado a utilizar ésta función."
 #, fuzzy
 msgid "You may not add entries to this calendar."
 msgstr "No está autorizado a utilizar ésta función."
-
-msgid "You may not create a calendar there."
-msgstr ""
 
 msgid "You may not delete entries from this calendar."
 msgstr ""
@@ -990,6 +1136,10 @@ msgstr ""
 msgid "forget me not"
 msgstr ""
 
+#, fuzzy
+msgid "from principal"
+msgstr "Calendario de los Usuario"
+
 msgid "is Assistant to"
 msgstr ""
 
@@ -1005,6 +1155,10 @@ msgstr "Para conectarse debe utilizar el nombre de usuario y contraseña que le 
 
 msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Default relationships added."
+#~ msgstr "Relación incorporada."
 
 #~ msgid "Add a new user"
 #~ msgstr "Agregar un nuevo usuario"

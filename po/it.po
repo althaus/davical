@@ -7,13 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-12-21 23:23+1300\n"
+"POT-Creation-Date: 2010-02-18 21:09+1300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+msgid "*** Default Locale ***"
+msgstr ""
 
 #, c-format
 msgid "- creating record for users :  %s"
@@ -83,7 +86,14 @@ msgstr "Gestisce"
 msgid "Administration"
 msgstr "Gestisce"
 
+#, fuzzy
+msgid "Administrator"
+msgstr "Gestisce"
+
 msgid "All collection data will be unrecoverably deleted."
+msgstr ""
+
+msgid "All of the principal's calendars and events will be unrecoverably deleted."
 msgstr ""
 
 msgid "All of the user's calendars and events will be unrecoverably deleted."
@@ -95,12 +105,21 @@ msgstr "Tutte le modifiche richieste sono state apportate."
 msgid "All"
 msgstr "Tutti"
 
+msgid "Allow free/busy enquiries targeted at the owner of this scheduling inbox"
+msgstr ""
+
+msgid "An \"Administrator\" user has full rights to the whole DAViCal System"
+msgstr ""
+
 msgid "Anonymous users are not allowed to modify calendars"
 msgstr "Gli utenti anonimi non sono autorizzati a modificare i calendari"
 
 #, fuzzy
 msgid "Anonymous users may only access public calendars"
 msgstr "Gli utenti anonimi non sono autorizzati a modificare i calendari"
+
+msgid "Apply Changes"
+msgstr ""
 
 msgid "Browse all users"
 msgstr "Vedi tutti gli utenti"
@@ -124,6 +143,10 @@ msgstr "Calendario utenti"
 
 #, c-format
 msgid "Calendar \"%s\" for user \"%s\" was created."
+msgstr ""
+
+#, c-format
+msgid "Calendar \"%s\" was loaded from file."
 msgstr ""
 
 msgid "Can read from"
@@ -176,6 +199,10 @@ msgstr "Percorso archivio"
 msgid "Confirm Deletion of the Collection"
 msgstr "Conferma cancellazione archivio"
 
+#, fuzzy
+msgid "Confirm Deletion of the Principal"
+msgstr "Conferma cancellazione archivio"
+
 msgid "Confirm Deletion of the Relationship Type"
 msgstr "Conferma cancellazione del tipo di relazione"
 
@@ -198,6 +225,10 @@ msgid "Create Calendar"
 msgstr "Calendario"
 
 #, fuzzy
+msgid "Create Collection"
+msgstr "Conferma cancellazione archivio"
+
+#, fuzzy
 msgid "Create Events/Collections"
 msgstr "Conferma cancellazione archivio"
 
@@ -215,8 +246,16 @@ msgstr "Calendario utenti"
 msgid "Create a new principal (i.e. a new user, resource or group)"
 msgstr ""
 
+#, fuzzy
+msgid "Create a resource or collection"
+msgstr "Conferma cancellazione archivio"
+
 msgid "Create"
 msgstr "Crea"
+
+#, fuzzy
+msgid "Creating new Principal record."
+msgstr "Calendario utenti"
 
 msgid "DAV Path"
 msgstr ""
@@ -249,16 +288,21 @@ msgstr "Formato data"
 msgid "Default Privileges"
 msgstr ""
 
-msgid "Default relationships added."
-msgstr "Relazioni di default aggiunte."
-
 #, fuzzy
 msgid "Delete Events/Collections"
 msgstr "Conferma cancellazione archivio"
 
 #, fuzzy
+msgid "Delete Principal"
+msgstr "Calendario utenti"
+
+#, fuzzy
 msgid "Delete User"
 msgstr "Elimina"
+
+#, fuzzy
+msgid "Delete a resource or collection"
+msgstr "Conferma cancellazione archivio"
 
 msgid "Delete"
 msgstr "Elimina"
@@ -271,8 +315,18 @@ msgid "Deleting Collection:"
 msgstr "Conferma cancellazione archivio"
 
 #, fuzzy
+msgid "Deleting Principal:"
+msgstr "Calendario utenti"
+
+#, fuzzy
 msgid "Deleting User:"
 msgstr "Elimina"
+
+msgid "Deliver scheduling invitations from an organiser to this scheduling inbox"
+msgstr ""
+
+msgid "Deliver scheduling replies from an attendee to this scheduling inbox"
+msgstr ""
 
 msgid "Description"
 msgstr ""
@@ -315,6 +369,10 @@ msgstr "Modifica %s"
 msgid "Edit this user record"
 msgstr "Modifica questo record utente"
 
+#, fuzzy
+msgid "Edit"
+msgstr "Modifica %s"
+
 msgid "Email Address"
 msgstr ""
 
@@ -354,6 +412,10 @@ msgstr ""
 
 msgid "Forbidden"
 msgstr "Negato"
+
+#, fuzzy
+msgid "Free/Busy"
+msgstr "Impegnato"
 
 msgid "FreeBusy"
 msgstr "Impegnato"
@@ -490,6 +552,12 @@ msgstr ""
 msgid "List Users"
 msgstr "Utenti"
 
+msgid "Load From File"
+msgstr ""
+
+msgid "Locale"
+msgstr ""
+
 msgid "Log On Please"
 msgstr "Autenticazione richiesta"
 
@@ -520,6 +588,10 @@ msgstr ""
 
 msgid "No collection found at that location."
 msgstr ""
+
+#, fuzzy
+msgid "No"
+msgstr "No."
 
 msgid "No. <!-- short for 'Number' -->"
 msgstr "Nr. <!-- short for 'Number' -->"
@@ -552,6 +624,10 @@ msgid "Please confirm deletion of collection - see below"
 msgstr ""
 
 #, fuzzy
+msgid "Please confirm deletion of the principal"
+msgstr "Conferma cancellazione"
+
+#, fuzzy
 msgid "Please confirm deletion of user"
 msgstr "Conferma cancellazione"
 
@@ -570,6 +646,10 @@ msgstr ""
 
 msgid "Principal Type"
 msgstr ""
+
+#, fuzzy
+msgid "Principal deleted"
+msgstr "Conferma cancellazione archivio"
 
 msgid "Principal"
 msgstr ""
@@ -595,6 +675,9 @@ msgstr ""
 msgid "REPORT body is not valid XML data!"
 msgstr ""
 
+msgid "Read ACLs for a resource or collection"
+msgstr ""
+
 msgid "Read Access Controls"
 msgstr ""
 
@@ -604,8 +687,21 @@ msgstr ""
 msgid "Read Free/Busy Information"
 msgstr ""
 
+msgid "Read the content of a resource or collection"
+msgstr ""
+
+msgid "Read the details of the current user's access control to this resource."
+msgstr ""
+
+msgid "Read the free/busy information for a calendar collection"
+msgstr ""
+
 msgid "Read"
 msgstr "Lettura"
+
+#, fuzzy
+msgid "Read/Write"
+msgstr "Lettura/Scrittura"
 
 msgid "ReadWrite"
 msgstr "Lettura/Scrittura"
@@ -639,6 +735,9 @@ msgstr ""
 
 msgid "Relationships"
 msgstr "Relazioni"
+
+msgid "Remove a lock"
+msgstr ""
 
 msgid "Repeat Rule"
 msgstr ""
@@ -676,6 +775,12 @@ msgstr ""
 msgid "Rights"
 msgstr "Privilegi"
 
+msgid "Schedule Deliver"
+msgstr ""
+
+msgid "Schedule Send"
+msgstr ""
+
 msgid "Schedule Transparency"
 msgstr ""
 
@@ -701,6 +806,27 @@ msgid "Select the type of relationship from this user"
 msgstr ""
 
 msgid "Select the user, resource or group to relate this user to"
+msgstr ""
+
+msgid "Send free/busy enquiries"
+msgstr ""
+
+msgid "Send scheduling invitations as an organiser from the owner of this scheduling outbox."
+msgstr ""
+
+msgid "Send scheduling replies as an attendee from the owner of this scheduling outbox."
+msgstr ""
+
+msgid "Set free/busy privileges"
+msgstr ""
+
+msgid "Set read privileges"
+msgstr ""
+
+msgid "Set read+write privileges"
+msgstr ""
+
+msgid "Set schedule-deliver privileges"
 msgstr ""
 
 msgid "Set the path to store your ics e.g. 'home' will be referenced as /caldav.php/me/home/"
@@ -730,6 +856,9 @@ msgid "Source resource does not exist."
 msgstr ""
 
 msgid "Special collections may not contain a calendar or other special collection."
+msgstr ""
+
+msgid "Specific Privileges"
 msgstr ""
 
 msgid "Start"
@@ -771,6 +900,10 @@ msgstr ""
 msgid "The calendar path contains illegal characters."
 msgstr ""
 
+msgid ""
+"The calendar-free-busy-set is superseded by the schedule-transp property of a calendar collection."
+msgstr ""
+
 msgid "The displayname may only be set on collections or principals."
 msgstr ""
 
@@ -810,6 +943,9 @@ msgstr ""
 msgid "To ID"
 msgstr ""
 
+msgid "Toggle all privileges"
+msgstr ""
+
 msgid "Transparent"
 msgstr ""
 
@@ -828,6 +964,9 @@ msgstr "Ultima modifica"
 msgid "Updating Member of this Group Principal"
 msgstr ""
 
+msgid "Updating Principal record."
+msgstr ""
+
 msgid "Updating grants by this Principal"
 msgstr ""
 
@@ -838,6 +977,9 @@ msgid "Upgrade Database"
 msgstr ""
 
 msgid "Upload a .ics calendar in iCalendar format "
+msgstr ""
+
+msgid "Upload a .ics calendar in iCalendar format to initialise or replace this calendar."
 msgstr ""
 
 msgid "User Calendar Principals"
@@ -893,6 +1035,9 @@ msgstr ""
 msgid "When the user's e-mail account was validated."
 msgstr ""
 
+msgid "Write ACLs for a resource or collection"
+msgstr ""
+
 msgid "Write Access Controls"
 msgstr ""
 
@@ -903,8 +1048,18 @@ msgstr "Scrittura"
 msgid "Write Metadata"
 msgstr ""
 
+#, fuzzy
+msgid "Write content"
+msgstr "Scrittura"
+
+msgid "Write properties"
+msgstr ""
+
 msgid "Write"
 msgstr "Scrittura"
+
+msgid "Yes"
+msgstr ""
 
 msgid "You are editing"
 msgstr ""
@@ -921,16 +1076,10 @@ msgstr ""
 msgid "You do not have sufficient access to lock that"
 msgstr ""
 
-msgid "You may not access that calendar"
-msgstr ""
-
 msgid "You may not access that collection"
 msgstr ""
 
 msgid "You may not add entries to this calendar."
-msgstr ""
-
-msgid "You may not create a calendar there."
 msgstr ""
 
 msgid "You may not delete entries from this calendar."
@@ -987,6 +1136,10 @@ msgstr "Mantieni aperta la connessione"
 msgid "forget me not"
 msgstr "Mantieni aperta la connessione"
 
+#, fuzzy
+msgid "from principal"
+msgstr "Calendario utenti"
+
 msgid "is Assistant to"
 msgstr ""
 
@@ -1002,6 +1155,9 @@ msgstr ""
 
 msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
 msgstr ""
+
+#~ msgid "Default relationships added."
+#~ msgstr "Relazioni di default aggiunte."
 
 #~ msgid "Add a new user"
 #~ msgstr "Aggiungi un nuovo utente"

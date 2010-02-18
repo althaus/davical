@@ -8,13 +8,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rscds 0.7.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-12-21 23:23+1300\n"
+"POT-Creation-Date: 2010-02-18 21:09+1300\n"
 "PO-Revision-Date: 2007-05-03 15:00+0001\n"
 "Last-Translator: David Takacs <david.takacs@cafeopen.eu>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+msgid "*** Default Locale ***"
+msgstr ""
 
 #, c-format
 msgid "- creating record for users :  %s"
@@ -82,7 +85,13 @@ msgstr ""
 msgid "Administration"
 msgstr ""
 
+msgid "Administrator"
+msgstr ""
+
 msgid "All collection data will be unrecoverably deleted."
+msgstr ""
+
+msgid "All of the principal's calendars and events will be unrecoverably deleted."
 msgstr ""
 
 msgid "All of the user's calendars and events will be unrecoverably deleted."
@@ -94,12 +103,21 @@ msgstr "Minden változás mentve"
 msgid "All"
 msgstr ""
 
+msgid "Allow free/busy enquiries targeted at the owner of this scheduling inbox"
+msgstr ""
+
+msgid "An \"Administrator\" user has full rights to the whole DAViCal System"
+msgstr ""
+
 msgid "Anonymous users are not allowed to modify calendars"
 msgstr ""
 
 #, fuzzy
 msgid "Anonymous users may only access public calendars"
 msgstr "Nincs jogosultsága hozzáférni a naptárhoz"
+
+msgid "Apply Changes"
+msgstr ""
 
 msgid "Browse all users"
 msgstr "Felhasználók listája"
@@ -123,6 +141,10 @@ msgstr "Naptár felhasználói"
 
 #, c-format
 msgid "Calendar \"%s\" for user \"%s\" was created."
+msgstr ""
+
+#, c-format
+msgid "Calendar \"%s\" was loaded from file."
 msgstr ""
 
 msgid "Can read from"
@@ -177,6 +199,10 @@ msgstr "Gyűjtemény elérési útja"
 msgid "Confirm Deletion of the Collection"
 msgstr "Valóban törli a kapcsolattípust?"
 
+#, fuzzy
+msgid "Confirm Deletion of the Principal"
+msgstr "Valóban törli a kapcsolattípust?"
+
 msgid "Confirm Deletion of the Relationship Type"
 msgstr "Valóban törli a kapcsolattípust?"
 
@@ -199,6 +225,10 @@ msgid "Create Calendar"
 msgstr "Naptár felhasználói"
 
 #, fuzzy
+msgid "Create Collection"
+msgstr "Valóban törli a kapcsolattípust?"
+
+#, fuzzy
 msgid "Create Events/Collections"
 msgstr "Valóban törli a kapcsolattípust?"
 
@@ -216,8 +246,16 @@ msgstr "Naptár felhasználói"
 msgid "Create a new principal (i.e. a new user, resource or group)"
 msgstr ""
 
+#, fuzzy
+msgid "Create a resource or collection"
+msgstr "Valóban törli a kapcsolattípust?"
+
 msgid "Create"
 msgstr "Új létrehozása"
+
+#, fuzzy
+msgid "Creating new Principal record."
+msgstr "Naptár felhasználói"
 
 msgid "DAV Path"
 msgstr ""
@@ -251,16 +289,20 @@ msgid "Default Privileges"
 msgstr ""
 
 #, fuzzy
-msgid "Default relationships added."
-msgstr "Kapcsolat hozzáadva."
-
-#, fuzzy
 msgid "Delete Events/Collections"
 msgstr "Valóban törli a kapcsolattípust?"
 
 #, fuzzy
+msgid "Delete Principal"
+msgstr "Naptár felhasználói"
+
+#, fuzzy
 msgid "Delete User"
 msgstr "Törlés"
+
+#, fuzzy
+msgid "Delete a resource or collection"
+msgstr "Valóban törli a kapcsolattípust?"
 
 msgid "Delete"
 msgstr "Törlés"
@@ -273,8 +315,18 @@ msgid "Deleting Collection:"
 msgstr "Valóban törli a kapcsolattípust?"
 
 #, fuzzy
+msgid "Deleting Principal:"
+msgstr "Naptár felhasználói"
+
+#, fuzzy
 msgid "Deleting User:"
 msgstr "Törlés"
+
+msgid "Deliver scheduling invitations from an organiser to this scheduling inbox"
+msgstr ""
+
+msgid "Deliver scheduling replies from an attendee to this scheduling inbox"
+msgstr ""
 
 msgid "Description"
 msgstr ""
@@ -317,6 +369,10 @@ msgstr "Szerkesztés"
 msgid "Edit this user record"
 msgstr "Felhasználó szerkesztése"
 
+#, fuzzy
+msgid "Edit"
+msgstr "Szerkesztés"
+
 msgid "Email Address"
 msgstr ""
 
@@ -357,6 +413,9 @@ msgid "For access to the"
 msgstr "Hozzáféréshez"
 
 msgid "Forbidden"
+msgstr ""
+
+msgid "Free/Busy"
 msgstr ""
 
 msgid "FreeBusy"
@@ -495,6 +554,12 @@ msgstr "Erőforrás"
 msgid "List Users"
 msgstr "Felhasználók"
 
+msgid "Load From File"
+msgstr ""
+
+msgid "Locale"
+msgstr ""
+
 msgid "Log On Please"
 msgstr "Lépjen be."
 
@@ -527,6 +592,10 @@ msgstr ""
 msgid "No collection found at that location."
 msgstr "Ezen a helyen nincs gyűjtemény."
 
+#, fuzzy
+msgid "No"
+msgstr "Szám"
+
 msgid "No. <!-- short for 'Number' -->"
 msgstr "Sz."
 
@@ -558,6 +627,10 @@ msgid "Please confirm deletion of collection - see below"
 msgstr ""
 
 #, fuzzy
+msgid "Please confirm deletion of the principal"
+msgstr "Törlés megerősítése"
+
+#, fuzzy
 msgid "Please confirm deletion of user"
 msgstr "Törlés megerősítése"
 
@@ -576,6 +649,10 @@ msgstr ""
 
 msgid "Principal Type"
 msgstr ""
+
+#, fuzzy
+msgid "Principal deleted"
+msgstr "Valóban törli a kapcsolattípust?"
 
 msgid "Principal"
 msgstr ""
@@ -601,6 +678,9 @@ msgstr ""
 msgid "REPORT body is not valid XML data!"
 msgstr ""
 
+msgid "Read ACLs for a resource or collection"
+msgstr ""
+
 msgid "Read Access Controls"
 msgstr ""
 
@@ -610,7 +690,20 @@ msgstr ""
 msgid "Read Free/Busy Information"
 msgstr ""
 
+#, fuzzy
+msgid "Read the content of a resource or collection"
+msgstr "Gyűjtemény tartalmának megjelenítése"
+
+msgid "Read the details of the current user's access control to this resource."
+msgstr ""
+
+msgid "Read the free/busy information for a calendar collection"
+msgstr ""
+
 msgid "Read"
+msgstr ""
+
+msgid "Read/Write"
 msgstr ""
 
 msgid "ReadWrite"
@@ -645,6 +738,9 @@ msgstr "Kapcsolatok ehhez a felhasználóhoz"
 
 msgid "Relationships"
 msgstr "Kapcsolatok"
+
+msgid "Remove a lock"
+msgstr ""
 
 msgid "Repeat Rule"
 msgstr "Ismétlési szabály"
@@ -682,6 +778,12 @@ msgstr "Erőforrások nem cserélhetők fel gyűjteményekkel"
 msgid "Rights"
 msgstr "Jogok"
 
+msgid "Schedule Deliver"
+msgstr ""
+
+msgid "Schedule Send"
+msgstr ""
+
 msgid "Schedule Transparency"
 msgstr ""
 
@@ -709,6 +811,27 @@ msgstr "Kapcsolattípus kiválasztása"
 msgid "Select the user, resource or group to relate this user to"
 msgstr "Kapcsolandó felhasználó, erőforrás vagy csoport kiválasztása"
 
+msgid "Send free/busy enquiries"
+msgstr ""
+
+msgid "Send scheduling invitations as an organiser from the owner of this scheduling outbox."
+msgstr ""
+
+msgid "Send scheduling replies as an attendee from the owner of this scheduling outbox."
+msgstr ""
+
+msgid "Set free/busy privileges"
+msgstr ""
+
+msgid "Set read privileges"
+msgstr ""
+
+msgid "Set read+write privileges"
+msgstr ""
+
+msgid "Set schedule-deliver privileges"
+msgstr ""
+
 msgid "Set the path to store your ics e.g. 'home' will be referenced as /caldav.php/me/home/"
 msgstr ""
 
@@ -735,6 +858,9 @@ msgid "Source resource does not exist."
 msgstr ""
 
 msgid "Special collections may not contain a calendar or other special collection."
+msgstr ""
+
+msgid "Specific Privileges"
 msgstr ""
 
 msgid "Start"
@@ -772,6 +898,10 @@ msgstr ""
 
 msgid "The calendar path contains illegal characters."
 msgstr "A naptár elérési útja érvénytelen karaktert tartalmaz."
+
+msgid ""
+"The calendar-free-busy-set is superseded by the schedule-transp property of a calendar collection."
+msgstr ""
 
 msgid "The displayname may only be set on collections or principals."
 msgstr "A megjelenített név csak gyűjteményekhez vagy megbízókhoz állítható be."
@@ -813,6 +943,9 @@ msgstr "Felhasználó gyűjteményei"
 msgid "To ID"
 msgstr ""
 
+msgid "Toggle all privileges"
+msgstr ""
+
 msgid "Transparent"
 msgstr ""
 
@@ -831,6 +964,10 @@ msgstr "Frissítve"
 msgid "Updating Member of this Group Principal"
 msgstr ""
 
+#, fuzzy
+msgid "Updating Principal record."
+msgstr "Adataim"
+
 msgid "Updating grants by this Principal"
 msgstr ""
 
@@ -841,6 +978,9 @@ msgid "Upgrade Database"
 msgstr ""
 
 msgid "Upload a .ics calendar in iCalendar format "
+msgstr ""
+
+msgid "Upload a .ics calendar in iCalendar format to initialise or replace this calendar."
 msgstr ""
 
 msgid "User Calendar Principals"
@@ -897,6 +1037,9 @@ msgstr ""
 msgid "When the user's e-mail account was validated."
 msgstr "Mikor lett ellenőrizve a felhasználó e-mail-címe"
 
+msgid "Write ACLs for a resource or collection"
+msgstr ""
+
 msgid "Write Access Controls"
 msgstr ""
 
@@ -906,7 +1049,16 @@ msgstr ""
 msgid "Write Metadata"
 msgstr ""
 
+msgid "Write content"
+msgstr ""
+
+msgid "Write properties"
+msgstr ""
+
 msgid "Write"
+msgstr ""
+
+msgid "Yes"
 msgstr ""
 
 msgid "You are editing"
@@ -924,18 +1076,12 @@ msgstr "Nincs jogosultsága hozzáférni az erőforráshoz"
 msgid "You do not have sufficient access to lock that"
 msgstr "Nincs jogosultsága zárolni"
 
-msgid "You may not access that calendar"
-msgstr "Nincs jogosultsága hozzáférni a naptárhoz"
-
 #, fuzzy
 msgid "You may not access that collection"
 msgstr "Nincs jogosultsága hozzáférni a naptárhoz"
 
 msgid "You may not add entries to this calendar."
 msgstr "Nincs jogosultsága új bejegyzéseket írni a naptárba."
-
-msgid "You may not create a calendar there."
-msgstr "Itt nem hozható létre naptár."
 
 msgid "You may not delete entries from this calendar."
 msgstr "Nincs jogosultsága bejegyzéseket törölni ebből a naptárból."
@@ -991,6 +1137,10 @@ msgstr "Emlékezzen rám ezen a gépen"
 msgid "forget me not"
 msgstr "Emlékezzen rám"
 
+#, fuzzy
+msgid "from principal"
+msgstr "Naptár felhasználói"
+
 msgid "is Assistant to"
 msgstr "asszisztense neki:"
 
@@ -1006,6 +1156,16 @@ msgstr "Lépjen be felhasználónevével és jelszavával."
 
 msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Default relationships added."
+#~ msgstr "Kapcsolat hozzáadva."
+
+#~ msgid "You may not access that calendar"
+#~ msgstr "Nincs jogosultsága hozzáférni a naptárhoz"
+
+#~ msgid "You may not create a calendar there."
+#~ msgstr "Itt nem hozható létre naptár."
 
 #~ msgid "Add a new user"
 #~ msgstr "Felhasználó hozzáadása"
