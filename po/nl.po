@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-02-18 21:09+1300\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Eelco Maljaars <http://eelco.maljaars.net/>\n"
+"PO-Revision-Date: 2010-02-18 16:00+0100\n"
+"Last-Translator: Vincent Van Houtte <http://www.synergylaw.be/>\n"
 "Language-Team: nl_NL <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,50 +19,46 @@ msgstr ""
 msgid "*** Default Locale ***"
 msgstr ""
 
-#, c-format
 msgid "- creating record for users :  %s"
-msgstr ""
+msgstr "- gebruiker aanmaken :  %s"
 
-#, fuzzy, c-format
 msgid "- deactivating users : %s"
-msgstr "Verander deze gebruiker"
+msgstr "- desactiveren van gebruikers : %s"
 
-#, c-format
 msgid "- nothing done on : %s"
-msgstr ""
+msgstr "- ongewijzigd : %s"
 
-#, fuzzy, c-format
 msgid "- updating user records : %s"
-msgstr "Verander deze gebruiker"
+msgstr "- wijzigen van gebruikers : %s"
 
 msgid "--- select a relationship type ---"
-msgstr "--- selekteer het soort relatie ---"
+msgstr "--- selecteer het soort relatie ---"
 
 msgid "--- select a user or resource ---"
-msgstr "--- selekteer een gebruiker of resource ---"
+msgstr "--- selecteer een gebruiker of resource ---"
 
 msgid "--- select a user, group or resource ---"
-msgstr "--- selekteer een gebruiker, groep of resource ---"
+msgstr "--- selecteer een gebruiker, groep of resource ---"
 
 msgid "<b>WARNING: all events in this path will be deleted before inserting allof the ics file</b>"
-msgstr ""
+msgstr "<b>OPGELET: Alle afspraken in deze map zullen verwijderd worden vooraleer het ics-bestand wordt ingevoegd</b>"
 
 #, c-format
 msgid ""
 "<h1>Log On Please</h1><p>For access to the %s you should log on withthe username and password that "
 "have been issued to you.</p><p>If you would like to request access, please e-mail %s.</p>"
 msgstr ""
-"<h1>Log in alstublieft</h1><p>Om toegang to krijgen tot de %s moet in inloggenmet de gebruikersnaam en "
-"het wachtwoord wat je heb gekregen.</p><p>Om toegang aan te vragen mail je %s.</p>"
+"<h1>Meld U alstublieft aan</h1><p>Om toegang te krijgen tot de %s moet U zich aanmelden met de "
+"gebruikersnaam en het wachtwoord dat U heeft gekregen.</p><p>Om toegang aan te vragen mail je %s.</p>"
 
 msgid "A collection already exists at that location."
 msgstr "Er bestaat al een verzameling op die plek"
 
 msgid "Action"
-msgstr "Aktie"
+msgstr "Actie"
 
 msgid "Active"
-msgstr "Aktief"
+msgstr "Actief"
 
 msgid "Add Relationship"
 msgstr "Voeg relatie toe"
@@ -71,7 +67,7 @@ msgid "Add"
 msgstr "Voeg toe"
 
 msgid "Adding new member to this Group Principal"
-msgstr ""
+msgstr "Een nieuw lid toevoegen aan deze Groep Principaal"
 
 msgid "Admin <!-- in the sense of 'systems admin' -->"
 msgstr "Beheerder"
@@ -79,89 +75,84 @@ msgstr "Beheerder"
 msgid "Admin"
 msgstr "Beheer"
 
-#, fuzzy
 msgid "Administers"
-msgstr "Beheerdersgroep"
+msgstr "Beheert"
 
-#, fuzzy
 msgid "Administration"
-msgstr "Beheerdersgroep"
+msgstr "Beheer"
 
-#, fuzzy
 msgid "Administrator"
-msgstr "Beheerdersgroep"
+msgstr "Beheerder"
 
 msgid "All collection data will be unrecoverably deleted."
-msgstr ""
+msgstr "Alle gegevens van de collectie worden onherroepelijk verwijderd."
 
 msgid "All of the principal's calendars and events will be unrecoverably deleted."
-msgstr ""
+msgstr "Alle agenda's en afspraken van de Principaal worden onherroepelijk verwijderd."
 
 msgid "All of the user's calendars and events will be unrecoverably deleted."
-msgstr ""
+msgstr "Alle agenda's en afspraken van de gebruiker worden onherroepelijk verwijderd."
 
 msgid "All requested changes were made."
-msgstr ""
+msgstr "De gevraagde wijzigingen werden doorgevoerd"
 
 msgid "All"
-msgstr ""
-
-msgid "Allow free/busy enquiries targeted at the owner of this scheduling inbox"
-msgstr ""
-
-msgid "An \"Administrator\" user has full rights to the whole DAViCal System"
-msgstr ""
-
-msgid "Anonymous users are not allowed to modify calendars"
-msgstr ""
+msgstr "Alle"
 
 #, fuzzy
+msgid "Allow free/busy enquiries targeted at the owner of this scheduling inbox"
+msgstr "Laat vrij/bezet-bevragingen toe aan de eigenaar van deze agenda"
+
+msgid "An \"Administrator\" user has full rights to the whole DAViCal System"
+msgstr "Een \"Beheerder\" heeft alle privileges in een DAViCal Systeem"
+
+msgid "Anonymous users are not allowed to modify calendars"
+msgstr "Anonieme gebruikers kunnen geen agenda's aanpassen"
+
 msgid "Anonymous users may only access public calendars"
-msgstr "Je mag die agenda niet benaderen"
+msgstr "Anonieme gebruikers kunnen hebben enkel toegang tot openbare agenda's"
 
 msgid "Apply Changes"
-msgstr ""
+msgstr "Pas wijzigingen toe"
 
 msgid "Browse all users"
 msgstr "Blader door alle gebruikers"
 
 msgid "Busy"
-msgstr ""
+msgstr "Bezet"
 
 #, fuzzy
 msgid "Calendar Principals"
 msgstr "Agenda gebruikers"
 
 msgid "Calendar Resource Not Found."
-msgstr ""
+msgstr "Agendabron niet gevonden"
 
-#, fuzzy
 msgid "Calendar Timezone"
-msgstr "Agenda gebruikers"
+msgstr "Tijdzone van Agenda"
 
 msgid "Calendar Users"
 msgstr "Agenda gebruikers"
 
 #, c-format
 msgid "Calendar \"%s\" for user \"%s\" was created."
-msgstr ""
+msgstr "Agenda \"%s\" voor gebruiker \"%s\" werd aangemaakt."
 
 #, c-format
 msgid "Calendar \"%s\" was loaded from file."
-msgstr ""
+msgstr "Agenda \"%s\" werd ingeladen van bestand."
 
 msgid "Can read from"
-msgstr ""
+msgstr "Kan lezen van"
 
 msgid "Can see free/busy time of"
-msgstr ""
+msgstr "Kan vrij/bezet zien van"
 
-#, fuzzy
 msgid "Change Password"
-msgstr "Nieuw wachtwoord"
+msgstr "Wijzig wachtwoord"
 
 msgid "Changed On"
-msgstr "Veranderd op"
+msgstr "Gewijzigd op"
 
 msgid "Click to display that user"
 msgstr "Klik om die gebruiker te tonen"
@@ -179,43 +170,36 @@ msgstr "Klik om de gebruikersdetails te tonen"
 msgid "Collection Contents"
 msgstr "Inhoud van de verzameling"
 
-#, fuzzy
 msgid "Collection Grants"
-msgstr "Verzamelingspad"
+msgstr "Privileges van de Verzameling"
 
-#, fuzzy
 msgid "Collection ID"
-msgstr "Verzamelingspad"
+msgstr "ID van de Verzameling"
 
 msgid "Collection Path"
-msgstr "Verzamelingspad"
+msgstr "Map van de Verzameling"
 
-#, fuzzy
 msgid "Collection deleted"
-msgstr "Verzamelingspad"
+msgstr "Verzameling verwijderd"
 
-#, fuzzy
 msgid "Collection"
-msgstr "Verzamelingspad"
+msgstr "Verzameling"
 
-#, fuzzy
 msgid "Confirm Deletion of the Collection"
-msgstr "Bevestig verwijderen relatie soort"
+msgstr "Bevestig het verwijderen van de Verzameling"
 
 #, fuzzy
 msgid "Confirm Deletion of the Principal"
-msgstr "Bevestig verwijderen relatie soort"
+msgstr "Bevestig het verwijderen van de Principaal"
 
 msgid "Confirm Deletion of the Relationship Type"
-msgstr "Bevestig verwijderen relatie soort"
+msgstr "Bevestig het verwijderen van het type Relatie"
 
-#, fuzzy
 msgid "Confirm Deletion of the User"
-msgstr "Bevestig verwijderen relatie soort"
+msgstr "Bevestig het verwijderen van de Gebruiker"
 
-#, fuzzy
 msgid "Confirm Password"
-msgstr "Bevestig het nieuwe wachtwoord"
+msgstr "Bevestig het wachtwoord"
 
 msgid "Confirm the new password."
 msgstr "Bevestig het nieuwe wachtwoord"
@@ -223,127 +207,115 @@ msgstr "Bevestig het nieuwe wachtwoord"
 msgid "Confirm"
 msgstr "Bevestig"
 
-#, fuzzy
 msgid "Create Calendar"
-msgstr "Agenda gebruikers"
+msgstr "Maak Agenda aan"
 
-#, fuzzy
 msgid "Create Collection"
-msgstr "Bevestig verwijderen relatie soort"
+msgstr "Maak Verzameling aan"
 
-#, fuzzy
 msgid "Create Events/Collections"
-msgstr "Bevestig verwijderen relatie soort"
+msgstr "Maak Afspraken/Verzamelingen aan"
 
-#, fuzzy
 msgid "Create New Collection"
-msgstr "Bevestig verwijderen relatie soort"
-
-msgid "Create New Principal"
-msgstr ""
+msgstr "Maak nieuwe Verzameling aan"
 
 #, fuzzy
+msgid "Create New Principal"
+msgstr "Maak nieuwe Principaal aan"
+
 msgid "Create Principal"
-msgstr "Agenda gebruikers"
+msgstr "Maak Principaal aan"
 
 msgid "Create a new principal (i.e. a new user, resource or group)"
-msgstr ""
+msgstr "Maak nieuwe Principaal aan (d.i. een nieuwe gebruiker, bron of groep)"
 
-#, fuzzy
 msgid "Create a resource or collection"
-msgstr "Bevestig verwijderen relatie soort"
+msgstr "Maak een Bron of Verzameling aan"
 
 msgid "Create"
 msgstr "Maak"
 
-#, fuzzy
 msgid "Creating new Principal record."
-msgstr "Agenda gebruikers"
+msgstr "Nieuwe Principaal aanmaken"
 
 msgid "DAV Path"
-msgstr ""
+msgstr "DAV map"
 
 msgid "DAViCal CalDAV Server"
-msgstr ""
+msgstr "DAViCal CalDAV Server"
 
 msgid "DAViCal Homepage"
-msgstr ""
+msgstr "DAViCal website"
 
 msgid "DAViCal Wiki"
-msgstr ""
+msgstr "DAViCal wiki"
 
-#, fuzzy
 msgid "Database Error"
 msgstr "Database fout"
 
 msgid "Database Error."
 msgstr "Database fout"
 
-#, fuzzy
 msgid "Database error"
 msgstr "Database fout"
 
-#, fuzzy
 msgid "Date Format Style"
-msgstr "Datum stijl"
+msgstr "Opmaak datum"
 
 msgid "Date Style"
-msgstr "Datum stijl"
+msgstr "Opmaak datum"
 
 msgid "Default Privileges"
-msgstr ""
+msgstr "Standaard Privileges"
 
-#, fuzzy
 msgid "Delete Events/Collections"
-msgstr "Bevestig verwijderen relatie soort"
+msgstr "Verwijder Afspraken/Verzamelingen"
 
-#, fuzzy
 msgid "Delete Principal"
-msgstr "Agenda gebruikers"
+msgstr "Verwijder Principaal"
 
-#, fuzzy
 msgid "Delete User"
-msgstr "Verwijder"
+msgstr "Verwijder Gebruiker"
 
-#, fuzzy
 msgid "Delete a resource or collection"
-msgstr "Bevestig verwijderen relatie soort"
+msgstr "Verwijder een Bron of Verzameling"
 
 msgid "Delete"
 msgstr "Verwijder"
 
 msgid "Deleted a grant from this Principal"
-msgstr ""
+msgstr "Deze Principaal werd een privilege ontnomen"
 
-#, fuzzy
 msgid "Deleting Collection:"
-msgstr "Bevestig verwijderen relatie soort"
+msgstr "Deze Verzameling verwijderen:"
 
-#, fuzzy
 msgid "Deleting Principal:"
-msgstr "Agenda gebruikers"
+msgstr "Deze Principaal verwijderen:"
+
+msgid "Deleting User:"
+msgstr "Deze Gebruiker verwijderen:"
 
 #, fuzzy
-msgid "Deleting User:"
-msgstr "Verwijder"
-
 msgid "Deliver scheduling invitations from an organiser to this scheduling inbox"
-msgstr ""
+msgstr "Post uitnodigingen voor een afspraak in deze inbox"
 
+#, fuzzy
 msgid "Deliver scheduling replies from an attendee to this scheduling inbox"
-msgstr ""
+msgstr "Post antwoorden op uitnodigingen voor een afspraak in deze inbox"
 
 msgid "Description"
-msgstr ""
+msgstr "Beschrijving"
 
 msgid "Directory on the server"
-msgstr ""
+msgstr "Map op de server"
 
+#, fuzzy
 msgid "Display Name"
-msgstr ""
+msgstr "Zichtbare naam"
 
+#, fuzzy
 msgid "Displayname"
-msgstr ""
+msgstr "Zichtbare naam"
 
 msgid "Does the user have the right to perform this role?"
 msgstr "Heeft de gebruiker het recht om deze rol uit te voeren"
@@ -356,44 +328,42 @@ msgstr "E-mail"
 
 #, c-format
 msgid "ERROR: %s"
-msgstr "Fout: %s"
+msgstr "FOUT: %s"
 
 msgid "ERROR: The full name may not be blank."
-msgstr ""
+msgstr "FOUT: De volledige naam mag niet leeg zijn."
 
 msgid "ERROR: The new password must match the confirmed password."
-msgstr ""
+msgstr "FOUT: Het nieuwe wachtwoord is niet exact hetzelfde als het bevestigingswachtwoord."
 
 msgid "ERROR: There was a database error writing the roles information!"
-msgstr "Fout: Database fout bij het schrijven van rolleninformatie"
+msgstr "FOUT: Database fout bij het schrijven van de rolleninformatie"
 
-#, fuzzy, c-format
 msgid "Edit %s"
-msgstr "Verander"
+msgstr "Wijzig %s"
 
 msgid "Edit this user record"
-msgstr "Verander deze gebruiker"
+msgstr "Wijzig deze gebruiker"
 
-#, fuzzy
 msgid "Edit"
-msgstr "Verander"
+msgstr "Wijzig"
 
 msgid "Email Address"
-msgstr ""
+msgstr "E-mailadres"
 
 msgid "Enter a username, if you know it, and click here, to be e-mailed a temporary password."
 msgstr ""
-"Voer een gebruikersnaam in als je die weet en klik hier om een tijdelijk wachtwoord gemaild te krijgen"
+"Voer een gebruikersnaam in als je die weet en klik hier om een tijdelijk wachtwoord te krijgen via E-mail"
 
 msgid "Enter the name for this resource type"
-msgstr "Voer de naam in door dit soort resource"
+msgstr "Voer de naam in voor dit type bron"
 
 msgid "Enter your username and password then click here to log in."
-msgstr "Voer je gebruikersnaam en wachtwoord in en klik hier om in te loggen"
+msgstr "Voer je gebruikersnaam en wachtwoord in en klik hier om U aan te melden"
 
-#, c-format
+#, fuzzy, c-format
 msgid "Error NoUserFound with filter >%s<, attributes >%s< , dn >%s<"
-msgstr ""
+msgstr "Fout NoUserFound met filter >%s<, attributen >%s< , dn >%s<"
 
 msgid "Error querying database."
 msgstr "Fout bij het bevragen van de database"
@@ -406,66 +376,68 @@ msgstr "Europees (d/m/y)"
 
 #, fuzzy
 msgid "Existing resource does not match \"If-Match\" header - not accepted."
-msgstr "Bestaande resource komt niet overeen met 'If-Match' kopregel - niet geaccepteerd"
+msgstr "Bestaande bron komt niet overeen met \"If-Match\" kopregel - niet geaccepteerd"
 
 #, fuzzy
 msgid "Existing resource matches \"If-None-Match\" header - not accepted."
-msgstr "Bestaande resource komt overeen met 'If-None-Match' kopregel - niet geaccepteerd"
+msgstr "Bestaande bron komt overeen met \"If-None-Match\" kopregel - niet geaccepteerd"
 
 msgid "Finish"
-msgstr "Beeindigen"
+msgstr "Voltooien"
 
 msgid "For access to the"
 msgstr "Voor toegang tot de"
 
 msgid "Forbidden"
-msgstr ""
+msgstr "Verboden"
 
 msgid "Free/Busy"
-msgstr ""
+msgstr "Vrij/Bezet"
 
 msgid "FreeBusy"
-msgstr ""
+msgstr "Vrij/Bezet"
 
 msgid "Full Name"
 msgstr "Volledige naam"
 
-#, fuzzy
 msgid "Fullname"
 msgstr "Volledige naam"
 
+#, fuzzy
 msgid "GET requests are only handled on calendar collections."
-msgstr ""
+msgstr "GET bevragingen worden enkel uitgevoerd bij Agenda Verzamelingen"
 
 msgid "GO!"
 msgstr "Ga!"
 
+#, fuzzy
 msgid "Go to the DAViCal Feature Requests"
-msgstr ""
+msgstr "Ga naar de DAViCal feature requests"
 
+#, fuzzy
 msgid "Granting new privileges from this Principal"
-msgstr ""
+msgstr "Nieuwe privileges van deze Principaal toegestaan"
 
 msgid "Group <!-- in the sense of a group of people -->"
 msgstr "Groep"
 
 msgid "Group Members"
-msgstr ""
+msgstr "Groepsleden"
 
 msgid "Group Memberships"
-msgstr ""
+msgstr "Groep-lidmaatschappen"
 
 msgid "Group Principals"
-msgstr ""
+msgstr "Groep-Principalen"
 
 msgid "Group"
 msgstr "Groepeer"
 
 msgid "Has Members"
-msgstr ""
+msgstr "Heeft leden"
 
 msgid "Help on the current screen"
-msgstr ""
+msgstr "Help op het huidige scherm"
 
 msgid "Help! I've forgotten my password!"
 msgstr "Help, ik ben mijn wachtwoord vergeten!"
@@ -475,16 +447,16 @@ msgstr "Hulp"
 
 #, fuzzy
 msgid "Home Page"
-msgstr "Thuis"
+msgstr "Thuispagina"
 
 msgid "Home calendar added."
-msgstr ""
+msgstr "Thuis Agenda toegevoegd"
 
 msgid "Home"
 msgstr "Thuis"
 
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 msgid "ISO Format (YYYY-MM-DD)"
 msgstr "ISO formaat (YYYY-MM-DD)"
@@ -493,46 +465,43 @@ msgid "Id <!-- short for 'Identifier' -->"
 msgstr "Id"
 
 msgid "Id"
-msgstr "Uniek nummer"
+msgstr "Id"
 
 msgid "If you have forgotten your password then"
-msgstr "Indien je je wachtwoord vergeten bent dan"
+msgstr "Indien U Uw wachtwoord vergeten bent dan"
 
 msgid "If you would like to request access, please e-mail"
-msgstr "Indien je toegang wilt aanvragen, e-mail je"
+msgstr "Indien U toegang wilt aanvragen, e-mail dan"
 
-#, fuzzy
 msgid "Import Calendars"
-msgstr "Agenda gebruikers"
+msgstr "Importeer Agenda's"
 
 msgid "Import all .ics files of a directory"
-msgstr ""
+msgstr "Importeer alle ics-bestanden in een map"
 
 msgid "Invalid user name or password."
-msgstr "Verkeerde gebruikersnaam of wachtwoord"
+msgstr "Verkeerde gebruikersnaam of wachtwoord."
 
 msgid "Invalid username or password."
-msgstr "Verkeerde gebruikersnaam of wachtwoord"
+msgstr "Verkeerde gebruikersnaam of wachtwoord."
 
-#, fuzzy
 msgid "Is Member of"
-msgstr "Is lid van de groep"
+msgstr "Is lid van"
 
-#, fuzzy
 msgid "Is a Calendar"
-msgstr "Is een agenda?"
+msgstr "Is een Agenda"
 
 msgid "Is a Calendar?"
-msgstr "Is een agenda?"
+msgstr "Is een Agenda?"
 
 msgid "Is an Addressbook"
-msgstr ""
+msgstr "Is een Adresboek"
 
 msgid "Is this access read ('R') or Read and Write ('RW')?"
-msgstr "Is deze toegang lezen ('R') of lezen en schrijven ('RW')"
+msgstr "Is deze toegang alleen-lezen ('R') of lezen en schrijven ('RW')?"
 
 msgid "Is this user active?"
-msgstr "Is deze gebruiker geaktiveerd?"
+msgstr "Is deze gebruiker actief?"
 
 msgid "Joined"
 msgstr "Gekoppeld"
@@ -541,7 +510,7 @@ msgid "Language"
 msgstr "Taal"
 
 msgid "Last used"
-msgstr "Voor het laatst gebruikt"
+msgstr "Laatst gebruikt"
 
 msgid "Linked From"
 msgstr "Gekoppeld van"
@@ -549,43 +518,41 @@ msgstr "Gekoppeld van"
 msgid "Linked To"
 msgstr "Gekoppeld aan"
 
-#, fuzzy
 msgid "List Groups"
-msgstr "Groepeer"
+msgstr "Toon groepen"
 
-#, fuzzy
 msgid "List Resources"
-msgstr "Resource"
+msgstr "Toon bronnen"
 
-#, fuzzy
 msgid "List Users"
-msgstr "Gebruikers"
+msgstr "Toon gebruikers"
 
 msgid "Load From File"
-msgstr ""
+msgstr "Inladen van bestand"
 
+#, fuzzy
 msgid "Locale"
-msgstr ""
+msgstr "Localisatie"
 
 msgid "Log On Please"
-msgstr "Log in alsjeblieft"
+msgstr "Meld U aan, alstublieft"
 
 #, fuzzy
 msgid "Log out of DAViCal"
-msgstr "Log uit van de"
+msgstr "Afmelden uit DAViCal"
 
 msgid "Logout"
-msgstr "Log uit"
+msgstr "Afmelden"
 
+#, fuzzy
 msgid "Member deleted from this Group Principal"
-msgstr ""
+msgstr "Lid van deze Principaal groep verwijderd"
 
 msgid "Name"
 msgstr "Naam"
 
-#, fuzzy
 msgid "New Collection"
-msgstr "Verzamelingspad"
+msgstr "Nieuwe verzameling"
 
 msgid "New Password"
 msgstr "Nieuw wachtwoord"
@@ -594,139 +561,146 @@ msgid "New User"
 msgstr "Nieuwe gebruiker"
 
 msgid "No calendar content"
-msgstr ""
+msgstr "Geen agenda-inhoud"
 
 msgid "No collection found at that location."
-msgstr "Geen verzamelingen gevonden op die plaats"
+msgstr "Geen verzameling gevonden op die plaats"
 
-#, fuzzy
 msgid "No"
-msgstr "Nee."
+msgstr "Nee"
 
 msgid "No. <!-- short for 'Number' -->"
 msgstr "Nr."
 
 msgid "No."
-msgstr "Nee."
+msgstr "Nr."
 
 msgid "Not overwriting existing destination resource"
-msgstr ""
+msgstr "Bestaande doelbron wordt niet overschreven"
 
 msgid "Opaque"
-msgstr ""
+msgstr "Transparantie"
 
+#, fuzzy
 msgid "Operations on your calendar"
-msgstr ""
+msgstr "Handelingen op Uw Agenda"
 
+#, fuzzy
 msgid "Override a Lock"
-msgstr ""
+msgstr "Negeer een beveiliging"
 
 msgid "Password"
 msgstr "Wachtwoord"
 
 msgid "Path"
-msgstr ""
+msgstr "Pad"
 
 msgid "Please Confirm Deletion"
-msgstr "Bevestig verwijderen alsjeblieft"
+msgstr "Bevestig aub het verwijderen"
 
 msgid "Please confirm deletion of collection - see below"
-msgstr ""
+msgstr "Bevestig aub het verwijderen van de verzameling - zie hieronder"
 
 #, fuzzy
 msgid "Please confirm deletion of the principal"
-msgstr "Bevestig verwijderen alsjeblieft"
+msgstr "Bevestig aub het verwijderen van de Principaal"
 
-#, fuzzy
 msgid "Please confirm deletion of user"
-msgstr "Bevestig verwijderen alsjeblieft"
+msgstr "Bevestig aub het verwijderen van de gebruiker"
 
 msgid "Please note the time and advise the administrator of your system."
-msgstr "Noteer de tijd en breng de beheerder van jou systeem op de hoogte"
+msgstr "Noteer aub het tijdstip en breng de beheerder van Uw systeem op de hoogte."
 
 #, fuzzy
 msgid "Principal Collections"
-msgstr "Bevestig verwijderen relatie soort"
+msgstr "Principale verzamelingen"
 
+#, fuzzy
 msgid "Principal Grants"
-msgstr ""
+msgstr "Principale privileges"
 
+#, fuzzy
 msgid "Principal ID"
-msgstr ""
+msgstr "Principaal ID"
 
+#, fuzzy
 msgid "Principal Type"
-msgstr ""
+msgstr "Type Principaal"
 
 #, fuzzy
 msgid "Principal deleted"
-msgstr "Bevestig verwijderen relatie soort"
+msgstr "Principaal verwijderd"
 
+#, fuzzy
 msgid "Principal"
-msgstr ""
+msgstr "Principaal"
 
 msgid "Privileges"
-msgstr ""
+msgstr "Privileges"
 
 msgid "Property is read-only"
-msgstr ""
+msgstr "Eigenschap is alleen-lezen"
 
 msgid "Public <!-- in the sense of being available to all users -->"
-msgstr "Publiek"
+msgstr "Openbaar"
 
 msgid "Public"
-msgstr "Publiek"
+msgstr "Openbaar"
 
 msgid "Publicly Readable"
-msgstr ""
+msgstr "Openbaar voor iedereen"
 
 msgid "REPORT body contains no XML data!"
-msgstr ""
+msgstr "REPORT-body bevat geen XML gegevens!"
 
 msgid "REPORT body is not valid XML data!"
-msgstr ""
+msgstr "REPORT-body bevat ongeldige XML"
 
 msgid "Read ACLs for a resource or collection"
-msgstr ""
+msgstr "Bevraag ACLs voor een bron of verzameling"
 
+#, fuzzy
 msgid "Read Access Controls"
-msgstr ""
+msgstr "Bevraag toegangscontrole"
 
 msgid "Read Current User's Access"
-msgstr ""
+msgstr "Bevraag de privileges van de huidige gebruiker"
 
 msgid "Read Free/Busy Information"
-msgstr ""
+msgstr "Bevraag de Vrij/Bezet-informatie"
 
 #, fuzzy
 msgid "Read the content of a resource or collection"
-msgstr "Klik om de inhoud van de verzameling te tonen"
+msgstr "Bevraag de inhoud van een bron of verzameling"
 
+#, fuzzy
 msgid "Read the details of the current user's access control to this resource."
-msgstr ""
+msgstr "Bevraag de privileges op deze bron van de huidige gebruiker"
 
+#, fuzzy
 msgid "Read the free/busy information for a calendar collection"
-msgstr ""
+msgstr "Bevraag de Vrij/Bezet gegevens van een Agenda verzameling"
 
 msgid "Read"
-msgstr ""
+msgstr "Lees"
 
 msgid "Read/Write"
-msgstr ""
+msgstr "Lees/Schrijf"
 
 msgid "ReadWrite"
-msgstr ""
+msgstr "Lees/Schrijf"
 
 msgid "Relationship <!-- in the sense of a work relationship between people -->"
 msgstr "Relatie"
 
 msgid "Relationship Type Added."
-msgstr "Relatiesoort toegevoegd"
+msgstr "Type Relatie toegevoegd"
 
 msgid "Relationship Type Deleted."
-msgstr "Relatiesoort verwijderd"
+msgstr "Type Relatie verwijderd"
 
 msgid "Relationship Types"
-msgstr "Relatiesoorten"
+msgstr "Types Relaties"
 
 msgid "Relationship added."
 msgstr "Relatie toegevoegd"
@@ -747,7 +721,7 @@ msgid "Relationships"
 msgstr "Relaties"
 
 msgid "Remove a lock"
-msgstr ""
+msgstr "Verwijder een beveiliging"
 
 msgid "Repeat Rule"
 msgstr "Herhaal regel"
@@ -759,168 +733,176 @@ msgid "Report a bug in the system"
 msgstr "Rapporteer een softwarefout in het systeem"
 
 msgid "Request Feature"
-msgstr ""
+msgstr "Vraag een feature aan"
 
 msgid "Resource <!-- a thing which might be booked: a room, a carpark, a projector... -->"
-msgstr "Resource"
+msgstr "Bron"
 
 msgid "Resource Calendar Principals"
-msgstr ""
+msgstr "Bron Agenda Principalen"
 
 msgid "Resource changed on server - not changed."
-msgstr ""
+msgstr "Bron gewijzigd op de server - niet gewijzigd"
 
 msgid "Resource does not match 'If-Match' header - not deleted"
-msgstr "Resource komt niet overeen met 'If-Match' kopregel - niet verwijderd"
+msgstr "Bron komt niet overeen met 'If-Match' kopregel - niet verwijderd"
 
-#, fuzzy
 msgid "Resource has changed on server - not deleted"
-msgstr "Resource komt niet overeen met 'If-Match' kopregel - niet verwijderd"
+msgstr "Bron gewijzigd op de server - niet verwijderd"
 
 msgid "Resource"
-msgstr "Resource"
+msgstr "Bron"
 
 msgid "Resources may not be changed to / from collections."
-msgstr ""
+msgstr "Bronnen kunnen niet omgezet worden in Verzamelingen en vice versa"
 
 msgid "Rights"
 msgstr "Rechten"
 
 msgid "Schedule Deliver"
-msgstr ""
+msgstr "Agendeer de levering"
 
 msgid "Schedule Send"
-msgstr ""
+msgstr "Agendeer de verzending"
 
 msgid "Schedule Transparency"
-msgstr ""
+msgstr "Agendeer de transparantie"
 
 msgid "Scheduling: Deliver a Reply"
-msgstr ""
+msgstr "Agenderen: Lever een antwoord af"
 
 msgid "Scheduling: Deliver an Invitation"
-msgstr ""
+msgstr "Agenderen: Lever een uitndoging af"
 
 msgid "Scheduling: Query free/busy"
-msgstr ""
+msgstr "Agenderen: Bevraag vrij/bezet"
 
 msgid "Scheduling: Send a Reply"
-msgstr ""
+msgstr "Agenderen: Verzend een antwoord"
 
 msgid "Scheduling: Send an Invitation"
-msgstr ""
+msgstr "Agenderen: Verzend een uitnodiging"
 
 msgid "Scheduling: Send free/busy"
-msgstr ""
+msgstr "Agenderen: Verzend vrij/bezet"
 
 msgid "Select the type of relationship from this user"
-msgstr "Selekteer het soort relatie van deze gebruiker"
+msgstr "Selecteer het type relatie van deze gebruiker"
 
 msgid "Select the user, resource or group to relate this user to"
-msgstr "Selekteer de gebruiker, resource of groep om deze gebruiker aan te koppelen"
+msgstr "Selecteer de gebruiker, bron of groep om deze gebruiker aan te koppelen"
 
+#, fuzzy
 msgid "Send free/busy enquiries"
-msgstr ""
+msgstr "Verzend vrij/bezet-bevragingen"
 
+#, fuzzy
 msgid "Send scheduling invitations as an organiser from the owner of this scheduling outbox."
-msgstr ""
+msgstr "Verzend uitnodigingen als eigenaar van deze outbox"
 
+#, fuzzy
 msgid "Send scheduling replies as an attendee from the owner of this scheduling outbox."
-msgstr ""
+msgstr "Verzend antwoorden op uitnodigingen als eigenaar van deze outbox"
 
 msgid "Set free/busy privileges"
-msgstr ""
+msgstr "Configureer Vrij/Bezet-privileges"
 
 msgid "Set read privileges"
-msgstr ""
+msgstr "Configureer Alleen-lezen -privileges"
 
 msgid "Set read+write privileges"
-msgstr ""
+msgstr "Configureer Lees+Schrijf -privileges"
 
+#, fuzzy
 msgid "Set schedule-deliver privileges"
-msgstr ""
+msgstr "Configureer de privileges om het afleveren te plannen"
 
 msgid "Set the path to store your ics e.g. 'home' will be referenced as /caldav.php/me/home/"
-msgstr ""
+msgstr "Configureer de map waar Uw ics zullen bewaard worden. 'Home' zal bereikbaar zijn als /caldav.php/gebruikersnaam/Home/"
 
 msgid "Setup DAViCal"
-msgstr ""
+msgstr "Configureer DAViCal"
 
 msgid "Setup"
-msgstr ""
+msgstr "Configureer"
 
 msgid "Should this calendar be readable without authenticating?"
-msgstr ""
+msgstr "Moet deze Agenda te bezichtigen zijn zonder aangemeld te zijn?"
 
 msgid "Show help on"
-msgstr "Laat hulp zien over"
+msgstr "Toon hulp over"
 
 msgid "Some properties were not able to be changed."
-msgstr ""
+msgstr "Sommige eigenschappen konden niet gewijzigd worden."
 
 msgid "Some properties were not able to be set."
-msgstr ""
+msgstr "Sommige eigenschappen konden niet ingesteld worden."
 
 msgid "Source resource does not exist."
-msgstr ""
+msgstr "Oorspronkelijke bron bestaat niet"
 
 msgid "Special collections may not contain a calendar or other special collection."
-msgstr ""
+msgstr "Bijzondere verzamelingen kunnen geen Agenda of andere bijzondere verzameling bevatten."
 
 msgid "Specific Privileges"
-msgstr ""
+msgstr "Specifieke privileges"
 
 msgid "Start"
 msgstr "Start"
 
 #, c-format
 msgid "Status: %d, Message: %s, User: %d, Path: %s"
-msgstr ""
+msgstr "Status: %d, Bericht: %s, Gebruiker: %d, Pad: %s"
 
 msgid "Submit"
-msgstr ""
+msgstr "Verzend"
 
 msgid "Summary"
 msgstr "Samenvatting"
 
 msgid "Sync LDAP with RSCDS"
-msgstr ""
+msgstr "Synchroniseer LDAP met RSCDS"
 
 msgid "That relationship type is being used. See ##RelationshipTypeUsed##"
-msgstr "Die relatiesoort wordt gebruikt, zie ##RelationshipTypeUsed##"
+msgstr "Dat type relatie wordt gebruikt. Zie ##RelationshipTypeUsed##"
 
 msgid "That resource is not present on this server."
-msgstr ""
+msgstr "Die bron is niet aanwezig op deze server"
 
 msgid "The DAViCal Home Page"
-msgstr ""
+msgstr "De DAViCal website"
 
 msgid "The application program does not understand that request."
-msgstr "De applicatie snapt dat verzoek niet."
+msgstr "Deze applicatie begrijpt dat verzoek niet."
 
 msgid ""
 "The calendar name part of the path to store your ics. E.g. the \"home\" part of \"/caldav.php/username/"
 "home/\""
 msgstr ""
+"Het gedeelte van de Agenda-naam waar Uw ics worden bewaard. Bvb het \"home\"-gedeelte "
+"van \"/caldav.php/username/home\"
 
 msgid "The calendar path contains illegal characters."
-msgstr "Het pad naar de agenda bevat niet toegestane tekens."
+msgstr "Het pad naar de agenda bevat niet-toegestane tekens."
 
+#, fuzzy
 msgid ""
 "The calendar-free-busy-set is superseded by the schedule-transp property of a calendar collection."
 msgstr ""
+"De eigenschap 'schedule-transp' van een agenda verzameling overstijgt de vrij/bezet-instelling"
 
+#, fuzzy
 msgid "The displayname may only be set on collections or principals."
-msgstr ""
+msgstr "De zichtbare naam kan enkel ingesteld worden op verzamelingen of principalen"
 
 msgid "The file is not UTF-8 encoded, please check the error for more details."
-msgstr ""
+msgstr "Het bestand is niet UTF-8 ge-encodeerd, bekijk aub de foutmelding voor meer details."
 
 msgid "The name this user can log into the system with."
-msgstr "De naam waarmee deze gebruiker in kan loggen op het systeem"
+msgstr "De naam waarmee deze gebruiker zich op het systeem kan aanmelden."
 
 msgid "The path on the server where your .ics files are."
-msgstr ""
+msgstr "De map op de server waar Uw ics-bestanden zich bevinden."
 
 msgid "The preferred language for this person."
 msgstr "De voorkeurstaal van deze gebruiker"
@@ -932,14 +914,14 @@ msgid "The user's e-mail address."
 msgstr "Het e-mail adres van de gebruiker"
 
 msgid "The user's full name."
-msgstr "Volledige naam van de gebruiker"
+msgstr "De volledige naam van de gebruiker"
 
 msgid "The user's password for logging in."
-msgstr "Het wacthwoord van de gebruiker om in te loggen"
+msgstr "Het wachtwoord van de gebruiker om aan te melden"
 
 #, fuzzy
 msgid "There is no collection at that URL."
-msgstr "Geen verzamelingen gevonden op die plaats"
+msgstr "Geen verzamelingen gevonden op die plaats."
 
 msgid "There was an error writing to the database."
 msgstr "Er is een fout opgetreden bij het schrijven naar de database"
@@ -948,16 +930,16 @@ msgid "This user's collections"
 msgstr "Verzamelingen van deze gebruiker"
 
 msgid "To ID"
-msgstr ""
+msgstr "Naar ID"
 
 msgid "Toggle all privileges"
-msgstr ""
+msgstr "Vink alle privileges aan/af"
 
 msgid "Transparent"
-msgstr ""
+msgstr "Transparant"
 
 msgid "Type"
-msgstr "Soort"
+msgstr "Type"
 
 msgid "United States of America (m/d/y)"
 msgstr "Verenigde Staten van Amerika (m/d/y)"
@@ -968,37 +950,38 @@ msgstr "Bijwerken"
 msgid "Updated"
 msgstr "Bijgewerkt"
 
+#, fuzzy
 msgid "Updating Member of this Group Principal"
-msgstr ""
+msgstr "Bijwerken van een lid van deze groep Principaal"
 
 #, fuzzy
 msgid "Updating Principal record."
-msgstr "Bekijk mijn eigen gebruikersgegevens"
+msgstr "Bijwerken van Principaal"
 
 msgid "Updating grants by this Principal"
-msgstr ""
+msgstr "Bijwerken van toezeggingen door deze Principaal"
 
 msgid "Upgrade DAViCal database schema"
-msgstr ""
+msgstr "Upgrade DAViCal database schema"
 
 msgid "Upgrade Database"
-msgstr ""
+msgstr "Upgrade database"
 
 msgid "Upload a .ics calendar in iCalendar format "
-msgstr ""
+msgstr "upload een ics-bestand in iCalendar-formaat"
 
 msgid "Upload a .ics calendar in iCalendar format to initialise or replace this calendar."
-msgstr ""
-
-msgid "User Calendar Principals"
-msgstr ""
-
-msgid "User Details"
-msgstr "Gebruikersdetails"
+msgstr "Upload een ics-bestand in iCalendar-formaat om deze Agenda te initialiseren of te vervangen."
 
 #, fuzzy
+msgid "User Calendar Principals"
+msgstr "Gebruiker Agenda Principals"
+
+msgid "User Details"
+msgstr "Gebruikersgegevens"
+
 msgid "User Functions"
-msgstr "Gebruikersdetails"
+msgstr "Gebruikersfuncties"
 
 msgid "User Name"
 msgstr "Gebruikersnaam"
@@ -1009,161 +992,158 @@ msgstr "Gebruikersrollen"
 msgid "User Unavailable"
 msgstr "Gebruiker niet beschikbaar"
 
-#, fuzzy
 msgid "User deleted"
-msgstr "Gebruikersrollen"
+msgstr "Gebruiker verwijderd"
 
 msgid "User is active"
-msgstr "Gebruiker is geaktiveerd"
+msgstr "Gebruiker is actief"
 
 msgid "User record written."
-msgstr "Gebruikersgegevens geschreven"
+msgstr "Gebruikersgegevens geschreven."
 
-#, fuzzy
 msgid "Username"
 msgstr "Gebruikersnaam"
 
-#, fuzzy, c-format
+#, c-format
 msgid "View %s"
-msgstr "Beeld"
+msgstr "Zie %s"
 
-#, fuzzy
 msgid "View My Details"
-msgstr "Mijn details"
+msgstr "Bekijk mijn details"
 
 #, fuzzy
 msgid "View my own principal record"
-msgstr "Bekijk mijn eigen gebruikersgegevens"
+msgstr "Bekijk mijn eigen Principaal"
 
 msgid "View this user record"
 msgstr "Bekijk deze gebruikersgegevens"
 
 msgid "Visit the DAViCal Wiki"
-msgstr ""
+msgstr "Bezoek de DAViCal wiki"
 
 msgid "When the user's e-mail account was validated."
-msgstr "Wanneer het e-mail account van de gebruiker bevestigd is"
+msgstr "Nadat het e-mail adres van de gebruiker bevestigd is."
 
 msgid "Write ACLs for a resource or collection"
-msgstr ""
+msgstr "Schrijf ACLs voor een bron of verzameling"
 
 msgid "Write Access Controls"
-msgstr ""
+msgstr "Schrijf Permissies"
 
 msgid "Write Data"
-msgstr ""
+msgstr "Schrijf gegevens"
 
 msgid "Write Metadata"
-msgstr ""
+msgstr "Schrijf metadata"
 
 msgid "Write content"
-msgstr ""
+msgstr "Schrijf inhoud"
 
 msgid "Write properties"
-msgstr ""
+msgstr "Schrijf eigenschappen"
 
 msgid "Write"
-msgstr ""
+msgstr "Schrijf"
 
 msgid "Yes"
-msgstr ""
+msgstr "Ja"
 
 msgid "You are editing"
-msgstr ""
+msgstr "U bent aan het bewerken"
 
 msgid "You are not authorised to use this function."
-msgstr "Je hebt geen rechten om deze functie te gebruiken"
+msgstr "U bent niet bevoegd om deze functie te gebruiken"
 
 msgid "You are viewing"
-msgstr ""
+msgstr "U bent aan het bekijken"
 
 msgid "You do not have appropriate rights to view that resource."
-msgstr "Je hebt niet de benodigde rechten om deze resource te bekijken"
+msgstr "U heeft niet de benodigde rechten om deze bron te bekijken"
 
 msgid "You do not have sufficient access to lock that"
-msgstr ""
+msgstr "U bent niet bevoegd om dat te versleutelen"
 
-#, fuzzy
 msgid "You may not access that collection"
-msgstr "Je mag die agenda niet benaderen"
+msgstr "U heeft geen toegang tot die verzameling"
 
 msgid "You may not add entries to this calendar."
-msgstr "Je mag geen items toevoegen aan deze agenda"
+msgstr "U mag geen items toevoegen aan deze agenda"
 
 msgid "You may not delete entries from this calendar."
-msgstr "Je mag geen items verwijderen uit deze agenda"
+msgstr "U mag geen items verwijderen uit deze agenda"
 
 msgid "You may not modify entries on this calendar."
-msgstr "Je mag geen items aanpassen in deze agenda"
+msgstr "U mag geen items bewerken in deze agenda"
 
 msgid "You may only review the contents of your own collections in this interface."
-msgstr ""
+msgstr "U mag enkel de inhoud van Uw eigen verzamelingen nalezen via deze interface"
 
 msgid "You must log in to use this system."
-msgstr "Je moet inloggen om dit systeem te gebruiken"
+msgstr "U moet zich aanmelden om dit systeem te gebruiken"
 
 #, c-format
 msgid "all events of user %s were deleted and replaced by those from file %s"
-msgstr ""
+msgstr "Alle afspraken van gebruiker %s zijn verwijderd en vervangen door deze in bestand %s"
 
 #, c-format
 msgid "directory %s is not readable"
-msgstr ""
+msgstr "Map %s kan niet worden gelezen"
 
 msgid "drivers_ldap : Could not start TLS: ldap_start_tls() failed"
-msgstr ""
+msgstr "drivers_ldap : Kan TLS niet starten: ldap_start_tls() mislukt"
 
 #, c-format
 msgid "drivers_ldap : Failed to bind to host %1$s on port %2$s with bindDN of %3$s"
-msgstr ""
+msgstr "drivers_ldap : Binden met host %1$s via poort %2$s met bindDN %3$s mislukt"
 
 msgid "drivers_ldap : Failed to set LDAP to use protocol version 3, TLS not supported"
-msgstr ""
+msgstr "drivers_ldap : LDAP configureren om protocol versie 3 te gebruiken mislukt, TLS niet ondersteund"
 
 msgid ""
 "drivers_ldap : Unable to bind to LDAP - check your configuration for bindDN and passDN, and that your "
 "LDAP server is reachable"
 msgstr ""
+"drivers_ldap : Kan niet binden met LDAP - kijk de configuratie (bindDN en passDN) na en zorg ervoor "
+"dat de LDAP server bereikbaar is"
 
 #, c-format
 msgid "drivers_ldap : Unable to connect to LDAP with port %s on host %s"
-msgstr ""
+msgstr "drivers_ldap : Kan geen verbinding maken met LDAP met poort %s op host %s"
 
 msgid "drivers_ldap : function ldap_connect not defined, check your php_ldap module"
-msgstr ""
+msgstr "drivers_ldap : functie ldap_connect niet ingesteld, kijk Uw php_ldap module na"
 
 #, c-format
 msgid "drivers_squid_pam : Unable to find %s file"
-msgstr ""
+msgstr "drivers_squid_pam : Kan bestand %s niet vinden"
 
 msgid ""
 "forget me not <!-- this is a colloquial phrase in english (the name of a flower) and is an option "
 "allowing people to log in automatically in future -->"
-msgstr "ingelogd blijven"
+msgstr "Aangemeld blijven"
 
 msgid "forget me not"
-msgstr "ingelogd blijven"
+msgstr "Aangemeld blijven"
 
 #, fuzzy
 msgid "from principal"
-msgstr "Agenda gebruikers"
+msgstr "Van Principaal"
 
-#, fuzzy
 msgid "is Assistant to"
-msgstr "Wordt ondersteund door"
+msgstr "is assistent van"
 
 msgid "path to store your ics"
-msgstr ""
+msgstr "pad waar Uw ics worden bewaard"
 
 #, c-format
 msgid "the file %s is not UTF-8 encoded, please check error for more details"
-msgstr ""
+msgstr "het bestand %s is niet UTF-8 ge-encodeerd, kijk aub de foutmelding na voor verdere details"
 
 msgid "you should log on with the username and password that have been issued to you."
-msgstr "je moet inloggen met de gebruikersnaam en het wachtwoord die je zijn toegewezen "
+msgstr "U moet zich aanmelden met de gebruikersnaam en het wachtwoord die U zijn toegewezen."
 
 msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
-msgstr ""
+msgstr "Deze verrichting doet hetvolgende: <ul><li>Valideer de gebruikers in de LDAP directory</li>"
 
 #, fuzzy
 #~ msgid "Default relationships added."
