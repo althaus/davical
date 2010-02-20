@@ -21,19 +21,15 @@ i18n("Public");
 i18n("Resource <!-- a thing which might be booked: a room, a carpark, a projector... -->");
 i18n("Resource");
 
-i18n("Relationship <!-- in the sense of a work relationship between people -->");
-
 i18n("No. <!-- short for 'Number' -->");
 i18n("No.");
 
+i18n("No <!-- not 'Yes' -->");
+i18n("No");
+i18n("Yes");
+
 i18n("Id <!-- short for 'Identifier' -->");
 i18n("Id");
-
-// The standard relationship names
-i18n('Administers');
-i18n('is Assistant to');
-i18n('Can read from');
-i18n('Can see free/busy time of');
 
 i18n('View this user record');
 i18n('Edit this user record');
@@ -42,4 +38,16 @@ i18n('You are editing');
 
 i18n("forget me not <!-- this is a colloquial phrase in english (the name of a flower) and is an option allowing people to log in automatically in future -->");
 
-?>
+// Date format types
+i18n('European');
+i18n('US Format');
+i18n('ISO Format');
+
+// Calendar schedule transparency
+i18n('Opaque');
+i18n('Transparent');
+
+// Unspecified timezone value
+i18n('*** Unknown ***');
+
+i18n('Person');

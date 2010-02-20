@@ -7,7 +7,7 @@ param_to_global('user_no', 'int' );
 param_to_global('collection_name', '{^[^\\\\/]+$}' );
 if ( isset($user_no) ) $usr = GetUserByID($user_no);
 $editor->SetLookup( 'timezone', 'SELECT \'\', \'*** Unknown ***\' UNION SELECT tz_id, tz_locn FROM time_zone WHERE tz_id = tz_locn AND length(tz_spec) > 100 ORDER BY 1' );
-$editor->SetLookup( 'schedule_transp', sprintf('SELECT \'opaque\', \'%s\' UNION SELECT \'transp\', \'%s\'', translate('Opaque'), translate('Transparent') ) );
+$editor->SetLookup( 'schedule_transp', 'SELECT \'opaque\', \'Opaque\' UNION SELECT \'transp\', \'Transparent\'' );
 
 
 $editor->AddAttribute('timezone', 'id', 'fld_timezone' );
