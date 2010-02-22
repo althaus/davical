@@ -90,7 +90,18 @@ other application I will happily accept patches to make it do
 that, but I am pretty sure it won't work that way out of the
 box.
 
+Several helper programs are needed to setup and upgrade davical:
+  Perl with DBI and DBD-Pg
+    Debian: aptitude install libdbi-perl libdbd-pg-perl
+    Gentoo: emerge dev-perl/DBI dev-perl/DBD-Pg
 
+  Yaml
+    Debian: aptitude install libyaml-perl
+    Gentoo: emerge dev-perl/yaml
+
+  pwgen (not mandatory)
+    Debian: aptitude install pwgen
+    Gentoo: app-admin/pwgen
 
 Database Setup
 ==============
