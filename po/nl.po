@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-18 21:09+1300\n"
+"POT-Creation-Date: 2010-02-20 14:54+1300\n"
 "PO-Revision-Date: 2010-02-18 16:00+0100\n"
 "Last-Translator: Vincent Van Houtte <http://www.synergylaw.be/>\n"
 "Language-Team: nl_NL <LL@li.org>\n"
@@ -19,15 +19,22 @@ msgstr ""
 msgid "*** Default Locale ***"
 msgstr ""
 
+msgid "*** Unknown ***"
+msgstr ""
+
+#, c-format
 msgid "- creating record for users :  %s"
 msgstr "- gebruiker aanmaken :  %s"
 
+#, c-format
 msgid "- deactivating users : %s"
 msgstr "- desactiveren van gebruikers : %s"
 
+#, c-format
 msgid "- nothing done on : %s"
 msgstr "- ongewijzigd : %s"
 
+#, c-format
 msgid "- updating user records : %s"
 msgstr "- wijzigen van gebruikers : %s"
 
@@ -41,7 +48,9 @@ msgid "--- select a user, group or resource ---"
 msgstr "--- selecteer een gebruiker, groep of resource ---"
 
 msgid "<b>WARNING: all events in this path will be deleted before inserting allof the ics file</b>"
-msgstr "<b>OPGELET: Alle afspraken in deze map zullen verwijderd worden vooraleer het ics-bestand wordt ingevoegd</b>"
+msgstr ""
+"<b>OPGELET: Alle afspraken in deze map zullen verwijderd worden vooraleer het ics-bestand wordt "
+"ingevoegd</b>"
 
 #, c-format
 msgid ""
@@ -74,9 +83,6 @@ msgstr "Beheerder"
 
 msgid "Admin"
 msgstr "Beheer"
-
-msgid "Administers"
-msgstr "Beheert"
 
 msgid "Administration"
 msgstr "Beheer"
@@ -142,12 +148,6 @@ msgstr "Agenda \"%s\" voor gebruiker \"%s\" werd aangemaakt."
 msgid "Calendar \"%s\" was loaded from file."
 msgstr "Agenda \"%s\" werd ingeladen van bestand."
 
-msgid "Can read from"
-msgstr "Kan lezen van"
-
-msgid "Can see free/busy time of"
-msgstr "Kan vrij/bezet zien van"
-
 msgid "Change Password"
 msgstr "Wijzig wachtwoord"
 
@@ -184,6 +184,12 @@ msgstr "Verzameling verwijderd"
 
 msgid "Collection"
 msgstr "Verzameling"
+
+msgid "Configuring Calendar Clients for DAViCal"
+msgstr ""
+
+msgid "Configuring DAViCal"
+msgstr ""
 
 msgid "Confirm Deletion of the Collection"
 msgstr "Bevestig het verwijderen van de Verzameling"
@@ -238,10 +244,25 @@ msgstr "Maak"
 msgid "Creating new Principal record."
 msgstr "Nieuwe Principaal aanmaken"
 
+msgid "Current DAViCal version "
+msgstr ""
+
+msgid "Current Versions"
+msgstr ""
+
+msgid ""
+"Currently this page does very little.  Suggestions or patches to make it do more useful stuff will be "
+"gratefully received."
+msgstr ""
+
 msgid "DAV Path"
 msgstr "DAV map"
 
 msgid "DAViCal CalDAV Server"
+msgstr "DAViCal CalDAV Server"
+
+#, fuzzy
+msgid "DAViCal DB Schema version "
 msgstr "DAViCal CalDAV Server"
 
 msgid "DAViCal Homepage"
@@ -303,6 +324,12 @@ msgstr "Post uitnodigingen voor een afspraak in deze inbox"
 msgid "Deliver scheduling replies from an attendee to this scheduling inbox"
 msgstr "Post antwoorden op uitnodigingen voor een afspraak in deze inbox"
 
+msgid "Dependencies"
+msgstr ""
+
+msgid "Dependency"
+msgstr ""
+
 msgid "Description"
 msgstr "Beschrijving"
 
@@ -339,6 +366,7 @@ msgstr "FOUT: Het nieuwe wachtwoord is niet exact hetzelfde als het bevestigings
 msgid "ERROR: There was a database error writing the roles information!"
 msgstr "FOUT: Database fout bij het schrijven van de rolleninformatie"
 
+#, c-format
 msgid "Edit %s"
 msgstr "Wijzig %s"
 
@@ -353,7 +381,8 @@ msgstr "E-mailadres"
 
 msgid "Enter a username, if you know it, and click here, to be e-mailed a temporary password."
 msgstr ""
-"Voer een gebruikersnaam in als je die weet en klik hier om een tijdelijk wachtwoord te krijgen via E-mail"
+"Voer een gebruikersnaam in als je die weet en klik hier om een tijdelijk wachtwoord te krijgen via E-"
+"mail"
 
 msgid "Enter the name for this resource type"
 msgstr "Voer de naam in voor dit type bron"
@@ -372,6 +401,10 @@ msgid "Error writing calendar details to database."
 msgstr "Fout bij het schrijven van agendadetails naar de database"
 
 msgid "European (d/m/y)"
+msgstr "Europees (d/m/y)"
+
+#, fuzzy
+msgid "European"
 msgstr "Europees (d/m/y)"
 
 #, fuzzy
@@ -459,6 +492,10 @@ msgid "ID"
 msgstr "ID"
 
 msgid "ISO Format (YYYY-MM-DD)"
+msgstr "ISO formaat (YYYY-MM-DD)"
+
+#, fuzzy
+msgid "ISO Format"
 msgstr "ISO formaat (YYYY-MM-DD)"
 
 msgid "Id <!-- short for 'Identifier' -->"
@@ -560,6 +597,10 @@ msgstr "Nieuw wachtwoord"
 msgid "New User"
 msgstr "Nieuwe gebruiker"
 
+#, fuzzy
+msgid "No <!-- not 'Yes' -->"
+msgstr "Nr."
+
 msgid "No calendar content"
 msgstr "Geen agenda-inhoud"
 
@@ -589,11 +630,24 @@ msgstr "Handelingen op Uw Agenda"
 msgid "Override a Lock"
 msgstr "Negeer een beveiliging"
 
+msgid "PDO PostgreSQL divers"
+msgstr ""
+
+msgid "PHP PDO module available"
+msgstr ""
+
+#, fuzzy
+msgid "PHP PostgreSQL available"
+msgstr "Gebruiker niet beschikbaar"
+
 msgid "Password"
 msgstr "Wachtwoord"
 
 msgid "Path"
 msgstr "Pad"
+
+msgid "Person"
+msgstr ""
 
 msgid "Please Confirm Deletion"
 msgstr "Bevestig aub het verwijderen"
@@ -689,9 +743,6 @@ msgstr "Lees/Schrijf"
 
 msgid "ReadWrite"
 msgstr "Lees/Schrijf"
-
-msgid "Relationship <!-- in the sense of a work relationship between people -->"
-msgstr "Relatie"
 
 msgid "Relationship Type Added."
 msgstr "Type Relatie toegevoegd"
@@ -818,7 +869,9 @@ msgid "Set schedule-deliver privileges"
 msgstr "Configureer de privileges om het afleveren te plannen"
 
 msgid "Set the path to store your ics e.g. 'home' will be referenced as /caldav.php/me/home/"
-msgstr "Configureer de map waar Uw ics zullen bewaard worden. 'Home' zal bereikbaar zijn als /caldav.php/gebruikersnaam/Home/"
+msgstr ""
+"Configureer de map waar Uw ics zullen bewaard worden. 'Home' zal bereikbaar zijn als /caldav.php/"
+"gebruikersnaam/Home/"
 
 msgid "Setup DAViCal"
 msgstr "Configureer DAViCal"
@@ -850,6 +903,10 @@ msgstr "Specifieke privileges"
 msgid "Start"
 msgstr "Start"
 
+#, fuzzy
+msgid "Status"
+msgstr "Start"
+
 #, c-format
 msgid "Status: %d, Message: %s, User: %d, Path: %s"
 msgstr "Status: %d, Bericht: %s, Gebruiker: %d, Pad: %s"
@@ -879,8 +936,8 @@ msgid ""
 "The calendar name part of the path to store your ics. E.g. the \"home\" part of \"/caldav.php/username/"
 "home/\""
 msgstr ""
-"Het gedeelte van de Agenda-naam waar Uw ics worden bewaard. Bvb het \"home\"-gedeelte "
-"van \"/caldav.php/username/home\"
+"Het gedeelte van de Agenda-naam waar Uw ics worden bewaard. Bvb het \"home\"-gedeelte van \"/caldav."
+"php/username/home\""
 
 msgid "The calendar path contains illegal characters."
 msgstr "Het pad naar de agenda bevat niet-toegestane tekens."
@@ -888,8 +945,7 @@ msgstr "Het pad naar de agenda bevat niet-toegestane tekens."
 #, fuzzy
 msgid ""
 "The calendar-free-busy-set is superseded by the schedule-transp property of a calendar collection."
-msgstr ""
-"De eigenschap 'schedule-transp' van een agenda verzameling overstijgt de vrij/bezet-instelling"
+msgstr "De eigenschap 'schedule-transp' van een agenda verzameling overstijgt de vrij/bezet-instelling"
 
 #, fuzzy
 msgid "The displayname may only be set on collections or principals."
@@ -940,6 +996,9 @@ msgstr "Transparant"
 
 msgid "Type"
 msgstr "Type"
+
+msgid "US Format"
+msgstr ""
 
 msgid "United States of America (m/d/y)"
 msgstr "Verenigde Staten van Amerika (m/d/y)"
@@ -1048,6 +1107,12 @@ msgstr "Schrijf"
 msgid "Yes"
 msgstr "Ja"
 
+#, c-format
+msgid ""
+"You are currently running DAViCal version %s. The database schema should be at version %s and it is at "
+"version %s."
+msgstr ""
+
 msgid "You are editing"
 msgstr "U bent aan het bewerken"
 
@@ -1129,9 +1194,6 @@ msgstr "Aangemeld blijven"
 msgid "from principal"
 msgstr "Van Principaal"
 
-msgid "is Assistant to"
-msgstr "is assistent van"
-
 msgid "path to store your ics"
 msgstr "pad waar Uw ics worden bewaard"
 
@@ -1144,6 +1206,21 @@ msgstr "U moet zich aanmelden met de gebruikersnaam en het wachtwoord die U zijn
 
 msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
 msgstr "Deze verrichting doet hetvolgende: <ul><li>Valideer de gebruikers in de LDAP directory</li>"
+
+#~ msgid "Administers"
+#~ msgstr "Beheert"
+
+#~ msgid "Can read from"
+#~ msgstr "Kan lezen van"
+
+#~ msgid "Can see free/busy time of"
+#~ msgstr "Kan vrij/bezet zien van"
+
+#~ msgid "Relationship <!-- in the sense of a work relationship between people -->"
+#~ msgstr "Relatie"
+
+#~ msgid "is Assistant to"
+#~ msgstr "is assistent van"
 
 #, fuzzy
 #~ msgid "Default relationships added."

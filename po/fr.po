@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-18 21:09+1300\n"
+"POT-Creation-Date: 2010-02-20 14:54+1300\n"
 "PO-Revision-Date: 2009-07-20 14:24+0200\n"
 "Last-Translator: Christian Perrier <bubulle@debian.org>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
@@ -20,6 +20,9 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 msgid "*** Default Locale ***"
+msgstr ""
+
+msgid "*** Unknown ***"
 msgstr ""
 
 #, c-format
@@ -84,9 +87,6 @@ msgstr "Administrateur du système"
 
 msgid "Admin"
 msgstr "Administrateur"
-
-msgid "Administers"
-msgstr "Administrateurs"
 
 #, fuzzy
 msgid "Administration"
@@ -154,12 +154,6 @@ msgstr ""
 msgid "Calendar \"%s\" was loaded from file."
 msgstr ""
 
-msgid "Can read from"
-msgstr "Peut lire depuis"
-
-msgid "Can see free/busy time of"
-msgstr "Peut voir les disponibilités de"
-
 #, fuzzy
 msgid "Change Password"
 msgstr "Nouveau mot de passe"
@@ -200,6 +194,12 @@ msgstr "Collection supprimée"
 #, fuzzy
 msgid "Collection"
 msgstr "Chemin de la collection"
+
+msgid "Configuring Calendar Clients for DAViCal"
+msgstr ""
+
+msgid "Configuring DAViCal"
+msgstr ""
 
 msgid "Confirm Deletion of the Collection"
 msgstr "Confirmez la suppression de la collection"
@@ -262,10 +262,25 @@ msgstr "Créer"
 msgid "Creating new Principal record."
 msgstr "Utilisateurs du calendrier"
 
+msgid "Current DAViCal version "
+msgstr ""
+
+msgid "Current Versions"
+msgstr ""
+
+msgid ""
+"Currently this page does very little.  Suggestions or patches to make it do more useful stuff will be "
+"gratefully received."
+msgstr ""
+
 msgid "DAV Path"
 msgstr ""
 
 msgid "DAViCal CalDAV Server"
+msgstr "Serveur DAViCal CalDAV"
+
+#, fuzzy
+msgid "DAViCal DB Schema version "
 msgstr "Serveur DAViCal CalDAV"
 
 msgid "DAViCal Homepage"
@@ -331,6 +346,12 @@ msgid "Deliver scheduling invitations from an organiser to this scheduling inbox
 msgstr ""
 
 msgid "Deliver scheduling replies from an attendee to this scheduling inbox"
+msgstr ""
+
+msgid "Dependencies"
+msgstr ""
+
+msgid "Dependency"
 msgstr ""
 
 msgid "Description"
@@ -405,6 +426,10 @@ msgid "Error writing calendar details to database."
 msgstr "Il s'est produit une erreur lors de l'écriture des données."
 
 msgid "European (d/m/y)"
+msgstr "Européen (jj/mm/aa)"
+
+#, fuzzy
+msgid "European"
 msgstr "Européen (jj/mm/aa)"
 
 # ############
@@ -500,6 +525,10 @@ msgid "ID"
 msgstr ""
 
 msgid "ISO Format (YYYY-MM-DD)"
+msgstr "Format ISO (AAAA-MM-JJ)"
+
+#, fuzzy
+msgid "ISO Format"
 msgstr "Format ISO (AAAA-MM-JJ)"
 
 msgid "Id <!-- short for 'Identifier' -->"
@@ -618,6 +647,10 @@ msgid "New User"
 msgstr "Nouvel utilisateur"
 
 #, fuzzy
+msgid "No <!-- not 'Yes' -->"
+msgstr "N°"
+
+#, fuzzy
 msgid "No calendar content"
 msgstr "Calendrier Home ajouté."
 
@@ -646,10 +679,31 @@ msgstr "Opérations sur votre calendrier"
 msgid "Override a Lock"
 msgstr ""
 
+msgid "PDO PostgreSQL divers"
+msgstr ""
+
+msgid "PHP PDO module available"
+msgstr ""
+
+# Interesting point: I always read it at a singular form in France
+# #######
+# In that a user can only have a single role in such systems?  In this system
+# users may hold multiple roles at the same time.
+# #######
+# French way of management ("thanks" to unions' fights) is very ordered in small boxes.
+# Very rare to find your "box" when you may overlap too many around others.
+# Very rare to find someone able to fill several boxes at a time
+#, fuzzy
+msgid "PHP PostgreSQL available"
+msgstr "Utilisateur non disponible"
+
 msgid "Password"
 msgstr "Mot de passe"
 
 msgid "Path"
+msgstr ""
+
+msgid "Person"
 msgstr ""
 
 msgid "Please Confirm Deletion"
@@ -741,9 +795,6 @@ msgstr "Lecture Ecriture"
 
 msgid "ReadWrite"
 msgstr "Lecture Ecriture"
-
-msgid "Relationship <!-- in the sense of a work relationship between people -->"
-msgstr "Relation de travail"
 
 msgid "Relationship Type Added."
 msgstr "Type de relation ajoutée."
@@ -911,6 +962,10 @@ msgstr ""
 msgid "Start"
 msgstr "Début"
 
+#, fuzzy
+msgid "Status"
+msgstr "Début"
+
 #, c-format
 msgid "Status: %d, Message: %s, User: %d, Path: %s"
 msgstr ""
@@ -1007,6 +1062,9 @@ msgstr ""
 
 msgid "Type"
 msgstr "Type"
+
+msgid "US Format"
+msgstr ""
 
 msgid "United States of America (m/d/y)"
 msgstr "Etats-Unis (mm/jj/aa)"
@@ -1139,6 +1197,12 @@ msgstr "Ecrire"
 msgid "Yes"
 msgstr ""
 
+#, c-format
+msgid ""
+"You are currently running DAViCal version %s. The database schema should be at version %s and it is at "
+"version %s."
+msgstr ""
+
 msgid "You are editing"
 msgstr "Vous modifiez"
 
@@ -1221,9 +1285,6 @@ msgstr "Ne pas m'oublier"
 msgid "from principal"
 msgstr "Utilisateurs du calendrier"
 
-msgid "is Assistant to"
-msgstr "est assisté par"
-
 msgid "path to store your ics"
 msgstr "le chemin où stocker votre ics"
 
@@ -1236,6 +1297,21 @@ msgstr "Vous devez vous connecter avec le nom d'utilisateur et le mot de passe q
 
 msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
 msgstr "Cette opération exécute : <ul><li>vérifie les utilisateurs valides de l'annuaire LDAP</li>."
+
+#~ msgid "Administers"
+#~ msgstr "Administrateurs"
+
+#~ msgid "Can read from"
+#~ msgstr "Peut lire depuis"
+
+#~ msgid "Can see free/busy time of"
+#~ msgstr "Peut voir les disponibilités de"
+
+#~ msgid "Relationship <!-- in the sense of a work relationship between people -->"
+#~ msgstr "Relation de travail"
+
+#~ msgid "is Assistant to"
+#~ msgstr "est assisté par"
 
 #~ msgid "Default relationships added."
 #~ msgstr "Relation par défaut ajoutée."

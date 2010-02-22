@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RSCDS 0.2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-18 21:09+1300\n"
+"POT-Creation-Date: 2010-02-20 14:54+1300\n"
 "PO-Revision-Date: 2006-11-06 17:12+1300\n"
 "Last-Translator: Lorena Paoletti <andrew@mcmillan.net.nz>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 msgid "*** Default Locale ***"
+msgstr ""
+
+msgid "*** Unknown ***"
 msgstr ""
 
 #, c-format
@@ -77,10 +80,6 @@ msgid "Admin <!-- in the sense of 'systems admin' -->"
 msgstr "Administrador"
 
 msgid "Admin"
-msgstr "Administrador"
-
-#, fuzzy
-msgid "Administers"
 msgstr "Administrador"
 
 #, fuzzy
@@ -149,12 +148,6 @@ msgstr ""
 msgid "Calendar \"%s\" was loaded from file."
 msgstr ""
 
-msgid "Can read from"
-msgstr ""
-
-msgid "Can see free/busy time of"
-msgstr ""
-
 #, fuzzy
 msgid "Change Password"
 msgstr "Nueva Constraseña"
@@ -199,6 +192,12 @@ msgstr "Relación eliminada"
 #, fuzzy
 msgid "Collection"
 msgstr "Relación eliminada"
+
+msgid "Configuring Calendar Clients for DAViCal"
+msgstr ""
+
+msgid "Configuring DAViCal"
+msgstr ""
 
 msgid "Confirm Deletion of the Collection"
 msgstr ""
@@ -260,10 +259,24 @@ msgstr "Crear"
 msgid "Creating new Principal record."
 msgstr "Calendario de los Usuario"
 
+msgid "Current DAViCal version "
+msgstr ""
+
+msgid "Current Versions"
+msgstr ""
+
+msgid ""
+"Currently this page does very little.  Suggestions or patches to make it do more useful stuff will be "
+"gratefully received."
+msgstr ""
+
 msgid "DAV Path"
 msgstr ""
 
 msgid "DAViCal CalDAV Server"
+msgstr ""
+
+msgid "DAViCal DB Schema version "
 msgstr ""
 
 msgid "DAViCal Homepage"
@@ -330,6 +343,12 @@ msgid "Deliver scheduling invitations from an organiser to this scheduling inbox
 msgstr ""
 
 msgid "Deliver scheduling replies from an attendee to this scheduling inbox"
+msgstr ""
+
+msgid "Dependencies"
+msgstr ""
+
+msgid "Dependency"
 msgstr ""
 
 msgid "Description"
@@ -401,6 +420,10 @@ msgid "Error writing calendar details to database."
 msgstr "Hubo un error al grabar en la base de datos."
 
 msgid "European (d/m/y)"
+msgstr "Formato Europeo (d/m/y)"
+
+#, fuzzy
+msgid "European"
 msgstr "Formato Europeo (d/m/y)"
 
 msgid "Existing resource does not match \"If-Match\" header - not accepted."
@@ -484,6 +507,10 @@ msgid "ID"
 msgstr ""
 
 msgid "ISO Format (YYYY-MM-DD)"
+msgstr "Formato ISO (YYYY-MM-DD)"
+
+#, fuzzy
+msgid "ISO Format"
 msgstr "Formato ISO (YYYY-MM-DD)"
 
 msgid "Id <!-- short for 'Identifier' -->"
@@ -589,6 +616,10 @@ msgstr "Nueva Constraseña"
 msgid "New User"
 msgstr "Nuevo Usuario"
 
+#, fuzzy
+msgid "No <!-- not 'Yes' -->"
+msgstr "No"
+
 msgid "No calendar content"
 msgstr ""
 
@@ -617,10 +648,22 @@ msgstr ""
 msgid "Override a Lock"
 msgstr ""
 
+msgid "PDO PostgreSQL divers"
+msgstr ""
+
+msgid "PHP PDO module available"
+msgstr ""
+
+msgid "PHP PostgreSQL available"
+msgstr ""
+
 msgid "Password"
 msgstr "Constraseña"
 
 msgid "Path"
+msgstr ""
+
+msgid "Person"
 msgstr ""
 
 msgid "Please Confirm Deletion"
@@ -708,9 +751,6 @@ msgstr ""
 
 msgid "ReadWrite"
 msgstr ""
-
-msgid "Relationship <!-- in the sense of a work relationship between people -->"
-msgstr "Relación"
 
 msgid "Relationship Type Added."
 msgstr "Tipo de Relación incorporada."
@@ -865,6 +905,9 @@ msgstr ""
 msgid "Start"
 msgstr ""
 
+msgid "Status"
+msgstr ""
+
 #, c-format
 msgid "Status: %d, Message: %s, User: %d, Path: %s"
 msgstr ""
@@ -948,6 +991,9 @@ msgid "Transparent"
 msgstr ""
 
 msgid "Type"
+msgstr ""
+
+msgid "US Format"
 msgstr ""
 
 msgid "United States of America (m/d/y)"
@@ -1059,6 +1105,12 @@ msgstr ""
 msgid "Yes"
 msgstr ""
 
+#, c-format
+msgid ""
+"You are currently running DAViCal version %s. The database schema should be at version %s and it is at "
+"version %s."
+msgstr ""
+
 msgid "You are editing"
 msgstr ""
 
@@ -1140,9 +1192,6 @@ msgstr ""
 msgid "from principal"
 msgstr "Calendario de los Usuario"
 
-msgid "is Assistant to"
-msgstr ""
-
 msgid "path to store your ics"
 msgstr ""
 
@@ -1155,6 +1204,13 @@ msgstr "Para conectarse debe utilizar el nombre de usuario y contraseña que le 
 
 msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Administers"
+#~ msgstr "Administrador"
+
+#~ msgid "Relationship <!-- in the sense of a work relationship between people -->"
+#~ msgstr "Relación"
 
 #, fuzzy
 #~ msgid "Default relationships added."

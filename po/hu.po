@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rscds 0.7.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-18 21:09+1300\n"
+"POT-Creation-Date: 2010-02-20 14:54+1300\n"
 "PO-Revision-Date: 2007-05-03 15:00+0001\n"
 "Last-Translator: David Takacs <david.takacs@cafeopen.eu>\n"
 "Language-Team: \n"
@@ -17,6 +17,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 msgid "*** Default Locale ***"
+msgstr ""
+
+msgid "*** Unknown ***"
 msgstr ""
 
 #, c-format
@@ -78,9 +81,6 @@ msgstr "Adminisztrátor"
 
 msgid "Admin"
 msgstr "Adminisztrátor"
-
-msgid "Administers"
-msgstr ""
 
 msgid "Administration"
 msgstr ""
@@ -147,12 +147,6 @@ msgstr ""
 msgid "Calendar \"%s\" was loaded from file."
 msgstr ""
 
-msgid "Can read from"
-msgstr "Láthatja"
-
-msgid "Can see free/busy time of"
-msgstr "Szabad/foglalt állapotot láthatja"
-
 #, fuzzy
 msgid "Change Password"
 msgstr "Új jelszó"
@@ -194,6 +188,12 @@ msgstr "Gyűjtemény elérési útja"
 #, fuzzy
 msgid "Collection"
 msgstr "Gyűjtemény elérési útja"
+
+msgid "Configuring Calendar Clients for DAViCal"
+msgstr ""
+
+msgid "Configuring DAViCal"
+msgstr ""
 
 #, fuzzy
 msgid "Confirm Deletion of the Collection"
@@ -257,10 +257,24 @@ msgstr "Új létrehozása"
 msgid "Creating new Principal record."
 msgstr "Naptár felhasználói"
 
+msgid "Current DAViCal version "
+msgstr ""
+
+msgid "Current Versions"
+msgstr ""
+
+msgid ""
+"Currently this page does very little.  Suggestions or patches to make it do more useful stuff will be "
+"gratefully received."
+msgstr ""
+
 msgid "DAV Path"
 msgstr ""
 
 msgid "DAViCal CalDAV Server"
+msgstr ""
+
+msgid "DAViCal DB Schema version "
 msgstr ""
 
 msgid "DAViCal Homepage"
@@ -326,6 +340,12 @@ msgid "Deliver scheduling invitations from an organiser to this scheduling inbox
 msgstr ""
 
 msgid "Deliver scheduling replies from an attendee to this scheduling inbox"
+msgstr ""
+
+msgid "Dependencies"
+msgstr ""
+
+msgid "Dependency"
 msgstr ""
 
 msgid "Description"
@@ -396,6 +416,10 @@ msgid "Error writing calendar details to database."
 msgstr "Adatbázis-hiba a naptár elemeinek írásakor."
 
 msgid "European (d/m/y)"
+msgstr "Európai (nap/hónap/év)"
+
+#, fuzzy
+msgid "European"
 msgstr "Európai (nap/hónap/év)"
 
 #, fuzzy
@@ -481,6 +505,10 @@ msgid "ID"
 msgstr ""
 
 msgid "ISO Format (YYYY-MM-DD)"
+msgstr "ISO-formátum (ÉÉÉÉ-HH-NN)"
+
+#, fuzzy
+msgid "ISO Format"
 msgstr "ISO-formátum (ÉÉÉÉ-HH-NN)"
 
 msgid "Id <!-- short for 'Identifier' -->"
@@ -586,6 +614,10 @@ msgstr "Új jelszó"
 msgid "New User"
 msgstr "Új felhasználó"
 
+#, fuzzy
+msgid "No <!-- not 'Yes' -->"
+msgstr "Sz."
+
 msgid "No calendar content"
 msgstr ""
 
@@ -614,10 +646,23 @@ msgstr ""
 msgid "Override a Lock"
 msgstr ""
 
+msgid "PDO PostgreSQL divers"
+msgstr ""
+
+msgid "PHP PDO module available"
+msgstr ""
+
+#, fuzzy
+msgid "PHP PostgreSQL available"
+msgstr "A felhasználó nem elérhető"
+
 msgid "Password"
 msgstr "Jelszó"
 
 msgid "Path"
+msgstr ""
+
+msgid "Person"
 msgstr ""
 
 msgid "Please Confirm Deletion"
@@ -708,9 +753,6 @@ msgstr ""
 
 msgid "ReadWrite"
 msgstr ""
-
-msgid "Relationship <!-- in the sense of a work relationship between people -->"
-msgstr "Kapcsolat"
 
 msgid "Relationship Type Added."
 msgstr "Kapcsolattípus hozzáadva."
@@ -866,6 +908,10 @@ msgstr ""
 msgid "Start"
 msgstr "Start"
 
+#, fuzzy
+msgid "Status"
+msgstr "Start"
+
 #, c-format
 msgid "Status: %d, Message: %s, User: %d, Path: %s"
 msgstr ""
@@ -951,6 +997,9 @@ msgstr ""
 
 msgid "Type"
 msgstr "Típus"
+
+msgid "US Format"
+msgstr ""
 
 msgid "United States of America (m/d/y)"
 msgstr "Egyesült Államok (HH/NN/ÉÉ)"
@@ -1061,6 +1110,12 @@ msgstr ""
 msgid "Yes"
 msgstr ""
 
+#, c-format
+msgid ""
+"You are currently running DAViCal version %s. The database schema should be at version %s and it is at "
+"version %s."
+msgstr ""
+
 msgid "You are editing"
 msgstr ""
 
@@ -1141,9 +1196,6 @@ msgstr "Emlékezzen rám"
 msgid "from principal"
 msgstr "Naptár felhasználói"
 
-msgid "is Assistant to"
-msgstr "asszisztense neki:"
-
 msgid "path to store your ics"
 msgstr ""
 
@@ -1156,6 +1208,18 @@ msgstr "Lépjen be felhasználónevével és jelszavával."
 
 msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
 msgstr ""
+
+#~ msgid "Can read from"
+#~ msgstr "Láthatja"
+
+#~ msgid "Can see free/busy time of"
+#~ msgstr "Szabad/foglalt állapotot láthatja"
+
+#~ msgid "Relationship <!-- in the sense of a work relationship between people -->"
+#~ msgstr "Kapcsolat"
+
+#~ msgid "is Assistant to"
+#~ msgstr "asszisztense neki:"
 
 #, fuzzy
 #~ msgid "Default relationships added."
