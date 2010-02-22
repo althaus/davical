@@ -33,13 +33,43 @@ $GLOBALS['debug_rrule'] = false;
 
 
 class RepeatRuleDateTime extends DateTime {
-  public static $Format = 'Y-m-d H:i:s';
+  // public static $Format = 'Y-m-d H:i:s';
+  public static $Format = 'c';
+  private $tzid;
 
   public function __construct($date = null, DateTimeZone $dtz = null) {
+    if (preg_match('/;?TZID=([^:]+):(\d{8}(T\d{6})?)(Z)?/', $date, $matches) ) {
+      if ( isset($matches[4]) && $matches[4] == 'Z' ) {
+        $dtz = new DateTimeZone('UTC');
+        $tzid = 'UTC';
+      }
+      else if ( isset($matches[1]) && $matches[1] != '' ) {
+        $dtz = new DateTimeZone($matches[1]);
+      }
+      else {
+        $dtz = null;
+      }
+    }
+    if ( is_string($dtz) ) {
+      $dtz = new DateTimeZone($dtz);
+    }
     if($dtz === null) {
-      $dtz = new DateTimeZone(date_default_timezone_get());
+      if ( preg_match('/\d{8}T\d{6}Z/', $date) ) {
+        $dtz = new DateTimeZone('UTC');
+        $tzid = 'UTC';
+      }
+      else {
+//        $dtz = new DateTimeZone(date_default_timezone_get());
+        $dtz = new DateTimeZone('UTC');
+        $tzid = null;
+      }
+    }
+    else {
+      $tzid = $dtz->getName();
     }
     parent::__construct($date, $dtz);
+
+    return $this;
   }
 
 
@@ -48,12 +78,27 @@ class RepeatRuleDateTime extends DateTime {
   }
 
 
-  public function AtGMT() {
+  public function UTC() {
     $gmt = parent::__clone();
-    $dtz = parent::getTimezone();
-    $offset = $dtz->getOffset($gmt);
-    $gmt->modify( $offset . ' seconds' );
+    if ( isset($this->tzid) && $this->tzid != 'UTC' ) {
+      $dtz = parent::getTimezone();
+      $offset = $dtz->getOffset($gmt);
+      $gmt->modify( $offset . ' seconds' );
+    }
     return $gmt->format('Ymd\THis\Z');
+  }
+
+
+  public function RFC5545() {
+    $result = '';
+    if ( isset($this->tzid) && $this->tzid != 'UTC' ) {
+      $result = ';TZID='.$this->tzid;
+    }
+    $result .= ':' . $gmt->format('Ymd\THis');
+    if ( isset($this->tzid) && $this->tzid == 'UTC' ) {
+      $result .= 'Z';
+    }
+    return $result;
   }
 
 
