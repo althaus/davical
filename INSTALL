@@ -14,6 +14,17 @@ DAViCal and all the dependencies.
 Skip to the "Database Setup" part if you have done that already.
 
 
+Gentoo Users
+------------
+
+DAVical is in the Sunrise overlay. You will have to add this overlay,
+following the instructions on http://overlays.gentoo.org/proj/sunrise.
+
+You can then use emerge to install DAVical and its dependencies.
+
+emerge davical
+
+
 Other Linux Users
 -----------------
 
@@ -64,8 +75,8 @@ a number of years.
 
 The following other software is also needed:
   Apache: 1.3.x or 2.x.x
-  PHP: 5.0 or greater
-  PostgreSQL: 8.1 or greater
+  PHP: 5.1 or greater (along with the PDO and PostgreSQL extensions)
+  PostgreSQL: 8.2 or greater
 
 The PostgreSQL database may be installed on a server other
 than the web server, and that kind of situation is recommended
