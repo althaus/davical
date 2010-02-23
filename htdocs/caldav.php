@@ -8,6 +8,17 @@
 * @copyright Catalyst .Net Ltd, Morphoss Ltd <http://www.morphoss.com/>
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v2 or later
 */
+if ( preg_match( '{^(/favicon.ico|davical.css|(images|js|css)/.+)$}', $_SERVER['PATH_INFO'], $matches ) ) {
+  $filename = $_SERVER['DOCUMENT_ROOT'] . preg_replace('{(\.\.|\\\\)}', '', $matches[1]);
+  $fh = @fopen($matches[1],'r');
+  if ( ! $fh ) {
+    @header( sprintf("HTTP/1.1 %d %s", 404, 'Not found') );
+  }
+  else {
+    fpassthru($fh);
+  }
+  exit(0);
+}
 require_once('../inc/always.php');
 // dbg_error_log( 'caldav', ' User agent: %s', ((isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : 'Unfortunately Mulberry does not send a "User-agent" header with its requests :-(')) );
 // dbg_log_array( 'headers', '_SERVER', $_SERVER, true );
