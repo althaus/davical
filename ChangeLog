@@ -1,3 +1,60 @@
+2010-02-23  Andrew McMillan  <andrew@morphoss.com>
+	* Include inactive support for RRULE expansion.
+
+2010-02-23  Masahiro Mikami  <ZBN15427@nifty.com>
+	* Updated Japanese translation.
+
+2010-02-23  Emmanuel Seyman  <eseyman@edd.fr>
+	* Updated French translation.
+
+2010-02-22  Andrew McMillan  <andrew@morphoss.com>
+	* Expanding functionality in RepeatRuleDateTime class.
+
+2010-02-20  Andrew McMillan  <andrew@morphoss.com>
+	* Setup page is now able to detect the PDO pgsql drivers.
+	* Don't require a person to be logged in to see setup.php if their
+	  setup is so screwed they can't even connect to a database...
+	* Making things more localisable.
+
+2010-02-19  Vincent Van Houtte  <vvh@synergylaw.be>
+	* Updated Dutch translation.
+
+2010-02-18  Andrew McMillan  <andrew@morphoss.com>
+	* Use htmlspecialchars rather than htmlentities, which screws up translations.
+	* Remove link to old users browse page.
+
+2010-02-22  lebarjack  <lebarjack@agenda.univ-lille2.fr>
+	* Updated required software documentation
+	* Added a Gentoo installation paragraph
+	* Updated needed depnedencies
+
+2010-02-18  Andrew McMillan  <andrew@morphoss.com>
+	* Add better localisation support to principal / collection edit screens.
+	* Default user to davical_dba & provide more help regarding .pgpass files.
+	* Remove reference to relationships, which are so passe now.
+	* Admin: support deleting principals / collections with confirmation.
+	* dav_principal: add a rule for deleting.
+	* admin: Support setting a principal to be 'Administrator'
+	* AwlDB: Attempt some better error handling.
+
+2010-02-17  Andrew McMillan  <andrew@morphoss.com>
+	* PROPPATCH: Setting properties on Principals now working.
+	* always: Initialise the AWL db connection.
+	* PUT Functions: add support for X-WR-CALNAME in uploaded calendars.
+	* Edit Collections: Fix privileges to do this, and editing of privs.
+
+2010-02-15  Andrew McMillan  <andrew@morphoss.com>
+	* A new RepeatRule object to be used for expanding events.
+
+2010-02-13  Andrew McMillan  <andrew@morphoss.com>
+	* Include the browse javascript for row linking.
+	* Make admin stuff work better in a subfolder.
+	* Correct URLs for subfolder operation in principal edit.
+	* Remove flush() calls from pubsub.
+
+2010-02-11  Peter Schaefer-Hutter  <pschaefer@users.sourceforge.net>
+	* Updated german translation.
+
 2010-02-03  Andrew McMillan  <andrew@morphoss.com>
 	* Release 0.9.8.1
 	* Update the sync changes for deletion of a calendar.
