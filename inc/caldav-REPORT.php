@@ -13,6 +13,8 @@ dbg_error_log("REPORT", "method handler");
 require_once("XMLDocument.php");
 require_once('DAVResource.php');
 
+require_once('RRule-v2.php');
+
 if ( ! ini_get('open_basedir') && (isset($c->dbg['ALL']) || (isset($c->dbg['report']) && $c->dbg['report'])) ) {
   $fh = fopen('/tmp/REPORT.txt','w');
   if ( $fh ) {
@@ -62,6 +64,161 @@ switch( $xmltree->GetTag() ) {
   case 'DAV::expand-property':
     include("caldav-REPORT-expand-property.php");
     exit; // Not that it should return anyway.
+}
+
+
+/**
+* Expand the event instances for an RDATE or EXDATE property
+*
+* @param string $property RDATE or EXDATE, depending...
+* @param array $component An iCalComponent which is applies for these instances
+* @param array $range_end A date after which we care less about expansion
+*
+* @return array An array keyed on the UTC dates, referring to the component
+*/
+function rdate_expand( $property, $component, $range_end ) {
+  $timezone = $comp->GetPParamValue($property, 'TZID');
+  $rdate = $comp->GetPValue($property);
+  $rdates = explode( ',', $rdate );
+  $expansion = array();
+  foreach( $rdates AS $k => $v ) {
+    $rdate = new RepeatRuleDateTime( $v, $timezone);
+    $expansion[$rdate->UTC()] = $component;
+  }
+  return $expansion;
+}
+
+
+/**
+* Expand the event instances for an RRULE property
+*
+* @param object $dtstart A RepeatRuleDateTime which is the master dtstart
+* @param string $property RDATE or EXDATE, depending...
+* @param array $component An iCalComponent which is applies for these instances
+* @param array $range_end A date after which we care less about expansion
+*
+* @return array An array keyed on the UTC dates, referring to the component
+*/
+function rrule_expand( $dtstart, $property, $component, $range_end ) {
+  $expansion = array();
+
+  $recur = $comp->GetPValue($property);
+  if ( !isset($recur) ) return $expansion;
+
+  $this_start = $comp->GetPValue('DTSTART');
+  if ( isset($this_start) ) {
+    $timezone = $comp->GetPParamValue('DTSTART', 'TZID');
+    $this_start = new RepeatRuleDateTime($this_start,$timezone);
+  }
+  else {
+    $this_start = clone($dtstart);
+  }
+
+  $rule = new RepeatRule( $this_start, $recur );
+  $i = 0;
+  $result_limit = 1000;
+  while( $date = $rule->next() ) {
+    $expansion[$date->UTC()] = $component;
+    if ( $i >= $result_limit ) break;
+  }
+  return $expansion;
+}
+
+
+/**
+* Expand the event instances for an iCalendar VEVENT (or VTODO)
+*
+* @param object $ics An iCalComponent which is the master VCALENDAR
+* @param object $range_start A RepeatRuleDateTime which is the beginning of the range for events
+* @param object $range_end A RepeatRuleDateTime which is the end of the range for events
+*
+* @return iCalComponent The original iCalComponent with expanded events in the range.
+*/
+function expand_event_instances( $ics, $range_start = null, $range_end = null ) {
+  $components = $ics->GetComponents();
+
+  if ( !isset($range_start) ) { $range_start = new RepeatRuleDateTime($range_start); $range_start->modify('-6 weeks'); }
+  if ( !isset($range_end) )   { $range_end   = new RepeatRuleDateTime($range_end);   $range_end->modify('+4 months');  }
+
+  $new_components = array();
+  $result_limit = 1000;
+  $instances = array();
+  $expand = false;
+  $dtstart = null;
+  foreach( $components AS $k => $comp ) {
+    if ( $comp->GetType() != 'VEVENT' && $comp->GetType() != 'VTODO' && $comp->GetType() != 'VJOURNAL' ) {
+      $new_components[] = $comp;
+      continue;
+    }
+    if ( !isset($dtstart) ) {
+      $dtstart = new RepeatRuleDateTime( $comp->GetPValue('DTSTART'), $comp->GetPParamValue('DTSTART', 'TZID') );
+      $instances[$dtstart->UTC()] = $comp;
+    }
+    $p = $comp->GetPValue('RECURRENCE-ID');
+    if ( isset($p) && $p != '' ) {
+      $range = $comp->GetPParamValue('RECURRENCE-ID', 'RANGE');
+      $recur_tzid = $comp->GetPParamValue('RECURRENCE-ID', 'TZID');
+      $recur_utc = new RepeatRuleDateTime($p,$recur_tzid);
+      $recur_utc = $recur_utc->UTC();
+      if ( isset($range) && $range == 'THISANDFUTURE' ) {
+        foreach( $instances AS $k => $v ) {
+          if ( $k >= $recur_utc ) unset($instances[$k]);
+        }
+      }
+      else {
+        unset($instances[$recur_utc]);
+      }
+      $instances[] = $comp;
+    }
+    $instances = array_merge( $instances, rrule_expand($dtstart, 'RRULE', $comp) );
+    $instances = array_merge( $instances, rdate_expand($dtstart, 'RDATE', $comp) );
+    foreach ( rdate_expand($dtstart, 'EXDATE', $comp) AS $k => $v ) {
+      unset($instances[$k]);
+    }
+  }
+
+  $last_duration = null;
+  $in_range = false;
+  $new_components = array();
+  $start_utc = $range_start->UTC();
+  $end_utc = $range_end->UTC();
+  foreach( $instances AS $utc => $comp ) {
+    if ( $utc < $start_utc ) {
+      $duration = $comp->GetPValue('DURATION');
+      if ( !isset($duration) ) {
+        $dtend = new RepeatRuleDateTime( $comp->GetPValue('DTEND'), $comp->GetPValue('DTEND', 'TZID'));
+        $dtsrt = new RepeatRuleDateTime( $comp->GetPValue('DTSTART'), $comp->GetPValue('DTSTART', 'TZID'));
+        $duration = sprintf( '%d minutes', (($dtend->epoch() - $dtsrt->epoch()) / 60) );
+      }
+      if ( isset($duration) ) {
+        if ( isset($last_duration) && $duration == $last_duration) {
+          if ( $utc < $early_start ) continue;
+        }
+        else {
+          $latest_start = clone($range_start);
+          $latest_start->modify('-'.$duration);
+          $early_start = $latest_start->UTC();
+          $last_duration = $duration;
+          if ( $utc < $early_start ) continue;
+        }
+      }
+      else {
+      }
+      continue;
+    }
+    if ( $utc > $end_utc ) break;
+    $new_components[] = $comp;
+    $in_range = true;
+  }
+
+  if ( $in_range ) {
+    $ics->SetComponents($new_components);
+  }
+  else {
+    $ics->SetComponents(array());
+  }
+
+  return $ics;
 }
 
 

@@ -45,6 +45,10 @@ class RepeatRuleDateTime extends DateTime {
       }
       else if ( isset($matches[1]) && $matches[1] != '' ) {
         $dtz = new DateTimeZone($matches[1]);
+        if ( !isset($dtz) ) {
+          /** @TODO: need to try and parse a timezone from all the crap we could receive */
+          dbg_error_log( 'ERROR', 'Could not create timezone for "%s"', $matches[1] );
+        }
       }
       else {
         $dtz = null;
