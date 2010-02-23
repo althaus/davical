@@ -181,10 +181,10 @@ msgid "Collection"
 msgstr "コレクション"
 
 msgid "Configuring Calendar Clients for DAViCal"
-msgstr ""
+msgstr "DAViCalに適するようにカレンダークライアントを設定する"
 
 msgid "Configuring DAViCal"
-msgstr ""
+msgstr "DAViCalを設定する"
 
 msgid "Confirm Deletion of the Collection"
 msgstr "そのコレクションの削除を確認"
@@ -238,15 +238,17 @@ msgid "Creating new Principal record."
 msgstr "新規のプリンシパル記録を作成中"
 
 msgid "Current DAViCal version "
-msgstr ""
+msgstr "現在のDAViCalバージョン"
 
 msgid "Current Versions"
-msgstr ""
+msgstr "現在のバージョン"
 
 msgid ""
 "Currently this page does very little.  Suggestions or patches to make it do more useful stuff will be "
 "gratefully received."
 msgstr ""
+"現在、このページはほとんど機能がありません。もっと有用なものにするための提案やパッチは"
+"歓迎します。"
 
 msgid "DAV Path"
 msgstr "DAVパス"
@@ -254,9 +256,8 @@ msgstr "DAVパス"
 msgid "DAViCal CalDAV Server"
 msgstr "DAViCal CalDAV Serverが"
 
-#, fuzzy
 msgid "DAViCal DB Schema version "
-msgstr "DAViCal CalDAV Serverが"
+msgstr "DAViCal DBスキーマバージョン"
 
 msgid "DAViCal Homepage"
 msgstr "DAViCal Homepage"
@@ -316,10 +317,10 @@ msgid "Deliver scheduling replies from an attendee to this scheduling inbox"
 msgstr "出席者からのスケジュール返信をこのスケジュール受信箱に届ける"
 
 msgid "Dependencies"
-msgstr ""
+msgstr "依存関係"
 
 msgid "Dependency"
-msgstr ""
+msgstr "依存関係"
 
 msgid "Description"
 msgstr "説明"
@@ -369,8 +370,7 @@ msgid "Email Address"
 msgstr "Emailアドレス"
 
 msgid "Enter a username, if you know it, and click here, to be e-mailed a temporary password."
-msgstr ""
-"知っている場合はユーザー名を入力し、ここをクリックしてください。暫定パスワードがメールで送信されます。"
+msgstr "知っている場合はユーザー名を入力し、ここをクリックしてください。暫定パスワードがメールで送信されます。"
 
 msgid "Enter the name for this resource type"
 msgstr "この資源タイプの名称を入力して下さい。"
@@ -391,9 +391,8 @@ msgstr "カレンダー詳細情報のデータベースへの書き込み中に
 msgid "European (d/m/y)"
 msgstr "ヨーロッパ (d/m/y)"
 
-#, fuzzy
 msgid "European"
-msgstr "ヨーロッパ (d/m/y)"
+msgstr "ヨーロッパ"
 
 msgid "Existing resource does not match \"If-Match\" header - not accepted."
 msgstr "既存の資源が\"If-Match\"ヘッダと一致しません - 受け付けられません。"
@@ -476,9 +475,8 @@ msgstr "ID"
 msgid "ISO Format (YYYY-MM-DD)"
 msgstr "ISO形式 (YYYY-MM-DD)"
 
-#, fuzzy
 msgid "ISO Format"
-msgstr "ISO形式 (YYYY-MM-DD)"
+msgstr "ISO形式"
 
 msgid "Id <!-- short for 'Identifier' -->"
 msgstr "Id <!-- 'Identifier'の略称 -->"
@@ -576,9 +574,8 @@ msgstr "新規パスワード"
 msgid "New User"
 msgstr "新規ユーザー"
 
-#, fuzzy
 msgid "No <!-- not 'Yes' -->"
-msgstr "No. <!-- 'Number'の略称 -->"
+msgstr "いいえ <!-- 'はい'ではない -->"
 
 msgid "No calendar content"
 msgstr "カレンダーの内容がありません"
@@ -587,7 +584,7 @@ msgid "No collection found at that location."
 msgstr "その場所にはコレクションが見つかりませんでした。"
 
 msgid "No"
-msgstr "No"
+msgstr "いいえ"
 
 msgid "No. <!-- short for 'Number' -->"
 msgstr "No. <!-- 'Number'の略称 -->"
@@ -608,14 +605,13 @@ msgid "Override a Lock"
 msgstr "ロックをオーバーライドする"
 
 msgid "PDO PostgreSQL divers"
-msgstr ""
+msgstr "PDO PostgreSQLドライバ"
 
 msgid "PHP PDO module available"
-msgstr ""
+msgstr "PHP PDOモジュール利用可能"
 
-#, fuzzy
 msgid "PHP PostgreSQL available"
-msgstr "ユーザーは利用できません"
+msgstr "PHP PostgreSQL利用可能"
 
 msgid "Password"
 msgstr "パスワード"
@@ -624,7 +620,7 @@ msgid "Path"
 msgstr "パス"
 
 msgid "Person"
-msgstr ""
+msgstr "人物"
 
 msgid "Please Confirm Deletion"
 msgstr "削除を確認して下さい。"
@@ -863,9 +859,8 @@ msgstr "特定の権限"
 msgid "Start"
 msgstr "開始"
 
-#, fuzzy
 msgid "Status"
-msgstr "開始"
+msgstr "状態"
 
 #, c-format
 msgid "Status: %d, Message: %s, User: %d, Path: %s"
@@ -910,8 +905,7 @@ msgid "The displayname may only be set on collections or principals."
 msgstr "表示名はコレクションやプリンシパルにか設定できません。"
 
 msgid "The file is not UTF-8 encoded, please check the error for more details."
-msgstr ""
-"そのファイル%sはUTF-8でエンコードされていません。さらなる詳細についてはそのエラーを確認して下さい。"
+msgstr "そのファイル%sはUTF-8でエンコードされていません。さらなる詳細についてはそのエラーを確認して下さい。"
 
 msgid "The name this user can log into the system with."
 msgstr "このユーザーがこのシステムへのログイン時に使う名前。"
@@ -956,7 +950,7 @@ msgid "Type"
 msgstr "タイプ"
 
 msgid "US Format"
-msgstr ""
+msgstr "アメリカ形式"
 
 msgid "United States of America (m/d/y)"
 msgstr "アメリカ合衆国 (m/d/y)"
@@ -1066,6 +1060,8 @@ msgid ""
 "You are currently running DAViCal version %s. The database schema should be at version %s and it is at "
 "version %s."
 msgstr ""
+"あなたは、現在、DAViCalバージョン%sを実行中です。データベーススキーマは、バージョン%sであるべきですが、"
+"バージョン%sになっています。"
 
 msgid "You are editing"
 msgstr "編集中"
@@ -1161,76 +1157,76 @@ msgstr "あなたに発行したユーザー名とパスワードでログオン
 msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
 msgstr "この操作は次のことをします：<ul><li>LDAPディレクトリで有効なユーザーを確認</li>"
 
-#~ msgid "Administers"
-#~ msgstr "管理する"
+#‾ msgid "Administers"
+#‾ msgstr "管理する"
 
-#~ msgid "Can read from"
-#~ msgstr "読み取り可能"
+#‾ msgid "Can read from"
+#‾ msgstr "読み取り可能"
 
-#~ msgid "Can see free/busy time of"
-#~ msgstr "予定の有無を確認可能"
+#‾ msgid "Can see free/busy time of"
+#‾ msgstr "予定の有無を確認可能"
 
-#~ msgid "Relationship <!-- in the sense of a work relationship between people -->"
-#~ msgstr "関係 <!-- 人と人の間の協働関係という意味 -->"
+#‾ msgid "Relationship <!-- in the sense of a work relationship between people -->"
+#‾ msgstr "関係 <!-- 人と人の間の協働関係という意味 -->"
 
-#~ msgid "is Assistant to"
-#~ msgstr "アシスタントである"
+#‾ msgid "is Assistant to"
+#‾ msgstr "アシスタントである"
 
-#~ msgid "Can read/write to"
-#~ msgstr "読み書き可能"
+#‾ msgid "Can read/write to"
+#‾ msgstr "読み書き可能"
 
-#~ msgid "Default relationships added."
-#~ msgstr "デフォルトの関係が追加されました。"
+#‾ msgid "Default relationships added."
+#‾ msgstr "デフォルトの関係が追加されました。"
 
-#~ msgid "You may not access that calendar"
-#~ msgstr "あなたはそのカレンダーにアクセスできません。"
+#‾ msgid "You may not access that calendar"
+#‾ msgstr "あなたはそのカレンダーにアクセスできません。"
 
-#~ msgid "You may not create a calendar there."
-#~ msgstr "あなたはそこにカレンダーを作成できません。"
+#‾ msgid "You may not create a calendar there."
+#‾ msgstr "あなたはそこにカレンダーを作成できません。"
 
-#~ msgid "Add a new user"
-#~ msgstr "新規ユーザーの追加"
+#‾ msgid "Add a new user"
+#‾ msgstr "新規ユーザーの追加"
 
-#~ msgid "Browse all relationship types"
-#~ msgstr "全ての関係タイプを閲覧"
+#‾ msgid "Browse all relationship types"
+#‾ msgstr "全ての関係タイプを閲覧"
 
-#~ msgid "Create Resources"
-#~ msgstr "資源を作成する"
+#‾ msgid "Create Resources"
+#‾ msgstr "資源を作成する"
 
-#~ msgid "Delete Resources"
-#~ msgstr "資源を削除する"
+#‾ msgid "Delete Resources"
+#‾ msgstr "資源を削除する"
 
-#~ msgid "Help on something or other"
-#~ msgstr "何かについてのヘルプ"
+#‾ msgid "Help on something or other"
+#‾ msgstr "何かについてのヘルプ"
 
-#~ msgid "Operations"
-#~ msgstr "操作"
+#‾ msgid "Operations"
+#‾ msgstr "操作"
 
-#~ msgid "Setup RSCDS"
-#~ msgstr "RSCDSをセットアップする"
+#‾ msgid "Setup RSCDS"
+#‾ msgstr "RSCDSをセットアップする"
 
-#~ msgid "<b>WARNING: all events in this path will be deleted before inserting all of the ics file</b>"
-#~ msgstr "<b>警告：このパスにある全てのイベントはicsファイルの挿入の前に削除されます。</b>"
+#‾ msgid "<b>WARNING: all events in this path will be deleted before inserting all of the ics file</b>"
+#‾ msgstr "<b>警告：このパスにある全てのイベントはicsファイルの挿入の前に削除されます。</b>"
 
-#~ msgid "All events of user %s were deleted and replaced by those from the file."
-#~ msgstr "ユーザー%sの全てのイベントは削除され、そのファイルのもので置き換えられました。"
+#‾ msgid "All events of user %s were deleted and replaced by those from the file."
+#‾ msgstr "ユーザー%sの全てのイベントは削除され、そのファイルのもので置き換えられました。"
 
-#~ msgid "Created On"
-#~ msgstr "作成日時"
+#‾ msgid "Created On"
+#‾ msgstr "作成日時"
 
-#~ msgid "Import ICS file to new collection"
-#~ msgstr "ICSファイルを新規コレクションにインポートする"
+#‾ msgid "Import ICS file to new collection"
+#‾ msgstr "ICSファイルを新規コレクションにインポートする"
 
-#~ msgid "Your .ics calendar"
-#~ msgstr "あたなの.icsカレンダー"
+#‾ msgid "Your .ics calendar"
+#‾ msgstr "あたなの.icsカレンダー"
 
-#~ msgid "set the path to store your ics ex:home if you get it by caldav.php/me/home/"
-#~ msgstr "icsの保存に使用するパスを設定。例:home で caldav.php/me/home/になる"
+#‾ msgid "set the path to store your ics ex:home if you get it by caldav.php/me/home/"
+#‾ msgstr "icsの保存に使用するパスを設定。例:home で caldav.php/me/home/になる"
 
-#~ msgid "Really Simple CalDAV Store"
-#~ msgstr "Really Simple CalDAV Store"
+#‾ msgid "Really Simple CalDAV Store"
+#‾ msgstr "Really Simple CalDAV Store"
 
-#~ msgid "if your use OpenLDAP 2.X.X maybe, unable to connect to LDAP with port %s on host %s"
-#~ msgstr ""
-#~ "ホスト%2$sのポート%1$sでLDAPに接続できません。OpenLDAP2.X.Xを使用している場合問題が起こる可能性があ"
-#~ "ります。"
+#‾ msgid "if your use OpenLDAP 2.X.X maybe, unable to connect to LDAP with port %s on host %s"
+#‾ msgstr ""
+#‾ "ホスト%2$sのポート%1$sでLDAPに接続できません。OpenLDAP2.X.Xを使用している場合問題が起こる可能性があ"
+#‾ "ります。"
