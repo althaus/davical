@@ -319,7 +319,7 @@ border-bottom:1px solid white;
   position:absolute;
   text-decoration:none;
   height:0;
-  top:1.4em;
+  top:1.2em;
   left:0;
 }
 
@@ -332,7 +332,7 @@ border-bottom:1px solid white;
   border-bottom: 1px solid #cccccc;
   height:auto;
   line-height:1em;
-  padding:0.2em 0.3em;
+  padding:0.2em 0 0.2em 1em;
   width:12em;
 }
 
