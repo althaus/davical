@@ -34,3 +34,6 @@ BEGINDATA
    </prop>
 </propfind>
 ENDDATA
+
+REPLACE=/ETag: "\S+"/ETag: "some valid etag"/
+REPLACE=!C2:getctag>\S+</C2:getctag!C2:getctag>some valid etag</C2:getctag!

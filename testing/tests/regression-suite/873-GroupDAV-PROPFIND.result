@@ -1,7 +1,7 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy
-ETag: "fc63ca0d363b588cc41c31aea73f4518"
+ETag: "some valid etag"
 Content-Length: 8564
 Content-Type: text/xml; charset="utf-8"
 
@@ -116,7 +116,7 @@ Content-Type: text/xml; charset="utf-8"
       <C:schedule-send-freebusy/>
      </privilege>
     </current-user-privilege-set>
-    <C2:getctag>fcd66a046424de224fa18618b49e0d89</C2:getctag>
+    <C2:getctag>some valid etag</C2:getctag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -143,7 +143,7 @@ Content-Type: text/xml; charset="utf-8"
      <principal/>
     </resourcetype>
     <getcontenttype>httpd/unix-directory</getcontenttype>
-    <C2:getctag>ab4a67c917e242e0989cd278c75a510e</C2:getctag>
+    <C2:getctag>some valid etag</C2:getctag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -176,7 +176,7 @@ Content-Type: text/xml; charset="utf-8"
      <principal/>
     </resourcetype>
     <getcontenttype>httpd/unix-directory</getcontenttype>
-    <C2:getctag>4d470212545b8dd76f702fe2444accad</C2:getctag>
+    <C2:getctag>some valid etag</C2:getctag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -271,7 +271,7 @@ Content-Type: text/xml; charset="utf-8"
       <C:schedule-send-freebusy/>
      </privilege>
     </current-user-privilege-set>
-    <C2:getctag>c8ebc60237eb353a52e7278c96e50a74</C2:getctag>
+    <C2:getctag>some valid etag</C2:getctag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -360,7 +360,7 @@ Content-Type: text/xml; charset="utf-8"
       <C:schedule-send-freebusy/>
      </privilege>
     </current-user-privilege-set>
-    <C2:getctag>22a1e83f9f1b185fee3c792c15015af0</C2:getctag>
+    <C2:getctag>some valid etag</C2:getctag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
