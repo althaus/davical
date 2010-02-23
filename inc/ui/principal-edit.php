@@ -529,7 +529,7 @@ if ( $can_write_principal ) {
   if ( isset($_GET['edit_grant']) ) {
     $browser->MatchedRow('to_principal', $_GET['edit_grant'], 'edit_grant_row');
   }
-  else {
+  else if ( isset($id ) ) {
     $browser->RowFormat( '<tr class="r%d">', '</tr>', '#even' );
     $extra_row = array( 'to_principal' => -1 );
     $browser->MatchedRow('to_principal', -1, 'edit_grant_row');
