@@ -8,7 +8,7 @@
 * @copyright Catalyst .Net Ltd, Morphoss Ltd <http://www.morphoss.com/>
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v2 or later
 */
-if ( preg_match( '{^(/favicon.ico|davical.css|(images|js|css)/.+)$}', $_SERVER['PATH_INFO'], $matches ) ) {
+if ( isset($_SERVER['PATH_INFO']) && preg_match( '{^(/favicon.ico|davical.css|(images|js|css)/.+)$}', $_SERVER['PATH_INFO'], $matches ) ) {
   $filename = $_SERVER['DOCUMENT_ROOT'] . preg_replace('{(\.\.|\\\\)}', '', $matches[1]);
   $fh = @fopen($matches[1],'r');
   if ( ! $fh ) {
