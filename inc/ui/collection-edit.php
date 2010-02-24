@@ -69,6 +69,10 @@ if ( $can_write_collection && $editor->IsSubmit() ) {
   }
   $is_update = ( $_POST['_editor_action'][$editor->Id] == 'update' );
   if ( $_POST['timezone'] == '' ) unset($_POST['timezone']);
+  $resourcetypes = '<DAV::collection/>';
+  if ( isset($_POST['is_calendar'])    && $_POST['is_calendar'] == 'on' )    $resourcetypes .= '<urn:ietf:params:xml:ns:caldav:calendar/>';
+  if ( isset($_POST['is_addressbook']) && $_POST['is_addressbook'] == 'on' ) $resourcetypes .= '<urn:ietf:params:xml:ns:carddav:addressbook/>';
+  $_POST['resourcetypes'] = $resourcetypes;
   if ( $editor->IsCreate() ) {
     $c->messages[] = i18n("Creating new Collection.");
   }
