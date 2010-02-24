@@ -33,6 +33,7 @@ if ( $session->AllowedTo('Admin' )) {
   $admin_menu->AddOption(translate('Setup'),$c->base_url.'/setup.php',translate('Setup DAViCal') );
   $admin_menu->AddOption(translate('Upgrade Database'),$c->base_url.'/upgrade.php',translate('Upgrade DAViCal database schema') );
   $admin_menu->AddOption(translate('Import Calendars'),$c->base_url.'/tools.php',translate('Operations on your calendar') );
+  $user_menu->AddOption(translate('Inactive Principals'),$c->base_url.'/admin.php?action=browse&t=principal&active=f');
   $user_menu->AddOption(translate('Create Principal'),$c->base_url.'/admin.php?action=edit&t=principal',translate('Create a new principal (i.e. a new user, resource or group)'));
 }
 
