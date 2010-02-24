@@ -50,7 +50,7 @@ function check_schema_version() {
 
 function check_davical_version() {
   global $c;
-  $url = 'http://www.davical.org/current_davical_version?v='$c->version_string;
+  $url = 'http://www.davical.org/current_davical_version?v='.$c->version_string;
   $version_file = @fopen($url, 'r');
   if ( ! $version_file ) return "Could not retrieve '$url'";
   $current_version = trim(fread( $version_file,12));
@@ -85,8 +85,8 @@ $heading_setup = translate('Setup');
 $paragraph_setup = translate('Currently this page does very little.  Suggestions or patches to make it do more useful stuff will be gratefully received.');
 
 $heading_versions = translate('Current Versions');
-$paragraph_versions = translate('You are currently running DAViCal version %s. The database schema should be at version %s and it is at version %s.');
-$paragraph_versions = sprintf( $paragraph_versions, $c->version_string, $want_dbversion, $c->schema_major.$c->schema_minor.$c->schema_patch);
+$paragraph_versions = translate('You are currently running DAViCal version %s. The database schema should be at version %s and it is at version %d.%d.%d.');
+$paragraph_versions = sprintf( $paragraph_versions, $c->version_string, $want_dbversion, $c->schema_major, $c->schema_minor, $c->schema_patch);
 
 $heading_dependencies = translate('Dependencies');
 $th_dependency = translate('Dependency');
