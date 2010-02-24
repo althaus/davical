@@ -1,5 +1,6 @@
 <?php
 param_to_global( 'principal_type', 'int', 'type' );
+param_to_global( 'principal_active', '([tf])', 'active' );
 
 $browser = new Browser(translate('Calendar Principals'));
 if ( isset($principal_type) ) {
@@ -23,9 +24,13 @@ if ( !isset($principal_type) || $principal_type == 3 ) {
 }
 
 $browser->SetOrdering( 'username', 'A' );
-
 $browser->SetJoins( "dav_principal " );
-$browser->SetWhere( 'user_active' );
+
+if ( isset($principal_active) && $principal_active == 'f' )
+  $browser->SetWhere( 'NOT user_active' );
+else
+  $browser->SetWhere( 'user_active' );
+
 if ( isset($principal_type) ) {
   $browser->AndWhere( 'type_id = '.$principal_type );
 }
