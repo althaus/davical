@@ -1,4 +1,16 @@
+2010-02-24  Andrew McMillan  <andrew@morphoss.com>
+	* Release 0.9.8.3
+	* Apparently CentOS 5 doesn't have DateTime class in it's PHP :-(
+	* Allow active/inactive setting to edit principal.
+	* Add a menu link to list inactive principals.
+	* Fix the 'ALL' button action in grants update.
+	* Correct 'ALL' privilege to 24 bits.
+	* Move location of CSS submenus slightly.
+	* Don't display a grant/collection stuff until a user is created.
+	* Provide passthru on icons, images, css and js files.
+
 2010-02-23  Andrew McMillan  <andrew@morphoss.com>
+	* Release 0.9.8.2
 	* Include inactive support for RRULE expansion.
 
 2010-02-23  Masahiro Mikami  <ZBN15427@nifty.com>
