@@ -69,6 +69,12 @@ if ( $can_write_collection && $editor->IsSubmit() ) {
   }
   $is_update = ( $_POST['_editor_action'][$editor->Id] == 'update' );
   if ( $_POST['timezone'] == '' ) unset($_POST['timezone']);
+  if ( $editor->IsCreate() ) {
+    $c->messages[] = i18n("Creating new Collection.");
+  }
+  else {
+    $c->messages[] = i18n("Updating Collection record.");
+  }
   $editor->Write();
   if ( isset($_FILES['ics_file']['tmp_name']) && $_FILES['ics_file']['tmp_name'] != '' ) {
     /**
@@ -352,7 +358,7 @@ if ( $editor->Available() ) {
 <form method="POST" enctype="multipart/form-data" id="form_$form_id" action="$form_url">
   <td class="left" colspan="2"><input type="hidden" name="id" value="$id"><input type="hidden" name="orig_to_id" value="$orig_to_id">##to_principal.select##</td>
   <td class="left" colspan="2">
-<input type="button" value="$btn_all" class="submit" title="$btn_all_title" onclick="toggle_privileges('grant_privileges', 'all', 'editor_1');">
+<input type="button" value="$btn_all" class="submit" title="$btn_all_title" onclick="toggle_privileges('grant_privileges', 'all', 'form_$form_id');">
 <input type="button" value="$btn_rw" class="submit" title="$btn_rw_title"
  onclick="toggle_privileges('grant_privileges', 'read', 'write-properties', 'write-content', 'bind', 'unbind', 'read-free-busy',
                             'read-current-user-privilege-set', 'schedule-deliver-invite', 'schedule-deliver-reply', 'schedule-query-freebusy',
