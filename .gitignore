@@ -15,3 +15,11 @@ built-po
 testing/dumps
 testing/regression.conf
 subdav
+docs/website/api
+htdocs/api
+htdocs/test.php
+inc/test-RRULE-v2.php
+perms-perf.base
+random_crap
+testing/tests/google
+testing/timing.stats*
