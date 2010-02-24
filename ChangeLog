@@ -1,5 +1,8 @@
-2010-02-24  Andrew McMillan  <andrew@morphoss.com>
+2010-02-25  Andrew McMillan  <andrew@morphoss.com>
 	* Release 0.9.8.3
+	* Assign correct resourcetype on collection maintenance.
+
+2010-02-24  Andrew McMillan  <andrew@morphoss.com>
 	* Apparently CentOS 5 doesn't have DateTime class in it's PHP :-(
 	* Allow active/inactive setting to edit principal.
 	* Add a menu link to list inactive principals.
