@@ -50,7 +50,7 @@ function check_schema_version() {
 
 function check_davical_version() {
   global $c;
-  $url = 'http://www.davical.org/current_davical_version';
+  $url = 'http://www.davical.org/current_davical_version?v='$c->version_string;
   $version_file = @fopen($url, 'r');
   if ( ! $version_file ) return "Could not retrieve '$url'";
   $current_version = trim(fread( $version_file,12));
