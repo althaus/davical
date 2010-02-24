@@ -141,6 +141,7 @@ else {
   $c->page_title = $editor->Title(translate('Create New Principal'));
   $privs = decbin(privilege_to_bits($c->default_privileges));
   $editor->Assign('default_privileges', $privs);
+  $editor->Assign('user_active', 't');
 }
 
 $privilege_xlate = array(
@@ -179,6 +180,7 @@ $prompt_fullname = translate('Fullname');
 $prompt_email = translate('Email Address');
 $prompt_date_format = translate('Date Format Style');
 $prompt_admin = translate('Administrator');
+$prompt_active = translate('Active');
 $prompt_locale = translate('Locale');
 $prompt_type = translate('Principal Type');
 $prompt_privileges = translate('Default Privileges');
@@ -194,7 +196,9 @@ $admin_row_entry = '';
 $delete_principal_button = '';
 if ( $session->AllowedTo('Admin') ) {
   $admin_row_entry = ' <tr> <th class="right">'.$prompt_admin.':</th><td class="left">##is_admin.checkbox##</td> </tr>';
-  $delete_principal_button = '<a href="'.$c->base_url . '/admin.php?action=edit&t=principal&subaction=delete_principal&id='.$id.'" class="submit">' . translate("Delete Principal") . '</a>';
+  $admin_row_entry .= ' <tr> <th class="right">'.$prompt_active.':</th><td class="left">##user_active.checkbox##</td> </tr>';
+  if ( isset($id) )
+    $delete_principal_button = '<a href="'.$c->base_url . '/admin.php?action=edit&t=principal&subaction=delete_principal&id='.$id.'" class="submit">' . translate("Delete Principal") . '</a>';
 }
 
 $id = $editor->Value('principal_id');
@@ -296,99 +300,22 @@ if ( isset($delete_principal_confirmation_required) ) {
 }
 
 
-$browser = new Browser(translate('Group Memberships'));
-$c->stylesheets[] = 'css/browse.css';
-$c->scripts[] = 'js/browse.js';
-
-$browser->AddColumn( 'group_id', translate('ID'), 'right', '##principal_link##' );
-$rowurl = $c->base_url . '/admin.php?action=edit&t=principal&id=';
-$browser->AddHidden( 'principal_link', "'<a href=\"$rowurl' || principal_id || '\">' || principal_id || '</a>'" );
-$browser->AddColumn( 'displayname', translate('Display Name') );
-$browser->AddColumn( 'member_of', translate('Is Member of'), '', '', 'is_member_of_list(principal_id)' );
-$browser->AddColumn( 'members', translate('Has Members'), '', '', 'has_members_list(principal_id)' );
-
-$browser->SetOrdering( 'displayname', 'A' );
-
-$browser->SetJoins( "group_member LEFT JOIN dav_principal ON (group_id = principal_id) " );
-$browser->SetWhere( 'user_active AND member_id = '.$id );
-
-if ( $c->enable_row_linking ) {
-  $browser->RowFormat( '<tr onMouseover="LinkHref(this,1);" title="'.translate('Click to edit principal details').'" class="r%d">', '</tr>', '#even' );
-}
-else {
-  $browser->RowFormat( '<tr class="r%d">', '</tr>', '#even' );
-}
-$browser->DoQuery();
-$page_elements[] = $browser;
-
-
-if ( $editor->Value('type_id') == 3 ) {
-
-  $grouprow = new Editor("Group Members", "group_member");
-  $grouprow->SetLookup( 'member_id', 'SELECT principal_id, displayname FROM dav_principal WHERE principal_id NOT IN (SELECT member_id FROM group_member WHERE group_id = '.$id.')');
-  $grouprow->SetSubmitName( 'savegrouprow' );
-
-  if ( $can_write_principal ) {
-    if ( $grouprow->IsSubmit() ) {
-      if ( $grouprow->IsUpdate() )
-        $c->messages[] = translate('Updating Member of this Group Principal');
-      else
-        $c->messages[] = translate('Adding new member to this Group Principal');
-
-      $_POST['group_id'] = $id;
-      $member_id = intval($_POST['member_id']);
-      $grouprow->SetWhere( "group_id=".qpg($id)." AND member_id=$member_id");
-      $grouprow->Write( );
-      unset($_GET['member_id']);
-    }
-    elseif ( isset($_GET['delete_member']) ) {
-      $qry = new AwlQuery("DELETE FROM group_member WHERE group_id=:group_id AND member_id = :member_id",
-                            array( ':group_id' => $id, ':member_id' => intval($_GET['delete_member']) ));
-      $qry->Exec('principal-edit');
-      $c->messages[] = translate('Member deleted from this Group Principal');
-    }
-  }
-
-  function edit_group_row( $row_data ) {
-    global $grouprow, $id, $c;
-
-    $form_url = preg_replace( '#&(edit|delete)_group=\d+#', '', $_SERVER['REQUEST_URI'] );
-
-    $template = <<<EOTEMPLATE
-<form method="POST" enctype="multipart/form-data" id="add_group" action="$form_url">
-  <td class="left"><input type="hidden" name="id" value="$id"></td>
-  <td class="left" colspan="3">##member_id.select## &nbsp; ##Add.submit##</td>
-  <td class="center"></td>
-</form>
-
-EOTEMPLATE;
-
-    $grouprow->SetTemplate( $template );
-    $grouprow->Title("");
-    if ( $row_data->group_id > -1 ) $grouprow->SetRecord( $row_data );
-
-    return $grouprow->Render();
-  }
-
-  $browser = new Browser(translate('Group Members'));
+if ( isset($id) ) {
+  $browser = new Browser(translate('Group Memberships'));
+  $c->stylesheets[] = 'css/browse.css';
+  $c->scripts[] = 'js/browse.js';
 
   $browser->AddColumn( 'group_id', translate('ID'), 'right', '##principal_link##' );
   $rowurl = $c->base_url . '/admin.php?action=edit&t=principal&id=';
-  $browser->AddHidden( 'principal_id' );
   $browser->AddHidden( 'principal_link', "'<a href=\"$rowurl' || principal_id || '\">' || principal_id || '</a>'" );
   $browser->AddColumn( 'displayname', translate('Display Name') );
   $browser->AddColumn( 'member_of', translate('Is Member of'), '', '', 'is_member_of_list(principal_id)' );
   $browser->AddColumn( 'members', translate('Has Members'), '', '', 'has_members_list(principal_id)' );
 
-  if ( $can_write_principal ) {
-    $del_link  = '<a href="'.$c->base_url.'/admin.php?action=edit&t=principal&id='.$id.'&delete_member=##principal_id##" class="submit">'.translate('Delete').'</a>';
-    $browser->AddColumn( 'action', translate('Action'), 'center', '', "'$edit_link&nbsp;$del_link'" );
-  }
-
   $browser->SetOrdering( 'displayname', 'A' );
 
-  $browser->SetJoins( "group_member LEFT JOIN dav_principal ON (member_id = principal_id) " );
-  $browser->SetWhere( 'user_active AND group_id = '.$id );
+  $browser->SetJoins( "group_member LEFT JOIN dav_principal ON (group_id = principal_id) " );
+  $browser->SetWhere( 'user_active AND member_id = '.$id );
 
   if ( $c->enable_row_linking ) {
     $browser->RowFormat( '<tr onMouseover="LinkHref(this,1);" title="'.translate('Click to edit principal details').'" class="r%d">', '</tr>', '#even' );
@@ -399,73 +326,151 @@ EOTEMPLATE;
   $browser->DoQuery();
   $page_elements[] = $browser;
 
-  if ( $can_write_principal ) {
-    $browser->RowFormat( '<tr class="r%d">', '</tr>', '#even' );
-    $extra_row = array( 'group_id' => -1 );
-    $browser->MatchedRow('group_id', -1, 'edit_group_row');
-    $extra_row = (object) $extra_row;
-    $browser->AddRow($extra_row);
-  }
-}
 
+  if ( $editor->Value('type_id') == 3 ) {
 
-  $grantrow = new Editor("Grants", "grants");
-  $grantrow->SetSubmitName( 'savegrantrow' );
-  $edit_grant_clause = '';
-  if ( isset($_GET['edit_grant']) ) {
-    $edit_grant_clause = ' AND to_principal != '.intval($_GET['edit_grant']);
-  }
-  $grantrow->SetLookup( 'to_principal', 'SELECT principal_id, displayname FROM dav_principal WHERE principal_id NOT IN (SELECT to_principal FROM grants WHERE by_principal = '.$id.$edit_grant_clause.')' );
-  if ( $can_write_principal ) {
-    if ( $grantrow->IsSubmit() ) {
-      if ( $grantrow->IsUpdate() )
-        $c->messages[] = translate('Updating grants by this Principal');
-      else
-        $c->messages[] = translate('Granting new privileges from this Principal');
-      $_POST['by_principal'] = $id;
-      $to_principal = intval($_POST['to_principal']);
-      $orig_to_id =  intval($_POST['orig_to_id']);
-      $grantrow->SetWhere( "by_principal=".qpg($id)." AND to_principal=$orig_to_id");
-      if ( isset($_POST['grant_privileges']) ) {
-        $privilege_bitpos = array_flip($privilege_names);
-        $priv_names = array_keys($_POST['grant_privileges']);
-        $privs = privilege_to_bits($priv_names);
-        $_POST['privileges'] = sprintf('%024s',decbin($privs));
-        $grantrow->Assign('privileges', $privs_dec);
+    $grouprow = new Editor("Group Members", "group_member");
+    $grouprow->SetLookup( 'member_id', 'SELECT principal_id, displayname FROM dav_principal WHERE principal_id NOT IN (SELECT member_id FROM group_member WHERE group_id = '.$id.')');
+    $grouprow->SetSubmitName( 'savegrouprow' );
+
+    if ( $can_write_principal ) {
+      if ( $grouprow->IsSubmit() ) {
+        if ( $grouprow->IsUpdate() )
+          $c->messages[] = translate('Updating Member of this Group Principal');
+        else
+          $c->messages[] = translate('Adding new member to this Group Principal');
+
+        $_POST['group_id'] = $id;
+        $member_id = intval($_POST['member_id']);
+        $grouprow->SetWhere( "group_id=".qpg($id)." AND member_id=$member_id");
+        $grouprow->Write( );
+        unset($_GET['member_id']);
       }
-      $grantrow->Write( );
-      unset($_GET['to_principal']);
+      elseif ( isset($_GET['delete_member']) ) {
+        $qry = new AwlQuery("DELETE FROM group_member WHERE group_id=:group_id AND member_id = :member_id",
+                              array( ':group_id' => $id, ':member_id' => intval($_GET['delete_member']) ));
+        $qry->Exec('principal-edit');
+        $c->messages[] = translate('Member deleted from this Group Principal');
+      }
     }
-    elseif ( isset($_GET['delete_grant']) ) {
-      $qry = new AwlQuery("DELETE FROM grants WHERE by_principal=:grantor_id AND to_principal = :to_principal",
-                            array( ':grantor_id' => $id, ':to_principal' => intval($_GET['delete_grant']) ));
-      $qry->Exec('principal-edit');
-      $c->messages[] = translate('Deleted a grant from this Principal');
+
+    function edit_group_row( $row_data ) {
+      global $grouprow, $id, $c;
+
+      $form_url = preg_replace( '#&(edit|delete)_group=\d+#', '', $_SERVER['REQUEST_URI'] );
+
+      $template = <<<EOTEMPLATE
+<form method="POST" enctype="multipart/form-data" id="add_group" action="$form_url">
+  <td class="left"><input type="hidden" name="id" value="$id"></td>
+  <td class="left" colspan="3">##member_id.select## &nbsp; ##Add.submit##</td>
+  <td class="center"></td>
+</form>
+
+EOTEMPLATE;
+
+      $grouprow->SetTemplate( $template );
+      $grouprow->Title("");
+      if ( $row_data->group_id > -1 ) $grouprow->SetRecord( $row_data );
+
+      return $grouprow->Render();
+    }
+
+    $browser = new Browser(translate('Group Members'));
+
+    $browser->AddColumn( 'group_id', translate('ID'), 'right', '##principal_link##' );
+    $rowurl = $c->base_url . '/admin.php?action=edit&t=principal&id=';
+    $browser->AddHidden( 'principal_id' );
+    $browser->AddHidden( 'principal_link', "'<a href=\"$rowurl' || principal_id || '\">' || principal_id || '</a>'" );
+    $browser->AddColumn( 'displayname', translate('Display Name') );
+    $browser->AddColumn( 'member_of', translate('Is Member of'), '', '', 'is_member_of_list(principal_id)' );
+    $browser->AddColumn( 'members', translate('Has Members'), '', '', 'has_members_list(principal_id)' );
+
+    if ( $can_write_principal ) {
+      $del_link  = '<a href="'.$c->base_url.'/admin.php?action=edit&t=principal&id='.$id.'&delete_member=##principal_id##" class="submit">'.translate('Delete').'</a>';
+      $browser->AddColumn( 'action', translate('Action'), 'center', '', "'$edit_link&nbsp;$del_link'" );
+    }
+
+    $browser->SetOrdering( 'displayname', 'A' );
+
+    $browser->SetJoins( "group_member LEFT JOIN dav_principal ON (member_id = principal_id) " );
+    $browser->SetWhere( 'user_active AND group_id = '.$id );
+
+    if ( $c->enable_row_linking ) {
+      $browser->RowFormat( '<tr onMouseover="LinkHref(this,1);" title="'.translate('Click to edit principal details').'" class="r%d">', '</tr>', '#even' );
+    }
+    else {
+      $browser->RowFormat( '<tr class="r%d">', '</tr>', '#even' );
+    }
+    $browser->DoQuery();
+    $page_elements[] = $browser;
+
+    if ( $can_write_principal ) {
+      $browser->RowFormat( '<tr class="r%d">', '</tr>', '#even' );
+      $extra_row = array( 'group_id' => -1 );
+      $browser->MatchedRow('group_id', -1, 'edit_group_row');
+      $extra_row = (object) $extra_row;
+      $browser->AddRow($extra_row);
     }
   }
 
-  function edit_grant_row( $row_data ) {
-    global $grantrow, $id, $c, $privilege_xlate, $privilege_names;
-    global $btn_all, $btn_all_title, $btn_rw, $btn_rw_title, $btn_read, $btn_read_title;
-    global $btn_fb, $btn_fb_title, $btn_sd, $btn_sd_title, $btn_ss, $btn_ss_title;
 
-    if ( $row_data->to_principal > -1 ) {
-      $grantrow->SetRecord( $row_data );
+    $grantrow = new Editor("Grants", "grants");
+    $grantrow->SetSubmitName( 'savegrantrow' );
+    $edit_grant_clause = '';
+    if ( isset($_GET['edit_grant']) ) {
+      $edit_grant_clause = ' AND to_principal != '.intval($_GET['edit_grant']);
+    }
+    $grantrow->SetLookup( 'to_principal', 'SELECT principal_id, displayname FROM dav_principal WHERE principal_id NOT IN (SELECT to_principal FROM grants WHERE by_principal = '.$id.$edit_grant_clause.')' );
+    if ( $can_write_principal ) {
+      if ( $grantrow->IsSubmit() ) {
+        if ( $grantrow->IsUpdate() )
+          $c->messages[] = translate('Updating grants by this Principal');
+        else
+          $c->messages[] = translate('Granting new privileges from this Principal');
+        $_POST['by_principal'] = $id;
+        $to_principal = intval($_POST['to_principal']);
+        $orig_to_id =  intval($_POST['orig_to_id']);
+        $grantrow->SetWhere( "by_principal=".qpg($id)." AND to_principal=$orig_to_id");
+        if ( isset($_POST['grant_privileges']) ) {
+          $privilege_bitpos = array_flip($privilege_names);
+          $priv_names = array_keys($_POST['grant_privileges']);
+          $privs = privilege_to_bits($priv_names);
+          $_POST['privileges'] = sprintf('%024s',decbin($privs));
+          $grantrow->Assign('privileges', $privs_dec);
+        }
+        $grantrow->Write( );
+        unset($_GET['to_principal']);
+      }
+      elseif ( isset($_GET['delete_grant']) ) {
+        $qry = new AwlQuery("DELETE FROM grants WHERE by_principal=:grantor_id AND to_principal = :to_principal",
+                              array( ':grantor_id' => $id, ':to_principal' => intval($_GET['delete_grant']) ));
+        $qry->Exec('principal-edit');
+        $c->messages[] = translate('Deleted a grant from this Principal');
+      }
     }
 
-    $grant_privileges = bindec($grantrow->Value('grant_privileges'));
-    $privileges_set = '<div id="privileges">';
-    for( $i=0; $i < count($privilege_names); $i++ ) {
-      $privilege_set = ( (1 << $i) & $grant_privileges ? ' CHECKED' : '');
-      $privileges_set .= '<label class="privilege"><input name="grant_privileges['.$privilege_names[$i].']" id="grant_privileges_'.$privilege_names[$i].'" type="checkbox"'.$privilege_set.'>'.$privilege_xlate[$privilege_names[$i]].'</label>'."\n";
-    }
-    $privileges_set .= '</div>';
+    function edit_grant_row( $row_data ) {
+      global $grantrow, $id, $c, $privilege_xlate, $privilege_names;
+      global $btn_all, $btn_all_title, $btn_rw, $btn_rw_title, $btn_read, $btn_read_title;
+      global $btn_fb, $btn_fb_title, $btn_sd, $btn_sd_title, $btn_ss, $btn_ss_title;
 
-    $orig_to_id = $row_data->to_principal;
-    $form_id = $grantrow->Id();
-    $form_url = preg_replace( '#&(edit|delete)_grant=\d+#', '', $_SERVER['REQUEST_URI'] );
+      if ( $row_data->to_principal > -1 ) {
+        $grantrow->SetRecord( $row_data );
+      }
 
-    $template = <<<EOTEMPLATE
+      $grant_privileges = bindec($grantrow->Value('grant_privileges'));
+      $privileges_set = '<div id="privileges">';
+      for( $i=0; $i < count($privilege_names); $i++ ) {
+        $privilege_set = ( (1 << $i) & $grant_privileges ? ' CHECKED' : '');
+        $privileges_set .= '<label class="privilege"><input name="grant_privileges['.$privilege_names[$i].']" id="grant_privileges_'.$privilege_names[$i].'" type="checkbox"'.$privilege_set.'>'.$privilege_xlate[$privilege_names[$i]].'</label>'."\n";
+      }
+      $privileges_set .= '</div>';
+
+      $orig_to_id = $row_data->to_principal;
+      $form_id = $grantrow->Id();
+      $form_url = preg_replace( '#&(edit|delete)_grant=\d+#', '', $_SERVER['REQUEST_URI'] );
+
+      $template = <<<EOTEMPLATE
 <form method="POST" enctype="multipart/form-data" id="form_$form_id" action="$form_url">
   <td class="left" colspan="2"><input type="hidden" name="id" value="$id"><input type="hidden" name="orig_to_id" value="$orig_to_id">##to_principal.select##</td>
   <td class="left" colspan="2">
@@ -488,94 +493,95 @@ EOTEMPLATE;
 
 EOTEMPLATE;
 
-    $grantrow->SetTemplate( $template );
-    $grantrow->Title("");
+      $grantrow->SetTemplate( $template );
+      $grantrow->Title("");
 
-    return $grantrow->Render();
+      return $grantrow->Render();
+    }
+
+  $browser = new Browser(translate('Principal Grants'));
+
+  $browser->AddColumn( 'to_principal', translate('To ID'), 'right', '##principal_link##' );
+  $rowurl = $c->base_url . '/admin.php?action=edit&t=principal&id=';
+  $browser->AddHidden( 'principal_link', "'<a href=\"$rowurl' || to_principal || '\">' || to_principal || '</a>'" );
+  $browser->AddHidden( 'grant_privileges', 'privileges' );
+  $browser->AddColumn( 'displayname', translate('Display Name') );
+  $browser->AddColumn( 'privs', translate('Privileges'), '', '', 'privileges_list(privileges)' );
+  $browser->AddColumn( 'members', translate('Has Members'), '', '', 'has_members_list(principal_id)' );
+
+  if ( $can_write_principal ) {
+    $del_link  = '<a href="'.$c->base_url.'/admin.php?action=edit&t=principal&id='.$id.'&delete_grant=##to_principal##" class="submit">'.translate('Delete').'</a>';
+    $edit_link  = '<a href="'.$c->base_url.'/admin.php?action=edit&t=principal&id='.$id.'&edit_grant=##to_principal##" class="submit">'.translate('Edit').'</a>';
+    $browser->AddColumn( 'action', translate('Action'), 'center', '', "'$edit_link&nbsp;$del_link'" );
   }
 
-$browser = new Browser(translate('Principal Grants'));
+  $browser->SetOrdering( 'displayname', 'A' );
 
-$browser->AddColumn( 'to_principal', translate('To ID'), 'right', '##principal_link##' );
-$rowurl = $c->base_url . '/admin.php?action=edit&t=principal&id=';
-$browser->AddHidden( 'principal_link', "'<a href=\"$rowurl' || to_principal || '\">' || to_principal || '</a>'" );
-$browser->AddHidden( 'grant_privileges', 'privileges' );
-$browser->AddColumn( 'displayname', translate('Display Name') );
-$browser->AddColumn( 'privs', translate('Privileges'), '', '', 'privileges_list(privileges)' );
-$browser->AddColumn( 'members', translate('Has Members'), '', '', 'has_members_list(principal_id)' );
+  $browser->SetJoins( "grants LEFT JOIN dav_principal ON (to_principal = principal_id) " );
+  $browser->SetWhere( 'by_principal = '.$id );
 
-if ( $can_write_principal ) {
-  $del_link  = '<a href="'.$c->base_url.'/admin.php?action=edit&t=principal&id='.$id.'&delete_grant=##to_principal##" class="submit">'.translate('Delete').'</a>';
-  $edit_link  = '<a href="'.$c->base_url.'/admin.php?action=edit&t=principal&id='.$id.'&edit_grant=##to_principal##" class="submit">'.translate('Edit').'</a>';
-  $browser->AddColumn( 'action', translate('Action'), 'center', '', "'$edit_link&nbsp;$del_link'" );
-}
-
-$browser->SetOrdering( 'displayname', 'A' );
-
-$browser->SetJoins( "grants LEFT JOIN dav_principal ON (to_principal = principal_id) " );
-$browser->SetWhere( 'by_principal = '.$id );
-
-if ( $c->enable_row_linking ) {
-  $browser->RowFormat( '<tr onMouseover="LinkHref(this,1);" title="'.translate('Click to edit principal details').'" class="r%d">', '</tr>', '#even' );
-}
-else {
-  $browser->RowFormat( '<tr class="r%d">', '</tr>', '#even' );
-}
-$browser->DoQuery();
-$page_elements[] = $browser;
-
-
-if ( $can_write_principal ) {
-  if ( isset($_GET['edit_grant']) ) {
-    $browser->MatchedRow('to_principal', $_GET['edit_grant'], 'edit_grant_row');
+  if ( $c->enable_row_linking ) {
+    $browser->RowFormat( '<tr onMouseover="LinkHref(this,1);" title="'.translate('Click to edit principal details').'" class="r%d">', '</tr>', '#even' );
   }
-  else if ( isset($id ) ) {
+  else {
     $browser->RowFormat( '<tr class="r%d">', '</tr>', '#even' );
-    $extra_row = array( 'to_principal' => -1 );
-    $browser->MatchedRow('to_principal', -1, 'edit_grant_row');
-    $extra_row = (object) $extra_row;
-    $browser->AddRow($extra_row);
   }
+  $browser->DoQuery();
+  $page_elements[] = $browser;
+
+
+  if ( $can_write_principal ) {
+    if ( isset($_GET['edit_grant']) ) {
+      $browser->MatchedRow('to_principal', $_GET['edit_grant'], 'edit_grant_row');
+    }
+    else if ( isset($id ) ) {
+      $browser->RowFormat( '<tr class="r%d">', '</tr>', '#even' );
+      $extra_row = array( 'to_principal' => -1 );
+      $browser->MatchedRow('to_principal', -1, 'edit_grant_row');
+      $extra_row = (object) $extra_row;
+      $browser->AddRow($extra_row);
+    }
+  }
+
+
+  $browser = new Browser(translate('Principal Collections'));
+
+  $browser->AddColumn( 'collection_id', translate('ID'), 'right', '##collection_link##' );
+  $rowurl = $c->base_url . '/admin.php?action=edit&t=collection&id=';
+  $browser->AddHidden( 'collection_link', "'<a href=\"$rowurl' || collection_id || '\">' || collection_id || '</a>'" );
+  $browser->AddColumn( 'dav_name', translate('Path') );
+  $browser->AddColumn( 'dav_displayname', translate('Display Name') );
+  $browser->AddColumn( 'publicly_readable', translate('Public'), 'centre', '', 'CASE WHEN publicly_readable THEN \''.translate('Yes').'\' ELSE \''.translate('No').'\' END' );
+  $browser->AddColumn( 'privs', translate('Privileges'), '', '',
+          "COALESCE( privileges_list(default_privileges), '[".translate('from principal')."]')" );
+  $delurl = $c->base_url . '/admin.php?action=edit&t=principal&id='.$id.'&dav_name=##URL:dav_name##&subaction=delete_collection';
+  $browser->AddColumn( 'delete', translate('Action'), 'center', '', "'<a class=\"submit\" href=\"$delurl\">".translate('Delete')."</a>'" );
+
+  $browser->SetOrdering( 'dav_name', 'A' );
+
+  $browser->SetJoins( "collection " );
+  $browser->SetWhere( 'user_no = '.intval($editor->Value('user_no')) );
+
+  $browser->AddRow( array( 'dav_name' => '<a href="'.$rowurl.'&user_no='.intval($editor->Value('user_no')).'" class="submit">'.translate('Create Collection').'</a>' ));
+
+  if ( $c->enable_row_linking ) {
+    $browser->RowFormat( '<tr onMouseover="LinkHref(this,1);" title="'.translate('Click to edit principal details').'" class="r%d">', '</tr>', '#even' );
+  }
+  else {
+    $browser->RowFormat( '<tr class="r%d">', '</tr>', '#even' );
+  }
+  $browser->DoQuery();
+  $page_elements[] = $browser;
+  if ( isset($delete_collection_confirmation_required) ) {
+    $html = '<table><tr><td class="error">';
+    $html .= sprintf('<b>%s</b> "%s" <a class="error" href="%s&%s">%s</a> %s',
+                translate('Deleting Collection:'), $_GET['dav_name'], $_SERVER['REQUEST_URI'],
+                $delete_collection_confirmation_required,
+                translate('Confirm Deletion of the Collection'),
+                translate('All collection data will be unrecoverably deleted.') );
+    $html .= "</td></tr></table>\n";
+    $page_elements[] = $html;
+  }
+
+
 }
-
-
-$browser = new Browser(translate('Principal Collections'));
-
-$browser->AddColumn( 'collection_id', translate('ID'), 'right', '##collection_link##' );
-$rowurl = $c->base_url . '/admin.php?action=edit&t=collection&id=';
-$browser->AddHidden( 'collection_link', "'<a href=\"$rowurl' || collection_id || '\">' || collection_id || '</a>'" );
-$browser->AddColumn( 'dav_name', translate('Path') );
-$browser->AddColumn( 'dav_displayname', translate('Display Name') );
-$browser->AddColumn( 'publicly_readable', translate('Public'), 'centre', '', 'CASE WHEN publicly_readable THEN \''.translate('Yes').'\' ELSE \''.translate('No').'\' END' );
-$browser->AddColumn( 'privs', translate('Privileges'), '', '',
-        "COALESCE( privileges_list(default_privileges), '[".translate('from principal')."]')" );
-$delurl = $c->base_url . '/admin.php?action=edit&t=principal&id='.$id.'&dav_name=##URL:dav_name##&subaction=delete_collection';
-$browser->AddColumn( 'delete', translate('Action'), 'center', '', "'<a class=\"submit\" href=\"$delurl\">".translate('Delete')."</a>'" );
-
-$browser->SetOrdering( 'dav_name', 'A' );
-
-$browser->SetJoins( "collection " );
-$browser->SetWhere( 'user_no = '.intval($editor->Value('user_no')) );
-
-$browser->AddRow( array( 'dav_name' => '<a href="'.$rowurl.'&user_no='.intval($editor->Value('user_no')).'" class="submit">'.translate('Create Collection').'</a>' ));
-
-if ( $c->enable_row_linking ) {
-  $browser->RowFormat( '<tr onMouseover="LinkHref(this,1);" title="'.translate('Click to edit principal details').'" class="r%d">', '</tr>', '#even' );
-}
-else {
-  $browser->RowFormat( '<tr class="r%d">', '</tr>', '#even' );
-}
-$browser->DoQuery();
-$page_elements[] = $browser;
-if ( isset($delete_collection_confirmation_required) ) {
-  $html = '<table><tr><td class="error">';
-  $html .= sprintf('<b>%s</b> "%s" <a class="error" href="%s&%s">%s</a> %s',
-               translate('Deleting Collection:'), $_GET['dav_name'], $_SERVER['REQUEST_URI'],
-               $delete_collection_confirmation_required,
-               translate('Confirm Deletion of the Collection'),
-               translate('All collection data will be unrecoverably deleted.') );
-  $html .= "</td></tr></table>\n";
-  $page_elements[] = $html;
-}
-
-
