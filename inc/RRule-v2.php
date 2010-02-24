@@ -9,6 +9,8 @@
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v2 or later
 */
 
+if ( !class_exists('DateTime') ) return;
+
 $rrule_expand_limit = array(
   'YEARLY'  => array( 'bymonth' => 'expand', 'byweekno' => 'expand', 'byyearday' => 'expand', 'bymonthday' => 'expand',
                       'byday' => 'expand', 'byhour' => 'expand', 'byminute' => 'expand', 'bysecond' => 'expand' ),
