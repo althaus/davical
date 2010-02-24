@@ -394,7 +394,7 @@ function privilege_to_bits( $raw_privs ) {
   }
 
   // 'all' will include future privileges
-  if ( $out_priv >= DAVICAL_MAXPRIV ) $out_priv = pow(2,25) - 1;
+  if ( $out_priv >= DAVICAL_MAXPRIV ) $out_priv = pow(2,24) - 1;
   return $out_priv;
 }
 
