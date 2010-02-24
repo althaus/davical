@@ -274,7 +274,7 @@ class CalDAVRequest
       $sql .= " OR dav_name = ".qpg(preg_replace( '#[^/]*$#', '', $this->path));
       $sql .= " OR dav_name = ".qpg($this->path."/");
     }
-    $sql .= "ORDER BY LENGTH(dav_name) DESC LIMIT 1";
+    $sql .= " ORDER BY LENGTH(dav_name) DESC LIMIT 1";
     $qry = new PgQuery( $sql );
     if ( $qry->Exec('caldav') && $qry->rows == 1 && ($row = $qry->Fetch()) ) {
       if ( $row->dav_name == $this->path."/" ) {
