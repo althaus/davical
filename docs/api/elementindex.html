@@ -1912,20 +1912,20 @@
 			<div class="index-item-details"><a href="davical/_htdocs---index.php.html">index.php</a> in index.php</div>
 					</dd>
 			<dt class="field">
-						<img src="media/images/Class.png" alt="Class" title="Class" />
-			iCalDate
-					</dt>
-		<dd class="index-item-body">
-			<div class="index-item-details"><a href="awl/caldav/iCalDate.html">iCalDate</a> in RRule.php</div>
-							<div class="index-item-description">A Class for handling dates in iCalendar format.  We do make the simplifying assumption  that all date handling in here is normalised to GMT.  One day we might provide some  functions to do that, but for now it is done externally.</div>
-					</dd>
-			<dt class="field">
 						<img src="media/images/Constructor.png" alt="Method" title="Method" />
 			<span class="method-title">iCalDate</span>
 					</dt>
 		<dd class="index-item-body">
 			<div class="index-item-details"><a href="awl/caldav/iCalDate.html#methodiCalDate">iCalDate::iCalDate()</a> in RRule.php</div>
 							<div class="index-item-description">The constructor takes either an iCalendar date, a text string formatted as  an iCalendar date, or epoch seconds.</div>
+					</dd>
+			<dt class="field">
+						<img src="media/images/Class.png" alt="Class" title="Class" />
+			iCalDate
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="awl/caldav/iCalDate.html">iCalDate</a> in RRule.php</div>
+							<div class="index-item-description">A Class for handling dates in iCalendar format.  We do make the simplifying assumption  that all date handling in here is normalised to GMT.  One day we might provide some  functions to do that, but for now it is done externally.</div>
 					</dd>
 			<dt class="field">
 						<img src="media/images/Method.png" alt="Method" title="Method" />
@@ -1978,24 +1978,16 @@
 			<span class="method-title">IsCalendar</span>
 					</dt>
 		<dd class="index-item-body">
-			<div class="index-item-details"><a href="davical/Resource/DAVResource.html#methodIsCalendar">DAVResource::IsCalendar()</a> in DAVResource.php</div>
-							<div class="index-item-description">Checks whether this resource is a calendar</div>
+			<div class="index-item-details"><a href="davical/Request/CalDAVRequest.html#methodIsCalendar">CalDAVRequest::IsCalendar()</a> in CalDAVRequest.php</div>
+							<div class="index-item-description">Returns true if the URL referenced by this request points at a calendar collection.</div>
 					</dd>
 			<dt class="field">
 						<img src="media/images/Method.png" alt="Method" title="Method" />
 			<span class="method-title">IsCalendar</span>
 					</dt>
 		<dd class="index-item-body">
-			<div class="index-item-details"><a href="davical/Request/CalDAVRequest.html#methodIsCalendar">CalDAVRequest::IsCalendar()</a> in CalDAVRequest.php</div>
-							<div class="index-item-description">Returns true if the URL referenced by this request points at a calendar collection.</div>
-					</dd>
-			<dt class="field">
-						<img src="media/images/Method.png" alt="Method" title="Method" />
-			<span class="method-title">IsCollection</span>
-					</dt>
-		<dd class="index-item-body">
-			<div class="index-item-details"><a href="davical/Request/CalDAVRequest.html#methodIsCollection">CalDAVRequest::IsCollection()</a> in CalDAVRequest.php</div>
-							<div class="index-item-description">Returns true if the URL referenced by this request points at a collection.</div>
+			<div class="index-item-details"><a href="davical/Resource/DAVResource.html#methodIsCalendar">DAVResource::IsCalendar()</a> in DAVResource.php</div>
+							<div class="index-item-description">Checks whether this resource is a calendar</div>
 					</dd>
 			<dt class="field">
 						<img src="media/images/Method.png" alt="Method" title="Method" />
@@ -2004,6 +1996,14 @@
 		<dd class="index-item-body">
 			<div class="index-item-details"><a href="davical/Resource/DAVResource.html#methodIsCollection">DAVResource::IsCollection()</a> in DAVResource.php</div>
 							<div class="index-item-description">Checks whether this resource is a collection</div>
+					</dd>
+			<dt class="field">
+						<img src="media/images/Method.png" alt="Method" title="Method" />
+			<span class="method-title">IsCollection</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="davical/Request/CalDAVRequest.html#methodIsCollection">CalDAVRequest::IsCollection()</a> in CalDAVRequest.php</div>
+							<div class="index-item-description">Returns true if the URL referenced by this request points at a collection.</div>
 					</dd>
 			<dt class="field">
 						<img src="media/images/Method.png" alt="Method" title="Method" />
@@ -2026,7 +2026,7 @@
 			<span class="method-title">IsLocked</span>
 					</dt>
 		<dd class="index-item-body">
-			<div class="index-item-details"><a href="davical/Resource/DAVResource.html#methodIsLocked">DAVResource::IsLocked()</a> in DAVResource.php</div>
+			<div class="index-item-details"><a href="davical/Request/CalDAVRequest.html#methodIsLocked">CalDAVRequest::IsLocked()</a> in CalDAVRequest.php</div>
 							<div class="index-item-description">Checks whether the resource is locked, returning any lock token, or false</div>
 					</dd>
 			<dt class="field">
@@ -2034,7 +2034,7 @@
 			<span class="method-title">IsLocked</span>
 					</dt>
 		<dd class="index-item-body">
-			<div class="index-item-details"><a href="davical/Request/CalDAVRequest.html#methodIsLocked">CalDAVRequest::IsLocked()</a> in CalDAVRequest.php</div>
+			<div class="index-item-details"><a href="davical/Resource/DAVResource.html#methodIsLocked">DAVResource::IsLocked()</a> in DAVResource.php</div>
 							<div class="index-item-description">Checks whether the resource is locked, returning any lock token, or false</div>
 					</dd>
 			<dt class="field">
@@ -2050,16 +2050,16 @@
 			<span class="method-title">IsPrincipal</span>
 					</dt>
 		<dd class="index-item-body">
-			<div class="index-item-details"><a href="davical/Request/CalDAVRequest.html#methodIsPrincipal">CalDAVRequest::IsPrincipal()</a> in CalDAVRequest.php</div>
-							<div class="index-item-description">Returns true if the URL referenced by this request points at a principal.</div>
+			<div class="index-item-details"><a href="davical/Resource/DAVResource.html#methodIsPrincipal">DAVResource::IsPrincipal()</a> in DAVResource.php</div>
+							<div class="index-item-description">Checks whether this resource is a principal</div>
 					</dd>
 			<dt class="field">
 						<img src="media/images/Method.png" alt="Method" title="Method" />
 			<span class="method-title">IsPrincipal</span>
 					</dt>
 		<dd class="index-item-body">
-			<div class="index-item-details"><a href="davical/Resource/DAVResource.html#methodIsPrincipal">DAVResource::IsPrincipal()</a> in DAVResource.php</div>
-							<div class="index-item-description">Checks whether this resource is a principal</div>
+			<div class="index-item-details"><a href="davical/Request/CalDAVRequest.html#methodIsPrincipal">CalDAVRequest::IsPrincipal()</a> in CalDAVRequest.php</div>
+							<div class="index-item-description">Returns true if the URL referenced by this request points at a principal.</div>
 					</dd>
 			<dt class="field">
 						<img src="media/images/Method.png" alt="Method" title="Method" />
@@ -2074,16 +2074,16 @@
 			<span class="method-title">IsPublic</span>
 					</dt>
 		<dd class="index-item-body">
-			<div class="index-item-details"><a href="davical/Resource/DAVResource.html#methodIsPublic">DAVResource::IsPublic()</a> in DAVResource.php</div>
-							<div class="index-item-description">Checks whether the target collection is publicly_readable</div>
+			<div class="index-item-details"><a href="davical/Request/CalDAVRequest.html#methodIsPublic">CalDAVRequest::IsPublic()</a> in CalDAVRequest.php</div>
+							<div class="index-item-description">Checks whether the collection is public</div>
 					</dd>
 			<dt class="field">
 						<img src="media/images/Method.png" alt="Method" title="Method" />
 			<span class="method-title">IsPublic</span>
 					</dt>
 		<dd class="index-item-body">
-			<div class="index-item-details"><a href="davical/Request/CalDAVRequest.html#methodIsPublic">CalDAVRequest::IsPublic()</a> in CalDAVRequest.php</div>
-							<div class="index-item-description">Checks whether the collection is public</div>
+			<div class="index-item-details"><a href="davical/Resource/DAVResource.html#methodIsPublic">DAVResource::IsPublic()</a> in DAVResource.php</div>
+							<div class="index-item-description">Checks whether the target collection is publicly_readable</div>
 					</dd>
 			<dt class="field">
 						<img src="media/images/Method.png" alt="Method" title="Method" />
@@ -2818,13 +2818,6 @@
 					</dd>
 			<dt class="field">
 						<img src="media/images/Page.png" alt="Page" title="Page" />
-			<span class="include-title">roles.php</span>
-					</dt>
-		<dd class="index-item-body">
-			<div class="index-item-details"><a href="davical/_htdocs---roles.php.html">roles.php</a> in roles.php</div>
-					</dd>
-			<dt class="field">
-						<img src="media/images/Page.png" alt="Page" title="Page" />
 			<span class="include-title">RRule-v2.php</span>
 					</dt>
 		<dd class="index-item-body">
@@ -2881,16 +2874,16 @@
 			<span class="method-title">RenderAsXML</span>
 					</dt>
 		<dd class="index-item-body">
-			<div class="index-item-details"><a href="davical/Principal/CalDAVPrincipal.html#methodRenderAsXML">CalDAVPrincipal::RenderAsXML()</a> in CalDAVPrincipal.php</div>
-							<div class="index-item-description">Render XML for a single Principal (user) from the DB</div>
+			<div class="index-item-details"><a href="davical/Resource/DAVResource.html#methodRenderAsXML">DAVResource::RenderAsXML()</a> in DAVResource.php</div>
+							<div class="index-item-description">Render XML for this resource</div>
 					</dd>
 			<dt class="field">
 						<img src="media/images/Method.png" alt="Method" title="Method" />
 			<span class="method-title">RenderAsXML</span>
 					</dt>
 		<dd class="index-item-body">
-			<div class="index-item-details"><a href="davical/Resource/DAVResource.html#methodRenderAsXML">DAVResource::RenderAsXML()</a> in DAVResource.php</div>
-							<div class="index-item-description">Render XML for this resource</div>
+			<div class="index-item-details"><a href="davical/Principal/CalDAVPrincipal.html#methodRenderAsXML">CalDAVPrincipal::RenderAsXML()</a> in CalDAVPrincipal.php</div>
+							<div class="index-item-description">Render XML for a single Principal (user) from the DB</div>
 					</dd>
 			<dt class="field">
 						<img src="media/images/Method.png" alt="Method" title="Method" />
@@ -3024,20 +3017,20 @@
 							<div class="index-item-description">Return the count of rows retrieved/affected</div>
 					</dd>
 			<dt class="field">
-						<img src="media/images/Constructor.png" alt="Method" title="Method" />
-			<span class="method-title">RRule</span>
-					</dt>
-		<dd class="index-item-body">
-			<div class="index-item-details"><a href="awl/caldav/RRule.html#methodRRule">RRule::RRule()</a> in RRule.php</div>
-							<div class="index-item-description">The constructor takes a start date and an RRULE definition.  Both of these  follow the iCalendar standard.</div>
-					</dd>
-			<dt class="field">
 						<img src="media/images/Class.png" alt="Class" title="Class" />
 			RRule
 					</dt>
 		<dd class="index-item-body">
 			<div class="index-item-details"><a href="awl/caldav/RRule.html">RRule</a> in RRule.php</div>
 							<div class="index-item-description">A Class for handling Events on a calendar which repeat</div>
+					</dd>
+			<dt class="field">
+						<img src="media/images/Constructor.png" alt="Method" title="Method" />
+			<span class="method-title">RRule</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="awl/caldav/RRule.html#methodRRule">RRule::RRule()</a> in RRule.php</div>
+							<div class="index-item-description">The constructor takes a start date and an RRULE definition.  Both of these  follow the iCalendar standard.</div>
 					</dd>
 			<dt class="field">
 						<img src="media/images/Class.png" alt="Class" title="Class" />
@@ -3376,13 +3369,6 @@
 					</dd>
 			<dt class="field">
 						<img src="media/images/Page.png" alt="Page" title="Page" />
-			<span class="include-title">testpdo.php</span>
-					</dt>
-		<dd class="index-item-body">
-			<div class="index-item-details"><a href="davical/_htdocs---testpdo.php.html">testpdo.php</a> in testpdo.php</div>
-					</dd>
-			<dt class="field">
-						<img src="media/images/Page.png" alt="Page" title="Page" />
 			<span class="include-title">tools.php</span>
 					</dt>
 		<dd class="index-item-body">
@@ -3441,14 +3427,6 @@
 			<div class="index-item-details"><a href="awl/AwlDatabase/AwlDBDialect.html#methodTranslateSQL">AwlDBDialect::TranslateSQL()</a> in AwlDBDialect.php</div>
 							<div class="index-item-description">Translates the given SQL string into a form that will hopefully work for this database dialect. This hook  is intended to be used by developers to provide support for differences in database operation by translating  the query string in an arbitrary way, such as through a file or database lookup.</div>
 					</dd>
-			<dt class="field">
-						<img src="media/images/Function.png" alt="Function" title="Function" />
-			<span class="method-title">translate_relationship_list</span>
-					</dt>
-		<dd class="index-item-body">
-			<div class="index-item-details"><a href="davical/Admin/_htdocs---users.php.html#functiontranslate_relationship_list">translate_relationship_list()</a> in users.php</div>
-							<div class="index-item-description">Translate relationship names in the relationship_list for each user. See  the documentation for classBrowser::BrowserColumn for the definition of  the hook function parameters.</div>
-					</dd>
 		</dl>
 	<a name="u"></a>
 	<div class="index-letter-section">
@@ -3469,14 +3447,14 @@
 			<span class="var-title">$url</span>
 					</dt>
 		<dd class="index-item-body">
-			<div class="index-item-details"><a href="awl/caldav/CalendarInfo.html#var$url">CalendarInfo::$url</a> in caldav-client-v2.php</div>
+			<div class="index-item-details"><a href="davical/Principal/CalDAVPrincipal.html#var$url">CalDAVPrincipal::$url</a> in CalDAVPrincipal.php</div>
 					</dd>
 			<dt class="field">
 						<img src="media/images/Variable.png" alt="Variable" title="Variable" />
 			<span class="var-title">$url</span>
 					</dt>
 		<dd class="index-item-body">
-			<div class="index-item-details"><a href="davical/Principal/CalDAVPrincipal.html#var$url">CalDAVPrincipal::$url</a> in CalDAVPrincipal.php</div>
+			<div class="index-item-details"><a href="awl/caldav/CalendarInfo.html#var$url">CalendarInfo::$url</a> in caldav-client-v2.php</div>
 					</dd>
 			<dt class="field">
 						<img src="media/images/Variable.png" alt="Variable" title="Variable" />
@@ -3490,16 +3468,16 @@
 			<span class="var-title">$user_agent</span>
 					</dt>
 		<dd class="index-item-body">
-			<div class="index-item-details"><a href="awl/caldav/CalDAVClient.html#var$user_agent">CalDAVClient::$user_agent</a> in caldav-client-v2.php</div>
-							<div class="index-item-description">The useragent which is send to the caldav server</div>
+			<div class="index-item-details"><a href="davical/Request/CalDAVRequest.html#var$user_agent">CalDAVRequest::$user_agent</a> in CalDAVRequest.php</div>
+							<div class="index-item-description">The user agent making the request.</div>
 					</dd>
 			<dt class="field">
 						<img src="media/images/Variable.png" alt="Variable" title="Variable" />
 			<span class="var-title">$user_agent</span>
 					</dt>
 		<dd class="index-item-body">
-			<div class="index-item-details"><a href="davical/Request/CalDAVRequest.html#var$user_agent">CalDAVRequest::$user_agent</a> in CalDAVRequest.php</div>
-							<div class="index-item-description">The user agent making the request.</div>
+			<div class="index-item-details"><a href="awl/caldav/CalDAVClient.html#var$user_agent">CalDAVClient::$user_agent</a> in caldav-client-v2.php</div>
+							<div class="index-item-description">The useragent which is send to the caldav server</div>
 					</dd>
 			<dt class="field">
 						<img src="media/images/Variable.png" alt="Variable" title="Variable" />
@@ -3515,20 +3493,6 @@
 					</dt>
 		<dd class="index-item-body">
 			<div class="index-item-details"><a href="davical/_htdocs---upgrade.php.html">upgrade.php</a> in upgrade.php</div>
-					</dd>
-			<dt class="field">
-						<img src="media/images/Page.png" alt="Page" title="Page" />
-			<span class="include-title">users.php</span>
-					</dt>
-		<dd class="index-item-body">
-			<div class="index-item-details"><a href="davical/Admin/_htdocs---users.php.html">users.php</a> in users.php</div>
-					</dd>
-			<dt class="field">
-						<img src="media/images/Page.png" alt="Page" title="Page" />
-			<span class="include-title">usr.php</span>
-					</dt>
-		<dd class="index-item-body">
-			<div class="index-item-details"><a href="davical/_htdocs---usr.php.html">usr.php</a> in usr.php</div>
 					</dd>
 			<dt class="field">
 						<img src="media/images/Function.png" alt="Function" title="Function" />
