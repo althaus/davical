@@ -245,8 +245,8 @@ $c->collections_always_exist = false;
 //
 //    );
 //
-//  /* If there is some user you do not want to sync from LDAP, put their user_no in this list */
-//  $c->do_not_sync_from_ldap = array( 1 => true );
+//  /* If there is some user you do not want to sync from LDAP, put their username in this list */
+//  $c->do_not_sync_from_ldap = array( 'admin' => true );
 //
 //include('drivers_ldap.php');
 
@@ -272,8 +272,8 @@ $c->collections_always_exist = false;
 //    'format_updated'    => array('Y' => array(0,4),'m' => array(4,2),'d'=> array(6,2),'H' => array(8,2),'M'=>array(10,2),'S' => array(12,2))
 //    );
 //
-//  /* If there is some user you do not want to sync from LDAP, put their user_no in this list */
-//  $c->do_not_sync_from_ldap = array( 1 => true );
+//  /* If there is some user you do not want to sync from LDAP, put their username in this list */
+//  $c->do_not_sync_from_ldap = array( 'admin' => true );
 //
 //include('drivers_ldap.php');
 
