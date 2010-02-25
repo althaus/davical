@@ -379,10 +379,12 @@ function sync_LDAP(){
     }
 
     // deactivating all users
-    if ( sizeof($users_to_deactivate) ) {
-      foreach( $users_to_deactivate AS $v ) {
-          $usr_in .= ', ' . qpg($v);
-      }
+    $usr_in = '';
+    foreach( $users_to_deactivate AS $v ) {
+      if ( isset($c->do_not_sync_from_ldap) && isset($c->do_not_sync_from_ldap[$v]) ) continue;
+      $usr_in .= ($usr_in == '' ? '' : ', ') . qpg($v);
+    }
+    if ( $usr_in != '' ) {
       $usr_in = substr($usr_in,1);
       $c->messages[] = sprintf(i18n('- deactivating users : %s'),join(', ',$users_to_deactivate));
       $qry = new PgQuery( "UPDATE usr SET active = FALSE WHERE lower(username) IN ($usr_in)");
