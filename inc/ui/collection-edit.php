@@ -4,7 +4,7 @@
 $editor = new Editor(translate('Collection'), 'collection');
 param_to_global('id', 'int', 'old_id', 'collection_id' );
 param_to_global('user_no', 'int' );
-param_to_global('collection_name', '{^[^\\\\/]+$}' );
+param_to_global('collection_name', '{^.+$}' );
 if ( isset($user_no) ) $usr = GetUserByID($user_no);
 $editor->SetLookup( 'timezone', 'SELECT \'\', \'*** Unknown ***\' UNION SELECT tz_id, tz_locn FROM time_zone WHERE tz_id = tz_locn AND length(tz_spec) > 100 ORDER BY 1' );
 $editor->SetLookup( 'schedule_transp', 'SELECT \'opaque\', \'Opaque\' UNION SELECT \'transp\', \'Transparent\'' );
@@ -37,7 +37,7 @@ $params = array(
 );
 $is_update = ( $_POST['_editor_action'][$editor->Id] == 'update' );
 if ( !$is_update && isset($collection_name) && isset($user_no) && is_object($usr) ) {
-  $_POST['dav_name'] = sprintf('/%s/%s/', $usr->username, $collection_name );
+  $_POST['dav_name'] = sprintf('/%s/%s/', $usr->username, rawurlencode($collection_name) );
   $_POST['parent_container'] = sprintf('/%s/', $usr->username );
   $params['collection_path'] = $_POST['dav_name'];
   $privsql = 'SELECT path_privs( :session_principal, :collection_path, :scan_depth) AS priv';
