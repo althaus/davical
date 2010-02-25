@@ -36,6 +36,7 @@ $params = array(
   'scan_depth'        => $c->permission_scan_depth
 );
 $is_update = ( $_POST['_editor_action'][$editor->Id] == 'update' );
+if ( isset($collection_name) ) $collection_name = str_replace( '/', '', $collection_name);
 if ( !$is_update && isset($collection_name) && isset($user_no) && is_object($usr) ) {
   $_POST['dav_name'] = sprintf('/%s/%s/', $usr->username, rawurlencode($collection_name) );
   $_POST['parent_container'] = sprintf('/%s/', $usr->username );
