@@ -1,7 +1,7 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy
-ETag: "cf47b2d3fca4589724c229b9e15accb4"
+ETag: "Looks like a good ETAG to me :-)"
 Content-Length: 514
 Content-Type: text/xml; charset="utf-8"
 
@@ -18,7 +18,7 @@ Content-Type: text/xml; charset="utf-8"
     <owner>
      <href>/caldav.php/user5/</href>
     </owner>
-    <C1:getctag>"ce0d2291b1997c04cbc9d686d8cc3b40"</C1:getctag>
+    <C1:getctag>"Looks like a good CTAG to me :-)"</C1:getctag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
