@@ -6,10 +6,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: DAViCal 0.9.8.2\n"
+"Project-Id-Version: DAViCal 0.9.8.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-02-20 14:54+1300\n"
-"PO-Revision-Date: 2010-02-20 02:26+0900\n"
+"PO-Revision-Date: 2010-02-25 12:48+0900\n"
 "Last-Translator: Masahiro MIKAMI <mmecon@hotmail.co.jp>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -32,7 +32,7 @@ msgstr "- ユーザーを解除中: %s"
 
 #, c-format
 msgid "- nothing done on : %s"
-msgstr "- 変更は行われていません: %s"
+msgstr "- 変更は行われていません: %s" 
 
 #, c-format
 msgid "- updating user records : %s"
@@ -74,7 +74,7 @@ msgid "Add"
 msgstr "追加"
 
 msgid "Adding new member to this Group Principal"
-msgstr "このグループプリンシパルに新規ユーザーを追加中"
+msgstr "このグループプリンシパルに新規メンバーを追加中"
 
 msgid "Admin <!-- in the sense of 'systems admin' -->"
 msgstr "管理者 <!-- 「システム管理者」という意味で ==>"
@@ -181,7 +181,7 @@ msgid "Collection"
 msgstr "コレクション"
 
 msgid "Configuring Calendar Clients for DAViCal"
-msgstr "DAViCalに適するようにカレンダークライアントを設定する"
+msgstr "DAViCal用にカレンダークライアントを設定する"
 
 msgid "Configuring DAViCal"
 msgstr "DAViCalを設定する"
@@ -449,7 +449,7 @@ msgid "Group"
 msgstr "グループ"
 
 msgid "Has Members"
-msgstr "メンバーを持つ"
+msgstr "所属するメンバー"
 
 msgid "Help on the current screen"
 msgstr "現在の画面についてのヘルプ"
@@ -496,6 +496,9 @@ msgstr "カレンダーのインポート"
 msgid "Import all .ics files of a directory"
 msgstr "ディレクトリの全ての.icsファイルをインポートする"
 
+msgid "Inactive Principals"
+msgstr "非アクティブのプリンシパル"
+
 msgid "Invalid user name or password."
 msgstr "ユーザー名またはパスワードが無効です。"
 
@@ -503,7 +506,7 @@ msgid "Invalid username or password."
 msgstr "ユーザー名またはパスワードが無効です。"
 
 msgid "Is Member of"
-msgstr "メンバーである"
+msgstr "メンバー所属先"
 
 msgid "Is a Calendar"
 msgstr "カレンダーである"
@@ -827,7 +830,7 @@ msgid "Set schedule-deliver privileges"
 msgstr "スケジュール配達権限を設定する"
 
 msgid "Set the path to store your ics e.g. 'home' will be referenced as /caldav.php/me/home/"
-msgstr "icsの保存に使用するパスを設定。'home'で次のような参照になる：/caldav.php/"
+msgstr "あなたのicsを保管するパスを設定して下さい。例:'home'は/caldav.php/me/home/として参照されます。"
 
 msgid "Setup DAViCal"
 msgstr "DaViCalをセットアップする"
@@ -891,8 +894,7 @@ msgid ""
 "The calendar name part of the path to store your ics. E.g. the \"home\" part of \"/caldav.php/username/"
 "home/\""
 msgstr ""
-"あなたのicsを保存するパスのカレンダー名部分。例: the \"home\" part of \"/caldav.php/username/\"の\"home"
-"\"部分"
+"あなたのicsを保管するパスのカレンダー名部分。例: \"/caldav.php/username/\"の\"home\"部分"
 
 msgid "The calendar path contains illegal characters."
 msgstr "カレンダーパスに不正な文字が使用されています。"
@@ -965,7 +967,7 @@ msgid "Updating Member of this Group Principal"
 msgstr "このグループプリンシパルのメンバーをアップデート中"
 
 msgid "Updating Principal record."
-msgstr "プリンシパル記録を更新する"
+msgstr "プリンシパル記録を更新中"
 
 msgid "Updating grants by this Principal"
 msgstr "このプリンシパルによる許可をアップデート中"
@@ -977,7 +979,7 @@ msgid "Upgrade Database"
 msgstr "データベースのアップグレード"
 
 msgid "Upload a .ics calendar in iCalendar format "
-msgstr ".icsカレンダーをical形式でアップロードする"
+msgstr ".icsカレンダーをiCalendar形式でアップロードする"
 
 msgid "Upload a .ics calendar in iCalendar format to initialise or replace this calendar."
 msgstr "このカレンダーを初期化または置換するために、.icsカレンダーをiCalendar形式でアップロードする"
@@ -1145,7 +1147,7 @@ msgid "from principal"
 msgstr "プリンシパルから"
 
 msgid "path to store your ics"
-msgstr "あなたのicsを保存するパス"
+msgstr "あなたのicsを保管するパス"
 
 #, c-format
 msgid "the file %s is not UTF-8 encoded, please check error for more details"
@@ -1157,76 +1159,76 @@ msgstr "あなたに発行したユーザー名とパスワードでログオン
 msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
 msgstr "この操作は次のことをします：<ul><li>LDAPディレクトリで有効なユーザーを確認</li>"
 
-#‾ msgid "Administers"
-#‾ msgstr "管理する"
+#~ msgid "Administers"
+#~ msgstr "管理する"
 
-#‾ msgid "Can read from"
-#‾ msgstr "読み取り可能"
+#~ msgid "Can read from"
+#~ msgstr "読み取り可能"
 
-#‾ msgid "Can see free/busy time of"
-#‾ msgstr "予定の有無を確認可能"
+#~ msgid "Can see free/busy time of"
+#~ msgstr "予定の有無を確認可能"
 
-#‾ msgid "Relationship <!-- in the sense of a work relationship between people -->"
-#‾ msgstr "関係 <!-- 人と人の間の協働関係という意味 -->"
+#~ msgid "Relationship <!-- in the sense of a work relationship between people -->"
+#~ msgstr "関係 <!-- 人と人の間の協働関係という意味 -->"
 
-#‾ msgid "is Assistant to"
-#‾ msgstr "アシスタントである"
+#~ msgid "is Assistant to"
+#~ msgstr "アシスタントである"
 
-#‾ msgid "Can read/write to"
-#‾ msgstr "読み書き可能"
+#~ msgid "Can read/write to"
+#~ msgstr "読み書き可能"
 
-#‾ msgid "Default relationships added."
-#‾ msgstr "デフォルトの関係が追加されました。"
+#~ msgid "Default relationships added."
+#~ msgstr "デフォルトの関係が追加されました。"
 
-#‾ msgid "You may not access that calendar"
-#‾ msgstr "あなたはそのカレンダーにアクセスできません。"
+#~ msgid "You may not access that calendar"
+#~ msgstr "あなたはそのカレンダーにアクセスできません。"
 
-#‾ msgid "You may not create a calendar there."
-#‾ msgstr "あなたはそこにカレンダーを作成できません。"
+#~ msgid "You may not create a calendar there."
+#~ msgstr "あなたはそこにカレンダーを作成できません。"
 
-#‾ msgid "Add a new user"
-#‾ msgstr "新規ユーザーの追加"
+#~ msgid "Add a new user"
+#~ msgstr "新規ユーザーの追加"
 
-#‾ msgid "Browse all relationship types"
-#‾ msgstr "全ての関係タイプを閲覧"
+#~ msgid "Browse all relationship types"
+#~ msgstr "全ての関係タイプを閲覧"
 
-#‾ msgid "Create Resources"
-#‾ msgstr "資源を作成する"
+#~ msgid "Create Resources"
+#~ msgstr "資源を作成する"
 
-#‾ msgid "Delete Resources"
-#‾ msgstr "資源を削除する"
+#~ msgid "Delete Resources"
+#~ msgstr "資源を削除する"
 
-#‾ msgid "Help on something or other"
-#‾ msgstr "何かについてのヘルプ"
+#~ msgid "Help on something or other"
+#~ msgstr "何かについてのヘルプ"
 
-#‾ msgid "Operations"
-#‾ msgstr "操作"
+#~ msgid "Operations"
+#~ msgstr "操作"
 
-#‾ msgid "Setup RSCDS"
-#‾ msgstr "RSCDSをセットアップする"
+#~ msgid "Setup RSCDS"
+#~ msgstr "RSCDSをセットアップする"
 
-#‾ msgid "<b>WARNING: all events in this path will be deleted before inserting all of the ics file</b>"
-#‾ msgstr "<b>警告：このパスにある全てのイベントはicsファイルの挿入の前に削除されます。</b>"
+#~ msgid "<b>WARNING: all events in this path will be deleted before inserting all of the ics file</b>"
+#~ msgstr "<b>警告：このパスにある全てのイベントはicsファイルの挿入の前に削除されます。</b>"
 
-#‾ msgid "All events of user %s were deleted and replaced by those from the file."
-#‾ msgstr "ユーザー%sの全てのイベントは削除され、そのファイルのもので置き換えられました。"
+#~ msgid "All events of user %s were deleted and replaced by those from the file."
+#~ msgstr "ユーザー%sの全てのイベントは削除され、そのファイルのもので置き換えられました。"
 
-#‾ msgid "Created On"
-#‾ msgstr "作成日時"
+#~ msgid "Created On"
+#~ msgstr "作成日時"
 
-#‾ msgid "Import ICS file to new collection"
-#‾ msgstr "ICSファイルを新規コレクションにインポートする"
+#~ msgid "Import ICS file to new collection"
+#~ msgstr "ICSファイルを新規コレクションにインポートする"
 
-#‾ msgid "Your .ics calendar"
-#‾ msgstr "あたなの.icsカレンダー"
+#~ msgid "Your .ics calendar"
+#~ msgstr "あたなの.icsカレンダー"
 
-#‾ msgid "set the path to store your ics ex:home if you get it by caldav.php/me/home/"
-#‾ msgstr "icsの保存に使用するパスを設定。例:home で caldav.php/me/home/になる"
+#~ msgid "set the path to store your ics ex:home if you get it by caldav.php/me/home/"
+#~ msgstr "あなたのicsを保管するパスを設定して下さい。例:home で caldav.php/me/home/になる"
 
-#‾ msgid "Really Simple CalDAV Store"
-#‾ msgstr "Really Simple CalDAV Store"
+#~ msgid "Really Simple CalDAV Store"
+#~ msgstr "Really Simple CalDAV Store"
 
-#‾ msgid "if your use OpenLDAP 2.X.X maybe, unable to connect to LDAP with port %s on host %s"
-#‾ msgstr ""
-#‾ "ホスト%2$sのポート%1$sでLDAPに接続できません。OpenLDAP2.X.Xを使用している場合問題が起こる可能性があ"
-#‾ "ります。"
+#~ msgid "if your use OpenLDAP 2.X.X maybe, unable to connect to LDAP with port %s on host %s"
+#~ msgstr ""
+#~ "ホスト%2$sのポート%1$sでLDAPに接続できません。OpenLDAP2.X.Xを使用している場合問題が起こる可能性があ"
+#~ "ります。"
