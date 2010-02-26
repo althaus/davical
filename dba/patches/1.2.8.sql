@@ -13,7 +13,7 @@ CREATE TABLE access_ticket (
   privileges BIT(24),
   target_id INT8,
   displayname TEXT,
-  expires TIMESTAMP,
+  expires TIMESTAMP
 );
 
 SELECT new_db_revision(1,2,8, 'Août' );

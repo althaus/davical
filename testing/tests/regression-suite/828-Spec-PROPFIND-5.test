@@ -1,0 +1,19 @@
+#
+# Testing for Spec compliance.  PROPFIND on a calendar collection.
+#
+TYPE=PROPFIND
+URL=http://mycaldav/caldav.php/user1/home/
+HEADER=User-Agent: RFC2518 Spec Tests
+HEADER=Depth: 0
+HEADER=Content-Type: application/xml
+
+REPLACE=#<creationdate>2\d{3}-\d\d-\d\dT\d\d:\d\d:\d\d[+-]\d\d:\d\d</creationdate>#<creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>#
+
+BEGINDATA
+<?xml version="1.0" encoding="utf-8"?>
+<propfind xmlns="DAV:">
+ <allprop/>
+</propfind>
+ENDDATA
+
+# REPLACE=/<get.tag>"[0-9a-f]{32}"<.get.tag>/<get?tag>"deadbeefcafef00ddeadbeefcafefeed"<.get?tag>/

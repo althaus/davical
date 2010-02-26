@@ -305,11 +305,10 @@ CREATE INDEX sync_processing_index ON sync_changes( collection_id, dav_id, sync_
 CREATE TABLE access_ticket (
   ticket_id TEXT PRIMARY KEY,
   is_collection BOOLEAN,
-  is_public BOOLEAN,
   privileges BIT(24),
   target_id INT8,
   displayname TEXT,
-  expires TIMESTAMP,
+  expires TIMESTAMP
 );
 
 SELECT new_db_revision(1,2,8, 'Août' );
