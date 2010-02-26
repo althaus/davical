@@ -138,7 +138,8 @@ function public_events_only( $user_no, $dav_name ) {
 * @return float The result of the scheduling request, per caldav-sched #3.5.4
 */
 function write_scheduling_request( &$resource, $attendee ) {
-  return '5.4';
+  $response = '5.3;'.translate('No scheduling support for user');
+  return '"'.$response.'"';
 }
 
 /**
