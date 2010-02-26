@@ -22,3 +22,6 @@ BEGINDATA
   </D:prop>
 </D:propfind>
 ENDDATA
+
+REPLACE=!<C1:getctag>"[a-z0-9]+"</C1:getctag>!<C1:getctag>"Looks like a good CTAG to me :-)"</C1:getctag>!
+REPLACE=!^ETag: "[a-z0-9]+"!ETag: "Looks like a good ETAG to me :-)"!

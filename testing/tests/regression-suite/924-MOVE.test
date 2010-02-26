@@ -15,6 +15,7 @@ SELECT caldav_data.dav_name AS data_name, calendar_item.dav_name AS item_name,
        caldav_data.collection_id AS cd_collection,
        calendar_item.collection_id AS ci_collection
 FROM caldav_data JOIN calendar_item USING(dav_id)
-WHERE caldav_data.dav_name ~ 'DAYPARTY-77C6-4FB7-BDD3-6882E2F1BE74.ics';
+WHERE caldav_data.dav_name ~ 'DAYPARTY-77C6-4FB7-BDD3-6882E2F1BE74.ics'
+ ORDER BY cd_collection;
 ENDQUERY
 
