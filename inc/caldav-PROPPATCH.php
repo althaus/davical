@@ -70,7 +70,8 @@ foreach( $setprops AS $k => $setting ) {
       else {
         $failure['set-'.$tag] = new XMLElement( 'propstat', array(
             new XMLElement( 'prop', new XMLElement($tag)),
-            new XMLElement( 'status', 'HTTP/1.1 409 Conflict' ),
+            new XMLElement( 'status', 'HTTP/1.1 403 Forbidden' ),
+            new XMLElement( 'error', new XMLElement( 'cannot-modify-protected-property') ),
             new XMLElement( 'responsedescription', translate("The displayname may only be set on collections or principals.") )
         ));
       }
@@ -91,7 +92,8 @@ foreach( $setprops AS $k => $setting ) {
       else {
         $failure['set-'.$tag] = new XMLElement( 'propstat', array(
             new XMLElement( 'prop', new XMLElement($tag)),
-            new XMLElement( 'status', 'HTTP/1.1 409 Conflict' ),
+            new XMLElement( 'status', 'HTTP/1.1 403 Forbidden' ),
+            new XMLElement( 'error', new XMLElement( 'cannot-modify-protected-property') ),
             new XMLElement( 'responsedescription', translate("Resources may not be changed to / from collections.") )
         ));
       }
@@ -134,7 +136,8 @@ foreach( $setprops AS $k => $setting ) {
     case 'DAV::supportedlock':
       $failure['set-'.$tag] = new XMLElement( 'propstat', array(
           new XMLElement( 'prop', new XMLElement($tag)),
-          new XMLElement( 'status', 'HTTP/1.1 409 Conflict' ),
+          new XMLElement( 'status', 'HTTP/1.1 403 Forbidden' ),
+          new XMLElement( 'error', new XMLElement( 'cannot-modify-protected-property') ),
           new XMLElement('responsedescription', translate("Property is read-only") )
       ));
       break;
