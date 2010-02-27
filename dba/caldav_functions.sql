@@ -1091,12 +1091,14 @@ BEGIN
 
   privileges := bits_to_privilege(in_privileges);
   SELECT array_lower(privileges,1) INTO start;
-  SELECT array_upper(privileges,1) INTO finish;
-  FOR i IN start .. finish  LOOP
-    plist := plist
-             || CASE WHEN plist = '' THEN '' ELSE ', ' END
-             || privileges[i];
-  END LOOP;
+  IF start IS NOT NULL THEN
+    SELECT array_upper(privileges,1) INTO finish;
+    FOR i IN start .. finish  LOOP
+      plist := plist
+              || CASE WHEN plist = '' THEN '' ELSE ', ' END
+              || privileges[i];
+    END LOOP;
+  END IF;
   RETURN plist;
 END;
 $$ LANGUAGE 'plpgsql' IMMUTABLE STRICT;
