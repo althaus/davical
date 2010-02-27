@@ -77,7 +77,7 @@ if ( class_exists('RepeatRule') ) {
   *
   * @return array An array keyed on the UTC dates, referring to the component
   */
-  function rdate_expand( $property, $component, $range_end ) {
+  function rdate_expand( $property, $component, $range_end = null ) {
     $timezone = $comp->GetPParamValue($property, 'TZID');
     $rdate = $comp->GetPValue($property);
     $rdates = explode( ',', $rdate );
@@ -85,6 +85,7 @@ if ( class_exists('RepeatRule') ) {
     foreach( $rdates AS $k => $v ) {
       $rdate = new RepeatRuleDateTime( $v, $timezone);
       $expansion[$rdate->UTC()] = $component;
+      if ( $rdate > $range_end ) break;
     }
     return $expansion;
   }
@@ -120,7 +121,7 @@ if ( class_exists('RepeatRule') ) {
     $result_limit = 1000;
     while( $date = $rule->next() ) {
       $expansion[$date->UTC()] = $component;
-      if ( $i >= $result_limit ) break;
+      if ( $i >= $result_limit || $date > $range_end ) break;
     }
     return $expansion;
   }
@@ -171,9 +172,9 @@ if ( class_exists('RepeatRule') ) {
         }
         $instances[] = $comp;
       }
-      $instances = array_merge( $instances, rrule_expand($dtstart, 'RRULE', $comp) );
-      $instances = array_merge( $instances, rdate_expand($dtstart, 'RDATE', $comp) );
-      foreach ( rdate_expand($dtstart, 'EXDATE', $comp) AS $k => $v ) {
+      $instances = array_merge( $instances, rrule_expand($dtstart, 'RRULE', $comp, $range_end) );
+      $instances = array_merge( $instances, rdate_expand($dtstart, 'RDATE', $comp, $range_end) );
+      foreach ( rdate_expand($dtstart, 'EXDATE', $comp, $range_end) AS $k => $v ) {
         unset($instances[$k]);
       }
     }
