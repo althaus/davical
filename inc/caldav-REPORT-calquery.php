@@ -1,5 +1,21 @@
 <?php
 
+$need_expansion = false;
+function check_for_expansion( $calendar_data_node ) {
+  global $need_expansion, $expand_range_start, $expand_range_end;
+
+  if ( !class_exists('DateTime') ) return; /** We don't support expansion on PHP5.1 */
+
+  $expansion = $v->GetElements('urn:ietf:params:xml:ns:caldav:expand');
+  if ( isset($expansion[0]) ) {
+    $need_expansion = true;
+    $expand_range_start = $expansion[0]->GetAttribute('start');
+    $expand_range_end = $expansion[0]->GetAttribute('end');
+    if ( isset($expand_range_start) ) $expand_range_start = new RepeatRuleDateTime($expand_range_start);
+    if ( isset($expand_range_end) )   $expand_range_end   = new RepeatRuleDateTime($expand_range_end);
+  }
+}
+
 /**
  * Build the array of properties to include in the report output
  */
@@ -8,15 +24,23 @@ $proptype = $qry_content[0]->GetTag();
 $properties = array();
 switch( $proptype ) {
   case 'DAV::prop':
-    $qry_props = $xmltree->GetPath('/urn:ietf:params:xml:ns:caldav:calendar-query/DAV::prop/*');
-    foreach( $qry_props AS $k => $v ) {
+    $qry_props = $xmltree->GetPath('/urn:ietf:params:xml:ns:caldav:calendar-query/'.$proptype.'/*');
+    foreach( $qry_content[0]->GetElements() AS $k => $v ) {
       $propertyname = preg_replace( '/^.*:/', '', $v->GetTag() );
       $properties[$propertyname] = 1;
+      if ( $v->GetTag() == 'calendar-data' ) check_for_expansion($v);
     }
     break;
 
   case 'DAV::allprop':
     $properties['allprop'] = 1;
+    if ( $qry_content[1]->GetTag() == 'DAV::include' ) {
+      foreach( $qry_content[1]->GetElements() AS $k => $v ) {
+        $propertyname = preg_replace( '/^.*:/', '', $v->GetTag() );
+        $properties[$propertyname] = 1;
+        if ( $v->GetTag() == 'urn:ietf:params:xml:ns:caldav:calendar-data' ) check_for_expansion($v);
+      }
+    }
     break;
 
   default:
@@ -201,6 +225,10 @@ function SqlFilterFragment( $filter, $components, $property = null, $parameter =
         $success = SqlFilterFragment( $subfilter, $components, $property, $parameter );
         if ( $success === false ) continue; else $sql .= $success;
         break;
+
+      default:
+        dbg_error_log("calquery", "Could not handle unknown tag '%s' in calendar query report", $tag );
+        break;
     }
   }
   dbg_error_log("calquery", "Generated SQL was '%s'", $sql );
@@ -260,6 +288,7 @@ $qry = new PgQuery( $sql );
 if ( $qry->Exec("calquery",__LINE__,__FILE__) && $qry->rows > 0 ) {
   while( $calendar_object = $qry->Fetch() ) {
     if ( !$need_post_filter || apply_filter( $qry_filters, $calendar_object ) ) {
+      if ( $need_expansion ) expand_event_instances($ics, $expand_range_start, $expand_range_end);
       $responses[] = calendar_to_xml( $properties, $calendar_object );
     }
   }
