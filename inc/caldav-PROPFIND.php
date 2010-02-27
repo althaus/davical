@@ -29,10 +29,22 @@ $xmltree = BuildXMLTree( $request->xml_tags, $position);
 if ( !is_object($xmltree) ) {
   $request->DoResponse( 403, translate("REPORT body is not valid XML data!") );
 }
-$properties = $xmltree->GetPath('/DAV::propfind/DAV::prop/*');
+$allprop    = $xmltree->GetPath('/DAV::propfind/*');
 $property_list = array();
-foreach( $properties AS $k => $v ) {
-  $property_list[] = $v->GetTag();
+foreach( $allprop AS $k1 => $propwrap ) {
+  switch ( $propwrap->GetTag() ) {
+    case 'DAV::allprop':
+      $property_list[] = 'DAV::allprop';
+      break;
+    case 'DAV::propname':
+      $property_list[] = 'DAV::propname';
+      break;
+    default:  // prop, include
+      $subprop = $propwrap->GetElements();
+      foreach( $subprop AS $k => $v ) {
+        $property_list[] = $v->GetTag();
+      }
+  }
 }
 
 
