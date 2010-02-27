@@ -250,6 +250,10 @@ if ( isset($c->hide_TODO) && $c->hide_TODO && ! $request->AllowedTo('all') ) {
   $where .= "AND caldav_data.caldav_type NOT IN ('VTODO') ";
 }
 
+if ( isset($c->hide_older_than) && intval($c->hide_older_than > 0) ) {
+  $where .= " AND calendar_item.dtstart > (now() - interval '".intval($c->hide_older_than)." days') ";
+}
+
 $sql = "SELECT * FROM caldav_data INNER JOIN calendar_item USING(dav_id,user_no,dav_name)". $where;
 if ( isset($c->strict_result_ordering) && $c->strict_result_ordering ) $sql .= " ORDER BY dav_id";
 $qry = new PgQuery( $sql );
