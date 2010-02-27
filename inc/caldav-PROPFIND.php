@@ -156,6 +156,11 @@ function get_collection_contents( $depth, $user_no, $collection ) {
       $privacy_clause = " AND (calendar_item.class != 'PRIVATE' OR calendar_item.class IS NULL) ";
     }
 
+    $time_limit_clause = ' ';
+    if ( isset($c->hide_older_than) && intval($c->hide_older_than > 0) ) {
+      $time_limit_clause = " AND calendar_item.dtstart > (now() - interval '".intval($c->hide_older_than)." days') ";
+    }
+
     $sql = 'SELECT collection.*, principal.*, caldav_data.*, caldav_data, ';
     $sql .= "to_char(coalesce(calendar_item.created, caldav_data.created) at time zone 'GMT',$date_format) AS created, ";
     $sql .= "to_char(last_modified at time zone 'GMT',$date_format) AS modified, ";
@@ -163,7 +168,7 @@ function get_collection_contents( $depth, $user_no, $collection ) {
     $sql .= 'calendar_item.* ';
     $sql .= 'FROM caldav_data LEFT JOIN calendar_item USING( dav_id, user_no, dav_name, collection_id) ';
     $sql .= 'LEFT JOIN collection USING(collection_id,user_no) LEFT JOIN principal USING(user_no) ';
-    $sql .= 'WHERE collection.dav_name = :collection_dav_name '. $privacy_clause;
+    $sql .= 'WHERE collection.dav_name = :collection_dav_name '.$time_limit_clause.' '.$privacy_clause;
     if ( isset($c->strict_result_ordering) && $c->strict_result_ordering ) $sql .= " ORDER BY caldav_data.dav_id";
     $qry = new AwlQuery( $sql, array( ':collection_dav_name' => $collection->dav_name()) );
     if( $qry->Exec('PROPFIND',__LINE__,__FILE__) && $qry->rows() > 0 ) {
