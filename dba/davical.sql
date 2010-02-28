@@ -301,6 +301,7 @@ CREATE TABLE sync_changes (
 );
 CREATE INDEX sync_processing_index ON sync_changes( collection_id, dav_id, sync_time );
 
+-- Revision 1.2.7 endeth here.
 
 CREATE TABLE access_ticket (
   ticket_id TEXT PRIMARY KEY,
@@ -356,23 +357,22 @@ CREATE TABLE addressbook_address_adr (
   dav_id INT8 NOT NULL REFERENCES caldav_data(dav_id) ON UPDATE CASCADE ON DELETE CASCADE,
   type TEXT,
   adr TEXT,
-  full TEXT -- The full text of the property
+  property TEXT -- The full text of the property
 );
 
 CREATE TABLE addressbook_address_tel (
   dav_id INT8 NOT NULL REFERENCES caldav_data(dav_id) ON UPDATE CASCADE ON DELETE CASCADE,
   type TEXT,
   tel TEXT,
-  full TEXT -- The full text of the property
+  property TEXT -- The full text of the property
 );
 
 CREATE TABLE addressbook_address_email (
   dav_id INT8 NOT NULL REFERENCES caldav_data(dav_id) ON UPDATE CASCADE ON DELETE CASCADE,
   type TEXT,
   email TEXT,
-  full TEXT -- The full text of the property
+  property TEXT -- The full text of the property
 );
-
 
 CREATE TABLE calendar_alarm (
   dav_id INT8 NOT NULL REFERENCES caldav_data(dav_id) ON UPDATE CASCADE ON DELETE CASCADE,
@@ -380,7 +380,7 @@ CREATE TABLE calendar_alarm (
   trigger TEXT,
   summary TEXT,
   description TEXT,
-  full TEXT -- The full text of the component
+  component TEXT -- The full text of the component
 );
 
 CREATE TABLE calendar_attendee (
@@ -391,7 +391,7 @@ CREATE TABLE calendar_attendee (
   attendee TEXT,
   role TEXT,
   rsvp BOOLEAN,
-  full TEXT -- The full text of the property
+  property TEXT -- The full text of the property
 );
 
 SELECT new_db_revision(1,2,8, 'Août' );
