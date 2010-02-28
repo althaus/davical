@@ -6,7 +6,7 @@ function check_for_expansion( $calendar_data_node ) {
 
   if ( !class_exists('DateTime') ) return; /** We don't support expansion on PHP5.1 */
 
-  $expansion = $v->GetElements('urn:ietf:params:xml:ns:caldav:expand');
+  $expansion = $calendar_data_node->GetElements('urn:ietf:params:xml:ns:caldav:expand');
   if ( isset($expansion[0]) ) {
     $need_expansion = true;
     $expand_range_start = $expansion[0]->GetAttribute('start');
@@ -28,7 +28,7 @@ switch( $proptype ) {
     foreach( $qry_content[0]->GetElements() AS $k => $v ) {
       $propertyname = preg_replace( '/^.*:/', '', $v->GetTag() );
       $properties[$propertyname] = 1;
-      if ( $v->GetTag() == 'calendar-data' ) check_for_expansion($v);
+      if ( $v->GetTag() == 'urn:ietf:params:xml:ns:caldav:calendar-data' ) check_for_expansion($v);
     }
     break;
 
@@ -36,8 +36,7 @@ switch( $proptype ) {
     $properties['allprop'] = 1;
     if ( $qry_content[1]->GetTag() == 'DAV::include' ) {
       foreach( $qry_content[1]->GetElements() AS $k => $v ) {
-        $propertyname = preg_replace( '/^.*:/', '', $v->GetTag() );
-        $properties[$propertyname] = 1;
+        $include_properties[] = $v->GetTag(); /** $include_properties is referenced in DAVResource where allprop is expanded */
         if ( $v->GetTag() == 'urn:ietf:params:xml:ns:caldav:calendar-data' ) check_for_expansion($v);
       }
     }
