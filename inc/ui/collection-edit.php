@@ -399,14 +399,14 @@ EOTEMPLATE;
   $browser->AddColumn( 'members', translate('Has Members'), '', '', 'has_members_list(principal_id)' );
 
   if ( $can_write_collection ) {
-    $del_link  = "<a href=\"/admin.php?action=edit&t=collection&id=$id&delete_grant=##to_principal##\" class=\"submit\">Delete</a>";
-    $edit_link  = "<a href=\"/admin.php?action=edit&t=collection&id=$id&edit_grant=##to_principal##\" class=\"submit\">Edit</a>";
+    $del_link  = '<a href="/admin.php?action=edit&t=collection&id='.$id.'&delete_grant=##to_principal##" class="submit">'.tranlsate('Revoke').'</a>';
+    $edit_link  = '<a href="/admin.php?action=edit&t=collection&id='.$id.'&edit_grant=##to_principal##" class="submit">'.translate('Edit').'</a>';
     $browser->AddColumn( 'action', translate('Action'), 'center', '', "'$edit_link&nbsp;$del_link'" );
   }
 
   $browser->SetOrdering( 'displayname', 'A' );
 
-  $browser->SetJoins( "grants LEFT JOIN dav_principal ON (to_principal = principal_id) " );
+  $browser->SetJoins( 'grants LEFT JOIN dav_principal ON (to_principal = principal_id) ' );
   $browser->SetWhere( 'by_collection = '.$id );
 
   if ( $c->enable_row_linking ) {
