@@ -17,6 +17,11 @@ switch( $proptype ) {
 
   case 'DAV::allprop':
     $properties['allprop'] = 1;
+    if ( $qry_content[1]->GetTag() == 'DAV::include' ) {
+      foreach( $qry_content[1]->GetElements() AS $k => $v ) {
+        $include_properties[] = $v->GetTag(); /** $include_properties is referenced in DAVResource where allprop is expanded */
+      }
+    }
     break;
 
   default:

@@ -955,13 +955,15 @@ EOQRY;
   */
   function DAV_AllProperties() {
     if ( isset($this->dead_properties) ) $this->FetchDeadProperties();
-    $allprop = array_merge( (isset($this->dead_properties)?$this->dead_properties:array()), array(
-      'DAV::getcontenttype', 'DAV::resourcetype', 'DAV::getcontentlength', 'DAV::displayname', 'DAV::getlastmodified',
-      'DAV::creationdate', 'DAV::getetag', 'DAV::getcontentlanguage', 'DAV::supportedlock', 'DAV::lockdiscovery',
-      'DAV::owner', 'DAV::principal-URL', 'DAV::current-user-principal',
-      'urn:ietf:params:xml:ns:carddav:max-resource-size', 'urn:ietf:params:xml:ns:carddav:supported-address-data',
-      'urn:ietf:params:xml:ns:carddav:addressbook-description', 'urn:ietf:params:xml:ns:carddav:addressbook-home-set'
-    ) );
+    $allprop = array_merge( (isset($this->dead_properties)?$this->dead_properties:array()),
+      (isset($include_properties)?$include_properties:array()),
+      array(
+        'DAV::getcontenttype', 'DAV::resourcetype', 'DAV::getcontentlength', 'DAV::displayname', 'DAV::getlastmodified',
+        'DAV::creationdate', 'DAV::getetag', 'DAV::getcontentlanguage', 'DAV::supportedlock', 'DAV::lockdiscovery',
+        'DAV::owner', 'DAV::principal-URL', 'DAV::current-user-principal',
+        'urn:ietf:params:xml:ns:carddav:max-resource-size', 'urn:ietf:params:xml:ns:carddav:supported-address-data',
+        'urn:ietf:params:xml:ns:carddav:addressbook-description', 'urn:ietf:params:xml:ns:carddav:addressbook-home-set'
+      ) );
 
     return $allprop;
   }

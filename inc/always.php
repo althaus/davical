@@ -10,7 +10,7 @@
 $c = (object) array();
 
 // Ditto for a few other global things
-unset($session); unset($request); unset($dbconn); unset($_awl_dbconn);
+unset($session); unset($request); unset($dbconn); unset($_awl_dbconn); unset($include_properties);
 
 // An ultra-simple exception handler to catch errors that occur
 // before we get a more functional exception handler in place...
@@ -148,7 +148,7 @@ $_SERVER['SERVER_NAME'] = $c->domain_name;
 
 require_once('PgQuery.php');
 
-$c->want_dbversion = array(1,2,7);
+$c->want_dbversion = array(1,2,8);
 $c->schema_version = 0;
 $qry = new PgQuery( 'SELECT schema_major, schema_minor, schema_patch FROM awl_db_revision ORDER BY schema_id DESC LIMIT 1;' );
 if ( $qry->Exec('always') && $row = $qry->Fetch() ) {
