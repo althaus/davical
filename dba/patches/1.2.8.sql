@@ -38,11 +38,67 @@ CREATE TABLE collection_mashup (
   dav_displayname TEXT
 );
 
+
 CREATE TABLE mashup_member (
   mashup_id INT8 NOT NULL REFERENCES collection_mashup(mashup_id) ON UPDATE CASCADE ON DELETE CASCADE,
   target_ticket_id TEXT REFERENCES access_ticket(ticket_id) ON UPDATE CASCADE ON DELETE CASCADE,
   target_collection_id INT8 REFERENCES collection(collection_id) ON UPDATE CASCADE ON DELETE CASCADE,
   member_colour TEXT
+);
+
+
+CREATE TABLE addressbook_resource (
+  dav_id INT8 NOT NULL REFERENCES caldav_data(dav_id) ON UPDATE CASCADE ON DELETE CASCADE PRIMARY KEY,
+  version TEXT,
+  uid TEXT,
+  nickname TEXT,
+  fn TEXT, -- fullname
+  n TEXT, -- Name Surname;First names
+  note TEXT,
+  org TEXT,
+  url TEXT
+);
+
+CREATE TABLE addressbook_address_adr (
+  dav_id INT8 NOT NULL REFERENCES caldav_data(dav_id) ON UPDATE CASCADE ON DELETE CASCADE,
+  type TEXT,
+  adr TEXT,
+  full TEXT -- The full text of the property
+);
+
+CREATE TABLE addressbook_address_tel (
+  dav_id INT8 NOT NULL REFERENCES caldav_data(dav_id) ON UPDATE CASCADE ON DELETE CASCADE,
+  type TEXT,
+  tel TEXT,
+  full TEXT -- The full text of the property
+);
+
+CREATE TABLE addressbook_address_email (
+  dav_id INT8 NOT NULL REFERENCES caldav_data(dav_id) ON UPDATE CASCADE ON DELETE CASCADE,
+  type TEXT,
+  email TEXT,
+  full TEXT -- The full text of the property
+);
+
+
+CREATE TABLE calendar_alarm (
+  dav_id INT8 NOT NULL REFERENCES caldav_data(dav_id) ON UPDATE CASCADE ON DELETE CASCADE,
+  action TEXT,
+  trigger TEXT,
+  summary TEXT,
+  description TEXT,
+  full TEXT -- The full text of the component
+);
+
+CREATE TABLE calendar_attendee (
+  dav_id INT8 NOT NULL REFERENCES caldav_data(dav_id) ON UPDATE CASCADE ON DELETE CASCADE,
+  status TEXT,
+  partstat TEXT,
+  cn TEXT,
+  attendee TEXT,
+  role TEXT,
+  rsvp BOOLEAN,
+  full TEXT -- The full text of the property
 );
 
 
