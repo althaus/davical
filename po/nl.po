@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-20 14:54+1300\n"
+"POT-Creation-Date: 2010-02-28 22:43+1300\n"
 "PO-Revision-Date: 2010-02-18 16:00+0100\n"
 "Last-Translator: Vincent Van Houtte <http://www.synergylaw.be/>\n"
 "Language-Team: nl_NL <LL@li.org>\n"
@@ -137,9 +137,6 @@ msgstr "Agendabron niet gevonden"
 msgid "Calendar Timezone"
 msgstr "Tijdzone van Agenda"
 
-msgid "Calendar Users"
-msgstr "Agenda gebruikers"
-
 #, c-format
 msgid "Calendar \"%s\" for user \"%s\" was created."
 msgstr "Agenda \"%s\" voor gebruiker \"%s\" werd aangemaakt."
@@ -240,6 +237,10 @@ msgstr "Maak een Bron of Verzameling aan"
 
 msgid "Create"
 msgstr "Maak"
+
+#, fuzzy
+msgid "Creating new Collection."
+msgstr "Maak nieuwe Verzameling aan"
 
 msgid "Creating new Principal record."
 msgstr "Nieuwe Principaal aanmaken"
@@ -366,10 +367,6 @@ msgstr "FOUT: Het nieuwe wachtwoord is niet exact hetzelfde als het bevestigings
 msgid "ERROR: There was a database error writing the roles information!"
 msgstr "FOUT: Database fout bij het schrijven van de rolleninformatie"
 
-#, c-format
-msgid "Edit %s"
-msgstr "Wijzig %s"
-
 msgid "Edit this user record"
 msgstr "Wijzig deze gebruiker"
 
@@ -447,6 +444,9 @@ msgstr "Ga!"
 msgid "Go to the DAViCal Feature Requests"
 msgstr "Ga naar de DAViCal feature requests"
 
+msgid "Grant"
+msgstr ""
+
 #, fuzzy
 msgid "Granting new privileges from this Principal"
 msgstr "Nieuwe privileges van deze Principaal toegestaan"
@@ -515,6 +515,10 @@ msgstr "Importeer Agenda's"
 
 msgid "Import all .ics files of a directory"
 msgstr "Importeer alle ics-bestanden in een map"
+
+#, fuzzy
+msgid "Inactive Principals"
+msgstr "Maak Principaal aan"
 
 msgid "Invalid user name or password."
 msgstr "Verkeerde gebruikersnaam of wachtwoord."
@@ -594,9 +598,6 @@ msgstr "Nieuwe verzameling"
 msgid "New Password"
 msgstr "Nieuw wachtwoord"
 
-msgid "New User"
-msgstr "Nieuwe gebruiker"
-
 #, fuzzy
 msgid "No <!-- not 'Yes' -->"
 msgstr "Nr."
@@ -606,6 +607,9 @@ msgstr "Geen agenda-inhoud"
 
 msgid "No collection found at that location."
 msgstr "Geen verzameling gevonden op die plaats"
+
+msgid "No scheduling support for user"
+msgstr ""
 
 msgid "No"
 msgstr "Nee"
@@ -768,10 +772,11 @@ msgstr "Relaties van deze gebruiker"
 msgid "Relationships to this user"
 msgstr "Relaties naar deze gebruiker"
 
-msgid "Relationships"
-msgstr "Relaties"
-
 msgid "Remove a lock"
+msgstr "Verwijder een beveiliging"
+
+#, fuzzy
+msgid "Remove"
 msgstr "Verwijder een beveiliging"
 
 msgid "Repeat Rule"
@@ -807,6 +812,9 @@ msgstr "Bron"
 msgid "Resources may not be changed to / from collections."
 msgstr "Bronnen kunnen niet omgezet worden in Verzamelingen en vice versa"
 
+msgid "Revoke"
+msgstr ""
+
 msgid "Rights"
 msgstr "Rechten"
 
@@ -825,6 +833,10 @@ msgstr "Agenderen: Lever een antwoord af"
 msgid "Scheduling: Deliver an Invitation"
 msgstr "Agenderen: Lever een uitndoging af"
 
+#, fuzzy
+msgid "Scheduling: Delivery"
+msgstr "Agenderen: Lever een antwoord af"
+
 msgid "Scheduling: Query free/busy"
 msgstr "Agenderen: Bevraag vrij/bezet"
 
@@ -836,6 +848,10 @@ msgstr "Agenderen: Verzend een uitnodiging"
 
 msgid "Scheduling: Send free/busy"
 msgstr "Agenderen: Verzend vrij/bezet"
+
+#, fuzzy
+msgid "Scheduling: Sending"
+msgstr "Agendeer de verzending"
 
 msgid "Select the type of relationship from this user"
 msgstr "Selecteer het type relatie van deze gebruiker"
@@ -1010,6 +1026,10 @@ msgid "Updated"
 msgstr "Bijgewerkt"
 
 #, fuzzy
+msgid "Updating Collection record."
+msgstr "Bijwerken van Principaal"
+
+#, fuzzy
 msgid "Updating Member of this Group Principal"
 msgstr "Bijwerken van een lid van deze groep Principaal"
 
@@ -1048,9 +1068,6 @@ msgstr "Gebruikersnaam"
 msgid "User Roles"
 msgstr "Gebruikersrollen"
 
-msgid "User Unavailable"
-msgstr "Gebruiker niet beschikbaar"
-
 msgid "User deleted"
 msgstr "Gebruiker verwijderd"
 
@@ -1062,10 +1079,6 @@ msgstr "Gebruikersgegevens geschreven."
 
 msgid "Username"
 msgstr "Gebruikersnaam"
-
-#, c-format
-msgid "View %s"
-msgstr "Zie %s"
 
 msgid "View My Details"
 msgstr "Bekijk mijn details"
@@ -1110,7 +1123,7 @@ msgstr "Ja"
 #, c-format
 msgid ""
 "You are currently running DAViCal version %s. The database schema should be at version %s and it is at "
-"version %s."
+"version %d.%d.%d."
 msgstr ""
 
 msgid "You are editing"
@@ -1206,6 +1219,24 @@ msgstr "U moet zich aanmelden met de gebruikersnaam en het wachtwoord die U zijn
 
 msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
 msgstr "Deze verrichting doet hetvolgende: <ul><li>Valideer de gebruikers in de LDAP directory</li>"
+
+#~ msgid "Calendar Users"
+#~ msgstr "Agenda gebruikers"
+
+#~ msgid "Edit %s"
+#~ msgstr "Wijzig %s"
+
+#~ msgid "New User"
+#~ msgstr "Nieuwe gebruiker"
+
+#~ msgid "Relationships"
+#~ msgstr "Relaties"
+
+#~ msgid "User Unavailable"
+#~ msgstr "Gebruiker niet beschikbaar"
+
+#~ msgid "View %s"
+#~ msgstr "Zie %s"
 
 #~ msgid "Administers"
 #~ msgstr "Beheert"

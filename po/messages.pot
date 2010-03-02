@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-20 14:54+1300\n"
+"POT-Creation-Date: 2010-02-28 22:43+1300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -136,9 +136,6 @@ msgstr ""
 msgid "Calendar Timezone"
 msgstr ""
 
-msgid "Calendar Users"
-msgstr ""
-
 #, c-format
 msgid "Calendar \"%s\" for user \"%s\" was created."
 msgstr ""
@@ -235,6 +232,9 @@ msgid "Create a resource or collection"
 msgstr ""
 
 msgid "Create"
+msgstr ""
+
+msgid "Creating new Collection."
 msgstr ""
 
 msgid "Creating new Principal record."
@@ -358,10 +358,6 @@ msgstr ""
 msgid "ERROR: There was a database error writing the roles information!"
 msgstr ""
 
-#, c-format
-msgid "Edit %s"
-msgstr ""
-
 msgid "Edit this user record"
 msgstr ""
 
@@ -434,6 +430,9 @@ msgstr ""
 msgid "Go to the DAViCal Feature Requests"
 msgstr ""
 
+msgid "Grant"
+msgstr ""
+
 msgid "Granting new privileges from this Principal"
 msgstr ""
 
@@ -498,6 +497,9 @@ msgid "Import Calendars"
 msgstr ""
 
 msgid "Import all .ics files of a directory"
+msgstr ""
+
+msgid "Inactive Principals"
 msgstr ""
 
 msgid "Invalid user name or password."
@@ -575,9 +577,6 @@ msgstr ""
 msgid "New Password"
 msgstr ""
 
-msgid "New User"
-msgstr ""
-
 msgid "No <!-- not 'Yes' -->"
 msgstr ""
 
@@ -585,6 +584,9 @@ msgid "No calendar content"
 msgstr ""
 
 msgid "No collection found at that location."
+msgstr ""
+
+msgid "No scheduling support for user"
 msgstr ""
 
 msgid "No"
@@ -734,10 +736,10 @@ msgstr ""
 msgid "Relationships to this user"
 msgstr ""
 
-msgid "Relationships"
+msgid "Remove a lock"
 msgstr ""
 
-msgid "Remove a lock"
+msgid "Remove"
 msgstr ""
 
 msgid "Repeat Rule"
@@ -775,6 +777,9 @@ msgstr ""
 msgid "Resources may not be changed to / from collections."
 msgstr ""
 
+msgid "Revoke"
+msgstr ""
+
 msgid "Rights"
 msgstr ""
 
@@ -793,6 +798,9 @@ msgstr ""
 msgid "Scheduling: Deliver an Invitation"
 msgstr ""
 
+msgid "Scheduling: Delivery"
+msgstr ""
+
 msgid "Scheduling: Query free/busy"
 msgstr ""
 
@@ -803,6 +811,9 @@ msgid "Scheduling: Send an Invitation"
 msgstr ""
 
 msgid "Scheduling: Send free/busy"
+msgstr ""
+
+msgid "Scheduling: Sending"
 msgstr ""
 
 msgid "Select the type of relationship from this user"
@@ -973,6 +984,9 @@ msgstr ""
 msgid "Updated"
 msgstr ""
 
+msgid "Updating Collection record."
+msgstr ""
+
 msgid "Updating Member of this Group Principal"
 msgstr ""
 
@@ -1011,9 +1025,6 @@ msgstr ""
 msgid "User Roles"
 msgstr ""
 
-msgid "User Unavailable"
-msgstr ""
-
 msgid "User deleted"
 msgstr ""
 
@@ -1024,10 +1035,6 @@ msgid "User record written."
 msgstr ""
 
 msgid "Username"
-msgstr ""
-
-#, c-format
-msgid "View %s"
 msgstr ""
 
 msgid "View My Details"
@@ -1072,7 +1079,7 @@ msgstr ""
 #, c-format
 msgid ""
 "You are currently running DAViCal version %s. The database schema should be "
-"at version %s and it is at version %s."
+"at version %s and it is at version %d.%d.%d."
 msgstr ""
 
 msgid "You are editing"

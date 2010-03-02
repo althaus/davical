@@ -42,7 +42,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DAViCal 0.9.7.99\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-20 14:54+1300\n"
+"POT-Creation-Date: 2010-02-28 22:43+1300\n"
 "PO-Revision-Date: 2009-12-23 18:00+0100\n"
 "Last-Translator: Patrick Näf Moser <herzbube@herzbube.ch>\n"
 "MIME-Version: 1.0\n"
@@ -182,11 +182,6 @@ msgstr "Kalender-Ressource nicht gefunden."
 msgid "Calendar Timezone"
 msgstr "Kalender-Zeitzone"
 
-# TODO - Kontext bestimmen (bessere Übersetzung wahrscheinlich möglich, im Sinn
-# von "Benutzer, die diesen Kalender verwenden")
-msgid "Calendar Users"
-msgstr "Kalender Benutzer"
-
 #, c-format
 msgid "Calendar \"%s\" for user \"%s\" was created."
 msgstr "Kalender \"%s\" für Benutzer \"%s\" wurde erstellt."
@@ -307,6 +302,10 @@ msgstr "Neue Sammlung erstellen"
 # TODO - Kontext bestimmen
 msgid "Create"
 msgstr "Erstellen"
+
+#, fuzzy
+msgid "Creating new Collection."
+msgstr "Neue Sammlung erstellen"
 
 #, fuzzy
 msgid "Creating new Principal record."
@@ -445,11 +444,6 @@ msgstr "FEHLER: Kennwort und Kennwortbestätigung müssen übereinstimmen."
 msgid "ERROR: There was a database error writing the roles information!"
 msgstr "FEHLER: Datenbankfehler beim Speichern der Rolleninformation!"
 
-# TODO - Kontext bestimmen
-#, fuzzy, c-format
-msgid "Edit %s"
-msgstr "%s bearbeiten"
-
 msgid "Edit this user record"
 msgstr "Benutzereintrag bearbeiten"
 
@@ -535,6 +529,9 @@ msgstr "LOS!"
 msgid "Go to the DAViCal Feature Requests"
 msgstr "Gehe zur DAViCal Feature-Wunschliste"
 
+msgid "Grant"
+msgstr ""
+
 # TODO - Bessere Übersetzung von "from this Principal"
 msgid "Granting new privileges from this Principal"
 msgstr "Erteile neues, von diesem Principal ausgehendes Recht"
@@ -609,6 +606,11 @@ msgstr "Kalender importieren"
 
 msgid "Import all .ics files of a directory"
 msgstr "Alle ICS-Kalenderdateien eines Ordners importieren"
+
+# TODO - Principal übersetzen
+#, fuzzy
+msgid "Inactive Principals"
+msgstr "Principal erstellen"
 
 msgid "Invalid user name or password."
 msgstr "Benutzername oder Kennwort ungültig."
@@ -694,9 +696,6 @@ msgstr "Neue Sammlung"
 msgid "New Password"
 msgstr "Neues Kennwort"
 
-msgid "New User"
-msgstr "Neuer Benutzer"
-
 #, fuzzy
 msgid "No <!-- not 'Yes' -->"
 msgstr "Nr."
@@ -708,6 +707,9 @@ msgstr "Kalender hat keinen Inhalt"
 
 msgid "No collection found at that location."
 msgstr "Keine Sammlung an dieser Stelle gefunden."
+
+msgid "No scheduling support for user"
+msgstr ""
 
 #, fuzzy
 msgid "No"
@@ -872,10 +874,10 @@ msgstr "Beziehungen, die von diesem Benutzer ausgehen"
 msgid "Relationships to this user"
 msgstr "Beziehungen, die auf diesen Benutzer zeigen"
 
-msgid "Relationships"
-msgstr "Beziehungen"
-
 msgid "Remove a lock"
+msgstr ""
+
+msgid "Remove"
 msgstr ""
 
 # TODO - Bessere Übersetzung
@@ -915,6 +917,9 @@ msgstr "Ressource"
 msgid "Resources may not be changed to / from collections."
 msgstr "Ressourcen können nicht zu/von Sammlungen geändert werden."
 
+msgid "Revoke"
+msgstr ""
+
 msgid "Rights"
 msgstr "Rechte"
 
@@ -937,6 +942,11 @@ msgstr "Terminplanung: Zustellen einer Antwort"
 msgid "Scheduling: Deliver an Invitation"
 msgstr "Terminplanung: Zustellen einer Einladung"
 
+# Bezeichnung für ein Recht
+#, fuzzy
+msgid "Scheduling: Delivery"
+msgstr "Terminplanung: Zustellen einer Antwort"
+
 msgid "Scheduling: Query free/busy"
 msgstr "Terminplanung: Verfügbarkeit abfragen"
 
@@ -948,6 +958,10 @@ msgstr "Terminplanung: Versenden einer Einladung"
 
 msgid "Scheduling: Send free/busy"
 msgstr "Terminplanung: Verfügbarkeit versenden"
+
+#, fuzzy
+msgid "Scheduling: Sending"
+msgstr "Terminplanung: Versenden einer Antwort"
 
 msgid "Select the type of relationship from this user"
 msgstr "Von diesem Benutzer ausgehenden Beziehungstyp wählen"
@@ -1131,6 +1145,10 @@ msgstr "Aktualisieren"
 msgid "Updated"
 msgstr "Aktualisiert"
 
+#, fuzzy
+msgid "Updating Collection record."
+msgstr "Eigenen Haupteintrag anzeigen"
+
 # Principal ist ein Begriff aus WebDAV/CalDAV
 msgid "Updating Member of this Group Principal"
 msgstr "Aktualisiere Mitglied des Gruppen-Principal"
@@ -1172,9 +1190,6 @@ msgstr "Benutzername"
 msgid "User Roles"
 msgstr "Benutzerrollen"
 
-msgid "User Unavailable"
-msgstr "Benutzer nicht verfügbar"
-
 #, fuzzy
 msgid "User deleted"
 msgstr "Benutzer gelöscht"
@@ -1188,10 +1203,6 @@ msgstr "Benutzereintrag gespeichert."
 #, fuzzy
 msgid "Username"
 msgstr "Benutzername"
-
-#, fuzzy, c-format
-msgid "View %s"
-msgstr "%s anzeigen"
 
 #, fuzzy
 msgid "View My Details"
@@ -1240,7 +1251,7 @@ msgstr ""
 #, c-format
 msgid ""
 "You are currently running DAViCal version %s. The database schema should be at version %s and it is at "
-"version %s."
+"version %d.%d.%d."
 msgstr ""
 
 msgid "You are editing"
@@ -1339,6 +1350,29 @@ msgstr "Melden Sie sich mit dem Ihnen genannten Benutzernamen und Kennwort an."
 
 msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
 msgstr "Folgendes wird durchgeführt: <ul><li>Gültige Benutzer im LDAP Verzeichnis überprüfen</li>"
+
+# TODO - Kontext bestimmen (bessere Übersetzung wahrscheinlich möglich, im Sinn
+# von "Benutzer, die diesen Kalender verwenden")
+#~ msgid "Calendar Users"
+#~ msgstr "Kalender Benutzer"
+
+# TODO - Kontext bestimmen
+#, fuzzy
+#~ msgid "Edit %s"
+#~ msgstr "%s bearbeiten"
+
+#~ msgid "New User"
+#~ msgstr "Neuer Benutzer"
+
+#~ msgid "Relationships"
+#~ msgstr "Beziehungen"
+
+#~ msgid "User Unavailable"
+#~ msgstr "Benutzer nicht verfügbar"
+
+#, fuzzy
+#~ msgid "View %s"
+#~ msgstr "%s anzeigen"
 
 #, fuzzy
 #~ msgid "Administers"
