@@ -138,8 +138,33 @@ $privilege_xlate = array(
   'schedule-query-freebusy' => translate('Scheduling: Query free/busy'),
   'schedule-send-invite' => translate('Scheduling: Send an Invitation'),
   'schedule-send-reply' => translate('Scheduling: Send a Reply'),
-  'schedule-send-freebusy' => translate('Scheduling: Send free/busy')
+  'schedule-send-freebusy' => translate('Scheduling: Send free/busy'),
+  'write' => translate('Write'),
+  'schedule-deliver' => translate('Scheduling: Delivery'),
+  'schedule-send' => translate('Scheduling: Sending')
 );
+
+/**
+* privilege_format_function is for formatting the binary privileges from the
+* database, including localising them.  This is a hook function for a browser
+* column object, so it takes three parameters:
+* @param mixed $value The value of the column.
+* @param BrowserColumn $column The BrowserColumn object we are hooked into.
+* @param dbrow $row The row object we read from the database.
+* @return string The formatted privileges.
+*/
+function privilege_format_function( $value, $column, $row ) {
+  global $privilege_xlate;
+
+  $privs = bits_to_privilege($value);
+  $formatted = '';
+  foreach( $privs AS $k => $v ) {
+    $formatted .= ($formatted == '' ? '' : ' , ');
+    $v = preg_replace( '{^.*:}', '', $v );
+    $formatted .= (isset($privilege_xlate[$v]) ? $privilege_xlate[$v] : $v );
+  }
+  return $formatted;
+}
 
 $default_privileges = bindec($editor->Value('default_privileges'));
 $privileges_set = '<div id="privileges">';
@@ -343,8 +368,10 @@ if ( $editor->Available() ) {
     global $btn_all, $btn_all_title, $btn_rw, $btn_rw_title, $btn_read, $btn_read_title;
     global $btn_fb, $btn_fb_title, $btn_sd, $btn_sd_title, $btn_ss, $btn_ss_title;
 
+    $submit_label = translate('Grant');
     if ( $row_data->to_principal > -1 ) {
       $grantrow->SetRecord( $row_data );
+      $submit_label = translate('Apply Changes');
     }
 
     $grant_privileges = bindec($grantrow->Value('grant_privileges'));
@@ -377,7 +404,7 @@ if ( $editor->Available() ) {
 <input type="button" value="$btn_ss" class="submit" title="$btn_ss_title"
  onclick="toggle_privileges('grant_privileges', 'schedule-send-invite', 'schedule-send-reply', 'schedule-send-freebusy' );">
 <br>$privileges_set
-  <td class="center">##submit##</td>
+  <td class="center">##$submit_label.submit##</td>
 </form>
 
 EOTEMPLATE;
@@ -395,11 +422,11 @@ EOTEMPLATE;
   $browser->AddHidden( 'principal_link', "'<a href=\"$rowurl' || to_principal || '\">' || to_principal || '</a>'" );
   $browser->AddHidden( 'grant_privileges', 'privileges' );
   $browser->AddColumn( 'displayname', translate('Display Name') );
-  $browser->AddColumn( 'privs', translate('Privileges'), '', '', 'privileges_list(privileges)' );
+  $browser->AddColumn( 'privs', translate('Privileges'), '', '', 'privileges', '', '', 'privilege_format_function' );
   $browser->AddColumn( 'members', translate('Has Members'), '', '', 'has_members_list(principal_id)' );
 
   if ( $can_write_collection ) {
-    $del_link  = '<a href="/admin.php?action=edit&t=collection&id='.$id.'&delete_grant=##to_principal##" class="submit">'.tranlsate('Revoke').'</a>';
+    $del_link  = '<a href="/admin.php?action=edit&t=collection&id='.$id.'&delete_grant=##to_principal##" class="submit">'.translate('Revoke').'</a>';
     $edit_link  = '<a href="/admin.php?action=edit&t=collection&id='.$id.'&edit_grant=##to_principal##" class="submit">'.translate('Edit').'</a>';
     $browser->AddColumn( 'action', translate('Action'), 'center', '', "'$edit_link&nbsp;$del_link'" );
   }

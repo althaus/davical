@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RSCDS 0.2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-20 14:54+1300\n"
+"POT-Creation-Date: 2010-02-28 22:43+1300\n"
 "PO-Revision-Date: 2006-11-06 17:12+1300\n"
 "Last-Translator: Lorena Paoletti <andrew@mcmillan.net.nz>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -137,9 +137,6 @@ msgstr ""
 msgid "Calendar Timezone"
 msgstr "Calendario de los Usuario"
 
-msgid "Calendar Users"
-msgstr "Calendario de los Usuario"
-
 #, c-format
 msgid "Calendar \"%s\" for user \"%s\" was created."
 msgstr ""
@@ -254,6 +251,10 @@ msgstr "Calendario de los Usuario"
 
 msgid "Create"
 msgstr "Crear"
+
+#, fuzzy
+msgid "Creating new Collection."
+msgstr "Calendario de los Usuario"
 
 #, fuzzy
 msgid "Creating new Principal record."
@@ -385,10 +386,6 @@ msgstr ""
 msgid "ERROR: There was a database error writing the roles information!"
 msgstr "ERROR: Hubo un error en la base de datos al grabar la información de los roles!"
 
-#, fuzzy, c-format
-msgid "Edit %s"
-msgstr "Editar"
-
 msgid "Edit this user record"
 msgstr "Mostrar el registro de éste usuario"
 
@@ -463,6 +460,9 @@ msgstr ""
 msgid "Go to the DAViCal Feature Requests"
 msgstr ""
 
+msgid "Grant"
+msgstr ""
+
 msgid "Granting new privileges from this Principal"
 msgstr ""
 
@@ -531,6 +531,10 @@ msgstr "Calendario de los Usuario"
 
 msgid "Import all .ics files of a directory"
 msgstr ""
+
+#, fuzzy
+msgid "Inactive Principals"
+msgstr "Calendario de los Usuario"
 
 msgid "Invalid user name or password."
 msgstr "Usuario o contraseña incorrectos."
@@ -613,9 +617,6 @@ msgstr "Relación eliminada"
 msgid "New Password"
 msgstr "Nueva Constraseña"
 
-msgid "New User"
-msgstr "Nuevo Usuario"
-
 #, fuzzy
 msgid "No <!-- not 'Yes' -->"
 msgstr "No"
@@ -624,6 +625,9 @@ msgid "No calendar content"
 msgstr ""
 
 msgid "No collection found at that location."
+msgstr ""
+
+msgid "No scheduling support for user"
 msgstr ""
 
 #, fuzzy
@@ -776,10 +780,10 @@ msgstr "Relaciones desde éste usuario"
 msgid "Relationships to this user"
 msgstr "Relaciones hacia éste usuario"
 
-msgid "Relationships"
-msgstr "Relaciones"
-
 msgid "Remove a lock"
+msgstr ""
+
+msgid "Remove"
 msgstr ""
 
 msgid "Repeat Rule"
@@ -815,6 +819,9 @@ msgstr "Recurso"
 msgid "Resources may not be changed to / from collections."
 msgstr ""
 
+msgid "Revoke"
+msgstr ""
+
 msgid "Rights"
 msgstr "Derechos"
 
@@ -833,6 +840,9 @@ msgstr ""
 msgid "Scheduling: Deliver an Invitation"
 msgstr ""
 
+msgid "Scheduling: Delivery"
+msgstr ""
+
 msgid "Scheduling: Query free/busy"
 msgstr ""
 
@@ -843,6 +853,9 @@ msgid "Scheduling: Send an Invitation"
 msgstr ""
 
 msgid "Scheduling: Send free/busy"
+msgstr ""
+
+msgid "Scheduling: Sending"
 msgstr ""
 
 msgid "Select the type of relationship from this user"
@@ -1005,6 +1018,10 @@ msgstr "Actualizar"
 msgid "Updated"
 msgstr "Actualizado"
 
+#, fuzzy
+msgid "Updating Collection record."
+msgstr "Mostrar mi registro de usuario"
+
 msgid "Updating Member of this Group Principal"
 msgstr ""
 
@@ -1043,9 +1060,6 @@ msgstr "Nombre del Usuario"
 msgid "User Roles"
 msgstr "Roles del Usuario"
 
-msgid "User Unavailable"
-msgstr ""
-
 #, fuzzy
 msgid "User deleted"
 msgstr "Roles del Usuario"
@@ -1059,10 +1073,6 @@ msgstr "Registro del usuario grabado."
 #, fuzzy
 msgid "Username"
 msgstr "Nombre del Usuario"
-
-#, fuzzy, c-format
-msgid "View %s"
-msgstr "Mostrar"
 
 #, fuzzy
 msgid "View My Details"
@@ -1108,7 +1118,7 @@ msgstr ""
 #, c-format
 msgid ""
 "You are currently running DAViCal version %s. The database schema should be at version %s and it is at "
-"version %s."
+"version %d.%d.%d."
 msgstr ""
 
 msgid "You are editing"
@@ -1204,6 +1214,23 @@ msgstr "Para conectarse debe utilizar el nombre de usuario y contraseña que le 
 
 msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
 msgstr ""
+
+#~ msgid "Calendar Users"
+#~ msgstr "Calendario de los Usuario"
+
+#, fuzzy
+#~ msgid "Edit %s"
+#~ msgstr "Editar"
+
+#~ msgid "New User"
+#~ msgstr "Nuevo Usuario"
+
+#~ msgid "Relationships"
+#~ msgstr "Relaciones"
+
+#, fuzzy
+#~ msgid "View %s"
+#~ msgstr "Mostrar"
 
 #, fuzzy
 #~ msgid "Administers"

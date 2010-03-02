@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DAViCal 0.9.8.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-20 14:54+1300\n"
+"POT-Creation-Date: 2010-02-28 22:43+1300\n"
 "PO-Revision-Date: 2010-02-25 12:48+0900\n"
 "Last-Translator: Masahiro MIKAMI <mmecon@hotmail.co.jp>\n"
 "Language-Team: \n"
@@ -32,7 +32,7 @@ msgstr "- ユーザーを解除中: %s"
 
 #, c-format
 msgid "- nothing done on : %s"
-msgstr "- 変更は行われていません: %s" 
+msgstr "- 変更は行われていません: %s"
 
 #, c-format
 msgid "- updating user records : %s"
@@ -133,9 +133,6 @@ msgstr "カレンダー資源が見つかりません。"
 msgid "Calendar Timezone"
 msgstr "カレンダー時間帯"
 
-msgid "Calendar Users"
-msgstr "カレンダーユーザー"
-
 #, c-format
 msgid "Calendar \"%s\" for user \"%s\" was created."
 msgstr "ユーザー\"%s\"のためのカレンダー\"%s\"が作成されました。"
@@ -234,6 +231,10 @@ msgstr "資源またはコレクションを作成する"
 msgid "Create"
 msgstr "作成"
 
+#, fuzzy
+msgid "Creating new Collection."
+msgstr "新規コレクションを作成する"
+
 msgid "Creating new Principal record."
 msgstr "新規のプリンシパル記録を作成中"
 
@@ -247,8 +248,7 @@ msgid ""
 "Currently this page does very little.  Suggestions or patches to make it do more useful stuff will be "
 "gratefully received."
 msgstr ""
-"現在、このページはほとんど機能がありません。もっと有用なものにするための提案やパッチは"
-"歓迎します。"
+"現在、このページはほとんど機能がありません。もっと有用なものにするための提案やパッチは歓迎します。"
 
 msgid "DAV Path"
 msgstr "DAVパス"
@@ -356,10 +356,6 @@ msgstr "エラー: 新規パスワードは確認パスワードと一致しな�
 msgid "ERROR: There was a database error writing the roles information!"
 msgstr "エラー：ロール情報の書き込み中にデータベースエラーが起きました。"
 
-#, c-format
-msgid "Edit %s"
-msgstr "%sを編集"
-
 msgid "Edit this user record"
 msgstr "このユーザー情報を編集"
 
@@ -370,7 +366,8 @@ msgid "Email Address"
 msgstr "Emailアドレス"
 
 msgid "Enter a username, if you know it, and click here, to be e-mailed a temporary password."
-msgstr "知っている場合はユーザー名を入力し、ここをクリックしてください。暫定パスワードがメールで送信されます。"
+msgstr ""
+"知っている場合はユーザー名を入力し、ここをクリックしてください。暫定パスワードがメールで送信されます。"
 
 msgid "Enter the name for this resource type"
 msgstr "この資源タイプの名称を入力して下さい。"
@@ -429,6 +426,9 @@ msgstr "実行！"
 
 msgid "Go to the DAViCal Feature Requests"
 msgstr "DAViCal機能リクエストに行く"
+
+msgid "Grant"
+msgstr ""
 
 msgid "Granting new privileges from this Principal"
 msgstr "このプリンシパルからの新規の権限を許可する"
@@ -574,9 +574,6 @@ msgstr "新規コレクション"
 msgid "New Password"
 msgstr "新規パスワード"
 
-msgid "New User"
-msgstr "新規ユーザー"
-
 msgid "No <!-- not 'Yes' -->"
 msgstr "いいえ <!-- 'はい'ではない -->"
 
@@ -585,6 +582,9 @@ msgstr "カレンダーの内容がありません"
 
 msgid "No collection found at that location."
 msgstr "その場所にはコレクションが見つかりませんでした。"
+
+msgid "No scheduling support for user"
+msgstr ""
 
 msgid "No"
 msgstr "いいえ"
@@ -733,10 +733,11 @@ msgstr "このユーザーからの関係"
 msgid "Relationships to this user"
 msgstr "このユーザーに対する関係"
 
-msgid "Relationships"
-msgstr "関係"
-
 msgid "Remove a lock"
+msgstr "ロックを解除する"
+
+#, fuzzy
+msgid "Remove"
 msgstr "ロックを解除する"
 
 msgid "Repeat Rule"
@@ -772,6 +773,9 @@ msgstr "資源"
 msgid "Resources may not be changed to / from collections."
 msgstr "資源はコレクションに変更することもコレクションから変更することもできません。"
 
+msgid "Revoke"
+msgstr ""
+
 msgid "Rights"
 msgstr "権限"
 
@@ -790,6 +794,10 @@ msgstr "スケジューリング: 返信を届ける"
 msgid "Scheduling: Deliver an Invitation"
 msgstr "スケジューリング: 招待状を届ける"
 
+#, fuzzy
+msgid "Scheduling: Delivery"
+msgstr "スケジューリング: 返信を届ける"
+
 msgid "Scheduling: Query free/busy"
 msgstr "スケジューリング: 予定の有無を尋ねる"
 
@@ -801,6 +809,10 @@ msgstr "スケジューリング: 招待状を送信する"
 
 msgid "Scheduling: Send free/busy"
 msgstr "スケジューリング: 予定の有無を送信する"
+
+#, fuzzy
+msgid "Scheduling: Sending"
+msgstr "スケジュール送信"
 
 msgid "Select the type of relationship from this user"
 msgstr "このユーザーに対する関係のタイプを選択して下さい。"
@@ -893,8 +905,7 @@ msgstr "アプリケーションはそのリクエストを理解できません
 msgid ""
 "The calendar name part of the path to store your ics. E.g. the \"home\" part of \"/caldav.php/username/"
 "home/\""
-msgstr ""
-"あなたのicsを保管するパスのカレンダー名部分。例: \"/caldav.php/username/\"の\"home\"部分"
+msgstr "あなたのicsを保管するパスのカレンダー名部分。例: \"/caldav.php/username/\"の\"home\"部分"
 
 msgid "The calendar path contains illegal characters."
 msgstr "カレンダーパスに不正な文字が使用されています。"
@@ -907,7 +918,8 @@ msgid "The displayname may only be set on collections or principals."
 msgstr "表示名はコレクションやプリンシパルにか設定できません。"
 
 msgid "The file is not UTF-8 encoded, please check the error for more details."
-msgstr "そのファイル%sはUTF-8でエンコードされていません。さらなる詳細についてはそのエラーを確認して下さい。"
+msgstr ""
+"そのファイル%sはUTF-8でエンコードされていません。さらなる詳細についてはそのエラーを確認して下さい。"
 
 msgid "The name this user can log into the system with."
 msgstr "このユーザーがこのシステムへのログイン時に使う名前。"
@@ -963,6 +975,10 @@ msgstr "更新"
 msgid "Updated"
 msgstr "更新済み"
 
+#, fuzzy
+msgid "Updating Collection record."
+msgstr "プリンシパル記録を更新中"
+
 msgid "Updating Member of this Group Principal"
 msgstr "このグループプリンシパルのメンバーをアップデート中"
 
@@ -999,9 +1015,6 @@ msgstr "ユーザー名"
 msgid "User Roles"
 msgstr "ユーザーのロール"
 
-msgid "User Unavailable"
-msgstr "ユーザーは利用できません"
-
 msgid "User deleted"
 msgstr "ユーザーを削除しました"
 
@@ -1013,10 +1026,6 @@ msgstr "ユーザー記録を書き込みました。"
 
 msgid "Username"
 msgstr "ユーザー名"
-
-#, c-format
-msgid "View %s"
-msgstr "%sを閲覧する"
 
 msgid "View My Details"
 msgstr "自分の詳細を閲覧する"
@@ -1057,10 +1066,10 @@ msgstr "書き込む"
 msgid "Yes"
 msgstr "はい"
 
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "You are currently running DAViCal version %s. The database schema should be at version %s and it is at "
-"version %s."
+"version %d.%d.%d."
 msgstr ""
 "あなたは、現在、DAViCalバージョン%sを実行中です。データベーススキーマは、バージョン%sであるべきですが、"
 "バージョン%sになっています。"
@@ -1158,6 +1167,24 @@ msgstr "あなたに発行したユーザー名とパスワードでログオン
 
 msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
 msgstr "この操作は次のことをします：<ul><li>LDAPディレクトリで有効なユーザーを確認</li>"
+
+#~ msgid "Calendar Users"
+#~ msgstr "カレンダーユーザー"
+
+#~ msgid "Edit %s"
+#~ msgstr "%sを編集"
+
+#~ msgid "New User"
+#~ msgstr "新規ユーザー"
+
+#~ msgid "Relationships"
+#~ msgstr "関係"
+
+#~ msgid "User Unavailable"
+#~ msgstr "ユーザーは利用できません"
+
+#~ msgid "View %s"
+#~ msgstr "%sを閲覧する"
 
 #~ msgid "Administers"
 #~ msgstr "管理する"

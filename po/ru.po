@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rscds 0.3.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-20 14:54+1300\n"
+"POT-Creation-Date: 2010-02-28 22:43+1300\n"
 "PO-Revision-Date: 2006-11-13 23:07+0500\n"
 "Last-Translator: Nick Khazov <m2k3d0n@users.sourceforge.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -132,9 +132,6 @@ msgstr ""
 msgid "Calendar Timezone"
 msgstr ""
 
-msgid "Calendar Users"
-msgstr ""
-
 #, c-format
 msgid "Calendar \"%s\" for user \"%s\" was created."
 msgstr ""
@@ -248,6 +245,10 @@ msgid "Create a resource or collection"
 msgstr "Создать"
 
 msgid "Create"
+msgstr "Создать"
+
+#, fuzzy
+msgid "Creating new Collection."
 msgstr "Создать"
 
 #, fuzzy
@@ -377,10 +378,6 @@ msgstr ""
 msgid "ERROR: There was a database error writing the roles information!"
 msgstr ""
 
-#, c-format
-msgid "Edit %s"
-msgstr ""
-
 #, fuzzy
 msgid "Edit this user record"
 msgstr "Посмотреть мою учетную запись"
@@ -453,6 +450,9 @@ msgstr ""
 msgid "Go to the DAViCal Feature Requests"
 msgstr ""
 
+msgid "Grant"
+msgstr ""
+
 msgid "Granting new privileges from this Principal"
 msgstr ""
 
@@ -521,6 +521,10 @@ msgstr "Создать"
 
 msgid "Import all .ics files of a directory"
 msgstr ""
+
+#, fuzzy
+msgid "Inactive Principals"
+msgstr "Удалить"
 
 msgid "Invalid user name or password."
 msgstr "Неверное имя пользователя или пароль."
@@ -603,10 +607,6 @@ msgstr "Связь удалена"
 msgid "New Password"
 msgstr ""
 
-#, fuzzy
-msgid "New User"
-msgstr "Пользователи"
-
 msgid "No <!-- not 'Yes' -->"
 msgstr ""
 
@@ -614,6 +614,9 @@ msgid "No calendar content"
 msgstr ""
 
 msgid "No collection found at that location."
+msgstr ""
+
+msgid "No scheduling support for user"
 msgstr ""
 
 msgid "No"
@@ -768,10 +771,10 @@ msgstr "Связи от этого пользователя"
 msgid "Relationships to this user"
 msgstr "Связи к этому пользователю"
 
-msgid "Relationships"
-msgstr "Связи"
-
 msgid "Remove a lock"
+msgstr ""
+
+msgid "Remove"
 msgstr ""
 
 msgid "Repeat Rule"
@@ -807,6 +810,9 @@ msgstr ""
 msgid "Resources may not be changed to / from collections."
 msgstr ""
 
+msgid "Revoke"
+msgstr ""
+
 msgid "Rights"
 msgstr ""
 
@@ -825,6 +831,9 @@ msgstr ""
 msgid "Scheduling: Deliver an Invitation"
 msgstr ""
 
+msgid "Scheduling: Delivery"
+msgstr ""
+
 msgid "Scheduling: Query free/busy"
 msgstr ""
 
@@ -835,6 +844,9 @@ msgid "Scheduling: Send an Invitation"
 msgstr ""
 
 msgid "Scheduling: Send free/busy"
+msgstr ""
+
+msgid "Scheduling: Sending"
 msgstr ""
 
 msgid "Select the type of relationship from this user"
@@ -998,6 +1010,10 @@ msgstr "Обновить"
 msgid "Updated"
 msgstr "Обновить"
 
+#, fuzzy
+msgid "Updating Collection record."
+msgstr "Посмотреть мою учетную запись"
+
 msgid "Updating Member of this Group Principal"
 msgstr ""
 
@@ -1038,9 +1054,6 @@ msgstr ""
 msgid "User Roles"
 msgstr "Пользователи"
 
-msgid "User Unavailable"
-msgstr ""
-
 #, fuzzy
 msgid "User deleted"
 msgstr "Пользователи"
@@ -1054,10 +1067,6 @@ msgstr ""
 #, fuzzy
 msgid "Username"
 msgstr "Пользователи"
-
-#, c-format
-msgid "View %s"
-msgstr ""
 
 #, fuzzy
 msgid "View My Details"
@@ -1104,7 +1113,7 @@ msgstr ""
 #, c-format
 msgid ""
 "You are currently running DAViCal version %s. The database schema should be at version %s and it is at "
-"version %s."
+"version %d.%d.%d."
 msgstr ""
 
 msgid "You are editing"
@@ -1199,6 +1208,13 @@ msgstr "вы должны войти под тем именем польззов
 
 msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
 msgstr ""
+
+#, fuzzy
+#~ msgid "New User"
+#~ msgstr "Пользователи"
+
+#~ msgid "Relationships"
+#~ msgstr "Связи"
 
 #, fuzzy
 #~ msgid "Default relationships added."

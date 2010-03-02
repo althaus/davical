@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rscds-messages\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-20 14:54+1300\n"
+"POT-Creation-Date: 2010-02-28 22:43+1300\n"
 "PO-Revision-Date: 2007-03-31 00:24+0200\n"
 "Last-Translator: Rafal Slubowski <rafalslubowski@gmail.com>\n"
 "Language-Team: polski <pl@li.org>\n"
@@ -140,9 +140,6 @@ msgstr "Zasób kalendarza nie został znaleziony"
 msgid "Calendar Timezone"
 msgstr "Użytkownicy kalendarza"
 
-msgid "Calendar Users"
-msgstr "Użytkownicy kalendarza"
-
 #, c-format
 msgid "Calendar \"%s\" for user \"%s\" was created."
 msgstr ""
@@ -256,6 +253,10 @@ msgstr "Potwierdź usunięcie typu zależności"
 
 msgid "Create"
 msgstr "Utwórz"
+
+#, fuzzy
+msgid "Creating new Collection."
+msgstr "Potwierdź usunięcie typu zależności"
 
 #, fuzzy
 msgid "Creating new Principal record."
@@ -386,10 +387,6 @@ msgstr ""
 msgid "ERROR: There was a database error writing the roles information!"
 msgstr "Błąd: Wystąpił błąd bazy danych podczas zapisywania informacji o roli."
 
-#, fuzzy, c-format
-msgid "Edit %s"
-msgstr "Zmień"
-
 msgid "Edit this user record"
 msgstr "Zmień dane tego użytkownika "
 
@@ -465,6 +462,9 @@ msgstr "Uruchom!"
 msgid "Go to the DAViCal Feature Requests"
 msgstr ""
 
+msgid "Grant"
+msgstr ""
+
 msgid "Granting new privileges from this Principal"
 msgstr ""
 
@@ -533,6 +533,10 @@ msgstr "Użytkownicy kalendarza"
 
 msgid "Import all .ics files of a directory"
 msgstr ""
+
+#, fuzzy
+msgid "Inactive Principals"
+msgstr "Użytkownicy kalendarza"
 
 msgid "Invalid user name or password."
 msgstr "Błędna nazwa użytkownika lub hasło."
@@ -615,9 +619,6 @@ msgstr "Ścieżka do zestawu"
 msgid "New Password"
 msgstr "Nowe hasło"
 
-msgid "New User"
-msgstr "Nowy użytkownik"
-
 #, fuzzy
 msgid "No <!-- not 'Yes' -->"
 msgstr "Nr"
@@ -627,6 +628,9 @@ msgstr ""
 
 msgid "No collection found at that location."
 msgstr "Nie znaleziono zbioru w lokalizacji"
+
+msgid "No scheduling support for user"
+msgstr ""
 
 #, fuzzy
 msgid "No"
@@ -782,10 +786,10 @@ msgstr "Zależności od tego użytkownika"
 msgid "Relationships to this user"
 msgstr "Zależności do tego użytkownika"
 
-msgid "Relationships"
-msgstr "Zależności"
-
 msgid "Remove a lock"
+msgstr ""
+
+msgid "Remove"
 msgstr ""
 
 msgid "Repeat Rule"
@@ -821,6 +825,9 @@ msgstr "Zasób"
 msgid "Resources may not be changed to / from collections."
 msgstr ""
 
+msgid "Revoke"
+msgstr ""
+
 msgid "Rights"
 msgstr "Uprawnienia"
 
@@ -839,6 +846,9 @@ msgstr ""
 msgid "Scheduling: Deliver an Invitation"
 msgstr ""
 
+msgid "Scheduling: Delivery"
+msgstr ""
+
 msgid "Scheduling: Query free/busy"
 msgstr ""
 
@@ -849,6 +859,9 @@ msgid "Scheduling: Send an Invitation"
 msgstr ""
 
 msgid "Scheduling: Send free/busy"
+msgstr ""
+
+msgid "Scheduling: Sending"
 msgstr ""
 
 msgid "Select the type of relationship from this user"
@@ -1014,6 +1027,10 @@ msgstr "Aktualizuj"
 msgid "Updated"
 msgstr "Zaktualizowano"
 
+#, fuzzy
+msgid "Updating Collection record."
+msgstr "Zobacz swoje dane"
+
 msgid "Updating Member of this Group Principal"
 msgstr ""
 
@@ -1052,9 +1069,6 @@ msgstr "Nazwa użytkownika"
 msgid "User Roles"
 msgstr "Role użytkownika"
 
-msgid "User Unavailable"
-msgstr "Użytkownik niedostępny"
-
 #, fuzzy
 msgid "User deleted"
 msgstr "Role użytkownika"
@@ -1068,10 +1082,6 @@ msgstr "Dane użytkownika zostały zapisane."
 #, fuzzy
 msgid "Username"
 msgstr "Nazwa użytkownika"
-
-#, fuzzy, c-format
-msgid "View %s"
-msgstr "Zobacz"
 
 #, fuzzy
 msgid "View My Details"
@@ -1117,7 +1127,7 @@ msgstr ""
 #, c-format
 msgid ""
 "You are currently running DAViCal version %s. The database schema should be at version %s and it is at "
-"version %s."
+"version %d.%d.%d."
 msgstr ""
 
 msgid "You are editing"
@@ -1212,6 +1222,26 @@ msgstr "powinieneś zalogować się swoją nazwą użytkownika i hasłem."
 
 msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
 msgstr ""
+
+#~ msgid "Calendar Users"
+#~ msgstr "Użytkownicy kalendarza"
+
+#, fuzzy
+#~ msgid "Edit %s"
+#~ msgstr "Zmień"
+
+#~ msgid "New User"
+#~ msgstr "Nowy użytkownik"
+
+#~ msgid "Relationships"
+#~ msgstr "Zależności"
+
+#~ msgid "User Unavailable"
+#~ msgstr "Użytkownik niedostępny"
+
+#, fuzzy
+#~ msgid "View %s"
+#~ msgstr "Zobacz"
 
 #~ msgid "Administers"
 #~ msgstr "Administruje"

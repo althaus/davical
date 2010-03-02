@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rscds 0.7.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-20 14:54+1300\n"
+"POT-Creation-Date: 2010-02-28 22:43+1300\n"
 "PO-Revision-Date: 2007-05-03 15:00+0001\n"
 "Last-Translator: David Takacs <david.takacs@cafeopen.eu>\n"
 "Language-Team: \n"
@@ -136,9 +136,6 @@ msgstr "Nem található ilyen naptár-erőforrás"
 msgid "Calendar Timezone"
 msgstr "Naptár felhasználói"
 
-msgid "Calendar Users"
-msgstr "Naptár felhasználói"
-
 #, c-format
 msgid "Calendar \"%s\" for user \"%s\" was created."
 msgstr ""
@@ -252,6 +249,10 @@ msgstr "Valóban törli a kapcsolattípust?"
 
 msgid "Create"
 msgstr "Új létrehozása"
+
+#, fuzzy
+msgid "Creating new Collection."
+msgstr "Valóban törli a kapcsolattípust?"
 
 #, fuzzy
 msgid "Creating new Principal record."
@@ -382,10 +383,6 @@ msgstr ""
 msgid "ERROR: There was a database error writing the roles information!"
 msgstr "HIBA: Adatbázis-hiba történt a szerepek írásakor"
 
-#, fuzzy, c-format
-msgid "Edit %s"
-msgstr "Szerkesztés"
-
 msgid "Edit this user record"
 msgstr "Felhasználó szerkesztése"
 
@@ -461,6 +458,9 @@ msgstr "Mehet!"
 msgid "Go to the DAViCal Feature Requests"
 msgstr ""
 
+msgid "Grant"
+msgstr ""
+
 msgid "Granting new privileges from this Principal"
 msgstr ""
 
@@ -529,6 +529,10 @@ msgstr "Naptár felhasználói"
 
 msgid "Import all .ics files of a directory"
 msgstr ""
+
+#, fuzzy
+msgid "Inactive Principals"
+msgstr "Naptár felhasználói"
 
 msgid "Invalid user name or password."
 msgstr "Hibás felhasználónév vagy jelszó."
@@ -611,9 +615,6 @@ msgstr "Gyűjtemény elérési útja"
 msgid "New Password"
 msgstr "Új jelszó"
 
-msgid "New User"
-msgstr "Új felhasználó"
-
 #, fuzzy
 msgid "No <!-- not 'Yes' -->"
 msgstr "Sz."
@@ -623,6 +624,9 @@ msgstr ""
 
 msgid "No collection found at that location."
 msgstr "Ezen a helyen nincs gyűjtemény."
+
+msgid "No scheduling support for user"
+msgstr ""
 
 #, fuzzy
 msgid "No"
@@ -778,10 +782,10 @@ msgstr "Kapcsolatok ettől a felhasználótól"
 msgid "Relationships to this user"
 msgstr "Kapcsolatok ehhez a felhasználóhoz"
 
-msgid "Relationships"
-msgstr "Kapcsolatok"
-
 msgid "Remove a lock"
+msgstr ""
+
+msgid "Remove"
 msgstr ""
 
 msgid "Repeat Rule"
@@ -817,6 +821,9 @@ msgstr "Erőforrás"
 msgid "Resources may not be changed to / from collections."
 msgstr "Erőforrások nem cserélhetők fel gyűjteményekkel"
 
+msgid "Revoke"
+msgstr ""
+
 msgid "Rights"
 msgstr "Jogok"
 
@@ -835,6 +842,9 @@ msgstr ""
 msgid "Scheduling: Deliver an Invitation"
 msgstr ""
 
+msgid "Scheduling: Delivery"
+msgstr ""
+
 msgid "Scheduling: Query free/busy"
 msgstr ""
 
@@ -845,6 +855,9 @@ msgid "Scheduling: Send an Invitation"
 msgstr ""
 
 msgid "Scheduling: Send free/busy"
+msgstr ""
+
+msgid "Scheduling: Sending"
 msgstr ""
 
 msgid "Select the type of relationship from this user"
@@ -1010,6 +1023,10 @@ msgstr "Frissítés"
 msgid "Updated"
 msgstr "Frissítve"
 
+#, fuzzy
+msgid "Updating Collection record."
+msgstr "Adataim"
+
 msgid "Updating Member of this Group Principal"
 msgstr ""
 
@@ -1048,9 +1065,6 @@ msgstr "Felhasználónév"
 msgid "User Roles"
 msgstr "Felhasználó szerepei"
 
-msgid "User Unavailable"
-msgstr "A felhasználó nem elérhető"
-
 #, fuzzy
 msgid "User deleted"
 msgstr "Felhasználó szerepei"
@@ -1064,10 +1078,6 @@ msgstr "Felhasználó adatai tárolva."
 #, fuzzy
 msgid "Username"
 msgstr "Felhasználónév"
-
-#, fuzzy, c-format
-msgid "View %s"
-msgstr "Megtekintés"
 
 #, fuzzy
 msgid "View My Details"
@@ -1113,7 +1123,7 @@ msgstr ""
 #, c-format
 msgid ""
 "You are currently running DAViCal version %s. The database schema should be at version %s and it is at "
-"version %s."
+"version %d.%d.%d."
 msgstr ""
 
 msgid "You are editing"
@@ -1208,6 +1218,26 @@ msgstr "Lépjen be felhasználónevével és jelszavával."
 
 msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
 msgstr ""
+
+#~ msgid "Calendar Users"
+#~ msgstr "Naptár felhasználói"
+
+#, fuzzy
+#~ msgid "Edit %s"
+#~ msgstr "Szerkesztés"
+
+#~ msgid "New User"
+#~ msgstr "Új felhasználó"
+
+#~ msgid "Relationships"
+#~ msgstr "Kapcsolatok"
+
+#~ msgid "User Unavailable"
+#~ msgstr "A felhasználó nem elérhető"
+
+#, fuzzy
+#~ msgid "View %s"
+#~ msgstr "Megtekintés"
 
 #~ msgid "Can read from"
 #~ msgstr "Láthatja"

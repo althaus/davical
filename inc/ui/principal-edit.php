@@ -160,8 +160,34 @@ $privilege_xlate = array(
   'schedule-query-freebusy' => translate('Scheduling: Query free/busy'),
   'schedule-send-invite' => translate('Scheduling: Send an Invitation'),
   'schedule-send-reply' => translate('Scheduling: Send a Reply'),
-  'schedule-send-freebusy' => translate('Scheduling: Send free/busy')
+  'schedule-send-freebusy' => translate('Scheduling: Send free/busy'),
+  'write' => translate('Write'),
+  'schedule-deliver' => translate('Scheduling: Delivery'),
+  'schedule-send' => translate('Scheduling: Sending')
 );
+
+/**
+* privilege_format_function is for formatting the binary privileges from the
+* database, including localising them.  This is a hook function for a browser
+* column object, so it takes three parameters:
+* @param mixed $value The value of the column.
+* @param BrowserColumn $column The BrowserColumn object we are hooked into.
+* @param dbrow $row The row object we read from the database.
+* @return string The formatted privileges.
+*/
+function privilege_format_function( $value, $column, $row ) {
+  global $privilege_xlate;
+
+  $privs = bits_to_privilege($value);
+  $formatted = '';
+  foreach( $privs AS $k => $v ) {
+    $formatted .= ($formatted == '' ? '' : ' , ');
+    $v = preg_replace( '{^.*:}', '', $v );
+    $formatted .= (isset($privilege_xlate[$v]) ? $privilege_xlate[$v] : $v );
+  }
+  return $formatted;
+}
+
 
 
 $default_privileges = bindec($editor->Value('default_privileges'));
@@ -506,7 +532,7 @@ EOTEMPLATE;
   $browser->AddHidden( 'principal_link', "'<a href=\"$rowurl' || to_principal || '\">' || to_principal || '</a>'" );
   $browser->AddHidden( 'grant_privileges', 'privileges' );
   $browser->AddColumn( 'displayname', translate('Display Name') );
-  $browser->AddColumn( 'privs', translate('Privileges'), '', '', 'privileges_list(privileges)' );
+  $browser->AddColumn( 'privs', translate('Privileges'), '', '', 'privileges', '', '', 'privilege_format_function' );
   $browser->AddColumn( 'members', translate('Has Members'), '', '', 'has_members_list(principal_id)' );
 
   if ( $can_write_principal ) {
