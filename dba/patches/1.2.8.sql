@@ -7,6 +7,8 @@
 BEGIN;
 SELECT check_db_revision(1,2,7);
 
+ALTER TABLE caldav_data ADD COLUMN weak_etag TEXT DEFAULT NULL;
+
 CREATE TABLE access_ticket (
   ticket_id TEXT PRIMARY KEY,
   is_public BOOLEAN,
@@ -100,7 +102,6 @@ CREATE TABLE calendar_attendee (
   rsvp BOOLEAN,
   property TEXT -- The full text of the property
 );
-
 
 SELECT new_db_revision(1,2,8, 'Août' );
 

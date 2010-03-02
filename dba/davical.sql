@@ -114,6 +114,7 @@ CREATE TABLE caldav_data (
   logged_user INT references usr(user_no) ON UPDATE CASCADE ON DELETE SET DEFAULT DEFERRABLE,
   dav_id INT8 UNIQUE DEFAULT nextval('dav_id_seq'),
   collection_id INT8 REFERENCES collection(collection_id) ON UPDATE CASCADE ON DELETE CASCADE DEFERRABLE,
+  weak_etag TEXT DEFAULT NULL,
 
   PRIMARY KEY ( user_no, dav_name )
 );
@@ -334,12 +335,14 @@ CREATE TABLE collection_mashup (
   dav_displayname TEXT
 );
 
+
 CREATE TABLE mashup_member (
   mashup_id INT8 NOT NULL REFERENCES collection_mashup(mashup_id) ON UPDATE CASCADE ON DELETE CASCADE,
   target_ticket_id TEXT REFERENCES access_ticket(ticket_id) ON UPDATE CASCADE ON DELETE CASCADE,
   target_collection_id INT8 REFERENCES collection(collection_id) ON UPDATE CASCADE ON DELETE CASCADE,
   member_colour TEXT
 );
+
 
 CREATE TABLE addressbook_resource (
   dav_id INT8 NOT NULL REFERENCES caldav_data(dav_id) ON UPDATE CASCADE ON DELETE CASCADE PRIMARY KEY,
@@ -373,6 +376,7 @@ CREATE TABLE addressbook_address_email (
   email TEXT,
   property TEXT -- The full text of the property
 );
+
 
 CREATE TABLE calendar_alarm (
   dav_id INT8 NOT NULL REFERENCES caldav_data(dav_id) ON UPDATE CASCADE ON DELETE CASCADE,
