@@ -95,6 +95,7 @@ class AwlDatabase extends AwlDBDialect {
     else {
       trigger_error("Cannot begin a transaction while a transaction is already active.", E_USER_ERROR);
     }
+    return true;
   }
 
 
@@ -106,6 +107,7 @@ class AwlDatabase extends AwlDBDialect {
       $this->db->commit();
       $this->txnstate = 0;
     }
+    return true;
   }
 
 
@@ -120,6 +122,7 @@ class AwlDatabase extends AwlDBDialect {
     else {
       trigger_error("Cannot rollback unless a transaction is already active.", E_USER_ERROR);
     }
+    return true;
   }
 
 

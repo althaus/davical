@@ -359,6 +359,41 @@ class AwlQuery
 
 
   /**
+  * Wrap the parent DB class Begin() so we can $qry->Begin() sometime before we $qry->Exec()
+  */
+  public function Begin() {
+    global $_awl_dbconn;
+    if ( !isset($this->connection) ) {
+      if ( !isset($_awl_dbconn) ) _awl_connect_configured_database();
+      $this->connection = $_awl_dbconn;
+    }
+    return $this->connection->Begin();
+  }
+
+
+  /**
+  * Wrap the parent DB class Commit() so we can $qry->Commit() sometime after we $qry->Exec()
+  */
+  public function Commit() {
+    if ( !isset($this->connection) ) {
+      trigger_error("Cannot commit a transaction without an active statement.", E_USER_ERROR);
+    }
+    return $this->connection->Commit();
+  }
+
+
+  /**
+  * Wrap the parent DB class Rollback() so we can $qry->Rollback() sometime after we $qry->Exec()
+  */
+  public function Rollback() {
+    if ( !isset($this->connection) ) {
+      trigger_error("Cannot rollback a transaction without an active statement.", E_USER_ERROR);
+    }
+    return $this->connection->Rollback();
+  }
+
+
+  /**
   * Execute the query, logging any debugging.
   *
   * <b>Example</b>
