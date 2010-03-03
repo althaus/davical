@@ -4,8 +4,10 @@
 $editor = new Editor(translate('Collection'), 'collection');
 param_to_global('id', 'int', 'old_id', 'collection_id' );
 param_to_global('user_no', 'int' );
+param_to_global('principal_id', 'int' );
 param_to_global('collection_name', '{^.+$}' );
-if ( isset($user_no) ) $usr = GetUserByID($user_no);
+if ( isset($user_no) ) $usr = getUserByID($user_no);
+if ( isset($principal_id) ) $usr = getPrincipalByID($principal_id);
 $editor->SetLookup( 'timezone', 'SELECT \'\', \'*** Unknown ***\' UNION SELECT tz_id, tz_locn FROM time_zone WHERE tz_id = tz_locn AND length(tz_spec) > 100 ORDER BY 1' );
 $editor->SetLookup( 'schedule_transp', 'SELECT \'opaque\', \'Opaque\' UNION SELECT \'transp\', \'Transparent\'' );
 
@@ -36,22 +38,29 @@ $params = array(
   'scan_depth'        => $c->permission_scan_depth
 );
 $is_update = ( $_POST['_editor_action'][$editor->Id] == 'update' );
-if ( isset($collection_name) ) $collection_name = str_replace( '/', '', $collection_name);
-if ( !$is_update && isset($collection_name) && isset($user_no) && is_object($usr) ) {
-  $_POST['dav_name'] = sprintf('/%s/%s/', $usr->username, rawurlencode($collection_name) );
+if ( isset($collection_name) ) $collection_name = trim(str_replace( '/', '', $collection_name));
+if ( !$is_update && isset($collection_name) && $collection_name != '' && is_object($usr) ) {
+  $_POST['dav_name'] = sprintf('/%s/%s/', $usr->username, $collection_name );
   $_POST['parent_container'] = sprintf('/%s/', $usr->username );
   $params['collection_path'] = $_POST['dav_name'];
   $privsql = 'SELECT path_privs( :session_principal, :collection_path, :scan_depth) AS priv';
 }
-else {
+else if ( $id > 0 ) {
   $params['collection_id'] = $id;
   $privsql = 'SELECT path_privs( :session_principal, dav_name, :scan_depth) AS priv FROM collection WHERE collection_id = :collection_id';
 }
+else {
+  if ( $editor->IsSubmit() && !$is_update && isset($collection_name) && $collection_name == '' ) {
+    $c->messages[] =  i18n('The collection name may not be blank.');
+  }
+}
 
-$privqry = new AwlQuery( $privsql, $params );
-$privqry->Exec('admin-collection-edit');
-$permissions = $privqry->Fetch();
-$can_write_collection = ($session->AllowedTo('Admin') || ($permissions->priv & privilege_to_bits('DAV::bind')) );
+if ( isset($privsql) ) {
+  $privqry = new AwlQuery( $privsql, $params );
+  $privqry->Exec('admin-collection-edit');
+  $permissions = $privqry->Fetch();
+  $can_write_collection = ($session->AllowedTo('Admin') || ($permissions->priv & privilege_to_bits('DAV::bind')) );
+}
 
 dbg_error_log("ERROR", "Can write collection: %s", ($can_write_collection? 'yes' : 'no') );
 
@@ -177,7 +186,7 @@ $privileges_set .= '</div>';
 $prompt_collection_id = translate('Collection ID');
 $value_id = ( $editor->Available() ? '##collection_id.hidden####collection_id.value##' : translate('New Collection'));
 $prompt_dav_name = translate('DAV Path');
-$value_dav_name = ( $editor->Available() ? '##dav_name.value##' : '/##user_no.hidden####username.value##/ ##collection_name.input.30##' );
+$value_dav_name = $c->base_url.'/caldav.php'. ( $editor->Available() ? '##dav_name.value##' : '/##user_no.hidden####username.value##/ ##collection_name.input.30##' );
 $prompt_load_file = translate('Load From File');
 $prompt_displayname = translate('Displayname');
 $prompt_public = translate('Publicly Readable');
@@ -286,11 +295,12 @@ label.privilege {
   margin:0.2em 1em 0.2em 0.1em;
   padding:0 0.2em;
   line-height:1.6em;
+  font-size: 87%;
 }
 </style>
 <table>
  <tr> <th class="right">$prompt_collection_id:</th>    <td class="left">$value_id</td> </tr>
- <tr> <th class="right">$prompt_dav_name:</th>         <td class="left">$c->base_name/caldav.php$value_dav_name</td> </tr>
+ <tr> <th class="right">$prompt_dav_name:</th>         <td class="left">$value_dav_name</td> </tr>
  <tr> <th class="right">$prompt_load_file:</th>        <td class="left">##ics_file.file.60##</td> </tr>
  <tr> <th class="right">$prompt_displayname:</th>      <td class="left">##dav_displayname.input.50##</td> </tr>
  <tr> <th class="right">$prompt_public:</th>           <td class="left">##publicly_readable.checkbox##</td> </tr>

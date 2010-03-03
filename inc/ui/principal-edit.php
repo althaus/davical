@@ -7,6 +7,7 @@ $editor->SetLookup( 'date_format_type', "SELECT 'E', 'European' UNION SELECT 'U'
 $editor->SetLookup( 'type_id', 'SELECT principal_type_id, principal_type_desc FROM principal_type ORDER BY principal_type_id' );
 $editor->SetLookup( 'locale', 'SELECT \'\', \''.translate("*** Default Locale ***").'\' UNION SELECT locale, locale_name_locale FROM supported_locales ORDER BY 1 ASC' );
 $editor->AddAttribute( 'locale', 'title', translate("The preferred language for this person.") );
+$editor->AddAttribute( 'fullname', 'title', translate("The full name for this person, group or other type of principal.") );
 param_to_global('id', 'int', 'old_id', 'principal_id' );
 $editor->SetWhere( 'principal_id='.$id );
 
@@ -85,10 +86,30 @@ if ( isset($_GET['subaction']) ) {
 
 
 $can_write_principal = ($session->AllowedTo('Admin') || $session->principal_id == $id );
+$post_values = false;
+
+if ( isset($_POST['xxxxusername']) ) {
+  $_POST['xxxxusername'] = trim(str_replace('/', '', $_POST['xxxxusername']));
+  if ( $_POST['xxxxusername'] == '' ) {
+    $c->messages[] = i18n("The username must not be blank, and may not contain a slash");
+    $can_write_principal = false;
+  }
+};
+if ( isset($_POST['fullname']) && trim($_POST['fullname']) == '' ) {
+  $c->messages[] = i18n("The full name must not be blank.");
+  $can_write_principal = false;
+};
+if ( isset($_POST['email']) && trim($_POST['email']) == '' ) {
+  $c->messages[] = i18n("The email address really should not be blank.");
+}
+
 $pwstars = '@@@@@@@@@@';
 if ( $can_write_principal && $editor->IsSubmit() ) {
   $editor->WhereNewRecord( "principal_id=(SELECT CURRVAL('dav_id_seq'))" );
-  if ( ! $session->AllowedTo('Admin') ) unset($_POST['admin_role']);
+  if ( ! $session->AllowedTo('Admin') ) {
+    unset($_POST['admin_role']);
+    unset($_POST['user_active']);
+  }
   unset($_POST['password']);
   if ( $_POST['newpass1'] != '' && $_POST['newpass1'] != $pwstars ) {
     if ( $_POST['newpass1'] == $_POST['newpass2'] ) {
@@ -97,6 +118,9 @@ if ( $can_write_principal && $editor->IsSubmit() ) {
     else {
       $c->messages[] = "Password not updated. The supplied passwords do not match.";
     }
+  }
+  if ( isset($_POST['fullname']) && !isset($_POST['displayname']) ) {
+    $_POST['displayname'] = $_POST['fullname'];
   }
   if ( isset($_POST['default_privileges']) ) {
     $privilege_bitpos = array_flip($privilege_names);
@@ -133,6 +157,9 @@ if ( $can_write_principal && $editor->IsSubmit() ) {
 }
 else {
   $editor->GetRecord();
+  if ( $editor->IsSubmit() ) {
+    $post_values = true;
+  }
 }
 if ( $editor->Available() ) {
   $c->page_title = $editor->Title(translate('Principal').': '.$editor->Value('fullname'));
@@ -142,9 +169,23 @@ else {
   $privs = decbin(privilege_to_bits($c->default_privileges));
   $editor->Assign('default_privileges', $privs);
   $editor->Assign('user_active', 't');
+  foreach( $c->template_usr AS $k => $v ) {
+    $editor->Assign($k, $v);
+  }
+}
+if ( $post_values ) {
+  $editor->PostToValues();
+  if ( isset($_POST['default_privileges']) ) {
+    $privilege_bitpos = array_flip($privilege_names);
+    $priv_names = array_keys($_POST['default_privileges']);
+    $privs = privilege_to_bits($priv_names);
+    $_POST['default_privileges'] = sprintf('%024s',decbin($privs));
+    $editor->Assign('default_privileges', $_POST['default_privileges']);
+  }
 }
 
 $privilege_xlate = array(
+  'all' => translate('All privileges'),
   'read' => translate('Read'),
   'write-properties' => translate('Write Metadata'),
   'write-content' => translate('Write Data'),
@@ -199,10 +240,12 @@ for( $i=0; $i<count($privilege_names); $i++ ) {
 $privileges_set .= '</div>';
 
 $prompt_principal_id = translate('Principal ID');
+$value_id = ( $editor->Available() ? '##principal_id.hidden####principal_id.value##' : translate('New Principal'));
 $prompt_username = translate('Username');
 $prompt_password_1 = translate('Change Password');
 $prompt_password_1 = translate('Confirm Password');
 $prompt_fullname = translate('Fullname');
+$prompt_displayname = translate('Display Name');
 $prompt_email = translate('Email Address');
 $prompt_date_format = translate('Date Format Style');
 $prompt_admin = translate('Administrator');
@@ -274,23 +317,24 @@ label.privilege {
   margin:0.2em 1em 0.2em 0.1em;
   padding:0 0.2em;
   line-height:1.6em;
+  font-size:87%;
 }
 </style>
 <table>
  <tr> <th class="right">$prompt_principal_id:</th><td class="left">
   <table width="100%" class="form_inner"><tr>
-   <td>##principal_id.value##</td>
+   <td>$value_id</td>
    <td align="right">$delete_principal_button</td>
   </tr></table>
  </td></tr>
- <tr> <th class="right">$prompt_username:</th>          <td class="left">##xxxxusername.input.50##</td> </tr>
- <tr> <th class="right">$prompt_password_1:</th>   <td class="left">##newpass1.password.$pwstars##</td> </tr>
+ <tr> <th class="right">$prompt_username:</th>    <td class="left">##xxxxusername.input.50##</td> </tr>
+ <tr> <th class="right">$prompt_password_1:</th>  <td class="left">##newpass1.password.$pwstars##</td> </tr>
  <tr> <th class="right">$prompt_password_1:</th>  <td class="left">##newpass2.password.$pwstars##</td> </tr>
- <tr> <th class="right">$prompt_fullname:</th>         <td class="left">##fullname.input.50##</td> </tr>
- <tr> <th class="right">$prompt_email:</th>             <td class="left">##email.input.50##</td> </tr>
- <tr> <th class="right">$prompt_locale:</th>    <td class="left">##locale.select##</td> </tr>
- <tr> <th class="right">$prompt_date_format:</th>  <td class="left">##date_format_type.select##</td> </tr>
- <tr> <th class="right">$prompt_type:</th>    <td class="left">##type_id.select##</td> </tr>
+ <tr> <th class="right">$prompt_fullname:</th>    <td class="left">##fullname.input.50##</td> </tr>
+ <tr> <th class="right">$prompt_email:</th>       <td class="left">##email.input.50##</td> </tr>
+ <tr> <th class="right">$prompt_locale:</th>      <td class="left">##locale.select##</td> </tr>
+ <tr> <th class="right">$prompt_date_format:</th> <td class="left">##date_format_type.select##</td> </tr>
+ <tr> <th class="right">$prompt_type:</th>        <td class="left">##type_id.select##</td> </tr>
  $admin_row_entry
  <tr> <th class="right">$prompt_privileges:</th><td class="left">
 <input type="button" value="$btn_all" class="submit" title="$btn_all_title" onclick="toggle_privileges('default_privileges', 'all', 'editor_1');">
@@ -356,7 +400,7 @@ if ( isset($id) ) {
   if ( $editor->Value('type_id') == 3 ) {
 
     $grouprow = new Editor("Group Members", "group_member");
-    $grouprow->SetLookup( 'member_id', 'SELECT principal_id, displayname FROM dav_principal WHERE principal_id NOT IN (SELECT member_id FROM group_member WHERE group_id = '.$id.')');
+    $grouprow->SetLookup( 'member_id', 'SELECT principal_id, coalesce(displayname,fullname,username) FROM dav_principal WHERE principal_id NOT IN (SELECT member_id FROM group_member WHERE group_id = '.$id.')');
     $grouprow->SetSubmitName( 'savegrouprow' );
 
     if ( $can_write_principal ) {
@@ -446,7 +490,7 @@ EOTEMPLATE;
     if ( isset($_GET['edit_grant']) ) {
       $edit_grant_clause = ' AND to_principal != '.intval($_GET['edit_grant']);
     }
-    $grantrow->SetLookup( 'to_principal', 'SELECT principal_id, displayname FROM dav_principal WHERE principal_id NOT IN (SELECT to_principal FROM grants WHERE by_principal = '.$id.$edit_grant_clause.')' );
+    $grantrow->SetLookup( 'to_principal', 'SELECT principal_id, displayname FROM dav_principal WHERE principal_id NOT IN (SELECT to_principal FROM grants WHERE by_principal = '.$id.$edit_grant_clause.') ORDER BY fullname' );
     if ( $can_write_principal ) {
       if ( $grantrow->IsSubmit() ) {
         if ( $grantrow->IsUpdate() )
