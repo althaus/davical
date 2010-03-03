@@ -9,6 +9,7 @@
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v2
 */
 dbg_error_log('MKCOL', 'method handler');
+require_once('AwlQuery.php');
 
 $request->NeedPrivilege('DAV::bind');
 
@@ -39,7 +40,7 @@ $reply = new XMLDocument(array( 'DAV:' => '', 'urn:ietf:params:xml:ns:caldav' =>
 $failure_code = null;
 
 $failure = array();
-$propertysql = '';
+$propertysql = array();
 if ( isset($request->xml_tags) ) {
   /**
   * The MKCOL request may contain XML to set some DAV properties
@@ -55,7 +56,6 @@ if ( isset($request->xml_tags) ) {
   $setprops = $setprops[0]->GetContent();  // <prop>
   $setprops = $setprops[0]->GetContent();  // the array of properties.
 
-  $propertysql = '';
   foreach( $setprops AS $k => $setting ) {
     $tag = $setting->GetTag();
     $content = $setting->RenderContent();
@@ -124,7 +124,7 @@ if ( isset($request->xml_tags) ) {
       * If we don't have any special processing for the property, we just store it verbatim (which will be an XML fragment).
       */
       default:
-        $propertysql .= awl_replace_sql_args( 'SELECT set_dav_property( ?, ?, ?, ? );', $request->path, $request->user_no, $tag, $content );
+        $propertysql[] = awl_replace_sql_args( 'SELECT set_dav_property( ?, ?, ?, ? )', $request->path, $request->user_no, $tag, $content );
         $success[$tag] = 1;
         break;
     }
@@ -159,32 +159,45 @@ if ( isset($request->xml_tags) ) {
   }
 }
 
-$sql = 'SELECT * FROM collection WHERE dav_name = ?;';
-$qry = new PgQuery( $sql, $request->path );
-if ( ! $qry->Exec('MKCOL') ) {
+$sql = 'SELECT * FROM collection WHERE dav_name = :dav_name';
+$qry = new AwlQuery( $sql, array( ':dav_name' => $request->path) );
+if ( ! $qry->Exec('MKCOL',__LINE__,__FILE__) ) {
   $request->DoResponse( 500, translate('Error querying database.') );
 }
-if ( $qry->rows != 0 ) {
+if ( $qry->rows() != 0 ) {
   $request->DoResponse( 405, translate('A collection already exists at that location.') );
 }
 
-$sql = '
-BEGIN;
-INSERT INTO collection ( user_no, parent_container, dav_name, dav_etag, dav_displayname,
-                         is_calendar, is_addressbook, resourcetypes, created, modified )
-                 VALUES( ?, ?, ?, ?, ?, ?, ?, ?, current_timestamp, current_timestamp );
-'. $propertysql.'; COMMIT;';
-$qry = new PgQuery( $sql, $request->user_no, $parent_container, $request->path, md5($request->user_no. $request->path), $displayname,
-                    $is_calendar, $is_addressbook, $resourcetypes );
-
-if ( $qry->Exec('MKCOL',__LINE__,__FILE__) ) {
-  dbg_error_log( 'MKCOL', 'New calendar "%s" created named "%s" for user "%d" in parent "%s"', $request->path, $displayname, $session->user_no, $parent_container);
-  header('Cache-Control: no-cache'); /** draft-caldav-15 declares this is necessary at 5.3.1 */
-  $request->DoResponse( 201, '' );
-}
-else {
+$qry = new AwlQuery( 'INSERT INTO collection ( user_no, parent_container, dav_name, dav_etag, dav_displayname,
+                                 is_calendar, is_addressbook, resourcetypes, created, modified )
+              VALUES( :user_no, :parent_container, :dav_name, :dav_etag, :dav_displayname,
+                      :is_calendar, :is_addressbook, :resourcetypes, current_timestamp, current_timestamp )',
+           array(
+              ':user_no'          => $request->user_no,
+              ':parent_container' => $parent_container,
+              ':dav_name'         => $request->path,
+              ':dav_etag'         => md5($request->user_no. $request->path),
+              ':dav_displayname'  => $displayname,
+              ':is_calendar'      => ($is_calendar ? 1 : 0),
+              ':is_addressbook'   => ($is_addressbook ? 1 : 0),
+              ':resourcetypes'    => $resourcetypes
+           ) );
+$qry->Begin();
+if ( !$qry->Exec('MKCOL',__LINE__,__FILE__) ) {
   $request->DoResponse( 500, translate('Error writing calendar details to database.') );
 }
+foreach( $propertysql AS $k => $v ) {
+  $qry = new AwlQuery( $v );
+  if ( !$qry->Exec('MKCOL',__LINE__,__FILE__) ) {
+    $request->DoResponse( 500, translate('Error writing calendar properties to database.') );
+  }
+}
+if ( !$qry->Commit() ) {
+  $request->DoResponse( 500, translate('Error writing calendar details to database.') );
+}
+dbg_error_log( 'MKCOL', 'New calendar "%s" created named "%s" for user "%d" in parent "%s"', $request->path, $displayname, $session->user_no, $parent_container);
+header('Cache-Control: no-cache'); /** RFC4791 mandates this at 5.3.1 */
+$request->DoResponse( 201, '' );
 
 /**
 * @todo We could also respond to the request...
