@@ -3,7 +3,7 @@
 * @package davical
 * @author Andrew McMillan <andrew@mcmillan.net.nz>
 * @copyright Catalyst .Net Ltd, Morphoss Ltd <http://www.morphoss.com/>
-* @license   http://gnu.org/copyleft/gpl.html GNU GPL v2
+* @license   http://gnu.org/copyleft/gpl.html GNU GPL v2 or later
 */
 
 // Ensure the configuration starts out as an empty object.
@@ -131,7 +131,7 @@ awl_set_locale($c->default_locale);
 *
 */
 $c->code_version = 0;
-$c->version_string = '0.9.7.2'; // The actual version # is replaced into that during the build /release process
+$c->version_string = '0.9.8.3'; // The actual version # is replaced into that during the build /release process
 if ( isset($c->version_string) && preg_match( '/(\d+)\.(\d+)\.(\d+)(.*)/', $c->version_string, $matches) ) {
   $c->code_major = $matches[1];
   $c->code_minor = $matches[2];
@@ -146,12 +146,12 @@ if ( isset($c->version_string) && preg_match( '/(\d+)\.(\d+)\.(\d+)(.*)/', $c->v
 */
 $_SERVER['SERVER_NAME'] = $c->domain_name;
 
-require_once('PgQuery.php');
+require_once('AwlQuery.php');
 
-$c->want_dbversion = array( 1, 2, 3); // The actual desired DB version # is replaced into that during the build /release process
+$c->want_dbversion = array(1,2,8);
 $c->schema_version = 0;
-$qry = new PgQuery( 'SELECT schema_major, schema_minor, schema_patch FROM awl_db_revision ORDER BY schema_id DESC LIMIT 1;' );
-if ( $qry->Exec('always') && $row = $qry->Fetch() ) {
+$qry = new AwlQuery( 'SELECT schema_major, schema_minor, schema_patch FROM awl_db_revision ORDER BY schema_id DESC LIMIT 1;' );
+if ( $qry->Exec('always',__LINE__,__FILE__) && $row = $qry->Fetch() ) {
   $c->schema_version = doubleval( sprintf( '%d%03d.%03d', $row->schema_major, $row->schema_minor, $row->schema_patch) );
   $c->wanted_version = doubleval( sprintf( '%d%03d.%03d', $c->want_dbversion[0], $c->want_dbversion[1], $c->want_dbversion[2]) );
   $c->schema_major = $row->schema_major;
@@ -166,28 +166,46 @@ if ( $qry->Exec('always') && $row = $qry->Fetch() ) {
 
 $_known_users_name = array();
 $_known_users_id   = array();
+$_known_users_pid  = array();
+
+function _davical_get_principal_query_cached( $where, $parameter ) {
+  global $c, $session, $_known_users_name, $_known_users_id, $_known_users_pid;
+
+  $sql = 'SELECT *, to_char(updated at time zone \'GMT\',\'Dy, DD Mon IYYY HH24:MI:SS "GMT"\') AS modified, principal.*, ';
+  if ( isset($session->principal_id) ) {
+    $sql .= 'pprivs(:session_principal::int8,principal.principal_id,:scan_depth::int) AS privileges ';
+    $params = array( ':session_principal' => $session->principal_id, ':scan_depth' => $c->permission_scan_depth );
+  }
+  else {
+    $sql .= '0::BIT(24) AS privileges ';
+    $params = array( );
+  }
+  $sql .= 'FROM usr LEFT JOIN principal USING(user_no) WHERE '. $where;
+  $params[':param'] = $parameter;
+
+  $qry = new AwlQuery( $sql, $params );
+  if ( $qry->Exec('always',__LINE__,__FILE__) && $qry->rows() == 1 && $row = $qry->Fetch() ) {
+    if ( isset($session->principal_id) ) {
+      $_known_users_name[$row->username]      = $row;
+      $_known_users_id[$row->user_no]         = $row;
+      $_known_users_pid[$row->principal_id]   = $row;
+    }
+    return $row;
+  }
+
+  return false;
+}
+
 /**
 * Return a user record identified by a username, caching it for any subsequent lookup
 * @param string $username The username of the record to retrieve
 * @param boolean $use_cache Whether or not to use the cache (default: yes)
 */
 function getUserByName( $username, $use_cache = true ) {
-  // Provide some basic caching in case this ends up being overused.
+  global $_known_users_name;
+
   if ( $use_cache && isset( $_known_users_name[$username] ) ) return $_known_users_name[$username];
-
-  global $c, $session;
-  if ( isset($session->user_no) )
-    $qry = new PgQuery( "SELECT *, to_char(updated at time zone 'GMT','Dy, DD Mon IYYY HH24:MI:SS \"GMT\"') AS modified, principal.*, pprivs(?::int8,principal.principal_id,?::int) AS privileges FROM usr LEFT JOIN principal USING(user_no) WHERE lower(username) = lower(?) ", $session->principal_id, $c->permission_scan_depth, $username );
-  else
-    $qry = new PgQuery( "SELECT *, to_char(updated at time zone 'GMT','Dy, DD Mon IYYY HH24:MI:SS \"GMT\"') AS modified, principal.*, 0::BIT(24) AS privileges FROM usr LEFT JOIN principal USING(user_no) WHERE lower(username) = lower(?) ", $username );
-  if ( $qry->Exec('always',__LINE__,__FILE__) && $qry->rows == 1 ) {
-    $_known_users_name[$username] = $qry->Fetch();
-    $id = $_known_users_name[$username]->user_no;
-    $_known_users_id[$id] = $_known_users_name[$username];
-    return $_known_users_name[$username];
-  }
-
-  return false;
+  return _davical_get_principal_query_cached( 'lower(username) = lower(:param)', $username );
 }
 
 
@@ -197,19 +215,23 @@ function getUserByName( $username, $use_cache = true ) {
 * @param boolean $use_cache Whether or not to use the cache (default: yes)
 */
 function getUserByID( $user_no, $use_cache = true ) {
-  // Provide some basic caching in case this ends up being overused.
+  global $c, $session, $_known_users_id;
+
   if ( $use_cache && isset( $_known_users_id[$user_no] ) ) return $_known_users_id[$user_no];
+  return _davical_get_principal_query_cached( 'user_no = :param', $user_no );
+}
 
-  global $c, $session;
-  $qry = new PgQuery( "SELECT *, to_char(updated at time zone 'GMT','Dy, DD Mon IYYY HH24:MI:SS \"GMT\"') AS modified, principal.*, pprivs(?::int8,principal.principal_id,?::int) AS privileges FROM usr LEFT JOIN principal USING(user_no) WHERE user_no = ? ", $session->principal_id, $c->permission_scan_depth, intval($user_no) );
-  if ( $qry->Exec('always',__LINE__,__FILE__) && $qry->rows == 1 ) {
-    $_known_users_id[$user_no] = $qry->Fetch();
-    $name = $_known_users_id[$user_no]->username;
-    $_known_users_name[$name] = $_known_users_id[$user_no];
-    return $_known_users_id[$user_no];
-  }
 
-  return false;
+/**
+* Return a user record identified by a user_no, caching it for any subsequent lookup
+* @param int $user_no The ID of the record to retrieve
+* @param boolean $use_cache Whether or not to use the cache (default: yes)
+*/
+function getPrincipalByID( $principal_id, $use_cache = true ) {
+  global $c, $session, $_known_users_pid;
+
+  if ( $use_cache && isset( $_known_users_pid[$principal_id] ) ) return $_known_users_pid[$principal_id];
+  return _davical_get_principal_query_cached( 'principal_id = :param', $principal_id );
 }
 
 
