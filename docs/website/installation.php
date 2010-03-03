@@ -83,8 +83,8 @@ a number of years.</p>
 
 <p>The following other software is also needed:</p>
 <ul>
-  <li>Apache: 1.3.x or 2.x.x</li>
-  <li>PHP: 5.0 or greater</li>
+  <li>A webserver which can run PHP (however most of this documentation assumes Apache 2.2 or later)</li>
+  <li>PHP: 5.1 or greater</li>
   <li>PostgreSQL: 8.1 or greater</li>
 </ul>
 
@@ -103,22 +103,6 @@ order to shorten the path.</p>
 
 <h1>Database Setup</h1>
 
-<h2>Creating the Web User for the Database</h2>
-
-<p>On your database server you will need to create a user called
-'davical_app' which should not be able to create databases or users,
-and which will be granted minimum privileges for the application.</p>
-<pre>
-createuser --no-createdb --no-createrole davical_app
-</pre>
-
-<p>You may need to become the 'postgres' user to do this, in which case
-you will need to be the postgres user to create the database as well.
-For example:</p>
-<pre>
-su postgres -c createuser --no-createdb --no-createrole davical_app
-</pre>
-
 <h2>Creating and Building the Database</h2>
 
 <p>To create the database itself, run the script:</p>
@@ -130,8 +114,7 @@ of itself and it expects them to be located in /usr/share/awl/dba
 which might be a reasonable place, but it might not be where you
 have put them.</p>
 
-<p>Similarly to creating the user, this script also expects to be
-running as a user who has rights to create a new database, so you
+<p>This script expects to be running as a user who has rights to create a new database, so you
 may need to do this as the "postgres" user, for example:</p>
 <pre>
 su postgres -c /usr/share/davical/dba/create-database.sh
@@ -154,8 +137,8 @@ local   davical    davical_app   trust
 
 <p>This means that anyone on the local computer (including the
 web application) will have rights to connect to the DAViCal
-database as the 'davical_app' user.  It will not allow remote access,
-or access as any user other than 'davical_app'.</p>
+database as the 'davical_app' or 'davical_dba' user.  It will not allow remote access,
+or access as any user other than 'davical_app' or 'davical_dba'.</p>
 
 <p>If you want to connect to the database over TCP/IP rather than
 unix sockets, the line in the pg_hba.conf file should look something
@@ -181,7 +164,7 @@ into effect.</p>
 <h2>Relative to an existing DocumentRoot</h2>
 
 <p>You can create a symlink from an existing web root directory to the
-/usr/share/rscds/htdocs directory, such as:</p>
+/usr/share/davical/htdocs directory, such as:</p>
 
 <pre>
 cd /my/apache/docroot
@@ -220,7 +203,6 @@ single virtual host.</p>
   php_value include_path /usr/share/awl/inc
   php_value magic_quotes_gpc 0
   php_value register_globals 0
-  php_value open_basedir 1
   php_value error_reporting "E_ALL & ~E_NOTICE"
   php_value default_charset "utf-8"
 &lt;/VirtualHost>
@@ -307,8 +289,9 @@ psql davical -c 'select username, password from usr;'
 won't be readable in this way - only the initial configuration
 leaves passwords readable like this for security reasons.</p>
 
-<p>If all is working then you should be ready to configure a client
-to use this, and the docs for that are elsewhere.</p>
+<p>Check the '/setup.php' page in your installation and if everything
+is working then you should be ready to configure a client
+to use your new DAViCal installation, and the docs for that are elsewhere.</p>
 
 <p>If you had to do something else that is not covered here, or if you have any other notes
 you want to add to help others through the installation process, please write something up
@@ -320,10 +303,15 @@ about your experiences in the Wiki, including distribution specific notes, to pa
 
 <p>Whenever you upgrade the DAViCal application to a new version you will need to
 run dba/update-davical-database which will apply any pending database patches, as well as
-enabling any new translations.</p>
+enabling new translations, loading database views and functions, and setting application
+permissions to database tables.</p>
 
-<p>In due course the running of this script will be able to be handled by
-the packaging system, but that change will not happen until early 2007.</p>
+<p>When the database is created all the tables are owned by a 'davical_dba' user which
+you will also want to add access for in your pg_hba.conf, although in that case you
+may want to set the user to have a password, since it has full control over the DAViCal
+database structure and content.</p>
+
+See <a href="http://wiki.davical.org/w/Update-davical-database">http://wiki.davical.org/w/Update-davical-database</a> for more information.
 
 <?php
  include("inc/page-footer.php");
