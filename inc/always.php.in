@@ -81,7 +81,6 @@ $c->protocol_server_port = sprintf( '%s://%s%s',
                  ) );
 $c->protocol_server_port_script = $c->protocol_server_port . ($_SERVER['SCRIPT_NAME'] == '/index.php' ? '' : $_SERVER['SCRIPT_NAME']);
 
-init_gettext( 'davical', '../locale' );
 
 /**
 * We use @file_exists because things like open_basedir might noisily deny
@@ -124,7 +123,9 @@ if ( count($c->dbg) > 0 ) {
 * Now that we have loaded the configuration file we can switch to a
 * default site locale.  This may be overridden by each user.
 */
+putenv("LANG=". $c->default_locale);
 awl_set_locale($c->default_locale);
+init_gettext( 'davical', '../locale' );
 
 /**
 * Work out our version
