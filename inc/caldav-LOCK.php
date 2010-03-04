@@ -3,11 +3,23 @@
 * We support both LOCK and UNLOCK methods in this function
 */
 
+require_once('XMLDocument.php');
+$reply = new XMLDocument(array( 'DAV:' => '' ));
+
 if ( ! $request->AllowedTo('write') ) {
-  $request->DoResponse( 403, translate("You do not have sufficient access to lock that") );
+  $request->NeedPrivilege( 'write', $request->path );
 }
 
-require_once("XMLElement.php");
+if ( ! isset($request->xml_tags) ) {
+  if ( isset($request->lock_token) ) {
+    // It's OK for LOCK refresh requests to be empty.
+    $request->xml_tags = array();
+  }
+  else {
+    $request->XMLResponse( 400, new XMLElement( 'error', new XMLElement('missing-xml-for-request'), $reply->GetXmlNsArray() ) );
+  }
+}
+
 
 $unsupported = array();
 $lockinfo = array();
