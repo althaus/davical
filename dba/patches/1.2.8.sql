@@ -12,12 +12,10 @@ ALTER TABLE caldav_data ADD COLUMN weak_etag TEXT DEFAULT NULL;
 CREATE TABLE access_ticket (
   ticket_id TEXT PRIMARY KEY,
   dav_owner_id INT8 NOT NULL REFERENCES principal(principal_id) ON UPDATE CASCADE ON DELETE CASCADE,
-  is_public BOOLEAN,
   privileges BIT(24),
   target_collection_id INT8 NOT NULL REFERENCES collection(collection_id) ON UPDATE CASCADE ON DELETE CASCADE,
   target_resource_id INT8 REFERENCES caldav_data(dav_id) ON UPDATE CASCADE ON DELETE CASCADE,
-  expires TIMESTAMP,
-  visits INT8
+  expires TIMESTAMP
 );
 
 
