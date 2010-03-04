@@ -489,7 +489,13 @@ EOSQL;
       xml_parser_set_option ( $xml_parser, XML_OPTION_CASE_FOLDING, 0 );
       xml_parse_into_struct( $xml_parser, $this->raw_post, $this->xml_tags );
       xml_parser_free($xml_parser);
-      dbg_error_log( "caldav", " Parsed incoming XML request body." );
+      if ( count($this->xml_tags) ) {
+        dbg_error_log( "caldav", " Parsed incoming XML request body." );
+      }
+      else {
+        $this->xml_tags = null;
+        dbg_error_log( "ERROR", "Incoming request sent content-type XML with no XML request body." );
+      }
     }
 
     /**
