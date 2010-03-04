@@ -59,23 +59,24 @@ if ( ! ($request->IsPrincipal() || isset($request->collection) || $request->meth
 }
 
 switch ( $request->method ) {
-  case 'OPTIONS':    include_once('caldav-OPTIONS.php');    break;
-  case 'REPORT':     include_once('caldav-REPORT.php');     break;
-  case 'PROPFIND':   include('caldav-PROPFIND.php');   break;
-  case 'PUT':        include('caldav-PUT.php');        break;
-  case 'GET':        include('caldav-GET.php');        break;
-  case 'HEAD':       include('caldav-GET.php');        break;
-  case 'PROPPATCH':  include('caldav-PROPPATCH.php');  break;
-  case 'MKCALENDAR': include('caldav-MKCOL.php');      break;
-  case 'MKCOL':      include('caldav-MKCOL.php');      break;
-  case 'DELETE':     include('caldav-DELETE.php');     break;
-  case 'POST':       include('caldav-POST.php');       break;
-  case 'MOVE':       include('caldav-MOVE.php');       break;
-  case 'ACL':        include('caldav-ACL.php');        break;
-  case 'LOCK':       include('caldav-LOCK.php');       break;
-  case 'UNLOCK':     include('caldav-LOCK.php');       break;
+  case 'OPTIONS':    include_once('caldav-OPTIONS.php');   break;
+  case 'REPORT':     include_once('caldav-REPORT.php');    break;
+  case 'PROPFIND':   include('caldav-PROPFIND.php');       break;
+  case 'PUT':        include('caldav-PUT.php');            break;
+  case 'GET':        include('caldav-GET.php');            break;
+  case 'HEAD':       include('caldav-GET.php');            break;
+  case 'PROPPATCH':  include('caldav-PROPPATCH.php');      break;
+  case 'MKCALENDAR': include('caldav-MKCOL.php');          break;
+  case 'MKCOL':      include('caldav-MKCOL.php');          break;
+  case 'DELETE':     include('caldav-DELETE.php');         break;
+  case 'POST':       include('caldav-POST.php');           break;
+  case 'MOVE':       include('caldav-MOVE.php');           break;
+  case 'ACL':        include('caldav-ACL.php');            break;
+  case 'LOCK':       include('caldav-LOCK.php');           break;
+  case 'UNLOCK':     include('caldav-LOCK.php');           break;
+  case 'MKTICKET':   include('caldav-MKTICKET.php');       break;
 
-  case 'TESTRRULE':  include('test-RRULE-v2.php');     break;
+  case 'TESTRRULE':  include('test-RRULE-v2.php');         break;
 
   default:
     dbg_error_log( 'caldav', 'Unhandled request method >>%s<<', $request->method );

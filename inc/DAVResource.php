@@ -534,18 +534,7 @@ EOQRY;
       if ( !isset($this->privileges) ) $this->FetchPrivileges();
       $privilege_names = bits_to_privilege($this->privileges);
     }
-    if ( !isset($xmldoc) && isset($GLOBALS['reply']) ) $xmldoc = $GLOBALS['reply'];
-    $privileges = array();
-    foreach( $privilege_names AS $k ) {
-//      dbg_error_log( 'DAVResource', 'Adding privilege "%s".', $k );
-      $privilege = new XMLElement('privilege');
-      if ( isset($xmldoc) )
-        $xmldoc->NSElement($privilege,$k);
-      else
-        $privilege->NewElement($k);
-      $privileges[] = $privilege;
-    }
-    return $privileges;
+    return privileges_to_XML( $privilege_names, $xmldoc);
   }
 
 
@@ -592,6 +581,7 @@ EOQRY;
           $this->supported_methods['GET'] = '';
           $this->supported_methods['PUT'] = '';
           $this->supported_methods['HEAD'] = '';
+          $this->supported_methods['MKTICKET'] = '';
           break;
         case 'collection':
         case 'principal':
@@ -610,7 +600,8 @@ EOQRY;
         array(
           'GET' => '',
           'HEAD' => '',
-          'PUT' => ''
+          'PUT' => '',
+          'MKTICKET' => ''
         )
       );
     }

@@ -469,3 +469,22 @@ function bits_to_privilege( $raw_bits ) {
 
   return $out_priv;
 }
+
+
+/**
+* Returns the array of privilege names converted into XMLElements
+*/
+function privileges_to_XML( $privilege_names, &$xmldoc=null ) {
+  if ( !isset($xmldoc) && isset($GLOBALS['reply']) ) $xmldoc = $GLOBALS['reply'];
+  $privileges = array();
+  foreach( $privilege_names AS $k ) {
+    $privilege = new XMLElement('privilege');
+    if ( isset($xmldoc) )
+      $xmldoc->NSElement($privilege,$k);
+    else
+      $privilege->NewElement($k);
+    $privileges[] = $privilege;
+  }
+  return $privileges;
+}
+
