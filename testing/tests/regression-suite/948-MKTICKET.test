@@ -1,0 +1,28 @@
+#
+# MKTICKET request for a ticket on a collection
+#
+TYPE=MKTICKET
+URL=http://regression.host/caldav.php/user1/home/
+HEADER=User-Agent: Ticket Spec Tests
+HEADER=Content-Type: text/xml; charset="UTF-8"
+
+
+BEGINDATA
+<?xml version="1.0" encoding="utf-8" ?>
+<D:ticketinfo xmlns:D="DAV:" >
+  <D:privilege><D:read/></D:privilege>
+  <D:timeout>Second-3600</D:timeout>
+  <D:visits>1</D:visits>
+</D:ticketinfo>
+ENDDATA
+
+QUERY
+SELECT dav_owner_id,
+       (expires - current_timestamp)::interval(0) AS timeout,
+       privileges,
+       target_collection_id,
+       target_resource_id
+  FROM access_ticket
+ENDQUERY
+
+REPLACE=!<T:id>\S{8}</T:id>!<T:id>Good Ticket ID</T:id>!

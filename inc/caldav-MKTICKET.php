@@ -18,48 +18,36 @@
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v2 or later
 */
 dbg_error_log('MKTICKET', 'method handler');
-require_once('AwlQuery.php');
+require_once('DAVResource.php');
 
 $request->NeedPrivilege('DAV::bind');
 
 require_once('XMLDocument.php');
-$reply = new XMLDocument(array( 'DAV:' => '', 'T' => 'http://www.xythos.com/namespaces/StorageServer', 'DT' => 'http://xmlns.davical.org/ticket' ));
+$reply = new XMLDocument(array( 'DAV:' => '', 'T' => 'http://www.xythos.com/namespaces/StorageServer' ));
 
 $target = new DAVResource( $request->path );
 if ( ! $target->Exists() ) {
-  $request->XMLResponse( 404, $reply->Render( 'error', new XMLElement('not-found') ) );
+  $request->XMLResponse( 404, new XMLElement( 'error', new XMLElement('resource-must-not-be-null'), $reply->GetXmlNsArray() ) );
 }
 
 if ( ! isset($request->xml_tags) ) {
-  $request->XMLResponse( 400, $reply->Render( 'error', new XMLElement('missing-xml-for-request') ) );
+  $request->XMLResponse( 400, new XMLElement( 'error', new XMLElement('missing-xml-for-request'), $reply->GetXmlNsArray() ) );
 }
 
 $xmltree = BuildXMLTree( $request->xml_tags, $position);
-if ( $xmltree->GetTag() != 'http://www.xythos.com/namespaces/StorageServer:ticketinfo' ) {
-  $request->XMLResponse( 400, $reply->Render( 'error', new XMLElement('invalid-xml-for-request') ) );
+if ( $xmltree->GetTag() != 'http://www.xythos.com/namespaces/StorageServer:ticketinfo' &&
+     $xmltree->GetTag() != 'DAV::ticketinfo' ) {
+  $request->XMLResponse( 400, new XMLElement( 'error', new XMLElement('invalid-xml-for-request'), $reply->GetXmlNsArray() ) );
 }
 
-$ticket_visits = 'infinity';
 $ticket_timeout = 'Seconds-3600';
-$ticket_public = 0;
 $ticket_privs_array = array('read-free-busy');
-$ticketinfo = $xmltree->GetContent();
-foreach( $ticketinfo AS $k => $v ) {
+foreach( $xmltree->GetContent() AS $k => $v ) {
   // <!ELEMENT ticketinfo (id?, owner?, timeout, visits, privilege)>
   switch( $v->GetTag() ) {
     case 'DAV::timeout':
     case 'http://www.xythos.com/namespaces/StorageServer:timeout':
       $ticket_timeout = $v->GetContent();
-      break;
-
-    case 'DAV::public':
-    case 'http://xmlns.davical.org/ticket:public':
-      $ticket_public = 1;
-      break;
-
-    case 'DAV::visits':
-    case 'http://www.xythos.com/namespaces/StorageServer:visits':
-      $ticket_visits = $v->GetContent();
       break;
 
     case 'DAV::privilege':
@@ -71,12 +59,12 @@ foreach( $ticketinfo AS $k => $v ) {
       }
       if ( $ticket_privileges & privilege_to_bits('write') )          $ticket_privileges |= privilege_to_bits( 'read' );
       if ( $ticket_privileges & privilege_to_bits('read') )           $ticket_privileges |= privilege_to_bits( array('read-free-busy', 'read-current-user-privilege-set') );
-      if ( $ticket_privileges & privilege_to_bits('read-free-busy') ) $ticket_privileges |= privilege_to_bits( 'schedule-query-freebusy') );
+      if ( $ticket_privileges & privilege_to_bits('read-free-busy') ) $ticket_privileges |= privilege_to_bits( 'schedule-query-freebusy');
       break;
   }
 }
 
-if ( preg_match( '{^([a-z]+)-(\d+)$}', $ticket_timeout, $matches ) ) {
+if ( preg_match( '{^([a-z]+)-(\d+)$}i', $ticket_timeout, $matches ) ) {
   /** It isn't specified, but timeout seems to be 'unit-number' like 'Seconds-3600', so we make it '3600 Seconds' which PostgreSQL understands */
   $sql_timeout = $matches[2] . ' ' . $matches[1];
 }
@@ -84,40 +72,40 @@ else {
   $sql_timeout = $ticket_timeout;
 }
 
-$sql_visits = ( $ticket_visits == 'infinity' ? -1: intval($ticket_visits) );
-
 $collection_id = $target->GetProperty('collection_id');
 $resource_id   = $target->GetProperty('dav_id');
 
 $i = 0;
 do {
-  $ticket_id = substr(sha1(date('r') .rand(2100000000) . microtime(true)), 7, 8);
+  $ticket_id = substr( str_replace('+', '',base64_encode(sha1(date('r') .rand(0,2100000000) . microtime(true),true))), 7, 8);
   $qry = new AwlQuery(
-    'INSERT INTO access_ticket ( ticket_id, dav_owner_id, is_public, privileges, target_collection_id, target_resource_id, expires, visits )
-                VALUES( :ticket_id, :owner, :public, :privs, :collection, :resource, (current_timestamp + interval :expires), :visits )',
+    'INSERT INTO access_ticket ( ticket_id, dav_owner_id, privileges, target_collection_id, target_resource_id, expires )
+                VALUES( :ticket_id, :owner, :privs, :collection, :resource, (current_timestamp + :expires::interval) )',
     array(
       ':ticket_id'   => $ticket_id,
       ':owner'       => $session->principal_id,
-      ':public'      => $ticket_public,
-      ':privs'       => $ticket_privileges,
+      ':privs'       => sprintf( '%024.24s', decbin($ticket_privileges)),
       ':collection'  => $collection_id,
       ':resource'    => $resource_id,
       ':expires'     => $sql_timeout,
-      ':visits'      => $sql_visits
     )
-  )
+  );
   $result = $qry->Exec('MKTICKET', __LINE__, __FILE__);
 } while( !$result && $i++ < 2 );
 
+$privs = array();
+foreach( bits_to_privilege($ticket_privileges) AS $k => $v ) {
+  $privs[] = new XMLElement($v);
+}
 
 $ticketinfo = new XMLElement( 'T:ticketinfo', array(
       new XMLElement( 'T:id', $ticket_id),
-      new XMLElement( 'owner', $reply->href( ConstructURL($session->dav_name) ) ),
-      new XMLElement( 'privilege', privileges_to_XML(bits_to_privilege($ticket_privileges),$reply)),
+      new XMLElement( 'owner', $reply->href( ConstructURL('/'.$session->username.'/') ) ),
+      new XMLElement( 'privilege', $privs),
       new XMLElement( 'T:timeout', $ticket_timeout),
-      new XMLElement( 'T:visits', $ticket_visits)
+      new XMLElement( 'T:visits', 'infinity')
   )
 );
-if ( $ticket_public ) $ticketinfo->NewElement( 'DT:public', $ticket_public);
 
-$request->XMLResponse( 200, $reply->Render( 'prop', new XMLElement('T:ticketdiscovery', $ticketinfo) ) );
+$prop = new XMLElement( "prop", new XMLElement('T:ticketdiscovery', $ticketinfo), $reply->GetXmlNsArray() );
+$request->XMLResponse( 200, $prop );

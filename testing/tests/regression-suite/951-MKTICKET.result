@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<error xmlns="DAV:">
+ <need-privileges>
+  <resource>
+   <href>/caldav.php/user4/home/</href>
+   <privilege>
+    <bind/>
+   </privilege>
+  </resource>
+ </need-privileges>
+</error>
+
+     dav_owner_id: >3<
+       privileges: >000000000001001000100001<
+target_collection: >10<
+target_resource_i: >NULL<
+          timeout: >00:58:35<
+
+     dav_owner_id: >3<
+       privileges: >000000000001001011100111<
+target_collection: >10<
+target_resource_i: >1365<
+          timeout: >23:59:43<
+
