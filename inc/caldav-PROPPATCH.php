@@ -71,8 +71,11 @@ foreach( $setprops AS $k => $setting ) {
         $failure['set-'.$tag] = new XMLElement( 'propstat', array(
             new XMLElement( 'prop', new XMLElement($tag)),
             new XMLElement( 'status', 'HTTP/1.1 403 Forbidden' ),
-            new XMLElement( 'error', new XMLElement( 'cannot-modify-protected-property') ),
-            new XMLElement( 'responsedescription', translate("The displayname may only be set on collections or principals.") )
+            new XMLElement( 'responsedescription', array(
+                              new XMLElement( 'error', new XMLElement( 'cannot-modify-protected-property') ),
+                              translate("The displayname may only be set on collections or principals.") )
+                          )
+
         ));
       }
       break;
@@ -93,8 +96,10 @@ foreach( $setprops AS $k => $setting ) {
         $failure['set-'.$tag] = new XMLElement( 'propstat', array(
             new XMLElement( 'prop', new XMLElement($tag)),
             new XMLElement( 'status', 'HTTP/1.1 403 Forbidden' ),
-            new XMLElement( 'error', new XMLElement( 'cannot-modify-protected-property') ),
-            new XMLElement( 'responsedescription', translate("Resources may not be changed to / from collections.") )
+            new XMLElement( 'responsedescription', array(
+                              new XMLElement( 'error', new XMLElement( 'cannot-modify-protected-property') ),
+                              translate("Resources may not be changed to / from collections.") )
+                          )
         ));
       }
       break;
@@ -137,8 +142,10 @@ foreach( $setprops AS $k => $setting ) {
       $failure['set-'.$tag] = new XMLElement( 'propstat', array(
           new XMLElement( 'prop', new XMLElement($tag)),
           new XMLElement( 'status', 'HTTP/1.1 403 Forbidden' ),
-          new XMLElement( 'error', new XMLElement( 'cannot-modify-protected-property') ),
-          new XMLElement('responsedescription', translate("Property is read-only") )
+          new XMLElement( 'responsedescription', array(
+                               new XMLElement( 'error', new XMLElement( 'cannot-modify-protected-property') ),
+                               translate("Property is read-only") )
+                        )
       ));
       break;
 
