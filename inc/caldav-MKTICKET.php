@@ -108,4 +108,5 @@ $ticketinfo = new XMLElement( 'T:ticketinfo', array(
 );
 
 $prop = new XMLElement( "prop", new XMLElement('T:ticketdiscovery', $ticketinfo), $reply->GetXmlNsArray() );
+header('Ticket: '.$ticket_id);
 $request->XMLResponse( 200, $prop );
