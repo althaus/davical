@@ -126,6 +126,7 @@ class Tools {
           if ( check_string($ics) ) {
             $path = "/".substr($file,0,-4).$path_ics;
             dbg_error_log( "importFromDirectory", "importing to $path");
+            $c->readonly_webdav_collections = false;  // Override this setting so we can create collections/events on import.
             require_once("caldav-PUT-functions.php");
             if ( $user = getUserByName(substr($file,0,-4),'importFromDirectory',__LINE__,__FILE__)) {
               $user_no = $user->user_no;

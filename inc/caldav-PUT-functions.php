@@ -56,6 +56,7 @@ function rollback_on_error( $caldav_context, $user_no, $path, $message='', $erro
 * @param boolean $public Whether the collection will be public, should we need to create it
 */
 function controlRequestContainer( $username, $user_no, $path, $caldav_context, $public = null ) {
+  global $c;
 
   // Check to see if the path is like /foo /foo/bar or /foo/bar/baz etc. (not ending with a '/', but contains at least one)
   if ( preg_match( '#^(.*/)([^/]+)$#', $path, $matches ) ) {//(
@@ -80,6 +81,12 @@ function controlRequestContainer( $username, $user_no, $path, $caldav_context, $
     $qry = new PgQuery( $sql, $user_no, $request_container );
     if ( ! $qry->Exec('PUT') ) {
       rollback_on_error( $caldav_context, $user_no, $path );
+    }
+    if ( !isset($c->readonly_webdav_collections) || $c->readonly_webdav_collections == true ) {
+      if ( $qry->rows == 0 ) {
+        $request->DoResponse( 405 ); // Method not allowed
+      }
+      return;
     }
     if ( $qry->rows == 0 ) {
       if ( $public == null ) $public = false;
