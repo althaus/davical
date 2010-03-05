@@ -453,7 +453,7 @@ EOQRY;
   * Build permissions for this URL
   */
   function FetchPrivileges() {
-    global $session;
+    global $session, $request;
 
     if ( $this->dav_name == '/' || $this->dav_name == '' ) {
       $this->privileges = (1 | 16 | 32); // read + read-acl + read-current-user-privilege-set
@@ -1039,6 +1039,7 @@ EOQRY;
         break;
 
       // Empty tag responses.
+      case 'DAV::group':
       case 'DAV::alternate-URI-set':
         $reply->NSElement($prop, $tag );
         break;
