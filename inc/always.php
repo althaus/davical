@@ -36,7 +36,7 @@ $c->http_auth_mode = 'Basic';
 $c->default_locale = 'en';
 $c->base_url = preg_replace('#/[^/]+\.php.*$#', '', $_SERVER['SCRIPT_NAME']);
 $c->base_directory = preg_replace('#/[^/]*$#', '', $_SERVER['DOCUMENT_ROOT']);
-$c->default_privileges = array('read-free-busy', 'schedule-query-freebusy');
+$c->default_privileges = array('read-free-busy', 'schedule-deliver');
 
 $c->stylesheets = array( $c->base_url.'/davical.css' );
 $c->images      = $c->base_url . '/images';
