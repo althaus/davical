@@ -10,9 +10,7 @@
 */
 dbg_error_log("OPTIONS", "method handler");
 
-if ( ! $request->AllowedTo('read') ) {
-  $request->DoResponse( 403, translate("You may not access that collection") );
-}
+$request->NeedPrivilege( 'DAV::read' );
 
 $exists = false;
 $is_calendar = false;
