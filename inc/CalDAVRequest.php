@@ -16,6 +16,7 @@
 
 require_once("XMLDocument.php");
 require_once("CalDAVPrincipal.php");
+include("DAVTicket.php");
 
 define('DEPTH_INFINITY', 9999);
 
@@ -92,6 +93,11 @@ class CalDAVRequest
   * A static structure of supported privileges.
   */
   var $supported_privileges;
+
+  /**
+  * A DAVTicket object, if there is a ?ticket=id or Ticket: id with this request
+  */
+  public $ticket;
 
   /**
   * Create a new CalDAVRequest object.
@@ -201,6 +207,16 @@ class CalDAVRequest
     if ( isset($_SERVER['HTTP_IF']) ) $this->if_clause = $_SERVER['HTTP_IF'];
     if ( isset($_SERVER['HTTP_LOCK_TOKEN']) && preg_match( '#[<]opaquelocktoken:(.*)[>]#', $_SERVER['HTTP_LOCK_TOKEN'], $matches ) ) {
       $this->lock_token = $matches[1];
+    }
+
+    /**
+    * Check for an access ticket.
+    */
+    if ( isset($_GET['ticket']) ) {
+      $this->ticket = new DAVTicket($_GET['ticket']);
+    }
+    else if ( isset($_SERVER['HTTP_TICKET']) ) {
+      $this->ticket = new DAVTicket($_SERVER['HTTP_TICKET']);
     }
 
     /**
