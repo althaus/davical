@@ -36,7 +36,7 @@ function check_pdo_pgsql() {
 include("interactive-page.php");
 include("page-header.php");
 
-include("AwlQuery.php");
+require_once("AwlQuery.php");
 
 function check_schema_version() {
   global $c;
@@ -56,6 +56,34 @@ function check_davical_version() {
   $current_version = trim(fread( $version_file,12));
   fclose($version_file);
   return ( $c->version_string == $current_version );
+}
+
+
+function build_site_statistics() {
+  $principals  = translate('No. of Principals');
+  $collections = translate('No. of Collections');
+  $resources   = translate('No. of Resources');
+  $table = <<<EOTABLE
+<table class="statistics">
+<tr><th>$principals</th><th>$collections</th><th>$resources</th></tr>
+<tr>%s</tr>
+</table>
+EOTABLE;
+
+  if ( !check_pdo_pgsql() ) {
+    return sprintf( $table, '<td colspan="3">'.translate('Site Statistics require the database to be available!').'</td>');
+  }
+  $sql = 'SELECT
+(SELECT count(1) FROM principal) AS principals,
+(SELECT count(1) FROM collection) AS collections,
+(SELECT count(1) FROM caldav_data) AS resources';
+  $qry = new AwlQuery($sql);
+  if ( $qry->Exec('setup',__LINE__,__FILE__) && $s = $qry->Fetch() ) {
+    $row = sprintf('<td align="center">%s</td><td align="center">%s</td><td align="center">%s</td>',
+                                       $s->principals, $s->collections, $s->resources );
+    return sprintf( $table, $row );
+  }
+  return sprintf( $table, '<td colspan="3">'.translate('Site Statistics require the database to be available!').'</td>');
 }
 
 
@@ -92,6 +120,9 @@ $heading_dependencies = translate('Dependencies');
 $th_dependency = translate('Dependency');
 $th_status     = translate('Status');
 
+$heading_site_statistics = translate('Site Statistics');
+$site_statistics_table = build_site_statistics();
+
 $heading_config_clients = translate('Configuring Calendar Clients for DAViCal');
 $heading_config_davical = translate('Configuring DAViCal');
 
@@ -103,13 +134,13 @@ tr.dep_ok {
 tr.dep_fail {
   background-color:#ffc0c0;
 }
-table.dependencies {
+table, table.dependencies {
   border: 1px grey solid;
   border-collapse: collapse;
   padding: 0.1em;
-  margin-left: 3px;
+  margin: 0 1em 1.5em;
 }
-table.dependencies tr td, table.dependencies tr th {
+table tr td, table tr th, table.dependencies tr td, table.dependencies tr th {
   border: 1px grey solid;
   padding: 0.1em 0.2em;
 }
@@ -162,8 +193,11 @@ function toggle_visible() {
 </script><p><label>Show phpinfo() output:<input type="checkbox" value="1" id="fld_show_phpinfo" onclick="toggle_visible('fld_show_phpinfo','=phpinfo')"></label></p>
 <div style="display:none" id="phpinfo">$phpinfo</div>
 
+<h2>$heading_site_statistics</h2>
+<p>$site_statistics_table</p>
+
 <h2>$heading_config_clients</h2>
-<p>The <a href="http://rscds.sourceforge.net/clients.php">DAViCal client setup page on sourceforge</a> have information on how
+<p>The <a href="http://rscds.sourceforge.net/clients.php">DAViCal client setup page on sourceforge</a> has information on how
 to configure Evolution, Sunbird, Lightning and Mulberry to use remotely hosted calendars.</p>
 <p>The administrative interface has no facility for viewing or modifying calendar data.</p>
 
