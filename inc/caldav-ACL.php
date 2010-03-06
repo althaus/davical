@@ -119,7 +119,7 @@ else if ( $grantor->IsCollection() ) $by_collection = $grantor->GetProperty('col
 else precondition_failed('not-supported-privilege','ACLs may only be applied to Principals or Collections');
 
 $qry = new AwlQuery('BEGIN');
-$qry->Exec('ACL',__FILE__,__LINE__);
+$qry->Exec('ACL',__LINE__,__FILE__);
 
 foreach( $aces AS $k => $ace ) {
   $elements = $ace->GetContent();
@@ -171,7 +171,7 @@ foreach( $aces AS $k => $ace ) {
         $where .= 'by_collection = :by_collection';
       }
       $qry = new AwlQuery('SELECT privileges FROM grants '.$where, $sqlparms);
-      if ( $qry->Exec('ACL',__FILE__,__LINE__) && $qry->rows() == 1 && $current = $qry->Fetch() ) {
+      if ( $qry->Exec('ACL',__LINE__,__FILE__) && $qry->rows() == 1 && $current = $qry->Fetch() ) {
         $sql = 'UPDATE grants SET privileges=:privileges::INT::BIT(24) '.$where;
       }
       else {
@@ -181,7 +181,7 @@ foreach( $aces AS $k => $ace ) {
       }
       $sqlparms[':privileges'] = $privileges;
       $qry = new AwlQuery($sql, $sqlparms);
-      $qry->Exec('ACL',__FILE__,__LINE__);
+      $qry->Exec('ACL',__LINE__,__FILE__);
       break;
 
     case 'DAV::authenticated':
@@ -197,7 +197,7 @@ foreach( $aces AS $k => $ace ) {
         $sqlparms[':by_principal'] = $by_principal;
       }
       $qry = new AwlQuery($sql, $sqlparms);
-      $qry->Exec('ACL',__FILE__,__LINE__);
+      $qry->Exec('ACL',__LINE__,__FILE__);
       break;
 
     case 'DAV::all':
@@ -213,7 +213,7 @@ foreach( $aces AS $k => $ace ) {
 }
 
 $qry = new AwlQuery('COMMIT');
-$qry->Exec('ACL',__FILE__,__LINE__);
+$qry->Exec('ACL',__LINE__,__FILE__);
 
 
 $request->DoResponse( 200 );
