@@ -23,7 +23,7 @@ require_once('DAVResource.php');
 $request->NeedPrivilege('DAV::bind');
 
 require_once('XMLDocument.php');
-$reply = new XMLDocument(array( 'DAV:' => '', 'T' => 'http://www.xythos.com/namespaces/StorageServer' ));
+$reply = new XMLDocument(array( 'DAV:' => '', 'http://www.xythos.com/namespaces/StorageServer' => 'T' ));
 
 $target = new DAVResource( $request->path );
 if ( ! $target->Exists() ) {
@@ -93,15 +93,15 @@ do {
   $result = $qry->Exec('MKTICKET', __LINE__, __FILE__);
 } while( !$result && $i++ < 2 );
 
-$privs = array();
+$privs = new XMLElement('privilege');
 foreach( bits_to_privilege($ticket_privileges) AS $k => $v ) {
-  $privs[] = new XMLElement($v);
+  $reply->NSElement($privs, $v);
 }
 
 $ticketinfo = new XMLElement( 'T:ticketinfo', array(
       new XMLElement( 'T:id', $ticket_id),
       new XMLElement( 'owner', $reply->href( ConstructURL('/'.$session->username.'/') ) ),
-      new XMLElement( 'privilege', $privs),
+      $privs,
       new XMLElement( 'T:timeout', $ticket_timeout),
       new XMLElement( 'T:visits', 'infinity')
   )
