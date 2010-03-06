@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<prop xmlns="DAV:" xmlns:http://www.xythos.com/namespaces/StorageServer="T">
+<prop xmlns="DAV:" xmlns:T="http://www.xythos.com/namespaces/StorageServer" xmlns:C="urn:ietf:params:xml:ns:caldav">
  <T:ticketdiscovery>
   <T:ticketinfo>
    <T:id>Good Ticket ID</T:id>
@@ -7,15 +7,15 @@
     <href>/caldav.php/user1/</href>
    </owner>
    <privilege>
-    <DAV::read/>
-    <DAV::read-current-user-privilege-set/>
-    <urn:ietf:params:xml:ns:caldav:read-free-busy/>
-    <DAV::write/>
-    <DAV::write-properties/>
-    <DAV::write-content/>
-    <DAV::bind/>
-    <DAV::unbind/>
-    <urn:ietf:params:xml:ns:caldav:schedule-query-freebusy/>
+    <read/>
+    <read-current-user-privilege-set/>
+    <C:read-free-busy/>
+    <write/>
+    <write-properties/>
+    <write-content/>
+    <bind/>
+    <unbind/>
+    <C:schedule-query-freebusy/>
    </privilege>
    <T:timeout>Second-86400</T:timeout>
    <T:visits>infinity</T:visits>
@@ -27,11 +27,11 @@
        privileges: >000000000001001000100001<
 target_collection: >10<
 target_resource_i: >NULL<
-          timeout: >00:58:51<
+          timeout: >01:00:00<
 
      dav_owner_id: >3<
        privileges: >000000000001001011100111<
 target_collection: >10<
 target_resource_i: >1365<
-          timeout: >24:00:00<
+          timeout: >1 day<
 

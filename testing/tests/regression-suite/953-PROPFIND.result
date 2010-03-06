@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<error xmlns="DAV:">
+ <need-privileges>
+  <resource>
+   <href>/caldav.php/user1/home/</href>
+   <privilege>
+    <read/>
+   </privilege>
+  </resource>
+ </need-privileges>
+</error>

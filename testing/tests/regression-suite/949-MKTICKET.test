@@ -14,7 +14,7 @@ ENDDATA
 
 QUERY
 SELECT dav_owner_id,
-       (expires - current_timestamp)::interval(0) AS timeout,
+       date_trunc( 'minute', (expires - current_timestamp + '30 seconds')::interval(0)) AS timeout,
        privileges,
        target_collection_id,
        target_resource_id

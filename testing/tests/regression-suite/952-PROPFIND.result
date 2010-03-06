@@ -1,0 +1,121 @@
+HTTP/1.1 207 Multi-Status
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy
+ETag: "7c8b51dfb3d0b3caa8da3ab3f98c3707"
+Content-Length: 2895
+Content-Type: text/xml; charset="utf-8"
+
+<?xml version="1.0" encoding="utf-8" ?>
+<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
+ <response>
+  <href>/caldav.php/user1/home/</href>
+  <propstat>
+   <prop>
+    <displayname>User One's Calendar</displayname>
+    <supported-report-set>
+     <supported-report>
+      <report>
+       <principal-property-search/>
+      </report>
+     </supported-report>
+     <supported-report>
+      <report>
+       <principal-search-property-set/>
+      </report>
+     </supported-report>
+     <supported-report>
+      <report>
+       <expand-property/>
+      </report>
+     </supported-report>
+     <supported-report>
+      <report>
+       <sync-collection/>
+      </report>
+     </supported-report>
+     <supported-report>
+      <report>
+       <C:calendar-query/>
+      </report>
+     </supported-report>
+     <supported-report>
+      <report>
+       <C:calendar-multiget/>
+      </report>
+     </supported-report>
+     <supported-report>
+      <report>
+       <C:free-busy-query/>
+      </report>
+     </supported-report>
+    </supported-report-set>
+    <supported-method-set>
+     <supported-method name="OPTIONS"/>
+     <supported-method name="PROPFIND"/>
+     <supported-method name="REPORT"/>
+     <supported-method name="DELETE"/>
+     <supported-method name="LOCK"/>
+     <supported-method name="UNLOCK"/>
+     <supported-method name="MOVE"/>
+     <supported-method name="GET"/>
+     <supported-method name="PUT"/>
+     <supported-method name="HEAD"/>
+     <supported-method name="MKTICKET"/>
+    </supported-method-set>
+    <current-user-privilege-set>
+     <privilege>
+      <read/>
+     </privilege>
+     <privilege>
+      <read-current-user-privilege-set/>
+     </privilege>
+     <privilege>
+      <C:read-free-busy/>
+     </privilege>
+     <privilege>
+      <C:schedule-query-freebusy/>
+     </privilege>
+    </current-user-privilege-set>
+    <C:supported-calendar-component-set>
+     <C:comp name="VEVENT"/>
+     <C:comp name="VTODO"/>
+     <C:comp name="VJOURNAL"/>
+     <C:comp name="VTIMEZONE"/>
+     <C:comp name="VFREEBUSY"/>
+    </C:supported-calendar-component-set>
+    <C:calendar-timezone>BEGIN:VCALENDAR
+PRODID:-//davical.org//NONSGML AWL Calendar//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+BEGIN:VTIMEZONE
+TZID:Europe/Prague
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+DTSTART:19810329T020000
+TZNAME:GMT+02:00
+TZOFFSETTO:+0200
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+DTSTART:19961027T030000
+TZNAME:GMT+01:00
+TZOFFSETTO:+0100
+END:STANDARD
+END:VTIMEZONE
+END:VCALENDAR
+</C:calendar-timezone>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <C:calendar-description/>
+    <C:schedule-calendar-transp/>
+    <C:schedule-default-calendar-URL/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+</multistatus>

@@ -14,11 +14,11 @@
        privileges: >000000000001001000100001<
 target_collection: >10<
 target_resource_i: >NULL<
-          timeout: >00:58:35<
+          timeout: >01:00:00<
 
      dav_owner_id: >3<
        privileges: >000000000001001011100111<
 target_collection: >10<
 target_resource_i: >1365<
-          timeout: >23:59:43<
+          timeout: >24:00:00<
 
