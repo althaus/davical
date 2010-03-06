@@ -612,7 +612,11 @@ EOSQL;
       if ( $qry->Exec("caldav") && $permission_result = $qry->Fetch() )
         $this->privileges |= bindec($permission_result->perm);
 
-      dbg_error_log( "caldav", "Restricted permissions for user accessing someone elses hierarchy: %s", decbin($this->privileges) );
+      dbg_error_log( 'caldav', 'Restricted permissions for user accessing someone elses hierarchy: %s', decbin($this->privileges) );
+      if ( isset($this->ticket) && $this->ticket->MatchesPath($this->path) ) {
+        $this->privileges |= $this->ticket->privileges();
+        dbg_error_log( 'caldav', 'Applying permissions for ticket "%s" now: %s', $this->ticket->id(), decbin($this->privileges) );
+      }
     }
 
     /** convert privileges into older style permissions */

@@ -77,19 +77,25 @@ class DAVTicket
     $this->grantor_collection_privileges = 0;
 
     $qry = new AwlQuery(
-        'SELECT access_ticket.*, collection.dav_name, (access_ticket.expiry >= current_timestamp) AS expired,
+        'SELECT access_ticket.*, collection.dav_name, (access_ticket.expires < current_timestamp) AS expired,
                 path_privs(access_ticket.dav_owner_id,collection.dav_name,:scan_depth) AS grantor_collection_privileges
            FROM access_ticket JOIN collection ON (target_collection_id = collection_id)
           WHERE ticket_id = :ticket_id',
         array(':ticket_id' => $ticket_id, ':scan_depth' => $c->permission_scan_depth)
     );
-    if ( $qry->Exec('DAVTicket',__LINE__,__FILE__) && $qry->rows() == 1 && $t = $qry->Fetch() && $t->expired === 'f' ) {
-      foreach( $t AS $k => $v ) {
-        $this->{$k} = $v;
+    if ( $qry->Exec('DAVTicket',__LINE__,__FILE__) && $qry->rows() == 1 && $t = $qry->Fetch() ) {
+      if ( ! $t->expired ) {
+        foreach( $t AS $k => $v ) {
+          $this->{$k} = $v;
+        }
+        $this->expired = false;
+        $this->privileges = bindec($this->privileges);
+        $this->grantor_collection_privileges = bindec($this->grantor_collection_privileges);
+        dbg_error_log( 'DAVTicket', 'Found a current ticket for "%s"', implode(', ',bits_to_privilege($this->privileges())) );
       }
-      $this->expired = false;
-      $this->privileges = bindec($this->privileges);
-      $this->grantor_collection_privileges = bindec($this->grantor_collection_privileges);
+      else {
+        dbg_error_log( 'DAVTicket', 'Found an expired ticket: %s - %s', $ticket_id, $t->expires );
+      }
     }
     if ( isset($this->target_resource_id) ) {
       $qry = new AwlQuery( 'SELECT dav_name FROM caldav_data WHERE dav_id = :dav_id', array(':dav_id' => $this->target_resource_id ) );
@@ -105,8 +111,18 @@ class DAVTicket
   }
 
 
+  function id() {
+    return $this->ticket_id;
+  }
+
+
   function privileges() {
     return ($this->privileges & $this->grantor_collection_privileges);
   }
 
+
+  function MatchesPath( $test_path ) {
+    $length = strlen($this->dav_name);
+    return (substr($test_path, 0, $length) == $this->dav_name);
+  }
 }

@@ -488,6 +488,11 @@ EOQRY;
 
     $this->privileges = $this->collection->path_privs;
     if ( is_string($this->privileges) ) $this->privileges = bindec( $this->privileges );
+
+    if ( isset($request->ticket) && $request->ticket->MatchesPath($this->dav_name) ) {
+      $this->privileges |= $request->ticket->privileges();
+      dbg_error_log( 'DAVResource', 'Applying permissions for ticket "%s" now: %s', $request->ticket->id(), decbin($this->privileges) );
+    }
   }
 
 
@@ -502,6 +507,8 @@ EOQRY;
 
   /**
   * Is the user has the privileges to do what is requested.
+  * @param $do_what mixed The request privilege name, or array of privilege names, to be checked.
+  * @return boolean Whether they do have one of those privileges against this resource.
   */
   function HavePrivilegeTo( $do_what ) {
     if ( !isset($this->privileges) ) $this->FetchPrivileges();
