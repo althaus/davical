@@ -25,13 +25,13 @@ if ( ! ini_get('open_basedir') && (isset($c->dbg['ALL']) || (isset($c->dbg['put'
 $lock_opener = $request->FailIfLocked();
 
 if ( $request->path == '/' || $request->IsPrincipal() || $request->destination == '' ) {
-  $request->NeedPrivilege('DAV::unbind', '/');
+  $request->NeedPrivilege('DAV::unbind');
 }
 
 $dest = new DAVResource($request->destination);
 
 if ( $dest->dav_name() == '/' || $dest->IsPrincipal() ) {
-  $request->NeedPrivilege('DAV::bind', '/');
+  $dest->NeedPrivilege('DAV::bind');
 }
 
 if ( ! $request->overwrite && $dest->Exists() ) {
