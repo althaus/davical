@@ -99,7 +99,8 @@ CREATE TABLE calendar_attendee (
   attendee TEXT,
   role TEXT,
   rsvp BOOLEAN,
-  property TEXT -- The full text of the property
+  property TEXT, -- The full text of the property
+  PRIMARY KEY ( dav_id, attendee )
 );
 
 SELECT new_db_revision(1,2,8, 'Août' );
