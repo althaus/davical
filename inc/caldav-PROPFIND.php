@@ -10,10 +10,7 @@
 */
 dbg_error_log('PROPFIND', 'method handler');
 
-if ( ! ($request->AllowedTo('read') || $request->AllowedTo('freebusy') || $request->AllowedTo('read-current-user-privilege-set') ) ) {
-  dbg_error_log('ERROR','Insufficient privileges for "%s" of "%s"', $request->path, implode(', ', $request->permissions) );
-  $request->DoResponse( 403, translate('You may not access that collection') );
-}
+$request->NeedPrivilege( array('read','read-free-busy','read-current-user-privilege-set') );
 
 require_once('iCalendar.php');
 require_once('XMLDocument.php');
