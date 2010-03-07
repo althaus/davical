@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rscds-messages\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-28 22:43+1300\n"
+"POT-Creation-Date: 2010-03-07 23:04+1300\n"
 "PO-Revision-Date: 2007-03-31 00:24+0200\n"
 "Last-Translator: Rafal Slubowski <rafalslubowski@gmail.com>\n"
 "Language-Team: polski <pl@li.org>\n"
@@ -99,6 +99,9 @@ msgid "All of the principal's calendars and events will be unrecoverably deleted
 msgstr ""
 
 msgid "All of the user's calendars and events will be unrecoverably deleted."
+msgstr ""
+
+msgid "All privileges"
 msgstr ""
 
 msgid "All requested changes were made."
@@ -416,6 +419,10 @@ msgstr "Błąd odpytywania bazy danych."
 msgid "Error writing calendar details to database."
 msgstr "Błąd zapisu kalendarza do bazy."
 
+#, fuzzy
+msgid "Error writing calendar properties to database."
+msgstr "Błąd zapisu kalendarza do bazy."
+
 msgid "European (d/m/y)"
 msgstr "Europejski (d/m/r)"
 
@@ -620,6 +627,10 @@ msgid "New Password"
 msgstr "Nowe hasło"
 
 #, fuzzy
+msgid "New Principal"
+msgstr "Użytkownicy kalendarza"
+
+#, fuzzy
 msgid "No <!-- not 'Yes' -->"
 msgstr "Nr"
 
@@ -638,6 +649,18 @@ msgstr "Nr"
 
 msgid "No. <!-- short for 'Number' -->"
 msgstr "Nr"
+
+#, fuzzy
+msgid "No. of Collections"
+msgstr "Ścieżka do zestawu"
+
+#, fuzzy
+msgid "No. of Principals"
+msgstr "Użytkownicy kalendarza"
+
+#, fuzzy
+msgid "No. of Resources"
+msgstr "Zasób"
 
 msgid "No."
 msgstr "Nr"
@@ -906,6 +929,12 @@ msgstr ""
 msgid "Show help on"
 msgstr "Pokaż pomoc na temat"
 
+msgid "Site Statistics require the database to be available!"
+msgstr ""
+
+msgid "Site Statistics"
+msgstr ""
+
 msgid "Some properties were not able to be changed."
 msgstr "Niektóre właściwości nie mogły zostać zmienione."
 
@@ -966,10 +995,22 @@ msgid ""
 "The calendar-free-busy-set is superseded by the schedule-transp property of a calendar collection."
 msgstr ""
 
+msgid "The collection name may not be blank."
+msgstr ""
+
 msgid "The displayname may only be set on collections or principals."
 msgstr ""
 
+msgid "The email address really should not be blank."
+msgstr ""
+
 msgid "The file is not UTF-8 encoded, please check the error for more details."
+msgstr ""
+
+msgid "The full name for this person, group or other type of principal."
+msgstr ""
+
+msgid "The full name must not be blank."
 msgstr ""
 
 msgid "The name this user can log into the system with."
@@ -993,12 +1034,22 @@ msgstr "Imię i nazwisko użytkownika."
 msgid "The user's password for logging in."
 msgstr "Hasło logowania."
 
+msgid "The username must not be blank, and may not contain a slash"
+msgstr ""
+
 #, fuzzy
 msgid "There is no collection at that URL."
 msgstr "Nie znaleziono zbioru w lokalizacji"
 
 msgid "There was an error writing to the database."
 msgstr "Wystąpił błąd zapisu do bazy danych."
+
+msgid ""
+"This operation does the following: <ul><li>check valid users in LDAP directory</li> <li>check users in "
+"DAViCal</li></ul> then <ul><li>if a user is present in DAViCal but not in LDAP set him as inactive in "
+"DAViCal</li> <li>if a user is present in LDAP but not in DAViCal create the user in DAViCal</li> "
+"<li>if a user in present in LDAP and DAViCal then update information in DAViCal</li> </ul>"
+msgstr ""
 
 msgid "This user's collections"
 msgstr "Zestawy użytkownika"
@@ -1142,13 +1193,6 @@ msgstr ""
 msgid "You do not have appropriate rights to view that resource."
 msgstr "Nie masz uprawnień aby zobaczyć ten zasób."
 
-msgid "You do not have sufficient access to lock that"
-msgstr "Nie masz wystarczających uprawnień aby zarezerwować ten"
-
-#, fuzzy
-msgid "You may not access that collection"
-msgstr "Nie masz dostępu do tego kalendarza"
-
 msgid "You may not add entries to this calendar."
 msgstr "Nie możesz dodawać zdarzeń do tego kalendarza."
 
@@ -1220,8 +1264,12 @@ msgstr ""
 msgid "you should log on with the username and password that have been issued to you."
 msgstr "powinieneś zalogować się swoją nazwą użytkownika i hasłem."
 
-msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
-msgstr ""
+#~ msgid "You do not have sufficient access to lock that"
+#~ msgstr "Nie masz wystarczających uprawnień aby zarezerwować ten"
+
+#, fuzzy
+#~ msgid "You may not access that collection"
+#~ msgstr "Nie masz dostępu do tego kalendarza"
 
 #~ msgid "Calendar Users"
 #~ msgstr "Użytkownicy kalendarza"

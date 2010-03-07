@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rscds 0.7.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-28 22:43+1300\n"
+"POT-Creation-Date: 2010-03-07 23:04+1300\n"
 "PO-Revision-Date: 2007-05-03 15:00+0001\n"
 "Last-Translator: David Takacs <david.takacs@cafeopen.eu>\n"
 "Language-Team: \n"
@@ -95,6 +95,9 @@ msgid "All of the principal's calendars and events will be unrecoverably deleted
 msgstr ""
 
 msgid "All of the user's calendars and events will be unrecoverably deleted."
+msgstr ""
+
+msgid "All privileges"
 msgstr ""
 
 msgid "All requested changes were made."
@@ -412,6 +415,10 @@ msgstr "Adatbázis-hiba lekérdezéskor."
 msgid "Error writing calendar details to database."
 msgstr "Adatbázis-hiba a naptár elemeinek írásakor."
 
+#, fuzzy
+msgid "Error writing calendar properties to database."
+msgstr "Adatbázis-hiba a naptár elemeinek írásakor."
+
 msgid "European (d/m/y)"
 msgstr "Európai (nap/hónap/év)"
 
@@ -616,6 +623,10 @@ msgid "New Password"
 msgstr "Új jelszó"
 
 #, fuzzy
+msgid "New Principal"
+msgstr "Naptár felhasználói"
+
+#, fuzzy
 msgid "No <!-- not 'Yes' -->"
 msgstr "Sz."
 
@@ -634,6 +645,18 @@ msgstr "Szám"
 
 msgid "No. <!-- short for 'Number' -->"
 msgstr "Sz."
+
+#, fuzzy
+msgid "No. of Collections"
+msgstr "Gyűjtemény elérési útja"
+
+#, fuzzy
+msgid "No. of Principals"
+msgstr "Naptár felhasználói"
+
+#, fuzzy
+msgid "No. of Resources"
+msgstr "Erőforrás"
 
 msgid "No."
 msgstr "Szám"
@@ -902,6 +925,12 @@ msgstr ""
 msgid "Show help on"
 msgstr "Súgó erről: "
 
+msgid "Site Statistics require the database to be available!"
+msgstr ""
+
+msgid "Site Statistics"
+msgstr ""
+
 msgid "Some properties were not able to be changed."
 msgstr "Néhány tulajdonság nem módosítható."
 
@@ -962,10 +991,22 @@ msgid ""
 "The calendar-free-busy-set is superseded by the schedule-transp property of a calendar collection."
 msgstr ""
 
+msgid "The collection name may not be blank."
+msgstr ""
+
 msgid "The displayname may only be set on collections or principals."
 msgstr "A megjelenített név csak gyűjteményekhez vagy megbízókhoz állítható be."
 
+msgid "The email address really should not be blank."
+msgstr ""
+
 msgid "The file is not UTF-8 encoded, please check the error for more details."
+msgstr ""
+
+msgid "The full name for this person, group or other type of principal."
+msgstr ""
+
+msgid "The full name must not be blank."
 msgstr ""
 
 msgid "The name this user can log into the system with."
@@ -989,12 +1030,22 @@ msgstr "Teljes név"
 msgid "The user's password for logging in."
 msgstr "Jelszó"
 
+msgid "The username must not be blank, and may not contain a slash"
+msgstr ""
+
 #, fuzzy
 msgid "There is no collection at that URL."
 msgstr "Ezen a helyen nincs gyűjtemény."
 
 msgid "There was an error writing to the database."
 msgstr "Adatbázis-hiba történt íráskor."
+
+msgid ""
+"This operation does the following: <ul><li>check valid users in LDAP directory</li> <li>check users in "
+"DAViCal</li></ul> then <ul><li>if a user is present in DAViCal but not in LDAP set him as inactive in "
+"DAViCal</li> <li>if a user is present in LDAP but not in DAViCal create the user in DAViCal</li> "
+"<li>if a user in present in LDAP and DAViCal then update information in DAViCal</li> </ul>"
+msgstr ""
 
 msgid "This user's collections"
 msgstr "Felhasználó gyűjteményei"
@@ -1138,13 +1189,6 @@ msgstr ""
 msgid "You do not have appropriate rights to view that resource."
 msgstr "Nincs jogosultsága hozzáférni az erőforráshoz"
 
-msgid "You do not have sufficient access to lock that"
-msgstr "Nincs jogosultsága zárolni"
-
-#, fuzzy
-msgid "You may not access that collection"
-msgstr "Nincs jogosultsága hozzáférni a naptárhoz"
-
 msgid "You may not add entries to this calendar."
 msgstr "Nincs jogosultsága új bejegyzéseket írni a naptárba."
 
@@ -1216,8 +1260,12 @@ msgstr ""
 msgid "you should log on with the username and password that have been issued to you."
 msgstr "Lépjen be felhasználónevével és jelszavával."
 
-msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
-msgstr ""
+#~ msgid "You do not have sufficient access to lock that"
+#~ msgstr "Nincs jogosultsága zárolni"
+
+#, fuzzy
+#~ msgid "You may not access that collection"
+#~ msgstr "Nincs jogosultsága hozzáférni a naptárhoz"
 
 #~ msgid "Calendar Users"
 #~ msgstr "Naptár felhasználói"

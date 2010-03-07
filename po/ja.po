@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DAViCal 0.9.8.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-28 22:43+1300\n"
+"POT-Creation-Date: 2010-03-07 23:04+1300\n"
 "PO-Revision-Date: 2010-02-25 12:48+0900\n"
 "Last-Translator: Masahiro MIKAMI <mmecon@hotmail.co.jp>\n"
 "Language-Team: \n"
@@ -96,6 +96,10 @@ msgstr "そのプリンシパルの全てのカレンダーとイベントが回
 
 msgid "All of the user's calendars and events will be unrecoverably deleted."
 msgstr "そのユーザーの全てのカレンダーとイベントが回復不能な方法で削除されます。"
+
+#, fuzzy
+msgid "All privileges"
+msgstr "権限"
 
 msgid "All requested changes were made."
 msgstr "全てのリクエストされた変更が実行されました。"
@@ -385,6 +389,10 @@ msgstr "データベースのクエリでエラーが発生しました。"
 msgid "Error writing calendar details to database."
 msgstr "カレンダー詳細情報のデータベースへの書き込み中にエラーが発生しました。"
 
+#, fuzzy
+msgid "Error writing calendar properties to database."
+msgstr "カレンダー詳細情報のデータベースへの書き込み中にエラーが発生しました。"
+
 msgid "European (d/m/y)"
 msgstr "ヨーロッパ (d/m/y)"
 
@@ -574,6 +582,10 @@ msgstr "新規コレクション"
 msgid "New Password"
 msgstr "新規パスワード"
 
+#, fuzzy
+msgid "New Principal"
+msgstr "プリンシパル"
+
 msgid "No <!-- not 'Yes' -->"
 msgstr "いいえ <!-- 'はい'ではない -->"
 
@@ -591,6 +603,18 @@ msgstr "いいえ"
 
 msgid "No. <!-- short for 'Number' -->"
 msgstr "No. <!-- 'Number'の略称 -->"
+
+#, fuzzy
+msgid "No. of Collections"
+msgstr "新規コレクション"
+
+#, fuzzy
+msgid "No. of Principals"
+msgstr "グループプリンシパル"
+
+#, fuzzy
+msgid "No. of Resources"
+msgstr "資源のリスト"
 
 msgid "No."
 msgstr "No."
@@ -856,6 +880,12 @@ msgstr "このカレンダーは認証せずに読み取り可能ですか？"
 msgid "Show help on"
 msgstr "ヘルプの表示"
 
+msgid "Site Statistics require the database to be available!"
+msgstr ""
+
+msgid "Site Statistics"
+msgstr ""
+
 msgid "Some properties were not able to be changed."
 msgstr "いくつかの特性は変更できませんでした。"
 
@@ -914,12 +944,27 @@ msgid ""
 "The calendar-free-busy-set is superseded by the schedule-transp property of a calendar collection."
 msgstr "カレンダー予定有無設定よりも、カレンダーコレクションのスケジュール透過属性が優先します。"
 
+#, fuzzy
+msgid "The collection name may not be blank."
+msgstr "エラー: 氏名は空欄にできません。"
+
 msgid "The displayname may only be set on collections or principals."
 msgstr "表示名はコレクションやプリンシパルにか設定できません。"
+
+#, fuzzy
+msgid "The email address really should not be blank."
+msgstr "エラー: 氏名は空欄にできません。"
 
 msgid "The file is not UTF-8 encoded, please check the error for more details."
 msgstr ""
 "そのファイル%sはUTF-8でエンコードされていません。さらなる詳細についてはそのエラーを確認して下さい。"
+
+msgid "The full name for this person, group or other type of principal."
+msgstr ""
+
+#, fuzzy
+msgid "The full name must not be blank."
+msgstr "エラー: 氏名は空欄にできません。"
 
 msgid "The name this user can log into the system with."
 msgstr "このユーザーがこのシステムへのログイン時に使う名前。"
@@ -942,11 +987,21 @@ msgstr "そのユーザーの氏名。"
 msgid "The user's password for logging in."
 msgstr "そのユーザーのログイン時のパスワード。"
 
+msgid "The username must not be blank, and may not contain a slash"
+msgstr ""
+
 msgid "There is no collection at that URL."
 msgstr "そのURLにはコレクションが存在しません。"
 
 msgid "There was an error writing to the database."
 msgstr "データベースへの書き込み中にエラーがありました。"
+
+msgid ""
+"This operation does the following: <ul><li>check valid users in LDAP directory</li> <li>check users in "
+"DAViCal</li></ul> then <ul><li>if a user is present in DAViCal but not in LDAP set him as inactive in "
+"DAViCal</li> <li>if a user is present in LDAP but not in DAViCal create the user in DAViCal</li> "
+"<li>if a user in present in LDAP and DAViCal then update information in DAViCal</li> </ul>"
+msgstr ""
 
 msgid "This user's collections"
 msgstr "このユーザーのコレクション"
@@ -1086,12 +1141,6 @@ msgstr "閲覧中"
 msgid "You do not have appropriate rights to view that resource."
 msgstr "あなたはその資源を閲覧するための適切な権限を持っていません。"
 
-msgid "You do not have sufficient access to lock that"
-msgstr "あなたはそれをロックするための十分なアクセス権を持っていません"
-
-msgid "You may not access that collection"
-msgstr "あなたはそのコレクションにアクセスできません。"
-
 msgid "You may not add entries to this calendar."
 msgstr "あなたはこのカレンダーに記録を追加できません。"
 
@@ -1165,8 +1214,14 @@ msgstr "ファイル%sはUTF-8でエンコードされていません、詳細�
 msgid "you should log on with the username and password that have been issued to you."
 msgstr "あなたに発行したユーザー名とパスワードでログオンして下さい。"
 
-msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
-msgstr "この操作は次のことをします：<ul><li>LDAPディレクトリで有効なユーザーを確認</li>"
+#~ msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
+#~ msgstr "この操作は次のことをします：<ul><li>LDAPディレクトリで有効なユーザーを確認</li>"
+
+#~ msgid "You do not have sufficient access to lock that"
+#~ msgstr "あなたはそれをロックするための十分なアクセス権を持っていません"
+
+#~ msgid "You may not access that collection"
+#~ msgstr "あなたはそのコレクションにアクセスできません。"
 
 #~ msgid "Calendar Users"
 #~ msgstr "カレンダーユーザー"
