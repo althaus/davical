@@ -88,24 +88,6 @@ $resource = new DAVResource( $request->path );
    would allow unauthenticated access to resources.
 */
 
-function precondition_failed($precondition, $explanation = '') {
-  global $request;
-  $xmldoc = sprintf('<?xml version="1.0" encoding="utf-8" ?>
-<error xmlns="DAV:">
-  <%s/>%s
-</error>', $precondition, $explanation );
-
-  $request->DoResponse( 403, $xmldoc, 'text/xml; charset="utf-8"' );
-  exit(0);  // Unecessary, but might clarify things
-}
-
-function malformed_request( $text = 'Bad request' ) {
-  global $request;
-  $request->DoResponse( 400, $text );
-  exit(0);  // Unecessary, but might clarify things
-}
-
-
 $position = 0;
 $xmltree = BuildXMLTree( $request->xml_tags, $position);
 $aces = $xmltree->GetPath("/DAV::acl/*");
@@ -116,7 +98,7 @@ $by_principal  = null;
 $by_collection = null;
 if ( $grantor->IsPrincipal() ) $by_principal = $grantor->GetProperty('principal_id');
 else if ( $grantor->IsCollection() ) $by_collection = $grantor->GetProperty('collection_id');
-else precondition_failed('not-supported-privilege','ACLs may only be applied to Principals or Collections');
+else $request->PreconditionFailed(403,'not-supported-privilege','ACLs may only be applied to Principals or Collections');
 
 $qry = new AwlQuery('BEGIN');
 $qry->Exec('ACL',__LINE__,__FILE__);
@@ -125,11 +107,11 @@ foreach( $aces AS $k => $ace ) {
   $elements = $ace->GetContent();
   $principal = $elements[0];
   $grant = $elements[1];
-  if ( $principal->GetTag() != 'DAV::principal' ) malformed_request('ACL request must contain a principal, not '.$principal->GetTag());
+  if ( $principal->GetTag() != 'DAV::principal' ) $request->MalformedRequest('ACL request must contain a principal, not '.$principal->GetTag());
   $grant_tag = $grant->GetTag();
-  if ( $grant_tag == 'DAV::deny' )   precondition_failed('grant-only');
-  if ( $grant_tag == 'DAV::invert' ) precondition_failed('no-invert');
-  if ( $grant->GetTag() != 'DAV::grant' ) malformed_request('ACL request must contain a principal for each ACE');
+  if ( $grant_tag == 'DAV::deny' )   $request->PreconditionFailed(403,'grant-only');
+  if ( $grant_tag == 'DAV::invert' ) $request->PreconditionFailed(403,'no-invert');
+  if ( $grant->GetTag() != 'DAV::grant' ) $request->MalformedRequest('ACL request must contain a principal for each ACE');
 
   $privilege_names = array();
   $xml_privs = $grant->GetPath("/DAV::grant/DAV::privilege/*");
@@ -139,27 +121,27 @@ foreach( $aces AS $k => $ace ) {
   $privileges = privilege_to_bits($privilege_names);
 
   $principal_content = $principal->GetContent();
-  if ( count($principal_content) != 1 ) malformed_request('ACL request must contain exactly one principal per ACE');
+  if ( count($principal_content) != 1 ) $request->MalformedRequest('ACL request must contain exactly one principal per ACE');
   $principal_content = $principal_content[0];
   switch( $principal_content->GetTag() ) {
     case 'DAV::property':
       $principal_property = $principal_content->GetContent();
-      if ( $principal_property[0]->GetTag() != 'DAV::owner' ) precondition_failed( 'recognized-principal' );
+      if ( $principal_property[0]->GetTag() != 'DAV::owner' ) $request->PreconditionFailed(403, 'recognized-principal' );
       if ( privilege_to_bits('all') != $privileges ) {
-        precondition_failed( 'no-protected-ace-conflict', 'Owner must always have all permissions' );
+        $request->PreconditionFailed(403, 'no-protected-ace-conflict', 'Owner must always have all permissions' );
       }
       continue;  // and then we ignore it, since it's protected
       break;
 
     case 'DAV::unauthenticated':
-      precondition_failed( 'allowed-principal', 'May not set privileges for unauthenticated users' );
+      $request->PreconditionFailed(403, 'allowed-principal', 'May not set privileges for unauthenticated users' );
       break;
 
     case 'DAV::href':
       $principal_type = 'href';
       $principal = new DAVResource( DeconstructURL($principal_content->GetContent()) );
       if ( ! $principal->Exists() || !$principal->IsPrincipal() )
-        precondition_failed('recognized-principal', 'Principal "' + $principal_content->GetContent() + '" not found.');
+        $request->PreconditionFailed(403,'recognized-principal', 'Principal "' + $principal_content->GetContent() + '" not found.');
       $sqlparms = array( ':to_principal' => $principal->GetProperty('principal_id') );
       $where = 'WHERE to_principal=:to_principal AND ';
       if ( isset($by_principal) ) {
@@ -202,11 +184,11 @@ foreach( $aces AS $k => $ace ) {
 
     case 'DAV::all':
 //      $principal_type = 'all';
-      precondition_failed( 'allowed-principal', 'May not set privileges for unauthenticated users' );
+      $request->PreconditionFailed(403, 'allowed-principal', 'May not set privileges for unauthenticated users' );
       break;
 
     default:
-      precondition_failed( 'recognized-principal' );
+      $request->PreconditionFailed(403, 'recognized-principal' );
       break;
   }
 
