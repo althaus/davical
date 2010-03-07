@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-28 22:43+1300\n"
+"POT-Creation-Date: 2010-03-07 23:04+1300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -97,6 +97,9 @@ msgid "All of the principal's calendars and events will be unrecoverably deleted
 msgstr ""
 
 msgid "All of the user's calendars and events will be unrecoverably deleted."
+msgstr ""
+
+msgid "All privileges"
 msgstr ""
 
 msgid "All requested changes were made."
@@ -413,6 +416,10 @@ msgstr "Errore durante l'interrogazione al database."
 msgid "Error writing calendar details to database."
 msgstr "Errore durante la scrittura dettagli calendario nel database."
 
+#, fuzzy
+msgid "Error writing calendar properties to database."
+msgstr "Errore durante la scrittura dettagli calendario nel database."
+
 msgid "European (d/m/y)"
 msgstr "Europeo (d/m/y)"
 
@@ -614,6 +621,10 @@ msgid "New Password"
 msgstr "Nuova password"
 
 #, fuzzy
+msgid "New Principal"
+msgstr "Calendario utenti"
+
+#, fuzzy
 msgid "No <!-- not 'Yes' -->"
 msgstr "Nr. <!-- short for 'Number' -->"
 
@@ -632,6 +643,17 @@ msgstr "No."
 
 msgid "No. <!-- short for 'Number' -->"
 msgstr "Nr. <!-- short for 'Number' -->"
+
+#, fuzzy
+msgid "No. of Collections"
+msgstr "Percorso archivio"
+
+#, fuzzy
+msgid "No. of Principals"
+msgstr "Calendario utenti"
+
+msgid "No. of Resources"
+msgstr ""
 
 msgid "No."
 msgstr "No."
@@ -902,6 +924,12 @@ msgstr ""
 msgid "Show help on"
 msgstr ""
 
+msgid "Site Statistics require the database to be available!"
+msgstr ""
+
+msgid "Site Statistics"
+msgstr ""
+
 msgid "Some properties were not able to be changed."
 msgstr ""
 
@@ -963,10 +991,22 @@ msgid ""
 "The calendar-free-busy-set is superseded by the schedule-transp property of a calendar collection."
 msgstr ""
 
+msgid "The collection name may not be blank."
+msgstr ""
+
 msgid "The displayname may only be set on collections or principals."
 msgstr ""
 
+msgid "The email address really should not be blank."
+msgstr ""
+
 msgid "The file is not UTF-8 encoded, please check the error for more details."
+msgstr ""
+
+msgid "The full name for this person, group or other type of principal."
+msgstr ""
+
+msgid "The full name must not be blank."
 msgstr ""
 
 msgid "The name this user can log into the system with."
@@ -990,10 +1030,20 @@ msgstr ""
 msgid "The user's password for logging in."
 msgstr ""
 
+msgid "The username must not be blank, and may not contain a slash"
+msgstr ""
+
 msgid "There is no collection at that URL."
 msgstr ""
 
 msgid "There was an error writing to the database."
+msgstr ""
+
+msgid ""
+"This operation does the following: <ul><li>check valid users in LDAP directory</li> <li>check users in "
+"DAViCal</li></ul> then <ul><li>if a user is present in DAViCal but not in LDAP set him as inactive in "
+"DAViCal</li> <li>if a user is present in LDAP but not in DAViCal create the user in DAViCal</li> "
+"<li>if a user in present in LDAP and DAViCal then update information in DAViCal</li> </ul>"
 msgstr ""
 
 msgid "This user's collections"
@@ -1138,12 +1188,6 @@ msgstr ""
 msgid "You do not have appropriate rights to view that resource."
 msgstr ""
 
-msgid "You do not have sufficient access to lock that"
-msgstr ""
-
-msgid "You may not access that collection"
-msgstr ""
-
 msgid "You may not add entries to this calendar."
 msgstr ""
 
@@ -1213,9 +1257,6 @@ msgid "the file %s is not UTF-8 encoded, please check error for more details"
 msgstr ""
 
 msgid "you should log on with the username and password that have been issued to you."
-msgstr ""
-
-msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
 msgstr ""
 
 #~ msgid "Calendar Users"

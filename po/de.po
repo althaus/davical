@@ -42,7 +42,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DAViCal 0.9.7.99\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-28 22:43+1300\n"
+"POT-Creation-Date: 2010-03-07 23:04+1300\n"
 "PO-Revision-Date: 2009-12-23 18:00+0100\n"
 "Last-Translator: Patrick Näf Moser <herzbube@herzbube.ch>\n"
 "MIME-Version: 1.0\n"
@@ -137,6 +137,11 @@ msgstr "Alle Kalender und Termine des Benutzers werden unwiderruflich gelöscht.
 
 msgid "All of the user's calendars and events will be unrecoverably deleted."
 msgstr "Alle Kalender und Termine des Benutzers werden unwiderruflich gelöscht."
+
+# Privileges=Privilegien ist ein stehender Begriff in WebDAV
+#, fuzzy
+msgid "All privileges"
+msgstr "Privilegien"
 
 msgid "All requested changes were made."
 msgstr "Alle gewünschten Änderungen wurden durchgeführt."
@@ -477,6 +482,10 @@ msgstr "Fehler bei der Datenbankabfrage"
 msgid "Error writing calendar details to database."
 msgstr "Fehler beim Schreiben der Kalenderdaten in die Datenbank."
 
+#, fuzzy
+msgid "Error writing calendar properties to database."
+msgstr "Fehler beim Schreiben der Kalenderdaten in die Datenbank."
+
 msgid "European (d/m/y)"
 msgstr "Europäisch (tt.mm.jjjj)"
 
@@ -697,6 +706,10 @@ msgid "New Password"
 msgstr "Neues Kennwort"
 
 #, fuzzy
+msgid "New Principal"
+msgstr "Principal"
+
+#, fuzzy
 msgid "No <!-- not 'Yes' -->"
 msgstr "Nr."
 
@@ -717,6 +730,19 @@ msgstr "Nr."
 
 msgid "No. <!-- short for 'Number' -->"
 msgstr "Nr."
+
+#, fuzzy
+msgid "No. of Collections"
+msgstr "Neue Sammlung"
+
+# TODO - Group Principals übersetzen
+#, fuzzy
+msgid "No. of Principals"
+msgstr "Gruppen Principals"
+
+#, fuzzy
+msgid "No. of Resources"
+msgstr "Ressourcenliste anzeigen"
 
 msgid "No."
 msgstr "Nr."
@@ -1014,6 +1040,12 @@ msgstr "Soll dieser Kalender von nicht angemeldeten Benutzern lesbar sein?"
 msgid "Show help on"
 msgstr "Zeige Hilfe zum Thema"
 
+msgid "Site Statistics require the database to be available!"
+msgstr ""
+
+msgid "Site Statistics"
+msgstr ""
+
 msgid "Some properties were not able to be changed."
 msgstr "Einige Eigenschaften konnten nicht geändert werden."
 
@@ -1079,13 +1111,28 @@ msgid ""
 "The calendar-free-busy-set is superseded by the schedule-transp property of a calendar collection."
 msgstr ""
 
+#, fuzzy
+msgid "The collection name may not be blank."
+msgstr "FEHLER: Der vollständige Name darf nicht leer sein."
+
 # TODO - Principals übersetzen
 msgid "The displayname may only be set on collections or principals."
 msgstr "Der Anzeigename kann nur für Sammlungen oder Principals gesetzt werden."
 
 #, fuzzy
+msgid "The email address really should not be blank."
+msgstr "FEHLER: Der vollständige Name darf nicht leer sein."
+
+#, fuzzy
 msgid "The file is not UTF-8 encoded, please check the error for more details."
 msgstr "Die Datei ist nicht UTF-8 codiert; weitere Details stehen in der Fehlermeldung."
+
+msgid "The full name for this person, group or other type of principal."
+msgstr ""
+
+#, fuzzy
+msgid "The full name must not be blank."
+msgstr "FEHLER: Der vollständige Name darf nicht leer sein."
 
 msgid "The name this user can log into the system with."
 msgstr "Name mit dem sich dieser Benutzer beim System anmelden kann."
@@ -1108,12 +1155,22 @@ msgstr "Der vollständige Name des Benutzers."
 msgid "The user's password for logging in."
 msgstr "Kennwort, mit dem der Benutzer sich anmeldet."
 
+msgid "The username must not be blank, and may not contain a slash"
+msgstr ""
+
 #, fuzzy
 msgid "There is no collection at that URL."
 msgstr "Unter dieser URL gibt es keine Sammlung."
 
 msgid "There was an error writing to the database."
 msgstr "Beim Schreiben in die Datenbank ist ein Fehler aufgetreten."
+
+msgid ""
+"This operation does the following: <ul><li>check valid users in LDAP directory</li> <li>check users in "
+"DAViCal</li></ul> then <ul><li>if a user is present in DAViCal but not in LDAP set him as inactive in "
+"DAViCal</li> <li>if a user is present in LDAP but not in DAViCal create the user in DAViCal</li> "
+"<li>if a user in present in LDAP and DAViCal then update information in DAViCal</li> </ul>"
+msgstr ""
 
 msgid "This user's collections"
 msgstr "Die Sammlungen dieses Benutzers"
@@ -1266,13 +1323,6 @@ msgstr "Sie sehen"
 msgid "You do not have appropriate rights to view that resource."
 msgstr "Sie haben keine Zugriffsberechtigung auf diese Ressource."
 
-msgid "You do not have sufficient access to lock that"
-msgstr "Ihre Berechtigung reicht nicht aus um dies zu sperren"
-
-#, fuzzy
-msgid "You may not access that collection"
-msgstr "Sie haben keine Zugriffsberechtigung für diese Sammlung"
-
 #, fuzzy
 msgid "You may not add entries to this calendar."
 msgstr "Sie haben nicht die Berechtigung, Einträge in diesen Kalender hinzuzufügen."
@@ -1348,8 +1398,15 @@ msgstr "Die Datei %s ist nicht UTF-8 codiert; weitere Details stehen in der Fehl
 msgid "you should log on with the username and password that have been issued to you."
 msgstr "Melden Sie sich mit dem Ihnen genannten Benutzernamen und Kennwort an."
 
-msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
-msgstr "Folgendes wird durchgeführt: <ul><li>Gültige Benutzer im LDAP Verzeichnis überprüfen</li>"
+#~ msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
+#~ msgstr "Folgendes wird durchgeführt: <ul><li>Gültige Benutzer im LDAP Verzeichnis überprüfen</li>"
+
+#~ msgid "You do not have sufficient access to lock that"
+#~ msgstr "Ihre Berechtigung reicht nicht aus um dies zu sperren"
+
+#, fuzzy
+#~ msgid "You may not access that collection"
+#~ msgstr "Sie haben keine Zugriffsberechtigung für diese Sammlung"
 
 # TODO - Kontext bestimmen (bessere Übersetzung wahrscheinlich möglich, im Sinn
 # von "Benutzer, die diesen Kalender verwenden")
