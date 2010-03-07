@@ -12,7 +12,6 @@ dbg_error_log('MKCOL', 'method handler');
 require_once('AwlQuery.php');
 
 $request->NeedPrivilege('DAV::bind');
-
 $displayname = $request->path;
 
 // Enforce trailling '/' on collection name
@@ -26,6 +25,13 @@ if ( preg_match( '#^(.*/)([^/]+)(/)?$#', $request->path, $matches ) ) {
   $parent_container = $matches[1];
   $displayname = $matches[2];
 }
+
+require_once('DAVResource.php');
+$parent = new DAVResource( $parent_container );
+if ( $parent->IsSchedulingCollection( 'inbox' ) ) {
+  $request->PreconditionFailed(403, 'urn:ietf:params:xml:ns:caldav:no-mkcol-in-inbox' );
+}
+
 
 $request_type = $request->method;
 $is_calendar = ($request_type == 'MKCALENDAR');
