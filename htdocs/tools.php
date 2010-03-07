@@ -48,12 +48,7 @@ class Tools {
     $html .= "<table width=\"100%\" class=\"data\">\n";
     $html .= $ef->StartForm( array("autocomplete" => "off" ) );
     $html .= sprintf( "<tr><td style=\"text-align:left\" colspan=\"2\" >%s</td></tr>\n",
-    translate("This operation does the following: <ul><li>check valid users in LDAP directory</li>
-    <li>check users in RSCDS</li></ul> then
-    <ul><li>if a user is present in RSCDS but not in LDAP set him as inactive in RSCDS</li>
-        <li>if a user is present in LDAP but not in RSCDS create the user in RSCDS</li>
-        <li>if a user in present in LDAP and RSCDS then update information in RSCDS</li>
-    </ul>"));
+    translate("This operation does the following: <ul><li>check valid users in LDAP directory</li> <li>check users in DAViCal</li></ul> then <ul><li>if a user is present in DAViCal but not in LDAP set him as inactive in DAViCal</li> <li>if a user is present in LDAP but not in DAViCal create the user in DAViCal</li> <li>if a user in present in LDAP and DAViCal then update information in DAViCal</li> </ul>"));
     $html .= "</table>\n";
 
     $html .= $ef->SubmitButton( "Sync_LDAP", translate('Submit'));
