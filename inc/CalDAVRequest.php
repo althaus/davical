@@ -1053,6 +1053,35 @@ EOSQL;
 
 
   /**
+  * Send an error response for a failed precondition.
+  *
+  * @param int $status The status code for the failed precondition.  Normally 403
+  * @param string $precondition The namespaced precondition tag.
+  * @param string $explanation An optional text explanation for the failure.
+  */
+  function PreconditionFailed( $status, $precondition, $explanation = '') {
+    $xmldoc = sprintf('<?xml version="1.0" encoding="utf-8" ?>
+<error xmlns="DAV:">
+  <%s/>%s
+</error>', $precondition, $explanation );
+
+    $request->DoResponse( $status, $xmldoc, 'text/xml; charset="utf-8"' );
+    exit(0);  // Unecessary, but might clarify things
+  }
+
+
+  /**
+  * Send a simple error informing the client that was a malformed request
+  *
+  * @param string $text An optional text description of the failure.
+  */
+  function MalformedRequest( $text = 'Bad request' ) {
+    $this->DoResponse( 400, $text );
+    exit(0);  // Unecessary, but might clarify things
+  }
+
+
+  /**
   * Send an XML Response.  This function will never return.
   *
   * @param int $status The HTTP status to respond
