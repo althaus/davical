@@ -42,7 +42,7 @@ if ( isset($fb_format) && $fb_format != 'text/calendar' ) {
 */
 $request = new CalDAVRequest(array("allow_by_email" => 1));
 
-if ( ! $request->AllowedTo('freebusy') ) $request->DoResponse( 404 );
+if ( ! $request->HavePrivilegeTo('read-free-busy') ) $request->DoResponse( 404 );
 
 switch ( $_SERVER['REQUEST_METHOD'] ) {
   case 'GET':
