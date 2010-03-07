@@ -197,13 +197,13 @@ function toggle_visible() {
 <p>$site_statistics_table</p>
 
 <h2>$heading_config_clients</h2>
-<p>The <a href="http://rscds.sourceforge.net/clients.php">DAViCal client setup page on sourceforge</a> has information on how
+<p>The <a href="http://www.davical.org/clients.php">client setup page on the DAViCal website</a> has information on how
 to configure Evolution, Sunbird, Lightning and Mulberry to use remotely hosted calendars.</p>
 <p>The administrative interface has no facility for viewing or modifying calendar data.</p>
 
 <h2>$heading_config_davical</h2>
 <p>If you can read this then things must be mostly working already.</p>
-<p>The <a href="http://rscds.sourceforge.net/installation.php">DAViCal installation page</a> on sourceforge has
+<p>The <a href="http://www.davical.org/installation.php">installation page on the DAViCal website</a> has
 some further information on how to install and configure this application.</p>
 EOBODY;
 
