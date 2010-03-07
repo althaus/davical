@@ -75,13 +75,13 @@ function UpdateUserFromExternal( &$usr ) {
   */
   if ( !isset($usr->user_no) || intval($usr->user_no) == 0 ) {
     $qry = new PgQuery( "SELECT nextval('usr_user_no_seq');" );
-    $qry->Exec('Login',__LINE,__FILE__);
+    $qry->Exec('Login',__LINE__,__FILE__);
     $sequence_value = $qry->Fetch(true);  // Fetch as an array
     $usr->user_no = $sequence_value[0];
   }
 
   $qry = new PgQuery("SELECT * FROM usr WHERE user_no = $usr->user_no;" );
-  if ( $qry->Exec('Login',__LINE,__FILE__) && $qry->rows == 1 ) {
+  if ( $qry->Exec('Login',__LINE__,__FILE__) && $qry->rows == 1 ) {
     $type = "UPDATE";
     if ( $old = $qry->Fetch() ) {
       $changes = false;
@@ -106,7 +106,7 @@ function UpdateUserFromExternal( &$usr ) {
     $type = "INSERT";
 
   $qry = new PgQuery( sql_from_object( $usr, $type, 'usr', "WHERE user_no=$usr->user_no" ) );
-  $qry->Exec('Login',__LINE,__FILE__);
+  $qry->Exec('Login',__LINE__,__FILE__);
 
   /**
   * We disallow login by inactive users _after_ we have updated the local copy
@@ -116,7 +116,7 @@ function UpdateUserFromExternal( &$usr ) {
   if ( $type == 'INSERT' ) {
     $privs = decbin(privilege_to_bits($c->default_privileges));
     $qry = new PgQuery( 'INSERT INTO principal( type_id, user_no, displayname, default_privileges) SELECT 1, user_no, fullname, ?::BIT(24) FROM usr WHERE username=?', $privs, $usr->username );
-    $qry->Exec('Login',__LINE,__FILE__);
+    $qry->Exec('Login',__LINE__,__FILE__);
     CreateHomeCalendar($usr->username);
   }
 }
@@ -170,7 +170,7 @@ EOERRMSG;
 
   $qry = new PgQuery("SELECT $cols FROM usr WHERE lower(username) = ? $andwhere", strtolower($username) );
   $qry->SetConnection($authconn);
-  if ( $qry->Exec('Login',__LINE,__FILE__) && $qry->rows == 1 ) {
+  if ( $qry->Exec('Login',__LINE__,__FILE__) && $qry->rows == 1 ) {
     $usr = $qry->Fetch();
     if ( session_validate_password( $password, $usr->password ) ) {
       UpdateUserFromExternal($usr);
