@@ -1,3 +1,11 @@
+HTTP/1.1 200 OK
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy
+Ticket:Good Ticket ID
+ETag: "Some good ETag"
+Content-Length: 622
+Content-Type: text/xml; charset="utf-8"
+
 <?xml version="1.0" encoding="utf-8" ?>
 <prop xmlns="DAV:" xmlns:T="http://www.xythos.com/namespaces/StorageServer" xmlns:C="urn:ietf:params:xml:ns:caldav">
  <T:ticketdiscovery>

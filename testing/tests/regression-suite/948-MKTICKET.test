@@ -5,7 +5,7 @@ TYPE=MKTICKET
 URL=http://regression.host/caldav.php/user1/home/
 HEADER=User-Agent: Ticket Spec Tests
 HEADER=Content-Type: text/xml; charset="UTF-8"
-
+HEAD
 
 BEGINDATA
 <?xml version="1.0" encoding="utf-8" ?>
@@ -25,4 +25,6 @@ SELECT dav_owner_id,
   FROM access_ticket
 ENDQUERY
 
+REPLACE=!ETag: "\S+"!ETag: "Some good etag"!
 REPLACE=!<T:id>\S{8}</T:id>!<T:id>Good Ticket ID</T:id>!
+REPLACE=!Ticket: \S{8}!Ticket:Good Ticket ID!

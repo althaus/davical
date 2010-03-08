@@ -1,5 +1,6 @@
 #
 # PROPFIND on a collection which we can only access via a ticket
+#   this should fail, because we don't supply the ticket
 #
 TYPE=PROPFIND
 URL=http://regression.host/caldav.php/user1/home/
@@ -19,17 +20,11 @@ HEADER=Depth: 0
 
 BEGINDATA
 <?xml version="1.0" encoding="utf-8"?>
-<propfind xmlns="DAV:" xmlns:caldav="urn:ietf:params:xml:ns:caldav">
+<propfind xmlns="DAV:"
+          xmlns:T="http://www.xythos.com/namespaces/StorageServer">
  <prop>
-  <displayname/>
-  <supported-report-set/>
-  <supported-method-set/>
   <current-user-privilege-set/>
-  <caldav:calendar-description/>
-  <caldav:supported-calendar-component-set/>
-  <caldav:schedule-calendar-transp/>
-  <caldav:schedule-default-calendar-URL/>
-  <caldav:calendar-timezone/>
+  <T:ticketdiscovery/>
  </prop>
 </propfind>
 ENDDATA
