@@ -75,6 +75,7 @@ switch ( $request->method ) {
   case 'LOCK':       include('caldav-LOCK.php');           break;
   case 'UNLOCK':     include('caldav-LOCK.php');           break;
   case 'MKTICKET':   include('caldav-MKTICKET.php');       break;
+  case 'DELTICKET':  include('caldav-DELTICKET.php');      break;
 
   case 'TESTRRULE':  include('test-RRULE-v2.php');         break;
 

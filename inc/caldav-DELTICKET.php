@@ -21,7 +21,7 @@ dbg_error_log('DELTICKET', 'method handler');
 require_once('DAVResource.php');
 
 if ( ! $request->HavePrivilegeTo('DAV::unbind') && $request->ticket->owner() != $session->principal_id ) {
-  $request->NeedPrivilege('DAV::unbind')
+  $request->NeedPrivilege('DAV::unbind');
 }
 
 if ( ! isset($request->ticket) ) {
