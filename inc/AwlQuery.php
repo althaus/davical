@@ -394,6 +394,41 @@ class AwlQuery
 
 
   /**
+  * Simple QDo() class which will re-use this query for whatever was passed in, and execute it
+  * returning the result of the Exec() call.  We can't call it Do() since that's a reserved word...
+  * @param  string The query string in PDO syntax with replacable '?' characters or bindable parameters.
+  * @param mixed The values to replace into the SQL string.
+  * @return boolean Success (true) or Failure (false)
+  */
+  public function QDo() {
+    $this->rows = null;
+    $this->execution_time = 0;
+    $this->error_info = null;
+    $this->rownum = -1;
+    $this->bound_parameters = null;
+    $this->sth = null;
+
+    if ( !isset($this->connection) ) {
+      if ( !isset($_awl_dbconn) ) _awl_connect_configured_database();
+      $this->connection = $_awl_dbconn;
+    }
+
+    $argc = func_num_args();
+    $args = func_get_args();
+
+    $this->querystring = array_shift($args);
+    if ( 1 < $argc ) {
+      if ( is_array($args[0]) )
+        $this->Bind($args[0]);
+      else
+        $this->Bind($args);
+    }
+
+    return $this->Exec();
+  }
+
+
+  /**
   * Execute the query, logging any debugging.
   *
   * <b>Example</b>
@@ -408,12 +443,18 @@ class AwlQuery
   *                         to help our children find the source of a problem.
   * @param int $line The line number where Exec was called
   * @param string $file The file where Exec was called
-  * @return resource The actual result of the query (FWIW)
+  * @return boolean Success (true) or Failure (false)
   */
-  function Exec( $location = '', $line = 0, $file = '' ) {
+  function Exec( $location = null, $line = null, $file = null ) {
     global $debuggroups, $c;
-    $this->location = trim($location);
-    if ( $this->location == "" ) $this->location = substr($_SERVER['PHP_SELF'],1);
+    if ( isset($location) ) $this->location = trim($location);
+    if ( !isset($this->location) || $this->location == "" ) $this->location = substr($_SERVER['PHP_SELF'],1);
+
+    if ( isset($line) )     $this->location_line = intval($line);
+    else if ( isset($this->location_line) ) $line = $this->location_line;
+
+    if ( isset($file) )     $this->location_file = trim($file);
+    else if ( isset($this->location_file) ) $file = $this->location_file;
 
     if ( isset($debuggroups['querystring']) || isset($c->dbg['querystring']) || isset($c->dbg['ALL']) ) {
       $this->_log_query( $this->location, 'DBGQ', $this->querystring, $line, $file );
