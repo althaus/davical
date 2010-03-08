@@ -19,7 +19,7 @@ function check_pgsql() {
 }
 
 if ( check_pgsql() ) {
-  $session->LoginRequired();
+  $session->LoginRequired( (isset($c->restrict_setup_to_admin) && $c->restrict_setup_to_admin ? 'Admin' : null ) );
 }
 
 function check_pdo() {
