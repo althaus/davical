@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rscds 0.7.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-07 23:04+1300\n"
+"POT-Creation-Date: 2010-03-08 14:52+1300\n"
 "PO-Revision-Date: 2007-05-03 15:00+0001\n"
 "Last-Translator: David Takacs <david.takacs@cafeopen.eu>\n"
 "Language-Team: \n"
@@ -1192,9 +1192,6 @@ msgstr "Nincs jogosultsága hozzáférni az erőforráshoz"
 msgid "You may not add entries to this calendar."
 msgstr "Nincs jogosultsága új bejegyzéseket írni a naptárba."
 
-msgid "You may not delete entries from this calendar."
-msgstr "Nincs jogosultsága bejegyzéseket törölni ebből a naptárból."
-
 msgid "You may not modify entries on this calendar."
 msgstr "Nincs jogosultsága bejegyzéseket módosítani ebben a naptárban."
 
@@ -1259,6 +1256,9 @@ msgstr ""
 
 msgid "you should log on with the username and password that have been issued to you."
 msgstr "Lépjen be felhasználónevével és jelszavával."
+
+#~ msgid "You may not delete entries from this calendar."
+#~ msgstr "Nincs jogosultsága bejegyzéseket törölni ebből a naptárból."
 
 #~ msgid "You do not have sufficient access to lock that"
 #~ msgstr "Nincs jogosultsága zárolni"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-07 23:04+1300\n"
+"POT-Creation-Date: 2010-03-08 14:52+1300\n"
 "PO-Revision-Date: 2010-02-18 16:00+0100\n"
 "Last-Translator: Vincent Van Houtte <http://www.synergylaw.be/>\n"
 "Language-Team: nl_NL <LL@li.org>\n"
@@ -1196,9 +1196,6 @@ msgstr "U heeft niet de benodigde rechten om deze bron te bekijken"
 msgid "You may not add entries to this calendar."
 msgstr "U mag geen items toevoegen aan deze agenda"
 
-msgid "You may not delete entries from this calendar."
-msgstr "U mag geen items verwijderen uit deze agenda"
-
 msgid "You may not modify entries on this calendar."
 msgstr "U mag geen items bewerken in deze agenda"
 
@@ -1265,6 +1262,9 @@ msgstr "het bestand %s is niet UTF-8 ge-encodeerd, kijk aub de foutmelding na vo
 
 msgid "you should log on with the username and password that have been issued to you."
 msgstr "U moet zich aanmelden met de gebruikersnaam en het wachtwoord die U zijn toegewezen."
+
+#~ msgid "You may not delete entries from this calendar."
+#~ msgstr "U mag geen items verwijderen uit deze agenda"
 
 #~ msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
 #~ msgstr "Deze verrichting doet hetvolgende: <ul><li>Valideer de gebruikers in de LDAP directory</li>"

@@ -42,7 +42,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DAViCal 0.9.7.99\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-07 23:04+1300\n"
+"POT-Creation-Date: 2010-03-08 14:52+1300\n"
 "PO-Revision-Date: 2009-12-23 18:00+0100\n"
 "Last-Translator: Patrick Näf Moser <herzbube@herzbube.ch>\n"
 "MIME-Version: 1.0\n"
@@ -1327,9 +1327,6 @@ msgstr "Sie haben keine Zugriffsberechtigung auf diese Ressource."
 msgid "You may not add entries to this calendar."
 msgstr "Sie haben nicht die Berechtigung, Einträge in diesen Kalender hinzuzufügen."
 
-msgid "You may not delete entries from this calendar."
-msgstr "Sie haben keine Berechtigung Einträge dieses Kalenders zu löschen."
-
 msgid "You may not modify entries on this calendar."
 msgstr "Sie haben keine Berechtigung Einträge dieses Kalenders zu ändern."
 
@@ -1397,6 +1394,9 @@ msgstr "Die Datei %s ist nicht UTF-8 codiert; weitere Details stehen in der Fehl
 
 msgid "you should log on with the username and password that have been issued to you."
 msgstr "Melden Sie sich mit dem Ihnen genannten Benutzernamen und Kennwort an."
+
+#~ msgid "You may not delete entries from this calendar."
+#~ msgstr "Sie haben keine Berechtigung Einträge dieses Kalenders zu löschen."
 
 #~ msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
 #~ msgstr "Folgendes wird durchgeführt: <ul><li>Gültige Benutzer im LDAP Verzeichnis überprüfen</li>"
