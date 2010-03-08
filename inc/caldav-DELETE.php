@@ -24,10 +24,7 @@ if ( !isset($request->etag_if_match) && isset($request->etag_none_match) && isse
   }
 }
 
-
-if ( ! $request->AllowedTo('delete') ) {
-  $request->DoResponse( 403, translate("You may not delete entries from this calendar.") );
-}
+$request->NeedPrivilege('DAV::unbind');
 
 $lock_opener = $request->FailIfLocked();
 
@@ -35,29 +32,29 @@ if ( $request->IsCollection() ) {
   /**
   * We read the collection first, so we can check if it matches (or does not match)
   */
-  $qry = new PgQuery( "SELECT * FROM collection WHERE user_no = ? AND dav_name = ?;", $request->user_no, $request->path );
-  if ( $qry->Exec("DELETE") && $qry->rows == 1 ) {
+  $qry = new AwlQuery( 'SELECT * FROM collection WHERE user_no = :user_no AND dav_name = :dav_name',
+              array( ':user_no' => $request->user_no, ':dav_name' => $request->path ) );
+  if ( $qry->Exec('DELETE',__LINE__,__FILE__) && $qry->rows() == 1 ) {
     $delete_row = $qry->Fetch();
     if ( (isset($request->etag_if_match) && $request->etag_if_match != $delete_row->dav_etag) ) {
       $request->DoResponse( 412, translate("Resource does not match 'If-Match' header - not deleted") );
     }
 
-    $sql = "BEGIN;";
-    $sql .= "SELECT write_sync_change( collection_id, 404, caldav_data.dav_name) FROM caldav_data WHERE user_no = $request->user_no AND dav_name LIKE ". qpg($request->path.'%').";";
-    $sql .= "DELETE FROM collection WHERE user_no = $request->user_no AND dav_name = ". qpg($request->path).";";
-    $sql .= "DELETE FROM caldav_data WHERE user_no = $request->user_no AND dav_name LIKE ?;";
-    $sql .= "DELETE FROM property WHERE dav_name LIKE ?;";
-    $sql .= "DELETE FROM locks WHERE dav_name LIKE ?;";
-    $sql .= "COMMIT;";
-    $qry = new PgQuery( $sql, $request->path.'%', $request->path.'%', $request->path.'%' );
-
-    if ( $qry->Exec("DELETE") ) {
+    $path_like = array( ':path_like' => $request->path.'%' );
+    if ( $qry->Begin()
+         && $qry->QDo("SELECT write_sync_change(collection_id, 404, caldav_data.dav_name) FROM caldav_data WHERE dav_name LIKE :path_like", $path_like )
+         && $qry->QDo("DELETE FROM collection WHERE dav_name = :request_path", array(':request_path' => $request->path) )
+         && $qry->QDo("DELETE FROM caldav_data WHERE dav_name LIKE :path_like", $path_like )
+         && $qry->QDo("DELETE FROM property WHERE dav_name LIKE :path_like", $path_like )
+         && $qry->QDo("DELETE FROM locks WHERE dav_name LIKE :path_like", $path_like )
+         && $qry->Commit() ) {
       @dbg_error_log( "DELETE", "DELETE (collection): User: %d, ETag: %s, Path: %s", $session->user_no, $request->etag_if_match, $request->path);
       $request->DoResponse( 204 );
     }
     else {
       $request->DoResponse( 500, translate("Error querying database.") );
     }
+
   }
   else {
     $request->DoResponse( 404 );
@@ -68,21 +65,20 @@ else {
   * We read the resource first, so we can check if it matches (or does not match)
   */
   $escaped_path = qpg($request->path);
-  $qry = new PgQuery( "SELECT cd.dav_etag, ci.uid, cd.collection_id FROM caldav_data cd JOIN calendar_item ci USING (dav_id) WHERE cd.user_no = ? AND cd.dav_name = $escaped_path;", $request->user_no );
-  if ( $qry->Exec("DELETE") && $qry->rows == 1 ) {
+  $qry = new AwlQuery( "SELECT cd.dav_etag, ci.uid, cd.collection_id FROM caldav_data cd JOIN calendar_item ci USING (dav_id) WHERE cd.dav_name = $escaped_path" );
+  if ( $qry->Exec("DELETE") && $qry->rows() == 1 ) {
     $delete_row = $qry->Fetch();
     if ( (isset($request->etag_if_match) && $request->etag_if_match != $delete_row->dav_etag) ) {
       $request->DoResponse( 412, translate("Resource has changed on server - not deleted") );
     }
 
     $collection_id = $delete_row->collection_id;
-    $sql = <<<EOSQL
-DELETE FROM caldav_data WHERE collection_id = $collection_id AND dav_name = $escaped_path;
-SELECT write_sync_change( $collection_id, 404, $escaped_path);
-EOSQL;
-    $qry = new PgQuery( $sql );
-    if ( $qry->Exec("DELETE") ) {
-      $qry = new PgQuery( "DELETE FROM property WHERE dav_name = $escaped_path;" ); $qry->Exec("DELETE"); /** @todo we should write a trigger to delete property records when caldav_data or collection is deleted */
+
+    if ( $qry->Begin()
+         && $qry->QDo("DELETE FROM caldav_data WHERE collection_id = $collection_id AND dav_name = $escaped_path" )
+         && $qry->QDo("SELECT write_sync_change( $collection_id, 404, $escaped_path)" )
+         && $qry->QDo("DELETE FROM property WHERE dav_name = $escaped_path" )
+         && $qry->Commit() ) {
       @dbg_error_log( "DELETE", "DELETE: User: %d, ETag: %s, Path: %s", $session->user_no, $request->etag_if_match, $request->path);
       if ( function_exists('log_caldav_action') ) {
         log_caldav_action( 'DELETE', $delete_row->uid, $request->user_no, $request->collection_id, $request->path );
