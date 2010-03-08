@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rscds-messages\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-07 23:04+1300\n"
+"POT-Creation-Date: 2010-03-08 14:52+1300\n"
 "PO-Revision-Date: 2007-03-31 00:24+0200\n"
 "Last-Translator: Rafal Slubowski <rafalslubowski@gmail.com>\n"
 "Language-Team: polski <pl@li.org>\n"
@@ -1196,9 +1196,6 @@ msgstr "Nie masz uprawnień aby zobaczyć ten zasób."
 msgid "You may not add entries to this calendar."
 msgstr "Nie możesz dodawać zdarzeń do tego kalendarza."
 
-msgid "You may not delete entries from this calendar."
-msgstr "Nie możesz kasować zdarzeń z tego kalendarza."
-
 msgid "You may not modify entries on this calendar."
 msgstr "Nie możesz modyfikować zdarzeń w tym kalendarzu."
 
@@ -1263,6 +1260,9 @@ msgstr ""
 
 msgid "you should log on with the username and password that have been issued to you."
 msgstr "powinieneś zalogować się swoją nazwą użytkownika i hasłem."
+
+#~ msgid "You may not delete entries from this calendar."
+#~ msgstr "Nie możesz kasować zdarzeń z tego kalendarza."
 
 #~ msgid "You do not have sufficient access to lock that"
 #~ msgstr "Nie masz wystarczających uprawnień aby zarezerwować ten"

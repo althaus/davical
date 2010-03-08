@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RSCDS 0.2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-07 23:04+1300\n"
+"POT-Creation-Date: 2010-03-08 14:52+1300\n"
 "PO-Revision-Date: 2006-11-06 17:12+1300\n"
 "Last-Translator: Lorena Paoletti <andrew@mcmillan.net.nz>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1187,9 +1187,6 @@ msgstr ""
 #, fuzzy
 msgid "You may not add entries to this calendar."
 msgstr "No está autorizado a utilizar ésta función."
-
-msgid "You may not delete entries from this calendar."
-msgstr ""
 
 msgid "You may not modify entries on this calendar."
 msgstr ""
