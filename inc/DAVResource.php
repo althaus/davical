@@ -575,22 +575,26 @@ EOQRY;
             'REPORT' => ''
           );
           break;
-        case 'schedule-inbox':
+
         case 'schedule-outbox':
           $this->supported_methods = array_merge(
             $this->supported_methods,
             array(
-              'POST' => '', 'GET' => '', 'PUT' => '', 'HEAD' => '', 'PROPPATCH' => ''
+              'POST' => '', 'PROPPATCH' => '', 'MKTICKET' => '', 'DELTICKET' => ''
             )
           );
           break;
+        case 'schedule-inbox':
         case 'calendar':
           $this->supported_methods['GET'] = '';
           $this->supported_methods['PUT'] = '';
           $this->supported_methods['HEAD'] = '';
           $this->supported_methods['MKTICKET'] = '';
+          $this->supported_methods['DELTICKET'] = '';
           break;
         case 'collection':
+          $this->supported_methods['MKTICKET'] = '';
+          $this->supported_methods['DELTICKET'] = '';
         case 'principal':
           $this->supported_methods['GET'] = '';
           $this->supported_methods['PUT'] = '';
@@ -605,10 +609,7 @@ EOQRY;
       $this->supported_methods = array_merge(
         $this->supported_methods,
         array(
-          'GET' => '',
-          'HEAD' => '',
-          'PUT' => '',
-          'MKTICKET' => ''
+          'GET' => '', 'HEAD' => '', 'PUT' => '', 'MKTICKET' => '', 'DELTICKET' => ''
         )
       );
     }
@@ -673,6 +674,79 @@ EOQRY;
       $reports[] = new XMLElement('supported-report', $report );
     }
     return $reports;
+  }
+
+
+  /**
+  * Fetches an array of the access_ticket records applying to this path
+  */
+  function FetchTickets( ) {
+    global $c;
+    if ( isset($this->access_tickets) ) return;
+    $this->access_tickets = array();
+
+    $sql =
+'SELECT access_ticket.*, COALESCE( resource.dav_name, collection.dav_name) AS target_dav_name,
+        (access_ticket.expires < current_timestamp) AS expired,
+        dav_principal.dav_name AS principal_dav_name,
+        EXTRACT( \'epoch\' FROM (access_ticket.expires - current_timestamp)) AS seconds,
+        path_privs(access_ticket.dav_owner_id,collection.dav_name,:scan_depth) AS grantor_collection_privileges
+    FROM access_ticket JOIN collection ON (target_collection_id = collection_id)
+        JOIN dav_principal ON (dav_owner_id = principal_id)
+        LEFT JOIN caldav_data resource ON (resource.dav_id = access_ticket.target_resource_id)
+  WHERE target_collection_id = :collection_id ';
+    $params = array(':collection_id' => $this->collection->collection_id, ':scan_depth' => $c->permission_scan_depth);
+    if ( $this->IsCollection() ) {
+      $sql .= 'AND target_resource_id IS NULL';
+    }
+    else {
+      if ( !isset($this->exists) ) $this->FetchResource();
+      $sql .= 'AND target_resource_id = :dav_id';
+      $params[':dav_id'] = $this->resource->dav_id;
+    }
+    if ( isset($this->exists) && !$this->exists ) return;
+
+    $qry = new AwlQuery( $sql, $params );
+    if ( $qry->Exec('DAVResource',__LINE__,__FILE__) && $qry->rows() ) {
+      while( $ticket = $qry->Fetch() ) {
+        $this->access_tickets[] = $ticket;
+      }
+    }
+  }
+
+
+  /**
+  * Returns the array of tickets converted into XMLElements
+  *
+  * If the current user does not have DAV::read-acl privilege on this resource they
+  * will only get to see the tickets where they are the owner, or which they supplied
+  * along with the request.
+  *
+  * @param &XMLDocument $reply A reference to the XMLDocument used to construct the reply
+  * @return XMLTreeFragment A fragment of an XMLDocument to go in the reply
+  */
+  function BuildTicketinfo( &$reply ) {
+    global $session, $request;
+
+    if ( !isset($this->access_tickets) ) $this->FetchTickets();
+    $tickets = array();
+    $show_all = $this->HavePrivilegeTo('DAV::read-acl');
+    foreach( $this->access_tickets AS $meh => $trow ) {
+      if ( !$show_all && ( $trow->dav_owner_id == $session->principal_id || $request->ticket->id() == $trow->ticket_id ) ) continue;
+      dbg_error_log( 'DAVResource', ':BuildTicketinfo: Adding access_ticket "%s" which is "%s".', $trow->ticket_id, $trow->privileges );
+      $ticket = new XMLElement( $reply->Tag( 'ticketinfo', 'http://www.xythos.com/namespaces/StorageServer', 'TKT' ) );
+      $reply->NSElement($ticket, 'http://www.xythos.com/namespaces/StorageServer:id', $trow->ticket_id );
+      $reply->NSElement($ticket, 'http://www.xythos.com/namespaces/StorageServer:owner', $reply->href( ConstructURL($trow->principal_dav_name)) );
+      $reply->NSElement($ticket, 'http://www.xythos.com/namespaces/StorageServer:timeout', sprintf( 'Seconds-%d', $trow->seconds) );
+      $reply->NSElement($ticket, 'http://www.xythos.com/namespaces/StorageServer:visits', 'infinity' );
+      $privs = array();
+      foreach( bits_to_privilege(bindec($trow->privileges) & bindec($trow->grantor_collection_privileges) ) AS $k => $v ) {
+        $privs[] = $reply->NewXMLElement($v);
+      }
+      $reply->NSElement($ticket, 'DAV::privilege', $privs );
+      $tickets[] = $ticket;
+    }
+    return $tickets;
   }
 
 
@@ -1162,6 +1236,11 @@ EOQRY;
         else {
           $denied[] = $tag;
         }
+        break;
+
+      case 'http://www.xythos.com/namespaces/StorageServer:ticketdiscovery':
+      case 'DAV::ticketdiscovery':
+        $reply->NSElement($prop,'http://www.xythos.com/namespaces/StorageServer:ticketdiscovery', $this->BuildTicketinfo($reply) );
         break;
 
       default:
