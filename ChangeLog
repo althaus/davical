@@ -1,3 +1,66 @@
+2010-03-09  Andrew McMillan  <andrew@morphoss.com>
+	* New Svenska localisation from Emil Lundberg
+	* Need to depend on new version of AWL.
+	* Migrated DELETE to AwlQuery wrapper.
+
+2010-03-08  Andrew McMillan  <andrew@morphoss.com>
+	* Rewrite OPTIONS response to use DAVResource.
+	* AwlQuery::QDo() method for quick queries where we don't parse the resultset.
+	* Add configuration setting to optionally restrict /setup.php to admin.
+
+2010-03-07  Andrew McMillan  <andrew@morphoss.com>
+	* Link to the DAViCal website, rather than SourceForge.
+	* Check precondition to disallow creating collections in a schedule-inbox.
+	* Move PreconditionFailed and MalformedRequest into $request methods.
+	* Switch to HavePrivilegeTo() to ensure we catch tickets.
+	* Correct misspelled __LINE__ references.
+
+2010-03-06  Andrew McMillan  <andrew@morphoss.com>
+	* Check permission on MOVE destination.
+	* Add an empty response to the DAV::group property.
+	* All schedule-deliver privileges should be included in default.
+	* Use NeedPrivilege to respond to access denied.
+
+2010-03-05  Andrew McMillan  <andrew@morphoss.com>
+	* Provide some rudimentary statistics about the setup.
+	* With readonly_webdav_collections set we should write nothing!
+	* Check we have actually got an XML body if we got a content-type XML.
+	* Correct setup of locale.
+
+2010-03-04  Andrew McMillan  <andrew@morphoss.com>
+	* Properly respond with <error> elements inside <responsedescription>
+	* Validating user/collection names. Updating fullname/displayname.
+	* Some long overdue updates to the installation docs.
+	* Switch always.php over to AwlQuery.
+
+2010-03-03  Andrew McMillan  <andrew@morphoss.com>
+	* Migrate MKCOL script to AwlQuery wrapper.
+	* Add transaction helpers to query class.
+
+2010-03-02  Andrew McMillan  <andrew@morphoss.com>
+	* Updated collection / principal edit, with better l10n.
+
+2010-02-28  Andrew McMillan  <andrew@morphoss.com>
+	* Correct allprop/include processing.
+	* Use 'Revoke' rather than 'Delete' for grants, and 'Remove' for group members.
+	* Add an option to restrict visible contents to a limited date range.
+
+2010-02-27  Andrew McMillan  <andrew@morphoss.com>
+	* Tweak privileges_list() to work in older Pg versions.
+
+2010-02-26  Andrew McMillan  <andrew@morphoss.com>
+	* Tweak 'we don't support this' response to scheduling requests.
+
+2010-02-26  Masahiro Mikami  <ZBN15427@nifty.com>
+	* Updated Japanese localisation.
+
+2010-02-26  Andrew McMillan  <andrew@morphoss.com>
+	* Modification of protected properties should be a 403.
+
+2010-02-25  Andrew McMillan  <andrew@morphoss.com>
+	* Strip slashes from collection names.  They're too confusing.
+	* Add a config item to exclude some users from LDAP sync.
+
 2010-02-25  Andrew McMillan  <andrew@morphoss.com>
 	* Release 0.9.8.3
 	* Assign correct resourcetype on collection maintenance.
