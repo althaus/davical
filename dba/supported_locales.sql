@@ -1,6 +1,5 @@
 TRUNCATE supported_locales;
 
--- I should be able to find people to translate into these base locales
 INSERT INTO supported_locales ( locale, locale_name_en, locale_name_locale )
     VALUES( 'en_EN', 'English', 'English' );
 INSERT INTO supported_locales ( locale, locale_name_en, locale_name_locale )
@@ -21,3 +20,5 @@ INSERT INTO supported_locales ( locale, locale_name_en, locale_name_locale )
     VALUES( 'ja_JP', 'Japanese',  '日本語' );
 INSERT INTO supported_locales ( locale, locale_name_en, locale_name_locale )
     VALUES( 'it_IT', 'Italian',  'Italiano' );
+INSERT INTO supported_locales ( locale, locale_name_en, locale_name_locale )
+    VALUES( 'sv_SE', 'Swedish',  'Svenska' );
