@@ -1,0 +1,23 @@
+#
+# PROPFIND as owner retrieving the tickets on that resource.
+#
+TYPE=PROPFIND
+URL=http://regression.host/caldav.php/user1/home/
+
+HEADER=User-Agent: Ticket Spec Tests
+HEADER=Content-Type: text/xml; charset="UTF-8"
+HEADER=Depth: 0
+
+BEGINDATA
+<?xml version="1.0" encoding="utf-8"?>
+<propfind xmlns="DAV:"
+          xmlns:T="http://www.xythos.com/namespaces/StorageServer">
+ <prop>
+  <current-user-privilege-set/>
+  <T:ticketdiscovery/>
+ </prop>
+</propfind>
+ENDDATA
+
+REPLACE=!<TKT:id>\S{8}</TKT:id>!<TKT:id>Good Ticket ID</TKT:id>!
+REPLACE=!<TKT:timeout>Seconds-3\d+</TKT:timeout>!<TKT:timeout>Seconds-3600</TKT:timeout>!

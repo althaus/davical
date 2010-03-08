@@ -1,0 +1,33 @@
+#
+# DELTICKET the resource ticket we created back in 950...
+#
+TYPE=DELTICKET
+URL=http://regression.host/caldav.php/user1/home/4aaf8f37-f232-4c8e-a72e-e171d4c4fe54.ics
+HEADER=User-Agent: Ticket Spec Tests
+HEADER=Content-Type: text/xml; charset="UTF-8"
+HEAD
+
+# Get the ticket we created earlier in 950...
+GETSQL=ticket
+SELECT ticket_id FROM access_ticket
+                WHERE target_collection_id = 10 AND target_resource_id IS NOT NULL;
+ENDSQL
+
+HEADER=User-Agent: Ticket Spec Tests
+HEADER=Ticket: ##ticket##
+HEADER=Depth: 0
+
+BEGINDATA
+ENDDATA
+
+QUERY
+SELECT dav_owner_id,
+       date_trunc( 'minute', ('55 seconds' + expires - current_timestamp)::interval(0)) AS timeout,
+       privileges,
+       target_collection_id,
+       target_resource_id
+  FROM access_ticket
+ENDQUERY
+
+# REPLACE=!<T:id>\S{8}</T:id>!<T:id>Good Ticket ID</T:id>!
+# REPLACE=!Ticket: \S{8}!Ticket:Good Ticket ID!
