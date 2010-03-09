@@ -10,7 +10,7 @@ Homepage: http://davical.org/
 
 Package: davical
 Architecture: all
-Depends: debconf (>= 1.0.32), php5-pgsql, postgresql-client-8.4 | postgresql-client-8.3 | postgresql-client-8.2, libawl-php (= 0.42-0), libdbd-pg-perl, libyaml-perl
+Depends: debconf (>= 1.0.32), php5-pgsql, postgresql-client-8.4 | postgresql-client-8.3 | postgresql-client-8.2 | postgresql-client-8.1, libawl-php (= 0.42-0), libdbd-pg-perl, libyaml-perl
 Conflicts: rscds
 Description: The DAViCal CalDAV Server
  The DAViCal CalDAV Server is designed to trivially store
