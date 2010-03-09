@@ -106,20 +106,29 @@ $lock_opener = $request->FailIfLocked();
 if ( $request->method == "LOCK" ) {
   dbg_error_log( "LOCK", "Attempting to lock resource '%s'", $request->path);
   if ( ($lock_token = $request->IsLocked()) ) { // NOTE Assignment in if() is expected here.
-    $sql = "UPDATE locks SET start = current_timestamp WHERE opaquelocktoken = ?;";
-    $qry = new PgQuery($sql, $lock_token );
-    $qry->Exec("LOCK",__LINE__,__FILE__);
+    $sql = 'UPDATE locks SET start = current_timestamp WHERE opaquelocktoken = :lock_token';
+    $params = array( ':lock_token' => $lock_token);
   }
   else {
     /**
     * A fresh lock
     */
     $lock_token = uuid();
-    $sql = "INSERT INTO locks ( dav_name, opaquelocktoken, type, scope, depth, owner, timeout, start ) VALUES( ?, ?, ?, ?, ?, ?, ?::interval, current_timestamp );";
-    $qry = new PgQuery($sql, $request->path, $lock_token, $lockinfo['type'], $lockinfo['scope'], $request->depth, $lockinfo['owner'], $request->timeout.' seconds' );
-    $qry->Exec("LOCK",__LINE__,__FILE__);
+    $sql = 'INSERT INTO locks ( dav_name, opaquelocktoken, type, scope, depth, owner, timeout, start )
+             VALUES( :dav_name, :lock_token, :type, :scope, :request_depth, :owner, :timeout::interval, current_timestamp )';
+    $params = array(
+        ':dav_name'      => $request->path,
+        ':lock_token'    => $lock_token,
+        ':type'          => $lockinfo['type'],
+        ':scope'         => $lockinfo['scope'],
+        ':request_depth' => $request->depth,
+        ':owner'         => $lockinfo['owner'],
+        ':timeout'       => $request->timeout.' seconds'
+    );
     header( "Lock-Token: <opaquelocktoken:$lock_token>" );
   }
+  $qry = new AwlQuery($sql, $params  );
+  $qry->Exec("LOCK",__LINE__,__FILE__);
 
   $lock_row = $request->GetLockRow($lock_token);
   $activelock = array(
@@ -135,8 +144,8 @@ if ( $request->method == "LOCK" ) {
 elseif (  $request->method == "UNLOCK" ) {
   dbg_error_log( "LOCK", "Attempting to unlock resource '%s'", $request->path);
   if ( ($lock_token = $request->IsLocked()) ) { // NOTE Assignment in if() is expected here.
-    $sql = "DELETE FROM locks WHERE opaquelocktoken = ?;";
-    $qry = new PgQuery($sql, $lock_token );
+    $sql = 'DELETE FROM locks WHERE opaquelocktoken = :lock_token';
+    $qry = new AwlQuery($sql, array( ':lock_token' => $lock_token) );
     $qry->Exec("LOCK",__LINE__,__FILE__);
   }
   $request->DoResponse( 204 );
