@@ -16,6 +16,7 @@
 */
 
 require_once('iCalendar.php');
+require_once('DAVResource.php');
 
 /**
 * A regex which will match most reasonable timezones acceptable to PostgreSQL.
@@ -137,6 +138,142 @@ function public_events_only( $user_no, $dav_name ) {
   return false;
 }
 
+/**
+* Deliver scheduling requests to attendees
+* @param iCalComponent $ical the VCALENDAR to deliver
+*/
+function handle_schedule_request( $ical ) {
+  global $c, $session, $request;
+  $resources = $ical->GetComponents('VTIMEZONE',false);
+  $ic = $resources[0];
+  $etag = md5 ( $request->raw_post );
+  $reply = new XMLDocument( array("DAV:" => "", "urn:ietf:params:xml:ns:caldav" => "C" ) );
+  $responses = array();
+
+  $attendees = $ic->GetProperties('ATTENDEE');
+  $wr_attendees = $ic->GetProperties('X-WR-ATTENDEE');
+  if ( count ( $wr_attendees ) > 0 ) {
+    dbg_error_log( "POST", "Non-compliant iCal request.  Using X-WR-ATTENDEE property" );
+    foreach( $wr_attendees AS $k => $v ) {
+      $attendees[] = $v;
+    }
+  }
+  dbg_error_log( "POST", "Attempting to deliver scheduling request for %d attendees", count($attendees) );
+
+  foreach( $attendees AS $k => $attendee ) {
+    $attendee_email = preg_replace( '/^mailto:/', '', $attendee->Value() );
+    if ( $attendee_email == $request->principal->email ) {
+      dbg_error_log( "POST", "not delivering to owner" );
+      continue;
+    }
+    if ( $attendee->GetParameterValue ( 'PARTSTAT' ) != 'NEEDS-ACTION' || preg_match ( '/^[35]\.[3-9]/',  $attendee->GetParameterValue ( 'SCHEDULE-STATUS' ) ) ) {
+      dbg_error_log( "POST", "attendee %s does not need action", $attendee_email );
+      continue;  
+    }  
+    
+    dbg_error_log( "POST", "Delivering to %s", $attendee_email );
+    
+    $attendee_principal = new CalDAVPrincipal ( array ('email'=>$attendee_email, 'options'=> array ( 'allow_by_email' => true ) ) ); 
+    if ( $attendee_principal == false ){
+      $attendee->SetParameterValue ('SCHEDULE-STATUS','3.7;Invalid Calendar User');
+      continue;
+    }
+    $deliver_path = preg_replace ( '/^.*caldav.php/','', $attendee_principal->schedule_inbox_url ); 
+    
+    $ar = new DAVResource($deliver_path); 
+    $priv =  $ar->HavePrivilegeTo('schedule-deliver-invite' );
+    if ( ! $ar->HavePrivilegeTo('schedule-deliver-invite' ) ){
+      $reply = new XMLDocument( array('DAV:' => '') );
+      $privnodes = array( $reply->href(ConstructURL($attendee_principal->schedule_inbox_url)), new XMLElement( 'privilege' ) );
+      // RFC3744 specifies that we can only respond with one needed privilege, so we pick the first.
+      $reply->NSElement( $privnodes[1], 'schedule-deliver-invite' );
+      $xml = new XMLElement( 'need-privileges', new XMLElement( 'resource', $privnodes) );
+      $xmldoc = $reply->Render('error',$xml);
+      $request->DoResponse( 403, $xmldoc, 'text/xml; charset="utf-8"');
+    }
+
+
+    $attendee->SetParameterValue ('SCHEDULE-STATUS','1.2;Scheduling message has been delivered');
+    $ncal = new iCalComponent (  );
+    $ncal->VCalendar ();
+    $ncal->AddProperty ( 'METHOD', 'REQUEST' );
+    $ncal->AddComponent ( array_merge ( $ical->GetComponents('VEVENT',false) , array ($ic) ));
+    $content = $ncal->Render();
+    $cid = $ar->GetProperty('collection_id');
+    dbg_error_log('DELIVER', 'to user: %s, to path: %s, collection: %s, from user: %s, caldata %s', $attendee_principal->user_no, $deliver_path, $cid, $request->user_no, $content );
+    write_resource( $attendee_principal->user_no, $deliver_path . $etag . '.ics' , 
+      $content , $ar->GetProperty('collection_id'), $request->user_no, 
+      md5($content), $ncal, $put_action_type='INSERT', $caldav_context=true, $log_action=true, $etag );
+    $attendee->SetParameterValue ('SCHEDULE-STATUS','1.2;Scheduling message has been delivered');
+  }
+  // don't write an entry in the out box, ical doesn't delete it or ever read it again
+  //write_resource( $request->user_no, $request->path . $etag . '.ics' , 
+  //  $content , $request->collection_id, $request->user_no, 
+  //  md5($content), $ncal, $put_action_type='INSERT', $caldav_context=true, $log_action=true, $etag );
+  header('ETag: "'. md5(content) . '"' );
+  header('Schedule-Tag: "'.$etag . '"' );
+  $request->DoResponse( 201, 'Created' );
+}
+
+/**
+* Deliver scheduling replies to organizer and other attendees
+* @param iCalComponent $ical the VCALENDAR to deliver
+* @return false on error
+*/
+function handle_schedule_reply ( $ical ) {
+  global $c, $session, $request;
+  $resources = $ical->GetComponents('VTIMEZONE',false);
+  $ic = $resources[0];
+  $etag = md5 ( $request->raw_post );
+	$organizer = $ic->GetProperties('ORGANIZER');
+	// for now we treat events with out organizers as an error
+	if ( count ( $organizer ) < 1 )
+		return false;
+  $attendees = array_merge($organizer,$ic->GetProperties('ATTENDEE'));
+  $wr_attendees = $ic->GetProperties('X-WR-ATTENDEE');
+  if ( count ( $wr_attendees ) > 0 ) {
+    dbg_error_log( "POST", "Non-compliant iCal request.  Using X-WR-ATTENDEE property" );
+    foreach( $wr_attendees AS $k => $v ) {
+      $attendees[] = $v;
+    }
+  }
+  dbg_error_log( "POST", "Attempting to deliver scheduling request for %d attendees", count($attendees) );
+
+  foreach( $attendees AS $k => $attendee ) {
+	  $attendee_email = preg_replace( '/^mailto:/', '', $attendee->Value() );
+	  dbg_error_log( "POST", "Delivering to %s", $attendee_email );
+	  $attendee_principal = new CalDAVPrincipal ( array ('email'=>$attendee_email, 'options'=> array ( 'allow_by_email' => true ) ) ); 
+	  $deliver_path = preg_replace ( '/^.*caldav.php/','', $attendee_principal->schedule_inbox_url ); 
+	  $attendee_email = preg_replace( '/^mailto:/', '', $attendee->Value() );
+    if ( $attendee_email == $request->principal->email ) {
+      dbg_error_log( "POST", "not delivering to owner" );
+      continue;
+    }
+	  $ar = new DAVResource($deliver_path); 
+	  if ( ! $ar->HavePrivilegeTo('schedule-deliver-reply' ) ){
+	    $reply = new XMLDocument( array('DAV:' => '') );
+	     $privnodes = array( $reply->href(ConstructURL($attendee_principal->schedule_inbox_url)), new XMLElement( 'privilege' ) );
+	     // RFC3744 specifies that we can only respond with one needed privilege, so we pick the first.
+	     $reply->NSElement( $privnodes[1], 'schedule-deliver-reply' );
+	     $xml = new XMLElement( 'need-privileges', new XMLElement( 'resource', $privnodes) );
+	     $xmldoc = $reply->Render('error',$xml);
+	     $request->DoResponse( 403, $xmldoc, 'text/xml; charset="utf-8"' );
+	  }
+	
+	  $ncal = new iCalComponent (  );
+	  $ncal->VCalendar ();
+	  $ncal->AddProperty ( 'METHOD', 'REPLY' );
+	  $ncal->AddComponent ( array_merge ( $ical->GetComponents('VEVENT',false) , array ($ic) ));
+	  $content = $ncal->Render();
+	  write_resource( $attendee_principal->user_no, $deliver_path . $etag . '.ics' , 
+	    $content , $ar->GetProperty('collection_id'), $request->user_no, 
+	    md5($content), $ncal, $put_action_type='INSERT', $caldav_context=true, $log_action=true, $etag );
+	}
+  $request->DoResponse( 201, 'Created' );
+}
+
+
+
 
 /**
 * Create a scheduling request in the schedule inbox for the
@@ -160,9 +297,9 @@ function create_scheduling_requests( &$resource ) {
   }
 
   $attendees = $resource->GetPropertiesByPath('/VCALENDAR/*/ATTENDEE');
-  if ( preg_match( '# iCal/\d#', $_SERVER['HTTP_USER_AGENT']) ) {
+	$wr_attendees = $resource->GetPropertiesByPath('/VCALENDAR/*/X-WR-ATTENDEE');
+	if ( count ( $wr_attendees ) > 0 ) {
     dbg_error_log( 'POST', 'Non-compliant iCal request.  Using X-WR-ATTENDEE property' );
-    $wr_attendees = $resource->GetPropertiesByPath('/VCALENDAR/*/X-WR-ATTENDEE');
     foreach( $wr_attendees AS $k => $v ) {
       $attendees[] = $v;
     }
@@ -190,9 +327,9 @@ function update_scheduling_requests( &$resource ) {
   }
 
   $attendees = $resource->GetPropertiesByPath('/VCALENDAR/*/ATTENDEE');
-  if ( preg_match( '# iCal/\d#', $_SERVER['HTTP_USER_AGENT']) ) {
+	$wr_attendees = $resource->GetPropertiesByPath('/VCALENDAR/*/X-WR-ATTENDEE');
+	if ( count ( $wr_attendees ) > 0 ) {
     dbg_error_log( 'POST', 'Non-compliant iCal request.  Using X-WR-ATTENDEE property' );
-    $wr_attendees = $resource->GetPropertiesByPath('/VCALENDAR/*/X-WR-ATTENDEE');
     foreach( $wr_attendees AS $k => $v ) {
       $attendees[] = $v;
     }
@@ -499,9 +636,10 @@ function putCalendarResource( &$request, $author, $caldav_context ) {
 * @param boolean $caldav_context True, if we are responding via CalDAV, false for other ways of calling this
 * @param string Either 'INSERT' or 'UPDATE': the type of action we are doing
 * @param boolean $log_action Whether to log the fact that we are writing this into an action log (if configured)
+* @param string $weak_etag An etag that is NOT modified on ATTENDEE changes for this event
 * @return boolean True for success, false for failure.
 */
-function write_resource( $user_no, $path, $caldav_data, $collection_id, $author, $etag, $ic, $put_action_type, $caldav_context, $log_action=true ) {
+function write_resource( $user_no, $path, $caldav_data, $collection_id, $author, $etag, $ic, $put_action_type, $caldav_context, $log_action=true, $weak_etag=null ) {
   global $tz_regex;
 
   $resources = $ic->GetComponents('VTIMEZONE',false); // Not matching VTIMEZONE
@@ -518,8 +656,8 @@ function write_resource( $user_no, $path, $caldav_data, $collection_id, $author,
 
   if ( $put_action_type == 'INSERT' ) {
     create_scheduling_requests($vcal);
-    $qry = new PgQuery( 'BEGIN; INSERT INTO caldav_data ( user_no, dav_name, dav_etag, caldav_data, caldav_type, logged_user, created, modified, collection_id ) VALUES( ?, ?, ?, ?, ?, ?, current_timestamp, current_timestamp, ? )',
-                           $user_no, $path, $etag, $caldav_data, $resource_type, $author, $collection_id );
+    $qry = new PgQuery( 'BEGIN; INSERT INTO caldav_data ( user_no, dav_name, dav_etag, caldav_data, caldav_type, logged_user, created, modified, collection_id, weak_etag ) VALUES( ?, ?, ?, ?, ?, ?, current_timestamp, current_timestamp, ?, ? )',
+                           $user_no, $path, $etag, $caldav_data, $resource_type, $author, $collection_id, $weak_etag );
     if ( !$qry->Exec('PUT') ) {
       rollback_on_error( $caldav_context, $user_no, $path);
       return false;

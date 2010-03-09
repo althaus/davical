@@ -13,6 +13,7 @@ dbg_error_log("POST", "method handler");
 require_once("XMLDocument.php");
 require_once("iCalendar.php");
 include_once("RRule.php");
+include_once('caldav-PUT-functions.php');
 
 if ( ! $request->AllowedTo("CALDAV:schedule-send-freebusy")
   && ! $request->AllowedTo("CALDAV:schedule-send-invite")
@@ -216,9 +217,16 @@ switch ( $method ) {
     dbg_error_log('POST', 'Handling iTIP "REQUEST" method with "%s" component.', $method, $first->GetType() );
     if ( $first->GetType() == 'VFREEBUSY' )
       handle_freebusy_request( $first );
+    elseif ( $first->GetType() == 'VEVENT' ) {
+      handle_schedule_request( $ical );
+    }
     else {
       dbg_error_log('POST', 'Ignoring iTIP "REQUEST" with "%s" component.', $first->GetType() );
     }
+    break;
+  case 'REPLY':
+    dbg_error_log('POST', 'Handling iTIP "REPLY" with "%s" component.', $first->GetType() );
+    handle_schedule_reply ( $ical );
     break;
 
   case 'CANCEL':
