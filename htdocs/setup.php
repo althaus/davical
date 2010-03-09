@@ -55,7 +55,7 @@ function check_davical_version() {
   if ( ! $version_file ) return "Could not retrieve '$url'";
   $current_version = trim(fread( $version_file,12));
   fclose($version_file);
-  return ( $c->version_string == $current_version );
+  return ( $c->version_string == $current_version ? true : $current_version );
 }
 
 
@@ -91,7 +91,7 @@ $dependencies = array(
   translate('Current DAViCal version '). $c->version_string => 'check_davical_version',
   translate('DAViCal DB Schema version '). implode('.',$c->want_dbversion) => 'check_schema_version',
   translate('PHP PDO module available') => 'check_pdo',
-  translate('PDO PostgreSQL divers') => 'check_pdo_pgsql',
+  translate('PDO PostgreSQL drivers') => 'check_pdo_pgsql',
   translate('PHP PostgreSQL available') => 'check_pgsql' /*,
   'YAML' => 'php5-syck' */
 );
