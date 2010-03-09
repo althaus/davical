@@ -132,7 +132,7 @@ init_gettext( 'davical', '../locale' );
 *
 */
 $c->code_version = 0;
-$c->version_string = '0.9.8.3'; // The actual version # is replaced into that during the build /release process
+$c->version_string = '0.9.8.4'; // The actual version # is replaced into that during the build /release process
 if ( isset($c->version_string) && preg_match( '/(\d+)\.(\d+)\.(\d+)(.*)/', $c->version_string, $matches) ) {
   $c->code_major = $matches[1];
   $c->code_minor = $matches[2];
@@ -149,7 +149,7 @@ $_SERVER['SERVER_NAME'] = $c->domain_name;
 
 require_once('AwlQuery.php');
 
-$c->want_dbversion = array(1,2,8);
+$c->want_dbversion = array(1,2,7);
 $c->schema_version = 0;
 $qry = new AwlQuery( 'SELECT schema_major, schema_minor, schema_patch FROM awl_db_revision ORDER BY schema_id DESC LIMIT 1;' );
 if ( $qry->Exec('always',__LINE__,__FILE__) && $row = $qry->Fetch() ) {

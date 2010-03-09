@@ -131,11 +131,17 @@
 		</div>
 		<div class="info-box-body">			
 			<div class="method-summary">
-																																																																																																								<div class="method-definition">
+																																																																																																																																								<div class="method-definition">
 					<img src="../../media/images/Constructor.png" alt=" "/>
 											<span class="method-result">The</span>
 										<a href="#__construct" title="details" class="method-name">__construct</a>
 											(<span class="var-type">string</span>&nbsp;<span class="var-name">0</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">1</span>)
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#Begin" title="details" class="method-name">Begin</a>
+										()
 									</div>
 																<div class="method-definition">
 					<img src="../../media/images/Method.png" alt=" "/>
@@ -145,9 +151,15 @@
 									</div>
 																<div class="method-definition">
 					<img src="../../media/images/Method.png" alt=" "/>
-											<span class="method-result">resource</span>
+											<span class="method-result">void</span>
+										<a href="#Commit" title="details" class="method-name">Commit</a>
+										()
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">boolean</span>
 										<a href="#Exec" title="details" class="method-name">Exec</a>
-											([<span class="var-type">string</span>&nbsp;<span class="var-name">$location</span> = <span class="var-default">''</span>], [<span class="var-type">int</span>&nbsp;<span class="var-name">$line</span> = <span class="var-default">0</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$file</span> = <span class="var-default">''</span>])
+											([<span class="var-type">string</span>&nbsp;<span class="var-name">$location</span> = <span class="var-default">null</span>], [<span class="var-type">int</span>&nbsp;<span class="var-name">$line</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$file</span> = <span class="var-default">null</span>])
 									</div>
 																<div class="method-definition">
 					<img src="../../media/images/Method.png" alt=" "/>
@@ -169,6 +181,12 @@
 									</div>
 																<div class="method-definition">
 					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">boolean</span>
+										<a href="#QDo" title="details" class="method-name">QDo</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">0</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">1</span>)
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
 											<span class="method-result">void</span>
 										<a href="#QueryString" title="details" class="method-name">QueryString</a>
 										()
@@ -178,6 +196,12 @@
 											<span class="method-result">string</span>
 										<a href="#quote" title="details" class="method-name">quote</a>
 											([<span class="var-type">mixed</span>&nbsp;<span class="var-name">$str</span> = <span class="var-default">null</span>])
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#Rollback" title="details" class="method-name">Rollback</a>
+										()
 									</div>
 																<div class="method-definition">
 					<img src="../../media/images/Method.png" alt=" "/>
@@ -216,7 +240,7 @@
 		<div class="info-box-body">
 			
 <a name="var$bound_parameters" id="$bound_parameters"><!-- --></A>
-<div class="evenrow">
+<div class="oddrow">
 
 	<div class="var-header">
 		<img src="../../media/images/Variable.png" />
@@ -239,7 +263,7 @@
 
 </div>
 <a name="var$connection" id="$connection"><!-- --></A>
-<div class="oddrow">
+<div class="evenrow">
 
 	<div class="var-header">
 		<img src="../../media/images/Variable.png" />
@@ -262,7 +286,7 @@
 
 </div>
 <a name="var$error_info" id="$error_info"><!-- --></A>
-<div class="evenrow">
+<div class="oddrow">
 
 	<div class="var-header">
 		<img src="../../media/images/Variable.png" />
@@ -285,7 +309,7 @@
 
 </div>
 <a name="var$execution_time" id="$execution_time"><!-- --></A>
-<div class="oddrow">
+<div class="evenrow">
 
 	<div class="var-header">
 		<img src="../../media/images/Variable.png" />
@@ -309,7 +333,7 @@
 
 </div>
 <a name="var$location" id="$location"><!-- --></A>
-<div class="evenrow">
+<div class="oddrow">
 
 	<div class="var-header">
 		<img src="../../media/images/Variable.png" />
@@ -332,7 +356,7 @@
 
 </div>
 <a name="var$querystring" id="$querystring"><!-- --></A>
-<div class="oddrow">
+<div class="evenrow">
 
 	<div class="var-header">
 		<img src="../../media/images/Variable.png" />
@@ -355,7 +379,7 @@
 
 </div>
 <a name="var$query_time_warning" id="$query_time_warning"><!-- --></A>
-<div class="evenrow">
+<div class="oddrow">
 
 	<div class="var-header">
 		<img src="../../media/images/Variable.png" />
@@ -379,7 +403,7 @@
 
 </div>
 <a name="var$result" id="$result"><!-- --></A>
-<div class="oddrow">
+<div class="evenrow">
 
 	<div class="var-header">
 		<img src="../../media/images/Variable.png" />
@@ -402,7 +426,7 @@
 
 </div>
 <a name="var$rownum" id="$rownum"><!-- --></A>
-<div class="evenrow">
+<div class="oddrow">
 
 	<div class="var-header">
 		<img src="../../media/images/Variable.png" />
@@ -425,7 +449,7 @@
 
 </div>
 <a name="var$rows" id="$rows"><!-- --></A>
-<div class="oddrow">
+<div class="evenrow">
 
 	<div class="var-header">
 		<img src="../../media/images/Variable.png" />
@@ -448,7 +472,7 @@
 
 </div>
 <a name="var$sth" id="$sth"><!-- --></A>
-<div class="evenrow">
+<div class="oddrow">
 
 	<div class="var-header">
 		<img src="../../media/images/Variable.png" />
@@ -486,7 +510,7 @@
 		<div class="info-box-body">
 			<A NAME='method_detail'></A>
 <a name="method__construct" id="__construct"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Constructor.png" />
@@ -518,6 +542,31 @@
 		
 			
 	</div>
+<a name="methodBegin" id="Begin"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">Begin</span> (line <span class="line-number">363</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Wrap the parent DB class Begin() so we can $qry-&gt;Begin() sometime before we $qry-&gt;Exec()</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			Begin
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
 <a name="methodBind" id="Bind"><!-- --></a>
 <div class="evenrow">
 	
@@ -540,12 +589,37 @@
 		
 			
 	</div>
-<a name="methodExec" id="Exec"><!-- --></a>
+<a name="methodCommit" id="Commit"><!-- --></a>
 <div class="oddrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">Exec</span> (line <span class="line-number">377</span>)
+		<span class="method-title">Commit</span> (line <span class="line-number">376</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Wrap the parent DB class Commit() so we can $qry-&gt;Commit() sometime after we $qry-&gt;Exec()</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			Commit
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodExec" id="Exec"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">Exec</span> (line <span class="line-number">447</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -553,15 +627,15 @@
 <p class="description"><p><strong>Example</strong>  So that you can nicely enable/disable the queries for a particular class, you  could use some of PHPs magic constants in your call.  <div class="src-code"><ol><li><div class="src-line">&nbsp;<span class="src-var">$qry</span><span class="src-sym">-&gt;</span><a href="../../awl/AWLDB/AwlQuery.html#methodExec">Exec</a><span class="src-sym">(</span>__CLASS__<span class="src-sym">,&nbsp;</span>__LINE__<span class="src-sym">,&nbsp;</span>__FILE__<span class="src-sym">)</span><span class="src-sym">;</span></div></li>
 </ol></div></p></p>
 	<ul class="tags">
-				<li><span class="field">return:</span> The actual result of the query (FWIW)</li>
+				<li><span class="field">return:</span> Success (true) or Failure (false)</li>
 			</ul>
 	
 	<div class="method-signature">
-		<span class="method-result">resource</span>
+		<span class="method-result">boolean</span>
 		<span class="method-name">
 			Exec
 		</span>
-					([<span class="var-type">string</span>&nbsp;<span class="var-name">$location</span> = <span class="var-default">''</span>], [<span class="var-type">int</span>&nbsp;<span class="var-name">$line</span> = <span class="var-default">0</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$file</span> = <span class="var-default">''</span>])
+					([<span class="var-type">string</span>&nbsp;<span class="var-name">$location</span> = <span class="var-default">null</span>], [<span class="var-type">int</span>&nbsp;<span class="var-name">$line</span> = <span class="var-default">null</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$file</span> = <span class="var-default">null</span>])
 			</div>
 	
 			<ul class="parameters">
@@ -579,11 +653,11 @@
 			
 	</div>
 <a name="methodFetch" id="Fetch"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">Fetch</span> (line <span class="line-number">453</span>)
+		<span class="method-title">Fetch</span> (line <span class="line-number">529</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -609,7 +683,7 @@
 			
 	</div>
 <a name="methodParameters" id="Parameters"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
@@ -631,7 +705,7 @@
 			
 	</div>
 <a name="methodPrepare" id="Prepare"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
@@ -649,6 +723,40 @@
 				()
 			</div>
 	
+		
+			
+	</div>
+<a name="methodQDo" id="QDo"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">QDo</span> (line <span class="line-number">402</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Simple QDo() class which will re-use this query for whatever was passed in, and execute it  returning the result of the Exec() call.  We can't call it Do() since that's a reserved word...</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> Success (true) or Failure (false)</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			QDo
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">0</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">1</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">0</span><span class="var-description">: The query string in PDO syntax with replacable '?' characters or bindable parameters.</span>			</li>
+					<li>
+				<span class="var-type">mixed</span>
+				<span class="var-name">1</span><span class="var-description">: The values to replace into the SQL string.</span>			</li>
+				</ul>
 		
 			
 	</div>
@@ -704,8 +812,33 @@
 		
 			
 	</div>
-<a name="methodrows" id="rows"><!-- --></a>
+<a name="methodRollback" id="Rollback"><!-- --></a>
 <div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">Rollback</span> (line <span class="line-number">387</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Wrap the parent DB class Rollback() so we can $qry-&gt;Rollback() sometime after we $qry-&gt;Exec()</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			Rollback
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodrows" id="rows"><!-- --></a>
+<div class="evenrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
@@ -727,7 +860,7 @@
 			
 	</div>
 <a name="methodSetConnection" id="SetConnection"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
@@ -754,7 +887,7 @@
 			
 	</div>
 <a name="method_log_query" id="_log_query"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
@@ -799,7 +932,7 @@
 
 	
 	<p class="notes" id="credit">
-		Documentation generated on Thu, 25 Feb 2010 11:39:17 +1300 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
+		Documentation generated on Tue, 09 Mar 2010 10:08:41 +1300 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
 	</p>
 	</div></body>
 </html>
