@@ -257,7 +257,8 @@ function handle_schedule_reply ( $ical ) {
 	     $reply->NSElement( $privnodes[1], 'schedule-deliver-reply' );
 	     $xml = new XMLElement( 'need-privileges', new XMLElement( 'resource', $privnodes) );
 	     $xmldoc = $reply->Render('error',$xml);
-	     $request->DoResponse( 403, $xmldoc, 'text/xml; charset="utf-8"' );
+			 $request->DoResponse( 403, $xmldoc, 'text/xml; charset="utf-8"' );
+			 continue;
 	  }
 	
 	  $ncal = new iCalComponent (  );
