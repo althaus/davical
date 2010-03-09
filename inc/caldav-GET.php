@@ -6,7 +6,7 @@
 * @subpackage   caldav
 * @author    Andrew McMillan <andrew@mcmillan.net.nz>
 * @copyright Catalyst .Net Ltd, Morphoss Ltd <http://www.morphoss.com/>
-* @license   http://gnu.org/copyleft/gpl.html GNU GPL v2
+* @license   http://gnu.org/copyleft/gpl.html GNU GPL v2 or later
 */
 dbg_error_log("get", "GET method handler");
 
@@ -23,8 +23,9 @@ if ( $request->IsCollection() ) {
 	  *
 	  * @todo Change this to reference the collection_id of the collection at this location.
 	  */
-	  $order_clause = ( isset($c->strict_result_ordering) && $c->strict_result_ordering ? " ORDER BY dav_id" : "");
-	  $qry = new PgQuery( "SELECT caldav_data, class, caldav_type, calendar_item.user_no, logged_user FROM caldav_data INNER JOIN calendar_item USING ( dav_id ) WHERE caldav_data.user_no = ? AND caldav_data.dav_name ~ ? $order_clause", $request->user_no, $request->path.'[^/]+$');
+    $sql = 'SELECT caldav_data, class, caldav_type, calendar_item.user_no, logged_user FROM caldav_data INNER JOIN calendar_item USING ( dav_id ) WHERE caldav_data.dav_name ~ :dav_name ';
+	  if ( isset($c->strict_result_ordering) && $c->strict_result_ordering ) $sql .= ' ORDER BY dav_id';
+    $params = array( ':dav_name' => $request->path.'[^/]+$');
   }
   else {
     /** RFC2616 says we must send an Allow header if we send a 405 */
@@ -33,13 +34,15 @@ if ( $request->IsCollection() ) {
   }
 }
 else {
-  $qry = new PgQuery( "SELECT caldav_data, caldav_data.dav_etag, class, caldav_type, calendar_item.user_no, logged_user FROM caldav_data INNER JOIN calendar_item USING ( dav_id ) WHERE caldav_data.user_no = ? AND caldav_data.dav_name = ? ;", $request->user_no, $request->path);
+  $sql = 'SELECT caldav_data, caldav_data.dav_etag, class, caldav_type, calendar_item.user_no, logged_user FROM caldav_data INNER JOIN calendar_item USING ( dav_id ) WHERE caldav_data.dav_name = :dav_name ';
+  $params = array( ':dav_name' => $request->path);
 }
 
-if ( !$qry->Exec("GET") ) {
+$qry = new AwlQuery( $sql, $params );
+if ( !$qry->Exec("GET",__LINE__,__FILE__) ) {
   $request->DoResponse( 500, translate("Database Error") );
 }
-else if ( $qry->rows == 1 && ! $request->IsCollection() ) {
+else if ( $qry->rows() == 1 && ! $request->IsCollection() ) {
   $event = $qry->Fetch();
   $resource = new iCalComponent( $event->caldav_data );
 
@@ -89,7 +92,7 @@ else if ( $qry->rows == 1 && ! $request->IsCollection() ) {
   header( "Content-Length: ".strlen($event->caldav_data) );
   $request->DoResponse( 200, ($request->method == "HEAD" ? "" : $event->caldav_data), "text/calendar; charset=\"utf-8\"" );
 }
-else if ( $qry->rows < 1 && ! $request->IsCollection() ) {
+else if ( $qry->rows() < 1 && ! $request->IsCollection() ) {
   $request->DoResponse( 404, translate("Calendar Resource Not Found.") );
 }
 else {
