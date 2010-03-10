@@ -1,7 +1,7 @@
 <?php
 /**
 * @package   awl
-* @subpackage   AWLDB
+* @subpackage   AwlDatabase
 * @author    Andrew McMillan <andrew@morphoss.com>
 * @copyright Morphoss Ltd
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v3 or later

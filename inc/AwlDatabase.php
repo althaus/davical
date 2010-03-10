@@ -3,7 +3,7 @@
 * AwlDatabase query/statement class and associated functions
 *
 * This subpackage provides some functions that are useful around database
-* activity and a AwlDialect, AwlDatabase and AwlStatement classes to simplify
+* activity and a AwlDBDialect, AwlDatabase and AwlStatement classes to simplify
 * handling of database queries and provide some access for a limited
 * ability to handle varying database dialects.
 *
@@ -62,6 +62,11 @@ class AwlDatabase extends AwlDBDialect {
   */
   protected $txnstate = 0;
 
+  /**
+  * Holds whether we are translating all statements.
+  */
+  protected $translate_all = false;
+
   /**#@-*/
 
   /**
@@ -70,6 +75,9 @@ class AwlDatabase extends AwlDBDialect {
   * @param array $driver_options PDO driver options to the prepare statement, commonly to do with cursors
   */
   function prepare( $statement, $driver_options = array() ) {
+    if ( isset($this->translate_all) && $this->translate_all ) {
+      $statement = $this->TranslateSQL( $statement );
+    }
     return $this->db->prepare( $statement, $driver_options );
   }
 
@@ -139,7 +147,9 @@ class AwlDatabase extends AwlDBDialect {
   * Operates identically to AwlDatabase::Prepare, except that $this->Translate() will be called on the query
   * before any processing.
   */
-  function PrepareTranslated() {
+  function PrepareTranslated( $statement, $driver_options = array() ) {
+    $statement = $this->TranslateSQL( $statement );
+    return $this->prepare( $statement, $driver_options );
   }
 
 
@@ -148,6 +158,8 @@ class AwlDatabase extends AwlDBDialect {
   * as if PrepareTranslated() had been called.
   */
   function TranslateAll( $onoff_boolean ) {
+    $this->translate_all = $onoff_boolean;
+    return $onoff_boolean;
   }
 
 

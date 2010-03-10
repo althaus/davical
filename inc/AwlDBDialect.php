@@ -5,7 +5,7 @@
 * This subpackage provides dialect specific support for PostgreSQL, and
 * may, over time, be extended to provide support for other SQL dialects.
 *
-* See http://wiki.davical.org/w/Coding/PdoDatabase for design and usage information.
+* See http://wiki.davical.org/w/Coding/AwlQuery for design and usage information.
 *
 * @package   awl
 * @subpackage   AwlDatabase
@@ -18,7 +18,16 @@
 if ( !defined('E_USER_ERROR') ) define('E_USER_ERROR',256);
 
 /**
-* The AwlDBDialect class handles
+* The AwlDBDialect class handles support for different SQL dialects
+*
+* This subpackage provides dialect specific support for PostgreSQL, and
+* may, over time, be extended to provide support for other SQL dialects.
+*
+* If you are looking for the place to add support for other SQL dialects,
+* this is the class that you should be looking at.  You might also look at
+* the AwlDatabase class which extends this one, but these are the core
+* capabilities which most probably need attention.
+*
 * @package awl
 */
 class AwlDBDialect {
