@@ -436,8 +436,8 @@ EOTEMPLATE;
   $browser->AddColumn( 'members', translate('Has Members'), '', '', 'has_members_list(principal_id)' );
 
   if ( $can_write_collection ) {
-    $del_link  = '<a href="/admin.php?action=edit&t=collection&id='.$id.'&delete_grant=##to_principal##" class="submit">'.translate('Revoke').'</a>';
-    $edit_link  = '<a href="/admin.php?action=edit&t=collection&id='.$id.'&edit_grant=##to_principal##" class="submit">'.translate('Edit').'</a>';
+    $del_link  = '<a href="'.$c->base_url.'/admin.php?action=edit&t=collection&id='.$id.'&delete_grant=##to_principal##" class="submit">'.translate('Revoke').'</a>';
+    $edit_link  = '<a href="'.$c->base_url.'/admin.php?action=edit&t=collection&id='.$id.'&edit_grant=##to_principal##" class="submit">'.translate('Edit').'</a>';
     $browser->AddColumn( 'action', translate('Action'), 'center', '', "'$edit_link&nbsp;$del_link'" );
   }
 
