@@ -152,6 +152,15 @@ class CalDAVClient {
   }
 
   /**
+  * Set the calendar_url we will be using for a while.
+  *
+  * @param string $url The calendar_url
+  */
+  function SetCalendar( $url ) {
+    $this->calendar_url = $url;
+  }
+
+  /**
   * Split response into httpResponse and xmlResponse
   *
   * @param string Response from server
@@ -430,6 +439,27 @@ class CalDAVClient {
 
 
   /**
+  * Return the href containing this property
+  *
+  * @param string $tagname The tag name of the property to find the href for
+  * @param integer $which Which instance of the tag should we use
+  */
+  function HrefForProp( $tagname, $i = 0 ) {
+    if ( isset($this->xmltags[$tagname]) && isset($this->xmltags[$tagname][$i]) ) {
+      $j = $this->xmltags[$tagname][$i];
+      while( $j-- > 0 && $this->xmlnodes[$j]['tag'] != 'DAV::prop' );
+      if ( $j > 0 ) {
+        while( $j-- > 0 && $this->xmlnodes[$j]['tag'] != 'DAV::href' );
+        if ( $j > 0 && isset($this->xmlnodes[$j]['value']) ) {
+          return $this->xmlnodes[$j]['value'];
+        }
+      }
+    }
+    return null;
+  }
+
+
+  /**
   * Return the href which has a resourcetype of the specified type
   *
   * @param string $tagname The tag name of the resourcetype to find the href for
@@ -489,11 +519,13 @@ class CalDAVClient {
     $xml = $this->DoPROPFINDRequest( $url, array('resourcetype', 'current-user-principal', 'owner', 'principal-URL',
                                   'urn:ietf:params:xml:ns:caldav:calendar-home-set'), 1);
 
-    $principal_url = $this->HrefForResourcetype('DAV::principal');
+    $principal_url = $this->HrefForProp('DAV::principal');
 
-    foreach( array('DAV::current-user-principal', 'DAV::principal-URL', 'DAV::owner') AS $v ) {
-      if ( !isset($principal_url) ) {
-        $principal_url = $this->HrefValueInside($v);
+    if ( !isset($principal_url) ) {
+      foreach( array('DAV::current-user-principal', 'DAV::principal-URL', 'DAV::owner') AS $href ) {
+        if ( !isset($principal_url) ) {
+          $principal_url = $this->HrefValueInside($href);
+        }
       }
     }
 
@@ -545,7 +577,7 @@ class CalDAVClient {
     if ( isset($this->xmltags['urn:ietf:params:xml:ns:caldav:calendar']) ) {
       $calendar_urls = array();
       foreach( $this->xmltags['urn:ietf:params:xml:ns:caldav:calendar'] AS $k => $v ) {
-        $calendar_urls[$this->HrefForResourcetype('urn:ietf:params:xml:ns:caldav:calendar', $k)] = 1;
+        $calendar_urls[$this->HrefForProp('urn:ietf:params:xml:ns:caldav:calendar', $k)] = 1;
       }
 
       foreach( $this->xmltags['DAV::href'] AS $i => $hnode ) {
@@ -577,22 +609,76 @@ class CalDAVClient {
 
 
   /**
+  * Get all etags for a calendar
+  */
+  function GetCollectionETags( $url = null ) {
+    if ( isset($url) ) $this->SetCalendar($url);
+
+    $this->DoPROPFINDRequest( $this->calendar_url, array('getetag'), 1);
+
+    $etags = array();
+    if ( isset($this->xmltags['DAV::getetag']) ) {
+      foreach( $this->xmltags['DAV::getetag'] AS $k => $v ) {
+        $events[$this->HrefForProp('DAV::getetag', $k)] = $v['value'];
+      }
+    }
+
+    return $etags;
+  }
+
+
+  /**
+  * Get a bunch of events for a calendar with a calendar-multiget report
+  */
+  function CalendarMultiget( $event_hrefs, $url = null ) {
+
+    if ( isset($url) ) $this->SetCalendar($url);
+
+    $hrefs = array();
+    foreach( $event_hrefs AS $k => $href ) {
+      $hrefs .= '<href>'.rawurlencode($url).'</href>';
+    }
+    $this->body = <<<EOXML
+<?xml version="1.0" encoding="utf-8" ?>
+<C:calendar-multiget xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
+<prop><getetag/><C:calendar-data/></prop>
+$hrefs
+</C:calendar-query>
+EOXML;
+
+    $this->requestMethod = "REPORT";
+    $this->SetContentType("text/xml");
+    $this->DoRequest( $this->calendar_url );
+
+    $etags = array();
+    if ( isset($this->xmltags['DAV::getetag']) ) {
+      foreach( $this->xmltags['DAV::getetag'] AS $k => $v ) {
+        $events[$this->HrefForProp('DAV::getetag', $k)] = $v['value'];
+      }
+    }
+
+    return $etags;
+  }
+
+
+  /**
   * Given XML for a calendar query, return an array of the events (/todos) in the
   * response.  Each event in the array will have a 'href', 'etag' and '$response_type'
   * part, where the 'href' is relative to the calendar and the '$response_type' contains the
   * definition of the calendar data in iCalendar format.
   *
   * @param string $filter XML fragment which is the <filter> element of a calendar-query
-  * @param string $relative_url The URL relative to the base_url specified when the calendar was opened.  Default ''.
-  * @param string $report_type Used as a name for the array element containing the calendar data. @deprecated
+  * @param string $url The URL of the calendar, or null to use the 'current' calendar_url
   *
   * @return array An array of the relative URLs, etags, and events from the server.  Each element of the array will
   *               be an array with 'href', 'etag' and 'data' elements, corresponding to the URL, the server-supplied
   *               etag (which only varies when the data changes) and the calendar data in iCalendar format.
   */
-  function DoCalendarQuery( $filter, $relative_url = '' ) {
+  function DoCalendarQuery( $filter, $url = null ) {
 
-    $xml = <<<EOXML
+    if ( isset($url) ) $this->SetCalendar($url);
+
+    $this->body = <<<EOXML
 <?xml version="1.0" encoding="utf-8" ?>
 <C:calendar-query xmlns:D="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
   <D:prop>
@@ -602,17 +688,14 @@ class CalDAVClient {
 </C:calendar-query>
 EOXML;
 
-    $this->DoXMLRequest( 'REPORT', $xml, $relative_url );
-    $xml_parser = xml_parser_create_ns('UTF-8');
-    $this->xml_tags = array();
-    xml_parser_set_option ( $xml_parser, XML_OPTION_SKIP_WHITE, 1 );
-    xml_parse_into_struct( $xml_parser, $this->xmlResponse, $this->xml_tags );
-    xml_parser_free($xml_parser);
+    $this->requestMethod = "REPORT";
+    $this->SetContentType("text/xml");
+    $this->DoRequest( $this->calendar_url );
 
     $report = array();
-    foreach( $this->xml_tags as $k => $v ) {
+    foreach( $this->xmltags as $k => $v ) {
       switch( $v['tag'] ) {
-        case 'DAV::RESPONSE':
+        case 'DAV::response':
           if ( $v['type'] == 'open' ) {
             $response = array();
           }
@@ -620,13 +703,13 @@ EOXML;
             $report[] = $response;
           }
           break;
-        case 'DAV::HREF':
+        case 'DAV::href':
           $response['href'] = basename( $v['value'] );
           break;
-        case 'DAV::GETETAG':
+        case 'DAV::getetag':
           $response['etag'] = preg_replace('/^"?([^"]+)"?/', '$1', $v['value']);
           break;
-        case 'URN:IETF:PARAMS:XML:NS:CALDAV:CALENDAR-DATA':
+        case 'urn:ietf:params:xml:ns:caldav:calendar-data':
           $response['data'] = $v['value'];
           break;
       }
