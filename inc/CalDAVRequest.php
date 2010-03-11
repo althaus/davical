@@ -285,14 +285,16 @@ class CalDAVRequest
     * The collection URL for this request is therefore the longest row in the result, so we
     * can "... ORDER BY LENGTH(dav_name) DESC LIMIT 1"
     */
-    $sql = "SELECT * FROM collection WHERE dav_name = ".qpg($this->path);
+    $sql = "SELECT * FROM collection WHERE dav_name = :exact_name";
+    $params = array( ':exact_name' => $this->path );
     if ( !preg_match( '#/$#', $this->path ) ) {
-      $sql .= " OR dav_name = ".qpg(preg_replace( '#[^/]*$#', '', $this->path));
-      $sql .= " OR dav_name = ".qpg($this->path."/");
+      $sql .= " OR dav_name = :truncated_name OR dav_name = :trailing_slash_name";
+      $params[':truncated_name'] = preg_replace( '#[^/]*$#', '', $this->path);
+      $params[':trailing_slash_name'] = $this->path."/";
     }
     $sql .= " ORDER BY LENGTH(dav_name) DESC LIMIT 1";
-    $qry = new PgQuery( $sql );
-    if ( $qry->Exec('caldav') && $qry->rows == 1 && ($row = $qry->Fetch()) ) {
+    $qry = new AwlQuery( $sql, $params );
+    if ( $qry->Exec('caldav',__LINE__,__FILE__) && $qry->rows() == 1 && ($row = $qry->Fetch()) ) {
       if ( $row->dav_name == $this->path."/" ) {
         $this->path = $row->dav_name;
         dbg_error_log( "caldav", "Path is actually a collection - sending Content-Location header." );
@@ -315,14 +317,16 @@ class CalDAVRequest
       $resourcetypes = sprintf('<DAV::collection/><urn:ietf:params:xml:ns:caldav:%s/>', $this->collection_type );
       $sql = <<<EOSQL
 INSERT INTO collection ( user_no, parent_container, dav_name, dav_displayname, is_calendar, created, modified, dav_etag, resourcetypes )
-    VALUES( ?, ?, ?, ?, FALSE, current_timestamp, current_timestamp, '1', ? )
+    VALUES( :user_no, :parent_path, :dav_name, :displayname, FALSE, current_timestamp, current_timestamp, '1', :resourcetypes )
 EOSQL;
-      $qry = new PgQuery( $sql, $session->user_no, $matches[2] , $matches[1], $displayname, $resourcetypes );
-      $qry->Exec('caldav');
+      $params = array( ':user_no' => $session->user_no, ':parent_path' => $matches[2], ':dav_name' => $matches[1],
+                       ':displayname' => $displayname, ':resourcetypes' => $resourcetypes );
+      $qry = new AwlQuery( $sql, $params );
+      $qry->Exec('caldav',__LINE__,__FILE__);
       dbg_error_log( "caldav", "Created new collection as '$displayname'." );
 
-      $qry = new PgQuery( "SELECT * FROM collection WHERE user_no = ? AND dav_name = ?;", $session->user_no, $matches[1] );
-      if ( $qry->Exec('caldav') && $qry->rows == 1 && ($row = $qry->Fetch()) ) {
+      $qry = new AwlQuery( "SELECT * FROM collection WHERE dav_name = :dav_name", array( ':dav_name' => $matches[1] ) );
+      if ( $qry->Exec('caldav',__LINE__,__FILE__) && $qry->rows() == 1 && ($row = $qry->Fetch()) ) {
         $this->collection_id = $row->collection_id;
         $this->collection_path = $matches[1];
         $this->collection = $row;
@@ -551,8 +555,9 @@ EOSQL;
     @dbg_error_log( "caldav", "Path split into at least /// %s /// %s /// %s", $path_split[1], $path_split[2], $path_split[3] );
     if ( isset($this->options['allow_by_email']) && preg_match( '#/(\S+@\S+[.]\S+)/?$#', $this->path, $matches) ) {
       $this->by_email = $matches[1];
-      $qry = new PgQuery("SELECT user_no, principal_id, username FROM usr JOIN principal USING (user_no) WHERE email = ?;", $this->by_email );
-      if ( $qry->Exec("caldav") && $user = $qry->Fetch() ) {
+      $qry = new AwlQuery("SELECT user_no, principal_id, username FROM usr JOIN principal USING (user_no) WHERE email = :email",
+                          array(':email' => $this->by_email ) );
+      if ( $qry->Exec('caldav',__LINE__,__FILE__) && $user = $qry->Fetch() ) {
         $this->user_no = $user->user_no;
         $this->username = $user->username;
         $this->principal_id = $user->principal_id;
@@ -603,13 +608,17 @@ EOSQL;
       /**
       * In other cases we need to query the database for permissions
       */
+      $params = array( ':session_principal_id' => $session->principal_id, ':scan_depth' => $c->permission_scan_depth );
       if ( isset($this->by_email) && $this->by_email ) {
-        $qry = new PgQuery( "SELECT pprivs( ?::int8, ?::int8, ?::int ) AS perm", $session->principal_id, $this->principal_id, $c->permission_scan_depth );
+        $sql ='SELECT pprivs( :session_principal_id::int8, :request_principal_id::int8, :scan_depth::int ) AS perm';
+        $params[':request_principal_id'] = $this->principal_id;
       }
       else {
-        $qry = new PgQuery( "SELECT path_privs( ?::int8, ?::text, ?::int ) AS perm", $session->principal_id, $this->path, $c->permission_scan_depth );
+        $sql = 'SELECT path_privs( :session_principal_id::int8, :request_path::text, :scan_depth::int ) AS perm';
+        $params[':request_path'] = $this->path;
       }
-      if ( $qry->Exec("caldav") && $permission_result = $qry->Fetch() )
+      $qry = new AwlQuery( $sql, $params );
+      if ( $qry->Exec('caldav',__LINE__,__FILE__) && $permission_result = $qry->Fetch() )
         $this->privileges |= bindec($permission_result->perm);
 
       dbg_error_log( 'caldav', 'Restricted permissions for user accessing someone elses hierarchy: %s', decbin($this->privileges) );
@@ -648,9 +657,9 @@ EOSQL;
       /**
       * Find the locks that might apply and load them into an array
       */
-      $sql = "SELECT * FROM locks WHERE ?::text ~ ('^'||dav_name||?)::text;";
-      $qry = new PgQuery($sql, $this->path, ($this->IsInfiniteDepth() ? '' : '$') );
-      if ( $qry->Exec("caldav",__LINE__,__FILE__) ) {
+      $sql = 'SELECT * FROM locks WHERE :dav_name::text ~ (\'^\'||dav_name||:pattern_end_match)::text';
+      $qry = new AwlQuery($sql, array( ':dav_name' => $this->path, ':pattern_end_match' => ($this->IsInfiniteDepth() ? '' : '$') ) );
+      if ( $qry->Exec('caldav',__LINE__,__FILE__) ) {
         while( $lock_row = $qry->Fetch() ) {
           $this->_locks_found[$lock_row->opaquelocktoken] = $lock_row;
         }
@@ -719,9 +728,8 @@ EOSQL;
       return $this->_locks_found[$lock_token];
     }
 
-    $sql = "SELECT * FROM locks WHERE opaquelocktoken = ?;";
-    $qry = new PgQuery($sql, $lock_token );
-    if ( $qry->Exec("caldav",__LINE__,__FILE__) ) {
+    $qry = new AwlQuery('SELECT * FROM locks WHERE opaquelocktoken = :lock_token', array( ':lock_token' => $lock_token ) );
+    if ( $qry->Exec('caldav',__LINE__,__FILE__) ) {
       $lock_row = $qry->Fetch();
       $this->_locks_found = array( $lock_token => $lock_row );
       return $this->_locks_found[$lock_token];
