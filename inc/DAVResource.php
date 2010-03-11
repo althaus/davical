@@ -737,7 +737,7 @@ EOQRY;
       $ticket = new XMLElement( $reply->Tag( 'ticketinfo', 'http://www.xythos.com/namespaces/StorageServer', 'TKT' ) );
       $reply->NSElement($ticket, 'http://www.xythos.com/namespaces/StorageServer:id', $trow->ticket_id );
       $reply->NSElement($ticket, 'http://www.xythos.com/namespaces/StorageServer:owner', $reply->href( ConstructURL($trow->principal_dav_name)) );
-      $reply->NSElement($ticket, 'http://www.xythos.com/namespaces/StorageServer:timeout', sprintf( 'Seconds-%d', $trow->seconds) );
+      $reply->NSElement($ticket, 'http://www.xythos.com/namespaces/StorageServer:timeout', (isset($trow->seconds) ? sprintf( 'Seconds-%d', $trow->seconds) : 'infinity') );
       $reply->NSElement($ticket, 'http://www.xythos.com/namespaces/StorageServer:visits', 'infinity' );
       $privs = array();
       foreach( bits_to_privilege(bindec($trow->privileges) & bindec($trow->grantor_collection_privileges) ) AS $k => $v ) {
