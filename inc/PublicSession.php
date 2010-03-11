@@ -26,6 +26,12 @@ class PublicSession {
   var $user_no;
 
   /**
+  * Principal ID
+  * @var principal_id int
+  */
+  var $principal_id;
+
+  /**
   * User e-mail
   * @var email string
   */
@@ -51,6 +57,7 @@ class PublicSession {
     global $c;
 
     $this->user_no = -1;
+    $this->principal_id = -1;
     $this->email = null;
     $this->username = 'guest';
     $this->fullname = 'Anonymous';
