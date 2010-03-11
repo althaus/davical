@@ -5,8 +5,8 @@
 * @package   davical
 * @subpackage   Principal
 * @author    Andrew McMillan <andrew@mcmillan.net.nz>
-* @copyright Catalyst .Net Ltd
-* @license   http://gnu.org/copyleft/gpl.html GNU GPL v2
+* @copyright Catalyst .Net Ltd, Morphoss Ltd <http://www.morhposs.com/>
+* @license   http://gnu.org/copyleft/gpl.html GNU GPL v2 or later
 */
 
 /**
@@ -202,8 +202,8 @@ class CalDAVPrincipal
 
     if ( $this->_is_group ) {
       $this->group_member_set = array();
-      $qry = new PgQuery('SELECT usr.username FROM group_member JOIN principal ON (principal_id=member_id) JOIN usr USING(user_no) WHERE group_id = ? ORDER BY principal.principal_id ', $this->principal_id );
-      if ( $qry->Exec('CalDAVPrincipal') && $qry->rows > 0 ) {
+      $qry = new AwlQuery('SELECT usr.username FROM group_member JOIN principal ON (principal_id=member_id) JOIN usr USING(user_no) WHERE group_id = :group_id ORDER BY principal.principal_id ', array( ':group_id' => $this->principal_id) );
+      if ( $qry->Exec('CalDAVPrincipal') && $qry->rows() > 0 ) {
         while( $member = $qry->Fetch() ) {
           $this->group_member_set[] = ConstructURL( '/'. $member->username . '/', true);
         }
@@ -211,8 +211,8 @@ class CalDAVPrincipal
     }
 
     $this->group_membership = array();
-    $qry = new PgQuery('SELECT usr.username FROM group_member JOIN principal ON (principal_id=group_id) JOIN usr USING(user_no) WHERE member_id = ? UNION SELECT usr.username FROM group_member LEFT JOIN grants ON (to_principal=group_id) JOIN principal ON (principal_id=by_principal) JOIN usr USING(user_no) WHERE member_id = ? and by_principal != member_id ORDER BY 1', $this->principal_id, $this->principal_id );
-    if ( $qry->Exec('CalDAVPrincipal') && $qry->rows > 0 ) {
+    $qry = new AwlQuery('SELECT usr.username FROM group_member JOIN principal ON (principal_id=group_id) JOIN usr USING(user_no) WHERE member_id = :member_id UNION SELECT usr.username FROM group_member LEFT JOIN grants ON (to_principal=group_id) JOIN principal ON (principal_id=by_principal) JOIN usr USING(user_no) WHERE member_id = :member_id and by_principal != member_id ORDER BY 1', array( ':member_id' => $this->principal_id ) );
+    if ( $qry->Exec('CalDAVPrincipal') && $qry->rows() > 0 ) {
       while( $group = $qry->Fetch() ) {
         $this->group_membership[] = ConstructURL( '/'. $group->username . '/', true);
       }
@@ -227,9 +227,9 @@ class CalDAVPrincipal
     * calendar-free-busy-set has been dropped from draft 5 of the scheduling extensions for CalDAV
     * but we'll keep replying to it for a while longer since iCal appears to want it...
     */
-    $qry = new PgQuery('SELECT dav_name FROM collection WHERE user_no = ? AND is_calendar ORDER BY user_no, collection_id', $this->user_no);
+    $qry = new AwlQuery('SELECT dav_name FROM collection WHERE user_no = :user_no AND is_calendar ORDER BY user_no, collection_id', array( ':user_no' => $this->user_no) );
     $this->calendar_free_busy_set = array();
-    if( $qry->Exec('CalDAVPrincipal',__LINE__,__FILE__) && $qry->rows > 0 ) {
+    if( $qry->Exec('CalDAVPrincipal',__LINE__,__FILE__) && $qry->rows() > 0 ) {
       while( $calendar = $qry->Fetch() ) {
         $this->calendar_free_busy_set[] = ConstructURL($calendar->dav_name, true);
       }
@@ -255,9 +255,10 @@ class CalDAVPrincipal
       $write_priv = privilege_to_bits(array('write'));
       // whom are we a proxy for? who is a proxy for us?
       // (as per Caldav Proxy section 5.1 Paragraph 7 and 5)
-      $sql = 'SELECT principal_id, username, pprivs(?::int8,principal_id,?::int) FROM principal JOIN usr USING(user_no) WHERE principal_id IN (SELECT * from p_has_proxy_access_to(?,?))';
-      $qry = new PgQuery($sql, $this->principal_id, $c->permission_scan_depth, $this->principal_id, $c->permission_scan_depth );
-      if ( $qry->Exec('CalDAVPrincipal') && $qry->rows > 0 ) {
+      $sql = 'SELECT principal_id, username, pprivs(:request_principal::int8,principal_id,:scan_depth::int) FROM principal JOIN usr USING(user_no) WHERE principal_id IN (SELECT * from p_has_proxy_access_to(:request_principal,:scan_depth))';
+      $params = array( ':request_principal' => $this->principal_id, ':scan_depth' => $c->permission_scan_depth );
+      $qry = new AwlQuery($sql, $params);
+      if ( $qry->Exec('CalDAVPrincipal') && $qry->rows() > 0 ) {
         while( $relationship = $qry->Fetch() ) {
           if ( (bindec($relationship->pprivs) & $write_priv) != 0 ) {
             $this->write_proxy_for[] = ConstructURL( '/'. $relationship->username . '/', true);
@@ -270,9 +271,9 @@ class CalDAVPrincipal
         }
       }
 
-      $sql = 'SELECT principal_id, username, pprivs(?::int8,principal_id,?::int) FROM principal JOIN usr USING(user_no) WHERE principal_id IN (SELECT * from grants_proxy_access_from_p(?,?))';
-      $qry = new PgQuery($sql, $this->principal_id, $c->permission_scan_depth, $this->principal_id, $c->permission_scan_depth );
-      if ( $qry->Exec('CalDAVPrincipal') && $qry->rows > 0 ) {
+      $sql = 'SELECT principal_id, username, pprivs(:request_principal::int8,principal_id,:scan_depth::int) FROM principal JOIN usr USING(user_no) WHERE principal_id IN (SELECT * from grants_proxy_access_from_p(:request_principal,:scan_depth))';
+      $qry = new AwlQuery($sql, $params ); // reuse $params assigned for earlier query
+      if ( $qry->Exec('CalDAVPrincipal') && $qry->rows() > 0 ) {
         while( $relationship = $qry->Fetch() ) {
           if ( bindec($relationship->pprivs) & $write_priv ) {
             $this->write_proxy_group[] = ConstructURL( '/'. $relationship->username . '/', true);
@@ -370,7 +371,7 @@ class CalDAVPrincipal
   */
   function UsernameFromEMail( $email ) {
     @dbg_error_log( 'principal', 'Retrieving username from e-mail address "%s" ', $email );
-    $qry = new PgQuery('SELECT username FROM usr WHERE email = ?;', $email );
+    $qry = new AwlQuery('SELECT username FROM usr WHERE email = :email', array( ':email' => $email ) );
     if ( $qry->Exec('principal') && $user = $qry->Fetch() ) {
       $username = $user->username;
       $this->by_email = true;
