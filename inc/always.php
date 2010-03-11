@@ -135,7 +135,7 @@ init_gettext( 'davical', '../locale' );
 *
 */
 $c->code_version = 0;
-$c->version_string = '0.9.8.3'; // The actual version # is replaced into that during the build /release process
+$c->version_string = '0.9.8.4'; // The actual version # is replaced into that during the build /release process
 if ( isset($c->version_string) && preg_match( '/(\d+)\.(\d+)\.(\d+)(.*)/', $c->version_string, $matches) ) {
   $c->code_major = $matches[1];
   $c->code_minor = $matches[2];

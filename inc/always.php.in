@@ -102,6 +102,9 @@ else if ( @file_exists('/usr/local/etc/davical/config.php') ) {
 else if ( @file_exists('../config/config.php') ) {
   include('../config/config.php');
 }
+else if ( @file_exists('config/config.php') ) {
+  include('config/config.php');
+}
 else {
   include('davical_configuration_missing.php');
   exit;
