@@ -68,6 +68,9 @@ if ( preg_match( '{^([a-z]+)-(\d+)$}i', $ticket_timeout, $matches ) ) {
   /** It isn't specified, but timeout seems to be 'unit-number' like 'Seconds-3600', so we make it '3600 Seconds' which PostgreSQL understands */
   $sql_timeout = $matches[2] . ' ' . $matches[1];
 }
+else if ( $ticket_timeout == 'infinity' ) {
+  $sql_timeout = null;
+}
 else {
   $sql_timeout = $ticket_timeout;
 }
