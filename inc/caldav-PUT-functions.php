@@ -211,7 +211,8 @@ function handle_schedule_request( $ical ) {
   //write_resource( $request->user_no, $request->path . $etag . '.ics' ,
   //  $content , $request->collection_id, $request->user_no,
   //  md5($content), $ncal, $put_action_type='INSERT', $caldav_context=true, $log_action=true, $etag );
-  header('ETag: "'. md5(content) . '"' );
+  $etag = md5($content);
+  header('ETag: "'. $etag . '"' );
   header('Schedule-Tag: "'.$etag . '"' );
   $request->DoResponse( 201, 'Created' );
 }
