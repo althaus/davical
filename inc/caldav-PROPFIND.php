@@ -10,7 +10,7 @@
 */
 dbg_error_log('PROPFIND', 'method handler');
 
-$request->NeedPrivilege( array('read','read-free-busy','read-current-user-privilege-set') );
+$request->NeedPrivilege( array('DAV::read', 'urn:ietf:params:xml:ns:caldav:read-free-busy','DAV::read-current-user-privilege-set') );
 
 require_once('iCalendar.php');
 require_once('XMLDocument.php');
@@ -146,10 +146,10 @@ function get_collection_contents( $depth, $user_no, $collection ) {
   /**
   * freebusy permission is not allowed to see the items in a collection.  Must have at least read permission.
   */
-  if ( $request->AllowedTo('read') ) {
+  if ( $request->HavePrivilegeTo('DAV::read') ) {
     dbg_error_log('PROPFIND','Getting collection items: Depth %d, User: %d, Path: %s', $depth, $user_no, $collection->dav_name() );
     $privacy_clause = ' ';
-    if ( ! $request->AllowedTo('all') ) {
+    if ( ! $request->HavePrivilegeTo('all') ) {
       $privacy_clause = " AND (calendar_item.class != 'PRIVATE' OR calendar_item.class IS NULL) ";
     }
 
@@ -226,14 +226,14 @@ if ( $request->IsProxyRequest() ) {
 elseif ( $request->IsCollection() ) {
   $responses = get_collection( $request->depth, $request->user_no, $request->path );
 }
-elseif ( $request->AllowedTo('read') ) {
+elseif ( $request->HavePrivilegeTo('DAV::read') ) {
   $resource = new DAVResource($request->path);
   $response = $resource->RenderAsXML($property_list, $reply);
   if ( isset($response) ) $responses[] = $response;
 }
 
 if ( count($responses) < 1 ) {
-  if ( $request->AllowedTo('read') ) {
+  if ( $request->HavePrivilegeTo('DAV::read') ) {
     $request->DoResponse( 404, translate('That resource is not present on this server.') );
   }
   else {
