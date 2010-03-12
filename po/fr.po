@@ -53,18 +53,7 @@ msgid "--- select a user, group or resource ---"
 msgstr "--- choisissez un utilisateur, un groupe ou une ressource ---"
 
 msgid "<b>WARNING: all events in this path will be deleted before inserting allof the ics file</b>"
-msgstr ""
-"<b>Attention : tous les événements de ce chemin seront supprimés avant l'insertion de tous ceux du "
-"fichier ics</b>"
-
-#, c-format
-msgid ""
-"<h1>Log On Please</h1><p>For access to the %s you should log on withthe username and password that "
-"have been issued to you.</p><p>If you would like to request access, please e-mail %s.</p>"
-msgstr ""
-"<h1>Veuillez vous identifier</h1><p>Pour accéder à %s vous devez vous connecter avec l'identifiant et "
-"le mot de passe qui vous ont été attribués.</p><p>Si vous souhaitez obtenir un accès, veuillez envoyer "
-"un courriel à %s.</p>"
+msgstr "<b>Attention : tous les événements de ce chemin seront supprimés avant l'insertion de tous ceux du fichier ics</b>"
 
 msgid "A collection already exists at that location."
 msgstr "Une collection existe déjà à cet emplacement."
@@ -105,9 +94,8 @@ msgstr "Tous les calendriers et les évènements de l'utilisateur seront effacé
 msgid "All of the user's calendars and events will be unrecoverably deleted."
 msgstr "Tous les calendriers et les évènements de l'utilisateur seront effacées definitivement."
 
-#, fuzzy
 msgid "All privileges"
-msgstr "Privilèges"
+msgstr "Tous les Privilèges"
 
 msgid "All requested changes were made."
 msgstr "Toutes les modifications demandées ont eu lieu"
@@ -549,22 +537,6 @@ msgstr "Est un carnet d'adresses"
 msgid "Is this access read ('R') or Read and Write ('RW')?"
 msgstr "Cet accès est-il en lecture seule ('R') ou en lecture et écriture ('RW') ?"
 
-# # or, in less "IT slang":
-# IT slang should be fine, since this is the administrative pages
-# msgstr "Cet accès est-il seulement en consultation ('R') ou en consultation et mise à jour ('RW') ?"
-msgid "Is this user active?"
-msgstr "Cet utilisateur est-il actif ?"
-
-# The prompt for "The date on which the user was set up on this system" only 2-3 words max.
-msgid "Joined"
-msgstr "Inscrit le"
-
-msgid "Language"
-msgstr "Langue"
-
-msgid "Last used"
-msgstr "Dernière utilisation"
-
 # The column header for the column in a listing of relationships between
 # users (/resources/groups) indicating which user(/resource/group) this
 # relation is from...
@@ -804,9 +776,8 @@ msgstr "Relations à cet utilisateur"
 msgid "Remove a lock"
 msgstr "Supprimer un verrou"
 
-#, fuzzy
 msgid "Remove"
-msgstr "Supprimer un verrou"
+msgstr "Supprimer"
 
 msgid "Repeat Rule"
 msgstr "Règles de répétition"
@@ -853,7 +824,7 @@ msgid "Resources may not be changed to / from collections."
 msgstr "Les ressources ne devraient pas être modifiées en/à partir de collections."
 
 msgid "Revoke"
-msgstr ""
+msgstr "Retirer"
 
 # 'pattern' translate to "motif", but "motif" usage is mainly for graphical drawings, very rare for textual patterns
 # ########## This is definitely referring to a textual pattern
@@ -875,7 +846,6 @@ msgstr ""
 msgid "Scheduling: Deliver an Invitation"
 msgstr ""
 
-#, fuzzy
 msgid "Scheduling: Delivery"
 msgstr "Programmation: Envoyer une réponse"
 
@@ -891,7 +861,6 @@ msgstr "Programmation: Envoyer une invitation"
 msgid "Scheduling: Send free/busy"
 msgstr "Programmation: Envoyer Libre/Occupé"
 
-#, fuzzy
 msgid "Scheduling: Sending"
 msgstr "Programmation d'envoi"
 
@@ -911,7 +880,7 @@ msgid "Send scheduling replies as an attendee from the owner of this scheduling 
 msgstr ""
 
 msgid "Set free/busy privileges"
-msgstr ""
+msgstr "Attribuer le privilège Libre/Occupé"
 
 msgid "Set read privileges"
 msgstr ""
@@ -938,10 +907,10 @@ msgid "Show help on"
 msgstr "Afficher l'aide sur"
 
 msgid "Site Statistics require the database to be available!"
-msgstr ""
+msgstr "Les statistiques du site requièrent l'accès à la base de données!"
 
 msgid "Site Statistics"
-msgstr ""
+msgstr "Statistiques"
 
 msgid "Some properties were not able to be changed."
 msgstr "Des propriétés n'ont pu être modifiées."
@@ -1041,20 +1010,8 @@ msgstr "Le chemin sur le serveur où sont stockés tous les fichiers .ics."
 msgid "The preferred language for this person."
 msgstr "La langue parlée par cette personne."
 
-msgid "The style of dates used for this person."
-msgstr "Le format de date utilisé par cette personne."
-
-msgid "The user's e-mail address."
-msgstr "L'adresse courriel (e-mail) de cet utilisateur."
-
-msgid "The user's full name."
-msgstr "Le nom complet de l'utilisateur."
-
-msgid "The user's password for logging in."
-msgstr "Le mot de passe de l'utilisateur pour qu'il se connecte."
-
 msgid "The username must not be blank, and may not contain a slash"
-msgstr ""
+msgstr "Le nom de l'utilisateur ne devrait pas être vide et ne devrait pas contenir de slash ('/')"
 
 msgid "There is no collection at that URL."
 msgstr "Pas de collection trouvée à cette URL."
@@ -1062,11 +1019,7 @@ msgstr "Pas de collection trouvée à cette URL."
 msgid "There was an error writing to the database."
 msgstr "Il s'est produit une erreur lors de l'écriture des données."
 
-msgid ""
-"This operation does the following: <ul><li>check valid users in LDAP directory</li> <li>check users in "
-"DAViCal</li></ul> then <ul><li>if a user is present in DAViCal but not in LDAP set him as inactive in "
-"DAViCal</li> <li>if a user is present in LDAP but not in DAViCal create the user in DAViCal</li> "
-"<li>if a user in present in LDAP and DAViCal then update information in DAViCal</li> </ul>"
+msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li> <li>check users in DAViCal</li></ul> then <ul><li>if a user is present in DAViCal but not in LDAP set him as inactive in DAViCal</li> <li>if a user is present in LDAP but not in DAViCal create the user in DAViCal</li> <li>if a user in present in LDAP and DAViCal then update information in DAViCal</li> </ul>"
 msgstr ""
 
 msgid "This user's collections"
@@ -1087,14 +1040,8 @@ msgstr "Type"
 msgid "US Format"
 msgstr "Format US"
 
-msgid "United States of America (m/d/y)"
-msgstr "Etats-Unis (mm/jj/aa)"
-
 msgid "Update"
 msgstr "Enregistrer/Mettre à jour"
-
-msgid "Updated"
-msgstr "Mise à jour"
 
 # Tooltip text for a link which will display the currently logged in user's
 # account details.
@@ -1199,13 +1146,9 @@ msgstr "Écrire"
 msgid "Yes"
 msgstr "Oui"
 
-#, fuzzy, c-format
-msgid ""
-"You are currently running DAViCal version %s. The database schema should be at version %s and it is at "
-"version %d.%d.%d."
-msgstr ""
-"Vous utilisez la version %s de DAViCal. Le schéma de la base de données devrait être à la version %s "
-"mais est actuellement à la version %s."
+#, c-format
+msgid "You are currently running DAViCal version %s. The database schema should be at version %s and it is at version %d.%d.%d."
+msgstr "Vous utilisez la version %s de DAViCal. Le schéma de la base de données devrait être à la version %s mais est actuellement à la version %d.%d.%d."
 
 msgid "You are editing"
 msgstr "Vous modifiez"
@@ -1249,32 +1192,22 @@ msgstr "drivers_ldap : impossible de se connecter à l'hôte %1$s sur le port %
 msgid "drivers_ldap : Failed to set LDAP to use protocol version 3, TLS not supported"
 msgstr "drivers_ldap : impossible pour LDAP d'utiliser le protocole version 3, TLS n'est pas géré."
 
-msgid ""
-"drivers_ldap : Unable to bind to LDAP - check your configuration for bindDN and passDN, and that your "
-"LDAP server is reachable"
-msgstr ""
-"drivers_ldap : Impossible de se lier à LDAP, veuillez vérifier votre bindDN et passDN de votre "
-"configuration ou si votre serveur LDAP est accessible."
+msgid "drivers_ldap : Unable to bind to LDAP - check your configuration for bindDN and passDN, and that your LDAP server is reachable"
+msgstr "drivers_ldap : Impossible de se lier à LDAP, veuillez vérifier votre bindDN et passDN de votre configuration ou si votre serveur LDAP est accessible."
 
 #, c-format
 msgid "drivers_ldap : Unable to connect to LDAP with port %s on host %s"
 msgstr "drivers_ldap : impossible de se connecter à LDAP sur le port %s et sur l'hôte %s."
 
 msgid "drivers_ldap : function ldap_connect not defined, check your php_ldap module"
-msgstr ""
-"drivers_ldap : la fonction ldap_connect n'est pas définie, vérifiez que vous avez l'extension php_ldap."
+msgstr "drivers_ldap : la fonction ldap_connect n'est pas définie, vérifiez que vous avez l'extension php_ldap."
 
 #, c-format
 msgid "drivers_squid_pam : Unable to find %s file"
 msgstr "drivers_squid_pam : incapable de trouver le fichier %s."
 
-msgid ""
-"forget me not <!-- this is a colloquial phrase in english (the name of a flower) and is an option "
-"allowing people to log in automatically in future -->"
+msgid "forget me not <!-- this is a colloquial phrase in english (the name of a flower) and is an option allowing people to log in automatically in future -->"
 msgstr "Ne pas m'oublier <!-- other 2nd degree meaning but funny too -->"
-
-msgid "forget me not"
-msgstr "Ne pas m'oublier"
 
 #, fuzzy
 msgid "from principal"
@@ -1324,41 +1257,40 @@ msgstr "Vous devez vous connecter avec le nom d'utilisateur et le mot de passe q
 # Very rare to find someone able to fill several boxes at a time
 #~ msgid "User Unavailable"
 #~ msgstr "Utilisateur non disponible"
-
+# The user is 'active' in that their account is enabled for use.  If they are
+# inactive they will not be able to log on.
+#~ msgid "User is active"
+#~ msgstr "Utilisateur activé"
+# After maintaining a user's details, the changes have been written to the DB.
+#~ msgid "User record written."
+#~ msgstr "Données utilisateur correctement enregistrées."
 # Display something in a non-editable way.
 #~ msgid "View %s"
 #~ msgstr "Consulter %s"
-
+#~ msgid "When the user's e-mail account was validated."
+#~ msgstr "Date à laquelle l'adresse courriel de cet utilisateur a été validée."
+#~ msgid "forget me not"
+#~ msgstr "Ne pas m'oublier"
 #~ msgid "Administers"
 #~ msgstr "Administrateurs"
-
 #~ msgid "Can read from"
 #~ msgstr "Peut lire depuis"
-
 #~ msgid "Can see free/busy time of"
 #~ msgstr "Peut voir les disponibilités de"
-
 #~ msgid "Relationship <!-- in the sense of a work relationship between people -->"
 #~ msgstr "Relation de travail"
-
 #~ msgid "is Assistant to"
 #~ msgstr "est assisté par"
-
 #~ msgid "Default relationships added."
 #~ msgstr "Relation par défaut ajoutée."
-
 #~ msgid "You may not access that calendar"
 #~ msgstr "Vous ne pouvez accéder à ce calendrier."
-
 #~ msgid "You may not create a calendar there."
 #~ msgstr "Vous ne pouvez créer de calendrier ici."
-
 #~ msgid "Add a new user"
 #~ msgstr "Ajouter un nouvel utilisateur"
-
 #~ msgid "Browse all relationship types"
 #~ msgstr "Affiche tous les types de relations"
-
 # French uses the same word, except it adds an 'S'. Otherwise it would sound "Rezource",
 # a bit odd except when said with a german accent.
 #, fuzzy
