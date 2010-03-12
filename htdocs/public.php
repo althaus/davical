@@ -20,7 +20,7 @@ header( "DAV: $dav");
 
 require_once("CalDAVRequest.php");
 $request = new CalDAVRequest();
-if ( !$request->IsPublic() ) {
+if ( !isset($request->ticket) && !$request->IsPublic() ) {
   $request->DoResponse( 403, translate('Anonymous users may only access public calendars') );
 }
 
