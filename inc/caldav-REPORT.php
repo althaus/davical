@@ -154,7 +154,6 @@ if ( class_exists('RepeatRule') ) {
       }
       if ( !isset($dtstart) ) {
         $tzid = $comp->GetPParamValue('DTSTART', 'TZID');
-        print( $tzid . "\n");
         $dtstart = new RepeatRuleDateTime( $comp->GetPValue('DTSTART'), $tzid );
         $instances[$dtstart->UTC()] = $comp;
       }
@@ -162,7 +161,6 @@ if ( class_exists('RepeatRule') ) {
       if ( isset($p) && $p != '' ) {
         $range = $comp->GetPParamValue('RECURRENCE-ID', 'RANGE');
         $recur_tzid = $comp->GetPParamValue('RECURRENCE-ID', 'TZID');
-        print( __LINE__ . ' - ' .$recur_tzid . "\n");
         $recur_utc = new RepeatRuleDateTime($p,$recur_tzid);
         $recur_utc = $recur_utc->UTC();
         if ( isset($range) && $range == 'THISANDFUTURE' ) {
