@@ -1,5 +1,7 @@
 <?php
 
+require_once('PgQuery.php');
+
 $need_expansion = false;
 function check_for_expansion( $calendar_data_node ) {
   global $need_expansion, $expand_range_start, $expand_range_end;
@@ -287,7 +289,11 @@ $qry = new PgQuery( $sql );
 if ( $qry->Exec("calquery",__LINE__,__FILE__) && $qry->rows > 0 ) {
   while( $calendar_object = $qry->Fetch() ) {
     if ( !$need_post_filter || apply_filter( $qry_filters, $calendar_object ) ) {
-      if ( $need_expansion ) expand_event_instances($ics, $expand_range_start, $expand_range_end);
+      if ( $need_expansion ) {
+        $ics = new iCalComponent($calendar_object->caldav_data);
+        $expanded = expand_event_instances($ics, $expand_range_start, $expand_range_end);
+        $calendar_object->caldav_data = $expanded->Render();
+      }
       $responses[] = calendar_to_xml( $properties, $calendar_object );
     }
   }
