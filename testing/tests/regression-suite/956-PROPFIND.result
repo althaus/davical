@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav" xmlns:W="http://www.xythos.com/namespaces/StorageServer">
+ <response>
+  <href>/public.php/user1/home/</href>
+  <propstat>
+   <prop>
+    <current-user-privilege-set>
+     <privilege>
+      <read/>
+     </privilege>
+     <privilege>
+      <read-current-user-privilege-set/>
+     </privilege>
+     <privilege>
+      <C:read-free-busy/>
+     </privilege>
+     <privilege>
+      <C:schedule-query-freebusy/>
+     </privilege>
+    </current-user-privilege-set>
+    <W:ticketdiscovery/>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+</multistatus>

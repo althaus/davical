@@ -1,0 +1,31 @@
+#
+# MKTICKET request for a read/write ticket on a collection
+#   - ticket should have no expiry
+#
+TYPE=MKTICKET
+URL=http://regression.host/caldav.php/user2/home/
+HEADER=User-Agent: Ticket Spec Tests
+HEADER=Content-Type: text/xml; charset="UTF-8"
+HEAD
+AUTH=user2:user2
+
+BEGINDATA
+<?xml version="1.0" encoding="utf-8" ?>
+<T:ticketinfo xmlns:D="DAV:" xmlns:T="http://www.xythos.com/namespaces/StorageServer" >
+  <D:privilege><D:read/><D:write/></D:privilege>
+  <T:timeout>infinity</T:timeout>
+</T:ticketinfo>
+ENDDATA
+
+QUERY
+SELECT dav_owner_id,
+       date_trunc( 'minute', ('55 seconds' + expires - current_timestamp)::interval(0)) AS timeout,
+       privileges,
+       target_collection_id,
+       target_resource_id
+  FROM access_ticket
+ENDQUERY
+
+REPLACE=!ETag: "\S+"!ETag: "Some good etag"!
+REPLACE=!<T:id>\S{8}</T:id>!<T:id>Good Ticket ID</T:id>!
+REPLACE=!Ticket: \S{8}!Ticket:Good Ticket ID!

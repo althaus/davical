@@ -1,0 +1,38 @@
+#
+# Test REPORT access to a non-public calendar using a ticket.
+#
+TYPE=REPORT
+URL=http://regression.host/public.php/user2/home/
+NOAUTH
+
+
+# Get the ticket we created earlier in 948...
+GETSQL=ticket
+SELECT ticket_id FROM access_ticket
+                WHERE target_collection_id = 11 AND target_resource_id is null;
+ENDSQL
+
+HEADER=User-Agent: DAViCalTester/public
+HEADER=Content-Type: text/xml; charset="UTF-8"
+HEADER=Ticket: ##ticket##
+HEAD
+
+
+BEGINDATA
+<?xml version="1.0" encoding="UTF-8"?>
+<calendar-query xmlns:D="DAV:" xmlns="urn:ietf:params:xml:ns:caldav">
+  <D:prop>
+    <calendar-data>
+      <expand start="20081001T000000Z" end="20081201T000000Z"/>
+    </calendar-data>
+  </D:prop>
+  <filter>
+    <comp-filter name="VCALENDAR">
+      <comp-filter name="VEVENT">
+        <time-range start="20081001T000000Z" end="20081201T000000Z"/>
+      </comp-filter>
+    </comp-filter>
+  </filter>
+</calendar-query>
+ENDDATA
+

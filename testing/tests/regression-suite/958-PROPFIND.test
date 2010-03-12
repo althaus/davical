@@ -1,0 +1,32 @@
+#
+# PROPFIND on a collection which we can only access via a ticket
+#     also retrieving the tickets on that resource.
+#     using the /public.php/ URL with no authentication
+#
+TYPE=PROPFIND
+URL=http://regression.host/public.php/user2/home/
+NOAUTH
+
+# Get the ticket we created earlier in 948...
+GETSQL=ticket
+SELECT ticket_id FROM access_ticket
+                WHERE target_collection_id = 11 AND target_resource_id is null;
+ENDSQL
+
+HEADER=User-Agent: Ticket Spec Tests
+HEADER=Content-Type: text/xml; charset="UTF-8"
+HEADER=Ticket: ##ticket##
+HEADER=Depth: 1
+
+
+BEGINDATA
+<?xml version="1.0" encoding="utf-8"?>
+<propfind xmlns="DAV:">
+ <prop>
+  <getetag/>
+ </prop>
+</propfind>
+ENDDATA
+
+REPLACE=!<TKT:id>\S{8}</TKT:id>!<TKT:id>Good Ticket ID</TKT:id>!
+REPLACE=!<TKT:timeout>Seconds-3\d+</TKT:timeout>!<TKT:timeout>Seconds-3600</TKT:timeout>!
