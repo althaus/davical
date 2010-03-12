@@ -39,7 +39,7 @@ class RepeatRuleDateTime extends DateTime {
   public static $Format = 'c';
   private $tzid;
 
-  public function __construct($date = null, DateTimeZone $dtz = null) {
+  public function __construct($date = null, $dtz = null) {
     if (preg_match('/;?TZID=([^:]+):(\d{8}(T\d{6})?)(Z)?/', $date, $matches) ) {
       if ( isset($matches[4]) && $matches[4] == 'Z' ) {
         $dtz = new DateTimeZone('UTC');
@@ -85,7 +85,7 @@ class RepeatRuleDateTime extends DateTime {
 
 
   public function UTC() {
-    $gmt = parent::__clone();
+    $gmt = clone($this);
     if ( isset($this->tzid) && $this->tzid != 'UTC' ) {
       $dtz = parent::getTimezone();
       $offset = $dtz->getOffset($gmt);
