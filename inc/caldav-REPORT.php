@@ -77,9 +77,9 @@ if ( class_exists('RepeatRule') ) {
   *
   * @return array An array keyed on the UTC dates, referring to the component
   */
-  function rdate_expand( $property, $component, $range_end = null ) {
-    $timezone = $comp->GetPParamValue($property, 'TZID');
-    $rdate = $comp->GetPValue($property);
+  function rdate_expand( $dtstart, $property, $component, $range_end = null ) {
+    $timezone = $component->GetPParamValue($property, 'TZID');
+    $rdate = $component->GetPValue($property);
     $rdates = explode( ',', $rdate );
     $expansion = array();
     foreach( $rdates AS $k => $v ) {
@@ -104,12 +104,12 @@ if ( class_exists('RepeatRule') ) {
   function rrule_expand( $dtstart, $property, $component, $range_end ) {
     $expansion = array();
 
-    $recur = $comp->GetPValue($property);
+    $recur = $component->GetPValue($property);
     if ( !isset($recur) ) return $expansion;
 
-    $this_start = $comp->GetPValue('DTSTART');
+    $this_start = $component->GetPValue('DTSTART');
     if ( isset($this_start) ) {
-      $timezone = $comp->GetPParamValue('DTSTART', 'TZID');
+      $timezone = $component->GetPParamValue('DTSTART', 'TZID');
       $this_start = new RepeatRuleDateTime($this_start,$timezone);
     }
     else {
