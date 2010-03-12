@@ -139,8 +139,8 @@ if ( class_exists('RepeatRule') ) {
   function expand_event_instances( $ics, $range_start = null, $range_end = null ) {
     $components = $ics->GetComponents();
 
-    if ( !isset($range_start) ) { $range_start = new RepeatRuleDateTime($range_start); $range_start->modify('-6 weeks'); }
-    if ( !isset($range_end) )   { $range_end   = new RepeatRuleDateTime($range_end);   $range_end->modify('+4 months');  }
+    if ( !isset($range_start) ) { $range_start = new RepeatRuleDateTime(); $range_start->modify('-6 weeks'); }
+    if ( !isset($range_end) )   { $range_end   = clone($range_start);      $range_end->modify('+6 months');  }
 
     $new_components = array();
     $result_limit = 1000;
@@ -153,13 +153,16 @@ if ( class_exists('RepeatRule') ) {
         continue;
       }
       if ( !isset($dtstart) ) {
-        $dtstart = new RepeatRuleDateTime( $comp->GetPValue('DTSTART'), $comp->GetPParamValue('DTSTART', 'TZID') );
+        $tzid = $comp->GetPParamValue('DTSTART', 'TZID');
+        print( $tzid . "\n");
+        $dtstart = new RepeatRuleDateTime( $comp->GetPValue('DTSTART'), $tzid );
         $instances[$dtstart->UTC()] = $comp;
       }
       $p = $comp->GetPValue('RECURRENCE-ID');
       if ( isset($p) && $p != '' ) {
         $range = $comp->GetPParamValue('RECURRENCE-ID', 'RANGE');
         $recur_tzid = $comp->GetPParamValue('RECURRENCE-ID', 'TZID');
+        print( __LINE__ . ' - ' .$recur_tzid . "\n");
         $recur_utc = new RepeatRuleDateTime($p,$recur_tzid);
         $recur_utc = $recur_utc->UTC();
         if ( isset($range) && $range == 'THISANDFUTURE' ) {
@@ -185,31 +188,33 @@ if ( class_exists('RepeatRule') ) {
     $start_utc = $range_start->UTC();
     $end_utc = $range_end->UTC();
     foreach( $instances AS $utc => $comp ) {
+      if ( $utc > $end_utc ) break;
+
+      $duration = $comp->GetPValue('DURATION');
+      if ( !isset($duration) ) {
+        $dtend = new RepeatRuleDateTime( $comp->GetPValue('DTEND'), $comp->GetPParamValue('DTEND', 'TZID'));
+        $dtsrt = new RepeatRuleDateTime( $comp->GetPValue('DTSTART'), $comp->GetPParamValue('DTSTART', 'TZID'));
+        $duration = sprintf( 'PT%dM', intval(($dtend->epoch() - $dtsrt->epoch()) / 60) );
+      }
+
       if ( $utc < $start_utc ) {
-        $duration = $comp->GetPValue('DURATION');
-        if ( !isset($duration) ) {
-          $dtend = new RepeatRuleDateTime( $comp->GetPValue('DTEND'), $comp->GetPValue('DTEND', 'TZID'));
-          $dtsrt = new RepeatRuleDateTime( $comp->GetPValue('DTSTART'), $comp->GetPValue('DTSTART', 'TZID'));
-          $duration = sprintf( '%d minutes', (($dtend->epoch() - $dtsrt->epoch()) / 60) );
-        }
-        if ( isset($duration) ) {
-          if ( isset($last_duration) && $duration == $last_duration) {
-            if ( $utc < $early_start ) continue;
-          }
-          else {
-            $latest_start = clone($range_start);
-            $latest_start->modify('-'.$duration);
-            $early_start = $latest_start->UTC();
-            $last_duration = $duration;
-            if ( $utc < $early_start ) continue;
-          }
+        if ( isset($last_duration) && $duration == $last_duration) {
+          if ( $utc < $early_start ) continue;
         }
         else {
+          $latest_start = clone($range_start);
+          $latest_start->modify('-'.$duration);
+          $early_start = $latest_start->UTC();
+          $last_duration = $duration;
+          if ( $utc < $early_start ) continue;
         }
-        continue;
       }
-      if ( $utc > $end_utc ) break;
-      $new_components[] = $comp;
+      $component = clone($comp);
+      $component->ClearProperties('DTSTART');
+      $component->ClearProperties('DTEND');
+      $component->AddProperty('DTSTART', $utc );
+      $component->AddProperty('DURATION', $duration );
+      $new_components[] = $component;
       $in_range = true;
     }
 

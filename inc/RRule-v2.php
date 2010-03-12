@@ -73,6 +73,7 @@ class RepeatRuleDateTime extends DateTime {
     else {
       $tzid = $dtz->getName();
     }
+
     parent::__construct($date, $dtz);
 
     return $this;
@@ -146,6 +147,9 @@ class RepeatRuleDateTime extends DateTime {
     return parent::format('s');
   }
 
+  function epoch() {
+    return parent::format('U');
+  }
 }
 
 

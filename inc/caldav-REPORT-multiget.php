@@ -1,28 +1,54 @@
 <?php
 
+require_once('PgQuery.php');
+
 /**
 * @todo Tidy up namespace handling in the responses.
 */
 
 $responses = array();
 
+$need_expansion = false;
+function check_for_expansion( $calendar_data_node ) {
+  global $need_expansion, $expand_range_start, $expand_range_end;
+
+  if ( !class_exists('DateTime') ) return; /** We don't support expansion on PHP5.1 */
+
+  $expansion = $calendar_data_node->GetElements('urn:ietf:params:xml:ns:caldav:expand');
+  if ( isset($expansion[0]) ) {
+    $need_expansion = true;
+    $expand_range_start = $expansion[0]->GetAttribute('start');
+    $expand_range_end = $expansion[0]->GetAttribute('end');
+    if ( isset($expand_range_start) ) $expand_range_start = new RepeatRuleDateTime($expand_range_start);
+    if ( isset($expand_range_end) )   $expand_range_end   = new RepeatRuleDateTime($expand_range_end);
+  }
+}
+
+
 /**
  * Build the array of properties to include in the report output
  */
-$mg_content = $xmltree->GetContent('urn:ietf:params:xml:ns:caldav:calendar-multiget');
-$proptype = $mg_content[0]->GetTag();
+$qry_content = $xmltree->GetContent('urn:ietf:params:xml:ns:caldav:calendar-multiget');
+$proptype = $qry_content[0]->GetTag();
 $properties = array();
 switch( $proptype ) {
   case 'DAV::prop':
-    $mg_props = $xmltree->GetPath('/urn:ietf:params:xml:ns:caldav:calendar-multiget/DAV::prop/*');
-    foreach( $mg_props AS $k => $v ) {
+    $qry_props = $xmltree->GetPath('/urn:ietf:params:xml:ns:caldav:calendar-multiget/'.$proptype.'/*');
+    foreach( $qry_content[0]->GetElements() AS $k => $v ) {
       $propertyname = preg_replace( '/^.*:/', '', $v->GetTag() );
       $properties[$propertyname] = 1;
+      if ( $v->GetTag() == 'urn:ietf:params:xml:ns:caldav:calendar-data' ) check_for_expansion($v);
     }
     break;
 
   case 'DAV::allprop':
     $properties['allprop'] = 1;
+    if ( $qry_content[1]->GetTag() == 'DAV::include' ) {
+      foreach( $qry_content[1]->GetElements() AS $k => $v ) {
+        $include_properties[] = $v->GetTag(); /** $include_properties is referenced in DAVResource where allprop is expanded */
+        if ( $v->GetTag() == 'urn:ietf:params:xml:ns:caldav:calendar-data' ) check_for_expansion($v);
+      }
+    }
     break;
 
   default:
@@ -60,6 +86,11 @@ if ( isset($c->strict_result_ordering) && $c->strict_result_ordering ) $where .=
 $qry = new PgQuery( "SELECT caldav_data.*,calendar_item.* FROM caldav_data INNER JOIN calendar_item USING(dav_id, user_no, dav_name, collection_id) LEFT JOIN collection USING(collection_id)". $where );
 if ( $qry->Exec('REPORT',__LINE__,__FILE__) && $qry->rows > 0 ) {
   while( $calendar_object = $qry->Fetch() ) {
+    if ( $need_expansion ) {
+      $ics = new iCalComponent($calendar_object->caldav_data);
+      $expanded = expand_event_instances($ics, $expand_range_start, $expand_range_end);
+      $calendar_object->caldav_data = $expanded->Render();
+    }
     $responses[] = calendar_to_xml( $properties, $calendar_object );
   }
 }
