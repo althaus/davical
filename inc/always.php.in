@@ -14,8 +14,13 @@ unset($session); unset($request); unset($dbconn); unset($_awl_dbconn); unset($in
 
 // An ultra-simple exception handler to catch errors that occur
 // before we get a more functional exception handler in place...
-function early_exception_handler($exception) {
-  echo "Uncaught early exception: ", $exception->getMessage(), "\n";
+function early_exception_handler($e) {
+  echo "Uncaught early exception: ", $e->getMessage(), "\nAt line ", $e->getLine(), " of ", $e->getFile(), "\n";
+
+  $trace = array_reverse($e->getTrace());
+  foreach( $trace AS $k => $v ) {
+    printf( "=====================================================\n%s[%d] %s%s%s()\n", $v['file'], $v['line'], (isset($v['class'])?$v['class']:''), (isset($v['type'])?$v['type']:''), (isset($v['function'])?$v['function']:'') );
+  }
 }
 set_exception_handler('early_exception_handler');
 
