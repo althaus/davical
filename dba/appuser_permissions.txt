@@ -38,6 +38,7 @@ GRANT SELECT,INSERT,UPDATE,DELETE
   ON grants
   ON dav_principal
   ON access_ticket
+  ON dav_binding
 
 GRANT SELECT,UPDATE
   ON relationship_type_rt_id_seq

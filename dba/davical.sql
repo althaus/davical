@@ -319,7 +319,7 @@ CREATE TABLE dav_binding (
   bind_id INT8 DEFAULT nextval('dav_id_seq') PRIMARY KEY,
   bound_source_id INT8 REFERENCES collection(collection_id) ON UPDATE CASCADE ON DELETE CASCADE,
   access_ticket_id TEXT REFERENCES access_ticket(ticket_id) ON UPDATE CASCADE ON DELETE SET NULL,
-  parent_id INT8 REFERENCES collection(collection_id) ON UPDATE CASCADE ON DELETE CASCADE,
+  parent_container TEXT NOT NULL,
   dav_name TEXT UNIQUE NOT NULL,
   dav_displayname TEXT
 );

@@ -96,10 +96,11 @@ function add_proxy_response( &$responses, $which, $parent_path ) {
 * If '/' is requested, a list of visible users is given, otherwise
 * a list of calendars for the user which are parented by this path.
 */
-function get_collection_contents( $depth, $user_no, $collection ) {
+function get_collection_contents( $depth, $collection ) {
   global $c, $session, $request, $reply, $property_list;
 
-  dbg_error_log('PROPFIND','Getting collection contents: Depth %d, User: %d, Path: %s', $depth, $user_no, $collection->dav_name() );
+  $bound_from = $collection->bound_from();
+  dbg_error_log('PROPFIND','Getting collection contents: Depth %d, Path: %s, Bound from: %s', $depth, $collection->dav_name(), $bound_from );
 
   $date_format = iCalendar::HttpDateFormat();
   $responses = array();
@@ -108,7 +109,7 @@ function get_collection_contents( $depth, $user_no, $collection ) {
     * Calendar/Addressbook collections may not contain collections, so we won't look
     */
     $params = array( ':session_principal' => $session->principal_id, ':scan_depth' => $c->permission_scan_depth );
-    if ( $collection->dav_name() == '/' ) {
+    if ( $bound_from == '/' ) {
       $sql = "SELECT usr.*, '/' || username || '/' AS dav_name, md5(username || updated::text) AS dav_etag, ";
       $sql .= "to_char(joined at time zone 'GMT',$date_format) AS created, ";
       $sql .= "to_char(updated at time zone 'GMT',$date_format) AS modified, ";
@@ -120,11 +121,26 @@ function get_collection_contents( $depth, $user_no, $collection ) {
       $sql .= 'ORDER BY usr.user_no';
     }
     else {
-      $sql = 'SELECT principal.*, collection.*, \'collection\' AS type FROM collection LEFT JOIN principal USING (user_no) ';
+      $qry = new AwlQuery('SELECT * FROM dav_binding WHERE dav_binding.parent_container = :this_dav_name ORDER BY bind_id',
+                           array(':this_dav_name' => $bound_from));
+      if( $qry->Exec('PROPFIND',__LINE__,__FILE__) && $qry->rows() > 0 ) {
+        while( $binding = $qry->Fetch() ) {
+          $resource = new DAVResource($binding->dav_name);
+          if ( $resource->HavePrivilegeTo('DAV::read') ) {
+            $responses[] = $resource->RenderAsXML($property_list, $reply);
+            if ( $depth > 0 ) {
+              $responses = array_merge($responses, get_collection_contents( $depth - 1, $resource ) );
+            }
+          }
+        }
+      }
+
+      $sql = 'SELECT principal.*, collection.*, \'collection\' AS type ';
+      $sql .= 'FROM collection LEFT JOIN principal USING (user_no) ';
       $sql .= 'WHERE parent_container = :this_dav_name ';
       $sql .= "AND (path_privs(:session_principal::int8,collection.dav_name,:scan_depth::int) & 1::BIT(24))::INT4::BOOLEAN ";
       $sql .= ' ORDER BY collection_id';
-      $params[':this_dav_name'] = $collection->dav_name();
+      $params[':this_dav_name'] = $bound_from;
     }
     $qry = new AwlQuery($sql, $params);
 
@@ -132,24 +148,27 @@ function get_collection_contents( $depth, $user_no, $collection ) {
       while( $subcollection = $qry->Fetch() ) {
         $resource = new DAVResource($subcollection);
         $responses[] = $resource->RenderAsXML($property_list, $reply);
+        if ( $depth > 0 ) {
+          $responses = array_merge($responses, get_collection_contents( $depth - 1, $resource ) );
+        }
       }
     }
 
     if ( $collection->IsPrincipal() == 't' ) {
       // Caldav Proxy: 5.1 par. 2: Add child resources calendar-proxy-(read|write)
-      dbg_error_log('PROPFIND','Adding calendar-proxy-read and write. Path: %s', $collection->dav_name() );
-      add_proxy_response($responses, 'read', $collection->dav_name() );
-      add_proxy_response($responses, 'write', $collection->dav_name() );
+      dbg_error_log('PROPFIND','Adding calendar-proxy-read and write. Path: %s', $bound_from );
+      add_proxy_response($responses, 'read', $bound_from );
+      add_proxy_response($responses, 'write', $bound_from );
     }
   }
 
   /**
   * freebusy permission is not allowed to see the items in a collection.  Must have at least read permission.
   */
-  if ( $request->HavePrivilegeTo('DAV::read') ) {
-    dbg_error_log('PROPFIND','Getting collection items: Depth %d, User: %d, Path: %s', $depth, $user_no, $collection->dav_name() );
+  if ( $collection->HavePrivilegeTo('DAV::read') ) {
+    dbg_error_log('PROPFIND','Getting collection items: Depth %d, Path: %s', $depth, $bound_from );
     $privacy_clause = ' ';
-    if ( ! $request->HavePrivilegeTo('all') ) {
+    if ( ! $collection->HavePrivilegeTo('all') ) {
       $privacy_clause = " AND (calendar_item.class != 'PRIVATE' OR calendar_item.class IS NULL) ";
     }
 
@@ -167,7 +186,7 @@ function get_collection_contents( $depth, $user_no, $collection ) {
     $sql .= 'LEFT JOIN collection USING(collection_id,user_no) LEFT JOIN principal USING(user_no) ';
     $sql .= 'WHERE collection.dav_name = :collection_dav_name '.$time_limit_clause.' '.$privacy_clause;
     if ( isset($c->strict_result_ordering) && $c->strict_result_ordering ) $sql .= " ORDER BY caldav_data.dav_id";
-    $qry = new AwlQuery( $sql, array( ':collection_dav_name' => $collection->dav_name()) );
+    $qry = new AwlQuery( $sql, array( ':collection_dav_name' => $bound_from) );
     if( $qry->Exec('PROPFIND',__LINE__,__FILE__) && $qry->rows() > 0 ) {
       while( $item = $qry->Fetch() ) {
         $resource = new DAVResource($item);
@@ -180,40 +199,6 @@ function get_collection_contents( $depth, $user_no, $collection ) {
 }
 
 
-/**
-* Get XML response for a single collection.  If Depth is >0 then
-* subsidiary collections will also be got up to $depth
-*/
-function get_collection( $depth, $user_no, $collection_path ) {
-  global $session, $c, $request, $property_list, $reply;
-  $responses = array();
-
-  dbg_error_log('PROPFIND','Getting collection: Depth %d, User: %d, Path: %s', $depth, $user_no, $collection_path );
-
-  if (preg_match('#/[^/]+/calendar-proxy-(read|write)/?#',$collection_path, $match) ) {
-  	// this should be a direct query to /<somewhere>/calendar-proxy-<something>
-  	dbg_error_log('PROPFIND','Simulating calendar-proxy-read or write. Path: %s', $collection_path);
-       add_proxy_response($responses, $match[1], $collection_path);
-  }
-
-  if ( $collection_path == null || $collection_path == '' ) $collection_path = '/';
-
-  $resource = new DAVResource($collection_path);
-  if ( !$resource->Exists() ) return $responses;
-
-  $responses[] = $resource->RenderAsXML($property_list, $reply);
-
-  if ( $depth > 0 ) {
-    dbg_error_log('PROPFIND','Getting collection contents of path: "%s"', $collection_path );
-    $responses = array_merge($responses, get_collection_contents( $depth-1,  $user_no, $resource ) );
-  }
-  else {
-    dbg_error_log('PROPFIND','Not Getting collection contents of path: "%s"', $collection_path );
-  }
-
-  return $responses;
-}
-
 
 /**
 * Something that we can handle, at least roughly correctly.
@@ -221,23 +206,22 @@ function get_collection( $depth, $user_no, $collection_path ) {
 $responses = array();
 if ( $request->IsProxyRequest() ) {
   add_proxy_response($responses, $request->proxy_type, '/' . $request->principal->username . '/' );
-  /** Nothing inside these, as yet. */
 }
-elseif ( $request->IsCollection() ) {
-  $responses = get_collection( $request->depth, $request->user_no, $request->path );
-}
-elseif ( $request->HavePrivilegeTo('DAV::read') ) {
+else {
   $resource = new DAVResource($request->path);
-  $response = $resource->RenderAsXML($property_list, $reply);
-  if ( isset($response) ) $responses[] = $response;
-}
-
-if ( count($responses) < 1 ) {
-  if ( $request->HavePrivilegeTo('DAV::read') ) {
+  $resource->NeedPrivilege('DAV::read');
+  if ( ! $resource->Exists() ) {
     $request->DoResponse( 404, translate('That resource is not present on this server.') );
   }
-  else {
-    $request->DoResponse( 403, translate('You do not have appropriate rights to view that resource.') );
+  if ( $resource->IsCollection() ) {
+    dbg_error_log('PROPFIND','Getting collection contents: Depth %d, Path: %s', $request->depth, $resource->dav_name() );
+    $responses[] = $resource->RenderAsXML($property_list, $reply);
+    if ( $request->depth > 0 ) {
+      $responses = array_merge($responses, get_collection_contents( $request->depth - 1, $resource ) );
+    }
+  }
+  elseif ( $request->HavePrivilegeTo('DAV::read') ) {
+    $responses[] = $resource->RenderAsXML($property_list, $reply);
   }
 }
 
