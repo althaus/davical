@@ -1073,7 +1073,7 @@ EOSQL;
   <%s/>%s
 </error>', $precondition, $explanation );
 
-    $request->DoResponse( $status, $xmldoc, 'text/xml; charset="utf-8"' );
+    $this->DoResponse( $status, $xmldoc, 'text/xml; charset="utf-8"' );
     exit(0);  // Unecessary, but might clarify things
   }
 
