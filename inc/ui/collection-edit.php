@@ -59,7 +59,7 @@ if ( isset($privsql) ) {
   $privqry = new AwlQuery( $privsql, $params );
   $privqry->Exec('admin-collection-edit');
   $permissions = $privqry->Fetch();
-  $can_write_collection = ($session->AllowedTo('Admin') || ($permissions->priv & privilege_to_bits('DAV::bind')) );
+  $can_write_collection = ($session->AllowedTo('Admin') || (bindec($permissions->priv) & privilege_to_bits('DAV::bind')) );
 }
 
 dbg_error_log("ERROR", "Can write collection: %s", ($can_write_collection? 'yes' : 'no') );
