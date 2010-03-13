@@ -2,7 +2,7 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy
 ETag: "some valid etag"
-Content-Length: 8808
+Content-Length: 8564
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -143,20 +143,15 @@ Content-Type: text/xml; charset="utf-8"
      <principal/>
     </resourcetype>
     <getcontenttype>httpd/unix-directory</getcontenttype>
-    <current-user-privilege-set>
-     <privilege>
-      <read/>
-     </privilege>
-     <privilege>
-      <C:read-free-busy/>
-     </privilege>
-     <privilege>
-      <C:schedule-query-freebusy/>
-     </privilege>
-    </current-user-privilege-set>
     <C2:getctag>some valid etag</C2:getctag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <current-user-privilege-set/>
+   </prop>
+   <status>HTTP/1.1 403 Forbidden</status>
   </propstat>
   <propstat>
    <prop>
@@ -181,20 +176,15 @@ Content-Type: text/xml; charset="utf-8"
      <principal/>
     </resourcetype>
     <getcontenttype>httpd/unix-directory</getcontenttype>
-    <current-user-privilege-set>
-     <privilege>
-      <read/>
-     </privilege>
-     <privilege>
-      <C:read-free-busy/>
-     </privilege>
-     <privilege>
-      <C:schedule-query-freebusy/>
-     </privilege>
-    </current-user-privilege-set>
     <C2:getctag>some valid etag</C2:getctag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <current-user-privilege-set/>
+   </prop>
+   <status>HTTP/1.1 403 Forbidden</status>
   </propstat>
   <propstat>
    <prop>

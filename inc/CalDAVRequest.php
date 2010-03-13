@@ -388,8 +388,15 @@ EOSQL;
     if ( isset($this->principal->by_email) && $this->principal->by_email) $this->by_email = true;
     if ( isset($this->principal->principal_id)) $this->principal_id = $this->principal->principal_id;
 
-    if ( $this->collection_type == 'principal' || $this->collection_type == 'email' ) {
+    if ( $this->collection_type == 'principal' || $this->collection_type == 'email' || $this->collection_type == 'proxy' ) {
       $this->collection = $this->principal->AsCollection();
+      if( $this->collection_type == 'proxy' ) {
+        $this->collection = $this->principal->AsCollection();
+        $this->collection->is_proxy = 't';
+        $this->collection->type = 'proxy';
+        $this->collection->proxy_type = $this->proxy_type;
+        $this->collection->dav_displayname = sprintf('Proxy %s for %s', $this->proxy_type, $this->principal->username() );
+      }
     }
     elseif( $this->collection_type == 'root' ) {
       $this->collection = (object) array(
@@ -403,23 +410,6 @@ EOSQL;
                             'type' => 'root',
                             'created' => date('Ymd\THis')
                           );
-    }
-    elseif( $this->collection_type == 'proxy' ) {
-      $this->collection = (object) array(
-          'dav_name' => $this->collection_path,
-          'is_calendar' => 'f',
-          'is_principal' => 't',
-          'is_proxy' => 't',
-          'type' => 'proxy',
-          'proxy_type' => $this->proxy_type,
-          'dav_displayname' => sprintf('Proxy %s for %s', $this->proxy_type, $this->principal->username),
-          'collection_id' => 0,
-          'user_no' => $this->principal->user_no,
-          'username' => $this->principal->username,
-          'email' => $this->principal->email,
-          'created' => $this->principal->created,
-          'dav_etag' => $this->principal->created
-      );
     }
 
     /**
@@ -470,6 +460,7 @@ EOSQL;
           $this->supported_methods['MKCOL'] = '';
           $this->supported_methods['MKCALENDAR'] = '';
           $this->supported_methods['PROPPATCH'] = '';
+          $this->supported_methods['BIND'] = '';
           break;
       }
     }

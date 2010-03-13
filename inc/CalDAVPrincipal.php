@@ -99,6 +99,16 @@ class CalDAVPrincipal
   protected $principal_address;
 
   /**
+   * @var The username for this principal
+   */
+  protected $username;
+
+  /**
+   * @var The dav_name for this principal - a partial path
+   */
+  protected $dav_name;
+
+  /**
   * Constructor
   * @param mixed $parameters If null, an empty Principal is created.  If it
   *              is an integer then that ID is read (if possible).  If it is
@@ -122,24 +132,29 @@ class CalDAVPrincipal
     else if ( is_int($parameters) ) {
       dbg_error_log( 'principal', 'Principal: %d', $parameters );
       $usr = getUserByID($parameters);
+      $this->user_no = $parameters['user_no'];
     }
     else if ( is_array($parameters) ) {
       if ( ! isset($parameters['options']['allow_by_email']) ) $parameters['options']['allow_by_email'] = false;
       if ( isset($parameters['username']) ) {
         $usr = getUserByName($parameters['username']);
+        $this->username = $parameters['username'];
       }
       else if ( isset($parameters['user_no']) ) {
         $usr = getUserByID($parameters['user_no']);
+        $this->user_no = $parameters['user_no'];
       }
       else if ( isset($parameters['email']) && $parameters['options']['allow_by_email'] ) {
         if ( $username = $this->UsernameFromEMail($parameters['email']) ) {
           $usr = getUserByName($username);
+          $this->username = $username;
         }
       }
       else if ( isset($parameters['path']) ) {
         dbg_error_log( 'principal', 'Finding Principal from path: "%s", options.allow_by_email: "%s"', $parameters['path'], $parameters['options']['allow_by_email'] );
         if ( $username = $this->UsernameFromPath($parameters['path'], $parameters['options']) ) {
           $usr = getUserByName($username);
+          $this->username = $username;
         }
       }
       else if ( isset($parameters['principal-property-search']) ) {
@@ -400,10 +415,32 @@ class CalDAVPrincipal
 
 
   /**
+  * Return the username
+  * @return string The username
+  */
+  function username() {
+    return (isset($this->username)?$this->username:'username not set');
+  }
+
+
+  /**
+  * Return the partial path representing this principal
+  * @return string The dav_name
+  */
+  function dav_name() {
+    if ( !isset($this->dav_name) ) {
+      if ( !isset($this->username) ) $this->dav_name = '';
+      else $this->dav_name = '/'.$this->username.'/';
+    }
+    return $this->dav_name;
+  }
+
+
+  /**
   * Return the privileges bits for the current session user to this resource
   */
   function Privileges() {
-    if ( !isset($this->privileges) )
+    if ( !isset($this->privileges) ) $this->privileges = 0;
     if ( is_string($this->privileges) ) $this->privileges = bindec( $this->privileges );
     return $this->privileges;
   }
@@ -419,15 +456,16 @@ class CalDAVPrincipal
                             'is_addressbook' => 'f',
                             'is_principal' => 't',
                             'user_no'  => (isset($this->user_no)  ? $this->user_no : 0),
-                            'username' => (isset($this->username) ? $this->username : 0),
+                            'username' => $this->username(),
+                            'dav_name' => $this->dav_name(),
                             'email'    => (isset($this->email)    ? $this->email : ''),
-                            'created'  => (isset($this->created)  ? $this->created : date('Ymd\THis'))
+                            'created'  => (isset($this->created)  ? $this->created : date('Ymd\THis')),
+                            'updated'  => (isset($this->updated)  ? $this->updated : date('Ymd\THis'))
                   );
-    if ( $this->exists ) {
-      $collection->dav_name = (isset($this->dav_name) ? $this->dav_name : '/' . $this->username . '/');
-      $collection->dav_etag = (isset($this->dav_etag) ? $this->dav_etag : md5($this->username . $this->updated));
-      $collection->dav_displayname =  (isset($this->dav_displayname) ? $this->dav_displayname : (isset($this->fullname) ? $this->fullname : $this->username));
-    }
+    $collection->dav_name = $this->dav_name();
+    $collection->dav_etag = (isset($this->dav_etag) ? $this->dav_etag : md5($collection->username . $collection->updated));
+    $collection->dav_displayname =  (isset($this->dav_displayname) ? $this->dav_displayname : (isset($this->fullname) ? $this->fullname : $collection->username));
+
     return $collection;
   }
 

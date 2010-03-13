@@ -49,11 +49,12 @@ foreach( $allprop AS $k1 => $propwrap ) {
  * Add the calendar-proxy-read/write pseudocollections
  * @param responses array of responses to which to add the collections
  */
-function add_proxy_response( &$responses, $which, $parent_path ) {
+function add_proxy_response( $which, $parent_path ) {
   global $request, $reply, $c, $session, $property_list;
 
-  if ($parent_path != '/'.$request->principal->username.'/') {
-    return; // Nothing to proxy for
+  if ($parent_path != $request->principal->dav_name()) {
+    dbg_error_log( 'PROPFIND', 'Not returning proxy response since "%s" != "%s"', $parent_path, $request->principal->dav_name() );
+    return null; // Nothing to proxy for
   }
 
   $collection = (object) '';
@@ -62,6 +63,8 @@ function add_proxy_response( &$responses, $which, $parent_path ) {
   } else if ( $which == 'write' ) {
     $proxy_group = $request->principal->WriteProxyGroup();
   }
+
+  dbg_error_log( 'PROPFIND', 'Returning proxy response to "%s" for "%s"', $which, $parent_path );
 
   $collection->dav_name = $parent_path.'calendar-proxy-'.$which.'/';
   $collection->is_calendar    = 'f';
@@ -86,7 +89,7 @@ function add_proxy_response( &$responses, $which, $parent_path ) {
 
   $resource = new DAVResource($collection);
   $resource->FetchPrincipal();
-  $responses[] = $resource->RenderAsXML($property_list, $reply);
+  return $resource->RenderAsXML($property_list, $reply);
 
 }
 
@@ -154,11 +157,13 @@ function get_collection_contents( $depth, $collection ) {
       }
     }
 
-    if ( $collection->IsPrincipal() == 't' ) {
+    if ( $collection->IsPrincipal() ) {
       // Caldav Proxy: 5.1 par. 2: Add child resources calendar-proxy-(read|write)
       dbg_error_log('PROPFIND','Adding calendar-proxy-read and write. Path: %s', $bound_from );
-      add_proxy_response($responses, 'read', $bound_from );
-      add_proxy_response($responses, 'write', $bound_from );
+      $response = add_proxy_response('read', $bound_from );
+      if ( isset($response) ) $responses[] = $response;
+      $response = add_proxy_response('write', $bound_from );
+      if ( isset($response) ) $responses[] = $response;
     }
   }
 
@@ -205,7 +210,8 @@ function get_collection_contents( $depth, $collection ) {
 */
 $responses = array();
 if ( $request->IsProxyRequest() ) {
-  add_proxy_response($responses, $request->proxy_type, '/' . $request->principal->username . '/' );
+  $response = add_proxy_response($request->proxy_type, $request->principal->dav_name() );
+  if ( isset($response) ) $responses[] = $response;
 }
 else {
   $resource = new DAVResource($request->path);

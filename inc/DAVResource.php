@@ -146,12 +146,12 @@ class DAVResource
     $this->supported_methods = null;
     $this->supported_reports = null;
 
-    $this->_is_collection  = false;
-    $this->_is_principal   = false;
-    $this->_is_calendar    = false;
-    $this->_is_binding     = false;
-    $this->_is_addressbook = false;
-    $this->_is_proxy       = false;
+    $this->_is_collection    = false;
+    $this->_is_principal     = false;
+    $this->_is_calendar      = false;
+    $this->_is_binding       = false;
+    $this->_is_addressbook   = false;
+    $this->_is_proxy_request = false;
     if ( isset($parameters) && is_object($parameters) ) {
       $this->FromRow($parameters);
     }
@@ -222,10 +222,15 @@ class DAVResource
       if ( !isset( $this->collection->type ) || $this->collection->type == 'collection' ) {
         if ( $this->_is_principal )
           $this->collection->type = 'principal';
-        else if ( $row->is_calendar == 't' )
+        else if ( $row->is_calendar == 't' ) {
           $this->collection->type = 'calendar';
-        else if ( $row->is_addressbook == 't' )
+        }
+        else if ( $row->is_addressbook == 't' ) {
           $this->collection->type = 'addressbook';
+        }
+        else if ( isset($row->is_proxy) && $row->is_proxy == 't' ) {
+          $this->collection->type = 'proxy';
+        }
         else if ( preg_match( '#^((/[^/]+/)\.(in|out)/)[^/]*$#', $this->dav_name, $matches ) )
           $this->collection->type = 'schedule-'. $matches[3]. 'box';
         else if ( $this->dav_name == '/' )
@@ -236,8 +241,12 @@ class DAVResource
 
       $this->_is_calendar     = ($this->collection->is_calendar == 't');
       $this->_is_addressbook  = ($this->collection->is_addressbook == 't');
+      $this->_is_proxy_request= ($this->collection->type == 'proxy');
       if ( $this->_is_principal && !isset($this->resourcetypes) ) {
         $this->resourcetypes = '<DAV::collection/><DAV::principal/>';
+      }
+      else if ( $this->_is_proxy_request ) {
+        $this->resourcetypes  = sprintf('<DAV::collection/><http://calendarserver.org/ns/:calendar-proxy-%s/>', $this->collection->proxy_type );
       }
       if ( isset($this->collection->dav_displayname) ) $this->collection->displayname = $this->collection->dav_displayname;
     }
@@ -536,7 +545,7 @@ EOQRY;
     if ( $this->IsPrincipal() ) {
       if ( !isset($this->principal) ) $this->FetchPrincipal();
       $this->privileges = $this->principal->Privileges();
-      dbg_error_log( 'DAVResource', 'Privileges of "%s" for user accessing principal "%s"', $this->privileges, $this->principal->username );
+      dbg_error_log( 'DAVResource', 'Privileges of "%s" for user accessing "%s"', $this->privileges, $this->principal->username() );
       return;
     }
 
@@ -1384,7 +1393,7 @@ EOQRY;
       }
       $found = $this->ResourceProperty($tag, $prop, $reply, $denied );
       if ( !$found ) {
-       if ( !isset($this->principal) ) $this->FetchPrincipal();
+        if ( !isset($this->principal) ) $this->FetchPrincipal();
         $found = $this->principal->PrincipalProperty( $tag, $prop, $reply, $denied );
       }
       if ( ! $found ) {
@@ -1431,7 +1440,7 @@ EOQRY;
   function RenderAsXML( $properties, &$reply, $props_only = false ) {
     global $session, $c, $request;
 
-    dbg_error_log('DAVResource',':RenderAsXML: Resource "%s"', $this->dav_name );
+    dbg_error_log('DAVResource',':RenderAsXML: Resource "%s" exists(%d)', $this->dav_name, $this->Exists() );
 
     if ( !$this->Exists() ) return null;
 
