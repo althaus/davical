@@ -125,4 +125,8 @@ class DAVTicket
     $length = strlen($this->dav_name);
     return (substr($test_path, 0, $length) == $this->dav_name);
   }
+
+  function MatchesResource( $test_resource_id ) {
+    return ($test_resource_id == $this->target_collection_id || $test_resource_id == $this->target_resource_id);
+  }
 }
