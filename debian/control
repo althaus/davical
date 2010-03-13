@@ -3,7 +3,7 @@ Section: web
 Priority: extra
 Maintainer: Andrew McMillan <debian@mcmillan.net.nz>
 Standards-Version: 3.8.4
-Build-Depends: debhelper (>= 5)
+Build-Depends: debhelper (>= 5), libawl-php
 Vcs-git: git://repo.or.cz/davical.git
 Vcs-browser: http://repo.or.cz/w/davical.git
 Homepage: http://davical.org/
