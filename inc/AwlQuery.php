@@ -446,7 +446,7 @@ class AwlQuery
   * @return boolean Success (true) or Failure (false)
   */
   function Exec( $location = null, $line = null, $file = null ) {
-    global $debuggroups, $c;
+    global $c;
     if ( isset($location) ) $this->location = trim($location);
     if ( !isset($this->location) || $this->location == "" ) $this->location = substr($_SERVER['PHP_SELF'],1);
 
@@ -456,7 +456,7 @@ class AwlQuery
     if ( isset($file) )     $this->location_file = trim($file);
     else if ( isset($this->location_file) ) $file = $this->location_file;
 
-    if ( isset($debuggroups['querystring']) || isset($c->dbg['querystring']) || isset($c->dbg['ALL']) ) {
+    if ( isset($c->dbg['querystring']) || isset($c->dbg['ALL']) ) {
       $this->_log_query( $this->location, 'DBGQ', $this->querystring, $line, $file );
       if ( isset($this->bound_parameters) && !isset($this->sth) ) {
         foreach( $this->bound_parameters AS $k => $v ) {
@@ -513,9 +513,9 @@ class AwlQuery
      // if execution time is too long
       $this->_log_query( $this->location, 'SQ', "Took: $this->execution_time for $this->querystring", $line, $file ); // SQ == Slow Query :-)
     }
-    elseif ( isset($debuggroups[$this->location]) || isset($c->dbg[strtolower($this->location)]) || isset($c->dbg['ALL']) ) {
+    elseif ( isset($c->dbg['querystring']) || isset($c->dbg[strtolower($this->location)]) || isset($c->dbg['ALL']) ) {
      // query successful, but we're debugging and want to know how long it took anyway
-      $this->_log_query( $this->location, 'DBGQ', "Took: $this->execution_time for $this->querystring to find $this->rows rows.", $line, $file );
+      $this->_log_query( $this->location, 'DBGQ', "Took: $this->execution_time to find $this->rows rows.", $line, $file );
     }
 
     return $success;
@@ -528,21 +528,12 @@ class AwlQuery
   * @return mixed query row
   */
   function Fetch($as_array = false) {
-    global $c, $debuggroups;
 
-    if ( ( isset($debuggroups["$this->location"]) && $debuggroups["$this->location"] > 2 )
-       || (isset($c) && is_object($c) && ( isset($c->dbg[strtolower($this->location)]) && isset($c->dbg[strtolower($this->location)]) )
-                                        || isset($c->dbg['ALL']) ) ) {
-        $this->_log_query( $this->location, "Fetch", "$this->result Rows: $this->rows, Rownum: $this->rownum");
-    }
     if ( ! $this->sth || $this->rows == 0 ) return false; // no results
     if ( $this->rownum == null ) $this->rownum = -1;
     if ( ($this->rownum + 1) >= $this->rows ) return false; // reached the end of results
 
     $this->rownum++;
-    if ( isset($debuggroups["$this->location"]) && $debuggroups["$this->location"] > 1 ) {
-      $this->_log_query( $this->location, "Fetch", "Fetching row $this->rownum" );
-    }
     $row = $this->sth->fetch( ($as_array ? PDO::FETCH_NUM : PDO::FETCH_OBJ) );
 
     return $row;
