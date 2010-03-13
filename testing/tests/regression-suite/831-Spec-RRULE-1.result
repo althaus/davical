@@ -1,12 +1,10 @@
 HTTP/1.1 200 OK
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy
-Content-Length: 5540
+Content-Length: 5323
 Content-Type: text/html
 
 #!/usr/bin/php
-
-Warning: Cannot modify header information - headers already sent by (output started at /home/andrew/projects/davical/testing/test-RRULE-v2.php:2) in /home/andrew/projects/davical/testing/test-RRULE-v2.php on line 15
 Testing the RRule v2 Library
 =~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=
 20061103T073000 - RRULE:FREQ=DAILY;COUNT=7

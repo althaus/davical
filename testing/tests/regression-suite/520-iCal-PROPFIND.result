@@ -1,8 +1,8 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy
-ETag: "e00f3aa720ae2b6a80bdb7d95e5430e4"
-Content-Length: 813
+ETag: "c50498a15bb7fd50041aa0de8279f721"
+Content-Length: 1354
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -12,7 +12,7 @@ Content-Type: text/xml; charset="utf-8"
   <propstat>
    <prop>
     <C:getctag>"29a4f57ff8c8564c364d37fac0e18e34"</C:getctag>
-    <displayname>User 1 Inbox</displayname>
+    <displayname>User 2 Inbox</displayname>
     <resourcetype>
      <collection/>
      <C1:schedule-inbox/>
@@ -25,6 +25,28 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
   <propstat>
    <prop>
+    <C1:calendar-description/>
+    <A:calendar-color/>
+    <A:calendar-order/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user2/.in/15f40cce00b378332164188cf779f0d6.ics</href>
+  <propstat>
+   <prop>
+    <displayname>test meeting</displayname>
+    <resourcetype/>
+    <C1:calendar-free-busy-set>
+     <href>/caldav.php/user2/home/</href>
+    </C1:calendar-free-busy-set>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <C:getctag/>
     <C1:calendar-description/>
     <A:calendar-color/>
     <A:calendar-order/>

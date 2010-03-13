@@ -310,20 +310,23 @@ class CalDAVRequest
       }
       $this->collection->type = $this->collection_type;
     }
-    else if ( preg_match( '#^((/[^/]+/)\.(in|out)/)[^/]*$#', $this->path, $matches ) ) {
+    else if ( preg_match( '{^( ( / ([^/]+) / ) \.(in|out)/ ) [^/]*$}x', $this->path, $matches ) ) {
       // The request is for a scheduling inbox or outbox (or something inside one) and we should auto-create it
-      $displayname = $session->fullname . ($matches[3] == 'in' ? ' Inbox' : ' Outbox');
-      $this->collection_type = 'schedule-'. $matches[3]. 'box';
-      $resourcetypes = sprintf('<DAV::collection/><urn:ietf:params:xml:ns:caldav:%s/>', $this->collection_type );
+      $params = array( ':username' => $matches[3], ':parent_container' => $matches[2], ':dav_name' => $matches[1] );
+      $params[':boxname'] = ($matches[4] == 'in' ? ' Inbox' : ' Outbox');
+      $this->collection_type = 'schedule-'. $matches[4]. 'box';
+      $params[':resourcetypes'] = sprintf('<DAV::collection/><urn:ietf:params:xml:ns:caldav:%s/>', $this->collection_type );
       $sql = <<<EOSQL
 INSERT INTO collection ( user_no, parent_container, dav_name, dav_displayname, is_calendar, created, modified, dav_etag, resourcetypes )
-    VALUES( :user_no, :parent_path, :dav_name, :displayname, FALSE, current_timestamp, current_timestamp, '1', :resourcetypes )
+    VALUES( (SELECT user_no FROM usr WHERE username = :username),
+            :parent_container, :dav_name,
+            (SELECT fullname FROM usr WHERE username = :username) || :boxname,
+             FALSE, current_timestamp, current_timestamp, '1', :resourcetypes )
 EOSQL;
-      $params = array( ':user_no' => $session->user_no, ':parent_path' => $matches[2], ':dav_name' => $matches[1],
-                       ':displayname' => $displayname, ':resourcetypes' => $resourcetypes );
+
       $qry = new AwlQuery( $sql, $params );
       $qry->Exec('caldav',__LINE__,__FILE__);
-      dbg_error_log( "caldav", "Created new collection as '$displayname'." );
+      dbg_error_log( 'caldav', 'Created new collection as "%s".', trim($params[':boxname']) );
 
       $qry = new AwlQuery( "SELECT * FROM collection WHERE dav_name = :dav_name", array( ':dav_name' => $matches[1] ) );
       if ( $qry->Exec('caldav',__LINE__,__FILE__) && $qry->rows() == 1 && ($row = $qry->Fetch()) ) {

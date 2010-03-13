@@ -324,19 +324,22 @@ class DAVResource
       else
         $this->collection->type = 'collection';
     }
-    else if ( preg_match( '#^((/[^/]+/)\.(in|out)/)[^/]*$#', $this->dav_name, $matches ) ) {
+    else if ( preg_match( '{^( ( / ([^/]+) / ) \.(in|out)/ ) [^/]*$}x', $this->dav_name, $matches ) ) {
       // The request is for a scheduling inbox or outbox (or something inside one) and we should auto-create it
-      $params = array( ':user_no' => $session->user_no, ':parent_container' => $matches[2], ':dav_name' => $matches[1] );
-      $params[':displayname'] = $session->fullname . ($matches[3] == 'in' ? ' Inbox' : ' Outbox');
-      $this->collection_type = 'schedule-'. $matches[3]. 'box';
+      $params = array( ':username' => $matches[3], ':parent_container' => $matches[2], ':dav_name' => $matches[1] );
+      $params[':boxname'] = ($matches[4] == 'in' ? ' Inbox' : ' Outbox');
+      $this->collection_type = 'schedule-'. $matches[4]. 'box';
       $params[':resourcetypes'] = sprintf('<DAV::collection/><urn:ietf:params:xml:ns:caldav:%s/>', $this->collection_type );
       $sql = <<<EOSQL
 INSERT INTO collection ( user_no, parent_container, dav_name, dav_displayname, is_calendar, created, modified, dav_etag, resourcetypes )
-    VALUES( :user_no, :parent_container, :dav_name, :displayname, FALSE, current_timestamp, current_timestamp, '1', :resourcetypes )
+    VALUES( (SELECT user_no FROM usr WHERE username = :username),
+            :parent_container, :dav_name,
+            (SELECT fullname FROM usr WHERE username = :username) || :boxname,
+             FALSE, current_timestamp, current_timestamp, '1', :resourcetypes )
 EOSQL;
       $qry = new AwlQuery( $sql, $params );
       $qry->Exec('DAVResource');
-      dbg_error_log( 'DAVResource', 'Created new collection as "$displayname".' );
+      dbg_error_log( 'DAVResource', 'Created new collection as "%s".', trim($params[':boxname']) );
 
       $params = array( ':raw_path' => $this->dav_name, ':session_principal' => $session->principal_id, ':scan_depth' => $c->permission_scan_depth );
       $qry = new AwlQuery( $base_sql . ' dav_name = :raw_path', $params );
@@ -449,7 +452,7 @@ EOSQL;
   */
   function FetchPrincipal() {
     global $c, $session;
-    $this->principal = new CalDAVPrincipal( array( "path" => $this->dav_name ) );
+    $this->principal = new CalDAVPrincipal( array( "path" => $this->bound_from() ) );
     if ( $this->_is_principal && $this->principal->Exists() ) {
 //      $this->contenttype = 'httpd/unix-directory';
       $this->exists = true;
@@ -540,6 +543,9 @@ EOQRY;
     if ( ! isset($this->collection) ) $this->FetchCollection();
     $this->privileges = 0;
     if ( !isset($this->collection->path_privs) ) {
+      if ( !isset($this->collection->parent_container) ) {
+        $this->collection->parent_container = preg_replace('{/[^/]+/$}', '', $this->collection->dav_name);
+      }
       dbg_error_log( 'DAVResource', 'Checking privileges of "%s" - parent of "%s" (dav_name: %s)', $this->collection->parent_container, $this->collection->dav_name, $this->dav_name() );
       $parent = new DAVResource( $this->collection->parent_container );
 
