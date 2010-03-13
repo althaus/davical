@@ -103,6 +103,48 @@ order to shorten the path.</p>
 
 <h1>Database Setup</h1>
 
+<h2>Connecting to the Database</h2>
+
+<p>Before your database has been created, you should edit your pg_hba.conf
+file (in /etc/postgresql/8.x/main/pg_hba.conf on Debian or derivatives) in
+order to grant access to the database for the 'davical_dba' user that will
+be created to 'own' the database and tables, and also for the 'davical_app'
+user which will be created for the web application fo connect as.</p>
+
+<p>In a simple installation, where you do not have untrusted
+users on your database server, and your database is on the same
+computer as the web server, the following lines (at the very top
+of the pg_hba.conf file) should be enough:</p>
+
+<pre>
+local   davical    davical_app   trust
+local   davical    davical_dba   trust
+</pre>
+
+<p>This means that anyone on the local computer (including the
+web application) will have rights to connect to the DAViCal
+database as the 'davical_app' or 'davical_dba' user.  It will not allow remote access,
+or access as any user other than 'davical_app' or 'davical_dba'.</p>
+
+<p>If you want to connect to the database over TCP/IP from your webserver
+on '192.168.59.231' (e.g. rather than unix sockets which will only work for
+access from the local machine), the lines in the pg_hba.conf file should look
+something like:</p>
+
+<pre>
+host davical davical_app 192.168.59.231/32 trust
+host davical davical_dba 192.168.59.231/32 trust
+</pre>
+
+<p>If you want greater security, or if you want to have the
+database on a different server, you should read the
+<a href="http://www.postgresql.org/docs/8.4/interactive/client-authentication.html">PostgreSQL documentation on pg_hba.conf</a>
+for the version you are using.</p>
+
+<p>Once you have changed the pg_hba.conf file you will need to
+reload or restart the PostgreSQL process for the change to come
+into effect.</p>
+
 <h2>Creating and Building the Database</h2>
 
 <p>To create the database itself, run the script:</p>
@@ -119,46 +161,6 @@ may need to do this as the "postgres" user, for example:</p>
 <pre>
 su postgres -c /usr/share/davical/dba/create-database.sh
 </pre>
-
-<h2>Connecting to the Database</h2>
-
-<p>Once your database has been created, you may also need to
-edit your pg_hba.conf file in order to grant the application
-access to the database as the 'davical_app' user.</p>
-
-<p>In a simple installation, where you do not have untrusted
-users on your database server, and your database is on the same
-computer as the web server, the following line (near the top
-of the pg_hba.conf file) should be enough:</p>
-
-<pre>
-local   davical    davical_app   trust
-</pre>
-
-<p>This means that anyone on the local computer (including the
-web application) will have rights to connect to the DAViCal
-database as the 'davical_app' or 'davical_dba' user.  It will not allow remote access,
-or access as any user other than 'davical_app' or 'davical_dba'.</p>
-
-<p>If you want to connect to the database over TCP/IP rather than
-unix sockets, the line in the pg_hba.conf file should look something
-like:</p>
-
-<pre>
-host davical davical_app 127.0.0.1/32 trust
-</pre>
-
-<p>If the webserver is on a different machine to the database, that
-IP address will need to change to the webserver's IP address.</p>
-
-<p>If you want greater security, or if you want to have the
-database on a different server, you should read the
-<a href="http://www.postgresql.org/docs/8.3/interactive/client-authentication.html">PostgreSQL documentation on pg_hba.conf</a>
-for the version you are using.</p>
-
-<p>Once you have changed the pg_hba.conf file you will need to
-reload or restart the PostgreSQL process for the change to come
-into effect.</p>
 
 <h1>Apache Configuration</h1>
 <h2>Relative to an existing DocumentRoot</h2>
@@ -268,6 +270,9 @@ configuration to one of the supported locales.</p>
 <li>Polish / Polski</li>
 <li>Hungarian / Magyar</li>
 <li>Japanese / 日本語</li>
+<li>Italian / Italiano</li>
+<li>Swedish / Svenska</li>
+
 </ul>
 
 <p>If you want locale support you probably know more about configuring it than me, but
