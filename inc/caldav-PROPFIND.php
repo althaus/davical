@@ -99,10 +99,11 @@ function add_proxy_response( $which, $parent_path ) {
 * If '/' is requested, a list of visible users is given, otherwise
 * a list of calendars for the user which are parented by this path.
 */
-function get_collection_contents( $depth, $collection ) {
+function get_collection_contents( $depth, $collection, $parent_path = null ) {
   global $c, $session, $request, $reply, $property_list;
 
   $bound_from = $collection->bound_from();
+  if ( !isset($parent_path) ) $parent_path = $collection->dav_name();
   dbg_error_log('PROPFIND','Getting collection contents: Depth %d, Path: %s, Bound from: %s', $depth, $collection->dav_name(), $bound_from );
 
   $date_format = iCalendar::HttpDateFormat();
@@ -132,7 +133,7 @@ function get_collection_contents( $depth, $collection ) {
           if ( $resource->HavePrivilegeTo('DAV::read') ) {
             $responses[] = $resource->RenderAsXML($property_list, $reply);
             if ( $depth > 0 ) {
-              $responses = array_merge($responses, get_collection_contents( $depth - 1, $resource ) );
+              $responses = array_merge($responses, get_collection_contents( $depth - 1, $resource, $binding->dav_name ) );
             }
           }
         }
@@ -152,7 +153,8 @@ function get_collection_contents( $depth, $collection ) {
         $resource = new DAVResource($subcollection);
         $responses[] = $resource->RenderAsXML($property_list, $reply);
         if ( $depth > 0 ) {
-          $responses = array_merge($responses, get_collection_contents( $depth - 1, $resource ) );
+          $responses = array_merge($responses, get_collection_contents( $depth - 1, $resource,
+                                                   str_replace($resource->parent_path(), $parent_path, $resource->dav_name() ) ) );
         }
       }
     }
@@ -195,7 +197,7 @@ function get_collection_contents( $depth, $collection ) {
     if( $qry->Exec('PROPFIND',__LINE__,__FILE__) && $qry->rows() > 0 ) {
       while( $item = $qry->Fetch() ) {
         $resource = new DAVResource($item);
-        $responses[] = $resource->RenderAsXML($property_list, $reply);
+        $responses[] = $resource->RenderAsXML($property_list, $reply, $parent_path );
       }
     }
   }

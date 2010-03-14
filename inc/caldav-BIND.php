@@ -65,12 +65,13 @@ if ( $source->IsPrincipal() || !$source->IsCollection() ) {
   dav_displayname TEXT
 */
 
-$sql = 'INSERT INTO dav_binding ( bound_source_id, access_ticket_id, parent_container, dav_name, dav_displayname )
-VALUES( :target_id, :ticket_id, :parent_container, :dav_name, :displayname )';
+$sql = 'INSERT INTO dav_binding ( bound_source_id, access_ticket_id, dav_owner_id, parent_container, dav_name, dav_displayname )
+VALUES( :target_id, :ticket_id, :session_principal, :parent_container, :dav_name, :displayname )';
 $params = array(
     ':target_id'    => $source->GetProperty('collection_id'),
     ':ticket_id'    => (isset($request->ticket) ? $request->ticket->id() : null),
     ':parent_container' => $parent->dav_name(),
+    ':session_principal' => $session->principal_id,
     ':dav_name'     => $destination_path,
     ':displayname'  => 'Bind to '.$source->GetProperty('displayname')
 );

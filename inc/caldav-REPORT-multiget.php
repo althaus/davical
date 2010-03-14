@@ -56,6 +56,9 @@ switch( $proptype ) {
     $properties[$propertyname] = 1;
 }
 
+$collection = new DAVResource($request->path);
+$bound_from = $collection->bound_from();
+
 /**
  * Build the href list for the IN ( href, href, href, ... ) clause.
  */
@@ -67,13 +70,13 @@ foreach( $mg_hrefs AS $k => $v ) {
    * anything up to the matching request->path (which will include any http...) and then
    * put the $request->path back on.
    */
-  $href = $request->path . preg_replace( "#^.*$request->path#", '', rawurldecode($v->GetContent()) );
+  $href = $bound_from . preg_replace( "{^.*\E$request->path\Q}", '', rawurldecode($v->GetContent()) );
   dbg_error_log("REPORT", "Reporting on href '%s'", $href );
   $href_in .= ($href_in == '' ? '' : ', ');
   $href_in .= qpg($href);
 }
 
-$where = " WHERE caldav_data.dav_name ~ ".qpg("^".$request->path)." ";
+$where = " WHERE caldav_data.dav_name ~ ".qpg("^".$bound_from)." ";
 $where .= "AND caldav_data.dav_name IN ( $href_in ) ";
 $where .= "AND (calendar_item.class != 'PRIVATE' OR calendar_item.class IS NULL ";
 $where .=      "OR (uprivs($session->user_no::int8,calendar_item.user_no,$c->permission_scan_depth::int) = privilege_to_bits('all')) ) ";
@@ -86,6 +89,9 @@ if ( isset($c->strict_result_ordering) && $c->strict_result_ordering ) $where .=
 $qry = new PgQuery( "SELECT caldav_data.*,calendar_item.* FROM caldav_data INNER JOIN calendar_item USING(dav_id, user_no, dav_name, collection_id) LEFT JOIN collection USING(collection_id)". $where );
 if ( $qry->Exec('REPORT',__LINE__,__FILE__) && $qry->rows > 0 ) {
   while( $calendar_object = $qry->Fetch() ) {
+    if ( $bound_from != $collection->dav_name() ) {
+      $calendar_object->dav_name = str_replace( $bound_from, $collection->dav_name(), $calendar_object->dav_name);
+    }
     if ( $need_expansion ) {
       $ics = new iCalComponent($calendar_object->caldav_data);
       $expanded = expand_event_instances($ics, $expand_range_start, $expand_range_end);

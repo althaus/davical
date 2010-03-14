@@ -389,10 +389,12 @@ EOSQL;
       $sql = <<<EOSQL
 SELECT collection.*, path_privs(:session_principal::int8, collection.dav_name,:scan_depth::int), p.principal_id,
     p.type_id AS principal_type_id, p.displayname AS principal_displayname, p.default_privileges AS principal_default_privileges,
-    time_zone.tz_spec, dav_binding.access_ticket_id, dav_binding.parent_container AS bind_parent_container, dav_binding.dav_displayname
+    time_zone.tz_spec, dav_binding.access_ticket_id, dav_binding.parent_container AS bind_parent_container,
+    dav_binding.dav_displayname, owner.dav_name AS bind_owner_url
 FROM dav_binding
     LEFT JOIN collection ON (collection.collection_id=bound_source_id)
     LEFT JOIN principal p USING (user_no)
+    LEFT JOIN dav_principal owner ON (dav_binding.dav_owner_id=owner.principal_id)
     LEFT JOIN time_zone ON (collection.timezone=time_zone.tz_id)
  WHERE dav_binding.dav_name = :raw_path
 EOSQL;
@@ -959,6 +961,15 @@ EOQRY;
     return $this->dav_name();
   }
 
+  /**
+  * Returns the dav_name of the resource in our internal namespace
+  */
+  function parent_path() {
+    if ( $this->IsCollection() ) return $this->collection->parent_container;
+    return preg_replace( '{[^/]+$}', '', $this->bound_from());
+  }
+
+
 
   /**
   * Returns the principal-URL for this resource
@@ -1223,7 +1234,8 @@ EOQRY;
 
       case 'DAV::owner':
         // After a careful reading of RFC3744 we see that this must be the principal-URL of the owner
-        $reply->DAVElement( $prop, 'owner', $reply->href( $this->principal_url() ) );
+        $owner_url = ( isset($this->_is_binding) && $this->_is_binding ? $this->collection->bind_owner_url : $this->principal_url() );
+        $reply->DAVElement( $prop, 'owner', $reply->href( $owner_url ) );
         break;
 
       // Empty tag responses.
@@ -1433,24 +1445,24 @@ EOQRY;
   *
   * @param array $properties The requested properties for this principal
   * @param reference $reply A reference to the XMLDocument being used for the reply
-  * @param boolean $props_only Default false.  If true will only return the fragment with the properties, not a full response fragment.
   *
   * @return string An XML fragment with the requested properties for this principal
   */
-  function RenderAsXML( $properties, &$reply, $props_only = false ) {
+  function RenderAsXML( $properties, &$reply, $bound_parent_path = null ) {
     global $session, $c, $request;
 
     dbg_error_log('DAVResource',':RenderAsXML: Resource "%s" exists(%d)', $this->dav_name, $this->Exists() );
 
     if ( !$this->Exists() ) return null;
 
-    if ( $props_only ) {
-      dbg_error_log('LOG WARNING','DAVResource::RenderAsXML Called misguidedly - should be call to DAVResource::GetPropStat' );
-      return $this->GetPropStat( $properties, $reply, true );
-    }
-
     $elements = $this->GetPropStat( $properties, $reply );
-    array_unshift( $elements, $reply->href(ConstructURL($this->dav_name)));
+    if ( isset($bound_parent_path) ) {
+      $dav_name = str_replace( $this->parent_path(), $bound_parent_path, $this->dav_name );
+    }
+    else
+      $dav_name = $this->dav_name;
+
+    array_unshift( $elements, $reply->href(ConstructURL($dav_name)));
 
     $response = new XMLElement( 'response', $elements );
 

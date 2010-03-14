@@ -23,10 +23,9 @@ if ( ! ini_get('open_basedir') && (isset($c->dbg['ALL']) || (isset($c->dbg['repo
   }
 }
 
-if ( ! ($request->AllowedTo('read') || $request->AllowedTo('freebusy')) ) {
-  // The specification states that a lack of privileges MUST result in a 404. RFC4791, Section 7.10
-  $request->DoResponse( 404 );
-}
+$target = new DAVResource($request->path);
+
+$target->NeedPrivilege( array('DAV::read', 'urn:ietf:params:xml:ns:caldav:read-free-busy') );
 
 if ( !isset($request->xml_tags) ) {
   $request->DoResponse( 406, translate("REPORT body contains no XML data!") );
