@@ -52,10 +52,6 @@ if ( ! ($request->IsPrincipal() || isset($request->collection) || $request->meth
     header('Location: '.$redirect_url );
     exit(0);
   }
-  dbg_error_log( 'LOG WARNING', 'Attempt to %s url "%s" but no collection exists there.', $request->method, $request->path );
-  if ( $request->method == 'GET' || $request->method == 'REPORT' ) {
-    $request->DoResponse( 404, translate('There is no collection at that URL.') );
-  }
 }
 
 switch ( $request->method ) {
