@@ -1,0 +1,16 @@
+HTTP/1.1 201 Created
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy
+Location: /caldav.php/user4/user2/
+Content-Length: 0
+Content-Type: text/plain; charset="utf-8"
+
+
+          bind_id: >1430<
+  bound_source_id: >11<
+  dav_displayname: >Bind to User 2's Calendar, as uploaded by Admin<
+         dav_name: >/user4/user2/<
+     dav_owner_id: >6<
+           length: >8<
+ parent_container: >/user4/<
+

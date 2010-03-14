@@ -1,0 +1,26 @@
+#
+# Test multiget REPORT access to a bound calendar
+#
+TYPE=REPORT
+URL=http://regression.host/caldav.php/user4/user2/
+AUTH=user4:user4
+
+
+HEADER=User-Agent: DAViCalTester/public
+HEADER=Content-Type: text/xml; charset="UTF-8"
+HEAD
+
+
+BEGINDATA
+<?xml version="1.0" encoding="UTF-8"?>
+<calendar-multiget xmlns:D="DAV:" xmlns="urn:ietf:params:xml:ns:caldav">
+  <D:prop>
+    <D:getetag/>
+    <calendar-data/>
+  </D:prop>
+  <D:href>/caldav.php/user4/user2/33169d69-2969-4a96-a3e1-2e312b7614e6.ics</D:href>
+  <D:href>/caldav.php/user4/user2/047871e3-6b70-4178-9af8-0ceb50f7b092.ics</D:href>
+  <D:href>/caldav.php/user4/user2/9429a973-2b13-4b1a-be09-948d75425c45.ics</D:href>
+</calendar-multiget>
+ENDDATA
+

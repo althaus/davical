@@ -1,0 +1,23 @@
+#
+# PROPFIND on a collection which we have bound into user4's home
+#
+TYPE=PROPFIND
+URL=http://regression.host/caldav.php/user4/user2/
+AUTH=user4:user4
+
+HEADER=User-Agent: BIND Spec Tests
+HEADER=Content-Type: text/xml; charset="UTF-8"
+HEADER=Depth: 1
+
+
+BEGINDATA
+<?xml version="1.0" encoding="UTF-8"?>
+<propfind xmlns="DAV:">
+ <prop>
+  <getcontenttype/>
+  <resourcetype/>
+  <getetag/>
+ </prop>
+</propfind>
+ENDDATA
+
