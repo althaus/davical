@@ -1,6 +1,7 @@
 <?php
-require_once("iCalendar.php");
-include_once("RRule.php");
+require_once('iCalendar.php');
+include_once('RRule.php');
+require_once('PgQuery.php');
 
 if ( isset($request->by_email) ) {
   $where = "WHERE caldav_data.user_no = $request->user_no ";
