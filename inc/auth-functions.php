@@ -41,8 +41,16 @@ function CreateHomeCalendar( $username ) {
   $calendar_path = $parent_path . $c->home_calendar_name."/";
   $dav_etag = md5($usr->user_no . $calendar_path);
   $sql = 'INSERT INTO collection (user_no, parent_container, dav_name, dav_etag, dav_displayname, is_calendar, ';
-  $sql .= 'created, modified, resourcetypes) VALUES( ?, ?, ?, ?, ?, true, current_timestamp, current_timestamp, ? );';
-  $qry = new PgQuery( $sql, $usr->user_no, $parent_path, $calendar_path, $dav_etag, $usr->fullname, '<DAV::collection/><urn:ietf:params:xml:ns:caldav:calendar/>');
+  $sql .= 'created, modified, resourcetypes) VALUES( :user_no, :parent_container, :calendar_path, :dav_name, :dav_etag, true, current_timestamp, current_timestamp, ? );';
+  $params = array(
+      ':user_no' => $usr->user_no,
+      ':parent_container' => $parent_path,
+      ':calendar_path' => $calendar_path,
+      ':dav_name' => $dav_etag,
+      ':dav_etag' => $usr->fullname,
+      ':resourcetypes' => '<DAV::collection/><urn:ietf:params:xml:ns:caldav:calendar/>'
+  );
+  $qry = new AwlQuery( $sql, $params );
   if ( $qry->Exec() ) {
     $c->messages[] = i18n("Home calendar added.");
     dbg_error_log("User",":Write: Created user's home calendar at '%s'", $calendar_path );
@@ -74,14 +82,14 @@ function UpdateUserFromExternal( &$usr ) {
   * When we're doing the create we will usually need to generate a user number
   */
   if ( !isset($usr->user_no) || intval($usr->user_no) == 0 ) {
-    $qry = new PgQuery( "SELECT nextval('usr_user_no_seq');" );
+    $qry = new AwlQuery( "SELECT nextval('usr_user_no_seq');" );
     $qry->Exec('Login',__LINE__,__FILE__);
     $sequence_value = $qry->Fetch(true);  // Fetch as an array
     $usr->user_no = $sequence_value[0];
   }
 
-  $qry = new PgQuery("SELECT * FROM usr WHERE user_no = $usr->user_no;" );
-  if ( $qry->Exec('Login',__LINE__,__FILE__) && $qry->rows == 1 ) {
+  $qry = new AwlQuery('SELECT * FROM usr WHERE user_no = :user_no', array(':user_no' => $usr->user_no) );
+  if ( $qry->Exec('Login',__LINE__,__FILE__) && $qry->rows() == 1 ) {
     $type = "UPDATE";
     if ( $old = $qry->Fetch() ) {
       $changes = false;
@@ -105,7 +113,7 @@ function UpdateUserFromExternal( &$usr ) {
   else
     $type = "INSERT";
 
-  $qry = new PgQuery( sql_from_object( $usr, $type, 'usr', "WHERE user_no=$usr->user_no" ) );
+  $qry = new AwlQuery( sql_from_object( $usr, $type, 'usr', "WHERE user_no= :user_no" ), array( ':user_no' => $usr->user_no) );
   $qry->Exec('Login',__LINE__,__FILE__);
 
   /**
@@ -114,8 +122,8 @@ function UpdateUserFromExternal( &$usr ) {
   if ( isset($usr->active) && ($usr->active === 'f' || $usr->active === false) ) return false;
 
   if ( $type == 'INSERT' ) {
-    $privs = decbin(privilege_to_bits($c->default_privileges));
-    $qry = new PgQuery( 'INSERT INTO principal( type_id, user_no, displayname, default_privileges) SELECT 1, user_no, fullname, ?::BIT(24) FROM usr WHERE username=?', $privs, $usr->username );
+    $qry = new AwlQuery( 'INSERT INTO principal( type_id, user_no, displayname, default_privileges) SELECT 1, user_no, fullname, :privs::BIT(24) FROM usr WHERE username=:username',
+                          array( ':privs' => privilege_to_bits($c->default_privileges), ':username' => $usr->username) );
     $qry->Exec('Login',__LINE__,__FILE__);
     CreateHomeCalendar($usr->username);
   }
@@ -146,7 +154,19 @@ function AuthExternalAWL( $username, $password ) {
   global $c;
 
   $persistent = isset($c->authenticate_hook['config']['use_persistent']) && $c->authenticate_hook['config']['use_persistent'];
-  $authconn = ( $persistent ? pg_pConnect($c->authenticate_hook['config']['connection']) : pg_Connect($c->authenticate_hook['config']['connection']));
+
+  if ( isset($c->authenticate_hook['config']['columns']) )
+    $cols = $c->authenticate_hook['config']['columns'];
+  else
+    $cols = '*';
+
+  if ( isset($c->authenticate_hook['config']['where']) )
+    $andwhere = ' AND '.$c->authenticate_hook['config']['where'];
+  else
+    $andwhere = '';
+
+  $qry = new AwlQuery('SELECT '.$cols.' FROM usr WHERE lower(username) = :username '. $andwhere, array( ':username' => strtolower($username) ));
+  $authconn = $qry->SetConnection($c->authenticate_hook['config']['connection'], ($persistent ? array(PDO::ATTR_PERSISTENT => true) : null));
   if ( ! $authconn ) {
     echo <<<EOERRMSG
   <html><head><title>Database Connection Failure</title></head><body>
@@ -158,19 +178,7 @@ EOERRMSG;
     exit(1);
   }
 
-  if ( isset($c->authenticate_hook['config']['columns']) )
-    $cols = $c->authenticate_hook['config']['columns'];
-  else
-    $cols = "*";
-
-  if ( isset($c->authenticate_hook['config']['where']) )
-    $andwhere = " AND ".$c->authenticate_hook['config']['where'];
-  else
-    $andwhere = "";
-
-  $qry = new PgQuery("SELECT $cols FROM usr WHERE lower(username) = ? $andwhere", strtolower($username) );
-  $qry->SetConnection($authconn);
-  if ( $qry->Exec('Login',__LINE__,__FILE__) && $qry->rows == 1 ) {
+  if ( $qry->Exec('Login',__LINE__,__FILE__) && $qry->rows() == 1 ) {
     $usr = $qry->Fetch();
     if ( session_validate_password( $password, $usr->password ) ) {
       UpdateUserFromExternal($usr);
