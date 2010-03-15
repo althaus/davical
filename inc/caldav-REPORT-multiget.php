@@ -1,9 +1,6 @@
 <?php
-
-require_once('PgQuery.php');
-
 /**
-* @todo Tidy up namespace handling in the responses.
+* Handle the calendar-multiget REPORT request.
 */
 
 $responses = array();
@@ -64,30 +61,33 @@ $bound_from = $collection->bound_from();
  */
 $mg_hrefs = $xmltree->GetPath('/urn:ietf:params:xml:ns:caldav:calendar-multiget/DAV::href');
 $href_in = '';
+$params = array();
 foreach( $mg_hrefs AS $k => $v ) {
   /**
    * We need this to work if they specified a relative *or* a full path, so we strip off
    * anything up to the matching request->path (which will include any http...) and then
-   * put the $request->path back on.
+   * put the $bound_from prefix back on.
    */
   $href = $bound_from . preg_replace( "{^.*\E$request->path\Q}", '', rawurldecode($v->GetContent()) );
   dbg_error_log("REPORT", "Reporting on href '%s'", $href );
   $href_in .= ($href_in == '' ? '' : ', ');
-  $href_in .= qpg($href);
+  $href_in .= ':href'.$k;
+  $params[':href'.$k] = $href;
 }
 
-$where = " WHERE caldav_data.dav_name ~ ".qpg("^".$bound_from)." ";
+$where = " WHERE caldav_data.collection_id = " . $collection->resource_id();
 $where .= "AND caldav_data.dav_name IN ( $href_in ) ";
-$where .= "AND (calendar_item.class != 'PRIVATE' OR calendar_item.class IS NULL ";
-$where .=      "OR (uprivs($session->user_no::int8,calendar_item.user_no,$c->permission_scan_depth::int) = privilege_to_bits('all')) ) ";
+if ( $collection->Privileges() != privilege_to_bits('DAV::all') ) {
+  $where .= "AND (calendar_item.class != 'PRIVATE' OR calendar_item.class IS NULL) ";
+}
 
-if ( isset($c->hide_TODO) && $c->hide_TODO && ! $request->AllowedTo('all') ) {
+if ( isset($c->hide_TODO) && $c->hide_TODO && ! $collection->Privileges() == privilege_to_bits('all') ) {
   $where .= "AND caldav_data.caldav_type NOT IN ('VTODO') ";
 }
 
 if ( isset($c->strict_result_ordering) && $c->strict_result_ordering ) $where .= " ORDER BY caldav_data.dav_id";
-$qry = new PgQuery( "SELECT caldav_data.*,calendar_item.* FROM caldav_data INNER JOIN calendar_item USING(dav_id, user_no, dav_name, collection_id) LEFT JOIN collection USING(collection_id)". $where );
-if ( $qry->Exec('REPORT',__LINE__,__FILE__) && $qry->rows > 0 ) {
+$qry = new AwlQuery( "SELECT caldav_data.*,calendar_item.* FROM caldav_data INNER JOIN calendar_item USING(dav_id, user_no, dav_name, collection_id) LEFT JOIN collection USING(collection_id)". $where, $params );
+if ( $qry->Exec('REPORT',__LINE__,__FILE__) && $qry->rows() > 0 ) {
   while( $calendar_object = $qry->Fetch() ) {
     if ( $bound_from != $collection->dav_name() ) {
       $calendar_object->dav_name = str_replace( $bound_from, $collection->dav_name(), $calendar_object->dav_name);
