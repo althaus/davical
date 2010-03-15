@@ -257,6 +257,14 @@ function BuildSqlFilter( $filter ) {
 */
 
 $responses = array();
+$collection = new DAVResource($request->path);
+$bound_from = $collection->bound_from();
+if ( !$collection->Exists() ) {
+  $request->DoResponse( 404 );
+}
+if ( ! ($collection->IsCalendar() || $collection->IsSchedulingCollection()) ) {
+  $request->DoResponse( 403, translate('The calendar-query report must be run against a collection') );
+}
 
 /**
 * @todo Once we are past DB version 1.2.1 we can change this query more radically.  The best performance to
@@ -266,16 +274,16 @@ $responses = array();
 *              AND caldav_data.caldav_type = 'VEVENT' ORDER BY caldav_data.user_no, caldav_data.dav_name;
 */
 
-$where = " WHERE caldav_data.user_no = $request->user_no AND caldav_data.dav_name ~ ".qpg("^".$request->path)." ";
+$where = " WHERE caldav_data.collection_id = " . $collection->resource_id();
 if ( is_array($qry_filters) ) {
   dbg_log_array( "calquery", "qry_filters", $qry_filters, true );
   $where .= BuildSqlFilter( $qry_filters );
 }
-if ( ! $request->AllowedTo('all') ) {
+if ( $collection->Privileges() != privilege_to_bits('DAV::all') ) {
   $where .= "AND (calendar_item.class != 'PRIVATE' OR calendar_item.class IS NULL) ";
 }
 
-if ( isset($c->hide_TODO) && $c->hide_TODO && ! $request->AllowedTo('all') ) {
+if ( isset($c->hide_TODO) && $c->hide_TODO && ! $collection->HavePrivilegeTo('DAV::write-content') ) {
   $where .= "AND caldav_data.caldav_type NOT IN ('VTODO') ";
 }
 
@@ -285,10 +293,13 @@ if ( isset($c->hide_older_than) && intval($c->hide_older_than > 0) ) {
 
 $sql = "SELECT * FROM caldav_data INNER JOIN calendar_item USING(dav_id,user_no,dav_name)". $where;
 if ( isset($c->strict_result_ordering) && $c->strict_result_ordering ) $sql .= " ORDER BY dav_id";
-$qry = new PgQuery( $sql );
-if ( $qry->Exec("calquery",__LINE__,__FILE__) && $qry->rows > 0 ) {
+$qry = new AwlQuery( $sql );
+if ( $qry->Exec("calquery",__LINE__,__FILE__) && $qry->rows() > 0 ) {
   while( $calendar_object = $qry->Fetch() ) {
     if ( !$need_post_filter || apply_filter( $qry_filters, $calendar_object ) ) {
+      if ( $bound_from != $collection->dav_name() ) {
+        $calendar_object->dav_name = str_replace( $bound_from, $collection->dav_name(), $calendar_object->dav_name);
+      }
       if ( $need_expansion ) {
         $ics = new iCalComponent($calendar_object->caldav_data);
         $expanded = expand_event_instances($ics, $expand_range_start, $expand_range_end);
