@@ -384,13 +384,11 @@ EOSQL;
       $this->collection->default_privileges = (1 | 16 | 32);
     }
     else {
-      $bind_path = $this->dav_name;
-      if ( !preg_match( '{/$}', $bind_path ) ) $bind_path .= '/';
       $sql = <<<EOSQL
 SELECT collection.*, path_privs(:session_principal::int8, collection.dav_name,:scan_depth::int), p.principal_id,
     p.type_id AS principal_type_id, p.displayname AS principal_displayname, p.default_privileges AS principal_default_privileges,
     time_zone.tz_spec, dav_binding.access_ticket_id, dav_binding.parent_container AS bind_parent_container,
-    dav_binding.dav_displayname, owner.dav_name AS bind_owner_url
+    dav_binding.dav_displayname, owner.dav_name AS bind_owner_url, dav_binding.dav_name AS bound_to
 FROM dav_binding
     LEFT JOIN collection ON (collection.collection_id=bound_source_id)
     LEFT JOIN principal p USING (user_no)
@@ -398,7 +396,13 @@ FROM dav_binding
     LEFT JOIN time_zone ON (collection.timezone=time_zone.tz_id)
  WHERE dav_binding.dav_name = :raw_path
 EOSQL;
-      $params = array( ':raw_path' => $bind_path, ':session_principal' => $session->principal_id, ':scan_depth' => $c->permission_scan_depth );
+      $params = array( ':raw_path' => $this->dav_name, ':session_principal' => $session->principal_id, ':scan_depth' => $c->permission_scan_depth );
+      if ( !preg_match( '#/$#', $this->dav_name ) ) {
+        $sql .= ' OR dav_binding.dav_name = :up_to_slash OR collection.dav_name = :plus_slash ';
+        $params[':up_to_slash'] = preg_replace( '#[^/]*$#', '', $this->dav_name);
+        $params[':plus_slash']  = $this->dav_name.'/';
+      }
+      $sql .= ' ORDER BY LENGTH(dav_binding.dav_name) DESC LIMIT 1';
       $qry = new AwlQuery( $sql, $params );
       if ( $qry->Exec('DAVResource',__LINE__,__FILE__) && $qry->rows() == 1 && ($row = $qry->Fetch()) ) {
         $this->collection = $row;
@@ -406,9 +410,9 @@ EOSQL;
         $this->_is_binding = true;
         $this->collection->parent_set = $row->parent_container;
         $this->collection->parent_container = $row->bind_parent_container;
-        $this->bound_from = $row->dav_name;
+        $this->bound_from = str_replace( $row->bound_to, $row->dav_name, $this->dav_name);
         $this->collection->bound_from = $row->dav_name;
-        $this->collection->dav_name = $this->dav_name;
+        $this->collection->dav_name = $row->bound_to;
         if ( isset($row->access_ticket_id) ) {
           if ( !isset($this->tickets) ) $this->tickets = array();
           $this->tickets[] = new DAVTicket($row->access_ticket_id);
@@ -489,7 +493,7 @@ EOSQL;
 SELECT * FROM caldav_data LEFT JOIN calendar_item USING (collection_id,dav_id)
      WHERE caldav_data.dav_name = :dav_name
 EOQRY;
-    $params = array( ':dav_name' => $this->dav_name );
+    $params = array( ':dav_name' => $this->bound_from() );
 
     $qry = new AwlQuery( $sql, $params );
     if ( $qry->Exec('DAVResource') && $qry->rows() > 0 ) {
@@ -574,6 +578,7 @@ EOQRY;
     }
 
     if ( isset($this->tickets) ) {
+      if ( !isset($this->resource_id) ) $this->FetchResource();
       foreach( $this->tickets AS $k => $ticket ) {
         if ( $ticket->MatchesResource($this->resource_id) || $ticket->MatchesPath($this->dav_name) ) {
           $this->privileges |= $ticket->privileges();
@@ -984,6 +989,15 @@ EOQRY;
 
 
   /**
+  * Returns the database row for this resource
+  */
+  function event() {
+    if ( !isset($this->resource) ) $this->FetchResource();
+    return $this->resource;
+  }
+
+
+  /**
   * Returns the principal-URL for this resource
   */
   function unique_tag() {
@@ -994,6 +1008,20 @@ EOQRY;
     if ( $this->exists !== true || !isset($this->unique_tag) ) $this->unique_tag = '';
 
     return $this->unique_tag;
+  }
+
+
+  /**
+  * Returns the definitive resource_id for this resource - usually a dav_id
+  */
+  function resource_id() {
+    if ( isset($this->resource_id) ) return $this->resource_id;
+    if ( $this->IsPrincipal() && !isset($this->principal) ) $this->FetchPrincipal();
+    else if ( !$this->_is_collection && !isset($this->resource) ) $this->FetchResource();
+
+    if ( $this->exists !== true || !isset($this->resource_id) ) $this->resource_id = null;
+
+    return $this->resource_id;
   }
 
 

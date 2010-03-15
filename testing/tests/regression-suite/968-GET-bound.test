@@ -1,0 +1,16 @@
+#
+# Test GET access to a bound calendar
+#
+TYPE=GET
+URL=http://regression.host/caldav.php/user4/user2/33169d69-2969-4a96-a3e1-2e312b7614e6.ics
+AUTH=user4:user4
+
+HEADER=User-Agent: DAViCalTester/public
+HEAD
+
+BEGINDATA
+ENDDATA
+
+
+
+
