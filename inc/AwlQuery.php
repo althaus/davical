@@ -253,9 +253,32 @@ class AwlQuery
   * Use a different database connection for this query
   * @param  resource $new_connection The database connection to use.
   */
-  function SetConnection( $new_connection ) {
+  function SetConnection( $new_connection, $options = null ) {
+    if ( is_string($new_connection) ) {
+      $dbuser = null;
+      $dbpass = null;
+      if ( is_array($v) ) {
+        $dsn = $v['dsn'];
+        if ( isset($v['dbuser']) ) $dbuser = $v['dbuser'];
+        if ( isset($v['dbpass']) ) $dbpass = $v['dbpass'];
+      }
+      elseif ( preg_match( '/^(\S+:)?(.*)( user=(\S+))?( password=(\S+))?$/', $v, $matches ) ) {
+        $dsn = $matches[2];
+        if ( isset($matches[1]) && $matches[1] != '' ) {
+          $dsn = $matches[1] . $dsn;
+        }
+        else {
+          $dsn = 'pgsql:' . $dsn;
+        }
+        if ( isset($matches[4]) && $matches[4] != '' ) $dbuser = $matches[4];
+        if ( isset($matches[6]) && $matches[6] != '' ) $dbpass = $matches[6];
+      }
+      if ( $new_connection = new AwlDatabase( $dsn, $dbuser, $dbpass, $options ) ) break;
+    }
     $this->connection = $new_connection;
+    return $new_connection;
   }
+
 
 
 
