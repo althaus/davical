@@ -4,7 +4,6 @@
 TYPE=DELTICKET
 URL=http://regression.host/caldav.php/user1/home/4aaf8f37-f232-4c8e-a72e-e171d4c4fe54.ics
 HEADER=User-Agent: Ticket Spec Tests
-HEADER=Content-Type: text/xml; charset="UTF-8"
 HEAD
 
 # Get the ticket we created earlier in 950...

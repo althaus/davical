@@ -12,7 +12,6 @@ SELECT ticket_id FROM access_ticket
 ENDSQL
 
 HEADER=User-Agent: DAViCalTester/public
-HEADER=Content-Type: text/xml; charset="UTF-8"
 HEADER=Ticket: ##ticket##
 HEAD
 
