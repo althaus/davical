@@ -78,9 +78,9 @@ class DAViCalSession extends Session
   */
   function GetRoles () {
     $this->roles = array();
-    $sql = 'SELECT role_name FROM roles JOIN role_member ON roles.role_no=role_member.role_no WHERE user_no = '.$this->user_no.';';
-    $qry = new PgQuery( $sql );
-    if ( $qry->Exec('DAViCalSession') && $qry->rows > 0 ) {
+    $sql = 'SELECT role_name FROM roles JOIN role_member ON roles.role_no=role_member.role_no WHERE user_no = '.$this->user_no;
+    $qry = new AwlQuery( $sql );
+    if ( $qry->Exec('DAViCalSession') && $qry->rows() > 0 ) {
       while( $role = $qry->Fetch() ) {
         $this->roles[$role->role_name] = 1;
       }
