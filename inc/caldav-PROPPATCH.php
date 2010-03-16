@@ -11,8 +11,10 @@
 dbg_error_log("PROPPATCH", "method handler");
 
 require_once('iCalendar.php');
+require_once('DAVResource.php');
 
-if ( ! $request->AllowedTo('write-properties') ) {
+$dav_resource = new DAVResource($request->path);
+if ( ! ($dav_resource->HavePrivilegeTo('DAV::write-properties') || $dav_resource->IsBinding() ) ) {
   $request->DoResponse( 403 );
 }
 
@@ -45,7 +47,8 @@ $success   = array();
 * the special-case stuff as needed and falling through to a default which
 * stuffs the property somewhere we will be able to retrieve it from later.
 */
-$sql = "BEGIN;";
+$qry = new AwlQuery();
+$qry->Begin();
 foreach( $setprops AS $k => $setting ) {
   $tag = $setting->GetTag();
   $content = $setting->RenderContent();
@@ -57,13 +60,17 @@ foreach( $setprops AS $k => $setting ) {
       * Can't set displayname on resources - only collections or principals
       */
       if ( $request->IsCollection() || $request->IsPrincipal() ) {
-        if ( $request->IsPrincipal() ) {
-          $sql .= sprintf( "UPDATE dav_principal SET fullname = %s, displayname = %s, modified = current_timestamp WHERE user_no = %s;",
-                                            qpg($content), qpg($content), $request->user_no );
+        if ( $dav_resource->IsBinding() ) {
+          $qry->QDo('UPDATE dav_binding SET dav_displayname = :displayname WHERE dav_name = :dav_name',
+                                            array( ':displayname' => $content, ':dav_name' => $dav_resource->dav_name()) );
+        }
+        else if ( $request->IsPrincipal() ) {
+          $qry->QDo('UPDATE dav_principal SET fullname = :displayname, displayname = :displayname, modified = current_timestamp WHERE user_no = :user_no',
+                                            array( ':displayname' => $content, ':user_no' => $request->user_no) );
         }
         else {
-          $sql .= sprintf( "UPDATE collection SET dav_displayname = %s, modified = current_timestamp WHERE dav_name = %s;",
-                                            qpg($content), qpg($request->path) );
+          $qry->QDo('UPDATE collection SET dav_displayname = :displayname, modified = current_timestamp WHERE dav_name = :dav_name',
+                                            array( ':displayname' => $content, ':dav_name' => $dav_resource->dav_name()) );
         }
         $success[$tag] = 1;
       }
@@ -73,7 +80,7 @@ foreach( $setprops AS $k => $setting ) {
             new XMLElement( 'status', 'HTTP/1.1 403 Forbidden' ),
             new XMLElement( 'responsedescription', array(
                               new XMLElement( 'error', new XMLElement( 'cannot-modify-protected-property') ),
-                              translate("The displayname may only be set on collections or principals.") )
+                              translate("The displayname may only be set on collections, principals or bindings.") )
                           )
 
         ));
@@ -86,9 +93,9 @@ foreach( $setprops AS $k => $setting ) {
       */
       $setcollection = count($setting->GetPath('DAV::resourcetype/DAV::collection'));
       $setcalendar   = count($setting->GetPath('DAV::resourcetype/urn:ietf:params:xml:ns:caldav:calendar'));
-      if ( $request->IsCollection() && ($setcollection || $setcalendar) ) {
+      if ( $request->IsCollection() && ($setcollection || $setcalendar) && ! $dav_resource->IsBinding() ) {
         if ( $setcalendar ) {
-          $sql .= sprintf( "UPDATE collection SET is_calendar = TRUE WHERE dav_name = %s;", qpg($request->path) );
+          $qry->QDo('UPDATE collection SET is_calendar = TRUE WHERE dav_name = :dav_name', array( ':dav_name' => $dav_resource->dav_name()) );
         }
         $success[$tag] = 1;
       }
@@ -113,14 +120,27 @@ foreach( $setprops AS $k => $setting ) {
       break;
 
     case 'urn:ietf:params:xml:ns:caldav:calendar-timezone':
-      $tzcomponent = $setting->GetPath('urn:ietf:params:xml:ns:caldav:calendar-timezone');
-      $tzstring = $tzcomponent[0]->GetContent();
-      $calendar = new iCalendar( array( 'icalendar' => $tzstring) );
-      $timezones = $calendar->component->GetComponents('VTIMEZONE');
-      if ( $timezones === false || count($timezones) == 0 ) break;
-      $tz = $timezones[0];  // Backward compatibility
-      $tzid = $tz->GetPValue('TZID');
-      $sql .= sprintf( 'UPDATE collection SET timezone = %s WHERE dav_name = %s;', qpg($tzid), qpg($request->path) );
+      if ( $dav_resource->IsCollection() && $dav_resource->IsCalendar() && ! $dav_resource->IsBinding() ) {
+        $tzcomponent = $setting->GetPath('urn:ietf:params:xml:ns:caldav:calendar-timezone');
+        $tzstring = $tzcomponent[0]->GetContent();
+        $calendar = new iCalendar( array( 'icalendar' => $tzstring) );
+        $timezones = $calendar->component->GetComponents('VTIMEZONE');
+        if ( $timezones === false || count($timezones) == 0 ) break;
+        $tz = $timezones[0];  // Backward compatibility
+        $tzid = $tz->GetPValue('TZID');
+        $qry->QDo('UPDATE collection SET timezone = :tzid WHERE dav_name = :dav_name',
+                                       array( ':tzid' => $tzid, ':dav_name' => $dav_resource->dav_name()) );
+      }
+      else {
+        $failure['set-'.$tag] = new XMLElement( 'propstat', array(
+            new XMLElement( 'prop', new XMLElement($tag)),
+            new XMLElement( 'status', 'HTTP/1.1 403 Forbidden' ),
+            new XMLElement( 'responsedescription', array(
+                              new XMLElement( 'error', new XMLElement( 'cannot-modify-protected-property') ),
+                              translate("calendar-timezone property is only valid for a calendar.") )
+                          )
+        ));
+      }
       break;
 
     /**
@@ -153,7 +173,8 @@ foreach( $setprops AS $k => $setting ) {
     * If we don't have any special processing for the property, we just store it verbatim (which will be an XML fragment).
     */
     default:
-      $sql .= awl_replace_sql_args( "SELECT set_dav_property( ?, ?, ?, ? );", $request->path, $request->user_no, $tag, $content );
+      $qry->QDo('SELECT set_dav_property( :dav_name, :user_no, :tag, :value)',
+            array( ':dav_name' => $dav_resource->dav_name(), ':user_no' => $request->user_no, ':tag' => $tag, ':value' => $content) );
       $success[$tag] = 1;
       break;
   }
@@ -176,7 +197,8 @@ foreach( $rmprops AS $k => $setting ) {
       if ( $request->IsCollection() && !$rmcollection ) {
         dbg_error_log( 'PROPPATCH', ' RMProperty %s : IsCollection=%d, rmcoll=%d, rmcal=%d', $tag, $request->IsCollection(), $rmcollection, $rmcalendar );
         if ( $rmcalendar ) {
-          $sql .= sprintf( "UPDATE collection SET is_calendar = FALSE WHERE dav_name = %s;", qpg($request->path) );
+          $qry->QDo('UPDATE collection SET is_calendar = FALSE, resourcetypes = :resourcetypes WHERE dav_name = :dav_name',
+                           array( ':dav_name' => $dav_resource->dav_name(), ':resourcetypes' => 'DAV::collection') );
         }
         $success[$tag] = 1;
       }
@@ -191,7 +213,19 @@ foreach( $rmprops AS $k => $setting ) {
       break;
 
     case 'urn:ietf:params:xml:ns:caldav:calendar-timezone':
-      $sql .= sprintf( "UPDATE collection SET timezone = NULL WHERE dav_name = %s;", qpg($request->path) );
+      if ( $dav_resource->IsCollection() && $dav_resource->IsCalendar() && ! $dav_resource->IsBinding() ) {
+        $qry->QDo('UPDATE collection SET timezone = NULL WHERE dav_name = :dav_name', array( ':dav_name' => $dav_resource->dav_name()) );
+      }
+      else {
+        $failure['set-'.$tag] = new XMLElement( 'propstat', array(
+            new XMLElement( 'prop', new XMLElement($tag)),
+            new XMLElement( 'status', 'HTTP/1.1 403 Forbidden' ),
+            new XMLElement( 'responsedescription', array(
+                              new XMLElement( 'error', new XMLElement( 'cannot-modify-protected-property') ),
+                              translate("calendar-timezone property is only valid for a calendar.") )
+                          )
+        ));
+      }
       break;
 
     /**
@@ -223,7 +257,8 @@ foreach( $rmprops AS $k => $setting ) {
     * If we don't have any special processing then we must have to just delete it.  Nonexistence is not failure.
     */
     default:
-      $sql .= awl_replace_sql_args( "DELETE FROM property WHERE dav_name=? AND property_name=?;", $request->path, $tag );
+      $qry->QDo('DELETE FROM property WHERE dav_name=:dav_name AND property_name=:property_name',
+                  array( ':dav_name' => $dav_resource->dav_name(), ':property_name' => $tag) );
       $success[$tag] = 1;
       break;
   }
@@ -246,6 +281,8 @@ if ( count($failure) > 0 ) {
   array_unshift( $failure, new XMLElement('href', $url ) );
   $failure[] = new XMLElement('responsedescription', translate("Some properties were not able to be changed.") );
 
+  $qry->Rollback();
+
   $multistatus = new XMLElement( "multistatus", new XMLElement( 'response', $failure ), array('xmlns'=>'DAV:') );
   $request->DoResponse( 207, $multistatus->Render(0,'<?xml version="1.0" encoding="utf-8" ?>'), 'text/xml; charset="utf-8"' );
 
@@ -254,9 +291,8 @@ if ( count($failure) > 0 ) {
 /**
 * Otherwise we will try and do the SQL. This is inside a transaction, so PostgreSQL guarantees the atomicity
 */
-$sql .= "COMMIT;";
-$qry = new PgQuery( $sql );
-if ( $qry->Exec() ) {
+;
+if ( $qry->Commit() ) {
   $url = ConstructURL($request->path);
   $href = new XMLElement('href', $url );
   $desc = new XMLElement('responsedescription', translate("All requested changes were made.") );
