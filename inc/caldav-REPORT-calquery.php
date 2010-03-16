@@ -97,6 +97,7 @@ $need_post_filter = false;
 function SqlFilterFragment( $filter, $components, $property = null, $parameter = null ) {
   global $need_post_filter;
   $sql = "";
+  $params = array();
   if ( !is_array($filter) ) {
     dbg_error_log( "calquery", "Filter is of type '%s', but should be an array of XML Tags.", gettype($filter) );
   }
@@ -145,8 +146,9 @@ function SqlFilterFragment( $filter, $components, $property = null, $parameter =
         $start = $v->GetAttribute("start");
         $finish = $v->GetAttribute("end");
         if ( isset($start) || isset($finish) ) {
-          $sql .= "AND (rrule_event_overlaps( dtstart, dtend, rrule, ".qpg($start).", ".qpg($finish)." ) ";
-          $sql .= sprintf( "OR event_has_exceptions(caldav_data.caldav_data) )" );
+          $sql .= ' AND (rrule_event_overlaps( dtstart, dtend, rrule, :time_range_start, :time_range_end ) OR event_has_exceptions(caldav_data.caldav_data) ) ';
+          $params[':time_range_start'] = $start;
+          $params[':time_range_end'] = $finish;
         }
         break;
 
@@ -163,10 +165,11 @@ function SqlFilterFragment( $filter, $components, $property = null, $parameter =
             $comparison = 'ILIKE';
             break;
         }
-        dbg_error_log("calquery", " text-match: (%s IS NULL OR %s%s %s %s) ", $property, (isset($negate) && strtolower($negate) == "yes" ? "NOT ": ""),
-                                          $property, $comparison, qpg("%".$search."%") );
-        $sql .= sprintf( "AND (%s IS NULL OR %s%s %s %s) ", $property, (isset($negate) && strtolower($negate) == "yes" ? "NOT ": ""),
-                                          $property, $comparison, qpg("%".$search."%") );
+        $params[':text_match'] = '%'.$search.'%';
+        dbg_error_log("calquery", " text-match: (%s IS NULL OR %s%s %s '%s') ", $property, (isset($negate) && strtolower($negate) == "yes" ? "NOT ": ""),
+                                          $property, $comparison, $params[':text_match'] );
+        $sql .= sprintf( "AND (%s IS NULL OR %s%s %s :text_match) ", $property, (isset($negate) && strtolower($negate) == "yes" ? "NOT ": ""),
+                                          $property, $comparison );
         break;
 
       case 'urn:ietf:params:xml:ns:caldav:comp-filter':
@@ -178,7 +181,10 @@ function SqlFilterFragment( $filter, $components, $property = null, $parameter =
         $subfilter = $v->GetContent();
         if ( is_array( $subfilter ) ) {
           $success = SqlFilterFragment( $subfilter, $components, $property, $parameter );
-          if ( $success === false ) continue; else $sql .= $success;
+          if ( $success === false ) continue; else {
+            $sql .= $success['sql'];
+            $params = array_merge( $params, $success['params'] );
+          }
         }
         break;
 
@@ -215,7 +221,10 @@ function SqlFilterFragment( $filter, $components, $property = null, $parameter =
         }
         $subfilter = $v->GetContent();
         $success = SqlFilterFragment( $subfilter, $components, $property, $parameter );
-        if ( $success === false ) continue; else $sql .= $success;
+        if ( $success === false ) continue; else {
+          $sql .= $success['sql'];
+          $params = array_merge( $params, $success['params'] );
+        }
         break;
 
       case 'urn:ietf:params:xml:ns:caldav:param-filter':
@@ -224,7 +233,10 @@ function SqlFilterFragment( $filter, $components, $property = null, $parameter =
         $parameter = $v->GetAttribute("name");
         $subfilter = $v->GetContent();
         $success = SqlFilterFragment( $subfilter, $components, $property, $parameter );
-        if ( $success === false ) continue; else $sql .= $success;
+        if ( $success === false ) continue; else {
+          $sql .= $success['sql'];
+          $params = array_merge( $params, $success['params'] );
+        }
         break;
 
       default:
@@ -233,7 +245,7 @@ function SqlFilterFragment( $filter, $components, $property = null, $parameter =
     }
   }
   dbg_error_log("calquery", "Generated SQL was '%s'", $sql );
-  return $sql;
+  return array( 'sql' => $sql, 'params' => $params );
 }
 
 /**
@@ -246,9 +258,7 @@ function SqlFilterFragment( $filter, $components, $property = null, $parameter =
  */
 function BuildSqlFilter( $filter ) {
   $components = array();
-  $sql = SqlFilterFragment( $filter, $components );
-  if ( $sql === false ) return "";
-  return $sql;
+  return SqlFilterFragment( $filter, $components );
 }
 
 
@@ -274,26 +284,32 @@ if ( ! ($collection->IsCalendar() || $collection->IsSchedulingCollection()) ) {
 *              AND caldav_data.caldav_type = 'VEVENT' ORDER BY caldav_data.user_no, caldav_data.dav_name;
 */
 
-$where = " WHERE caldav_data.collection_id = " . $collection->resource_id();
+$params = array();
+$where = ' WHERE caldav_data.collection_id = ' . $collection->resource_id();
 if ( is_array($qry_filters) ) {
   dbg_log_array( "calquery", "qry_filters", $qry_filters, true );
-  $where .= BuildSqlFilter( $qry_filters );
+  $components = array();
+  $filter_fragment =  SqlFilterFragment( $qry_filters, $components );
+  if ( $filter_fragment !== false ) {
+    $where .= ' '.$filter_fragment['sql'];
+    $params = $filter_fragment['params'];
+  }
 }
 if ( $collection->Privileges() != privilege_to_bits('DAV::all') ) {
-  $where .= "AND (calendar_item.class != 'PRIVATE' OR calendar_item.class IS NULL) ";
+  $where .= " AND (calendar_item.class != 'PRIVATE' OR calendar_item.class IS NULL) ";
 }
 
 if ( isset($c->hide_TODO) && $c->hide_TODO && ! $collection->HavePrivilegeTo('DAV::write-content') ) {
-  $where .= "AND caldav_data.caldav_type NOT IN ('VTODO') ";
+  $where .= " AND caldav_data.caldav_type NOT IN ('VTODO') ";
 }
 
 if ( isset($c->hide_older_than) && intval($c->hide_older_than > 0) ) {
   $where .= " AND calendar_item.dtstart > (now() - interval '".intval($c->hide_older_than)." days') ";
 }
 
-$sql = "SELECT * FROM caldav_data INNER JOIN calendar_item USING(dav_id,user_no,dav_name)". $where;
+$sql = 'SELECT * FROM caldav_data INNER JOIN calendar_item USING(dav_id,user_no,dav_name)'. $where;
 if ( isset($c->strict_result_ordering) && $c->strict_result_ordering ) $sql .= " ORDER BY dav_id";
-$qry = new AwlQuery( $sql );
+$qry = new AwlQuery( $sql, $params );
 if ( $qry->Exec("calquery",__LINE__,__FILE__) && $qry->rows() > 0 ) {
   while( $calendar_object = $qry->Fetch() ) {
     if ( !$need_post_filter || apply_filter( $qry_filters, $calendar_object ) ) {

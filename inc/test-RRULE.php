@@ -40,7 +40,7 @@ class RRuleTest {
   function SQLTest() {
     $result = '';
     $sql = "SELECT event_instances::timestamp AS event_date FROM event_instances(?,?) LIMIT 30;";
-    $qry = new PgQuery($sql, $this->dtstart, $this->recur);
+    $qry = new AwlQuery($sql, $this->dtstart, $this->recur);
     // printf( "%s\n", $qry->querystring);
     if ( $qry->Exec("test") && $qry->rows > 0 ) {
       $i = 0;
