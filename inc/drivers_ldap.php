@@ -341,7 +341,7 @@ function sync_LDAP(){
       $ldap_users_info[$ldap_user[$mapping["username"]]] = $ldap_user;
       unset($ldap_users_tmp[$key]);
     }
-    $qry = new PgQuery( "SELECT username, user_no, updated FROM usr ");
+    $qry = new AwlQuery( "SELECT username, user_no, updated FROM usr ");
     $qry->Exec('sync_LDAP',__LINE__,__FILE__);
     while($db_user = $qry->Fetch(true)){
       $db_users[] = $db_user['username'];
@@ -378,15 +378,18 @@ function sync_LDAP(){
     }
 
     // deactivating all users
+    $params = array();
     $usr_in = '';
+    $i = 0;
     foreach( $users_to_deactivate AS $v ) {
       if ( isset($c->do_not_sync_from_ldap) && isset($c->do_not_sync_from_ldap[$v]) ) continue;
-      $usr_in .= ($usr_in == '' ? '' : ', ') . qpg($v);
+      $usr_in .= ($usr_in == '' ? '' : ', :u') . $i;
+      $params[':u'.$i] = strtolower($v);
+      $i++;
     }
     if ( $usr_in != '' ) {
-      $usr_in = substr($usr_in,1);
       $c->messages[] = sprintf(i18n('- deactivating users : %s'),join(', ',$users_to_deactivate));
-      $qry = new PgQuery( "UPDATE usr SET active = FALSE WHERE lower(username) IN ($usr_in)");
+      $qry = new AwlQuery( 'UPDATE usr SET active = FALSE WHERE lower(username) IN ($usr_in)', $params);
       $qry->Exec('sync_LDAP',__LINE__,__FILE__);
     }
 
