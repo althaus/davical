@@ -15,4 +15,5 @@ Content-Type: text/xml; charset="utf-8"
 changed_last_60se: >1<
   dav_displayname: >User One's Calendar<
       is_calendar: >1<
+    resourcetypes: ><DAV::collection/><urn:ietf:params:xml:ns:caldav:calendar/><
 

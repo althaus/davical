@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<multistatus xmlns="DAV:" xmlns:R="urn:mcmillan:bogus:xml:ns:rscds">
+<multistatus xmlns="DAV:" xmlns:D="urn:mcmillan:bogus:xml:ns:davical">
  <response>
   <href>/caldav.php/user1/home/</href>
   <propstat>
@@ -13,7 +13,7 @@
   </propstat>
   <propstat>
    <prop>
-    <R:arbitrary/>
+    <D:arbitrary/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>

@@ -5,7 +5,7 @@
 # again, and remove the owner property.
 #
 TYPE=PROPPATCH
-URL=http://mycaldav/caldav.php/user1/home/
+URL=http://regression.host/caldav.php/user1/home/
 HEADER=User-agent: SpecTest PROPPATCH
 HEADER=Content-type: text/xml
 HEAD
@@ -24,14 +24,14 @@ BEGINDATA
   </set> 
   <remove> 
     <prop> 
-      <arbitrary xmlns="urn:mcmillan:bogus:xml:ns:rscds"/> 
+      <arbitrary xmlns="urn:mcmillan:bogus:xml:ns:davical"/> 
     </prop> 
   </remove> 
 </propertyupdate>
 ENDDATA
 
 QUERY
-SELECT dav_displayname, is_calendar, 
+SELECT dav_displayname, is_calendar, resourcetypes,
        modified > (current_timestamp - '60 seconds'::interval) AS changed_last_60secs 
   FROM collection WHERE dav_name = '/user1/home/';
 ENDQUERY

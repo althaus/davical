@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
+<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav" xmlns:X="http://xmlns.davical.org/davical">
  <response>
   <href>/caldav.php/user4/user2/</href>
   <propstat>
@@ -8,6 +8,7 @@
     <resourcetype>
      <collection/>
      <C:calendar/>
+     <X:webdav-binding/>
     </resourcetype>
    </prop>
    <status>HTTP/1.1 200 OK</status>
