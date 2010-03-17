@@ -15,6 +15,7 @@ if ( isset($CS_search_test) && $CS_search_test == 'anyof' ) {
   $clause_joiner = " OR ";
 }
 
+$params = array();
 $where = "";
 foreach( $searches AS $k => $search ) {
   $qry_props = $search->GetPath('/DAV::property-search/DAV::prop/*');  // There may be many
@@ -26,17 +27,21 @@ foreach( $searches AS $k => $search ) {
     if ( $subwhere != "" ) $subwhere .= " OR ";
     switch( $v1->GetTag() ) {
       case 'DAV::displayname':
-        $subwhere .= "displayname ~* ".qpg('***='.$match);
+        $subwhere .= ' displayname ILIKE :displayname_match ';
+        $params[':displayname_match'] = '%'.$match.'%';
         break;
 
       case 'urn:ietf:params:xml:ns:caldav:calendar-user-address-set':
-        $match = preg_replace('#^.*/caldav.php/([^/]+)(/.*)?$#', "\\1", $match);
-        $match = qpg('***=' . preg_replace('#^mailto:#', '', $match));
-        $subwhere .= sprintf('(email ~* %s OR username ~* %s)', $match, $match );
+        $match = preg_replace('{^.*/caldav.php/([^/]+)(/.*)?$}', '\\1', $match);
+        $match = preg_replace('{^mailto:}', '', $match);
+        $subwhere .= ' (email ILIKE :user_address_match OR username ILIKE :user_address_match) ';
+        $params[':user_address_match'] = '%'.$match.'%';
         break;
 
       case 'urn:ietf:params:xml:ns:caldav:calendar-home-set':
-        $subwhere .= "dav_name ~* ".qpg(preg_replace('#^.*/caldav.php#', '', $match));
+        $match = preg_replace('{^.*/caldav.php}', '', $match);
+        $subwhere .= ' dav_name LIKE :calendar_home_match ';
+        $params[':calendar_home_match'] = $match.'%';
         break;
 
       default:
@@ -53,7 +58,7 @@ foreach( $searches AS $k => $search ) {
 }
 if ( $where != "" ) $where = "WHERE $where";
 $sql = "SELECT * FROM dav_principal $where ORDER BY principal_id LIMIT 100";
-$qry = new AwlQuery($sql);
+$qry = new AwlQuery($sql, $params);
 
 
 $get_props = $xmltree->GetPath('/DAV::principal-property-search/DAV::prop/*');
