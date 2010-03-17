@@ -1,0 +1,27 @@
+#
+# Test PROPPATCH to change the displayname on a bind
+#
+TYPE=PROPPATCH
+URL=http://regression.host/caldav.php/user4/user2/
+AUTH=user4:user4
+
+HEADER=User-Agent: DAViCalTester/public
+HEADER=Content-Type: text/xml; charset="UTF-8"
+HEAD
+
+
+BEGINDATA
+<?xml version="1.0" encoding="UTF-8" ?>
+<propertyupdate xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
+ <set>
+  <prop>
+   <displayname>Again set displayname with PROPPATCH</displayname>
+   <C:calendar-timezone>Updated Displayname with PROPPATCH</C:calendar-timezone>
+  </prop>
+ </set>
+</propertyupdate>
+ENDDATA
+
+QUERY
+SELECT dav_displayname FROM dav_binding WHERE dav_name = '/user4/user2/'
+ENDQUERY

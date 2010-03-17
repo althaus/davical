@@ -1,0 +1,33 @@
+HTTP/1.1 207 Multi-Status
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy
+Content-Length: 623
+Content-Type: text/xml; charset="utf-8"
+
+<?xml version="1.0" encoding="utf-8" ?>
+<multistatus xmlns="DAV:">
+ <response>
+  <href>/caldav.php/user4/user2/</href>
+  <propstat>
+   <prop>
+    <urn:ietf:params:xml:ns:caldav:calendar-timezone/>
+   </prop>
+   <status>HTTP/1.1 403 Forbidden</status>
+   <responsedescription>
+    <error>
+     <cannot-modify-protected-property/>
+    </error>
+   </responsedescription>
+  </propstat>
+  <propstat>
+   <prop>
+    <DAV::displayname/>
+   </prop>
+   <status>HTTP/1.1 424 Failed Dependency</status>
+  </propstat>
+  <responsedescription>Some properties were not able to be changed.</responsedescription>
+ </response>
+</multistatus>
+
+  dav_displayname: >Updated Displayname with PROPPATCH<
+
