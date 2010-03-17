@@ -46,7 +46,8 @@ $reply = new XMLDocument(array( 'DAV:' => '', 'urn:ietf:params:xml:ns:caldav' =>
 $failure_code = null;
 
 $failure = array();
-$propertysql = array();
+$dav_properties = array();
+
 if ( isset($request->xml_tags) ) {
   /**
   * The MKCOL request may contain XML to set some DAV properties
@@ -130,7 +131,7 @@ if ( isset($request->xml_tags) ) {
       * If we don't have any special processing for the property, we just store it verbatim (which will be an XML fragment).
       */
       default:
-        $propertysql[] = awl_replace_sql_args( 'SELECT set_dav_property( ?, ?, ?, ? )', $request->path, $request->user_no, $tag, $content );
+        $dav_properties[$tag] = $content;
         $success[$tag] = 1;
         break;
     }
@@ -174,7 +175,10 @@ if ( $qry->rows() != 0 ) {
   $request->DoResponse( 405, translate('A collection already exists at that location.') );
 }
 
-$qry = new AwlQuery( 'INSERT INTO collection ( user_no, parent_container, dav_name, dav_etag, dav_displayname,
+$qry = new AwlQuery();
+$qry->Begin();
+
+if ( ! $qry->QDo( 'INSERT INTO collection ( user_no, parent_container, dav_name, dav_etag, dav_displayname,
                                  is_calendar, is_addressbook, resourcetypes, created, modified )
               VALUES( :user_no, :parent_container, :dav_name, :dav_etag, :dav_displayname,
                       :is_calendar, :is_addressbook, :resourcetypes, current_timestamp, current_timestamp )',
@@ -187,14 +191,12 @@ $qry = new AwlQuery( 'INSERT INTO collection ( user_no, parent_container, dav_na
               ':is_calendar'      => ($is_calendar ? 1 : 0),
               ':is_addressbook'   => ($is_addressbook ? 1 : 0),
               ':resourcetypes'    => $resourcetypes
-           ) );
-$qry->Begin();
-if ( !$qry->Exec('MKCOL',__LINE__,__FILE__) ) {
+           ) ) ) {
   $request->DoResponse( 500, translate('Error writing calendar details to database.') );
 }
-foreach( $propertysql AS $k => $v ) {
-  $qry = new AwlQuery( $v );
-  if ( !$qry->Exec('MKCOL',__LINE__,__FILE__) ) {
+foreach( $dav_properties AS $k => $v ) {
+  if ( ! $qry->QDo('SELECT set_dav_property( :dav_name, :user_no, :tag, :value )',
+             array( ':dav_name' => $request->path, ':user_no' => $request->user_no, ':tag' => $k, ':value' => $v) ) ) {
     $request->DoResponse( 500, translate('Error writing calendar properties to database.') );
   }
 }
