@@ -95,7 +95,8 @@ foreach( $setprops AS $k => $setting ) {
       $setcalendar   = count($setting->GetPath('DAV::resourcetype/urn:ietf:params:xml:ns:caldav:calendar'));
       if ( $request->IsCollection() && ($setcollection || $setcalendar) && ! $dav_resource->IsBinding() ) {
         if ( $setcalendar ) {
-          $qry->QDo('UPDATE collection SET is_calendar = TRUE WHERE dav_name = :dav_name', array( ':dav_name' => $dav_resource->dav_name()) );
+          $qry->QDo('UPDATE collection SET is_calendar = TRUE, resourcetypes = :resourcetypes WHERE dav_name = :dav_name',
+                           array( ':dav_name' => $dav_resource->dav_name(), ':resourcetypes' => '<DAV::collection/><urn:ietf:params:xml:ns:caldav:calendar/>') );
         }
         $success[$tag] = 1;
       }
@@ -198,7 +199,7 @@ foreach( $rmprops AS $k => $setting ) {
         dbg_error_log( 'PROPPATCH', ' RMProperty %s : IsCollection=%d, rmcoll=%d, rmcal=%d', $tag, $request->IsCollection(), $rmcollection, $rmcalendar );
         if ( $rmcalendar ) {
           $qry->QDo('UPDATE collection SET is_calendar = FALSE, resourcetypes = :resourcetypes WHERE dav_name = :dav_name',
-                           array( ':dav_name' => $dav_resource->dav_name(), ':resourcetypes' => 'DAV::collection') );
+                           array( ':dav_name' => $dav_resource->dav_name(), ':resourcetypes' => '<DAV::collection/>') );
         }
         $success[$tag] = 1;
       }
