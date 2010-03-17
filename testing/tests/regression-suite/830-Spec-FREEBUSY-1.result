@@ -1,12 +1,13 @@
 HTTP/1.1 200 OK
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy
-Content-Length: 1162
+Content-Length: 1210
 Content-Type: text/calendar
 
 BEGIN:VCALENDAR
 PRODID:-//davical.org//NONSGML AWL Calendar//EN
 VERSION:2.0
+CALSCALE:GREGORIAN
 BEGIN:VFREEBUSY
 DTSTAMP:yyyymmddThhmmssZ
 DTSTART:20061004T140000Z

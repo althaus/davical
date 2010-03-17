@@ -12,13 +12,14 @@ $fbq_end   = $fbq_content[0]->GetAttribute('end');
 if ( ! ( isset($fbq_start) || isset($fbq_end) ) ) {
   $request->DoResponse( 400, 'All valid freebusy requests MUST contain a time-range filter' );
 }
-$where = " WHERE caldav_data.dav_name ~ ? ";
-$where .= "AND rrule_event_overlaps( dtstart, dtend, rrule, ".qpg($fbq_start).", ".qpg($fbq_end)." ) ";
+$params = array( ':path_match' => '^'.$request->path.$request->DepthRegexTail(), ':start' => $fbq_start, ':end' => $fbq_end );
+$where = ' WHERE caldav_data.dav_name ~ :path_match ';
+$where .= 'AND rrule_event_overlaps( dtstart, dtend, rrule, :start, :end) ';
 $where .= "AND caldav_data.caldav_type IN ( 'VEVENT', 'VFREEBUSY' ) ";
 $where .= "AND (calendar_item.transp != 'TRANSPARENT' OR calendar_item.transp IS NULL) ";
 $where .= "AND (calendar_item.status != 'CANCELLED' OR calendar_item.status IS NULL) ";
 
-if ( ! $request->AllowedTo('all') ) {
+if ( $request->Privileges() != privilege_to_bits('all') ) {
   $where .= "AND (calendar_item.class != 'PRIVATE' OR calendar_item.class IS NULL) ";
 }
 
@@ -29,8 +30,8 @@ $sql .= "to_char(calendar_item.dtstart at time zone 'GMT',".iCalendar::SqlDateFo
 $sql .= "to_char(calendar_item.dtend at time zone 'GMT',".iCalendar::SqlDateFormat().") AS finish ";
 $sql .= "FROM caldav_data INNER JOIN calendar_item USING(dav_id,user_no,dav_name)".$where;
 if ( isset($c->strict_result_ordering) && $c->strict_result_ordering ) $sql .= " ORDER BY dav_id";
-$qry = new PgQuery( $sql, "^".$request->path.$request->DepthRegexTail() );
-if ( $qry->Exec("REPORT",__LINE__,__FILE__) && $qry->rows > 0 ) {
+$qry = new AwlQuery( $sql, $params );
+if ( $qry->Exec("REPORT",__LINE__,__FILE__) && $qry->rows() > 0 ) {
   while( $calendar_object = $qry->Fetch() ) {
     if ( $calendar_object->transp != "TRANSPARENT" ) {
       switch ( $calendar_object->status ) {
@@ -51,8 +52,12 @@ if ( $qry->Exec("REPORT",__LINE__,__FILE__) && $qry->rows > 0 ) {
     }
   }
 }
-$freebusy = iCalendar::iCalHeader();
-$freebusy .= sprintf("BEGIN:VFREEBUSY\nDTSTAMP:%s\nDTSTART:%s\nDTEND:%s\n", date('Ymd\THis\Z'), $fbq_start, $fbq_end);
+
+$freebusy = new iCalComponent();
+$freebusy->SetType('VFREEBUSY');
+$freebusy->AddProperty('DTSTAMP', date('Ymd\THis\Z'));
+$freebusy->AddProperty('DTSTART', $fbq_start);
+$freebusy->AddProperty('DTEND', $fbq_end);
 
 foreach( $busy_tentative AS $k => $v ) {
   $start = new iCalDate($v->start);
@@ -64,11 +69,11 @@ foreach( $busy_tentative AS $k => $v ) {
       if ( $date->GreaterThan($fbq_end) ) break;
       $todate = clone($date);
       $todate->AddDuration($duration);
-      $freebusy .= sprintf("FREEBUSY;FBTYPE=BUSY-TENTATIVE:%s/%s\n", $date->Render('Ymd\THis'), $todate->Render('Ymd\THis') );
+      $freebusy->AddProperty( 'FREEBUSY', $date->Render('Ymd\THis').'/'.$todate->Render('Ymd\THis'), array('FBTYPE' => 'BUSY-TENTATIVE') );
     }
   }
   else {
-    $freebusy .= sprintf("FREEBUSY;FBTYPE=BUSY-TENTATIVE:%s/%s\n", $start->Render('Ymd\THis'), $v->finish );
+    $freebusy->AddProperty( 'FREEBUSY', $start->Render('Ymd\THis').'/'.$v->finish, array('FBTYPE' => 'BUSY-TENTATIVE') );
   }
 }
 
@@ -82,16 +87,18 @@ foreach( $busy AS $k => $v ) {
       if ( $date->GreaterThan($fbq_end) ) break;
       $todate = clone($date);
       $todate->AddDuration($duration);
-      $freebusy .= sprintf("FREEBUSY:%s/%s\n", $date->Render('Ymd\THis'), $todate->Render('Ymd\THis') );
+      $freebusy->AddProperty( 'FREEBUSY', $date->Render('Ymd\THis').'/'.$todate->Render('Ymd\THis') );
     }
   }
   else {
-    $freebusy .= sprintf("FREEBUSY:%s/%s\n", $start->Render('Ymd\THis'), $v->finish );
+    $freebusy->AddProperty( 'FREEBUSY', $start->Render('Ymd\THis').'/'.$v->finish );
   }
 }
 
-$freebusy .= "END:VFREEBUSY\n";
-$freebusy .= iCalendar::iCalFooter();
-$request->DoResponse( 200, $freebusy, 'text/calendar' );
+$result = new iCalComponent();
+$result->VCalendar();
+$result->AddComponent($freebusy);
+
+$request->DoResponse( 200, $result->Render(), 'text/calendar' );
 // Won't return from that
 

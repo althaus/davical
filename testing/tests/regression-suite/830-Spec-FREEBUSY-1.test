@@ -17,4 +17,4 @@ BEGINDATA
 </C:free-busy-query>
 ENDDATA
 
-REPLACE=/^DTSTAMP:\d{8}T\d{6}Z$/DTSTAMP:yyyymmddThhmmssZ/
+REPLACE=/^DTSTAMP:\d{8}T\d{6}Z\r?$/DTSTAMP:yyyymmddThhmmssZ/
