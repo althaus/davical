@@ -32,7 +32,7 @@ else {
   $sql_period = str_replace( 'M', ' minutes ', $sql_period );
   $sql_period = str_replace( 'S', ' seconds ', $sql_period );
   $params[':sql_duration'] = $sql_period;
-  $where .= ' AND rrule_event_overlaps( dtstart, dtend, rrule, :range_start, (TIMESTAMP :range_start + (INTERVAL :sql_duration)) ) ';
+  $where .= ' AND rrule_event_overlaps( dtstart, dtend, rrule, :range_start::timestamp, :range_start::timestamp + :sql_duration::interval ) ';
 }
 
 $where .= "AND caldav_data.caldav_type IN ( 'VEVENT', 'VFREEBUSY' ) ";
