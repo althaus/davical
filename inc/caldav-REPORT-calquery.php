@@ -1,7 +1,5 @@
 <?php
 
-require_once('PgQuery.php');
-
 $need_expansion = false;
 function check_for_expansion( $calendar_data_node ) {
   global $need_expansion, $expand_range_start, $expand_range_end;
@@ -175,7 +173,8 @@ function SqlFilterFragment( $filter, $components, $property = null, $parameter =
       case 'urn:ietf:params:xml:ns:caldav:comp-filter':
         $comp_filter_name = $v->GetAttribute("name");
         if ( count($components) == 0 ) {
-          $sql .= "AND caldav_data.caldav_type = ".qpg($comp_filter_name)." ";
+          $sql .= "AND caldav_data.caldav_type = :component_name_filter ";
+          $params[':component_name_filter'] = $comp_filter_name;
         }
         $components[] = $comp_filter_name;
         $subfilter = $v->GetContent();
