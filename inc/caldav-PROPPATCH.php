@@ -93,11 +93,11 @@ foreach( $setprops AS $k => $setting ) {
       */
       $setcollection = count($setting->GetPath('DAV::resourcetype/DAV::collection'));
       $setcalendar   = count($setting->GetPath('DAV::resourcetype/urn:ietf:params:xml:ns:caldav:calendar'));
-      if ( $request->IsCollection() && ($setcollection || $setcalendar) && ! $dav_resource->IsBinding() ) {
-        if ( $setcalendar ) {
-          $qry->QDo('UPDATE collection SET is_calendar = TRUE, resourcetypes = :resourcetypes WHERE dav_name = :dav_name',
-                           array( ':dav_name' => $dav_resource->dav_name(), ':resourcetypes' => '<DAV::collection/><urn:ietf:params:xml:ns:caldav:calendar/>') );
-        }
+      if ( $request->IsCollection() && $setcollection && ! $dav_resource->IsBinding() ) {
+        $resourcetypes = $setting->GetPath('DAV::resourcetype/*');
+        $resourcetypes = str_replace( "\n", "", implode('',$resourcetypes));
+        $qry->QDo('UPDATE collection SET is_calendar = :is_calendar::boolean, resourcetypes = :resourcetypes WHERE dav_name = :dav_name',
+                    array( ':dav_name' => $dav_resource->dav_name(), ':is_calendar' => $setcalendar, ':resourcetypes' => $resourcetypes) );
         $success[$tag] = 1;
       }
       else {
