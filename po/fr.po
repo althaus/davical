@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: davical-messages-fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-08 14:52+1300\n"
-"PO-Revision-Date: 2010-03-08 11:09+1000\n"
+"POT-Creation-Date: 2010-03-13 23:06+1100\n"
+"PO-Revision-Date: 2010-03-13 23:06+1000\n"
 "Last-Translator: Aurelien Requiem <aurelien@requiem.fr>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Lokalize 0.3\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Poedit-Bookmarks: 91,-1,-1,-1,-1,-1,-1,-1,-1,-1\n"
+"X-Poedit-Language: French\n"
 
 msgid "*** Default Locale ***"
 msgstr "*** Locale par défaut ***"
@@ -56,6 +56,9 @@ msgid "<b>WARNING: all events in this path will be deleted before inserting allo
 msgstr "<b>Attention : tous les événements de ce chemin seront supprimés avant l'insertion de tous ceux du fichier ics</b>"
 
 msgid "A collection already exists at that location."
+msgstr "Une collection existe déjà à cet emplacement."
+
+msgid "A resource already exists at the destination."
 msgstr "Une collection existe déjà à cet emplacement."
 
 msgid "Action"
@@ -115,8 +118,14 @@ msgstr "Les utilisateurs anonymes ne sont pas autorisés à modifier les calendr
 msgid "Anonymous users may only access public calendars"
 msgstr "Les utilisateurs anonymes peuvent uniquement accéder aux calendriers publics"
 
+msgid "Application DB User"
+msgstr ""
+
 msgid "Apply Changes"
 msgstr "Appliquer les modifications"
+
+msgid "Apply DB Patches"
+msgstr "Appliquer la rustine à la base"
 
 msgid "Browse all users"
 msgstr "Affiche tous les utilisateurs"
@@ -198,11 +207,8 @@ msgstr "Confirmer la suppression de l'utilisateur"
 msgid "Confirm Password"
 msgstr "Confirmer le mot de passe"
 
-msgid "Confirm the new password."
-msgstr "Confirmer le nouveau mot de passe"
-
-msgid "Confirm"
-msgstr "Confirmer"
+msgid "Could not retrieve"
+msgstr "Ne peut télécharger"
 
 msgid "Create Calendar"
 msgstr "Créer un calendrier"
@@ -243,12 +249,8 @@ msgstr "Version DAViCal courante "
 msgid "Current Versions"
 msgstr "Versions courantes"
 
-msgid ""
-"Currently this page does very little.  Suggestions or patches to make it do more useful stuff will be "
-"gratefully received."
-msgstr ""
-"Actuellement, cette page fait peu de choses. Suggestions et modifications pour rendre cette page plus "
-"utile seront grandement appréciés."
+msgid "Currently this page does very little.  Suggestions or patches to make it do more useful stuff will be gratefully received."
+msgstr "Actuellement, cette page fait peu de choses. Suggestions et modifications pour rendre cette page plus utile seront grandement appréciés."
 
 msgid "DAV Path"
 msgstr "Chemin DAV"
@@ -257,7 +259,7 @@ msgid "DAViCal CalDAV Server"
 msgstr "Serveur CalDAV DAViCal"
 
 msgid "DAViCal DB Schema version "
-msgstr "Version du schéma de la base DAViCal"
+msgstr "Version du schéma de la base DAViCal "
 
 msgid "DAViCal Homepage"
 msgstr "Page d'accueil DAViCal"
@@ -265,19 +267,37 @@ msgstr "Page d'accueil DAViCal"
 msgid "DAViCal Wiki"
 msgstr "Wiki DAViCal"
 
+msgid "DAViCal only allows BIND requests for collections at present."
+msgstr ""
+
 msgid "Database Error"
 msgstr "Erreur de base de données"
 
 msgid "Database Error."
 msgstr "Erreur de base de données."
 
+msgid "Database Host"
+msgstr "Nom d'hôte pour la base de données"
+
+msgid "Database Name"
+msgstr "Nom de la base de données"
+
+msgid "Database Owner"
+msgstr "Propriétaire de la base de données"
+
+msgid "Database Password"
+msgstr "Mot de passe de la base de données"
+
+msgid "Database Port"
+msgstr "Port de base de données"
+
+msgid "Database Username"
+msgstr "Utilisateur de base de données"
+
 msgid "Database error"
 msgstr "Erreur de base de données"
 
 msgid "Date Format Style"
-msgstr "Format des dates"
-
-msgid "Date Style"
 msgstr "Format des dates"
 
 msgid "Default Privileges"
@@ -334,29 +354,8 @@ msgstr "Nom à afficher"
 msgid "Displayname"
 msgstr "Nom à afficher"
 
-msgid "Does the user have the right to perform this role?"
-msgstr "L'utilisateur est-il autorisé à avoir ce rôle ?"
-
-msgid "EMail OK"
-msgstr "Courriel vérifié"
-
 msgid "EMail"
 msgstr "Courriel"
-
-#, c-format
-msgid "ERROR: %s"
-msgstr "ERREUR : %s"
-
-msgid "ERROR: The full name may not be blank."
-msgstr "ERREUR : Le nom complet ne peut être vide."
-
-msgid "ERROR: The new password must match the confirmed password."
-msgstr "ERREUR : Le nouveau mot de passe doit être identique au mot de passe confirmé."
-
-msgid "ERROR: There was a database error writing the roles information!"
-msgstr ""
-"ERREUR: Il y a eu une erreur lors de l'écriture dans la base de données des informations pour les "
-"rôles !"
 
 msgid "Edit this user record"
 msgstr "Modifier l'enregistrement de cet utilisateur"
@@ -367,16 +366,8 @@ msgstr "Modifier"
 msgid "Email Address"
 msgstr "Adresse de courriel"
 
-msgid "Enter a username, if you know it, and click here, to be e-mailed a temporary password."
-msgstr ""
-"Indiquez un nom d'utilisateur, si vous le connaissez et cliquez ici pour recevoir un mot de passe "
-"temporaire."
-
 msgid "Enter the name for this resource type"
 msgstr "Indiquez un nom pour ce type de ressource"
-
-msgid "Enter your username and password then click here to log in."
-msgstr "Indiquez votre nom d'utilisateur et votre mot de passe puis cliquez ici pour vous connecter"
 
 #, c-format
 msgid "Error NoUserFound with filter >%s<, attributes >%s< , dn >%s<"
@@ -388,12 +379,8 @@ msgstr "Erreur lors de l'interrogation de la base de données."
 msgid "Error writing calendar details to database."
 msgstr "Il s'est produit une erreur lors de l'écriture des données."
 
-#, fuzzy
 msgid "Error writing calendar properties to database."
 msgstr "Il s'est produit une erreur lors de l'écriture des données."
-
-msgid "European (d/m/y)"
-msgstr "Européen (jj/mm/aa)"
 
 msgid "European"
 msgstr "Européen (jj/mm/aa)"
@@ -407,6 +394,9 @@ msgstr "La ressource existante ne correspond pas à l'entête (HTTP) 'If-Match' 
 # Sorry I shall see it on the screen to understand the context of the question
 msgid "Existing resource matches \"If-None-Match\" header - not accepted."
 msgstr "La ressource existante correpond à l'entête (HTTP) 'if-None-Match' - pas accepté."
+
+msgid "Failed"
+msgstr "Echec"
 
 msgid "Finish"
 msgstr "Fin"
@@ -426,23 +416,17 @@ msgstr "Libre/Occupé"
 msgid "FreeBusy"
 msgstr "LibreOccupé"
 
-msgid "Full Name"
-msgstr "Nom complet"
-
 msgid "Fullname"
 msgstr "Nom complet"
 
 msgid "GET requests are only handled on calendar collections."
 msgstr "Les requêtes GET ne sont gèrés que pour les collections de calendrier."
 
-msgid "GO!"
-msgstr "ENTRER !"
-
 msgid "Go to the DAViCal Feature Requests"
 msgstr "Aller aux demandes de fonctionnalités DAViCal"
 
 msgid "Grant"
-msgstr ""
+msgstr "Accorder"
 
 msgid "Granting new privileges from this Principal"
 msgstr "Accord de nouveaux privilèges de cet utilisateur"
@@ -468,9 +452,6 @@ msgstr "A des membres"
 msgid "Help on the current screen"
 msgstr "Aide sur l'écran actuel"
 
-msgid "Help! I've forgotten my password!"
-msgstr "Au secours ! J'ai oublié mon mot de passe !"
-
 msgid "Help"
 msgstr "Aide"
 
@@ -488,9 +469,6 @@ msgstr "Accueil"
 msgid "ID"
 msgstr "Id."
 
-msgid "ISO Format (YYYY-MM-DD)"
-msgstr "Format ISO (AAAA-MM-JJ)"
-
 msgid "ISO Format"
 msgstr "Format ISO (AAAA-MM-JJ)"
 
@@ -499,9 +477,6 @@ msgstr "N°"
 
 msgid "Id"
 msgstr "N°"
-
-msgid "If you have forgotten your password then"
-msgstr "Si vous avez oublié votre mot de passe alors"
 
 msgid "If you would like to request access, please e-mail"
 msgstr "Si vous souhaitez avoir accès, veuillez envoyer un courriel"
@@ -516,9 +491,6 @@ msgid "Inactive Principals"
 msgstr "Comptes inactifs"
 
 msgid "Invalid user name or password."
-msgstr "Nom d'utilisateur ou mot de passe incorrects."
-
-msgid "Invalid username or password."
 msgstr "Nom d'utilisateur ou mot de passe incorrects."
 
 msgid "Is Member of"
@@ -548,7 +520,7 @@ msgid "Linked To"
 msgstr "Attribué à"
 
 msgid "List Groups"
-msgstr "List des Groupes"
+msgstr "Liste des Groupes"
 
 # French uses the same word, except it adds an 'S'. Otherwise it would sound "Rezource",
 # a bit odd except when said with a german accent.
@@ -583,12 +555,8 @@ msgstr "Nom"
 msgid "New Collection"
 msgstr "Nouvelle collection"
 
-msgid "New Password"
-msgstr "Nouveau mot de passe"
-
-#, fuzzy
 msgid "New Principal"
-msgstr "Compte"
+msgstr "Nouveau Compte"
 
 #, fuzzy
 msgid "No <!-- not 'Yes' -->"
@@ -601,7 +569,7 @@ msgid "No collection found at that location."
 msgstr "Pas de collection trouvée à cet endroit."
 
 msgid "No scheduling support for user"
-msgstr ""
+msgstr "Programmation non supportée pour l'utilisateur"
 
 # Yes/No
 msgid "No"
@@ -610,25 +578,25 @@ msgstr "No"
 msgid "No. <!-- short for 'Number' -->"
 msgstr "N°"
 
-#, fuzzy
 msgid "No. of Collections"
-msgstr "Nouvelle collection"
+msgstr "Nb. de collections"
 
-#, fuzzy
 msgid "No. of Principals"
-msgstr "Groupe d'utilisateurs"
+msgstr "Nb. de comptes"
 
 # French uses the same word, except it adds an 'S'. Otherwise it would sound "Rezource",
 # a bit odd except when said with a german accent.
-#, fuzzy
 msgid "No. of Resources"
-msgstr "Liste des ressources"
+msgstr "Nb. de ressources"
 
 msgid "No."
 msgstr "No."
 
 msgid "Not overwriting existing destination resource"
 msgstr ""
+
+msgid "OK"
+msgstr "Ok"
 
 msgid "Opaque"
 msgstr "Opaque"
@@ -639,8 +607,8 @@ msgstr "Opérations sur votre calendrier"
 msgid "Override a Lock"
 msgstr "Passer outre un verrou"
 
-msgid "PDO PostgreSQL divers"
-msgstr "Pilote PostgreSQL PDO"
+msgid "PDO PostgreSQL drivers"
+msgstr "Pilote PDO pour PostgreSQL"
 
 msgid "PHP PDO module available"
 msgstr "Module PDO PHP disponible"
@@ -655,9 +623,6 @@ msgstr "Module PDO PHP disponible"
 # Very rare to find someone able to fill several boxes at a time
 msgid "PHP PostgreSQL available"
 msgstr "PHP PostgreSQL disponible"
-
-msgid "Password"
-msgstr "Mot de passe"
 
 msgid "Path"
 msgstr "Chemin"
@@ -676,9 +641,6 @@ msgstr "Veuillez confirmer la suppression"
 
 msgid "Please confirm deletion of user"
 msgstr "Veuillez confirmer la suppression"
-
-msgid "Please note the time and advise the administrator of your system."
-msgstr "Veuillez noter l'heure et informer l'administrateur de votre système informatique."
 
 msgid "Principal Collections"
 msgstr "Collections de comptes"
@@ -720,7 +682,7 @@ msgid "REPORT body is not valid XML data!"
 msgstr "REPORT ne contient pas de données XML valides !"
 
 msgid "Read ACLs for a resource or collection"
-msgstr ""
+msgstr "Lire les droits d'accès pour une ressource ou collection"
 
 msgid "Read Access Controls"
 msgstr "Lire les contrôles d'accès"
@@ -738,7 +700,7 @@ msgid "Read the details of the current user's access control to this resource."
 msgstr ""
 
 msgid "Read the free/busy information for a calendar collection"
-msgstr ""
+msgstr "Lire les informations Libre/Occupé pour un calendrier"
 
 msgid "Read"
 msgstr "Lecture"
@@ -922,7 +884,7 @@ msgid "Source resource does not exist."
 msgstr "La ressource source n'existe pas"
 
 msgid "Special collections may not contain a calendar or other special collection."
-msgstr ""
+msgstr "Les collections spéciales ne peuvent pas contenir un calendrier ou une autre collection spéciale."
 
 msgid "Specific Privileges"
 msgstr "Privilèges spécifiques"
@@ -946,6 +908,9 @@ msgstr "Résumé"
 msgid "Sync LDAP with RSCDS"
 msgstr "Synchroniser RSCDS avec LDAP"
 
+msgid "That destination name contains invalid characters."
+msgstr "le chemin vers le calendrier contient des caractères interdits."
+
 # This shows up as an error message, and the ##BlahBlah## is converted to a hyperlink
 # which will (eventually) go to a wiki page.  So it's OK to translate the ##BlahBlah##
 # into something which will (eventually) go to a translated wiki page.
@@ -957,52 +922,49 @@ msgstr "Ce type de relation est encore employé. Cf. ##RelationshipTypeUsed##"
 msgid "That resource is not present on this server."
 msgstr "Cette ressource n'est pas présente sur ce serveur"
 
+msgid "The BIND Request MUST identify an existing resource."
+msgstr "La requête BIND DOIT identifier une ressource existante."
+
+msgid "The BIND Request-URI MUST identify a collection."
+msgstr ""
+
+msgid "The BIND method is not allowed at that location."
+msgstr "La méthode de connexion (BIND) n'est pas autorisée à cet endroit."
+
 msgid "The DAViCal Home Page"
 msgstr "Page d'accueil DAViCal"
 
 msgid "The application program does not understand that request."
 msgstr "L'application ne comprend pas la demande."
 
-msgid ""
-"The calendar name part of the path to store your ics. E.g. the \"home\" part of \"/caldav.php/username/"
-"home/\""
+msgid "The calendar name part of the path to store your ics. E.g. the \"home\" part of \"/caldav.php/username/home/\""
 msgstr "Veuillez indiquer le chemin où stocker vos ics ex : 'home' pour avoir /caldav.php/moi/home/"
 
 msgid "The calendar path contains illegal characters."
 msgstr "le chemin vers le calendrier contient des caractères interdits."
 
-msgid ""
-"The calendar-free-busy-set is superseded by the schedule-transp property of a calendar collection."
+msgid "The calendar-free-busy-set is superseded by the schedule-transp property of a calendar collection."
 msgstr ""
 
-#, fuzzy
 msgid "The collection name may not be blank."
-msgstr "ERREUR : Le nom complet ne peut être vide."
+msgstr "Le nom de la collection ne devrait pas etre vide."
 
 # ############
 # Sorry I shall see it on the screen to understand the context of the question
 msgid "The displayname may only be set on collections or principals."
 msgstr "Le nom d'affichage ne peut être défini que sur des collections ou des titulaires."
 
-#, fuzzy
 msgid "The email address really should not be blank."
-msgstr "ERREUR : Le nom complet ne peut être vide."
+msgstr "L'adresse courriel ne devrait vraiment pas être vide."
 
 msgid "The file is not UTF-8 encoded, please check the error for more details."
 msgstr "Le fichier n'est pas encodé en UTF-8, veuillez vérifier les erreurs pour plus d'information."
 
 msgid "The full name for this person, group or other type of principal."
-msgstr ""
+msgstr "Le nom complet pour cette personne, groupe ou autre type de compte."
 
-#, fuzzy
 msgid "The full name must not be blank."
-msgstr "ERREUR : Le nom complet ne peut être vide."
-
-# or ##TypeDeRelationsUtilisées## ?
-# We are trying to provide a full description of what a 'username' is.  Feel free to
-# be verbose :-)
-msgid "The name this user can log into the system with."
-msgstr "Le nom ou pseudonyme que cet utilisateur emploiera pour se connecter à l'application."
+msgstr "Le nom complet ne doit pas être vide."
 
 msgid "The path on the server where your .ics files are."
 msgstr "Le chemin sur le serveur où sont stockés tous les fichiers .ics."
@@ -1076,29 +1038,11 @@ msgstr "Envoyer votre calendrier .ics au format ical pour initialiser ou remplac
 msgid "User Calendar Principals"
 msgstr ""
 
-msgid "User Details"
-msgstr "Informations sur l'utilisateur"
-
 msgid "User Functions"
 msgstr "Informations sur l'utilisateur"
 
-msgid "User Name"
-msgstr "Nom de l'utilisateur"
-
-msgid "User Roles"
-msgstr "Rôles de l'utilisateur"
-
 msgid "User deleted"
 msgstr "Utilisateur supprimé"
-
-# The user is 'active' in that their account is enabled for use.  If they are
-# inactive they will not be able to log on.
-msgid "User is active"
-msgstr "Utilisateur activé"
-
-# After maintaining a user's details, the changes have been written to the DB.
-msgid "User record written."
-msgstr "Données utilisateur correctement enregistrées."
 
 msgid "Username"
 msgstr "Utilisateur"
@@ -1118,9 +1062,6 @@ msgstr "Consulter les informations de cet utilisateur"
 
 msgid "Visit the DAViCal Wiki"
 msgstr "Aller au wiki de DAViCal"
-
-msgid "When the user's e-mail account was validated."
-msgstr "Date à laquelle l'adresse courriel de cet utilisateur a été validée."
 
 msgid "Write ACLs for a resource or collection"
 msgstr ""
@@ -1145,6 +1086,10 @@ msgstr "Écrire"
 
 msgid "Yes"
 msgstr "Oui"
+
+#, c-format
+msgid "You are currently running DAViCal version %s. The database schema is at version %d.%d.%d."
+msgstr "Vous utilisez la version %s de DAViCal. Le schéma de la base de données est à la version %d.%d.%d."
 
 #, c-format
 msgid "You are currently running DAViCal version %s. The database schema should be at version %s and it is at version %d.%d.%d."
@@ -1223,30 +1168,125 @@ msgstr "Le fichier %s n'est pas encodé en UTF-8, merci de vérifier les erreurs
 msgid "you should log on with the username and password that have been issued to you."
 msgstr "Vous devez vous connecter avec le nom d'utilisateur et le mot de passe qui vous ont été fournis."
 
+#~ msgid "Confirm the new password."
+#~ msgstr "Confirmer le nouveau mot de passe"
+
+#~ msgid "Confirm"
+#~ msgstr "Confirmer"
+
+#~ msgid "Date Style"
+#~ msgstr "Format des dates"
+
+#~ msgid "Does the user have the right to perform this role?"
+#~ msgstr "L'utilisateur est-il autorisé à avoir ce rôle ?"
+
+#~ msgid "EMail OK"
+#~ msgstr "Courriel vérifié"
+
+#~ msgid "ERROR: %s"
+#~ msgstr "ERREUR : %s"
+
+#~ msgid "ERROR: The full name may not be blank."
+#~ msgstr "ERREUR : Le nom complet ne peut être vide."
+
+#~ msgid "ERROR: The new password must match the confirmed password."
+#~ msgstr "ERREUR : Le nouveau mot de passe doit être identique au mot de passe confirmé."
+
+#~ msgid "ERROR: There was a database error writing the roles information!"
+#~ msgstr ""
+#~ "ERREUR: Il y a eu une erreur lors de l'écriture dans la base de données des informations pour les "
+#~ "rôles !"
+
+#~ msgid "Enter a username, if you know it, and click here, to be e-mailed a temporary password."
+#~ msgstr ""
+#~ "Indiquez un nom d'utilisateur, si vous le connaissez et cliquez ici pour recevoir un mot de passe "
+#~ "temporaire."
+
+#~ msgid "Enter your username and password then click here to log in."
+#~ msgstr "Indiquez votre nom d'utilisateur et votre mot de passe puis cliquez ici pour vous connecter"
+
+#~ msgid "European (d/m/y)"
+#~ msgstr "Européen (jj/mm/aa)"
+
+#~ msgid "Full Name"
+#~ msgstr "Nom complet"
+
+#~ msgid "GO!"
+#~ msgstr "ENTRER !"
+
+#~ msgid "Help! I've forgotten my password!"
+#~ msgstr "Au secours ! J'ai oublié mon mot de passe !"
+
+#~ msgid "ISO Format (YYYY-MM-DD)"
+#~ msgstr "Format ISO (AAAA-MM-JJ)"
+
+#~ msgid "If you have forgotten your password then"
+#~ msgstr "Si vous avez oublié votre mot de passe alors"
+
+#~ msgid "Invalid username or password."
+#~ msgstr "Nom d'utilisateur ou mot de passe incorrects."
+
+# The user is 'active' in that their account is enabled for use.  If they are
+# inactive they will not be able to log on.
+#~ msgid "Is this user active?"
+#~ msgstr "Utilisateur actif ?"
+#~ msgid "Language"
+#~ msgstr "Langue"
+#, fuzzy
+#~ msgid "Last used"
+#~ msgstr "Liste des utilisateurs"
+
+#~ msgid "New Password"
+#~ msgstr "Nouveau mot de passe"
+
+#~ msgid "Password"
+#~ msgstr "Mot de passe"
+
+#~ msgid "Please note the time and advise the administrator of your system."
+#~ msgstr "Veuillez noter l'heure et informer l'administrateur de votre système informatique."
+
+# or ##TypeDeRelationsUtilisées## ?
+# We are trying to provide a full description of what a 'username' is.  Feel free to
+# be verbose :-)
+#~ msgid "The name this user can log into the system with."
+#~ msgstr "Le nom ou pseudonyme que cet utilisateur emploiera pour se connecter à l'application."
+#~ msgid "The style of dates used for this person."
+#~ msgstr "Le style de dates utilisé par cette personne."
+#~ msgid "Updated"
+#~ msgstr "Mis à jour"
+#~ msgid "User Details"
+#~ msgstr "Informations sur l'utilisateur"
+#~ msgid "User Name"
+#~ msgstr "Nom de l'utilisateur"
+#~ msgid "User Roles"
+#~ msgstr "Rôles de l'utilisateur"
+# The user is 'active' in that their account is enabled for use.  If they are
+# inactive they will not be able to log on.
+#~ msgid "User is active"
+#~ msgstr "Utilisateur activé"
+# After maintaining a user's details, the changes have been written to the DB.
+#~ msgid "User record written."
+#~ msgstr "Données utilisateur correctement enregistrées."
+#~ msgid "When the user's e-mail account was validated."
+#~ msgstr "Date à laquelle l'adresse courriel de cet utilisateur a été validée."
+#~ msgid "forget me not"
+#~ msgstr "Ne pas m'oublier"
 #~ msgid "You do not have sufficient access to lock that"
 #~ msgstr "Vous n'avez pas suffisamment d'accès pour verrouiller ça."
-
 #~ msgid "You may not access that collection"
 #~ msgstr "Vous ne pouvez pas accéder à ce calendrier."
-
 #~ msgid "You may not delete entries from this calendar."
 #~ msgstr "Vous ne pouvez supprimer d'entrées de ce calendrier."
-
 #~ msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
 #~ msgstr "Cette opération exécute : <ul><li>vérifie les utilisateurs valides de l'annuaire LDAP</li>."
-
 #~ msgid "Calendar Users"
 #~ msgstr "Utilisateurs du calendrier"
-
 #~ msgid "Edit %s"
 #~ msgstr "Modifier %s"
-
 #~ msgid "New User"
 #~ msgstr "Nouvel utilisateur"
-
 #~ msgid "Relationships"
 #~ msgstr "Relations"
-
 # Interesting point: I always read it at a singular form in France
 # #######
 # In that a user can only have a single role in such systems?  In this system
@@ -1257,20 +1297,9 @@ msgstr "Vous devez vous connecter avec le nom d'utilisateur et le mot de passe q
 # Very rare to find someone able to fill several boxes at a time
 #~ msgid "User Unavailable"
 #~ msgstr "Utilisateur non disponible"
-# The user is 'active' in that their account is enabled for use.  If they are
-# inactive they will not be able to log on.
-#~ msgid "User is active"
-#~ msgstr "Utilisateur activé"
-# After maintaining a user's details, the changes have been written to the DB.
-#~ msgid "User record written."
-#~ msgstr "Données utilisateur correctement enregistrées."
 # Display something in a non-editable way.
 #~ msgid "View %s"
 #~ msgstr "Consulter %s"
-#~ msgid "When the user's e-mail account was validated."
-#~ msgstr "Date à laquelle l'adresse courriel de cet utilisateur a été validée."
-#~ msgid "forget me not"
-#~ msgstr "Ne pas m'oublier"
 #~ msgid "Administers"
 #~ msgstr "Administrateurs"
 #~ msgid "Can read from"

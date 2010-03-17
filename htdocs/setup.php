@@ -104,7 +104,7 @@ $dep_tpl = '<tr class="%s">
 ';
 foreach( $dependencies AS $k => $v ) {
   $ok = $v();
-  $dependencies_table .= sprintf( $dep_tpl, ($ok === true ? 'dep_ok' : 'dep_fail'), $k,  (is_string($ok) ? $ok : ($ok ? 'OK' : 'Failed')) );
+  $dependencies_table .= sprintf( $dep_tpl, ($ok === true ? 'dep_ok' : 'dep_fail'), $k,  (is_string($ok) ? $ok : ($ok ? translate('OK') : translate('Failed'))) );
 }
 
 $want_dbversion = implode('.',$c->want_dbversion);
@@ -113,8 +113,14 @@ $heading_setup = translate('Setup');
 $paragraph_setup = translate('Currently this page does very little.  Suggestions or patches to make it do more useful stuff will be gratefully received.');
 
 $heading_versions = translate('Current Versions');
-$paragraph_versions = translate('You are currently running DAViCal version %s. The database schema should be at version %s and it is at version %d.%d.%d.');
-$paragraph_versions = sprintf( $paragraph_versions, $c->version_string, $want_dbversion, $c->schema_major, $c->schema_minor, $c->schema_patch);
+if ( check_schema_version() != true )
+{
+  $paragraph_versions = translate('You are currently running DAViCal version %s. The database schema should be at version %s and it is at version %d.%d.%d.');
+  $paragraph_versions = sprintf( $paragraph_versions, $c->version_string, $want_dbversion, $c->schema_major, $c->schema_minor, $c->schema_patch);
+} else {
+  $paragraph_versions = translate('You are currently running DAViCal version %s. The database schema is at version %d.%d.%d.');
+  $paragraph_versions = sprintf( $paragraph_versions, $c->version_string, $c->schema_major, $c->schema_minor, $c->schema_patch);
+}
 
 $heading_dependencies = translate('Dependencies');
 $th_dependency = translate('Dependency');
