@@ -29,7 +29,7 @@ require_once('AwlDatabase.php');
 *  - Simple syntax for iterating through a result set.
 *
 * This class is intended as a transitional mechanism for moving from the
-* PostgreSQL-specific PgQuery class to something which uses PDO in a more
+* PostgreSQL-specific Pg Query class to something which uses PDO in a more
 * replaceable manner.
 *
 */
@@ -71,7 +71,7 @@ function _awl_connect_configured_database() {
       if ( isset($matches[4]) && $matches[4] != '' ) $dbuser = $matches[4];
       if ( isset($matches[6]) && $matches[6] != '' ) $dbpass = $matches[6];
     }
-    if ( $_awl_dbconn = new AwlDatabase( $dsn, $dbuser, $dbpass ) ) break;
+    if ( $_awl_dbconn = new AwlDatabase( $dsn, $dbuser, $dbpass, (isset($c->use_persistent) && $c->use_persistent ? array(PDO::ATTR_PERSISTENT => true) : null) ) ) break;
   }
 
   if ( ! $_awl_dbconn ) {
