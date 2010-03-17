@@ -33,9 +33,10 @@ function display_status( $status_code ) {
   return sprintf( 'HTTP/1.1 %03d %s', intval($status_code), getStatusMessage($status_code) );
 }
 
-$sql = "SELECT new_sync_token(?,?)";
-$qry = new PgQuery($sql, $sync_token, $request->CollectionId());
-if ( !$qry->Exec("REPORT",__LINE__,__FILE__) || $qry->rows <= 0 ) {
+$params = array( ':collection_id' => $request->CollectionId(), ':sync_token' => $sync_token );
+$sql = "SELECT new_sync_token( :sync_token, :collection_id)";
+$qry = new AwlQuery($sql, $params);
+if ( !$qry->Exec("REPORT",__LINE__,__FILE__) || $qry->rows() <= 0 ) {
   $request->DoResponse( 500, translate("Database error") );
 }
 $row = $qry->Fetch();
@@ -46,10 +47,10 @@ if ( $sync_token == 0 ) {
 SELECT *, 201 AS sync_status FROM collection
             LEFT JOIN caldav_data USING (collection_id)
             LEFT JOIN calendar_item USING (dav_id)
-     WHERE collection.collection_id = ?
+     WHERE collection.collection_id = :collection_id
    ORDER BY collection.collection_id, caldav_data.dav_id
 EOSQL;
-  $qry = new PgQuery($sql, $request->CollectionId());
+  unset($params[':sync_token']);
 }
 else {
   $sql = <<<EOSQL
@@ -57,12 +58,12 @@ SELECT collection.*, caldav_data.*, calendar_item.*, sync_changes.*
   FROM collection LEFT JOIN sync_changes USING(collection_id)
                          LEFT JOIN calendar_item USING (collection_id,dav_id)
                          LEFT JOIN caldav_data USING (collection_id,dav_id)
-     WHERE collection.collection_id = ?
-       AND sync_time > (SELECT modification_time FROM sync_tokens WHERE sync_token = ?)
+     WHERE collection.collection_id = :collection_id
+       AND sync_time > (SELECT modification_time FROM sync_tokens WHERE sync_token = :sync_token)
    ORDER BY collection.collection_id, sync_changes.dav_name, sync_changes.sync_time
 EOSQL;
-  $qry = new PgQuery($sql, $request->CollectionId(), $sync_token);
 }
+$qry = new AwlQuery($sql, $params );
 
 $last_dav_name = '';
 $first_status = 0;
