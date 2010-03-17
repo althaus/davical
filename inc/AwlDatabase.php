@@ -36,6 +36,9 @@
 
 if ( !class_exists('AwlDBDialect') ) require('AwlDBDialect.php');
 
+if ( !defined('E_USER_ERROR') ) define('E_USER_ERROR',256);
+
+
 /**
 * Methods in the AwlDBDialect class which we inherit, include:
 *  __construct()
@@ -101,7 +104,7 @@ class AwlDatabase extends AwlDBDialect {
       $this->txnstate = 1;
     }
     else {
-      trigger_error("Cannot begin a transaction while a transaction is already active.", E_USER_ERROR);
+      trigger_error("Cannot begin a transaction while a transaction is already active.",E_USER_ERROR);
     }
     return true;
   }
@@ -128,7 +131,7 @@ class AwlDatabase extends AwlDBDialect {
       $this->txnstate = 0;
     }
     else {
-      trigger_error("Cannot rollback unless a transaction is already active.", E_USER_ERROR);
+      trigger_error("Cannot rollback unless a transaction is already active.",E_USER_ERROR);
     }
     return true;
   }
