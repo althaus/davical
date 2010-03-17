@@ -400,7 +400,7 @@ if ( isset($id) ) {
   if ( $editor->Value('type_id') == 3 ) {
 
     $grouprow = new Editor("Group Members", "group_member");
-    $grouprow->SetLookup( 'member_id', 'SELECT principal_id, coalesce(displayname,fullname,username) FROM dav_principal WHERE principal_id NOT IN (SELECT member_id FROM group_member WHERE group_id = '.$id.')');
+    $grouprow->SetLookup( 'member_id', 'SELECT principal_id, coalesce(displayname,fullname,username) FROM dav_principal WHERE principal_id NOT IN (SELECT member_id FROM group_member WHERE group_id = '.$id.') AND principal_id != '.$id);
     $grouprow->SetSubmitName( 'savegrouprow' );
 
     if ( $can_write_principal ) {
