@@ -7,4 +7,4 @@ HEAD
 
 AUTH=manager1:manager1
 
-REPLACE=/^DTSTAMP:\d{8}T\d{6}Z$/DTSTAMP:yyyymmddThhmmssZ/
+REPLACE=/^DTSTAMP:\d{8}T\d{6}Z\r?$/DTSTAMP:yyyymmddThhmmssZ/
