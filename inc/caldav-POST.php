@@ -6,7 +6,7 @@
 * @subpackage   caldav
 * @author    Andrew McMillan <andrew@morphoss.com>
 * @copyright Morphoss Ltd - http://www.morphoss.com/
-* @license   http://gnu.org/copyleft/gpl.html GNU GPL v2
+* @license   http://gnu.org/copyleft/gpl.html GNU GPL v2 or later
 */
 dbg_error_log("POST", "method handler");
 
@@ -57,18 +57,19 @@ function handle_freebusy_request( $ic ) {
     }
 
     /** @TODO: Refactor this so we only do one query here and loop through the results */
-    $qry = new PgQuery("SELECT pprivs(?::int8,principal_id,?::int) AS p FROM usr JOIN principal USING(user_no) WHERE lower(usr.email) = lower(?)", $session->principal_id, $c->permission_scan_depth, $attendee_email );
-    if ( !$qry->Exec("POST") ) $request->DoResponse( 501, 'Database error');
-    if ( $qry->rows > 1 ) {
+    $params = array( ':session_principal' => $session->principal_id, ':scan_depth' => $c->permission_scan_depth, ':email' => $attendee_email );
+    $qry = new AwlQuery('SELECT pprivs(:session_principal::int8,principal_id,:scan_depth::int) AS p FROM usr JOIN principal USING(user_no) WHERE lower(usr.email) = lower(:email)', $params );
+    if ( !$qry->Exec('POST',__LINE__,__FILE__) ) $request->DoResponse( 501, 'Database error');
+    if ( $qry->rows() > 1 ) {
       // Unlikely, but if we get more than one result we'll do an exact match instead.
-      $qry = new PgQuery("SELECT pprivs(?::int8,principal_id,?::int) AS p FROM usr JOIN principal USING(user_no) WHERE usr.email = ?", $session->principal_id, $c->permission_scan_depth, $attendee_email );
-      if ( !$qry->Exec("POST") ) $request->DoResponse( 501, 'Database error');
+      if ( !$qry->QDo('SELECT pprivs(:session_principal::int8,principal_id,:scan_depth::int) AS p FROM usr JOIN principal USING(user_no) WHERE usr.email = :email', $params ) )
+        $request->DoResponse( 501, 'Database error');
     }
 
     $response = $reply->NewXMLElement("response", false, false, 'urn:ietf:params:xml:ns:caldav');
     $reply->CalDAVElement($response, "recipient", $reply->href($attendee->Value()) );
 
-    if ( $qry->rows == 0 ) {
+    if ( $qry->rows() == 0 ) {
       $reply->CalDAVElement($response, "request-status", "3.7;Invalid Calendar User" );
       $reply->CalDAVElement($response, "calendar-data" );
       $responses[] = $response;
@@ -83,19 +84,23 @@ function handle_freebusy_request( $ic ) {
     }
 
     // If we make it here, then it seems we are allowed to see their data...
-    $where = " WHERE usr.email = ? AND collection.is_calendar ";
+    $where = " WHERE lower(usr.email) = :email AND collection.is_calendar ";
+    $params = array( ':email' => strtolower($attendee_email) );
     if ( isset( $fbq_start ) || isset( $fbq_end ) ) {
-      $where .= "AND rrule_event_overlaps( dtstart, dtend, rrule, ".qpg($fbq_start).", ".qpg($fbq_end)." ) ";
+      $params[':start'] = $fbq_start;
+      $params[':finish'] = $fbq_end;
+      $where .= "AND rrule_event_overlaps( dtstart, dtend, rrule, :start, :finish ) ";
     }
     $where .= "AND caldav_data.caldav_type IN ( 'VEVENT', 'VFREEBUSY' ) ";
     $where .= "AND (calendar_item.transp != 'TRANSPARENT' OR calendar_item.transp IS NULL) ";
     $where .= "AND (calendar_item.status != 'CANCELLED' OR calendar_item.status IS NULL) ";
 
     /**
-    * @todo Some significant permissions need to be added around the visibility of free/busy
-    *       but lets get it working first...
+    * Only know about PRIVATE events if you have *full* permission to the calendar
     */
-    $where .= "AND (calendar_item.class != 'PRIVATE' OR calendar_item.class IS NULL) ";
+    if ( bindec($userperms->p) != privilege_to_bits('all') ) {
+      $where .= "AND (calendar_item.class != 'PRIVATE' OR calendar_item.class IS NULL) ";
+    }
 
     $busy = array();
     $busy_tentative = array();
@@ -105,8 +110,8 @@ function handle_freebusy_request( $ic ) {
     $sql .= "to_char(calendar_item.dtend at time zone 'GMT',".iCalendar::SqlUTCFormat().") AS finish ";
     $sql .= "FROM usr INNER JOIN collection USING (user_no) INNER JOIN caldav_data USING (collection_id) INNER JOIN calendar_item USING(dav_id)".$where;
     if ( isset($c->strict_result_ordering) && $c->strict_result_ordering ) $sql .= " ORDER BY dav_id";
-    $qry = new PgQuery( $sql, $attendee_email );
-    if ( $qry->Exec("POST",__LINE__,__FILE__) && $qry->rows > 0 ) {
+    $qry = new AwlQuery( $sql, $params );
+    if ( $qry->Exec("POST",__LINE__,__FILE__) && $qry->rows() > 0 ) {
       while( $calendar_object = $qry->Fetch() ) {
         if ( $calendar_object->transp != "TRANSPARENT" ) {
           switch ( $calendar_object->status ) {
