@@ -1224,6 +1224,9 @@ EOQRY;
           if ( $v == '' ) continue;
           $reply->NSElement( $resourcetypes, $v );
         }
+        if ( $this->_is_binding ) {
+          $reply->NSElement( $resourcetypes, 'http://xmlns.davical.org/davical:webdav-binding' );
+        }
         break;
 
       case 'DAV::getlastmodified':
