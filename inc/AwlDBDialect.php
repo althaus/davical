@@ -177,7 +177,7 @@ class AwlDBDialect {
   function Quote( $value, $value_type = null ) {
     if ( isset($value_type) && $value_type == 'identifier' ) {
       if ( $this->dialect == 'mysql' ) {
-        /** TODO: Someone should confirm this is correct for MySql */
+        /** @TODO: Someone should confirm this is correct for MySql */
         $rv = '`' . str_replace('`', '\\`', $value ) . '`';
       }
       else {
@@ -290,10 +290,6 @@ class AwlDBDialect {
       $arg = $args[$i];
       if ( !isset($arg) ) {
         $querystring .= 'NULL';
-      }
-      elseif ( is_array($arg) && $arg['plain'] != '' ) {
-        // We abuse this, but people should access it through the PgQuery::Plain($v) function
-        $querystring .= $arg['plain'];
       }
       else {
         $querystring .= $this->Quote($arg);  //parameter
