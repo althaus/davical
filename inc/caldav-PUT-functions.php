@@ -17,7 +17,6 @@
 
 require_once('iCalendar.php');
 require_once('DAVResource.php');
-require_once('PgQuery.php');  // We need this here now most everywhere else has switched to AwlQuery
 
 /**
 * A regex which will match most reasonable timezones acceptable to PostgreSQL.
@@ -34,7 +33,8 @@ $tz_regex = ':^(Africa|America|Antarctica|Arctic|Asia|Atlantic|Australia|Brazil|
 */
 function rollback_on_error( $caldav_context, $user_no, $path, $message='', $error_no=500 ) {
   if ( !$message ) $message = translate('Database error');
-  $qry = new PgQuery('ROLLBACK;'); $qry->Exec('PUT-collection');
+  $qry = new AwlQuery();
+  $qry->Rollback();
   if ( $caldav_context ) {
     global $request;
     $request->DoResponse( $error_no, $message );
@@ -79,36 +79,47 @@ function controlRequestContainer( $username, $user_no, $path, $caldav_context, $
     dbg_error_log( 'WARN', ' Storing events directly in user\'s base folders is not recommended!');
   }
   else {
-    $sql = 'SELECT * FROM collection WHERE user_no = ? AND dav_name = ?;';
-    $qry = new PgQuery( $sql, $user_no, $request_container );
-    if ( ! $qry->Exec('PUT') ) {
+    $sql = 'SELECT * FROM collection WHERE dav_name = :dav_name';
+    $qry = new AwlQuery( $sql, array( ':dav_name' => $request_container) );
+    if ( ! $qry->Exec('PUT',__LINE__,__FILE__) ) {
       rollback_on_error( $caldav_context, $user_no, $path );
     }
     if ( !isset($c->readonly_webdav_collections) || $c->readonly_webdav_collections == true ) {
-      if ( $qry->rows == 0 ) {
+      if ( $qry->rows() == 0 ) {
         $request->DoResponse( 405 ); // Method not allowed
       }
       return;
     }
-    if ( $qry->rows == 0 ) {
-      if ( $public == null ) $public = false;
-      if ( preg_match( '#^(.*/)([^/]+)/$#', $request_container, $matches ) ) {//(
+    if ( $qry->rows() == 0 ) {
+      if ( $public == true ) $public = 't'; else $public = 'f';
+      if ( preg_match( '{^(.*/)([^/]+)/$}', $request_container, $matches ) ) {
         $parent_container = $matches[1];
         $displayname = $matches[2];
       }
-      $sql = 'INSERT INTO collection ( user_no, parent_container, dav_name, dav_etag, dav_displayname, is_calendar, created, modified, publicly_readable, resourcetypes ) VALUES( ?, ?, ?, ?, ?, TRUE, current_timestamp, current_timestamp, ?, ? );';
-      $qry = new PgQuery( $sql, $user_no, $parent_container, $request_container, md5($user_no. $request_container), $displayname, $public, '<DAV::collection/><urn:ietf:params:xml:ns:caldav:calendar/>' );
-      $qry->Exec('PUT');
+      $sql = 'INSERT INTO collection ( user_no, parent_container, dav_name, dav_etag, dav_displayname, is_calendar, created, modified, publicly_readable, resourcetypes )
+VALUES( :user_no, :parent_container, :dav_name, :dav_etag, :dav_displayname, TRUE, current_timestamp, current_timestamp, :is_public::boolean, :resourcetypes )';
+      $params = array(
+      ':user_no' => $user_no,
+      ':parent_container' => $parent_container,
+      ':dav_name' => $request_container,
+      ':dav_etag' => md5($user_no. $request_container),
+      ':dav_displayname' => $displayname,
+      ':is_public' => $public,
+      ':resourcetypes' => '<DAV::collection/><urn:ietf:params:xml:ns:caldav:calendar/>'
+      );
+      $qry->QDo( $sql, $params );
     }
     else if ( isset($public) ) {
       $collection = $qry->Fetch();
-      $qry = new PgQuery( 'UPDATE collection SET publicly_readable = ? WHERE collection_id = ?', $public, $collection->collection_id );
-      if ( ! $qry->Exec('PUT') ) {
+      $sql = 'UPDATE collection SET publicly_readable = :is_public::boolean WHERE collection_id = :collection_id';
+      $params = array( ':is_public' => $public, ':collection_id' => $collection->collection_id );
+      if ( ! $qry->QDo($sql,$params) ) {
         rollback_on_error( $caldav_context, $user_no, $path );
       }
     }
   }
 }
+
 
 /**
 * Check if this collection should force all events to be PUBLIC.
@@ -121,13 +132,11 @@ function public_events_only( $user_no, $dav_name ) {
   // Not supported until DB versions from 1.001.010
   if ( $c->schema_version < 1001.010 ) return false;
 
-  $sql = 'SELECT public_events_only ';
-  $sql .= 'FROM collection ';
-  $sql .= 'WHERE user_no=? AND dav_name=?';
+  $sql = 'SELECT public_events_only FROM collection WHERE dav_name = :dav_name';
 
-  $qry = new PgQuery($sql, $user_no, $dav_name);
+  $qry = new AwlQuery($sql, array(':dav_name' => $dav_name) );
 
-  if( $qry->Exec('PUT') && $qry->rows == 1 ) {
+  if( $qry->Exec('PUT',__LINE__,__FILE__) && $qry->rows() == 1 ) {
     $collection = $qry->Fetch();
 
     if ($collection->public_events_only == 't') {
@@ -138,6 +147,7 @@ function public_events_only( $user_no, $dav_name ) {
   // Something went wrong, must be false.
   return false;
 }
+
 
 /**
 * Deliver scheduling requests to attendees
@@ -375,9 +385,9 @@ function import_collection( $ics_content, $user_no, $path, $caldav_context ) {
 
   $displayname = $calendar->GetPValue('X-WR-CALNAME');
   if ( isset($displayname) ) {
-    $sql = 'UPDATE collection SET dav_displayname = ? WHERE dav_name = ?';
-    $qry = new PgQuery( $sql, $displayname, $path );
-    if ( ! $qry->Exec('PUT') ) rollback_on_error( $caldav_context, $user_no, $path );
+    $sql = 'UPDATE collection SET dav_displayname = :displayname WHERE dav_name = :dav_name';
+    $qry = new AwlQuery( $sql, array( ':displayname' => $displayname, ':dav_name' => $path) );
+    if ( ! $qry->Exec('PUT',__LINE__,__FILE__) ) rollback_on_error( $caldav_context, $user_no, $path );
   }
 
   $tz_ids    = array();
@@ -402,17 +412,32 @@ function import_collection( $ics_content, $user_no, $path, $caldav_context ) {
   }
 
 
-  $sql = 'SELECT * FROM collection WHERE user_no = ? AND dav_name = ?;';
-  $qry = new PgQuery( $sql, $user_no, $path );
-  if ( ! $qry->Exec('PUT') ) rollback_on_error( $caldav_context, $user_no, $path );
-  if ( ! $qry->rows == 1 ) {
+  $sql = 'SELECT * FROM collection WHERE dav_name = :dav_name';
+  $qry = new AwlQuery( $sql, array( ':dav_name' => $path) );
+  if ( ! $qry->Exec('PUT',__LINE__,__FILE__) ) rollback_on_error( $caldav_context, $user_no, $path );
+  if ( ! $qry->rows() == 1 ) {
     dbg_error_log( 'ERROR', ' PUT: Collection does not exist at "%s" for user %d', $path, $user_no );
     rollback_on_error( $caldav_context, $user_no, $path );
   }
   $collection = $qry->Fetch();
 
-  $qry = new PgQuery('BEGIN; DELETE FROM calendar_item WHERE user_no=? AND collection_id = ?; DELETE FROM caldav_data WHERE user_no=? AND collection_id = ?;', $user_no, $collection->collection_id, $user_no, $collection->collection_id);
-  if ( !$qry->Exec('PUT') ) rollback_on_error( $caldav_context, $user_no, $collection->collection_id );
+  $qry->Begin();
+  $base_params = array( ':collection_id' => $collection->collection_id );
+  if ( !$qry->QDo('DELETE FROM calendar_item WHERE collection_id = :collection_id', $base_params)
+      || !$qry->QDo('DELETE FROM caldav_data WHERE collection_id = :collection_id', $base_params) )
+    rollback_on_error( $caldav_context, $user_no, $collection->collection_id );
+
+  $dav_data_insert = <<<EOSQL
+INSERT INTO caldav_data ( user_no, dav_name, dav_etag, caldav_data, caldav_type, logged_user, created, modified, collection_id )
+    VALUES( :user_no, :dav_name, :etag, :dav_data, :caldav_type, :session_user, current_timestamp, current_timestamp, :collection_id )
+EOSQL;
+
+  $calitem_insert = <<<EOSQL
+INSERT INTO calendar_item (user_no, dav_name, dav_id, dav_etag, uid, dtstamp, dtstart, dtend, summary, location, class, transp,
+                    description, rrule, tz_id, last_modified, url, priority, created, due, percent_complete, status, collection_id )
+    VALUES ( :user_no, :dav_name, currval('dav_id_seq'), :etag, :uid, :dtstamp, :dtstart, ##dtend##, :summary, :location, :class, :transp,
+                :description, :rrule, :tzid, :modified, :url, :priority, :created, :due, :percent_complete, :status, :collection_id)
+EOSQL;
 
   $last_tz_locn = '';
   foreach( $resources AS $uid => $resource ) {
@@ -426,24 +451,34 @@ function import_collection( $ics_content, $user_no, $path, $caldav_context ) {
     /** As ever, we mostly deal with the first resource component */
     $first = $resource[0];
 
-    $sql = '';
-    $etag = md5($icalendar);
-    $type = $first->GetType();
-    $resource_path = sprintf( '%s%s.ics', $path, $uid );
-    $qry = new PgQuery( 'INSERT INTO caldav_data ( user_no, dav_name, dav_etag, caldav_data, caldav_type, logged_user, created, modified, collection_id ) VALUES( ?, ?, ?, ?, ?, ?, current_timestamp, current_timestamp, ? )',
-                          $user_no, $resource_path, $etag, $icalendar, $type, $session->user_no, $collection->collection_id );
-    if ( !$qry->Exec('PUT') ) rollback_on_error( $caldav_context, $user_no, $path );
+    $dav_data_params = $base_params;
+    $dav_data_params[':user_no'] = $user_no;
+    $dav_data_params[':dav_name'] = sprintf( '%s%s.ics', $path, $uid );
+    $dav_data_params[':etag'] = md5($icalendar);
+    $calitem_params = $dav_data_params;
+    $dav_data_params[':dav_data'] = $icalendar;
+    $dav_data_params[':caldav_type'] = $first->GetType();
+    $dav_data_params[':session_user'] = $session->user_no;
+    if ( !$qry->QDo($dav_data_insert,$dav_data_params) ) rollback_on_error( $caldav_context, $user_no, $path );
 
     $dtstart = $first->GetPValue('DTSTART');
+    $calitem_params[':dtstart'] = $dtstart;
     if ( (!isset($dtstart) || $dtstart == '') && $first->GetPValue('DUE') != '' ) {
       $dtstart = $first->GetPValue('DUE');
     }
 
     $dtend = $first->GetPValue('DTEND');
-    if ( (!isset($dtend) || $dtend == '') ) {
+    if ( isset($dtend) && $dtend != '' ) {
+      dbg_error_log( 'PUT', ' DTEND: "%s", DTSTART: "%s", DURATION: "%s"', $dtend, $dtstart, $first->GetPValue('DURATION') );
+      $calitem_params[':dtend'] = $dtend;
+      $dtend = ':dtend';
+    }
+    else {
+      $dtend = 'NULL';
       if ( $first->GetPValue('DURATION') != '' AND $dtstart != '' ) {
         $duration = preg_replace( '#[PT]#', ' ', $first->GetPValue('DURATION') );
-        $dtend = '('.qpg($dtstart).'::timestamp with time zone + '.qpg($duration).'::interval)';
+        $dtend = '(:dtstart::timestamp with time zone + :duration::interval)';
+        $calitem_params[':duration'] = $duration;
       }
       elseif ( $first->GetType() == 'VEVENT' ) {
         /**
@@ -462,27 +497,24 @@ function import_collection( $ics_content, $user_no, $path, $caldav_context ) {
         $value_type = $first->GetPParamValue('DTSTART','VALUE');
         dbg_error_log('PUT','DTSTART without DTEND. DTSTART value type is %s', $value_type );
         if ( isset($value_type) && $value_type == 'DATE' )
-          $dtend = '('.qpg($dtstart).'::timestamp with time zone::date + \'1 day\'::interval)';
+          $dtend = '(:dtstart::timestamp with time zone::date + \'1 day\'::interval)';
         else
-          $dtend = qpg($dtstart);
-
+          $dtend = ':dtstart';
       }
-      if ( $dtend == '' ) $dtend = 'NULL';
-    }
-    else {
-      dbg_error_log( 'PUT', ' DTEND: "%s", DTSTART: "%s", DURATION: "%s"', $dtend, $dtstart, $first->GetPValue('DURATION') );
-      $dtend = qpg($dtend);
     }
 
     $last_modified = $first->GetPValue('LAST-MODIFIED');
     if ( !isset($last_modified) || $last_modified == '' ) $last_modified = gmdate( 'Ymd\THis\Z' );
+    $calitem_params[':modified'] = $last_modified;
 
     $dtstamp = $first->GetPValue('DTSTAMP');
     if ( !isset($dtstamp) || $dtstamp == '' ) $dtstamp = $last_modified;
+    $calitem_params[':dtstamp'] = $dtstamp;
 
     /** RFC2445, 4.8.1.3: Default is PUBLIC, or also if overridden by the collection settings */
     $class = ($collection->public_events_only == 't' ? 'PUBLIC' : $first->GetPValue('CLASS') );
     if ( !isset($class) || $class == '' ) $class = 'PUBLIC';
+    $calitem_params[':class'] = $class;
 
 
     /** Calculate what timezone to set, first, if possible */
@@ -505,13 +537,17 @@ function import_collection( $ics_content, $user_no, $path, $caldav_context ) {
       dbg_error_log( 'PUT', ' Using TZID[%s] and location of [%s]', $tzid, (isset($tz_locn) ? $tz_locn : '') );
       if ( isset($tz_locn) && ($tz_locn != $last_tz_locn) && preg_match( $tz_regex, $tz_locn ) ) {
         dbg_error_log( 'PUT', ' Setting timezone to %s', $tz_locn );
-        $sql .= ( $tz_locn == '' ? '' : 'SET TIMEZONE TO '.qpg($tz_locn).';' );
+        if ( $tz_locn != '' ) {
+          $qry->QDo('SET TIMEZONE TO \''.$tz_locn."'" );
+        }
         $last_tz_locn = $tz_locn;
       }
-      $qry = new PgQuery('SELECT tz_locn FROM time_zone WHERE tz_id = ?', $tzid );
-      if ( $qry->Exec() && $qry->rows == 0 ) {
-        $qry = new PgQuery('INSERT INTO time_zone (tz_id, tz_locn, tz_spec) VALUES(?,?,?)', $tzid, $tz_locn, (isset($tz) ? $tz->Render() : null) );
-        $qry->Exec();
+      $params = array( ':tzid' => $tzid);
+      $qry = new AwlQuery('SELECT tz_locn FROM time_zone WHERE tz_id = :tzid', $params );
+      if ( $qry->Exec('PUT',__LINE__,__FILE__) && $qry->rows() == 0 ) {
+        $params[':tzlocn'] = $tz_locn;
+        $params[':tzspec'] = (isset($tz) ? $tz->Render() : null );
+        $qry->QDo('INSERT INTO time_zone (tz_id, tz_locn, tz_spec) VALUES(:tzid,:tzlocn,:tzspec)', $params );
       }
       if ( !isset($tz_locn) || $tz_locn == '' ) $tz_locn = $tzid;
     }
@@ -519,25 +555,26 @@ function import_collection( $ics_content, $user_no, $path, $caldav_context ) {
       $tzid = null;
     }
 
-    $sql .= <<<EOSQL
-    INSERT INTO calendar_item (user_no, dav_name, dav_id, dav_etag, uid, dtstamp, dtstart, dtend, summary, location, class, transp,
-                      description, rrule, tz_id, last_modified, url, priority, created, due, percent_complete, status, collection_id )
-                   VALUES ( ?, ?, currval('dav_id_seq'), ?, ?, ?, ?, $dtend, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
-EOSQL;
-
-    $qry = new PgQuery( $sql, $user_no, $resource_path, $etag, $first->GetPValue('UID'), $dtstamp,
-                              $first->GetPValue('DTSTART'), $first->GetPValue('SUMMARY'), $first->GetPValue('LOCATION'),
-                              $class, $first->GetPValue('TRANSP'), $first->GetPValue('DESCRIPTION'), $first->GetPValue('RRULE'), $tzid,
-                              $last_modified, $first->GetPValue('URL'), $first->GetPValue('PRIORITY'), $first->GetPValue('CREATED'),
-                              $first->GetPValue('DUE'), $first->GetPValue('PERCENT-COMPLETE'), $first->GetPValue('STATUS'), $collection->collection_id
-                        );
-    if ( !$qry->Exec('PUT') ) rollback_on_error( $caldav_context, $user_no, $path);
+    $sql = str_replace( '##dtend##', $dtend, $calitem_insert );
+    $calitem_params[':tzid'] = $tzid;
+    $calitem_params[':uid'] = $first->GetPValue('UID');
+    $calitem_params[':summary'] = $first->GetPValue('SUMMARY');
+    $calitem_params[':location'] = $first->GetPValue('LOCATION');
+    $calitem_params[':transp'] = $first->GetPValue('TRANSP');
+    $calitem_params[':description'] = $first->GetPValue('DESCRIPTION');
+    $calitem_params[':rrule'] = $first->GetPValue('RRULE');
+    $calitem_params[':url'] = $first->GetPValue('URL');
+    $calitem_params[':priority'] = $first->GetPValue('PRIORITY');
+    $calitem_params[':created'] = $first->GetPValue('CREATED');
+    $calitem_params[':due'] = $first->GetPValue('DUE');
+    $calitem_params[':percent_complete'] = $first->GetPValue('PERCENT-COMPLETE');
+    $calitem_params[':status'] = $first->GetPValue('STATUS');
+    if ( !$qry->QDo($sql,$calitem_params) ) rollback_on_error( $caldav_context, $user_no, $path);
 
     create_scheduling_requests( $vcal );
   }
 
-  $qry = new PgQuery('COMMIT;');
-  if ( !$qry->Exec('PUT') ) rollback_on_error( $caldav_context, $user_no, $path);
+  if ( ! $qry->Commit() ) rollback_on_error( $caldav_context, $user_no, $path);
 }
 
 
@@ -560,11 +597,11 @@ function putCalendarResource( &$request, $author, $caldav_context ) {
   * We read any existing object so we can check the ETag.
   */
   unset($put_action_type);
-  $qry = new PgQuery( 'SELECT * FROM caldav_data WHERE user_no=? AND dav_name=?', $request->user_no, $request->path );
-  if ( !$qry->Exec('PUT') || $qry->rows > 1 ) {
+  $qry = new AwlQuery( 'SELECT * FROM caldav_data WHERE dav_name=:dav_name', array( ':dav_name' => $request->path ) );
+  if ( !$qry->Exec('PUT',__LINE__,__FILE__) || $qry->rows() > 1 ) {
     rollback_on_error( $caldav_context, $request->user_no, $request->path );
   }
-  elseif ( $qry->rows < 1 ) {
+  elseif ( $qry->rows() < 1 ) {
     if ( isset($request->etag_if_match) && $request->etag_if_match != '' ) {
       /**
       * RFC2068, 14.25:
@@ -581,7 +618,7 @@ function putCalendarResource( &$request, $author, $caldav_context ) {
       rollback_on_error( $caldav_context, $request->user_no, $request->path, translate('You may not add entries to this calendar.'), 403 );
     }
   }
-  elseif ( $qry->rows == 1 ) {
+  elseif ( $qry->rows() == 1 ) {
     $icalendar = $qry->Fetch();
 
     if ( ( isset($request->etag_if_match) && $request->etag_if_match != '' && $request->etag_if_match != $icalendar->dav_etag )
@@ -657,35 +694,56 @@ function write_resource( $user_no, $path, $caldav_data, $collection_id, $author,
     $resource_type = $first->GetType();
   }
 
+  $qry = new AwlQuery();
+  $qry->Begin();
+  $params = array(
+      ':dav_name' => $path,
+      ':user_no' => $user_no,
+      ':etag' => $etag,
+      ':dav_data' => $caldav_data,
+      ':caldav_type' => $resource_type,
+      ':session_user' => $author,
+      ':weak_etag' => $weak_etag
+  );
   if ( $put_action_type == 'INSERT' ) {
     create_scheduling_requests($vcal);
-    $qry = new PgQuery( 'BEGIN; INSERT INTO caldav_data ( user_no, dav_name, dav_etag, caldav_data, caldav_type, logged_user, created, modified, collection_id, weak_etag ) VALUES( ?, ?, ?, ?, ?, ?, current_timestamp, current_timestamp, ?, ? )',
-                           $user_no, $path, $etag, $caldav_data, $resource_type, $author, $collection_id, $weak_etag );
-    if ( !$qry->Exec('PUT') ) {
-      rollback_on_error( $caldav_context, $user_no, $path);
-      return false;
-    }
+    $sql = 'INSERT INTO caldav_data ( user_no, dav_name, dav_etag, caldav_data, caldav_type, logged_user, created, modified, collection_id, weak_etag )
+            VALUES( :user_no, :dav_name, :etag, :dav_data, :caldav_type, :session_user, current_timestamp, current_timestamp, :collection_id, :weak_etag )';
+    $params[':collection_id'] = $collection_id;
   }
   else {
     update_scheduling_requests($vcal);
-    $qry = new PgQuery( 'BEGIN;UPDATE caldav_data SET caldav_data=?, dav_etag=?, caldav_type=?, logged_user=?, modified=current_timestamp WHERE user_no=? AND dav_name=?',
-                           $caldav_data, $etag, $resource_type, $author, $user_no, $path );
-    if ( !$qry->Exec('PUT') ) {
-      rollback_on_error( $caldav_context, $user_no, $path);
-      return false;
-    }
+    $sql = 'UPDATE caldav_data SET caldav_data=:dav_data, dav_etag=:etag, caldav_type=:caldav_type, logged_user=:session_user,
+            modified=current_timestamp, weak_etag=:weak_etag WHERE user_no=:user_no AND dav_name=:dav_name';
+  }
+  if ( !$qry->QDo($sql,$params) ) {
+    rollback_on_error( $caldav_context, $user_no, $path);
+    return false;
   }
 
+  $calitem_params = array(
+      ':dav_name' => $path,
+      ':user_no' => $user_no,
+      ':etag' => $etag
+  );
   $dtstart = $first->GetPValue('DTSTART');
+  $calitem_params[':dtstart'] = $dtstart;
   if ( (!isset($dtstart) || $dtstart == '') && $first->GetPValue('DUE') != '' ) {
     $dtstart = $first->GetPValue('DUE');
   }
 
   $dtend = $first->GetPValue('DTEND');
-  if ( (!isset($dtend) || $dtend == '') ) {
+  if ( isset($dtend) && $dtend != '' ) {
+    dbg_error_log( 'PUT', ' DTEND: "%s", DTSTART: "%s", DURATION: "%s"', $dtend, $dtstart, $first->GetPValue('DURATION') );
+    $calitem_params[':dtend'] = $dtend;
+    $dtend = ':dtend';
+  }
+  else {
+    $dtend = 'NULL';
     if ( $first->GetPValue('DURATION') != '' AND $dtstart != '' ) {
       $duration = preg_replace( '#[PT]#', ' ', $first->GetPValue('DURATION') );
-      $dtend = '('.qpg($dtstart).'::timestamp with time zone + '.qpg($duration).'::interval)';
+      $dtend = '(:dtstart::timestamp with time zone + :duration::interval)';
+      $calitem_params[':duration'] = $duration;
     }
     elseif ( $first->GetType() == 'VEVENT' ) {
       /**
@@ -704,27 +762,23 @@ function write_resource( $user_no, $path, $caldav_data, $collection_id, $author,
       $value_type = $first->GetPParamValue('DTSTART','VALUE');
       dbg_error_log('PUT','DTSTART without DTEND. DTSTART value type is %s', $value_type );
       if ( isset($value_type) && $value_type == 'DATE' )
-        $dtend = '('.qpg($dtstart).'::timestamp with time zone::date + \'1 day\'::interval)';
+        $dtend = '(:dtstart::timestamp with time zone::date + \'1 day\'::interval)';
       else
-        $dtend = qpg($dtstart);
-
+        $dtend = ':dtstart';
     }
-    if ( $dtend == '' ) $dtend = 'NULL';
-  }
-  else {
-    dbg_error_log( 'PUT', ' DTEND: "%s", DTSTART: "%s", DURATION: "%s"', $dtend, $dtstart, $first->GetPValue('DURATION') );
-    $dtend = qpg($dtend);
   }
 
   $last_modified = $first->GetPValue('LAST-MODIFIED');
   if ( !isset($last_modified) || $last_modified == '' ) {
     $last_modified = gmdate( 'Ymd\THis\Z' );
   }
+  $calitem_params[':modified'] = $last_modified;
 
   $dtstamp = $first->GetPValue('DTSTAMP');
   if ( !isset($dtstamp) || $dtstamp == '' ) {
     $dtstamp = $last_modified;
   }
+  $calitem_params[':dtstamp'] = $dtstamp;
 
   $class = $first->GetPValue('CLASS');
   /* Check and see if we should over ride the class. */
@@ -741,14 +795,11 @@ function write_resource( $user_no, $path, $caldav_data, $collection_id, $author,
   if ( !isset($class) || $class == '' ) {
     $class = 'PUBLIC';
   }
+  $calitem_params[':class'] = $class;
 
-
-  /**
-  * Build the SQL for inserting/updating the calendar_item record
-  */
-  $sql = '';
 
   /** Calculate what timezone to set, first, if possible */
+  $last_tz_locn = 'Turkmenikikamukau';
   $tzid = $first->GetPParamValue('DTSTART','TZID');
   if ( !isset($tzid) || $tzid == '' ) $tzid = $first->GetPParamValue('DUE','TZID');
   $timezones = $ic->GetComponents('VTIMEZONE');
@@ -775,62 +826,75 @@ function write_resource( $user_no, $path, $caldav_data, $collection_id, $author,
         if ( preg_match( '#([^/]+/[^/]+)$#', $tzid, $matches ) ) $tz_locn = $matches[1];
       }
     }
-    dbg_error_log( 'PUT', ' Using TZID[%s] and location of [%s]', $tzid, $tz_locn );
-    if ( isset($tz_locn) && preg_match( $tz_regex, $tz_locn ) ) {
+
+    dbg_error_log( 'PUT', ' Using TZID[%s] and location of [%s]', $tzid, (isset($tz_locn) ? $tz_locn : '') );
+    if ( isset($tz_locn) && ($tz_locn != $last_tz_locn) && preg_match( $tz_regex, $tz_locn ) ) {
       dbg_error_log( 'PUT', ' Setting timezone to %s', $tz_locn );
-      $sql = ( $tz_locn == '' ? '' : 'SET TIMEZONE TO '.qpg($tz_locn).';' );
+      if ( $tz_locn != '' ) {
+        $qry->QDo('SET TIMEZONE TO \''.$tz_locn."'" );
+      }
+      $last_tz_locn = $tz_locn;
     }
-    $qry = new PgQuery('SELECT tz_locn FROM time_zone WHERE tz_id = ?', $tzid );
-    if ( $qry->Exec() && $qry->rows == 0 ) {
-      $qry = new PgQuery('INSERT INTO time_zone (tz_id, tz_locn, tz_spec) VALUES(?,?,?)', $tzid, $tz_locn, $tz->Render() );
-      $qry->Exec();
+    $params = array( ':tzid' => $tzid);
+    $qry = new AwlQuery('SELECT tz_locn FROM time_zone WHERE tz_id = :tzid', $params );
+    if ( $qry->Exec('PUT',__LINE__,__FILE__) && $qry->rows() == 0 ) {
+      $params[':tzlocn'] = $tz_locn;
+      $params[':tzspec'] = (isset($tz) ? $tz->Render() : null );
+      $qry->QDo('INSERT INTO time_zone (tz_id, tz_locn, tz_spec) VALUES(:tzid,:tzlocn,:tzspec)', $params );
     }
-    if ( !isset($tz_locn) || $tz_locn == '' ) {
-      $tz_locn = $tzid;
-    }
+    if ( !isset($tz_locn) || $tz_locn == '' ) $tz_locn = $tzid;
+
   }
 
-  $escaped_path = qpg($path);
+  $calitem_params[':tzid'] = $tzid;
+  $calitem_params[':uid'] = $first->GetPValue('UID');
+  $calitem_params[':summary'] = $first->GetPValue('SUMMARY');
+  $calitem_params[':location'] = $first->GetPValue('LOCATION');
+  $calitem_params[':transp'] = $first->GetPValue('TRANSP');
+  $calitem_params[':description'] = $first->GetPValue('DESCRIPTION');
+  $calitem_params[':rrule'] = $first->GetPValue('RRULE');
+  $calitem_params[':url'] = $first->GetPValue('URL');
+  $calitem_params[':priority'] = $first->GetPValue('PRIORITY');
+  $calitem_params[':created'] = $first->GetPValue('CREATED');
+  $calitem_params[':due'] = $first->GetPValue('DUE');
+  $calitem_params[':percent_complete'] = $first->GetPValue('PERCENT-COMPLETE');
+  $calitem_params[':status'] = $first->GetPValue('STATUS');
   if ( $put_action_type != 'INSERT' ) {
-    $sql .= <<<EOSQL
-UPDATE calendar_item SET dav_etag=?, uid=?, dtstamp=?,
-                dtstart=?, dtend=$dtend, summary=?, location=?, class=?, transp=?,
-                description=?, rrule=?, tz_id=?, last_modified=?, url=?, priority=?,
-                created=?, due=?, percent_complete=?, status=?
-       WHERE user_no=$user_no AND dav_name=$escaped_path;
-SELECT write_sync_change( $collection_id, 200, $escaped_path);
-COMMIT;
+    $sql = <<<EOSQL
+UPDATE calendar_item SET dav_etag=:etag, uid=:uid, dtstamp=:dtstamp,
+                dtstart=:dtstart, dtend=$dtend, summary=:summary, location=:location, class=:class, transp=:transp,
+                description=:description, rrule=:rrule, tz_id=:tzid, last_modified=:modified, url=:url, priority=:priority,
+                created=:created, due=:due, percent_complete=:percent_complete, status=:status
+       WHERE user_no=:user_no AND dav_name=:dav_name
 EOSQL;
+    $sync_change = 200;
   }
   else {
-    $sql .= <<<EOSQL
+    $sql = <<<EOSQL
 INSERT INTO calendar_item (user_no, dav_name, dav_id, dav_etag, uid, dtstamp,
                 dtstart, dtend, summary, location, class, transp,
                 description, rrule, tz_id, last_modified, url, priority,
                 created, due, percent_complete, status, collection_id )
-   VALUES ( $user_no, $escaped_path, currval('dav_id_seq'), ?, ?, ?,
-                ?, $dtend, ?, ?, ?, ?,
-                ?, ?, ?, ?, ?, ?,
-                ?, ?, ?, ?, $collection_id );
-SELECT write_sync_change( $collection_id, 201, $escaped_path);
-COMMIT;
+   VALUES ( :user_no, :dav_name, currval('dav_id_seq'), :etag, :uid, :dtstamp,
+                :dtstart, $dtend, :summary, :location, :class, :transp,
+                :description, :rrule, :tzid, :modified, :url, :priority,
+                :created, :due, :percent_complete, :status, $collection_id )
 EOSQL;
+    $sync_change = 201;
   }
 
   if ( $log_action && function_exists('log_caldav_action') ) {
     log_caldav_action( $put_action_type, $first->GetPValue('UID'), $user_no, $collection_id, $path );
   }
 
-  $qry = new PgQuery( $sql, $etag, $first->GetPValue('UID'), $dtstamp,
-       $first->GetPValue('DTSTART'), $first->GetPValue('SUMMARY'), $first->GetPValue('LOCATION'), $class, $first->GetPValue('TRANSP'),
-       $first->GetPValue('DESCRIPTION'), $first->GetPValue('RRULE'), $tzid,
-       $last_modified, $first->GetPValue('URL'), $first->GetPValue('PRIORITY'),
-       $first->GetPValue('CREATED'), $first->GetPValue('DUE'), $first->GetPValue('PERCENT-COMPLETE'), $first->GetPValue('STATUS')
-  );
-  if ( !$qry->Exec('PUT') ) {
+  $qry = new AwlQuery( $sql, $calitem_params );
+  if ( !$qry->Exec('PUT',__LINE__,__FILE__) ) {
     rollback_on_error( $caldav_context, $user_no, $path);
     return false;
   }
+  $qry->QDo("SELECT write_sync_change( $collection_id, $sync_change, :dav_name)", array(':dav_name' => $path ) );
+  $qry->Commit();
+
   dbg_error_log( 'PUT', 'User: %d, ETag: %s, Path: %s', $author, $etag, $path);
 
   return true;  // Success!
@@ -856,8 +920,8 @@ function simple_write_resource( $path, $caldav_data, $put_action_type ) {
   * We pull the user_no & collection_id out of the collection table, based on the resource path
   */
   $collection_path = preg_replace( '#/[^/]*$#', '/', $path );
-  $qry = new PgQuery( 'SELECT user_no, collection_id FROM collection WHERE dav_name = ? ', $collection_path );
-  if ( $qry->Exec('PUT:simple_write_resource') && $qry->rows == 1 ) {
+  $qry = new AwlQuery( 'SELECT user_no, collection_id FROM collection WHERE dav_name = ? ', array( ':collection_id' => $collection_path ) );
+  if ( $qry->Exec('PUT',__LINE__,__FILE__) && $qry->rows() == 1 ) {
     $collection = $qry->Fetch();
     $user_no = $collection->user_no;
 
