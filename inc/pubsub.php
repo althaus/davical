@@ -708,7 +708,8 @@ function log_caldav_action( $action_type, $uid, $user_no, $collection_id, $dav_n
 	// for now use a flat node tree layout
 	$t->pubsubLayout = 'flat';
 	// get the principal_id for this collection, that's what the client will be looking for
-	$qry = new PgQuery ('select principal_id from principal join collection using (user_no) where collection_id=?', $collection_id   );
+	$qry = new AwlQuery ('SELECT principal_id FROM principal JOIN collection USING (user_no) WHERE collection_id= :collection_id',
+                           array( ':collection_id' => $collection_id ) );
 	$qry->Exec('pubsub');
 	$row = $qry->Fetch();
 
