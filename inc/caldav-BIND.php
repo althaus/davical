@@ -73,7 +73,7 @@ $params = array(
     ':parent_container' => $parent->dav_name(),
     ':session_principal' => $session->principal_id,
     ':dav_name'     => $destination_path,
-    ':displayname'  => 'Bind to '.$source->GetProperty('displayname')
+    ':displayname'  => $source->GetProperty('displayname')
 );
 $qry = new AwlQuery( $sql, $params );
 if ( $qry->Exec('BIND',__LINE__,__FILE__) ) {
