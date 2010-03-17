@@ -13,7 +13,7 @@
   <href>/caldav.php/user4/user2/</href>
   <propstat>
    <prop>
-    <displayname>Bind to User 2's Calendar, as uploaded by Admin</displayname>
+    <displayname>User 2's Calendar, as uploaded by Admin</displayname>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
