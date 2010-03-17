@@ -9,8 +9,6 @@
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v2
 */
 
-require_once('PgQuery.php');
-
 /**
 * A Class for handling a session using HTTP Basic Authentication
 *
@@ -261,8 +259,9 @@ class HTTPAuthSession {
   */
   function GetRoles () {
     $this->roles = array();
-    $qry = new PgQuery( 'SELECT role_name FROM role_member m join roles r ON r.role_no = m.role_no WHERE user_no = ? ', $this->user_no );
-    if ( $qry->Exec('BasicAuth') && $qry->rows > 0 ) {
+    $qry = new AwlQuery( 'SELECT role_name FROM role_member m join roles r ON r.role_no = m.role_no WHERE user_no = :user_no ',
+                                array( ':user_no' => $this->user_no) );
+    if ( $qry->Exec('BasicAuth') && $qry->rows() > 0 ) {
       while( $role = $qry->Fetch() ) {
         $this->roles[$role->role_name] = true;
       }
