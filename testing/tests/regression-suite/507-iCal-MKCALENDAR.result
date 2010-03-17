@@ -12,3 +12,7 @@ Content-Type: text/plain; charset="utf-8"
 public_events_onl: >0<
           user_no: >10<
 
+       changed_by: >10<
+    property_name: >http://apple.com/ns/ical/:calendar-color<
+   property_value: >#391B71A0<
+

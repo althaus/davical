@@ -27,3 +27,9 @@ FROM collection
 WHERE dav_name = '/user1/6E20BB7C-EFD9-4F0F-9BDC-5335E04D47E0/';
 ENDQUERY
 
+QUERY
+SELECT property_name, property_value, changed_by
+FROM property
+WHERE dav_name = '/user1/6E20BB7C-EFD9-4F0F-9BDC-5335E04D47E0/';
+ENDQUERY
+
