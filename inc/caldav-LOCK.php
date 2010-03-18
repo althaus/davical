@@ -142,6 +142,10 @@ if ( $request->method == "LOCK" ) {
   $response = new XMLElement("lockdiscovery", new XMLElement( "activelock", $activelock), array("xmlns" => "DAV:") );
 }
 elseif (  $request->method == "UNLOCK" ) {
+  /**
+  * @TODO: respond with preconditionfailed(409,'lock-token-matches-request-uri') if
+  * there is no lock to be deleted.
+  */
   dbg_error_log( "LOCK", "Attempting to unlock resource '%s'", $request->path);
   if ( ($lock_token = $request->IsLocked()) ) { // NOTE Assignment in if() is expected here.
     $sql = 'DELETE FROM locks WHERE opaquelocktoken = :lock_token';
