@@ -343,9 +343,9 @@ function sync_LDAP(){
     }
     $qry = new AwlQuery( "SELECT username, user_no, updated FROM usr ");
     $qry->Exec('sync_LDAP',__LINE__,__FILE__);
-    while($db_user = $qry->Fetch(true)){
-      $db_users[] = $db_user['username'];
-      $db_users_info[$db_user['username']] = array('user_no' => $db_user['user_no'], 'updated' => $db_user['updated']);
+    while($db_user = $qry->Fetch()) {
+      $db_users[] = $db_user->username;
+      $db_users_info[$db_user->username] = array('user_no' => $db_user->user_no, 'updated' => $db_user->updated);
     }
 
     $ldap_users = array_keys($ldap_users_info);
