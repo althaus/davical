@@ -502,7 +502,7 @@ class AwlQuery
       }
       else $this->error_info = null;
     }
-    else if ( $this->sth !== false ) {
+    else if ( !isset($this->sth) ) {
       /** Ensure we have a connection to the database */
       if ( !isset($this->connection) ) {
         _awl_connect_configured_database();
@@ -514,6 +514,9 @@ class AwlQuery
         $success = false;
       }
       else $this->error_info = null;
+    }
+    else if ( $this->sth === false ) {
+      $success = false;
     }
     if ( $success ) $this->rows = $this->sth->rowCount();
     $t2 = microtime(true); // get end time
