@@ -6,23 +6,9 @@
 * @subpackage   caldav
 * @author    Andrew McMillan <andrew@mcmillan.net.nz>
 * @copyright Catalyst .Net Ltd, Morphoss Ltd <http://www.morphoss.com/>
-* @license   http://gnu.org/copyleft/gpl.html GNU GPL v2
+* @license   http://gnu.org/copyleft/gpl.html GNU GPL v2 or later
 */
 dbg_error_log("delete", "DELETE method handler");
-
-/**
-* etag_none_match, if set, is telling us only to DELETE if it fails to match.  Likewise etag_if_match
-* is telling us only to DELETE if it successfully matches the ETag.  Se Evolution's Bugzilla for the
-* truth about Evolution's broken handling of this: http://bugzilla.gnome.org/show_bug.cgi?id=349573
-*/
-
-if ( !isset($request->etag_if_match) && isset($request->etag_none_match) && isset($_SERVER['HTTP_USER_AGENT'])
-          && preg_match('#Evolution/([0-9]+[.][0-9]+)#', $_SERVER['HTTP_USER_AGENT'], $matches ) ) {
-  if ( doubleval($matches[1]) <= 1.9 ) {
-    $request->etag_if_match = $request->etag_none_match;
-    unset($request->etag_none_match);
-  }
-}
 
 $request->NeedPrivilege('DAV::unbind');
 
