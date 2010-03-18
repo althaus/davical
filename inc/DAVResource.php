@@ -1206,8 +1206,36 @@ EOQRY;
         $prop->NewElement('href', ConstructURL($this->dav_name) );
         break;
 
-      case 'DAV::resource_id':
-        $prop->NewElement('href', ConstructURL('.resources/'.$this->resource_id) );
+      case 'DAV::resource-id':
+        if ( $this->resource_id > 0 )
+          $reply->DAVElement( $prop, 'resource-id', $reply->href(ConstructURL('/.resources/'.$this->resource_id) ) );
+        else
+          return false;
+        break;
+
+      case 'DAV::parent-set':
+        $parent_set = $reply->DAVElement( $prop, 'parent-set' );
+        if ( preg_match( '{^(.*)/([^/]+)/?$}', $this->bound_from, $matches ) ) {
+          $reply->DAVElement($parent_set, 'parent', array(
+                              new XMLElement( 'href', ConstructURL($matches[1])),
+                              new XMLElement( 'segment', $matches[2])
+                            ));
+          $sql = <<<EOQRY
+SELECT regexp_replace( b.parent_container, '/$', '') AS parent,
+       regexp_replace( replace( b.dav_name, b.parent_container, ''), '/$', '') AS segment
+  FROM dav_binding b JOIN collection c ON(b.bound_source_id=c.collection_id)
+ WHERE regexp_replace( b.dav_name, '^.*/', c.dav_name ) = :bound_from
+EOQRY;
+          $qry = new AwlQuery($sql, array( ':bound_from' => $this->bound_from ) );
+          if ( $qry->Exec('DAVResource',__LINE__,__FILE__) && $qry->rows() > 0 ) {
+            while( $row = $qry->Fetch() ) {
+              $reply->DAVElement($parent_set, 'parent', array(
+                                  new XMLElement( 'href', ConstructURL($row->parent)),
+                                  new XMLElement( 'segment', $row->segment)
+                                ));
+            }
+          }
+        }
         break;
 
       case 'DAV::getcontenttype':
