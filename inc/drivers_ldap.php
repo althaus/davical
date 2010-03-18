@@ -383,7 +383,7 @@ function sync_LDAP(){
     $i = 0;
     foreach( $users_to_deactivate AS $v ) {
       if ( isset($c->do_not_sync_from_ldap) && isset($c->do_not_sync_from_ldap[$v]) ) continue;
-      $usr_in .= ($usr_in == '' ? '' : ', :u') . $i;
+      $usr_in .= ($usr_in == '' ? '' : ', ') . ':u'.$i;
       $params[':u'.$i] = strtolower($v);
       $i++;
     }
