@@ -572,7 +572,7 @@ EOQRY;
     $this->privileges = $this->collection->path_privs;
     if ( is_string($this->privileges) ) $this->privileges = bindec( $this->privileges );
 
-    if ( isset($request->ticket) && $request->ticket->MatchesPath($this->dav_name) ) {
+    if ( isset($request->ticket) && $request->ticket->MatchesPath($this->bound_from()) ) {
       $this->privileges |= $request->ticket->privileges();
       dbg_error_log( 'DAVResource', 'Applying permissions for ticket "%s" now: %s', $request->ticket->id(), decbin($this->privileges) );
     }
@@ -580,7 +580,7 @@ EOQRY;
     if ( isset($this->tickets) ) {
       if ( !isset($this->resource_id) ) $this->FetchResource();
       foreach( $this->tickets AS $k => $ticket ) {
-        if ( $ticket->MatchesResource($this->resource_id) || $ticket->MatchesPath($this->dav_name) ) {
+        if ( $ticket->MatchesResource($this->resource_id()) || $ticket->MatchesPath($this->bound_from()) ) {
           $this->privileges |= $ticket->privileges();
           dbg_error_log( 'DAVResource', 'Applying permissions for ticket "%s" now: %s', $ticket->id(), decbin($this->privileges) );
         }
@@ -998,7 +998,7 @@ EOQRY;
 
 
   /**
-  * Returns the principal-URL for this resource
+  * Returns the unique_tag (ETag or getctag) for this resource
   */
   function unique_tag() {
     if ( isset($this->unique_tag) ) return $this->unique_tag;
