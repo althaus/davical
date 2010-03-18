@@ -113,7 +113,9 @@ function UpdateUserFromExternal( &$usr ) {
   else
     $type = "INSERT";
 
-  $qry = new AwlQuery( sql_from_object( $usr, $type, 'usr', "WHERE user_no= :user_no" ), array( ':user_no' => $usr->user_no) );
+  $params = array();
+  if ( $type != 'INSERT' ) $params[':user_no'] = $usr->user_no;
+  $qry = new AwlQuery( sql_from_object( $usr, $type, 'usr', "WHERE user_no= :user_no" ), $params );
   $qry->Exec('Login',__LINE__,__FILE__);
 
   /**
