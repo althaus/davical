@@ -23,8 +23,9 @@ Content-Type: text/xml; charset="utf-8"
  </response>
 </multistatus>
 
-changed_last_60se: >1<
-  dav_displayname: >User One's Calendar<
-      is_calendar: >1<
-    resourcetypes: ><DAV::collection/><urn:ietf:params:xml:ns:caldav:calendar/><
+  changed_last_5m: >1<
+  dav_displayname: >User One's addressbook<
+   is_addressbook: >1<
+      is_calendar: >0<
+    resourcetypes: ><DAV::collection/><urn:ietf:params:xml:ns:carddav:addressbook/><
 

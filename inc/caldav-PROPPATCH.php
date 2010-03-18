@@ -89,15 +89,20 @@ foreach( $setprops AS $k => $setting ) {
 
     case 'DAV::resourcetype':
       /**
-      * We don't allow a collection to change to/from a resource.  Only collections may be CalDAV calendars.
+      * We only allow resourcetype setting on a normal collection, and not on a resource, a principal or a bind.
+      * Only collections may be CalDAV calendars or addressbooks, and they may not be both.
       */
-      $setcollection = count($setting->GetPath('DAV::resourcetype/DAV::collection'));
-      $setcalendar   = count($setting->GetPath('DAV::resourcetype/urn:ietf:params:xml:ns:caldav:calendar'));
-      if ( $request->IsCollection() && $setcollection && ! $dav_resource->IsBinding() ) {
+      $setcollection  = count($setting->GetPath('DAV::resourcetype/DAV::collection'));
+      $setcalendar    = count($setting->GetPath('DAV::resourcetype/urn:ietf:params:xml:ns:caldav:calendar'));
+      $setaddressbook = count($setting->GetPath('DAV::resourcetype/urn:ietf:params:xml:ns:carddav:addressbook'));
+      if ( $request->IsCollection() && $setcollection && ! $dav_resource->IsPrincipal()
+                            && ! $dav_resource->IsBinding() && ! ($setaddressbook && $setcalendar) ) {
         $resourcetypes = $setting->GetPath('DAV::resourcetype/*');
         $resourcetypes = str_replace( "\n", "", implode('',$resourcetypes));
-        $qry->QDo('UPDATE collection SET is_calendar = :is_calendar::boolean, resourcetypes = :resourcetypes WHERE dav_name = :dav_name',
-                    array( ':dav_name' => $dav_resource->dav_name(), ':is_calendar' => $setcalendar, ':resourcetypes' => $resourcetypes) );
+        $qry->QDo('UPDATE collection SET is_calendar = :is_calendar::boolean, is_addressbook = :is_addressbook::boolean,
+                     resourcetypes = :resourcetypes WHERE dav_name = :dav_name',
+                    array( ':dav_name' => $dav_resource->dav_name(), ':resourcetypes' => $resourcetypes,
+                           ':is_calendar' => $setcalendar, ':is_addressbook' => $setaddressbook ) );
         $success[$tag] = 1;
       }
       else {
@@ -190,27 +195,14 @@ foreach( $rmprops AS $k => $setting ) {
   switch( $tag ) {
 
     case 'DAV::resourcetype':
-      /**
-      * We don't allow a collection to change to/from a resource.  Only collections may be CalDAV calendars.
-      */
-      $rmcollection = (count($setting->GetPath('DAV::resourcetype/DAV::collection')) > 0);
-      $rmcalendar   = (count($setting->GetPath('DAV::resourcetype/urn:ietf:params:xml:ns:caldav:calendar')) > 0);
-      if ( $request->IsCollection() && !$rmcollection ) {
-        dbg_error_log( 'PROPPATCH', ' RMProperty %s : IsCollection=%d, rmcoll=%d, rmcal=%d', $tag, $request->IsCollection(), $rmcollection, $rmcalendar );
-        if ( $rmcalendar ) {
-          $qry->QDo('UPDATE collection SET is_calendar = FALSE, resourcetypes = :resourcetypes WHERE dav_name = :dav_name',
-                           array( ':dav_name' => $dav_resource->dav_name(), ':resourcetypes' => '<DAV::collection/>') );
-        }
-        $success[$tag] = 1;
-      }
-      else {
-        $failure['rm-'.$tag] = new XMLElement( 'propstat', array(
-            new XMLElement( 'prop', new XMLElement($tag)),
-            new XMLElement( 'status', 'HTTP/1.1 409 Conflict' ),
-            new XMLElement( 'responsedescription', translate("Resources may not be changed to / from collections.") )
-        ));
-        dbg_error_log( 'PROPPATCH', ' RMProperty %s Resources may not be changed to / from Collections.', $tag);
-      }
+      $failure['rm-'.$tag] = new XMLElement( 'propstat', array(
+          new XMLElement( 'prop', new XMLElement($tag)),
+            new XMLElement( 'status', 'HTTP/1.1 403 Forbidden' ),
+            new XMLElement( 'responsedescription', array(
+                              new XMLElement( 'error', new XMLElement( 'cannot-modify-protected-property') ),
+                              translate("DAV::resourcetype may only be set to a new value, it may not be removed.") )
+                          )
+      ));
       break;
 
     case 'urn:ietf:params:xml:ns:caldav:calendar-timezone':
