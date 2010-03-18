@@ -131,6 +131,11 @@ else {
   $editor->Assign('use_default_privs', 't');
 }
 
+$entryqry = new AwlQuery( 'SELECT count(*) as count from caldav_data where collection_id='.$id  );
+$entryqry->Exec('admin-collection-edit');
+$entries = $entryqry->Fetch();
+$editor->Assign( 'entries', $entries->count );
+
 $privilege_xlate = array(
   'read' => translate('Read'),
   'write-properties' => translate('Write Metadata'),
@@ -189,6 +194,7 @@ $prompt_dav_name = translate('DAV Path');
 $value_dav_name = $c->base_url.'/caldav.php'. ( $editor->Available() ? '##dav_name.value##' : '/##user_no.hidden####username.value##/ ##collection_name.input.30##' );
 $prompt_load_file = translate('Load From File');
 $prompt_displayname = translate('Displayname');
+$prompt_entries = translate('Items in Collection');
 $prompt_public = translate('Publicly Readable');
 $prompt_calendar = translate('Is a Calendar');
 $prompt_addressbook = translate('Is an Addressbook');
@@ -301,6 +307,7 @@ label.privilege {
 <table>
  <tr> <th class="right">$prompt_collection_id:</th>    <td class="left">$value_id</td> </tr>
  <tr> <th class="right">$prompt_dav_name:</th>         <td class="left">$value_dav_name</td> </tr>
+ <tr> <th class="right">$prompt_entries:</th>          <td class="left">##entries##</td> </tr>
  <tr> <th class="right">$prompt_load_file:</th>        <td class="left">##ics_file.file.60##</td> </tr>
  <tr> <th class="right">$prompt_displayname:</th>      <td class="left">##dav_displayname.input.50##</td> </tr>
  <tr> <th class="right">$prompt_public:</th>           <td class="left">##publicly_readable.checkbox##</td> </tr>
