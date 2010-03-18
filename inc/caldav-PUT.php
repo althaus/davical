@@ -10,7 +10,14 @@
 */
 dbg_error_log("PUT", "method handler");
 
-if ( ! $request->AllowedTo("read") ) {
+require_once('DAVResource.php');
+
+$dav_resource = new DAVResource($request->path);
+if ( ! $dav_resource->HavePrivilegeTo('DAV::write-content') ) {
+  $request->DoResponse(403);
+}
+
+if ( ! $dav_resource->Exists() && ! $dav_resource->HavePrivilegeTo('DAV::bind') ) {
   $request->DoResponse(403);
 }
 
@@ -23,13 +30,13 @@ if ( ! ini_get('open_basedir') && (isset($c->dbg['ALL']) || (isset($c->dbg['put'
 }
 
 include_once('caldav-PUT-functions.php');
-controlRequestContainer( $request->username, $request->user_no, $request->path, true);
+controlRequestContainer( $dav_resource->GetProperty('username'), $dav_resource->GetProperty('user_no'), $dav_resource->bound_from(), true);
 
 $lock_opener = $request->FailIfLocked();
 
 
-if ( $request->IsCollection()  ) {
-  if ( !isset($c->readonly_webdav_collections) || $c->readonly_webdav_collections == true ) {
+if ( $dav_resource->IsCollection()  ) {
+  if ( $dav_resource->IsPrincipal() || $dav_resource->IsBinding() || !isset($c->readonly_webdav_collections) || $c->readonly_webdav_collections == true ) {
     $request->DoResponse( 405 ); // Method not allowed
     return;
   }
@@ -43,5 +50,50 @@ if ( $request->IsCollection()  ) {
   return;
 }
 
-$put_action_type = putCalendarResource( $request, $session->user_no, true );
-$request->DoResponse( ($put_action_type == 'INSERT' ? 201 : 204) );
+$etag = md5($request->raw_post);
+$ic = new iCalComponent( $request->raw_post );
+
+if ( ! $dav_resource->Exists() && (isset($request->etag_if_match) && $request->etag_if_match != '') ) {
+  /**
+  * RFC2068, 14.25:
+  * If none of the entity tags match, or if "*" is given and no current
+  * entity exists, the server MUST NOT perform the requested method, and
+  * MUST return a 412 (Precondition Failed) response.
+  */
+  $request->PreconditionFailed(412,'if-match');
+}
+
+if ( $dav_resource->Exists() && (
+          (isset($request->etag_if_match) && $request->etag_if_match != '' && $request->etag_if_match != $dav_resource->unique_tag())
+        || (isset($request->etag_none_match) && $request->etag_none_match != '' && ($request->etag_none_match == $dav_resource->unique_tag() || $request->etag_none_match == '*') )
+    ) ) {
+  if ( isset($request->etag_if_match) && $request->etag_if_match != $icalendar->dav_etag ) {
+    /**
+    * RFC2068, 14.25:
+    * If none of the entity tags match, or if "*" is given and no current
+    * entity exists, the server MUST NOT perform the requested method, and
+    * MUST return a 412 (Precondition Failed) response.
+    */
+    $request->PreconditionFailed(412,'if-match', translate( 'Existing resource does not match "If-Match" header - not accepted.'));
+  }
+  else {
+    /**
+    * RFC2068, 14.26:
+    * If any of the entity tags match the entity tag of the entity that
+    * would have been returned in the response to a similar GET request
+    * (without the If-None-Match header) on that resource, or if "*" is
+    * given and any current entity exists for that resource, then the
+    * server MUST NOT perform the requested method.
+    */
+    $request->PreconditionFailed(412,'if-none-match', translate( 'Existing resource matches "If-None-Match" header - not accepted.'));
+  }
+}
+
+$put_action_type = ($dav_resource->Exists() ? 'UPDATE' : 'INSERT');
+
+write_resource( $dav_resource->GetProperty('user_no'), $dav_resource->bound_from(), $request->raw_post, $dav_resource->GetProperty('collection_id'),
+                                $session->user_no, $etag, $ic, $put_action_type, true, true );
+
+header(sprintf('ETag: "%s"', $etag) );
+
+$request->DoResponse( ($dav_resource->Exists() ? 204 : 201) );
