@@ -40,8 +40,8 @@ function CreateHomeCalendar( $username ) {
   $parent_path = "/".$username."/";
   $calendar_path = $parent_path . $c->home_calendar_name."/";
   $dav_etag = md5($usr->user_no . $calendar_path);
-  $sql = 'INSERT INTO collection (user_no, parent_container, dav_name, dav_etag, dav_displayname, is_calendar, ';
-  $sql .= 'created, modified, resourcetypes) VALUES( :user_no, :parent_container, :calendar_path, :dav_name, :dav_etag, true, current_timestamp, current_timestamp, ? );';
+  $sql = 'INSERT INTO collection (user_no, parent_container, dav_name, dav_etag, dav_displayname, is_calendar, created, modified, resourcetypes) ';
+  $sql .= 'VALUES( :user_no, :parent_container, :calendar_path, :dav_name, :dav_etag, true, current_timestamp, current_timestamp, :resourcetypes );';
   $params = array(
       ':user_no' => $usr->user_no,
       ':parent_container' => $parent_path,
@@ -115,7 +115,7 @@ function UpdateUserFromExternal( &$usr ) {
 
   $params = array();
   if ( $type != 'INSERT' ) $params[':user_no'] = $usr->user_no;
-  $qry = new AwlQuery( sql_from_object( $usr, $type, 'usr', "WHERE user_no= :user_no" ), $params );
+  $qry = new AwlQuery( sql_from_object( $usr, $type, 'usr', 'WHERE user_no= :user_no' ), $params );
   $qry->Exec('Login',__LINE__,__FILE__);
 
   /**
