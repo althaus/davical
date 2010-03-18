@@ -9,7 +9,6 @@ HEADER=Accept-Language: en-us,en;q=0.5
 HEADER=Accept-Encoding: gzip,deflate
 HEADER=Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
 HEADER=Keep-Alive: 300
-HEADER=Content-Type: text/xml
 HEADER=Depth: 1
 HEAD
 
