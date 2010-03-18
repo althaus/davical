@@ -1,6 +1,11 @@
 #
 # Test specification compliance for LOCK/UNLOCK request
-#  - This should fail because we provide an invalid lock token
+#  - This should succeed because the actual lock was deleted
+#    when the resource was deleted, regardless that the
+#    token we supply here is bogus.
+#
+# The response to this should really be 409 precondition
+# failed 'lock-token-matches-request-uri'
 #
 TYPE=UNLOCK
 URL=http://mycaldav/caldav.php/user1/home/i1278618276.ics
