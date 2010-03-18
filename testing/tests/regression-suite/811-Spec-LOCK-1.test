@@ -18,7 +18,6 @@ ENDSQL
 
 HEADER=Depth: 0
 HEADER=Timeout: Infinite,Second-4100000000
-HEADER=Content-type: text/xml; charset="utf-8"
 HEADER=Lock-Token: <opaquelocktoken:##locktoken##>
 HEAD
 
