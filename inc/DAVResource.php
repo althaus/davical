@@ -1215,7 +1215,7 @@ EOQRY;
 
       case 'DAV::parent-set':
         $parent_set = $reply->DAVElement( $prop, 'parent-set' );
-        if ( preg_match( '{^(.*)/([^/]+)/?$}', $this->bound_from, $matches ) ) {
+        if ( preg_match( '{^(.*)/([^/]+)/?$}', $this->bound_from(), $matches ) ) {
           $reply->DAVElement($parent_set, 'parent', array(
                               new XMLElement( 'href', ConstructURL($matches[1])),
                               new XMLElement( 'segment', $matches[2])
