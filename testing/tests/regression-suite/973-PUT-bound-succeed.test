@@ -1,0 +1,55 @@
+#
+# Attempt to put an event into a bound location, where
+# the binding does confer write privileges
+#
+TYPE=PUT
+URL=http://regression.host/caldav.php/user4/user2/thiswillworkfine.ics
+
+HEADER=Content-Type: text/calendar; charset=utf-8
+AUTH=user4:user4
+HEAD
+
+BEGINDATA
+BEGIN:VCALENDAR
+PRODID:-//Mozilla.org/NONSGML Mozilla Calendar V1.1//EN
+VERSION:2.0
+BEGIN:VTIMEZONE
+TZID:Pacific/Auckland
+X-LIC-LOCATION:Pacific/Auckland
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+1200
+TZOFFSETTO:+1300
+TZNAME:NZDT
+DTSTART:19700927T020000
+RRULE:FREQ=YEARLY;BYDAY=-1SU;BYMONTH=9
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+1300
+TZOFFSETTO:+1200
+TZNAME:NZST
+DTSTART:19700405T030000
+RRULE:FREQ=YEARLY;BYDAY=1SU;BYMONTH=4
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+CREATED:20100318T044409Z
+LAST-MODIFIED:20100318T044451Z
+DTSTAMP:20100318T044451Z
+UID:9f81cd8a-b1c2-4f72-9f12-1ddbddd69342
+SUMMARY:Test adding an event to a bound collection
+RRULE:FREQ=WEEKLY;INTERVAL=2
+DTSTART;TZID=Pacific/Auckland:20100322T180000
+DTEND;TZID=Pacific/Auckland:20100322T190000
+LOCATION:Somewhere else
+DESCRIPTION:This event is being added to a bound collection.
+END:VEVENT
+END:VCALENDAR
+ENDDATA
+
+QUERY
+SELECT caldav_data.dav_name, caldav_data.dav_etag, dtstart, summary
+  FROM caldav_data JOIN calendar_item USING(dav_name)
+  WHERE caldav_data.dav_name ~ '/user2/.*thiswill'
+ENDQUERY
+
+

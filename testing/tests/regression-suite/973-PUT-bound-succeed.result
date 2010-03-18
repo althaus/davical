@@ -1,0 +1,13 @@
+HTTP/1.1 201 Created
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy
+ETag: "9a8d7696ee2e0a0f1f4170fe4f094a3a"
+Content-Length: 0
+Content-Type: text/plain; charset="utf-8"
+
+
+         dav_etag: >9a8d7696ee2e0a0f1f4170fe4f094a3a<
+         dav_name: >/user2/home/thiswillworkfine.ics<
+          dtstart: >2010-03-22 18:00:00+13<
+          summary: >Test adding an event to a bound collection<
+

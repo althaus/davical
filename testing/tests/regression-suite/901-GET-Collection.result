@@ -1,7 +1,7 @@
 HTTP/1.1 200 OK
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy
-Content-Length: 10305
+Content-Length: 10307
 Etag: "735679d819034badbcddd8aa6029bc3d"
 Content-Type: text/calendar; charset="utf-8"
 
@@ -9,7 +9,7 @@ BEGIN:VCALENDAR
 PRODID:-//davical.org//NONSGML AWL Calendar//EN
 VERSION:2.0
 CALSCALE:GREGORIAN
-X-WR-CALNAME:User One's Calendar
+X-WR-CALNAME:User 1's Calendaranza
 BEGIN:VEVENT
 DTSTAMP:20061102T090217Z
 DTSTART;TZID=New Zealand Standard Time:20061102T123000
