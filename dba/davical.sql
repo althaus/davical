@@ -326,23 +326,6 @@ CREATE TABLE dav_binding (
 );
 
 
-CREATE TABLE collection_mashup (
-  mashup_id SERIAL PRIMARY KEY,
-  dav_owner_id INT8 NOT NULL REFERENCES principal(principal_id) ON UPDATE CASCADE ON DELETE CASCADE,
-  parent_container TEXT NOT NULL,
-  dav_name TEXT UNIQUE NOT NULL,
-  dav_displayname TEXT
-);
-
-
-CREATE TABLE mashup_member (
-  mashup_id INT8 NOT NULL REFERENCES collection_mashup(mashup_id) ON UPDATE CASCADE ON DELETE CASCADE,
-  target_collection_id INT8 REFERENCES collection(collection_id) ON UPDATE CASCADE ON DELETE CASCADE,
-  target_ticket_id TEXT REFERENCES access_ticket(ticket_id) ON UPDATE CASCADE ON DELETE SET NULL,
-  member_colour TEXT
-);
-
-
 CREATE TABLE addressbook_resource (
   dav_id INT8 NOT NULL REFERENCES caldav_data(dav_id) ON UPDATE CASCADE ON DELETE CASCADE PRIMARY KEY,
   version TEXT,
