@@ -83,11 +83,11 @@ do {
   $ticket_id = substr( str_replace('+', '',base64_encode(sha1(date('r') .rand(0,2100000000) . microtime(true),true))), 7, 8);
   $qry = new AwlQuery(
     'INSERT INTO access_ticket ( ticket_id, dav_owner_id, privileges, target_collection_id, target_resource_id, expires )
-                VALUES( :ticket_id, :owner, :privs, :collection, :resource, (current_timestamp + :expires::interval) )',
+                VALUES( :ticket_id, :owner, :privs::INT::BIT(24), :collection, :resource, (current_timestamp + :expires::interval) )',
     array(
       ':ticket_id'   => $ticket_id,
       ':owner'       => $session->principal_id,
-      ':privs'       => sprintf( '%024.24s', decbin($ticket_privileges)),
+      ':privs'       => decbin($ticket_privileges),
       ':collection'  => $collection_id,
       ':resource'    => $resource_id,
       ':expires'     => $sql_timeout,
