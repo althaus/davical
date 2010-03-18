@@ -15,3 +15,9 @@ HEADER=Content-Type: text/calendar; charset=utf-8
 HEADER=Lock-Token: <opaquelocktoken:##locktoken##>
 HEAD
 
+QUERY
+SELECT dav_id, dav_name, dav_etag
+  FROM caldav_data
+ WHERE dav_name = '/user1/home/i1278618276.ics'
+ENDQUERY
+

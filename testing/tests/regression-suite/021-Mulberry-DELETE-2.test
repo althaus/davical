@@ -4,3 +4,9 @@ TYPE=DELETE
 URL=http://mycaldav/caldav.php/user1/home/F56B49B10FC923D20FE2DC92D6580340-0.ics
 HEADER=If-Match: "557e551fae1b5c7f2131bde1ba0ba01e"
 HEAD
+
+QUERY
+SELECT dav_id, dav_name, dav_etag
+  FROM caldav_data
+ WHERE dav_name = '/user1/home/F56B49B10FC923D20FE2DC92D6580340-0.ics'
+ENDQUERY
