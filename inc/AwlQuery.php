@@ -93,28 +93,6 @@ EOERRMSG;
 }
 
 
-if ( !function_exists('duration') ) {
-  /**
-  * A duration (in decimal seconds) between two times which are the result of calls to microtime()
-  *
-  * This simple function is used by the AwlQuery class because the
-  * microtime function doesn't return a decimal time, so a simple
-  * subtraction is not sufficient.
-  *
-  * @param microtime $t1 start time
-  * @param microtime $t2 end time
-  * @return double difference
-  */
-  function duration( $t1, $t2 ) {
-    list ( $ms1, $s1 ) = explode ( " ", $t1 );   // Format times - by spliting seconds and microseconds
-    list ( $ms2, $s2 ) = explode ( " ", $t2 );
-    $s1 = $s2 - $s1;
-    $s1 = $s1 + ( $ms2 -$ms1 );
-    return $s1;                                  // Return duration of time
-  }
-}
-
-
 /**
 * The AwlQuery Class.
 *
