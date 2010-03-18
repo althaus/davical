@@ -420,6 +420,16 @@ function sync_LDAP(){
         $c->messages[] = sprintf(i18n('- updating user records : %s'),join(', ',$users_to_update));
       if ( sizeof($users_nothing_done) )
         $c->messages[] = sprintf(i18n('- nothing done on : %s'),join(', ', $users_nothing_done));
-    }
+		}
+
+		$admins = 0;
+    $qry = new AwlQuery( "select count(*) as admins from usr join role_member using ( user_no ) join roles using (role_no) where usr.active = true and role_name='Admin'");
+    $qry->Exec('sync_LDAP',__LINE__,__FILE__);
+    while($db_user = $qry->Fetch()) {
+      $admins = $db_user->admins;
+		}
+		if ( $admins == 0 ) {
+      $c->messages[] = sprintf(i18n('Warning: there are no active admin users, you should fix this before logging out.'));
+		}
   }
 }
