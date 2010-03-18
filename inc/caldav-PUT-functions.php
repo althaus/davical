@@ -18,6 +18,8 @@
 require_once('iCalendar.php');
 require_once('DAVResource.php');
 
+$bad_events = null;
+
 /**
 * A regex which will match most reasonable timezones acceptable to PostgreSQL.
 */
@@ -32,16 +34,21 @@ $tz_regex = ':^(Africa|America|Antarctica|Arctic|Asia|Atlantic|Australia|Brazil|
 * @param int $error_no An optional value for the HTTP error code
 */
 function rollback_on_error( $caldav_context, $user_no, $path, $message='', $error_no=500 ) {
+  global $c, $bad_events;
   if ( !$message ) $message = translate('Database error');
   $qry = new AwlQuery();
   $qry->Rollback();
   if ( $caldav_context ) {
-    global $request;
-    $request->DoResponse( $error_no, $message );
+    if ( isset($bad_events) && isset($c->skip_bad_event_on_import) && $c->skip_bad_event_on_import ) {
+      $bad_events[] = $message;
+    }
+    else {
+      global $request;
+      $request->DoResponse( $error_no, $message );
+    }
     // and we don't return from that, ever...
   }
 
-  global $c;
   $c->messages[] = sprintf(translate('Status: %d, Message: %s, User: %d, Path: %s'), $error_no, $message, $user_no, $path);
 
 }
@@ -58,7 +65,7 @@ function rollback_on_error( $caldav_context, $user_no, $path, $message='', $erro
 * @param boolean $public Whether the collection will be public, should we need to create it
 */
 function controlRequestContainer( $username, $user_no, $path, $caldav_context, $public = null ) {
-  global $c;
+  global $c, $bad_events;
 
   // Check to see if the path is like /foo /foo/bar or /foo/bar/baz etc. (not ending with a '/', but contains at least one)
   if ( preg_match( '#^(.*/)([^/]+)$#', $path, $matches ) ) {//(
@@ -67,6 +74,10 @@ function controlRequestContainer( $username, $user_no, $path, $caldav_context, $
   else {
     // In this case we must have a URL with a trailing '/', so it must be a collection.
     $request_container = $path;
+  }
+
+  if ( isset($c->skip_bad_event_on_import) && $c->skip_bad_event_on_import ) {
+    $bad_events = array();
   }
 
   /**
@@ -421,7 +432,7 @@ function import_collection( $ics_content, $user_no, $path, $caldav_context ) {
   }
   $collection = $qry->Fetch();
 
-  $qry->Begin();
+  if ( !(isset($c->skip_bad_event_on_import) && $c->skip_bad_event_on_import) ) $qry->Begin();
   $base_params = array( ':collection_id' => $collection->collection_id );
   if ( !$qry->QDo('DELETE FROM calendar_item WHERE collection_id = :collection_id', $base_params)
       || !$qry->QDo('DELETE FROM caldav_data WHERE collection_id = :collection_id', $base_params) )
@@ -441,6 +452,8 @@ EOSQL;
 
   $last_tz_locn = '';
   foreach( $resources AS $uid => $resource ) {
+    if ( isset($c->skip_bad_event_on_import) && $c->skip_bad_event_on_import ) $qry->Begin();
+
     /** Construct the VCALENDAR data */
     $vcal = new iCalComponent();
     $vcal->VCalendar();
@@ -572,9 +585,12 @@ EOSQL;
     if ( !$qry->QDo($sql,$calitem_params) ) rollback_on_error( $caldav_context, $user_no, $path);
 
     create_scheduling_requests( $vcal );
+    if ( isset($c->skip_bad_event_on_import) && $c->skip_bad_event_on_import ) $qry->Commit();
   }
 
-  if ( ! $qry->Commit() ) rollback_on_error( $caldav_context, $user_no, $path);
+  if ( !(isset($c->skip_bad_event_on_import) && $c->skip_bad_event_on_import) ) {
+    if ( ! $qry->Commit() ) rollback_on_error( $caldav_context, $user_no, $path);
+  }
 }
 
 
