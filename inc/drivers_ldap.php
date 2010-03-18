@@ -384,7 +384,7 @@ function sync_LDAP(){
       if ( isset($c->do_not_sync_from_ldap) && isset($c->do_not_sync_from_ldap[$v]) ) continue;
       $params[':u'.$i++] = strtolower($v);
     }
-    if ( $usr_in != '' ) {
+    if ( count($params) > 0 ) {
       $c->messages[] = sprintf(i18n('- deactivating users : %s'),join(', ',$users_to_deactivate));
       $qry = new AwlQuery( 'UPDATE usr SET active = FALSE WHERE lower(username) IN ('.implode(',',array_keys($params)).')', $params);
       $qry->Exec('sync_LDAP',__LINE__,__FILE__);
