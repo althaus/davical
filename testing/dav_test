@@ -55,6 +55,7 @@ if ( !defined($testdef) ) {
 
 my $datafile = $testdef;
 $datafile =~ s{\.test$}{};
+push @arguments, "--header", 'X-DAViCal-Testcase: '.$datafile;
 $datafile .= '.data';
 
 my $state = "";
@@ -65,6 +66,7 @@ my $sql_statement = "";
 my $sql_values = {};
 my $queries = ();
 my $replacements = ();
+
 
 open( TEST, '<', $testdef ) or die "Can't open '$testdef'";
 while( <TEST> ) {

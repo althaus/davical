@@ -121,7 +121,10 @@ if ( isset($c->deny_put_collection) ) {
 
 if ( !isset($c->page_title) ) $c->page_title = $c->system_name;
 
-if ( count($c->dbg) > 0 ) {
+if ( isset($_SERVER['HTTP_X_DAVICAL_TESTCASE']) ) {
+  @dbg_error_log( 'LOG', '==========> Test case =%s=', $_SERVER['HTTP_X_DAVICAL_TESTCASE'] );
+}
+else if ( count($c->dbg) > 0 ) {
   // Only log this if debugging of some sort is turned on, somewhere
   @dbg_error_log( 'LOG', '==========> method =%s= =%s= =%s= =%s= =%s=',
          $_SERVER['REQUEST_METHOD'], $c->protocol_server_port_script, $_SERVER['PATH_INFO'], $c->base_url, $c->base_directory );
