@@ -87,7 +87,7 @@ do {
     array(
       ':ticket_id'   => $ticket_id,
       ':owner'       => $session->principal_id,
-      ':privs'       => decbin($ticket_privileges),
+      ':privs'       => $ticket_privileges,
       ':collection'  => $collection_id,
       ':resource'    => $resource_id,
       ':expires'     => $sql_timeout,
