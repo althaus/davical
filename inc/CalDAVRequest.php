@@ -501,7 +501,13 @@ EOSQL;
       $this->xml_tags = array();
       xml_parser_set_option ( $xml_parser, XML_OPTION_SKIP_WHITE, 1 );
       xml_parser_set_option ( $xml_parser, XML_OPTION_CASE_FOLDING, 0 );
-      xml_parse_into_struct( $xml_parser, $this->raw_post, $this->xml_tags );
+      $rc = xml_parse_into_struct( $xml_parser, $this->raw_post, $this->xml_tags );
+      if ( $rc == false ) {
+        dbg_error_log( 'ERROR', 'XML parsing error: %s at line %d, column %d',
+                    xml_error_string(xml_get_error_code($xml_parser)),
+                    xml_get_current_line_number($xml_parser), xml_get_current_column_number($xml_parser) );
+        $this->XMLResponse( 400, new XMLElement( 'error', new XMLElement('invalid-xml'), array( 'xmlns' => 'DAV:') ) );
+      }
       xml_parser_free($xml_parser);
       if ( count($this->xml_tags) ) {
         dbg_error_log( "caldav", " Parsed incoming XML request body." );
