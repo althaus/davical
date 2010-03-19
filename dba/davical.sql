@@ -94,7 +94,6 @@ CREATE TABLE collection (
   default_privileges BIT(24),
   is_addressbook BOOLEAN DEFAULT FALSE,
   resourcetypes TEXT DEFAULT '<DAV::collection/>',
-  in_freebusy_set BOOLEAN DEFAULT TRUE,
   schedule_transp TEXT DEFAULT 'opaque',
   timezone TEXT REFERENCES time_zone(tz_id) ON DELETE SET NULL ON UPDATE CASCADE,
   description TEXT DEFAULT '',

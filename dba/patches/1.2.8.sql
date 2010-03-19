@@ -8,6 +8,7 @@ BEGIN;
 SELECT check_db_revision(1,2,7);
 
 ALTER TABLE caldav_data ADD COLUMN weak_etag TEXT DEFAULT NULL;
+ALTER TABLE collection DROP COLUMN in_freebusy_set;
 
 CREATE TABLE access_ticket (
   ticket_id TEXT PRIMARY KEY,
