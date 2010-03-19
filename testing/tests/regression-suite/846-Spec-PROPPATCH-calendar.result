@@ -17,4 +17,5 @@ Content-Type: text/xml; charset="utf-8"
    is_addressbook: >0<
       is_calendar: >1<
     resourcetypes: ><DAV::collection/><urn:ietf:params:xml:ns:caldav:calendar/><http://xmlns.comical.net/birds:spotted-grebe/><
+  schedule_transp: >opaque<
 

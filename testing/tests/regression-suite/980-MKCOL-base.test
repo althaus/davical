@@ -1,0 +1,29 @@
+#
+# Extended MKCOL test - Normal collection to create off a principal-URL
+#
+TYPE=MKCOL
+URL=http://regression.host/caldav.php/user4/base/
+HEADER=Content-Type: text/xml
+AUTH=user4:user4
+HEAD
+
+
+BEGINDATA
+<?xml version="1.0" encoding="UTF-8" ?>
+<mkcol xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
+ <set>
+  <prop>
+   <displayname>A normal collection</displayname>
+  </prop>
+ </set>
+</mkcol>
+ENDDATA
+
+
+QUERY
+SELECT user_no, parent_container, dav_displayname,
+       is_calendar, public_events_only, is_addressbook, resourcetypes
+FROM collection
+WHERE dav_name ~ '/user4/base/';
+ENDQUERY
+

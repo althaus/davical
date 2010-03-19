@@ -1,0 +1,37 @@
+#
+# Extended MKCOL test - Sub collection to create off a normal collection
+#
+TYPE=MKCOL
+URL=http://regression.host/caldav.php/user4/base/calendar/
+HEADER=Content-Type: text/xml
+AUTH=user4:user4
+HEAD
+
+
+BEGINDATA
+<?xml version="1.0" encoding="UTF-8" ?>
+<mkcol xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
+ <set>
+  <prop>
+   <resourcetype>
+    <collection/>
+    <C:calendar/>
+   </resourcetype>
+   <displayname>A sub collection</displayname>
+   <C:schedule-calendar-transp>
+    <C:transparent/>
+   </C:schedule-calendar-transp>
+  </prop>
+ </set>
+</mkcol>
+ENDDATA
+
+
+QUERY
+SELECT user_no, parent_container, dav_displayname, dav_name,
+       is_calendar, public_events_only, is_addressbook, resourcetypes,
+       schedule_transp
+FROM collection
+WHERE dav_name ~ '/user4/base/';
+ENDQUERY
+

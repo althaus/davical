@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav" xmlns:X="http://xmlns.comical.net/birds" xmlns:X1="http://xmlns.davical.org/davical">
+ <response>
+  <href>/caldav.php/user4/base/</href>
+  <propstat>
+   <prop>
+    <displayname>A normal collection</displayname>
+    <resource-id>
+     <href>/caldav.php/.resources/1433</href>
+    </resource-id>
+    <parent-set>
+     <parent>
+      <href>/caldav.php/user4</href>
+      <segment>base</segment>
+     </parent>
+    </parent-set>
+    <resourcetype>
+     <collection/>
+    </resourcetype>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user4/base/user1/</href>
+  <propstat>
+   <prop>
+    <displayname>User 1's Calendaranza</displayname>
+    <resource-id>
+     <href>/caldav.php/.resources/10</href>
+    </resource-id>
+    <parent-set>
+     <parent>
+      <href>/caldav.php/user1</href>
+      <segment>home</segment>
+     </parent>
+     <parent>
+      <href>/caldav.php/user4</href>
+      <segment>user1</segment>
+     </parent>
+     <parent>
+      <href>/caldav.php/user4/base</href>
+      <segment>user1</segment>
+     </parent>
+    </parent-set>
+    <resourcetype>
+     <collection/>
+     <C:calendar/>
+     <X:spotted-grebe/>
+     <X1:webdav-binding/>
+    </resourcetype>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user4/base/user2/</href>
+  <propstat>
+   <prop>
+    <displayname>User 2's Calendar, as uploaded by Admin</displayname>
+    <resource-id>
+     <href>/caldav.php/.resources/11</href>
+    </resource-id>
+    <parent-set>
+     <parent>
+      <href>/caldav.php/user2</href>
+      <segment>home</segment>
+     </parent>
+     <parent>
+      <href>/caldav.php/user4</href>
+      <segment>user2</segment>
+     </parent>
+     <parent>
+      <href>/caldav.php/user4/base</href>
+      <segment>user2</segment>
+     </parent>
+    </parent-set>
+    <resourcetype>
+     <collection/>
+     <C:calendar/>
+     <X1:webdav-binding/>
+    </resourcetype>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user4/base/calendar/</href>
+  <propstat>
+   <prop>
+    <displayname>A sub collection</displayname>
+    <resource-id>
+     <href>/caldav.php/.resources/1434</href>
+    </resource-id>
+    <parent-set>
+     <parent>
+      <href>/caldav.php/user4/base</href>
+      <segment>calendar</segment>
+     </parent>
+    </parent-set>
+    <resourcetype>
+     <collection/>
+     <C:calendar/>
+    </resourcetype>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+</multistatus>

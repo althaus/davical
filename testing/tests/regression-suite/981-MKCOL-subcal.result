@@ -1,0 +1,28 @@
+HTTP/1.1 201 Created
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy
+Cache-Control: no-cache
+Content-Length: 0
+Content-Type: text/plain; charset="utf-8"
+
+
+  dav_displayname: >A normal collection<
+         dav_name: >/user4/base/<
+   is_addressbook: >0<
+      is_calendar: >0<
+ parent_container: >/user4/<
+public_events_onl: >0<
+    resourcetypes: ><DAV::collection/><
+  schedule_transp: >opaque<
+          user_no: >13<
+
+  dav_displayname: >A sub collection<
+         dav_name: >/user4/base/calendar/<
+   is_addressbook: >0<
+      is_calendar: >1<
+ parent_container: >/user4/base/<
+public_events_onl: >0<
+    resourcetypes: ><DAV::collection/><urn:ietf:params:xml:ns:caldav:calendar/><
+  schedule_transp: >opaque<
+          user_no: >13<
+

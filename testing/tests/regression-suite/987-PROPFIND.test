@@ -1,0 +1,27 @@
+#
+# PROPFIND on a collection in which we have binds & collections
+#
+# In this case we're doing Depth: 0
+#
+TYPE=PROPFIND
+URL=http://regression.host/caldav.php/user4/base/
+AUTH=user4:user4
+
+HEADER=User-Agent: BIND Spec Tests
+HEADER=Content-Type: text/xml; charset="UTF-8"
+HEADER=Depth: 0
+
+
+BEGINDATA
+<?xml version="1.0" encoding="utf-8"?>
+<propfind xmlns="DAV:">
+ <prop>
+  <displayname/>
+  <resource-id/>
+  <parent-set/>
+  <resourcetype/>
+ </prop>
+</propfind>
+ENDDATA
+
+#  <current-user-privilege-set/>

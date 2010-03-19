@@ -7,7 +7,7 @@
     <owner>
      <href>/caldav.php/user1/</href>
     </owner>
-    <displayname>User One's Calendar</displayname>
+    <displayname>User One's Transparent Calendar</displayname>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>

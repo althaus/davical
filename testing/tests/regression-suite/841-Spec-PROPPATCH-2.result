@@ -12,8 +12,10 @@ Content-Type: text/xml; charset="utf-8"
  </response>
 </multistatus>
 
-changed_last_60se: >1<
-  dav_displayname: >User One's Calendar<
+  changed_last_5m: >1<
+  dav_displayname: >User One's Transparent Calendar<
+   is_addressbook: >0<
       is_calendar: >1<
     resourcetypes: ><DAV::collection/><urn:ietf:params:xml:ns:caldav:calendar/><
+  schedule_transp: >transparent<
 
