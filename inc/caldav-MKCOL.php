@@ -74,14 +74,20 @@ if ( isset($request->xml_tags) ) {
       case 'DAV::resourcetype':
         /** Any value for resourcetype other than 'calendar' is ignored */
         dbg_error_log( 'MKCOL', 'Extended MKCOL with resourcetype specified. "%s"', $content);
-        if ( preg_match( '/urn:ietf:params:xml:ns:caldav:calendar/', $content ) ) {
-          $is_calendar = true;
+        $is_addressbook = count($setting->GetPath('DAV::resourcetype/urn:ietf:params:xml:ns:carddav:addressbook'));
+        $is_calendar    = count($setting->GetPath('DAV::resourcetype/urn:ietf:params:xml:ns:caldav:calendar'));
+        if ( $is_addressbook && $is_calendar ) {
+          $failure['set-'.$tag] = new XMLElement( 'propstat', array(
+              new XMLElement( 'prop', new XMLElement($reply->Tag($tag))),
+              new XMLElement( 'status', 'HTTP/1.1 409 Conflict' ),
+              new XMLElement('responsedescription', translate('Collections may not be both CalDAV calendars and CardDAV addressbooks at the same time') )
+          ));
         }
-        if ( preg_match( '/urn:ietf:params:xml:ns:carddav:addressbook/', $content ) ) {
-          $is_addressbook = true;
+        else {
+          $resourcetypes = $setting->GetPath('DAV::resourcetype/*');
+          $resourcetypes = str_replace( "\n", "", implode('',$resourcetypes));
+          $success[$tag] = 1;
         }
-        $resourcetypes = preg_replace( '/\s+/', '', $content);
-        $success[$tag] = 1;
         break;
 
       case 'DAV::displayname':
