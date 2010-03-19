@@ -63,11 +63,8 @@ if ( ! $dav_resource->Exists() && (isset($request->etag_if_match) && $request->e
   $request->PreconditionFailed(412,'if-match');
 }
 
-if ( $dav_resource->Exists() && (
-          (isset($request->etag_if_match) && $request->etag_if_match != '' && $request->etag_if_match != $dav_resource->unique_tag())
-        || (isset($request->etag_none_match) && $request->etag_none_match != '' && ($request->etag_none_match == $dav_resource->unique_tag() || $request->etag_none_match == '*') )
-    ) ) {
-  if ( isset($request->etag_if_match) && $request->etag_if_match != $icalendar->dav_etag ) {
+if ( $dav_resource->Exists() ) {
+  if ( isset($request->etag_if_match) && $request->etag_if_match != '' && $request->etag_if_match != $dav_resource->unique_tag() ) {
     /**
     * RFC2068, 14.25:
     * If none of the entity tags match, or if "*" is given and no current
@@ -76,7 +73,8 @@ if ( $dav_resource->Exists() && (
     */
     $request->PreconditionFailed(412,'if-match', translate( 'Existing resource does not match "If-Match" header - not accepted.'));
   }
-  else {
+  else if ( isset($request->etag_none_match) && $request->etag_none_match != ''
+               && ($request->etag_none_match == $dav_resource->unique_tag() || $request->etag_none_match == '*') ) {
     /**
     * RFC2068, 14.26:
     * If any of the entity tags match the entity tag of the entity that
