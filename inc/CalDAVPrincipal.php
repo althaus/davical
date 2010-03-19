@@ -36,10 +36,20 @@ class CalDAVPrincipal
 
   /**
   * @var RFC4791: Identifies the URL(s) of any WebDAV collections that contain
-  * calendar collections owned by the associated principal resource. In DAViCal
-  * this is also the place where there might be addressbooks too.
+  * calendar collections owned by the associated principal resource.
   */
-  var $calendar_home_set;
+  private $calendar_home_set;
+
+  /**
+  * @var CardDAV: Identifies the URL(s) of any WebDAV collections that contain
+  * addressbook collections owned by the associated principal resource.
+  */
+  private $addressbook_home_set;
+
+  /**
+  * @var Obsolete: Identifies the URL(s) of any calendars participating in free/busy
+  */
+  private $calendar_free_busy_set;
 
   /**
   * @var draft-desruisseaux-caldav-sched-03: Identify the URL of the scheduling
@@ -197,8 +207,6 @@ class CalDAVPrincipal
 
     $this->principal_address = $this->principal_url . 'principal.vcf';
 
-    $this->calendar_home_set = array( $this->url );
-
     $this->user_address_set = array(
        'mailto:'.$this->email,
        ConstructURL( '/'.$this->username.'/', true ),
@@ -238,19 +246,7 @@ class CalDAVPrincipal
     $this->write_proxy_for = null;
     $this->read_proxy_for = null;
 
-    /**
-    * calendar-free-busy-set has been dropped from draft 5 of the scheduling extensions for CalDAV
-    * but we'll keep replying to it for a while longer since iCal appears to want it...
-    */
-    $qry = new AwlQuery('SELECT dav_name FROM collection WHERE user_no = :user_no AND is_calendar ORDER BY user_no, collection_id', array( ':user_no' => $this->user_no) );
-    $this->calendar_free_busy_set = array();
-    if( $qry->Exec('CalDAVPrincipal',__LINE__,__FILE__) && $qry->rows() > 0 ) {
-      while( $calendar = $qry->Fetch() ) {
-        $this->calendar_free_busy_set[] = ConstructURL($calendar->dav_name, true);
-      }
-    }
-
-    dbg_error_log( 'principal', ' User: %s (%d) URL: %s, Home: %s, By Email: %d', $this->username, $this->user_no, $this->url, implode(',',$this->calendar_home_set), $this->by_email );
+    dbg_error_log( 'principal', ' User: %s (%d) URL: %s, Home: %s, By Email: %d', $this->username, $this->user_no, $this->url, $this->by_email );
   }
 
 
@@ -437,6 +433,71 @@ class CalDAVPrincipal
 
 
   /**
+  * Get the calendar_home_set, as lazily as possible
+  */
+  function calendar_home_set() {
+    if ( !isset($this->calendar_home_set) ) {
+      $this->calendar_home_set = array();
+/*      $qry = new AwlQuery('SELECT DISTINCT parent_container FROM collection WHERE is_calendar AND user_no = :user_no', array( ':user_no' => $this->user_no));
+      if ( $qry->Exec('principal',__LINE__,__FILE__) ) {
+        if ( $qry->rows() > 0 ) {
+          while( $calendar = $qry->Fetch() ) {
+            $this->calendar_home_set[] = ConstructURL($calendar->parent_container, true);
+          }
+        }
+        else {*/
+          $this->calendar_home_set[] = $this->principal_url;
+//         }
+//       }
+    }
+    return $this->calendar_home_set;
+  }
+
+
+  /**
+  * Get the addressbook_home_set, as lazily as possible
+  */
+  function addressbook_home_set() {
+    if ( !isset($this->addressbook_home_set) ) {
+     $this->addressbook_home_set = array();
+/*      $qry = new AwlQuery('SELECT DISTINCT parent_container FROM collection WHERE is_addressbook AND user_no = :user_no', array( ':user_no' => $this->user_no));
+      if ( $qry->Exec('principal',__LINE__,__FILE__) ) {
+        if ( $qry->rows() > 0 ) {
+          while( $addressbook = $qry->Fetch() ) {
+            $this->addressbook_home_set[] = ConstructURL($addressbook->parent_container, true);
+          }
+        }
+        else {*/
+          $this->addressbook_home_set[] = $this->principal_url;
+//         }
+//       }
+    }
+    return $this->addressbook_home_set;
+  }
+
+
+  /**
+  * Get the calendar_free_busy_set, as lazily as possible
+  */
+  function calendar_free_busy_set() {
+    if ( !isset($this->calendar_free_busy_set) ) {
+      /**
+      * calendar-free-busy-set has been dropped from draft 5 of the scheduling extensions for CalDAV
+      * in favour of
+      */
+      $this->calendar_free_busy_set = array();
+      $qry = new AwlQuery('SELECT dav_name FROM collection WHERE user_no = :user_no AND is_calendar AND (schedule_transp = \'opaque\' OR schedule_transp IS NULL) ORDER BY user_no, collection_id',
+                        array( ':user_no' => $this->user_no) );
+      if ( $qry->Exec('principal',__LINE__,__FILE__) ) {
+        while( $calendar = $qry->Fetch() ) {
+          $this->calendar_free_busy_set[] = ConstructURL($calendar->dav_name, true);
+        }
+      }
+    }
+    return $this->calendar_free_busy_set;
+  }
+
+  /**
   * Return the privileges bits for the current session user to this resource
   */
   function Privileges() {
@@ -539,12 +600,15 @@ class CalDAVPrincipal
         break;
 
       case 'urn:ietf:params:xml:ns:carddav:addressbook-home-set':
+        $reply->NSElement($prop, $tag, $reply->href( $this->addressbook_home_set() ) );
+        break;
+
       case 'urn:ietf:params:xml:ns:caldav:calendar-home-set':
-        $reply->NSElement($prop, $tag, $reply->href( $this->calendar_home_set ) );
+        $reply->NSElement($prop, $tag, $reply->href( $this->calendar_home_set() ) );
         break;
 
       case 'urn:ietf:params:xml:ns:caldav:calendar-free-busy-set':
-        $reply->CalDAVElement( $prop, 'calendar-free-busy-set', $reply->href( $this->calendar_free_busy_set ) );
+        $reply->CalDAVElement( $prop, 'calendar-free-busy-set', $reply->href( $this->calendar_free_busy_set() ) );
         break;
 
       case 'urn:ietf:params:xml:ns:caldav:calendar-user-address-set':
