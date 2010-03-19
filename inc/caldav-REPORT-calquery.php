@@ -93,7 +93,7 @@ function apply_filter( $filters, $item ) {
  */
 $need_post_filter = false;
 function SqlFilterFragment( $filter, $components, $property = null, $parameter = null ) {
-  global $need_post_filter;
+  global $need_post_filter, $target_collection;
   $sql = "";
   $params = array();
   if ( !is_array($filter) ) {
@@ -121,7 +121,9 @@ function SqlFilterFragment( $filter, $components, $property = null, $parameter =
             case 'dtend':
             case 'dtstamp':
             case 'dtstart':
-              $property_defined_match = "IS NOT NULL";
+              if ( ! $target_collection->IsSchedulingCollection() ) {
+                $property_defined_match = "IS NOT NULL";
+              }
               break;
 
             case 'priority':
@@ -266,13 +268,13 @@ function BuildSqlFilter( $filter ) {
 */
 
 $responses = array();
-$collection = new DAVResource($request->path);
-$bound_from = $collection->bound_from();
-if ( !$collection->Exists() ) {
+$target_collection = new DAVResource($request->path);
+$bound_from = $target_collection->bound_from();
+if ( !$target_collection->Exists() ) {
   $request->DoResponse( 404 );
 }
-if ( ! ($collection->IsCalendar() || $collection->IsSchedulingCollection()) ) {
-  $request->DoResponse( 403, translate('The calendar-query report must be run against a collection') );
+if ( ! ($target_collection->IsCalendar() || $target_collection->IsSchedulingCollection()) ) {
+  $request->DoResponse( 403, translate('The calendar-query report must be run against a calendar or a scheduling collection') );
 }
 
 /**
@@ -284,7 +286,7 @@ if ( ! ($collection->IsCalendar() || $collection->IsSchedulingCollection()) ) {
 */
 
 $params = array();
-$where = ' WHERE caldav_data.collection_id = ' . $collection->resource_id();
+$where = ' WHERE caldav_data.collection_id = ' . $target_collection->resource_id();
 if ( is_array($qry_filters) ) {
   dbg_log_array( "calquery", "qry_filters", $qry_filters, true );
   $components = array();
@@ -294,11 +296,11 @@ if ( is_array($qry_filters) ) {
     $params = $filter_fragment['params'];
   }
 }
-if ( $collection->Privileges() != privilege_to_bits('DAV::all') ) {
+if ( $target_collection->Privileges() != privilege_to_bits('DAV::all') ) {
   $where .= " AND (calendar_item.class != 'PRIVATE' OR calendar_item.class IS NULL) ";
 }
 
-if ( isset($c->hide_TODO) && $c->hide_TODO && ! $collection->HavePrivilegeTo('DAV::write-content') ) {
+if ( isset($c->hide_TODO) && $c->hide_TODO && ! $target_collection->HavePrivilegeTo('DAV::write-content') ) {
   $where .= " AND caldav_data.caldav_type NOT IN ('VTODO') ";
 }
 
@@ -312,8 +314,8 @@ $qry = new AwlQuery( $sql, $params );
 if ( $qry->Exec("calquery",__LINE__,__FILE__) && $qry->rows() > 0 ) {
   while( $calendar_object = $qry->Fetch() ) {
     if ( !$need_post_filter || apply_filter( $qry_filters, $calendar_object ) ) {
-      if ( $bound_from != $collection->dav_name() ) {
-        $calendar_object->dav_name = str_replace( $bound_from, $collection->dav_name(), $calendar_object->dav_name);
+      if ( $bound_from != $target_collection->dav_name() ) {
+        $calendar_object->dav_name = str_replace( $bound_from, $target_collection->dav_name(), $calendar_object->dav_name);
       }
       if ( $need_expansion ) {
         $ics = new iCalComponent($calendar_object->caldav_data);
