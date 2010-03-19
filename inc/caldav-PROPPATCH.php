@@ -49,6 +49,7 @@ $success   = array();
 */
 $qry = new AwlQuery();
 $qry->Begin();
+$setcalendar = count($xmltree->GetPath('/DAV::propertyupdate/DAV::set/DAV::prop/DAV::resourcetype/urn:ietf:params:xml:ns:caldav:calendar'));
 foreach( $setprops AS $k => $setting ) {
   $tag = $setting->GetTag();
   $content = $setting->RenderContent();
@@ -59,12 +60,12 @@ foreach( $setprops AS $k => $setting ) {
       /**
       * Can't set displayname on resources - only collections or principals
       */
-      if ( $request->IsCollection() || $request->IsPrincipal() ) {
+      if ( $dav_resource->IsCollection() || $dav_resource->IsPrincipal() ) {
         if ( $dav_resource->IsBinding() ) {
           $qry->QDo('UPDATE dav_binding SET dav_displayname = :displayname WHERE dav_name = :dav_name',
                                             array( ':displayname' => $content, ':dav_name' => $dav_resource->dav_name()) );
         }
-        else if ( $request->IsPrincipal() ) {
+        else if ( $dav_resource->IsPrincipal() ) {
           $qry->QDo('UPDATE dav_principal SET fullname = :displayname, displayname = :displayname, modified = current_timestamp WHERE user_no = :user_no',
                                             array( ':displayname' => $content, ':user_no' => $request->user_no) );
         }
@@ -93,9 +94,8 @@ foreach( $setprops AS $k => $setting ) {
       * Only collections may be CalDAV calendars or addressbooks, and they may not be both.
       */
       $setcollection  = count($setting->GetPath('DAV::resourcetype/DAV::collection'));
-      $setcalendar    = count($setting->GetPath('DAV::resourcetype/urn:ietf:params:xml:ns:caldav:calendar'));
       $setaddressbook = count($setting->GetPath('DAV::resourcetype/urn:ietf:params:xml:ns:carddav:addressbook'));
-      if ( $request->IsCollection() && $setcollection && ! $dav_resource->IsPrincipal()
+      if ( $dav_resource->IsCollection() && $setcollection && ! $dav_resource->IsPrincipal()
                             && ! $dav_resource->IsBinding() && ! ($setaddressbook && $setcalendar) ) {
         $resourcetypes = $setting->GetPath('DAV::resourcetype/*');
         $resourcetypes = str_replace( "\n", "", implode('',$resourcetypes));
@@ -113,6 +113,26 @@ foreach( $setprops AS $k => $setting ) {
                               new XMLElement( 'error', new XMLElement( 'cannot-modify-protected-property') ),
                               translate("Resources may not be changed to / from collections.") )
                           )
+        ));
+      }
+      break;
+
+    case 'urn:ietf:params:xml:ns:caldav:schedule-calendar-transp':
+      if ( $dav_resource->IsCollection() && ( $dav_resource->IsCalendar() || $setcalendar ) && !$dav_resource->IsBinding() ) {
+        $transparency = $setting->GetPath('urn:ietf:params:xml:ns:caldav:schedule-calendar-transp/*');
+        $transparency = preg_replace( '{^.*:}', '', $transparency[0]->GetTag());
+        $qry->QDo('UPDATE collection SET schedule_transp = :transparency WHERE dav_name = :dav_name',
+                    array( ':dav_name' => $dav_resource->dav_name(), ':transparency' => $transparency ) );
+        $success[$tag] = 1;
+      }
+      else {
+        $failure['set-'.$tag] = new XMLElement( 'propstat', array(
+            new XMLElement( 'prop', new XMLElement($tag)),
+              new XMLElement( 'status', 'HTTP/1.1 403 Forbidden' ),
+              new XMLElement( 'responsedescription', array(
+                                new XMLElement( 'error', new XMLElement( 'cannot-modify-protected-property') ),
+                                translate("The CalDAV:schedule-calendar-transp property may only be set on calendars.") )
+                            )
         ));
       }
       break;
