@@ -507,7 +507,7 @@ class AwlQuery
       $this->errorstring = sprintf( 'SQL error "%s" - %s"', $this->error_info[0], (isset($this->error_info[2]) ? $this->error_info[2] : ''));
       $this->_log_query( $this->location, 'QF', $this->errorstring, $line, $file );
       $this->_log_query( $this->location, 'QF', $this->querystring, $line, $file );
-      if ( isset($this->bound_parameters) && !isset($this->sth) ) {
+      if ( isset($this->bound_parameters) && ! ( isset($c->dbg['querystring']) || isset($c->dbg['ALL']) ) ) {
         foreach( $this->bound_parameters AS $k => $v ) {
           $this->_log_query( $this->location, 'QF', sprintf('    "%s" => "%s"', $k, $v), $line, $file );
         }
