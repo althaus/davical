@@ -246,7 +246,7 @@ class DAVResource
         $this->resourcetypes = '<DAV::collection/><DAV::principal/>';
       }
       else if ( $this->_is_proxy_request ) {
-        $this->resourcetypes  = sprintf('<DAV::collection/><http://calendarserver.org/ns/:calendar-proxy-%s/>', $this->collection->proxy_type );
+        $this->resourcetypes  = $this->collection->resourcetypes;
       }
       if ( isset($this->collection->dav_displayname) ) $this->collection->displayname = $this->collection->dav_displayname;
     }
@@ -456,7 +456,9 @@ EOSQL;
         $this->resourcetypes = $this->collection->resourcetypes;
       else {
         $this->resourcetypes = '<DAV::collection/>';
-        if ( $this->_is_principal ) $this->resourcetypes .= '<DAV::principal/>';
+        if ( $this->_is_principal )   $this->resourcetypes .= '<DAV::principal/>';
+        if ( $this->_is_addressbook ) $this->resourcetypes .= '<urn:ietf:params:xml:ns:carddav:addressbook/>';
+        if ( $this->_is_calendar )    $this->resourcetypes .= '<urn:ietf:params:xml:ns:caldav:calendar/>';
       }
     }
   }
@@ -1135,8 +1137,16 @@ EOQRY;
 
       case 'resourcetype':
         if ( isset($this->resourcetypes) ) {
-          $this->resourcetypes = preg_replace('{^<(.*)/>$}', '$1', $this->resourcetypes);
-          $type_list = explode('/><', $this->resourcetypes);
+          $this->resourcetypes = preg_replace('{^\s*<(.*)/>\s*$}', '$1', $this->resourcetypes);
+          $type_list = preg_split('{(/>\s*<|\n)}', $this->resourcetypes);
+          foreach( $type_list AS $k => $resourcetype ) {
+            if ( preg_match( '{^([^:]+):([^:]+) \s+ xmlns:([^=]+)="([^"]+)" \s* $}x', $resourcetype, $matches ) ) {
+              $type_list[$k] = $matches[4] .':' .$matches[2];
+            }
+            else if ( preg_match( '{^([^:]+) \s+ xmlns="([^"]+)" \s* $}x', $resourcetype, $matches ) ) {
+              $type_list[$k] = $matches[2] .':' .$matches[1];
+            }
+          }
           return $type_list;
         }
 
