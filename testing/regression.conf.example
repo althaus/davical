@@ -1,7 +1,18 @@
 #
 # A configuration file for the regression testing.
 #
+
+# The name of the regression testing database
 DBNAME=regression
+
+# Whether pgpool is running on this host ('inactive' or something else).
 PGPOOL=inactive
+
+# A hostname to use for DAViCal running in the root
 HOSTNAME=mycaldav
-DSN="regression;port=5432"
+
+# A hostname to use for DAViCal running in a sub-folder called '/cal/'
+ALTHOST=altcaldav
+
+# A Perl DBI data source name for the regression test database
+DSN="${DBNAME};port=5432"
