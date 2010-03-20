@@ -504,12 +504,21 @@ class AwlQuery
 
     if ( ! $success ) {
       // query failed
+      if ( $c->dbg['print_query_errors'] ) {
+        printf( "\n=====================\n" );
+        printf( "%s[%d] QF: %s\n", $file, $line, $this->errorstring);
+        printf( "%s\n", $this->querystring );
+        foreach( $this->bound_parameters AS $k => $v ) {
+          printf( "    '%s' \t=> '%s'\n", $k, $v );
+        }
+        printf( ".....................\n" );
+      }
       $this->errorstring = sprintf( 'SQL error "%s" - %s"', $this->error_info[0], (isset($this->error_info[2]) ? $this->error_info[2] : ''));
       $this->_log_query( $this->location, 'QF', $this->errorstring, $line, $file );
       $this->_log_query( $this->location, 'QF', $this->querystring, $line, $file );
       if ( isset($this->bound_parameters) && ! ( isset($c->dbg['querystring']) || isset($c->dbg['ALL']) ) ) {
         foreach( $this->bound_parameters AS $k => $v ) {
-          $this->_log_query( $this->location, 'QF', sprintf('    "%s" => "%s"', $k, $v), $line, $file );
+          dbg_error_log( 'LOG-'.$this->location, ' Query: QF:     "%s" => "%s"', $k, $v);
         }
       }
     }
