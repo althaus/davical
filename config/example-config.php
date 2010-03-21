@@ -221,14 +221,19 @@ $c->collections_always_exist = false;
 //    'protocolVersion' => '3', //Version of LDAP protocol to use
 //    'baseDNUsers'=> 'dc=tennaxia,dc=net', //where to look at valid user
 //    'filterUsers' => 'objectClass=kolabInetOrgPerson', //filter which must validate a user according to RFC4515, i.e. surrounded by brackets
-//    'baseDNGroups' => 'ou=divisions,dc=tennaxia,dc=net', //not used ATM
-//    'filterGroups' => 'objectClass=groupOfUniqueNames', //not used ATM
+//    'baseDNGroups' => 'ou=divisions,dc=tennaxia,dc=net', //where to look for groups
+//    'filterGroups' => 'objectClass=groupOfUniqueNames', //filter with same rules as filterUsers
        /** /!\ "username" should be set and "updated" must be set **/
 //    'mapping_field' => array("username" => "uid",
 //                             "updated" => "modifyTimestamp",
 //                             "fullname" => "cn" ,
 //                             "email" =>"mail"
 //                             ), //used to create the user based on his ldap properties
+//    'group_mapping_field' => array("username" => "cn",
+//                             "updated" => "modifyTimestamp",
+//                             "fullname" => "cn" ,
+//                             "members" =>"memberUid"
+//                             ), //used to create the group based on the ldap properties
        /** used to set default value for all users, will be overcharged by ldap if defined also in mapping_field **/
 //    'default_value' => array("date_format_type" => "E","locale" => "fr_FR"),
        /** foreach key set start and length in the string provided by ldap
