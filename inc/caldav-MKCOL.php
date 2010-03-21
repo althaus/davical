@@ -194,8 +194,8 @@ if ( ! $qry->QDo( 'INSERT INTO collection ( user_no, parent_container, dav_name,
               ':dav_name'         => $request->path,
               ':dav_etag'         => md5($request->user_no. $request->path),
               ':dav_displayname'  => $displayname,
-              ':is_calendar'      => ($is_calendar ? 1 : 0),
-              ':is_addressbook'   => ($is_addressbook ? 1 : 0),
+              ':is_calendar'      => ($is_calendar ? 't' : 'f'),
+              ':is_addressbook'   => ($is_addressbook ? 't' : 'f'),
               ':resourcetypes'    => $resourcetypes
            ) ) ) {
   $request->DoResponse( 500, translate('Error writing calendar details to database.') );
