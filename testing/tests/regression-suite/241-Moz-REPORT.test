@@ -25,3 +25,9 @@ BEGINDATA
   </filter>
 </calendar-query>
 ENDDATA
+
+QUERY
+SELECT dav_name, dav_displayname, parent_container
+  FROM collection
+ WHERE dav_name = '/user1/.in/'
+ENDQUERY

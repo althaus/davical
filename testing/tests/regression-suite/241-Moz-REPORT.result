@@ -7,3 +7,8 @@ Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
 <multistatus xmlns="DAV:"/>
+
+  dav_displayname: >User 1 Inbox<
+         dav_name: >/user1/.in/<
+ parent_container: >/user1/<
+

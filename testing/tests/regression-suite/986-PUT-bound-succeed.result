@@ -6,13 +6,13 @@ Content-Length: 0
 Content-Type: text/plain; charset="utf-8"
 
 
-         dav_etag: >9a8d7696ee2e0a0f1f4170fe4f094a3a<
-         dav_name: >/user2/home/thiswillworkfine.ics<
-          dtstart: >2010-03-22 18:00:00+13<
-          summary: >Test adding an event to a bound collection<
-
          dav_etag: >1c7895f11787e71fd6dbe3260d72d4a0<
          dav_name: >/user2/home/thiswillalsobegood.ics<
           dtstart: >2004-01-01 12:00:00+13<
           summary: >Release DAViCal 0.9.9<
+
+         dav_etag: >9a8d7696ee2e0a0f1f4170fe4f094a3a<
+         dav_name: >/user2/home/thiswillworkfine.ics<
+          dtstart: >2010-03-22 18:00:00+13<
+          summary: >Test adding an event to a bound collection<
 

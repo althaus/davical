@@ -38,5 +38,6 @@ SELECT by_principal, by_collection, privileges, p_to.displayname, to_principal
           LEFT JOIN collection ON (by_collection=collection.collection_id)
           LEFT JOIN dav_principal p_by ON (by_principal=p_by.principal_id)
   WHERE p_by.dav_name = '/user1/'
+  ORDER BY by_principal, to_principal
 ENDQUERY
 
