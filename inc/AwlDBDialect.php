@@ -171,8 +171,9 @@ class AwlDBDialect {
   /**
   * Returns $value escaped in an appropriate way for this database dialect.
   * @param mixed $value The value to be escaped
-  * @param string $value_type The type of escaping desired.  If blank this will be worked out from gettype($value).  The special
-  *                           type of 'identifier' can also be used for escaping of SQL identifiers.
+  * @param string $value_type The type of escaping desired.  If blank this will
+  *                be worked out from the type of the $value.  The special type
+  *                of 'identifier' can also be used for escaping of SQL identifiers.
   */
   function Quote( $value, $value_type = null ) {
     if ( isset($value_type) && $value_type == 'identifier' ) {
@@ -186,60 +187,57 @@ class AwlDBDialect {
       return $rv;
     }
 
-    switch ( $this->dialect ) {
-      case 'mysql':
-      case 'pgsql':
-      case 'sqlite':
-        if ( is_string($value_type) ) {
-          switch( $value_type ) {
-            case 'null':
-              $value_type = PDO::PARAM_NULL;
-              break;
-            case 'integer':
-            case 'double' :
-              $value_type = PDO::PARAM_INT;
-              break;
-            case 'boolean':
-              $value_type = PDO::PARAM_BOOL;
-              break;
-            case 'string':
-              $value_type = PDO::PARAM_STR;
-              break;
-          }
-        }
-        $rv = $this->db->quote($value);
-        break;
+    if ( !isset($value_type) ) {
+      if ( !isset($value) )       $value_type = PDO::PARAM_NULL;
+      elseif ( is_bool($value) )  $value_type = PDO::PARAM_BOOL;
+      elseif ( is_float($value) ) $value_type = PDO::PARAM_INT;
+      elseif ( is_numeric($value)) {
+        if ( preg_match('{^(19|20)\d\d(0[1-9]|1[012])([012]\d|30|31)$}', $value) )
+          $value_type = PDO::PARAM_STR; // YYYYMMDD
+        else
+          $value_type = PDO::PARAM_INT;
+      }
+      else
+        $value_type = PDO::PARAM_STR;
+    }
 
-      default:
-        if ( !isset($value_type) ) {
-          $value_type = gettype($value);
-        }
-        switch ( $value_type ) {
-          case PDO::PARAM_NULL:
-          case 'null':
-            $rv = 'NULL';
-            break;
-          case PDO::PARAM_INT:
-          case 'integer':
-          case 'double' :
-            return $str;
-          case PDO::PARAM_BOOL:
-          case 'boolean':
-            $rv = $str ? 'TRUE' : 'FALSE';
-            break;
-          case PDO::PARAM_STR:
-          case 'string':
-          default:
-            $str = str_replace("'", "''", $str);
-            if ( strpos( $str, '\\' ) !== false ) {
-              $str = str_replace('\\', '\\\\', $str);
-              if ( $this->dialect == 'pgsql' ) {
-                /** PostgreSQL wants to know when a string might contain escapes */
-                $rv = "E'$str'";
-              }
-            }
-        }
+    if ( is_string($value_type) ) {
+      switch( $value_type ) {
+        case 'null':
+          $value_type = PDO::PARAM_NULL;
+          break;
+        case 'integer':
+        case 'double' :
+          $value_type = PDO::PARAM_INT;
+          break;
+        case 'boolean':
+          $value_type = PDO::PARAM_BOOL;
+          break;
+        case 'string':
+          $value_type = PDO::PARAM_STR;
+          break;
+      }
+    }
+
+    switch ( $value_type ) {
+      case PDO::PARAM_NULL:
+        $rv = 'NULL';
         break;
+      case PDO::PARAM_INT:
+        $rv = $value;
+        break;
+      case PDO::PARAM_BOOL:
+        $rv = $value ? 'TRUE' : 'FALSE';
+        break;
+      case PDO::PARAM_STR:
+      default:
+        $rv = str_replace("'", "''", $value);
+        $rv = "'".str_replace('\\', '\\\\\\', $rv)."'";
+
+        if ( $this->dialect == 'pgsql' && strpos( $rv, '\\' ) !== false ) {
+          /** PostgreSQL wants to know when a string might contain escapes */
+          $rv = 'E'.$rv;
+        }
     }
 
     return $rv;
@@ -301,6 +299,48 @@ class AwlDBDialect {
     return $querystring;
   }
 
+  /**
+  * Replaces named query parameters of the form :name with appropriately
+  * escaped substitutions.
+  *
+  * The function takes a variable number of arguments, the first is the
+  * SQL string, with replaceable ':name' characters (a la DBI).  The
+  * subsequent parameters being the values to replace into the SQL string.
+  *
+  * The values passed to the routine are analyzed for type, and quoted if
+  * they appear to need quoting.  This can go wrong for (e.g.) NULL or
+  * other special SQL values which are not straightforwardly identifiable
+  * as needing quoting (or not).
+  *
+  * @param  string The query string with replacable ':name' identifiers
+  * @param mixed A ':name' => 'value' hash of values to replace into the
+  * SQL string.
+  * @return The built query string
+  */
+  function ReplaceNamedParameters() {
+    $argc = func_num_args();
+    $args = func_get_args();
 
+    if ( is_array($args[0]) ) {
+      /**
+      * If the first argument is an array we treat that as our arguments instead
+      */
+      $args = $args[0];
+      $argc = count($args);
+    }
+    $querystring = array_shift($args);
+
+    if ( is_array($args[0]) ) {
+      $args = $args[0];
+      $argc = count($args);
+    }
+
+    foreach( $args AS $name => $value ) {
+      $replacement = $this->Quote($value);
+      $querystring = preg_replace( '{\Q'.$name.'\E\b}s', $replacement, $querystring );
+    }
+
+    return $querystring;
+  }
 
 }
