@@ -264,35 +264,36 @@ class AwlDBDialect {
   */
   function ReplaceParameters() {
     $argc = func_num_args();
-    $qry = func_get_arg(0);
     $args = func_get_args();
 
-    if ( is_array($qry) ) {
+    if ( is_array($args[0]) ) {
       /**
       * If the first argument is an array we treat that as our arguments instead
       */
-      $qry = $args[0][0];
+      $args = $args[0];
+      $argc = count($args);
+    }
+    $qry = array_shift($args);
+
+    if ( is_array($args[0]) ) {
       $args = $args[0];
       $argc = count($args);
     }
 
+    if ( ! isset($args[0]) ) return $this->ReplaceNamedParameters($qry,$args);
+
     /**
     * We only split into a maximum of $argc chunks.  Any leftover ? will remain in
-    * the string and may be replaced at Exec rather than Prepare.
+    * the string and may be replaced at Exec rather than Prepare. Scary!
     */
-    $parts = explode( '?', $qry, $argc );
+    $parts = explode( '?', $qry, $argc + 1 );
     $querystring = $parts[0];
     $z = count($parts);
 
-    for( $i = 1; $i < $z; $i++ ) {
+    for( $i = 0; $i < $argc; $i++ ) {
       $arg = $args[$i];
-      if ( !isset($arg) ) {
-        $querystring .= 'NULL';
-      }
-      else {
-        $querystring .= $this->Quote($arg);  //parameter
-      }
-      $querystring .= $parts[$i]; //extras eg. ","
+      $querystring .= $this->Quote($arg);  //parameter
+      $querystring .= $parts[$i+1]; //extras eg. ","
     }
     if ( isset($parts[$z]) ) $querystring .= $parts[$z]; //puts last part on the end
 

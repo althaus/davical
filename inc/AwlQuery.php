@@ -340,7 +340,7 @@ class AwlQuery
 
     if ( isset($c->expand_pdo_parameters) && $c->expand_pdo_parameters
          && isset($this->bound_parameters) ) {
-      $this->bound_querystring = $this->connection->ReplaceNamedParameters($this->querystring,$this->bound_parameters);
+      $this->bound_querystring = $this->connection->ReplaceParameters($this->querystring,$this->bound_parameters);
       $this->sth = true;
     }
     else {
@@ -370,16 +370,12 @@ class AwlQuery
         && isset($c->expand_pdo_parameters) && $c->expand_pdo_parameters
         && isset($this->bound_parameters)
      ) {
-      $this->bound_querystring = $this->connection->ReplaceNamedParameters($ths->querystring,$this->bound_parameters);
+      $this->bound_querystring = $this->connection->ReplaceParameters($ths->querystring,$this->bound_parameters);
     }
 
     $t1 = microtime(true); // get start time
     if ( isset($this->bound_querystring) || !isset($this->bound_parameters) ) {
       if ( ! isset($this->bound_querystring) ) $this->bound_querystring = $this->querystring;
-      // printf( "Bound: %s\n", $this->bound_querystring );
-      // if ( $this->bound_querystring == '' ) {
-        // print_r($this);
-      // }
       $this->sth = $this->connection->query($this->bound_querystring);
       $this->bound_querystring = null;
       if ( ! $this->sth ) {
@@ -388,11 +384,10 @@ class AwlQuery
       }
     }
     else {
-      // printf( "notbound: %s\n", $this->querystring );
       if ( ! $this->sth->execute( $this->bound_parameters ) ) {
         $this->error_info = $this->sth->errorInfo();
         return false;
-      }                
+      }
     }
 
     $this->rows = $this->sth->rowCount();
@@ -546,7 +541,7 @@ class AwlQuery
     if ( ! $success ) {
       // query failed
       $this->errorstring = sprintf( 'SQL error "%s" - %s"', $this->error_info[0], (isset($this->error_info[2]) ? $this->error_info[2] : ''));
-      if ( $c->dbg['print_query_errors'] ) {
+      if ( isset($c->dbg['print_query_errors']) && $c->dbg['print_query_errors'] ) {
         printf( "\n=====================\n" );
         printf( "%s[%d] QF: %s\n", $file, $line, $this->errorstring);
         printf( "%s\n", $this->querystring );
