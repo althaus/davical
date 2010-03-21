@@ -51,9 +51,9 @@ class RRuleTest {
 
   function SQLTest() {
     $result = '';
-    $sql = "SELECT event_instances::timestamp AS event_date FROM event_instances(?,?) LIMIT ".$this->result_limit;
+    $sql = "SELECT event_instances::timestamp AS event_date FROM event_instances(:dtstart,:rrule) LIMIT ".$this->result_limit;
     $start = microtime(true);
-    $qry = new AwlQuery($sql, $this->dtstart, $this->recur);
+    $qry = new AwlQuery($sql, array( ':dtstart' => $this->dtstart, ':rrule' => $this->recur) );
     // printf( "%s\n", $qry->querystring);
     if ( $qry->Exec("test") && $qry->rows() > 0 ) {
       $i = 0;
