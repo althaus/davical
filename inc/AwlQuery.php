@@ -132,6 +132,12 @@ class AwlQuery
   protected $querystring;
 
   /**
+  * The actual query string, after we've replaced parameters in it
+  * @var string
+  */
+  protected $bound_querystring;
+
+  /**
   * The current array of bound parameters
   * @var array
   */
@@ -323,15 +329,79 @@ class AwlQuery
   * Tell the database to prepare the query that we will execute
   */
   function Prepare() {
+    global $c;
+
+    if ( isset($this->sth) ) return; // Already prepared
+
     if ( !isset($this->connection) ) {
       _awl_connect_configured_database();
       $this->connection = $GLOBALS['_awl_dbconn'];
     }
-    $this->sth = $this->connection->prepare( $this->querystring );
+
+    if ( isset($c->expand_pdo_parameters) && $c->expand_pdo_parameters
+         && isset($this->bound_parameters) ) {
+      $this->bound_querystring = $this->connection->ReplaceNamedParameters($this->querystring,$this->bound_parameters);
+      $this->sth = true;
+    }
+    else {
+      $this->sth = $this->connection->prepare( $this->querystring );
+    }
+
     if ( ! $this->sth ) {
       $this->error_info = $this->connection->errorInfo();
     }
     else $this->error_info = null;
+  }
+
+
+  /**
+  * Tell the database to execute the query
+  */
+  function Execute() {
+    global $c;
+
+    if ( !isset($this->connection) ) {
+      _awl_connect_configured_database();
+      $this->connection = $GLOBALS['_awl_dbconn'];
+    }
+
+    if (
+           !isset($this->bound_querystring)
+        && isset($c->expand_pdo_parameters) && $c->expand_pdo_parameters
+        && isset($this->bound_parameters)
+     ) {
+      $this->bound_querystring = $this->connection->ReplaceNamedParameters($ths->querystring,$this->bound_parameters);
+    }
+
+    $t1 = microtime(true); // get start time
+    if ( isset($this->bound_querystring) || !isset($this->bound_parameters) ) {
+      if ( ! isset($this->bound_querystring) ) $this->bound_querystring = $this->querystring;
+      // printf( "Bound: %s\n", $this->bound_querystring );
+      // if ( $this->bound_querystring == '' ) {
+        // print_r($this);
+      // }
+      $this->sth = $this->connection->query($this->bound_querystring);
+      $this->bound_querystring = null;
+      if ( ! $this->sth ) {
+        $this->error_info = $this->connection->errorInfo();
+        return false;
+      }
+    }
+    else {
+      // printf( "notbound: %s\n", $this->querystring );
+      if ( ! $this->sth->execute( $this->bound_parameters ) ) {
+        $this->error_info = $this->sth->errorInfo();
+        return false;
+      }                
+    }
+
+    $this->rows = $this->sth->rowCount();
+    $i_took = microtime(true) - $t1;
+    $c->total_query_time += $i_took;
+    $this->execution_time = sprintf( "%2.06lf", $i_took);
+
+    $this->error_info = null;
+    return true;
   }
 
 
@@ -407,6 +477,7 @@ class AwlQuery
     $this->error_info = null;
     $this->rownum = -1;
     $this->bound_parameters = null;
+    $this->bound_querystring = null;
     $this->sth = null;
 
     if ( !isset($this->connection) ) {
@@ -420,9 +491,9 @@ class AwlQuery
     $this->querystring = array_shift($args);
     if ( 1 < $argc ) {
       if ( is_array($args[0]) )
-        $this->Bind($args[0]);
+        $this->bound_parameters = $args[0];
       else
-        $this->Bind($args);
+        $this->bound_parameters = $args;
     }
 
     return $this->Exec();
@@ -466,54 +537,24 @@ class AwlQuery
       }
     }
 
-    if ( isset($this->bound_parameters) && !isset($this->sth) ) {
+    if ( isset($this->bound_parameters) ) {
       $this->Prepare();
     }
 
-
-    $success = true;
-    $t1 = microtime(true); // get start time
-    if ( isset($this->sth) && $this->sth !== false ) {
-      if ( ! $this->sth->execute( $this->bound_parameters ) ) {
-        $this->error_info = $this->sth->errorInfo();
-        $success = false;
-      }
-      else $this->error_info = null;
-    }
-    else if ( !isset($this->sth) ) {
-      /** Ensure we have a connection to the database */
-      if ( !isset($this->connection) ) {
-        _awl_connect_configured_database();
-        $this->connection = $GLOBALS['_awl_dbconn'];
-      }
-      $this->sth = $this->connection->query( $this->querystring );
-      if ( ! $this->sth ) {
-        $this->error_info = $this->connection->errorInfo();
-        $success = false;
-      }
-      else $this->error_info = null;
-    }
-    else if ( $this->sth === false ) {
-      $success = false;
-    }
-    if ( $success ) $this->rows = $this->sth->rowCount();
-    $t2 = microtime(true); // get end time
-    $i_took = $t2 - $t1;
-    $c->total_query_time += $i_took;
-    $this->execution_time = sprintf( "%2.06lf", $i_took);
+    $success = $this->Execute();
 
     if ( ! $success ) {
       // query failed
+      $this->errorstring = sprintf( 'SQL error "%s" - %s"', $this->error_info[0], (isset($this->error_info[2]) ? $this->error_info[2] : ''));
       if ( $c->dbg['print_query_errors'] ) {
         printf( "\n=====================\n" );
         printf( "%s[%d] QF: %s\n", $file, $line, $this->errorstring);
         printf( "%s\n", $this->querystring );
         foreach( $this->bound_parameters AS $k => $v ) {
-          printf( "    '%s' \t=> '%s'\n", $k, $v );
+          printf( "    %-18s \t=> '%s'\n", "'$k'", $v );
         }
         printf( ".....................\n" );
       }
-      $this->errorstring = sprintf( 'SQL error "%s" - %s"', $this->error_info[0], (isset($this->error_info[2]) ? $this->error_info[2] : ''));
       $this->_log_query( $this->location, 'QF', $this->errorstring, $line, $file );
       $this->_log_query( $this->location, 'QF', $this->querystring, $line, $file );
       if ( isset($this->bound_parameters) && ! ( isset($c->dbg['querystring']) || isset($c->dbg['ALL']) ) ) {
