@@ -6,7 +6,8 @@ DBNAME=regression
 PGPOOL=inactive
 HOSTNAME=regression
 
-# export TZ=Pacific/Auckland
+# We need to run the regression tests in the timezone they were written for.
+export PGTZ=Pacific/Auckland
 
 . ./regression.conf
 
