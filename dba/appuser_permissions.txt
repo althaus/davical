@@ -39,6 +39,12 @@ GRANT SELECT,INSERT,UPDATE,DELETE
   ON dav_principal
   ON access_ticket
   ON dav_binding
+  ON calendar_alarm
+  ON calendar_attendee
+  ON addressbook_resource
+  ON addressbook_address_adr
+  ON addressbook_address_tel
+  ON addressbook_address_email
 
 GRANT SELECT,UPDATE
   ON relationship_type_rt_id_seq
