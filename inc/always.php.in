@@ -174,6 +174,7 @@ if ( $qry->Exec('always',__LINE__,__FILE__) && $row = $qry->Fetch() ) {
     $c->messages[] = sprintf( 'Database schema needs upgrading. Current: %d.%d.%d, Desired: %d.%d.%d',
              $row->schema_major, $row->schema_minor, $row->schema_patch, $c->want_dbversion[0], $c->want_dbversion[1], $c->want_dbversion[2]);
   }
+  if ( isset($_SERVER['HTTP_X_DAVICAL_TESTCASE']) ) $qry->QDo('SET TIMEZONE TO \'Pacific/Auckland\'');
 }
 
 
