@@ -224,9 +224,9 @@ class AwlQuery
     $this->querystring = array_shift($args);
     if ( 1 < $argc ) {
       if ( is_array($args[0]) )
-        $this->Bind($args[0]);
+        $this->bound_parameters = $args[0];
       else
-        $this->Bind($args);
+        $this->bound_parameters = $args;
     }
 
     return $this;
@@ -310,17 +310,29 @@ class AwlQuery
 
 
   /**
-  * Bind some parameters
+  * Bind some parameters.  This can be called in three ways:
+  * 1) As Bind(':key','value), when using named parameters
+  * 2) As Bind('value'), when using ? placeholders
+  * 3) As Bind(array()), to overwrite the existing bound parameters.  The array may
+  *    be ':name' => 'value' pairs or ordinal values, depending on whether the SQL
+  *    is using ':name' or '?' style placeholders.
+  *
+  * @param mixed $args See details above.
   */
   function Bind() {
+    $argc = func_num_args();
     $args = func_get_args();
 
-    if ( gettype($args[0]) == 'array' ) {
-      $this->bound_parameters = $args[0];
-      /** @TODO: perhaps we should WARN here if there is more than 1 argument */
+    if ( $argc == 1 ) {
+      if ( gettype($args[0]) == 'array' ) {
+        $this->bound_parameters = $args[0];
+      }
+      else {
+        $this->bound_parameters[] = $args[0];
+      }
     }
     else {
-      $this->bound_parameters = $args;
+      $this->bound_parameters[$args[0]] = $args[1];
     }
   }
 
@@ -370,13 +382,14 @@ class AwlQuery
         && isset($c->expand_pdo_parameters) && $c->expand_pdo_parameters
         && isset($this->bound_parameters)
      ) {
-      $this->bound_querystring = $this->connection->ReplaceParameters($ths->querystring,$this->bound_parameters);
+      $this->bound_querystring = $this->connection->ReplaceParameters($this->querystring,$this->bound_parameters);
     }
 
     $t1 = microtime(true); // get start time
     if ( isset($this->bound_querystring) || !isset($this->bound_parameters) ) {
       if ( ! isset($this->bound_querystring) ) $this->bound_querystring = $this->querystring;
       $this->sth = $this->connection->query($this->bound_querystring);
+//      printf( "\n=============================================================== QQ\n%s\n", $this->bound_querystring);
       $this->bound_querystring = null;
       if ( ! $this->sth ) {
         $this->error_info = $this->connection->errorInfo();
@@ -460,13 +473,10 @@ class AwlQuery
 
 
   /**
-  * Simple QDo() class which will re-use this query for whatever was passed in, and execute it
-  * returning the result of the Exec() call.  We can't call it Do() since that's a reserved word...
+  * Simple SetSql() class which will reset the object with the querystring from the first argument.
   * @param  string The query string in PDO syntax with replacable '?' characters or bindable parameters.
-  * @param mixed The values to replace into the SQL string.
-  * @return boolean Success (true) or Failure (false)
   */
-  public function QDo() {
+  public function SetSql( $sql ) {
     $this->rows = null;
     $this->execution_time = 0;
     $this->error_info = null;
@@ -475,15 +485,22 @@ class AwlQuery
     $this->bound_querystring = null;
     $this->sth = null;
 
-    if ( !isset($this->connection) ) {
-      if ( !isset($_awl_dbconn) ) _awl_connect_configured_database();
-      $this->connection = $_awl_dbconn;
-    }
+    $this->querystring = $sql;
+  }
 
+
+  /**
+  * Simple QDo() class which will re-use this query for whatever was passed in, and execute it
+  * returning the result of the Exec() call.  We can't call it Do() since that's a reserved word...
+  * @param  string The query string in PDO syntax with replacable '?' characters or bindable parameters.
+  * @param mixed The values to replace into the SQL string.
+  * @return boolean Success (true) or Failure (false)
+  */
+  public function QDo() {
     $argc = func_num_args();
     $args = func_get_args();
 
-    $this->querystring = array_shift($args);
+    $this->SetSql( array_shift($args) );
     if ( 1 < $argc ) {
       if ( is_array($args[0]) )
         $this->bound_parameters = $args[0];
