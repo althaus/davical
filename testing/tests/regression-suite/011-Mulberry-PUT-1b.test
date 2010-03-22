@@ -41,9 +41,13 @@ END:VEVENT
 END:VCALENDAR
 ENDDATA
 
+#   at time zone 'GMT' AS dtstamp,
 QUERY
-SELECT caldav_data.user_no, caldav_type, logged_user, 
-       uid, dtstamp, dtstart at time zone tz_locn as dtstart, dtend at time zone tz_locn as dtend, due, summary, location,
+SELECT caldav_data.user_no, caldav_type, logged_user, uid,
+       dtstamp,
+       dtstart at time zone tz_locn as dtstart,
+       dtend at time zone tz_locn as dtend,
+       due, summary, location,
        description, priority, class, transp, rrule, url,
        percent_complete, tz_id, status,
        ((current_timestamp AT TIME ZONE 'GMT' - last_modified) < '2 seconds'::interval) AS "~ Modified Now",

@@ -6,6 +6,8 @@ DBNAME=regression
 PGPOOL=inactive
 HOSTNAME=regression
 
+# export TZ=Pacific/Auckland
+
 . ./regression.conf
 
 [ -z "${DSN}" ] && DSN="${DBNAME}"
@@ -25,7 +27,7 @@ check_result() {
   if [ ! -f "${REGRESSION}/${TEST}.result" ] ; then
     touch "${REGRESSION}/${TEST}.result"
   fi
-  diff -u "${REGRESSION}/${TEST}.result" "${RESULTS}/${TEST}" >"${REGRESSION}/diffs/${TEST}"
+  diff --text -u "${REGRESSION}/${TEST}.result" "${RESULTS}/${TEST}" >"${REGRESSION}/diffs/${TEST}"
 
   if [ -s "${REGRESSION}/diffs/${TEST}" ] ; then
     echo "======================================="
@@ -48,6 +50,8 @@ check_result() {
       cat "$REGRESSION/${TEST}.test"
       return 2
     elif [ "${ACCEPT}" = "f" ]; then
+      echo "Showing full details of ${TEST}"
+      cat "${REGRESSION}/${TEST}.test"
       echo "Showing full result of ${TEST}"
       cat "${RESULTS}/${TEST}"
       return 2

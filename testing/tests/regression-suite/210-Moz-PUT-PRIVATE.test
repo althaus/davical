@@ -7,7 +7,6 @@ URL=http://mycaldav/caldav.php/user1/home/1906b3ca-4890-468a-9b58-1de74bf2c716.i
 HEADER=User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9a2pre) Gecko/20061222 Calendar/3.0a1
 HEADER=Accept: text/html,application/xhtml+xml;q=0.9,application/xml;q=0.8,*/*;q=0.7
 HEADER=Accept-Language: en-us,en;q=0.5
-HEADER=Accept-Encoding: gzip,deflate
 HEADER=Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
 HEADER=Content-Type: text/calendar; charset=utf-8
 
