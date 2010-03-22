@@ -293,9 +293,9 @@ class AwlDBDialect {
     for( $i = 0; $i < $argc; $i++ ) {
       $arg = $args[$i];
       $querystring .= $this->Quote($arg);  //parameter
-      $querystring .= $parts[$i+1]; //extras eg. ","
+      $z = $i+1;
+      if ( isset($parts[$z]) ) $querystring .= $parts[$z];
     }
-    if ( isset($parts[$z]) ) $querystring .= $parts[$z]; //puts last part on the end
 
     return $querystring;
   }
