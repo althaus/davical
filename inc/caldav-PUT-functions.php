@@ -594,6 +594,71 @@ EOSQL;
 }
 
 
+//     Column    |           Type           | Modifiers
+// --------------+--------------------------+-----------
+//  dav_id       | bigint                   | not null
+//  action       | text                     |
+//  trigger      | text                     |
+//  summary      | text                     |
+//  description  | text                     |
+//  next_trigger | timestamp with time zone |
+//  component    | text                     |
+
+function write_alarms( $dav_id, $alarms, $ical ) {
+  $qry = new AwlQuery('DELETE FROM calendar_alarm WHERE dav_id = '.$dav_id );
+  $qry->Exec('PUT',__LINE__,__FILE__);
+  $qry->SetSql('INSERT INTO calendar_alarm ( dav_id, action, trigger, summary, description, component, next_trigger )
+          VALUES( '.$dav_id.', :action, :trigger, :summary, :description, :component,
+                                      :related::timestamp with time zone + :related_trigger::interval )' );
+  $qry->Prepare();
+  foreach( $alarms AS $v ) {
+    $trigger = array_merge($v->GetProperties('TRIGGER'));
+//    print_r($trigger);
+    $trigger = $trigger[0];
+    $related = null;
+    $related_trigger = '0M';
+    $trigger_type = $trigger->GetParameterValue('VALUE');
+    if ( !isset($trigger_type) || $trigger_type == 'DURATION' ) {
+      switch ( $trigger->GetParameterValue('RELATED') ) {
+        case 'DTEND':  $related = $ical->GetPValue('DTEND'); break;
+        case 'DUE':    $related = $ical->GetPValue('DUE');   break;
+        default:       $related = $ical->GetPValue('DTSTART');
+      }
+      $duration = $trigger->Value();
+      $minus = (substr($duration,0,1) == '-');
+//      printf("Related trigger start: %s (minus:%d)\n", $duration, $minus);
+      $related_trigger = trim(preg_replace( '#[PT-]#', ' ', $duration ));
+//      printf("Related trigger is: %s\n", $related_trigger);
+      if ( $minus ) {
+        $related_trigger = preg_replace( '{(\d+)}', '-$1', $related_trigger );
+//        printf("Related trigger after minus is: %s\n", $related_trigger);
+      }
+    }
+    $qry->Bind(':action', $v->GetPValue('ACTION'));
+    $qry->Bind(':trigger', $trigger->Render());
+    $qry->Bind(':summary', $v->GetPValue('SUMMARY'));
+    $qry->Bind(':description', $v->GetPValue('DESCRIPTION'));
+    $qry->Bind(':component', $v->Render());
+    $qry->Bind(':related', $related );
+    $qry->Bind(':related_trigger', $related_trigger );
+    $qry->Exec('PUT',__LINE__,__FILE__);
+  }
+}
+
+
+//   Column  |  Type   | Modifiers
+// ----------+---------+-----------
+//  dav_id   | bigint  | not null
+//  status   | text    |
+//  partstat | text    |
+//  cn       | text    |
+//  attendee | text    | not null
+//  role     | text    |
+//  rsvp     | boolean |
+//  property | text    |
+
+function write_attendees( $dav_id, $attendees ) {
+}
 
 /**
 * Actually write the resource to the database.  All checking of whether this is reasonable
@@ -653,6 +718,12 @@ function write_resource( $user_no, $path, $caldav_data, $collection_id, $author,
     rollback_on_error( $caldav_context, $user_no, $path);
     return false;
   }
+
+  $qry->QDo('SELECT dav_id FROM caldav_data WHERE dav_name = :dav_name ', array(':dav_name' => $path));
+  if ( $qry->rows() == 1 && $row = $qry->Fetch() ) {
+    $dav_id = $row->dav_id;
+  }
+
 
   $calitem_params = array(
       ':dav_name' => $path,
@@ -816,6 +887,12 @@ EOSQL;
     $sync_change = 201;
   }
 
+  $alarms = $first->GetComponents('VALARM');
+  write_alarms($dav_id, $alarms, $first);
+
+  $attendees = $first->GetProperties('ATTENDEE');
+  write_attendees($dav_id, $attendees);
+
   if ( $log_action && function_exists('log_caldav_action') ) {
     log_caldav_action( $put_action_type, $first->GetPValue('UID'), $user_no, $collection_id, $path );
   }
@@ -853,7 +930,7 @@ function simple_write_resource( $path, $caldav_data, $put_action_type ) {
   * We pull the user_no & collection_id out of the collection table, based on the resource path
   */
   $collection_path = preg_replace( '#/[^/]*$#', '/', $path );
-  $qry = new AwlQuery( 'SELECT user_no, collection_id FROM collection WHERE dav_name = ? ', array( ':collection_id' => $collection_path ) );
+  $qry = new AwlQuery( 'SELECT user_no, collection_id FROM collection WHERE dav_name = :dav_name ', array( ':dav_name' => $collection_path ) );
   if ( $qry->Exec('PUT',__LINE__,__FILE__) && $qry->rows() == 1 ) {
     $collection = $qry->Fetch();
     $user_no = $collection->user_no;
