@@ -696,7 +696,7 @@ class CalDAVClient {
     if ( isset($this->xmltags['DAV::getetag']) ) {
       foreach( $this->xmltags['DAV::getetag'] AS $k => $v ) {
         $href = $this->HrefForProp('DAV::getetag', $k);
-        if ( isset($href) ) $etags[$href] = $this->xmlnodes[$v]['value'];
+        if ( isset($href) && isset($this->xmlnodes[$v]['value']) ) $etags[$href] = $this->xmlnodes[$v]['value'];
       }
     }
 
