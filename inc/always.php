@@ -33,6 +33,7 @@ $c->save_time_zone_defs = true;
 $c->collections_always_exist = false;
 $c->allow_get_email_visibility = false;
 $c->permission_scan_depth = 2;
+$c->expand_pdo_parameters = true;
 $c->home_calendar_name = 'home';
 $c->enable_row_linking = true;
 $c->http_auth_mode = 'Basic';
