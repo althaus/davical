@@ -62,13 +62,43 @@ function parse_arguments() {
       case 'w':   $args->local_changes_win = (strtolower($v) != 'remote' );   break;
       case 'i':   $args->sync_in  = true;  break;
       case 'o':   $args->sync_out = true;  break;
+      case 'h':   usage();  break;
       default:    $args->{$k} = $v;
     }
   }
 }
 
+function usage() {
+  echo <<<EOUSAGE
+Usage:
+   sync-remote-caldav.php -u <url> -U <user> -p <password> -c <path> [...options]
+
+Required Options:
+  -u <remote_url>  The URL of the caldav collection on the remote server.
+  -U <remote_user> The username on the remote server to connect as
+  -p <remote_pass> The password for the remote server
+  -c <local_path>  The path to the local collection, e.g. /username/home/ note that
+                   any part of the local URL up to and including 'caldav.php' should
+                   be omitted.
+
+Other Options:
+  -w remote        If set to 'remote' and changes are seen in both calendars, the remote
+                   server will 'win' the argument.  Any other value and the default will
+                   apply in that the changes on the local server will prevail.
+  -i               Sync inwards only.
+  -o               Sync outwards only
+
+EOUSAGE;
+
+  exit(0);
+}
+
 parse_arguments();
 
+if ( !isset($args->url) ) usage();
+if ( !isset($args->user) ) usage();
+if ( !isset($args->pass) ) usage();
+if ( !isset($args->local_collection_path) ) usage();
 
 
 if ( !preg_match('{/$}', $args->local_collection_path) ) $args->local_collection_path .= '/';
