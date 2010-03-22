@@ -34,19 +34,19 @@ $privilege_names = array( 'read', 'write-properties', 'write-content', 'unlock',
                          'schedule-query-freebusy', 'schedule-send-invite', 'schedule-send-reply', 'schedule-send-freebusy' );
 
 $params = array(
-  'session_principal' => $session->principal_id,
-  'scan_depth'        => $c->permission_scan_depth
+  ':session_principal' => $session->principal_id,
+  ':scan_depth'        => $c->permission_scan_depth
 );
 $is_update = ( $_POST['_editor_action'][$editor->Id] == 'update' );
 if ( isset($collection_name) ) $collection_name = trim(str_replace( '/', '', $collection_name));
 if ( !$is_update && isset($collection_name) && $collection_name != '' && is_object($usr) ) {
   $_POST['dav_name'] = sprintf('/%s/%s/', $usr->username, $collection_name );
   $_POST['parent_container'] = sprintf('/%s/', $usr->username );
-  $params['collection_path'] = $_POST['dav_name'];
+  $params[':collection_path'] = $_POST['dav_name'];
   $privsql = 'SELECT path_privs( :session_principal, :collection_path, :scan_depth) AS priv';
 }
 else if ( $id > 0 ) {
-  $params['collection_id'] = $id;
+  $params[':collection_id'] = $id;
   $privsql = 'SELECT path_privs( :session_principal, dav_name, :scan_depth) AS priv FROM collection WHERE collection_id = :collection_id';
 }
 else {
@@ -57,7 +57,7 @@ else {
 
 if ( isset($privsql) ) {
   $privqry = new AwlQuery( $privsql, $params );
-  $privqry->Exec('admin-collection-edit');
+  $privqry->Exec('admin-collection-edit',__LINE__,__FILE__);
   $permissions = $privqry->Fetch();
   $can_write_collection = ($session->AllowedTo('Admin') || (bindec($permissions->priv) & privilege_to_bits('DAV::bind')) );
 }
@@ -133,8 +133,7 @@ else {
 
 $entryqry = new AwlQuery( 'SELECT count(*) as count from caldav_data where collection_id='.$id  );
 $entryqry->Exec('admin-collection-edit');
-$entries = $entryqry->Fetch();
-$editor->Assign( 'entries', $entries->count );
+$entries = $entryqry->Fetch();  $entries = $entries->count;
 
 $privilege_xlate = array(
   'read' => translate('Read'),
@@ -307,7 +306,7 @@ label.privilege {
 <table>
  <tr> <th class="right">$prompt_collection_id:</th>    <td class="left">$value_id</td> </tr>
  <tr> <th class="right">$prompt_dav_name:</th>         <td class="left">$value_dav_name</td> </tr>
- <tr> <th class="right">$prompt_entries:</th>          <td class="left">##entries##</td> </tr>
+ <tr> <th class="right">$prompt_entries:</th>          <td class="left">$entries</td> </tr>
  <tr> <th class="right">$prompt_load_file:</th>        <td class="left">##ics_file.file.60##</td> </tr>
  <tr> <th class="right">$prompt_displayname:</th>      <td class="left">##dav_displayname.input.50##</td> </tr>
  <tr> <th class="right">$prompt_public:</th>           <td class="left">##publicly_readable.checkbox##</td> </tr>
