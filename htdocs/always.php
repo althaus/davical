@@ -6,6 +6,8 @@
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v2 or later
 */
 
+if ( preg_match('{/always.php$}', $_SERVER['SCRIPT_NAME'] ) ) header('Location: index.php');
+
 // Ensure the configuration starts out as an empty object.
 $c = (object) array();
 
@@ -57,16 +59,34 @@ $c->template_usr = array( 'active' => true,
 $c->hide_TODO = true;                      // VTODO only visible to collection owner
 $c->readonly_webdav_collections = true;    // WebDAV access is readonly
 
-// Ensure that ../inc is in our included paths as early as possible
-set_include_path( '../inc'. PATH_SEPARATOR. get_include_path());
-
 // Kind of private configuration values
 $c->total_query_time = 0;
 
 $c->dbg = array();
 
+
 // Utilities
-require_once('AWLUtilities.php');
+if ( ! @include_once('AWLUtilities.php') ) {
+  $try_paths = array(
+        '../../awl/inc'
+      , '/usr/share/awl/inc'
+      , '/usr/local/share/awl/inc'
+  );
+  foreach( $try_paths AS $awl_include_path ) {
+    if ( @file_exists($awl_include_path.'/AWLUtilities.php') ) {
+      set_include_path( $awl_include_path. PATH_SEPARATOR. get_include_path());
+      break;
+    }
+  }
+  if ( ! @include_once('AWLUtilities.php') ) {
+    echo "Could not find the AWL libraries. Are they installed? Check your include_path in php.ini!\n";
+    exit;
+  }
+}
+
+// Ensure that ../inc is in our included paths as early as possible
+set_include_path( '../inc'. PATH_SEPARATOR. get_include_path());
+
 
 /** We actually discovered this and worked around it earlier, but we can't log it until the utilties are loaded */
 if ( !isset($_SERVER['SERVER_NAME']) ) {

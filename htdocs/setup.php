@@ -1,6 +1,6 @@
 <?php
 
-include("../inc/always.php");
+include("./always.php");
 include("DAViCalSession.php");
 
 ob_start( );

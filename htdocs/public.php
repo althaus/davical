@@ -8,7 +8,7 @@
 * @copyright Catalyst .Net Ltd
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v2
 */
-require("../inc/always.php");
+require("./always.php");
 dbg_error_log( "caldav", " User agent: %s", ((isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : "Unfortunately Mulberry does not send a 'User-agent' header with its requests :-(")) );
 dbg_log_array( "headers", '_SERVER', $_SERVER, true );
 require("PublicSession.php");

@@ -9,7 +9,7 @@
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v2
 */
 
-require_once("../inc/always.php");
+require_once("./always.php");
 require_once("DAViCalSession.php");
 $session->LoginRequired();
 

@@ -1,5 +1,5 @@
 <?php
-require_once('../inc/always.php');
+require_once('./always.php');
 require_once('classEditor.php');
 require_once('classBrowser.php');
 include("DAViCalSession.php");

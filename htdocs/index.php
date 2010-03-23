@@ -7,7 +7,7 @@ if ( $_SERVER['REQUEST_METHOD'] != "GET" && $_SERVER['REQUEST_METHOD'] != "POST"
   exit;  // Not that it should return from that!
 }
 
-include("../inc/always.php");
+include("./always.php");
 include("DAViCalSession.php");
 $session->LoginRequired();
 

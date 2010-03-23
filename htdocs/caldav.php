@@ -19,7 +19,7 @@ if ( isset($_SERVER['PATH_INFO']) && preg_match( '{^(/favicon.ico|davical.css|(i
   }
   exit(0);
 }
-require_once('../inc/always.php');
+require_once('./always.php');
 // dbg_error_log( 'caldav', ' User agent: %s', ((isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : 'Unfortunately Mulberry does not send a "User-agent" header with its requests :-(')) );
 // dbg_log_array( 'headers', '_SERVER', $_SERVER, true );
 require_once('HTTPAuthSession.php');

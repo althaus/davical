@@ -10,15 +10,15 @@ built-docs: docs/api/phpdoc.ini htdocs/*.php inc/*.php
 	phpdoc -c docs/api/phpdoc.ini || echo "NOTICE: Failed to build optional API docs"
 	touch built-docs
 
-built-po: inc/always.php scripts/po/rebuild-translations.sh scripts/po/extract.pl po/*.po
+built-po: htdocs/always.php scripts/po/rebuild-translations.sh scripts/po/extract.pl po/*.po
 	scripts/po/rebuild-translations.sh
 	touch built-po
 
 #
 # Insert the current version number into always.php
 #
-inc/always.php: scripts/build-always.sh VERSION dba/davical.sql inc/always.php.in
-	scripts/build-always.sh <inc/always.php.in >inc/always.php
+htdocs/always.php: scripts/build-always.sh VERSION dba/davical.sql inc/always.php.in
+	scripts/build-always.sh <inc/always.php.in >htdocs/always.php
 
 #
 # Build a release .tar.gz file in the directory above us

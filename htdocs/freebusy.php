@@ -1,5 +1,5 @@
 <?php
-require_once("../inc/always.php");
+require_once("./always.php");
 dbg_error_log( "freebusy", " User agent: %s", ((isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : "Unfortunately Mulberry and Chandler don't send a 'User-agent' header with their requests :-(")) );
 dbg_log_array( "headers", '_SERVER', $_SERVER, true );
 if ( isset($c->public_freebusy_url) && $c->public_freebusy_url ) {
