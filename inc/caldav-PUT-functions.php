@@ -228,11 +228,18 @@ function handle_schedule_request( $ical ) {
       md5($content), $ncal, $put_action_type='INSERT', $caldav_context=true, $log_action=true, $etag );
     $attendee->SetParameterValue ('SCHEDULE-STATUS','1.2;Scheduling message has been delivered');
   }
-  // don't write an entry in the out box, ical doesn't delete it or ever read it again
-  //write_resource( $request->user_no, $request->path . $etag . '.ics' ,
-  //  $content , $request->collection_id, $request->user_no,
-  //  md5($content), $ncal, $put_action_type='INSERT', $caldav_context=true, $log_action=true, $etag );
-  $etag = md5($content);
+	// don't write an entry in the out box, ical doesn't delete it or ever read it again
+  $ncal = new iCalComponent (  );
+  $ncal->VCalendar ();
+  $ncal->AddProperty ( 'METHOD', 'REQUEST' );
+  $ncal->AddComponent ( array_merge ( $ical->GetComponents('VEVENT',false) , array ($ic) ));
+  $content = $ncal->Render();
+ 	$deliver_path = preg_replace ( '/^.*caldav.php/','', $request->principal->schedule_inbox_url );
+  $ar = new DAVResource($deliver_path);
+  write_resource( $request->user_no, $deliver_path . $etag . '.ics' ,
+    $content , $ar->collection_id, $request->user_no,
+    md5($content), $ncal, $put_action_type='INSERT', $caldav_context=true, $log_action=true, $etag );
+  //$etag = md5($content);
   header('ETag: "'. $etag . '"' );
   header('Schedule-Tag: "'.$etag . '"' );
   $request->DoResponse( 201, 'Created' );
