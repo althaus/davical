@@ -679,7 +679,7 @@ function write_attendees( $dav_id, $ical ) {
   $processed = array();
   foreach( $attendees AS $v ) {
     $attendee = $v->Value();
-    if ( $processed[$attendee] ) {
+    if ( isset($processed[$attendee]) ) {
       dbg_error_log( 'LOG', 'Duplicate attendee "%s" in resource "%d"', $attendee, $dav_id );
       dbg_error_log( 'LOG', 'Original:  "%s"', $processed[$attendee] );
       dbg_error_log( 'LOG', 'Duplicate: "%s"', $v->Render() );
