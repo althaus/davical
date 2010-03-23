@@ -474,6 +474,11 @@ EOSQL;
     $dav_data_params[':session_user'] = $session->user_no;
     if ( !$qry->QDo($dav_data_insert,$dav_data_params) ) rollback_on_error( $caldav_context, $user_no, $path );
 
+    $qry->QDo('SELECT dav_id FROM caldav_data WHERE dav_name = :dav_name ', array(':dav_name' => $dav_data_params[':dav_name']));
+    if ( $qry->rows() == 1 && $row = $qry->Fetch() ) {
+      $dav_id = $row->dav_id;
+    }
+
     $dtstart = $first->GetPValue('DTSTART');
     $calitem_params[':dtstart'] = $dtstart;
     if ( (!isset($dtstart) || $dtstart == '') && $first->GetPValue('DUE') != '' ) {
@@ -584,6 +589,9 @@ EOSQL;
     $calitem_params[':status'] = $first->GetPValue('STATUS');
     if ( !$qry->QDo($sql,$calitem_params) ) rollback_on_error( $caldav_context, $user_no, $path);
 
+    write_alarms($dav_id, $first);
+    write_attendees($dav_id, $first);
+
     create_scheduling_requests( $vcal );
     if ( isset($c->skip_bad_event_on_import) && $c->skip_bad_event_on_import ) $qry->Commit();
   }
@@ -594,26 +602,27 @@ EOSQL;
 }
 
 
-//     Column    |           Type           | Modifiers
-// --------------+--------------------------+-----------
-//  dav_id       | bigint                   | not null
-//  action       | text                     |
-//  trigger      | text                     |
-//  summary      | text                     |
-//  description  | text                     |
-//  next_trigger | timestamp with time zone |
-//  component    | text                     |
-
-function write_alarms( $dav_id, $alarms, $ical ) {
+/**
+* Given a dav_id and an original iCalComponent, pull out each of the VALARMs
+* and write the values into the calendar_alarm table.
+*
+* @param int $dav_id The dav_id of the caldav_data we're processing
+* @param iCalComponent The VEVENT or VTODO containing the VALARM
+* @return null
+*/
+function write_alarms( $dav_id, $ical ) {
   $qry = new AwlQuery('DELETE FROM calendar_alarm WHERE dav_id = '.$dav_id );
   $qry->Exec('PUT',__LINE__,__FILE__);
+
+  $alarms = $ical->GetComponents('VALARM');
+  if ( count($alarms) < 1 ) return;
+
   $qry->SetSql('INSERT INTO calendar_alarm ( dav_id, action, trigger, summary, description, component, next_trigger )
           VALUES( '.$dav_id.', :action, :trigger, :summary, :description, :component,
                                       :related::timestamp with time zone + :related_trigger::interval )' );
   $qry->Prepare();
   foreach( $alarms AS $v ) {
     $trigger = array_merge($v->GetProperties('TRIGGER'));
-//    print_r($trigger);
     $trigger = $trigger[0];
     $related = null;
     $related_trigger = '0M';
@@ -626,12 +635,9 @@ function write_alarms( $dav_id, $alarms, $ical ) {
       }
       $duration = $trigger->Value();
       $minus = (substr($duration,0,1) == '-');
-//      printf("Related trigger start: %s (minus:%d)\n", $duration, $minus);
       $related_trigger = trim(preg_replace( '#[PT-]#', ' ', $duration ));
-//      printf("Related trigger is: %s\n", $related_trigger);
       if ( $minus ) {
         $related_trigger = preg_replace( '{(\d+)}', '-$1', $related_trigger );
-//        printf("Related trigger after minus is: %s\n", $related_trigger);
       }
     }
     $qry->Bind(':action', $v->GetPValue('ACTION'));
@@ -646,19 +652,35 @@ function write_alarms( $dav_id, $alarms, $ical ) {
 }
 
 
-//   Column  |  Type   | Modifiers
-// ----------+---------+-----------
-//  dav_id   | bigint  | not null
-//  status   | text    |
-//  partstat | text    |
-//  cn       | text    |
-//  attendee | text    | not null
-//  role     | text    |
-//  rsvp     | boolean |
-//  property | text    |
+/**
+* Parse out the attendee property and write a row to the
+* calendar_attendee table for each one.
+* @param int $dav_id The dav_id of the caldav_data we're processing
+* @param iCalComponent The VEVENT or VTODO containing the ATTENDEEs
+* @return null
+*/
+function write_attendees( $dav_id, $ical ) {
+  $qry = new AwlQuery('DELETE FROM calendar_attendee WHERE dav_id = '.$dav_id );
+  $qry->Exec('PUT',__LINE__,__FILE__);
 
-function write_attendees( $dav_id, $attendees ) {
+  $attendees = $ical->GetProperties('ATTENDEE');
+  if ( count($attendees) < 1 ) return;
+
+  $qry->SetSql('INSERT INTO calendar_attendee ( dav_id, status, partstat, cn, attendee, role, rsvp, property )
+          VALUES( '.$dav_id.', :status, :partstat, :cn, :attendee, :role, :rsvp, :property )' );
+  $qry->Prepare();
+  foreach( $attendees AS $v ) {
+    $qry->Bind(':attendee', $v->Value() );
+    $qry->Bind(':status',   $v->GetParameterValue('STATUS') );
+    $qry->Bind(':partstat', $v->GetParameterValue('PARTSTAT') );
+    $qry->Bind(':cn',       $v->GetParameterValue('CN') );
+    $qry->Bind(':role',     $v->GetParameterValue('ROLE') );
+    $qry->Bind(':rsvp',     $v->GetParameterValue('RSVP') );
+    $qry->Bind(':property', $v->Render() );
+    $qry->Exec('PUT',__LINE__,__FILE__);
+  }
 }
+
 
 /**
 * Actually write the resource to the database.  All checking of whether this is reasonable
@@ -887,11 +909,8 @@ EOSQL;
     $sync_change = 201;
   }
 
-  $alarms = $first->GetComponents('VALARM');
-  write_alarms($dav_id, $alarms, $first);
-
-  $attendees = $first->GetProperties('ATTENDEE');
-  write_attendees($dav_id, $attendees);
+  write_alarms($dav_id, $first);
+  write_attendees($dav_id, $first);
 
   if ( $log_action && function_exists('log_caldav_action') ) {
     log_caldav_action( $put_action_type, $first->GetPValue('UID'), $user_no, $collection_id, $path );
