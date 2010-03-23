@@ -676,8 +676,16 @@ function write_attendees( $dav_id, $ical ) {
   $qry->SetSql('INSERT INTO calendar_attendee ( dav_id, status, partstat, cn, attendee, role, rsvp, property )
           VALUES( '.$dav_id.', :status, :partstat, :cn, :attendee, :role, :rsvp, :property )' );
   $qry->Prepare();
+  $processed = array();
   foreach( $attendees AS $v ) {
-    $qry->Bind(':attendee', $v->Value() );
+    $attendee = $v->Value();
+    if ( $processed[$attendee] ) {
+      dbg_error_log( 'LOG', 'Duplicate attendee "%s" in resource "%d"', $attendee, $dav_id );
+      dbg_error_log( 'LOG', 'Original:  "%s"', $processed[$attendee] );
+      dbg_error_log( 'LOG', 'Duplicate: "%s"', $v->Render() );
+      continue; /** @TODO: work out why we get duplicate ATTENDEE on one VEVENT */
+    }
+    $qry->Bind(':attendee', $attendee );
     $qry->Bind(':status',   $v->GetParameterValue('STATUS') );
     $qry->Bind(':partstat', $v->GetParameterValue('PARTSTAT') );
     $qry->Bind(':cn',       $v->GetParameterValue('CN') );
@@ -685,6 +693,7 @@ function write_attendees( $dav_id, $ical ) {
     $qry->Bind(':rsvp',     $v->GetParameterValue('RSVP') );
     $qry->Bind(':property', $v->Render() );
     $qry->Exec('PUT',__LINE__,__FILE__);
+    $processed[$attendee] = $v->Render();
   }
 }
 
