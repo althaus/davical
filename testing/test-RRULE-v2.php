@@ -2,10 +2,10 @@
 <?php
 
 if ( @file_exists('../../awl/inc/AWLUtilities.php') ) {
-  set_include_path('../inc:../../awl/inc');
+  set_include_path('../inc:../htdocs:../../awl/inc');
 }
 else {
-  set_include_path('../inc:/usr/share/awl/inc');
+  set_include_path('../inc:../htdocs:/usr/share/awl/inc');
 }
 require_once("always.php");
 $c->dbg = array();

@@ -1,5 +1,5 @@
 <?php
-require_once("../inc/always.php");
+require_once("../htdocs/always.php");
 require_once("RRule.php");
 
 header("Content-type: text/plain");
