@@ -227,12 +227,11 @@ class AwlDBDialect {
         $rv = $value;
         break;
       case PDO::PARAM_BOOL:
-        $rv = $value ? 'TRUE' : 'FALSE';
+        $rv = ($value ? 'TRUE' : 'FALSE');
         break;
       case PDO::PARAM_STR:
       default:
-        $rv = str_replace("'", "''", $value);
-        $rv = "'".str_replace('\\', '\\\\\\', $rv)."'";
+        $rv = "'".str_replace("'", "''", str_replace('\\', '\\x5c', $value))."'";
 
         if ( $this->dialect == 'pgsql' && strpos( $rv, '\\' ) !== false ) {
           /** PostgreSQL wants to know when a string might contain escapes */
