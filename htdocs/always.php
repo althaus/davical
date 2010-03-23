@@ -42,6 +42,7 @@ $c->http_auth_mode = 'Basic';
 // $c->default_locale = array('es_MX', 'es_AR', 'es', 'pt');  // An array of locales to try, or just a single locale
 // $c->local_tzid = 'Pacific/Auckland';  // Perhaps we should read from /etc/timezone - I wonder how standard that is?
 $c->default_locale = 'en';
+$c->locale_path = '../locale';
 $c->base_url = preg_replace('#/[^/]+\.php.*$#', '', $_SERVER['SCRIPT_NAME']);
 $c->base_directory = preg_replace('#/[^/]*$#', '', $_SERVER['DOCUMENT_ROOT']);
 $c->default_privileges = array('read-free-busy', 'schedule-deliver');
@@ -135,10 +136,6 @@ else {
   include('davical_configuration_missing.php');
   exit;
 }
-if ( isset($c->deny_put_collection) ) {
-  @dbg_error_log( 'WARN', 'Deprecated "deny_put_collection" configuration item renamed to "readonly_webdav_collections"' );
-  $c->readonly_webdav_collections = $c->deny_put_collection;
-}
 
 if ( !isset($c->page_title) ) $c->page_title = $c->system_name;
 
@@ -157,7 +154,7 @@ else if ( count($c->dbg) > 0 ) {
 */
 putenv("LANG=". $c->default_locale);
 awl_set_locale($c->default_locale);
-init_gettext( 'davical', '../locale' );
+init_gettext( 'davical', $c->locale_path );
 
 /**
 * Work out our version
