@@ -237,7 +237,7 @@ function handle_schedule_request( $ical ) {
  	$deliver_path = preg_replace ( '/^.*caldav.php/','', $request->principal->schedule_inbox_url );
   $ar = new DAVResource($deliver_path);
   write_resource( $request->user_no, $deliver_path . $etag . '.ics' ,
-    $content , $ar->collection_id, $request->user_no,
+    $content , $ar->GetProperty('collection_id'), $request->user_no,
     md5($content), $ncal, $put_action_type='INSERT', $caldav_context=true, $log_action=true, $etag );
   //$etag = md5($content);
   header('ETag: "'. $etag . '"' );

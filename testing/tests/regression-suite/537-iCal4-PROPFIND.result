@@ -1,8 +1,8 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy, bind, calendar-auto-schedule
-ETag: "7b9c0b8208dacb0433461fd66140cc9a"
-Content-Length: 425
+ETag: "60530d57c79ae87c8c63c20c78707c1c"
+Content-Length: 767
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -11,13 +11,28 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/.in/</href>
   <propstat>
    <prop>
-    <C:getctag>"1"</C:getctag>
+    <C:getctag>"29a4f57ff8c8564c364d37fac0e18e34"</C:getctag>
     <resourcetype>
      <collection/>
      <C1:schedule-inbox/>
     </resourcetype>
    </prop>
    <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/.in/15f40cce00b378332164188cf779f0d6.ics</href>
+  <propstat>
+   <prop>
+    <resourcetype/>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <C:getctag/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
   </propstat>
  </response>
 </multistatus>
