@@ -22,4 +22,5 @@ inc/test-RRULE-v2.php
 perms-perf.base
 random_crap
 testing/tests/google
+testing/tests/local
 testing/timing.stats*
