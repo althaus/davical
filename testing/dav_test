@@ -117,7 +117,7 @@ while( <TEST> ) {
 
   $line =~ /^\s*DATA\s*=\s*(\S.*)$/ && do {
     my $basename = $1;
-    if ( -e "tests/$suite/$basename.data" ) {
+    if ( defined($suite) && -e "tests/$suite/$basename.data" ) {
       $datafile="tests/$suite/$basename.data";
     }
     elsif ( -e "$basename.data" ) {
