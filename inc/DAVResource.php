@@ -41,6 +41,11 @@ class DAVResource
   protected $resource;
 
   /**
+  * @var The parent of the resource, which will always be a collection
+  */
+  protected $parent;
+
+  /**
   * @var The types of the resource, possibly multiple
   */
   protected $resourcetypes;
@@ -139,6 +144,7 @@ class DAVResource
     $this->resource      = null;
     $this->collection    = null;
     $this->principal     = null;
+    $this->parent        = null;
     $this->resourcetypes = null;
     $this->contenttype   = null;
     $this->privileges    = null;
@@ -271,7 +277,7 @@ class DAVResource
 
     $this->FetchCollection();
     if ( $this->_is_collection ) {
-      if ( $this->_is_principal ) $this->FetchPrincipal();
+      if ( $this->_is_principal || $this->collection->type == 'principal' ) $this->FetchPrincipal();
     }
     else {
       $this->FetchResource();
@@ -362,19 +368,15 @@ EOSQL;
       $this->collection->type = 'proxy';
       $this->_is_proxy_request = true;
       $this->proxy_type = $matches[3];
-      $this->collection->dav_name = $matches[1].'/';
+      $this->collection->dav_name = $this->dav_name;
       $this->collection->dav_displayname = sprintf( '%s proxy %s', $matches[2], $matches[3] );
       $this->collection->exists = true;
+      $this->collection->parent_container = $matches[1] . '/';
     }
-    else if ( preg_match( '#^(/[^/]+)/?$#', $this->dav_name, $matches) ) {
-      $this->collection->dav_name = $matches[1].'/';
-      $this->collection->type = 'principal';
+    else if ( preg_match( '#^(/[^/]+)/?$#', $this->dav_name, $matches)
+           || preg_match( '#^((/principals/[^/]+/)[^/]+)/?$#', $this->dav_name, $matches) ) {
       $this->_is_principal = true;
-    }
-    else if ( preg_match( '#^(/principals/[^/]+/[^/]+)/?$#', $this->dav_name, $matches) ) {
-      $this->collection->dav_name = $matches[1].'/';
-      $this->collection->type = 'principal_link';
-      $this->_is_principal = true;
+      $this->FetchPrincipal();
     }
     else if ( $this->dav_name == '/' ) {
       $this->collection->dav_name = '/';
@@ -382,6 +384,7 @@ EOSQL;
       $this->collection->exists = true;
       $this->collection->displayname = $c->system_name;
       $this->collection->default_privileges = (1 | 16 | 32);
+      $this->collection->parent_container = '/';
     }
     else {
       $sql = <<<EOSQL
@@ -433,9 +436,9 @@ EOSQL;
       }
     }
 
-    dbg_error_log( 'DAVResource', ':FetchCollection: Found collection named "%s" of type "%s".', $this->collection->dav_name, $this->collection->type );
+    @dbg_error_log( 'DAVResource', ':FetchCollection: Found collection named "%s" of type "%s".', $this->collection->dav_name, $this->collection->type );
 
-    $this->_is_collection = ( $this->collection->dav_name == $this->dav_name || $this->collection->dav_name == $this->dav_name.'/' );
+    $this->_is_collection = ( $this->_is_principal || $this->collection->dav_name == $this->dav_name || $this->collection->dav_name == $this->dav_name.'/' );
     if ( $this->_is_collection ) {
       $this->dav_name = $this->collection->dav_name;
       $this->resource_id = $this->collection->collection_id;
@@ -451,6 +454,10 @@ EOSQL;
         if ( isset($this->collection->created) )  $this->created = $this->collection->created;
         if ( isset($this->collection->modified) ) $this->modified = $this->collection->modified;
         if ( isset($this->collection->dav_displayname) ) $this->collection->displayname = $this->collection->dav_displayname;
+      }
+      else {
+        if ( !isset($this->parent) ) $this->FetchParentContainer();
+        $this->user_no = $this->parent->GetProperty('user_no');
       }
       if ( isset($this->collection->resourcetypes) )
         $this->resourcetypes = $this->collection->resourcetypes;
@@ -468,16 +475,22 @@ EOSQL;
   * Find the principal associated with this resource.
   */
   function FetchPrincipal() {
-    global $c, $session;
+    if ( isset($this->principal) ) return;
     $this->principal = new CalDAVPrincipal( array( "path" => $this->bound_from() ) );
     if ( $this->_is_principal && $this->principal->Exists() ) {
-//      $this->contenttype = 'httpd/unix-directory';
       $this->exists = true;
       $this->unique_tag = $this->principal->dav_etag;
       $this->created = $this->principal->created;
       $this->modified = $this->principal->modified;
       $this->resourcetypes = '<DAV::collection/><DAV::principal/>';
       $this->resource_id = $this->principal->principal_id;
+      $this->collection = $this->principal->AsCollection();
+      $this->user_no = $this->principal->user_no;
+    }
+    elseif ( $this->_is_principal ) {
+      $this->exists = false;
+      $this->collection->dav_name = $this->dav_name;
+      $this->collection->type = 'principal';
     }
   }
 
@@ -533,6 +546,25 @@ EOQRY;
 
 
   /**
+  * Fetch the parent to this resource.
+  */
+  function FetchParentContainer() {
+    if ( $this->dav_name == '/' ) return null;
+    if ( !isset($this->parent) ) {
+      if ( $this->_is_collection ) {
+        dbg_error_log( 'DAVResource', 'Retrieving "%s" - parent of "%s" (dav_name: %s)', $this->parent_path(), $this->collection->dav_name, $this->dav_name() );
+        $this->parent = new DAVResource( $this->parent_path() );
+      }
+      else {
+        dbg_error_log( 'DAVResource', 'Retrieving "%s" - parent of "%s" (dav_name: %s)', $this->parent_path(), $this->collection->dav_name, $this->dav_name() );
+        $this->parent = new DAVResource($this->collection->dav_name);
+      }
+    }
+    return $this->parent;
+  }
+
+
+  /**
   * Build permissions for this URL
   */
   function FetchPrivileges() {
@@ -560,18 +592,23 @@ EOQRY;
     if ( ! isset($this->collection) ) $this->FetchCollection();
     $this->privileges = 0;
     if ( !isset($this->collection->path_privs) ) {
-      if ( !isset($this->collection->parent_container) ) {
-        $this->collection->parent_container = preg_replace('{/[^/]+/$}', '', $this->collection->dav_name);
-      }
-      dbg_error_log( 'DAVResource', 'Checking privileges of "%s" - parent of "%s" (dav_name: %s)', $this->collection->parent_container, $this->collection->dav_name, $this->dav_name() );
-      $parent = new DAVResource( $this->collection->parent_container );
+      if ( !isset($this->parent) ) $this->FetchParentContainer();
 
-      $this->collection->path_privs = $parent->Privileges();
-      $this->collection->user_no = $parent->GetProperty('user_no');
-      $this->collection->principal_id = $parent->GetProperty('principal_id');
+      $this->collection->path_privs = $this->parent->Privileges();
+      $this->collection->user_no = $this->parent->GetProperty('user_no');
+      $this->collection->principal_id = $this->parent->GetProperty('principal_id');
     }
 
     $this->privileges = $this->collection->path_privs;
+/*    if ( ! $this->exists && isset($this->collection) ) {
+//      $this->collection->path_privs = $this->parent->Privileges();
+      $this->collection->user_no = $this->parent->GetProperty('user_no');
+      $this->collection->principal_id = $this->parent->GetProperty('principal_id');
+    }
+    if ( $this->IsCollection() ) {
+      $this->privileges = $this->collection->path_privs;
+    }
+*/
     if ( is_string($this->privileges) ) $this->privileges = bindec( $this->privileges );
 
     if ( isset($request->ticket) && $request->ticket->MatchesPath($this->bound_from()) ) {
@@ -952,6 +989,18 @@ EOQRY;
 
 
   /**
+  * Checks whether the container for this resource actually exists, in the virtual sense, within the hierarchy
+  */
+  function ContainerExists() {
+    if ( $this->collection->dav_name != $this->dav_name ) {
+      return $this->collection->exists;
+    }
+    $parent = $this->FetchParentContainer();
+    return $parent->Exists();
+  }
+
+
+  /**
   * Returns the dav_name of the resource in our internal namespace
   */
   function dav_name() {
@@ -972,7 +1021,13 @@ EOQRY;
   * Returns the dav_name of the resource in our internal namespace
   */
   function parent_path() {
-    if ( $this->IsCollection() ) return $this->collection->parent_container;
+    if ( $this->IsCollection() ) {
+      if ( !isset($this->collection) ) $this->FetchCollection();
+      if ( !isset($this->collection->parent_container) ) {
+        $this->collection->parent_container = preg_replace( '{[^/]+/$}', '', $this->bound_from());
+      }
+      return $this->collection->parent_container;
+    }
     return preg_replace( '{[^/]+$}', '', $this->bound_from());
   }
 
@@ -1151,6 +1206,7 @@ EOQRY;
         }
 
       default:
+        if ( isset($this->{$name}) ) return $this->{$name};
         if ( $this->_is_principal ) {
           if ( !isset($this->principal) ) $this->FetchPrincipal();
           if ( isset($this->principal->{$name}) ) return $this->principal->{$name};
@@ -1280,7 +1336,9 @@ EOQRY;
       case 'DAV::getcontentlength':
         if ( $this->_is_collection ) return false;
         if ( !isset($this->resource) ) $this->FetchResource();
-        $reply->NSElement($prop, $tag, strlen($this->resource->caldav_data) );
+        if ( isset($this->resource) ) {
+          $reply->NSElement($prop, $tag, strlen($this->resource->caldav_data) );
+        }
         break;
 
       case 'DAV::getcontentlanguage':
@@ -1528,8 +1586,9 @@ EOQRY;
     if ( isset($bound_parent_path) ) {
       $dav_name = str_replace( $this->parent_path(), $bound_parent_path, $this->dav_name );
     }
-    else
+    else {
       $dav_name = $this->dav_name;
+    }
 
     array_unshift( $elements, $reply->href(ConstructURL($dav_name)));
 
