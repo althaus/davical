@@ -66,6 +66,7 @@ function add_proxy_response( $which, $parent_path ) {
 
   dbg_error_log( 'PROPFIND', 'Returning proxy response to "%s" for "%s"', $which, $parent_path );
 
+  $collection->parent_container = $parent_path;
   $collection->dav_name = $parent_path.'calendar-proxy-'.$which.'/';
   $collection->is_calendar    = 'f';
   $collection->is_addressbook = 'f';
