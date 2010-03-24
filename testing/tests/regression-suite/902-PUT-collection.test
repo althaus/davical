@@ -4,9 +4,10 @@
 # There is no CalDAV defined behaviour for this.
 #
 TYPE=PUT
-URL=http://mycaldav/caldav.php/user1/entire/
+URL=http://mycaldav/caldav.php/user1/anotherone/
 HEADER=User-Agent: RSCDS Testing/0.7.x
 HEADER=Content-Type: text/calendar; charset=utf-8
+AUTH=admin:nimda
 
 HEAD
 
@@ -721,3 +722,41 @@ END:STANDARD
 END:VTIMEZONE
 END:VCALENDAR
 ENDDATA
+
+QUERY
+SELECT count(*) AS caldav_data FROM caldav_data WHERE dav_name ~ '^/user1/anotherone/'
+ENDQUERY
+
+QUERY
+SELECT count(*) AS calendar_item FROM calendar_item WHERE dav_name ~ '^/user1/anotherone/'
+ENDQUERY
+
+QUERY
+SELECT count(*) AS alarms FROM calendar_alarm JOIN calendar_item USING(dav_id)
+  WHERE dav_name ~ '^/user1/anotherone/'
+ENDQUERY
+
+QUERY
+SELECT count(*) AS attendees FROM calendar_attendee JOIN calendar_item USING(dav_id)
+  WHERE dav_name ~ '^/user1/anotherone/'
+ENDQUERY
+
+QUERY
+SELECT
+     collection_id,
+   dav_displayname,
+          dav_etag,
+          dav_name,
+default_privileges,
+       description,
+    is_addressbook,
+       is_calendar,
+  parent_container,
+public_events_only,
+     resourcetypes,
+   schedule_transp,
+          timezone,
+           user_no,
+ publicly_readable
+ FROM collection WHERE dav_name = '/user1/anotherone/'
+ENDQUERY

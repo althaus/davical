@@ -4,7 +4,7 @@
 TYPE=MOVE
 URL=http://regression.host/caldav.php/user1/movedcalendar/
 HEADER=User-Agent: RFC4918 Spec Tests
-HEADER=Destination: /caldav.php/user1/entire/
+HEADER=Destination: /caldav.php/user1/anotherone/
 HEAD
 
 QUERY
@@ -13,6 +13,6 @@ SELECT dav_name,
        (modified > (current_timestamp - '1 hour'::interval)) AS mod_in_last_hour,
        dav_etag
 FROM collection
-WHERE collection.dav_name ~ '(entire|movedcalendar)';
+WHERE collection.dav_name ~ '(anotherone|movedcalendar)';
 ENDQUERY
 

@@ -2,7 +2,7 @@
 # MOVE an event from one location to another
 #
 TYPE=MOVE
-URL=http://regression.host/caldav.php/user1/entire/DAYPARTY-77C6-4FB7-BDD3-6882E2F1BE74.ics
+URL=http://regression.host/caldav.php/user1/anotherone/DAYPARTY-77C6-4FB7-BDD3-6882E2F1BE74.ics
 HEADER=User-Agent: RFC4918 Spec Tests
 HEADER=Destination: /caldav.php/user1/home/DAYPARTY-77C6-4FB7-BDD3-6882E2F1BE74.ics
 HEAD

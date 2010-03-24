@@ -6,3 +6,28 @@ DAV: 1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, c
 Content-Length: 0
 Content-Type: text/plain; charset="utf-8"
 
+
+      caldav_data: >29<
+
+    calendar_item: >29<
+
+           alarms: >28<
+
+        attendees: >40<
+
+    collection_id: >1398<
+  dav_displayname: >anotherone<
+         dav_etag: >a52157c35d64e6051e54024625d3a94a<
+         dav_name: >/user1/anotherone/<
+default_privilege: >NULL<
+      description: ><
+   is_addressbook: >0<
+      is_calendar: >1<
+ parent_container: >/user1/<
+public_events_onl: >0<
+publicly_readable: >0<
+    resourcetypes: ><DAV::collection/><urn:ietf:params:xml:ns:caldav:calendar/><
+  schedule_transp: >opaque<
+         timezone: >NULL<
+          user_no: >10<
+
