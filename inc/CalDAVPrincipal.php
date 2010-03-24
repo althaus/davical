@@ -366,7 +366,7 @@ class CalDAVPrincipal
     @dbg_error_log( 'principal', 'Path split into at least /// %s /// %s /// %s', $path_split[1], $path_split[2], $path_split[3] );
 
     $username = $path_split[1];
-    if ( $path_split[1] == 'principals' ) $username = $path_split[3];
+    if ( $path_split[1] == 'principals' && isset($path_split[3]) ) $username = $path_split[3];
     if ( substr($username,0,1) == '~' ) $username = substr($username,1);
 
     if ( isset($options['allow_by_email']) && $options['allow_by_email'] && preg_match( '#^(\S+@\S+[.]\S+)$#', $username) ) {
