@@ -132,6 +132,7 @@ class CalDAVPrincipal
     global $session, $c;
 
     $this->exists = null;
+    $this->url = null;
 
     if ( $parameters == null ) return false;
     $this->by_email = false;
@@ -182,6 +183,7 @@ class CalDAVPrincipal
     if ( is_array($parameters) && isset($parameters['path']) && preg_match('#^/principals/#', $parameters['path']) ) {
       // Force it to match
       $this->url = $parameters['path'];
+      $this->dav_name = $parameters['path'];
     }
   }
 
@@ -512,18 +514,19 @@ class CalDAVPrincipal
   */
   function AsCollection() {
     $collection = (object) array(
-                            'collection_id' => (isset($this->collection_id) ? $this->collection_id : 0),
-                            'is_calendar' => 'f',
-                            'is_addressbook' => 'f',
-                            'is_principal' => 't',
+                            'collection_id' => (isset($this->principal_id) ? $this->principal_id : 0),
+                            'is_calendar' => false,
+                            'is_addressbook' => false,
+                            'is_principal' => true,
+                            'type'     => 'principal' . (substr($this->dav_name(), 0, 12) == '/principals/'?'_link':''),
                             'user_no'  => (isset($this->user_no)  ? $this->user_no : 0),
                             'username' => $this->username(),
-                            'dav_name' => $this->dav_name(),
+                            'dav_name' => $this->dav_name,
+                            'parent_container' => '/',
                             'email'    => (isset($this->email)    ? $this->email : ''),
                             'created'  => (isset($this->created)  ? $this->created : date('Ymd\THis')),
                             'updated'  => (isset($this->updated)  ? $this->updated : date('Ymd\THis'))
                   );
-    $collection->dav_name = $this->dav_name();
     $collection->dav_etag = (isset($this->dav_etag) ? $this->dav_etag : md5($collection->username . $collection->updated));
     $collection->dav_displayname =  (isset($this->dav_displayname) ? $this->dav_displayname : (isset($this->fullname) ? $this->fullname : $collection->username));
 
