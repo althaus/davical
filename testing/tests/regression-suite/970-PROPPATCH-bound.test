@@ -12,10 +12,11 @@ HEAD
 
 BEGINDATA
 <?xml version="1.0" encoding="UTF-8" ?>
-<propertyupdate xmlns="DAV:">
+<propertyupdate xmlns="DAV:" xmlns:DC="http://xmlns.dotcal.com/dotcal">
  <set>
   <prop>
    <displayname>Updated Displayname with PROPPATCH</displayname>
+   <DC:icon_uri>http://eventful.com/favicon.ico</DC:icon_uri>
   </prop>
  </set>
 </propertyupdate>
@@ -23,4 +24,8 @@ ENDDATA
 
 QUERY
 SELECT dav_displayname FROM dav_binding WHERE dav_name = '/user4/user2/'
+ENDQUERY
+
+QUERY
+SELECT property_name, property_value FROM property WHERE dav_name = '/user4/user2/'
 ENDQUERY

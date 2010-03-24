@@ -14,3 +14,6 @@ Content-Type: text/xml; charset="utf-8"
 
   dav_displayname: >Updated Displayname with PROPPATCH<
 
+    property_name: >http://xmlns.dotcal.com/dotcal:icon_uri<
+   property_value: >http://eventful.com/favicon.ico<
+
