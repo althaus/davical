@@ -34,6 +34,10 @@ if ( $dest->dav_name() == '/' || $dest->IsPrincipal() ) {
   $dest->NeedPrivilege('DAV::bind');
 }
 
+if ( ! $dest->ContainerExists() ) {
+  $request->DoResponse( 409, translate('Destination collection does not exist') );
+}
+
 if ( ! $request->overwrite && $dest->Exists() ) {
   $request->DoResponse( 412, translate('Not overwriting existing destination resource') );
 }
