@@ -1,0 +1,68 @@
+HTTP/1.1 201 Created
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy, bind, calendar-auto-schedule
+Location: /caldav.php/user4/base/user3/
+Content-Length: 0
+Content-Type: text/plain; charset="utf-8"
+
+
+          bind_id: >1431<
+       bind_owner: >6<
+  bound_source_id: >11<
+  dav_displayname: >Updated Displayname with PROPPATCH<
+         dav_name: >/user4/user2/<
+           length: >8<
+ parent_container: >/user4/<
+       privileges: >000000000001001011100111<
+target_collection: >11<
+target_resource_i: >NULL<
+     ticket_owner: >4<
+
+          bind_id: >1432<
+       bind_owner: >6<
+  bound_source_id: >10<
+  dav_displayname: >User 1's Calendaranza<
+         dav_name: >/user4/user1/<
+           length: >8<
+ parent_container: >/user4/<
+       privileges: >000000000001001000100001<
+target_collection: >10<
+target_resource_i: >NULL<
+     ticket_owner: >3<
+
+          bind_id: >1436<
+       bind_owner: >6<
+  bound_source_id: >10<
+  dav_displayname: >User 1's Calendaranza<
+         dav_name: >/user4/base/user1/<
+           length: >8<
+ parent_container: >/user4/base/<
+       privileges: >000000000001001000100001<
+target_collection: >10<
+target_resource_i: >NULL<
+     ticket_owner: >3<
+
+          bind_id: >1437<
+       bind_owner: >6<
+  bound_source_id: >11<
+  dav_displayname: >User 2's Calendar, as uploaded by Admin<
+         dav_name: >/user4/base/user2/<
+           length: >8<
+ parent_container: >/user4/base/<
+       privileges: >000000000001001011100111<
+target_collection: >11<
+target_resource_i: >NULL<
+     ticket_owner: >4<
+
+          bind_id: >1450<
+       bind_owner: >1<
+  bound_source_id: >12<
+  dav_displayname: >user3 home<
+         dav_name: >/user4/base/user3/<
+           length: >8<
+ parent_container: >/user4/base/<
+       privileges: >000000000001001011100111<
+target_collection: >12<
+target_resource_i: >NULL<
+     ticket_owner: >1<
+

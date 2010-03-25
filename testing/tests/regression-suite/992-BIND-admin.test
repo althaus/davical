@@ -1,0 +1,44 @@
+#
+# BIND a collection into an additional location
+#     also applying a ticket during the bind
+#
+TYPE=BIND
+URL=http://regression.host/caldav.php/user4/base/
+AUTH=admin:nimda
+
+# Get the ticket we created earlier in 948...
+GETSQL=ticket
+SELECT ticket_id FROM access_ticket
+                WHERE target_collection_id = 12 AND target_resource_id is null;
+ENDSQL
+
+HEADER=User-Agent: Ticket Spec Tests
+HEADER=Content-Type: text/xml; charset="UTF-8"
+HEADER=Ticket: ##ticket##
+HEAD
+
+
+BEGINDATA
+<?xml version="1.0" encoding="utf-8"?>
+<bind xmlns="DAV:">
+   <segment>user3</segment>
+   <href>/caldav.php/user3/home</href>
+</bind>
+ENDDATA
+
+QUERY
+SELECT bind_id,
+       bound_source_id,
+       dav_binding.dav_owner_id AS bind_owner,
+       access_ticket.dav_owner_id AS ticket_owner,
+       length(access_ticket_id),
+       parent_container,
+       dav_name,
+       dav_displayname,
+       target_collection_id,
+       target_resource_id,
+       privileges
+  FROM dav_binding
+  LEFT JOIN access_ticket ON ( access_ticket_id = ticket_id )
+ENDQUERY
+

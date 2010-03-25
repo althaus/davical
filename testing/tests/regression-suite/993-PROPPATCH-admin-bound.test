@@ -1,0 +1,32 @@
+#
+# Test PROPPATCH to change the displayname on a bind
+#
+TYPE=PROPPATCH
+URL=http://regression.host/caldav.php/user4/base/user3/
+AUTH=user4:user4
+
+HEADER=User-Agent: DAViCalTester/public
+HEADER=Content-Type: text/xml; charset="UTF-8"
+HEAD
+
+
+BEGINDATA
+<?xml version="1.0" encoding="UTF-8" ?>
+<propertyupdate xmlns="DAV:" xmlns:DC="http://xmlns.dotcal.com/dotcal">
+ <set>
+  <prop>
+   <displayname>Updated user4-base-user3 displayname with PROPPATCH</displayname>
+   <DC:icon_uri>http://eventful.com/favicon.ico</DC:icon_uri>
+  </prop>
+ </set>
+</propertyupdate>
+ENDDATA
+
+QUERY
+SELECT dav_displayname FROM dav_binding WHERE dav_name = '/user4/base/user3/'
+ENDQUERY
+
+QUERY
+SELECT property_name, property_value FROM property WHERE dav_name = '/user4/base/user3/'
+ENDQUERY
+

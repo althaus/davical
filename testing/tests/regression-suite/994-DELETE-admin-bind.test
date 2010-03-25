@@ -1,0 +1,12 @@
+#
+# Do a DELETE on a BIND
+TYPE=DELETE
+URL=http://mycaldav/caldav.php/user4/base/user3/
+AUTH=user4:user4
+HEAD
+
+QUERY
+SELECT dav_name, bind_id, bound_source_id, dav_owner_id, parent_container, dav_displayname
+  FROM dav_binding
+ WHERE dav_name ~ '/user4/base/'
+ENDQUERY

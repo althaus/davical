@@ -1,0 +1,19 @@
+HTTP/1.1 200 OK
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy, bind, calendar-auto-schedule
+Content-Length: 230
+Content-Type: text/xml; charset="utf-8"
+
+<?xml version="1.0" encoding="utf-8" ?>
+<multistatus xmlns="DAV:">
+ <response>
+  <href>/caldav.php/user4/base/user3/</href>
+  <responsedescription>All requested changes were made.</responsedescription>
+ </response>
+</multistatus>
+
+  dav_displayname: >Updated user4-base-user3 displayname with PROPPATCH<
+
+    property_name: >http://xmlns.dotcal.com/dotcal:icon_uri<
+   property_value: >http://eventful.com/favicon.ico<
+

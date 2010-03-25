@@ -1,0 +1,51 @@
+HTTP/1.1 200 OK
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy, bind, calendar-auto-schedule
+Ticket:Good Ticket ID
+ETag: "Some good etag"
+Content-Length: 618
+Content-Type: text/xml; charset="utf-8"
+
+<?xml version="1.0" encoding="utf-8" ?>
+<prop xmlns="DAV:" xmlns:T="http://www.xythos.com/namespaces/StorageServer" xmlns:C="urn:ietf:params:xml:ns:caldav">
+ <T:ticketdiscovery>
+  <T:ticketinfo>
+   <T:id>Good Ticket ID</T:id>
+   <owner>
+    <href>/caldav.php/admin/</href>
+   </owner>
+   <privilege>
+    <read/>
+    <read-current-user-privilege-set/>
+    <C:read-free-busy/>
+    <write/>
+    <write-properties/>
+    <write-content/>
+    <bind/>
+    <unbind/>
+    <C:schedule-query-freebusy/>
+   </privilege>
+   <T:timeout>infinity</T:timeout>
+   <T:visits>infinity</T:visits>
+  </T:ticketinfo>
+ </T:ticketdiscovery>
+</prop>
+
+     dav_owner_id: >3<
+       privileges: >000000000001001000100001<
+target_collection: >10<
+target_resource_i: >NULL<
+          timeout: >00:59:21<
+
+     dav_owner_id: >4<
+       privileges: >000000000001001011100111<
+target_collection: >11<
+target_resource_i: >NULL<
+          timeout: >NULL<
+
+     dav_owner_id: >1<
+       privileges: >000000000001001011100111<
+target_collection: >12<
+target_resource_i: >NULL<
+          timeout: >NULL<
+

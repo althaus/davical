@@ -1,0 +1,192 @@
+#
+# Attempt to put an event into a bound location, where
+# the binding does confer write privileges
+#
+TYPE=PUT
+URL=http://regression.host/caldav.php/user4/base/newcalendar/
+
+HEADER=Content-Type: text/calendar; charset=utf-8
+AUTH=user4:user4
+HEAD
+
+BEGINDATA
+BEGIN:VCALENDAR
+PRODID:-//Open Source Applications Foundation//NONSGML Chandler Server//E
+ N
+VERSION:2.0
+CALSCALE:GREGORIAN
+BEGIN:VTIMEZONE
+TZID:America/Los_Angeles
+X-TZINFO:America/Los_Angeles[2007g/Partial@883612800000]
+BEGIN:DAYLIGHT
+TZOFFSETTO:-0700
+TZOFFSETFROM:-0800
+TZNAME:America/Los_Angeles(DST)
+DTSTART:19980405T020000
+RRULE:FREQ=YEARLY;UNTIL=20060403T100000Z;BYMONTH=4;BYDAY=1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETTO:-0800
+TZOFFSETFROM:-0700
+TZNAME:America/Los_Angeles(STD)
+DTSTART:19981025T020000
+RRULE:FREQ=YEARLY;UNTIL=20061030T100000Z;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+BEGIN:DAYLIGHT
+TZOFFSETTO:-0700
+TZOFFSETFROM:-0800
+TZNAME:America/Los_Angeles(DST)
+DTSTART:20070311T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETTO:-0800
+TZOFFSETFROM:-0700
+TZNAME:America/Los_Angeles(STD)
+DTSTART:20071104T020000
+RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+LAST-MODIFIED:20100125T214235Z
+SEQUENCE:1
+UID:73d1f980-ec28-012c-11f9-002421a2359e
+SUMMARY:HELLO
+DESCRIPTION:
+DTSTART;VALUE=DATE-TIME;TZID=America/Los_Angeles:20100105T140000
+CREATED:20100125T214226Z
+DTSTAMP:20100125T214235Z
+DURATION:PT1H
+LOCATION:
+END:VEVENT
+BEGIN:VEVENT
+LAST-MODIFIED:20100311T220844Z
+SEQUENCE:18
+URL;VALUE=URI:http://www.macwfc.org
+UID:939afe30-0f86-012d-1259-002421a2359e
+SUMMARY:Youngberg Hill @ McMinniville Wine & Food Festival
+DESCRIPTION:March 12-14th McMinniville Wine & Food Festival\nCome visit Y
+ oungberg Hill at this wonderful festival. \nwww.macwfc.org\n\n
+DTSTART;TZID=America/Los_Angeles:20100312T110000
+CREATED:20100311T215422Z
+DTSTAMP:20100311T220844Z
+DURATION:P2DT5H
+LOCATION:
+X-VENUE:Evergreen Aviation\, McMnnville OR
+END:VEVENT
+BEGIN:VEVENT
+LAST-MODIFIED:20100311T222451Z
+SEQUENCE:11
+URL;VALUE=URI:http://www.theoregonwineandartauction.org/
+UID:12cbff90-0f8a-012d-1259-002421a2359e
+SUMMARY:Youngberg Hill @ Uncorked\, Oregon Wine & Art Auction 
+DESCRIPTION:July 10th - Uncorked\, Oregon Wine & Art Auction\n\nCome join
+  Youngberg Hill for this wonderful event.
+DTSTART;TZID=America/Los_Angeles:20100710T160000
+CREATED:20100311T221924Z
+DTSTAMP:20100311T222451Z
+DURATION:PT4H30M
+LOCATION:11400 Westland Lane\, Dayton OR
+X-VENUE:The Methven Family Vineyards
+END:VEVENT
+BEGIN:VEVENT
+LAST-MODIFIED:20100311T231118Z
+SEQUENCE:7
+UID:242afc80-0f8c-012d-1259-002421a2359e
+SUMMARY:Pre- IPNC Winemaker Dinner @ Youngberg Hill
+DESCRIPTION:July 22nd - PRE-IPNC Winemaker Dinner @ Youngberg Hill.\n\nDe
+ tails to follow.
+DTSTART;TZID=America/Los_Angeles:20100722T183000
+CREATED:20100311T223412Z
+DTSTAMP:20100311T231118Z
+DURATION:PT30M
+LOCATION:
+END:VEVENT
+BEGIN:VEVENT
+LAST-MODIFIED:20100311T220308Z
+SEQUENCE:8
+URL;VALUE=URI:http://www.stephanie-inn.com
+UID:950ca060-0f87-012d-1259-002421a2359e
+SUMMARY:Youngberg Hill Winemaker Dinner @ The Stephanie Inn
+DESCRIPTION:May 2 - Stephanie Inn Winemaker Dinner @ Cannon Beach\nCome j
+ oin Youngberg Hill Vineyards & Inn for this wonderful experience. Detail
+ s at \nwww.stephanie-inn.com\n\n
+DTSTART;TZID=America/Los_Angeles:20100502T180000
+CREATED:20100311T220134Z
+DTSTAMP:20100311T220308Z
+DURATION:PT3H30M
+LOCATION:Cannon Beach\, OR
+X-VENUE:The Stephanie Inn
+END:VEVENT
+BEGIN:VEVENT
+LAST-MODIFIED:20100311T231101Z
+SEQUENCE:0
+UID:4887b3b0-0f91-012d-1259-002421a2359e
+SUMMARY:New Event
+DESCRIPTION:
+DTSTART;TZID=America/Los_Angeles:20100716T150000
+CREATED:20100311T231101Z
+DTSTAMP:20100311T231101Z
+DURATION:PT1H
+LOCATION:
+END:VEVENT
+BEGIN:VEVENT
+LAST-MODIFIED:20100311T223312Z
+SEQUENCE:9
+URL;VALUE=URI:http://www.mcminnvilleava.org/event.htm
+UID:ed3beb90-0f8a-012d-1259-002421a2359e
+SUMMARY:Discover McMinnville AVA
+DESCRIPTION:July 17th - Discover McMinnville AVA\n\nParticipating Winerie
+ s Include:\nBrittan Vineyards\, Coeur de Terre Vineyard\, Coleman Vineya
+ rd\, Maysara Vineyard\, Seufert Winery\, Stony Mountain Vineyard\, Yamhi
+ ll Valley Vineyards and Youngberg Hill Vineyard
+DTSTART;TZID=America/Los_Angeles:20100717T100000
+CREATED:20100311T222531Z
+DTSTAMP:20100311T223312Z
+DURATION:PT7H
+LOCATION:16250 SW Oldsville Rd\, McMinnville OR
+X-VENUE:Yamhill Valley Vineyards
+END:VEVENT
+BEGIN:VEVENT
+LAST-MODIFIED:20100312T064055Z
+SEQUENCE:9
+URL;VALUE=URI:http://www.youngberghill.com
+UID:626c1f10-0f91-012d-1259-002421a2359e
+SUMMARY:Linfield Chamber Benefit @ Youngberg Hill
+DESCRIPTION:August 12th - Linfield Chamber Benefit @ Youngberg Hill\n\nDe
+ tails to follow
+DTSTART;TZID=America/Los_Angeles:20100812T180000
+CREATED:20100311T231144Z
+DTSTAMP:20100312T064055Z
+DURATION:PT2H30M
+LOCATION:10660 SW Youngberg Hill Road\, McMinniville OR
+X-VENUE:Youngberg Hill
+END:VEVENT
+BEGIN:VEVENT
+LAST-MODIFIED:20100311T221206Z
+SEQUENCE:8
+URL;VALUE=URI:http://www.youngberghill.com
+UID:b0362430-0f88-012d-1259-002421a2359e
+SUMMARY:Youngberg Hill Vineyard & Inn - Memorial Weekend
+DESCRIPTION:Memorial Weekend\nYoungberg Hill will be open from 11:00 to 5
+ :00 on Saturday\, Sunday\, & Monday. We will be highlighting our 2007 Jo
+ rdan & Natasha Block Pinot Noir as well as our newly released 2009 Pinot
+  Gris. We will have cheeses\, breads\, and treats available\, plus the g
+ reatest view.\n\nTasting fee of $5\, complimentary tastings for our Wine
+  Club members. \n
+DTSTART;TZID=America/Los_Angeles:20100529T110000
+CREATED:20100311T220929Z
+DTSTAMP:20100311T221206Z
+DURATION:P2DT6H
+LOCATION:10660 SW Youngberg Hill Road
+X-VENUE:McMinnville\, OR
+END:VEVENT
+END:VCALENDAR
+ENDDATA
+
+QUERY
+SELECT caldav_data.dav_name, caldav_data.dav_etag, dtstart, summary
+  FROM caldav_data JOIN calendar_item USING(dav_name)
+  WHERE caldav_data.dav_name ~ '/user4/base/newcalendar/'
+ENDQUERY
+

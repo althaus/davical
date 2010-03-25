@@ -1,0 +1,13 @@
+HTTP/1.1 201 Created
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy, bind, calendar-auto-schedule
+ETag: "baad41c9f24bd1ecbdde6e58882df9b7"
+Content-Length: 0
+Content-Type: text/plain; charset="utf-8"
+
+
+         dav_etag: >baad41c9f24bd1ecbdde6e58882df9b7<
+         dav_name: >/user4/base/calendar/anothergoodleopard.ics<
+          dtstart: >2010-03-22 16:00:00+13<
+          summary: >An invited event.  Black tie with pink polka dots is essential.  Do not bring a leopard.  Any leopards which do attend will be forcibly chained to a nearby fence.<
+

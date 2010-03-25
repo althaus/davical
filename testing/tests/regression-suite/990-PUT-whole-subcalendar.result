@@ -1,0 +1,54 @@
+HTTP/1.1 100 Continue
+
+HTTP/1.1 200 OK
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy, bind, calendar-auto-schedule
+Content-Length: 0
+Content-Type: text/plain; charset="utf-8"
+
+
+         dav_etag: >228540edb5690f6e8adb855aaa98ee98<
+         dav_name: >/user4/base/newcalendar/73d1f980-ec28-012c-11f9-002421a2359e.ics<
+          dtstart: >2010-01-06 11:00:00+13<
+          summary: >HELLO<
+
+         dav_etag: >83516c50151ea62ca04fd02f4f6af695<
+         dav_name: >/user4/base/newcalendar/939afe30-0f86-012d-1259-002421a2359e.ics<
+          dtstart: >2010-03-13 08:00:00+13<
+          summary: >Youngberg Hill @ McMinniville Wine & Food Festival<
+
+         dav_etag: >28371d97818ce13fb4ee87284b29c7c7<
+         dav_name: >/user4/base/newcalendar/12cbff90-0f8a-012d-1259-002421a2359e.ics<
+          dtstart: >2010-07-11 11:00:00+12<
+          summary: >Youngberg Hill @ Uncorked, Oregon Wine & Art Auction <
+
+         dav_etag: >54e5c8a4c302eee58d025c95adaf43ea<
+         dav_name: >/user4/base/newcalendar/242afc80-0f8c-012d-1259-002421a2359e.ics<
+          dtstart: >2010-07-23 13:30:00+12<
+          summary: >Pre- IPNC Winemaker Dinner @ Youngberg Hill<
+
+         dav_etag: >7ef2357c3213370b7b07cbe930315d0d<
+         dav_name: >/user4/base/newcalendar/950ca060-0f87-012d-1259-002421a2359e.ics<
+          dtstart: >2010-05-03 13:00:00+12<
+          summary: >Youngberg Hill Winemaker Dinner @ The Stephanie Inn<
+
+         dav_etag: >0e091d7cf1ea4f613199a2a60090a7e1<
+         dav_name: >/user4/base/newcalendar/4887b3b0-0f91-012d-1259-002421a2359e.ics<
+          dtstart: >2010-07-17 10:00:00+12<
+          summary: >New Event<
+
+         dav_etag: >823908a55c85231169c62d6a528cb790<
+         dav_name: >/user4/base/newcalendar/ed3beb90-0f8a-012d-1259-002421a2359e.ics<
+          dtstart: >2010-07-18 05:00:00+12<
+          summary: >Discover McMinnville AVA<
+
+         dav_etag: >ee431f372b6b841550bb4139db3c5e9f<
+         dav_name: >/user4/base/newcalendar/626c1f10-0f91-012d-1259-002421a2359e.ics<
+          dtstart: >2010-08-13 13:00:00+12<
+          summary: >Linfield Chamber Benefit @ Youngberg Hill<
+
+         dav_etag: >7afcfb06e68841ff74d32a351495af21<
+         dav_name: >/user4/base/newcalendar/b0362430-0f88-012d-1259-002421a2359e.ics<
+          dtstart: >2010-05-30 06:00:00+12<
+          summary: >Youngberg Hill Vineyard & Inn - Memorial Weekend<
+
