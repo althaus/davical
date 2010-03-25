@@ -644,7 +644,7 @@ function write_alarms( $dav_id, $ical ) {
       $minus = (substr($duration,0,1) == '-');
       $related_trigger = trim(preg_replace( '#[PT-]#', ' ', $duration ));
       if ( $minus ) {
-        $related_trigger = preg_replace( '{(\d+)}', '-$1', $related_trigger );
+        $related_trigger = preg_replace( '{(\d+[WDHMS])}', '-$1 ', $related_trigger );
       }
     }
     $qry->Bind(':action', $v->GetPValue('ACTION'));
