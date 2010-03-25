@@ -12,7 +12,8 @@ dbg_error_log("delete", "DELETE method handler");
 
 require_once('DAVResource.php');
 $dav_resource = new DAVResource($request->path);
-$dav_resource->NeedPrivilege('DAV::unbind');
+$container = $dav_resource->FetchParentContainer();
+$container->NeedPrivilege('DAV::unbind');
 
 $lock_opener = $request->FailIfLocked();
 
