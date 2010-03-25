@@ -600,16 +600,10 @@ EOQRY;
     }
 
     $this->privileges = $this->collection->path_privs;
-/*    if ( ! $this->exists && isset($this->collection) ) {
-//      $this->collection->path_privs = $this->parent->Privileges();
-      $this->collection->user_no = $this->parent->GetProperty('user_no');
-      $this->collection->principal_id = $this->parent->GetProperty('principal_id');
-    }
-    if ( $this->IsCollection() ) {
-      $this->privileges = $this->collection->path_privs;
-    }
-*/
     if ( is_string($this->privileges) ) $this->privileges = bindec( $this->privileges );
+
+    dbg_error_log( 'DAVResource', 'Privileges of "%s" for user "%s" accessing "%s"',
+                       decbin($this->privileges), $session->username, $this->dav_name() );
 
     if ( isset($request->ticket) && $request->ticket->MatchesPath($this->bound_from()) ) {
       $this->privileges |= $request->ticket->privileges();
