@@ -46,8 +46,10 @@ class RepeatRuleDateTime extends DateTime {
         $tzid = 'UTC';
       }
       else if ( isset($matches[1]) && $matches[1] != '' ) {
-        $dtz = new DateTimeZone($matches[1]);
-        if ( !isset($dtz) ) {
+        try {
+          $dtz = new DateTimeZone($matches[1]);
+        }
+        catch (Exception $e) {
           /** @TODO: need to try and parse a timezone from all the crap we could receive */
           dbg_error_log( 'ERROR', 'Could not create timezone for "%s"', $matches[1] );
         }
@@ -57,7 +59,25 @@ class RepeatRuleDateTime extends DateTime {
       }
     }
     if ( is_string($dtz) ) {
-      $dtz = new DateTimeZone($dtz);
+      try {
+        $dtz = new DateTimeZone($dtz);
+      }
+      catch (Exception $e) {
+        $original = $dtz;
+        if ( preg_match( '{((([^/]+)/)?[^/]+)$}', $dtz, $matches ) ) {
+          $dtz = $matches[1];
+          $tzid = $dtz;
+          dbg_error_log( 'RRule', 'Found timezone "%s", will process as "%s"', $original, $dtz );
+        }
+        try {
+          $dtz = new DateTimeZone($dtz);
+        }
+        catch (Exception $e) {
+          dbg_error_log( 'ERROR', 'Could not parse timezone "%s" - will use floating time', $original );
+          $dtz = new DateTimeZone('UTC');
+          $tzid = null;
+        }
+      }
     }
     if($dtz === null) {
       if ( preg_match('/\d{8}T\d{6}Z/', $date) ) {
