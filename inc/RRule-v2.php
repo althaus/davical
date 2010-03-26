@@ -131,7 +131,7 @@ class RepeatRuleDateTime extends DateTime {
     $gmt = clone($this);
     if ( isset($this->tzid) && $this->tzid != 'UTC' ) {
       $dtz = parent::getTimezone();
-      $offset = $dtz->getOffset($gmt);
+      $offset = 0 - $dtz->getOffset($gmt);
       $gmt->modify( $offset . ' seconds' );
     }
     return $gmt->format('Ymd\THis\Z');
@@ -226,6 +226,10 @@ class RepeatRule {
   public function __construct( $basedate, $rrule ) {
     $this->base = ( is_object($basedate) ? $basedate : new RepeatRuleDateTime($basedate) );
 
+    if ( $GLOBALS['debug_rrule'] ) {
+      printf( "Constructing RRULE based on: '%s', rrule: '%s'\n", $basedate, $rrule );
+    }
+
     if ( preg_match('{FREQ=([A-Z]+)(;|$)}', $rrule, $m) ) $this->freq = $m[1];
     if ( preg_match('{UNTIL=([0-9TZ]+)(;|$)}', $rrule, $m) ) $this->until = new RepeatRuleDateTime($m[1]);
     if ( preg_match('{COUNT=([0-9]+)(;|$)}', $rrule, $m) ) $this->count = $m[1];
@@ -290,7 +294,7 @@ class RepeatRule {
     if ( !$this->valid() ) return null;
     if ( !isset($this->instances[$this->position]) ) $this->GetMoreInstances();
     if ( !$this->valid() ) return null;
-    if ( $GLOBALS['debug_rrule'] ) printf( "Returning date from position %d: %s\n", $this->position, $this->instances[$this->position]->format('c') );
+    if ( $GLOBALS['debug_rrule'] ) printf( "Returning date from position %d: %s (%s)\n", $this->position, $this->instances[$this->position]->format('c'), $this->instances[$this->position]->UTC() );
     return $this->instances[$this->position];
   }
 
@@ -570,7 +574,7 @@ class RepeatRule {
     $this->current_set = array();
     foreach( $instances AS $k => $instance ) {
       foreach( $this->{$element_name} AS $k => $element_value ) {
-        if ( $GLOBALS['debug_rrule'] ) printf( "Limiting '$fmt_char' on '%s' => '%s' ?=? '%s' \n", $instance->format('c'), $instance->format($fmt_char), $element_value );
+        if ( $GLOBALS['debug_rrule'] ) printf( "Limiting '$fmt_char' on '%s' => '%s' ?=? '%s' ? %s\n", $instance->format('c'), $instance->format($fmt_char), $element_value, ($instance->format($fmt_char) == $element_value ? 'Yes' : 'No') );
         if ( $instance->format($fmt_char) == $element_value ) $this->current_set[] = $instance;
       }
     }
@@ -585,7 +589,7 @@ class RepeatRule {
     foreach( $this->byday AS $k => $weekday ) {
       $dow = $rrule_day_numbers[$weekday];
       foreach( $instances AS $k => $instance ) {
-        if ( $GLOBALS['debug_rrule'] ) printf( "Limiting '$fmt_char' on '%s' => '%s' ?=? '%s' (%d) \n", $instance->format('c'), $instance->format($fmt_char), $weekday, $dow );
+        if ( $GLOBALS['debug_rrule'] ) printf( "Limiting '$fmt_char' on '%s' => '%s' ?=? '%s' (%d) ? %s\n", $instance->format('c'), $instance->format($fmt_char), $weekday, $dow, ($instance->format($fmt_char) == $dow ? 'Yes' : 'No') );
         if ( $instance->format($fmt_char) == $dow ) $this->current_set[] = $instance;
       }
     }
