@@ -33,7 +33,52 @@ $rrule_day_numbers = array( 'SU' => 0, 'MO' => 1, 'TU' => 2, 'WE' => 3, 'TH' => 
 $GLOBALS['debug_rrule'] = false;
 // $GLOBALS['debug_rrule'] = true;
 
+/**
+* Wrap the DateTimeZone class to allow parsing some iCalendar TZID strangenesses
+*/
+class RepeatRuleTimeZone extends DateTimeZone {
+  private $tzid;
 
+  public function __construct($dtz = null) {
+    $this->tzid = false;
+    if ( !isset($dtz) ) return;
+
+    try {
+      parent::__construct($dtz);
+      $this->tzid = $dtz;
+    }
+    catch (Exception $e) {
+      $original = $dtz;
+      if ( preg_match( '{((([^/]+)/)?[^/]+)$}', $dtz, $matches ) ) {
+        $dtz = $matches[1];
+        dbg_error_log( 'RRule', 'Found timezone "%s", will process as "%s"', $original, $dtz );
+      }
+      try {
+        parent::__construct($dtz);
+        $this->tzid = $dtz;
+      }
+      catch (Exception $e) {
+        dbg_error_log( 'ERROR', 'Could not parse timezone "%s" - will use floating time', $original );
+        $dtz = new DateTimeZone('UTC');
+        $this->tzid = false;
+      }
+    }
+  }
+
+  function tzid() {
+    $tzid = parent::getName();
+    if ( $tzid != 'UTC' ) return $tzid;
+    return $this->tzid;
+  }
+}
+
+
+/**
+* Wrap the DateTime class to make it friendlier to passing in random strings from iCalendar
+* objects, and especially the random stuff used to identify timezones.  We also add some
+* utility methods and stuff too, in order to simplify some of the operations we need to do
+* with dates.
+*/
 class RepeatRuleDateTime extends DateTime {
   // public static $Format = 'Y-m-d H:i:s';
   public static $Format = 'c';
@@ -42,56 +87,33 @@ class RepeatRuleDateTime extends DateTime {
   public function __construct($date = null, $dtz = null) {
     if (preg_match('/;?TZID=([^:]+):(\d{8}(T\d{6})?)(Z)?/', $date, $matches) ) {
       if ( isset($matches[4]) && $matches[4] == 'Z' ) {
-        $dtz = new DateTimeZone('UTC');
-        $tzid = 'UTC';
+        $dtz = new RepeatRuleTimeZone('UTC');
+        $this->tzid = 'UTC';
       }
       else if ( isset($matches[1]) && $matches[1] != '' ) {
-        try {
-          $dtz = new DateTimeZone($matches[1]);
-        }
-        catch (Exception $e) {
-          /** @TODO: need to try and parse a timezone from all the crap we could receive */
-          dbg_error_log( 'ERROR', 'Could not create timezone for "%s"', $matches[1] );
-        }
+        $dtz = new RepeatRuleTimeZone($matches[1]);
+        $this->tzid = $dtz->tzid();
       }
       else {
-        $dtz = null;
+        $dtz = new RepeatRuleTimeZone('UTC');
+        $this->tzid = null;
       }
     }
-    if ( is_string($dtz) ) {
-      try {
-        $dtz = new DateTimeZone($dtz);
-      }
-      catch (Exception $e) {
-        $original = $dtz;
-        if ( preg_match( '{((([^/]+)/)?[^/]+)$}', $dtz, $matches ) ) {
-          $dtz = $matches[1];
-          $tzid = $dtz;
-          dbg_error_log( 'RRule', 'Found timezone "%s", will process as "%s"', $original, $dtz );
-        }
-        try {
-          $dtz = new DateTimeZone($dtz);
-        }
-        catch (Exception $e) {
-          dbg_error_log( 'ERROR', 'Could not parse timezone "%s" - will use floating time', $original );
-          $dtz = new DateTimeZone('UTC');
-          $tzid = null;
-        }
-      }
+    elseif ( is_string($dtz) ) {
+      $dtz = new RepeatRuleTimeZone($dtz);
+      $this->tzid = $dtz->tzid();
     }
-    if($dtz === null) {
+    elseif( $dtz === null ) {
+      $dtz = new RepeatRuleTimeZone('UTC');
       if ( preg_match('/\d{8}T\d{6}Z/', $date) ) {
-        $dtz = new DateTimeZone('UTC');
-        $tzid = 'UTC';
+        $this->tzid = 'UTC';
       }
       else {
-//        $dtz = new DateTimeZone(date_default_timezone_get());
-        $dtz = new DateTimeZone('UTC');
-        $tzid = null;
+        $this->tzid = null;
       }
     }
     else {
-      $tzid = $dtz->getName();
+      $this->tzid = $dtz->getName();
     }
 
     parent::__construct($date, $dtz);
@@ -130,6 +152,10 @@ class RepeatRuleDateTime extends DateTime {
 
 
   public function setTimeZone( $tz ) {
+    if ( is_string($tz) ) {
+      $tz = new RepeatRuleTimeZone($tz);
+      $this->tzid = $tz->tzid();
+    }
     parent::setTimeZone( $tz );
     return $this;
   }

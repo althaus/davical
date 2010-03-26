@@ -35,7 +35,7 @@ Content-Type: text/xml; charset="utf-8"
        privileges: >000000000001001000100001<
 target_collection: >10<
 target_resource_i: >NULL<
-          timeout: >00:59:21<
+          timeout: >01:00:00<
 
      dav_owner_id: >4<
        privileges: >000000000001001011100111<
