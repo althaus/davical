@@ -1,8 +1,8 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy, bind, calendar-auto-schedule
-ETag: "3c452449775154783d2af77d88c2aacf"
-Content-Length: 1632
+ETag: "022f0d6284e2773f33bde675089979d8"
+Content-Length: 2009
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -11,7 +11,7 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user2/home/</href>
   <propstat>
    <prop>
-    <C:getctag>"876883ebf6e5e80fb501f490c70803b5"</C:getctag>
+    <C:getctag>"f7543943a7a982f19306b3201d575fbc"</C:getctag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -60,6 +60,22 @@ Content-Type: text/xml; charset="utf-8"
   <propstat>
    <prop>
     <getetag>"13249ced6c7527191a003f54f7e3cd25"</getetag>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <C:getctag/>
+    <C1:gobbledegook/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user2/home/7d729xc0-0895-012d-124e-002421a2359e.ics</href>
+  <propstat>
+   <prop>
+    <getetag>"848df16c32fc3ce319083ae84c2603a3"</getetag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>

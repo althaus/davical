@@ -40,4 +40,13 @@
    <status>HTTP/1.1 200 OK</status>
   </propstat>
  </response>
+ <response>
+  <href>/public.php/user2/home/7d729xc0-0895-012d-124e-002421a2359e.ics</href>
+  <propstat>
+   <prop>
+    <getetag>"848df16c32fc3ce319083ae84c2603a3"</getetag>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
 </multistatus>

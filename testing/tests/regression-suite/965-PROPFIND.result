@@ -125,4 +125,23 @@
    <status>HTTP/1.1 403 Forbidden</status>
   </propstat>
  </response>
+ <response>
+  <href>/caldav.php/user4/user2/7d729xc0-0895-012d-124e-002421a2359e.ics</href>
+  <propstat>
+   <prop>
+    <getetag>"848df16c32fc3ce319083ae84c2603a3"</getetag>
+    <displayname>1st Monday, 2nd Tuesday, 3rd Thursday &amp; Last Friday</displayname>
+    <owner>
+     <href>/caldav.php/user2/</href>
+    </owner>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <current-user-privilege-set/>
+   </prop>
+   <status>HTTP/1.1 403 Forbidden</status>
+  </propstat>
+ </response>
 </multistatus>

@@ -172,5 +172,75 @@ END:VCALENDAR
               url: >NULL<
           user_no: >11<
 
-            count: >3<
+   A1 CalDAV DATA: >BEGIN:VCALENDAR
+PRODID:-//davical.org//NONSGML AWL Calendar//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+LAST-MODIFIED:20080303T015422Z
+SEQUENCE:5
+UID:7d729xc0-0895-012d-124e-002421a2359e
+SUMMARY:1st Monday, 2nd Tuesday, 3rd Thursday & Last Friday
+RRULE:FREQ=MONTHLY;BYDAY=1MO,2TU,3TH,-1FR;INTERVAL=1
+DESCRIPTION:An all day event on various days.
+DTSTART;TZID=America/Los_Angeles:20081006T000000
+CREATED:20080303T015329Z
+DTSTAMP:20080303T015422Z
+DURATION:P1D
+END:VEVENT
+BEGIN:VTIMEZONE
+TZID:America/Los_Angeles
+X-TZINFO:America/Los_Angeles[2007g/Partial@883612800000]
+BEGIN:DAYLIGHT
+TZOFFSETTO:-0700
+TZOFFSETFROM:-0800
+TZNAME:America/Los_Angeles(DST)
+DTSTART:19980405T020000
+RRULE:FREQ=YEARLY;UNTIL=20060403T100000Z;BYMONTH=4;BYDAY=1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETTO:-0800
+TZOFFSETFROM:-0700
+TZNAME:America/Los_Angeles(STD)
+DTSTART:19981025T020000
+RRULE:FREQ=YEARLY;UNTIL=20061030T100000Z;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+BEGIN:DAYLIGHT
+TZOFFSETTO:-0700
+TZOFFSETFROM:-0800
+TZNAME:America/Los_Angeles(DST)
+DTSTART:20070311T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETTO:-0800
+TZOFFSETFROM:-0700
+TZNAME:America/Los_Angeles(STD)
+DTSTART:20071104T020000
+RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU
+END:STANDARD
+END:VTIMEZONE
+END:VCALENDAR
+<
+      caldav_type: >VEVENT<
+            class: >PUBLIC<
+      description: >An all day event on various days.<
+            dtend: >2008-10-07 00:00:00<
+          dtstamp: >2008-03-03 01:54:22<
+          dtstart: >2008-10-06 00:00:00<
+              due: >NULL<
+         location: >NULL<
+      logged_user: >1<
+ percent_complete: >NULL<
+         priority: >NULL<
+            rrule: >FREQ=MONTHLY;BYDAY=1MO,2TU,3TH,-1FR;INTERVAL=1<
+           status: >NULL<
+          summary: >1st Monday, 2nd Tuesday, 3rd Thursday & Last Friday<
+           transp: >NULL<
+            tz_id: >America/Los_Angeles<
+              uid: >7d729xc0-0895-012d-124e-002421a2359e<
+              url: >NULL<
+          user_no: >11<
+
+            count: >4<
 
