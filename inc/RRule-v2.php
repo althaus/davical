@@ -83,9 +83,13 @@ class RepeatRuleDateTime extends DateTime {
   // public static $Format = 'Y-m-d H:i:s';
   public static $Format = 'c';
   private $tzid;
+  private $is_date;
 
   public function __construct($date = null, $dtz = null) {
-    if (preg_match('/;?TZID=([^:]+):(\d{8}(T\d{6})?)(Z)?/', $date, $matches) ) {
+    $this->is_date = false;
+    if ( preg_match('{;?VALUE=DATE[:;]}', $date, $matches) ) $this->is_date = true;
+    elseif ( preg_match('{:([12]\d{3}) (0[1-9]|1[012]) (0[1-9]|[12]\d|3[01]Z?) $}x', $date, $matches) ) $this->is_date = true;
+    if (preg_match('/;?TZID=([^:]+).*:(\d{8}(T\d{6})?)(Z)?/', $date, $matches) ) {
       if ( isset($matches[4]) && $matches[4] == 'Z' ) {
         $dtz = new RepeatRuleTimeZone('UTC');
         $this->tzid = 'UTC';
@@ -105,7 +109,8 @@ class RepeatRuleDateTime extends DateTime {
     }
     elseif( $dtz === null ) {
       $dtz = new RepeatRuleTimeZone('UTC');
-      if ( preg_match('/\d{8}T\d{6}Z/', $date) ) {
+      if ( preg_match('/(\d{8}(T\d{6})?)Z/', $date, $matches) ) {
+        if ( strlen($matches[1]) == 8 ) $this->is_date = true;
         $this->tzid = 'UTC';
       }
       else {
@@ -127,6 +132,11 @@ class RepeatRuleDateTime extends DateTime {
   }
 
 
+  public function AsDate() {
+    return $this->format('Ymd');
+  }
+
+
   public function UTC() {
     $gmt = clone($this);
     if ( isset($this->tzid) && $this->tzid != 'UTC' ) {
@@ -134,6 +144,7 @@ class RepeatRuleDateTime extends DateTime {
       $offset = 0 - $dtz->getOffset($gmt);
       $gmt->modify( $offset . ' seconds' );
     }
+    if ( $this->is_date ) return $gmt->format('Ymd');
     return $gmt->format('Ymd\THis\Z');
   }
 
@@ -143,9 +154,14 @@ class RepeatRuleDateTime extends DateTime {
     if ( isset($this->tzid) && $this->tzid != 'UTC' ) {
       $result = ';TZID='.$this->tzid;
     }
-    $result .= ':' . $gmt->format('Ymd\THis');
-    if ( isset($this->tzid) && $this->tzid == 'UTC' ) {
-      $result .= 'Z';
+    if ( $this->is_date ) {
+      $result .= ';VALUE=DATE:' . $this->format('Ymd');
+    }
+    else {
+      $result .= ':' . $this->format('Ymd\THis');
+      if ( isset($this->tzid) && $this->tzid == 'UTC' ) {
+        $result .= 'Z';
+      }
     }
     return $result;
   }
