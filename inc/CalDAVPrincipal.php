@@ -180,7 +180,8 @@ class CalDAVPrincipal
     $this->exists = true;
     $this->InitialiseRecord($usr);
 
-    if ( is_array($parameters) && isset($parameters['path']) && preg_match('#^/principals/#', $parameters['path']) ) {
+    if ( is_array($parameters) && !isset($parameters['username']) && !isset($parameters['user_no'])
+                 && isset($parameters['path']) && preg_match('{^/(~|principals/)}', $parameters['path']) ) {
       // Force it to match
       $this->url = $parameters['path'];
       $this->dav_name = $parameters['path'];
