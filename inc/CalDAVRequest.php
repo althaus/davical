@@ -654,6 +654,11 @@ EOSQL;
   function IsLocked() {
     if ( !isset($this->_locks_found) ) {
       $this->_locks_found = array();
+
+      $sql = 'DELETE FROM locks WHERE (start + timeout) < current_timestamp';
+      $qry = new AwlQuery($sql);
+      $qry->Exec('caldav',__LINE__,__FILE__);
+
       /**
       * Find the locks that might apply and load them into an array
       */
