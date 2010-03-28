@@ -14,7 +14,7 @@ require_once('DAVResource.php');
 
 $request->NeedPrivilege('DAV::unbind');
 
-if ( ! ini_get('open_basedir') && (isset($c->dbg['ALL']) || (isset($c->dbg['put']) && $c->dbg['put'])) ) {
+if ( ! ini_get('open_basedir') && (isset($c->dbg['ALL']) || (isset($c->dbg['move']) && $c->dbg['move'])) ) {
   $fh = fopen('/tmp/MOVE.txt','w');
   if ( $fh ) {
     fwrite($fh,$request->raw_post);
@@ -23,10 +23,6 @@ if ( ! ini_get('open_basedir') && (isset($c->dbg['ALL']) || (isset($c->dbg['put'
 }
 
 $lock_opener = $request->FailIfLocked();
-
-if ( $request->path == '/' || $request->IsPrincipal() || $request->destination == '' ) {
-  $request->NeedPrivilege('DAV::unbind');
-}
 
 $dest = new DAVResource($request->destination);
 
