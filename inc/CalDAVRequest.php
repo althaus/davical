@@ -163,7 +163,7 @@ class CalDAVRequest
       $_SERVER['REQUEST_METHOD'] = $_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'];
     }
     $this->method = $_SERVER['REQUEST_METHOD'];
-
+    $this->content_type = (isset($_SERVER['CONTENT_TYPE']) ? $_SERVER['CONTENT_TYPE'] : null);
     $this->user_agent = ((isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : "Probably Mulberry"));
 
     /**
@@ -496,7 +496,7 @@ EOSQL;
     * If the content we are receiving is XML then we parse it here.  RFC2518 says we
     * should reasonably expect to see either text/xml or application/xml
     */
-    if ( isset($_SERVER['CONTENT_TYPE']) && preg_match( '#(application|text)/xml#', $_SERVER['CONTENT_TYPE'] ) ) {
+    if ( isset($this->content_type) && preg_match( '#(application|text)/xml#', $this->content_type ) ) {
       $xml_parser = xml_parser_create_ns('UTF-8');
       $this->xml_tags = array();
       xml_parser_set_option ( $xml_parser, XML_OPTION_SKIP_WHITE, 1 );
