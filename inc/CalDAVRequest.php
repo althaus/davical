@@ -164,6 +164,9 @@ class CalDAVRequest
     }
     $this->method = $_SERVER['REQUEST_METHOD'];
     $this->content_type = (isset($_SERVER['CONTENT_TYPE']) ? $_SERVER['CONTENT_TYPE'] : null);
+    if ( preg_match( '{^(\S+/\S+)\s*(;.*)?$}', $this->content_type, $matches ) ) {
+      $this->content_type = $matches[1];
+    }
     $this->user_agent = ((isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : "Probably Mulberry"));
 
     /**
