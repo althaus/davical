@@ -10,6 +10,7 @@ if ( preg_match('{/always.php$}', $_SERVER['SCRIPT_NAME'] ) ) header('Location: 
 
 // Ensure the configuration starts out as an empty object.
 $c = (object) array();
+$c->script_start_time = microtime(true);
 
 // Ditto for a few other global things
 unset($session); unset($request); unset($dbconn); unset($_awl_dbconn); unset($include_properties);
