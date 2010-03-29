@@ -1141,11 +1141,18 @@ EOSQL;
     header( "Content-Length: ".strlen($message) );
     echo $message;
 
-    if ( strlen($message) > 100 || strstr($message, "\n") ) {
-      $message = substr( preg_replace("#\s+#m", ' ', $message ), 0, 100) . (strlen($message) > 100 ? "..." : "");
-    }
+    if ( isset($c->dbg['caldav']) && $c->dbg['caldav'] ) {
+      if ( strlen($message) > 100 || strstr($message, "\n") ) {
+        $message = substr( preg_replace("#\s+#m", ' ', $message ), 0, 100) . (strlen($message) > 100 ? "..." : "");
+      }
 
-    dbg_error_log("caldav", "Status: %d, Message: %s, User: %d, Path: %s", $status, $message, $session->user_no, $this->path);
+      dbg_error_log("caldav", "Status: %d, Message: %s, User: %d, Path: %s", $status, $message, $session->user_no, $this->path);
+    }
+    if ( isset($c->dbg['statistics']) && $c->dbg['statistics'] ) {
+      $script_time = microtime(true) - $c->script_start_time;
+      @dbg_error_log("statistics", "Method: %s, Status: %d, Script: %5.3lfs, Queries: %5.3lfs, URL: %s",
+                         $this->method, $status, $script_time, $c->total_query_time, $this->path);
+    }
 
     exit(0);
   }
