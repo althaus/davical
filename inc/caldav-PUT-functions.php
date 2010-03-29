@@ -901,17 +901,7 @@ function write_resource( $user_no, $path, $caldav_data, $collection_id, $author,
   $calitem_params[':due'] = $first->GetPValue('DUE');
   $calitem_params[':percent_complete'] = $first->GetPValue('PERCENT-COMPLETE');
   $calitem_params[':status'] = $first->GetPValue('STATUS');
-  if ( $put_action_type != 'INSERT' ) {
-    $sql = <<<EOSQL
-UPDATE calendar_item SET dav_etag=:etag, uid=:uid, dtstamp=:dtstamp,
-                dtstart=:dtstart, dtend=$dtend, summary=:summary, location=:location, class=:class, transp=:transp,
-                description=:description, rrule=:rrule, tz_id=:tzid, last_modified=:modified, url=:url, priority=:priority,
-                created=:created, due=:due, percent_complete=:percent_complete, status=:status
-       WHERE user_no=:user_no AND dav_name=:dav_name
-EOSQL;
-    $sync_change = 200;
-  }
-  else {
+  if ( $put_action_type == 'INSERT' ) {
     $sql = <<<EOSQL
 INSERT INTO calendar_item (user_no, dav_name, dav_id, dav_etag, uid, dtstamp,
                 dtstart, dtend, summary, location, class, transp,
@@ -923,6 +913,16 @@ INSERT INTO calendar_item (user_no, dav_name, dav_id, dav_etag, uid, dtstamp,
                 :created, :due, :percent_complete, :status, $collection_id )
 EOSQL;
     $sync_change = 201;
+  }
+  else {
+    $sql = <<<EOSQL
+UPDATE calendar_item SET dav_etag=:etag, uid=:uid, dtstamp=:dtstamp,
+                dtstart=:dtstart, dtend=$dtend, summary=:summary, location=:location, class=:class, transp=:transp,
+                description=:description, rrule=:rrule, tz_id=:tzid, last_modified=:modified, url=:url, priority=:priority,
+                created=:created, due=:due, percent_complete=:percent_complete, status=:status
+       WHERE user_no=:user_no AND dav_name=:dav_name
+EOSQL;
+    $sync_change = 200;
   }
 
   write_alarms($dav_id, $first);
