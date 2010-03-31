@@ -72,8 +72,8 @@
   <href>/caldav.php/user4/user2/33169d69-2969-4a96-a3e1-2e312b7614e6.ics</href>
   <propstat>
    <prop>
-    <getetag>"64d28f4f57515d6c63cec02b5d882eaa"</getetag>
-    <displayname>Daily Action Meeting</displayname>
+    <getetag>"f2c974ff51cb52cde0668544deb36380"</getetag>
+    <displayname>Near Daily Action Meeting</displayname>
     <owner>
      <href>/caldav.php/user2/</href>
     </owner>
@@ -131,6 +131,25 @@
    <prop>
     <getetag>"848df16c32fc3ce319083ae84c2603a3"</getetag>
     <displayname>1st Monday, 2nd Tuesday, 3rd Thursday &amp; Last Friday</displayname>
+    <owner>
+     <href>/caldav.php/user2/</href>
+    </owner>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <current-user-privilege-set/>
+   </prop>
+   <status>HTTP/1.1 403 Forbidden</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user4/user2/bd262d20-1cdb-012d-1264-002421a2359e.ics</href>
+  <propstat>
+   <prop>
+    <getetag>"671d4ee904be6c16dd1be076619fe7c0"</getetag>
+    <displayname>Afternoon run</displayname>
     <owner>
      <href>/caldav.php/user2/</href>
     </owner>

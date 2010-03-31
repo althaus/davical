@@ -16,8 +16,8 @@ CREATED:20081023T054958Z
 LAST-MODIFIED:20081023T055044Z
 DTSTAMP:20081023T054958Z
 UID:33169d69-2969-4a96-a3e1-2e312b7614e6
-SUMMARY:Daily Action Meeting
-RRULE:FREQ=DAILY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR
+SUMMARY:Near Daily Action Meeting
+RRULE:FREQ=DAILY;INTERVAL=1;BYDAY=MO,WE,FR
 DTSTART;TZID=Pacific/Auckland:20081020T110000
 DTEND;TZID=Pacific/Auckland:20081020T113000
 X-MOZ-GENERATION:2
@@ -53,9 +53,9 @@ END:VCALENDAR
       logged_user: >1<
  percent_complete: >NULL<
          priority: >NULL<
-            rrule: >FREQ=DAILY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR<
+            rrule: >FREQ=DAILY;INTERVAL=1;BYDAY=MO,WE,FR<
            status: >NULL<
-          summary: >Daily Action Meeting<
+          summary: >Near Daily Action Meeting<
            transp: >NULL<
             tz_id: >Pacific/Auckland<
               uid: >33169d69-2969-4a96-a3e1-2e312b7614e6<
@@ -242,5 +242,76 @@ END:VCALENDAR
               url: >NULL<
           user_no: >11<
 
-            count: >4<
+   A1 CalDAV DATA: >BEGIN:VCALENDAR
+PRODID:-//davical.org//NONSGML AWL Calendar//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+LAST-MODIFIED:20081123T210725Z
+SEQUENCE:6
+UID:bd262d20-1cdb-012d-1264-002421a2359e
+SUMMARY:Afternoon run
+DESCRIPTION:
+DTSTART;TZID=America/Los_Angeles:20081123T150000
+CREATED:20081123T210644Z
+DTSTAMP:20081123T210725Z
+DURATION:PT1H
+LOCATION:
+RRULE:FREQ=WEEKLY;INTERVAL=1;BYDAY=SU
+END:VEVENT
+BEGIN:VTIMEZONE
+TZID:America/Los_Angeles
+X-TZINFO:America/Los_Angeles[2007g/Partial@883612800000]
+BEGIN:DAYLIGHT
+TZOFFSETTO:-0700
+TZOFFSETFROM:-0800
+TZNAME:America/Los_Angeles(DST)
+DTSTART:19980405T020000
+RRULE:FREQ=YEARLY;UNTIL=20060403T100000Z;BYMONTH=4;BYDAY=1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETTO:-0800
+TZOFFSETFROM:-0700
+TZNAME:America/Los_Angeles(STD)
+DTSTART:19981025T020000
+RRULE:FREQ=YEARLY;UNTIL=20061030T100000Z;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+BEGIN:DAYLIGHT
+TZOFFSETTO:-0700
+TZOFFSETFROM:-0800
+TZNAME:America/Los_Angeles(DST)
+DTSTART:20070311T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETTO:-0800
+TZOFFSETFROM:-0700
+TZNAME:America/Los_Angeles(STD)
+DTSTART:20071104T020000
+RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU
+END:STANDARD
+END:VTIMEZONE
+END:VCALENDAR
+<
+      caldav_type: >VEVENT<
+            class: >PUBLIC<
+      description: ><
+            dtend: >2008-11-23 16:00:00<
+          dtstamp: >2008-11-23 21:07:25<
+          dtstart: >2008-11-23 15:00:00<
+              due: >NULL<
+         location: ><
+      logged_user: >1<
+ percent_complete: >NULL<
+         priority: >NULL<
+            rrule: >FREQ=WEEKLY;INTERVAL=1;BYDAY=SU<
+           status: >NULL<
+          summary: >Afternoon run<
+           transp: >NULL<
+            tz_id: >America/Los_Angeles<
+              uid: >bd262d20-1cdb-012d-1264-002421a2359e<
+              url: >NULL<
+          user_no: >11<
+
+            count: >5<
 

@@ -8,28 +8,28 @@ Content-Type: text/xml; charset="utf-8"
 <error xmlns="DAV:">
   <DAV::can-overwrite/>A resource already exists at the destination.
 </error>
-          bind_id: >1432<
+          bind_id: >1433<
   bound_source_id: >11<
   dav_displayname: >Updated Displayname with PROPPATCH<
          dav_name: >/user4/user2/<
            length: >8<
  parent_container: >/user4/<
 
-          bind_id: >1433<
+          bind_id: >1434<
   bound_source_id: >10<
   dav_displayname: >User 1's Calendaranza<
          dav_name: >/user4/user1/<
            length: >8<
  parent_container: >/user4/<
 
-          bind_id: >1437<
+          bind_id: >1438<
   bound_source_id: >10<
   dav_displayname: >User 1's Calendaranza<
          dav_name: >/user4/base/user1/<
            length: >8<
  parent_container: >/user4/base/<
 
-          bind_id: >1438<
+          bind_id: >1439<
   bound_source_id: >11<
   dav_displayname: >User 2's Calendar, as uploaded by Admin<
          dav_name: >/user4/base/user2/<

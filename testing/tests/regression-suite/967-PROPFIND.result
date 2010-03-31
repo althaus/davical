@@ -26,7 +26,7 @@
    <prop>
     <getcontenttype>text/calendar</getcontenttype>
     <resourcetype/>
-    <getetag>"64d28f4f57515d6c63cec02b5d882eaa"</getetag>
+    <getetag>"f2c974ff51cb52cde0668544deb36380"</getetag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -60,6 +60,17 @@
     <getcontenttype>text/calendar</getcontenttype>
     <resourcetype/>
     <getetag>"848df16c32fc3ce319083ae84c2603a3"</getetag>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user4/user2/bd262d20-1cdb-012d-1264-002421a2359e.ics</href>
+  <propstat>
+   <prop>
+    <getcontenttype>text/calendar</getcontenttype>
+    <resourcetype/>
+    <getetag>"671d4ee904be6c16dd1be076619fe7c0"</getetag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>

@@ -1,7 +1,7 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy, bind, calendar-auto-schedule
-ETag: "d020f04d95bacdf8a150f2b06a3c0dcc"
+ETag: "5a27c5837af93fae40df868c04319afe"
 Content-Length: 522
 Content-Type: text/xml; charset="utf-8"
 
@@ -12,7 +12,7 @@ Content-Type: text/xml; charset="utf-8"
   <propstat>
    <prop>
     <displayname>User 2's Calendar, as uploaded by Admin</displayname>
-    <C:getctag>"f7543943a7a982f19306b3201d575fbc"</C:getctag>
+    <C:getctag>"a3dcf395e9cdb84203c8491e1a1d99cc"</C:getctag>
     <resourcetype>
      <collection/>
      <C1:calendar/>

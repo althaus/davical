@@ -1,8 +1,8 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy, bind, calendar-auto-schedule
-ETag: "46385e06c78acb23818555378cced9bd"
-Content-Length: 3517
+ETag: "1906d52bec5b04408739a88cd9d6dd97"
+Content-Length: 3516
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -11,7 +11,7 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user4/user2/33169d69-2969-4a96-a3e1-2e312b7614e6.ics</href>
   <propstat>
    <prop>
-    <getetag>"64d28f4f57515d6c63cec02b5d882eaa"</getetag>
+    <getetag>"f2c974ff51cb52cde0668544deb36380"</getetag>
     <C:calendar-data>BEGIN:VCALENDAR
 PRODID:-//davical.org//NONSGML AWL Calendar//EN
 VERSION:2.0
@@ -21,8 +21,8 @@ CREATED:20081023T054958Z
 LAST-MODIFIED:20081023T055044Z
 DTSTAMP:20081023T054958Z
 UID:33169d69-2969-4a96-a3e1-2e312b7614e6
-SUMMARY:Daily Action Meeting
-RRULE:FREQ=DAILY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR
+SUMMARY:Near Daily Action Meeting
+RRULE:FREQ=DAILY;INTERVAL=1;BYDAY=MO,WE,FR
 DTSTART;TZID=Pacific/Auckland:20081020T110000
 DTEND;TZID=Pacific/Auckland:20081020T113000
 X-MOZ-GENERATION:2
