@@ -9,7 +9,7 @@ use strict;
 
 while( <STDIN> ) {
 
-  /^Server: Apache\/[0-9.]+/ && do {
+  /^Server: Apache(\/[0-9.]+)?/ && do {
     $_ = "";
   };
 
