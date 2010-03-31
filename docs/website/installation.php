@@ -18,7 +18,7 @@ manager to fetch and install <code>DAViCal</code> and all the dependencies.</p>
 you don't get asked for confirmation all the time:</p>
 
 <pre>
-sudo apt-key advanced --keyserver subkeys.pgp.net --recv-keys F6E0FA5CF0307507BB23A512EAFCFEBF8FEB8EBF
+sudo apt-key advanced --keyserver pgp.net.nz --recv-keys F6E0FA5CF0307507BB23A512EAFCFEBF8FEB8EBF
 </pre>
 
 <p>Skip to the "Database Setup" part if you have done that already.</p>
