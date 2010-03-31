@@ -738,7 +738,8 @@ EOXML;
     }
     else {
       foreach( $event_hrefs AS $k => $href ) {
-        $events[$href] = $this->DoGETRequest($href);
+        $this->DoGETRequest($href);
+        $events[$href] = $this->httpResponseBody;
       }
     }
 
