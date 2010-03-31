@@ -736,6 +736,11 @@ EOXML;
         $events[$href] = $this->xmlnodes[$v]['value'];
       }
     }
+    else {
+      foreach( $event_hrefs AS $k => $href ) {
+        $events[$href] = $this->DoGETRequest($href);
+      }
+    }
 
     return $events;
   }
