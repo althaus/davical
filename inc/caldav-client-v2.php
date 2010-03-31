@@ -690,7 +690,7 @@ class CalDAVClient {
   function GetCollectionETags( $url = null ) {
     if ( isset($url) ) $this->SetCalendar($url);
 
-    $this->DoPROPFINDRequest( $this->calendar_url, array('getetag','supported-report-set'), 1);
+    $this->DoPROPFINDRequest( $this->calendar_url, array('getetag'), 1);
 
     $etags = array();
     if ( isset($this->xmltags['DAV::getetag']) ) {
