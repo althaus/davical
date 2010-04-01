@@ -62,7 +62,7 @@ if ( isset($privsql) ) {
   $can_write_collection = ($session->AllowedTo('Admin') || (bindec($permissions->priv) & privilege_to_bits('DAV::bind')) );
 }
 
-dbg_error_log("ERROR", "Can write collection: %s", ($can_write_collection? 'yes' : 'no') );
+dbg_error_log('collection-edit', "Can write collection: %s", ($can_write_collection? 'yes' : 'no') );
 
 $pwstars = '@@@@@@@@@@';
 if ( $can_write_collection && $editor->IsSubmit() ) {
@@ -97,7 +97,7 @@ if ( $can_write_collection && $editor->IsSubmit() ) {
     * of a hack.  It works though :-)
     */
     $ics = trim(file_get_contents($_FILES['ics_file']['tmp_name']));
-    dbg_error_log('User',':Write: Loaded %d bytes from %s', strlen($ics), $_FILES['ics_file']['tmp_name'] );
+    dbg_error_log('collection-edit',':Write: Loaded %d bytes from %s', strlen($ics), $_FILES['ics_file']['tmp_name'] );
     include_once('check_UTF8.php');
     if ( !check_string($ics) ) $ics = force_utf8($ics);
 
