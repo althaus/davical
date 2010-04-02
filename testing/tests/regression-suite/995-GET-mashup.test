@@ -1,0 +1,9 @@
+#
+# Doing a GET on a collection of collections.
+#
+
+TYPE=GET
+URL=http://regression.host/caldav.php/user4/base/
+HEAD
+
+AUTH=user4:user4

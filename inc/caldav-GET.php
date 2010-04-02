@@ -40,7 +40,7 @@ function obfuscate_event( $resource ) {
 
 
 if ( $dav_resource->IsCollection() ) {
-  if ( ! $dav_resource->IsCalendar() ) {
+  if ( ! $dav_resource->IsCalendar() && !(isset($c->get_includes_subcollections) && $c->get_includes_subcollections) ) {
     /** RFC2616 says we must send an Allow header if we send a 405 */
     header("Allow: PROPFIND,PROPPATCH,OPTIONS,MKCOL,REPORT,DELETE");
     $request->DoResponse( 405, translate("GET requests on collections are only supported for calendars.") );
@@ -51,9 +51,17 @@ if ( $dav_resource->IsCollection() ) {
   * used as a .ics download for the whole collection, which is what we do also.
   */
   $sql = 'SELECT caldav_data, class, caldav_type, calendar_item.user_no, logged_user ';
-  $sql .= 'FROM caldav_data INNER JOIN calendar_item USING ( dav_id ) WHERE caldav_data.collection_id = :collection_id ';
+  $sql .= 'FROM collection INNER JOIN caldav_data USING(collection_id) INNER JOIN calendar_item USING ( dav_id ) WHERE ';
+  if ( isset($c->get_includes_subcollections) && $c->get_includes_subcollections ) {
+    $sql .= '(collection.dav_name ~ :path_match ';
+    $sql .= 'OR collection.collection_id IN (SELECT bound_source_id FROM dav_binding WHERE dav_binding.dav_name ~ :path_match)) ';
+    $params = array( ':path_match' => '^'.$request->path );
+  }
+  else {
+    $sql .= 'caldav_data.collection_id = :collection_id ';
+    $params = array( ':collection_id' => $dav_resource->resource_id() );
+  }
   if ( isset($c->strict_result_ordering) && $c->strict_result_ordering ) $sql .= ' ORDER BY dav_id';
-  $params = array( ':collection_id' => $dav_resource->resource_id() );
 
   $qry = new AwlQuery( $sql, $params );
   if ( !$qry->Exec("GET",__LINE__,__FILE__) ) {
