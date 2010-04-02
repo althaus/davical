@@ -194,6 +194,8 @@ class AwlDBDialect {
       elseif ( is_numeric($value)) {
         if ( preg_match('{^(19|20)\d\d(0[1-9]|1[012])([012]\d|30|31)$}', $value) )
           $value_type = PDO::PARAM_STR; // YYYYMMDD
+        elseif ( preg_match('{^[0-9+-]+e[0-9+-]+$}i', $value) )
+          $value_type = PDO::PARAM_STR; // 72e57650 could easily be a string
         else
           $value_type = PDO::PARAM_INT;
       }
