@@ -201,7 +201,7 @@ if ( ! $qry->QDo( 'INSERT INTO collection ( user_no, parent_container, dav_name,
   $request->DoResponse( 500, translate('Error writing calendar details to database.') );
 }
 foreach( $dav_properties AS $k => $v ) {
-  if ( ! $qry->QDo('SELECT set_dav_property( :dav_name, :user_no, :tag, :value )',
+  if ( ! $qry->QDo('SELECT set_dav_property( :dav_name, :user_no, :tag::text, :value::text )',
              array( ':dav_name' => $request->path, ':user_no' => $request->user_no, ':tag' => $k, ':value' => $v) ) ) {
     $request->DoResponse( 500, translate('Error writing calendar properties to database.') );
   }
