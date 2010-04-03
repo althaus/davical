@@ -120,6 +120,9 @@ else {
 }
 if ( $editor->Available() ) {
   $c->page_title = $editor->Title(translate('Collection').': '.$editor->Value('dav_displayname'));
+  $entryqry = new AwlQuery( 'SELECT count(*) as count from caldav_data where collection_id='.$editor->Value('collection_id')  );
+  $entryqry->Exec('admin-collection-edit');
+  $entries = $entryqry->Fetch();  $entries = $entries->count;
 }
 else {
   $c->page_title = $editor->Title(translate('Create New Collection'));
@@ -129,11 +132,9 @@ else {
   $editor->Assign('user_no', $usr->user_no);
   $editor->Assign('is_calendar', 't' );
   $editor->Assign('use_default_privs', 't');
+  $entries = 0;
 }
 
-$entryqry = new AwlQuery( 'SELECT count(*) as count from caldav_data where collection_id='.$id  );
-$entryqry->Exec('admin-collection-edit');
-$entries = $entryqry->Fetch();  $entries = $entries->count;
 
 $privilege_xlate = array(
   'read' => translate('Read'),
