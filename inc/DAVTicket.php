@@ -80,7 +80,7 @@ class DAVTicket
         'SELECT access_ticket.*, collection.dav_name, (access_ticket.expires < current_timestamp) AS expired,
                 path_privs(access_ticket.dav_owner_id,collection.dav_name,:scan_depth) AS grantor_collection_privileges
            FROM access_ticket JOIN collection ON (target_collection_id = collection_id)
-          WHERE ticket_id = :ticket_id',
+          WHERE ticket_id = :ticket_id::text',
         array(':ticket_id' => $ticket_id, ':scan_depth' => $c->permission_scan_depth)
     );
     if ( $qry->Exec('DAVTicket',__LINE__,__FILE__) && $qry->rows() == 1 && $t = $qry->Fetch() ) {
