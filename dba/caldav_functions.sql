@@ -1222,3 +1222,24 @@ BEGIN
 END
 $$ LANGUAGE 'PlPgSQL' STRICT;
 
+
+DROP TRIGGER alarm_changed ON calendar_alarm CASCADE;
+CREATE or REPLACE FUNCTION alarm_changed() RETURNS TRIGGER AS $$
+DECLARE
+  oldcomponent TEXT;
+  newcomponent TEXT;
+BEGIN
+  -- in case we trigger on other events in future
+  IF TG_OP = 'UPDATE' THEN
+    IF NEW.component != OLD.component THEN
+      UPDATE caldav_data
+         SET caldav_data = replace( caldav_data, OLD.component, NEW.component ),
+             dav_etag = md5(replace( caldav_data, OLD.component, NEW.component ))
+       WHERE caldav_data.dav_id = NEW.dav_id;
+    END IF;
+  END IF;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+CREATE TRIGGER alarm_changed AFTER UPDATE ON calendar_alarm
+    FOR EACH ROW EXECUTE PROCEDURE alarm_changed();
