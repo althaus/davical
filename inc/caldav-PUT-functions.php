@@ -123,7 +123,7 @@ VALUES( :user_no, :parent_container, :dav_name, :dav_etag, :dav_displayname, TRU
     else if ( isset($public) ) {
       $collection = $qry->Fetch();
       $sql = 'UPDATE collection SET publicly_readable = :is_public::boolean WHERE collection_id = :collection_id';
-      $params = array( ':is_public' => $public, ':collection_id' => $collection->collection_id );
+      $params = array( ':is_public' => ($public?'t':'f'), ':collection_id' => $collection->collection_id );
       if ( ! $qry->QDo($sql,$params) ) {
         rollback_on_error( $caldav_context, $user_no, $path );
       }
@@ -590,10 +590,14 @@ EOSQL;
     $calitem_params[':rrule'] = $first->GetPValue('RRULE');
     $calitem_params[':url'] = $first->GetPValue('URL');
     $calitem_params[':priority'] = $first->GetPValue('PRIORITY');
-    $calitem_params[':created'] = $first->GetPValue('CREATED');
     $calitem_params[':due'] = $first->GetPValue('DUE');
     $calitem_params[':percent_complete'] = $first->GetPValue('PERCENT-COMPLETE');
     $calitem_params[':status'] = $first->GetPValue('STATUS');
+
+    $created = $first->GetPValue('CREATED');
+    if ( $created == '00001231T000000Z' ) $created = '20001231T000000Z';
+    $calitem_params[':created'] = $created;
+
     if ( !$qry->QDo($sql,$calitem_params) ) rollback_on_error( $caldav_context, $user_no, $path);
 
     write_alarms($dav_id, $first);
@@ -888,6 +892,10 @@ function write_resource( $user_no, $path, $caldav_data, $collection_id, $author,
 
   }
 
+  $created = $first->GetPValue('CREATED');
+  if ( $created == '00001231T000000Z' ) $created = '20001231T000000Z';
+  $calitem_params[':created'] = $created;
+
   $calitem_params[':tzid'] = $tzid;
   $calitem_params[':uid'] = $first->GetPValue('UID');
   $calitem_params[':summary'] = $first->GetPValue('SUMMARY');
@@ -897,7 +905,6 @@ function write_resource( $user_no, $path, $caldav_data, $collection_id, $author,
   $calitem_params[':rrule'] = $first->GetPValue('RRULE');
   $calitem_params[':url'] = $first->GetPValue('URL');
   $calitem_params[':priority'] = $first->GetPValue('PRIORITY');
-  $calitem_params[':created'] = $first->GetPValue('CREATED');
   $calitem_params[':due'] = $first->GetPValue('DUE');
   $calitem_params[':percent_complete'] = $first->GetPValue('PERCENT-COMPLETE');
   $calitem_params[':status'] = $first->GetPValue('STATUS');
