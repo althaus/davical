@@ -338,8 +338,8 @@ class AwlDBDialect {
     }
 
     foreach( $args AS $name => $value ) {
-      $replacement = $this->Quote($value);
-      $querystring = preg_replace( '{\E'.$name.'\Q\b}s', $replacement, $querystring );
+      $replacement = str_replace('$', '\\$', $this->Quote($value));  // No positional replacement in $replacement!
+      $querystring = preg_replace( '{\Q'.$name.'\E\b}s', $replacement, $querystring );
     }
 
     return $querystring;
