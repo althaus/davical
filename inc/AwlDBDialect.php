@@ -339,7 +339,7 @@ class AwlDBDialect {
 
     foreach( $args AS $name => $value ) {
       $replacement = $this->Quote($value);
-      $querystring = preg_replace( '{\Q'.$name.'\E\b}s', $replacement, $querystring );
+      $querystring = preg_replace( '{\E'.$name.'\Q\b}s', $replacement, $querystring );
     }
 
     return $querystring;
