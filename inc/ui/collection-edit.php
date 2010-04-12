@@ -117,6 +117,9 @@ if ( $can_write_collection && $editor->IsSubmit() ) {
 }
 else {
   $editor->GetRecord();
+  if ( $editor->IsSubmit() ) {
+    $c->messages[] = i18n('You do not have permission to modify this record.');
+  }
 }
 if ( $editor->Available() ) {
   $c->page_title = $editor->Title(translate('Collection').': '.$editor->Value('dav_displayname'));

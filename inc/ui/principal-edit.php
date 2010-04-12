@@ -158,7 +158,7 @@ if ( $can_write_principal && $editor->IsSubmit() ) {
 else {
   $editor->GetRecord();
   if ( $editor->IsSubmit() ) {
-    $post_values = true;
+    $c->messages[] = i18n('You do not have permission to modify this record.');
   }
 }
 if ( $editor->Available() ) {
