@@ -107,6 +107,7 @@ class DAViCalSession extends Session
       dbg_error_log( 'LOG WARNING', 'Access to "%s" via "%s:%d" rejected.', $_SERVER['REQUEST_URI'], $current_domain, $_SERVER['SERVER_PORT'] );
       exit(0);
     }
+    if ( isset($c->restrict_admin_roles) && $roles == '' ) $roles = $c->restrict_admin_roles;
     if ( $this->logged_in && $roles == '' ) return;
     if ( ! $this->logged_in ) {
       $c->messages[] = i18n('You must log in to use this system.');
