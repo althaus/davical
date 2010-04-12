@@ -338,6 +338,9 @@ class AwlDBDialect {
     }
 
     foreach( $args AS $name => $value ) {
+      if ( substr($name, 0, 1) != ':' ) {
+        dbg_error_log( "ERROR", "AwlDBDialect: Named parameter '%s' does not begin with a colon.", $name);
+      }
       $replacement = str_replace('$', '\\$', $this->Quote($value));  // No positional replacement in $replacement!
       $querystring = preg_replace( '{\Q'.$name.'\E\b}s', $replacement, $querystring );
     }
