@@ -243,7 +243,7 @@ $prompt_principal_id = translate('Principal ID');
 $value_id = ( $editor->Available() ? '##principal_id.hidden####principal_id.value##' : translate('New Principal'));
 $prompt_username = translate('Username');
 $prompt_password_1 = translate('Change Password');
-$prompt_password_1 = translate('Confirm Password');
+$prompt_password_2 = translate('Confirm Password');
 $prompt_fullname = translate('Fullname');
 $prompt_displayname = translate('Display Name');
 $prompt_email = translate('Email Address');
@@ -252,7 +252,7 @@ $prompt_admin = translate('Administrator');
 $prompt_active = translate('Active');
 $prompt_locale = translate('Locale');
 $prompt_type = translate('Principal Type');
-$prompt_privileges = translate('Default Privileges');
+$prompt_privileges = translate('Privileges granted to All Users');
 
 $btn_all = htmlspecialchars(translate('All'));             $btn_all_title = htmlspecialchars(translate('Toggle all privileges'));
 $btn_rw  = htmlspecialchars(translate('Read/Write'));      $btn_rw_title = htmlspecialchars(translate('Set read+write privileges'));
@@ -329,14 +329,14 @@ label.privilege {
  </td></tr>
  <tr> <th class="right">$prompt_username:</th>    <td class="left">##xxxxusername.input.50##</td> </tr>
  <tr> <th class="right">$prompt_password_1:</th>  <td class="left">##newpass1.password.$pwstars##</td> </tr>
- <tr> <th class="right">$prompt_password_1:</th>  <td class="left">##newpass2.password.$pwstars##</td> </tr>
+ <tr> <th class="right">$prompt_password_2:</th>  <td class="left">##newpass2.password.$pwstars##</td> </tr>
  <tr> <th class="right">$prompt_fullname:</th>    <td class="left">##fullname.input.50##</td> </tr>
  <tr> <th class="right">$prompt_email:</th>       <td class="left">##email.input.50##</td> </tr>
  <tr> <th class="right">$prompt_locale:</th>      <td class="left">##locale.select##</td> </tr>
  <tr> <th class="right">$prompt_date_format:</th> <td class="left">##date_format_type.select##</td> </tr>
  <tr> <th class="right">$prompt_type:</th>        <td class="left">##type_id.select##</td> </tr>
  $admin_row_entry
- <tr> <th class="right">$prompt_privileges:</th><td class="left">
+ <tr> <th class="right" style="white-space:normal;">$prompt_privileges:</th><td class="left">
 <input type="button" value="$btn_all" class="submit" title="$btn_all_title" onclick="toggle_privileges('default_privileges', 'all', 'editor_1');">
 <input type="button" value="$btn_rw" class="submit" title="$btn_rw_title"
  onclick="toggle_privileges('default_privileges', 'read', 'write-properties', 'write-content', 'bind', 'unbind', 'read-free-busy',
