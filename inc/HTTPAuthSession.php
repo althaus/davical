@@ -233,8 +233,8 @@ class HTTPAuthSession {
     }
 
     if ( $usr = getUserByName($username) ) {
-      dbg_error_log( "BasicAuth", ":CheckPassword: Name:%s, Pass:%s, File:%s", $username, $password, $usr->password );
-      if ( session_validate_password( $password, $usr->password ) ) {
+      dbg_error_log( "BasicAuth", ":CheckPassword: Name:%s, Pass:%s, File:%s, Active:%s", $username, $password, $usr->password, ($usr->active?'Yes':'No') );
+      if ( $usr->active && session_validate_password( $password, $usr->password ) ) {
         return $usr;
       }
     }
