@@ -150,7 +150,7 @@ if ( $can_write_principal && $editor->IsSubmit() ) {
       $sql = 'DELETE FROM role_member WHERE role_no = 1 AND user_no = :user_no';
       $editor->Assign('is_admin', 'f');
     }
-    $params['user_no'] = $editor->Value('user_no');
+    $params[':user_no'] = $editor->Value('user_no');
     $qry = new AwlQuery( $sql, $params );
     $qry->Exec('admin-principal-edit');
   }
