@@ -150,6 +150,45 @@ $c->collections_always_exist = false;
 //                           'email_ok' => date('Y-m-d')
 //                         );
 
+/**
+* If true, then remote scheduling will be enabled.  There is a possibility 
+* of receiving spam events in calendars if enabled, you will at least know
+* what domain the spam came from as domain key signatures are required for
+* events to be accepted.  
+*
+* You probably need to setup Domain Keys for your domain as well as the
+* appropiate DNS SRV records.
+*
+* for example, if DAViCal is installed on cal.example.com you should have
+* DNS SRV records like this:
+* ischedules._tcp.example.com. IN SRV 0 1 443 cal.example.com
+*  ischedule._tcp.example.com. IN SRV 0 1  80 cal.example.com
+*
+* DNS TXT record for signing outbound requests
+* example:
+* cal._domainkey.example.com. 86400 IN   TXT     "k=rsa\; t=s\; p=PUBKEY"
+* Default: false
+*/
+//$c->enable_scheduling = true;
+
+/**
+* Domain Key selector to use when signing outbound scheduling requests.
+*
+* TODO: enable selectors/signing by per user keys, patches welcome.
+* Default: 'cal'
+*/
+//$c->scheduling_dkim_selector = 'cal';
+
+/*
+* Domain Key private key 
+* Required if you want to enable outbound remote server scheduling
+* Default: none
+*/  
+/*
+$c->schedule_private_key = 'PRIVATE-KEY-BASE-64-DATA';
+*/
+
+
 
 /***************************************************************************
 *                                                                          *
