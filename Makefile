@@ -4,7 +4,7 @@
 package=davical
 version=$(shell cat VERSION)
 
-all: inc/always.php built-docs built-po
+all: htdocs/always.php built-docs built-po
 
 built-docs: docs/api/phpdoc.ini htdocs/*.php inc/*.php
 	phpdoc -c docs/api/phpdoc.ini || echo "NOTICE: Failed to build optional API docs"
