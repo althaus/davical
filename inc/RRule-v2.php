@@ -49,15 +49,19 @@ class RepeatRuleTimeZone extends DateTimeZone {
     }
     catch (Exception $e) {
       $original = $dtz;
-      if ( preg_match( '{((([^/]+)/)?[^/]+)$}', $dtz, $matches ) ) {
-        $dtz = $matches[1];
-        dbg_error_log( 'RRule', 'Found timezone "%s", will process as "%s"', $original, $dtz );
+      $dtz = olson_from_tzstring($dtz);
+      if ( isset($dtz) ) {
+        try {
+          parent::__construct($dtz);
+          $this->tzid = $dtz;
+        }
+        catch (Exception $e) {
+          dbg_error_log( 'ERROR', 'Could not parse timezone "%s" - will use floating time', $original );
+          $dtz = new DateTimeZone('UTC');
+          $this->tzid = false;
+        }
       }
-      try {
-        parent::__construct($dtz);
-        $this->tzid = $dtz;
-      }
-      catch (Exception $e) {
+      else {
         dbg_error_log( 'ERROR', 'Could not parse timezone "%s" - will use floating time', $original );
         $dtz = new DateTimeZone('UTC');
         $this->tzid = false;
