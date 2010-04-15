@@ -21,6 +21,14 @@ while( <STDIN> ) {
     $_ = "";
   };
 
+  /^Keep-Alive:/ && do {
+    $_ = "";
+  };
+
+  /^Connection:/ && do {
+    $_ = "";
+  };
+
   /^Vary: / && do {
     $_ = "";
   };
