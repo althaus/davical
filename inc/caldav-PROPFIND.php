@@ -185,11 +185,10 @@ function get_collection_contents( $depth, $collection, $parent_path = null ) {
       $time_limit_clause = " AND calendar_item.dtstart > (now() - interval '".intval($c->hide_older_than)." days') ";
     }
 
-    $sql = 'SELECT collection.*, principal.*, caldav_data.*, caldav_data, ';
+    $sql = 'SELECT collection.*, principal.*, calendar_item.*, caldav_data.*, ';
     $sql .= "to_char(coalesce(calendar_item.created, caldav_data.created) at time zone 'GMT',$date_format) AS created, ";
     $sql .= "to_char(last_modified at time zone 'GMT',$date_format) AS modified, ";
-    $sql .= 'summary AS dav_displayname, ';
-    $sql .= 'calendar_item.* ';
+    $sql .= 'summary AS dav_displayname ';
     $sql .= 'FROM caldav_data LEFT JOIN calendar_item USING( dav_id, user_no, dav_name, collection_id) ';
     $sql .= 'LEFT JOIN collection USING(collection_id,user_no) LEFT JOIN principal USING(user_no) ';
     $sql .= 'WHERE collection.dav_name = :collection_dav_name '.$time_limit_clause.' '.$privacy_clause;
