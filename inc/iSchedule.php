@@ -103,7 +103,7 @@ class iSchedule
 				$this->subdomainsOK = false;
 		}
 		if ( isset ( $this->parsed [ 'g' ] ) )
-			if 
+			$this->remote_user_rule = $this->parsed [ 'g' ];
 		if ( isset ( $this->parsed [ 'p' ] ) )
 		{
 			$data = "-----BEGIN PUBLIC KEY-----\n" . implode ("\n",str_split ( preg_replace ( '/_/', '', $this->parsed [ 'p' ] ), 64 )) . "\n-----END PUBLIC KEY-----"; 
@@ -294,6 +294,9 @@ class iSchedule
 			$this->signed_length = strlen ( $body );
 		else
 			$body = substr ( $body, 0, $this->signed_length );
+		if ( isset ( $this->remote_user_rule ) )
+			if ( $this->remote_user_rule != '*' && ! stristr ( $this->remote_user, $this->remote_user_rule ) )
+				return false;
 		$body_hash = base64_encode ( hash ( preg_replace ( '/^.*(sha[1256]+).*/','$1', $this->DKSig['a'] ), $body , true ) );
 		if ( $this->DKSig['bh'] != $body_hash )
 		  return false;
@@ -337,6 +340,7 @@ class iSchedule
 $d = new iSchedule ();
 if ( $d->validateRequest ( ) )
 {
+	include ( 'caldav-POST.php' );
 	// TODO
 	// handle request.
 }
