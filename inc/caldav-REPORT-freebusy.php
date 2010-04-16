@@ -69,11 +69,11 @@ foreach( $busy_tentative AS $k => $v ) {
       if ( $date->GreaterThan($fbq_end) ) break;
       $todate = clone($date);
       $todate->AddDuration($duration);
-      $freebusy->AddProperty( 'FREEBUSY', $date->Render('Ymd\THis').'/'.$todate->Render('Ymd\THis'), array('FBTYPE' => 'BUSY-TENTATIVE') );
+      $freebusy->AddProperty( 'FREEBUSY', $date->RenderGMT().'/'.$todate->RenderGMT(), array('FBTYPE' => 'BUSY-TENTATIVE') );
     }
   }
   else {
-    $freebusy->AddProperty( 'FREEBUSY', $start->Render('Ymd\THis').'/'.$v->finish, array('FBTYPE' => 'BUSY-TENTATIVE') );
+    $freebusy->AddProperty( 'FREEBUSY', $start->RenderGMT().'/'.$v->finish, array('FBTYPE' => 'BUSY-TENTATIVE') );
   }
 }
 
@@ -87,11 +87,11 @@ foreach( $busy AS $k => $v ) {
       if ( $date->GreaterThan($fbq_end) ) break;
       $todate = clone($date);
       $todate->AddDuration($duration);
-      $freebusy->AddProperty( 'FREEBUSY', $date->Render('Ymd\THis').'/'.$todate->Render('Ymd\THis') );
+      $freebusy->AddProperty( 'FREEBUSY', $date->RenderGMT().'/'.$todate->RenderGMT() );
     }
   }
   else {
-    $freebusy->AddProperty( 'FREEBUSY', $start->Render('Ymd\THis').'/'.$v->finish );
+    $freebusy->AddProperty( 'FREEBUSY', $start->RenderGMT().'/'.$v->finish );
   }
 }
 
