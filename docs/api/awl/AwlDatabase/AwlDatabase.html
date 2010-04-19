@@ -27,7 +27,7 @@
         		<!-- ========== Info from phpDoc block ========= -->
 <p class="short-description">Typically there will only be a single instance of the database level class in an application.</p>
 		<p class="notes">
-			Located in <a class="field" href="_inc---AwlDatabase.php.html">/inc/AwlDatabase.php</a> (line <span class="field">55</span>)
+			Located in <a class="field" href="_inc---AwlDatabase.php.html">/inc/AwlDatabase.php</a> (line <span class="field">58</span>)
 		</p>
 		
 				
@@ -52,7 +52,12 @@
 								</div>
 		<div class="info-box-body">
 			<div class="var-summary">
-																								<div class="var-title">
+																																<div class="var-title">
+					<img src="../../media/images/Variable.png" alt=" " />
+					<span class="var-type">mixed</span>
+					<a href="#$translate_all" title="details" class="var-name">$translate_all</a>
+				</div>
+																<div class="var-title">
 					<img src="../../media/images/Variable.png" alt=" " />
 					<span class="var-type">mixed</span>
 					<a href="#$txnstate" title="details" class="var-name">$txnstate</a>
@@ -101,7 +106,7 @@
 					<img src="../../media/images/Method.png" alt=" "/>
 											<span class="method-result">void</span>
 										<a href="#PrepareTranslated" title="details" class="method-name">PrepareTranslated</a>
-										()
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$statement</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$driver_options</span> = <span class="var-default">array()</span>])
 									</div>
 																<div class="method-definition">
 					<img src="../../media/images/Method.png" alt=" "/>
@@ -145,6 +150,29 @@
 					</div>
 		<div class="info-box-body">
 			
+<a name="var$translate_all" id="$translate_all"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<img src="../../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$translate_all</span>
+			 = <span class="var-default"> false</span>			(line <span class="line-number">71</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Holds whether we are translating all statements.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
 <a name="var$txnstate" id="$txnstate"><!-- --></A>
 <div class="oddrow">
 
@@ -153,7 +181,7 @@
 		<span class="var-title">
 			<span class="var-type">mixed</span>
 			<span class="var-name">$txnstate</span>
-			 = <span class="var-default"> 0</span>			(line <span class="line-number">63</span>)
+			 = <span class="var-default"> 0</span>			(line <span class="line-number">66</span>)
 		</span>
 	</div>
 
@@ -201,7 +229,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">Begin</span> (line <span class="line-number">90</span>)
+		<span class="method-title">Begin</span> (line <span class="line-number">101</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -223,7 +251,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">Commit</span> (line <span class="line-number">104</span>)
+		<span class="method-title">Commit</span> (line <span class="line-number">116</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -245,7 +273,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">ErrorInfo</span> (line <span class="line-number">154</span>)
+		<span class="method-title">ErrorInfo</span> (line <span class="line-number">172</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -266,7 +294,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">prepare</span> (line <span class="line-number">72</span>)
+		<span class="method-title">prepare</span> (line <span class="line-number">80</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -299,7 +327,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">PrepareTranslated</span> (line <span class="line-number">139</span>)
+		<span class="method-title">PrepareTranslated</span> (line <span class="line-number">153</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -310,9 +338,17 @@
 		<span class="method-name">
 			PrepareTranslated
 		</span>
-				()
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$statement</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$driver_options</span> = <span class="var-default">array()</span>])
 			</div>
 	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$statement</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$driver_options</span>			</li>
+				</ul>
 		
 			
 	</div>
@@ -321,7 +357,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">query</span> (line <span class="line-number">82</span>)
+		<span class="method-title">query</span> (line <span class="line-number">93</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -354,7 +390,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">Rollback</span> (line <span class="line-number">115</span>)
+		<span class="method-title">Rollback</span> (line <span class="line-number">128</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -376,7 +412,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">TransactionState</span> (line <span class="line-number">130</span>)
+		<span class="method-title">TransactionState</span> (line <span class="line-number">144</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -398,7 +434,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">TranslateAll</span> (line <span class="line-number">147</span>)
+		<span class="method-title">TranslateAll</span> (line <span class="line-number">163</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -434,6 +470,8 @@
 													<img src="../../media/images/Method.png" alt=" "/>
 							<span class="method-name"><a href="../../awl/AwlDatabase/AwlDBDialect.html#methodQuote">AwlDBDialect::Quote()</a></span><br />
 													<img src="../../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../../awl/AwlDatabase/AwlDBDialect.html#methodReplaceNamedParameters">AwlDBDialect::ReplaceNamedParameters()</a></span><br />
+													<img src="../../media/images/Method.png" alt=" "/>
 							<span class="method-name"><a href="../../awl/AwlDatabase/AwlDBDialect.html#methodReplaceParameters">AwlDBDialect::ReplaceParameters()</a></span><br />
 													<img src="../../media/images/Method.png" alt=" "/>
 							<span class="method-name"><a href="../../awl/AwlDatabase/AwlDBDialect.html#methodSetSearchPath">AwlDBDialect::SetSearchPath()</a></span><br />
@@ -446,7 +484,7 @@
 
 	
 	<p class="notes" id="credit">
-		Documentation generated on Thu, 25 Feb 2010 11:39:17 +1300 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
+		Documentation generated on Sat, 17 Apr 2010 12:32:22 +1200 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
 	</p>
 	</div></body>
 </html>

@@ -166,7 +166,7 @@
 		</div>
 		<div class="info-box-body">			
 			<div class="method-summary">
-																																																																																																																																																																																																																																																																								<div class="method-definition">
+																																																																																																																																																																																																																																																																																																																																<div class="method-definition">
 					<img src="../../media/images/Constructor.png" alt=" "/>
 											<span class="method-result">CalDAVClient</span>
 										<a href="#__construct" title="details" class="method-name">__construct</a>
@@ -181,6 +181,12 @@
 																<div class="method-definition">
 					<img src="../../media/images/Method.png" alt=" "/>
 											<span class="method-result">void</span>
+										<a href="#CalendarMultiget" title="details" class="method-name">CalendarMultiget</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$event_hrefs</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$url</span> = <span class="var-default">null</span>])
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
 										<a href="#CalendarUrls" title="details" class="method-name">CalendarUrls</a>
 											([<span class="var-type">$urls</span>&nbsp;<span class="var-name">$urls</span> = <span class="var-default">null</span>])
 									</div>
@@ -188,7 +194,7 @@
 					<img src="../../media/images/Method.png" alt=" "/>
 											<span class="method-result">array</span>
 										<a href="#DoCalendarQuery" title="details" class="method-name">DoCalendarQuery</a>
-											(<span class="var-type">string</span>&nbsp;<span class="var-name">$filter</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$relative_url</span> = <span class="var-default">''</span>], <span class="var-type">string</span>&nbsp;<span class="var-name">$report_type</span>)
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$filter</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$url</span> = <span class="var-default">null</span>])
 									</div>
 																<div class="method-definition">
 					<img src="../../media/images/Method.png" alt=" "/>
@@ -200,6 +206,12 @@
 					<img src="../../media/images/Method.png" alt=" "/>
 											<span class="method-result">void</span>
 										<a href="#DoGETRequest" title="details" class="method-name">DoGETRequest</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$url</span>)
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#DoHEADRequest" title="details" class="method-name">DoHEADRequest</a>
 											(<span class="var-type">string</span>&nbsp;<span class="var-name">$url</span>)
 									</div>
 																<div class="method-definition">
@@ -252,9 +264,21 @@
 									</div>
 																<div class="method-definition">
 					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#GetCalendarDetails" title="details" class="method-name">GetCalendarDetails</a>
+											([<span class="var-type"></span>&nbsp;<span class="var-name">$url</span> = <span class="var-default">null</span>])
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#GetCollectionETags" title="details" class="method-name">GetCollectionETags</a>
+											([<span class="var-type"></span>&nbsp;<span class="var-name">$url</span> = <span class="var-default">null</span>])
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
 											<span class="method-result">string</span>
 										<a href="#GetEntryByHref" title="details" class="method-name">GetEntryByHref</a>
-											(<span class="var-type">string</span>&nbsp;<span class="var-name">$href</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$relative_url</span> = <span class="var-default">''</span>])
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$href</span>)
 									</div>
 																<div class="method-definition">
 					<img src="../../media/images/Method.png" alt=" "/>
@@ -276,15 +300,21 @@
 									</div>
 																<div class="method-definition">
 					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#GetOKProps" title="details" class="method-name">GetOKProps</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$nodenum</span>)
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
 											<span class="method-result">HTTP</span>
-										<a href="#GetHttpResponse" title="details" class="method-name">GetHttpResponse</a>
+										<a href="#GetResponseBody" title="details" class="method-name">GetResponseBody</a>
 										()
 									</div>
 																<div class="method-definition">
 					<img src="../../media/images/Method.png" alt=" "/>
-											<span class="method-result">void</span>
-										<a href="#GetOKProps" title="details" class="method-name">GetOKProps</a>
-											(<span class="var-type">string</span>&nbsp;<span class="var-name">$nodenum</span>)
+											<span class="method-result">HTTP</span>
+										<a href="#GetResponseHeaders" title="details" class="method-name">GetResponseHeaders</a>
+										()
 									</div>
 																<div class="method-definition">
 					<img src="../../media/images/Method.png" alt=" "/>
@@ -303,6 +333,12 @@
 											<span class="method-result">raw</span>
 										<a href="#GetXmlResponse" title="details" class="method-name">GetXmlResponse</a>
 										()
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#HrefForProp" title="details" class="method-name">HrefForProp</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$tagname</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$i</span> = <span class="var-default">0</span>], <span class="var-type">integer</span>&nbsp;<span class="var-name">$which</span>)
 									</div>
 																<div class="method-definition">
 					<img src="../../media/images/Method.png" alt=" "/>
@@ -331,8 +367,14 @@
 																<div class="method-definition">
 					<img src="../../media/images/Method.png" alt=" "/>
 											<span class="method-result">void</span>
+										<a href="#SetCalendar" title="details" class="method-name">SetCalendar</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$url</span>)
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
 										<a href="#SetContentType" title="details" class="method-name">SetContentType</a>
-											(<span class="var-type">int</span>&nbsp;<span class="var-name">$type</span>)
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$type</span>)
 									</div>
 																<div class="method-definition">
 					<img src="../../media/images/Method.png" alt=" "/>
@@ -869,7 +911,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">CalendarHomeSet</span> (line <span class="line-number">393</span>)
+		<span class="method-title">CalendarHomeSet</span> (line <span class="line-number">445</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -891,12 +933,42 @@
 		
 			
 	</div>
-<a name="methodCalendarUrls" id="CalendarUrls"><!-- --></a>
+<a name="methodCalendarMultiget" id="CalendarMultiget"><!-- --></a>
 <div class="evenrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">CalendarUrls</span> (line <span class="line-number">407</span>)
+		<span class="method-title">CalendarMultiget</span> (line <span class="line-number">710</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Get a bunch of events for a calendar with a calendar-multiget report</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			CalendarMultiget
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$event_hrefs</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$url</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$event_hrefs</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$url</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodCalendarUrls" id="CalendarUrls"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">CalendarUrls</span> (line <span class="line-number">459</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -919,11 +991,11 @@
 			
 	</div>
 <a name="methodDoCalendarQuery" id="DoCalendarQuery"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">DoCalendarQuery</span> (line <span class="line-number">593</span>)
+		<span class="method-title">DoCalendarQuery</span> (line <span class="line-number">762</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -937,7 +1009,7 @@
 		<span class="method-name">
 			DoCalendarQuery
 		</span>
-					(<span class="var-type">string</span>&nbsp;<span class="var-name">$filter</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$relative_url</span> = <span class="var-default">''</span>], <span class="var-type">string</span>&nbsp;<span class="var-name">$report_type</span>)
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$filter</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$url</span> = <span class="var-default">null</span>])
 			</div>
 	
 			<ul class="parameters">
@@ -946,20 +1018,17 @@
 				<span class="var-name">$filter</span><span class="var-description">: XML fragment which is the &lt;filter&gt; element of a calendar-query</span>			</li>
 					<li>
 				<span class="var-type">string</span>
-				<span class="var-name">$relative_url</span><span class="var-description">: The URL relative to the base_url specified when the calendar was opened.  Default ''.</span>			</li>
-					<li>
-				<span class="var-type">string</span>
-				<span class="var-name">$report_type</span><span class="var-description">: Used as a name for the array element containing the calendar data. @deprecated</span>			</li>
+				<span class="var-name">$url</span><span class="var-description">: The URL of the calendar, or null to use the 'current' calendar_url</span>			</li>
 				</ul>
 		
 			
 	</div>
 <a name="methodDoDELETERequest" id="DoDELETERequest"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">DoDELETERequest</span> (line <span class="line-number">341</span>)
+		<span class="method-title">DoDELETERequest</span> (line <span class="line-number">393</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -988,11 +1057,11 @@
 			
 	</div>
 <a name="methodDoGETRequest" id="DoGETRequest"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">DoGETRequest</span> (line <span class="line-number">298</span>)
+		<span class="method-title">DoGETRequest</span> (line <span class="line-number">333</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -1014,12 +1083,39 @@
 		
 			
 	</div>
+<a name="methodDoHEADRequest" id="DoHEADRequest"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">DoHEADRequest</span> (line <span class="line-number">345</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Get the HEAD of a single item from the server.</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			DoHEADRequest
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$url</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$url</span><span class="var-description">: The URL to HEAD</span>			</li>
+				</ul>
+		
+			
+	</div>
 <a name="methodDoOptionsRequest" id="DoOptionsRequest"><!-- --></a>
 <div class="evenrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">DoOptionsRequest</span> (line <span class="line-number">264</span>)
+		<span class="method-title">DoOptionsRequest</span> (line <span class="line-number">299</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -1049,7 +1145,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">DoPROPFINDRequest</span> (line <span class="line-number">358</span>)
+		<span class="method-title">DoPROPFINDRequest</span> (line <span class="line-number">410</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -1082,7 +1178,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">DoPUTRequest</span> (line <span class="line-number">314</span>)
+		<span class="method-title">DoPUTRequest</span> (line <span class="line-number">361</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -1118,7 +1214,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">DoRequest</span> (line <span class="line-number">225</span>)
+		<span class="method-title">DoRequest</span> (line <span class="line-number">241</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -1148,7 +1244,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">DoXMLRequest</span> (line <span class="line-number">284</span>)
+		<span class="method-title">DoXMLRequest</span> (line <span class="line-number">319</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -1187,7 +1283,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">FindCalendarHome</span> (line <span class="line-number">509</span>)
+		<span class="method-title">FindCalendarHome</span> (line <span class="line-number">589</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -1217,7 +1313,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">FindCalendars</span> (line <span class="line-number">538</span>)
+		<span class="method-title">FindCalendars</span> (line <span class="line-number">618</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -1244,7 +1340,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">FindPrincipal</span> (line <span class="line-number">488</span>)
+		<span class="method-title">FindPrincipal</span> (line <span class="line-number">566</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -1266,12 +1362,66 @@
 		
 			
 	</div>
+<a name="methodGetCalendarDetails" id="GetCalendarDetails"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">GetCalendarDetails</span> (line <span class="line-number">662</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Find the calendars, from the calendar_home_set</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			GetCalendarDetails
+		</span>
+					([<span class="var-type"></span>&nbsp;<span class="var-name">$url</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$url</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodGetCollectionETags" id="GetCollectionETags"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">GetCollectionETags</span> (line <span class="line-number">690</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Get all etags for a calendar</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			GetCollectionETags
+		</span>
+					([<span class="var-type"></span>&nbsp;<span class="var-name">$url</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$url</span>			</li>
+				</ul>
+		
+			
+	</div>
 <a name="methodGetEntryByHref" id="GetEntryByHref"><!-- --></a>
 <div class="evenrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">GetEntryByHref</span> (line <span class="line-number">749</span>)
+		<span class="method-title">GetEntryByHref</span> (line <span class="line-number">916</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -1285,16 +1435,13 @@
 		<span class="method-name">
 			GetEntryByHref
 		</span>
-					(<span class="var-type">string</span>&nbsp;<span class="var-name">$href</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$relative_url</span> = <span class="var-default">''</span>])
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$href</span>)
 			</div>
 	
 			<ul class="parameters">
 					<li>
 				<span class="var-type">string</span>
 				<span class="var-name">$href</span><span class="var-description">: The href from a call to GetEvents or GetTodos etc.</span>			</li>
-					<li>
-				<span class="var-type">string</span>
-				<span class="var-name">$relative_url</span><span class="var-description">: The URL relative to the base_url specified when the calendar was opened.  Default ''.</span>			</li>
 				</ul>
 		
 			
@@ -1304,7 +1451,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">GetEntryByUid</span> (line <span class="line-number">722</span>)
+		<span class="method-title">GetEntryByUid</span> (line <span class="line-number">890</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -1337,7 +1484,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">GetEvents</span> (line <span class="line-number">650</span>)
+		<span class="method-title">GetEvents</span> (line <span class="line-number">818</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -1374,7 +1521,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">GetHttpRequest</span> (line <span class="line-number">190</span>)
+		<span class="method-title">GetHttpRequest</span> (line <span class="line-number">198</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -1394,37 +1541,12 @@
 		
 			
 	</div>
-<a name="methodGetHttpResponse" id="GetHttpResponse"><!-- --></a>
+<a name="methodGetOKProps" id="GetOKProps"><!-- --></a>
 <div class="evenrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">GetHttpResponse</span> (line <span class="line-number">198</span>)
-	</div> 
-	
-	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">Output http response headers</p>
-	<ul class="tags">
-				<li><span class="field">return:</span> headers</li>
-			</ul>
-	
-	<div class="method-signature">
-		<span class="method-result">HTTP</span>
-		<span class="method-name">
-			GetHttpResponse
-		</span>
-				()
-			</div>
-	
-		
-			
-	</div>
-<a name="methodGetOKProps" id="GetOKProps"><!-- --></a>
-<div class="oddrow">
-	
-	<div class="method-header">
-		<img src="../../media/images/Method.png" />
-		<span class="method-title">GetOKProps</span> (line <span class="line-number">458</span>)
+		<span class="method-title">GetOKProps</span> (line <span class="line-number">536</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -1446,12 +1568,62 @@
 		
 			
 	</div>
-<a name="methodGetTodos" id="GetTodos"><!-- --></a>
+<a name="methodGetResponseBody" id="GetResponseBody"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">GetResponseBody</span> (line <span class="line-number">214</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Output http response body</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> body</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">HTTP</span>
+		<span class="method-name">
+			GetResponseBody
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodGetResponseHeaders" id="GetResponseHeaders"><!-- --></a>
 <div class="evenrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">GetTodos</span> (line <span class="line-number">685</span>)
+		<span class="method-title">GetResponseHeaders</span> (line <span class="line-number">206</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Output http response headers</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> headers</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">HTTP</span>
+		<span class="method-name">
+			GetResponseHeaders
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodGetTodos" id="GetTodos"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">GetTodos</span> (line <span class="line-number">853</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -1490,11 +1662,11 @@
 			
 	</div>
 <a name="methodGetXmlRequest" id="GetXmlRequest"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">GetXmlRequest</span> (line <span class="line-number">206</span>)
+		<span class="method-title">GetXmlRequest</span> (line <span class="line-number">222</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -1515,11 +1687,11 @@
 			
 	</div>
 <a name="methodGetXmlResponse" id="GetXmlResponse"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">GetXmlResponse</span> (line <span class="line-number">214</span>)
+		<span class="method-title">GetXmlResponse</span> (line <span class="line-number">230</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -1539,12 +1711,45 @@
 		
 			
 	</div>
+<a name="methodHrefForProp" id="HrefForProp"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">HrefForProp</span> (line <span class="line-number">490</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Return the href containing this property.  Except only if it's inside a status != 200</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			HrefForProp
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$tagname</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$i</span> = <span class="var-default">0</span>], <span class="var-type">integer</span>&nbsp;<span class="var-name">$which</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$tagname</span><span class="var-description">: The tag name of the property to find the href for</span>			</li>
+					<li>
+				<span class="var-type">integer</span>
+				<span class="var-name">$which</span><span class="var-description">: Which instance of the tag should we use</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$i</span>			</li>
+				</ul>
+		
+			
+	</div>
 <a name="methodHrefForResourcetype" id="HrefForResourcetype"><!-- --></a>
 <div class="oddrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">HrefForResourcetype</span> (line <span class="line-number">438</span>)
+		<span class="method-title">HrefForResourcetype</span> (line <span class="line-number">516</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -1577,7 +1782,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">HrefValueInside</span> (line <span class="line-number">421</span>)
+		<span class="method-title">HrefValueInside</span> (line <span class="line-number">473</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -1604,7 +1809,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">ParseResponse</span> (line <span class="line-number">159</span>)
+		<span class="method-title">ParseResponse</span> (line <span class="line-number">168</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -1631,7 +1836,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">PrincipalURL</span> (line <span class="line-number">380</span>)
+		<span class="method-title">PrincipalURL</span> (line <span class="line-number">432</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -1653,8 +1858,35 @@
 		
 			
 	</div>
-<a name="methodSetContentType" id="SetContentType"><!-- --></a>
+<a name="methodSetCalendar" id="SetCalendar"><!-- --></a>
 <div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">SetCalendar</span> (line <span class="line-number">159</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Set the calendar_url we will be using for a while.</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			SetCalendar
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$url</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$url</span><span class="var-description">: The calendar_url</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodSetContentType" id="SetContentType"><!-- --></a>
+<div class="evenrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
@@ -1669,19 +1901,19 @@
 		<span class="method-name">
 			SetContentType
 		</span>
-					(<span class="var-type">int</span>&nbsp;<span class="var-name">$type</span>)
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$type</span>)
 			</div>
 	
 			<ul class="parameters">
 					<li>
-				<span class="var-type">int</span>
+				<span class="var-type">string</span>
 				<span class="var-name">$type</span><span class="var-description">: The content type</span>			</li>
 				</ul>
 		
 			
 	</div>
 <a name="methodSetDepth" id="SetDepth"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
@@ -1708,7 +1940,7 @@
 			
 	</div>
 <a name="methodSetMatch" id="SetMatch"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
@@ -1738,7 +1970,7 @@
 			
 	</div>
 <a name="methodSetUserAgent" id="SetUserAgent"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
@@ -1773,7 +2005,7 @@
 
 	
 	<p class="notes" id="credit">
-		Documentation generated on Thu, 25 Feb 2010 11:39:18 +1300 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
+		Documentation generated on Sat, 17 Apr 2010 12:32:24 +1200 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
 	</p>
 	</div></body>
 </html>

@@ -22,7 +22,7 @@
 	<div class="info-box-body">	
 		<!-- ========== Info from phpDoc block ========= -->
 <p class="short-description">AwlDatabase query/statement class and associated functions</p>
-<p class="description"><p>This subpackage provides some functions that are useful around database  activity and a AwlDialect, AwlDatabase and AwlStatement classes to simplify  handling of database queries and provide some access for a limited  ability to handle varying database dialects.</p><p>The class is intended to be a very lightweight wrapper with some features  that have proved useful in developing and debugging web-based applications: <ul><li>All queries are timed, and an expected time can be provided.</li><li>Parameters replaced into the SQL will be escaped correctly in order to
+<p class="description"><p>This subpackage provides some functions that are useful around database  activity and a AwlDBDialect, AwlDatabase and AwlStatement classes to simplify  handling of database queries and provide some access for a limited  ability to handle varying database dialects.</p><p>The class is intended to be a very lightweight wrapper with some features  that have proved useful in developing and debugging web-based applications: <ul><li>All queries are timed, and an expected time can be provided.</li><li>Parameters replaced into the SQL will be escaped correctly in order to
     minimise the chances of SQL injection errors.</li><li>Queries which fail, or which exceed their expected execution time, will
     be logged for potential further analysis.</li><li>Debug logging of queries may be enabled globally, or restricted to
     particular sets of queries.</li><li>Simple syntax for iterating through a result set.</li></ul>  See http://wiki.davical.org/w/AwlDatabase for design and usage information.</p><p>If not already connected, AwlDatabase will attempt to connect to the database,  successively applying connection parameters from the array in $c-&gt;pdo_connect.</p><p>We will die if the database is not currently connected and we fail to find  a working connection.</p></p>
@@ -86,16 +86,6 @@
 	</div>
 
 	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">AwlDatabase query/statement class and associated functions</p>
-<p class="description"><p>This subpackage provides some functions that are useful around database  activity and a AwlDialect, AwlDatabase and AwlStatement classes to simplify  handling of database queries and provide some access for a limited  ability to handle varying database dialects.</p><p>The class is intended to be a very lightweight wrapper with some features  that have proved useful in developing and debugging web-based applications: <ul><li>All queries are timed, and an expected time can be provided.</li><li>Parameters replaced into the SQL will be escaped correctly in order to
-    minimise the chances of SQL injection errors.</li><li>Queries which fail, or which exceed their expected execution time, will
-    be logged for potential further analysis.</li><li>Debug logging of queries may be enabled globally, or restricted to
-    particular sets of queries.</li><li>Simple syntax for iterating through a result set.</li></ul>  See http://wiki.davical.org/w/AwlDatabase for design and usage information.</p><p>If not already connected, AwlDatabase will attempt to connect to the database,  successively applying connection parameters from the array in $c-&gt;pdo_connect.</p><p>We will die if the database is not currently connected and we fail to find  a working connection.</p></p>
-	<ul class="tags">
-				<li><span class="field">author:</span> Andrew McMillan &lt;<a href="mailto:andrew@morphoss.com">andrew@morphoss.com</a>&gt;</li>
-				<li><span class="field">copyright:</span> Morphoss Ltd</li>
-				<li><span class="field">license:</span> <a href="http://gnu.org/copyleft/gpl.html">GNU GPL v3 or later</a></li>
-			</ul>
 	
 </div>
 		</div>
@@ -105,7 +95,7 @@
 	
 	
 	<p class="notes" id="credit">
-		Documentation generated on Thu, 25 Feb 2010 11:39:17 +1300 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
+		Documentation generated on Sat, 17 Apr 2010 12:32:22 +1200 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
 	</p>
 	</div></body>
 </html>

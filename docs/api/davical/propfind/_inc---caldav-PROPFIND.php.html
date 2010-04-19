@@ -49,28 +49,7 @@
 		<span class="include-title">
 			<span class="include-type">require_once</span>
 			(<span class="include-name">'iCalendar.php'</span>)
-			(line <span class="line-number">18</span>)
-		</span>
-	</div>
-
-	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">CalDAV Server - handle PROPFIND method</p>
-	<ul class="tags">
-				<li><span class="field">author:</span> Andrew McMillan &lt;<a href="mailto:andrew@catalyst.net.nz">andrew@catalyst.net.nz</a>&gt;</li>
-				<li><span class="field">copyright:</span> Catalyst .Net Ltd, Andrew McMillan</li>
-				<li><span class="field">license:</span> <a href="http://gnu.org/copyleft/gpl.html">GNU GPL v2 or later</a></li>
-			</ul>
-	
-</div>
-<a name="_XMLDocument_php"><!-- --></a>
-<div class="evenrow">
-	
-	<div>
-		<img src="../../media/images/Page.png" alt=" " />
-		<span class="include-title">
-			<span class="include-type">require_once</span>
-			(<span class="include-name">'XMLDocument.php'</span>)
-			(line <span class="line-number">19</span>)
+			(line <span class="line-number">15</span>)
 		</span>
 	</div>
 
@@ -78,14 +57,29 @@
 	
 </div>
 <a name="_DAVResource_php"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 	
 	<div>
 		<img src="../../media/images/Page.png" alt=" " />
 		<span class="include-title">
 			<span class="include-type">require_once</span>
 			(<span class="include-name"><a href="../../davical/Resource/_inc---DAVResource.php.html">'DAVResource.php'</a></span>)
-			(line <span class="line-number">20</span>)
+			(line <span class="line-number">17</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+</div>
+<a name="_XMLDocument_php"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<img src="../../media/images/Page.png" alt=" " />
+		<span class="include-title">
+			<span class="include-type">require_once</span>
+			(<span class="include-name">'XMLDocument.php'</span>)
+			(line <span class="line-number">16</span>)
 		</span>
 	</div>
 
@@ -111,7 +105,7 @@
 	
 	<div>
 		<img src="../../media/images/Function.png" />
-		<span class="method-title">add_proxy_response</span> (line <span class="line-number">43</span>)
+		<span class="method-title">add_proxy_response</span> (line <span class="line-number">52</span>)
 	</div> 
 
 	<!-- ========== Info from phpDoc block ========= -->
@@ -121,16 +115,13 @@
 		<span class="method-name">
 			add_proxy_response
 		</span>
-					(<span class="var-type">responses</span>&nbsp;<span class="var-name">&$responses</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$which</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$parent_path</span>)
+					(<span class="var-type">responses</span>&nbsp;<span class="var-name">$which</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$parent_path</span>)
 			</div>
 
 			<ul class="parameters">
 					<li>
 				<span class="var-type">responses</span>
-				<span class="var-name">&$responses</span><span class="var-description">: array of responses to which to add the collections</span>			</li>
-					<li>
-				<span class="var-type"></span>
-				<span class="var-name">$which</span>			</li>
+				<span class="var-name">$which</span><span class="var-description">: array of responses to which to add the collections</span>			</li>
 					<li>
 				<span class="var-type"></span>
 				<span class="var-name">$parent_path</span>			</li>
@@ -138,45 +129,12 @@
 		
 	
 </div>
-<a name="functionget_collection" id="functionget_collection"><!-- --></a>
+<a name="functionget_collection_contents" id="functionget_collection_contents"><!-- --></a>
 <div class="oddrow">
 	
 	<div>
 		<img src="../../media/images/Function.png" />
-		<span class="method-title">get_collection</span> (line <span class="line-number">173</span>)
-	</div> 
-
-	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">Get XML response for a single collection.  If Depth is &gt;0 then</p>
-<p class="description"><p>subsidiary collections will also be got up to $depth</p></p>
-	<div class="method-signature">
-		<span class="method-result">void</span>
-		<span class="method-name">
-			get_collection
-		</span>
-					(<span class="var-type"></span>&nbsp;<span class="var-name">$depth</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$user_no</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$collection_path</span>)
-			</div>
-
-			<ul class="parameters">
-					<li>
-				<span class="var-type"></span>
-				<span class="var-name">$depth</span>			</li>
-					<li>
-				<span class="var-type"></span>
-				<span class="var-name">$user_no</span>			</li>
-					<li>
-				<span class="var-type"></span>
-				<span class="var-name">$collection_path</span>			</li>
-				</ul>
-		
-	
-</div>
-<a name="functionget_collection_contents" id="functionget_collection_contents"><!-- --></a>
-<div class="evenrow">
-	
-	<div>
-		<img src="../../media/images/Function.png" />
-		<span class="method-title">get_collection_contents</span> (line <span class="line-number">90</span>)
+		<span class="method-title">get_collection_contents</span> (line <span class="line-number">103</span>)
 	</div> 
 
 	<!-- ========== Info from phpDoc block ========= -->
@@ -186,7 +144,7 @@
 		<span class="method-name">
 			get_collection_contents
 		</span>
-					(<span class="var-type"></span>&nbsp;<span class="var-name">$depth</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$user_no</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$collection</span>)
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$depth</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$collection</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$parent_path</span> = <span class="var-default">null</span>])
 			</div>
 
 			<ul class="parameters">
@@ -195,10 +153,10 @@
 				<span class="var-name">$depth</span>			</li>
 					<li>
 				<span class="var-type"></span>
-				<span class="var-name">$user_no</span>			</li>
+				<span class="var-name">$collection</span>			</li>
 					<li>
 				<span class="var-type"></span>
-				<span class="var-name">$collection</span>			</li>
+				<span class="var-name">$parent_path</span>			</li>
 				</ul>
 		
 	
@@ -207,7 +165,7 @@
 	</div>
 	
 	<p class="notes" id="credit">
-		Documentation generated on Thu, 25 Feb 2010 11:39:18 +1300 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
+		Documentation generated on Sat, 17 Apr 2010 12:32:26 +1200 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
 	</p>
 	</div></body>
 </html>

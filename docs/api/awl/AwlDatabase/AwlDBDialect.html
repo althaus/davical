@@ -26,9 +26,10 @@
 					</div>
 	<div class="info-box-body">
         		<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">The AwlDBDialect class handles</p>
+<p class="short-description">The AwlDBDialect class handles support for different SQL dialects</p>
+<p class="description"><p>This subpackage provides dialect specific support for PostgreSQL, and  may, over time, be extended to provide support for other SQL dialects.</p><p>If you are looking for the place to add support for other SQL dialects,  this is the class that you should be looking at.  You might also look at  the AwlDatabase class which extends this one, but these are the core  capabilities which most probably need attention.</p></p>
 		<p class="notes">
-			Located in <a class="field" href="_inc---AwlDBDialect.php.html">/inc/AwlDBDialect.php</a> (line <span class="field">24</span>)
+			Located in <a class="field" href="_inc---AwlDBDialect.php.html">/inc/AwlDBDialect.php</a> (line <span class="field">33</span>)
 		</p>
 		
 				
@@ -110,7 +111,7 @@
 		</div>
 		<div class="info-box-body">			
 			<div class="method-summary">
-																																																																								<div class="method-definition">
+																																																																																<div class="method-definition">
 					<img src="../../media/images/Constructor.png" alt=" "/>
 											<span class="method-result">AwlDBDialect</span>
 										<a href="#__construct" title="details" class="method-name">__construct</a>
@@ -133,6 +134,12 @@
 											<span class="method-result">void</span>
 										<a href="#Quote" title="details" class="method-name">Quote</a>
 											(<span class="var-type">mixed</span>&nbsp;<span class="var-name">$value</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$value_type</span> = <span class="var-default">null</span>])
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">The</span>
+										<a href="#ReplaceNamedParameters" title="details" class="method-name">ReplaceNamedParameters</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">0</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">1</span>)
 									</div>
 																<div class="method-definition">
 					<img src="../../media/images/Method.png" alt=" "/>
@@ -179,7 +186,7 @@
 		<span class="var-title">
 			<span class="var-type">mixed</span>
 			<span class="var-name">$db</span>
-						(line <span class="line-number">37</span>)
+						(line <span class="line-number">46</span>)
 		</span>
 	</div>
 
@@ -202,7 +209,7 @@
 		<span class="var-title">
 			<span class="var-type">mixed</span>
 			<span class="var-name">$dialect</span>
-						(line <span class="line-number">32</span>)
+						(line <span class="line-number">41</span>)
 		</span>
 	</div>
 
@@ -238,7 +245,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Constructor.png" />
-		<span class="method-title">Constructor __construct</span> (line <span class="line-number">59</span>)
+		<span class="method-title">Constructor __construct</span> (line <span class="line-number">68</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -275,7 +282,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">GetFields</span> (line <span class="line-number">125</span>)
+		<span class="method-title">GetFields</span> (line <span class="line-number">134</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -302,7 +309,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">GetVersion</span> (line <span class="line-number">96</span>)
+		<span class="method-title">GetVersion</span> (line <span class="line-number">105</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -329,7 +336,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">Quote</span> (line <span class="line-number">168</span>)
+		<span class="method-title">Quote</span> (line <span class="line-number">178</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -349,17 +356,51 @@
 				<span class="var-name">$value</span><span class="var-description">: The value to be escaped</span>			</li>
 					<li>
 				<span class="var-type">string</span>
-				<span class="var-name">$value_type</span><span class="var-description">: The type of escaping desired.  If blank this will be worked out from gettype($value).  The special                            type of 'identifier' can also be used for escaping of SQL identifiers.</span>			</li>
+				<span class="var-name">$value_type</span><span class="var-description">: The type of escaping desired.  If blank this will                 be worked out from the type of the $value.  The special type                 of 'identifier' can also be used for escaping of SQL identifiers.</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodReplaceNamedParameters" id="ReplaceNamedParameters"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">ReplaceNamedParameters</span> (line <span class="line-number">322</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Replaces named query parameters of the form :name with appropriately  escaped substitutions.</p>
+<p class="description"><p>The function takes a variable number of arguments, the first is the  SQL string, with replaceable ':name' characters (a la DBI).  The  subsequent parameters being the values to replace into the SQL string.</p><p>The values passed to the routine are analyzed for type, and quoted if  they appear to need quoting.  This can go wrong for (e.g.) NULL or  other special SQL values which are not straightforwardly identifiable  as needing quoting (or not).</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> built query string</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">The</span>
+		<span class="method-name">
+			ReplaceNamedParameters
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">0</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">1</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">0</span><span class="var-description">: The query string with replacable ':name' identifiers</span>			</li>
+					<li>
+				<span class="var-type">mixed</span>
+				<span class="var-name">1</span><span class="var-description">: A ':name' =&gt; 'value' hash of values to replace into the  SQL string.</span>			</li>
 				</ul>
 		
 			
 	</div>
 <a name="methodReplaceParameters" id="ReplaceParameters"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">ReplaceParameters</span> (line <span class="line-number">258</span>)
+		<span class="method-title">ReplaceParameters</span> (line <span class="line-number">266</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -389,11 +430,11 @@
 			
 	</div>
 <a name="methodSetSearchPath" id="SetSearchPath"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">SetSearchPath</span> (line <span class="line-number">78</span>)
+		<span class="method-title">SetSearchPath</span> (line <span class="line-number">87</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -416,11 +457,11 @@
 			
 	</div>
 <a name="methodTranslateSQL" id="TranslateSQL"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">TranslateSQL</span> (line <span class="line-number">155</span>)
+		<span class="method-title">TranslateSQL</span> (line <span class="line-number">164</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -449,7 +490,7 @@
 
 	
 	<p class="notes" id="credit">
-		Documentation generated on Thu, 25 Feb 2010 11:39:17 +1300 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
+		Documentation generated on Sat, 17 Apr 2010 12:32:23 +1200 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
 	</p>
 	</div></body>
 </html>

@@ -2,7 +2,7 @@ davical (0.9.9-0) unstable; urgency=low
 
   * New upstream release (closes: #508673, #573687)
 
- -- Andrew McMillan <debian@mcmillan.net.nz>  Wed, 14 Apr 2010 23:35:10 +1200
+ -- Andrew McMillan <debian@mcmillan.net.nz>  Sat, 17 Apr 2010 13:19:24 +1200
 
 davical (0.9.8.4-0) unstable; urgency=low
 
