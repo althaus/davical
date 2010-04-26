@@ -140,8 +140,6 @@ VALUES( :user_no, :parent_container, :dav_name, :dav_etag, :dav_displayname, TRU
 */
 function public_events_only( $user_no, $dav_name ) {
   global $c;
-  // Not supported until DB versions from 1.001.010
-  if ( $c->schema_version < 1001.010 ) return false;
 
   $sql = 'SELECT public_events_only FROM collection WHERE dav_name = :dav_name';
 
@@ -845,51 +843,53 @@ function write_resource( $user_no, $path, $caldav_data, $collection_id, $author,
 
 
   /** Calculate what timezone to set, first, if possible */
-  $last_tz_locn = 'Turkmenikikamukau';
+  $last_tz_locn = 'Turkmenikikamukau';  // I really hope this location doesn't exist!
   $tzid = $first->GetPParamValue('DTSTART','TZID');
   if ( !isset($tzid) || $tzid == '' ) $tzid = $first->GetPParamValue('DUE','TZID');
-  $timezones = $ic->GetComponents('VTIMEZONE');
-  foreach( $timezones AS $k => $tz ) {
-    if ( $tz->GetPValue('TZID') != $tzid ) {
-      /**
-      * We'll pretend they didn't forget to give us a TZID and that they
-      * really hope the server is running in the timezone they supplied... but be noisy about it.
-      */
-      dbg_error_log( 'ERROR', ' Event includes TZID[%s] but users TZID[%s]!', $tz->GetPValue('TZID'), $tzid );
-      $tzid = $tz->GetPValue('TZID');
-    }
-    // This is the one
-    $tz_locn = $tz->GetPValue('X-LIC-LOCATION');
-    if ( ! isset($tz_locn) ) {
-      if ( preg_match( '#([^/]+/[^/]+)$#', $tzid, $matches ) )
-        $tz_locn = $matches[1];
+  if ( isset($tzid) && $tzid != '' ) {
+    $timezones = $ic->GetComponents('VTIMEZONE');
+    foreach( $timezones AS $k => $tz ) {
+      if ( $tz->GetPValue('TZID') != $tzid ) {
+        /**
+        * We'll pretend they didn't forget to give us a TZID and that they
+        * really hope the server is running in the timezone they supplied... but be noisy about it.
+        */
+        dbg_error_log( 'ERROR', ' Event includes TZID[%s] but uses TZID[%s]!', $tz->GetPValue('TZID'), $tzid );
+        $tzid = $tz->GetPValue('TZID');
+      }
+      // This is the one
+      $tz_locn = $tz->GetPValue('X-LIC-LOCATION');
+      if ( ! isset($tz_locn) ) {
+        if ( preg_match( '#([^/]+/[^/]+)$#', $tzid, $matches ) )
+          $tz_locn = $matches[1];
+        else {
+          dbg_error_log( 'ERROR', ' Couldn\'t guess Olsen TZ from TZID[%s].  This may end in tears...', $tzid );
+        }
+      }
       else {
-        dbg_error_log( 'ERROR', ' Couldn\'t guess Olsen TZ from TZID[%s].  This may end in tears...', $tzid );
+        if ( ! preg_match( $tz_regex, $tz_locn ) ) {
+          if ( preg_match( '#([^/]+/[^/]+)$#', $tzid, $matches ) ) $tz_locn = $matches[1];
+        }
       }
-    }
-    else {
-      if ( ! preg_match( $tz_regex, $tz_locn ) ) {
-        if ( preg_match( '#([^/]+/[^/]+)$#', $tzid, $matches ) ) $tz_locn = $matches[1];
-      }
-    }
 
-    dbg_error_log( 'PUT', ' Using TZID[%s] and location of [%s]', $tzid, (isset($tz_locn) ? $tz_locn : '') );
-    if ( isset($tz_locn) && ($tz_locn != $last_tz_locn) && preg_match( $tz_regex, $tz_locn ) ) {
-      dbg_error_log( 'PUT', ' Setting timezone to %s', $tz_locn );
-      if ( $tz_locn != '' ) {
-        $qry->QDo('SET TIMEZONE TO \''.$tz_locn."'" );
+      dbg_error_log( 'PUT', ' Using TZID[%s] and location of [%s]', $tzid, (isset($tz_locn) ? $tz_locn : '') );
+      if ( isset($tz_locn) && ($tz_locn != $last_tz_locn) && preg_match( $tz_regex, $tz_locn ) ) {
+        dbg_error_log( 'PUT', ' Setting timezone to %s', $tz_locn );
+        if ( $tz_locn != '' ) {
+          $qry->QDo('SET TIMEZONE TO \''.$tz_locn."'" );
+        }
+        $last_tz_locn = $tz_locn;
       }
-      $last_tz_locn = $tz_locn;
-    }
-    $params = array( ':tzid' => $tzid);
-    $qry = new AwlQuery('SELECT tz_locn FROM time_zone WHERE tz_id = :tzid', $params );
-    if ( $qry->Exec('PUT',__LINE__,__FILE__) && $qry->rows() == 0 ) {
-      $params[':tzlocn'] = $tz_locn;
-      $params[':tzspec'] = (isset($tz) ? $tz->Render() : null );
-      $qry->QDo('INSERT INTO time_zone (tz_id, tz_locn, tz_spec) VALUES(:tzid,:tzlocn,:tzspec)', $params );
-    }
-    if ( !isset($tz_locn) || $tz_locn == '' ) $tz_locn = $tzid;
+      $params = array( ':tzid' => $tzid);
+      $qry = new AwlQuery('SELECT tz_locn FROM time_zone WHERE tz_id = :tzid', $params );
+      if ( $qry->Exec('PUT',__LINE__,__FILE__) && $qry->rows() == 0 ) {
+        $params[':tzlocn'] = $tz_locn;
+        $params[':tzspec'] = (isset($tz) ? $tz->Render() : null );
+        $qry->QDo('INSERT INTO time_zone (tz_id, tz_locn, tz_spec) VALUES(:tzid,:tzlocn,:tzspec)', $params );
+      }
+      if ( !isset($tz_locn) || $tz_locn == '' ) $tz_locn = $tzid;
 
+    }
   }
 
   $created = $first->GetPValue('CREATED');
