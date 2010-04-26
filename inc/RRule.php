@@ -402,7 +402,7 @@ class iCalDate {
   function TestByMonth( $monthlist ) {
 //    dbg_error_log( "RRule", " Testing BYMONTH %s against month %d", (isset($monthlist) ? $monthlist : "no month list"), $this->_mo );
     if ( !isset($monthlist) ) return true;  // If BYMONTH is not specified any month is OK
-    $months = array_flip(split( ',',$monthlist ));
+    $months = array_flip(explode( ',',$monthlist ));
     return isset($months[$this->_mo]);
   }
 
@@ -414,7 +414,7 @@ class iCalDate {
   function GetMonthByDay($byday) {
 //    dbg_error_log( "RRule", " Applying BYDAY %s to month", $byday );
     $days_in_month = $this->DaysInMonth();
-    $dayrules = split(',',$byday);
+    $dayrules = explode(',',$byday);
     $set = array();
     $first_dow = (date('w',$this->_epoch) - $this->_dd + 36) % 7;
     foreach( $dayrules AS $k => $v ) {
@@ -435,7 +435,7 @@ class iCalDate {
   function GetMonthByMonthDay($bymonthday) {
 //    dbg_error_log( "RRule", " Applying BYMONTHDAY %s to month", $bymonthday );
     $days_in_month = $this->DaysInMonth();
-    $dayrules = split(',',$bymonthday);
+    $dayrules = explode(',',$bymonthday);
     $set = array();
     foreach( $dayrules AS $k => $v ) {
       $v = intval($v);
@@ -455,7 +455,7 @@ class iCalDate {
   function GetWeekByDay($byday, $increasing = false) {
     global $ical_weekdays;
 //    dbg_error_log( "RRule", " Applying BYDAY %s to week", $byday );
-    $days = split(',',$byday);
+    $days = explode(',',$byday);
     $dow = date('w',$this->_epoch);
     $set = array();
     foreach( $days AS $k => $v ) {
@@ -565,7 +565,7 @@ class iCalDate {
     $subset = array();
     sort( $set, SORT_NUMERIC );
     $max = count($set);
-    $positions = split( '[^0-9-]', $bysplist );
+    $positions = explode( '[^0-9-]', $bysplist );
     foreach( $positions AS $k => $v ) {
       if ( $v < 0 ) {
         $v += $max;
@@ -734,11 +734,11 @@ class RRule {
 
     dbg_error_log( "RRule", " new RRule: Start: %s, RRULE: %s", $start->Render(), $this->_rule );
 
-    $parts = split(';',$this->_rule);
+    $parts = explode(';',$this->_rule);
     $this->_part = array( 'INTERVAL' => 1 );
     foreach( $parts AS $k => $v ) {
-      list( $type, $value ) = split( '=', $v, 2);
-//      dbg_error_log( "RRule", " Parts of %s split into %s and %s", $v, $type, $value );
+      list( $type, $value ) = explode( '=', $v, 2);
+//      dbg_error_log( "RRule", " Parts of %s explode into %s and %s", $v, $type, $value );
       $this->_part[$type] = $value;
     }
 

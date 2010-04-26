@@ -226,7 +226,7 @@ class CalDAVRequest
     * LOCK things use a "Timeout" header to set a series of reducing alternative values
     */
     if ( isset($_SERVER['HTTP_TIMEOUT']) ) {
-      $timeouts = split( ',', $_SERVER['HTTP_TIMEOUT'] );
+      $timeouts = explode( ',', $_SERVER['HTTP_TIMEOUT'] );
       foreach( $timeouts AS $k => $v ) {
         if ( strtolower($v) == 'infinite' ) {
           $this->timeout = (isset($c->maximum_lock_timeout) ? $c->maximum_lock_timeout : 86400 * 100);

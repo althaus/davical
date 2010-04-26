@@ -129,7 +129,7 @@ class DAViCalSession extends Session
       }
     }
     else {
-      $valid_roles = split(',', $roles);
+      $valid_roles = explode(',', $roles);
       foreach( $valid_roles AS $k => $v ) {
         if ( $this->AllowedTo($v) ) return;
       }
