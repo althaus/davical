@@ -238,15 +238,15 @@ class AwlQuery
   * @param  resource $new_connection The database connection to use.
   */
   function SetConnection( $new_connection, $options = null ) {
-    if ( is_string($new_connection) ) {
+    if ( is_string($new_connection) || is_array($new_connection) ) {
       $dbuser = null;
       $dbpass = null;
-      if ( is_array($v) ) {
-        $dsn = $v['dsn'];
-        if ( isset($v['dbuser']) ) $dbuser = $v['dbuser'];
-        if ( isset($v['dbpass']) ) $dbpass = $v['dbpass'];
+      if ( is_array($new_connection) ) {
+        $dsn = $new_connection['dsn'];
+        if ( isset($new_connection['dbuser']) ) $dbuser = $new_connection['dbuser'];
+        if ( isset($new_connection['dbpass']) ) $dbpass = $new_connection['dbpass'];
       }
-      elseif ( preg_match( '/^(\S+:)?(.*)( user=(\S+))?( password=(\S+))?$/', $v, $matches ) ) {
+      elseif ( preg_match( '/^(\S+:)?(.*)( user=(\S+))?( password=(\S+))?$/', $new_connection, $matches ) ) {
         $dsn = $matches[2];
         if ( isset($matches[1]) && $matches[1] != '' ) {
           $dsn = $matches[1] . $dsn;
