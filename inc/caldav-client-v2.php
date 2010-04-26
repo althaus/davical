@@ -273,19 +273,43 @@ class CalDAVClient {
     while( !feof($fip) ) { $response .= fgets($fip,8192); }
     fclose($fip);
 
-    $pos = strpos($response, "\n\n");
-    if ( $pos === false ) {
-      $this->httpResponseHeaders = $response;
-      $this->httpResponseBody = '';
-    }
-    else {
-      $this->httpResponseHeaders = substr($response,0,pos+1);
-      $this->httpResponseBody = substr($response, $pos + 2);
-    }
+    list( $this->httpResponseHeaders, $this->httpResponseBody ) = preg_split( '{\r?\n\r?\n}s', $response, 2 );
+    if ( preg_match( '{Transfer-Encoding: chunked}i', $this->httpResponseHeaders ) ) $this->Unchunk();
 
     $this->headers = array();  // reset the headers array for our next request
-    $this->ParseResponse($response);
+    $this->ParseResponse($this->httpResponseBody);
     return $response;
+  }
+
+
+  /**
+  * Unchunk a chunked response
+  */
+  function Unchunk() {
+    $content = '';
+    $chunks = $this->httpResponseBody;
+    // printf( "\n================================\n%s\n================================\n", $chunks );
+    do {
+      $bytes = 0;
+      if ( preg_match('{^((\r\n)?\s*([ 0-9a-fA-F]+)(;[^\n]*)?\r?\n)}', $chunks, $matches ) ) {
+        $octets = $matches[3];
+        $bytes = hexdec($octets);
+        $pos = strlen($matches[1]);
+        // printf( "Chunk size 0x%s (%d)\n", $octets, $bytes );
+        if ( $bytes > 0 ) {
+          // printf( "---------------------------------\n%s\n---------------------------------\n", substr($chunks,$pos,$bytes) );
+          $content .= substr($chunks,$pos,$bytes);
+          $chunks = substr($chunks,$pos + $bytes + 2);
+          // printf( "+++++++++++++++++++++++++++++++++\n%s\n+++++++++++++++++++++++++++++++++\n", $chunks );
+        }
+      }
+      else {
+        $content .= $chunks;
+      }
+    }
+    while( $bytes > 0 );
+    $this->httpResponseBody = $content;
+    // printf( "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n%s\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n", $content );
   }
 
 
