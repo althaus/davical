@@ -251,74 +251,92 @@ if ( $sync_in ) {
   // printf( "\nCalendarMultiget Request:\n%s\n Response:\n%s\n", $caldav->GetXmlRequest(), $caldav->GetXmlResponse() );
   // print_r($events);
 
+  printf( "Fetched %d possible changes.\n", count($events) );
+
   if ( !preg_match( '{/$}', $remote_event_prefix) ) $remote_event_prefix .= '/';
 }
 
-if ( $sync_out ) {
-  /**
-  * This is a fairly tricky bit.  We find local changes and check to see if they
-  * are collisions.  We actually have to check the data for a collision, since the
-  * real data may in fact be identical, e.g.  because of the -a option or something.
-  *
-  * Once we have verified that the target objects actually *are* different, then:
-  *    Change vs No change      => The change is propagated to the other server
-  *    DELETE vs UPDATE/INSERT  => DELETE always loses
-  *    UPDATE vs UPDATE => pick the winner according to arbitrary setting (see top of file)
-  *    INSERT vs INSERT => pick the winner according to arbitrary setting (see top of file)  v. unlikely
-  */
-  // Read the local ETag from DAViCal.
-  $qry = new AwlQuery( 'SELECT dav_name, dav_etag, caldav_data FROM caldav_data WHERE collection_id = (SELECT collection_id FROM collection WHERE dav_name = :collection_dav_name)',
-                      array(':collection_dav_name' => $args->local_collection_path) );
-  if ( $qry->Exec('sync-pull',__LINE__,__FILE__) && $qry->rows() > 0 ) {
-    $local_etags = array();
-    while( $local = $qry->Fetch() ) {
-      $fname = preg_replace('{^.*/}', '', $local->dav_name);
-      $newcache->local_etags[$fname] = $local->dav_etag;
-      if ( !$sync_all && isset($cache->local_etags[$fname]) ) {
-        $cache_etag = $cache->local_etags[$fname];
-        unset($cache->local_etags[$fname]);
-        if ( $cache_etag == $local->dav_etag ) continue;
+
+/**
+* This is a fairly tricky bit.  We find local changes and check to see if they
+* are collisions.  We actually have to check the data for a collision, since the
+* real data may in fact be identical, e.g.  because of the -a option or something.
+*
+* Once we have verified that the target objects actually *are* different, then:
+*    Change vs No change      => The change is propagated to the other server
+*    DELETE vs UPDATE/INSERT  => DELETE always loses
+*    UPDATE vs UPDATE => pick the winner according to arbitrary setting (see top of file)
+*    INSERT vs INSERT => pick the winner according to arbitrary setting (see top of file)  v. unlikely
+*/
+// Read the local ETag from DAViCal.
+$qry = new AwlQuery( 'SELECT dav_name, dav_etag, caldav_data FROM caldav_data WHERE collection_id = (SELECT collection_id FROM collection WHERE dav_name = :collection_dav_name)',
+                    array(':collection_dav_name' => $args->local_collection_path) );
+if ( $qry->Exec('sync-pull',__LINE__,__FILE__) && $qry->rows() > 0 ) {
+  $local_etags = array();
+  while( $local = $qry->Fetch() ) {
+    $fname = preg_replace('{^.*/}', '', $local->dav_name);
+    $newcache->local_etags[$fname] = $local->dav_etag;
+    if ( !$sync_all && isset($cache->local_etags[$fname]) ) {
+      $cache_etag = $cache->local_etags[$fname];
+      unset($cache->local_etags[$fname]);
+      if ( $cache_etag == $local->dav_etag ) continue;
+    }
+    if ( isset($insert_urls[$remote_event_prefix.$fname]) ) {
+      if ( $local->caldav_data == $events[$remote_event_prefix.$fname] ) {
+        // Not actually changed.  Ignore it at *both* ends!
+        printf( "Not inserting '%s' (same at both ends).\n", $fname );
+        unset($insert_urls[$remote_event_prefix.$fname]);
+        continue;
       }
-      if ( isset($insert_urls[$remote_event_prefix.$fname]) ) {
-        if ( $local->caldav_data == $events[$remote_event_prefix.$fname] ) {
-          // Not actually changed.  Ignore it at *both* ends!
-          unset($insert_urls[$remote_event_prefix.$fname]);
-          continue;
-        }
-        if ( $args->local_changes_win )
-          unset($insert_urls[$remote_event_prefix.$fname]);
-        else
-          continue;
+      unset($insert_urls[$remote_event_prefix.$fname]);
+      if ( ! $args->local_changes_win ) {
+        printf( "Remote change to '%s' will overwrite local.\n", $fname );
+        $update_urls[$remote_event_prefix.$fname] = 1;
+        continue;
       }
-      if ( isset($update_urls[$remote_event_prefix.$fname]) ) {
-        if ( $local->caldav_data == $events[$remote_event_prefix.$fname] ) {
-          // Not actually changed.  Ignore it at *both* ends!
-          unset($update_urls[$remote_event_prefix.$fname]);
-          continue;
-        }
-        if ( $args->local_changes_win )
-          unset($update_urls[$remote_event_prefix.$fname]);
-        else
-          continue;
+      printf( "Local change to '%s' will overwrite remote.\n", $fname );
+    }
+    else if ( isset($update_urls[$remote_event_prefix.$fname]) ) {
+      if ( $local->caldav_data == $events[$remote_event_prefix.$fname] ) {
+        // Not actually changed.  Ignore it at *both* ends!
+        printf( "Not updating '%s' (same at both ends).\n", $fname );
+        unset($update_urls[$remote_event_prefix.$fname]);
+        continue;
       }
+      if ( $args->local_changes_win ) {
+        unset($update_urls[$remote_event_prefix.$fname]);
+        printf( "Local change to '%s' will overwrite remote.\n", $fname );
+      }
+      else {
+        printf( "Remote change to '%s' will overwrite local.\n", $fname );
+        continue;
+      }
+    }
+    if ( $sync_out ) {
       $push_urls[$fname] = (isset($cache->server_etags[$remote_event_prefix.$fname]) ? $cache->server_etags[$remote_event_prefix.$fname] : '*');
       $push_events[$fname] = $local->caldav_data;
-      printf( 'Need to push "%s"'."\n", $local->dav_name );
+      printf( "Need to push '%s'\n", $local->dav_name );
     }
+    else {
+      printf( "Would push '%s' but not syncing out.\n", $local->dav_name );
+    }
+  }
 
-    if ( !$sync_all ) {
-      foreach( $cache->local_etags AS $href => $etag ) {
-        $fname = preg_replace('{^.*/}', '', $local->dav_name);
-        if (     !isset($insert_urls[$remote_event_prefix.$fname])
-              && !isset($update_urls[$remote_event_prefix.$fname])
-              && isset($cache->server_etags[$remote_event_prefix.$fname]) ) {
-          $server_delete_urls[$fname] = $cache->server_etags[$remote_event_prefix.$fname];
-        }
+  if ( !$sync_all ) {
+    foreach( $cache->local_etags AS $href => $etag ) {
+      $fname = preg_replace('{^.*/}', '', $local->dav_name);
+      if (     !isset($insert_urls[$remote_event_prefix.$fname])
+            && !isset($update_urls[$remote_event_prefix.$fname])
+            && isset($cache->server_etags[$remote_event_prefix.$fname]) ) {
+        $server_delete_urls[$fname] = $cache->server_etags[$remote_event_prefix.$fname];
+        printf( "Need to delete remote '%s'.\n", $fname );
       }
     }
   }
 }
 
+printf( "Push: Found %d local changes to push & %d local deletions to push.\n", count($push_urls), count($server_delete_urls) );
+printf( "Pull: Found %d creates, %d updates and %d deletions to apply locally.\n", count($insert_urls), count($update_urls), count($local_delete_urls) );
 
 if ( $sync_in ) {
   // Delete any local events which have been removed from the remote server
