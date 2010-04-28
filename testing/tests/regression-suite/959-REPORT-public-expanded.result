@@ -1,8 +1,8 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy, bind, calendar-auto-schedule
-ETag: "bfd344d71a0713cf3a8c36c84dd8f75e"
-Content-Length: 10247
+ETag: "9663419211a7a515329d8f6f104ebddd"
+Content-Length: 10631
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -299,6 +299,19 @@ END:VCALENDAR
 PRODID:-//davical.org//NONSGML AWL Calendar//EN
 VERSION:2.0
 CALSCALE:GREGORIAN
+BEGIN:VEVENT
+LAST-MODIFIED:20080303T015422Z
+SEQUENCE:5
+UID:7d729xc0-0895-012d-124e-002421a2359e
+SUMMARY:1st Monday, 2nd Tuesday, 3rd Thursday &amp; Last Friday
+RRULE:FREQ=MONTHLY;BYDAY=1MO,2TU,3TH,-1FR;INTERVAL=1
+DESCRIPTION:An all day event on various days.
+CREATED:20080303T015329Z
+DTSTAMP:20080303T015422Z
+DURATION:P1D
+DTSTART:20081031T070000Z
+DURATION:P1D
+END:VEVENT
 BEGIN:VEVENT
 LAST-MODIFIED:20080303T015422Z
 SEQUENCE:5
