@@ -125,12 +125,17 @@ psql -qAt ${DBA} -f "${DBADIR}/davical.sql" "${DBNAME}" 2>&1 | egrep -v "(^CREAT
 if ! ${DBADIR}/update-davical-database --dbname "${DBNAME}" --appuser "${AWL_APPUSER}" --nopatch --owner "${AWL_DBAUSER}" ; then
         cat <<EOFAILURE
 * * * * ERROR * * * *
-The database administration utility failed.  This is usually due to the Perl YAML
-or the Perl DBD::Pg libraries not being available.
+The database administration utility failed.  This may be due to database
+permissions for the davical_dba user, or because the Perl DBD::Pg or YAML
+libraries are not available.
 
-See:  http://wiki.davical.org/w/Install_Errors/No_Perl_YAML
+Check that your pg_hba.conf allows the davical_dba user to connect to the
+database (and make sure you've reloaded PostgreSQL since changing that).
+
+Also see:  http://wiki.davical.org/w/Install_Errors/No_Perl_YAML
 
 EOFAILURE
+  exit 1
 fi
 #
 # Load the required base data
