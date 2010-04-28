@@ -141,6 +141,17 @@ class RepeatRuleDateTime extends DateTime {
   }
 
 
+  public function modify( $interval ) {
+    if ( preg_match('{^(-)?P((\d+)D)?T?((\d+)H)?((\d+)M)?$}', $interval, $matches) ) {
+      $interval = $matches[1];
+      if ( isset($matches[2]) && $matches[2] != '' ) $interval .= $matches[3] . ' days ';
+      if ( isset($matches[4]) && $matches[4] != '' ) $interval .= $matches[5] . ' hours ';
+      if ( isset($matches[6]) && $matches[6] != '' ) $interval .= $matches[7] . ' minutes ';
+    }
+    return (string)parent::modify($interval);
+  }
+
+
   public function UTC() {
     $gmt = clone($this);
     if ( isset($this->tzid) && $this->tzid != 'UTC' ) {
