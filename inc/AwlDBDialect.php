@@ -233,7 +233,13 @@ class AwlDBDialect {
         break;
       case PDO::PARAM_STR:
       default:
-        $rv = "'".str_replace("'", "''", str_replace('\\', '\\x5c', $value))."'";
+        /**
+        * PDO handling of \ seems unreliable.  We can't use $$string$$ syntax because it also doesn't
+        * work.  We need to replace ':' so no other named parameters accidentally rewrite the content
+        * inside this string(!), and since we're using ' to delimit the string we need SQL92-compliant
+        * '' to replace it.
+        */
+        $rv = "'".str_replace("'", "''", str_replace(':', '\\x3a', str_replace('\\', '\\x5c', $value)))."'";
 
         if ( $this->dialect == 'pgsql' && strpos( $rv, '\\' ) !== false ) {
           /**
@@ -243,14 +249,6 @@ class AwlDBDialect {
           $rv = 'E'.str_replace('?', '\\x3f', $rv);
         }
 
-      /**
-      * This code fails because on some (unspecified) occasions PHP sees a ':name@' and replaces it with $1!!!
-        $delimiter = '$$';
-        while( strpos($value, $delimiter) !== false ) {
-          $delimiter = sprintf('$%d$'.rand(99999));
-        }
-        $rv = $delimiter . $value . $delimiter;
-      */
     }
 
     return $rv;
