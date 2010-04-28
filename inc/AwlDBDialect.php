@@ -236,9 +236,21 @@ class AwlDBDialect {
         $rv = "'".str_replace("'", "''", str_replace('\\', '\\x5c', $value))."'";
 
         if ( $this->dialect == 'pgsql' && strpos( $rv, '\\' ) !== false ) {
-          /** PostgreSQL wants to know when a string might contain escapes */
-          $rv = 'E'.$rv;
+          /**
+          * PostgreSQL wants to know when a string might contain escapes, and if this
+          * happens old versions of PHP::PDO need the ? escaped as well...
+          */
+          $rv = 'E'.str_replace('?', '\\x3f', $rv);
         }
+
+      /**
+      * This code fails because on some (unspecified) occasions PHP sees a ':name@' and replaces it with $1!!!
+        $delimiter = '$$';
+        while( strpos($value, $delimiter) !== false ) {
+          $delimiter = sprintf('$%d$'.rand(99999));
+        }
+        $rv = $delimiter . $value . $delimiter;
+      */
     }
 
     return $rv;
