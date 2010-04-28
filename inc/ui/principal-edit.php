@@ -22,7 +22,10 @@ $delete_collection_confirmation_required = null;
 $delete_principal_confirmation_required = null;
 
 function handle_subaction( $subaction ) {
-  global $session, $c, $id, $editor, $delete_collection_confirmation_required, $delete_principal_confirmation_required;
+  global $session, $c, $id, $editor;
+  global $delete_collection_confirmation_required;
+  global $delete_principal_confirmation_required;
+  global $delete_ticket_confirmation_required;
 
   dbg_error_log('admin-principal-edit',':handle_action: Action %s', $subaction );
 
@@ -69,6 +72,30 @@ function handle_subaction( $subaction ) {
         else {
           $c->messages[] = i18n('Please confirm deletion of the principal');
           $delete_principal_confirmation_required = $session->BuildConfirmationHash('GET', 'confirm');
+          return false;
+        }
+      }
+      break;
+
+    case 'delete_ticket':
+      dbg_error_log('admin-principal-edit',':handle_action: Deleting ticket "%s" for principal %d', $_GET['ticket_id'], $id );
+      if ( $session->AllowedTo('Admin')
+                || ($id > 0 && $session->principal_id == $id) ) {
+        if ( $session->CheckConfirmationHash('GET', 'confirm') ) {
+          dbg_error_log('admin-principal-edit',':handle_action: Allowed to delete ticket "%s" for principal %d', $_GET['ticket_id'], $id );
+          $qry = new AwlQuery('DELETE FROM access_ticket WHERE ticket_id=?;', $_GET['ticket_id'] );
+          if ( $qry->Exec() ) {
+            $c->messages[] = i18n('Access ticket deleted');
+            return true;
+          }
+          else {
+            $c->messages[] = i18n('There was an error writing to the database.');
+            return false;
+          }
+        }
+        else {
+          $c->messages[] = i18n('Please confirm deletion of access ticket - see below');
+          $delete_ticket_confirmation_required = $session->BuildConfirmationHash('GET', 'confirm');
           return false;
         }
       }
@@ -611,6 +638,39 @@ EOTEMPLATE;
       $extra_row = (object) $extra_row;
       $browser->AddRow($extra_row);
     }
+  }
+
+
+  $browser = new Browser(translate('Access Tickets'));
+
+  $browser->AddColumn( 'ticket_id', translate('ID'), '', '' );
+  $browser->AddColumn( 'target', translate('Target'), '', '', 'COALESCE(d.dav_name,c.dav_name)' );
+  $browser->AddColumn( 'expires', translate('Expires'), '', '');
+  $browser->AddColumn( 'privs', translate('Privileges'), '', '', "privileges_list(privileges)" );
+  $delurl = $c->base_url . '/admin.php?action=edit&t=principal&id='.$id.'&ticket_id=##URL:ticket_id##&subaction=delete_ticket';
+  $browser->AddColumn( 'delete', translate('Action'), 'center', '', "'<a class=\"submit\" href=\"$delurl\">".translate('Delete')."</a>'" );
+
+  $browser->SetOrdering( 'target', 'A' );
+
+  $browser->SetJoins( 'access_ticket t LEFT JOIN collection c ON (target_collection_id=collection_id) LEFT JOIN caldav_data d ON (target_resource_id=dav_id)' );
+  $browser->SetWhere( 'dav_owner_id = '.intval($editor->Value('principal_id')) );
+
+//  $browser->AddRow( array( 'target' => '<a href="'.$rowurl.'&principal_id='.intval($editor->Value('principal_id')).'" class="submit">'.translate('Create Ticket').'</a>' ));
+
+  $browser->RowFormat( '<tr class="r%d">', '</tr>', '#even' );
+
+  $browser->DoQuery();
+  $page_elements[] = $browser;
+
+  if ( isset($delete_ticket_confirmation_required) ) {
+    $html = '<table><tr><td class="error">';
+    $html .= sprintf('<b>%s</b> "%s" <a class="error" href="%s&%s">%s</a> %s',
+                translate('Deleting Ticket:'), $_GET['ticket_id'], $_SERVER['REQUEST_URI'],
+                $delete_ticket_confirmation_required,
+                translate('Confirm Deletion of the Ticket'),
+                translate('The access ticket will be deleted.') );
+    $html .= "</td></tr></table>\n";
+    $page_elements[] = $html;
   }
 
 
