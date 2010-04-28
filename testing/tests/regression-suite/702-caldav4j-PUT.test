@@ -48,7 +48,7 @@ SELECT caldav_data.user_no, caldav_data.dav_etag, caldav_type, logged_user,
        percent_complete, tz_id, status,
        caldav_data AS " CalDAV Data",
       ((current_timestamp AT TIME ZONE 'GMT' - last_modified) < '2 seconds'::interval) AS "~ Modified Now"
-FROM caldav_data JOIN calendar_item USING(dav_name) JOIN time_zone USING (tz_id)
+FROM caldav_data JOIN calendar_item USING(dav_name) LEFT JOIN time_zone USING (tz_id)
 WHERE caldav_data.dav_name =
 '/user1/collection/All_Day_NY_JAN1.ics'
 ENDQUERY
