@@ -49,15 +49,15 @@ BEGIN:VEVENT
 LAST-MODIFIED:20100316T162103Z
 SEQUENCE:4
 UID:c0f7c860-1345-012d-125f-002421a2359e
-SUMMARY:2nd Annual Lobsterfest
+SUMMARY:2nd Annual Lobsterfest: will you come?
 DESCRIPTION:2nd Annual Lobsterfest\nSaturday\, August 7\nTime to be annou
  nced\, @Chamisal Vineyards @1pm\n$85 members\; $100 non members. Inquire for s
- pecial group pricing.
+ pecial group pricing. Will you come?
 DTSTART;TZID=America/Los_Angeles:20100807T000000
 CREATED:20100316T162026Z
 DTSTAMP:20100316T162103Z
 DURATION:P1D
-LOCATION:
+LOCATION:Chamisal Vineyards\\, Oregon
 X-VENUE:Chamisal Vineyards
 END:VEVENT
 ENDDATA
