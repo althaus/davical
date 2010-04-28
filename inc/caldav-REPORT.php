@@ -77,14 +77,17 @@ if ( class_exists('RepeatRule') ) {
   * @return array An array keyed on the UTC dates, referring to the component
   */
   function rdate_expand( $dtstart, $property, $component, $range_end = null ) {
-    $timezone = $component->GetPParamValue($property, 'TZID');
-    $rdate = $component->GetPValue($property);
-    $rdates = explode( ',', $rdate );
+    $properties = $component->GetProperties($property);
     $expansion = array();
-    foreach( $rdates AS $k => $v ) {
-      $rdate = new RepeatRuleDateTime( $v, $timezone);
-      $expansion[$rdate->UTC()] = $component;
-      if ( $rdate > $range_end ) break;
+    foreach( $properties AS $p ) {
+      $timezone = $p->GetParameterValue('TZID');
+      $rdate = $p->Value();
+      $rdates = explode( ',', $rdate );
+      foreach( $rdates AS $k => $v ) {
+        $rdate = new RepeatRuleDateTime( $v, $timezone);
+        $expansion[$rdate->UTC()] = $component;
+        if ( $rdate > $range_end ) break;
+      }
     }
     return $expansion;
   }
