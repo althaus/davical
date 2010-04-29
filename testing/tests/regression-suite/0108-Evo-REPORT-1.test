@@ -7,4 +7,18 @@ HEAD
 HEADER=Depth: 1
 HEADER=User-Agent: Evolution/1.8.1
 HEADER=Content-Type: text/xml
-DATA=105-Evo-REPORT-1
+
+BEGINDATA
+<C:calendar-query xmlns:C="urn:ietf:params:xml:ns:caldav" xmlns:D="DAV:">
+  <D:prop>
+    <D:getetag/>
+  </D:prop>
+  <C:filter>
+    <C:comp-filter name="VCALENDAR">
+      <C:comp-filter name="VEVENT">
+        <C:is-defined/>
+      </C:comp-filter>
+    </C:comp-filter>
+  </C:filter>
+</C:calendar-query>
+ENDDATA
