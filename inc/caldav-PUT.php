@@ -41,11 +41,13 @@ if ( $dav_resource->IsCollection()  ) {
     return;
   }
 
+  $appending = (isset($_GET['mode']) && $_GET['mode'] == 'append' );
+
   /**
   * CalDAV does not define the result of a PUT on a collection.  We treat that
   * as an import. The code is in caldav-PUT-functions.php
   */
-  import_collection($request->raw_post,$request->user_no,$request->path,true);
+  import_collection($request->raw_post,$request->user_no,$request->path,true, $appending);
   $request->DoResponse( 200 );
   return;
 }

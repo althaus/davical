@@ -384,7 +384,7 @@ function update_scheduling_requests( &$resource ) {
 *
 * Any VEVENTs with the same UID will be concatenated together
 */
-function import_collection( $ics_content, $user_no, $path, $caldav_context ) {
+function import_collection( $ics_content, $user_no, $path, $caldav_context, $appending = false ) {
   global $c, $session, $tz_regex;
 
   if ( ! ini_get('open_basedir') && (isset($c->dbg['ALL']) || isset($c->dbg['put'])) ) {
@@ -400,7 +400,7 @@ function import_collection( $ics_content, $user_no, $path, $caldav_context ) {
   $components = $calendar->GetComponents('VTIMEZONE',false);
 
   $displayname = $calendar->GetPValue('X-WR-CALNAME');
-  if ( isset($displayname) ) {
+  if ( !$appending && isset($displayname) ) {
     $sql = 'UPDATE collection SET dav_displayname = :displayname WHERE dav_name = :dav_name';
     $qry = new AwlQuery( $sql, array( ':displayname' => $displayname, ':dav_name' => $path) );
     if ( ! $qry->Exec('PUT',__LINE__,__FILE__) ) rollback_on_error( $caldav_context, $user_no, $path );
@@ -439,9 +439,11 @@ function import_collection( $ics_content, $user_no, $path, $caldav_context ) {
 
   if ( !(isset($c->skip_bad_event_on_import) && $c->skip_bad_event_on_import) ) $qry->Begin();
   $base_params = array( ':collection_id' => $collection->collection_id );
-  if ( !$qry->QDo('DELETE FROM calendar_item WHERE collection_id = :collection_id', $base_params)
+  if ( !$appending ) {
+    if ( !$qry->QDo('DELETE FROM calendar_item WHERE collection_id = :collection_id', $base_params)
       || !$qry->QDo('DELETE FROM caldav_data WHERE collection_id = :collection_id', $base_params) )
-    rollback_on_error( $caldav_context, $user_no, $collection->collection_id );
+      rollback_on_error( $caldav_context, $user_no, $collection->collection_id );
+  }
 
   $dav_data_insert = <<<EOSQL
 INSERT INTO caldav_data ( user_no, dav_name, dav_etag, caldav_data, caldav_type, logged_user, created, modified, collection_id )
