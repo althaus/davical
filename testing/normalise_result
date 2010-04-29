@@ -29,6 +29,10 @@ while( <STDIN> ) {
     $_ = "";
   };
 
+  /^Transfer-Encoding:/ && do {
+    $_ = "";
+  };
+
   /^Vary: / && do {
     $_ = "";
   };
