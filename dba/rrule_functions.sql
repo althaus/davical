@@ -708,3 +708,9 @@ BEGIN
 
 END;
 $$ LANGUAGE 'plpgsql' IMMUTABLE STRICT;
+
+
+CREATE or REPLACE FUNCTION icalendar_interval_to_SQL( TEXT ) RETURNS interval AS $function$
+  SELECT CASE WHEN substring($1,1,1) = '-' THEN -1 ELSE 1 END * regexp_replace( regexp_replace($1, '[PT-]', '', 'g'), '([A-Z])', E'\\1 ', 'g')::interval;
+$function$ LANGUAGE 'SQL' IMMUTABLE STRICT;
+
