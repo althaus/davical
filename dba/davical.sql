@@ -45,18 +45,18 @@ DECLARE
   in_priv TEXT;
   out_bits BIT(24);
   i INT;
-  all BIT(24);
+  allprivs BIT(24);
   start INT;
   finish INT;
 BEGIN
   out_bits := 0::BIT(24);
-  all := ~ out_bits;
+  allprivs := ~ out_bits;
   SELECT array_lower(raw_privs,1) INTO start;
   SELECT array_upper(raw_privs,1) INTO finish;
   FOR i IN start .. finish  LOOP
     SELECT out_bits | privilege_to_bits(raw_privs[i]) INTO out_bits;
-    IF out_bits = all THEN
-      RETURN all;
+    IF out_bits = allprivs THEN
+      RETURN allprivs;
     END IF;
   END LOOP;
   RETURN out_bits;
