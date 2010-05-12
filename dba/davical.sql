@@ -334,7 +334,9 @@ CREATE TABLE addressbook_resource (
   n TEXT, -- Name Surname;First names
   note TEXT,
   org TEXT,
-  url TEXT
+  url TEXT,
+  fburl TEXT,
+  caluri TEXT
 );
 
 CREATE TABLE addressbook_address_adr (
@@ -366,7 +368,8 @@ CREATE TABLE calendar_alarm (
   summary TEXT,
   description TEXT,
   next_trigger TIMESTAMP WITH TIME ZONE,
-  component TEXT -- The full text of the component
+  component TEXT, -- The full text of the component
+  trigger_state trigger_state CHAR DEFAULT 'N' -- 'N' => 'New/Needs setting', 'A' = 'Active', 'O' = 'Old'
 );
 
 CREATE TABLE calendar_attendee (
@@ -381,4 +384,4 @@ CREATE TABLE calendar_attendee (
   PRIMARY KEY ( dav_id, attendee )
 );
 
-SELECT new_db_revision(1,2,8, 'Août' );
+SELECT new_db_revision(1,2,9, 'Septembre' );
