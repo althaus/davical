@@ -407,6 +407,7 @@ EOSQL;
                             'dav_name' => '/',
                             'dav_etag' => md5($c->system_name),
                             'is_calendar' => 'f',
+                            'is_addressbook' => 'f',
                             'is_principal' => 'f',
                             'user_no' => 0,
                             'dav_displayname' => $c->system_name,
@@ -490,6 +491,15 @@ EOSQL;
           'urn:ietf:params:xml:ns:caldav:calendar-query' => '',
           'urn:ietf:params:xml:ns:caldav:calendar-multiget' => '',
           'urn:ietf:params:xml:ns:caldav:free-busy-query' => ''
+        )
+      );
+    }
+    if ( isset($this->collection) && $this->collection->is_addressbook ) {
+      $this->supported_reports = array_merge(
+        $this->supported_reports,
+        array(
+//          'urn:ietf:params:xml:ns:carddav:addressbook-query' => '',
+          'urn:ietf:params:xml:ns:carddav:addressbook-multiget' => ''
         )
       );
     }
