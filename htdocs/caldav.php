@@ -72,9 +72,10 @@ switch ( $request->method ) {
         /** use original DAViCal 'PUT' code which will be rewritten */
         include('caldav-PUT.php');
         break;
-/*      case 'text/vcard':
+      case 'text/vcard':
+      case 'text/x-vcard':
         include('caldav-PUT-vcard.php');
-        break;*/
+        break;
       default:
         include('caldav-PUT-default.php');
         break;
