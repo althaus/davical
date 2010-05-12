@@ -25,12 +25,12 @@ function check_for_expansion( $calendar_data_node ) {
 /**
  * Build the array of properties to include in the report output
  */
-$qry_content = $xmltree->GetContent('urn:ietf:params:xml:ns:caldav:calendar-multiget');
+
 $proptype = $qry_content[0]->GetTag();
 $properties = array();
 switch( $proptype ) {
   case 'DAV::prop':
-    $qry_props = $xmltree->GetPath('/urn:ietf:params:xml:ns:caldav:calendar-multiget/'.$proptype.'/*');
+    $qry_props = $xmltree->GetPath('/*/'.$proptype.'/*');
     foreach( $qry_content[0]->GetElements() AS $k => $v ) {
       $propertyname = preg_replace( '/^.*:/', '', $v->GetTag() );
       $properties[$propertyname] = 1;
@@ -59,7 +59,7 @@ $bound_from = $collection->bound_from();
 /**
  * Build the href list for the IN ( href, href, href, ... ) clause.
  */
-$mg_hrefs = $xmltree->GetPath('/urn:ietf:params:xml:ns:caldav:calendar-multiget/DAV::href');
+$mg_hrefs = $xmltree->GetPath('/*/DAV::href');
 $href_in = '';
 $params = array();
 foreach( $mg_hrefs AS $k => $v ) {
@@ -77,16 +77,27 @@ foreach( $mg_hrefs AS $k => $v ) {
 
 $where = " WHERE caldav_data.collection_id = " . $collection->resource_id();
 $where .= "AND caldav_data.dav_name IN ( $href_in ) ";
-if ( $collection->Privileges() != privilege_to_bits('DAV::all') ) {
-  $where .= "AND (calendar_item.class != 'PRIVATE' OR calendar_item.class IS NULL) ";
-}
 
-if ( isset($c->hide_TODO) && $c->hide_TODO && ! $collection->Privileges() == privilege_to_bits('all') ) {
-  $where .= "AND caldav_data.caldav_type NOT IN ('VTODO') ";
+if ( $mode == 'caldav' ) {
+  if ( $collection->Privileges() != privilege_to_bits('DAV::all') ) {
+    $where .= "AND (calendar_item.class != 'PRIVATE' OR calendar_item.class IS NULL) ";
+  }
+
+  if ( isset($c->hide_TODO) && $c->hide_TODO && ! $collection->Privileges() == privilege_to_bits('all') ) {
+    $where .= "AND caldav_data.caldav_type NOT IN ('VTODO') ";
+  }
+  $sql = 'SELECT caldav_data.*,calendar_item.* FROM caldav_data
+                  LEFT JOIN calendar_item USING(dav_id, user_no, dav_name, collection_id)
+                  LEFT JOIN collection USING(collection_id)';
+}
+else if ( $mode == 'carddav' ) {
+  $sql = 'SELECT caldav_data.*, addressbook_resource.* FROM caldav_data
+                  LEFT JOIN addressbook_resource USING(dav_id)
+                  LEFT JOIN collection USING(collection_id)';
 }
 
 if ( isset($c->strict_result_ordering) && $c->strict_result_ordering ) $where .= " ORDER BY caldav_data.dav_id";
-$qry = new AwlQuery( "SELECT caldav_data.*,calendar_item.* FROM caldav_data INNER JOIN calendar_item USING(dav_id, user_no, dav_name, collection_id) LEFT JOIN collection USING(collection_id)". $where, $params );
+$qry = new AwlQuery( $sql . $where, $params );
 if ( $qry->Exec('REPORT',__LINE__,__FILE__) && $qry->rows() > 0 ) {
   while( $calendar_object = $qry->Fetch() ) {
     if ( $bound_from != $collection->dav_name() ) {

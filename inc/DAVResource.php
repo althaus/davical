@@ -783,6 +783,15 @@ EOQRY;
         )
       );
     }
+    if ( $this->collection->is_addressbook ) {
+      $this->supported_reports = array_merge(
+        $this->supported_reports,
+        array(
+//          'urn:ietf:params:xml:ns:carddav:addressbook-query' => '',
+          'urn:ietf:params:xml:ns:carddav:addressbook-multiget' => ''
+        )
+      );
+    }
     return $this->supported_reports;
   }
 
@@ -1451,6 +1460,7 @@ EOQRY;
         $reply->NSElement($prop, $tag, $cal->Render() );
         break;
 
+      case 'urn:ietf:params:xml:ns:carddav:address-data':
       case 'urn:ietf:params:xml:ns:caldav:calendar-data':
         if ( $this->_is_collection ) return false;
         if ( !isset($this->resource) ) $this->FetchResource();

@@ -172,8 +172,18 @@ if ( $xmltree->GetTag() == "urn:ietf:params:xml:ns:caldav:calendar-query" ) {
   include("caldav-REPORT-calquery.php");
 }
 elseif ( $xmltree->GetTag() == "urn:ietf:params:xml:ns:caldav:calendar-multiget" ) {
-  $multiget = $xmltree->GetPath("/urn:ietf:params:xml:ns:caldav:calendar-multiget/*");
+  $mode = 'caldav';
+  $qry_content = $xmltree->GetContent('urn:ietf:params:xml:ns:caldav:calendar-multiget');
   include("caldav-REPORT-multiget.php");
+}
+elseif ( $xmltree->GetTag() == "urn:ietf:params:xml:ns:carddav:addressbook-multiget" ) {
+  $mode = 'carddav';
+  $qry_content = $xmltree->GetContent('urn:ietf:params:xml:ns:carddav:addressbook-multiget');
+  include("caldav-REPORT-multiget.php");
+}
+elseif ( $xmltree->GetTag() == "urn:ietf:params:xml:ns:carddav:addressbook-query" ) {
+  $cardquery = $xmltree->GetPath("/urn:ietf:params:xml:ns:carddav:addressbook-query/*");
+  include("caldav-REPORT-cardquery.php");
 }
 else {
   $request->DoResponse( 501, "The XML is not a supported REPORT query document" );
