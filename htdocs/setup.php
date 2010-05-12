@@ -33,6 +33,13 @@ function check_pdo_pgsql() {
   return isset($loaded_extensions['pdo_pgsql']);
 }
 
+function check_gettext() {
+  global $phpinfo, $loaded_extensions;
+
+  if ( !function_exists('gettext') ) return false;
+  return isset($loaded_extensions['gettext']);
+}
+
 include("interactive-page.php");
 include("page-header.php");
 
@@ -92,7 +99,8 @@ $dependencies = array(
   translate('DAViCal DB Schema version '). implode('.',$c->want_dbversion) => 'check_schema_version',
   translate('PHP PDO module available') => 'check_pdo',
   translate('PDO PostgreSQL drivers') => 'check_pdo_pgsql',
-  translate('PHP PostgreSQL available') => 'check_pgsql' /*,
+  translate('PHP PostgreSQL available') => 'check_pgsql',
+  translate('GNU gettext support') => 'check_gettext' /*,
   'YAML' => 'php5-syck' */
 );
 
