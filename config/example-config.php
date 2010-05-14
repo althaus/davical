@@ -331,6 +331,13 @@ $c->schedule_private_key = 'PRIVATE-KEY-BASE-64-DATA';
 //    );
 //include('drivers_squid_pam.php');
 
+/**
+ * Authentication against PAM/system password database using pwauth.
+ */
+//$c->authenticate_hook = array('call' => 'PWAUTH_PAM_check',
+//			      'config' => array('path' => '/usr/sbin/pwauth',
+//						'email_base' => 'example.com'));
+//include('drivers_pwauth_pam.php');
 
 /**
 * The default locale will be "en_NZ";
