@@ -85,6 +85,7 @@ class CalDAVClient {
     $this->headers[] = sprintf( "%s-Match: %s", ($match ? "If" : "If-None"), $etag);
   }
 
+ /*
   * Add a Depth: header.  Valid values are 0, 1 or infinity
   *
   * @param int $depth  The depth, default to infinity
