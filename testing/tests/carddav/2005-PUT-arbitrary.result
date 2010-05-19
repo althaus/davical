@@ -1,0 +1,10 @@
+HTTP/1.1 200 OK
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy, bind, calendar-auto-schedule
+Content-Length: 0
+Content-Type: text/plain; charset="utf-8"
+
+
+         dav_etag: >a83ff0ef143f108d2062c8534506d801<
+         dav_name: >/user1/addressbook/strumar_and_beren.txt<
+

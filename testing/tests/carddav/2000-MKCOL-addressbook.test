@@ -1,0 +1,34 @@
+#
+# Extended MKCOL test - create an addressbook
+#
+TYPE=MKCOL
+URL=http://mycaldav/caldav.php/user1/addressbook/
+HEADER=User-Agent: DAViCalTester/public
+HEADER=Content-Type: text/xml
+HEAD
+
+
+BEGINDATA
+<?xml version="1.0" encoding="UTF-8" ?>
+<mkcol xmlns="DAV:" xmlns:CARD="urn:ietf:params:xml:ns:carddav">
+ <set>
+  <prop>
+   <resourcetype>
+    <collection/>
+    <CARD:addressbook/>
+   </resourcetype>
+   <displayname>User 1&#39;s Addresses</displayname>
+  </prop>
+ </set>
+</mkcol>
+ENDDATA
+
+
+QUERY
+SELECT user_no, parent_container, dav_displayname,
+       is_calendar, public_events_only, is_addressbook,
+       resourcetypes
+FROM collection
+WHERE dav_name = '/user1/addressbook/';
+ENDQUERY
+

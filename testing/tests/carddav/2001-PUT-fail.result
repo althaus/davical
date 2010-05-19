@@ -1,0 +1,7 @@
+HTTP/1.1 403 Forbidden
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy, bind, calendar-auto-schedule
+Content-Length: 91
+Content-Type: text/plain; charset="utf-8"
+
+PUT on a collection is only allowed for text/calendar content against a calendar collection

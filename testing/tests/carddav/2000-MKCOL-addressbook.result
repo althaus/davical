@@ -1,0 +1,16 @@
+HTTP/1.1 201 Created
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy, bind, calendar-auto-schedule
+Cache-Control: no-cache
+Content-Length: 0
+Content-Type: text/plain; charset="utf-8"
+
+
+  dav_displayname: >User 1's Addresses<
+   is_addressbook: >1<
+      is_calendar: >0<
+ parent_container: >/user1/<
+public_events_onl: >0<
+    resourcetypes: ><DAV::collection/><urn:ietf:params:xml:ns:carddav:addressbook/><
+          user_no: >10<
+

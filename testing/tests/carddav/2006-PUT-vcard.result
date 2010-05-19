@@ -1,0 +1,40 @@
+HTTP/1.1 201 Created
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy, bind, calendar-auto-schedule
+Content-Length: 0
+Content-Type: text/plain; charset="utf-8"
+
+
+        caladruri: >NULL<
+           caluri: >NULL<
+         dav_etag: >e36abdbed9f9996064ca54583616d32b<
+         dav_name: >/user1/addressbook/donald_kelly.vcf<
+            fburl: >NULL<
+               fn: >Donald Kelly<
+                n: >Kelly;Donald<
+         nickname: >NULL<
+             note: >NULL<
+              org: >Esposo Designs Ltd<
+              uid: >NULL<
+              url: >www.example.co.nz<
+          version: >2.1<
+
+           box_no: ><
+          country: >New Zealand<
+         locality: >Newtown<
+         postcode: ><
+         property: >adr:;;25 Rintoul St;Newtown;Wellington;;New Zealand<
+           region: >Wellington<
+   street_address: >25 Rintoul St<
+             type: >NULL<
+          unit_no: ><
+
+              tel: >+64 2 1234-4321<
+             type: >cell<
+
+              tel: >+64 4 347 4747<
+             type: >work<
+
+            email: >donald@example.co.nz<
+             type: >internet<
+

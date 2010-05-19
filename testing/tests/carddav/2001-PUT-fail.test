@@ -1,0 +1,33 @@
+#
+# PUT a VCARD record into an addressbook
+#
+TYPE=PUT
+URL=http://regression.host/caldav.php/user1/addressbook/
+
+HEADER=User-Agent: DAViCalTester/public
+HEADER=Content-Type: text/vcard; charset=utf-8
+HEAD
+
+BEGINDATA
+begin:vcard
+fn:Donald Kelly
+n:Kelly;Donald
+org:Esposo Designs Ltd
+adr:Newtown;;25 Rintoul St;Wellington;;;New Zealand
+email;internet:donald@example.co.nz
+title:Proprietor
+tel;work:+64 4 347 4747
+tel;cell:+64 2 1234-4321
+x-mozilla-html:TRUE
+url:www.example.co.nz
+version:2.1
+end:vcard
+ENDDATA
+
+QUERY
+SELECT caldav_data.dav_name, caldav_data.dav_etag, fn, n
+  FROM caldav_data JOIN addressbook_resource USING(dav_id)
+  WHERE caldav_data.dav_name ~ '/user1/addressbook/'
+ENDQUERY
+
+
