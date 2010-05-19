@@ -92,7 +92,7 @@ restore_database() {
 
   TEST="Restore-Database"
   createdb --owner davical_dba --encoding UTF8 ${DBNAME} >"${RESULTS}/${TEST}" 2>&1
-  pg_restore -Fc -d ${DBNAME} "${REGRESSION}/initial.pgdump" >>"${RESULTS}/${TEST}" 2>&1
+  pg_restore -Fc -d ${DBNAME} "${REGRESSION}/initial.dbdump" >>"${RESULTS}/${TEST}" 2>&1
   check_result "${TEST}"
 }
 
@@ -116,7 +116,7 @@ initialise_regression() {
 mkdir -p "${RESULTS}"
 mkdir -p "${REGRESSION}/diffs"
 
-if [ -f "${REGRESSION}/initial.pgdump" ]; then
+if [ -f "${REGRESSION}/initial.dbdump" ]; then
   restore_database
 else
   initialise_regression
