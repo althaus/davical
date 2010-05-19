@@ -336,13 +336,20 @@ CREATE TABLE addressbook_resource (
   org TEXT,
   url TEXT,
   fburl TEXT,
+  caladruri TEXT,
   caluri TEXT
 );
 
 CREATE TABLE addressbook_address_adr (
   dav_id INT8 NOT NULL REFERENCES caldav_data(dav_id) ON UPDATE CASCADE ON DELETE CASCADE,
   type TEXT,
-  adr TEXT,
+  box_no TEXT,
+  unit_no TEXT,
+  street_address TEXT,
+  locality TEXT,
+  region TEXT,
+  postcode TEXT,
+  country TEXT,
   property TEXT -- The full text of the property
 );
 
@@ -369,7 +376,7 @@ CREATE TABLE calendar_alarm (
   description TEXT,
   next_trigger TIMESTAMP WITH TIME ZONE,
   component TEXT, -- The full text of the component
-  trigger_state trigger_state CHAR DEFAULT 'N' -- 'N' => 'New/Needs setting', 'A' = 'Active', 'O' = 'Old'
+  trigger_state CHAR DEFAULT 'N' -- 'N' => 'New/Needs setting', 'A' = 'Active', 'O' = 'Old'
 );
 
 CREATE TABLE calendar_attendee (
@@ -381,6 +388,7 @@ CREATE TABLE calendar_attendee (
   role TEXT,
   rsvp BOOLEAN,
   property TEXT, -- The full text of the property
+  attendee_state TEXT, -- Internal DAViCal processing state
   PRIMARY KEY ( dav_id, attendee )
 );
 
