@@ -66,20 +66,30 @@ $params = array(
 );
 if ( $dest->Exists() ) {
   $sql = 'UPDATE caldav_data SET caldav_data=:dav_data, dav_etag=:etag, logged_user=:session_user,
-          modified=current_timestamp WHERE user_no=:user_no AND dav_name=:dav_name';
+          modified=current_timestamp, user_no=:user_no WHERE dav_name=:dav_name';
   $response_code = 200;
+  $qry->QDo( $sql, $params );
+
+  $qry->QDo("SELECT dav_id FROM caldav_data WHERE dav_name = :dav_name ", array(':dav_name' => $params[':dav_name']) );
 }
 else {
   $sql = 'INSERT INTO caldav_data ( user_no, dav_name, dav_etag, caldav_data, logged_user, created, modified, collection_id )
           VALUES( :user_no, :dav_name, :etag, :dav_data, :session_user, current_timestamp, current_timestamp, :collection_id )';
   $params[':collection_id'] = $collection_id;
   $response_code = 201;
+  $qry->QDo( $sql, $params );
+
+  $qry->QDo("SELECT currval('dav_id_seq') AS dav_id" );
 }
-$qry->QDo( $sql, $params );
+$row = $qry->Fetch();
+
+require_once('vcard.php');
+
+$vcard = new vCard( $request->raw_post );
+$vcard->Write( $row->dav_id, $dest->Exists() );
 
 $qry->QDo("SELECT write_sync_change( $collection_id, $response_code, :dav_name)", array(':dav_name' => $dest->bound_from() ) );
 
-$qry = new AwlQuery('COMMIT');
-if ( !$qry->Exec('move') ) rollback(500);
+if ( !$qry->QDo('COMMIT') ) rollback(500);
 
 $request->DoResponse( $response_code );
