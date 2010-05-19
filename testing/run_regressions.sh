@@ -16,9 +16,10 @@ export PGTZ=Pacific/Auckland
 [ -n "${ALTHOST}"  ] && ALTHOST="--althost ${ALTHOST}"
 
 
-UNTIL=${1:-"99999"}
+SUITE=${1:-"regression-suite"}
 ACCEPT_ALL=${2:-""}
 
+[ -z "${UNTIL}" ] && UNTIL=99999
 [ -z "${SUITE}" ] && SUITE="regression-suite"
 REGRESSION="tests/${SUITE}"
 RESULTS="${REGRESSION}/results"
@@ -85,22 +86,41 @@ drop_database() {
   fi
 }
 
-drop_database ${DBNAME}
+
+restore_database() {
+  drop_database ${DBNAME}
+
+  TEST="Restore-Database"
+  createdb --owner davical_dba --encoding UTF8 ${DBNAME} >"${RESULTS}/${TEST}" 2>&1
+  pg_restore -Fc -d ${DBNAME} "${REGRESSION}/initial.pgdump" >>"${RESULTS}/${TEST}" 2>&1
+  check_result "${TEST}"
+}
+
+
+initialise_regression() {
+  drop_database ${DBNAME}
+
+  TEST="Create-Database"
+  ../dba/create-database.sh ${DBNAME} 'nimda' >"${RESULTS}/${TEST}" 2>&1
+  check_result "${TEST}"
+
+  TEST="Upgrade-Database"
+  ../dba/update-davical-database --dbname=${DBNAME} --nopatch --appuser davical_app --owner davical_dba >"${RESULTS}/${TEST}" 2>&1
+  check_result "${TEST}"
+
+  TEST="Load-Sample-Data"
+  psql -q -f "../dba/sample-data.sql" "${DBNAME}" >"${RESULTS}/${TEST}" 2>&1
+  check_result "${TEST}"
+}
 
 mkdir -p "${RESULTS}"
 mkdir -p "${REGRESSION}/diffs"
 
-TEST="Create-Database"
-../dba/create-database.sh ${DBNAME} 'nimda' >"${RESULTS}/${TEST}" 2>&1
-check_result "${TEST}"
-
-TEST="Upgrade-Database"
-../dba/update-davical-database --dbname=${DBNAME} --nopatch --appuser davical_app --owner davical_dba >"${RESULTS}/${TEST}" 2>&1
-check_result "${TEST}"
-
-TEST="Load-Sample-Data"
-psql -q -f "../dba/sample-data.sql" "${DBNAME}" >"${RESULTS}/${TEST}" 2>&1
-check_result "${TEST}"
+if [ -f "${REGRESSION}/initial.pgdump" ]; then
+  restore_database
+else
+  initialise_regression
+fi
 
 TSTART="`date +%s`"
 TCOUNT=0
