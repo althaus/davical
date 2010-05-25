@@ -45,7 +45,7 @@ class Tools {
 
   function renderSyncLDAP(){
     $html = '<div id="entryform">';
-    $html .= '<h1>'.translate('Sync LDAP with RSCDS') .'</h1>';
+    $html .= '<h1>'.translate('Sync LDAP with DAViCal') .'</h1>';
 
     $data = (object) array('directory_path' => '/path/to/your/ics/files','calendar_path' => 'home');
     $ef = new EntryForm( $_SERVER['REQUEST_URI'],$data , true,true );
@@ -56,14 +56,14 @@ class Tools {
     $html .= "</table>\n";
 
     $html .= $ef->SubmitButton( "Sync_LDAP", translate('Submit'));
-		
+
     $html .= '<h1>'.translate('Sync LDAP Groups with RSCDS') .'</h1>';
     $html .= "<table width=\"100%\" class=\"data\">\n";
     $html .= $ef->StartForm( array("autocomplete" => "off" ) );
     $html .= sprintf( "<tr><td style=\"text-align:left\" colspan=\"2\" >%s</td></tr>\n",
     translate("This operation does the following: <ul><li>check valid groups in LDAP directory</li> <li>check groups in DAViCal</li></ul> then <ul><li>if a group is present in DAViCal but not in LDAP set as inactive in DAViCal</li> <li>if a group is present in LDAP but not in DAViCal create the group in DAViCal</li> <li>if a group in present in LDAP and DAViCal then update information in DAViCal</li> </ul>"));
     $html .= "</table>\n";
-		
+
     $html .= $ef->SubmitButton( "Sync_LDAP_groups", translate('Submit'));
     $html .= $ef->EndForm();
 
