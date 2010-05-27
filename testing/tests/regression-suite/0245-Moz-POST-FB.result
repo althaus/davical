@@ -2,7 +2,7 @@ HTTP/1.1 200 OK
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy, bind
 ETag: "some valid etag"
-Content-Length: 968
+Content-Length: 967
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -23,7 +23,7 @@ DTSTART:20081020T110000Z
 DTEND:20081105T110000Z
 UID:c5bd82ea-cd89-4f58-8d31-336f47e44f97
 ORGANIZER:mailto:user1@example.net
-ATTENDEE;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT;CUTYPE=INDIVIDUAL: 
+ATTENDEE;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT;CUTYPE=INDIVIDUAL:
  mailto:user3@example.net
 FREEBUSY;FBTYPE=BUSY:20081024T184500Z/20081024T083000Z
 FREEBUSY;FBTYPE=BUSY:20081028T054500Z/20081028T083000Z
