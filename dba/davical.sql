@@ -389,6 +389,7 @@ CREATE TABLE calendar_attendee (
   rsvp BOOLEAN,
   property TEXT, -- The full text of the property
   attendee_state TEXT, -- Internal DAViCal processing state
+  weak_etag TEXT, -- The week_etag applying for this attendee state
   PRIMARY KEY ( dav_id, attendee )
 );
 
