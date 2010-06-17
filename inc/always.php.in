@@ -116,6 +116,7 @@ $c->protocol_server_port_script = $c->protocol_server_port . ($_SERVER['SCRIPT_N
 * access which could break DAViCal completely by causing output to start
 * too early.
 */
+ob_start( );
 if ( @file_exists('/etc/davical/'.$_SERVER['SERVER_NAME'].'-conf.php') ) {
   include('/etc/davical/'.$_SERVER['SERVER_NAME'].'-conf.php');
 }
@@ -138,6 +139,8 @@ else {
   include('davical_configuration_missing.php');
   exit;
 }
+$config_warnings = trim(ob_get_contents());
+ob_end_clean();
 
 if ( !isset($c->page_title) ) $c->page_title = $c->system_name;
 

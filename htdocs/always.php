@@ -116,6 +116,7 @@ $c->protocol_server_port_script = $c->protocol_server_port . ($_SERVER['SCRIPT_N
 * access which could break DAViCal completely by causing output to start
 * too early.
 */
+ob_start( );
 if ( @file_exists('/etc/davical/'.$_SERVER['SERVER_NAME'].'-conf.php') ) {
   include('/etc/davical/'.$_SERVER['SERVER_NAME'].'-conf.php');
 }
@@ -138,6 +139,8 @@ else {
   include('davical_configuration_missing.php');
   exit;
 }
+$config_warnings = trim(ob_get_contents());
+ob_end_clean();
 
 if ( !isset($c->page_title) ) $c->page_title = $c->system_name;
 
@@ -180,7 +183,7 @@ $_SERVER['SERVER_NAME'] = $c->domain_name;
 
 require_once('AwlQuery.php');
 
-$c->want_dbversion = array(1,2,8);
+$c->want_dbversion = array(1,2,9);
 $c->schema_version = 0;
 $qry = new AwlQuery( 'SELECT schema_major, schema_minor, schema_patch FROM awl_db_revision ORDER BY schema_id DESC LIMIT 1;' );
 if ( $qry->Exec('always',__LINE__,__FILE__) && $row = $qry->Fetch() ) {

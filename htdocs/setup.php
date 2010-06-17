@@ -139,6 +139,14 @@ $site_statistics_table = build_site_statistics();
 
 $heading_config_clients = translate('Configuring Calendar Clients for DAViCal');
 $heading_config_davical = translate('Configuring DAViCal');
+$davical_configuration_errors = '';
+if ( $config_warnings != '' ) {
+  $davical_configuration_errors = '<div class="error"><h3 class="error">' . translate('Your configuration produced PHP errors which should be corrected') . '</h3>
+<pre>
+'.$config_warnings.'
+</pre></div>
+';
+}
 
   echo <<<EOBODY
 <style>
@@ -217,6 +225,7 @@ to configure Evolution, Sunbird, Lightning and Mulberry to use remotely hosted c
 
 <h2>$heading_config_davical</h2>
 <p>If you can read this then things must be mostly working already.</p>
+$davical_configuration_errors
 <p>The <a href="http://www.davical.org/installation.php">installation page on the DAViCal website</a> has
 some further information on how to install and configure this application.</p>
 EOBODY;
