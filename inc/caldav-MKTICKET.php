@@ -80,7 +80,7 @@ $resource_id   = $target->GetProperty('dav_id');
 
 $i = 0;
 do {
-  $ticket_id = substr( str_replace('+', '',base64_encode(sha1(date('r') .rand(0,2100000000) . microtime(true),true))), 7, 8);
+  $ticket_id = substr( str_replace('/', '', str_replace('+', '',base64_encode(sha1(date('r') .rand(0,2100000000) . microtime(true),true)))), 7, 8);
   $qry = new AwlQuery(
     'INSERT INTO access_ticket ( ticket_id, dav_owner_id, privileges, target_collection_id, target_resource_id, expires )
                 VALUES( :ticket_id, :owner, :privs::INT::BIT(24), :collection, :resource, (current_timestamp + :expires::interval) )',
