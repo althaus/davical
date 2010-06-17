@@ -27,6 +27,7 @@ function make_help_link($matches)
 }
 
 
+if ( !function_exists('send_page_header') ) {
 function send_page_header() {
   global $session, $c, $main_menu, $related_menu;
 
@@ -78,6 +79,7 @@ EOHDR;
     echo "</ul>\n</div>\n";
   }
 
+}
 }
 
 send_page_header();
