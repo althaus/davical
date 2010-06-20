@@ -65,6 +65,14 @@ class DAViCalSession extends Session
   * @param object $u The user+session object we (probably) read from the database.
   */
   function AssignSessionDetails( $u ) {
+    if ( !isset($u->principal_id) ) {
+      // If they don't have a principal_id set then we should re-read from our local database
+      $qry = new AwlQuery('SELECT * FROM dav_principal WHERE username = :username', array(':username' => $u->username) );
+      if ( $qry->Exec() && $qry->rows() == 1 ) {
+        $u = $qry->Fetch();
+      }
+    }
+
     parent::AssignSessionDetails( $u );
     $this->GetRoles();
     if ( function_exists('awl_set_locale') && isset($this->locale) && $this->locale != '' ) {
