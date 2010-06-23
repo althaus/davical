@@ -99,14 +99,14 @@ else if ( $mode == 'carddav' ) {
 if ( isset($c->strict_result_ordering) && $c->strict_result_ordering ) $where .= " ORDER BY caldav_data.dav_id";
 $qry = new AwlQuery( $sql . $where, $params );
 if ( $qry->Exec('REPORT',__LINE__,__FILE__) && $qry->rows() > 0 ) {
-  while( $calendar_object = $qry->Fetch() ) {
+  while( $dav_object = $qry->Fetch() ) {
     if ( $bound_from != $collection->dav_name() ) {
-      $calendar_object->dav_name = str_replace( $bound_from, $collection->dav_name(), $calendar_object->dav_name);
+      $dav_object->dav_name = str_replace( $bound_from, $collection->dav_name(), $dav_object->dav_name);
     }
     if ( $need_expansion ) {
-      $ics = new iCalComponent($calendar_object->caldav_data);
+      $ics = new iCalComponent($dav_object->caldav_data);
       $expanded = expand_event_instances($ics, $expand_range_start, $expand_range_end);
-      $calendar_object->caldav_data = $expanded->Render();
+      $dav_object->caldav_data = $expanded->Render();
     }
     $responses[] = component_to_xml( $properties, $calendar_object );
   }
