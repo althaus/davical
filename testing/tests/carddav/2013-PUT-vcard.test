@@ -2,32 +2,33 @@
 # PUT a VCARD record into an addressbook
 #
 TYPE=PUT
-URL=http://regression.host/caldav.php/user1/addressbook/donald_kelly.vcf
+URL=http://regression.host/caldav.php/user1/addressbook/F06EC844-EACD-4ADF-8823-588603991E04-ABSPlugin.vcf
 
+HEADER=User-Agent: DAViCalTester/public
 HEADER=Content-Type: text/vcard; charset=utf-8
+HEADER=If-None-Match: *
 HEAD
 
 BEGINDATA
-begin:vcard
-fn:Donald Kelly
-n:Kelly;Donald;;;
-org:Esposo Designs Ltd
-adr:;;25 Rintoul St;Newtown;Wellington;;New Zealand
-email;type=internet:donald@example.co.nz
-title:Proprietor
-tel;type=work:+64 4 347 4747
-tel;type=cell:+64 2 1234-4321
-x-mozilla-html:TRUE
-url:www.example.co.nz
-version:2.1
-end:vcard
+BEGIN:VCARD
+VERSION:3.0
+N:McMillan;Andrew;;;
+FN:Morphoss Ltd
+ORG:Morphoss Ltd;
+EMAIL;type=INTERNET;type=WORK;type=pref:andrew+davical@morphoss.com
+TEL;type=WORK;type=pref:+64272332426
+X-ABShowAs:COMPANY
+X-ABUID:3CF7BF91-2E75-462A-80DC-7845E8AAB985\:ABPerson
+UID:F26B8512-45DA-49ED-B285-23E64B0A68D1-ABSPlugin
+REV:2010-06-23T00:00:21Z
+END:VCARD
 ENDDATA
 
 QUERY
 SELECT caldav_data.dav_name, caldav_data.dav_etag,
        version, uid, nickname, fn, n, note, org, url, fburl, caladruri, caluri
   FROM caldav_data LEFT JOIN addressbook_resource USING(dav_id)
-  WHERE caldav_data.dav_name ~ '/user1/addressbook/donald_kelly.vcf'
+  WHERE caldav_data.dav_name ~ '/user1/addressbook/F06EC844-EACD-4ADF-8823-588603991E04-ABSPlugin.vcf'
 ENDQUERY
 
 QUERY
@@ -35,7 +36,7 @@ SELECT
        type, box_no, unit_no, street_address, locality, region, postcode, country, property
   FROM caldav_data 
         LEFT JOIN addressbook_address_adr USING(dav_id)
-  WHERE caldav_data.dav_name ~ '/user1/addressbook/donald_kelly.vcf'
+  WHERE caldav_data.dav_name ~ '/user1/addressbook/F06EC844-EACD-4ADF-8823-588603991E04-ABSPlugin.vcf'
   ORDER BY dav_id, property
 ENDQUERY
 
@@ -44,7 +45,7 @@ SELECT
         addressbook_address_tel.type, addressbook_address_tel.tel
   FROM caldav_data
         LEFT JOIN addressbook_address_tel USING(dav_id)
-  WHERE caldav_data.dav_name ~ '/user1/addressbook/donald_kelly.vcf'
+  WHERE caldav_data.dav_name ~ '/user1/addressbook/F06EC844-EACD-4ADF-8823-588603991E04-ABSPlugin.vcf'
   ORDER BY dav_id, property
 ENDQUERY
 
@@ -53,7 +54,7 @@ SELECT
         addressbook_address_email.type, addressbook_address_email.email
   FROM caldav_data
         LEFT JOIN addressbook_address_email USING(dav_id)
-  WHERE caldav_data.dav_name ~ '/user1/addressbook/donald_kelly.vcf'
+  WHERE caldav_data.dav_name ~ '/user1/addressbook/F06EC844-EACD-4ADF-8823-588603991E04-ABSPlugin.vcf'
   ORDER BY dav_id, property
 ENDQUERY
 

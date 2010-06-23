@@ -1,15 +1,33 @@
-#
-# PUT a VCARD record into an addressbook
-#
-TYPE=PUT
-URL=http://regression.host/caldav.php/user1/addressbook/andrew_mcmillan.vcf
+HTTP/1.1 207 Multi-Status
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy, bind, calendar-auto-schedule
+ETag: "9f618233815d1c8503830b64c28a36ae"
+Content-Length: 5164
+Content-Type: text/xml; charset="utf-8"
 
-HEADER=User-Agent: DAViCalTester/public
-HEADER=Content-Type: text/vcard; charset=utf-8
-HEAD
-
-BEGINDATA
-BEGIN:VCARD
+<?xml version="1.0" encoding="utf-8" ?>
+<multistatus xmlns="DAV:" xmlns:VC="urn:ietf:params:xml:ns:carddav">
+ <response>
+  <href>/caldav.php/user1/addressbook/strumar_and_beren.txt</href>
+  <propstat>
+   <prop>
+    <getetag>"a83ff0ef143f108d2062c8534506d801"</getetag>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <address-data/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/addressbook/andrew_mcmillan.vcf</href>
+  <propstat>
+   <prop>
+    <getetag>"cd185c7dd9bf18bcfcec4190442f2113"</getetag>
+    <VC:address-data>BEGIN:VCARD
 VERSION:3.0
 REV:2010-03-29T09:23:34Z
 UID:pas-id-4BB0719600000000
@@ -79,40 +97,32 @@ ORG:dotCal;;Porirua
 TITLE:Chief Technology Officer
 URL:http://andrew.mcmillan.net.nz/
 END:VCARD
-ENDDATA
-
-QUERY
-SELECT caldav_data.dav_name, caldav_data.dav_etag,
-       version, uid, nickname, fn, n, note, org, url, fburl, caladruri, caluri
-  FROM caldav_data LEFT JOIN addressbook_resource USING(dav_id)
-  WHERE caldav_data.dav_name ~ '/user1/addressbook/andrew_mcmillan.vcf'
-ENDQUERY
-
-QUERY
-SELECT 
-       type, box_no, unit_no, street_address, locality, region, postcode, country, property
-  FROM caldav_data 
-        LEFT JOIN addressbook_address_adr USING(dav_id)
-  WHERE caldav_data.dav_name ~ '/user1/addressbook/andrew_mcmillan.vcf'
-  ORDER BY dav_id, property
-ENDQUERY
-
-QUERY
-SELECT 
-        addressbook_address_tel.type, addressbook_address_tel.tel
-  FROM caldav_data
-        LEFT JOIN addressbook_address_tel USING(dav_id)
-  WHERE caldav_data.dav_name ~ '/user1/addressbook/andrew_mcmillan.vcf'
-  ORDER BY dav_id, property
-ENDQUERY
-
-QUERY
-SELECT 
-        addressbook_address_email.type, addressbook_address_email.email
-  FROM caldav_data
-        LEFT JOIN addressbook_address_email USING(dav_id)
-  WHERE caldav_data.dav_name ~ '/user1/addressbook/andrew_mcmillan.vcf'
-  ORDER BY dav_id, property
-ENDQUERY
-
-
+</VC:address-data>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/addressbook/donald_kelly.vcf</href>
+  <propstat>
+   <prop>
+    <getetag>"593d82b1c3830ed3aaef2b8293452275"</getetag>
+    <VC:address-data>begin:vcard
+fn:Donald Kelly
+n:Kelly;Donald;;;
+org:Esposo Designs Ltd
+adr:;;25 Rintoul St;Newtown;Wellington;;New Zealand
+email;type=internet:donald@example.co.nz
+title:Proprietor
+tel;type=work:+64 4 347 4747
+tel;type=cell:+64 2 1234-4321
+x-mozilla-html:TRUE
+url:www.example.co.nz
+version:2.1
+end:vcard
+</VC:address-data>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+</multistatus>

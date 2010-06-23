@@ -1,0 +1,39 @@
+HTTP/1.1 100 Continue
+
+HTTP/1.1 200 OK
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy, bind, calendar-auto-schedule
+Content-Length: 0
+Content-Type: text/plain; charset="utf-8"
+
+
+        caladruri: >NULL<
+           caluri: >NULL<
+         dav_etag: >1c9f5623adf814e4f7a88367c54b06d3<
+         dav_name: >/user1/addressbook/F06EC844-EACD-4ADF-8823-588603991E04-ABSPlugin.vcf<
+            fburl: >NULL<
+               fn: >Morphoss Ltd<
+                n: >McMillan;Andrew;;;<
+         nickname: >NULL<
+             note: >NULL<
+              org: >Morphoss Ltd;<
+              uid: >F26B8512-45DA-49ED-B285-23E64B0A68D1-ABSPlugin<
+              url: >NULL<
+          version: >3.0<
+
+           box_no: >NULL<
+          country: >NULL<
+         locality: >NULL<
+         postcode: >NULL<
+         property: >NULL<
+           region: >NULL<
+   street_address: >NULL<
+             type: >NULL<
+          unit_no: >NULL<
+
+              tel: >64272332426<
+             type: >pref<
+
+            email: >andrew+davical@morphoss.com<
+             type: >pref<
+

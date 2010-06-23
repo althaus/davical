@@ -1,0 +1,24 @@
+#
+# addressbook-multiget REPORT on addressbook resource
+#
+TYPE=REPORT
+URL=http://mycaldav/caldav.php/user1/addressbook/
+HEADER=User-Agent: DAViCalTester/public
+HEADER=Content-Type: text/xml
+HEAD
+
+
+BEGINDATA
+<?xml version="1.0" encoding="utf-8" ?>
+<C:addressbook-multiget xmlns:D="DAV:" xmlns:C="urn:ietf:params:xml:ns:carddav">
+ <D:prop>
+  <D:getetag/>
+  <C:address-data/>
+ </D:prop>
+ <D:href>/caldav.php/user1/addressbook/strumar_and_beren.txt</D:href>
+ <D:href>/caldav.php/user1/addressbook/andrew_mcmillan.vcf</D:href>
+ <D:href>/caldav.php/user1/addressbook/donald_kelly.vcf</D:href>
+</C:addressbook-multiget>
+ENDDATA
+
+

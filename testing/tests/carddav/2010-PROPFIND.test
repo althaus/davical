@@ -1,0 +1,27 @@
+#
+# PROPFIND on addressbook resource
+#
+TYPE=PROPFIND
+URL=http://mycaldav/caldav.php/user1/addressbook/
+HEADER=User-Agent: DAViCalTester/public
+HEADER=Content-Type: text/xml
+HEADER=Depth: 0
+HEAD
+
+
+BEGINDATA
+<?xml version="1.0" encoding="UTF-8" ?>
+<propfind xmlns="DAV:" xmlns:x1="http://calendarserver.org/ns/">
+ <prop>
+  <x1:getctag/>
+ </prop>
+</propfind>
+ENDDATA
+
+
+QUERY
+SELECT dav_etag
+FROM collection
+WHERE dav_name = '/user1/addressbook/';
+ENDQUERY
+

@@ -1,0 +1,22 @@
+HTTP/1.1 207 Multi-Status
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy, bind, calendar-auto-schedule
+ETag: "5693523c52feb458d900cd83d782dcc0"
+Content-Length: 339
+Content-Type: text/xml; charset="utf-8"
+
+<?xml version="1.0" encoding="utf-8" ?>
+<multistatus xmlns="DAV:" xmlns:C="http://calendarserver.org/ns/">
+ <response>
+  <href>/caldav.php/user1/addressbook/</href>
+  <propstat>
+   <prop>
+    <C:getctag>"aeee1cdd38eb0169a612a8f83af55288"</C:getctag>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+</multistatus>
+
+         dav_etag: >aeee1cdd38eb0169a612a8f83af55288<
+

@@ -3,7 +3,7 @@ Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy, bind, calendar-auto-schedule
 Etag: ""
 Content-Length: 320
-Content-Type: text/calendar; charset="utf-8"
+Content-Type: text/plain; charset="utf-8"
 
 Once upon a time there was an old, old man who lived with a great
 white wolf.  As is often the habit with men, he had not always been

@@ -1,0 +1,29 @@
+#
+# PROPFIND on addressbook resource
+# Depth 1 this time, and looking for getetag
+#
+TYPE=PROPFIND
+URL=http://mycaldav/caldav.php/user1/addressbook/
+HEADER=User-Agent: DAViCalTester/public
+HEADER=Content-Type: text/xml
+HEADER=Depth: 1
+HEAD
+
+
+BEGINDATA
+<?xml version="1.0" encoding="UTF-8" ?>
+<propfind xmlns="DAV:">
+ <prop>
+  <getetag/>
+ </prop>
+</propfind>
+ENDDATA
+
+
+QUERY
+SELECT caldav_data.dav_etag
+FROM collection LEFT JOIN caldav_data USING(collection_id)
+WHERE collection.dav_name = '/user1/addressbook/'
+ORDER BY caldav_data.dav_id
+ENDQUERY
+

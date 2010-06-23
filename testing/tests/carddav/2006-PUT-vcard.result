@@ -7,11 +7,11 @@ Content-Type: text/plain; charset="utf-8"
 
         caladruri: >NULL<
            caluri: >NULL<
-         dav_etag: >e36abdbed9f9996064ca54583616d32b<
+         dav_etag: >593d82b1c3830ed3aaef2b8293452275<
          dav_name: >/user1/addressbook/donald_kelly.vcf<
             fburl: >NULL<
                fn: >Donald Kelly<
-                n: >Kelly;Donald<
+                n: >Kelly;Donald;;;<
          nickname: >NULL<
              note: >NULL<
               org: >Esposo Designs Ltd<
