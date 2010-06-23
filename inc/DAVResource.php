@@ -1051,7 +1051,7 @@ EOQRY;
   /**
   * Returns the database row for this resource
   */
-  function event() {
+  function resource() {
     if ( !isset($this->resource) ) $this->FetchResource();
     return $this->resource;
   }
