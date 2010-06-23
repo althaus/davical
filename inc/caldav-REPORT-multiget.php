@@ -108,7 +108,7 @@ if ( $qry->Exec('REPORT',__LINE__,__FILE__) && $qry->rows() > 0 ) {
       $expanded = expand_event_instances($ics, $expand_range_start, $expand_range_end);
       $dav_object->caldav_data = $expanded->Render();
     }
-    $responses[] = component_to_xml( $properties, $calendar_object );
+    $responses[] = component_to_xml( $properties, $dav_object );
   }
 }
 
