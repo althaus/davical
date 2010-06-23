@@ -143,7 +143,7 @@ function UpdateUserFromExternal( &$usr ) {
 *      'call'   => 'AuthExternalAwl',
 *      'config' => array(
 *           // A PgSQL database connection string for the database containing user records
-*          'connection' => 'dbname=wrms host=otherhost port=5433 user=general',
+*          'connection[]' => 'dbname=wrms host=otherhost port=5433 user=general',
 *           // Which columns should be fetched from the database
 *          'columns'    => "user_no, active, email_ok, joined, last_update AS updated, last_used, username, password, fullname, email",
 *           // a WHERE clause to limit the records returned.
@@ -184,7 +184,18 @@ EOERRMSG;
     $usr = $qry->Fetch();
     if ( session_validate_password( $password, $usr->password ) ) {
       UpdateUserFromExternal($usr);
-      return $usr;
+
+      /**
+      * We disallow login by inactive users _after_ we have updated the local copy
+      */
+      if ( isset($usr->active) && $usr->active == 'f' ) return false;
+
+      $qry = new AwlQuery('SELECT * FROM dav_principal WHERE username = :username', array(':username' => $usr->username) );
+      if ( $qry->Exec() && $qry->rows() == 1 ) {
+        $principal = $qry->Fetch();
+        return $principal;
+      }
+      return $usr; // Somewhat optimistically
     }
   }
 
