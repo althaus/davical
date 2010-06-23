@@ -66,15 +66,15 @@ $params = array(
 );
 if ( $dest->Exists() ) {
   $sql = 'UPDATE caldav_data SET caldav_data=:dav_data, dav_etag=:etag, logged_user=:session_user,
-          modified=current_timestamp, user_no=:user_no WHERE dav_name=:dav_name';
+          modified=current_timestamp, user_no=:user_no, caldav_type=\'VCARD\' WHERE dav_name=:dav_name';
   $response_code = 200;
   $qry->QDo( $sql, $params );
 
   $qry->QDo("SELECT dav_id FROM caldav_data WHERE dav_name = :dav_name ", array(':dav_name' => $params[':dav_name']) );
 }
 else {
-  $sql = 'INSERT INTO caldav_data ( user_no, dav_name, dav_etag, caldav_data, logged_user, created, modified, collection_id )
-          VALUES( :user_no, :dav_name, :etag, :dav_data, :session_user, current_timestamp, current_timestamp, :collection_id )';
+  $sql = 'INSERT INTO caldav_data ( user_no, dav_name, dav_etag, caldav_data, caldav_type, logged_user, created, modified, collection_id )
+          VALUES( :user_no, :dav_name, :etag, :dav_data, \'VCARD\', :session_user, current_timestamp, current_timestamp, :collection_id )';
   $params[':collection_id'] = $collection_id;
   $response_code = 201;
   $qry->QDo( $sql, $params );
