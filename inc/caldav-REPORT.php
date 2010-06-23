@@ -167,6 +167,140 @@ function calendar_to_xml( $properties, $item ) {
   return $response;
 }
 
+
+/**
+* Return XML for a single component from the DB
+*
+* @param array $properties The properties for this component
+* @param string $item The DB row data for this component
+*
+* @return string An XML document which is the response for the component
+*/
+function component_to_xml( $properties, $item ) {
+  global $session, $c, $request, $reply;
+
+  dbg_error_log("REPORT","Building XML Response for item '%s'", $item->dav_name );
+
+  $denied = array();
+  $unsupported = array();
+  $caldav_data = $item->caldav_data;
+  $displayname = preg_replace( '{^.*/}', '', $item->dav_name );
+  $type = 'unknown';
+  $contenttype = 'text/plain';
+  switch( $item->caldav_type ) {
+    case 'VJOURNAL':
+    case 'VEVENT':
+    case 'VTODO':
+      $displayname = $item->summary;
+      $type = 'calendar';
+      $contenttype = 'text/calendar';
+      break;
+
+    case 'VCARD':
+      $displayname = $item->fn;
+      $type = 'vcard';
+      $contenttype = 'text/x-vcard';
+      break;
+  }
+  if ( isset($properties['calendar-data']) || isset($properties['displayname']) ) {
+    if ( !$request->AllowedTo('all') && $session->user_no != $item->user_no ){
+      // the user is not admin / owner of this calendarlooking at his calendar and can not admin the other cal
+      /** @todo We should examine the ORGANIZER and ATTENDEE fields in the event.  If this person is there then they should see this */
+      if ( $type == 'calendar' && $item->class == 'CONFIDENTIAL' || !$request->AllowedTo('read') ) {
+        $ical = new iCalComponent( $caldav_data );
+        $resources = $ical->GetComponents('VTIMEZONE',false);
+        $first = $resources[0];
+
+        // if the event is confidential we fake one that just says "Busy"
+        $confidential = new iCalComponent();
+        $confidential->SetType($first->GetType());
+        $confidential->AddProperty( 'SUMMARY', translate('Busy') );
+        $confidential->AddProperty( 'CLASS', 'CONFIDENTIAL' );
+        $confidential->SetProperties( $first->GetProperties('DTSTART'), 'DTSTART' );
+        $confidential->SetProperties( $first->GetProperties('RRULE'), 'RRULE' );
+        $confidential->SetProperties( $first->GetProperties('DURATION'), 'DURATION' );
+        $confidential->SetProperties( $first->GetProperties('DTEND'), 'DTEND' );
+        $confidential->SetProperties( $first->GetProperties('UID'), 'UID' );
+        $ical->SetComponents(array($confidential),$confidential->GetType());
+
+        $caldav_data = $ical->Render();
+        $displayname = translate('Busy');
+      }
+    }
+  }
+
+  $url = ConstructURL($item->dav_name);
+
+  $prop = new XMLElement("prop");
+  foreach( $properties AS $k => $v ) {
+    switch( $k ) {
+      case 'getcontentlength':
+        $contentlength = strlen($caldav_data);
+        $prop->NewElement($k, $contentlength );
+        break;
+      case 'calendar-data':
+        if ( $type == 'calendar' ) $reply->CalDAVElement($prop, $k, $caldav_data );
+        else $unsupported[] = $k;
+        break;
+      case 'address-data':
+        if ( $type == 'vcard' ) $reply->CardDAVElement($prop, $k, $caldav_data );
+        else $unsupported[] = $k;
+        break;
+      case 'getcontenttype':
+        $prop->NewElement($k, $contenttype );
+        break;
+      case 'current-user-principal':
+        $prop->NewElement("current-user-principal", $request->current_user_principal_xml);
+        break;
+      case 'displayname':
+        $prop->NewElement($k, $displayname );
+        break;
+      case 'resourcetype':
+        $prop->NewElement($k); // Just an empty resourcetype for a non-collection.
+        break;
+      case 'getetag':
+        $prop->NewElement($k, '"'.$item->dav_etag.'"' );
+        break;
+      case '"current-user-privilege-set"':
+        $prop->NewElement($k, privileges($request->permissions) );
+        break;
+      case 'SOME-DENIED-PROPERTY':  /** indicating the style for future expansion */
+        $denied[] = $k;
+        break;
+      default:
+        dbg_error_log( 'REPORT', "Request for unsupported property '%s' of calendar item.", $v );
+        $unsupported[] = $k;
+    }
+  }
+  $status = new XMLElement("status", "HTTP/1.1 200 OK" );
+
+  $propstat = new XMLElement( "propstat", array( $prop, $status) );
+  $href = new XMLElement("href", $url );
+  $elements = array($href,$propstat);
+
+  if ( count($denied) > 0 ) {
+    $status = new XMLElement("status", "HTTP/1.1 403 Forbidden" );
+    $noprop = new XMLElement("prop");
+    foreach( $denied AS $k => $v ) {
+      $noprop->NewElement( strtolower($v) );
+    }
+    $elements[] = new XMLElement( "propstat", array( $noprop, $status) );
+  }
+
+  if ( count($unsupported) > 0 ) {
+    $status = new XMLElement("status", "HTTP/1.1 404 Not Found" );
+    $noprop = new XMLElement("prop");
+    foreach( $unsupported AS $k => $v ) {
+      $noprop->NewElement( strtolower($v) );
+    }
+    $elements[] = new XMLElement( "propstat", array( $noprop, $status) );
+  }
+
+  $response = new XMLElement( "response", $elements );
+
+  return $response;
+}
+
 if ( $xmltree->GetTag() == "urn:ietf:params:xml:ns:caldav:calendar-query" ) {
   $calquery = $xmltree->GetPath("/urn:ietf:params:xml:ns:caldav:calendar-query/*");
   include("caldav-REPORT-calquery.php");
