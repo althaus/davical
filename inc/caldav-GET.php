@@ -20,20 +20,20 @@ if ( ! $dav_resource->Exists() ) {
   $request->DoResponse( 404, translate("Resource Not Found.") );
 }
 
-function obfuscate_event( $resource ) {
+function obfuscate_event( $icalendar ) {
   // The user is not admin / owner of this calendar looking at his calendar and can not admin the other cal,
   // or maybe they don't have *read* access but they got here, so they must at least have free/busy access
   // so we will present an obfuscated version of the event that just says "Busy" (translated :-)
   $confidential = new iCalComponent();
-  $confidential->SetType($resource->GetType());
+  $confidential->SetType($icalendar->GetType());
   $confidential->AddProperty( 'SUMMARY', translate('Busy') );
   $confidential->AddProperty( 'CLASS', 'CONFIDENTIAL' );
-  $confidential->SetProperties( $resource->GetProperties('DTSTART'), 'DTSTART' );
-  $confidential->SetProperties( $resource->GetProperties('RRULE'), 'RRULE' );
-  $confidential->SetProperties( $resource->GetProperties('DURATION'), 'DURATION' );
-  $confidential->SetProperties( $resource->GetProperties('DTEND'), 'DTEND' );
-  $confidential->SetProperties( $resource->GetProperties('UID'), 'UID' );
-  $confidential->SetProperties( $resource->GetProperties('CREATED'), 'CREATED' );
+  $confidential->SetProperties( $icalendar->GetProperties('DTSTART'), 'DTSTART' );
+  $confidential->SetProperties( $icalendar->GetProperties('RRULE'), 'RRULE' );
+  $confidential->SetProperties( $icalendar->GetProperties('DURATION'), 'DURATION' );
+  $confidential->SetProperties( $icalendar->GetProperties('DTEND'), 'DTEND' );
+  $confidential->SetProperties( $icalendar->GetProperties('UID'), 'UID' );
+  $confidential->SetProperties( $icalendar->GetProperties('CREATED'), 'CREATED' );
 
   return $confidential;
 }
@@ -95,34 +95,34 @@ if ( $dav_resource->IsCollection() ) {
     }
 
     /** Work out which ones are actually used here */
-    $resources = $ical->GetComponents('VTIMEZONE',false);
-    foreach( $resources AS $k => $resource ) {
-      $tzid = $resource->GetPParamValue('DTSTART', 'TZID');      if ( isset($tzid) && !isset($need_zones[$tzid]) ) $need_zones[$tzid] = 1;
-      $tzid = $resource->GetPParamValue('DUE',     'TZID');      if ( isset($tzid) && !isset($need_zones[$tzid]) ) $need_zones[$tzid] = 1;
-      $tzid = $resource->GetPParamValue('DTEND',   'TZID');      if ( isset($tzid) && !isset($need_zones[$tzid]) ) $need_zones[$tzid] = 1;
+    $comps = $ical->GetComponents('VTIMEZONE',false);
+    foreach( $comps AS $k => $comp ) {
+      $tzid = $comp->GetPParamValue('DTSTART', 'TZID');      if ( isset($tzid) && !isset($need_zones[$tzid]) ) $need_zones[$tzid] = 1;
+      $tzid = $comp->GetPParamValue('DUE',     'TZID');      if ( isset($tzid) && !isset($need_zones[$tzid]) ) $need_zones[$tzid] = 1;
+      $tzid = $comp->GetPParamValue('DTEND',   'TZID');      if ( isset($tzid) && !isset($need_zones[$tzid]) ) $need_zones[$tzid] = 1;
 
       if ( $dav_resource->HavePrivilegeTo('all') || $session->user_no == $event->user_no || $session->user_no == $event->logged_user
-            || ( $c->allow_get_email_visibility && $resource->IsAttendee($session->email) ) ) {
+            || ( $c->allow_get_email_visibility && $comp->IsAttendee($session->email) ) ) {
         /**
         * These people get to see all of the event, and they should always
         * get any alarms as well.
         */
-        $vcal->AddComponent($resource);
+        $vcal->AddComponent($comp);
         continue;
       }
       /** No visibility even of the existence of these events if they aren't admin/owner/attendee */
       if ( $event->class == 'PRIVATE' ) continue;
 
       if ( ! $dav_resource->HavePrivilegeTo('DAV::read') || $event->class == 'CONFIDENTIAL' ) {
-       $vcal->AddComponent(obfuscated_event($resource));
+       $vcal->AddComponent(obfuscated_event($comp));
       }
       elseif ( isset($c->hide_alarm) && $c->hide_alarm ) {
         // Otherwise we hide the alarms (if configured to)
-        $resource->ClearComponents('VALARM');
-        $vcal->AddComponent($resource);
+        $comp->ClearComponents('VALARM');
+        $vcal->AddComponent($comp);
       }
       else {
-        $vcal->AddComponent($resource);
+        $vcal->AddComponent($comp);
       }
     }
   }
@@ -141,35 +141,49 @@ if ( $dav_resource->IsCollection() ) {
 
 // Just a single event then
 
-$event = $dav_resource->event();
-$resource = new iCalComponent( $event->caldav_data );
+$resource = $dav_resource->resource();
+$ic = new iCalComponent( $resource->caldav_data );
 
 /** Default deny... */
 $allowed = false;
-if ( $dav_resource->HavePrivilegeTo('all') || $session->user_no == $event->user_no || $session->user_no == $event->logged_user
-      || ( $c->allow_get_email_visibility && $resource->IsAttendee($session->email) ) ) {
+if ( $dav_resource->HavePrivilegeTo('all') || $session->user_no == $resource->user_no || $session->user_no == $resource->logged_user
+      || ( $c->allow_get_email_visibility && $ic->IsAttendee($session->email) ) ) {
   /**
   * These people get to see all of the event, and they should always
   * get any alarms as well.
   */
   $allowed = true;
 }
-else if ( $event->class != 'PRIVATE' ) {
+else if ( $resource->class != 'PRIVATE' ) {
   $allowed = true; // but we may well obfuscate it below
-  if ( ! $dav_resource->HavePrivilegeTo('DAV::read') || ( $event->class == 'CONFIDENTIAL' && ! $request->HavePrivilegeTo('DAV::write-content') ) ) {
-    $ical = new iCalComponent( $event->caldav_data );
-    $resources = $ical->GetComponents('VTIMEZONE',false);
-    $confidential = obfuscated_event($resources[0]);
-    $ical->SetComponents( array($confidential), $event->caldav_type );
-    $event->caldav_data = $ical->Render();
+  if ( ! $dav_resource->HavePrivilegeTo('DAV::read') || ( $resource->class == 'CONFIDENTIAL' && ! $request->HavePrivilegeTo('DAV::write-content') ) ) {
+    $ical = new iCalComponent( $resource->caldav_data );
+    $comps = $ical->GetComponents('VTIMEZONE',false);
+    $confidential = obfuscated_event($comps[0]);
+    $ical->SetComponents( array($confidential), $resource->caldav_type );
+    $resource->caldav_data = $ical->Render();
   }
 }
-// else $event->class == 'PRIVATE' and this person may not see it.
+// else $resource->class == 'PRIVATE' and this person may not see it.
 
 if ( ! $allowed ) {
   $request->DoResponse( 403, translate("Forbidden") );
 }
 
-header( 'Etag: "'.$event->dav_etag.'"' );
-header( 'Content-Length: '.strlen($event->caldav_data) );
-$request->DoResponse( 200, ($request->method == 'HEAD' ? '' : $event->caldav_data), 'text/calendar; charset="utf-8"' );
+header( 'Etag: "'.$resource->dav_etag.'"' );
+header( 'Content-Length: '.strlen($resource->caldav_data) );
+
+$contenttype = 'text/plain';
+switch( $resource->caldav_type ) {
+  case 'VJOURNAL':
+  case 'VEVENT':
+  case 'VTODO':
+    $contenttype = 'text/calendar';
+    break;
+
+  case 'VCARD':
+    $contenttype = 'text/x-vcard';
+    break;
+}
+
+$request->DoResponse( 200, ($request->method == 'HEAD' ? '' : $resource->caldav_data), $contenttype.'; charset="utf-8"' );
