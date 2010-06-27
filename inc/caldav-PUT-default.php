@@ -26,10 +26,12 @@ $dest = new DAVResource($request->path);
 
 $container = $dest->FetchParentContainer();
 if ( $container->IsCalendar() ) {
-  $request->DoResponse( 409, translate('Incorrect content type for calendar: ') . $request->content_type );
+  $request->PreconditionFailed(412,'urn:ietf:params:xml:ns:caldav:supported-calendar-data',
+                  translate('Incorrect content type for calendar: ') . $request->content_type );
 }
 else if ( $container->IsAddressbook() ) {
-  $request->DoResponse( 409, translate('Incorrect content type for addressbook: ') . $request->content_type );
+  $request->PreconditionFailed(412,'urn:ietf:params:xml:ns:carddav:supported-address-data',
+                  translate('Incorrect content type for addressbook: ') . $request->content_type );
 }
 if ( ! $dest->Exists() ) {
   if ( $container->IsPrincipal() ) {
