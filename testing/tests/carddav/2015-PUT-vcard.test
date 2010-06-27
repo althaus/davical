@@ -1,0 +1,70 @@
+#
+# PUT a VCARD record into an addressbook
+#
+TYPE=PUT
+URL=http://regression.host/caldav.php/user1/addressbook/van_houtte.vcf
+
+HEADER=User-Agent: DAViCalTester/public
+HEADER=Content-Type: text/vcard; charset=utf-8
+HEADER=If-None-Match: *
+HEAD
+
+BEGINDATA
+BEGIN:VCARD
+VERSION:3.0
+PROFILE:VCARD
+FN:Vincent VAN HOUTTE
+N:VAN HOUTTE;Vincent;;Dhr.;
+BDAY:1978-12-31
+TEL;TYPE=CELL,VOICE:0486 11 22 33
+ADR;TYPE=HOME:;;Brusselsestraat 108;DENDERMONDE;;B-9200
+LABEL;TYPE=HOME:Brusselsestraat 108\nB-9200 DENDERMONDE
+TEL;TYPE=HOME,VOICE:052 11 22 33
+TEL;TYPE=HOME,FAX:052 44 55 66
+EMAIL;TYPE=HOME:vvh@gmail.no
+ORG:Advocatenkantoor Suy, Van Baeveghem & Van Houtte;;
+TITLE:Advocaat
+ADR;TYPE=WORK:;;Brusselsestraat 108;DENDERMONDE;;B-9200
+LABEL;TYPE=WORK:Brusselsestraat 108\nB-9200 DENDERMONDE
+TEL;TYPE=WORK,VOICE:052 11 22 33
+TEL;TYPE=WORK,FAX:052 44 55 66
+EMAIL;TYPE=WORK:vvh@gmail.no
+REV:2010-06-23TZ
+END:VCARD
+ENDDATA
+
+QUERY
+SELECT caldav_data.dav_name, caldav_data.dav_etag,
+       version, uid, nickname, fn, n, note, org, url, fburl, caladruri, caluri
+  FROM caldav_data LEFT JOIN addressbook_resource USING(dav_id)
+  WHERE caldav_data.dav_name ~ '/user1/addressbook/van_houtte.vcf'
+ENDQUERY
+
+QUERY
+SELECT 
+       type, box_no, unit_no, street_address, locality, region, postcode, country, property
+  FROM caldav_data 
+        LEFT JOIN addressbook_address_adr USING(dav_id)
+  WHERE caldav_data.dav_name ~ '/user1/addressbook/van_houtte.vcf'
+  ORDER BY dav_id, property
+ENDQUERY
+
+QUERY
+SELECT 
+        addressbook_address_tel.type, addressbook_address_tel.tel
+  FROM caldav_data
+        LEFT JOIN addressbook_address_tel USING(dav_id)
+  WHERE caldav_data.dav_name ~ '/user1/addressbook/van_houtte.vcf'
+  ORDER BY dav_id, property
+ENDQUERY
+
+QUERY
+SELECT 
+        addressbook_address_email.type, addressbook_address_email.email
+  FROM caldav_data
+        LEFT JOIN addressbook_address_email USING(dav_id)
+  WHERE caldav_data.dav_name ~ '/user1/addressbook/van_houtte.vcf'
+  ORDER BY dav_id, property
+ENDQUERY
+
+

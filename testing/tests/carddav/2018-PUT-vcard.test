@@ -1,0 +1,165 @@
+#
+# PUT a VCARD record into an addressbook
+#
+TYPE=PUT
+URL=http://regression.host/caldav.php/user1/addressbook/hans_dieter.vcf
+
+HEADER=User-Agent: DAViCalTester/public
+HEADER=Content-Type: text/vcard; charset=utf-8
+HEADER=If-None-Match: *
+HEAD
+
+BEGINDATA
+BEGIN:VCARD
+VERSION:4.0
+PRODID:-//ALAB//NOSGML Version 0.9//DE
+REV;VALUE=date-time:20090124123353Z
+UID:uid=schmidt.1208717693\,ou=Contacts\,dc=andresen\,dc=de
+X-ABUID:A93F52CB-C15F-1F34-2C49-7A67-0971277F\:ABPerson
+FN:Hans Dieter Schmidt
+SORT-STRING:Schmidt\, Hans Dieter
+N:Schmidt;Hans Dieter;;Dr.;Esq.
+X-DISPLAYNAME:HaDi Schmidt
+X-INITIALS:HW
+NICKNAME:HaWe
+X-SPOUSE:Maja Schultze
+X-EVOLUTION-SPOUSE:Maja Schultze
+item1.X-ABRELATEDNAMES:Maja Schultze
+item1.X-ABLabel:_$!<Spouse>!$_
+item2.X-ABRELATEDNAMES:Barbara Jonas
+item2.X-ABLabel:_$!<Assistant>!$_
+item3.X-ABRELATEDNAMES:Klaus Timm
+item3.X-ABLabel:_$!<Assistant>!$_
+ROLE:Projektleiter
+X-ASSISTANT:Barbara Jonas
+X-ASSISTANT:Klaus Timm
+X-EVOLUTION-ASSISTANT:Barbara Jonas
+X-EVOLUTION-ASSISTANT:Klaus Timm
+BDAY;VALUE=date:1977-12-10
+BDAY;VALUE=date:1975-11-11
+DDAY;VALUE=date:2007-01-02
+X-DDAY;VALUE=date:2007-01-02
+X-ANNIVERSARY:2000-02-01\,
+X-ANNIVERSARY:2001-02-02\,
+X-EVOLUTION-ANNIVERSARY:2000-02-01\,
+X-EVOLUTION-ANNIVERSARY:2001-02-02\,
+X-EVOLUTION-BLOG-URL:blog.diesistmeineip.de
+item4.URL:blog.diesistmeineip.de
+item4.X-ABLabel:_$!<Other>!$_
+URL;TYPE=WORK:http://www.tu-hh.de
+URL;TYPE=WORK:http://www.telekom.de
+item5.URL;TYPE=HOME:http://www.hadi-schmidt.de
+item5.X-ABLabel:_$!<HomePage>!$_
+IMPP:aim:477826262
+IMPP:aim:aaab3ttebb3
+IMPP:icq:972398472394
+IMPP:icq:8972364872634
+IMPP:ymsgr:mailaddr@yahoo.co.uk
+IMPP:ymsgr:yahoo@yahootar.bla
+IMPP:xmpp:jabjab187383
+IMPP:xmpp:jabberwookie@starwahrs.co.com
+IMPP:msn:blablubb@langedomain.org
+IMPP:msn:738246832746
+IMPP:skype:hadi.schmidt-skype
+IMPP:skype:askjdhasd
+IMPP:ichat:ichatichat
+IMPP:ichat:second-ichat
+IMPP:nm:netnetmeetings
+IMPP:nm:vielleicht@eine.email.de
+IMPP:gtalk:gooogletalk
+IMPP:gtalk:googletalk2
+IMPP:sip:ipphon-addr.woauchimmer.de
+X-AIM:balbala
+X-AIM:hakunamatata
+X-AIM;TYPE=WORK:972398472394
+X-AIM;TYPE=WORK:8972364872634
+X-ICQ:972398472394
+X-ICQ:8972364872634
+X-JABBER:jabjab187383
+X-JABBER:jabberwookie@starwahrs.co.com
+X-MSN:blablubb@langedomain.org
+X-MSN:738246832746
+X-SKYPE-USERNAME:hadi.schmidt-skype
+X-SKYPE-USERNAME:askjdhasd
+EMAIL;TYPE=INTERNET:ich@hadi-schmidt.de
+EMAIL;TYPE=INTERNET:hadi@telekom-d.de
+TEL;TYPE=WORK,VOICE:+49 9823 9084
+TEL;TYPE=WORK,VOICE:+49 234 234 234
+TEL;TYPE=WORK,FAX:+49 7373 73
+TEL;TYPE=PAGER:+49 2626 26
+TEL;TYPE=CELL,VOICE:+49 7272 722
+TEL;TYPE=PREF,VOICE:+49 12 34 567
+TEL;TYPE=CAR,VOICE:+49 8292 38 383
+TEL;TYPE=HOME,VOICE:+49 7327 272 727
+TEL;TYPE=HOME,FAX:+49 40 812 387 21
+item6.TEL;TYPE=VOICE:+49 8373 6262
+item6.X-ABLabel:_$!<Other>!$_
+item7.TEL;TYPE=VOICE:+49 7272 72
+item7.X-ABLabel:_$!<Other>!$_
+TEL;TYPE=ISDN:4234234235
+TEL;TYPE=ISDN:98732947234
+TEL;TYPE=X-EVOLUTION-RADIO:+49 9872 349 832
+TEL;TYPE=X-EVOLUTION-RADIO:+49 9872 394 872 34
+TEL;TYPE=X-EVOLUTION-TELEX:+49 38 288 228 82
+TEL;TYPE=X-EVOLUTION-TELEX:+49 7722 88 28 282
+TEL;TYPE=MAIN:+49 6237 623 723 84 76
+TEL;TYPE=MAIN:+49 9324 32 479 234234
+TEL;X-EVOLUTION-CALLBACK:+49 8383 73 723
+TEL;TYPE=MODEM:+49 8383 73 723
+TEL;X-EVOLUTION-TTYTDD:+49 7373 73
+TEL;X-EVOLUTION-TTYTDD:+49 8378 33
+ADR;TYPE=WORK;CHARSET=utf-8:;Uni Harburg\, -;Innstraße 71;Hamburg-Harburg;
+ Hamburg;21373;Deutschland
+ADR;TYPE=HOME;CHARSET=utf-8:;;Weisestraße 13\r;Irgendwo;;33443
+ADR;TYPE=X-OTHER:;;Nirgendwo
+ORG:Uni Harburg;;;033
+X-ROOM;TYPE=WORK:033
+LABEL;TYPE=WORK:1. Stock\, links
+LABEL;TYPE=WORK:oder rechts
+X-BUSINESS-CATEGORY:IT
+X-BUSINESS-CATEGORY:Development
+CALURI:http://davical.hadi-schmist.home/hadi
+FBURL:http://davical.hadi-schmist.home/freebusy
+CAPURI:http://davical.hadi-schmist.home/cap
+CALADRURI:http://davical.hadi-schmist.home/access
+X-DESCRIPTION:Beschreibung
+X-DESCRIPTION;CHARSET=utf-8:außerdem
+CATEGORIES:uni
+END:VCARD
+ENDDATA
+
+QUERY
+SELECT caldav_data.dav_name, caldav_data.dav_etag,
+       version, uid, nickname, fn, n, note, org, url, fburl, caladruri, caluri
+  FROM caldav_data LEFT JOIN addressbook_resource USING(dav_id)
+  WHERE caldav_data.dav_name ~ '/user1/addressbook/hans_dieter.vcf'
+ENDQUERY
+
+QUERY
+SELECT 
+       type, box_no, unit_no, street_address, locality, region, postcode, country, property
+  FROM caldav_data 
+        LEFT JOIN addressbook_address_adr USING(dav_id)
+  WHERE caldav_data.dav_name ~ '/user1/addressbook/hans_dieter.vcf'
+  ORDER BY dav_id, property
+ENDQUERY
+
+QUERY
+SELECT 
+        addressbook_address_tel.type, addressbook_address_tel.tel
+  FROM caldav_data
+        LEFT JOIN addressbook_address_tel USING(dav_id)
+  WHERE caldav_data.dav_name ~ '/user1/addressbook/hans_dieter.vcf'
+  ORDER BY dav_id, property
+ENDQUERY
+
+QUERY
+SELECT 
+        addressbook_address_email.type, addressbook_address_email.email
+  FROM caldav_data
+        LEFT JOIN addressbook_address_email USING(dav_id)
+  WHERE caldav_data.dav_name ~ '/user1/addressbook/hans_dieter.vcf'
+  ORDER BY dav_id, property
+ENDQUERY
+
+

@@ -1,0 +1,68 @@
+#
+# PUT a VCARD record into an addressbook
+#
+TYPE=PUT
+URL=http://regression.host/caldav.php/user1/addressbook/Jörg_Test-Roßdeutscher_2_0.vcf
+
+HEADER=User-Agent: DAViCalTester/public
+HEADER=Content-Type: text/vcard; charset=utf-8
+HEADER=If-None-Match: *
+HEAD
+
+BEGINDATA
+BEGIN:VCARD
+VERSION:2.1
+N;CHARSET=UTF-8:Test-Roßdeutscher;Jörg;;;
+FN;CHARSET=UTF-8:Jörg Test-Roßdeutscher
+ORG:Factor Design AG;
+EMAIL;INTERNET;WORK:joerg.rossdeutscher@factordesign.foo
+EMAIL;INTERNET;WORK:joerg@factordesign.foo
+EMAIL;INTERNET;HOME:joerg.rossdeutscher@gesindel.foo
+EMAIL;INTERNET;HOME:raettchen@gmail.bar
+TEL;WORK:040 999999432571-43
+TEL;CELL:017799999978200
+TEL;HOME:040999999793017
+ADR;WORK;CHARSET=UTF-8:;;abcStraße 58;Hamburg;;20357;Deutschland
+ADR;HOME:;;Gayens Weg 9;Hamburg;;22761;Deutschland
+NOTE;CHARSET=UTF-8:Technik\, Web\, DTP\, SysAdmin\, €-Vermögensverwalter
+URL;type=pref:www.gesindel.baz
+URL:www.factordesign.foo
+BDAY;value=date:1969-06-20
+END:VCARD
+ENDDATA
+
+QUERY
+SELECT caldav_data.dav_name, caldav_data.dav_etag,
+       version, uid, nickname, fn, n, note, org, url, fburl, caladruri, caluri
+  FROM caldav_data LEFT JOIN addressbook_resource USING(dav_id)
+  WHERE caldav_data.dav_name ~ '/user1/addressbook/Jörg_Test-Roßdeutscher_2_0.vcf'
+ENDQUERY
+
+QUERY
+SELECT 
+       type, box_no, unit_no, street_address, locality, region, postcode, country, property
+  FROM caldav_data 
+        LEFT JOIN addressbook_address_adr USING(dav_id)
+  WHERE caldav_data.dav_name ~ '/user1/addressbook/Jörg_Test-Roßdeutscher_2_0.vcf'
+  ORDER BY dav_id, property
+ENDQUERY
+
+QUERY
+SELECT 
+        addressbook_address_tel.type, addressbook_address_tel.tel
+  FROM caldav_data
+        LEFT JOIN addressbook_address_tel USING(dav_id)
+  WHERE caldav_data.dav_name ~ '/user1/addressbook/Jörg_Test-Roßdeutscher_2_0.vcf'
+  ORDER BY dav_id, property
+ENDQUERY
+
+QUERY
+SELECT 
+        addressbook_address_email.type, addressbook_address_email.email
+  FROM caldav_data
+        LEFT JOIN addressbook_address_email USING(dav_id)
+  WHERE caldav_data.dav_name ~ '/user1/addressbook/Jörg_Test-Roßdeutscher_2_0.vcf'
+  ORDER BY dav_id, property
+ENDQUERY
+
+

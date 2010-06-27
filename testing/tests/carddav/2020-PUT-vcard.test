@@ -1,0 +1,73 @@
+#
+# PUT a VCARD record into an addressbook
+#
+TYPE=PUT
+URL=http://regression.host/caldav.php/user1/addressbook/Jörg_Test-Roßdeutscher_3_0.vcf
+
+HEADER=User-Agent: DAViCalTester/public
+HEADER=Content-Type: text/vcard; charset=utf-8
+HEADER=If-None-Match: *
+HEAD
+
+BEGINDATA
+BEGIN:VCARD
+VERSION:3.0
+N:Test-Roßdeutscher;Jörg;;;
+FN:Jörg Test-Roßdeutscher
+ORG:Factor Design AG;
+EMAIL;type=INTERNET;type=WORK;type=pref:joerg.rossdeutscher@factordesign.foo
+EMAIL;type=INTERNET;type=WORK:joerg@factordesign.foo
+EMAIL;type=INTERNET;type=HOME:joerg.rossdeutscher@gesindel.foo
+EMAIL;type=INTERNET;type=HOME:raettchen@gmail.bar
+TEL;type=WORK;type=pref:040 999999432571-43
+TEL;type=CELL:017799999978200
+TEL;type=HOME:040999999793017
+item1.ADR;type=WORK;type=pref:;;abcStraße 58;Hamburg;;20357;Deutschland
+item1.X-ABADR:de
+item2.ADR;type=HOME:;;Gayens Weg 9;Hamburg;;22761;Deutschland
+item2.X-ABADR:de
+NOTE:Technik\, Web\, DTP\, SysAdmin\, €-Vermögensverwalter
+item3.URL;type=pref:www.gesindel.baz
+item3.X-ABLabel:_$!<HomePage>!$_
+item4.URL:www.factordesign.foo
+item4.X-ABLabel:_$!<HomePage>!$_
+BDAY;value=date:1969-06-20
+X-ABUID:58AB933D-81D3-4095-8CB5-A63431AC934D\:ABPerson
+END:VCARD
+ENDDATA
+
+QUERY
+SELECT caldav_data.dav_name, caldav_data.dav_etag,
+       version, uid, nickname, fn, n, note, org, url, fburl, caladruri, caluri
+  FROM caldav_data LEFT JOIN addressbook_resource USING(dav_id)
+  WHERE caldav_data.dav_name ~ '/user1/addressbook/Jörg_Test-Roßdeutscher_3_0.vcf'
+ENDQUERY
+
+QUERY
+SELECT 
+       type, box_no, unit_no, street_address, locality, region, postcode, country, property
+  FROM caldav_data 
+        LEFT JOIN addressbook_address_adr USING(dav_id)
+  WHERE caldav_data.dav_name ~ '/user1/addressbook/Jörg_Test-Roßdeutscher_3_0.vcf'
+  ORDER BY dav_id, property
+ENDQUERY
+
+QUERY
+SELECT 
+        addressbook_address_tel.type, addressbook_address_tel.tel
+  FROM caldav_data
+        LEFT JOIN addressbook_address_tel USING(dav_id)
+  WHERE caldav_data.dav_name ~ '/user1/addressbook/Jörg_Test-Roßdeutscher_3_0.vcf'
+  ORDER BY dav_id, property
+ENDQUERY
+
+QUERY
+SELECT 
+        addressbook_address_email.type, addressbook_address_email.email
+  FROM caldav_data
+        LEFT JOIN addressbook_address_email USING(dav_id)
+  WHERE caldav_data.dav_name ~ '/user1/addressbook/Jörg_Test-Roßdeutscher_3_0.vcf'
+  ORDER BY dav_id, property
+ENDQUERY
+
+
