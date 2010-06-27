@@ -1,0 +1,9 @@
+#
+# Do an OPTIONS request on a /.well-known URL for CardDAV
+TYPE=OPTIONS
+URL=http://mycaldav/caldav.php/.well-known/carddav
+
+HEADER=User-Agent: DataAccess/1.0 (8A293)
+
+NOAUTH
+HEAD
