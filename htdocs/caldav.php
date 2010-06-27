@@ -39,10 +39,10 @@ if ( isset($c->override_dav_header) ) {
 else {
   /** hack to get around bugzilla #463392 - remove sometime after 2011-02-28 */
   if ( isset($_SERVER['HTTP_USER_AGENT']) && preg_match( '{ Gecko/(20[01]\d[01]\d[0123]\d)(\d+)? }', $_SERVER['HTTP_USER_AGENT'], $matches ) && $matches[1] < 20100520 ) {
-    $dav = '1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy, bind';
+    $dav = '1, 2, 3, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy, bind, addressbook';
   }
   else {
-    $dav = '1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy, bind, calendar-auto-schedule';
+    $dav = '1, 2, 3, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule';
   }
 }
 header( 'DAV: '.$dav);
