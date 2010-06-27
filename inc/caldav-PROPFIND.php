@@ -19,12 +19,12 @@ require_once('DAVResource.php');
 $reply = new XMLDocument( array( 'DAV:' => '' ) );
 
 if ( !isset($request->xml_tags) ) {
-  $request->DoResponse( 403, translate("REPORT body contains no XML data!") );
+  $request->DoResponse( 403, translate("Request body contains no XML data!") );
 }
 $position = 0;
 $xmltree = BuildXMLTree( $request->xml_tags, $position);
 if ( !is_object($xmltree) ) {
-  $request->DoResponse( 403, translate("REPORT body is not valid XML data!") );
+  $request->DoResponse( 403, translate("Request body is not valid XML data!") );
 }
 $allprop    = $xmltree->GetPath('/DAV::propfind/*');
 $property_list = array();
@@ -217,10 +217,10 @@ if ( $request->IsProxyRequest() ) {
 }
 else {
   $resource = new DAVResource($request->path);
-  $resource->NeedPrivilege('DAV::read');
   if ( ! $resource->Exists() ) {
     $request->DoResponse( 404, translate('That resource is not present on this server.') );
   }
+  $resource->NeedPrivilege('DAV::read');
   if ( $resource->IsCollection() ) {
     dbg_error_log('PROPFIND','Getting collection contents: Depth %d, Path: %s', $request->depth, $resource->dav_name() );
     $responses[] = $resource->RenderAsXML($property_list, $reply);
