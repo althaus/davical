@@ -25,6 +25,12 @@ $lock_opener = $request->FailIfLocked();
 $dest = new DAVResource($request->path);
 
 $container = $dest->FetchParentContainer();
+if ( $container->IsCalendar() ) {
+  $request->DoResponse( 409, translate('Incorrect content type for calendar: ') . $request->content_type );
+}
+else if ( $container->IsAddressbook() ) {
+  $request->DoResponse( 409, translate('Incorrect content type for addressbook: ') . $request->content_type );
+}
 if ( ! $dest->Exists() ) {
   if ( $container->IsPrincipal() ) {
     $request->DoResponse(403,translate('A DAViCal principal collection may only contain collections'));
