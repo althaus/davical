@@ -1,10 +1,11 @@
-HTTP/1.1 204 No Content
+HTTP/1.1 412 Precondition Failed
 Date: Dow, 01 Jan 2000 00:00:00 GMT
-DAV: 1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy, bind, calendar-auto-schedule
-Content-Length: 0
-Content-Type: text/plain; charset="utf-8"
+DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
+DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
+Content-Length: 178
+Content-Type: text/xml; charset="utf-8"
 
-
-         dav_etag: >a83ff0ef143f108d2062c8534506d801<
-         dav_name: >/user1/addressbook/strumar_and_beren.txt<
-
+<?xml version="1.0" encoding="utf-8" ?>
+<error xmlns="DAV:">
+  <urn:ietf:params:xml:ns:carddav:supported-address-data/>Incorrect content type for addressbook: text/plain
+</error>

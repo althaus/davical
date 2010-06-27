@@ -1,0 +1,53 @@
+HTTP/1.1 201 Created
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
+DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
+Content-Length: 0
+Content-Type: text/plain; charset="utf-8"
+
+
+        caladruri: >NULL<
+           caluri: >NULL<
+         dav_etag: >5a32961b9938a7d6a354a757a8a1ea36<
+         dav_name: >/user1/addressbook/Jörg_Test-Roßdeutscher_3_0.vcf<
+            fburl: >NULL<
+               fn: >Jörg Test-Roßdeutscher<
+                n: >Test-Roßdeutscher;Jörg;;;<
+         nickname: >NULL<
+             note: >Technik, Web, DTP, SysAdmin, €-Vermögensverwalter<
+              org: >Factor Design AG;<
+              uid: >NULL<
+              url: >NULL<
+          version: >3.0<
+
+           box_no: >NULL<
+          country: >NULL<
+         locality: >NULL<
+         postcode: >NULL<
+         property: >NULL<
+           region: >NULL<
+   street_address: >NULL<
+             type: >NULL<
+          unit_no: >NULL<
+
+              tel: >17799999978200<
+             type: >CELL<
+
+              tel: >40999999793017<
+             type: >HOME<
+
+              tel: >040 999999432571-43<
+             type: >pref<
+
+            email: >joerg.rossdeutscher@gesindel.foo<
+             type: >HOME<
+
+            email: >raettchen@gmail.bar<
+             type: >HOME<
+
+            email: >joerg@factordesign.foo<
+             type: >WORK<
+
+            email: >joerg.rossdeutscher@factordesign.foo<
+             type: >pref<
+

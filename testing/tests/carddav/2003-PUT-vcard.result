@@ -2,14 +2,15 @@ HTTP/1.1 100 Continue
 
 HTTP/1.1 201 Created
 Date: Dow, 01 Jan 2000 00:00:00 GMT
-DAV: 1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy, bind, calendar-auto-schedule
+DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
+DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
 Content-Length: 0
 Content-Type: text/plain; charset="utf-8"
 
 
         caladruri: >mailto:andrew@morphoss.com<
            caluri: >https://dotcal.com/karora<
-         dav_etag: >cd185c7dd9bf18bcfcec4190442f2113<
+         dav_etag: >24bae2a7f81c0a79413a656c06d8326b<
          dav_name: >/user1/addressbook/andrew_mcmillan.vcf<
             fburl: >https://davical.morphoss.com/freebusy.php/andrew@morphoss.com<
                fn: >Andrew Watson McMillan<

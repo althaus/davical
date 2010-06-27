@@ -1,0 +1,6 @@
+HTTP/1.1 302 Found
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+Location: /caldav.php/
+Content-Length: 0
+Content-Type: text/html
+

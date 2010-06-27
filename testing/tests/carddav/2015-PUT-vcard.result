@@ -1,0 +1,69 @@
+HTTP/1.1 200 OK
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
+DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
+Content-Length: 381
+Content-Type: text/html
+
+
+Notice: Undefined offset: 6 in /home/andrew/projects/davical/inc/vcard.php on line 101
+
+Notice: Undefined offset: 6 in /home/andrew/projects/davical/inc/vcard.php on line 101
+
+Warning: Cannot modify header information - headers already sent by (output started at /home/andrew/projects/davical/inc/vcard.php:101) in /home/andrew/projects/davical/inc/CalDAVRequest.php on line 1151
+
+        caladruri: >NULL<
+           caluri: >NULL<
+         dav_etag: >d43780719361367f2d690f1f966e3da1<
+         dav_name: >/user1/addressbook/van_houtte.vcf<
+            fburl: >NULL<
+               fn: >Vincent VAN HOUTTE<
+                n: >VAN HOUTTE;Vincent;;Dhr.;<
+         nickname: >NULL<
+             note: >NULL<
+              org: >Advocatenkantoor Suy, Van Baeveghem & Van Houtte;;<
+              uid: >NULL<
+              url: >NULL<
+          version: >3.0<
+
+           box_no: ><
+          country: >NULL<
+         locality: >DENDERMONDE<
+         postcode: >B-9200<
+         property: >ADR;TYPE=HOME:;;Brusselsestraat 108;DENDERMONDE;;B-9200<
+           region: ><
+   street_address: >Brusselsestraat 108<
+             type: >HOME<
+          unit_no: ><
+
+           box_no: ><
+          country: >NULL<
+         locality: >DENDERMONDE<
+         postcode: >B-9200<
+         property: >ADR;TYPE=WORK:;;Brusselsestraat 108;DENDERMONDE;;B-9200<
+           region: ><
+   street_address: >Brusselsestraat 108<
+             type: >WORK<
+          unit_no: ><
+
+              tel: >0486 11 22 33<
+             type: >CELL,VOICE<
+
+              tel: >052 44 55 66<
+             type: >HOME,FAX<
+
+              tel: >052 11 22 33<
+             type: >HOME,VOICE<
+
+              tel: >052 44 55 66<
+             type: >WORK,FAX<
+
+              tel: >052 11 22 33<
+             type: >WORK,VOICE<
+
+            email: >vvh@gmail.no<
+             type: >HOME<
+
+            email: >vvh@gmail.no<
+             type: >WORK<
+

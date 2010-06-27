@@ -1,32 +1,18 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
-DAV: 1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy, bind, calendar-auto-schedule
-ETag: "9f618233815d1c8503830b64c28a36ae"
-Content-Length: 5164
+DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
+DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
+ETag: "87ab9b65008470d67893424808e1c0b4"
+Content-Length: 2266
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
 <multistatus xmlns="DAV:" xmlns:VC="urn:ietf:params:xml:ns:carddav">
  <response>
-  <href>/caldav.php/user1/addressbook/strumar_and_beren.txt</href>
-  <propstat>
-   <prop>
-    <getetag>"a83ff0ef143f108d2062c8534506d801"</getetag>
-   </prop>
-   <status>HTTP/1.1 200 OK</status>
-  </propstat>
-  <propstat>
-   <prop>
-    <address-data/>
-   </prop>
-   <status>HTTP/1.1 404 Not Found</status>
-  </propstat>
- </response>
- <response>
   <href>/caldav.php/user1/addressbook/andrew_mcmillan.vcf</href>
   <propstat>
    <prop>
-    <getetag>"cd185c7dd9bf18bcfcec4190442f2113"</getetag>
+    <getetag>"24bae2a7f81c0a79413a656c06d8326b"</getetag>
     <VC:address-data>BEGIN:VCARD
 VERSION:3.0
 REV:2010-03-29T09:23:34Z
@@ -38,41 +24,6 @@ TEL;X-EVOLUTION-UI-SLOT=2;TYPE=HOME,VOICE:+64 4 123 4567
 TEL;X-EVOLUTION-UI-SLOT=1;TYPE=WORK,VOICE:+64 22 123 4567
 EMAIL;X-EVOLUTION-UI-SLOT=2;TYPE=HOME:andrew@mcmillan.net.nz
 EMAIL;X-EVOLUTION-UI-SLOT=1;TYPE=WORK:andrew@morphoss.com
-PHOTO;BASE64;ENCODING=b;TYPE="X-EV-UNKNOWN":/9j/4AAQSkZJRgABAQEASABIAAD//gA
- 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
- ug5Hqc7Lmwfc//Z
 LABEL;TYPE=HOME:16 Kaka Place\nPorikana\n4173\nNew Zealand
 ADR;TYPE=HOME:;;16 Kaka Place;Porikana;;4173;New Zealand
 X-MOZILLA-HTML:FALSE
@@ -106,7 +57,7 @@ END:VCARD
   <href>/caldav.php/user1/addressbook/donald_kelly.vcf</href>
   <propstat>
    <prop>
-    <getetag>"593d82b1c3830ed3aaef2b8293452275"</getetag>
+    <getetag>"fada70a725708bce8521efb87acfa629"</getetag>
     <VC:address-data>begin:vcard
 fn:Donald Kelly
 n:Kelly;Donald;;;

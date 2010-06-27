@@ -1,6 +1,6 @@
 HTTP/1.1 100 Continue
 
-HTTP/1.1 204 No Content
+HTTP/1.1 201 Created
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
@@ -10,15 +10,15 @@ Content-Type: text/plain; charset="utf-8"
 
         caladruri: >NULL<
            caluri: >NULL<
-         dav_etag: >0ea4d7759e103090c6494505b5da0f11<
-         dav_name: >/user1/addressbook/F06EC844-EACD-4ADF-8823-588603991E04-ABSPlugin.vcf<
+         dav_etag: >e67537e9d473e93911eccd6e63e9ac3a<
+         dav_name: >/user1/addressbook/mustrmahn.vcf<
             fburl: >NULL<
-               fn: >Morphoss Ltd<
-                n: >McMillan;Andrew;;;<
-         nickname: >NULL<
-             note: >NULL<
-              org: >Morphoss Ltd;<
-              uid: >F26B8512-45DA-49ED-B285-23E64B0A68D1-ABSPlugin<
+               fn: >Überwerbung GmbH<
+                n: >Mustermann;Anton;Karl;Dr.;<
+         nickname: >Boss<
+             note: >Test vCard<
+              org: >Überwerbung GmbH;Marketing<
+              uid: >NULL<
               url: >NULL<
           version: >3.0<
 
@@ -32,9 +32,12 @@ Content-Type: text/plain; charset="utf-8"
              type: >NULL<
           unit_no: >NULL<
 
-              tel: >64272332426<
+              tel: >+49 172 1234567<
+             type: >CELL<
+
+              tel: >+49 30 1234567<
              type: >pref<
 
-            email: >andrew+davical@morphoss.com<
+            email: >karl@mustermann.de<
              type: >pref<
 

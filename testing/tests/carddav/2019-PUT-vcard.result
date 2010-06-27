@@ -1,0 +1,63 @@
+HTTP/1.1 201 Created
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
+DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
+Content-Length: 0
+Content-Type: text/plain; charset="utf-8"
+
+
+        caladruri: >NULL<
+           caluri: >NULL<
+         dav_etag: >feaa1a28c9942fc56403e2f97f75171b<
+         dav_name: >/user1/addressbook/Jörg_Test-Roßdeutscher_2_0.vcf<
+            fburl: >NULL<
+               fn: >Jörg Test-Roßdeutscher<
+                n: >Test-Roßdeutscher;Jörg;;;<
+         nickname: >NULL<
+             note: >Technik, Web, DTP, SysAdmin, €-Vermögensverwalter<
+              org: >Factor Design AG;<
+              uid: >NULL<
+              url: >www.gesindel.baz<
+          version: >2.1<
+
+           box_no: ><
+          country: >Deutschland<
+         locality: >Hamburg<
+         postcode: >22761<
+         property: >ADR;HOME:;;Gayens Weg 9;Hamburg;;22761;Deutschland<
+           region: ><
+   street_address: >Gayens Weg 9<
+             type: >NULL<
+          unit_no: ><
+
+           box_no: ><
+          country: >Deutschland<
+         locality: >Hamburg<
+         postcode: >20357<
+         property: >ADR;WORK;CHARSET=UTF-8:;;abcStraße 58;Hamburg;;20357;Deutschland<
+           region: ><
+   street_address: >abcStraße 58<
+             type: >NULL<
+          unit_no: ><
+
+              tel: >17799999978200<
+             type: >voice<
+
+              tel: >40999999793017<
+             type: >voice<
+
+              tel: >040 999999432571-43<
+             type: >voice<
+
+            email: >joerg.rossdeutscher@gesindel.foo<
+             type: >NULL<
+
+            email: >raettchen@gmail.bar<
+             type: >NULL<
+
+            email: >joerg@factordesign.foo<
+             type: >NULL<
+
+            email: >joerg.rossdeutscher@factordesign.foo<
+             type: >NULL<
+

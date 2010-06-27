@@ -1,0 +1,159 @@
+HTTP/1.1 100 Continue
+
+HTTP/1.1 200 OK
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
+DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
+Content-Length: 381
+Content-Type: text/html
+
+
+Notice: Undefined offset: 6 in /home/andrew/projects/davical/inc/vcard.php on line 101
+
+Notice: Undefined offset: 6 in /home/andrew/projects/davical/inc/vcard.php on line 101
+
+Warning: Cannot modify header information - headers already sent by (output started at /home/andrew/projects/davical/inc/vcard.php:101) in /home/andrew/projects/davical/inc/CalDAVRequest.php on line 1151
+
+        caladruri: >http://caldav.andresen.local/access<
+           caluri: >http://caldav.andresen.local/sja<
+         dav_etag: >f6ae02ec1b5612fe4737092734d062c7<
+         dav_name: >/user1/addressbook/andresenesq.vcf<
+            fburl: >http://caldav.andresen.local/freebusy<
+               fn: >Sven Joseph Klaus Michael Andresen, Esq.<
+                n: >Andresen,Esq.;Sven;Joseph,Klaus,Michael;;Dr.,Prof.;Esq.<
+         nickname: >Svenny,Sveny<
+             note: >Nur so ein Test!<
+              org: >andresen AG;R&D;;XXX, 033<
+              uid: >uid=andresenesq.1209158007,ou=Contacts,dc=andresen,dc=de<
+              url: >http://www.andresen.de<
+          version: >4.0<
+
+           box_no: ><
+          country: >NULL<
+         locality: >Irgendwo<
+         postcode: >34332<
+         property: >ADR;TYPE=HOME;CHARSET=utf-8:;;Weisenstraße 13\r;Irgendwo;;34332<
+           region: ><
+   street_address: >Weisenstraße 13\r<
+             type: >HOME<
+          unit_no: ><
+
+           box_no: >6266 AA<
+          country: >NULL<
+         locality: >Irgendwo<
+         postcode: >34332<
+         property: >ADR;TYPE=WORK;CHARSET=utf-8:6266 AA\;andresen Holding\, 
+ Geschäftsleitung\;Weisenstraße 13\;Irgendwo\;Niedersachsen\;34332<
+           region: >Niedersachsen<
+   street_address: >Weisenstraße 13<
+             type: >WORK<
+          unit_no: >andresen Holding, Geschäftsleitung<
+
+           box_no: >PO 373<
+          country: >Deutschland<
+         locality: >Passau<
+         postcode: >94036<
+         property: >ADR;TYPE=WORK;CHARSET=utf-8:PO 373\;Andresen AG\, R&D\;Messegasse 
+ 7\;Passau\;Bayern\;94036\;Deutschland<
+           region: >Bayern<
+   street_address: >Messegasse 7<
+             type: >WORK<
+          unit_no: >Andresen AG, R&D<
+
+           box_no: ><
+          country: >Antarktis<
+         locality: >Nirgendwo<
+         postcode: >0<
+         property: >ADR;TYPE=X-OTHER:;;Irgendwo;Nirgendwo;Sonstwo;0000;Antarktis<
+           region: >Sonstwo<
+   street_address: >Irgendwo<
+             type: >X-OTHER<
+          unit_no: ><
+
+              tel: >+49 8292 38 383<
+             type: >CAR,VOICE<
+
+              tel: >+49 39292 82<
+             type: >CELL,VOICE<
+
+              tel: >+49 7272 722<
+             type: >CELL,VOICE<
+
+              tel: >+49 1010 1<
+             type: >HOME,FAX<
+
+              tel: >+49 7272 7282<
+             type: >HOME,VOICE<
+
+              tel: >+49 7327 272 727<
+             type: >HOME,VOICE<
+
+              tel: >8797<
+             type: >ISDN<
+
+              tel: >98732947234<
+             type: >ISDN<
+
+              tel: >+49 6237 623 723 84 76<
+             type: >MAIN<
+
+              tel: >+49 9324 32 479 234234<
+             type: >MAIN<
+
+              tel: >+49 7363 6363<
+             type: >MODEM<
+
+              tel: >+49 8383 73 723<
+             type: >MODEM<
+
+              tel: >+49 160 073 727 272<
+             type: >PAGER<
+
+              tel: >+49 2626 26<
+             type: >PAGER<
+
+              tel: >+49 12 34 567<
+             type: >PREF,VOICE<
+
+              tel: >+49 7373 73<
+             type: >WORK,FAX<
+
+              tel: >+49 234 222 222<
+             type: >WORK,VOICE<
+
+              tel: >+49 89 11 11 111<
+             type: >WORK,VOICE<
+
+              tel: >+49 88 298 723 498 32<
+             type: >X-EVOLUTION-RADIO<
+
+              tel: >+49 9872 394 872 34<
+             type: >X-EVOLUTION-RADIO<
+
+              tel: >+49 2763 382 882 28 82<
+             type: >X-EVOLUTION-TELEX<
+
+              tel: >+49 7722 88 28 282<
+             type: >X-EVOLUTION-TELEX<
+
+              tel: >+49 7363 6363<
+             type: >voice<
+
+              tel: >+49 8383 73 723<
+             type: >voice<
+
+              tel: >+49 3377 37 373<
+             type: >voice<
+
+              tel: >+49 8378 33<
+             type: >voice<
+
+              tel: >13355<
+             type: >voice<
+
+            email: >andresen@andresen.de<
+             type: >INTERNET<
+
+            email: >sven@andresen.de<
+             type: >INTERNET<
+

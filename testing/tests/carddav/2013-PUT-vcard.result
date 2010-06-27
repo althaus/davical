@@ -1,13 +1,14 @@
 HTTP/1.1 201 Created
 Date: Dow, 01 Jan 2000 00:00:00 GMT
-DAV: 1, 2, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy, bind, calendar-auto-schedule
+DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
+DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
 Content-Length: 0
 Content-Type: text/plain; charset="utf-8"
 
 
         caladruri: >NULL<
            caluri: >NULL<
-         dav_etag: >1e88f301c87218b715a3d4be81a14337<
+         dav_etag: >3419498c6e5eae71dc1704f1787faf1c<
          dav_name: >/user1/addressbook/F06EC844-EACD-4ADF-8823-588603991E04-ABSPlugin.vcf<
             fburl: >NULL<
                fn: >Morphoss Ltd<

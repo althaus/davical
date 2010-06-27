@@ -1,0 +1,136 @@
+HTTP/1.1 100 Continue
+
+HTTP/1.1 200 OK
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
+DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
+Content-Length: 643
+Content-Type: text/html
+
+
+Notice: Undefined offset: 6 in /home/andrew/projects/davical/inc/vcard.php on line 101
+
+Notice: Undefined offset: 3 in /home/andrew/projects/davical/inc/vcard.php on line 98
+
+Notice: Undefined offset: 4 in /home/andrew/projects/davical/inc/vcard.php on line 99
+
+Notice: Undefined offset: 5 in /home/andrew/projects/davical/inc/vcard.php on line 100
+
+Notice: Undefined offset: 6 in /home/andrew/projects/davical/inc/vcard.php on line 101
+
+Warning: Cannot modify header information - headers already sent by (output started at /home/andrew/projects/davical/inc/vcard.php:101) in /home/andrew/projects/davical/inc/CalDAVRequest.php on line 1151
+
+        caladruri: >http://davical.hadi-schmist.home/access<
+           caluri: >http://davical.hadi-schmist.home/hadi<
+         dav_etag: >db3e92c0ae37268c647949367e2030cc<
+         dav_name: >/user1/addressbook/hans_dieter.vcf<
+            fburl: >http://davical.hadi-schmist.home/freebusy<
+               fn: >Hans Dieter Schmidt<
+                n: >Schmidt;Hans Dieter;;Dr.;Esq.<
+         nickname: >HaWe<
+             note: >NULL<
+              org: >Uni Harburg;;;033<
+              uid: >uid=schmidt.1208717693,ou=Contacts,dc=andresen,dc=de<
+              url: >http://www.tu-hh.de<
+          version: >4.0<
+
+           box_no: ><
+          country: >NULL<
+         locality: >Irgendwo<
+         postcode: >33443<
+         property: >ADR;TYPE=HOME;CHARSET=utf-8:;;Weisestraße 13\r;Irgendwo;;33443<
+           region: ><
+   street_address: >Weisestraße 13\r<
+             type: >HOME<
+          unit_no: ><
+
+           box_no: ><
+          country: >Deutschland<
+         locality: >Hamburg-Harburg<
+         postcode: >21373<
+         property: >ADR;TYPE=WORK;CHARSET=utf-8:\;Uni Harburg\, -\;Innstraße 
+ 71\;Hamburg-Harburg\;Hamburg\;21373\;Deutschland<
+           region: >Hamburg<
+   street_address: >Innstraße 71<
+             type: >WORK<
+          unit_no: >Uni Harburg, -<
+
+           box_no: ><
+          country: >NULL<
+         locality: >NULL<
+         postcode: >NULL<
+         property: >ADR;TYPE=X-OTHER:;;Nirgendwo<
+           region: >NULL<
+   street_address: >Nirgendwo<
+             type: >X-OTHER<
+          unit_no: ><
+
+              tel: >+49 8292 38 383<
+             type: >CAR,VOICE<
+
+              tel: >+49 7272 722<
+             type: >CELL,VOICE<
+
+              tel: >+49 40 812 387 21<
+             type: >HOME,FAX<
+
+              tel: >+49 7327 272 727<
+             type: >HOME,VOICE<
+
+              tel: >4234234235<
+             type: >ISDN<
+
+              tel: >98732947234<
+             type: >ISDN<
+
+              tel: >+49 6237 623 723 84 76<
+             type: >MAIN<
+
+              tel: >+49 9324 32 479 234234<
+             type: >MAIN<
+
+              tel: >+49 8383 73 723<
+             type: >MODEM<
+
+              tel: >+49 2626 26<
+             type: >PAGER<
+
+              tel: >+49 12 34 567<
+             type: >PREF,VOICE<
+
+              tel: >+49 7373 73<
+             type: >WORK,FAX<
+
+              tel: >+49 234 234 234<
+             type: >WORK,VOICE<
+
+              tel: >+49 9823 9084<
+             type: >WORK,VOICE<
+
+              tel: >+49 9872 349 832<
+             type: >X-EVOLUTION-RADIO<
+
+              tel: >+49 9872 394 872 34<
+             type: >X-EVOLUTION-RADIO<
+
+              tel: >+49 38 288 228 82<
+             type: >X-EVOLUTION-TELEX<
+
+              tel: >+49 7722 88 28 282<
+             type: >X-EVOLUTION-TELEX<
+
+              tel: >+49 8383 73 723<
+             type: >voice<
+
+              tel: >+49 7373 73<
+             type: >voice<
+
+              tel: >+49 8378 33<
+             type: >voice<
+
+            email: >hadi@telekom-d.de<
+             type: >INTERNET<
+
+            email: >ich@hadi-schmidt.de<
+             type: >INTERNET<
+
