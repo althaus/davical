@@ -29,23 +29,31 @@ require_once('./always.php');
 require_once('HTTPAuthSession.php');
 $session = new HTTPAuthSession();
 
-/**
-* access-control is rfc3744, we do some of it, but no way to say that.
-* calendar-schedule is another one we do some of, but the spec is not final yet either.
-*/
-if ( isset($c->override_dav_header) ) {
-  $dav = $c->override_dav_header;
-}
-else {
-  /** hack to get around bugzilla #463392 - remove sometime after 2011-02-28 */
-  if ( isset($_SERVER['HTTP_USER_AGENT']) && preg_match( '{ Gecko/(20[01]\d[01]\d[0123]\d)(\d+)? }', $_SERVER['HTTP_USER_AGENT'], $matches ) && $matches[1] < 20100520 ) {
-    $dav = '1, 2, 3, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy, bind, addressbook';
+function send_dav_header() {
+  global $c;
+
+  /**
+  * access-control is rfc3744, we do most of it, but no way to say that.
+  * calendar-schedule is another one we do most of, but the spec is not final yet either.
+  */
+  if ( isset($c->override_dav_header) ) {
+    $dav = $c->override_dav_header;
   }
   else {
-    $dav = '1, 2, 3, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule';
+    /** hack to get around bugzilla #463392 - remove sometime after 2011-02-28 */
+    if ( isset($_SERVER['HTTP_USER_AGENT']) && preg_match( '{ Gecko/(20[01]\d[01]\d[0123]\d)(\d+)? }', $_SERVER['HTTP_USER_AGENT'], $matches ) && $matches[1] < 20100520 ) {
+      $dav = '1, 2, 3, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy, bind, addressbook';
+    }
+    else {
+      $dav = '1, 2, 3, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule';
+    }
+  }
+  $dav = explode( "\n", wordwrap( $dav ) );
+  foreach( $dav AS $v ) {
+    header( 'DAV: '.trim($v, ', '), false);
   }
 }
-header( 'DAV: '.$dav);
+send_dav_header();  // Avoid polluting global namespace
 
 require_once('CalDAVRequest.php');
 $request = new CalDAVRequest();
