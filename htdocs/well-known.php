@@ -1,4 +1,4 @@
-<?
+<?php
 
 require_once('./always.php');
 
@@ -7,11 +7,21 @@ dbg_error_log( 'well-known', 'iSchedule requested' );
 require_once('HTTPAuthSession.php');
 $c->allow_unauthenticated = true;
 $session = new HTTPAuthSession();
-if ( ! isset ( $request ) )
-{
+
+if ( ! isset ( $request ) ) {
  require_once('CalDAVRequest.php');
  $request = new CalDAVRequest();
 }
+
+
+switch ( $request->path ) {
+  case '/.well-known/caldav':
+  case '/.well-known/carddav':
+    header('Location: ' . ConstructURL('/',true) );
+    exit(0);
+}
+
+
 
 if ( $c->enable_scheduling != true )
 {
