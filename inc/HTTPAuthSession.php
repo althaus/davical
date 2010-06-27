@@ -250,7 +250,7 @@ class HTTPAuthSession {
   * @return boolean Whether or not the user has the specified role.
   */
   function AllowedTo ( $whatever ) {
-    return ( $this->logged_in && isset($this->roles[$whatever]) && $this->roles[$whatever] );
+    return ( isset($this->logged_in) && $this->logged_in && isset($this->roles[$whatever]) && $this->roles[$whatever] );
   }
 
 
