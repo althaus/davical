@@ -41,30 +41,6 @@
      <privilege>
       <unbind/>
      </privilege>
-     <privilege>
-      <C:schedule-deliver/>
-     </privilege>
-     <privilege>
-      <C:schedule-deliver-invite/>
-     </privilege>
-     <privilege>
-      <C:schedule-deliver-reply/>
-     </privilege>
-     <privilege>
-      <C:schedule-query-freebusy/>
-     </privilege>
-     <privilege>
-      <C:schedule-send/>
-     </privilege>
-     <privilege>
-      <C:schedule-send-invite/>
-     </privilege>
-     <privilege>
-      <C:schedule-send-reply/>
-     </privilege>
-     <privilege>
-      <C:schedule-send-freebusy/>
-     </privilege>
     </current-user-privilege-set>
     <TKT:ticketdiscovery>
      <TKT:ticketinfo>
@@ -78,7 +54,6 @@
        <read/>
        <read-current-user-privilege-set/>
        <C:read-free-busy/>
-       <C:schedule-query-freebusy/>
       </privilege>
      </TKT:ticketinfo>
     </TKT:ticketdiscovery>

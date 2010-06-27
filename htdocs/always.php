@@ -413,6 +413,7 @@ function DateToISODate( $indate ) {
 * @return integer A bit mask of the privileges.
 */
 define("DAVICAL_MAXPRIV", "65535");
+define("DAVICAL_ADDRESSBOOK_MAXPRIV", "1023");
 function privilege_to_bits( $raw_privs ) {
   $out_priv = 0;
 
@@ -452,7 +453,7 @@ function privilege_to_bits( $raw_privs ) {
   }
 
   // 'all' will include future privileges
-  if ( $out_priv >= DAVICAL_MAXPRIV ) $out_priv = pow(2,24) - 1;
+  if ( ($out_priv & DAVICAL_MAXPRIV) >= DAVICAL_MAXPRIV ) $out_priv = pow(2,24) - 1;
   return $out_priv;
 }
 
@@ -463,7 +464,7 @@ function privilege_to_bits( $raw_privs ) {
 * @param integer $raw_bits A bit mask of the privileges.
 * @return mixed The string (or array of strings) of privilege names
 */
-function bits_to_privilege( $raw_bits ) {
+function bits_to_privilege( $raw_bits, $resourcetype = 'calendar' ) {
   $out_priv = array();
 
   if ( is_string($raw_bits) ) {
@@ -477,7 +478,7 @@ function bits_to_privilege( $raw_bits ) {
   if ( ($raw_bits &  16) != 0 ) $out_priv[] = 'DAV::read-acl';
   if ( ($raw_bits &  32) != 0 ) $out_priv[] = 'DAV::read-current-user-privilege-set';
   if ( ($raw_bits & 256) != 0 ) $out_priv[] = 'DAV::write-acl';
-  if ( ($raw_bits & 512) != 0 ) $out_priv[] = 'urn:ietf:params:xml:ns:caldav:read-free-busy';
+  if ( ($resourcetype == 'calendar' || $resourcetype == 'proxy') && ($raw_bits & 512) != 0 ) $out_priv[] = 'urn:ietf:params:xml:ns:caldav:read-free-busy';
 
   if ( ($raw_bits & 198) != 0 ) {
     if ( ($raw_bits & 198) == 198 ) $out_priv[] = 'DAV::write';
@@ -487,14 +488,14 @@ function bits_to_privilege( $raw_bits ) {
     if ( ($raw_bits & 128) != 0 ) $out_priv[] = 'DAV::unbind';
   }
 
-  if ( ($raw_bits & 7168) != 0 ) {
+  if ( $resourcetype == 'schedule-inbox' && ($raw_bits & 7168) != 0 ) {
     if ( ($raw_bits & 7168) == 7168 ) $out_priv[] = 'urn:ietf:params:xml:ns:caldav:schedule-deliver';
     if ( ($raw_bits & 1024) != 0 ) $out_priv[] = 'urn:ietf:params:xml:ns:caldav:schedule-deliver-invite';
     if ( ($raw_bits & 2048) != 0 ) $out_priv[] = 'urn:ietf:params:xml:ns:caldav:schedule-deliver-reply';
     if ( ($raw_bits & 4096) != 0 ) $out_priv[] = 'urn:ietf:params:xml:ns:caldav:schedule-query-freebusy';
   }
 
-  if ( ($raw_bits & 57344) != 0 ) {
+  if ( $resourcetype == 'schedule-outbox' && ($raw_bits & 57344) != 0 ) {
     if ( ($raw_bits & 57344) == 57344 ) $out_priv[] = 'urn:ietf:params:xml:ns:caldav:schedule-send';
     if ( ($raw_bits &  8192) != 0 ) $out_priv[] = 'urn:ietf:params:xml:ns:caldav:schedule-send-invite';
     if ( ($raw_bits & 16384) != 0 ) $out_priv[] = 'urn:ietf:params:xml:ns:caldav:schedule-send-reply';

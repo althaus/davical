@@ -14,9 +14,6 @@
      <privilege>
       <C:read-free-busy/>
      </privilege>
-     <privilege>
-      <C:schedule-query-freebusy/>
-     </privilege>
     </current-user-privilege-set>
     <W:ticketdiscovery/>
    </prop>

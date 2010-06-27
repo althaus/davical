@@ -33,30 +33,6 @@
      <privilege>
       <unbind/>
      </privilege>
-     <privilege>
-      <C:schedule-deliver/>
-     </privilege>
-     <privilege>
-      <C:schedule-deliver-invite/>
-     </privilege>
-     <privilege>
-      <C:schedule-deliver-reply/>
-     </privilege>
-     <privilege>
-      <C:schedule-query-freebusy/>
-     </privilege>
-     <privilege>
-      <C:schedule-send/>
-     </privilege>
-     <privilege>
-      <C:schedule-send-invite/>
-     </privilege>
-     <privilege>
-      <C:schedule-send-reply/>
-     </privilege>
-     <privilege>
-      <C:schedule-send-freebusy/>
-     </privilege>
     </current-user-privilege-set>
    </prop>
    <status>HTTP/1.1 200 OK</status>

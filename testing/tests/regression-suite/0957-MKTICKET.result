@@ -1,9 +1,10 @@
 HTTP/1.1 200 OK
 Date: Dow, 01 Jan 2000 00:00:00 GMT
-DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
+DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
+DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
 Ticket:Good Ticket ID
 ETag: "Some good etag"
-Content-Length: 618
+Content-Length: 585
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -23,7 +24,6 @@ Content-Type: text/xml; charset="utf-8"
     <write-content/>
     <bind/>
     <unbind/>
-    <C:schedule-query-freebusy/>
    </privilege>
    <T:timeout>infinity</T:timeout>
    <T:visits>infinity</T:visits>

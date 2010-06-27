@@ -1,12 +1,13 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
-DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
-ETag: "f77289f499b29c349a55dfa7c887f41a"
-Content-Length: 3279
+DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
+DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
+ETag: "47b370190326c7940b29c0231e7d9ed1"
+Content-Length: 2304
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
-<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
+<multistatus xmlns="DAV:">
  <response>
   <href>/caldav.php/</href>
   <propstat>
@@ -38,9 +39,6 @@ Content-Type: text/xml; charset="utf-8"
         <write-acl/>
        </privilege>
        <privilege>
-        <C:read-free-busy/>
-       </privilege>
-       <privilege>
         <write/>
        </privilege>
        <privilege>
@@ -54,30 +52,6 @@ Content-Type: text/xml; charset="utf-8"
        </privilege>
        <privilege>
         <unbind/>
-       </privilege>
-       <privilege>
-        <C:schedule-deliver/>
-       </privilege>
-       <privilege>
-        <C:schedule-deliver-invite/>
-       </privilege>
-       <privilege>
-        <C:schedule-deliver-reply/>
-       </privilege>
-       <privilege>
-        <C:schedule-query-freebusy/>
-       </privilege>
-       <privilege>
-        <C:schedule-send/>
-       </privilege>
-       <privilege>
-        <C:schedule-send-invite/>
-       </privilege>
-       <privilege>
-        <C:schedule-send-reply/>
-       </privilege>
-       <privilege>
-        <C:schedule-send-freebusy/>
        </privilege>
       </grant>
      </ace>
@@ -90,9 +64,6 @@ Content-Type: text/xml; charset="utf-8"
         <read/>
        </privilege>
        <privilege>
-        <C:read-free-busy/>
-       </privilege>
-       <privilege>
         <write/>
        </privilege>
        <privilege>
@@ -107,9 +78,6 @@ Content-Type: text/xml; charset="utf-8"
        <privilege>
         <unbind/>
        </privilege>
-       <privilege>
-        <C:schedule-query-freebusy/>
-       </privilege>
       </grant>
      </ace>
      <ace>
@@ -119,12 +87,6 @@ Content-Type: text/xml; charset="utf-8"
       <grant>
        <privilege>
         <read/>
-       </privilege>
-       <privilege>
-        <C:read-free-busy/>
-       </privilege>
-       <privilege>
-        <C:schedule-query-freebusy/>
        </privilege>
       </grant>
      </ace>

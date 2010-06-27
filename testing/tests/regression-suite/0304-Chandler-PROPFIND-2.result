@@ -1,8 +1,9 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
-DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
-ETag: "7db106b1d8af7d7dbc29599051f440b6"
-Content-Length: 1757
+DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
+DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
+ETag: "53e2a5d2cabcd630996fc1f50f0bf094"
+Content-Length: 1223
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -47,30 +48,6 @@ Content-Type: text/xml; charset="utf-8"
      </privilege>
      <privilege>
       <unbind/>
-     </privilege>
-     <privilege>
-      <C:schedule-deliver/>
-     </privilege>
-     <privilege>
-      <C:schedule-deliver-invite/>
-     </privilege>
-     <privilege>
-      <C:schedule-deliver-reply/>
-     </privilege>
-     <privilege>
-      <C:schedule-query-freebusy/>
-     </privilege>
-     <privilege>
-      <C:schedule-send/>
-     </privilege>
-     <privilege>
-      <C:schedule-send-invite/>
-     </privilege>
-     <privilege>
-      <C:schedule-send-reply/>
-     </privilege>
-     <privilege>
-      <C:schedule-send-freebusy/>
      </privilege>
     </current-user-privilege-set>
     <resourcetype>

@@ -665,7 +665,7 @@ EOQRY;
   function BuildPrivileges( $privilege_names=null, &$xmldoc=null ) {
     if ( $privilege_names == null ) {
       if ( !isset($this->privileges) ) $this->FetchPrivileges();
-      $privilege_names = bits_to_privilege($this->privileges);
+      $privilege_names = bits_to_privilege($this->privileges, ($this->_is_collection ? $this->collection->type : 'resource') );
     }
     return privileges_to_XML( $privilege_names, $xmldoc);
   }
@@ -1131,7 +1131,7 @@ EOQRY;
   * BuildACE - construct an XMLElement subtree for a DAV::ace
   */
   function BuildACE( &$xmldoc, $privs, $principal ) {
-    $privilege_names = bits_to_privilege($privs);
+    $privilege_names = bits_to_privilege($privs, ($this->_is_collection ? $this->collection->type : 'resource'));
     $privileges = array();
     foreach( $privilege_names AS $k ) {
       $privilege = new XMLElement('privilege');

@@ -1,8 +1,9 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
-DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
-ETag: "e5a193a9e457e0e293583cd99727b4e6"
-Content-Length: 15434
+DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
+DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
+ETag: "c8fe421dcc368c5ba9ebf73ba661a2e5"
+Content-Length: 11513
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -37,9 +38,6 @@ Content-Type: text/xml; charset="utf-8"
       <write-acl/>
      </privilege>
      <privilege>
-      <C:read-free-busy/>
-     </privilege>
-     <privilege>
       <write/>
      </privilege>
      <privilege>
@@ -53,30 +51,6 @@ Content-Type: text/xml; charset="utf-8"
      </privilege>
      <privilege>
       <unbind/>
-     </privilege>
-     <privilege>
-      <C:schedule-deliver/>
-     </privilege>
-     <privilege>
-      <C:schedule-deliver-invite/>
-     </privilege>
-     <privilege>
-      <C:schedule-deliver-reply/>
-     </privilege>
-     <privilege>
-      <C:schedule-query-freebusy/>
-     </privilege>
-     <privilege>
-      <C:schedule-send/>
-     </privilege>
-     <privilege>
-      <C:schedule-send-invite/>
-     </privilege>
-     <privilege>
-      <C:schedule-send-reply/>
-     </privilege>
-     <privilege>
-      <C:schedule-send-freebusy/>
      </privilege>
     </current-user-privilege-set>
    </prop>
@@ -146,30 +120,6 @@ Content-Type: text/xml; charset="utf-8"
      <privilege>
       <unbind/>
      </privilege>
-     <privilege>
-      <C:schedule-deliver/>
-     </privilege>
-     <privilege>
-      <C:schedule-deliver-invite/>
-     </privilege>
-     <privilege>
-      <C:schedule-deliver-reply/>
-     </privilege>
-     <privilege>
-      <C:schedule-query-freebusy/>
-     </privilege>
-     <privilege>
-      <C:schedule-send/>
-     </privilege>
-     <privilege>
-      <C:schedule-send-invite/>
-     </privilege>
-     <privilege>
-      <C:schedule-send-reply/>
-     </privilege>
-     <privilege>
-      <C:schedule-send-freebusy/>
-     </privilege>
     </current-user-privilege-set>
    </prop>
    <status>HTTP/1.1 200 OK</status>
@@ -235,30 +185,6 @@ Content-Type: text/xml; charset="utf-8"
      <privilege>
       <unbind/>
      </privilege>
-     <privilege>
-      <C:schedule-deliver/>
-     </privilege>
-     <privilege>
-      <C:schedule-deliver-invite/>
-     </privilege>
-     <privilege>
-      <C:schedule-deliver-reply/>
-     </privilege>
-     <privilege>
-      <C:schedule-query-freebusy/>
-     </privilege>
-     <privilege>
-      <C:schedule-send/>
-     </privilege>
-     <privilege>
-      <C:schedule-send-invite/>
-     </privilege>
-     <privilege>
-      <C:schedule-send-reply/>
-     </privilege>
-     <privilege>
-      <C:schedule-send-freebusy/>
-     </privilege>
     </current-user-privilege-set>
    </prop>
    <status>HTTP/1.1 200 OK</status>
@@ -306,9 +232,6 @@ Content-Type: text/xml; charset="utf-8"
       <write-acl/>
      </privilege>
      <privilege>
-      <C:read-free-busy/>
-     </privilege>
-     <privilege>
       <write/>
      </privilege>
      <privilege>
@@ -334,18 +257,6 @@ Content-Type: text/xml; charset="utf-8"
      </privilege>
      <privilege>
       <C:schedule-query-freebusy/>
-     </privilege>
-     <privilege>
-      <C:schedule-send/>
-     </privilege>
-     <privilege>
-      <C:schedule-send-invite/>
-     </privilege>
-     <privilege>
-      <C:schedule-send-reply/>
-     </privilege>
-     <privilege>
-      <C:schedule-send-freebusy/>
      </privilege>
     </current-user-privilege-set>
    </prop>
@@ -394,9 +305,6 @@ Content-Type: text/xml; charset="utf-8"
       <write-acl/>
      </privilege>
      <privilege>
-      <C:read-free-busy/>
-     </privilege>
-     <privilege>
       <write/>
      </privilege>
      <privilege>
@@ -410,18 +318,6 @@ Content-Type: text/xml; charset="utf-8"
      </privilege>
      <privilege>
       <unbind/>
-     </privilege>
-     <privilege>
-      <C:schedule-deliver/>
-     </privilege>
-     <privilege>
-      <C:schedule-deliver-invite/>
-     </privilege>
-     <privilege>
-      <C:schedule-deliver-reply/>
-     </privilege>
-     <privilege>
-      <C:schedule-query-freebusy/>
      </privilege>
      <privilege>
       <C:schedule-send/>
@@ -502,30 +398,6 @@ Content-Type: text/xml; charset="utf-8"
      <privilege>
       <unbind/>
      </privilege>
-     <privilege>
-      <C:schedule-deliver/>
-     </privilege>
-     <privilege>
-      <C:schedule-deliver-invite/>
-     </privilege>
-     <privilege>
-      <C:schedule-deliver-reply/>
-     </privilege>
-     <privilege>
-      <C:schedule-query-freebusy/>
-     </privilege>
-     <privilege>
-      <C:schedule-send/>
-     </privilege>
-     <privilege>
-      <C:schedule-send-invite/>
-     </privilege>
-     <privilege>
-      <C:schedule-send-reply/>
-     </privilege>
-     <privilege>
-      <C:schedule-send-freebusy/>
-     </privilege>
     </current-user-privilege-set>
    </prop>
    <status>HTTP/1.1 200 OK</status>
@@ -583,30 +455,6 @@ Content-Type: text/xml; charset="utf-8"
      </privilege>
      <privilege>
       <unbind/>
-     </privilege>
-     <privilege>
-      <C:schedule-deliver/>
-     </privilege>
-     <privilege>
-      <C:schedule-deliver-invite/>
-     </privilege>
-     <privilege>
-      <C:schedule-deliver-reply/>
-     </privilege>
-     <privilege>
-      <C:schedule-query-freebusy/>
-     </privilege>
-     <privilege>
-      <C:schedule-send/>
-     </privilege>
-     <privilege>
-      <C:schedule-send-invite/>
-     </privilege>
-     <privilege>
-      <C:schedule-send-reply/>
-     </privilege>
-     <privilege>
-      <C:schedule-send-freebusy/>
      </privilege>
     </current-user-privilege-set>
    </prop>
@@ -667,30 +515,6 @@ Content-Type: text/xml; charset="utf-8"
      </privilege>
      <privilege>
       <unbind/>
-     </privilege>
-     <privilege>
-      <C:schedule-deliver/>
-     </privilege>
-     <privilege>
-      <C:schedule-deliver-invite/>
-     </privilege>
-     <privilege>
-      <C:schedule-deliver-reply/>
-     </privilege>
-     <privilege>
-      <C:schedule-query-freebusy/>
-     </privilege>
-     <privilege>
-      <C:schedule-send/>
-     </privilege>
-     <privilege>
-      <C:schedule-send-invite/>
-     </privilege>
-     <privilege>
-      <C:schedule-send-reply/>
-     </privilege>
-     <privilege>
-      <C:schedule-send-freebusy/>
      </privilege>
     </current-user-privilege-set>
    </prop>

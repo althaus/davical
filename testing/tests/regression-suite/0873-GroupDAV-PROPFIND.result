@@ -1,8 +1,9 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
-DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
+DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
+DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
 ETag: "some valid etag"
-Content-Length: 8564
+Content-Length: 6779
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -74,9 +75,6 @@ Content-Type: text/xml; charset="utf-8"
       <write-acl/>
      </privilege>
      <privilege>
-      <C:read-free-busy/>
-     </privilege>
-     <privilege>
       <write/>
      </privilege>
      <privilege>
@@ -90,30 +88,6 @@ Content-Type: text/xml; charset="utf-8"
      </privilege>
      <privilege>
       <unbind/>
-     </privilege>
-     <privilege>
-      <C:schedule-deliver/>
-     </privilege>
-     <privilege>
-      <C:schedule-deliver-invite/>
-     </privilege>
-     <privilege>
-      <C:schedule-deliver-reply/>
-     </privilege>
-     <privilege>
-      <C:schedule-query-freebusy/>
-     </privilege>
-     <privilege>
-      <C:schedule-send/>
-     </privilege>
-     <privilege>
-      <C:schedule-send-invite/>
-     </privilege>
-     <privilege>
-      <C:schedule-send-reply/>
-     </privilege>
-     <privilege>
-      <C:schedule-send-freebusy/>
      </privilege>
     </current-user-privilege-set>
     <C2:getctag>some valid etag</C2:getctag>
@@ -229,9 +203,6 @@ Content-Type: text/xml; charset="utf-8"
       <write-acl/>
      </privilege>
      <privilege>
-      <C:read-free-busy/>
-     </privilege>
-     <privilege>
       <write/>
      </privilege>
      <privilege>
@@ -245,30 +216,6 @@ Content-Type: text/xml; charset="utf-8"
      </privilege>
      <privilege>
       <unbind/>
-     </privilege>
-     <privilege>
-      <C:schedule-deliver/>
-     </privilege>
-     <privilege>
-      <C:schedule-deliver-invite/>
-     </privilege>
-     <privilege>
-      <C:schedule-deliver-reply/>
-     </privilege>
-     <privilege>
-      <C:schedule-query-freebusy/>
-     </privilege>
-     <privilege>
-      <C:schedule-send/>
-     </privilege>
-     <privilege>
-      <C:schedule-send-invite/>
-     </privilege>
-     <privilege>
-      <C:schedule-send-reply/>
-     </privilege>
-     <privilege>
-      <C:schedule-send-freebusy/>
      </privilege>
     </current-user-privilege-set>
     <C2:getctag>some valid etag</C2:getctag>
@@ -318,9 +265,6 @@ Content-Type: text/xml; charset="utf-8"
       <write-acl/>
      </privilege>
      <privilege>
-      <C:read-free-busy/>
-     </privilege>
-     <privilege>
       <write/>
      </privilege>
      <privilege>
@@ -334,30 +278,6 @@ Content-Type: text/xml; charset="utf-8"
      </privilege>
      <privilege>
       <unbind/>
-     </privilege>
-     <privilege>
-      <C:schedule-deliver/>
-     </privilege>
-     <privilege>
-      <C:schedule-deliver-invite/>
-     </privilege>
-     <privilege>
-      <C:schedule-deliver-reply/>
-     </privilege>
-     <privilege>
-      <C:schedule-query-freebusy/>
-     </privilege>
-     <privilege>
-      <C:schedule-send/>
-     </privilege>
-     <privilege>
-      <C:schedule-send-invite/>
-     </privilege>
-     <privilege>
-      <C:schedule-send-reply/>
-     </privilege>
-     <privilege>
-      <C:schedule-send-freebusy/>
      </privilege>
     </current-user-privilege-set>
     <C2:getctag>some valid etag</C2:getctag>
