@@ -163,9 +163,18 @@ class CalDAVRequest
       $_SERVER['REQUEST_METHOD'] = $_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'];
     }
     $this->method = $_SERVER['REQUEST_METHOD'];
-    $this->content_type = (isset($_SERVER['CONTENT_TYPE']) ? $_SERVER['CONTENT_TYPE'] : null);
-    if ( preg_match( '{^(\S+/\S+)\s*(;.*)?$}', $this->content_type, $matches ) ) {
-      $this->content_type = $matches[1];
+    if ( isset($_SERVER['CONTENT_LENGTH']) && $_SERVER['CONTENT_LENGTH'] > 7 ) {
+      $this->content_type = (isset($_SERVER['CONTENT_TYPE']) ? $_SERVER['CONTENT_TYPE'] : null);
+      if ( preg_match( '{^(\S+/\S+)\s*(;.*)?$}', $this->content_type, $matches ) ) {
+        $this->content_type = $matches[1];
+      }
+      if ( $this->method == 'PROPFIND' || $this->method == 'REPORT' ) {
+        if ( !preg_match( '{^(text|application)/xml$}', $this->content_type ) ) {
+          dbg_error_log( "LOG request", 'Request is "%s" but client set content-type to "%s". Assuming they meant XML!',
+                                                 $request->method, $this->content_type );
+          $this->content_type = 'text/xml';
+        }
+      }
     }
     $this->user_agent = ((isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : "Probably Mulberry"));
 
