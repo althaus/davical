@@ -131,7 +131,7 @@ function get_collection_contents( $depth, $collection, $parent_path = null ) {
       if( $qry->Exec('PROPFIND',__LINE__,__FILE__) && $qry->rows() > 0 ) {
         while( $binding = $qry->Fetch() ) {
           $resource = new DAVResource($binding->dav_name);
-          if ( $resource->HavePrivilegeTo('DAV::read') ) {
+          if ( $resource->HavePrivilegeTo('DAV::read', false) ) {
             $responses[] = $resource->RenderAsXML($property_list, $reply);
             if ( $depth > 0 ) {
               $responses = array_merge($responses, get_collection_contents( $depth - 1, $resource, $binding->dav_name ) );
@@ -173,10 +173,10 @@ function get_collection_contents( $depth, $collection, $parent_path = null ) {
   /**
   * freebusy permission is not allowed to see the items in a collection.  Must have at least read permission.
   */
-  if ( $collection->HavePrivilegeTo('DAV::read') ) {
+  if ( $collection->HavePrivilegeTo('DAV::read', false) ) {
     dbg_error_log('PROPFIND','Getting collection items: Depth %d, Path: %s', $depth, $bound_from );
     $privacy_clause = ' ';
-    if ( ! $collection->HavePrivilegeTo('all') ) {
+    if ( ! $collection->HavePrivilegeTo('all', false) ) {
       $privacy_clause = " AND (calendar_item.class != 'PRIVATE' OR calendar_item.class IS NULL) ";
     }
 
@@ -218,7 +218,7 @@ if ( $request->IsProxyRequest() ) {
 else {
   $resource = new DAVResource($request->path);
   if ( ! $resource->Exists() ) {
-    $request->DoResponse( 404, translate('That resource is not present on this server.') );
+    $request->PreconditionFailed( 404, 'must-exist', translate('That resource is not present on this server.') );
   }
   $resource->NeedPrivilege('DAV::read');
   if ( $resource->IsCollection() ) {
@@ -228,7 +228,7 @@ else {
       $responses = array_merge($responses, get_collection_contents( $request->depth - 1, $resource ) );
     }
   }
-  elseif ( $request->HavePrivilegeTo('DAV::read') ) {
+  elseif ( $request->HavePrivilegeTo('DAV::read',false) ) {
     $responses[] = $resource->RenderAsXML($property_list, $reply);
   }
 }
