@@ -464,7 +464,7 @@ function privilege_to_bits( $raw_privs ) {
 * @param integer $raw_bits A bit mask of the privileges.
 * @return mixed The string (or array of strings) of privilege names
 */
-function bits_to_privilege( $raw_bits, $resourcetype = 'calendar' ) {
+function bits_to_privilege( $raw_bits, $resourcetype = 'resource' ) {
   $out_priv = array();
 
   if ( is_string($raw_bits) ) {
