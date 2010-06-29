@@ -6,7 +6,7 @@
 * @subpackage   caldav
 * @author    Andrew McMillan <andrew@mcmillan.net.nz>
 * @copyright Catalyst .Net Ltd, Morphoss Ltd
-* @license   http://gnu.org/copyleft/gpl.html GNU GPL v2
+* @license   http://gnu.org/copyleft/gpl.html GNU GPL v2 or later
 */
 dbg_error_log("PUT", "method handler");
 
