@@ -147,7 +147,7 @@ class ldapDrivers
     }
     return $ret;
   }
-  
+
   /**
   * Retrieve all groups from the LDAP directory
   */
@@ -211,7 +211,7 @@ class ldapDrivers
 
     $dnUser = ldap_get_dn($this->connect, ldap_first_entry($this->connect,$entry));
 
-    if ($c->authenticate_hook['config']['i_use_mode_kerberos'] == "i_know_what_i_am_doing") {
+    if ( isset($c->authenticate_hook['config']['i_use_mode_kerberos']) && $c->authenticate_hook['config']['i_use_mode_kerberos'] == "i_know_what_i_am_doing") {
     	dbg_error_log( "LOG", "drivers_ldap : Skipping password Check for user %s which should be the same as %s",$username , $_SERVER["REMOTE_USER"]);
       if ($username != $_SERVER["REMOTE_USER"]) {
         return false;
@@ -363,7 +363,7 @@ function sync_LDAP_groups(){
     //$attributes = array('cn','modifyTimestamp','memberUid');
     $attributes = array_values($mapping);
     $ldap_groups_tmp = $ldapDriver->getAllGroups($attributes);
-    
+
     if ( sizeof($ldap_groups_tmp) == 0 )
       return;
 
@@ -380,7 +380,7 @@ function sync_LDAP_groups(){
       $db_groups[$db_group->group_name] = $db_group->group_name;
       $db_group_members[$db_group->group_name][] = $db_group->member_name;
     }
-    
+
     $ldap_groups = array_keys($ldap_groups_info);
     // users only in ldap
     $groups_to_create = array_diff($ldap_groups,$db_groups);
@@ -388,13 +388,13 @@ function sync_LDAP_groups(){
     $groups_to_deactivate = array_diff($db_groups,$ldap_groups);
     // users present in ldap and in the db
     $groups_to_update = array_intersect($db_groups,$ldap_groups);
-    
+
     if ( sizeof ( $groups_to_create ) ){
       $c->messages[] = sprintf(i18n('- creating groups : %s'),join(', ',$groups_to_create));
       $validUserFields = get_fields('usr');
       foreach ( $groups_to_create as $k => $group ){
         $user = (object) array( 'user_no' => 0, 'username' => '' );
-    
+
         if ( isset($c->authenticate_hook['config']['default_value']) && is_array($c->authenticate_hook['config']['default_value']) ) {
           foreach ( $c->authenticate_hook['config']['default_value'] as $field => $value ) {
             if ( isset($validUserFields[$field]) ) {
@@ -411,9 +411,9 @@ function sync_LDAP_groups(){
             dbg_error_log( "LDAP", "Setting usr->%s to %s from LDAP field %s", $field, $ldap_values[$value], $value );
           }
         }
-        $user->fullname = $group;  
-        $user->displayname = $group;  
-        $user->username = $group;  
+        $user->fullname = $group;
+        $user->displayname = $group;
+        $user->username = $group;
         UpdateUserFromExternal( $user );
         $qry = new AwlQuery( "UPDATE dav_principal set type_id = 3 WHERE username=:group ",array(':group'=>$group) );
         $qry->Exec('sync_LDAP',__LINE__,__FILE__);
