@@ -634,13 +634,21 @@ EOQRY;
   /**
   * Is the user has the privileges to do what is requested.
   * @param $do_what mixed The request privilege name, or array of privilege names, to be checked.
+  * @param $any boolean Whether we accept any of the privileges. The default is true, unless the requested privilege is 'all', when it is false.
   * @return boolean Whether they do have one of those privileges against this resource.
   */
-  function HavePrivilegeTo( $do_what ) {
+  function HavePrivilegeTo( $do_what, $any = null ) {
     if ( !isset($this->privileges) ) $this->FetchPrivileges();
+    if ( !isset($any) ) $any = ($do_what != 'all');
     $test_bits = privilege_to_bits( $do_what );
-    dbg_error_log( 'DAVResource', 'Testing privileges of "%s" (%s) against allowed "%s" => "%s" (%s)', $do_what, decbin($test_bits), decbin($this->privileges), ($this->privileges & $test_bits), decbin($this->privileges & $test_bits) );
-    return ($this->privileges & $test_bits) > 0;
+    dbg_error_log( 'DAVResource', 'Testing %s privileges of "%s" (%s) against allowed "%s" => "%s" (%s)', ($any?'any':'exactly'),
+        $do_what, decbin($test_bits), decbin($this->privileges), ($this->privileges & $test_bits), decbin($this->privileges & $test_bits) );
+    if ( $any ) {
+      return ($this->privileges & $test_bits) > 0;
+    }
+    else {
+      return ($this->privileges & $test_bits) == $test_bits;
+    }
   }
 
 
@@ -652,7 +660,7 @@ EOQRY;
   function NeedPrivilege( $privilege ) {
     global $request;
 
-    if ( $this->HavePrivilegeTo($privilege) ) return;
+    if ( $this->HavePrivilegeTo($privilege, false) ) return;
 
     $request->NeedPrivilege( $privilege, $this->dav_name );
     exit(0);  // Unecessary, but might clarify things
@@ -665,7 +673,7 @@ EOQRY;
   function BuildPrivileges( $privilege_names=null, &$xmldoc=null ) {
     if ( $privilege_names == null ) {
       if ( !isset($this->privileges) ) $this->FetchPrivileges();
-      $privilege_names = bits_to_privilege($this->privileges, ($this->_is_collection ? $this->collection->type : 'resource') );
+      $privilege_names = bits_to_privilege($this->privileges, ($this->_is_collection ? $this->collection->type : null ) );
     }
     return privileges_to_XML( $privilege_names, $xmldoc);
   }

@@ -101,7 +101,7 @@ if ( $dav_resource->IsCollection() ) {
       $tzid = $comp->GetPParamValue('DUE',     'TZID');      if ( isset($tzid) && !isset($need_zones[$tzid]) ) $need_zones[$tzid] = 1;
       $tzid = $comp->GetPParamValue('DTEND',   'TZID');      if ( isset($tzid) && !isset($need_zones[$tzid]) ) $need_zones[$tzid] = 1;
 
-      if ( $dav_resource->HavePrivilegeTo('all') || $session->user_no == $event->user_no || $session->user_no == $event->logged_user
+      if ( $dav_resource->HavePrivilegeTo('all',false) || $session->user_no == $event->user_no || $session->user_no == $event->logged_user
             || ( $c->allow_get_email_visibility && $comp->IsAttendee($session->email) ) ) {
         /**
         * These people get to see all of the event, and they should always
@@ -146,7 +146,7 @@ $ic = new iCalComponent( $resource->caldav_data );
 
 /** Default deny... */
 $allowed = false;
-if ( $dav_resource->HavePrivilegeTo('all') || $session->user_no == $resource->user_no || $session->user_no == $resource->logged_user
+if ( $dav_resource->HavePrivilegeTo('all', false) || $session->user_no == $resource->user_no || $session->user_no == $resource->logged_user
       || ( $c->allow_get_email_visibility && $ic->IsAttendee($session->email) ) ) {
   /**
   * These people get to see all of the event, and they should always
