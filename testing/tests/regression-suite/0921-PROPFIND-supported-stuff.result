@@ -1,17 +1,11 @@
-HTTP/1.1 403 Forbidden
+HTTP/1.1 404 Not Found
 Date: Dow, 01 Jan 2000 00:00:00 GMT
-DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
-Content-Length: 223
+DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
+DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
+Content-Length: 129
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
 <error xmlns="DAV:">
- <need-privileges>
-  <resource>
-   <href>/caldav.php/bogusprincipal/</href>
-   <privilege>
-    <read/>
-   </privilege>
-  </resource>
- </need-privileges>
+  <must-exist/>That resource is not present on this server.
 </error>
