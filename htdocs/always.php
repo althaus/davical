@@ -54,7 +54,7 @@ $c->images      = $c->base_url . '/images';
 
 // Add a default for newly created users
 $c->template_usr = array( 'active' => true,
-                          'locale' => 'en_EN',
+                          'locale' => 'en_GB',
                           'date_format_type' => 'E',
                           'email_ok' => date('Y-m-d')
                         );
