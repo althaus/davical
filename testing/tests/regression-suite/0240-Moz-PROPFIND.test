@@ -3,21 +3,21 @@
 #
 TYPE=PROPFIND
 URL=http://mycaldav/caldav.php/user1/
-HEADER=User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.1.18pre) Gecko/20080917 Sunbird/0.9
+HEADER=User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.1.18pre) Gecko/20100917 Sunbird/1.0
 HEADER=Accept: text/xml
 HEADER=Accept-Language: en-us,en;q=0.5
 HEADER=Accept-Charset: utf-8,*;q=0.1
 HEADER=Content-Type: text/xml; charset=utf-8
-HEADER=Depth: 0
+HEADER=Depth: 1
 HEAD
 
 BEGINDATA
-<D:propfind xmlns:D="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
-  <D:prop>
-    <C:calendar-home-set/>
-    <C:calendar-user-address-set/>
-    <C:schedule-inbox-URL/>
-    <C:schedule-outbox-URL/>
-  </D:prop>
+<?xml version="1.0" encoding="UTF-8">
+<D:propfind xmlns:D="DAV:">
+<D:prop>
+<D:getcontenttype/>
+<D:resourcetype/>
+<D:getetag/>
+</D:prop>
 </D:propfind>
 ENDDATA
