@@ -139,6 +139,7 @@ class ldapDrivers
       for($i = ldap_first_entry($this->connect,$entry);
           $i && $arr = ldap_get_attributes($this->connect,$i);
           $i = ldap_next_entry($this->connect,$i) ) {
+        $row = array();
         for ($j=0; $j < $arr['count']; $j++) {
           $row[$arr[$j]] = $arr[$arr[$j]][0];
         }
@@ -161,7 +162,7 @@ class ldapDrivers
 
       if (!ldap_first_entry($this->connect,$entry)) {
         $c->messages[] = sprintf(translate('Error NoGroupFound with filter >%s<, attributes >%s< , dn >%s<'),
-                                 $this->filterUsers,
+                                 $this->filterGroups,
                                  join(', ', $attributes),
                                  $baseDNGroups);
       }
@@ -369,7 +370,12 @@ function sync_LDAP_groups(){
 
     foreach($ldap_groups_tmp as $key => $ldap_group){
       $ldap_groups_info[$ldap_group[$mapping['username']]] = $ldap_group;
+      if (is_array($ldap_groups_info[$ldap_group[$mapping['username']]][$mapping['members']])) {
       unset ( $ldap_groups_info[$ldap_group[$mapping['username']]][$mapping['members']]['count'] );
+      }
+      else {
+          $ldap_groups_info[$ldap_group[$mapping['username']]][$mapping['members']] = array($ldap_groups_info[$ldap_group[$mapping['username']]][$mapping['members']]);
+      }
       unset($ldap_groups_tmp[$key]);
     }
     $db_groups = array ();
@@ -404,6 +410,7 @@ function sync_LDAP_groups(){
           }
         }
         $user->user_no = 0;
+        $ldap_values = $ldap_groups_info[$group];
         foreach ( $mapping as $field => $value ) {
           dbg_error_log( "LDAP", "Considering copying %s", $field );
           if ( isset($validUserFields[$field]) ) {
@@ -411,9 +418,15 @@ function sync_LDAP_groups(){
             dbg_error_log( "LDAP", "Setting usr->%s to %s from LDAP field %s", $field, $ldap_values[$value], $value );
           }
         }
-        $user->fullname = $group;
-        $user->displayname = $group;
+        if ($user->fullname=="") {
+          $user->fullname = $group;
+        }
+        if ($user->displayname=="") {
+          $user->displayname = $group;
+        }
         $user->username = $group;
+        $user->updated = "now";  /** @todo Use the 'updated' timestamp from LDAP for groups too */
+
         UpdateUserFromExternal( $user );
         $qry = new AwlQuery( "UPDATE dav_principal set type_id = 3 WHERE username=:group ",array(':group'=>$group) );
         $qry->Exec('sync_LDAP',__LINE__,__FILE__);
