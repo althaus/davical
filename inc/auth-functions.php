@@ -41,13 +41,13 @@ function CreateHomeCalendar( $username ) {
   $calendar_path = $parent_path . $c->home_calendar_name."/";
   $dav_etag = md5($usr->user_no . $calendar_path);
   $sql = 'INSERT INTO collection (user_no, parent_container, dav_name, dav_etag, dav_displayname, is_calendar, created, modified, resourcetypes) ';
-  $sql .= 'VALUES( :user_no, :parent_container, :calendar_path, :dav_name, :dav_etag, true, current_timestamp, current_timestamp, :resourcetypes );';
+  $sql .= 'VALUES( :user_no, :parent_container, :calendar_path, :dav_etag, :displayname, true, current_timestamp, current_timestamp, :resourcetypes );';
   $params = array(
       ':user_no' => $usr->user_no,
       ':parent_container' => $parent_path,
       ':calendar_path' => $calendar_path,
-      ':dav_name' => $dav_etag,
-      ':dav_etag' => $usr->fullname,
+      ':dav_etag' => $dav_etag,
+      ':displayname' => $usr->fullname,
       ':resourcetypes' => '<DAV::collection/><urn:ietf:params:xml:ns:caldav:calendar/>'
   );
   $qry = new AwlQuery( $sql, $params );
