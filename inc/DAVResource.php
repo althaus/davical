@@ -657,10 +657,10 @@ EOQRY;
   *
   * @param string $privilege The name of the needed privilege.
   */
-  function NeedPrivilege( $privilege ) {
+  function NeedPrivilege( $privilege, $any = null ) {
     global $request;
 
-    if ( $this->HavePrivilegeTo($privilege, false) ) return;
+    if ( $this->HavePrivilegeTo($privilege, $any) ) return;
 
     $request->NeedPrivilege( $privilege, $this->dav_name );
     exit(0);  // Unecessary, but might clarify things
