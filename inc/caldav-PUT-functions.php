@@ -963,7 +963,7 @@ EOSQL;
 * @param string $put_action_type INSERT or UPDATE depending on what we are to do
 * @return boolean True for success, false for failure.
 */
-function simple_write_resource( $path, $caldav_data, $put_action_type ) {
+function simple_write_resource( $path, $caldav_data, $put_action_type, $write_action_log = false ) {
 
   $etag = md5($caldav_data);
   $ic = new iCalComponent( $caldav_data );
@@ -977,7 +977,7 @@ function simple_write_resource( $path, $caldav_data, $put_action_type ) {
     $collection = $qry->Fetch();
     $user_no = $collection->user_no;
 
-    return write_resource( $user_no, $path, $caldav_data, $collection->collection_id, $user_no, $etag, $ic, $put_action_type, false, false );
+    return write_resource( $user_no, $path, $caldav_data, $collection->collection_id, $user_no, $etag, $ic, $put_action_type, false, $write_action_log );
   }
   return false;
 }
