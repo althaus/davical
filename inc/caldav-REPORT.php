@@ -23,10 +23,6 @@ if ( ! ini_get('open_basedir') && (isset($c->dbg['ALL']) || (isset($c->dbg['repo
   }
 }
 
-$target = new DAVResource($request->path);
-
-$target->NeedPrivilege( array('DAV::read', 'urn:ietf:params:xml:ns:caldav:read-free-busy') );
-
 if ( !isset($request->xml_tags) ) {
   $request->DoResponse( 406, translate("REPORT body contains no XML data!") );
 }
@@ -34,6 +30,13 @@ $position = 0;
 $xmltree = BuildXMLTree( $request->xml_tags, $position);
 if ( !is_object($xmltree) ) {
   $request->DoResponse( 406, translate("REPORT body is not valid XML data!") );
+}
+
+$target = new DAVResource($request->path);
+
+if ( $xmltree->GetTag() != 'DAV::principal-property-search'
+                && $xmltree->GetTag() != 'DAV::principal-property-search-set' ) {
+  $target->NeedPrivilege( array('DAV::read', 'urn:ietf:params:xml:ns:caldav:read-free-busy'), true ); // They may have either
 }
 
 require_once("iCalendar.php");
@@ -44,7 +47,7 @@ $denied = array();
 $unsupported = array();
 if ( isset($prop_filter) ) unset($prop_filter);
 
-if ( $xmltree->GetTag() == "urn:ietf:params:xml:ns:caldav:free-busy-query" ) {
+if ( $xmltree->GetTag() == 'urn:ietf:params:xml:ns:caldav:free-busy-query' ) {
   include("caldav-REPORT-freebusy.php");
   exit; // Not that the above include should return anyway
 }
