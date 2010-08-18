@@ -20,7 +20,7 @@ if ( ! $dav_resource->Exists() ) {
   $request->DoResponse( 404, translate("Resource Not Found.") );
 }
 
-function obfuscate_event( $icalendar ) {
+function obfuscated_event( $icalendar ) {
   // The user is not admin / owner of this calendar looking at his calendar and can not admin the other cal,
   // or maybe they don't have *read* access but they got here, so they must at least have free/busy access
   // so we will present an obfuscated version of the event that just says "Busy" (translated :-)
