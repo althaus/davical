@@ -108,7 +108,7 @@ if ( $qry->Exec("REPORT",__LINE__,__FILE__) ) {
         $dav_resource = new DAVResource($object);
         $resultset = array_merge( $resultset, $dav_resource->GetPropStat($proplist,$reply) );
       }
-      $responses[] = new XMLElement( 'sync-response', $resultset );
+      $responses[] = new XMLElement( 'response', $resultset );
       $first_status = $object->sync_status;
       $last_dav_name  = $object->dav_name;
     }
