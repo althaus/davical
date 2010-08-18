@@ -359,7 +359,7 @@ if ( $editor->Available() ) {
 
   $grantrow = new Editor("Grants", "grants");
   $grantrow->SetSubmitName( 'savegrantrow' );
-  $grantrow->SetLookup( 'to_principal', 'SELECT principal_id, displayname FROM dav_principal WHERE principal_id NOT IN (SELECT member_id FROM group_member WHERE group_id = '.$id.')' );
+  $grantrow->SetLookup( 'to_principal', 'SELECT principal_id, displayname FROM dav_principal WHERE principal_id NOT IN (SELECT member_id FROM group_member WHERE group_id = '.$id.') ORDER BY displayname' );
   if ( $can_write_collection ) {
     if ( $grantrow->IsSubmit() ) {
       $_POST['by_collection'] = $id;
