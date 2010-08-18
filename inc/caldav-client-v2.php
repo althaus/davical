@@ -246,9 +246,14 @@ class CalDAVClient {
     $this->request_url = $url;
     $url = preg_replace('{^https?://[^/]+}', '', $url);
     // URLencode if it isn't already
-/*    if ( !preg_match( '{(%\x\x)}', $url) && preg_match( '{[^.-_/a-z0-9]}', $url ) ) {
+    if ( preg_match( '{[^%?&=+,.-_/a-z0-9]}', $url ) ) {
       $url = str_replace(rawurlencode('/'),'/',rawurlencode($url));
-    }*/
+      $url = str_replace(rawurlencode('?'),'?',$url);
+      $url = str_replace(rawurlencode('&'),'&',$url);
+      $url = str_replace(rawurlencode('='),'=',$url);
+      $url = str_replace(rawurlencode('+'),'+',$url);
+      $url = str_replace(rawurlencode(','),',',$url);
+    }
     $headers[] = $this->requestMethod." ". $url . " HTTP/1.1";
     $headers[] = "Authorization: Basic ".base64_encode($this->user .":". $this->pass );
     $headers[] = "Host: ".$this->server .":".$this->port;
@@ -389,7 +394,7 @@ class CalDAVClient {
     if ( $etag != null ) {
       $this->SetMatch( ($etag != '*'), $etag );
     }
-    $this->SetContentType('text/icalendar; encoding="utf-8"');
+    $this->SetContentType('text/calendar; encoding="utf-8"');
     $this->DoRequest($url);
 
     $etag = null;
@@ -570,6 +575,9 @@ class CalDAVClient {
         else {
           if ( $status == 'HTTP/1.1 200 OK' ) break;
         }
+      }
+      elseif ( !isset($this->xmlnodes[$nodenum]) || !is_array($this->xmlnodes[$nodenum]) ) {
+        break;
       }
       elseif ( $this->xmlnodes[$nodenum]['tag'] == 'DAV::status' ) {
         $status = $this->xmlnodes[$nodenum]['value'];
