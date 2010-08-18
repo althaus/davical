@@ -339,6 +339,7 @@ printf( "Push: Found %d local changes to push & %d local deletions to push.\n", 
 printf( "Pull: Found %d creates, %d updates and %d deletions to apply locally.\n", count($insert_urls), count($update_urls), count($local_delete_urls) );
 
 if ( $sync_in ) {
+  printf( "Sync in\n" );
   // Delete any local events which have been removed from the remote server
   foreach( $local_delete_urls AS $k => $v ) {
     $fname = preg_replace('{^.*/}', '', $href);
@@ -368,6 +369,7 @@ if ( $sync_in ) {
 }
 
 if ( $sync_out ) {
+  printf( "Sync out\n" );
   // Delete any remote events which have been removed from the local server
   foreach( $server_delete_urls AS $href => $etag ) {
     $caldav->DoDELETERequest( $args->url . $href, $etag );
@@ -387,8 +389,12 @@ if ( $sync_out ) {
 }
 
 // Now (re)write the cache file reflecting the current state.
+printf( "Rewriting cache file.\n" );
 $cache_file = fopen($sync_cache_filename, 'w');
 fwrite( $cache_file, serialize($newcache) );
 fclose($cache_file);
 
 print_r($newcache);
+
+printf( "Completed.\n" );
+
