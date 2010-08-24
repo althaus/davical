@@ -13,7 +13,7 @@ dbg_error_log("OPTIONS", "method handler");
 include_once('DAVResource.php');
 $resource = new DAVResource($request->path);
 
-$resource->NeedPrivilege( 'DAV::read' );
+$resource->NeedPrivilege( 'DAV::read', true );
 
 if ( !$resource->Exists() ) {
   $request->DoResponse( 404, translate("No collection found at that location.") );
