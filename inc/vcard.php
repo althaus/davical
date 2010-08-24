@@ -92,13 +92,15 @@ CREATE TABLE addressbook_address_adr (
     foreach( $addresses AS $adr ) {
       $params[':type'] = $adr->GetParameterValue('TYPE');
       $address = explode(';',$adr->Value());
-      $params[':box_no']   = $address[0];
-      $params[':unit_no']  = $address[1];
-      $params[':street_address'] = $address[2];
-      $params[':locality'] = $address[3];
-      $params[':region']   = $address[4];
-      $params[':postcode'] = $address[5];
-      $params[':country']  = $address[6];
+
+      // We use @ to suppress the warnings here, because the NULL in the database suits us well.
+      @$params[':box_no']   = $address[0];
+      @$params[':unit_no']  = $address[1];
+      @$params[':street_address'] = $address[2];
+      @$params[':locality'] = $address[3];
+      @$params[':region']   = $address[4];
+      @$params[':postcode'] = $address[5];
+      @$params[':country']  = $address[6];
       $params[':property'] = $adr->Render();
       $qry->QDo( 'INSERT INTO addressbook_address_adr (dav_id, type, box_no, unit_no, street_address, locality, region, postcode, country, property)
 VALUES( :dav_id, :type, :box_no, :unit_no, :street_address, :locality, :region, :postcode, :country, :property)', $params );
