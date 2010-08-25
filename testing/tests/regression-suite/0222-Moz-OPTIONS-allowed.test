@@ -1,0 +1,10 @@
+#
+# Do an OPTIONS request (authenticated) against a user who we
+# have read access to.
+#
+TYPE=OPTIONS
+URL=http://mycaldav/caldav.php/manager1/
+
+HEADER=User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.7) Gecko/20111013 Thunderbird/1.5.0.7
+
+HEAD
