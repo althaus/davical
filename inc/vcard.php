@@ -38,22 +38,22 @@ note=:note, org=:org, url=:url, fburl=:fburl, caladruri=:caladruri, caluri=:calu
       $sql = 'INSERT INTO addressbook_resource ( dav_id, version, uid, nickname, fn, n, note, org, url, fburl, caladruri, caluri )
 VALUES( :dav_id, :version, :uid, :nickname, :fn, :name, :note, :org, :url, :fburl, :caladruri, :caluri )';
     }
+
     $params = array( ':dav_id' => $dav_id );
 
-    /**
-    * @TODO: Most of these allow duplicates, so we should save the preferred one in the user's language in such cases.
-    */
-    $params[':version'] = $this->GetPValue('VERSION');
-    $params[':uid'] = $this->GetPValue('UID');
-    $params[':nickname'] = $this->GetPValue('NICKNAME');
-    $params[':fn'] = $this->GetPValue('FN');
-    $params[':name'] = $this->GetPValue('N');
-    $params[':note'] = $this->GetPValue('NOTE');
-    $params[':org'] = $this->GetPValue('ORG');
-    $params[':url'] = $this->GetPValue('URL');
-    $params[':fburl'] = $this->GetPValue('FBURL');
-    $params[':caladruri'] = $this->GetPValue('CALADRURI');
-    $params[':caluri'] = $this->GetPValue('CALURI');
+    $wanted = array('VERSION' => true, 'UID' => true, 'NICKNAME' => true, 'FN' => true, 'N' => true,
+                    'NOTE'=> true, 'ORG' => true, 'URL' => true, 'FBURL' => true, 'CALADRURI' => true, 'CALURI' => true);
+    $properties = $this->GetProperties( $wanted );
+    foreach( $wanted AS $k => $v ) {
+      $pname = ':' . strtolower($k);
+      if ( $pname == ':n' ) $pname = ':name';
+      $params[$pname] = null;
+    }
+    foreach( $properties AS $k => $v ) {
+      $pname = ':' . strtolower($v->Name());
+      if ( $pname == ':n' ) $pname = ':name';
+      if ( !isset($params[$pname]) /** @TODO: or this is one is in the user's language */ ) $params[$pname] = $v->Value();
+    }
 
     $qry->QDo( $sql, $params );
 

@@ -1,0 +1,30 @@
+HTTP/1.1 207 Multi-Status
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
+DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
+ETag: "8c1e871ceac19694850a8898e844d4b4"
+Content-Length: 655
+Content-Type: text/xml; charset="utf-8"
+
+<?xml version="1.0" encoding="utf-8" ?>
+<multistatus xmlns="DAV:" xmlns:VC="urn:ietf:params:xml:ns:carddav">
+ <response>
+  <href>/caldav.php/user1/addressbook/andrew_mcmillan.vcf</href>
+  <propstat>
+   <prop>
+    <getetag>"24bae2a7f81c0a79413a656c06d8326b"</getetag>
+    <VC:address-data>BEGIN:VCARD
+VERSION:3.0
+UID:pas-id-4BB0719600000000
+EMAIL;X-EVOLUTION-UI-SLOT=2;TYPE=HOME:andrew@mcmillan.net.nz
+EMAIL;X-EVOLUTION-UI-SLOT=1;TYPE=WORK:andrew@morphoss.com
+N:McMillan;Andrew;Watson;;
+FN:Andrew Watson McMillan
+NICKNAME:karora
+END:VCARD
+</VC:address-data>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+</multistatus>
