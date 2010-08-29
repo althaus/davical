@@ -1,0 +1,33 @@
+#
+# Request a freebusy report by URL
+#
+TYPE=REPORT
+URL=http://mycaldav/caldav.php/user1/home/
+HEADER=User-Agent: DAViCalTester/public
+HEADER=Content-Type: text/xml; charset="UTF-8"
+HEAD
+
+REPLACE=/^DTSTAMP:\d{8}T\d{6}Z\r?$/DTSTAMP:yyyymmddThhmmssZ/
+REPLACE=/^DTSTART:20060930T120000Z\r?$/DTSTART:correct/
+REPLACE=/^DTEND:20070630T115959Z\r?$/DTEND:correct/
+
+BEGINDATA
+<?xml version="1.0" encoding="UTF-8"?>
+<free-busy-query xmlns:D="DAV:" xmlns="urn:ietf:params:xml:ns:caldav">
+  <time-range start="20060930T120000Z" end="20070630T115959Z"/>
+</free-busy-query>
+ENDDATA
+
+
+QUERY
+SELECT dav_name "Dav Name", calendar_item.rrule, status,
+     to_char(calendar_item.dtstart at time zone 'GMT','YYYYMMDD"T"HH24MISS"Z"') AS "a) start",
+     to_char(calendar_item.dtend at time zone 'GMT','YYYYMMDD"T"HH24MISS"Z"') AS "b)finish"
+  FROM caldav_data INNER JOIN calendar_item USING(dav_id,user_no,dav_name)
+ WHERE caldav_data.user_no = 10
+   AND rrule_event_overlaps( dtstart, dtend, rrule, '20061001T000000', '20070630T235959')
+   AND caldav_data.caldav_type IN ( 'VEVENT', 'VFREEBUSY' )
+   AND (calendar_item.status != 'CANCELLED' OR calendar_item.status IS NULL)
+   AND (calendar_item.class != 'PRIVATE' OR calendar_item.class IS NULL)
+ ORDER BY 2, 3
+ENDQUERY
