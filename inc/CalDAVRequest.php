@@ -853,6 +853,41 @@ EOSQL;
 
 
   /**
+  * Coerces the Content-type of the request into something valid/appropriate
+  */
+  function CoerceContentType() {
+    if ( isset($this->content_type) ) {
+      $type = explode( '/', $this->content_type, 2);
+      if ( $type[0] == 'text' ) return;
+    }
+
+    /** Null (or peculiar) content-type supplied so we have to try and work it out... */
+    $first_word = trim(substr( $this->raw_post, 0, 30));
+    $first_word = strtoupper( preg_replace( '/\s.*/s', '', $first_word ) );
+    switch( $first_word ) {
+      case '<?XML':
+        dbg_error_log( 'LOG WARNING', 'Application sent content-type of "%s" instead of "text/xml"',
+                                        (isset($this->content_type)?$this->content_type:'(null)') );
+        $this->content_type = 'text/xml';
+        break;
+      case 'BEGIN:VCALENDAR':
+        dbg_error_log( 'LOG WARNING', 'Application sent content-type of "%s" instead of "text/calendar"',
+                                        (isset($this->content_type)?$this->content_type:'(null)') );
+        $this->content_type = 'text/calendar';
+        break;
+      case 'BEGIN:VCARD':
+        dbg_error_log( 'LOG WARNING', 'Application sent content-type of "%s" instead of "text/vcard"',
+                                        (isset($this->content_type)?$this->content_type:'(null)') );
+        $this->content_type = 'text/vcard';
+        break;
+      default:
+        dbg_error_log( 'LOG NOTICE', 'Unusual content-type of "%s" and first word of content is "%s"',
+                                        (isset($this->content_type)?$this->content_type:'(null)'), $first_word );
+    }
+  }
+
+
+  /**
   * Returns true if the URL referenced by this request points at a collection.
   */
   function IsCollection( ) {

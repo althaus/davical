@@ -81,6 +81,7 @@ switch ( $request->method ) {
   case 'HEAD':       include('caldav-GET.php');            break;
   case 'PROPPATCH':  include('caldav-PROPPATCH.php');      break;
   case 'PUT':
+    $request->CoerceContentType();
     switch( $request->content_type ) {
       case 'text/calendar':
         /** use original DAViCal 'PUT' code which will be rewritten */
