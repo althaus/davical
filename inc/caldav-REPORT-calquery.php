@@ -318,8 +318,8 @@ if ( $qry->Exec("calquery",__LINE__,__FILE__) && $qry->rows() > 0 ) {
         $calendar_object->dav_name = str_replace( $bound_from, $target_collection->dav_name(), $calendar_object->dav_name);
       }
       if ( $need_expansion ) {
-        $ics = new iCalComponent($calendar_object->caldav_data);
-        $expanded = expand_event_instances($ics, $expand_range_start, $expand_range_end);
+        $vResource = new vComponent($calendar_object->caldav_data);
+        $expanded = expand_event_instances($vResource, $expand_range_start, $expand_range_end);
         $calendar_object->caldav_data = $expanded->Render();
       }
       $responses[] = calendar_to_xml( $properties, $calendar_object );

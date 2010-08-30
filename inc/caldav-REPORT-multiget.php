@@ -104,8 +104,8 @@ if ( $qry->Exec('REPORT',__LINE__,__FILE__) && $qry->rows() > 0 ) {
       $dav_object->dav_name = str_replace( $bound_from, $collection->dav_name(), $dav_object->dav_name);
     }
     if ( $need_expansion ) {
-      $ics = new iCalComponent($dav_object->caldav_data);
-      $expanded = expand_event_instances($ics, $expand_range_start, $expand_range_end);
+      $vResource = new vComponent($dav_object->caldav_data);
+      $expanded = expand_event_instances($vResource, $expand_range_start, $expand_range_end);
       $dav_object->caldav_data = $expanded->Render();
     }
     $responses[] = component_to_xml( $properties, $dav_object );
