@@ -365,7 +365,6 @@ EOSQL;
       $this->collection_type = 'email';
       $this->collection_path = $this->path;
       $this->_is_principal = true;
-//      $this->by_email = true;
     }
     else if ( preg_match( '#^(/[^/]+)/?$#', $this->path, $matches) || preg_match( '#^(/principals/[^/]+/[^/]+)/?$#', $this->path, $matches) ) {
       $this->collection_id = -1;
@@ -858,6 +857,7 @@ EOSQL;
   function CoerceContentType() {
     if ( isset($this->content_type) ) {
       $type = explode( '/', $this->content_type, 2);
+      /** @todo: Perhaps we should look at the target collection type, also. */
       if ( $type[0] == 'text' ) return;
     }
 
