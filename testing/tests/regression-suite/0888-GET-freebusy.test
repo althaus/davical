@@ -5,9 +5,10 @@ TYPE=GET
 URL=http://mycaldav/freebusy.php/user1@example.net?start=20061001T000000&end=20070630T235959
 HEAD
 
+
 REPLACE=/^DTSTAMP:\d{8}T\d{6}Z\r?$/DTSTAMP:yyyymmddThhmmssZ/
-REPLACE=/^DTSTART:20060930T120000Z\r?$/DTSTART:correct/
-REPLACE=/^DTEND:20070630T115959Z\r?$/DTEND:correct/
+REPLACE=/^DTSTART:20061001T000000Z\r?$/DTSTART:correct/
+REPLACE=/^DTEND:20070630T235959Z\r?$/DTEND:correct/
 
 QUERY
 SELECT calendar_item.rrule, status,

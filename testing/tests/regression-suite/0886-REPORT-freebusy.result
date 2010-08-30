@@ -1,6 +1,8 @@
 HTTP/1.1 200 OK
 Date: Dow, 01 Jan 2000 00:00:00 GMT
-Content-Length: 2708
+DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
+DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
+Content-Length: 2752
 Content-Type: text/calendar
 
 BEGIN:VCALENDAR
@@ -9,8 +11,8 @@ VERSION:2.0
 CALSCALE:GREGORIAN
 BEGIN:VFREEBUSY
 DTSTAMP:yyyymmddThhmmssZ
-DTSTART:20061001T000000Z
-DTEND:20070630T235959Z
+DTSTART:correct
+DTEND:correct
 FREEBUSY:20061031T210000Z/20061031T220000Z
 FREEBUSY:20061101T210000Z/20061101T220000Z
 FREEBUSY:20061101T233000Z/20061102T003000Z
@@ -27,6 +29,7 @@ FREEBUSY:20061206T210000Z/20061206T220000Z
 FREEBUSY:20061213T210000Z/20061213T220000Z
 FREEBUSY:20061215T030000Z/20061215T044500Z
 FREEBUSY:20061220T210000Z/20061220T220000Z
+FREEBUSY:20061223T000000Z/20061223T020000Z
 FREEBUSY:20061223T030000Z/20061223T050000Z
 FREEBUSY;FBTYPE=BUSY-TENTATIVE:20061223T060000Z/20061223T080000Z
 FREEBUSY:20061227T210000Z/20061227T220000Z
@@ -69,3 +72,52 @@ FREEBUSY:20070615T040000Z/20070615T054500Z
 FREEBUSY:20070629T040000Z/20070629T054500Z
 END:VFREEBUSY
 END:VCALENDAR
+
+         Dav Name: >/user1/collection/Daily_NY_5pm.ics<
+         a) start: >20060101T220000Z<
+         b)finish: >20060101T230000Z<
+            rrule: >FREQ=DAILY;INTERVAL=1;COUNT=1000<
+           status: >NULL<
+
+         Dav Name: >/user1/home/da81c0ee-7871-11db-c6d6-f6927c144649.ics<
+         a) start: >20061102T183000Z<
+         b)finish: >20061102T203000Z<
+            rrule: >FREQ=MONTHLY<
+           status: >CONFIRMED<
+
+         Dav Name: >/user1/home/4aaf8f37-f232-4c8e-a72e-e171d4c4fe54.ics<
+         a) start: >20061101T210000Z<
+         b)finish: >20061101T220000Z<
+            rrule: >FREQ=WEEKLY;COUNT=26;INTERVAL=1;BYDAY=TH<
+           status: >NULL<
+
+         Dav Name: >/user1/home/71e2ae82-7870-11db-c6d6-f6927c144649.ics<
+         a) start: >20061103T030000Z<
+         b)finish: >20061103T044500Z<
+            rrule: >FREQ=WEEKLY;INTERVAL=2;UNTIL=20071222T235900<
+           status: >CONFIRMED<
+
+         Dav Name: >/user1/home/9d050be7-8a02-4355-8ed3-02a9fc5f473f.ics<
+         a) start: >20061223T030000Z<
+         b)finish: >20061223T050000Z<
+            rrule: >NULL<
+           status: >CONFIRMED<
+
+         Dav Name: >/user1/home/fbd57454-d966-4a14-8341-abe1edb1ae66.ics<
+         a) start: >20061223T060000Z<
+         b)finish: >20061223T080000Z<
+            rrule: >NULL<
+           status: >TENTATIVE<
+
+         Dav Name: >/user1/home/3F4CF6227300FD062D9EF3CDFB30D32D-0.ics<
+         a) start: >20061101T233000Z<
+         b)finish: >20061102T003000Z<
+            rrule: >NULL<
+           status: >NULL<
+
+         Dav Name: >/user1/home/20061101T073004Z.ics<
+         a) start: >20061031T210000Z<
+         b)finish: >20061031T220000Z<
+            rrule: >NULL<
+           status: >NULL<
+

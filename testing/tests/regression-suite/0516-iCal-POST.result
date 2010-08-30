@@ -14,13 +14,35 @@ BEGIN:VFREEBUSY
 DTSTAMP:yyyymmddThhmmssZ
 DTSTART:20081022T054500Z
 DTEND:20081024T083000Z
+FREEBUSY:20081023T220000Z/20081023T223000Z
+FREEBUSY:20081024T010000Z/20081024T020000Z
 UID:89E43E7F-911D-4052-9FE3-4782268649E0
 ORGANIZER:mailto:user1@example.net
 X-WR-ATTENDEE:mailto:user2@example.net
-FREEBUSY;FBTYPE=BUSY:20081023T220000Z/20081023T223000Z
-FREEBUSY;FBTYPE=BUSY:20081024T140000Z/20081024T020000Z
 END:VFREEBUSY
 END:VCALENDAR
 </C:calendar-data>
  </C:response>
 </C:schedule-response>
+
+      a)    Start: >2008-10-06 00:00:00<
+      b) Location: >America/Los_Angeles<
+      c)UTC Start: >20081006T070000Z<
+      d)  UTC End: >20081007T070000Z<
+            rrule: >FREQ=MONTHLY;BYDAY=1MO,2TU,3TH,-1FR;INTERVAL=1<
+           status: >NULL<
+
+      a)    Start: >2008-10-20 11:00:00<
+      b) Location: >Pacific/Auckland<
+      c)UTC Start: >20081019T220000Z<
+      d)  UTC End: >20081019T223000Z<
+            rrule: >FREQ=DAILY;INTERVAL=1;BYDAY=MO,WE,FR<
+           status: >NULL<
+
+      a)    Start: >2008-10-24 14:00:00<
+      b) Location: >Pacific/Auckland<
+      c)UTC Start: >20081024T010000Z<
+      d)  UTC End: >20081024T020000Z<
+            rrule: >FREQ=WEEKLY;INTERVAL=1<
+           status: >NULL<
+

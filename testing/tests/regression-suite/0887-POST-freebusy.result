@@ -1,16 +1,20 @@
-HTTP/1.1 200 OK
-Date: Dow, 01 Jan 2000 00:00:00 GMT
-Content-Length: 14720
-Content-Type: text/calendar
-
-BEGIN:VCALENDAR
+<?xml version="1.0" encoding="utf-8" ?>
+<C:schedule-response xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
+ <C:response>
+  <C:recipient>
+   <href>mailto:user1@example.net</href>
+  </C:recipient>
+  <C:request-status>2.0;Success</C:request-status>
+  <C:calendar-data>BEGIN:VCALENDAR
 PRODID:-//davical.org//NONSGML AWL Calendar//EN
 VERSION:2.0
 CALSCALE:GREGORIAN
+METHOD:REPLY
 BEGIN:VFREEBUSY
 DTSTAMP:yyyymmddThhmmssZ
-DTSTART:20061001T000000Z
-DTEND:20070630T235959Z
+DTSTART:correct
+DTEND:correct
+FREEBUSY:20060930T210000Z/20060930T220000Z
 FREEBUSY:20061001T210000Z/20061001T220000Z
 FREEBUSY:20061002T210000Z/20061002T220000Z
 FREEBUSY:20061003T210000Z/20061003T220000Z
@@ -110,6 +114,7 @@ FREEBUSY:20061220T210000Z/20061220T220000Z
 FREEBUSY:20061220T220000Z/20061220T230000Z
 FREEBUSY:20061221T220000Z/20061221T230000Z
 FREEBUSY:20061222T220000Z/20061222T230000Z
+FREEBUSY:20061223T000000Z/20061223T020000Z
 FREEBUSY:20061223T030000Z/20061223T050000Z
 FREEBUSY;FBTYPE=BUSY-TENTATIVE:20061223T060000Z/20061223T080000Z
 FREEBUSY:20061223T220000Z/20061223T230000Z
@@ -339,47 +344,61 @@ FREEBUSY:20070627T210000Z/20070627T220000Z
 FREEBUSY:20070628T210000Z/20070628T220000Z
 FREEBUSY:20070629T040000Z/20070629T054500Z
 FREEBUSY:20070629T210000Z/20070629T220000Z
-FREEBUSY:20070630T210000Z/20070630T220000Z
+UID:c5bd82ea-cd89-4f58-8d31-336f47e44f97
+ORGANIZER:mailto:user1@example.net
+ATTENDEE;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT;CUTYPE=INDIVIDUAL:
+ mailto:user1@example.net
 END:VFREEBUSY
 END:VCALENDAR
+</C:calendar-data>
+ </C:response>
+</C:schedule-response>
 
-           finish: >20061102T203000Z<
+         Dav Name: >/user1/collection/Daily_NY_5pm.ics<
+         a) start: >20060101T220000Z<
+         b)finish: >20060101T230000Z<
+            rrule: >FREQ=DAILY;INTERVAL=1;COUNT=1000<
+           status: >NULL<
+
+         Dav Name: >/user1/home/da81c0ee-7871-11db-c6d6-f6927c144649.ics<
+         a) start: >20061102T183000Z<
+         b)finish: >20061102T203000Z<
             rrule: >FREQ=MONTHLY<
-            start: >20061102T183000Z<
            status: >CONFIRMED<
 
-           finish: >20061103T044500Z<
+         Dav Name: >/user1/home/4aaf8f37-f232-4c8e-a72e-e171d4c4fe54.ics<
+         a) start: >20061101T210000Z<
+         b)finish: >20061101T220000Z<
+            rrule: >FREQ=WEEKLY;COUNT=26;INTERVAL=1;BYDAY=TH<
+           status: >NULL<
+
+         Dav Name: >/user1/home/71e2ae82-7870-11db-c6d6-f6927c144649.ics<
+         a) start: >20061103T030000Z<
+         b)finish: >20061103T044500Z<
             rrule: >FREQ=WEEKLY;INTERVAL=2;UNTIL=20071222T235900<
-            start: >20061103T030000Z<
            status: >CONFIRMED<
 
-           finish: >20061223T050000Z<
+         Dav Name: >/user1/home/9d050be7-8a02-4355-8ed3-02a9fc5f473f.ics<
+         a) start: >20061223T030000Z<
+         b)finish: >20061223T050000Z<
             rrule: >NULL<
-            start: >20061223T030000Z<
            status: >CONFIRMED<
 
-           finish: >20061223T080000Z<
+         Dav Name: >/user1/home/fbd57454-d966-4a14-8341-abe1edb1ae66.ics<
+         a) start: >20061223T060000Z<
+         b)finish: >20061223T080000Z<
             rrule: >NULL<
-            start: >20061223T060000Z<
            status: >TENTATIVE<
 
-           finish: >20060101T230000Z<
-            rrule: >FREQ=DAILY;INTERVAL=1;COUNT=1000<
-            start: >20060101T220000Z<
-           status: >NULL<
-
-           finish: >20061031T220000Z<
+         Dav Name: >/user1/home/3F4CF6227300FD062D9EF3CDFB30D32D-0.ics<
+         a) start: >20061101T233000Z<
+         b)finish: >20061102T003000Z<
             rrule: >NULL<
-            start: >20061031T210000Z<
            status: >NULL<
 
-           finish: >20061101T220000Z<
-            rrule: >FREQ=WEEKLY;COUNT=26;INTERVAL=1;BYDAY=TH<
-            start: >20061101T210000Z<
-           status: >NULL<
-
-           finish: >20061102T003000Z<
+         Dav Name: >/user1/home/20061101T073004Z.ics<
+         a) start: >20061031T210000Z<
+         b)finish: >20061031T220000Z<
             rrule: >NULL<
-            start: >20061101T233000Z<
            status: >NULL<
 

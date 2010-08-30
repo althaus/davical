@@ -1,0 +1,45 @@
+#
+# POST to scheduling outbox for freebusy query on user1
+# matching query on 0885 and 0886
+#
+TYPE=POST
+
+URL=http://mycaldav/caldav.php/user1/.out/
+
+HEADER=User-Agent: DAViCal Regression Testing
+HEADER=Accept: text/xml
+HEADER=Content-Type: text/calendar; charset=utf-8
+
+REPLACE=/^DTSTAMP:\d{4}[01]\d[0123]\dT[012]\d[0-5]\d[0-6]\dZ\r?$/DTSTAMP:yyyymmddThhmmssZ/
+REPLACE=/^DTSTART:20060930T120000Z\r?$/DTSTART:correct/
+REPLACE=/^DTEND:20070630T115959Z\r?$/DTEND:correct/
+
+BEGINDATA
+BEGIN:VCALENDAR
+PRODID:-//Mozilla.org/NONSGML Mozilla Calendar V1.1//EN
+VERSION:2.0
+METHOD:REQUEST
+BEGIN:VFREEBUSY
+DTSTAMP:20081022T062945Z
+ORGANIZER:mailto:user1@example.net
+DTSTART:20060930T120000Z
+DTEND:20070630T115959Z
+UID:c5bd82ea-cd89-4f58-8d31-336f47e44f97
+ATTENDEE;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT;CUTYPE=INDIVIDUAL:
+ mailto:user1@example.net
+END:VFREEBUSY
+END:VCALENDAR
+ENDDATA
+
+QUERY
+SELECT dav_name "Dav Name", calendar_item.rrule, status,
+     to_char(calendar_item.dtstart at time zone 'GMT','YYYYMMDD"T"HH24MISS"Z"') AS "a) start",
+     to_char(calendar_item.dtend at time zone 'GMT','YYYYMMDD"T"HH24MISS"Z"') AS "b)finish"
+  FROM caldav_data INNER JOIN calendar_item USING(dav_id,user_no,dav_name)
+ WHERE caldav_data.user_no = 10
+   AND rrule_event_overlaps( dtstart, dtend, rrule, '20061001T000000', '20070630T235959')
+   AND caldav_data.caldav_type IN ( 'VEVENT', 'VFREEBUSY' )
+   AND (calendar_item.status != 'CANCELLED' OR calendar_item.status IS NULL)
+   AND (calendar_item.class != 'PRIVATE' OR calendar_item.class IS NULL)
+ ORDER BY 2, 3
+ENDQUERY

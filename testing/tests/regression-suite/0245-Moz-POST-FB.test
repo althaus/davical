@@ -33,3 +33,21 @@ END:VFREEBUSY
 END:VCALENDAR
 ENDDATA
 
+QUERY
+SELECT calendar_item.rrule AS "c)  RRule", calendar_item.status,
+   to_char(calendar_item.dtstart at time zone 'GMT','YYYYMMDD"T"HH24MISS"Z"') AS "a)  Start",
+   to_char(calendar_item.dtend at time zone 'GMT','YYYYMMDD"T"HH24MISS"Z"') AS "b) Finish",
+   calendar_item.dtstart at time zone tz_locn AS "d)  Start",
+   time_zone.tz_locn
+ FROM caldav_data INNER JOIN calendar_item USING(dav_id,user_no,dav_name,collection_id)
+         INNER JOIN collection USING(collection_id)
+         LEFT JOIN time_zone USING( tz_id )
+ WHERE caldav_data.dav_name ~ '^/user3/'
+   AND rrule_event_overlaps( dtstart, dtend, rrule, '20081020T110000Z', '20081105T110000Z')
+   AND caldav_data.caldav_type IN ( 'VEVENT', 'VTODO' )
+   AND (calendar_item.transp != 'TRANSPARENT' OR calendar_item.transp IS NULL)
+   AND (calendar_item.status != 'CANCELLED' OR calendar_item.status IS NULL)
+   AND collection.is_calendar
+   AND collection.schedule_transp = 'opaque'
+   AND (calendar_item.class != 'PRIVATE' OR calendar_item.class IS NULL) 
+ENDQUERY
