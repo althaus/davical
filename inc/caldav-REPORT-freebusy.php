@@ -15,9 +15,12 @@ $range_end   = new RepeatRuleDateTime($fbq_end);
 
 
 /** We use the same code for the REPORT, the POST and the freebusy GET... */
-$freebusy = get_freebusy( $request->path.$request->DepthRegexTail(), $range_start, $range_end );
+$freebusy = get_freebusy( '^'.$request->path.$request->DepthRegexTail(), $range_start, $range_end );
 
+$result = new iCalComponent();
+$result->VCalendar();
+$result->AddComponent($freebusy);
 
-$request->DoResponse( 200, $freebusy, 'text/calendar' );
+$request->DoResponse( 200, $result->Render(), 'text/calendar' );
 // Won't return from that
 
