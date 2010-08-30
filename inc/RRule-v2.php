@@ -136,13 +136,14 @@ class RepeatRuleDateTime extends DateTime {
 
 
   public function modify( $interval ) {
-    if ( preg_match('{^(-)?P((\d+)D)?T?((\d+)H)?((\d+)M)?((\d+)S)?$}', $interval, $matches) ) {
+    if ( preg_match('{^(-)?P((\d+)W)?((\d+)D)?T?((\d+)H)?((\d+)M)?((\d+)S)?$}', $interval, $matches) ) {
       $minus = $matches[1];
       $interval = '';
-      if ( isset($matches[2]) && $matches[2] != '' ) $interval .= $minus . $matches[3] . ' days ';
-      if ( isset($matches[4]) && $matches[4] != '' ) $interval .= $minus . $matches[5] . ' hours ';
-      if ( isset($matches[6]) && $matches[6] != '' ) $interval .= $minus . $matches[7] . ' minutes ';
-      if ( isset($matches[8]) && $matches[8] != '' ) $interval .= $minus . $matches[9] . ' seconds ';
+      if ( isset($matches[2]) && $matches[2] != '' ) $interval .= $minus . $matches[3] . ' weeks ';
+      if ( isset($matches[4]) && $matches[4] != '' ) $interval .= $minus . $matches[5] . ' days ';
+      if ( isset($matches[6]) && $matches[6] != '' ) $interval .= $minus . $matches[7] . ' hours ';
+      if ( isset($matches[8]) && $matches[8] != '' ) $interval .= $minus . $matches[9] . ' minutes ';
+      if (isset($matches[10]) &&$matches[10] != '' ) $interval .= $minus . $matches[11] . ' seconds ';
     }
     parent::modify($interval);
     return $this->__toString();
@@ -709,13 +710,17 @@ function rrule_expand( $dtstart, $property, $component, $range_end ) {
     $this_start = clone($dtstart);
   }
 
+//  print_r( $this_start );
+//  printf( "RRULE: %s\n", $recur );
   $rule = new RepeatRule( $this_start, $recur );
   $i = 0;
   $result_limit = 1000;
   while( $date = $rule->next() ) {
+//    printf( "[%3d] %s\n", $i, $date->UTC() );
     $expansion[$date->UTC()] = $component;
-    if ( $i >= $result_limit || $date > $range_end ) break;
+    if ( $i++ >= $result_limit || $date > $range_end ) break;
   }
+//  print_r( $expansion );
   return $expansion;
 }
 
@@ -723,7 +728,7 @@ function rrule_expand( $dtstart, $property, $component, $range_end ) {
 /**
 * Expand the event instances for an iCalendar VEVENT (or VTODO)
 *
-* @param object $ics A vComponent which is a VCALENDAR containing components needing expansion
+* @param object $vResource A vComponent which is a VCALENDAR containing components needing expansion
 * @param object $range_start A RepeatRuleDateTime which is the beginning of the range for events, default -6 weeks
 * @param object $range_end A RepeatRuleDateTime which is the end of the range for events, default +6 weeks
 *
