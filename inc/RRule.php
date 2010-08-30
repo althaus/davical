@@ -178,7 +178,7 @@ class iCalDate {
   * Render the date as GMT
   */
   function RenderGMT( $fmt = 'Ymd\THis\Z' ) {
-    return date( $fmt, $this->_epoch );
+    return gmdate( $fmt, $this->_epoch );
   }
 
 
