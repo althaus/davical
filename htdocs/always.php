@@ -246,6 +246,24 @@ function getUserByName( $username, $use_cache = true ) {
 
 
 /**
+* Return a user record identified by e-mail address, caching it for any subsequent lookup
+* @param string $email The email address of the user record to retrieve
+* @param boolean $use_cache Whether or not to use the cache (default: yes)
+*/
+function getUserByEMail( $email, $use_cache = true ) {
+  global $_known_users_name;
+
+  if ( $use_cache ) {
+    /** We don't actually maintain a cache-access by e-mail, since it's rare */
+    foreach( $_known_users_name AS $k => $v ) {
+      if ( strtolower($email) == strtolower($v->email) ) return $v;
+    }
+  }
+  return _davical_get_principal_query_cached( 'lower(email) = lower(:param)', $email );
+}
+
+
+/**
 * Return a user record identified by a user_no, caching it for any subsequent lookup
 * @param int $user_no The ID of the record to retrieve
 * @param boolean $use_cache Whether or not to use the cache (default: yes)
