@@ -202,6 +202,7 @@ single virtual host.</p>
       Order allow,deny
       Allow from all
   &lt;/Directory>
+  AcceptPathInfo On
   php_value include_path /usr/share/awl/inc
   php_value magic_quotes_gpc 0
   php_value register_globals 0
