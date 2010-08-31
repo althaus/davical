@@ -176,13 +176,15 @@ function get_collection_contents( $depth, $collection, $parent_path = null ) {
   if ( $collection->HavePrivilegeTo('DAV::read', false) ) {
     dbg_error_log('PROPFIND','Getting collection items: Depth %d, Path: %s', $depth, $bound_from );
     $privacy_clause = ' ';
-    if ( ! $collection->HavePrivilegeTo('all', false) ) {
-      $privacy_clause = " AND (calendar_item.class != 'PRIVATE' OR calendar_item.class IS NULL) ";
-    }
-
     $time_limit_clause = ' ';
-    if ( isset($c->hide_older_than) && intval($c->hide_older_than > 0) ) {
-      $time_limit_clause = " AND calendar_item.dtstart > (now() - interval '".intval($c->hide_older_than)." days') ";
+    if ( $collection->IsCalendar() ) {
+      if ( ! $collection->HavePrivilegeTo('all', false) ) {
+        $privacy_clause = " AND (calendar_item.class != 'PRIVATE' OR calendar_item.class IS NULL) ";
+      }
+
+      if ( isset($c->hide_older_than) && intval($c->hide_older_than > 0) ) {
+        $time_limit_clause = " AND calendar_item.dtstart > (now() - interval '".intval($c->hide_older_than)." days') ";
+      }
     }
 
     $sql = 'SELECT collection.*, principal.*, calendar_item.*, caldav_data.*, ';
