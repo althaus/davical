@@ -56,13 +56,15 @@ function get_freebusy( $path_match, $range_start, $range_end, $bin_privs = null 
       foreach( $expansion AS $k => $v ) {
 //        echo "=====================================================\n";
 //        printf( "Type: %s\n", $v->GetType());
+//        print_r($v);
 //        echo "-----------------------------------------------------\n";
-        $dtstart = $v->GetProperty('DTSTART');
-//        print_r($dtstart);
-        $start_date = new RepeatRuleDateTime($dtstart->Value());
+        $start_date = $v->GetProperty('DTSTART');
+        if ( !isset($start_date) ) continue;
+        $start_date = new RepeatRuleDateTime($start_date->Value());
         $duration = $v->GetProperty('DURATION');
+        $duration = ( !isset($duration) ? 'P1D' : $duration->Value());
         $end_date = clone($start_date);
-        $end_date->modify( $duration->Value() );
+        $end_date->modify( $duration );
         if ( $end_date < $range_start || $start_date > $range_end ) continue;
         $thisfb = $start_date->UTC() .'/'. $end_date->UTC() . $extra;
         array_push( $fbtimes, $thisfb );
