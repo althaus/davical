@@ -1028,6 +1028,19 @@ EOQRY;
     return $this->dav_name();
   }
 
+
+  /**
+  * Sets the dav_name of the resource we are bound as
+  */
+  function set_bind_location( $new_dav_name ) {
+    if ( !isset($this->bound_from) && isset($this->dav_name) ) {
+      $this->bound_from = $this->dav_name;
+    }
+    $this->dav_name = $new_dav_name;
+    return $this->dav_name;
+  }
+
+
   /**
   * Returns the dav_name of the resource in our internal namespace
   */
@@ -1291,26 +1304,33 @@ EOQRY;
         break;
 
       case 'DAV::parent-set':
-        $parent_set = $reply->DAVElement( $prop, 'parent-set' );
-        if ( preg_match( '{^(.*)/([^/]+)/?$}', $this->bound_from(), $matches ) ) {
-          $reply->DAVElement($parent_set, 'parent', array(
-                              new XMLElement( 'href', ConstructURL($matches[1])),
-                              new XMLElement( 'segment', $matches[2])
-                            ));
-          $sql = <<<EOQRY
-SELECT regexp_replace( b.parent_container, '/$', '') AS parent,
-       regexp_replace( replace( b.dav_name, b.parent_container, ''), '/$', '') AS segment
-  FROM dav_binding b JOIN collection c ON(b.bound_source_id=c.collection_id)
+        $sql = <<<EOQRY
+SELECT b.parent_container FROM dav_binding b JOIN collection c ON (b.bound_source_id=c.collection_id)
  WHERE regexp_replace( b.dav_name, '^.*/', c.dav_name ) = :bound_from
 EOQRY;
-          $qry = new AwlQuery($sql, array( ':bound_from' => $this->bound_from ) );
-          if ( $qry->Exec('DAVResource',__LINE__,__FILE__) && $qry->rows() > 0 ) {
-            while( $row = $qry->Fetch() ) {
-              $reply->DAVElement($parent_set, 'parent', array(
-                                  new XMLElement( 'href', ConstructURL($row->parent)),
-                                  new XMLElement( 'segment', $row->segment)
-                                ));
-            }
+        $qry = new AwlQuery($sql, array( ':bound_from' => $this->bound_from() ) );
+        $parents = array();
+        if ( $qry->Exec('DAVResource',__LINE__,__FILE__) && $qry->rows() > 0 ) {
+          while( $row = $qry->Fetch() ) {
+            $parents[$row->parent_container] = true;
+          }
+        }
+        $parents[preg_replace( '{(?<=/)[^/]+/?$}','',$this->bound_from())] = true;
+        $parents[preg_replace( '{(?<=/)[^/]+/?$}','',$this->dav_name())] = true;
+
+        $parent_set = $reply->DAVElement( $prop, 'parent-set' );
+        foreach( $parents AS $parent => $v ) {
+          if ( preg_match( '{^(.*)?/([^/]+)/?$}', $parent, $matches ) ) {
+            $reply->DAVElement($parent_set, 'parent', array(
+                                new XMLElement( 'href', ConstructURL($matches[1])),
+                                new XMLElement( 'segment', $matches[2])
+                              ));
+          }
+          else if ( $parent == '/' ) {
+            $reply->DAVElement($parent_set, 'parent', array(
+                                new XMLElement( 'href', '/'),
+                                new XMLElement( 'segment', ( ConstructURL('/') == '/caldav.php/' ? 'caldav.php' : ''))
+                              ));
           }
         }
         break;
