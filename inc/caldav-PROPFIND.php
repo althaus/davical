@@ -104,8 +104,10 @@ function get_collection_contents( $depth, $collection, $parent_path = null ) {
   global $c, $session, $request, $reply, $property_list;
 
   $bound_from = $collection->bound_from();
+  $bound_to   = $collection->dav_name();
   if ( !isset($parent_path) ) $parent_path = $collection->dav_name();
-  dbg_error_log('PROPFIND','Getting collection contents: Depth %d, Path: %s, Bound from: %s', $depth, $collection->dav_name(), $bound_from );
+  dbg_error_log('PROPFIND','Getting collection contents: Depth %d, Path: %s, Bound from: %s, Bound to: %s',
+                                                              $depth, $collection->dav_name(), $bound_from, $bound_to );
 
   $date_format = iCalendar::HttpDateFormat();
   $responses = array();
@@ -132,6 +134,7 @@ function get_collection_contents( $depth, $collection, $parent_path = null ) {
         while( $binding = $qry->Fetch() ) {
           $resource = new DAVResource($binding->dav_name);
           if ( $resource->HavePrivilegeTo('DAV::read', false) ) {
+            $resource->set_bind_location( str_replace($bound_from,$bound_to,$binding->dav_name));
             $responses[] = $resource->RenderAsXML($property_list, $reply);
             if ( $depth > 0 ) {
               $responses = array_merge($responses, get_collection_contents( $depth - 1, $resource, $binding->dav_name ) );
@@ -152,6 +155,7 @@ function get_collection_contents( $depth, $collection, $parent_path = null ) {
     if( $qry->Exec('PROPFIND',__LINE__,__FILE__) && $qry->rows() > 0 ) {
       while( $subcollection = $qry->Fetch() ) {
         $resource = new DAVResource($subcollection);
+        $resource->set_bind_location( str_replace($bound_from,$bound_to,$subcollection->dav_name));
         $responses[] = $resource->RenderAsXML($property_list, $reply);
         if ( $depth > 0 ) {
           $responses = array_merge($responses, get_collection_contents( $depth - 1, $resource,
@@ -199,6 +203,7 @@ function get_collection_contents( $depth, $collection, $parent_path = null ) {
     if( $qry->Exec('PROPFIND',__LINE__,__FILE__) && $qry->rows() > 0 ) {
       while( $item = $qry->Fetch() ) {
         $resource = new DAVResource($item);
+        $resource->set_bind_location( str_replace($bound_from,$bound_to,$item->dav_name));
         $responses[] = $resource->RenderAsXML($property_list, $reply, $parent_path );
       }
     }
