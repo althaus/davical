@@ -10,8 +10,8 @@
     </resource-id>
     <parent-set>
      <parent>
-      <href>/caldav.php</href>
-      <segment>user4</segment>
+      <href>/</href>
+      <segment>caldav.php</segment>
      </parent>
     </parent-set>
    </prop>
@@ -28,11 +28,11 @@
     </resource-id>
     <parent-set>
      <parent>
-      <href>/caldav.php/user2</href>
-      <segment>home</segment>
+      <href>/caldav.php</href>
+      <segment>user4</segment>
      </parent>
      <parent>
-      <href>/caldav.php/user4</href>
+      <href>/caldav.php</href>
       <segment>user2</segment>
      </parent>
     </parent-set>
@@ -50,8 +50,8 @@
     </resource-id>
     <parent-set>
      <parent>
-      <href>/caldav.php/user4</href>
-      <segment>home</segment>
+      <href>/caldav.php</href>
+      <segment>user4</segment>
      </parent>
     </parent-set>
    </prop>
@@ -65,8 +65,8 @@
     <displayname>/user4/calendar-proxy-read/</displayname>
     <parent-set>
      <parent>
-      <href>/caldav.php/user4</href>
-      <segment>calendar-proxy-read</segment>
+      <href>/caldav.php</href>
+      <segment>user4</segment>
      </parent>
     </parent-set>
    </prop>
@@ -86,8 +86,8 @@
     <displayname>/user4/calendar-proxy-write/</displayname>
     <parent-set>
      <parent>
-      <href>/caldav.php/user4</href>
-      <segment>calendar-proxy-write</segment>
+      <href>/caldav.php</href>
+      <segment>user4</segment>
      </parent>
     </parent-set>
    </prop>

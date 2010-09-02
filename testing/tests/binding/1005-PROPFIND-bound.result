@@ -53,14 +53,31 @@
     <owner>
      <href>/caldav.php/user2/</href>
     </owner>
+    <current-user-privilege-set>
+     <privilege>
+      <read/>
+     </privilege>
+     <privilege>
+      <read-current-user-privilege-set/>
+     </privilege>
+     <privilege>
+      <write/>
+     </privilege>
+     <privilege>
+      <write-properties/>
+     </privilege>
+     <privilege>
+      <write-content/>
+     </privilege>
+     <privilege>
+      <bind/>
+     </privilege>
+     <privilege>
+      <unbind/>
+     </privilege>
+    </current-user-privilege-set>
    </prop>
    <status>HTTP/1.1 200 OK</status>
-  </propstat>
-  <propstat>
-   <prop>
-    <current-user-privilege-set/>
-   </prop>
-   <status>HTTP/1.1 403 Forbidden</status>
   </propstat>
  </response>
  <response>
@@ -72,14 +89,31 @@
     <owner>
      <href>/caldav.php/user2/</href>
     </owner>
+    <current-user-privilege-set>
+     <privilege>
+      <read/>
+     </privilege>
+     <privilege>
+      <read-current-user-privilege-set/>
+     </privilege>
+     <privilege>
+      <write/>
+     </privilege>
+     <privilege>
+      <write-properties/>
+     </privilege>
+     <privilege>
+      <write-content/>
+     </privilege>
+     <privilege>
+      <bind/>
+     </privilege>
+     <privilege>
+      <unbind/>
+     </privilege>
+    </current-user-privilege-set>
    </prop>
    <status>HTTP/1.1 200 OK</status>
-  </propstat>
-  <propstat>
-   <prop>
-    <current-user-privilege-set/>
-   </prop>
-   <status>HTTP/1.1 403 Forbidden</status>
   </propstat>
  </response>
  <response>
@@ -91,14 +125,31 @@
     <owner>
      <href>/caldav.php/user2/</href>
     </owner>
+    <current-user-privilege-set>
+     <privilege>
+      <read/>
+     </privilege>
+     <privilege>
+      <read-current-user-privilege-set/>
+     </privilege>
+     <privilege>
+      <write/>
+     </privilege>
+     <privilege>
+      <write-properties/>
+     </privilege>
+     <privilege>
+      <write-content/>
+     </privilege>
+     <privilege>
+      <bind/>
+     </privilege>
+     <privilege>
+      <unbind/>
+     </privilege>
+    </current-user-privilege-set>
    </prop>
    <status>HTTP/1.1 200 OK</status>
-  </propstat>
-  <propstat>
-   <prop>
-    <current-user-privilege-set/>
-   </prop>
-   <status>HTTP/1.1 403 Forbidden</status>
   </propstat>
  </response>
  <response>
@@ -110,14 +161,31 @@
     <owner>
      <href>/caldav.php/user2/</href>
     </owner>
+    <current-user-privilege-set>
+     <privilege>
+      <read/>
+     </privilege>
+     <privilege>
+      <read-current-user-privilege-set/>
+     </privilege>
+     <privilege>
+      <write/>
+     </privilege>
+     <privilege>
+      <write-properties/>
+     </privilege>
+     <privilege>
+      <write-content/>
+     </privilege>
+     <privilege>
+      <bind/>
+     </privilege>
+     <privilege>
+      <unbind/>
+     </privilege>
+    </current-user-privilege-set>
    </prop>
    <status>HTTP/1.1 200 OK</status>
-  </propstat>
-  <propstat>
-   <prop>
-    <current-user-privilege-set/>
-   </prop>
-   <status>HTTP/1.1 403 Forbidden</status>
   </propstat>
  </response>
  <response>
@@ -129,14 +197,31 @@
     <owner>
      <href>/caldav.php/user2/</href>
     </owner>
+    <current-user-privilege-set>
+     <privilege>
+      <read/>
+     </privilege>
+     <privilege>
+      <read-current-user-privilege-set/>
+     </privilege>
+     <privilege>
+      <write/>
+     </privilege>
+     <privilege>
+      <write-properties/>
+     </privilege>
+     <privilege>
+      <write-content/>
+     </privilege>
+     <privilege>
+      <bind/>
+     </privilege>
+     <privilege>
+      <unbind/>
+     </privilege>
+    </current-user-privilege-set>
    </prop>
    <status>HTTP/1.1 200 OK</status>
-  </propstat>
-  <propstat>
-   <prop>
-    <current-user-privilege-set/>
-   </prop>
-   <status>HTTP/1.1 403 Forbidden</status>
   </propstat>
  </response>
 </multistatus>

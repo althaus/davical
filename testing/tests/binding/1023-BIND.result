@@ -1,22 +1,20 @@
-HTTP/1.1 403 Forbidden
+HTTP/1.1 201 Created
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
-Content-Length: 138
-Content-Type: text/xml; charset="utf-8"
+Location: /caldav.php/user4/base/user2/
+Content-Length: 0
+Content-Type: text/plain; charset="utf-8"
 
-<?xml version="1.0" encoding="utf-8" ?>
-<error xmlns="DAV:">
-  <DAV::can-overwrite/>A resource already exists at the destination.
-</error>
-          bind_id: >1433<
+
+          bind_id: >1434<
   bound_source_id: >11<
   dav_displayname: >Updated Displayname with PROPPATCH<
          dav_name: >/user4/user2/<
            length: >8<
  parent_container: >/user4/<
 
-          bind_id: >1434<
+          bind_id: >1435<
   bound_source_id: >10<
   dav_displayname: >User 1's Calendaranza<
          dav_name: >/user4/user1/<

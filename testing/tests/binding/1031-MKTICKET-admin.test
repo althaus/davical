@@ -18,13 +18,17 @@ BEGINDATA
 ENDDATA
 
 QUERY
-SELECT dav_owner_id,
-       date_trunc( 'minute', ('55 seconds' + expires - current_timestamp)::interval(0)) AS timeout,
-       privileges,
+SELECT access_ticket.dav_owner_id,
+       date_trunc( 'minute', ('55 seconds' + access_ticket.expires - current_timestamp)::interval(0)) AS timeout,
+       access_ticket.privileges,
        target_collection_id,
-       target_resource_id
+       target_resource_id,
+       collection.dav_name
   FROM access_ticket
+       INNER JOIN collection ON (collection_id = target_collection_id)
+ WHERE collection.dav_name = '/user3/home/'
 ENDQUERY
+# WHERE target_collection = 11
 
 REPLACE=!ETag: "\S+"!ETag: "Some good etag"!
 REPLACE=!<T:id>\S{8}</T:id>!<T:id>Good Ticket ID</T:id>!

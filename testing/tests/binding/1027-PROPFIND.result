@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
+<multistatus xmlns="DAV:">
  <response>
-  <href>/caldav.php/user4/</href>
+  <href>/caldav.php/user4/base/</href>
   <propstat>
    <prop>
-    <C:calendar-home-set>
-     <href>/caldav.php/user4/</href>
-    </C:calendar-home-set>
+    <displayname>A normal collection</displayname>
     <resource-id>
-     <href>/caldav.php/.resources/6</href>
+     <href>/caldav.php/.resources/1437</href>
     </resource-id>
     <parent-set>
      <parent>
@@ -18,7 +16,6 @@
     </parent-set>
     <resourcetype>
      <collection/>
-     <principal/>
     </resourcetype>
    </prop>
    <status>HTTP/1.1 200 OK</status>

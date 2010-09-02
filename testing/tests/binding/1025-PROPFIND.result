@@ -10,8 +10,8 @@
     </resource-id>
     <parent-set>
      <parent>
-      <href>/caldav.php/user4</href>
-      <segment>base</segment>
+      <href>/caldav.php</href>
+      <segment>user4</segment>
      </parent>
     </parent-set>
     <resourcetype>
@@ -31,15 +31,15 @@
     </resource-id>
     <parent-set>
      <parent>
-      <href>/caldav.php/user1</href>
-      <segment>home</segment>
-     </parent>
-     <parent>
-      <href>/caldav.php/user4/base</href>
-      <segment>user1</segment>
+      <href>/caldav.php</href>
+      <segment>user4</segment>
      </parent>
      <parent>
       <href>/caldav.php/user4</href>
+      <segment>base</segment>
+     </parent>
+     <parent>
+      <href>/caldav.php</href>
       <segment>user1</segment>
      </parent>
     </parent-set>
@@ -63,15 +63,15 @@
     </resource-id>
     <parent-set>
      <parent>
-      <href>/caldav.php/user2</href>
-      <segment>home</segment>
-     </parent>
-     <parent>
-      <href>/caldav.php/user4/base</href>
-      <segment>user2</segment>
+      <href>/caldav.php</href>
+      <segment>user4</segment>
      </parent>
      <parent>
       <href>/caldav.php/user4</href>
+      <segment>base</segment>
+     </parent>
+     <parent>
+      <href>/caldav.php</href>
       <segment>user2</segment>
      </parent>
     </parent-set>
@@ -94,8 +94,8 @@
     </resource-id>
     <parent-set>
      <parent>
-      <href>/caldav.php/user4/base</href>
-      <segment>calendar</segment>
+      <href>/caldav.php/user4</href>
+      <segment>base</segment>
      </parent>
     </parent-set>
     <resourcetype>
