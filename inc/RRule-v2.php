@@ -101,11 +101,7 @@ class RepeatRuleDateTime extends DateTime {
         $this->tzid = null;
       }
     }
-    elseif ( is_string($dtz) ) {
-      $dtz = new RepeatRuleTimeZone($dtz);
-      $this->tzid = $dtz->tzid();
-    }
-    elseif( $dtz === null ) {
+    elseif( $dtz === null || $dtz == '' ) {
       $dtz = new RepeatRuleTimeZone('UTC');
       if ( preg_match('/(\d{8}(T\d{6})?)Z/', $date, $matches) ) {
         if ( strlen($matches[1]) == 8 ) $this->is_date = true;
@@ -114,6 +110,10 @@ class RepeatRuleDateTime extends DateTime {
       else {
         $this->tzid = null;
       }
+    }
+    elseif ( is_string($dtz) ) {
+      $dtz = new RepeatRuleTimeZone($dtz);
+      $this->tzid = $dtz->tzid();
     }
     else {
       $this->tzid = $dtz->getName();
@@ -145,6 +145,9 @@ class RepeatRuleDateTime extends DateTime {
       if ( isset($matches[8]) && $matches[8] != '' ) $interval .= $minus . $matches[9] . ' minutes ';
       if (isset($matches[10]) &&$matches[10] != '' ) $interval .= $minus . $matches[11] . ' seconds ';
     }
+//    printf( "Modify '%s' by: >>%s<<\n", $this->__toString(), $interval );
+//    print_r($this);
+    if ( !isset($interval) || $interval == '' ) $interval = '1 day';
     parent::modify($interval);
     return $this->__toString();
   }
@@ -789,7 +792,7 @@ function expand_event_instances( $vResource, $range_start = null, $range_end = n
 
     $end_type = ($comp->GetType() == 'VTODO' ? 'DUE' : 'DTEND');
     $duration = $comp->GetProperty('DURATION');
-    if ( !isset($duration) ) {
+    if ( !isset($duration) || $duration->Value() == '' ) {
       $instance_start = $comp->GetProperty('DTSTART');
       $dtsrt = new RepeatRuleDateTime( $instance_start->Value(), $instance_start->GetParameterValue('TZID'));
       $instance_end = $comp->GetProperty($end_type);
