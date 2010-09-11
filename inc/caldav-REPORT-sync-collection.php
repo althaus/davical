@@ -33,7 +33,9 @@ function display_status( $status_code ) {
   return sprintf( 'HTTP/1.1 %03d %s', intval($status_code), getStatusMessage($status_code) );
 }
 
-$params = array( ':collection_id' => $request->CollectionId(), ':sync_token' => $sync_token );
+$collection = new DAVResource( $request->path );
+
+$params = array( ':collection_id' => $collection->GetProperty('collection_id'), ':sync_token' => $sync_token );
 $sql = "SELECT new_sync_token( :sync_token, :collection_id)";
 $qry = new AwlQuery($sql, $params);
 if ( !$qry->Exec("REPORT",__LINE__,__FILE__) || $qry->rows() <= 0 ) {
