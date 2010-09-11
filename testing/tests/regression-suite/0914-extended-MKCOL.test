@@ -25,9 +25,9 @@ ENDDATA
 
 
 QUERY
-SELECT user_no, parent_container, dav_displayname,
+SELECT dav_name, user_no, parent_container, dav_displayname,
        is_calendar, public_events_only, is_addressbook
 FROM collection
-WHERE dav_name ~ '/User Six/addressbook "Extended MKCOL"';
+WHERE dav_name ~ '/User Six/addressbook';
 ENDQUERY
 

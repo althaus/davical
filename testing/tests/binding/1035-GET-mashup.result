@@ -2,7 +2,7 @@ HTTP/1.1 200 OK
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
-Content-Length: 18996
+Content-Length: 19020
 Etag: "ae93907cb03bc025b8e733eb61f3a09e"
 Content-Type: text/calendar; charset="utf-8"
 
@@ -81,10 +81,13 @@ END:VEVENT
 BEGIN:VEVENT
 UID:20061101T073000Z-10468-1000-1-7@ubu
 DTSTAMP:20061101T073000Z
-DTSTART;TZID=/softwarestudio.org/Olson_20011030_5/Pacific/Auckland:20061101T100000
-DTEND;TZID=/softwarestudio.org/Olson_20011030_5/Pacific/Auckland:20061101T110000
+DTSTART;TZID=/softwarestudio.org/Olson_20011030_5/Pacific/Auckland:20061
+ 101T100000
+DTEND;TZID=/softwarestudio.org/Olson_20011030_5/Pacific/Auckland:2006110
+ 1T110000
 SUMMARY:A Meeting
-X-EVOLUTION-CALDAV-HREF:http://user1@mycaldav/caldav.php/user1/home/20061101T073004Z.ics
+X-EVOLUTION-CALDAV-HREF:http://user1@mycaldav/caldav.php/user1/home/2006
+ 1101T073004Z.ics
 BEGIN:VALARM
 X-EVOLUTION-ALARM-UID:20061101T073000Z-10480-1000-1-5@ubu
 ACTION:DISPLAY
@@ -155,8 +158,8 @@ DTSTAMP:20070805T200215Z
 UID:2178279a-aec2-471f-832d-1f6df6203f2f
 SUMMARY:Incomplete\, uncancelled
 X-MOZ-LOCATIONPATH:2178279a-aec2-471f-832d-1f6df6203f2f.ics
-DESCRIPTION:This task is incomplete and has not been cancelled (has no 
- status at all)
+DESCRIPTION:This task is incomplete and has not been cancelled (has no s
+ tatus at all)
 END:VTODO
 BEGIN:VTODO
 CREATED:20070805T201557Z
@@ -167,8 +170,8 @@ SUMMARY:50% Complete\, uncancelled
 STATUS:IN-PROCESS
 PERCENT-COMPLETE:50
 X-MOZ-LOCATIONPATH:917b9e47-b748-4550-a566-657fbe672447.ics
-DESCRIPTION:This task is in progress (50% complete) and has not been 
- cancelled.
+DESCRIPTION:This task is in progress (50% complete) and has not been can
+ celled.
 END:VTODO
 BEGIN:VTODO
 CREATED:20070805T201647Z
@@ -194,8 +197,8 @@ STATUS:CANCELLED
 DTSTART;TZID=/mozilla.org/20070129_1/Antarctica/McMurdo:20070808T111500
 DUE;TZID=/mozilla.org/20070129_1/Antarctica/McMurdo:20070808T111500
 X-MOZ-LOCATIONPATH:b1679f77-673d-4f46-b3eb-2420e1bba301.ics
-DESCRIPTION:This is a task with a Start and a Due date\, but it has been 
- cancelled.
+DESCRIPTION:This is a task with a Start and a Due date\, but it has been
+  cancelled.
 END:VTODO
 BEGIN:VEVENT
 CREATED:20071203T202630Z
@@ -326,14 +329,19 @@ CREATED:20100319T103247Z
 LAST-MODIFIED:20100319T105620Z
 DTSTAMP:20100319T105620Z
 UID:70399cd7-50a4-4be4-a665-af593e19a7fd
-SUMMARY:An invited event.  Black tie with pink polka dots is essential.  
- Do not bring a leopard.  Any leopards which do attend will be forcibly 
+SUMMARY:An invited event.  Black tie with pink polka dots is essential. 
+  Do not bring a leopard.  Any leopards which do attend will be forcibly 
  chained to a nearby fence.
-ORGANIZER;RSVP=TRUE;PARTSTAT=ACCEPTED;ROLE=CHAIR:mailto:user1@example.net
-ATTENDEE;RSVP=TRUE;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT:mailto:user2@example.net
-ATTENDEE;RSVP=TRUE;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT:mailto:user3@example.net
-ATTENDEE;RSVP=TRUE;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT:mailto:user4@example.net
-ATTENDEE;RSVP=TRUE;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT:mailto:user5@example.net
+ORGANIZER;RSVP=TRUE;PARTSTAT=ACCEPTED;ROLE=CHAIR:mailto:user1@example.ne
+ t
+ATTENDEE;RSVP=TRUE;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT:mailto:use
+ r2@example.net
+ATTENDEE;RSVP=TRUE;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT:mailto:use
+ r3@example.net
+ATTENDEE;RSVP=TRUE;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT:mailto:use
+ r4@example.net
+ATTENDEE;RSVP=TRUE;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT:mailto:use
+ r5@example.net
 DTSTART:20100322T160000
 DTEND:20100322T170000
 X-MOZ-GENERATION:3
@@ -374,8 +382,8 @@ SEQUENCE:11
 URL;VALUE=URI:http://www.theoregonwineandartauction.org/
 UID:12cbff90-0f8a-012d-1259-002421a2359e
 SUMMARY:Youngberg Hill @ Uncorked\, Oregon Wine & Art Auction 
-DESCRIPTION:July 10th - Uncorked\, Oregon Wine & Art Auction\n\nCome join 
- Youngberg Hill for this wonderful event.
+DESCRIPTION:July 10th - Uncorked\, Oregon Wine & Art Auction\n\nCome joi
+ n Youngberg Hill for this wonderful event.
 DTSTART;TZID=America/Los_Angeles:20100710T160000
 CREATED:20100311T221924Z
 DTSTAMP:20100311T222451Z
@@ -388,8 +396,8 @@ LAST-MODIFIED:20100311T231118Z
 SEQUENCE:7
 UID:242afc80-0f8c-012d-1259-002421a2359e
 SUMMARY:Pre- IPNC Winemaker Dinner @ Youngberg Hill
-DESCRIPTION:July 22nd - PRE-IPNC Winemaker Dinner @ Youngberg 
- Hill.\n\nDetails to follow.
+DESCRIPTION:July 22nd - PRE-IPNC Winemaker Dinner @ Youngberg Hill.\n\nD
+ etails to follow.
 DTSTART;TZID=America/Los_Angeles:20100722T183000
 CREATED:20100311T223412Z
 DTSTAMP:20100311T231118Z
@@ -403,8 +411,8 @@ URL;VALUE=URI:http://www.stephanie-inn.com
 UID:950ca060-0f87-012d-1259-002421a2359e
 SUMMARY:Youngberg Hill Winemaker Dinner @ The Stephanie Inn
 DESCRIPTION:May 2 - Stephanie Inn Winemaker Dinner @ Cannon Beach\nCome 
- join Youngberg Hill Vineyards & Inn for this wonderful experience. 
- Details at \nwww.stephanie-inn.com\n\n
+ join Youngberg Hill Vineyards & Inn for this wonderful experience. Detai
+ ls at \nwww.stephanie-inn.com\n\n
 DTSTART;TZID=America/Los_Angeles:20100502T180000
 CREATED:20100311T220134Z
 DTSTAMP:20100311T220308Z
@@ -430,10 +438,10 @@ SEQUENCE:9
 URL;VALUE=URI:http://www.mcminnvilleava.org/event.htm
 UID:ed3beb90-0f8a-012d-1259-002421a2359e
 SUMMARY:Discover McMinnville AVA
-DESCRIPTION:July 17th - Discover McMinnville AVA\n\nParticipating 
- Wineries Include:\nBrittan Vineyards\, Coeur de Terre Vineyard\, Coleman 
- Vineyard\, Maysara Vineyard\, Seufert Winery\, Stony Mountain Vineyard\, 
- Yamhill Valley Vineyards and Youngberg Hill Vineyard
+DESCRIPTION:July 17th - Discover McMinnville AVA\n\nParticipating Wineri
+ es Include:\nBrittan Vineyards\, Coeur de Terre Vineyard\, Coleman Viney
+ ard\, Maysara Vineyard\, Seufert Winery\, Stony Mountain Vineyard\, Yamh
+ ill Valley Vineyards and Youngberg Hill Vineyard
 DTSTART;TZID=America/Los_Angeles:20100717T100000
 CREATED:20100311T222531Z
 DTSTAMP:20100311T223312Z
@@ -447,8 +455,8 @@ SEQUENCE:9
 URL;VALUE=URI:http://www.youngberghill.com
 UID:626c1f10-0f91-012d-1259-002421a2359e
 SUMMARY:Linfield Chamber Benefit @ Youngberg Hill
-DESCRIPTION:August 12th - Linfield Chamber Benefit @ Youngberg 
- Hill\n\nDetails to follow
+DESCRIPTION:August 12th - Linfield Chamber Benefit @ Youngberg Hill\n\nD
+ etails to follow
 DTSTART;TZID=America/Los_Angeles:20100812T180000
 CREATED:20100311T231144Z
 DTSTAMP:20100312T064055Z
@@ -463,11 +471,11 @@ URL;VALUE=URI:http://www.youngberghill.com
 UID:b0362430-0f88-012d-1259-002421a2359e
 SUMMARY:Youngberg Hill Vineyard & Inn - Memorial Weekend
 DESCRIPTION:Memorial Weekend\nYoungberg Hill will be open from 11:00 to 
- 5:00 on Saturday\, Sunday\, & Monday. We will be highlighting our 2007 
- Jordan & Natasha Block Pinot Noir as well as our newly released 2009 
- Pinot Gris. We will have cheeses\, breads\, and treats available\, plus 
- the greatest view.\n\nTasting fee of $5\, complimentary tastings for our 
- Wine Club members. \n
+ 5:00 on Saturday\, Sunday\, & Monday. We will be highlighting our 2007 J
+ ordan & Natasha Block Pinot Noir as well as our newly released 2009 Pino
+ t Gris. We will have cheeses\, breads\, and treats available\, plus the 
+ greatest view.\n\nTasting fee of $5\, complimentary tastings for our Win
+ e Club members. \n
 DTSTART;TZID=America/Los_Angeles:20100529T110000
 CREATED:20100311T220929Z
 DTSTAMP:20100311T221206Z

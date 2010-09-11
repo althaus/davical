@@ -8,6 +8,7 @@ Content-Type: text/plain; charset="utf-8"
 
 
   dav_displayname: >Extended MKCOL Calendar<
+         dav_name: >/User Six/basic "Extended MKCOL"/<
    is_addressbook: >0<
       is_calendar: >1<
  parent_container: >/User Six/<

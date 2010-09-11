@@ -2,7 +2,7 @@ HTTP/1.1 200 OK
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
-Content-Length: 10307
+Content-Length: 10316
 Etag: "735679d819034badbcddd8aa6029bc3d"
 Content-Type: text/calendar; charset="utf-8"
 
@@ -23,10 +23,13 @@ END:VEVENT
 BEGIN:VEVENT
 UID:20061101T073000Z-10468-1000-1-7@ubu
 DTSTAMP:20061101T073000Z
-DTSTART;TZID=/softwarestudio.org/Olson_20011030_5/Pacific/Auckland:20061101T100000
-DTEND;TZID=/softwarestudio.org/Olson_20011030_5/Pacific/Auckland:20061101T110000
+DTSTART;TZID=/softwarestudio.org/Olson_20011030_5/Pacific/Auckland:20061
+ 101T100000
+DTEND;TZID=/softwarestudio.org/Olson_20011030_5/Pacific/Auckland:2006110
+ 1T110000
 SUMMARY:A Meeting
-X-EVOLUTION-CALDAV-HREF:http://user1@mycaldav/caldav.php/user1/home/20061101T073004Z.ics
+X-EVOLUTION-CALDAV-HREF:http://user1@mycaldav/caldav.php/user1/home/2006
+ 1101T073004Z.ics
 BEGIN:VALARM
 X-EVOLUTION-ALARM-UID:20061101T073000Z-10480-1000-1-5@ubu
 ACTION:DISPLAY
@@ -97,8 +100,8 @@ DTSTAMP:20070805T200215Z
 UID:2178279a-aec2-471f-832d-1f6df6203f2f
 SUMMARY:Incomplete\, uncancelled
 X-MOZ-LOCATIONPATH:2178279a-aec2-471f-832d-1f6df6203f2f.ics
-DESCRIPTION:This task is incomplete and has not been cancelled (has no 
- status at all)
+DESCRIPTION:This task is incomplete and has not been cancelled (has no s
+ tatus at all)
 END:VTODO
 BEGIN:VTODO
 CREATED:20070805T201557Z
@@ -109,8 +112,8 @@ SUMMARY:50% Complete\, uncancelled
 STATUS:IN-PROCESS
 PERCENT-COMPLETE:50
 X-MOZ-LOCATIONPATH:917b9e47-b748-4550-a566-657fbe672447.ics
-DESCRIPTION:This task is in progress (50% complete) and has not been 
- cancelled.
+DESCRIPTION:This task is in progress (50% complete) and has not been can
+ celled.
 END:VTODO
 BEGIN:VTODO
 CREATED:20070805T201647Z
@@ -136,8 +139,8 @@ STATUS:CANCELLED
 DTSTART;TZID=/mozilla.org/20070129_1/Antarctica/McMurdo:20070808T111500
 DUE;TZID=/mozilla.org/20070129_1/Antarctica/McMurdo:20070808T111500
 X-MOZ-LOCATIONPATH:b1679f77-673d-4f46-b3eb-2420e1bba301.ics
-DESCRIPTION:This is a task with a Start and a Due date\, but it has been 
- cancelled.
+DESCRIPTION:This is a task with a Start and a Due date\, but it has been
+  cancelled.
 END:VTODO
 BEGIN:VEVENT
 CREATED:20071203T202630Z

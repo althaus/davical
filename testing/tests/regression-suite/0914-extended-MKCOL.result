@@ -8,6 +8,7 @@ Content-Type: text/plain; charset="utf-8"
 
 
   dav_displayname: >Extended MKCOL Address Book<
+         dav_name: >/User Six/addressbook "Extended MKCOL"/<
    is_addressbook: >1<
       is_calendar: >0<
  parent_container: >/User Six/<
