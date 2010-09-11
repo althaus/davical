@@ -1,5 +1,5 @@
 <?php
-if ( $_SERVER['REQUEST_METHOD'] != "GET" && $_SERVER['REQUEST_METHOD'] != "POST" ) {
+if ( $_SERVER['REQUEST_METHOD'] != "GET" && $_SERVER['REQUEST_METHOD'] != "POST" && $_SERVER['REQUEST_METHOD'] != "HEAD" ) {
   /**
   * If the request is not a GET or POST then they must really want caldav.php!
   */
