@@ -36,8 +36,8 @@ Content-Type: text/plain; charset="utf-8"
           country: >NULL<
          locality: >Irgendwo<
          postcode: >34332<
-         property: >ADR;TYPE=WORK;CHARSET=utf-8:6266 AA\;andresen Holding\, 
- Geschäftsleitung\;Weisenstraße 13\;Irgendwo\;Niedersachsen\;34332<
+         property: >ADR;TYPE=WORK;CHARSET=utf-8:6266 AA\;andresen Holding\, Geschäftsleitung
+ \;Weisenstraße 13\;Irgendwo\;Niedersachsen\;34332<
            region: >Niedersachsen<
    street_address: >Weisenstraße 13<
              type: >WORK<
@@ -47,8 +47,8 @@ Content-Type: text/plain; charset="utf-8"
           country: >Deutschland<
          locality: >Passau<
          postcode: >94036<
-         property: >ADR;TYPE=WORK;CHARSET=utf-8:PO 373\;Andresen AG\, R&D\;Messegasse 
- 7\;Passau\;Bayern\;94036\;Deutschland<
+         property: >ADR;TYPE=WORK;CHARSET=utf-8:PO 373\;Andresen AG\, R&D\;Messegasse 7\;Pas
+ sau\;Bayern\;94036\;Deutschland<
            region: >Bayern<
    street_address: >Messegasse 7<
              type: >WORK<

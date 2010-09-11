@@ -36,8 +36,8 @@ Content-Type: text/plain; charset="utf-8"
           country: >Deutschland<
          locality: >Hamburg-Harburg<
          postcode: >21373<
-         property: >ADR;TYPE=WORK;CHARSET=utf-8:\;Uni Harburg\, -\;Innstraße 
- 71\;Hamburg-Harburg\;Hamburg\;21373\;Deutschland<
+         property: >ADR;TYPE=WORK;CHARSET=utf-8:\;Uni Harburg\, -\;Innstraße 71\;Hamburg-Har
+ burg\;Hamburg\;21373\;Deutschland<
            region: >Hamburg<
    street_address: >Innstraße 71<
              type: >WORK<
