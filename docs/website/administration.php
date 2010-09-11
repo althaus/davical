@@ -73,11 +73,11 @@ have a backup person, so you also want A2 to be able to do that.</p>
 <p>In this case you might only set up a single principal for the resources, and have
  multiple calendars, one for each resource.</p>
 <pre>
-A1  ==>> is a member of    ==> G
-A2  ==>> is a member of    ==> G
-R1  ==>> grants write privilege to ==> G
-R2  ==>> grants write privilege to ==> G
-R3  ==>> grants write privilege to ==> G
+A1  ==&gt;&gt; is a member of    ==&gt; G
+A2  ==&gt;&gt; is a member of    ==&gt; G
+R1  ==&gt;&gt; grants write privilege to ==&gt; G
+R2  ==&gt;&gt; grants write privilege to ==&gt; G
+R3  ==&gt;&gt; grants write privilege to ==&gt; G
 P1  is a different principal with no specifically granted privilege
 </pre>
 <p>P1 will be able to see all of the scheduled events for R1, R2 and R3, but will
@@ -91,28 +91,28 @@ create and modify all the events.</p>
 <p>In this case you should create a group "G", which all team members are
 members of, and each team member will grant whatever privileges they wish to that group.</p>
 <pre>
-P1  ==>> is a member of  ==> G
-P1  ==>> grants read privilege to ==> G
-P2  ==>> is a member of  ==> G
-P2  ==>> grants read privilege to ==> G
-P3  ==>> is a member of  ==> G
-P3  ==>> grants write privilege to ==> G
-P4  ==>> is a member of  ==> G
-P4  ==>> grants read-free-busy privilege to ==> G
+P1  ==&gt;&gt; is a member of  ==&gt; G
+P1  ==&gt;&gt; grants read privilege to ==&gt; G
+P2  ==&gt;&gt; is a member of  ==&gt; G
+P2  ==&gt;&gt; grants read privilege to ==&gt; G
+P3  ==&gt;&gt; is a member of  ==&gt; G
+P3  ==&gt;&gt; grants write privilege to ==&gt; G
+P4  ==&gt;&gt; is a member of  ==&gt; G
+P4  ==&gt;&gt; grants read-free-busy privilege to ==&gt; G
 </pre>
 
 <h4>A team can modify each others calendars</h4>
 <p>Similar to above, you should create a group "G", which all team members are
 members of, and each team member will grant <em>write</em> privileges to that group.</p>
 <pre>
-P1  ==>> is a member of  ==> G
-P1  ==>> grants write privilege to ==> G
-P2  ==>> is a member of  ==> G
-P2  ==>> grants write privilege to ==> G
-P3  ==>> is a member of  ==> G
-P3  ==>> grants write privilege to ==> G
-P4  ==>> is a member of  ==> G
-P4  ==>> grants write privilege to ==> G
+P1  ==&gt;&gt; is a member of  ==&gt; G
+P1  ==&gt;&gt; grants write privilege to ==&gt; G
+P2  ==&gt;&gt; is a member of  ==&gt; G
+P2  ==&gt;&gt; grants write privilege to ==&gt; G
+P3  ==&gt;&gt; is a member of  ==&gt; G
+P3  ==&gt;&gt; grants write privilege to ==&gt; G
+P4  ==&gt;&gt; is a member of  ==&gt; G
+P4  ==&gt;&gt; grants write privilege to ==&gt; G
 </pre>
 
 <p>Also see the Permissions page on the DAViCal Wiki: <a href="http://wiki.davical.org/w/Permissions" title="The Permissions page on the DAViCal Wiki">http://wiki.davical.org/w/Permissions</a>.</p>

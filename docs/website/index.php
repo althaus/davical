@@ -10,7 +10,7 @@ the maintenance of shared remote calendars through CalDAV including Mozilla Cale
 (Sunbird/Lightning), Evolution, Mulberry, Chandler, and various other closed-source products
 such as Apple's iCal and iPhone. </p>
 <h2>Features</h2>
-<ul>DAViCal:
+DAViCal:<ul>
 <li>is <a href="http://www.gnu.org/philosophy/open-source-misses-the-point.html">Free Software</a> licensed under the <a href="http://www.gnu.org/licenses/gpl.html">General Public License</a>.</li>
 <li>uses an SQL database for storage of event data</li>
 <li>supports backward-compatible access via WebDAV in read-only or read-write mode (not recommended)</li>
@@ -22,7 +22,7 @@ and writing the same calendar entries over time, and scheduling of meetings with
 
 <h1>Overview of Installation and Use</h1>
 <h2>Prerequisites</h2>
-<ul>To install and use DAViCal you will need:
+To install and use DAViCal you will need:<ul>
 <li>a PostgreSQL database server</li>
 <li>a web server which can run PHP version 5</li>
 </ul>
@@ -45,7 +45,7 @@ a page on the wiki which will sometimes have newer information.</p>
 <p>If you can't find your answer there, then the IRC channel #davical on <a href="http://irc.oftc.net/">irc.oftc.net</a> is
 a great next port of call.  Many problems can be solved quickly with a short on-line chat.</p>
 <p>Almost as good as the IRC channel is the <a href="https://lists.sourceforge.net/mailman/listinfo/rscds-general">DAViCal General Mailing List</a>.</p>
-<ul>Other places to try include:
+Other places to try include:<ul>
 <li>The sourceforge forums.</li>
 <li>Googling your problem.</li>
 </ul>
@@ -54,14 +54,14 @@ through the author's company <a href="http://www.morphoss.com/products/davical/s
 
 <h1>Credits</h1>
 <p>DAViCal CalDAV Server was conceived and written by <a href="http://andrew.mcmillan.net.nz/">Andrew McMillan</a>.</p>
-<ul>Translations of the administration interface have been done by:
+Translations of the administration interface have been done by:<ul>
 <li>Lorena Paoletti (Spanish)</li>
 <li>Cristina Radalescu (German)</li>
 <li>Guillaume Rosquin &amp; Maxime Delorme (French)</li>
 <li>Nick Khazov (Russian)</li>
 <li>Eelco Maljaars (Dutch)</li>
 </ul>
-<ul>Other contributors:
+Other contributors:<ul>
 <li>Maxime Delorme (CSS, LDAP, SyncML, French translations)</li>
 <li>Andrew Ruthven (Various enhancements)</li>
 </ul>
@@ -70,7 +70,7 @@ through the author's company <a href="http://www.morphoss.com/products/davical/s
 <p>We welcome contributions from interested people.  You don't need to be able to write code - there are lots of
 small tasks around the project that can be done.
 CalDAV server:</p>
-<ul>Here are some things you could do that will help us to concentrate on making DAViCal a better:
+Here are some things you could do that will help us to concentrate on making DAViCal a better:<ul>
 <li>writing documentation</li>
 <li>helping people on IRC, on the mailing list or sf.net forums</li>
 <li>translating the DAViCal interface to another language</li>

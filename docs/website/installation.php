@@ -44,7 +44,7 @@ You'll have to add this overlay to your system:</p>
 <pre>
 emerge layman
 layman -f -a sunrise
-echo "source /usr/portage/local/layman/make.conf" >> /etc/make.conf
+echo "source /usr/portage/local/layman/make.conf" &gt;&gt; /etc/make.conf
 </pre>
 
 <p>From there, you can keep the overlay in sync with the command:</p>
@@ -113,7 +113,7 @@ user which will be created for the web application fo connect as.</p>
 
 <p>In a simple installation, where you do not have untrusted
 users on your database server, and your database is on the same
-computer as the web server, the following lines (at the very top
+computer as the web server, the following lines (at the very <em>top</em>
 of the pg_hba.conf file) should be enough:</p>
 
 <pre>
@@ -191,24 +191,24 @@ single virtual host.</p>
 <pre>
 #
 # Virtual Host def for Debian packaged DAViCal
-&lt;VirtualHost 123.4.56.78 >
+&lt;VirtualHost 123.4.56.78 &gt;
   DocumentRoot /usr/share/davical/htdocs
   DirectoryIndex index.php index.html
   ServerName davical.example.net
   ServerAlias calendar.example.net
   Alias /images/ /usr/share/davical/htdocs/images/
-  &lt;Directory /usr/share/davical/htdocs/>
+  &lt;Directory /usr/share/davical/htdocs/&gt;
       AllowOverride None
       Order allow,deny
       Allow from all
-  &lt;/Directory>
+  &lt;/Directory&gt;
   AcceptPathInfo On
   php_value include_path /usr/share/awl/inc
   php_value magic_quotes_gpc 0
   php_value register_globals 0
-  php_value error_reporting "E_ALL & ~E_NOTICE"
+  php_value error_reporting "E_ALL &amp; ~E_NOTICE"
   php_value default_charset "utf-8"
-&lt;/VirtualHost>
+&lt;/VirtualHost&gt;
 </pre>
 
 <p>Replace 123.4.56.78 with your own IP address, of course (you can
@@ -236,13 +236,13 @@ and is a regular PHP file which sets (or overrides) some specific variables.</p>
 
 <pre>
 &lt;?php
-//  $c->domain_name = "calendar.example.net";
-//  $c->sysabbr     = 'DAViCal';
-//  $c->admin_email = 'admin@example.net';
-//  $c->system_name = "Example DAViCal Server";
-//  $c->enable_row_linking = true;
+//  $c-&gt;domain_name = "calendar.example.net";
+//  $c-&gt;sysabbr     = 'DAViCal';
+//  $c-&gt;admin_email = 'admin@example.net';
+//  $c-&gt;system_name = "Example DAViCal Server";
+//  $c-&gt;enable_row_linking = true;
 
-  $c->pg_connect[] = 'dbname=davical port=5432 user=davical_app';
+  $c-&gt;pg_connect[] = 'dbname=davical port=5432 user=davical_app';
 
 </pre>
 
