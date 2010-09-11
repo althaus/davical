@@ -25,3 +25,8 @@ testing/tests/google
 testing/tests/local
 testing/timing.stats*
 .sync-cache
+.buildpath
+.cvsignore
+.project
+testing/tests/binding/diffs
+testing/tests/binding/results
