@@ -57,7 +57,7 @@ function handle_subaction( $subaction ) {
     case 'delete_principal':
       dbg_error_log('admin-principal-edit',':handle_action: Deleting principal %d', $id );
       if ( $session->AllowedTo('Admin') ) {
-        if ( $session->CheckConfirmationHash('GET', 'confirm') ) {
+        if ( isset($id) && $id > 1 && $session->CheckConfirmationHash('GET', 'confirm') ) {
           dbg_error_log('admin-principal-edit',':handle_action: Allowed to delete principal %d -%s', $id, $editor->Value('username') );
           $qry = new AwlQuery('DELETE FROM dav_principal WHERE principal_id=?', $id );
           if ( $qry->Exec() ) {
@@ -182,7 +182,7 @@ if ( $can_write_principal && $editor->IsSubmit() ) {
     $qry->Exec('admin-principal-edit');
   }
 }
-else {
+else if ( isset($id) && $id > 0 ) {
   $editor->GetRecord();
   if ( $editor->IsSubmit() ) {
     $c->messages[] = i18n('You do not have permission to modify this record.');
@@ -397,7 +397,7 @@ if ( isset($delete_principal_confirmation_required) ) {
 }
 
 
-if ( isset($id) ) {
+if ( isset($id) && $id > 0 ) {
   $browser = new Browser(translate('Group Memberships'));
   $c->stylesheets[] = 'css/browse.css';
   $c->scripts[] = 'js/browse.js';
