@@ -40,6 +40,17 @@ function check_gettext() {
   return isset($loaded_extensions['gettext']);
 }
 
+function check_suhosin_server_strip() {
+  global $phpinfo, $loaded_extensions;
+
+  if ( !isset($loaded_extensions['suhosin']) ) return true;
+  if ( ini_get('suhosin.server.strip') == "0" ) {
+    return true;
+  }
+
+  return false;
+}
+
 include("interactive-page.php");
 include("page-header.php");
 
@@ -100,7 +111,8 @@ $dependencies = array(
   translate('PHP PDO module available') => 'check_pdo',
   translate('PDO PostgreSQL drivers') => 'check_pdo_pgsql',
   translate('PHP PostgreSQL available') => 'check_pgsql',
-  translate('GNU gettext support') => 'check_gettext' /*,
+  translate('GNU gettext support') => 'check_gettext',
+  translate('Suhosin "server.strip" disabled') => 'check_suhosin_server_strip' /*,
   'YAML' => 'php5-syck' */
 );
 
