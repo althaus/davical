@@ -40,6 +40,9 @@ Content-Type: text/plain; charset="utf-8"
               tel: >040 999999432571-43<
              type: >pref<
 
+            email: >joerg.rossdeutscher@factordesign.foo<
+             type: >pref<
+
             email: >joerg.rossdeutscher@gesindel.foo<
              type: >HOME<
 
@@ -48,7 +51,4 @@ Content-Type: text/plain; charset="utf-8"
 
             email: >joerg@factordesign.foo<
              type: >WORK<
-
-            email: >joerg.rossdeutscher@factordesign.foo<
-             type: >pref<
 

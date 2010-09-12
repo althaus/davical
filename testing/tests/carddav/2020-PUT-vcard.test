@@ -49,7 +49,7 @@ SELECT
   FROM caldav_data 
         LEFT JOIN addressbook_address_adr USING(dav_id)
   WHERE caldav_data.dav_name ~ '/user1/addressbook/Jörg_Test-Roßdeutscher_3_0.vcf'
-  ORDER BY dav_id, property
+  ORDER BY dav_id, property, 1, 2
 ENDQUERY
 
 QUERY
@@ -58,7 +58,7 @@ SELECT
   FROM caldav_data
         LEFT JOIN addressbook_address_tel USING(dav_id)
   WHERE caldav_data.dav_name ~ '/user1/addressbook/Jörg_Test-Roßdeutscher_3_0.vcf'
-  ORDER BY dav_id, property
+  ORDER BY dav_id, property, 1, 2
 ENDQUERY
 
 QUERY
@@ -67,7 +67,7 @@ SELECT
   FROM caldav_data
         LEFT JOIN addressbook_address_email USING(dav_id)
   WHERE caldav_data.dav_name ~ '/user1/addressbook/Jörg_Test-Roßdeutscher_3_0.vcf'
-  ORDER BY dav_id, property
+  ORDER BY dav_id, property, 1, 2
 ENDQUERY
 
 
