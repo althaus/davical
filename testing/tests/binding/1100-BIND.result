@@ -1,42 +1,42 @@
 HTTP/1.1 201 Created
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
-DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
+DAV: extended-mkcol, calendar-proxy, bind, addressbook
 Location: /caldav.php/user4/boundbase/
 Content-Length: 0
 Content-Type: text/plain; charset="utf-8"
 
 
-          bind_id: >1435<
+          bind_id: >1434<
   bound_source_id: >11<
   dav_displayname: >Updated Displayname with PROPPATCH<
          dav_name: >/user4/user2/<
            length: >8<
  parent_container: >/user4/<
 
-          bind_id: >1436<
+          bind_id: >1435<
   bound_source_id: >10<
   dav_displayname: >User 1's Calendaranza<
          dav_name: >/user4/user1/<
            length: >8<
  parent_container: >/user4/<
 
-          bind_id: >1440<
+          bind_id: >1439<
   bound_source_id: >10<
   dav_displayname: >User 1's Calendaranza<
          dav_name: >/user4/base/user1/<
            length: >8<
  parent_container: >/user4/base/<
 
-          bind_id: >1441<
+          bind_id: >1440<
   bound_source_id: >11<
   dav_displayname: >User 2's Calendar, as uploaded by Admin<
          dav_name: >/user4/base/user2/<
            length: >8<
  parent_container: >/user4/base/<
 
-          bind_id: >1455<
-  bound_source_id: >1438<
+          bind_id: >1454<
+  bound_source_id: >1437<
   dav_displayname: >A normal collection<
          dav_name: >/user4/boundbase/<
            length: >NULL<

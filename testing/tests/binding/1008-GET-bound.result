@@ -1,7 +1,7 @@
 HTTP/1.1 200 OK
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
-DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
+DAV: extended-mkcol, calendar-proxy, bind, addressbook
 Etag: "f2c974ff51cb52cde0668544deb36380"
 Content-Length: 858
 Content-Type: text/calendar; charset="utf-8"

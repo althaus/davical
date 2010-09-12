@@ -3,7 +3,7 @@ HTTP/1.1 100 Continue
 HTTP/1.1 204 No Content
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
-DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
+DAV: extended-mkcol, calendar-proxy, bind, addressbook
 ETag: "0ea4d7759e103090c6494505b5da0f11"
 Content-Length: 0
 Content-Type: text/plain; charset="utf-8"
