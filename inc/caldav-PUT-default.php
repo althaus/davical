@@ -65,10 +65,11 @@ $collection_id = $container->GetProperty('collection_id');
 $qry = new AwlQuery();
 $qry->Begin();
 
+$etag = md5($request->raw_post);
 $params = array(
     ':user_no' => $dest->GetProperty('user_no'),
     ':dav_name' => $dest->bound_from(),
-    ':etag' => md5($request->raw_post),
+    ':etag' => $etag,
     ':dav_data' => $request->raw_post,
     ':session_user' => $session->user_no
 );
@@ -90,5 +91,6 @@ $qry->QDo("SELECT write_sync_change( $collection_id, $response_code, :dav_name)"
 $qry = new AwlQuery('COMMIT');
 if ( !$qry->Exec('move') ) rollback(500);
 
+header('ETag: "'. $etag . '"' );
 if ( $response_code == 200 ) $response_code = 204;
 $request->DoResponse( $response_code );
