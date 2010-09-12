@@ -9,6 +9,10 @@ HEADER=Content-Type: application/xml
 
 REPLACE=#<creationdate>2\d{3}-\d\d-\d\dT\d\d:\d\d:\d\d[+-]\d\d:\d\d</creationdate>#<creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>#
 
+# Older versions of PHP urlencoded the ~ incorrectly.  Ignore it.
+# REPLACE=/%7Euser1/=/~user1/=
+REPLACE=#%7E#~#
+
 BEGINDATA
 <?xml version="1.0" encoding="utf-8"?>
 <propfind xmlns="DAV:">

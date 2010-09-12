@@ -390,15 +390,15 @@ END:VCALENDAR
             rrule: >NULL<
            status: >TENTATIVE<
 
-         Dav Name: >/user1/home/3F4CF6227300FD062D9EF3CDFB30D32D-0.ics<
-         a) start: >20061101T233000Z<
-         b)finish: >20061102T003000Z<
-            rrule: >NULL<
-           status: >NULL<
-
          Dav Name: >/user1/home/20061101T073004Z.ics<
          a) start: >20061031T210000Z<
          b)finish: >20061031T220000Z<
+            rrule: >NULL<
+           status: >NULL<
+
+         Dav Name: >/user1/home/3F4CF6227300FD062D9EF3CDFB30D32D-0.ics<
+         a) start: >20061101T233000Z<
+         b)finish: >20061102T003000Z<
             rrule: >NULL<
            status: >NULL<
 

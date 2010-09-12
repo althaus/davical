@@ -92,7 +92,7 @@ restore_database() {
 
   TEST="Restore-Database"
   createdb --owner davical_dba --encoding UTF8 ${DBNAME} >"${RESULTS}/${TEST}" 2>&1
-  pg_restore -Ft -d ${DBNAME} "${REGRESSION}/initial.dbdump" >>"${RESULTS}/${TEST}" 2>&1
+  pg_restore -d ${DBNAME} "${REGRESSION}/initial.dbdump" >>"${RESULTS}/${TEST}" 2>&1
   check_result "${TEST}"
 }
 

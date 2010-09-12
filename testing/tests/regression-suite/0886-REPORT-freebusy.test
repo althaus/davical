@@ -20,7 +20,7 @@ ENDDATA
 
 
 QUERY
-SELECT dav_name "Dav Name", calendar_item.rrule, status,
+SELECT dav_name AS "Dav Name", calendar_item.rrule, status,
      to_char(calendar_item.dtstart at time zone 'GMT','YYYYMMDD"T"HH24MISS"Z"') AS "a) start",
      to_char(calendar_item.dtend at time zone 'GMT','YYYYMMDD"T"HH24MISS"Z"') AS "b)finish"
   FROM caldav_data INNER JOIN calendar_item USING(dav_id,user_no,dav_name)
@@ -29,5 +29,5 @@ SELECT dav_name "Dav Name", calendar_item.rrule, status,
    AND caldav_data.caldav_type IN ( 'VEVENT', 'VFREEBUSY' )
    AND (calendar_item.status != 'CANCELLED' OR calendar_item.status IS NULL)
    AND (calendar_item.class != 'PRIVATE' OR calendar_item.class IS NULL)
- ORDER BY 2, 3
+ ORDER BY 2, 3, 4
 ENDQUERY

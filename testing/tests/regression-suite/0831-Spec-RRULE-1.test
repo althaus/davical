@@ -13,3 +13,5 @@ HEAD
 #
 
 REPLACE=/P: 0\.\d{4}  & S: 0\.\d{4}//
+# REPLACE=/Content-Type: text.(html|plain)/Content-Type: text/
+REPLACE=~Content-Type: text/html~Content-Type: text/plain~
