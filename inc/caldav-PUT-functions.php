@@ -938,7 +938,11 @@ EOSQL;
   if ( $log_action && function_exists('log_caldav_action') ) {
     log_caldav_action( $put_action_type, $first->GetPValue('UID'), $user_no, $collection_id, $path );
   }
-
+  else if ( $log_action  ) {
+    dbg_error_log( 'PUT', 'No log_caldav_action( %s, %s, %s, %s, %s) can be called.',
+            $put_action_type, $first->GetPValue('UID'), $user_no, $collection_id, $path );
+  }
+  
   $qry = new AwlQuery( $sql, $calitem_params );
   if ( !$qry->Exec('PUT',__LINE__,__FILE__) ) {
     rollback_on_error( $caldav_context, $user_no, $path);
