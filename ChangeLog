@@ -1,3 +1,150 @@
+2010-09-13  Andrew McMillan  <andrew@morphoss.com>
+	* Warn if we're being expected to log actions, but have no function.
+
+2010-09-12  Andrew McMillan  <debian@mcmillan.net.nz>
+	* Tweaking OPTIONS output.
+	* Whoops: we weren't sending an ETag on PUT for non-Calendar resources.
+
+2010-09-11  Andrew McMillan  <andrew@morphoss.com>
+	* [setup] Detect whether suhosin.server.strip is set and discourage it.
+	* [index] Allow for a HEAD request on / to be served here too.
+	* [principal edit] Ensure the id is > 0 for us to fetch the record.
+	* [sync-collection report] Fix to work with bound collections.
+
+2010-09-02  Andrew McMillan  <andrew@morphoss.com>
+	* Ensure we get a duration, and default to 1 day if not.
+	* Handle a level of indirection in Binds of binds.
+	* Try harder to get the right duration for an event.
+
+2010-08-31  Andrew McMillan  <andrew@morphoss.com>
+	* Wrap calendar-specific things for PROPFIND in an IsCalendar() test.
+
+2010-08-30  Andrew McMillan  <andrew@morphoss.com>
+	* Refactored free/busy handling to a single core routine with RRule-2
+	* Add support for weeks in durations.
+	* Switch event expansion to use vComponent.php rather than iCalendar.
+	* Add a getUserByEMail() function.
+
+2010-08-29  Andrew McMillan  <andrew@morphoss.com>
+	* Coerce the content-type on PUT.
+
+2010-08-28  Andrew McMillan  <andrew@morphoss.com>
+	* Add initial support for addressbook-query REPORT.
+
+2010-08-24  Andrew McMillan  <andrew@morphoss.com>
+	* OPTIONS should be available to someone with any of the read permissions.
+
+2010-08-18  Andrew McMillan  <andrew@morphoss.com>
+	* Print stage of processing for diagnostic reasons.
+	* Update WebDAV Sync to support -03 of draft
+	* Order drop-down list of principals by displayname.
+	* Allow principal-property-search(-set) REPORT requests on any URL.
+	* Add optional parameter to 'simple' interface to allow action logging.
+	* Add all/any option to NeedPrivilege method also.
+
+2010-08-14  Jens Zahner  <jens.zahner@servicereisen.de>
+	* Fixes to LDAP group handling by Jens Zahner
+
+2010-06-29  Andrew McMillan  <andrew@morphoss.com>
+	* Results of returning applicable permissions by resourcetype.
+	* Respond with supported-report error if the report is unsupported.
+	* Default type to 'resource' for privileges display.
+	* Remove uninitialised variable possibility.
+
+2010-06-28  Andrew McMillan  <andrew@morphoss.com>
+	* Add parameter for masking privilege output to only applicable set.
+	* Check for existence of target resource before we check for READ perm.
+	* Better guessing of content-type when we get a bad/missing one.
+	* Rewrite the way the DAV header is produced.
+
+2010-06-27  Andrew McMillan  <andrew@morphoss.com>
+	* Don't allow PUT of non-calendar/address resources into calendars/addressbooks.
+	* Add support for carddav / caldav well-known URLs. Fix short open tag.
+	* Update regression tests for DAV support header change.
+	* Add indication of support for addressbook.
+
+2010-06-23  Andrew McMillan  <andrew@morphoss.com>
+	* Correct return code on PUT modified.
+	* Send a correct content-type on GET.
+	* Rename event() to resource() since it might not be an event.
+	* When we PUT a vcard set the caldav_type to VCARD.
+	* Try and read dav_principal since the remote usr record no longer suffices.
+
+2010-06-17  Andrew McMillan  <andrew@morphoss.com>
+	* A fix for problems with character output in the user configuration.
+	* Allow for the send_page_header() function to be overridden.
+	* Also remove '/' from potential ticket charset.
+	* Updated Deutsch translation.
+
+2010-05-30  Andrew McMillan  <andrew@morphoss.com>
+	* Add a weak_etag field to the calendar_attendee table.
+
+2010-05-27  Andrew McMillan  <andrew@morphoss.com>
+	* Updated results with fixed RFC5545 wrapping/escaping.
+
+2010-05-19  Andrew McMillan  <andrew@morphoss.com>
+	* Handle VCARD on PUT.
+	* Add ability to start a regression suite from a DB dump.
+	* Add a hack so older Mozilla calendar versions don't see auto-schedule.
+
+2010-05-17  Andrew McMillan  <andrew@morphoss.com>
+	* Add a hack to work around Lightning/Sunbird bug #463392
+	* These AwlQuery classes are ow thoroughly migrated into AWL.
+
+2010-05-14  Michael Trausch  <mike@trausch.us>
+	* A module for authorization by way of the "pwauth" program
+
+2010-05-12  Andrew McMillan  <andrew@morphoss.com>
+	* A few minor database changes.
+	* A few improvements to database creation.
+	  Inspired by Peter Eisentraut's blog post about writing scripts
+	  for PostgreSQL.
+	* Add support for the addressbook-multiget REPORT.  Untested.
+	* Fix if_addressbook for /
+	* Add a check for gettext availability.
+
+2010-05-07  Andrew McMillan  <andrew@morphoss.com>
+	* Add a function to convert iCalendar interval syntax into SQL.
+	* Move RRule expansion functions into RRule include.
+
+2010-04-29  Andrew McMillan  <andrew@morphoss.com>
+	* Add facility to append to a calendar with ?mode=append on PUT
+	* RDATE/EXDATE can occur multiply, as well as contain multiple dates.
+
+2010-04-28  Andrew McMillan  <andrew@morphoss.com>
+	* When a timezone is supplied, but not used in the event, pretend it was.
+
+2010-04-26  Andrew McMillan  <andrew@morphoss.com>
+	* Improved sync to cope slightly better if remote data already present.
+	* Don't complain if the event includes an unused timezone.
+
+2010-04-20  Andrew McMillan  <andrew@morphoss.com>
+	* Log the response regardless, if it is status 400 or greater.
+	* Hide the output of that upgrade away in the var/log directory.
+	* Attempt to run the database update on upgrade, but ignore failure.
+
+2010-04-19  Andrew McMillan  <andrew@morphoss.com>
+	* Fix lintian error.
+	* Release 0.9.9
+
+2010-04-17  Andrew McMillan  <andrew@morphoss.com>
+	* Updated changelog for release 0.9.9
+	* Add SQL query to test 244 to highlight the correct results.
+
+2010-04-16  Andrew McMillan  <andrew@morphoss.com>
+	* Switch to put caldav_data.* in result list after calendar_item.*
+	* Switch to use RenderGMT() to render these dates.
+	* Updated freebusy results from RenderGMT() fix.
+	* Fix RenderGMT() to render GMT correctly.
+
+2010-04-15  Andrew McMillan  <andrew@morphoss.com>
+	* all should depend on the new location for always.php
+	* Use the new olson_from_tzstring() function to extract the Olson tz.
+	* Connection/Keep-alive headers removed.
+	* Don't report Connection: and Keep-alive: headers.
+
+2010-04-14  Andrew McMillan  <andrew@morphoss.com>
+	* Preparing to release 0.9.9
 2010-04-17  Andrew McMillan  <andrew@morphoss.com>
 	* Release 0.9.9
 	* Fix RenderGMT() to render actual GMT time & use more widely.
