@@ -401,11 +401,15 @@ class CalDAVClient {
     if ( preg_match( '{^ETag:\s+"([^"]*)"\s*$}im', $this->httpResponseHeaders, $matches ) ) $etag = $matches[1];
     if ( !isset($etag) || $etag == '' ) {
       printf( "No etag in:\n%s\n", $this->httpResponseHeaders );
+      $save_request = $this->httpRequest;
+      $save_response_headers = $this->httpResponseHeaders;
       $this->DoHEADRequest( $url );
       if ( preg_match( '{^Etag:\s+"([^"]*)"\s*$}im', $this->httpResponseHeaders, $matches ) ) $etag = $matches[1];
       if ( !isset($etag) || $etag == '' ) {
         printf( "Still No etag in:\n%s\n", $this->httpResponseHeaders );
       }
+      $this->httpRequest = $save_request;
+      $this->httpResponseHeaders = $save_response_headers;
     }
     return $etag;
   }
