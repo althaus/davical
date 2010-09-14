@@ -341,7 +341,7 @@ printf( "Pull: Found %d creates, %d updates and %d deletions to apply locally.\n
 if ( $sync_in ) {
   printf( "Sync in\n" );
   // Delete any local events which have been removed from the remote server
-  foreach( $local_delete_urls AS $k => $v ) {
+  foreach( $local_delete_urls AS $href => $v ) {
     $fname = preg_replace('{^.*/}', '', $href);
     $local_fname = $args->local_collection_path . $fname;
     $qry = new AwlQuery('DELETE FROM caldav_data WHERE dav_name = :dav_name', array( ':dav_name' => $local_fname ) );
@@ -381,11 +381,31 @@ if ( $sync_out ) {
   foreach( $push_urls AS $href => $etag ) {
     $new_etag = $caldav->DoPUTRequest( $args->url . $href, $push_events[$href], $etag );
     printf( "\nPUT:\n%s\nResponse:\n%s\n", $caldav->GetHttpRequest(), $caldav->GetResponseHeaders() );
-    $newcache->server_etags[$fname] = $new_etag;
+    if ( !isset($new_etag) || $new_etag == '' ) {
+      if ( preg_match( '{^Location:\s+.*/([^/]+)$}i', $caldav->GetResponseHeaders(), $matches ) ) {
+        /** How annoying.  It seems the other server renamed the event on PUT so we move the local copy to match their name */
+        $new_href = $matches[1];
+        $qry = new AwlQuery('UPDATE caldav_data SET dav_name = :new_dav_name WHERE dav_name = :old_dav_name',
+                        array( ':new_dav_name' => $args->local_collection_path . $new_href,
+                               ':old_dav_name' => $args->local_collection_path . $href ) );
+        $qry->Exec('sync_pull',__LINE__,__FILE__);
+        $new_cache->local_etags[$new_href] = $new_cache->local_etags[$href];
+        unset($new_cache->local_etags[$href]);
+        $href = $new_href; 
+        $caldav->DoHEADRequest( $args->url . $href );
+        if ( preg_match( '{^Etag:\s+"([^"]*)"\s*$}im', $caldav->httpResponseHeaders, $matches ) ) $new_etag = $matches[1];
+      }
+      if ( !isset($new_etag) || $new_etag == '' ) {
+        printf( "Unable to retrieve ETag for new event on remote server. Forcing bad ctag.");
+        $force_ctag = 'Naughty server!';
+      }
+    }
+    $newcache->server_etags[$href] = $new_etag;
   }
 
   $calendar = $caldav->GetCalendarDetails();
-  if ( isset($calendar->getctag) ) $newcache->server_ctag = $calendar->getctag;
+  if ( isset($force_ctag) )              $newcache->server_ctag = $force_ctag;
+  else if ( isset($calendar->getctag) )  $newcache->server_ctag = $calendar->getctag;
 }
 
 // Now (re)write the cache file reflecting the current state.
