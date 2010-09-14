@@ -795,7 +795,7 @@ EOQRY;
       $this->supported_reports = array_merge(
         $this->supported_reports,
         array(
-//          'urn:ietf:params:xml:ns:carddav:addressbook-query' => '',
+          'urn:ietf:params:xml:ns:carddav:addressbook-query' => '',
           'urn:ietf:params:xml:ns:carddav:addressbook-multiget' => ''
         )
       );
