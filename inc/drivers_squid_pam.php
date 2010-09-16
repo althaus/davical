@@ -68,7 +68,7 @@ function SQUID_PAM_check($username, $password ){
     else {
       dbg_error_log( "PAM", "user %s doesn't exist in local DB, we need to create it",$username );
       $fullname = exec('getent passwd "'.$username.'"' );
-      $fullname = preg_replace( '{^[^:]+:[^:]+:\d+:\d+:([^:,]+)(,[^:]*):.*$}', '$1', $fullname );
+      $fullname = preg_replace( '{^[^:]+:[^:]+:\d+:\d+:([^:,]+)(,?[^:]*):.*$}', '$1', $fullname );
       $usr = (object) array(
               'user_no' => 0,
               'username' => $username,
