@@ -382,9 +382,9 @@ if ( $sync_out ) {
     $new_etag = $caldav->DoPUTRequest( $args->url . $href, $push_events[$href], $etag );
     printf( "\nPUT:\n%s\nResponse:\n%s\n", $caldav->GetHttpRequest(), $caldav->GetResponseHeaders() );
     if ( !isset($new_etag) || $new_etag == '' ) {
-      if ( preg_match( '{^Location:\s+.*/([^/]+)$}i', $caldav->GetResponseHeaders(), $matches ) ) {
+      if ( preg_match( '{^Location:\s+.*/([^/]+)$}im', $caldav->GetResponseHeaders(), $matches ) ) {
         /** How annoying.  It seems the other server renamed the event on PUT so we move the local copy to match their name */
-        $new_href = $matches[1];
+        $new_href = preg_replace( '{\r?\n.*$}s', '', $matches[1]);
         $qry = new AwlQuery('UPDATE caldav_data SET dav_name = :new_dav_name WHERE dav_name = :old_dav_name',
                         array( ':new_dav_name' => $args->local_collection_path . $new_href,
                                ':old_dav_name' => $args->local_collection_path . $href ) );
@@ -394,6 +394,7 @@ if ( $sync_out ) {
         $href = $new_href; 
         $caldav->DoHEADRequest( $args->url . $href );
         if ( preg_match( '{^Etag:\s+"([^"]*)"\s*$}im', $caldav->httpResponseHeaders, $matches ) ) $new_etag = $matches[1];
+        printf( "\nHEAD:\n%s\nResponse:\n%s\n", $caldav->GetHttpRequest(), $caldav->GetResponseHeaders() );
       }
       if ( !isset($new_etag) || $new_etag == '' ) {
         printf( "Unable to retrieve ETag for new event on remote server. Forcing bad ctag.");
