@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DAViCal 0.9.7.99\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-09 01:12+1300\n"
+"POT-Creation-Date: 2010-09-14 14:05+1200\n"
 "PO-Revision-Date: 2010-02-10 16:00+0100\n"
 "Last-Translator: Emil Lundberg <Emil.Lundberg@uadm.uu.se>\n"
 "MIME-Version: 1.0\n"
@@ -35,9 +35,25 @@ msgstr ""
 msgid "*** Unknown ***"
 msgstr ""
 
+#, fuzzy, c-format
+msgid "- adding %s to group : %s"
+msgstr "- uppdaterar användarposter : %s"
+
+#, fuzzy, c-format
+msgid "- adding users %s to group : %s"
+msgstr "- uppdaterar användarposter : %s"
+
+#, fuzzy, c-format
+msgid "- creating groups : %s"
+msgstr "- skapar poster för användare : %s"
+
 #, c-format
 msgid "- creating record for users :  %s"
 msgstr "- skapar poster för användare : %s"
+
+#, fuzzy, c-format
+msgid "- deactivate groups : %s"
+msgstr "- inaktiverar användare : %s"
 
 #, c-format
 msgid "- deactivating users : %s"
@@ -48,17 +64,16 @@ msgid "- nothing done on : %s"
 msgstr "- inget utfört på : %s"
 
 #, c-format
-msgid "- updating user records : %s"
+msgid "- removing %s from group : %s"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "- updating groups : %s"
 msgstr "- uppdaterar användarposter : %s"
 
-msgid "--- select a relationship type ---"
-msgstr "--- Völj en relationstyp ---"
-
-msgid "--- select a user or resource ---"
-msgstr "--- Välj en användare eller resurs ---"
-
-msgid "--- select a user, group or resource ---"
-msgstr "--- Välj en användare, grupp eller resurs ---"
+#, c-format
+msgid "- updating user records : %s"
+msgstr "- uppdaterar användarposter : %s"
 
 msgid "<b>WARNING: all events in this path will be deleted before inserting allof the ics file</b>"
 msgstr "<b>Varning: alla händelser i denna sökväg kommer att raderas innan ics-filen läggs till</b>"
@@ -71,20 +86,29 @@ msgstr ""
 "<h1>Var god logga in</h1><p>För att få tillgång till %s behöver du logga in med det användarnamn och "
 "lösenord som tilldelats dig.</p><p>För att begära ett konto, skicka e-post till %s.</p>"
 
+#, fuzzy
+msgid "A DAViCal principal collection may only contain collections"
+msgstr "Speciella samlingar får inte innehålla en kalender eller en annan speciell samling."
+
 msgid "A collection already exists at that location."
 msgstr "En samling finns redan på denna plats."
+
+#, fuzzy
+msgid "A resource already exists at the destination."
+msgstr "En samling finns redan på denna plats."
+
+msgid "Access Tickets"
+msgstr ""
+
+#, fuzzy
+msgid "Access ticket deleted"
+msgstr "Användare raderad"
 
 msgid "Action"
 msgstr "Aktivitet"
 
 msgid "Active"
 msgstr "Aktiv"
-
-msgid "Add Relationship"
-msgstr "Lägg till relation"
-
-msgid "Add"
-msgstr "Lägg till"
 
 msgid "Adding new member to this Group Principal"
 msgstr "Lägger till my medlem till detta gruppkonto"
@@ -109,9 +133,6 @@ msgstr "All data för samlingen kommer att raderas oåterkallerligen."
 msgid "All of the principal's calendars and events will be unrecoverably deleted."
 msgstr "Alla användarens kalendrar och händelser raderas oåterkallerligen."
 
-msgid "All of the user's calendars and events will be unrecoverably deleted."
-msgstr "Alla användarens kalendrar och händelser raderas oåterkallerligen."
-
 #, fuzzy
 msgid "All privileges"
 msgstr "Rättigheter"
@@ -134,7 +155,13 @@ msgstr "Anonyma användare har inte rättighet att ändra kalendrar"
 msgid "Anonymous users may only access public calendars"
 msgstr "Anonyma användare har bara åtkomst till publika kalendrar"
 
+msgid "Application DB User"
+msgstr ""
+
 msgid "Apply Changes"
+msgstr ""
+
+msgid "Apply DB Patches"
 msgstr ""
 
 msgid "Browse all users"
@@ -146,15 +173,8 @@ msgstr "Upptagen"
 msgid "Calendar Principals"
 msgstr "Kalenderkonton"
 
-msgid "Calendar Resource Not Found."
-msgstr "Kalenderresurs hittades inte."
-
 msgid "Calendar Timezone"
 msgstr "Kalender-tidszon"
-
-#, c-format
-msgid "Calendar \"%s\" for user \"%s\" was created."
-msgstr "Kalender \"%s\" för användare \"%s\" skapades."
 
 #, c-format
 msgid "Calendar \"%s\" was loaded from file."
@@ -163,23 +183,11 @@ msgstr ""
 msgid "Change Password"
 msgstr "Ändra lösenord"
 
-msgid "Changed On"
-msgstr "Ändrat för"
-
-msgid "Click to display that user"
-msgstr "Klicka för att visa denna användare"
-
-msgid "Click to display the contents of the collection"
-msgstr "Klicka för att visa samlingens innehåll"
-
 msgid "Click to display user details"
 msgstr "Klicka för att visa användardetaljer"
 
 msgid "Click to edit principal details"
 msgstr "Klicka flr att visa kontodetaljer"
-
-msgid "Collection Contents"
-msgstr "SAmlingen innehåller"
 
 msgid "Collection Grants"
 msgstr "Samlingens rättigheter"
@@ -187,14 +195,14 @@ msgstr "Samlingens rättigheter"
 msgid "Collection ID"
 msgstr "Samlingens ID"
 
-msgid "Collection Path"
-msgstr "Samlingens sökväg"
-
 msgid "Collection deleted"
 msgstr "Samlingen raderad"
 
 msgid "Collection"
 msgstr "Samling"
+
+msgid "Collections may not be both CalDAV calendars and CardDAV addressbooks at the same time"
+msgstr ""
 
 msgid "Configuring Calendar Clients for DAViCal"
 msgstr ""
@@ -209,10 +217,8 @@ msgstr "Bekräfta radering av samlingen"
 msgid "Confirm Deletion of the Principal"
 msgstr "Bekräfta radering av användare"
 
-msgid "Confirm Deletion of the Relationship Type"
-msgstr "Bekräfta radering av relationstyp"
-
-msgid "Confirm Deletion of the User"
+#, fuzzy
+msgid "Confirm Deletion of the Ticket"
 msgstr "Bekräfta radering av användare"
 
 #, fuzzy
@@ -225,8 +231,8 @@ msgstr "Bekräfta det nya lösenordet"
 msgid "Confirm"
 msgstr "Bekräfta"
 
-msgid "Create Calendar"
-msgstr "Skapa kalender"
+msgid "Could not retrieve"
+msgstr ""
 
 #, fuzzy
 msgid "Create Collection"
@@ -243,6 +249,10 @@ msgstr "Skapa nytt konto"
 
 msgid "Create Principal"
 msgstr "Skapa konto"
+
+#, fuzzy
+msgid "Create Ticket"
+msgstr "Skapa"
 
 msgid "Create a new principal (i.e. a new user, resource or group)"
 msgstr "Skapa nytt konto (dvs nya användare, resursd, eller grupp"
@@ -276,6 +286,9 @@ msgstr ""
 msgid "DAV Path"
 msgstr "DAV-sökväg"
 
+msgid "DAV::resourcetype may only be set to a new value, it may not be removed."
+msgstr ""
+
 msgid "DAViCal CalDAV Server"
 msgstr "DAViCal CalDAV Server"
 
@@ -289,11 +302,53 @@ msgstr "DAViCal Startsida"
 msgid "DAViCal Wiki"
 msgstr "DAViCal Wiki"
 
+msgid "DAViCal only allows BIND requests for collections at present."
+msgstr ""
+
+msgid "DKIM signature invalid "
+msgstr ""
+
+msgid "DKIM signature missing"
+msgstr ""
+
+msgid "DKIM signature validation failed(DNS ERROR)"
+msgstr ""
+
+msgid "DKIM signature validation failed(KEY Parse ERROR)"
+msgstr ""
+
+msgid "DKIM signature validation failed(KEY Validation ERROR)"
+msgstr ""
+
+msgid "DKIM signature validation failed(Signature verification ERROR)"
+msgstr ""
+
 msgid "Database Error"
 msgstr "Databasfel"
 
-msgid "Database Error."
-msgstr "Databasfel."
+#, fuzzy
+msgid "Database Host"
+msgstr "Databasfel"
+
+#, fuzzy
+msgid "Database Name"
+msgstr "Databasfel"
+
+#, fuzzy
+msgid "Database Owner"
+msgstr "Databasfel"
+
+#, fuzzy
+msgid "Database Password"
+msgstr "Databasfel"
+
+#, fuzzy
+msgid "Database Port"
+msgstr "Databasfel"
+
+#, fuzzy
+msgid "Database Username"
+msgstr "Databasfel"
 
 msgid "Database error"
 msgstr "Databasfel"
@@ -314,9 +369,6 @@ msgstr "Radera händelser/samlingar"
 msgid "Delete Principal"
 msgstr "Skapa konto"
 
-msgid "Delete User"
-msgstr "Radera användare"
-
 #, fuzzy
 msgid "Delete a resource or collection"
 msgstr "Radera händelser/samlingar"
@@ -334,7 +386,8 @@ msgstr "Raderar samling:"
 msgid "Deleting Principal:"
 msgstr "Skapa konto"
 
-msgid "Deleting User:"
+#, fuzzy
+msgid "Deleting Ticket:"
 msgstr "Raderar användare:"
 
 msgid "Deliver scheduling invitations from an organiser to this scheduling inbox"
@@ -351,6 +404,9 @@ msgstr ""
 
 msgid "Description"
 msgstr "Beskrivning"
+
+msgid "Destination collection does not exist"
+msgstr ""
 
 msgid "Directory on the server"
 msgstr "Serverns katalog"
@@ -397,11 +453,12 @@ msgstr "E-postadress"
 msgid "Enter a username, if you know it, and click here, to be e-mailed a temporary password."
 msgstr "Mata in ett användarnamn, om du känner till det, för att erhålla e-post med ett engångslösenord"
 
-msgid "Enter the name for this resource type"
-msgstr "Mata in namnet på denna resurstyp"
-
 msgid "Enter your username and password then click here to log in."
 msgstr "Mata in ditt användarnamn och lösenord och klicka sedan här för att logga in."
+
+#, fuzzy, c-format
+msgid "Error NoGroupFound with filter >%s<, attributes >%s< , dn >%s<"
+msgstr "Feltyp NoUserFound med filter >%s<, attribut >%s< och dn >%s<"
 
 #, c-format
 msgid "Error NoUserFound with filter >%s<, attributes >%s< , dn >%s<"
@@ -430,8 +487,11 @@ msgstr "Befintlig resurs matchar inte \"If-Match\"-header - ej accepterad."
 msgid "Existing resource matches \"If-None-Match\" header - not accepted."
 msgstr "Befintlig resurs matchar \"If-None-Match\"-header - ej accepterad."
 
-msgid "Finish"
-msgstr "Avsluta"
+msgid "Expires"
+msgstr ""
+
+msgid "Failed"
+msgstr ""
 
 msgid "For access to the"
 msgstr "För tillgång till"
@@ -443,17 +503,18 @@ msgstr "Förbjuden"
 msgid "Free/Busy"
 msgstr "Tillgänglighet"
 
-msgid "FreeBusy"
-msgstr "Tillgänglighet"
-
 msgid "Full Name"
 msgstr "Fullständigt namn"
 
 msgid "Fullname"
 msgstr "Fullständigt namn"
 
-msgid "GET requests are only handled on calendar collections."
+#, fuzzy
+msgid "GET requests on collections are only supported for calendars."
 msgstr "GET-förfrågningar kan bara hanteras för kalendersamlingar."
+
+msgid "GNU gettext support"
+msgstr ""
 
 msgid "GO!"
 msgstr "KÖR!"
@@ -535,6 +596,12 @@ msgstr "Importera alla .ics-filer från en katalog"
 msgid "Inactive Principals"
 msgstr "Skapa konto"
 
+msgid "Incorrect content type for addressbook: "
+msgstr ""
+
+msgid "Incorrect content type for calendar: "
+msgstr ""
+
 msgid "Invalid user name or password."
 msgstr "Ogiltigt användarnamn eller lösenord."
 
@@ -547,17 +614,15 @@ msgstr "Är medlem av"
 msgid "Is a Calendar"
 msgstr "Är en kalender"
 
-msgid "Is a Calendar?"
-msgstr "Är en Kalender?"
-
 msgid "Is an Addressbook"
 msgstr "Är en adressbok"
 
-msgid "Is this access read ('R') or Read and Write ('RW')?"
-msgstr "Är denna rättighet läs- ('R') eller läs- och skriv- ('RW')?"
-
 msgid "Is this user active?"
 msgstr "Är denna användare aktiv?"
+
+#, fuzzy
+msgid "Items in Collection"
+msgstr "Ny samling"
 
 msgid "Joined"
 msgstr "Inlagd"
@@ -567,12 +632,6 @@ msgstr "Språk"
 
 msgid "Last used"
 msgstr "Senast använd"
-
-msgid "Linked From"
-msgstr "Länkad från"
-
-msgid "Linked To"
-msgstr "Länkad till"
 
 msgid "List Groups"
 msgstr "Lista grupper"
@@ -653,6 +712,9 @@ msgstr "Nr."
 msgid "Not overwriting existing destination resource"
 msgstr "Skriver ej över befintlig resursdestination"
 
+msgid "OK"
+msgstr ""
+
 msgid "Opaque"
 msgstr "Ej transparent"
 
@@ -662,8 +724,9 @@ msgstr "Åtgärder på din Kalender"
 msgid "Override a Lock"
 msgstr "Bryt upp ett lås"
 
-msgid "PDO PostgreSQL divers"
-msgstr ""
+#, fuzzy
+msgid "PDO PostgreSQL drivers"
+msgstr "Användaren ej tillgänglig"
 
 msgid "PHP PDO module available"
 msgstr ""
@@ -671,6 +734,9 @@ msgstr ""
 #, fuzzy
 msgid "PHP PostgreSQL available"
 msgstr "Användaren ej tillgänglig"
+
+msgid "PUT on a collection is only allowed for text/calendar content against a calendar collection"
+msgstr ""
 
 msgid "Password"
 msgstr "Lösenord"
@@ -681,17 +747,15 @@ msgstr "Sökväg"
 msgid "Person"
 msgstr ""
 
-msgid "Please Confirm Deletion"
-msgstr "Vänligen bekräfta destination"
+#, fuzzy
+msgid "Please confirm deletion of access ticket - see below"
+msgstr "Vänligen bekräfta radering av samling - se nedan"
 
 msgid "Please confirm deletion of collection - see below"
 msgstr "Vänligen bekräfta radering av samling - se nedan"
 
 #, fuzzy
 msgid "Please confirm deletion of the principal"
-msgstr "Vänligen bekräfta radering av användare"
-
-msgid "Please confirm deletion of user"
 msgstr "Vänligen bekräfta radering av användare"
 
 msgid "Please note the time and advise the administrator of your system."
@@ -716,6 +780,9 @@ msgstr "Kontotyp"
 
 msgid "Principal"
 msgstr "Konto"
+
+msgid "Privileges granted to All Users"
+msgstr ""
 
 msgid "Privileges"
 msgstr "Rättigheter"
@@ -767,41 +834,11 @@ msgstr "Läs"
 msgid "Read/Write"
 msgstr "Läs/skriv"
 
-msgid "ReadWrite"
-msgstr "Läs/skriv"
-
-msgid "Relationship Type Added."
-msgstr "Relationstyp tillagd."
-
-msgid "Relationship Type Deleted."
-msgstr "Relationstyp raderad."
-
-msgid "Relationship Types"
-msgstr "Relationstyper"
-
-msgid "Relationship added."
-msgstr "Relation tillagd."
-
-msgid "Relationship deleted"
-msgstr "Relation raderad"
-
-msgid "Relationship"
-msgstr "Relation"
-
-msgid "Relationships from this user"
-msgstr "Relationer från denna användare"
-
-msgid "Relationships to this user"
-msgstr "Relationer till denna användare"
-
 msgid "Remove a lock"
 msgstr ""
 
 msgid "Remove"
 msgstr ""
-
-msgid "Repeat Rule"
-msgstr "Repetitionsregel"
 
 msgid "Report Bug"
 msgstr "Rapportera fel"
@@ -812,17 +849,23 @@ msgstr "Rapportera fel i systemet"
 msgid "Request Feature"
 msgstr "Begär funktionsförbättring"
 
+#, fuzzy
+msgid "Request body contains no XML data!"
+msgstr "REPORT Body innehåller inga XML-data!"
+
+#, fuzzy
+msgid "Request body is not valid XML data!"
+msgstr "REPORT Body är inte giltig XML-data!"
+
 msgid "Resource <!-- a thing which might be booked: a room, a carpark, a projector... -->"
 msgstr "Resurs"
 
 msgid "Resource Calendar Principals"
 msgstr "Resurskalender-konto"
 
-msgid "Resource changed on server - not changed."
-msgstr "Resurs ändrad på servern - ej ändrad."
-
-msgid "Resource does not match 'If-Match' header - not deleted"
-msgstr "Resurs matchar inte 'If-Match'-header - ej raderad"
+#, fuzzy
+msgid "Resource Not Found."
+msgstr "Kalenderresurs hittades inte."
 
 msgid "Resource has changed on server - not deleted"
 msgstr "Resurs har ändrats på servern - ej raderad"
@@ -835,9 +878,6 @@ msgstr "Resurs kan inte ändras till / från samlingar."
 
 msgid "Revoke"
 msgstr ""
-
-msgid "Rights"
-msgstr "Rättigheter"
 
 #, fuzzy
 msgid "Schedule Deliver"
@@ -876,12 +916,6 @@ msgstr "Bokning: skicka tillgänglighet"
 msgid "Scheduling: Sending"
 msgstr "Bokning: skicka ett svar"
 
-msgid "Select the type of relationship from this user"
-msgstr "Völj typen av relation från denna användare"
-
-msgid "Select the user, resource or group to relate this user to"
-msgstr "Välj användare, resurs eller grupp att relatera denna användare till"
-
 msgid "Send free/busy enquiries"
 msgstr ""
 
@@ -915,9 +949,6 @@ msgstr "Konfigurera DAViCal"
 msgid "Setup"
 msgstr "Konfigurera"
 
-msgid "Should this calendar be readable without authenticating?"
-msgstr "Skall denna kalender vara läsbar utan autenticering?"
-
 msgid "Show help on"
 msgstr "Visa hjälp för"
 
@@ -943,9 +974,6 @@ msgstr "Speciella samlingar får inte innehålla en kalender eller en annan spec
 msgid "Specific Privileges"
 msgstr "Standardrättigheter"
 
-msgid "Start"
-msgstr "Start"
-
 #, fuzzy
 msgid "Status"
 msgstr "Start"
@@ -957,30 +985,51 @@ msgstr "Status: %d, Meddelande: %s, Användare: %d, Sökväg: %s"
 msgid "Submit"
 msgstr "Skicka"
 
-msgid "Summary"
-msgstr "Sammanfattning"
+msgid "Suhosin \"server.strip\" disabled"
+msgstr ""
 
-msgid "Sync LDAP with RSCDS"
+#, fuzzy
+msgid "Sync LDAP Groups with RSCDS"
 msgstr "Synkronisera LDAP med DAviCal"
 
-# TODO - Was bedeutet das Wort zwischen ##?
-msgid "That relationship type is being used. See ##RelationshipTypeUsed##"
-msgstr "Denna relationstyp används redan. Se ##BeziehungstypWirdVerwendet##"
+#, fuzzy
+msgid "Sync LDAP with DAViCal"
+msgstr "Synkronisera LDAP med DAviCal"
+
+msgid "Target"
+msgstr ""
+
+#, fuzzy
+msgid "That destination name contains invalid characters."
+msgstr "Kalendersökvägen inehåller otillåtna tecken."
 
 msgid "That resource is not present on this server."
 msgstr "Denna resulrs finns inte på denna server."
 
+msgid "The BIND Request MUST identify an existing resource."
+msgstr ""
+
+msgid "The BIND Request-URI MUST identify a collection."
+msgstr ""
+
+#, fuzzy
+msgid "The BIND method is not allowed at that location."
+msgstr "Ingen samling funnen på denna plats."
+
+msgid "The CalDAV:schedule-calendar-transp property may only be set on calendars."
+msgstr ""
+
 msgid "The DAViCal Home Page"
 msgstr "DAViCals hemsida"
 
+msgid "The access ticket will be deleted."
+msgstr ""
+
+msgid "The addressbook-query report must be run against an addressbook collection"
+msgstr ""
+
 msgid "The application program does not understand that request."
 msgstr "Användarprogrammet förstår inte denna begäran."
-
-msgid ""
-"The calendar name part of the path to store your ics. E.g. the \"home\" part of \"/caldav.php/username/"
-"home/\""
-msgstr ""
-"Kalendernamnsdelen av sökvägen dit du sparar dina ics. T ex \"home\" i \"/caldav.php/username/home/\""
 
 msgid "The calendar path contains illegal characters."
 msgstr "Kalendersökvägen inehåller otillåtna tecken."
@@ -989,11 +1038,15 @@ msgid ""
 "The calendar-free-busy-set is superseded by the schedule-transp property of a calendar collection."
 msgstr ""
 
+msgid "The calendar-query report must be run against a calendar or a scheduling collection"
+msgstr ""
+
 #, fuzzy
 msgid "The collection name may not be blank."
 msgstr "FEL: Det fullständiga namnet kan inte lämnas tomt."
 
-msgid "The displayname may only be set on collections or principals."
+#, fuzzy
+msgid "The displayname may only be set on collections, principals or bindings."
 msgstr "Visningsnamnet kan bara sättas på samlingar eller konton."
 
 #, fuzzy
@@ -1034,11 +1087,15 @@ msgstr "Användarens lösenord för inloggning."
 msgid "The username must not be blank, and may not contain a slash"
 msgstr ""
 
-msgid "There is no collection at that URL."
-msgstr "Det finns ingen samling under denna URL."
-
 msgid "There was an error writing to the database."
 msgstr "Det uppstöd ett fel vid skrivning till databasen."
+
+msgid ""
+"This operation does the following: <ul><li>check valid groups in LDAP directory</li> <li>check groups "
+"in DAViCal</li></ul> then <ul><li>if a group is present in DAViCal but not in LDAP set as inactive in "
+"DAViCal</li> <li>if a group is present in LDAP but not in DAViCal create the group in DAViCal</li> "
+"<li>if a group in present in LDAP and DAViCal then update information in DAViCal</li> </ul>"
+msgstr ""
 
 msgid ""
 "This operation does the following: <ul><li>check valid users in LDAP directory</li> <li>check users in "
@@ -1046,9 +1103,6 @@ msgid ""
 "DAViCal</li> <li>if a user is present in LDAP but not in DAViCal create the user in DAViCal</li> "
 "<li>if a user in present in LDAP and DAViCal then update information in DAViCal</li> </ul>"
 msgstr ""
-
-msgid "This user's collections"
-msgstr "Användarens samlingar"
 
 msgid "To ID"
 msgstr "Till ID"
@@ -1059,9 +1113,6 @@ msgstr "Standardrättigheter"
 
 msgid "Transparent"
 msgstr "Transparens"
-
-msgid "Type"
-msgstr "Typ"
 
 msgid "US Format"
 msgstr ""
@@ -1095,9 +1146,6 @@ msgstr "Uppgradera DAViCals databasschema"
 msgid "Upgrade Database"
 msgstr "Uppgradera databas"
 
-msgid "Upload a .ics calendar in iCalendar format "
-msgstr "Ladda upp en .ics-kalender i iCalendar-format "
-
 #, fuzzy
 msgid "Upload a .ics calendar in iCalendar format to initialise or replace this calendar."
 msgstr "Ladda upp en .ics-kalender i iCalendar-format "
@@ -1116,9 +1164,6 @@ msgstr "Användarnamn"
 
 msgid "User Roles"
 msgstr "Användarroller"
-
-msgid "User deleted"
-msgstr "Användare raderad"
 
 msgid "User is active"
 msgstr "Användaren är aktiv"
@@ -1140,6 +1185,9 @@ msgstr "Visa denna användares kontopost"
 
 msgid "Visit the DAViCal Wiki"
 msgstr "Gå till DAViCals Wiki"
+
+msgid "Warning: there are no active admin users, you should fix this before logging out."
+msgstr ""
 
 # TODO - Kontext bestimmen
 msgid "When the user's e-mail account was validated."
@@ -1171,6 +1219,10 @@ msgid "Yes"
 msgstr ""
 
 #, c-format
+msgid "You are currently running DAViCal version %s. The database schema is at version %d.%d.%d."
+msgstr ""
+
+#, c-format
 msgid ""
 "You are currently running DAViCal version %s. The database schema should be at version %s and it is at "
 "version %d.%d.%d."
@@ -1186,25 +1238,26 @@ msgstr "Du har inte rättigheter att använda denna funktion."
 msgid "You are viewing"
 msgstr "Du inspekterar"
 
-msgid "You do not have appropriate rights to view that resource."
+#, fuzzy
+msgid "You do not have permission to modify this record."
 msgstr "Du har inte de rättigheter som krävs för att inspektera denna resurs."
 
-msgid "You may not add entries to this calendar."
-msgstr "Du har inte rättigheter att lägga till poster i denna kalender."
-
-msgid "You may not modify entries on this calendar."
-msgstr "Du har inte rättigheter att ändra poster i denna kalender."
-
-# TODO - Bessere Übersetzung für "Interface"
-msgid "You may only review the contents of your own collections in this interface."
-msgstr "Du har bara rättigheter att inspektera innehållet i dina egna samlingar genom denna vy."
+#, fuzzy
+msgid "You may not PUT to a collection URL"
+msgstr "Du har inte åtkomst till den samlingen"
 
 msgid "You must log in to use this system."
 msgstr "Du måste logga in för att använda detta system."
 
+msgid "Your configuration produced PHP errors which should be corrected"
+msgstr ""
+
 #, c-format
 msgid "all events of user %s were deleted and replaced by those from file %s"
 msgstr "Alla händelser för användare %s raderades och ersattes med dem från filen %s"
+
+msgid "calendar-timezone property is only valid for a calendar."
+msgstr ""
 
 #, c-format
 msgid "directory %s is not readable"
@@ -1234,6 +1287,10 @@ msgstr "drivers_ldap : Unable to connect to LDAP with port %s on host %s"
 msgid "drivers_ldap : function ldap_connect not defined, check your php_ldap module"
 msgstr "drivers_ldap : function ldap_connect not defined, check your php_ldap module"
 
+#, fuzzy, c-format
+msgid "drivers_pwauth_pam : Unable to find %s file"
+msgstr "drivers_squid_pam : Unable to find %s file"
+
 #, c-format
 msgid "drivers_squid_pam : Unable to find %s file"
 msgstr "drivers_squid_pam : Unable to find %s file"
@@ -1259,6 +1316,168 @@ msgstr "filen %s är inte UTF-8 kodad, kontrollera fel-loggen för detaljer"
 
 msgid "you should log on with the username and password that have been issued to you."
 msgstr "du behöver logga in med det användarnamn och lösenord du erhållit."
+
+#~ msgid "--- select a relationship type ---"
+#~ msgstr "--- Völj en relationstyp ---"
+
+#~ msgid "--- select a user or resource ---"
+#~ msgstr "--- Välj en användare eller resurs ---"
+
+#~ msgid "--- select a user, group or resource ---"
+#~ msgstr "--- Välj en användare, grupp eller resurs ---"
+
+#~ msgid "Add Relationship"
+#~ msgstr "Lägg till relation"
+
+#~ msgid "Add"
+#~ msgstr "Lägg till"
+
+#~ msgid "All of the user's calendars and events will be unrecoverably deleted."
+#~ msgstr "Alla användarens kalendrar och händelser raderas oåterkallerligen."
+
+#~ msgid "Calendar \"%s\" for user \"%s\" was created."
+#~ msgstr "Kalender \"%s\" för användare \"%s\" skapades."
+
+#~ msgid "Changed On"
+#~ msgstr "Ändrat för"
+
+#~ msgid "Click to display that user"
+#~ msgstr "Klicka för att visa denna användare"
+
+#~ msgid "Click to display the contents of the collection"
+#~ msgstr "Klicka för att visa samlingens innehåll"
+
+#~ msgid "Collection Contents"
+#~ msgstr "SAmlingen innehåller"
+
+#~ msgid "Collection Path"
+#~ msgstr "Samlingens sökväg"
+
+#~ msgid "Confirm Deletion of the Relationship Type"
+#~ msgstr "Bekräfta radering av relationstyp"
+
+#~ msgid "Create Calendar"
+#~ msgstr "Skapa kalender"
+
+#~ msgid "Database Error."
+#~ msgstr "Databasfel."
+
+#~ msgid "Delete User"
+#~ msgstr "Radera användare"
+
+#~ msgid "Enter the name for this resource type"
+#~ msgstr "Mata in namnet på denna resurstyp"
+
+#~ msgid "Finish"
+#~ msgstr "Avsluta"
+
+#~ msgid "FreeBusy"
+#~ msgstr "Tillgänglighet"
+
+#~ msgid "Is a Calendar?"
+#~ msgstr "Är en Kalender?"
+
+#~ msgid "Is this access read ('R') or Read and Write ('RW')?"
+#~ msgstr "Är denna rättighet läs- ('R') eller läs- och skriv- ('RW')?"
+
+#~ msgid "Linked From"
+#~ msgstr "Länkad från"
+
+#~ msgid "Linked To"
+#~ msgstr "Länkad till"
+
+#~ msgid "Please Confirm Deletion"
+#~ msgstr "Vänligen bekräfta destination"
+
+#~ msgid "Please confirm deletion of user"
+#~ msgstr "Vänligen bekräfta radering av användare"
+
+#~ msgid "ReadWrite"
+#~ msgstr "Läs/skriv"
+
+#~ msgid "Relationship Type Added."
+#~ msgstr "Relationstyp tillagd."
+
+#~ msgid "Relationship Type Deleted."
+#~ msgstr "Relationstyp raderad."
+
+#~ msgid "Relationship Types"
+#~ msgstr "Relationstyper"
+
+#~ msgid "Relationship added."
+#~ msgstr "Relation tillagd."
+
+#~ msgid "Relationship deleted"
+#~ msgstr "Relation raderad"
+
+#~ msgid "Relationship"
+#~ msgstr "Relation"
+
+#~ msgid "Relationships from this user"
+#~ msgstr "Relationer från denna användare"
+
+#~ msgid "Relationships to this user"
+#~ msgstr "Relationer till denna användare"
+
+#~ msgid "Repeat Rule"
+#~ msgstr "Repetitionsregel"
+
+#~ msgid "Resource changed on server - not changed."
+#~ msgstr "Resurs ändrad på servern - ej ändrad."
+
+#~ msgid "Resource does not match 'If-Match' header - not deleted"
+#~ msgstr "Resurs matchar inte 'If-Match'-header - ej raderad"
+
+#~ msgid "Rights"
+#~ msgstr "Rättigheter"
+
+#~ msgid "Select the type of relationship from this user"
+#~ msgstr "Völj typen av relation från denna användare"
+
+#~ msgid "Select the user, resource or group to relate this user to"
+#~ msgstr "Välj användare, resurs eller grupp att relatera denna användare till"
+
+#~ msgid "Should this calendar be readable without authenticating?"
+#~ msgstr "Skall denna kalender vara läsbar utan autenticering?"
+
+#~ msgid "Start"
+#~ msgstr "Start"
+
+#~ msgid "Summary"
+#~ msgstr "Sammanfattning"
+
+# TODO - Was bedeutet das Wort zwischen ##?
+#~ msgid "That relationship type is being used. See ##RelationshipTypeUsed##"
+#~ msgstr "Denna relationstyp används redan. Se ##BeziehungstypWirdVerwendet##"
+
+#~ msgid ""
+#~ "The calendar name part of the path to store your ics. E.g. the \"home\" part of \"/caldav.php/"
+#~ "username/home/\""
+#~ msgstr ""
+#~ "Kalendernamnsdelen av sökvägen dit du sparar dina ics. T ex \"home\" i \"/caldav.php/username/home/"
+#~ "\""
+
+#~ msgid "There is no collection at that URL."
+#~ msgstr "Det finns ingen samling under denna URL."
+
+#~ msgid "This user's collections"
+#~ msgstr "Användarens samlingar"
+
+#~ msgid "Type"
+#~ msgstr "Typ"
+
+#~ msgid "Upload a .ics calendar in iCalendar format "
+#~ msgstr "Ladda upp en .ics-kalender i iCalendar-format "
+
+#~ msgid "You may not add entries to this calendar."
+#~ msgstr "Du har inte rättigheter att lägga till poster i denna kalender."
+
+#~ msgid "You may not modify entries on this calendar."
+#~ msgstr "Du har inte rättigheter att ändra poster i denna kalender."
+
+# TODO - Bessere Übersetzung für "Interface"
+#~ msgid "You may only review the contents of your own collections in this interface."
+#~ msgstr "Du har bara rättigheter att inspektera innehållet i dina egna samlingar genom denna vy."
 
 #~ msgid "Administers"
 #~ msgstr "Administrerar"
@@ -1292,9 +1511,6 @@ msgstr "du behöver logga in med det användarnamn och lösenord du erhållit."
 
 #~ msgid "You may not access that calendar"
 #~ msgstr "Du har inte åtkomst till den kalendern"
-
-#~ msgid "You may not access that collection"
-#~ msgstr "Du har inte åtkomst till den samlingen"
 
 #~ msgid "You may not create a calendar there."
 #~ msgstr "Du har inte rättigheter att lägga till en kalender där."

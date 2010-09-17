@@ -8,10 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DAViCal 0.9.8.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-08 14:52+1300\n"
+"POT-Creation-Date: 2010-09-14 14:05+1200\n"
 "PO-Revision-Date: 2010-02-25 12:48+0900\n"
 "Last-Translator: Masahiro MIKAMI <mmecon@hotmail.co.jp>\n"
 "Language-Team: \n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 16bit\n"
@@ -22,9 +23,25 @@ msgstr ""
 msgid "*** Unknown ***"
 msgstr ""
 
+#, fuzzy, c-format
+msgid "- adding %s to group : %s"
+msgstr "- ユーザー情報を更新中: %s"
+
+#, fuzzy, c-format
+msgid "- adding users %s to group : %s"
+msgstr "- ユーザー情報を更新中: %s"
+
+#, fuzzy, c-format
+msgid "- creating groups : %s"
+msgstr "- ユーザーの情報を作成中： %s"
+
 #, c-format
 msgid "- creating record for users :  %s"
 msgstr "- ユーザーの情報を作成中： %s"
+
+#, fuzzy, c-format
+msgid "- deactivate groups : %s"
+msgstr "- ユーザーを解除中: %s"
 
 #, c-format
 msgid "- deactivating users : %s"
@@ -35,17 +52,16 @@ msgid "- nothing done on : %s"
 msgstr "- 変更は行われていません: %s"
 
 #, c-format
-msgid "- updating user records : %s"
+msgid "- removing %s from group : %s"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "- updating groups : %s"
 msgstr "- ユーザー情報を更新中: %s"
 
-msgid "--- select a relationship type ---"
-msgstr "--- 関係タイプを選択 ---"
-
-msgid "--- select a user or resource ---"
-msgstr "--- ユーザー又は資源の選択 ---"
-
-msgid "--- select a user, group or resource ---"
-msgstr "--- ユーザー、グループ又は資源の選択 ---"
+#, c-format
+msgid "- updating user records : %s"
+msgstr "- ユーザー情報を更新中: %s"
 
 msgid "<b>WARNING: all events in this path will be deleted before inserting allof the ics file</b>"
 msgstr "<b>警告：このパス内の全てのイベントは、icsファイルの挿入の前に削除されます。</b>"
@@ -58,20 +74,29 @@ msgstr ""
 "<H1>ログオンして下さい</H1><P>%sにアクセスするには、あなたに対して発行されたユーザー名およびパスワード"
 "でログオンして下さい。</P><P>アクセスをリクエストしたい場合は、%sにメールを送ってください。</P>"
 
+#, fuzzy
+msgid "A DAViCal principal collection may only contain collections"
+msgstr "特殊なコレクションは、カレンダーまたは他の特殊なコレクションを含めません。"
+
 msgid "A collection already exists at that location."
 msgstr "すでにその場所にコレクションが存在します。"
+
+#, fuzzy
+msgid "A resource already exists at the destination."
+msgstr "すでにその場所にコレクションが存在します。"
+
+msgid "Access Tickets"
+msgstr ""
+
+#, fuzzy
+msgid "Access ticket deleted"
+msgstr "ユーザーを削除しました"
 
 msgid "Action"
 msgstr "アクション"
 
 msgid "Active"
 msgstr "アクティブ"
-
-msgid "Add Relationship"
-msgstr "関係を追加"
-
-msgid "Add"
-msgstr "追加"
 
 msgid "Adding new member to this Group Principal"
 msgstr "このグループプリンシパルに新規メンバーを追加中"
@@ -93,9 +118,6 @@ msgstr "全てのコレクションデータが回復不能な方法で削除さ
 
 msgid "All of the principal's calendars and events will be unrecoverably deleted."
 msgstr "そのプリンシパルの全てのカレンダーとイベントが回復不能な方法で削除されます。"
-
-msgid "All of the user's calendars and events will be unrecoverably deleted."
-msgstr "そのユーザーの全てのカレンダーとイベントが回復不能な方法で削除されます。"
 
 #, fuzzy
 msgid "All privileges"
@@ -119,7 +141,14 @@ msgstr "匿名ユーザーはカレンダーの修正を許されていません
 msgid "Anonymous users may only access public calendars"
 msgstr "匿名ユーザーは公開カレンダーにのみアクセスを許されます。"
 
+msgid "Application DB User"
+msgstr ""
+
 msgid "Apply Changes"
+msgstr "変更を適用"
+
+#, fuzzy
+msgid "Apply DB Patches"
 msgstr "変更を適用"
 
 msgid "Browse all users"
@@ -131,15 +160,8 @@ msgstr "予定あり"
 msgid "Calendar Principals"
 msgstr "カレンダープリンシパル"
 
-msgid "Calendar Resource Not Found."
-msgstr "カレンダー資源が見つかりません。"
-
 msgid "Calendar Timezone"
 msgstr "カレンダー時間帯"
-
-#, c-format
-msgid "Calendar \"%s\" for user \"%s\" was created."
-msgstr "ユーザー\"%s\"のためのカレンダー\"%s\"が作成されました。"
 
 #, c-format
 msgid "Calendar \"%s\" was loaded from file."
@@ -148,23 +170,11 @@ msgstr "カレンダー\"%s\"がファイルからロードされました。"
 msgid "Change Password"
 msgstr "パスワードを変更する"
 
-msgid "Changed On"
-msgstr "変更日時"
-
-msgid "Click to display that user"
-msgstr "クリックしてそのユーザーを表示する"
-
-msgid "Click to display the contents of the collection"
-msgstr "クリックしてそのコレクションの内容を表示する"
-
 msgid "Click to display user details"
 msgstr "クリックしてユーザーの詳細を表示する"
 
 msgid "Click to edit principal details"
 msgstr "クリックしてプリンシパルの詳細を編集する"
-
-msgid "Collection Contents"
-msgstr "コレクション内容"
 
 msgid "Collection Grants"
 msgstr "コレクション許可"
@@ -172,14 +182,14 @@ msgstr "コレクション許可"
 msgid "Collection ID"
 msgstr "コレクションID"
 
-msgid "Collection Path"
-msgstr "コレクションパス"
-
 msgid "Collection deleted"
 msgstr "コレクションが削除されました"
 
 msgid "Collection"
 msgstr "コレクション"
+
+msgid "Collections may not be both CalDAV calendars and CardDAV addressbooks at the same time"
+msgstr ""
 
 msgid "Configuring Calendar Clients for DAViCal"
 msgstr "DAViCal用にカレンダークライアントを設定する"
@@ -193,10 +203,8 @@ msgstr "そのコレクションの削除を確認"
 msgid "Confirm Deletion of the Principal"
 msgstr "そのプリンシパルの削除を確認"
 
-msgid "Confirm Deletion of the Relationship Type"
-msgstr "その関係タイプの削除を確認"
-
-msgid "Confirm Deletion of the User"
+#, fuzzy
+msgid "Confirm Deletion of the Ticket"
 msgstr "そのユーザーの削除を確認"
 
 msgid "Confirm Password"
@@ -208,8 +216,8 @@ msgstr "新規パスワードの確認"
 msgid "Confirm"
 msgstr "確認"
 
-msgid "Create Calendar"
-msgstr "カレンダーを作成する"
+msgid "Could not retrieve"
+msgstr ""
 
 msgid "Create Collection"
 msgstr "コレクションを作成する"
@@ -225,6 +233,10 @@ msgstr "新規プリンシパルを作成する"
 
 msgid "Create Principal"
 msgstr "プリンシパルを作成する"
+
+#, fuzzy
+msgid "Create Ticket"
+msgstr "作成"
 
 msgid "Create a new principal (i.e. a new user, resource or group)"
 msgstr "新規プリンシパル (新規のユーザー、資源、又はグループ) を作成する"
@@ -257,6 +269,9 @@ msgstr ""
 msgid "DAV Path"
 msgstr "DAVパス"
 
+msgid "DAV::resourcetype may only be set to a new value, it may not be removed."
+msgstr ""
+
 msgid "DAViCal CalDAV Server"
 msgstr "DAViCal CalDAV Serverが"
 
@@ -269,10 +284,52 @@ msgstr "DAViCal Homepage"
 msgid "DAViCal Wiki"
 msgstr "DAViCal Wiki"
 
+msgid "DAViCal only allows BIND requests for collections at present."
+msgstr ""
+
+msgid "DKIM signature invalid "
+msgstr ""
+
+msgid "DKIM signature missing"
+msgstr ""
+
+msgid "DKIM signature validation failed(DNS ERROR)"
+msgstr ""
+
+msgid "DKIM signature validation failed(KEY Parse ERROR)"
+msgstr ""
+
+msgid "DKIM signature validation failed(KEY Validation ERROR)"
+msgstr ""
+
+msgid "DKIM signature validation failed(Signature verification ERROR)"
+msgstr ""
+
 msgid "Database Error"
 msgstr "データベースエラー"
 
-msgid "Database Error."
+#, fuzzy
+msgid "Database Host"
+msgstr "データベースエラー"
+
+#, fuzzy
+msgid "Database Name"
+msgstr "データベースエラー"
+
+#, fuzzy
+msgid "Database Owner"
+msgstr "データベースエラー"
+
+#, fuzzy
+msgid "Database Password"
+msgstr "データベースエラー"
+
+#, fuzzy
+msgid "Database Port"
+msgstr "データベースエラー"
+
+#, fuzzy
+msgid "Database Username"
 msgstr "データベースエラー"
 
 msgid "Database error"
@@ -293,9 +350,6 @@ msgstr "イベント/コレクションを削除する"
 msgid "Delete Principal"
 msgstr "プリンシパルを削除する"
 
-msgid "Delete User"
-msgstr "ユーザーを削除する"
-
 msgid "Delete a resource or collection"
 msgstr "資源またはコレクションを削除する"
 
@@ -311,7 +365,8 @@ msgstr "コレクションを削除中:"
 msgid "Deleting Principal:"
 msgstr "プリンシパルを削除中:"
 
-msgid "Deleting User:"
+#, fuzzy
+msgid "Deleting Ticket:"
 msgstr "ユーザーを削除中:"
 
 msgid "Deliver scheduling invitations from an organiser to this scheduling inbox"
@@ -328,6 +383,9 @@ msgstr "依存関係"
 
 msgid "Description"
 msgstr "説明"
+
+msgid "Destination collection does not exist"
+msgstr ""
 
 msgid "Directory on the server"
 msgstr "サーバーー上のディレクトリ"
@@ -373,11 +431,12 @@ msgid "Enter a username, if you know it, and click here, to be e-mailed a tempor
 msgstr ""
 "知っている場合はユーザー名を入力し、ここをクリックしてください。暫定パスワードがメールで送信されます。"
 
-msgid "Enter the name for this resource type"
-msgstr "この資源タイプの名称を入力して下さい。"
-
 msgid "Enter your username and password then click here to log in."
 msgstr "あなたのユーザー名とパスワードを入力してから、ここをクリックしてログインして下さい。"
+
+#, fuzzy, c-format
+msgid "Error NoGroupFound with filter >%s<, attributes >%s< , dn >%s<"
+msgstr "NoUserFoundエラーがフィルター>%s<, attributes >%s< , dn >%s<で発生しました。"
 
 #, c-format
 msgid "Error NoUserFound with filter >%s<, attributes >%s< , dn >%s<"
@@ -405,8 +464,11 @@ msgstr "既存の資源が\"If-Match\"ヘッダと一致しません - 受け付
 msgid "Existing resource matches \"If-None-Match\" header - not accepted."
 msgstr "既存の資源が\"If-Match\"ヘッダと一致します - 受け付けられません。"
 
-msgid "Finish"
-msgstr "完了"
+msgid "Expires"
+msgstr ""
+
+msgid "Failed"
+msgstr ""
 
 msgid "For access to the"
 msgstr "アクセスするには"
@@ -417,17 +479,18 @@ msgstr "禁止された"
 msgid "Free/Busy"
 msgstr "予定の有無"
 
-msgid "FreeBusy"
-msgstr "予定の有無"
-
 msgid "Full Name"
 msgstr "氏名"
 
 msgid "Fullname"
 msgstr "氏名"
 
-msgid "GET requests are only handled on calendar collections."
+#, fuzzy
+msgid "GET requests on collections are only supported for calendars."
 msgstr "GETリクエストはカレンダーコレクションに対してのみ処理されます。"
+
+msgid "GNU gettext support"
+msgstr ""
 
 msgid "GO!"
 msgstr "実行！"
@@ -507,6 +570,12 @@ msgstr "ディレクトリの全ての.icsファイルをインポートする"
 msgid "Inactive Principals"
 msgstr "非アクティブのプリンシパル"
 
+msgid "Incorrect content type for addressbook: "
+msgstr ""
+
+msgid "Incorrect content type for calendar: "
+msgstr ""
+
 msgid "Invalid user name or password."
 msgstr "ユーザー名またはパスワードが無効です。"
 
@@ -519,17 +588,15 @@ msgstr "メンバー所属先"
 msgid "Is a Calendar"
 msgstr "カレンダーである"
 
-msgid "Is a Calendar?"
-msgstr "カレンダーですか？"
-
 msgid "Is an Addressbook"
 msgstr "アドレス帳である"
 
-msgid "Is this access read ('R') or Read and Write ('RW')?"
-msgstr "このアクセスは読み取り専用('R')か読み書き可('RW')のどちらですか？"
-
 msgid "Is this user active?"
 msgstr "これはアクティブなユーザーですか？"
+
+#, fuzzy
+msgid "Items in Collection"
+msgstr "新規コレクション"
 
 msgid "Joined"
 msgstr "参加日"
@@ -539,12 +606,6 @@ msgstr "言語"
 
 msgid "Last used"
 msgstr "最終更新日"
-
-msgid "Linked From"
-msgstr "リンク元："
-
-msgid "Linked To"
-msgstr "リンク先："
 
 msgid "List Groups"
 msgstr "グループのリスト"
@@ -622,6 +683,9 @@ msgstr "No."
 msgid "Not overwriting existing destination resource"
 msgstr "既存の宛先資源に上書きしていません"
 
+msgid "OK"
+msgstr ""
+
 msgid "Opaque"
 msgstr "不透明"
 
@@ -631,7 +695,8 @@ msgstr "カレンダー上の操作"
 msgid "Override a Lock"
 msgstr "ロックをオーバーライドする"
 
-msgid "PDO PostgreSQL divers"
+#, fuzzy
+msgid "PDO PostgreSQL drivers"
 msgstr "PDO PostgreSQLドライバ"
 
 msgid "PHP PDO module available"
@@ -639,6 +704,9 @@ msgstr "PHP PDOモジュール利用可能"
 
 msgid "PHP PostgreSQL available"
 msgstr "PHP PostgreSQL利用可能"
+
+msgid "PUT on a collection is only allowed for text/calendar content against a calendar collection"
+msgstr ""
 
 msgid "Password"
 msgstr "パスワード"
@@ -649,17 +717,15 @@ msgstr "パス"
 msgid "Person"
 msgstr "人物"
 
-msgid "Please Confirm Deletion"
-msgstr "削除を確認して下さい。"
+#, fuzzy
+msgid "Please confirm deletion of access ticket - see below"
+msgstr "コレクションの削除を確認して下さい - 以下を見て下さい。"
 
 msgid "Please confirm deletion of collection - see below"
 msgstr "コレクションの削除を確認して下さい - 以下を見て下さい。"
 
 msgid "Please confirm deletion of the principal"
 msgstr "プリンシパルの削除を確認して下さい。"
-
-msgid "Please confirm deletion of user"
-msgstr "ユーザーの削除を確認して下さい。"
 
 msgid "Please note the time and advise the administrator of your system."
 msgstr "時刻を記載してシステム管理者に報告して下さい。"
@@ -681,6 +747,9 @@ msgstr "プリンシパルが削除されました"
 
 msgid "Principal"
 msgstr "プリンシパル"
+
+msgid "Privileges granted to All Users"
+msgstr ""
 
 msgid "Privileges"
 msgstr "権限"
@@ -730,42 +799,12 @@ msgstr "読み取り"
 msgid "Read/Write"
 msgstr "読み書き"
 
-msgid "ReadWrite"
-msgstr "読み書き"
-
-msgid "Relationship Type Added."
-msgstr "関係タイプ追加完了。"
-
-msgid "Relationship Type Deleted."
-msgstr "関係タイプ削除完了。"
-
-msgid "Relationship Types"
-msgstr "関係タイプ"
-
-msgid "Relationship added."
-msgstr "関係の追加完了。"
-
-msgid "Relationship deleted"
-msgstr "関係の削除完了"
-
-msgid "Relationship"
-msgstr "関係"
-
-msgid "Relationships from this user"
-msgstr "このユーザーからの関係"
-
-msgid "Relationships to this user"
-msgstr "このユーザーに対する関係"
-
 msgid "Remove a lock"
 msgstr "ロックを解除する"
 
 #, fuzzy
 msgid "Remove"
 msgstr "ロックを解除する"
-
-msgid "Repeat Rule"
-msgstr "繰り返しルール"
 
 msgid "Report Bug"
 msgstr "バグの報告"
@@ -776,17 +815,23 @@ msgstr "このシステムのバグを報告する"
 msgid "Request Feature"
 msgstr "機能をリクエストする"
 
+#, fuzzy
+msgid "Request body contains no XML data!"
+msgstr "レポートの本文にXMLデータがありません！"
+
+#, fuzzy
+msgid "Request body is not valid XML data!"
+msgstr "レポートの本文は有効なXMLデータではありません！"
+
 msgid "Resource <!-- a thing which might be booked: a room, a carpark, a projector... -->"
 msgstr "資源 <!-- 予約されるかもしれない物: 会議室、駐車場、プロジェクタ等 -->"
 
 msgid "Resource Calendar Principals"
 msgstr "資源カレンダープリンシパル"
 
-msgid "Resource changed on server - not changed."
-msgstr "資源はサーバー上で既に変更されています - 変更は行いません。"
-
-msgid "Resource does not match 'If-Match' header - not deleted"
-msgstr "資源は'If-Match'ヘッダと一致しません - 削除されません。"
+#, fuzzy
+msgid "Resource Not Found."
+msgstr "カレンダー資源が見つかりません。"
 
 msgid "Resource has changed on server - not deleted"
 msgstr "資源はサーバー上で既に変更されています - 削除されません。"
@@ -799,9 +844,6 @@ msgstr "資源はコレクションに変更することもコレクションか
 
 msgid "Revoke"
 msgstr ""
-
-msgid "Rights"
-msgstr "権限"
 
 msgid "Schedule Deliver"
 msgstr "スケジュール配達"
@@ -838,12 +880,6 @@ msgstr "スケジューリング: 予定の有無を送信する"
 msgid "Scheduling: Sending"
 msgstr "スケジュール送信"
 
-msgid "Select the type of relationship from this user"
-msgstr "このユーザーに対する関係のタイプを選択して下さい。"
-
-msgid "Select the user, resource or group to relate this user to"
-msgstr "このユーザーに適応するユーザー、資源、もしくはグループを選択して下さい。"
-
 msgid "Send free/busy enquiries"
 msgstr "予定の有無の問い合わせを送信する"
 
@@ -874,9 +910,6 @@ msgstr "DaViCalをセットアップする"
 msgid "Setup"
 msgstr "セットアップ"
 
-msgid "Should this calendar be readable without authenticating?"
-msgstr "このカレンダーは認証せずに読み取り可能ですか？"
-
 msgid "Show help on"
 msgstr "ヘルプの表示"
 
@@ -901,9 +934,6 @@ msgstr "特殊なコレクションは、カレンダーまたは他の特殊な
 msgid "Specific Privileges"
 msgstr "特定の権限"
 
-msgid "Start"
-msgstr "開始"
-
 msgid "Status"
 msgstr "状態"
 
@@ -914,28 +944,51 @@ msgstr "状態: %s, メッセージ: %s, ユーザー: %d, パス: %s"
 msgid "Submit"
 msgstr "送信"
 
-msgid "Summary"
-msgstr "概要"
+msgid "Suhosin \"server.strip\" disabled"
+msgstr ""
 
-msgid "Sync LDAP with RSCDS"
+#, fuzzy
+msgid "Sync LDAP Groups with RSCDS"
 msgstr "RSCDSををLDAPと同期させる"
 
-msgid "That relationship type is being used. See ##RelationshipTypeUsed##"
-msgstr "その関係は使用されています。##RelationshipTypeUsed##を参照"
+#, fuzzy
+msgid "Sync LDAP with DAViCal"
+msgstr "RSCDSををLDAPと同期させる"
+
+msgid "Target"
+msgstr ""
+
+#, fuzzy
+msgid "That destination name contains invalid characters."
+msgstr "カレンダーパスに不正な文字が使用されています。"
 
 msgid "That resource is not present on this server."
 msgstr "その資源はこのサーバー上にありません。"
 
+msgid "The BIND Request MUST identify an existing resource."
+msgstr ""
+
+msgid "The BIND Request-URI MUST identify a collection."
+msgstr ""
+
+#, fuzzy
+msgid "The BIND method is not allowed at that location."
+msgstr "その場所にはコレクションが見つかりませんでした。"
+
+msgid "The CalDAV:schedule-calendar-transp property may only be set on calendars."
+msgstr ""
+
 msgid "The DAViCal Home Page"
 msgstr "DAViCal Home Page"
 
+msgid "The access ticket will be deleted."
+msgstr ""
+
+msgid "The addressbook-query report must be run against an addressbook collection"
+msgstr ""
+
 msgid "The application program does not understand that request."
 msgstr "アプリケーションはそのリクエストを理解できませんでした。"
-
-msgid ""
-"The calendar name part of the path to store your ics. E.g. the \"home\" part of \"/caldav.php/username/"
-"home/\""
-msgstr "あなたのicsを保管するパスのカレンダー名部分。例: \"/caldav.php/username/\"の\"home\"部分"
 
 msgid "The calendar path contains illegal characters."
 msgstr "カレンダーパスに不正な文字が使用されています。"
@@ -944,11 +997,15 @@ msgid ""
 "The calendar-free-busy-set is superseded by the schedule-transp property of a calendar collection."
 msgstr "カレンダー予定有無設定よりも、カレンダーコレクションのスケジュール透過属性が優先します。"
 
+msgid "The calendar-query report must be run against a calendar or a scheduling collection"
+msgstr ""
+
 #, fuzzy
 msgid "The collection name may not be blank."
 msgstr "エラー: 氏名は空欄にできません。"
 
-msgid "The displayname may only be set on collections or principals."
+#, fuzzy
+msgid "The displayname may only be set on collections, principals or bindings."
 msgstr "表示名はコレクションやプリンシパルにか設定できません。"
 
 #, fuzzy
@@ -990,11 +1047,15 @@ msgstr "そのユーザーのログイン時のパスワード。"
 msgid "The username must not be blank, and may not contain a slash"
 msgstr ""
 
-msgid "There is no collection at that URL."
-msgstr "そのURLにはコレクションが存在しません。"
-
 msgid "There was an error writing to the database."
 msgstr "データベースへの書き込み中にエラーがありました。"
+
+msgid ""
+"This operation does the following: <ul><li>check valid groups in LDAP directory</li> <li>check groups "
+"in DAViCal</li></ul> then <ul><li>if a group is present in DAViCal but not in LDAP set as inactive in "
+"DAViCal</li> <li>if a group is present in LDAP but not in DAViCal create the group in DAViCal</li> "
+"<li>if a group in present in LDAP and DAViCal then update information in DAViCal</li> </ul>"
+msgstr ""
 
 msgid ""
 "This operation does the following: <ul><li>check valid users in LDAP directory</li> <li>check users in "
@@ -1002,9 +1063,6 @@ msgid ""
 "DAViCal</li> <li>if a user is present in LDAP but not in DAViCal create the user in DAViCal</li> "
 "<li>if a user in present in LDAP and DAViCal then update information in DAViCal</li> </ul>"
 msgstr ""
-
-msgid "This user's collections"
-msgstr "このユーザーのコレクション"
 
 msgid "To ID"
 msgstr "宛先ID"
@@ -1014,9 +1072,6 @@ msgstr "すべての権限をトグルする"
 
 msgid "Transparent"
 msgstr "透明"
-
-msgid "Type"
-msgstr "タイプ"
 
 msgid "US Format"
 msgstr "アメリカ形式"
@@ -1049,9 +1104,6 @@ msgstr "DAViCalデータベーススキーマをアップグレードする"
 msgid "Upgrade Database"
 msgstr "データベースのアップグレード"
 
-msgid "Upload a .ics calendar in iCalendar format "
-msgstr ".icsカレンダーをiCalendar形式でアップロードする"
-
 msgid "Upload a .ics calendar in iCalendar format to initialise or replace this calendar."
 msgstr "このカレンダーを初期化または置換するために、.icsカレンダーをiCalendar形式でアップロードする"
 
@@ -1069,9 +1121,6 @@ msgstr "ユーザー名"
 
 msgid "User Roles"
 msgstr "ユーザーのロール"
-
-msgid "User deleted"
-msgstr "ユーザーを削除しました"
 
 msgid "User is active"
 msgstr "ユーザーはアクティブです"
@@ -1093,6 +1142,9 @@ msgstr "このユーザー記録を閲覧する"
 
 msgid "Visit the DAViCal Wiki"
 msgstr "DAViCal Wikiに行く"
+
+msgid "Warning: there are no active admin users, you should fix this before logging out."
+msgstr ""
 
 msgid "When the user's e-mail account was validated."
 msgstr "そのユーザーのメールアカウントが認証された日時。"
@@ -1122,6 +1174,12 @@ msgid "Yes"
 msgstr "はい"
 
 #, fuzzy, c-format
+msgid "You are currently running DAViCal version %s. The database schema is at version %d.%d.%d."
+msgstr ""
+"あなたは、現在、DAViCalバージョン%sを実行中です。データベーススキーマは、バージョン%sであるべきですが、"
+"バージョン%sになっています。"
+
+#, fuzzy, c-format
 msgid ""
 "You are currently running DAViCal version %s. The database schema should be at version %s and it is at "
 "version %d.%d.%d."
@@ -1138,24 +1196,26 @@ msgstr "あなたはこの機能の利用を許可されていません。"
 msgid "You are viewing"
 msgstr "閲覧中"
 
-msgid "You do not have appropriate rights to view that resource."
+#, fuzzy
+msgid "You do not have permission to modify this record."
 msgstr "あなたはその資源を閲覧するための適切な権限を持っていません。"
 
-msgid "You may not add entries to this calendar."
-msgstr "あなたはこのカレンダーに記録を追加できません。"
-
-msgid "You may not modify entries on this calendar."
-msgstr "あなたはこのカレンダー上の記録を修正できません。"
-
-msgid "You may only review the contents of your own collections in this interface."
-msgstr "このインタフェースでは、あなた自身のコレクションの内容を閲覧することのみが許されます。"
+#, fuzzy
+msgid "You may not PUT to a collection URL"
+msgstr "あなたはそのコレクションにアクセスできません。"
 
 msgid "You must log in to use this system."
 msgstr "このシステムを利用するにはログインしなくてはなりません。"
 
+msgid "Your configuration produced PHP errors which should be corrected"
+msgstr ""
+
 #, c-format
 msgid "all events of user %s were deleted and replaced by those from file %s"
 msgstr "ユーザー%sのイベントは全て削除され、ファイル%sのもので置き換えられました。"
+
+msgid "calendar-timezone property is only valid for a calendar."
+msgstr ""
 
 #, c-format
 msgid "directory %s is not readable"
@@ -1185,6 +1245,10 @@ msgstr "drivers_ldap : ホスト%2$sのポート%1$sでLDAPに接続できませ
 msgid "drivers_ldap : function ldap_connect not defined, check your php_ldap module"
 msgstr "drivers_ldap : 関数ldap_connectが定義できませんでした、php_ldap moduleを確認して下さい"
 
+#, fuzzy, c-format
+msgid "drivers_pwauth_pam : Unable to find %s file"
+msgstr "drivers_squid_pam : ファイル%sが見つかりません"
+
 #, c-format
 msgid "drivers_squid_pam : Unable to find %s file"
 msgstr "drivers_squid_pam : ファイル%sが見つかりません"
@@ -1211,6 +1275,164 @@ msgstr "ファイル%sはUTF-8でエンコードされていません、詳細�
 msgid "you should log on with the username and password that have been issued to you."
 msgstr "あなたに発行したユーザー名とパスワードでログオンして下さい。"
 
+#~ msgid "--- select a relationship type ---"
+#~ msgstr "--- 関係タイプを選択 ---"
+
+#~ msgid "--- select a user or resource ---"
+#~ msgstr "--- ユーザー又は資源の選択 ---"
+
+#~ msgid "--- select a user, group or resource ---"
+#~ msgstr "--- ユーザー、グループ又は資源の選択 ---"
+
+#~ msgid "Add Relationship"
+#~ msgstr "関係を追加"
+
+#~ msgid "Add"
+#~ msgstr "追加"
+
+#~ msgid "All of the user's calendars and events will be unrecoverably deleted."
+#~ msgstr "そのユーザーの全てのカレンダーとイベントが回復不能な方法で削除されます。"
+
+#~ msgid "Calendar \"%s\" for user \"%s\" was created."
+#~ msgstr "ユーザー\"%s\"のためのカレンダー\"%s\"が作成されました。"
+
+#~ msgid "Changed On"
+#~ msgstr "変更日時"
+
+#~ msgid "Click to display that user"
+#~ msgstr "クリックしてそのユーザーを表示する"
+
+#~ msgid "Click to display the contents of the collection"
+#~ msgstr "クリックしてそのコレクションの内容を表示する"
+
+#~ msgid "Collection Contents"
+#~ msgstr "コレクション内容"
+
+#~ msgid "Collection Path"
+#~ msgstr "コレクションパス"
+
+#~ msgid "Confirm Deletion of the Relationship Type"
+#~ msgstr "その関係タイプの削除を確認"
+
+#~ msgid "Create Calendar"
+#~ msgstr "カレンダーを作成する"
+
+#~ msgid "Database Error."
+#~ msgstr "データベースエラー"
+
+#~ msgid "Delete User"
+#~ msgstr "ユーザーを削除する"
+
+#~ msgid "Enter the name for this resource type"
+#~ msgstr "この資源タイプの名称を入力して下さい。"
+
+#~ msgid "Finish"
+#~ msgstr "完了"
+
+#~ msgid "FreeBusy"
+#~ msgstr "予定の有無"
+
+#~ msgid "Is a Calendar?"
+#~ msgstr "カレンダーですか？"
+
+#~ msgid "Is this access read ('R') or Read and Write ('RW')?"
+#~ msgstr "このアクセスは読み取り専用('R')か読み書き可('RW')のどちらですか？"
+
+#~ msgid "Linked From"
+#~ msgstr "リンク元："
+
+#~ msgid "Linked To"
+#~ msgstr "リンク先："
+
+#~ msgid "Please Confirm Deletion"
+#~ msgstr "削除を確認して下さい。"
+
+#~ msgid "Please confirm deletion of user"
+#~ msgstr "ユーザーの削除を確認して下さい。"
+
+#~ msgid "ReadWrite"
+#~ msgstr "読み書き"
+
+#~ msgid "Relationship Type Added."
+#~ msgstr "関係タイプ追加完了。"
+
+#~ msgid "Relationship Type Deleted."
+#~ msgstr "関係タイプ削除完了。"
+
+#~ msgid "Relationship Types"
+#~ msgstr "関係タイプ"
+
+#~ msgid "Relationship added."
+#~ msgstr "関係の追加完了。"
+
+#~ msgid "Relationship deleted"
+#~ msgstr "関係の削除完了"
+
+#~ msgid "Relationship"
+#~ msgstr "関係"
+
+#~ msgid "Relationships from this user"
+#~ msgstr "このユーザーからの関係"
+
+#~ msgid "Relationships to this user"
+#~ msgstr "このユーザーに対する関係"
+
+#~ msgid "Repeat Rule"
+#~ msgstr "繰り返しルール"
+
+#~ msgid "Resource changed on server - not changed."
+#~ msgstr "資源はサーバー上で既に変更されています - 変更は行いません。"
+
+#~ msgid "Resource does not match 'If-Match' header - not deleted"
+#~ msgstr "資源は'If-Match'ヘッダと一致しません - 削除されません。"
+
+#~ msgid "Rights"
+#~ msgstr "権限"
+
+#~ msgid "Select the type of relationship from this user"
+#~ msgstr "このユーザーに対する関係のタイプを選択して下さい。"
+
+#~ msgid "Select the user, resource or group to relate this user to"
+#~ msgstr "このユーザーに適応するユーザー、資源、もしくはグループを選択して下さい。"
+
+#~ msgid "Should this calendar be readable without authenticating?"
+#~ msgstr "このカレンダーは認証せずに読み取り可能ですか？"
+
+#~ msgid "Start"
+#~ msgstr "開始"
+
+#~ msgid "Summary"
+#~ msgstr "概要"
+
+#~ msgid "That relationship type is being used. See ##RelationshipTypeUsed##"
+#~ msgstr "その関係は使用されています。##RelationshipTypeUsed##を参照"
+
+#~ msgid ""
+#~ "The calendar name part of the path to store your ics. E.g. the \"home\" part of \"/caldav.php/"
+#~ "username/home/\""
+#~ msgstr "あなたのicsを保管するパスのカレンダー名部分。例: \"/caldav.php/username/\"の\"home\"部分"
+
+#~ msgid "There is no collection at that URL."
+#~ msgstr "そのURLにはコレクションが存在しません。"
+
+#~ msgid "This user's collections"
+#~ msgstr "このユーザーのコレクション"
+
+#~ msgid "Type"
+#~ msgstr "タイプ"
+
+#~ msgid "Upload a .ics calendar in iCalendar format "
+#~ msgstr ".icsカレンダーをiCalendar形式でアップロードする"
+
+#~ msgid "You may not add entries to this calendar."
+#~ msgstr "あなたはこのカレンダーに記録を追加できません。"
+
+#~ msgid "You may not modify entries on this calendar."
+#~ msgstr "あなたはこのカレンダー上の記録を修正できません。"
+
+#~ msgid "You may only review the contents of your own collections in this interface."
+#~ msgstr "このインタフェースでは、あなた自身のコレクションの内容を閲覧することのみが許されます。"
+
 #~ msgid "You may not delete entries from this calendar."
 #~ msgstr "あなたはこのカレンダーから記録を削除できません。"
 
@@ -1219,9 +1441,6 @@ msgstr "あなたに発行したユーザー名とパスワードでログオン
 
 #~ msgid "You do not have sufficient access to lock that"
 #~ msgstr "あなたはそれをロックするための十分なアクセス権を持っていません"
-
-#~ msgid "You may not access that collection"
-#~ msgstr "あなたはそのコレクションにアクセスできません。"
 
 #~ msgid "Calendar Users"
 #~ msgstr "カレンダーユーザー"

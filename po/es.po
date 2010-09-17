@@ -8,10 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RSCDS 0.2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-08 14:52+1300\n"
+"POT-Creation-Date: 2010-09-14 14:05+1200\n"
 "PO-Revision-Date: 2006-11-06 17:12+1300\n"
 "Last-Translator: Lorena Paoletti <andrew@mcmillan.net.nz>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -22,9 +23,25 @@ msgstr ""
 msgid "*** Unknown ***"
 msgstr ""
 
+#, fuzzy, c-format
+msgid "- adding %s to group : %s"
+msgstr "Mostrar el registro de éste usuario"
+
+#, fuzzy, c-format
+msgid "- adding users %s to group : %s"
+msgstr "Mostrar el registro de éste usuario"
+
+#, fuzzy, c-format
+msgid "- creating groups : %s"
+msgstr "Mostrar el registro de éste usuario"
+
 #, c-format
 msgid "- creating record for users :  %s"
 msgstr ""
+
+#, fuzzy, c-format
+msgid "- deactivate groups : %s"
+msgstr "Mostrar el registro de éste usuario"
 
 #, fuzzy, c-format
 msgid "- deactivating users : %s"
@@ -34,18 +51,17 @@ msgstr "Mostrar el registro de éste usuario"
 msgid "- nothing done on : %s"
 msgstr ""
 
+#, c-format
+msgid "- removing %s from group : %s"
+msgstr ""
+
+#, fuzzy, c-format
+msgid "- updating groups : %s"
+msgstr "Mostrar el registro de éste usuario"
+
 #, fuzzy, c-format
 msgid "- updating user records : %s"
 msgstr "Mostrar el registro de éste usuario"
-
-msgid "--- select a relationship type ---"
-msgstr "Mostrar todos los tipos de relaciones"
-
-msgid "--- select a user or resource ---"
-msgstr ""
-
-msgid "--- select a user, group or resource ---"
-msgstr ""
 
 msgid "<b>WARNING: all events in this path will be deleted before inserting allof the ics file</b>"
 msgstr ""
@@ -58,20 +74,27 @@ msgstr ""
 "<h1></h1><p>Para acceder al %s debe conectarse con el nombre de usuario y contraseña que le han sido "
 "asignado.</p><p>"
 
+msgid "A DAViCal principal collection may only contain collections"
+msgstr ""
+
 msgid "A collection already exists at that location."
 msgstr ""
+
+msgid "A resource already exists at the destination."
+msgstr ""
+
+msgid "Access Tickets"
+msgstr ""
+
+#, fuzzy
+msgid "Access ticket deleted"
+msgstr "Roles del Usuario"
 
 msgid "Action"
 msgstr "Acción"
 
 msgid "Active"
 msgstr "Activo"
-
-msgid "Add Relationship"
-msgstr "Agregar Relación"
-
-msgid "Add"
-msgstr "Agregar"
 
 msgid "Adding new member to this Group Principal"
 msgstr ""
@@ -96,9 +119,6 @@ msgstr ""
 msgid "All of the principal's calendars and events will be unrecoverably deleted."
 msgstr ""
 
-msgid "All of the user's calendars and events will be unrecoverably deleted."
-msgstr ""
-
 msgid "All privileges"
 msgstr ""
 
@@ -120,7 +140,13 @@ msgstr ""
 msgid "Anonymous users may only access public calendars"
 msgstr ""
 
+msgid "Application DB User"
+msgstr ""
+
 msgid "Apply Changes"
+msgstr ""
+
+msgid "Apply DB Patches"
 msgstr ""
 
 msgid "Browse all users"
@@ -133,16 +159,9 @@ msgstr ""
 msgid "Calendar Principals"
 msgstr "Calendario de los Usuario"
 
-msgid "Calendar Resource Not Found."
-msgstr ""
-
 #, fuzzy
 msgid "Calendar Timezone"
 msgstr "Calendario de los Usuario"
-
-#, c-format
-msgid "Calendar \"%s\" for user \"%s\" was created."
-msgstr ""
 
 #, c-format
 msgid "Calendar \"%s\" was loaded from file."
@@ -152,17 +171,6 @@ msgstr ""
 msgid "Change Password"
 msgstr "Nueva Constraseña"
 
-msgid "Changed On"
-msgstr ""
-
-#, fuzzy
-msgid "Click to display that user"
-msgstr "Hacer clic para mostrar esa relación"
-
-#, fuzzy
-msgid "Click to display the contents of the collection"
-msgstr "Hacer clic para mostrar esa relación"
-
 #, fuzzy
 msgid "Click to display user details"
 msgstr "Hacer clic para mostrar esa relación"
@@ -170,9 +178,6 @@ msgstr "Hacer clic para mostrar esa relación"
 #, fuzzy
 msgid "Click to edit principal details"
 msgstr "Hacer clic para mostrar esa relación"
-
-msgid "Collection Contents"
-msgstr ""
 
 #, fuzzy
 msgid "Collection Grants"
@@ -182,9 +187,6 @@ msgstr "Relación eliminada"
 msgid "Collection ID"
 msgstr "Relación eliminada"
 
-msgid "Collection Path"
-msgstr ""
-
 #, fuzzy
 msgid "Collection deleted"
 msgstr "Relación eliminada"
@@ -192,6 +194,9 @@ msgstr "Relación eliminada"
 #, fuzzy
 msgid "Collection"
 msgstr "Relación eliminada"
+
+msgid "Collections may not be both CalDAV calendars and CardDAV addressbooks at the same time"
+msgstr ""
 
 msgid "Configuring Calendar Clients for DAViCal"
 msgstr ""
@@ -206,11 +211,9 @@ msgstr ""
 msgid "Confirm Deletion of the Principal"
 msgstr "Calendario de los Usuario"
 
-msgid "Confirm Deletion of the Relationship Type"
-msgstr ""
-
-msgid "Confirm Deletion of the User"
-msgstr ""
+#, fuzzy
+msgid "Confirm Deletion of the Ticket"
+msgstr "Calendario de los Usuario"
 
 #, fuzzy
 msgid "Confirm Password"
@@ -222,9 +225,8 @@ msgstr "Confirmar la nueva contraseña."
 msgid "Confirm"
 msgstr "Confirmar"
 
-#, fuzzy
-msgid "Create Calendar"
-msgstr "Calendario de los Usuario"
+msgid "Could not retrieve"
+msgstr ""
 
 #, fuzzy
 msgid "Create Collection"
@@ -244,6 +246,10 @@ msgstr ""
 #, fuzzy
 msgid "Create Principal"
 msgstr "Calendario de los Usuario"
+
+#, fuzzy
+msgid "Create Ticket"
+msgstr "Crear"
 
 msgid "Create a new principal (i.e. a new user, resource or group)"
 msgstr ""
@@ -277,6 +283,9 @@ msgstr ""
 msgid "DAV Path"
 msgstr ""
 
+msgid "DAV::resourcetype may only be set to a new value, it may not be removed."
+msgstr ""
+
 msgid "DAViCal CalDAV Server"
 msgstr ""
 
@@ -289,11 +298,53 @@ msgstr ""
 msgid "DAViCal Wiki"
 msgstr ""
 
+msgid "DAViCal only allows BIND requests for collections at present."
+msgstr ""
+
+msgid "DKIM signature invalid "
+msgstr ""
+
+msgid "DKIM signature missing"
+msgstr ""
+
+msgid "DKIM signature validation failed(DNS ERROR)"
+msgstr ""
+
+msgid "DKIM signature validation failed(KEY Parse ERROR)"
+msgstr ""
+
+msgid "DKIM signature validation failed(KEY Validation ERROR)"
+msgstr ""
+
+msgid "DKIM signature validation failed(Signature verification ERROR)"
+msgstr ""
+
 #, fuzzy
 msgid "Database Error"
 msgstr "Error en la Base de Datos."
 
-msgid "Database Error."
+#, fuzzy
+msgid "Database Host"
+msgstr "Error en la Base de Datos."
+
+#, fuzzy
+msgid "Database Name"
+msgstr "Error en la Base de Datos."
+
+#, fuzzy
+msgid "Database Owner"
+msgstr "Error en la Base de Datos."
+
+#, fuzzy
+msgid "Database Password"
+msgstr "Error en la Base de Datos."
+
+#, fuzzy
+msgid "Database Port"
+msgstr "Error en la Base de Datos."
+
+#, fuzzy
+msgid "Database Username"
 msgstr "Error en la Base de Datos."
 
 #, fuzzy
@@ -319,10 +370,6 @@ msgid "Delete Principal"
 msgstr "Calendario de los Usuario"
 
 #, fuzzy
-msgid "Delete User"
-msgstr "Borrar"
-
-#, fuzzy
 msgid "Delete a resource or collection"
 msgstr "Calendario de los Usuario"
 
@@ -340,7 +387,7 @@ msgid "Deleting Principal:"
 msgstr "Calendario de los Usuario"
 
 #, fuzzy
-msgid "Deleting User:"
+msgid "Deleting Ticket:"
 msgstr "Borrar"
 
 msgid "Deliver scheduling invitations from an organiser to this scheduling inbox"
@@ -356,6 +403,9 @@ msgid "Dependency"
 msgstr ""
 
 msgid "Description"
+msgstr ""
+
+msgid "Destination collection does not exist"
 msgstr ""
 
 msgid "Directory on the server"
@@ -402,10 +452,11 @@ msgstr ""
 msgid "Enter a username, if you know it, and click here, to be e-mailed a temporary password."
 msgstr ""
 
-msgid "Enter the name for this resource type"
-msgstr "Ingrese el nombre para éste tipo de recurso"
-
 msgid "Enter your username and password then click here to log in."
+msgstr ""
+
+#, c-format
+msgid "Error NoGroupFound with filter >%s<, attributes >%s< , dn >%s<"
 msgstr ""
 
 #, c-format
@@ -436,7 +487,10 @@ msgstr ""
 msgid "Existing resource matches \"If-None-Match\" header - not accepted."
 msgstr ""
 
-msgid "Finish"
+msgid "Expires"
+msgstr ""
+
+msgid "Failed"
 msgstr ""
 
 msgid "For access to the"
@@ -448,9 +502,6 @@ msgstr ""
 msgid "Free/Busy"
 msgstr ""
 
-msgid "FreeBusy"
-msgstr ""
-
 msgid "Full Name"
 msgstr "Nombre Completo"
 
@@ -458,7 +509,10 @@ msgstr "Nombre Completo"
 msgid "Fullname"
 msgstr "Nombre Completo"
 
-msgid "GET requests are only handled on calendar collections."
+msgid "GET requests on collections are only supported for calendars."
+msgstr ""
+
+msgid "GNU gettext support"
 msgstr ""
 
 msgid "GO!"
@@ -543,6 +597,12 @@ msgstr ""
 msgid "Inactive Principals"
 msgstr "Calendario de los Usuario"
 
+msgid "Incorrect content type for addressbook: "
+msgstr ""
+
+msgid "Incorrect content type for calendar: "
+msgstr ""
+
 msgid "Invalid user name or password."
 msgstr "Usuario o contraseña incorrectos."
 
@@ -556,17 +616,15 @@ msgstr ""
 msgid "Is a Calendar"
 msgstr "Calendario de los Usuario"
 
-msgid "Is a Calendar?"
-msgstr ""
-
 msgid "Is an Addressbook"
 msgstr ""
 
-msgid "Is this access read ('R') or Read and Write ('RW')?"
-msgstr "¿Éste acceso es de lectura ('L') ó de Lectura y Escritura ('LE')?"
-
 msgid "Is this user active?"
 msgstr "¿Éste usuario está activo?"
+
+#, fuzzy
+msgid "Items in Collection"
+msgstr "Relación eliminada"
 
 msgid "Joined"
 msgstr "Incorporado"
@@ -576,12 +634,6 @@ msgstr "Idioma"
 
 msgid "Last used"
 msgstr "Utilizado por última vez"
-
-msgid "Linked From"
-msgstr "Relacionado desde"
-
-msgid "Linked To"
-msgstr "Relacionado con"
 
 #, fuzzy
 msgid "List Groups"
@@ -666,6 +718,9 @@ msgstr "No"
 msgid "Not overwriting existing destination resource"
 msgstr ""
 
+msgid "OK"
+msgstr ""
+
 msgid "Opaque"
 msgstr ""
 
@@ -675,13 +730,16 @@ msgstr ""
 msgid "Override a Lock"
 msgstr ""
 
-msgid "PDO PostgreSQL divers"
+msgid "PDO PostgreSQL drivers"
 msgstr ""
 
 msgid "PHP PDO module available"
 msgstr ""
 
 msgid "PHP PostgreSQL available"
+msgstr ""
+
+msgid "PUT on a collection is only allowed for text/calendar content against a calendar collection"
 msgstr ""
 
 msgid "Password"
@@ -693,16 +751,13 @@ msgstr ""
 msgid "Person"
 msgstr ""
 
-msgid "Please Confirm Deletion"
+msgid "Please confirm deletion of access ticket - see below"
 msgstr ""
 
 msgid "Please confirm deletion of collection - see below"
 msgstr ""
 
 msgid "Please confirm deletion of the principal"
-msgstr ""
-
-msgid "Please confirm deletion of user"
 msgstr ""
 
 msgid "Please note the time and advise the administrator of your system."
@@ -725,6 +780,9 @@ msgid "Principal deleted"
 msgstr "Relación eliminada"
 
 msgid "Principal"
+msgstr ""
+
+msgid "Privileges granted to All Users"
 msgstr ""
 
 msgid "Privileges"
@@ -776,40 +834,10 @@ msgstr ""
 msgid "Read/Write"
 msgstr ""
 
-msgid "ReadWrite"
-msgstr ""
-
-msgid "Relationship Type Added."
-msgstr "Tipo de Relación incorporada."
-
-msgid "Relationship Type Deleted."
-msgstr "Tipo de Relación Eliminada."
-
-msgid "Relationship Types"
-msgstr "Tipos de Relación"
-
-msgid "Relationship added."
-msgstr "Relación incorporada."
-
-msgid "Relationship deleted"
-msgstr "Relación eliminada"
-
-msgid "Relationship"
-msgstr "Relación"
-
-msgid "Relationships from this user"
-msgstr "Relaciones desde éste usuario"
-
-msgid "Relationships to this user"
-msgstr "Relaciones hacia éste usuario"
-
 msgid "Remove a lock"
 msgstr ""
 
 msgid "Remove"
-msgstr ""
-
-msgid "Repeat Rule"
 msgstr ""
 
 msgid "Report Bug"
@@ -821,16 +849,19 @@ msgstr "Reportar un error en el sistema"
 msgid "Request Feature"
 msgstr ""
 
+msgid "Request body contains no XML data!"
+msgstr ""
+
+msgid "Request body is not valid XML data!"
+msgstr ""
+
 msgid "Resource <!-- a thing which might be booked: a room, a carpark, a projector... -->"
 msgstr "Recurso"
 
 msgid "Resource Calendar Principals"
 msgstr ""
 
-msgid "Resource changed on server - not changed."
-msgstr ""
-
-msgid "Resource does not match 'If-Match' header - not deleted"
+msgid "Resource Not Found."
 msgstr ""
 
 msgid "Resource has changed on server - not deleted"
@@ -844,9 +875,6 @@ msgstr ""
 
 msgid "Revoke"
 msgstr ""
-
-msgid "Rights"
-msgstr "Derechos"
 
 msgid "Schedule Deliver"
 msgstr ""
@@ -881,12 +909,6 @@ msgstr ""
 msgid "Scheduling: Sending"
 msgstr ""
 
-msgid "Select the type of relationship from this user"
-msgstr "Seleccionar el tipo de relación de salida desde éste usuario"
-
-msgid "Select the user, resource or group to relate this user to"
-msgstr "Seleccionar el usuario, recurso o grupo con el cual relacionar a éste usuario"
-
 msgid "Send free/busy enquiries"
 msgstr ""
 
@@ -917,9 +939,6 @@ msgstr ""
 msgid "Setup"
 msgstr ""
 
-msgid "Should this calendar be readable without authenticating?"
-msgstr ""
-
 msgid "Show help on"
 msgstr "Mostrar ayuda sobre"
 
@@ -944,9 +963,6 @@ msgstr ""
 msgid "Specific Privileges"
 msgstr ""
 
-msgid "Start"
-msgstr ""
-
 msgid "Status"
 msgstr ""
 
@@ -957,27 +973,46 @@ msgstr ""
 msgid "Submit"
 msgstr ""
 
-msgid "Summary"
+msgid "Suhosin \"server.strip\" disabled"
 msgstr ""
 
-msgid "Sync LDAP with RSCDS"
+msgid "Sync LDAP Groups with RSCDS"
 msgstr ""
 
-msgid "That relationship type is being used. See ##RelationshipTypeUsed##"
-msgstr "Ese tipo de relación está siendo utilizada. Ver ##TipodeRelacióonUtilizada##"
+msgid "Sync LDAP with DAViCal"
+msgstr ""
+
+msgid "Target"
+msgstr ""
+
+msgid "That destination name contains invalid characters."
+msgstr ""
 
 msgid "That resource is not present on this server."
+msgstr ""
+
+msgid "The BIND Request MUST identify an existing resource."
+msgstr ""
+
+msgid "The BIND Request-URI MUST identify a collection."
+msgstr ""
+
+msgid "The BIND method is not allowed at that location."
+msgstr ""
+
+msgid "The CalDAV:schedule-calendar-transp property may only be set on calendars."
 msgstr ""
 
 msgid "The DAViCal Home Page"
 msgstr ""
 
-msgid "The application program does not understand that request."
+msgid "The access ticket will be deleted."
 msgstr ""
 
-msgid ""
-"The calendar name part of the path to store your ics. E.g. the \"home\" part of \"/caldav.php/username/"
-"home/\""
+msgid "The addressbook-query report must be run against an addressbook collection"
+msgstr ""
+
+msgid "The application program does not understand that request."
 msgstr ""
 
 msgid "The calendar path contains illegal characters."
@@ -987,10 +1022,13 @@ msgid ""
 "The calendar-free-busy-set is superseded by the schedule-transp property of a calendar collection."
 msgstr ""
 
+msgid "The calendar-query report must be run against a calendar or a scheduling collection"
+msgstr ""
+
 msgid "The collection name may not be blank."
 msgstr ""
 
-msgid "The displayname may only be set on collections or principals."
+msgid "The displayname may only be set on collections, principals or bindings."
 msgstr ""
 
 msgid "The email address really should not be blank."
@@ -1029,20 +1067,21 @@ msgstr "La contraseña del usuario para conectarse."
 msgid "The username must not be blank, and may not contain a slash"
 msgstr ""
 
-msgid "There is no collection at that URL."
-msgstr ""
-
 msgid "There was an error writing to the database."
 msgstr "Hubo un error al grabar en la base de datos."
+
+msgid ""
+"This operation does the following: <ul><li>check valid groups in LDAP directory</li> <li>check groups "
+"in DAViCal</li></ul> then <ul><li>if a group is present in DAViCal but not in LDAP set as inactive in "
+"DAViCal</li> <li>if a group is present in LDAP but not in DAViCal create the group in DAViCal</li> "
+"<li>if a group in present in LDAP and DAViCal then update information in DAViCal</li> </ul>"
+msgstr ""
 
 msgid ""
 "This operation does the following: <ul><li>check valid users in LDAP directory</li> <li>check users in "
 "DAViCal</li></ul> then <ul><li>if a user is present in DAViCal but not in LDAP set him as inactive in "
 "DAViCal</li> <li>if a user is present in LDAP but not in DAViCal create the user in DAViCal</li> "
 "<li>if a user in present in LDAP and DAViCal then update information in DAViCal</li> </ul>"
-msgstr ""
-
-msgid "This user's collections"
 msgstr ""
 
 msgid "To ID"
@@ -1052,9 +1091,6 @@ msgid "Toggle all privileges"
 msgstr ""
 
 msgid "Transparent"
-msgstr ""
-
-msgid "Type"
 msgstr ""
 
 msgid "US Format"
@@ -1089,9 +1125,6 @@ msgstr ""
 msgid "Upgrade Database"
 msgstr ""
 
-msgid "Upload a .ics calendar in iCalendar format "
-msgstr ""
-
 msgid "Upload a .ics calendar in iCalendar format to initialise or replace this calendar."
 msgstr ""
 
@@ -1109,10 +1142,6 @@ msgid "User Name"
 msgstr "Nombre del Usuario"
 
 msgid "User Roles"
-msgstr "Roles del Usuario"
-
-#, fuzzy
-msgid "User deleted"
 msgstr "Roles del Usuario"
 
 msgid "User is active"
@@ -1137,6 +1166,9 @@ msgid "View this user record"
 msgstr "Mostrar éste registro de usuario"
 
 msgid "Visit the DAViCal Wiki"
+msgstr ""
+
+msgid "Warning: there are no active admin users, you should fix this before logging out."
 msgstr ""
 
 msgid "When the user's e-mail account was validated."
@@ -1167,6 +1199,10 @@ msgid "Yes"
 msgstr ""
 
 #, c-format
+msgid "You are currently running DAViCal version %s. The database schema is at version %d.%d.%d."
+msgstr ""
+
+#, c-format
 msgid ""
 "You are currently running DAViCal version %s. The database schema should be at version %s and it is at "
 "version %d.%d.%d."
@@ -1181,24 +1217,25 @@ msgstr "No está autorizado a utilizar ésta función."
 msgid "You are viewing"
 msgstr ""
 
-msgid "You do not have appropriate rights to view that resource."
-msgstr ""
-
 #, fuzzy
-msgid "You may not add entries to this calendar."
+msgid "You do not have permission to modify this record."
 msgstr "No está autorizado a utilizar ésta función."
 
-msgid "You may not modify entries on this calendar."
-msgstr ""
-
-msgid "You may only review the contents of your own collections in this interface."
-msgstr ""
+#, fuzzy
+msgid "You may not PUT to a collection URL"
+msgstr "No está autorizado a utilizar ésta función."
 
 msgid "You must log in to use this system."
 msgstr "Debe conectarte para usar el sistema."
 
+msgid "Your configuration produced PHP errors which should be corrected"
+msgstr ""
+
 #, c-format
 msgid "all events of user %s were deleted and replaced by those from file %s"
+msgstr ""
+
+msgid "calendar-timezone property is only valid for a calendar."
 msgstr ""
 
 #, c-format
@@ -1228,6 +1265,10 @@ msgid "drivers_ldap : function ldap_connect not defined, check your php_ldap mod
 msgstr ""
 
 #, c-format
+msgid "drivers_pwauth_pam : Unable to find %s file"
+msgstr ""
+
+#, c-format
 msgid "drivers_squid_pam : Unable to find %s file"
 msgstr ""
 
@@ -1253,9 +1294,81 @@ msgstr ""
 msgid "you should log on with the username and password that have been issued to you."
 msgstr "Para conectarse debe utilizar el nombre de usuario y contraseña que le ha sido asignado."
 
+#~ msgid "--- select a relationship type ---"
+#~ msgstr "Mostrar todos los tipos de relaciones"
+
+#~ msgid "Add Relationship"
+#~ msgstr "Agregar Relación"
+
+#~ msgid "Add"
+#~ msgstr "Agregar"
+
 #, fuzzy
-#~ msgid "You may not access that collection"
-#~ msgstr "No está autorizado a utilizar ésta función."
+#~ msgid "Click to display that user"
+#~ msgstr "Hacer clic para mostrar esa relación"
+
+#, fuzzy
+#~ msgid "Click to display the contents of the collection"
+#~ msgstr "Hacer clic para mostrar esa relación"
+
+#, fuzzy
+#~ msgid "Create Calendar"
+#~ msgstr "Calendario de los Usuario"
+
+#~ msgid "Database Error."
+#~ msgstr "Error en la Base de Datos."
+
+#, fuzzy
+#~ msgid "Delete User"
+#~ msgstr "Borrar"
+
+#~ msgid "Enter the name for this resource type"
+#~ msgstr "Ingrese el nombre para éste tipo de recurso"
+
+#~ msgid "Is this access read ('R') or Read and Write ('RW')?"
+#~ msgstr "¿Éste acceso es de lectura ('L') ó de Lectura y Escritura ('LE')?"
+
+#~ msgid "Linked From"
+#~ msgstr "Relacionado desde"
+
+#~ msgid "Linked To"
+#~ msgstr "Relacionado con"
+
+#~ msgid "Relationship Type Added."
+#~ msgstr "Tipo de Relación incorporada."
+
+#~ msgid "Relationship Type Deleted."
+#~ msgstr "Tipo de Relación Eliminada."
+
+#~ msgid "Relationship Types"
+#~ msgstr "Tipos de Relación"
+
+#~ msgid "Relationship added."
+#~ msgstr "Relación incorporada."
+
+#~ msgid "Relationship deleted"
+#~ msgstr "Relación eliminada"
+
+#~ msgid "Relationship"
+#~ msgstr "Relación"
+
+#~ msgid "Relationships from this user"
+#~ msgstr "Relaciones desde éste usuario"
+
+#~ msgid "Relationships to this user"
+#~ msgstr "Relaciones hacia éste usuario"
+
+#~ msgid "Rights"
+#~ msgstr "Derechos"
+
+#~ msgid "Select the type of relationship from this user"
+#~ msgstr "Seleccionar el tipo de relación de salida desde éste usuario"
+
+#~ msgid "Select the user, resource or group to relate this user to"
+#~ msgstr "Seleccionar el usuario, recurso o grupo con el cual relacionar a éste usuario"
+
+#~ msgid "That relationship type is being used. See ##RelationshipTypeUsed##"
+#~ msgstr "Ese tipo de relación está siendo utilizada. Ver ##TipodeRelacióonUtilizada##"
 
 #~ msgid "Calendar Users"
 #~ msgstr "Calendario de los Usuario"
