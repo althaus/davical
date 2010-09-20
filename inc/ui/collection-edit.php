@@ -89,8 +89,11 @@ if ( $can_write_collection && $editor->IsSubmit() ) {
   else {
     $c->messages[] = i18n("Updating Collection record.");
   }
-  $editor->Write();
-  if ( isset($_FILES['ics_file']['tmp_name']) && $_FILES['ics_file']['tmp_name'] != '' ) {
+  if ( !$editor->Write() ) { 
+    $c->messages[] = i18n("Failed to write collection.");
+    if ( $id > 0 ) $editor->GetRecord();
+  }
+  else if ( isset($_FILES['ics_file']['tmp_name']) && $_FILES['ics_file']['tmp_name'] != '' ) {
     /**
     * If the user has uploaded a .ics file as a calendar, we fake this out
     * as if it were a "PUT" request against a collection.  This is something
@@ -116,7 +119,7 @@ if ( $can_write_collection && $editor->IsSubmit() ) {
   }
 }
 else {
-  $editor->GetRecord();
+  if ( $id > 0 ) $editor->GetRecord();
   if ( $editor->IsSubmit() ) {
     $c->messages[] = i18n('You do not have permission to modify this record.');
   }
