@@ -1,7 +1,7 @@
 Source: davical
 Section: web
 Priority: extra
-Maintainer: Andrew McMillan <debian@mcmillan.net.nz>
+Maintainer: Andrew McMillan <awm@debian.org>
 Standards-Version: 3.8.4
 Build-Depends: debhelper (>= 5), libawl-php
 Vcs-git: git://repo.or.cz/davical.git
