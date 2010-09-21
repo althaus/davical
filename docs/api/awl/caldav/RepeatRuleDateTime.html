@@ -8,7 +8,7 @@
 			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
 		</head>
 		<body>
-			<div class="page-body">			
+			<div class="page-body">			
 <h2 class="class-name"><img src="../../media/images/Class_logo.png"
 														alt=" Class"
 														title=" Class"
@@ -29,7 +29,7 @@
         		<!-- ========== Info from phpDoc block ========= -->
 <p class="short-description">Wrap the DateTime class to make it friendlier to passing in random strings from iCalendar  objects, and especially the random stuff used to identify timezones.  We also add some  utility methods and stuff too, in order to simplify some of the operations we need to do  with dates.</p>
 		<p class="notes">
-			Located in <a class="field" href="_inc---RRule-v2.php.html">/inc/RRule-v2.php</a> (line <span class="field">86</span>)
+			Located in <a class="field" href="_inc---RRule-v2.php.html">/inc/RRule-v2.php</a> (line <span class="field">78</span>)
 		</p>
 		
 				
@@ -79,7 +79,7 @@
 		</div>
 		<div class="info-box-body">			
 			<div class="method-summary">
-																																																																																																																																<div class="method-definition">
+																																																																																																																																																<div class="method-definition">
 					<img src="../../media/images/Constructor.png" alt=" "/>
 											<span class="method-result">RepeatRuleDateTime</span>
 										<a href="#__construct" title="details" class="method-name">__construct</a>
@@ -118,6 +118,12 @@
 																<div class="method-definition">
 					<img src="../../media/images/Method.png" alt=" "/>
 											<span class="method-result">void</span>
+										<a href="#modify" title="details" class="method-name">modify</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$interval</span>)
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
 										<a href="#month" title="details" class="method-name">month</a>
 										()
 									</div>
@@ -126,6 +132,12 @@
 											<span class="method-result">void</span>
 										<a href="#RFC5545" title="details" class="method-name">RFC5545</a>
 										()
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#RFC5545Duration" title="details" class="method-name">RFC5545Duration</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$end_stamp</span>)
 									</div>
 																<div class="method-definition">
 					<img src="../../media/images/Method.png" alt=" "/>
@@ -190,7 +202,7 @@
 		<span class="var-title">
 			static <span class="var-type">mixed</span>
 			<span class="var-name">$Format</span>
-			 = <span class="var-default"> 'c'</span>			(line <span class="line-number">88</span>)
+			 = <span class="var-default"> 'c'</span>			(line <span class="line-number">80</span>)
 		</span>
 	</div>
 
@@ -205,7 +217,7 @@
 
 </div>
 
-						
+						
 		</div>
 	</div>
 	
@@ -225,7 +237,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Constructor.png" />
-		<span class="method-title">Constructor __construct</span> (line <span class="line-number">92</span>)
+		<span class="method-title">Constructor __construct</span> (line <span class="line-number">84</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -253,7 +265,7 @@
 			<hr class="separator" />
 		<div class="notes">Redefinition of:</div>
 		<dl>
-			<dt>DateTime::constructor __construct (  )</dt>
+			<dt>DateTime::constructor __construct ( [$time = ], [$object = ] )</dt>
 					</dl>
 			
 	</div>
@@ -262,7 +274,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">AsDate</span> (line <span class="line-number">139</span>)
+		<span class="method-title">AsDate</span> (line <span class="line-number">133</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -286,7 +298,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">day</span> (line <span class="line-number">200</span>)
+		<span class="method-title">day</span> (line <span class="line-number">217</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -307,7 +319,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">epoch</span> (line <span class="line-number">216</span>)
+		<span class="method-title">epoch</span> (line <span class="line-number">233</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -328,7 +340,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">hour</span> (line <span class="line-number">204</span>)
+		<span class="method-title">hour</span> (line <span class="line-number">221</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -349,7 +361,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">minute</span> (line <span class="line-number">208</span>)
+		<span class="method-title">minute</span> (line <span class="line-number">225</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -365,12 +377,46 @@
 		
 			
 	</div>
-<a name="methodmonth" id="month"><!-- --></a>
+<a name="methodmodify" id="modify"><!-- --></a>
 <div class="evenrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">month</span> (line <span class="line-number">196</span>)
+		<span class="method-title">modify</span> (line <span class="line-number">138</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			modify
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$interval</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$interval</span>			</li>
+				</ul>
+		
+			<hr class="separator" />
+		<div class="notes">Redefinition of:</div>
+		<dl>
+			<dt>DateTime::modify ( $modify )</dt>
+					</dl>
+			
+	</div>
+<a name="methodmonth" id="month"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">month</span> (line <span class="line-number">213</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -387,11 +433,11 @@
 			
 	</div>
 <a name="methodRFC5545" id="RFC5545"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">RFC5545</span> (line <span class="line-number">156</span>)
+		<span class="method-title">RFC5545</span> (line <span class="line-number">168</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -410,12 +456,41 @@
 		
 			
 	</div>
+<a name="methodRFC5545Duration" id="RFC5545Duration"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">RFC5545Duration</span> (line <span class="line-number">186</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			RFC5545Duration
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$end_stamp</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$end_stamp</span>			</li>
+				</ul>
+		
+			
+	</div>
 <a name="methodsecond" id="second"><!-- --></a>
 <div class="evenrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">second</span> (line <span class="line-number">212</span>)
+		<span class="method-title">second</span> (line <span class="line-number">229</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -436,7 +511,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">setDate</span> (line <span class="line-number">184</span>)
+		<span class="method-title">setDate</span> (line <span class="line-number">201</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -464,7 +539,7 @@
 			<hr class="separator" />
 		<div class="notes">Redefinition of:</div>
 		<dl>
-			<dt>DateTime::setDate (  )</dt>
+			<dt>DateTime::setDate ( $year, $month, $day )</dt>
 					</dl>
 			
 	</div>
@@ -473,7 +548,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">setTimeZone</span> (line <span class="line-number">174</span>)
+		<span class="method-title">setTimeZone</span> (line <span class="line-number">191</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -498,7 +573,7 @@
 			<hr class="separator" />
 		<div class="notes">Redefinition of:</div>
 		<dl>
-			<dt>DateTime::setTimezone (  )</dt>
+			<dt>DateTime::setTimezone ( $timezone )</dt>
 					</dl>
 			
 	</div>
@@ -507,7 +582,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">UTC</span> (line <span class="line-number">144</span>)
+		<span class="method-title">UTC</span> (line <span class="line-number">156</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -531,7 +606,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">year</span> (line <span class="line-number">192</span>)
+		<span class="method-title">year</span> (line <span class="line-number">209</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -552,7 +627,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">__toString</span> (line <span class="line-number">134</span>)
+		<span class="method-title">__toString</span> (line <span class="line-number">128</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -577,23 +652,41 @@
 					<p>Inherited From <span class="classname">DateTime (Internal Class)</span></p>
 					<blockquote>
 													<img src="../../media/images/Constructor.png" alt=" "/>
-							<span class="method-name">constructor __construct (  )</span><br />
+							<span class="method-name">constructor __construct ( [$time = ], [$object = ] )</span><br>
 													<img src="../../media/images/Method.png" alt=" "/>
-							<span class="method-name">format (  )</span><br />
+							<span class="method-name">add ( $interval )</span><br>
 													<img src="../../media/images/Method.png" alt=" "/>
-							<span class="method-name">getOffset (  )</span><br />
+							<span class="method-name">createFromFormat ( $format, $time, [$object = ] )</span><br>
 													<img src="../../media/images/Method.png" alt=" "/>
-							<span class="method-name">getTimezone (  )</span><br />
+							<span class="method-name">diff ( $object, [$absolute = ] )</span><br>
 													<img src="../../media/images/Method.png" alt=" "/>
-							<span class="method-name">modify (  )</span><br />
+							<span class="method-name">format ( $format )</span><br>
 													<img src="../../media/images/Method.png" alt=" "/>
-							<span class="method-name">setDate (  )</span><br />
+							<span class="method-name">getLastErrors (  )</span><br>
 													<img src="../../media/images/Method.png" alt=" "/>
-							<span class="method-name">setISODate (  )</span><br />
+							<span class="method-name">getOffset (  )</span><br>
 													<img src="../../media/images/Method.png" alt=" "/>
-							<span class="method-name">setTime (  )</span><br />
+							<span class="method-name">getTimestamp (  )</span><br>
 													<img src="../../media/images/Method.png" alt=" "/>
-							<span class="method-name">setTimezone (  )</span><br />
+							<span class="method-name">getTimezone (  )</span><br>
+													<img src="../../media/images/Method.png" alt=" "/>
+							<span class="method-name">modify ( $modify )</span><br>
+													<img src="../../media/images/Method.png" alt=" "/>
+							<span class="method-name">setDate ( $year, $month, $day )</span><br>
+													<img src="../../media/images/Method.png" alt=" "/>
+							<span class="method-name">setISODate ( $year, $week, [$day = ] )</span><br>
+													<img src="../../media/images/Method.png" alt=" "/>
+							<span class="method-name">setTime ( $hour, $minute, [$second = ] )</span><br>
+													<img src="../../media/images/Method.png" alt=" "/>
+							<span class="method-name">setTimestamp ( $unixtimestamp )</span><br>
+													<img src="../../media/images/Method.png" alt=" "/>
+							<span class="method-name">setTimezone ( $timezone )</span><br>
+													<img src="../../media/images/Method.png" alt=" "/>
+							<span class="method-name">sub ( $interval )</span><br>
+													<img src="../../media/images/Method.png" alt=" "/>
+							<span class="method-name">__set_state (  )</span><br>
+													<img src="../../media/images/Method.png" alt=" "/>
+							<span class="method-name">__wakeup (  )</span><br>
 											</blockquote>
 										
 		</div>
@@ -613,53 +706,53 @@
 							
 					</div>
 		<div class="info-box-body">
-										<h4>Inherited Constants</h4>
+										<h4>Inherited Constants</h4>
 				<A NAME='inherited_consts'><!-- --></A>
 									<p>Inherited from <span class="classname">DateTime (Internal Class)</span></p>
 					<blockquote>
 													<img src="../../media/images/Variable.png" />
 							<span class="const-title">
-								<span class="const-name">ATOM = 'Y-m-d\\TH:i:sP'</span><br />
+								<span class="const-name">ATOM = 'Y-m-d\\TH:i:sP'</span><br>
 							</span>
 													<img src="../../media/images/Variable.png" />
 							<span class="const-title">
-								<span class="const-name">COOKIE = 'l, d-M-y H:i:s T'</span><br />
+								<span class="const-name">COOKIE = 'l, d-M-y H:i:s T'</span><br>
 							</span>
 													<img src="../../media/images/Variable.png" />
 							<span class="const-title">
-								<span class="const-name">ISO8601 = 'Y-m-d\\TH:i:sO'</span><br />
+								<span class="const-name">ISO8601 = 'Y-m-d\\TH:i:sO'</span><br>
 							</span>
 													<img src="../../media/images/Variable.png" />
 							<span class="const-title">
-								<span class="const-name">RFC822 = 'D, d M y H:i:s O'</span><br />
+								<span class="const-name">RFC822 = 'D, d M y H:i:s O'</span><br>
 							</span>
 													<img src="../../media/images/Variable.png" />
 							<span class="const-title">
-								<span class="const-name">RFC850 = 'l, d-M-y H:i:s T'</span><br />
+								<span class="const-name">RFC850 = 'l, d-M-y H:i:s T'</span><br>
 							</span>
 													<img src="../../media/images/Variable.png" />
 							<span class="const-title">
-								<span class="const-name">RFC1036 = 'D, d M y H:i:s O'</span><br />
+								<span class="const-name">RFC1036 = 'D, d M y H:i:s O'</span><br>
 							</span>
 													<img src="../../media/images/Variable.png" />
 							<span class="const-title">
-								<span class="const-name">RFC1123 = 'D, d M Y H:i:s O'</span><br />
+								<span class="const-name">RFC1123 = 'D, d M Y H:i:s O'</span><br>
 							</span>
 													<img src="../../media/images/Variable.png" />
 							<span class="const-title">
-								<span class="const-name">RFC2822 = 'D, d M Y H:i:s O'</span><br />
+								<span class="const-name">RFC2822 = 'D, d M Y H:i:s O'</span><br>
 							</span>
 													<img src="../../media/images/Variable.png" />
 							<span class="const-title">
-								<span class="const-name">RFC3339 = 'Y-m-d\\TH:i:sP'</span><br />
+								<span class="const-name">RFC3339 = 'Y-m-d\\TH:i:sP'</span><br>
 							</span>
 													<img src="../../media/images/Variable.png" />
 							<span class="const-title">
-								<span class="const-name">RSS = 'D, d M Y H:i:s O'</span><br />
+								<span class="const-name">RSS = 'D, d M Y H:i:s O'</span><br>
 							</span>
 													<img src="../../media/images/Variable.png" />
 							<span class="const-title">
-								<span class="const-name">W3C = 'Y-m-d\\TH:i:sP'</span><br />
+								<span class="const-name">W3C = 'Y-m-d\\TH:i:sP'</span><br>
 							</span>
 											</blockquote> 
 										
@@ -667,7 +760,7 @@
 	</div>
 	
 	<p class="notes" id="credit">
-		Documentation generated on Sat, 17 Apr 2010 12:32:29 +1200 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
+		Documentation generated on Tue, 21 Sep 2010 12:13:35 +1200 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
 	</p>
 	</div></body>
-</html>
+</html>

@@ -8,7 +8,7 @@
 			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
 		</head>
 		<body>
-			<div class="page-body">			
+			<div class="page-body">			
 <h2 class="file-name"><img src="../../media/images/Page_logo.png" alt="File" style="vertical-align: middle">/inc/auth-functions.php</h2>
 
 <a name="sec-description"></a>
@@ -55,6 +55,13 @@
 	</div>
 
 	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">The authentication handling plugins can be used by the Session class to  provide authentication.</p>
+<p class="description"><p>Each authenticate hook needs to: <ul><li>Accept a username / password</li><li>Confirm the username / password are correct</li><li>Create (or update) a 'usr' record in our database</li><li>Return the 'usr' record as an object</li><li>Return === false when authentication fails</li></ul>  It can expect that: <ul><li>Configuration data will be in $c-&gt;authenticate_hook['config'], which might be an array, or whatever is needed.</li></ul>  In order to be called: <ul><li>This file should be included</li><li>$c-&gt;authenticate_hook['call'] should be set to the name of the plugin</li><li>$c-&gt;authenticate_hook['config'] should be set up with any configuration data for the plugin</li></ul></p></p>
+	<ul class="tags">
+				<li><span class="field">author:</span> Andrew McMillan &lt;<a href="mailto:andrew@mcmillan.net.nz">andrew@mcmillan.net.nz</a>&gt;</li>
+				<li><span class="field">copyright:</span> Catalyst IT Ltd, Morphoss Ltd</li>
+				<li><span class="field">license:</span> <a href="http://gnu.org/copyleft/gpl.html">GNU GPL v2 or later</a></li>
+			</ul>
 	
 </div>
 		</div>
@@ -81,7 +88,7 @@
 
 	<!-- ========== Info from phpDoc block ========= -->
 <p class="short-description">Authenticate against a different PostgreSQL database which contains a usr table in  the AWL format.</p>
-<p class="description"><p>Use this as in the following example config snippet:</p><p>require_once('auth-functions.php');   $c-&gt;authenticate_hook = array(       'call'   =&gt; 'AuthExternalAwl',       'config' =&gt; array(            // A PgSQL database connection string for the database containing user records           'connection' =&gt; 'dbname=wrms host=otherhost port=5433 user=general',            // Which columns should be fetched from the database           'columns'    =&gt; &quot;user_no, active, email_ok, joined, last_update AS updated, last_used, username, password, fullname, email&quot;,            // a WHERE clause to limit the records returned.           'where'    =&gt; &quot;active AND org_code=7&quot;       )   );</p></p>
+<p class="description"><p>Use this as in the following example config snippet:</p><p>require_once('auth-functions.php');   $c-&gt;authenticate_hook = array(       'call'   =&gt; 'AuthExternalAwl',       'config' =&gt; array(            // A PgSQL database connection string for the database containing user records           'connection[]' =&gt; 'dbname=wrms host=otherhost port=5433 user=general',            // Which columns should be fetched from the database           'columns'    =&gt; &quot;user_no, active, email_ok, joined, last_update AS updated, last_used, username, password, fullname, email&quot;,            // a WHERE clause to limit the records returned.           'where'    =&gt; &quot;active AND org_code=7&quot;       )   );</p></p>
 	<div class="method-signature">
 		<span class="method-result">void</span>
 		<span class="method-name">
@@ -186,7 +193,7 @@
 	</div>
 	
 	<p class="notes" id="credit">
-		Documentation generated on Sat, 17 Apr 2010 12:32:22 +1200 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
+		Documentation generated on Tue, 21 Sep 2010 12:13:33 +1200 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
 	</p>
 	</div></body>
-</html>
+</html>

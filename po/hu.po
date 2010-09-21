@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rscds 0.7.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-14 14:05+1200\n"
+"POT-Creation-Date: 2010-09-21 12:13+1200\n"
 "PO-Revision-Date: 2007-05-03 15:00+0001\n"
 "Last-Translator: David Takacs <david.takacs@cafeopen.eu>\n"
 "Language-Team: \n"
@@ -149,6 +149,21 @@ msgstr ""
 msgid "Apply DB Patches"
 msgstr ""
 
+#, fuzzy
+msgid "Binding deleted"
+msgstr "Valóban törli a kapcsolattípust?"
+
+#, fuzzy
+msgid "Bindings to this Collection"
+msgstr "Valóban törli a kapcsolattípust?"
+
+#, fuzzy
+msgid "Bindings to this Principal's Collections"
+msgstr "Valóban törli a kapcsolattípust?"
+
+msgid "Bound As"
+msgstr ""
+
 msgid "Browse all users"
 msgstr "Felhasználók listája"
 
@@ -202,6 +217,10 @@ msgstr ""
 
 msgid "Configuring DAViCal"
 msgstr ""
+
+#, fuzzy
+msgid "Confirm Deletion of the Binding"
+msgstr "Valóban törli a kapcsolattípust?"
 
 #, fuzzy
 msgid "Confirm Deletion of the Collection"
@@ -378,6 +397,10 @@ msgid "Deleted a grant from this Principal"
 msgstr ""
 
 #, fuzzy
+msgid "Deleting Binding:"
+msgstr "Naptár felhasználói"
+
+#, fuzzy
 msgid "Deleting Collection:"
 msgstr "Valóban törli a kapcsolattípust?"
 
@@ -488,6 +511,9 @@ msgid "Existing resource matches \"If-None-Match\" header - not accepted."
 msgstr "Az erőforrásokra illeszkedik egy 'If-None-Match' minta - elutasítva."
 
 msgid "Expires"
+msgstr ""
+
+msgid "Failed to write collection."
 msgstr ""
 
 msgid "Failed"
@@ -755,6 +781,10 @@ msgstr ""
 
 #, fuzzy
 msgid "Please confirm deletion of access ticket - see below"
+msgstr "Törlés megerősítése"
+
+#, fuzzy
+msgid "Please confirm deletion of binding - see below"
 msgstr "Törlés megerősítése"
 
 msgid "Please confirm deletion of collection - see below"
@@ -1025,6 +1055,9 @@ msgstr ""
 msgid "The application program does not understand that request."
 msgstr "Az alkalmazás nem tudja értelmezni a kérést."
 
+msgid "The binding will be deleted."
+msgstr ""
+
 msgid "The calendar path contains illegal characters."
 msgstr "A naptár elérési útja érvénytelen karaktert tartalmaz."
 
@@ -1093,6 +1126,9 @@ msgid ""
 "DAViCal</li></ul> then <ul><li>if a user is present in DAViCal but not in LDAP set him as inactive in "
 "DAViCal</li> <li>if a user is present in LDAP but not in DAViCal create the user in DAViCal</li> "
 "<li>if a user in present in LDAP and DAViCal then update information in DAViCal</li> </ul>"
+msgstr ""
+
+msgid "Ticket ID"
 msgstr ""
 
 msgid "To ID"

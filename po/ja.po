@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DAViCal 0.9.8.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-14 14:05+1200\n"
+"POT-Creation-Date: 2010-09-21 12:13+1200\n"
 "PO-Revision-Date: 2010-02-25 12:48+0900\n"
 "Last-Translator: Masahiro MIKAMI <mmecon@hotmail.co.jp>\n"
 "Language-Team: \n"
@@ -151,6 +151,21 @@ msgstr "変更を適用"
 msgid "Apply DB Patches"
 msgstr "変更を適用"
 
+#, fuzzy
+msgid "Binding deleted"
+msgstr "プリンシパルが削除されました"
+
+#, fuzzy
+msgid "Bindings to this Collection"
+msgstr "そのコレクションの削除を確認"
+
+#, fuzzy
+msgid "Bindings to this Principal's Collections"
+msgstr "プリンシパルコレクション"
+
+msgid "Bound As"
+msgstr ""
+
 msgid "Browse all users"
 msgstr "全てのユーザーを閲覧する"
 
@@ -196,6 +211,10 @@ msgstr "DAViCal用にカレンダークライアントを設定する"
 
 msgid "Configuring DAViCal"
 msgstr "DAViCalを設定する"
+
+#, fuzzy
+msgid "Confirm Deletion of the Binding"
+msgstr "そのプリンシパルの削除を確認"
 
 msgid "Confirm Deletion of the Collection"
 msgstr "そのコレクションの削除を確認"
@@ -359,6 +378,10 @@ msgstr "削除"
 msgid "Deleted a grant from this Principal"
 msgstr "このプリンシパルから許可を削除しました"
 
+#, fuzzy
+msgid "Deleting Binding:"
+msgstr "プリンシパルを削除中:"
+
 msgid "Deleting Collection:"
 msgstr "コレクションを削除中:"
 
@@ -466,6 +489,10 @@ msgstr "既存の資源が\"If-Match\"ヘッダと一致します - 受け付け
 
 msgid "Expires"
 msgstr ""
+
+#, fuzzy
+msgid "Failed to write collection."
+msgstr "ICSファイルを新規コレクションにインポートする"
 
 msgid "Failed"
 msgstr ""
@@ -719,6 +746,10 @@ msgstr "人物"
 
 #, fuzzy
 msgid "Please confirm deletion of access ticket - see below"
+msgstr "コレクションの削除を確認して下さい - 以下を見て下さい。"
+
+#, fuzzy
+msgid "Please confirm deletion of binding - see below"
 msgstr "コレクションの削除を確認して下さい - 以下を見て下さい。"
 
 msgid "Please confirm deletion of collection - see below"
@@ -990,6 +1021,9 @@ msgstr ""
 msgid "The application program does not understand that request."
 msgstr "アプリケーションはそのリクエストを理解できませんでした。"
 
+msgid "The binding will be deleted."
+msgstr ""
+
 msgid "The calendar path contains illegal characters."
 msgstr "カレンダーパスに不正な文字が使用されています。"
 
@@ -1062,6 +1096,9 @@ msgid ""
 "DAViCal</li></ul> then <ul><li>if a user is present in DAViCal but not in LDAP set him as inactive in "
 "DAViCal</li> <li>if a user is present in LDAP but not in DAViCal create the user in DAViCal</li> "
 "<li>if a user in present in LDAP and DAViCal then update information in DAViCal</li> </ul>"
+msgstr ""
+
+msgid "Ticket ID"
 msgstr ""
 
 msgid "To ID"
@@ -1516,9 +1553,6 @@ msgstr "あなたに発行したユーザー名とパスワードでログオン
 
 #~ msgid "Created On"
 #~ msgstr "作成日時"
-
-#~ msgid "Import ICS file to new collection"
-#~ msgstr "ICSファイルを新規コレクションにインポートする"
 
 #~ msgid "Your .ics calendar"
 #~ msgstr "あたなの.icsカレンダー"

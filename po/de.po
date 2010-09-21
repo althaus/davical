@@ -43,7 +43,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DAViCal 0.9.7.99\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-14 14:05+1200\n"
+"POT-Creation-Date: 2010-09-21 12:13+1200\n"
 "PO-Revision-Date: 2009-12-23 18:00+0100\n"
 "Last-Translator: Patrick Näf Moser <herzbube@herzbube.ch>\n"
 "MIME-Version: 1.0\n"
@@ -191,6 +191,22 @@ msgstr "Änderungen Speichern"
 msgid "Apply DB Patches"
 msgstr "Änderungen Speichern"
 
+#, fuzzy
+msgid "Binding deleted"
+msgstr "Principal gelöscht"
+
+#, fuzzy
+msgid "Bindings to this Collection"
+msgstr "Löschen bestätigen"
+
+# Principal ist ein stehender Begriff in WebDAV
+#, fuzzy
+msgid "Bindings to this Principal's Collections"
+msgstr "Principal Sammlungen"
+
+msgid "Bound As"
+msgstr ""
+
 # TODO - Bessere Übersetzung von "browse"
 msgid "Browse all users"
 msgstr "Zeige alle Benutzer"
@@ -245,6 +261,10 @@ msgstr ""
 
 msgid "Configuring DAViCal"
 msgstr ""
+
+#, fuzzy
+msgid "Confirm Deletion of the Binding"
+msgstr "Löschen bestätigen"
 
 msgid "Confirm Deletion of the Collection"
 msgstr "Löschen bestätigen"
@@ -413,6 +433,11 @@ msgstr "Löschen"
 msgid "Deleted a grant from this Principal"
 msgstr "Eine Berechtigung dieses Principals gelöscht"
 
+# TODO - Principal übersetzen
+#, fuzzy
+msgid "Deleting Binding:"
+msgstr "Principal löschen:"
+
 msgid "Deleting Collection:"
 msgstr "Lösche Collection:"
 
@@ -529,6 +554,10 @@ msgstr "Bestehende Ressource stimmt mit \"If-None-Match\" Header überein - nich
 
 msgid "Expires"
 msgstr ""
+
+#, fuzzy
+msgid "Failed to write collection."
+msgstr "Importiere ICS-Kalenderdatei in eine neue Sammlung"
 
 msgid "Failed"
 msgstr ""
@@ -807,6 +836,10 @@ msgstr ""
 
 #, fuzzy
 msgid "Please confirm deletion of access ticket - see below"
+msgstr "Löschen der Collection bestätigen - siehe unten"
+
+#, fuzzy
+msgid "Please confirm deletion of binding - see below"
 msgstr "Löschen der Collection bestätigen - siehe unten"
 
 msgid "Please confirm deletion of collection - see below"
@@ -1094,6 +1127,9 @@ msgstr ""
 msgid "The application program does not understand that request."
 msgstr "Das Anwendungsprogramm versteht diese Anfrage nicht."
 
+msgid "The binding will be deleted."
+msgstr ""
+
 msgid "The calendar path contains illegal characters."
 msgstr "Der Kalenderpfad enthält ungültige Zeichen."
 
@@ -1167,6 +1203,9 @@ msgid ""
 "DAViCal</li></ul> then <ul><li>if a user is present in DAViCal but not in LDAP set him as inactive in "
 "DAViCal</li> <li>if a user is present in LDAP but not in DAViCal create the user in DAViCal</li> "
 "<li>if a user in present in LDAP and DAViCal then update information in DAViCal</li> </ul>"
+msgstr ""
+
+msgid "Ticket ID"
 msgstr ""
 
 msgid "To ID"
@@ -1660,10 +1699,6 @@ msgstr "melden Sie sich mit Ihrem Benutzernamen und Passwort an."
 #, fuzzy
 #~ msgid "Created On"
 #~ msgstr "Erstellt am"
-
-#, fuzzy
-#~ msgid "Import ICS file to new collection"
-#~ msgstr "Importiere ICS-Kalenderdatei in eine neue Sammlung"
 
 #~ msgid "Your .ics calendar"
 #~ msgstr "Ihre ICS-Kalenderdatei"

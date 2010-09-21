@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: davical-messages-fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-14 14:05+1200\n"
+"POT-Creation-Date: 2010-09-21 12:13+1200\n"
 "PO-Revision-Date: 2010-03-13 23:06+1000\n"
 "Last-Translator: Aurelien Requiem <aurelien@requiem.fr>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
@@ -154,6 +154,21 @@ msgstr "Appliquer les modifications"
 msgid "Apply DB Patches"
 msgstr "Appliquer la rustine à la base"
 
+#, fuzzy
+msgid "Binding deleted"
+msgstr "Compte supprimé"
+
+#, fuzzy
+msgid "Bindings to this Collection"
+msgstr "Confirmer la suppression de la collection"
+
+#, fuzzy
+msgid "Bindings to this Principal's Collections"
+msgstr "Collections de comptes"
+
+msgid "Bound As"
+msgstr ""
+
 msgid "Browse all users"
 msgstr "Affiche tous les utilisateurs"
 
@@ -199,6 +214,10 @@ msgstr "Configurer des clients Calendar pour DAViCal"
 
 msgid "Configuring DAViCal"
 msgstr "Configurer DAViCal"
+
+#, fuzzy
+msgid "Confirm Deletion of the Binding"
+msgstr "Confirmer la suppression du compte"
 
 msgid "Confirm Deletion of the Collection"
 msgstr "Confirmer la suppression de la collection"
@@ -356,6 +375,10 @@ msgstr "Supprimer"
 msgid "Deleted a grant from this Principal"
 msgstr "Supprimer un accès donné par cet utilisateur"
 
+#, fuzzy
+msgid "Deleting Binding:"
+msgstr "Suppression le compte :"
+
 msgid "Deleting Collection:"
 msgstr "Suppression de la collection :"
 
@@ -469,6 +492,10 @@ msgstr "La ressource existante correpond à l'entête (HTTP) 'if-None-Match' - p
 
 msgid "Expires"
 msgstr ""
+
+#, fuzzy
+msgid "Failed to write collection."
+msgstr "Importer un fichier ICS dans une nouvelle collection"
 
 msgid "Failed"
 msgstr "Echec"
@@ -740,6 +767,10 @@ msgstr "Personne"
 
 #, fuzzy
 msgid "Please confirm deletion of access ticket - see below"
+msgstr "Veuillez confirmer la suppression de la collection - voir ci-dessous"
+
+#, fuzzy
+msgid "Please confirm deletion of binding - see below"
 msgstr "Veuillez confirmer la suppression de la collection - voir ci-dessous"
 
 msgid "Please confirm deletion of collection - see below"
@@ -1016,6 +1047,9 @@ msgstr ""
 msgid "The application program does not understand that request."
 msgstr "L'application ne comprend pas la demande."
 
+msgid "The binding will be deleted."
+msgstr ""
+
 msgid "The calendar path contains illegal characters."
 msgstr "le chemin vers le calendrier contient des caractères interdits."
 
@@ -1089,6 +1123,9 @@ msgid ""
 "DAViCal</li></ul> then <ul><li>if a user is present in DAViCal but not in LDAP set him as inactive in "
 "DAViCal</li> <li>if a user is present in LDAP but not in DAViCal create the user in DAViCal</li> "
 "<li>if a user in present in LDAP and DAViCal then update information in DAViCal</li> </ul>"
+msgstr ""
+
+msgid "Ticket ID"
 msgstr ""
 
 msgid "To ID"
@@ -1583,9 +1620,6 @@ msgstr "Vous devez vous connecter avec le nom d'utilisateur et le mot de passe q
 
 #~ msgid "Created On"
 #~ msgstr "Créé le"
-
-#~ msgid "Import ICS file to new collection"
-#~ msgstr "Importer un fichier ICS dans une nouvelle collection"
 
 #~ msgid "Your .ics calendar"
 #~ msgstr "votre calendrier .ics"

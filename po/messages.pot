@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-14 14:05+1200\n"
+"POT-Creation-Date: 2010-09-21 12:13+1200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -149,6 +149,18 @@ msgstr ""
 msgid "Apply DB Patches"
 msgstr ""
 
+msgid "Binding deleted"
+msgstr ""
+
+msgid "Bindings to this Collection"
+msgstr ""
+
+msgid "Bindings to this Principal's Collections"
+msgstr ""
+
+msgid "Bound As"
+msgstr ""
+
 msgid "Browse all users"
 msgstr ""
 
@@ -195,6 +207,9 @@ msgid "Configuring Calendar Clients for DAViCal"
 msgstr ""
 
 msgid "Configuring DAViCal"
+msgstr ""
+
+msgid "Confirm Deletion of the Binding"
 msgstr ""
 
 msgid "Confirm Deletion of the Collection"
@@ -350,6 +365,9 @@ msgstr ""
 msgid "Deleted a grant from this Principal"
 msgstr ""
 
+msgid "Deleting Binding:"
+msgstr ""
+
 msgid "Deleting Collection:"
 msgstr ""
 
@@ -456,6 +474,9 @@ msgid "Existing resource matches \"If-None-Match\" header - not accepted."
 msgstr ""
 
 msgid "Expires"
+msgstr ""
+
+msgid "Failed to write collection."
 msgstr ""
 
 msgid "Failed"
@@ -704,6 +725,9 @@ msgid "Person"
 msgstr ""
 
 msgid "Please confirm deletion of access ticket - see below"
+msgstr ""
+
+msgid "Please confirm deletion of binding - see below"
 msgstr ""
 
 msgid "Please confirm deletion of collection - see below"
@@ -976,6 +1000,9 @@ msgstr ""
 msgid "The application program does not understand that request."
 msgstr ""
 
+msgid "The binding will be deleted."
+msgstr ""
+
 msgid "The calendar path contains illegal characters."
 msgstr ""
 
@@ -1050,6 +1077,9 @@ msgid ""
 "<li>if a user is present in LDAP but not in DAViCal create the user in "
 "DAViCal</li> <li>if a user in present in LDAP and DAViCal then update "
 "information in DAViCal</li> </ul>"
+msgstr ""
+
+msgid "Ticket ID"
 msgstr ""
 
 msgid "To ID"

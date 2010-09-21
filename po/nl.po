@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-14 14:05+1200\n"
+"POT-Creation-Date: 2010-09-21 12:13+1200\n"
 "PO-Revision-Date: 2010-02-18 16:00+0100\n"
 "Last-Translator: Vincent Van Houtte <http://www.synergylaw.be/>\n"
 "Language-Team: nl_NL <LL@li.org>\n"
@@ -154,6 +154,21 @@ msgstr "Pas wijzigingen toe"
 msgid "Apply DB Patches"
 msgstr "Pas wijzigingen toe"
 
+#, fuzzy
+msgid "Binding deleted"
+msgstr "Principaal verwijderd"
+
+#, fuzzy
+msgid "Bindings to this Collection"
+msgstr "Bevestig het verwijderen van de Verzameling"
+
+#, fuzzy
+msgid "Bindings to this Principal's Collections"
+msgstr "Principale verzamelingen"
+
+msgid "Bound As"
+msgstr ""
+
 msgid "Browse all users"
 msgstr "Blader door alle gebruikers"
 
@@ -201,6 +216,10 @@ msgstr ""
 
 msgid "Configuring DAViCal"
 msgstr ""
+
+#, fuzzy
+msgid "Confirm Deletion of the Binding"
+msgstr "Bevestig het verwijderen van de Principaal"
 
 msgid "Confirm Deletion of the Collection"
 msgstr "Bevestig het verwijderen van de Verzameling"
@@ -366,6 +385,10 @@ msgstr "Verwijder"
 msgid "Deleted a grant from this Principal"
 msgstr "Deze Principaal werd een privilege ontnomen"
 
+#, fuzzy
+msgid "Deleting Binding:"
+msgstr "Deze Principaal verwijderen:"
+
 msgid "Deleting Collection:"
 msgstr "Deze Verzameling verwijderen:"
 
@@ -480,6 +503,9 @@ msgid "Existing resource matches \"If-None-Match\" header - not accepted."
 msgstr "Bestaande bron komt overeen met \"If-None-Match\" kopregel - niet geaccepteerd"
 
 msgid "Expires"
+msgstr ""
+
+msgid "Failed to write collection."
 msgstr ""
 
 msgid "Failed"
@@ -746,6 +772,10 @@ msgstr ""
 
 #, fuzzy
 msgid "Please confirm deletion of access ticket - see below"
+msgstr "Bevestig aub het verwijderen van de verzameling - zie hieronder"
+
+#, fuzzy
+msgid "Please confirm deletion of binding - see below"
 msgstr "Bevestig aub het verwijderen van de verzameling - zie hieronder"
 
 msgid "Please confirm deletion of collection - see below"
@@ -1035,6 +1065,9 @@ msgstr ""
 msgid "The application program does not understand that request."
 msgstr "Deze applicatie begrijpt dat verzoek niet."
 
+msgid "The binding will be deleted."
+msgstr ""
+
 msgid "The calendar path contains illegal characters."
 msgstr "Het pad naar de agenda bevat niet-toegestane tekens."
 
@@ -1107,6 +1140,9 @@ msgid ""
 "DAViCal</li></ul> then <ul><li>if a user is present in DAViCal but not in LDAP set him as inactive in "
 "DAViCal</li> <li>if a user is present in LDAP but not in DAViCal create the user in DAViCal</li> "
 "<li>if a user in present in LDAP and DAViCal then update information in DAViCal</li> </ul>"
+msgstr ""
+
+msgid "Ticket ID"
 msgstr ""
 
 msgid "To ID"

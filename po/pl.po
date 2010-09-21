@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rscds-messages\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-14 14:05+1200\n"
+"POT-Creation-Date: 2010-09-21 12:13+1200\n"
 "PO-Revision-Date: 2007-03-31 00:24+0200\n"
 "Last-Translator: Rafal Slubowski <rafalslubowski@gmail.com>\n"
 "Language-Team: polski <pl@li.org>\n"
@@ -153,6 +153,21 @@ msgstr ""
 msgid "Apply DB Patches"
 msgstr ""
 
+#, fuzzy
+msgid "Binding deleted"
+msgstr "Potwierdź usunięcie typu zależności"
+
+#, fuzzy
+msgid "Bindings to this Collection"
+msgstr "Potwierdź usunięcie typu zależności"
+
+#, fuzzy
+msgid "Bindings to this Principal's Collections"
+msgstr "Potwierdź usunięcie typu zależności"
+
+msgid "Bound As"
+msgstr ""
+
 msgid "Browse all users"
 msgstr "Przeglądaj wszystkich użytkowników"
 
@@ -206,6 +221,10 @@ msgstr ""
 
 msgid "Configuring DAViCal"
 msgstr ""
+
+#, fuzzy
+msgid "Confirm Deletion of the Binding"
+msgstr "Potwierdź usunięcie typu zależności"
 
 #, fuzzy
 msgid "Confirm Deletion of the Collection"
@@ -382,6 +401,10 @@ msgid "Deleted a grant from this Principal"
 msgstr ""
 
 #, fuzzy
+msgid "Deleting Binding:"
+msgstr "Użytkownicy kalendarza"
+
+#, fuzzy
 msgid "Deleting Collection:"
 msgstr "Potwierdź usunięcie typu zależności"
 
@@ -492,6 +515,9 @@ msgid "Existing resource matches \"If-None-Match\" header - not accepted."
 msgstr "Zasób nie pasuje do nagłówka 'If-Match' - nie usuwam."
 
 msgid "Expires"
+msgstr ""
+
+msgid "Failed to write collection."
 msgstr ""
 
 msgid "Failed"
@@ -759,6 +785,10 @@ msgstr ""
 
 #, fuzzy
 msgid "Please confirm deletion of access ticket - see below"
+msgstr "Proszę potwierdzić usunięcie"
+
+#, fuzzy
+msgid "Please confirm deletion of binding - see below"
 msgstr "Proszę potwierdzić usunięcie"
 
 msgid "Please confirm deletion of collection - see below"
@@ -1029,6 +1059,9 @@ msgstr ""
 msgid "The application program does not understand that request."
 msgstr "Aplikacja nie rozumie tego żądania."
 
+msgid "The binding will be deleted."
+msgstr ""
+
 msgid "The calendar path contains illegal characters."
 msgstr "Ścieżka kalendarza zawiera nieakceptowalne znaki."
 
@@ -1096,6 +1129,9 @@ msgid ""
 "DAViCal</li></ul> then <ul><li>if a user is present in DAViCal but not in LDAP set him as inactive in "
 "DAViCal</li> <li>if a user is present in LDAP but not in DAViCal create the user in DAViCal</li> "
 "<li>if a user in present in LDAP and DAViCal then update information in DAViCal</li> </ul>"
+msgstr ""
+
+msgid "Ticket ID"
 msgstr ""
 
 msgid "To ID"
