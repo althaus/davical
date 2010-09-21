@@ -1,3 +1,17 @@
+2010-09-21  Andrew McMillan  <andrew@morphoss.com>
+	* [principal/collection edit] Add display of tickets and bindings.
+
+2010-09-20  Andrew McMillan  <andrew@morphoss.com>
+	* [collection-edit] Handle some errors more gracefully.
+
+2010-09-16  Jim Hague  <jim.hague@acm.org>
+	* PAM auth - get user name from a comma-less passwd comment field.
+
+2010-09-14  Andrew McMillan  <andrew@morphoss.com>
+	* Remove built docs for files no longer present in DAViCal.
+	* Improve resiliency of sync-caldav script.
+	* Uncomment the addressbook-query report.
+
 2010-09-13  Andrew McMillan  <andrew@morphoss.com>
 	* Warn if we're being expected to log actions, but have no function.
 
