@@ -26,7 +26,8 @@ function handle_subaction( $subaction ) {
   global $delete_collection_confirmation_required;
   global $delete_principal_confirmation_required;
   global $delete_ticket_confirmation_required;
-
+  global $delete_binding_confirmation_required;
+  
   dbg_error_log('admin-principal-edit',':handle_action: Action %s', $subaction );
 
   switch( $subaction ) {
@@ -101,7 +102,31 @@ function handle_subaction( $subaction ) {
       }
       break;
 
-    default:
+    case 'delete_binding':
+      dbg_error_log('admin-principal-edit',':handle_action: Deleting binding "%s" for principal %d', $_GET['bind_id'], $id );
+      if ( $session->AllowedTo('Admin')
+                || ($id > 0 && $session->principal_id == $id) ) {
+        if ( $session->CheckConfirmationHash('GET', 'confirm') ) {
+          dbg_error_log('admin-principal-edit',':handle_action: Allowed to delete ticket "%s" for principal %d', $_GET['bind_id'], $id );
+          $qry = new AwlQuery('DELETE FROM dav_binding WHERE bind_id=?;', $_GET['bind_id'] );
+          if ( $qry->Exec() ) {
+            $c->messages[] = i18n('Binding deleted');
+            return true;
+          }
+          else {
+            $c->messages[] = i18n('There was an error writing to the database.');
+            return false;
+          }
+        }
+        else {
+          $c->messages[] = i18n('Please confirm deletion of binding - see below');
+          $delete_binding_confirmation_required = $session->BuildConfirmationHash('GET', 'confirm');
+          return false;
+        }
+      }
+      break;
+
+      default:
       return false;
   }
   return false;
@@ -643,9 +668,9 @@ EOTEMPLATE;
 
   $browser = new Browser(translate('Access Tickets'));
 
-  $browser->AddColumn( 'ticket_id', translate('ID'), '', '' );
-  $browser->AddColumn( 'target', translate('Target'), '', '', 'COALESCE(d.dav_name,c.dav_name)' );
-  $browser->AddColumn( 'expires', translate('Expires'), '', '');
+  $browser->AddColumn( 'ticket_id', translate('Ticket ID'), '', '' );
+  $browser->AddColumn( 'target', translate('Target'), '', '<td style="white-space:nowrap;">%s</td>', "'".$c->base_url.'/caldav.php'."' ||COALESCE(d.dav_name,c.dav_name)" );
+  $browser->AddColumn( 'expiry', translate('Expires'), '', '', 'TO_CHAR(expires,\'YYYY-MM-DD HH:MI:SS\')');
   $browser->AddColumn( 'privs', translate('Privileges'), '', '', "privileges_list(privileges)" );
   $delurl = $c->base_url . '/admin.php?action=edit&t=principal&id='.$id.'&ticket_id=##URL:ticket_id##&subaction=delete_ticket';
   $browser->AddColumn( 'delete', translate('Action'), 'center', '', "'<a class=\"submit\" href=\"$delurl\">".translate('Delete')."</a>'" );
@@ -713,5 +738,35 @@ EOTEMPLATE;
     $page_elements[] = $html;
   }
 
+  $browser = new Browser(translate('Bindings to this Principal\'s Collections'));
+  $browser->AddColumn( 'bind_id', translate('ID'), '', '' );
+  $browser->AddHidden( 'b.dav_owner_id' );
+  $browser->AddHidden( 'p.principal_id' );
+  $browser->AddColumn( 'bound_as', translate('Bound As'), '', '<td style="white-space:nowrap;">%s</td>', "'".$c->base_url.'/caldav.php'."' ||b.dav_name" );
+  $browser->AddColumn( 'access_ticket_id', translate('Ticket ID'), '', '' );
+  $browser->AddColumn( 'privs', translate('Privileges'), '', '', "privileges_list(privileges)" );
+  $delurl = $c->base_url . '/admin.php?action=edit&t=principal&id=##principal_id##&bind_id=##bind_id##&subaction=delete_binding';
+  $browser->AddColumn( 'delete', translate('Action'), 'center', '', "'<a class=\"submit\" href=\"$delurl\">".translate('Delete')."</a>'" );
 
+  $browser->SetOrdering( 'target', 'A' );
+
+  $browser->SetJoins( 'dav_binding b LEFT JOIN collection c ON (bound_source_id=collection_id) LEFT JOIN access_ticket t ON (ticket_id=access_ticket_id) LEFT JOIN principal p USING(user_no)' );
+  $browser->SetWhere( 'p.principal_id = '.intval($editor->Value('principal_id')) );
+
+  $browser->RowFormat( '<tr class="r%d">', '</tr>', '#even' );
+
+  $browser->DoQuery();
+  $page_elements[] = $browser;
+
+  if ( isset($delete_binding_confirmation_required) ) {
+    $html = '<table><tr><td class="error">';
+    $html .= sprintf('<b>%s</b> "%s" <a class="error" href="%s&%s">%s</a> %s',
+                translate('Deleting Binding:'), $_GET['bind_id'], $_SERVER['REQUEST_URI'],
+                $delete_binding_confirmation_required,
+                translate('Confirm Deletion of the Binding'),
+                translate('The binding will be deleted.') );
+    $html .= "</td></tr></table>\n";
+    $page_elements[] = $html;
+  }
+  
 }

@@ -441,7 +441,7 @@ EOTEMPLATE;
   $browser = new Browser(translate('Collection Grants'));
 
   $browser->AddColumn( 'to_principal', translate('To ID'), 'right', '##principal_link##' );
-  $rowurl = $c->base_url . '/admin.php?action=edit&t=collection&id=';
+  $rowurl = $c->base_url . '/admin.php?action=edit&t=principal&id=';
   $browser->AddHidden( 'principal_link', "'<a href=\"$rowurl' || to_principal || '\">' || to_principal || '</a>'" );
   $browser->AddHidden( 'grant_privileges', 'privileges' );
   $browser->AddColumn( 'displayname', translate('Display Name') );
@@ -479,5 +479,56 @@ EOTEMPLATE;
       $browser->AddRow($extra_row);
     }
   }
+
+
+  $browser = new Browser(translate('Access Tickets'));
+  $browser->AddHidden( 'dav_owner_id' );
+  $browser->AddColumn( 'ticket_id', translate('Ticket ID'), '', '' );
+  $browser->AddColumn( 'target', translate('Target'), '', '<td style="white-space:nowrap;">%s</td>', "'".$c->base_url.'/caldav.php'."' ||COALESCE(d.dav_name,c.dav_name)" );
+  $browser->AddColumn( 'expiry', translate('Expires'), '', '', 'TO_CHAR(expires,\'YYYYMMDD"T"HH:MI:SS\')');
+  $browser->AddColumn( 'privs', translate('Privileges'), '', '', "privileges_list(privileges)" );
+  $delurl = $c->base_url . '/admin.php?action=edit&t=principal&id=##dav_owner_id##&ticket_id=##URL:ticket_id##&subaction=delete_ticket';
+  $browser->AddColumn( 'delete', translate('Action'), 'center', '', "'<a class=\"submit\" href=\"$delurl\">".translate('Delete')."</a>'" );
+
+  $browser->SetOrdering( 'target', 'A' );
+
+  $browser->SetJoins( 'access_ticket t LEFT JOIN collection c ON (target_collection_id=collection_id) LEFT JOIN caldav_data d ON (target_resource_id=dav_id)' );
+  $browser->SetWhere( 'target_collection_id = '.intval($editor->Value('collection_id')) );
+
+  $browser->RowFormat( '<tr class="r%d">', '</tr>', '#even' );
+
+  $browser->DoQuery();
+  $page_elements[] = $browser;
+
+  
+/**
+ bind_id          | bigint | not null default nextval('dav_id_seq'::regclass)
+ bound_source_id  | bigint | 
+ access_ticket_id | text   | 
+ dav_owner_id     | bigint | not null
+ parent_container | text   | not null
+ dav_name         | text   | not null
+ dav_displayname  | text   | 
+ */
+
+  $browser = new Browser(translate('Bindings to this Collection'));
+  $browser->AddColumn( 'bind_id', translate('ID'), '', '' );
+  $browser->AddHidden( 'b.dav_owner_id' );
+  $browser->AddColumn( 'bound_as', translate('Bound As'), '', '<td style="white-space:nowrap;">%s</td>', "'".$c->base_url.'/caldav.php'."' ||b.dav_name" );
+  $browser->AddColumn( 'access_ticket_id', translate('Ticket ID'), '', '' );
+  $browser->AddColumn( 'privs', translate('Privileges'), '', '', "privileges_list(privileges)" );
+  $delurl = $c->base_url . '/admin.php?action=edit&t=principal&id=##dav_owner_id##&bind_id=##URL:bind_id##&subaction=delete_binding';
+  $browser->AddColumn( 'delete', translate('Action'), 'center', '', "'<a class=\"submit\" href=\"$delurl\">".translate('Delete')."</a>'" );
+
+  $browser->SetOrdering( 'target', 'A' );
+
+  $browser->SetJoins( 'dav_binding b LEFT JOIN collection c ON (bound_source_id=collection_id) LEFT JOIN access_ticket t ON (ticket_id=access_ticket_id)' );
+  $browser->SetWhere( 'bound_source_id = '.intval($editor->Value('collection_id')) );
+
+  $browser->RowFormat( '<tr class="r%d">', '</tr>', '#even' );
+
+  $browser->DoQuery();
+  $page_elements[] = $browser;
+
 }
 
