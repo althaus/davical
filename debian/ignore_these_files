@@ -1,15 +1,4 @@
-docs/rfc2068.html
-docs/rfc2445.html
-docs/rfc2518.html
-docs/rfc2616.html
-docs/rfc3744.html
-docs/IETF-CAP-RFC4324.txt
-docs/draft-dawson-ical-xml-dtd-01.txt
-docs/draft-ietf-calsch-many-xcal-02.txt
-docs/dusseault-caldav-15.txt.html
-docs/dusseault2005CalDAV.pdf
 docs/website/wiki
 htdocs/.gitignore
 inc/test-RRULE.php
-inc/DOM-PHP4-Compatibility.php
-inc/DOMDocumentCompatibility.php
+inc/test-RRULE-v2.php
