@@ -1193,7 +1193,7 @@ BEGIN
   IF NOT FOUND THEN
     RETURN FALSE;
   END IF;
-  SELECT dav_id INTO tmp_int FROM calendar_item WHERE dav_name = in_dav_name;
+  SELECT dav_id INTO tmp_int FROM caldav_data WHERE dav_name = in_dav_name;
   INSERT INTO sync_changes ( collection_id, sync_status, dav_id, dav_name)
                      VALUES( in_collection_id, in_status, tmp_int, in_dav_name);
   RETURN TRUE;
