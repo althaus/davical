@@ -56,11 +56,12 @@ EOSQL;
 }
 else {
   $sql = <<<EOSQL
-SELECT collection.*, caldav_data.*, calendar_item.*, sync_changes.*
+SELECT collection.*, calendar_item.*, caldav_data.*, addressbook_resource.*, sync_changes.*
   FROM collection LEFT JOIN sync_changes USING(collection_id)
-                         LEFT JOIN calendar_item USING (collection_id,dav_id)
                          LEFT JOIN caldav_data USING (collection_id,dav_id)
-     WHERE collection.collection_id = :collection_id
+                         LEFT JOIN calendar_item USING (collection_id,dav_id)
+                         LEFT JOIN addressbook_resource USING (dav_id)
+                         WHERE collection.collection_id = :collection_id
        AND sync_time > (SELECT modification_time FROM sync_tokens WHERE sync_token = :sync_token)
    ORDER BY collection.collection_id, sync_changes.dav_name, sync_changes.sync_time
 EOSQL;
