@@ -1,0 +1,82 @@
+HTTP/1.1 207 Multi-Status
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
+DAV: extended-mkcol, calendar-proxy, bind, addressbook
+ETag: "0e924a06121f519161f231bddcac480f"
+Content-Length: 2068
+Content-Type: text/xml; charset="utf-8"
+
+<?xml version="1.0" encoding="utf-8" ?>
+<multistatus xmlns="DAV:">
+ <response>
+  <href>/caldav.php/user1/addressbook/andresenesq.vcf</href>
+  <status>HTTP/1.1 201 Created</status>
+  <propstat>
+   <prop>
+    <getetag>"f6ae02ec1b5612fe4737092734d062c7"</getetag>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/addressbook/F06EC844-EACD-4ADF-8823-588603991E04-ABSPlugin.vcf</href>
+  <status>HTTP/1.1 201 Created</status>
+  <propstat>
+   <prop>
+    <getetag>"0ea4d7759e103090c6494505b5da0f11"</getetag>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/addressbook/hans_dieter.vcf</href>
+  <status>HTTP/1.1 201 Created</status>
+  <propstat>
+   <prop>
+    <getetag>"db3e92c0ae37268c647949367e2030cc"</getetag>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/addressbook/J%C3%B6rg_Test-Ro%C3%9Fdeutscher_2_0.vcf</href>
+  <status>HTTP/1.1 201 Created</status>
+  <propstat>
+   <prop>
+    <getetag>"feaa1a28c9942fc56403e2f97f75171b"</getetag>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/addressbook/J%C3%B6rg_Test-Ro%C3%9Fdeutscher_3_0.vcf</href>
+  <status>HTTP/1.1 201 Created</status>
+  <propstat>
+   <prop>
+    <getetag>"5a32961b9938a7d6a354a757a8a1ea36"</getetag>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/addressbook/mustrmahn.vcf</href>
+  <status>HTTP/1.1 201 Created</status>
+  <propstat>
+   <prop>
+    <getetag>"e67537e9d473e93911eccd6e63e9ac3a"</getetag>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/addressbook/van_houtte.vcf</href>
+  <status>HTTP/1.1 201 Created</status>
+  <propstat>
+   <prop>
+    <getetag>"d43780719361367f2d690f1f966e3da1"</getetag>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <sync-token>6</sync-token>
+</multistatus>
