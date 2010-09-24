@@ -27,17 +27,17 @@ $dest = new DAVResource($request->path);
 $container = $dest->FetchParentContainer();
 if ( ! $dest->Exists() ) {
   if ( $container->IsPrincipal() ) {
-    $request->DoResponse(403,translate('A DAViCal principal collection may only contain collections'));
+    $request->PreconditionFailed(405,'method-not-allowed',translate('A DAViCal principal collection may only contain collections'));
   }
   if ( ! $container->Exists() ) {
-    $request->DoResponse( 409, translate('Destination collection does not exist') );
+    $request->PreconditionFailed( 409, 'collection-must-exist',translate('The destination collection does not exist') );
   }
   $container->NeedPrivilege('DAV::bind');
 }
 else {
   if ( $dest->IsCollection() ) {
     if ( ! isset($c->readonly_webdav_collections) || $c->readonly_webdav_collections ) {
-      $request->DoResponse(403,translate('You may not PUT to a collection URL'));
+      $request->PreconditionFailed(405,'method-not-allowed',translate('You may not PUT to a collection URL'));
     }
     $request->DoResponse(403,translate('PUT on a collection is only allowed for text/calendar content against a calendar collection'));
   }
@@ -45,11 +45,11 @@ else {
 }
 
 if ( isset($request->etag_none_match) && $request->etag_none_match != '*' && $dest->Exists() ) {
-  $request->DoResponse(412);
+  $request->PreconditionFailed(412,'if-none-match', translate('A resource already exists at that URL'));
 }
 
 if ( isset($request->etag_if_match) && $request->etag_if_match != $dest->unique_tag() ) {
-  $request->DoResponse(412);
+  $request->PreconditionFailed(412,'if-match',sprintf('Existing resource ETag of "%s" does not match "%s"', $dest->unique_tag(), $request->etag_if_match) );
 }
 
 $collection_id = $container->GetProperty('collection_id');
