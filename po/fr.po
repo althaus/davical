@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: davical-messages-fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-21 12:13+1200\n"
+"POT-Creation-Date: 2010-09-24 12:40+1200\n"
 "PO-Revision-Date: 2010-03-13 23:06+1000\n"
 "Last-Translator: Aurelien Requiem <aurelien@requiem.fr>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
@@ -1062,6 +1062,10 @@ msgstr ""
 
 msgid "The collection name may not be blank."
 msgstr "Le nom de la collection ne devrait pas etre vide."
+
+#, fuzzy
+msgid "The destination collection does not exist"
+msgstr "La ressource source n'existe pas"
 
 # ############
 # Sorry I shall see it on the screen to understand the context of the question

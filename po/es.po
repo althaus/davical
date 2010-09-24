@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RSCDS 0.2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-21 12:13+1200\n"
+"POT-Creation-Date: 2010-09-24 12:40+1200\n"
 "PO-Revision-Date: 2006-11-06 17:12+1300\n"
 "Last-Translator: Lorena Paoletti <andrew@mcmillan.net.nz>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1057,6 +1057,9 @@ msgid "The calendar-query report must be run against a calendar or a scheduling 
 msgstr ""
 
 msgid "The collection name may not be blank."
+msgstr ""
+
+msgid "The destination collection does not exist"
 msgstr ""
 
 msgid "The displayname may only be set on collections, principals or bindings."

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rscds 0.7.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-21 12:13+1200\n"
+"POT-Creation-Date: 2010-09-24 12:40+1200\n"
 "PO-Revision-Date: 2007-05-03 15:00+0001\n"
 "Last-Translator: David Takacs <david.takacs@cafeopen.eu>\n"
 "Language-Team: \n"
@@ -1069,6 +1069,9 @@ msgid "The calendar-query report must be run against a calendar or a scheduling 
 msgstr ""
 
 msgid "The collection name may not be blank."
+msgstr ""
+
+msgid "The destination collection does not exist"
 msgstr ""
 
 #, fuzzy

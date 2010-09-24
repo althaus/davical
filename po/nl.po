@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-21 12:13+1200\n"
+"POT-Creation-Date: 2010-09-24 12:40+1200\n"
 "PO-Revision-Date: 2010-02-18 16:00+0100\n"
 "Last-Translator: Vincent Van Houtte <http://www.synergylaw.be/>\n"
 "Language-Team: nl_NL <LL@li.org>\n"
@@ -1082,6 +1082,10 @@ msgstr ""
 #, fuzzy
 msgid "The collection name may not be blank."
 msgstr "FOUT: De volledige naam mag niet leeg zijn."
+
+#, fuzzy
+msgid "The destination collection does not exist"
+msgstr "Oorspronkelijke bron bestaat niet"
 
 #, fuzzy
 msgid "The displayname may only be set on collections, principals or bindings."

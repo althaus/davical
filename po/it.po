@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-21 12:13+1200\n"
+"POT-Creation-Date: 2010-09-24 12:40+1200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1063,6 +1063,9 @@ msgid "The calendar-query report must be run against a calendar or a scheduling 
 msgstr ""
 
 msgid "The collection name may not be blank."
+msgstr ""
+
+msgid "The destination collection does not exist"
 msgstr ""
 
 msgid "The displayname may only be set on collections, principals or bindings."

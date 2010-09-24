@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DAViCal 0.9.8.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-21 12:13+1200\n"
+"POT-Creation-Date: 2010-09-24 12:40+1200\n"
 "PO-Revision-Date: 2010-02-25 12:48+0900\n"
 "Last-Translator: Masahiro MIKAMI <mmecon@hotmail.co.jp>\n"
 "Language-Team: \n"
@@ -1037,6 +1037,10 @@ msgstr ""
 #, fuzzy
 msgid "The collection name may not be blank."
 msgstr "エラー: 氏名は空欄にできません。"
+
+#, fuzzy
+msgid "The destination collection does not exist"
+msgstr "元の資源が存在しません。"
 
 #, fuzzy
 msgid "The displayname may only be set on collections, principals or bindings."

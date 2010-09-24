@@ -43,7 +43,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DAViCal 0.9.7.99\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-21 12:13+1200\n"
+"POT-Creation-Date: 2010-09-24 12:40+1200\n"
 "PO-Revision-Date: 2009-12-23 18:00+0100\n"
 "Last-Translator: Patrick Näf Moser <herzbube@herzbube.ch>\n"
 "MIME-Version: 1.0\n"
@@ -1143,6 +1143,11 @@ msgstr ""
 #, fuzzy
 msgid "The collection name may not be blank."
 msgstr "FEHLER: Der vollständige Name darf nicht leer sein."
+
+# TODO - Bessere Übersetzung von "Source resource"
+#, fuzzy
+msgid "The destination collection does not exist"
+msgstr "Quell-Ressource existiert nicht."
 
 # TODO - Principals übersetzen
 #, fuzzy

@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DAViCal 0.9.7.99\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-21 12:13+1200\n"
+"POT-Creation-Date: 2010-09-24 12:40+1200\n"
 "PO-Revision-Date: 2010-02-10 16:00+0100\n"
 "Last-Translator: Emil Lundberg <Emil.Lundberg@uadm.uu.se>\n"
 "MIME-Version: 1.0\n"
@@ -1078,6 +1078,10 @@ msgstr ""
 #, fuzzy
 msgid "The collection name may not be blank."
 msgstr "FEL: Det fullständiga namnet kan inte lämnas tomt."
+
+#, fuzzy
+msgid "The destination collection does not exist"
+msgstr "Källresursen existerar inte."
 
 #, fuzzy
 msgid "The displayname may only be set on collections, principals or bindings."

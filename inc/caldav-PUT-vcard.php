@@ -45,7 +45,7 @@ else {
 }
 
 if ( isset($request->etag_none_match) && $request->etag_none_match != '*' && $dest->Exists() ) {
-  $request->PreconditionFailed(412,'if-none-match', translate('A resource already exists at that URL'));
+  $request->PreconditionFailed(412,'if-none-match', translate('A resource already exists at the destination.'));
 }
 
 if ( isset($request->etag_if_match) && $request->etag_if_match != $dest->unique_tag() ) {
