@@ -117,6 +117,16 @@ class DAViCalSession extends Session
     }
     if ( isset($c->restrict_admin_roles) && $roles == '' ) $roles = $c->restrict_admin_roles;
     if ( $this->logged_in && $roles == '' ) return;
+
+    /**
+     * We allow basic auth to apply also, if present, though we check everything else first...
+     */
+    if ( !$this->logged_in && $_SERVER['PHP_AUTH_USER'] != "" && $_SERVER['PHP_AUTH_PW'] != "" && ! $_COOKIE['NoAutoLogin'] ) {
+      if ( $this->Login($_SERVER['PHP_AUTH_USER'],$_SERVER['PHP_AUTH_PW'],true)) {
+        setcookie('NoAutoLogin',1,0);
+        return;
+      }
+    }
     if ( ! $this->logged_in ) {
       $c->messages[] = i18n('You must log in to use this system.');
       include_once('page-header.php');
