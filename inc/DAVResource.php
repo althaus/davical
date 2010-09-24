@@ -505,7 +505,9 @@ EOSQL;
     if ( $this->_is_collection ) return;   // We have all we're going to read
 
     $sql = <<<EOQRY
-SELECT * FROM caldav_data LEFT JOIN calendar_item USING (collection_id,dav_id)
+SELECT calendar_item.*, addressbook_resource.*, caldav_data.*
+     FROM caldav_data LEFT JOIN calendar_item USING (collection_id,dav_id)
+                       LEFT JOIN addressbook_resource USING (dav_id)
      WHERE caldav_data.dav_name = :dav_name
 EOQRY;
     $params = array( ':dav_name' => $this->bound_from() );
