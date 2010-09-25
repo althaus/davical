@@ -1,4 +1,25 @@
+2010-09-25  Andrew McMillan  <andrew@morphoss.com>
+	* Release 0.9.9.2
+	* Rename 'Import Calendars' to 'Tools' since LDAP is more likely.
+	* Add an 'all' regression set which creates the initial DB for the others.
+	* If we get an unknown sync token, just sync everything.
+	* Minor refactoring of DAVResource.
+	* Consistently use ETags with quoting.
+	* Add configuration option to use older 'sync-response' tag.
+	* Provide correct getcontenttype property for addressbook resources.
+
+2010-09-24  Andrew McMillan  <andrew@morphoss.com>
+	* Allow basic auth to supply login credentials.
+	* Display the bindings a principal has access to.
+	* Fix various bugs with handling of addressbook resources.
+
+2010-09-23  Andrew McMillan  <andrew@morphoss.com>
+	* Regression tests need to check sync on addressbook collections.
+	* Make the sync report work with non-calendar resources.
+	* Fix write_sync_changes to cope with non-calendar resources.
+
 2010-09-21  Andrew McMillan  <andrew@morphoss.com>
+	* Release 0.9.9.2
 	* [principal/collection edit] Add display of tickets and bindings.
 
 2010-09-20  Andrew McMillan  <andrew@morphoss.com>
