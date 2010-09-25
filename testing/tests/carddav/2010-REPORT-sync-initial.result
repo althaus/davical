@@ -2,11 +2,33 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, calendar-proxy, bind, addressbook
-ETag: "4f90eca1c5db8d18e5711adc09651e60"
-Content-Length: 110
+ETag: "c02e623cc20b07f8f102bdd60d49ff6a"
+Content-Length: 747
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
 <multistatus xmlns="DAV:">
+ <response>
+  <href>/caldav.php/user1/addressbook/andrew_mcmillan.vcf</href>
+  <status>HTTP/1.1 201 Created</status>
+  <propstat>
+   <prop>
+    <getetag>"24bae2a7f81c0a79413a656c06d8326b"</getetag>
+    <getcontenttype>text/vcard</getcontenttype>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/addressbook/donald_kelly.vcf</href>
+  <status>HTTP/1.1 201 Created</status>
+  <propstat>
+   <prop>
+    <getetag>"fada70a725708bce8521efb87acfa629"</getetag>
+    <getcontenttype>text/vcard</getcontenttype>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
  <sync-token>5</sync-token>
 </multistatus>

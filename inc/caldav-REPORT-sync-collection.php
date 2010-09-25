@@ -46,10 +46,11 @@ $new_token = $row->new_sync_token;
 
 if ( $sync_token == 0 ) {
   $sql = <<<EOSQL
-SELECT *, 201 AS sync_status FROM collection
+SELECT collection.*, calendar_item.*, caldav_data.*, addressbook_resource.*, 201 AS sync_status FROM collection
             LEFT JOIN caldav_data USING (collection_id)
             LEFT JOIN calendar_item USING (dav_id)
-     WHERE collection.collection_id = :collection_id
+                         LEFT JOIN addressbook_resource USING (dav_id)
+            WHERE collection.collection_id = :collection_id
    ORDER BY collection.collection_id, caldav_data.dav_id
 EOSQL;
   unset($params[':sync_token']);
@@ -111,7 +112,9 @@ if ( $qry->Exec("REPORT",__LINE__,__FILE__) ) {
         $dav_resource = new DAVResource($object);
         $resultset = array_merge( $resultset, $dav_resource->GetPropStat($proplist,$reply) );
       }
-      $responses[] = new XMLElement( 'response', $resultset );
+      $response_tag = 'response';
+      if ( isset($c->use_old_sync_response_tag) && $c->use_old_sync_response_tag ) $response_tag = 'sync-response';
+      $responses[] = new XMLElement( $response_tag, $resultset );
       $first_status = $object->sync_status;
       $last_dav_name  = $object->dav_name;
     }
