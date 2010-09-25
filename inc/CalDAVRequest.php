@@ -543,11 +543,11 @@ EOSQL;
     * Look out for If-None-Match or If-Match headers
     */
     if ( isset($_SERVER["HTTP_IF_NONE_MATCH"]) ) {
-      $this->etag_none_match = str_replace('"','',$_SERVER["HTTP_IF_NONE_MATCH"]);
+      $this->etag_none_match = $_SERVER["HTTP_IF_NONE_MATCH"];
       if ( $this->etag_none_match == '' ) unset($this->etag_none_match);
     }
     if ( isset($_SERVER["HTTP_IF_MATCH"]) ) {
-      $this->etag_if_match = str_replace('"','',$_SERVER["HTTP_IF_MATCH"]);
+      $this->etag_if_match = $_SERVER["HTTP_IF_MATCH"];
       if ( $this->etag_if_match == '' ) unset($this->etag_if_match);
     }
   }
