@@ -73,7 +73,7 @@ if ( $dav_resource->Exists() ) {
     * entity exists, the server MUST NOT perform the requested method, and
     * MUST return a 412 (Precondition Failed) response.
     */
-    $request->PreconditionFailed(412,'if-match', translate( 'Existing resource does not match "If-Match" header - not accepted.'));
+    $request->PreconditionFailed(412,'if-match',sprintf('Existing resource ETag of "%s" does not match "%s"', $dav_resource->unique_tag(), $request->etag_if_match) );
   }
   else if ( isset($request->etag_none_match) && $request->etag_none_match != ''
                && ($request->etag_none_match == $dav_resource->unique_tag() || $request->etag_none_match == '*') ) {
