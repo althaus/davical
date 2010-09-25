@@ -18,11 +18,10 @@ export PGTZ=Pacific/Auckland
 
 SUITE=${1:-"regression-suite"}
 ACCEPT_ALL=${2:-""}
-
 [ -z "${UNTIL}" ] && UNTIL=99999
 [ -z "${SUITE}" ] && SUITE="regression-suite"
-REGRESSION="tests/${SUITE}"
-RESULTS="${REGRESSION}/results"
+
+
 
 check_result() {
   TEST="$1"
@@ -97,6 +96,12 @@ restore_database() {
 }
 
 
+dump_database() {
+  TEST="Dump-Database"
+  pg_dump -Fp ${DBNAME} > "${REGRESSION}/initial.dbdump" 2>&1
+}
+
+
 initialise_regression() {
   drop_database ${DBNAME}
 
@@ -113,40 +118,60 @@ initialise_regression() {
   check_result "${TEST}"
 }
 
-mkdir -p "${RESULTS}"
-mkdir -p "${REGRESSION}/diffs"
 
-if [ -f "${REGRESSION}/initial.dbdump" ]; then
-  restore_database
-else
-  initialise_regression
-fi
+run_regression_suite() {
+  RESULTS="${REGRESSION}/results"
+  mkdir -p "${RESULTS}"
+  mkdir -p "${REGRESSION}/diffs"
+
+  if [ -f "${REGRESSION}/initial.dbdump" ]; then
+    restore_database
+  else
+    initialise_regression
+  fi
+
+  for T in ${REGRESSION}/*.test ; do
+    TEST="`basename ${T} .test`"
+    TESTNUM="`echo ${TEST} | cut -f1 -d'-'`"
+    TESTNUM="${TEST/-*}"
+    if [ "${TESTNUM}" -gt "${UNTIL}" ] ; then
+      break;
+    fi
+
+    RESULT=999
+    while [ "${RESULT}" -gt 0 ]; do
+      ./dav_test --dsn "${DSN}" ${WEBHOST} ${ALTHOST} --suite "${SUITE}" --case "${TEST}" | ./normalise_result > "${RESULTS}/${TEST}"
+      # Fix Vim syntax highlighting by putting an esac here.  Silly, huh?
+
+      RESULT=999
+      while [ "${RESULT}" -gt 1 ]; do
+        check_result "${TEST}"
+        RESULT=$?
+      done
+
+    done
+
+    TCOUNT="$(( ${TCOUNT} + 1 ))"
+  done
+}
+
+
 
 TSTART="`date +%s`"
 TCOUNT=0
 
-for T in ${REGRESSION}/*.test ; do
-  TEST="`basename ${T} .test`"
-  TESTNUM="`echo ${TEST} | cut -f1 -d'-'`"
-  TESTNUM="${TEST/-*}"
-  if [ "${TESTNUM}" -gt "${UNTIL}" ] ; then
-    break;
-  fi
-
-  RESULT=999
-  while [ "${RESULT}" -gt 0 ]; do
-    ./dav_test --dsn "${DSN}" ${WEBHOST} ${ALTHOST} --suite "${SUITE}" --case "${TEST}" | ./normalise_result > "${RESULTS}/${TEST}"
-
-    RESULT=999
-    while [ "${RESULT}" -gt 1 ]; do
-      check_result "${TEST}"
-      RESULT=$?
-    done
-
+if [ "${SUITE}" = "all" ]; then
+  for SUITE in regression-suite binding carddav ; do
+    REGRESSION="tests/${SUITE}"
+    if [ "${SUITE}" != "regression-suite" ]; then
+      dump_database
+    fi
+    run_regression_suite "${SUITE}"
   done
-
-  TCOUNT="$(( ${TCOUNT} + 1 ))"
-done
+else
+  REGRESSION="tests/${SUITE}"
+  run_regression_suite "${SUITE}"
+fi
 TFINISH="`date +%s`"
 
 echo "Regression test run took $(( ${TFINISH} - ${TSTART} )) seconds for ${TCOUNT} tests."
