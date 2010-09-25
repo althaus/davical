@@ -42,6 +42,16 @@ if ( !$qry->Exec("REPORT",__LINE__,__FILE__) || $qry->rows() <= 0 ) {
   $request->DoResponse( 500, translate("Database error") );
 }
 $row = $qry->Fetch();
+
+if ( !isset($row->new_sync_token) ) {
+  /** If we got a null back then they gave us a sync token we know not of, so provide a full sync */
+  $sync_token =0;
+  $params[':sync_token'] = $sync_token;
+  if ( !$qry->QDo($sql, $params) || $qry->rows() <= 0 ) {
+    $request->DoResponse( 500, translate("Database error") );
+  }
+  $row = $qry->Fetch();
+}
 $new_token = $row->new_sync_token;
 
 if ( $sync_token == 0 ) {
