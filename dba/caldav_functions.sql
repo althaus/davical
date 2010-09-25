@@ -1213,7 +1213,8 @@ BEGIN
               AND sync_time > (SELECT modification_time FROM sync_tokens WHERE sync_token = in_old_sync_token)
             LIMIT 1;
     IF NOT FOUND THEN
-      RETURN in_old_sync_token;
+      -- They are in an inconsistent state: we return NULL so they can re-start the process
+      RETURN NULL;
     END IF;
   END IF;
   SELECT nextval('sync_tokens_sync_token_seq') INTO tmp_int;
