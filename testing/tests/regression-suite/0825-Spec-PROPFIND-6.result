@@ -7,10 +7,10 @@
     <getcontenttype>text/calendar</getcontenttype>
     <resourcetype/>
     <getcontentlength>302</getcontentlength>
-    <displayname>User 1</displayname>
+    <displayname>Morning Mgmt Mtg</displayname>
     <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
     <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
-    <getetag>421abf7e4848d2fecbf64217ed205d4b</getetag>
+    <getetag>"421abf7e4848d2fecbf64217ed205d4b"</getetag>
     <getcontentlanguage/>
     <supportedlock>
      <lockentry>
