@@ -259,7 +259,12 @@ class DAVResource
     else {
       $this->resourcetypes = '';
       if ( isset($this->resource->caldav_data) ) {
-        if ( substr($this->resource->caldav_data,0,15) == 'BEGIN:VCALENDAR' ) $this->contenttype = 'text/calendar';
+        if ( substr($this->resource->caldav_data,0,15) == 'BEGIN:VCALENDAR' ) {
+          $this->contenttype = 'text/calendar';
+        }
+        else if ( isset($this->resource->fn) ) {
+          $this->contenttype = 'text/vcard';
+        }
         $this->resource->displayname = $this->resource->summary;
       }
     }
@@ -522,6 +527,9 @@ EOQRY;
       $this->resource_id = $this->resource->dav_id;
       if ( substr($this->resource->caldav_data,0,15) == 'BEGIN:VCALENDAR' ) {
         $this->contenttype = 'text/calendar';
+      }
+      else if ( isset($this->resource->fn) ) {
+        $this->contenttype = 'text/vcard';
       }
       $this->resourcetypes = '';
     }
