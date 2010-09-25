@@ -262,8 +262,11 @@ class DAVResource
         if ( substr($this->resource->caldav_data,0,15) == 'BEGIN:VCALENDAR' ) {
           $this->contenttype = 'text/calendar';
         }
-        else if ( isset($this->resource->fn) ) {
+        else if ( strtoupper(substr($this->resource->caldav_data,0,11)) == 'BEGIN:VCARD' ) {
           $this->contenttype = 'text/vcard';
+        }
+        else if ( strtoupper(substr($this->resource->caldav_data,0,11)) == 'BEGIN:VLIST' ) {
+          $this->contenttype = 'text/x-vlist';
         }
         $this->resource->displayname = $this->resource->summary;
       }
@@ -484,7 +487,7 @@ EOSQL;
     $this->principal = new CalDAVPrincipal( array( "path" => $this->bound_from() ) );
     if ( $this->_is_principal && $this->principal->Exists() ) {
       $this->exists = true;
-      $this->unique_tag = $this->principal->dav_etag;
+      $this->unique_tag = '"'.$this->principal->dav_etag.'"';
       $this->created = $this->principal->created;
       $this->modified = $this->principal->modified;
       $this->resourcetypes = '<DAV::collection/><DAV::principal/>';
@@ -520,18 +523,8 @@ EOQRY;
     $qry = new AwlQuery( $sql, $params );
     if ( $qry->Exec('DAVResource') && $qry->rows() > 0 ) {
       $this->exists = true;
-      $this->resource = $qry->Fetch();
-      $this->unique_tag = $this->resource->dav_etag;
-      $this->created = $this->resource->created;
-      $this->modified = $this->resource->modified;
-      $this->resource_id = $this->resource->dav_id;
-      if ( substr($this->resource->caldav_data,0,15) == 'BEGIN:VCALENDAR' ) {
-        $this->contenttype = 'text/calendar';
-      }
-      else if ( isset($this->resource->fn) ) {
-        $this->contenttype = 'text/vcard';
-      }
-      $this->resourcetypes = '';
+      $row = $qry->Fetch();
+      $this->FromRow($row);
     }
     else {
       $this->exists = false;
