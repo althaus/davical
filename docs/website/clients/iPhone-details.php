@@ -11,9 +11,7 @@
   <li>At this point you may get an error message about SSL connection not available.  You should choose "Cancel", to get to the advanced settings slightly quicker.</li>
   <li>Open the "Advanced Settings" area and choose whether SSL is on or off, and enter the port number (80 is standard for http &amp; 443 is standard for https, but the iPhone wants to use 8008 &amp; 8443 for these)</li>
   <li>In the "Account URL" change "/principals/users/username" to "/caldav.php/username"</li>
-  <li>Click on the "Caldav" top left to return to the basic settings and click on "Next" top right.</li>
-  <li>You should briefly see the "CalDAV Account Verified" text as in the last screenshot, below.</li>
-</ol>
+  <li>Click on the "Caldav" top left to return to the basic settings and click on "Next" top right.</li></ol>
 
 <h2>Other Settings</h2>
 <p>You may want to go into some of the other settings under "Mail, Contacts, Calendars" and set some of the other settings, including:</p>
@@ -33,10 +31,8 @@ client application.</p>
 
 <h2>Screenshots</h2>
 <table border="none" cellpadding="2" cellspacing="2">
-<tr><td><img src="clients/iPhone-1.jpg" alt="iPhone Screenshot" /></td><td><img src="clients/iPhone-2.jpg" alt="iPhone Screenshot" /></td></tr>
-<tr><td>Adding an Account</td><td>Oh noes! Click Cancel!</td></tr>
-<tr><td><img src="clients/iPhone-3.jpg" alt="iPhone Screenshot" /></td><td><img src="clients/iPhone-4.jpg" alt="iPhone Screenshot" /></td></tr>
-<tr><td>Aha!  There are "Advanced Settings" :-)</td><td>Hmmm... these things seem familiar...</td></tr>
-<tr><td><img src="clients/iPhone-5.jpg" alt="iPhone Screenshot" /></td><td><img src="clients/iPhone-6.jpg" alt="iPhone Screenshot" /></td></tr>
-<tr><td>Typical settings for non-ssl, port 80</td><td>It works!</td></tr>
+<tr><td><img src="clients/iPhone-1.png" alt="Screenshot of setting up an account on an iPhone" /></td><td><img src="clients/iPhone-2.png" alt="Screenshot of setting up an account with adanced settings on an iPhone" /></td></tr>
+<tr><td>Adding an Account</td><td>“Advanced Settings” will appear if service discovery is unavailable.</td></tr>
+<tr><td><img src="clients/iPhone-3.png" alt="Screenshot of the advanced settings on an iPhone" /></td><td><img src="clients/iPhone-4.png" alt="Screenshot of common advanced settings on an iPhone" /></td></tr>
+<tr><td>Security, port, and path</td><td>Typical settings for non-SSL, port 80 and 443 for SSL</td></tr>
 </table>
