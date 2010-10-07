@@ -1,4 +1,51 @@
 <?php
+/** @TODO: work out something more than true/false returns for dependency checks */
+
+/**
+ * We put many of these checks before we even try to load always.php so that we
+ * can try and do some diagnostic work to ensure it will load OK.
+ */
+function check_pgsql() {
+  return function_exists('pg_connect');
+}
+
+function check_pdo() {
+  return class_exists('PDO');
+}
+
+function check_pdo_pgsql() {
+  global $loaded_extensions;
+
+  if ( !check_pdo() ) return false;
+  return isset($loaded_extensions['pdo_pgsql']);
+}
+
+function check_gettext() {
+  global $phpinfo, $loaded_extensions;
+
+  if ( !function_exists('gettext') ) return false;
+  return isset($loaded_extensions['gettext']);
+}
+
+function check_suhosin_server_strip() {
+  global $loaded_extensions;
+
+  if ( !isset($loaded_extensions['suhosin']) ) return true;
+  if ( ini_get('suhosin.server.strip') == "0" ) {
+    return true;
+  }
+
+  return false;
+}
+
+function do_error( $errormessage ) {
+  printf("<p class='error'>%s</p>", $errormessage );  
+}
+$loaded_extensions = array_flip(get_loaded_extensions());
+if ( !check_pgsql() )     do_error("PHP 'pgsql' functions are not available" );
+if ( !check_pdo() )       do_error("PHP 'PDO' module is not available" );
+if ( !check_pdo_pgsql() ) do_error("The PDO drivers for PostgreSQL are not available" );
+
 
 include("./always.php");
 include("DAViCalSession.php");
@@ -11,45 +58,11 @@ ob_end_clean( );
 $phpinfo = preg_replace( '{^.*?<body>}s', '', $phpinfo);
 $phpinfo = preg_replace( '{</body>.*?$}s', '', $phpinfo);
 
-$loaded_extensions = array_flip(get_loaded_extensions());
-
-/** @TODO: work out something more than true/false returns for dependency checks */
-function check_pgsql() {
-  return function_exists('pg_connect');
-}
 
 if ( check_pgsql() ) {
   $session->LoginRequired( (isset($c->restrict_setup_to_admin) && $c->restrict_setup_to_admin ? 'Admin' : null ) );
 }
 
-function check_pdo() {
-  return class_exists('PDO');
-}
-
-function check_pdo_pgsql() {
-  global $phpinfo, $loaded_extensions;
-
-  if ( !class_exists('PDO') ) return false;
-  return isset($loaded_extensions['pdo_pgsql']);
-}
-
-function check_gettext() {
-  global $phpinfo, $loaded_extensions;
-
-  if ( !function_exists('gettext') ) return false;
-  return isset($loaded_extensions['gettext']);
-}
-
-function check_suhosin_server_strip() {
-  global $phpinfo, $loaded_extensions;
-
-  if ( !isset($loaded_extensions['suhosin']) ) return true;
-  if ( ini_get('suhosin.server.strip') == "0" ) {
-    return true;
-  }
-
-  return false;
-}
 
 include("interactive-page.php");
 include("page-header.php");
