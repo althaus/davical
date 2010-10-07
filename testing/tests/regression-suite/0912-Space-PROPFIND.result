@@ -2,7 +2,7 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, calendar-proxy, bind, addressbook
-ETag: "bcb966ee1b9c5a114f71aef825b87ae6"
+ETag: "dc48f1e4638af53b05dd0f29f1906989"
 Content-Length: 3827
 Content-Type: text/xml; charset="utf-8"
 
@@ -38,7 +38,7 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/User%20Six/home/</href>
   <propstat>
    <prop>
-    <C:getctag>"759d51f273f3a052dc930a6795f6e070"</C:getctag>
+    <C:getctag>"993b04b3b3772dc595b5896f1bf36192"</C:getctag>
     <displayname>User Six home</displayname>
     <resourcetype>
      <collection/>
