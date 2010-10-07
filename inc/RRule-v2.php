@@ -798,8 +798,18 @@ function expand_event_instances( $vResource, $range_start = null, $range_end = n
       $instance_start = $comp->GetProperty('DTSTART');
       $dtsrt = new RepeatRuleDateTime( $instance_start->Value(), $instance_start->GetParameterValue('TZID'));
       $instance_end = $comp->GetProperty($end_type);
-      $dtend = new RepeatRuleDateTime( $instance_end->Value(), $instance_end->GetParameterValue('TZID'));
-      $duration = $dtstart->RFC5545Duration( $dtend );
+      if ( isset($instance_end) ) {
+        $dtend = new RepeatRuleDateTime( $instance_end->Value(), $instance_end->GetParameterValue('TZID'));
+        $duration = $dtstart->RFC5545Duration( $dtend );
+      }
+      else {
+        if ( $instance_start->GetParameterValue('VALUE') == 'DATE' ) {
+          $duration = 'P1D';
+        }
+        else {
+          $duration = 'P0D';  // For clarity
+        }
+      }
     }
     else {
       $duration = $duration->Value();
