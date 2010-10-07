@@ -65,7 +65,7 @@ function get_freebusy( $path_match, $range_start, $range_end, $bin_privs = null 
         $duration = ( !isset($duration) ? 'P1D' : $duration->Value());
         $end_date = clone($start_date);
         $end_date->modify( $duration );
-        if ( $end_date < $range_start || $start_date > $range_end ) continue;
+        if ( $end_date == $start_date || $end_date < $range_start || $start_date > $range_end ) continue;
         $thisfb = $start_date->UTC() .'/'. $end_date->UTC() . $extra;
         array_push( $fbtimes, $thisfb );
       }
