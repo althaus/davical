@@ -2,15 +2,16 @@ Source: davical
 Section: web
 Priority: extra
 Maintainer: Andrew McMillan <awm@debian.org>
-Standards-Version: 3.8.4
-Build-Depends: debhelper (>= 5), libawl-php
+Standards-Version: 3.9.1
+Build-Depends: debhelper (>= 7), libawl-php
 Vcs-git: git://repo.or.cz/davical.git
 Vcs-browser: http://repo.or.cz/w/davical.git
 Homepage: http://davical.org/
 
 Package: davical
 Architecture: all
-Depends: ${misc:Depends}, debconf (>= 1.0.32), php5-pgsql, postgresql-client-8.4 | postgresql-client-8.3 | postgresql-client-8.2 | postgresql-client-8.1, libawl-php (= 0.45-0), libdbd-pg-perl, libyaml-perl
+Depends: ${misc:Depends}, debconf (>= 1.0.32), php5-pgsql, postgresql-client-9.0 | postgresql-client-8.4 | postgresql-client-8.3 | postgresql-client-8.2 | postgresql-client-8.1, libawl-php (= 0.45-0), libdbd-pg-perl, libyaml-perl
+Recommends: postgresql (>= 8.1)
 Conflicts: rscds
 Description: The DAViCal CalDAV Server
  The DAViCal CalDAV Server is designed to trivially store
