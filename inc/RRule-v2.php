@@ -39,24 +39,26 @@ $GLOBALS['debug_rrule'] = false;
 class RepeatRuleTimeZone extends DateTimeZone {
   private $tz_defined;
 
-  public function __construct($dtz = null) {
+  public function __construct($in_dtz = null) {
     $this->tz_defined = false;
-    if ( !isset($dtz) ) return;
+    if ( !isset($in_dtz) ) return;
 
-    $dtz = olson_from_tzstring($dtz);
-
-    try {
-      parent::__construct($dtz);
-      $this->tz_defined = $dtz;
-    }
-    catch (Exception $e) {
-      $original = $dtz;
-
-      if ( !isset($dtz) ) {
-        dbg_error_log( 'ERROR', 'Could not parse timezone "%s" - will use floating time', $original );
-        $dtz = new DateTimeZone('UTC');
+    $olson = olson_from_tzstring($in_dtz);
+    if ( isset($olson) ) {
+      try {
+        parent::__construct($olson);
+        $this->tz_defined = $olson;
+      }
+      catch (Exception $e) {
+        dbg_error_log( 'ERROR', 'Could not handle timezone "%s" (%s) - will use floating time', $in_dtz, $olson );
+        parent::__construct('UTC');
         $this->tz_defined = false;
       }
+    }
+    else {
+      dbg_error_log( 'ERROR', 'Could not recognize timezone "%s" - will use floating time', $in_dtz );
+      parent::__construct('UTC');
+      $this->tz_defined = false;
     }
   }
 
