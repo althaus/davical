@@ -514,7 +514,7 @@ EOTEMPLATE;
   $browser = new Browser(translate('Bindings to this Collection'));
   $browser->AddColumn( 'bind_id', translate('ID'), '', '' );
   $browser->AddHidden( 'b.dav_owner_id' );
-  $browser->AddColumn( 'bound_as', translate('Bound As'), '', '<td style="white-space:nowrap;">%s</td>', "'".$c->base_url.'/caldav.php'."' ||b.dav_name" );
+  $browser->AddColumn( 'bound_as', translate('Bound As'), '', '<td style="white-space:nowrap;">%s</td>', 'b.dav_name' );
   $browser->AddColumn( 'access_ticket_id', translate('Ticket ID'), '', '' );
   $browser->AddColumn( 'privs', translate('Privileges'), '', '', "privileges_list(privileges)" );
   $delurl = $c->base_url . '/admin.php?action=edit&t=principal&id=##dav_owner_id##&bind_id=##URL:bind_id##&subaction=delete_binding';
