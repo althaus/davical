@@ -138,7 +138,7 @@ class RepeatRuleDateTime extends DateTime {
 
 
   public function modify( $interval ) {
-    if ( preg_match('{^(-)?P((\d+)W)?((\d+)D)?T?((\d+)H)?((\d+)M)?((\d+)S)?$}', $interval, $matches) ) {
+    if ( preg_match('{^(-)?P(([0-9-]+)W)?(([0-9-]+)D)?T?(([0-9-]+)H)?(([0-9-]+)M)?(([0-9-]+)S)?$}', $interval, $matches) ) {
       $minus = $matches[1];
       $interval = '';
       if ( isset($matches[2]) && $matches[2] != '' ) $interval .= $minus . $matches[3] . ' weeks ';
