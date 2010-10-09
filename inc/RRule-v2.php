@@ -732,6 +732,8 @@ function rrule_expand( $dtstart, $property, $component, $range_end ) {
 
 /**
 * Expand the event instances for an iCalendar VEVENT (or VTODO)
+* 
+* Note: expansion here does not apply modifications to instances other than modifying start/end/due/duration.
 *
 * @param object $vResource A vComponent which is a VCALENDAR containing components needing expansion
 * @param object $range_start A RepeatRuleDateTime which is the beginning of the range for events, default -6 weeks
@@ -752,7 +754,7 @@ function expand_event_instances( $vResource, $range_start = null, $range_end = n
   $dtstart = null;
   foreach( $components AS $k => $comp ) {
     if ( $comp->GetType() != 'VEVENT' && $comp->GetType() != 'VTODO' && $comp->GetType() != 'VJOURNAL' ) {
-      $new_components[] = $comp;
+      if ( $comp->GetType() != 'VTIMEZONE' ) $new_components[] = $comp;
       continue;
     }
     if ( !isset($dtstart) ) {
@@ -775,7 +777,6 @@ function expand_event_instances( $vResource, $range_start = null, $range_end = n
       else {
         unset($instances[$recur_utc]);
       }
-      $instances[] = $comp;
     }
     $instances = array_merge( $instances, rrule_expand($dtstart, 'RRULE', $comp, $range_end) );
     $instances = array_merge( $instances, rdate_expand($dtstart, 'RDATE', $comp, $range_end) );
@@ -785,7 +786,7 @@ function expand_event_instances( $vResource, $range_start = null, $range_end = n
   }
 
   $last_duration = null;
-  $in_range = false;
+  $early_start = null;
   $new_components = array();
   $start_utc = $range_start->UTC();
   $end_utc = $range_end->UTC();
@@ -816,10 +817,11 @@ function expand_event_instances( $vResource, $range_start = null, $range_end = n
     }
 
     if ( $utc < $start_utc ) {
-      if ( isset($last_duration) && $duration == $last_duration) {
+      if ( isset($early_start) && isset($last_duration) && $duration == $last_duration) {
         if ( $utc < $early_start ) continue;
       }
       else {
+        /** Calculate the latest possible start date when this event would overlap our range start */
         $latest_start = clone($range_start);
         $latest_start->modify('-'.$duration);
         $early_start = $latest_start->UTC();
@@ -832,15 +834,9 @@ function expand_event_instances( $vResource, $range_start = null, $range_end = n
     $component->AddProperty('DTSTART', $utc );
     $component->AddProperty('DURATION', $duration );
     $new_components[] = $component;
-    $in_range = true;
   }
 
-  if ( $in_range ) {
-    $vResource->SetComponents($new_components);
-  }
-  else {
-    $vResource->SetComponents(array());
-  }
+  $vResource->SetComponents($new_components);
 
   return $vResource;
 }
