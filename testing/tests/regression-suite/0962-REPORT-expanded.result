@@ -1,0 +1,104 @@
+HTTP/1.1 207 Multi-Status
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
+DAV: extended-mkcol, calendar-proxy, bind, addressbook
+ETag: "b462ad2abe6f194b2f2e4d241b9b002e"
+Content-Length: 2487
+Content-Type: text/xml; charset="utf-8"
+
+<?xml version="1.0" encoding="utf-8" ?>
+<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
+ <response>
+  <href>/caldav.php/user5/home/naltpirh2vfjfmplmsivuo30t8%40google.com.ics</href>
+  <propstat>
+   <prop>
+    <C:calendar-data>BEGIN:VCALENDAR
+PRODID:-//davical.org//NONSGML AWL Calendar//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+LAST-MODIFIED:20100812T161339Z
+SEQUENCE:5
+UID:naltpirh2vfjfmplmsivuo30t8@google.com
+SUMMARY:Tango Night
+DESCRIPTION:Never will you see a space glow like a night of Tango at Tea
+ se.\nAll dancers welcome!\n$5 suggested donation
+CREATED:20091221T033228Z
+DTSTAMP:20100812T161339Z
+DURATION:PT3H
+LOCATION:
+X-VENUE:Tease Restaurant &amp; Bar, corner of 2nd &amp; Main
+X-EMAIL-RSVP-UPDATES:true
+RRULE:FREQ=MONTHLY;WKST=MO;BYDAY=3SU
+DTSTART:20100920T030000Z
+DURATION:PT3H
+END:VEVENT
+BEGIN:VEVENT
+LAST-MODIFIED:20100812T161339Z
+SEQUENCE:5
+UID:naltpirh2vfjfmplmsivuo30t8@google.com
+SUMMARY:Tango Night
+DESCRIPTION:Never will you see a space glow like a night of Tango at Tea
+ se.\nAll dancers welcome!\n$5 suggested donation
+CREATED:20091221T033228Z
+DTSTAMP:20100812T161339Z
+DURATION:PT3H
+LOCATION:
+X-VENUE:Tease Restaurant &amp; Bar, corner of 2nd &amp; Main
+X-EMAIL-RSVP-UPDATES:true
+RRULE:FREQ=MONTHLY;WKST=MO;BYDAY=3SU
+DTSTART:20101018T030000Z
+DURATION:PT3H
+END:VEVENT
+BEGIN:VEVENT
+LAST-MODIFIED:20100812T161339Z
+SEQUENCE:5
+UID:naltpirh2vfjfmplmsivuo30t8@google.com
+SUMMARY:Tango Night
+DESCRIPTION:Never will you see a space glow like a night of Tango at Tea
+ se.\nAll dancers welcome!\n$5 suggested donation
+CREATED:20091221T033228Z
+DTSTAMP:20100812T161339Z
+DURATION:PT3H
+LOCATION:
+X-VENUE:Tease Restaurant &amp; Bar, corner of 2nd &amp; Main
+X-EMAIL-RSVP-UPDATES:true
+RRULE:FREQ=MONTHLY;WKST=MO;BYDAY=3SU
+DTSTART:20101122T040000Z
+DURATION:PT3H
+END:VEVENT
+BEGIN:VEVENT
+LAST-MODIFIED:20100812T161339Z
+SEQUENCE:5
+UID:naltpirh2vfjfmplmsivuo30t8@google.com
+SUMMARY:Tango Night
+DESCRIPTION:Never will you see a space glow like a night of Tango at Tea
+ se.\nAll dancers welcome!\n$5 suggested donation
+CREATED:20091221T033228Z
+DTSTAMP:20100812T161339Z
+DURATION:PT3H
+LOCATION:
+X-VENUE:Tease Restaurant &amp; Bar, corner of 2nd &amp; Main
+X-EMAIL-RSVP-UPDATES:true
+RRULE:FREQ=MONTHLY;WKST=MO;BYDAY=3SU
+DTSTART:20101220T040000Z
+DURATION:PT3H
+END:VEVENT
+END:VCALENDAR
+</C:calendar-data>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+</multistatus>
+
+         dav_name: >/user5/home/naltpirh2vfjfmplmsivuo30t8@google.com.ics<
+          dtstart: >2010-08-16 15:00:00+12<
+      dtstart_utc: >2010-08-16 03:00:00<
+            rrule: >FREQ=MONTHLY;WKST=MO;BYDAY=3SU<
+
+         dav_name: >/user5/home/v3f2otajsto18em4rom3jd4238@google.com.ics<
+          dtstart: >2009-07-08 12:00:00+12<
+      dtstart_utc: >2009-07-08 00:00:00<
+            rrule: >FREQ=WEEKLY;WKST=SU;INTERVAL=2;UNTIL=20090921T065959Z;BYDAY=MO<
+

@@ -1,0 +1,104 @@
+#
+# PUT a calendar collection to user5 so we have some starting events
+#
+# There is no CalDAV defined behaviour for this.
+#
+TYPE=PUT
+URL=http://mycaldav/caldav.php/user5/home/
+HEADER=User-Agent: RSCDS Testing/0.9.x
+HEADER=Content-Type: text/calendar; charset=utf-8
+AUTH=user5:user5
+
+HEAD
+
+BEGINDATA
+BEGIN:VCALENDAR
+VERSION:2.0
+CALSCALE:GREGORIAN
+PRODID:-//neutralspace inc.//dotcal.com//EN
+BEGIN:VTIMEZONE
+TZID:America/Los_Angeles
+X-LIC-LOCATION:America/Los_Angeles
+BEGIN:DAYLIGHT
+TZOFFSETFROM:-0800
+TZOFFSETTO:-0700
+TZNAME:PDT
+DTSTART:19700308T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:-0700
+TZOFFSETTO:-0800
+TZNAME:PST
+DTSTART:19701101T020000
+RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+LAST-MODIFIED:20100812T161339Z
+SEQUENCE:5
+UID:naltpirh2vfjfmplmsivuo30t8@google.com
+SUMMARY:Tango Night
+DESCRIPTION:Never will you see a space glow like a night of Tango at Tease.
+ \nAll dancers welcome!\n$5 suggested donation
+DTSTART;TZID=America/Los_Angeles:20100815T200000
+CREATED:20091221T033228Z
+DTSTAMP:20100812T161339Z
+DURATION:PT3H
+LOCATION:
+X-VENUE:Tease Restaurant & Bar, corner of 2nd & Main
+X-EMAIL-RSVP-UPDATES:true
+RRULE:FREQ=MONTHLY;WKST=MO;BYDAY=3SU
+END:VEVENT
+BEGIN:VEVENT
+SEQUENCE:4
+DTSTART;TZID=America/Los_Angeles:20090707T170000
+STATUS:CONFIRMED
+DTSTAMP:20090828T083735Z
+SUMMARY:Sketch Salone
+DTEND;TZID=America/Los_Angeles:20090707T200000
+LOCATION:Tease Restaurant & Bar\, corner of 2nd & Main
+RRULE:FREQ=WEEKLY;WKST=SU;INTERVAL=2;UNTIL=20090921T065959Z;BYDAY=MO
+DESCRIPTION:Sketch Salone\, where the artist in you can come to the 
+ surface.  Live model Hosted by Kevin Christman\n per bench seat by 
+ RSVP or welcome to use a table
+UID:v3f2otajsto18em4rom3jd4238@google.com
+TRANSP:TRANSPARENT
+CREATED:20091221T033228Z
+END:VEVENT
+BEGIN:VEVENT
+SEQUENCE:4
+DTSTART;TZID=America/Los_Angeles:20090907T170000
+STATUS:CONFIRMED
+DTSTAMP:20090828T083735Z
+SUMMARY:Sketch Salone
+DTEND;TZID=America/Los_Angeles:20090907T200000
+LOCATION:Tease Restaurant & Bar\, corner of 2nd & Main
+DESCRIPTION:Sketch Salone\, where the artist in you can come to the 
+ surface.  Live model Hosted by Kevin Christman\n per bench seat by 
+ RSVP or welcome to use a table
+UID:v3f2otajsto18em4rom3jd4238@google.com
+TRANSP:TRANSPARENT
+CREATED:20091221T033228Z
+RECURRENCE-ID;TZID=America/Los_Angeles:20090914T170000
+END:VEVENT
+END:VCALENDAR
+ENDDATA
+
+
+QUERY
+SELECT caldav_data.user_no, caldav_type, logged_user, 
+       uid, dtstamp, dtstart at time zone tz_locn as dtstart, dtend at time zone tz_locn as dtend, due, summary, location,
+       description, priority, class, transp, rrule, url,
+       percent_complete, tz_id, status,
+       caldav_data AS "A1 CalDAV DATA"
+FROM caldav_data JOIN calendar_item USING(dav_name) JOIN time_zone USING (tz_id)
+WHERE caldav_data.dav_name ~ '^/user5/home/'
+ENDQUERY
+
+QUERY
+SELECT count(*)
+  FROM caldav_data JOIN calendar_item USING(dav_name)
+  WHERE caldav_data.dav_name ~ '^/user5/home/'
+ENDQUERY
+

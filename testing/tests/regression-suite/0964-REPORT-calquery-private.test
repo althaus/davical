@@ -1,0 +1,51 @@
+#
+# REPORT on user1's calendar as a less privileged user
+#
+TYPE=REPORT
+URL=http://mycaldav/caldav.php/user1/anotherone/
+AUTH=user4:user4
+
+HEADER=User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.1.18pre) Gecko/20080917 Sunbird/0.9
+HEADER=Accept: text/xml
+HEADER=Accept-Language: en-us,en;q=0.5
+HEADER=Accept-Charset: utf-8,*;q=0.1
+HEADER=Content-Type: text/xml; charset=utf-8
+HEADER=Depth: 1
+HEAD
+
+BEGINDATA
+<?xml version="1.0" encoding="UTF-8"?>
+<calendar-query xmlns:D="DAV:" xmlns="urn:ietf:params:xml:ns:caldav">
+  <D:prop>
+    <D:getetag/>
+    <calendar-data/>
+  </D:prop>
+  <filter>
+    <comp-filter name="VCALENDAR">
+      <comp-filter name="VEVENT">
+        <time-range start="20070101T000000Z" end="20080803T110000Z"/>
+      </comp-filter>
+    </comp-filter>
+  </filter>
+</calendar-query>
+ENDDATA
+
+QUERY
+SELECT calendar_item.rrule,
+     to_char(calendar_item.dtstart at time zone 'GMT','YYYYMMDD"T"HH24MISS"Z"') AS start,
+     to_char(calendar_item.dtend at time zone 'GMT','YYYYMMDD"T"HH24MISS"Z"') AS finish,
+     class,
+     calendar_item.dav_name,
+     calendar_item.summary
+ FROM usr INNER JOIN collection USING (user_no)
+         INNER JOIN caldav_data USING (collection_id)
+         INNER JOIN calendar_item USING(dav_id)
+WHERE collection.dav_name = '/user1/anotherone/'
+AND collection.is_calendar
+AND rrule_event_overlaps( dtstart, dtend, rrule, '20070101T000000Z', '20080803T110000Z' )
+AND caldav_data.caldav_type IN ( 'VEVENT', 'VFREEBUSY' )
+AND (calendar_item.transp != 'TRANSPARENT' OR calendar_item.transp IS NULL)
+AND (calendar_item.status != 'CANCELLED' OR calendar_item.status IS NULL)
+ORDER BY dav_id
+ENDQUERY
+

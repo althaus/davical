@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<C:schedule-response xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
+ <C:response>
+  <C:recipient>
+   <href>mailto:user1@example.net</href>
+  </C:recipient>
+  <C:request-status>2.0;Success</C:request-status>
+  <C:calendar-data>BEGIN:VCALENDAR
+PRODID:-//davical.org//NONSGML AWL Calendar//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+METHOD:REPLY
+BEGIN:VFREEBUSY
+DTSTAMP:yyyymmddThhmmssZ
+DTSTART:20080730T110000Z
+DTEND:20080803T110000Z
+FREEBUSY:20080730T190000Z/20080731T050000Z
+FREEBUSY:20080730T194500Z/20080730T203000Z
+FREEBUSY:20080730T210000Z/20080730T220000Z
+FREEBUSY:20080731T190000Z/20080801T050000Z
+FREEBUSY:20080731T210000Z/20080731T220000Z
+FREEBUSY:20080801T210000Z/20080801T220000Z
+FREEBUSY:20080802T210000Z/20080802T220000Z
+FREEBUSY:20080803T073000Z/20080803T093000Z
+UID:c5bd82ea-cd89-4f58-8d31-336f47e44f97
+ORGANIZER:mailto:user4@example.net
+ATTENDEE;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT;CUTYPE=INDIVIDUAL:
+ mailto:user1@example.net
+END:VFREEBUSY
+END:VCALENDAR
+</C:calendar-data>
+ </C:response>
+</C:schedule-response>
+
+            class: >PUBLIC<
+         dav_name: >/user1/home/e70576e9-c1e0-431e-a507-0386fd82f223.ics<
+           finish: >20071210T193000Z<
+            rrule: >FREQ=WEEKLY;INTERVAL=1;BYDAY=TU,TH<
+            start: >20071210T184500Z<
+
+            class: >PUBLIC<
+         dav_name: >/user1/home/da81c0ee-7871-11db-c6d6-f6927c144649.ics<
+           finish: >20061102T203000Z<
+            rrule: >FREQ=MONTHLY<
+            start: >20061102T183000Z<
+
+            class: >PUBLIC<
+         dav_name: >/user1/6E20BB7C-EFD9-4F0F-9BDC-5335E04D47E0/6C8A0D88-E1F9-4FC1-9EDD-DA258ABF2CFA.ics<
+           finish: >20071126T040000Z<
+            rrule: >FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR;WKST=SU<
+            start: >20071125T180000Z<
+
+            class: >PUBLIC<
+         dav_name: >/user1/collection/Daily_NY_5pm.ics<
+           finish: >20060101T230000Z<
+            rrule: >FREQ=DAILY;INTERVAL=1;COUNT=1000<
+            start: >20060101T220000Z<
+
+            class: >PRIVATE<
+         dav_name: >/user1/anotherone/20060803T084628Z-6040-1000-1-6@lamb.ics<
+           finish: >20060802T093456Z<
+            rrule: >FREQ=YEARLY;INTERVAL=1<
+            start: >20060801T093456Z<
+

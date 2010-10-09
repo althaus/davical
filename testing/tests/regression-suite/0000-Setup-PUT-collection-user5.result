@@ -1,0 +1,151 @@
+HTTP/1.1 100 Continue
+
+HTTP/1.1 200 OK
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
+DAV: extended-mkcol, calendar-proxy, bind, addressbook
+Content-Length: 0
+Content-Type: text/plain; charset="utf-8"
+
+
+   A1 CalDAV DATA: >BEGIN:VCALENDAR
+PRODID:-//davical.org//NONSGML AWL Calendar//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+LAST-MODIFIED:20100812T161339Z
+SEQUENCE:5
+UID:naltpirh2vfjfmplmsivuo30t8@google.com
+SUMMARY:Tango Night
+DESCRIPTION:Never will you see a space glow like a night of Tango at Tea
+ se.\nAll dancers welcome!\n$5 suggested donation
+DTSTART;TZID=America/Los_Angeles:20100815T200000
+CREATED:20091221T033228Z
+DTSTAMP:20100812T161339Z
+DURATION:PT3H
+LOCATION:
+X-VENUE:Tease Restaurant & Bar, corner of 2nd & Main
+X-EMAIL-RSVP-UPDATES:true
+RRULE:FREQ=MONTHLY;WKST=MO;BYDAY=3SU
+END:VEVENT
+BEGIN:VTIMEZONE
+TZID:America/Los_Angeles
+X-LIC-LOCATION:America/Los_Angeles
+BEGIN:DAYLIGHT
+TZOFFSETFROM:-0800
+TZOFFSETTO:-0700
+TZNAME:PDT
+DTSTART:19700308T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:-0700
+TZOFFSETTO:-0800
+TZNAME:PST
+DTSTART:19701101T020000
+RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU
+END:STANDARD
+END:VTIMEZONE
+END:VCALENDAR
+<
+      caldav_type: >VEVENT<
+            class: >PUBLIC<
+      description: >Never will you see a space glow like a night of Tango at Tease.
+All dancers welcome!
+$5 suggested donation<
+            dtend: >2010-08-15 23:00:00<
+          dtstamp: >2010-08-12 16:13:39<
+          dtstart: >2010-08-15 20:00:00<
+              due: >NULL<
+         location: ><
+      logged_user: >14<
+ percent_complete: >NULL<
+         priority: >NULL<
+            rrule: >FREQ=MONTHLY;WKST=MO;BYDAY=3SU<
+           status: >NULL<
+          summary: >Tango Night<
+           transp: >NULL<
+            tz_id: >America/Los_Angeles<
+              uid: >naltpirh2vfjfmplmsivuo30t8@google.com<
+              url: >NULL<
+          user_no: >14<
+
+   A1 CalDAV DATA: >BEGIN:VCALENDAR
+PRODID:-//davical.org//NONSGML AWL Calendar//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+SEQUENCE:4
+DTSTART;TZID=America/Los_Angeles:20090707T170000
+STATUS:CONFIRMED
+DTSTAMP:20090828T083735Z
+SUMMARY:Sketch Salone
+DTEND;TZID=America/Los_Angeles:20090707T200000
+LOCATION:Tease Restaurant & Bar\, corner of 2nd & Main
+RRULE:FREQ=WEEKLY;WKST=SU;INTERVAL=2;UNTIL=20090921T065959Z;BYDAY=MO
+DESCRIPTION:Sketch Salone\, where the artist in you can come to the surf
+ ace.  Live model Hosted by Kevin Christman\n per bench seat by RSVP or w
+ elcome to use a table
+UID:v3f2otajsto18em4rom3jd4238@google.com
+TRANSP:TRANSPARENT
+CREATED:20091221T033228Z
+END:VEVENT
+BEGIN:VTIMEZONE
+TZID:America/Los_Angeles
+X-LIC-LOCATION:America/Los_Angeles
+BEGIN:DAYLIGHT
+TZOFFSETFROM:-0800
+TZOFFSETTO:-0700
+TZNAME:PDT
+DTSTART:19700308T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:-0700
+TZOFFSETTO:-0800
+TZNAME:PST
+DTSTART:19701101T020000
+RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+SEQUENCE:4
+DTSTART;TZID=America/Los_Angeles:20090907T170000
+STATUS:CONFIRMED
+DTSTAMP:20090828T083735Z
+SUMMARY:Sketch Salone
+DTEND;TZID=America/Los_Angeles:20090907T200000
+LOCATION:Tease Restaurant & Bar\, corner of 2nd & Main
+DESCRIPTION:Sketch Salone\, where the artist in you can come to the surf
+ ace.  Live model Hosted by Kevin Christman\n per bench seat by RSVP or w
+ elcome to use a table
+UID:v3f2otajsto18em4rom3jd4238@google.com
+TRANSP:TRANSPARENT
+CREATED:20091221T033228Z
+RECURRENCE-ID;TZID=America/Los_Angeles:20090914T170000
+END:VEVENT
+END:VCALENDAR
+<
+      caldav_type: >VEVENT<
+            class: >PUBLIC<
+      description: >Sketch Salone, where the artist in you can come to the surface.  Live model Hosted by Kevin Christman
+ per bench seat by RSVP or welcome to use a table<
+            dtend: >2009-07-07 20:00:00<
+          dtstamp: >2009-08-28 08:37:35<
+          dtstart: >2009-07-07 17:00:00<
+              due: >NULL<
+         location: >Tease Restaurant & Bar, corner of 2nd & Main<
+      logged_user: >14<
+ percent_complete: >NULL<
+         priority: >NULL<
+            rrule: >FREQ=WEEKLY;WKST=SU;INTERVAL=2;UNTIL=20090921T065959Z;BYDAY=MO<
+           status: >CONFIRMED<
+          summary: >Sketch Salone<
+           transp: >TRANSPARENT<
+            tz_id: >America/Los_Angeles<
+              uid: >v3f2otajsto18em4rom3jd4238@google.com<
+              url: >NULL<
+          user_no: >14<
+
+            count: >2<
+
