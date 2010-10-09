@@ -320,6 +320,7 @@ if ( $qry->Exec("calquery",__LINE__,__FILE__) && $qry->rows() > 0 ) {
       if ( $need_expansion ) {
         $vResource = new vComponent($calendar_object->caldav_data);
         $expanded = expand_event_instances($vResource, $expand_range_start, $expand_range_end);
+        if ( $expanded->ComponentCount() == 0 ) continue;
         $calendar_object->caldav_data = $expanded->Render();
       }
       $responses[] = calendar_to_xml( $properties, $calendar_object );
