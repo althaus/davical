@@ -37,18 +37,22 @@ END:VCALENDAR
  </C:response>
 </C:schedule-response>
 
+            class: >PUBLIC<
            finish: >20081019T223000Z<
             rrule: >FREQ=DAILY;INTERVAL=1;BYDAY=MO,WE,FR<
             start: >20081019T220000Z<
 
+            class: >PUBLIC<
            finish: >20081019T210000Z<
             rrule: >FREQ=WEEKLY;INTERVAL=1<
             start: >20081019T200000Z<
 
+            class: >PUBLIC<
            finish: >20081024T020000Z<
             rrule: >FREQ=WEEKLY;INTERVAL=1<
             start: >20081024T010000Z<
 
+            class: >PUBLIC<
            finish: >20081007T070000Z<
             rrule: >FREQ=MONTHLY;BYDAY=1MO,2TU,3TH,-1FR;INTERVAL=1<
             start: >20081006T070000Z<

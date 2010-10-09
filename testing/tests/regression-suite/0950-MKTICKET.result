@@ -39,6 +39,6 @@ target_resource_i: >NULL<
      dav_owner_id: >3<
        privileges: >000000000001001011100111<
 target_collection: >10<
-target_resource_i: >1367<
+target_resource_i: >1369<
           timeout: >1 day<
 
