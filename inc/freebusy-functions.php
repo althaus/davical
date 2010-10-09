@@ -37,7 +37,8 @@ function get_freebusy( $path_match, $range_start, $range_end, $bin_privs = null 
   $fbtimes = array();
   $sql = 'SELECT caldav_data.caldav_data, calendar_item.rrule, calendar_item.transp, calendar_item.status, ';
   $sql .= "to_char(calendar_item.dtstart at time zone 'GMT',".iCalendar::SqlUTCFormat().') AS start, ';
-  $sql .= "to_char(calendar_item.dtend at time zone 'GMT',".iCalendar::SqlUTCFormat().') AS finish ';
+  $sql .= "to_char(calendar_item.dtend at time zone 'GMT',".iCalendar::SqlUTCFormat().') AS finish, ';
+  $sql .= "calendar_item.class ";
   $sql .= 'FROM caldav_data INNER JOIN calendar_item USING(dav_id,user_no,dav_name,collection_id) ';
   $sql .= 'INNER JOIN collection USING(collection_id)';
   $sql .= $where;
@@ -49,7 +50,7 @@ function get_freebusy( $path_match, $range_start, $range_end, $bin_privs = null 
       if ( $calendar_object->status == 'TENTATIVE' ) {
         $extra = ';BUSY-TENTATIVE';
       }
-      dbg_error_log( "REPORT", " FreeBusy: Not transparent, tentative or cancelled: %s, %s", $calendar_object->start, $calendar_object->finish );
+      dbg_error_log( "REPORT", " FreeBusy: Not transparent, tentative or cancelled: %s, %s, %s", $calendar_object->start, $calendar_object->finish, $calendar_object->class );
       $ics = new vComponent($calendar_object->caldav_data);
       $expanded = expand_event_instances($ics, $range_start, $range_end);
       $expansion = $expanded->GetComponents( array('VEVENT'=>true,'VTODO'=>true,'VJOURNAL'=>true) );
