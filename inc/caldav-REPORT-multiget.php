@@ -76,15 +76,15 @@ foreach( $mg_hrefs AS $k => $v ) {
 }
 
 $where = " WHERE caldav_data.collection_id = " . $collection->resource_id();
-$where .= "AND caldav_data.dav_name IN ( $href_in ) ";
+$where .= " AND caldav_data.dav_name IN ( $href_in ) ";
 
 if ( $mode == 'caldav' ) {
   if ( $collection->Privileges() != privilege_to_bits('DAV::all') ) {
-    $where .= "AND (calendar_item.class != 'PRIVATE' OR calendar_item.class IS NULL) ";
+    $where .= " AND (calendar_item.class != 'PRIVATE' OR calendar_item.class IS NULL) ";
   }
 
   if ( isset($c->hide_TODO) && $c->hide_TODO && ! $collection->Privileges() == privilege_to_bits('all') ) {
-    $where .= "AND caldav_data.caldav_type NOT IN ('VTODO') ";
+    $where .= " AND caldav_data.caldav_type NOT IN ('VTODO') ";
   }
   $sql = 'SELECT caldav_data.*,calendar_item.* FROM caldav_data
                   LEFT JOIN calendar_item USING(dav_id, user_no, dav_name, collection_id)
