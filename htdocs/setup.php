@@ -38,6 +38,26 @@ function check_suhosin_server_strip() {
   return false;
 }
 
+function check_magic_quotes_gpc() {
+  global $loaded_extensions;
+
+  if ( ini_get('magic_quotes_gpc') == "0" ) {
+    return true;
+  }
+
+  return false;
+}
+
+function check_magic_quotes_runtime() {
+  global $loaded_extensions;
+
+  if ( ini_get('magic_quotes_runtime') == "0" ) {
+    return true;
+  }
+
+  return false;
+}
+
 function do_error( $errormessage ) {
   printf("<p class='error'>%s</p>", $errormessage );  
 }
@@ -90,6 +110,16 @@ function check_davical_version() {
 }
 
 
+function check_awl_version() {
+  global $c;
+  
+  if ( function_exists('awl_version') ) {
+    return ( $c->want_awl_version == awl_version() ? true : sprintf( "want %f", $c->awl_library_version) );
+  }
+  return false;
+}
+
+
 function build_site_statistics() {
   $principals  = translate('No. of Principals');
   $collections = translate('No. of Collections');
@@ -121,11 +151,14 @@ EOTABLE;
 $dependencies = array(
   translate('Current DAViCal version '). $c->version_string => 'check_davical_version',
   translate('DAViCal DB Schema version '). implode('.',$c->want_dbversion) => 'check_schema_version',
+  translate('AWL Library version '). $c->want_awl_version => 'check_awl_version',
   translate('PHP PDO module available') => 'check_pdo',
   translate('PDO PostgreSQL drivers') => 'check_pdo_pgsql',
   translate('PHP PostgreSQL available') => 'check_pgsql',
   translate('GNU gettext support') => 'check_gettext',
-  translate('Suhosin "server.strip" disabled') => 'check_suhosin_server_strip' /*,
+  translate('Suhosin "server.strip" disabled') => 'check_suhosin_server_strip',
+  translate('PHP Magic Quotes GPC off') => 'check_magic_quotes_gpc',
+  translate('PHP Magic Quotes runtime off') => 'check_magic_quotes_runtime' /*,
   'YAML' => 'php5-syck' */
 );
 
@@ -143,7 +176,7 @@ foreach( $dependencies AS $k => $v ) {
 $want_dbversion = implode('.',$c->want_dbversion);
 
 $heading_setup = translate('Setup');
-$paragraph_setup = translate('Currently this page does very little.  Suggestions or patches to make it do more useful stuff will be gratefully received.');
+$paragraph_setup = translate('This page primarily checks the environment needed for DAViCal to work correctly.  Suggestions or patches to make it do more useful stuff will be gratefully received.');
 
 $heading_versions = translate('Current Versions');
 if ( check_schema_version() != true )
