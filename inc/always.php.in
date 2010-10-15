@@ -49,6 +49,8 @@ $c->base_url = preg_replace('#/[^/]+\.php.*$#', '', $_SERVER['SCRIPT_NAME']);
 $c->base_directory = preg_replace('#/[^/]*$#', '', $_SERVER['DOCUMENT_ROOT']);
 $c->default_privileges = array('read-free-busy', 'schedule-deliver');
 
+$c->enable_auto_schedule = true;
+
 $c->stylesheets = array( $c->base_url.'/davical.css' );
 $c->images      = $c->base_url . '/images';
 
@@ -166,6 +168,7 @@ init_gettext( 'davical', $c->locale_path );
 *
 */
 $c->code_version = 0;
+$c->want_awl_version = 0.46; // The actual version # is replaced into that during the build /release process
 $c->version_string = '0.9.8.3'; // The actual version # is replaced into that during the build /release process
 if ( isset($c->version_string) && preg_match( '/(\d+)\.(\d+)\.(\d+)(.*)/', $c->version_string, $matches) ) {
   $c->code_major = $matches[1];
@@ -200,9 +203,10 @@ if ( $qry->Exec('always',__LINE__,__FILE__) && $row = $qry->Fetch() ) {
 }
 
 
-$_known_users_name = array();
-$_known_users_id   = array();
-$_known_users_pid  = array();
+$_known_users_name  = array();
+$_known_users_id    = array();
+$_known_users_pid   = array();
+$_known_users_email = array();
 
 function _davical_get_principal_query_cached( $where, $parameter ) {
   global $c, $session, $_known_users_name, $_known_users_id, $_known_users_pid;
@@ -225,6 +229,7 @@ function _davical_get_principal_query_cached( $where, $parameter ) {
       $_known_users_name[$row->username]      = $row;
       $_known_users_id[$row->user_no]         = $row;
       $_known_users_pid[$row->principal_id]   = $row;
+      $_known_users_email[$row->email]        = $row;
     }
     return $row;
   }
@@ -253,12 +258,7 @@ function getUserByName( $username, $use_cache = true ) {
 function getUserByEMail( $email, $use_cache = true ) {
   global $_known_users_name;
 
-  if ( $use_cache ) {
-    /** We don't actually maintain a cache-access by e-mail, since it's rare */
-    foreach( $_known_users_name AS $k => $v ) {
-      if ( strtolower($email) == strtolower($v->email) ) return $v;
-    }
-  }
+  if ( $use_cache && isset( $_known_users_email[$email] ) ) return $_known_users_email[$email];
   return _davical_get_principal_query_cached( 'lower(email) = lower(:param)', $email );
 }
 
