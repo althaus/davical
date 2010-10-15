@@ -47,6 +47,7 @@ function send_dav_header() {
     else {
        // We don't actually do calendar-auto-schedule yet - when we do we should add it on here.
       $dav = '1, 2, 3, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy, bind, addressbook';
+      if ( $c->enable_auto_schedule ) $dav .= ', calendar-auto-schedule';
     }
   }
   $dav = explode( "\n", wordwrap( $dav ) );
