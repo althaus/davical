@@ -118,7 +118,7 @@ function handle_cancel_request( $ic ) {
 
   $reply = new XMLDocument( array("DAV:" => "", "urn:ietf:params:xml:ns:caldav" => "C" ) );
 
-  $responses[] = $reply->NewXMLElement( "response", false, false, 'urn:ietf:params:xml:ns:caldav' );
+  $response = $reply->NewXMLElement( "response", false, false, 'urn:ietf:params:xml:ns:caldav' );
   $reply->CalDAVElement($response, "request-status", "2.0;Success" );  // Cargo-cult setting
   $response = $reply->NewXMLElement( "schedule-response", $responses, $reply->GetXmlNsArray() );
   $request->XMLResponse( 200, $response );
