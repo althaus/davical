@@ -121,6 +121,9 @@ function calendar_to_xml( $properties, $item ) {
         $contentlength = strlen($caldav_data);
         $prop->NewElement($k, $contentlength );
         break;
+      case 'getlastmodified':
+        $prop->NewElement($k, ISODateToHTTPDate($item->modified) );
+        break;
       case 'calendar-data':
         $reply->CalDAVElement($prop, $k, $caldav_data );
         break;
@@ -240,6 +243,9 @@ function component_to_xml( $properties, $item ) {
       case 'getcontentlength':
         $contentlength = strlen($caldav_data);
         $prop->NewElement($k, $contentlength );
+        break;
+      case 'getlastmodified':
+        $prop->NewElement($k, ISODateToHTTPDate($item->modified) );
         break;
       case 'calendar-data':
         if ( $type == 'calendar' ) $reply->CalDAVElement($prop, $k, $caldav_data );
