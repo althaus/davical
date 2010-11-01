@@ -68,8 +68,15 @@ foreach( $mg_hrefs AS $k => $v ) {
    * anything up to the matching request->path (which will include any http...) and then
    * put the $bound_from prefix back on.
    */
-  $href = $bound_from . preg_replace( "{^.*\E$request->path\Q}", '', rawurldecode($v->GetContent()) );
-  dbg_error_log("REPORT", "Reporting on href '%s'", $href );
+  $rawurl = rawurldecode($v->GetContent());
+  $path_pos = strpos($rawurl,$request->path);
+  if ( $path_pos === false ) {
+    $href = $bound_from . $rawurl;
+  }
+  else {
+    $href = $bound_from . substr( $rawurl, $path_pos + strlen($request->path));
+  }
+  @dbg_error_log("REPORT", 'Reporting on href "%s"', $href );
   $href_in .= ($href_in == '' ? '' : ', ');
   $href_in .= ':href'.$k;
   $params[':href'.$k] = $href;
