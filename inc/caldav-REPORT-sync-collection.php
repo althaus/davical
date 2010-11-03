@@ -102,6 +102,8 @@ if ( $qry->Exec("REPORT",__LINE__,__FILE__) ) {
           new XMLElement( 'href', ConstructURL($object->dav_name) ),
           new XMLElement( 'status', display_status($object->sync_status) )
         );
+        $dav_resource = new DAVResource($object);
+        $resultset = array_merge( $resultset, $dav_resource->GetPropStat($proplist,$reply) );
         $responses[] = new XMLElement( 'sync-response', $resultset );
       }
       /** Else:
@@ -118,10 +120,8 @@ if ( $qry->Exec("REPORT",__LINE__,__FILE__) ) {
         new XMLElement( 'href', ConstructURL($object->dav_name) ),
         new XMLElement( 'status', display_status($object->sync_status) )
       );
-      if ( $object->sync_status != 404 ) {
-        $dav_resource = new DAVResource($object);
-        $resultset = array_merge( $resultset, $dav_resource->GetPropStat($proplist,$reply) );
-      }
+      $dav_resource = new DAVResource($object);
+      $resultset = array_merge( $resultset, $dav_resource->GetPropStat($proplist,$reply) );
       $response_tag = 'response';
       if ( isset($c->use_old_sync_response_tag) && $c->use_old_sync_response_tag ) $response_tag = 'sync-response';
       $responses[] = new XMLElement( $response_tag, $resultset );
