@@ -173,7 +173,7 @@ cat "${INSTALL_NOTE_FN}"
 rm "${INSTALL_NOTE_FN}"
 
 cat <<FRIENDLY
-*  The password for the 'admin' user has been set to '${ADMINPW}'"
+*  The password for the 'admin' user has been set to '${ADMINPW}'
 
 Thanks for trying DAViCal!  Check in /usr/share/doc/davical/examples/ for
 some configuration examples.  For help, visit #davical on irc.oftc.net.
