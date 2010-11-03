@@ -182,7 +182,7 @@ switch( $resource->caldav_type ) {
     break;
 
   case 'VCARD':
-    $contenttype = 'text/x-vcard';
+    $contenttype = 'text/vcard';
     break;
 }
 
