@@ -103,6 +103,12 @@ else if ( $mode == 'carddav' ) {
                   LEFT JOIN collection USING(collection_id)';
 }
 
+/**
+ * @todo: Add stanzas for missing rows, so we don't just return a blank multistatus but
+ * actually return <response> stanzas with a 404 for each absent href.  We could do
+ * this relatively easily with an array_flip($params) and remove each matching dav_name
+ * as we process it.
+ */
 if ( isset($c->strict_result_ordering) && $c->strict_result_ordering ) $where .= " ORDER BY caldav_data.dav_id";
 $qry = new AwlQuery( $sql . $where, $params );
 if ( $qry->Exec('REPORT',__LINE__,__FILE__) && $qry->rows() > 0 ) {
