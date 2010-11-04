@@ -412,7 +412,7 @@ function DeconstructURL( $url, $force_script = false ) {
 */
 function ISODateToHTTPDate( $isodate ) {
   // Use strtotime since strptime is not available on Windows platform.
-  return( gmstrftime('%a, %d %b %Y %T GMT', strtotime($isodate)) );
+  return( gmstrftime('%a, %d %b %Y %H:%M:%S GMT', strtotime($isodate)) );
 }
 
 /**
