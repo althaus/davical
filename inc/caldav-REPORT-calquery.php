@@ -273,8 +273,20 @@ $bound_from = $target_collection->bound_from();
 if ( !$target_collection->Exists() ) {
   $request->DoResponse( 404 );
 }
+
+$params = array();
+$where = ' WHERE caldav_data.collection_id = ' . $target_collection->resource_id();
+
 if ( ! ($target_collection->IsCalendar() || $target_collection->IsSchedulingCollection()) ) {
-  $request->DoResponse( 403, translate('The calendar-query report must be run against a calendar or a scheduling collection') );
+  if ( !(isset($c->allow_recursive_report) && $c->allow_recursive_report) || $target_collection->IsSchedulingCollection() ) {
+    $request->DoResponse( 403, translate('The calendar-query report must be run against a calendar or a scheduling collection') );
+  }
+  /**
+   * We're here because they allow recursive reports, and this appears to be such a location.
+   */
+  $where = 'WHERE (collection.dav_name ~ :path_match ';
+  $where .= 'OR collection.collection_id IN (SELECT bound_source_id FROM dav_binding WHERE dav_binding.dav_name ~ :path_match)) ';
+  $params = array( ':path_match' => '^'.$target_collection->bound_from() );
 }
 
 /**
@@ -285,15 +297,13 @@ if ( ! ($target_collection->IsCalendar() || $target_collection->IsSchedulingColl
 *              AND caldav_data.caldav_type = 'VEVENT' ORDER BY caldav_data.user_no, caldav_data.dav_name;
 */
 
-$params = array();
-$where = ' WHERE caldav_data.collection_id = ' . $target_collection->resource_id();
 if ( is_array($qry_filters) ) {
   dbg_log_array( "calquery", "qry_filters", $qry_filters, true );
   $components = array();
   $filter_fragment =  SqlFilterFragment( $qry_filters, $components );
   if ( $filter_fragment !== false ) {
     $where .= ' '.$filter_fragment['sql'];
-    $params = $filter_fragment['params'];
+    $params = array_merge( $params, $filter_fragment['params']);
   }
 }
 if ( $target_collection->Privileges() != privilege_to_bits('DAV::all') ) {
@@ -308,7 +318,7 @@ if ( isset($c->hide_older_than) && intval($c->hide_older_than > 0) ) {
   $where .= " AND calendar_item.dtstart > (now() - interval '".intval($c->hide_older_than)." days') ";
 }
 
-$sql = 'SELECT * FROM caldav_data INNER JOIN calendar_item USING(dav_id,user_no,dav_name)'. $where;
+$sql = 'SELECT * FROM collection INNER JOIN caldav_data USING(collection_id) INNER JOIN calendar_item USING(dav_id) '. $where;
 if ( isset($c->strict_result_ordering) && $c->strict_result_ordering ) $sql .= " ORDER BY dav_id";
 $qry = new AwlQuery( $sql, $params );
 if ( $qry->Exec("calquery",__LINE__,__FILE__) && $qry->rows() > 0 ) {
