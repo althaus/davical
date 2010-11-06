@@ -504,8 +504,12 @@ class CalDAVPrincipal
   * Return the privileges bits for the current session user to this resource
   */
   function Privileges() {
+    global $session;
     if ( !isset($this->privileges) ) $this->privileges = 0;
     if ( is_string($this->privileges) ) $this->privileges = bindec( $this->privileges );
+    if ( $this->_is_group && in_array(ConstructURL('/'.$session->username.'/'), $this->GroupMemberSet()) ) {
+      $this->privileges |=  privilege_to_bits( array('DAV::read', 'DAV::read-current-user-privilege-set') ); 
+    }
     return $this->privileges;
   }
 
