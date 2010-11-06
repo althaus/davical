@@ -6,7 +6,7 @@ Content-Length: 0
 Content-Type: text/plain; charset="utf-8"
 
 
-     dav_owner_id: >3<
+     dav_owner_id: >1002<
        privileges: >000000000001001000100001<
 target_collection: >10<
 target_resource_i: >NULL<

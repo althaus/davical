@@ -42,6 +42,7 @@ INSERT INTO usr ( user_no, active, email_ok, updated, username, password, fullna
 INSERT INTO role_member (user_no, role_no) VALUES( 300, 2);
 
 SELECT setval('usr_user_no_seq', 1000);
+SELECT setval('dav_id_seq', 1000);
 
 UPDATE usr SET joined = '2009-06-01', updated = '2009-06-02';
 
@@ -68,8 +69,6 @@ INSERT INTO principal (type_id, user_no, displayname, default_privileges)
          SELECT 3, user_no, fullname, privilege_to_bits(ARRAY['read-free-busy','schedule-send','schedule-deliver']) FROM usr
                  WHERE EXISTS(SELECT 1 FROM role_member JOIN roles USING(role_no) WHERE role_name = 'Group' AND role_member.user_no = usr.user_no)
                    AND NOT EXISTS(SELECT 1 FROM principal WHERE principal.user_no = usr.user_no);
-
-SELECT setval('dav_id_seq', 1000);
 
 -- Set the insert sequence to the next number, with a minimum of 1000
 SELECT setval('relationship_type_rt_id_seq', (SELECT 10 UNION SELECT rt_id FROM relationship_type ORDER BY 1 DESC LIMIT 1) );

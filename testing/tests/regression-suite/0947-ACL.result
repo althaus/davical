@@ -7,20 +7,20 @@ Content-Type: text/plain; charset="utf-8"
 
 
     by_collection: >NULL<
-     by_principal: >3<
+     by_principal: >1002<
       displayname: >User 4<
        privileges: >000000000001001000100001<
-     to_principal: >6<
+     to_principal: >1005<
 
     by_collection: >NULL<
-     by_principal: >3<
+     by_principal: >1002<
       displayname: >Assistant 1<
        privileges: >000000000001001011000111<
-     to_principal: >10<
+     to_principal: >1009<
 
     by_collection: >NULL<
-     by_principal: >3<
+     by_principal: >1002<
       displayname: >Team for Client1<
        privileges: >000000000001001000000001<
-     to_principal: >14<
+     to_principal: >1013<
 

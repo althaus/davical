@@ -25,7 +25,7 @@ Content-Type: text/xml; charset="utf-8"
  </T:ticketdiscovery>
 </prop>
 
-     dav_owner_id: >3<
+     dav_owner_id: >1002<
        privileges: >000000000001001000100001<
 target_collection: >10<
 target_resource_i: >NULL<
