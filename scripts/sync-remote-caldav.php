@@ -324,10 +324,11 @@ if ( $qry->Exec('sync-pull',__LINE__,__FILE__) && $qry->rows() > 0 ) {
 
   if ( !$sync_all ) {
     foreach( $cache->local_etags AS $href => $etag ) {
-      $fname = preg_replace('{^.*/}', '', $local->dav_name);
+      $fname = preg_replace('{^.*/}', '', $href);
+
       if (     !isset($insert_urls[$remote_event_prefix.$fname])
             && !isset($update_urls[$remote_event_prefix.$fname])
-            && isset($cache->server_etags[$remote_event_prefix.$fname]) ) {
+            && isset($cache->server_etags[$fname]) ) {
         $server_delete_urls[$fname] = $cache->server_etags[$remote_event_prefix.$fname];
         printf( "Need to delete remote '%s'.\n", $fname );
       }
@@ -344,7 +345,7 @@ if ( $sync_in ) {
   foreach( $local_delete_urls AS $href => $v ) {
     $fname = preg_replace('{^.*/}', '', $href);
     $local_fname = $args->local_collection_path . $fname;
-    $qry = new AwlQuery('DELETE FROM caldav_data WHERE dav_name = :dav_name', array( ':dav_name' => $local_fname ) );
+    $qry = new AwlQuery('DELETE FROM caldav_data WHERE caldav_type!=\'VTODO\' and dav_name = :dav_name', array( ':dav_name' => $local_fname ) );
     $qry->Exec('sync_pull',__LINE__,__FILE__);
     unset($newcache->local_etags[$fname]);
   }
