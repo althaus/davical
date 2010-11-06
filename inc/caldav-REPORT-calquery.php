@@ -289,14 +289,6 @@ if ( ! ($target_collection->IsCalendar() || $target_collection->IsSchedulingColl
   $params = array( ':path_match' => '^'.$target_collection->bound_from() );
 }
 
-/**
-* @todo Once we are past DB version 1.2.1 we can change this query more radically.  The best performance to
-* date seems to be:
-*   SELECT caldav_data.*,calendar_item.* FROM collection JOIN calendar_item USING (collection_id,user_no)
-*         JOIN caldav_data USING (dav_id) WHERE collection.dav_name = '/user1/home/'
-*              AND caldav_data.caldav_type = 'VEVENT' ORDER BY caldav_data.user_no, caldav_data.dav_name;
-*/
-
 if ( is_array($qry_filters) ) {
   dbg_log_array( "calquery", "qry_filters", $qry_filters, true );
   $components = array();
@@ -318,8 +310,8 @@ if ( isset($c->hide_older_than) && intval($c->hide_older_than > 0) ) {
   $where .= " AND calendar_item.dtstart > (now() - interval '".intval($c->hide_older_than)." days') ";
 }
 
-$sql = 'SELECT * FROM collection INNER JOIN caldav_data USING(collection_id) INNER JOIN calendar_item USING(dav_id) '. $where;
-if ( isset($c->strict_result_ordering) && $c->strict_result_ordering ) $sql .= " ORDER BY dav_id";
+$sql = 'SELECT caldav_data.*,calendar_item.*  FROM collection INNER JOIN caldav_data USING(collection_id) INNER JOIN calendar_item USING(dav_id) '. $where;
+if ( isset($c->strict_result_ordering) && $c->strict_result_ordering ) $sql .= " ORDER BY caldav_data.dav_id";
 $qry = new AwlQuery( $sql, $params );
 if ( $qry->Exec("calquery",__LINE__,__FILE__) && $qry->rows() > 0 ) {
   while( $calendar_object = $qry->Fetch() ) {
