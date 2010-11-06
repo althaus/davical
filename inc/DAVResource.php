@@ -588,7 +588,7 @@ EOQRY;
     if ( $this->IsPrincipal() ) {
       if ( !isset($this->principal) ) $this->FetchPrincipal();
       $this->privileges = $this->principal->Privileges();
-      dbg_error_log( 'DAVResource', 'Privileges of "%s" for user accessing "%s"', $this->privileges, $this->principal->username() );
+      dbg_error_log( 'DAVResource', 'Privileges of "%s" for user accessing principal "%s"', $this->privileges, $this->principal->username() );
       return;
     }
 
@@ -728,17 +728,21 @@ EOQRY;
           $this->supported_methods['HEAD'] = '';
           $this->supported_methods['MKTICKET'] = '';
           $this->supported_methods['DELTICKET'] = '';
+          $this->supported_methods['ACL'] = '';
           break;
         case 'collection':
           $this->supported_methods['MKTICKET'] = '';
           $this->supported_methods['DELTICKET'] = '';
+          $this->supported_methods['BIND'] = '';
+          $this->supported_methods['ACL'] = '';
         case 'principal':
           $this->supported_methods['GET'] = '';
-          $this->supported_methods['PUT'] = '';
           $this->supported_methods['HEAD'] = '';
           $this->supported_methods['MKCOL'] = '';
           $this->supported_methods['MKCALENDAR'] = '';
           $this->supported_methods['PROPPATCH'] = '';
+          $this->supported_methods['BIND'] = '';
+          $this->supported_methods['ACL'] = '';
           break;
       }
     }

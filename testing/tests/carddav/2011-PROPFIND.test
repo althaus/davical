@@ -7,7 +7,7 @@ URL=http://mycaldav/caldav.php/user1/addressbook/
 HEADER=User-Agent: DAViCalTester/public
 HEADER=Content-Type: text/xml
 HEADER=Depth: 1
-HEAD
+# HEAD
 
 
 BEGINDATA
@@ -15,6 +15,7 @@ BEGINDATA
 <propfind xmlns="DAV:">
  <prop>
   <getetag/>
+  <getlastmodified/>
  </prop>
 </propfind>
 ENDDATA

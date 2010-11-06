@@ -8,7 +8,7 @@ HEADER=Accept: text/xml,application/xml
 HEADER=Content-Type: text/xml
 HEADER=Depth: 1
 
-HEAD
+# HEAD
 
 BEGINDATA
 <?xml version="1.0" encoding="utf-8" ?>
@@ -24,6 +24,7 @@ BEGINDATA
       <C:prop name="EMAIL"/>
       <C:prop name="FN"/>
     </C:address-data>
+    <D:getlastmodified/>
   </D:prop>
   <C:filter>
     <C:prop-filter name="NICKNAME">

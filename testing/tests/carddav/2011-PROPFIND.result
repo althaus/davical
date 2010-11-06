@@ -1,17 +1,11 @@
-HTTP/1.1 207 Multi-Status
-Date: Dow, 01 Jan 2000 00:00:00 GMT
-DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
-DAV: extended-mkcol, calendar-proxy, bind, addressbook
-ETag: "d65a1dbcd03e14e0d6a3102ba0f1876a"
-Content-Length: 794
-Content-Type: text/xml; charset="utf-8"
-
 <?xml version="1.0" encoding="utf-8" ?>
 <multistatus xmlns="DAV:">
  <response>
   <href>/caldav.php/user1/addressbook/</href>
   <propstat>
-   <prop/>
+   <prop>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+   </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
   <propstat>
@@ -26,6 +20,7 @@ Content-Type: text/xml; charset="utf-8"
   <propstat>
    <prop>
     <getetag>"24bae2a7f81c0a79413a656c06d8326b"</getetag>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -35,6 +30,7 @@ Content-Type: text/xml; charset="utf-8"
   <propstat>
    <prop>
     <getetag>"fada70a725708bce8521efb87acfa629"</getetag>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
