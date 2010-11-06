@@ -113,9 +113,11 @@ initialise_regression() {
   ../dba/update-davical-database --dbname=${DBNAME} --nopatch --appuser davical_app --owner davical_dba >"${RESULTS}/${TEST}" 2>&1
   check_result "${TEST}"
 
-  TEST="Load-Sample-Data"
-  psql -q -f "../dba/sample-data.sql" "${DBNAME}" >"${RESULTS}/${TEST}" 2>&1
-  check_result "${TEST}"
+  if [ -f "${REGRESSION}/sample-data.sql" ]; then
+    TEST="Load-Sample-Data"
+    psql -q -f "${REGRESSION}/sample-data.sql" "${DBNAME}" >"${RESULTS}/${TEST}" 2>&1
+    check_result "${TEST}"
+  fi
 }
 
 
@@ -131,6 +133,7 @@ run_regression_suite() {
   fi
 
   for T in ${REGRESSION}/*.test ; do
+    [ -f "${T}" ] || break
     TEST="`basename ${T} .test`"
     TESTNUM="`echo ${TEST} | cut -f1 -d'-'`"
     TESTNUM="${TEST/-*}"
