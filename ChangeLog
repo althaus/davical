@@ -1,5 +1,5 @@
 2010-09-25  Andrew McMillan  <andrew@morphoss.com>
-	* Release 0.9.9.2
+	* Release 0.9.9.3
 	* Rename 'Import Calendars' to 'Tools' since LDAP is more likely.
 	* Add an 'all' regression set which creates the initial DB for the others.
 	* If we get an unknown sync token, just sync everything.
