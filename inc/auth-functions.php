@@ -40,6 +40,18 @@ function CreateHomeCalendar( $username ) {
   $parent_path = "/".$username."/";
   $calendar_path = $parent_path . $c->home_calendar_name."/";
   $dav_etag = md5($usr->user_no . $calendar_path);
+  $qry = new AwlQuery( 'SELECT 1 FROM collection WHERE dav_name = :dav_name', array( ':dav_name' => $calendar_path) );
+  if ( $qry->Exec() ) {
+    if ( $qry->rows() > 0 ) {
+      $c->messages[] = i18n("Home calendar already exists.");
+      return true;
+    }
+  }
+  else {
+    $c->messages[] = i18n("There was an error writing to the database.");
+    return false;
+  }
+
   $sql = 'INSERT INTO collection (user_no, parent_container, dav_name, dav_etag, dav_displayname, is_calendar, created, modified, resourcetypes) ';
   $sql .= 'VALUES( :user_no, :parent_container, :calendar_path, :dav_etag, :displayname, true, current_timestamp, current_timestamp, :resourcetypes );';
   $params = array(
