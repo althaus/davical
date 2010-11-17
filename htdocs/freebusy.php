@@ -80,6 +80,6 @@ switch ( $_SERVER['REQUEST_METHOD'] ) {
     dbg_error_log( "freebusy", "Unhandled request method >>%s<<", $_SERVER['REQUEST_METHOD'] );
     dbg_log_array( "freebusy", 'HEADERS', $raw_headers );
     dbg_log_array( "freebusy", '_SERVER', $_SERVER, true );
-    dbg_error_log( "freebusy", "RAW: %s", str_replace("\n", "",str_replace("\r", "", $raw_post)) );
+    @dbg_error_log( "freebusy", "RAW: %s", str_replace("\n", "",str_replace("\r", "", $request->raw_post)) );
 }
 
