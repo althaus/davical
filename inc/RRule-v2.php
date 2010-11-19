@@ -90,6 +90,7 @@ class RepeatRuleDateTime extends DateTime {
     if ( preg_match('{;?VALUE=DATE[:;]}', $date, $matches) ) $this->is_date = true;
     elseif ( preg_match('{:([12]\d{3}) (0[1-9]|1[012]) (0[1-9]|[12]\d|3[01]Z?) $}x', $date, $matches) ) $this->is_date = true;
     if (preg_match('/;?TZID=([^:]+).*:(\d{8}(T\d{6})?)(Z)?/', $date, $matches) ) {
+      $date = $matches[2];
       if ( isset($matches[4]) && $matches[4] == 'Z' ) {
         $dtz = new RepeatRuleTimeZone('UTC');
         $this->tzid = 'UTC';
