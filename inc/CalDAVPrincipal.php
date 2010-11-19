@@ -249,7 +249,7 @@ class CalDAVPrincipal
     $this->write_proxy_for = null;
     $this->read_proxy_for = null;
 
-    dbg_error_log( 'principal', ' User: %s (%d) URL: %s, Home: %s, By Email: %d', $this->username, $this->user_no, $this->url, $this->by_email );
+    dbg_error_log( 'principal', ' User: %s (%d) URL: %s, Home: %s, By Email: %d', $this->username, $this->user_no, $this->path, $this->url, $this->by_email );
   }
 
 
@@ -626,10 +626,6 @@ class CalDAVPrincipal
       case 'DAV::owner':
         // After a careful reading of RFC3744 we see that this must be the principal-URL of the owner
         $reply->DAVElement( $prop, 'owner', $reply->href( $this->principal_url ) );
-        break;
-
-      case 'DAV::principal-collection-set':
-        $reply->DAVElement( $prop, 'principal-collection-set', $reply->href( ConstructURL('/') ) );
         break;
 
       // Empty tag responses.
