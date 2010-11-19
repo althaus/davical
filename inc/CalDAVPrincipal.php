@@ -249,7 +249,7 @@ class CalDAVPrincipal
     $this->write_proxy_for = null;
     $this->read_proxy_for = null;
 
-    dbg_error_log( 'principal', ' User: %s (%d) URL: %s, Home: %s, By Email: %d', $this->username, $this->user_no, $this->path, $this->url, $this->by_email );
+    dbg_error_log( 'principal', ' User: %s (%d) URL: %s, Home: %s, By Email: %d', $this->username, $this->user_no, $this->url, $this->principal_url, $this->by_email );
   }
 
 
