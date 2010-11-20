@@ -380,7 +380,7 @@ function sync_LDAP_groups(){
     }
     $db_groups = array ();
     $db_group_members = array ();
-    $qry = new AwlQuery( "SELECT g.username AS group_name, member.username AS member_name FROM dav_principal g JOIN group_member ON (g.principal_id=group_member.group_id) JOIN dav_principal member  ON (member.principal_id=group_member.member_id) WHERE g.type_id = 3");
+    $qry = new AwlQuery( "SELECT g.username AS group_name, member.username AS member_name FROM dav_principal g LEFT JOIN group_member ON (g.principal_id=group_member.group_id) LEFT JOIN dav_principal member  ON (member.principal_id=group_member.member_id) WHERE g.type_id = 3");
     $qry->Exec('sync_LDAP',__LINE__,__FILE__);
     while($db_group = $qry->Fetch()) {
       $db_groups[$db_group->group_name] = $db_group->group_name;
