@@ -124,7 +124,7 @@ function UpdateUserFromExternal( &$usr ) {
   }
   else
     $type = "INSERT";
-
+    
   $params = array();
   if ( $type != 'INSERT' ) $params[':user_no'] = $usr->user_no;
   $qry = new AwlQuery( sql_from_object( $usr, $type, 'usr', 'WHERE user_no= :user_no' ), $params );
@@ -140,6 +140,12 @@ function UpdateUserFromExternal( &$usr ) {
                           array( ':privs' => privilege_to_bits($c->default_privileges), ':username' => $usr->username) );
     $qry->Exec('Login',__LINE__,__FILE__);
     CreateHomeCalendar($usr->username);
+  }
+  else if ( $usr->fullname != $old->{'fullname'} ) {
+    // Also update the displayname if the fullname has been updated.
+    $qry->QDo( 'UPDATE principal SET displayname=:new_display WHERE user_no=:user_no',
+                    array(':new_display' => $usr->fullname, ':user_no' => $usr->user_no)
+             );
   }
 }
 
