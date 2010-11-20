@@ -1477,6 +1477,10 @@ EOQRY;
         $prop->NewElement('supported-privilege-set', $request->BuildSupportedPrivileges($reply) );
         break;
 
+      case 'DAV::principal-collection-set':
+        $prop->NewElement( 'principal-collection-set', $reply->href( ConstructURL('/') ) );
+        break;
+
       case 'DAV::current-user-principal':
         $prop->NewElement('current-user-principal', $reply->href( $request->principal->principal_url ) );
         break;
