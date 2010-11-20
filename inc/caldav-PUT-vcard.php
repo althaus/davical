@@ -91,7 +91,10 @@ $vcard->Write( $row->dav_id, $dest->Exists() );
 
 $qry->QDo("SELECT write_sync_change( $collection_id, $response_code, :dav_name)", array(':dav_name' => $dest->bound_from() ) );
 
-if ( !$qry->QDo('COMMIT') ) rollback(500);
+if ( !$qry->Commit() ) {
+   $qry->Rollback();
+   $request->DoResponse( 500, "A database error occurred" );
+}
 
 header('ETag: "'. $etag . '"' );
 if ( $response_code == 200 ) $response_code = 204;
