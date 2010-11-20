@@ -9,6 +9,8 @@ HOSTNAME=regression
 # We need to run the regression tests in the timezone they were written for.
 export PGTZ=Pacific/Auckland
 
+ALLSUITES="regression-suite binding carddav"
+
 . ./regression.conf
 
 [ -z "${DSN}" ] && DSN="${DBNAME}"
@@ -164,7 +166,7 @@ TSTART="`date +%s`"
 TCOUNT=0
 
 if [ "${SUITE}" = "all" ]; then
-  for SUITE in regression-suite binding carddav ; do
+  for SUITE in ${ALLSUITES} ; do
     REGRESSION="tests/${SUITE}"
     if [ "${SUITE}" != "regression-suite" ]; then
       dump_database
