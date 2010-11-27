@@ -161,8 +161,8 @@ $c->collections_always_exist = false;
 *
 * for example, if DAViCal is installed on cal.example.com you should have
 * DNS SRV records like this:
-* ischedules._tcp.example.com. IN SRV 0 1 443 cal.example.com
-*  ischedule._tcp.example.com. IN SRV 0 1  80 cal.example.com
+* _ischedules._tcp.example.com. IN SRV 0 1 443 cal.example.com
+*  _ischedule._tcp.example.com. IN SRV 0 1  80 cal.example.com
 *
 * DNS TXT record for signing outbound requests
 * example:
