@@ -18,7 +18,8 @@ switch ( $request->path ) {
   case '/.well-known/caldav':
   case '/.well-known/carddav':
     header('Location: ' . ConstructURL('/',true) );
-    exit(0);
+    $request->DoResponse(301); // Moved permanently
+    // does not return.
 }
 
 
