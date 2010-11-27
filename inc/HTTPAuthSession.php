@@ -121,8 +121,14 @@ class HTTPAuthSession {
     */
     if ( isset($_SERVER['PHP_AUTH_USER']) ) {
       if ( $u = $this->CheckPassword( $_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'] ) ) {
-        $this->AssignSessionDetails($u);
-        return;
+        /**
+         * Maybe some external authentication didn't return false for an inactive
+         * user, so we'll be pedantic here. 
+         */
+        if ( $u->active ) {
+          $this->AssignSessionDetails($u);
+          return;
+        }
       }
     }
 
@@ -227,7 +233,8 @@ class HTTPAuthSession {
        */
       if (isset($c->authenticate_hook['optional']) && $c->authenticate_hook['optional']) {
         if ($hook_response !== false) { return $hook_response; }
-      } else {
+      }
+      else {
         return $hook_response;
       }
     }
