@@ -1206,15 +1206,20 @@ DECLARE
   in_old_sync_token ALIAS FOR $1;
   in_collection_id ALIAS FOR $2;
   tmp_int INT8;
+  old_modification_time sync_tokens.modification_time%TYPE;
 BEGIN
   IF in_old_sync_token > 0 THEN
-    SELECT 1 INTO tmp_int FROM sync_changes
-            WHERE collection_id = in_collection_id
-              AND sync_time > (SELECT modification_time FROM sync_tokens WHERE sync_token = in_old_sync_token)
-            LIMIT 1;
+    SELECT modification_time INTO old_modification_time FROM sync_tokens WHERE sync_token = in_old_sync_token;
     IF NOT FOUND THEN
       -- They are in an inconsistent state: we return NULL so they can re-start the process
       RETURN NULL;
+    END IF;
+    SELECT 1 INTO tmp_int FROM sync_changes WHERE collection_id = in_collection_id AND sync_time > old_modification_time LIMIT 1;
+    IF NOT FOUND THEN
+      -- Ensure we return the latest sync_token we have for this collection, since there are
+      -- no changes.
+	  SELECT sync_token INTO tmp_int FROM sync_tokens WHERE collection_id = in_collection_id ORDER BY modification_time DESC LIMIT 1;
+      RETURN tmp_int;
     END IF;
   END IF;
   SELECT nextval('sync_tokens_sync_token_seq') INTO tmp_int;
