@@ -205,7 +205,7 @@ function component_to_xml( $properties, $item ) {
     case 'VCARD':
       $displayname = $item->fn;
       $type = 'vcard';
-      $contenttype = 'text/x-vcard';
+      $contenttype = 'text/vcard';
       break;
   }
   if ( isset($properties['calendar-data']) || isset($properties['displayname']) ) {
