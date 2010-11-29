@@ -358,6 +358,7 @@ function ConstructURL( $partial_path, $force_script = false ) {
   $partial_path = str_replace( '%2F', '/', $partial_path);
 
   if ( ! isset($c->_url_script_path) ) {
+    $c->protocol_server_port_script = str_replace( 'index.php', 'caldav.php', $c->protocol_server_port_script);
     $c->_url_script_path = (preg_match('#/$#', $c->protocol_server_port_script) ? 'caldav.php' : '');
     $c->_url_script_path = $c->protocol_server_port_script . $c->_url_script_path;
   }
@@ -412,7 +413,7 @@ function DeconstructURL( $url, $force_script = false ) {
 */
 function ISODateToHTTPDate( $isodate ) {
   // Use strtotime since strptime is not available on Windows platform.
-  return( gmstrftime('%a, %d %b %Y %T GMT', strtotime($isodate)) );
+  return( gmstrftime('%a, %d %b %Y %H:%M:%S GMT', strtotime($isodate)) );
 }
 
 /**
