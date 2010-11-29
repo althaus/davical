@@ -146,6 +146,9 @@ class CalDAVRequest
       dbg_error_log( "LOG ", "***************** Request Header ****************" );
       dbg_error_log( "LOG ", "%s %s", $_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI'] );
       foreach( $lines AS $k => $v ) {
+        if ( $k == 'Authorization' )
+          dbg_error_log( "LOG headers", "-->%s: %s", $k, 'Delicious tasty password eaten by debugging monster!' );
+        else
         dbg_error_log( "LOG headers", "-->%s: %s", $k, $v );
       }
       dbg_error_log( "LOG ", "******************** Request ********************" );
