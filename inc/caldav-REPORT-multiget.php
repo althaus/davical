@@ -93,15 +93,11 @@ if ( $mode == 'caldav' ) {
   if ( isset($c->hide_TODO) && $c->hide_TODO && ! $collection->Privileges() == privilege_to_bits('all') ) {
     $where .= " AND caldav_data.caldav_type NOT IN ('VTODO') ";
   }
-  $sql = 'SELECT caldav_data.*,calendar_item.* FROM caldav_data
-                  LEFT JOIN calendar_item USING(dav_id, user_no, dav_name, collection_id)
-                  LEFT JOIN collection USING(collection_id)';
 }
-else if ( $mode == 'carddav' ) {
-  $sql = 'SELECT caldav_data.*, addressbook_resource.* FROM caldav_data
+$sql = 'SELECT calendar_item.*, addressbook_resource.*, caldav_data.* FROM caldav_data
+                  LEFT JOIN calendar_item USING(dav_id, user_no, dav_name, collection_id)
                   LEFT JOIN addressbook_resource USING(dav_id)
                   LEFT JOIN collection USING(collection_id)';
-}
 
 /**
  * @todo: Add stanzas for missing rows, so we don't just return a blank multistatus but
