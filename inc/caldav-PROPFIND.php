@@ -19,31 +19,33 @@ require_once('DAVResource.php');
 $reply = new XMLDocument( array( 'DAV:' => '' ) );
 
 if ( !isset($request->xml_tags) ) {
-  $request->DoResponse( 403, translate("Request body contains no XML data!") );
+  // Empty body indicates DAV::allprop request according to RFC4918
+  $property_list = 'DAV::allprop';
 }
-$position = 0;
-$xmltree = BuildXMLTree( $request->xml_tags, $position);
-if ( !is_object($xmltree) ) {
-  $request->DoResponse( 403, translate("Request body is not valid XML data!") );
-}
-$allprop    = $xmltree->GetPath('/DAV::propfind/*');
-$property_list = array();
-foreach( $allprop AS $k1 => $propwrap ) {
-  switch ( $propwrap->GetTag() ) {
-    case 'DAV::allprop':
-      $property_list[] = 'DAV::allprop';
-      break;
-    case 'DAV::propname':
-      $property_list[] = 'DAV::propname';
-      break;
-    default:  // prop, include
-      $subprop = $propwrap->GetElements();
-      foreach( $subprop AS $k => $v ) {
-        $property_list[] = $v->GetTag();
-      }
+else {
+  $position = 0;
+  $xmltree = BuildXMLTree( $request->xml_tags, $position);
+  if ( !is_object($xmltree) ) {
+    $request->DoResponse( 403, translate("Request body is not valid XML data!") );
+  }
+  $allprop    = $xmltree->GetPath('/DAV::propfind/*');
+  $property_list = array();
+  foreach( $allprop AS $k1 => $propwrap ) {
+    switch ( $propwrap->GetTag() ) {
+      case 'DAV::allprop':
+        $property_list[] = 'DAV::allprop';
+        break;
+      case 'DAV::propname':
+        $property_list[] = 'DAV::propname';
+        break;
+      default:  // prop, include
+        $subprop = $propwrap->GetElements();
+        foreach( $subprop AS $k => $v ) {
+          if ( is_object($v) && method_exists($v->GetTag()) ) $property_list[] = $v->GetTag();
+        }
+    }
   }
 }
-
 
 /**
  * Add the calendar-proxy-read/write pseudocollections
