@@ -20,7 +20,7 @@ $reply = new XMLDocument( array( 'DAV:' => '' ) );
 
 if ( !isset($request->xml_tags) ) {
   // Empty body indicates DAV::allprop request according to RFC4918
-  $property_list = 'DAV::allprop';
+  $property_list = array('DAV::allprop');
 }
 else {
   $position = 0;
@@ -41,7 +41,7 @@ else {
       default:  // prop, include
         $subprop = $propwrap->GetElements();
         foreach( $subprop AS $k => $v ) {
-          if ( is_object($v) && method_exists($v->GetTag()) ) $property_list[] = $v->GetTag();
+          if ( is_object($v) && method_exists($v,'GetTag') ) $property_list[] = $v->GetTag();
         }
     }
   }
