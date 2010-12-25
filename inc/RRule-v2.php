@@ -87,9 +87,13 @@ class RepeatRuleDateTime extends DateTime {
     $this->is_date = false;
     if ( !isset($date) ) return;
 
-    if ( preg_match('{;?VALUE=DATE[:;]}', $date, $matches) ) $this->is_date = true;
-    elseif ( preg_match('{:([12]\d{3}) (0[1-9]|1[012]) (0[1-9]|[12]\d|3[01]Z?) $}x', $date, $matches) ) $this->is_date = true;
-    if (preg_match('/;?TZID=([^:]+).*:(\d{8}(T\d{6})?)(Z)?/', $date, $matches) ) {
+    if ( preg_match('{;?VALUE=DATE[:;]}', $date, $matches) ) {
+      $this->is_date = true;
+    } 
+    elseif ( preg_match('{:([12]\d{3}) (0[1-9]|1[012]) (0[1-9]|[12]\d|3[01]Z?) $}x', $date, $matches) ) {
+      $this->is_date = true; 
+    }
+    if (preg_match('/;?(?:TZID=([^:]+).*):(\d{8}(T\d{6})?)(Z)?/', $date, $matches) ) {
       $date = $matches[2];
       if ( isset($matches[4]) && $matches[4] == 'Z' ) {
         $dtz = new RepeatRuleTimeZone('UTC');
@@ -138,7 +142,13 @@ class RepeatRuleDateTime extends DateTime {
   }
 
 
+  public function isFloating() {
+    return !isset($this->tzid);
+  }
+
+
   public function modify( $interval ) {
+//    print ">>$interval<<\n";
     if ( preg_match('{^(-)?P(([0-9-]+)W)?(([0-9-]+)D)?T?(([0-9-]+)H)?(([0-9-]+)M)?(([0-9-]+)S)?$}', $interval, $matches) ) {
       $minus = $matches[1];
       $interval = '';
@@ -165,6 +175,20 @@ class RepeatRuleDateTime extends DateTime {
     }
     if ( $this->is_date ) return $gmt->format('Ymd');
     return $gmt->format('Ymd\THis\Z');
+  }
+
+
+  public function FloatOrUTC() {
+    $gmt = clone($this);
+    if ( isset($this->tzid) && $this->tzid != 'UTC' ) {
+      $dtz = parent::getTimezone();
+      $offset = 0 - $dtz->getOffset($gmt);
+      $gmt->modify( $offset . ' seconds' );
+    }
+    if ( $this->is_date ) return $gmt->format('Ymd');
+    $result = $gmt->format('Ymd\THis');
+    if ( isset($this->tzid) ) $result .= 'Z';
+    return $result;
   }
 
 
