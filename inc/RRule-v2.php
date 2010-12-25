@@ -85,7 +85,7 @@ class RepeatRuleDateTime extends DateTime {
   private $is_date;
 
   public function __construct($date = null, $dtz = null) {
-    if ( !isset(RepeatRuleDateTime::$UTCzone) ) RepeatRuleDateTime::$UTCzone = new RepeatRuleTimeZone('UTC');
+    if ( !isset(self::$UTCzone) ) self::$UTCzone = new RepeatRuleTimeZone('UTC');
     $this->is_date = false;
     if ( !isset($date) ) return;
 
@@ -97,7 +97,7 @@ class RepeatRuleDateTime extends DateTime {
         $this->tzid = $dtz->tzid();
       }
       else {
-        $dtz = RepeatRuleDateTime::$UTCzone;
+        $dtz = self::$UTCzone;
         if ( substr($actual_date,strlen($actual_date),1) == 'Z' ) {
           $this->tzid = 'UTC';
           $actual_date = substr($actual_date, 0, strlen($actual_date) - 1);          
@@ -114,7 +114,7 @@ class RepeatRuleDateTime extends DateTime {
       $date = $matches[2];
       $this->is_date = (strlen($date) == 8);
       if ( isset($matches[4]) && $matches[4] == 'Z' ) {
-        $dtz = RepeatRuleDateTime::$UTCzone;
+        $dtz = self::$UTCzone;
         $this->tzid = 'UTC';
       }
       else if ( isset($matches[1]) && $matches[1] != '' ) {
@@ -122,7 +122,7 @@ class RepeatRuleDateTime extends DateTime {
         $this->tzid = $dtz->tzid();
       }
       else {
-        $dtz = RepeatRuleDateTime::$UTCzone;
+        $dtz = self::$UTCzone;
         $this->tzid = null;
       }
 //      printf( "Date%s value with timezone: %s in %s\n", ($this->is_date?"":"Time"), $date, $this->tzid );
@@ -132,12 +132,12 @@ class RepeatRuleDateTime extends DateTime {
       $this->is_date = true;
       $date = $matches[1];
       // Floating
-      $dtz = RepeatRuleDateTime::$UTCzone;
+      $dtz = self::$UTCzone;
       $this->tzid = null;
 //      printf( "Date value: %s\n", $date );
     } 
     elseif ( $dtz === null || $dtz == '' ) {
-      $dtz = RepeatRuleDateTime::$UTCzone;
+      $dtz = self::$UTCzone;
       if ( preg_match('/(\d{8}(T\d{6})?)(Z?)/', $date, $matches) ) {
         $date = $matches[1];
         $this->tzid = ( $matches[3] == 'Z' ? 'UTC' : null );
