@@ -32,7 +32,7 @@ function caldav_get_feed( $request ) {
   require_once("DAVResource.php");
 
   $collection = new DAVResource($request->path);
-  $collection->NeedPrivilege( array('urn:ietf:params:xml:ns:caldav:read-free-busy','DAV::read') );
+  $collection->NeedPrivilege( array('DAV::read') );
 
   if ( ! $collection->Exists() ) {
     $request->DoResponse( 404, translate("Resource Not Found.") );
