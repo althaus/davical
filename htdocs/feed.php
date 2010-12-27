@@ -165,6 +165,7 @@ function caldav_get_feed( $request ) {
         .'<br />'
         .'<strong>' . translate('Description') . '</strong>:<br />' . ( nl2br(hyperlink($p_description->Value())) )
         ;
+        $item->setDescription($p_description->Value());
       }
 
       $item->setContent($content);
