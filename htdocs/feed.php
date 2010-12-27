@@ -49,18 +49,19 @@ function caldav_get_feed( $request ) {
      * The CalDAV specification does not define GET on a collection, but typically this is
      * used as a .ics download for the whole collection, which is what we do also.
      */
-    $sql = 'SELECT caldav_data, class, caldav_type, calendar_item.user_no, caldav_data.dav_name ';
-    $sql .= 'FROM collection INNER JOIN caldav_data USING(collection_id) INNER JOIN calendar_item USING ( dav_id ) WHERE ';
+    $sql = 'SELECT caldav_data, caldav_type, caldav_data.user_no, caldav_data.dav_name,';
+    $sql .= ' caldav_data.modified, caldav_data.created';
+    $sql .= ' FROM collection INNER JOIN caldav_data USING(collection_id) INNER JOIN calendar_item USING ( dav_id ) WHERE ';
     if ( isset($c->get_includes_subcollections) && $c->get_includes_subcollections ) {
-      $sql .= '(collection.dav_name ~ :path_match ';
-      $sql .= 'OR collection.collection_id IN (SELECT bound_source_id FROM dav_binding WHERE dav_binding.dav_name ~ :path_match)) ';
+      $sql .= ' (collection.dav_name ~ :path_match ';
+      $sql .= ' OR collection.collection_id IN (SELECT bound_source_id FROM dav_binding WHERE dav_binding.dav_name ~ :path_match)) ';
       $params = array( ':path_match' => '^'.$request->path );
     }
     else {
-      $sql .= 'caldav_data.collection_id = :collection_id ';
+      $sql .= ' caldav_data.collection_id = :collection_id ';
       $params = array( ':collection_id' => $collection->resource_id() );
     }
-    $sql .= ' ORDER BY caldav_data.modified DESC';
+    $sql .= ' ORDER BY caldav_data.created DESC';
     $sql .= ' LIMIT '.(isset($c->feed_item_limit) ? $c->feed_item_limit : 15);
     $qry = new AwlQuery( $sql, $params );
     if ( !$qry->Exec("GET",__LINE__,__FILE__) ) {
@@ -75,7 +76,7 @@ function caldav_get_feed( $request ) {
     require_once('AtomFeed.php');
     $feed = new AtomFeed();
 
-    $feed->setTitle('CalDAV Feed: '. $collection->GetProperty('displayname'));
+    $feed->setTitle('DAViCal Atom Feed: '. $collection->GetProperty('displayname'));
     $url = $c->protocol_server_port . $collection->url();
     $url = preg_replace( '{/$}', '.ics', $url);
     $feed->setLink($url);
@@ -110,8 +111,8 @@ function caldav_get_feed( $request ) {
       $uid = $event_data[0]->GetProperty('UID');
       $item->setId( $c->protocol_server_port_script . ConstructURL($event->dav_name).'#'.$uid );
 
-      $dt_created = new RepeatRuleDateTime( $event_data[0]->GetProperty('CREATED') );
-      $dt_modified = new RepeatRuleDateTime( $event_data[0]->GetProperty('LAST-MODIFIED') );
+      $dt_created = new RepeatRuleDateTime( $event->created );
+      $dt_modified = new RepeatRuleDateTime( $event->modified );
       if ( isset($dt_created) ) $item->setDateCreated( $dt_created->epoch() );
       if ( isset($dt_modified) ) $item->setDateModified( $dt_modified->epoch() );
 
@@ -176,7 +177,8 @@ function caldav_get_feed( $request ) {
       $feed->addEntry($item);
       //break;
     }
-    $feed->setDateModified(time());
+    $last_modified = new RepeatRuleDateTime($collection->GetProperty('modified'));
+    $feed->setDateModified($last_modified->epoch());
     $response = $feed->export('atom');
     header( 'Content-Length: '.strlen($response) );
     header( 'Etag: '.$collection->unique_tag() );
