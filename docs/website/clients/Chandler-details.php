@@ -13,15 +13,11 @@ written in Python.</p>
 </ol>
 
 <h2>Caveats</h2>
-<p><img align="right" src="clients/Chandler-dialog3.png" />At version 0.7alpha3 the calendar is subscribed and displayed, but the 'displayname' property
-which the server sends is not used and the calendar is displayed with a blank name.  Double-click
-on your new calendar and enter a name in the space available. </p>
-
 <p>Chandler describes itself as 'an experimentally usable calendar', and it certainly feels that
 way.  It also will only synchronise to the CalDAV server either when you press the "Sync"
-button or with a default frequency of hourly.  This is quite different to the other clients I
+button or with a default frequency of quarter-hourly.  This is quite different to the other clients I
 have used which all aggressively push new and changed items to the server as soon as possible,
 but which may be lazy about fetching updates.</p>
 
-<p>Operation with DAViCal is not yet perfect but basic operation is satisfactory.  I will be
-concentrating on making DAViCal interoperate with Chandler over coming releases.</p>
+<p>Operation with DAViCal seems generally fine although Chandler does not correctly display the account
+information correctly, even if it seems to remember it internally.</p>
