@@ -1,0 +1,34 @@
+Summary: Invite external users from iCal gives error
+Status: New
+CreatedBy: Andrew McMillan <andrew@morphoss.com>
+AssignedTo: 
+Inserted: 2010-12-29T23:38:10
+Updated: 2010-12-29T23:38:10
+
+Here what I've found on the logs when try to add a not
+davical user, with version 0.9.9.4:
+
+
+:***************** Response Header ****************
+headers:-->X-Powered-By: PHP/5.2.5
+headers:-->Server: 0.9
+headers:-->DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
+headers:-->DAV: extended-mkcol, calendar-proxy, bind
+headers:-->ETag: "2969f85aaf1bd94c74929d57a8629703"
+headers:-->X-DAViCal-Version: DAViCal/0.9.9; DB/1.2.9
+headers:-->Content-type: text/xml; charset="utf-8"
+
+:******************** Response ********************
+response:--><?xml version="1.0" encoding="utf-8" ?>
+response:--><C:schedule-response xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
+response:--> <C:response>
+response:-->  <C:recipient>
+response:-->   <href>mailto:joe.user@gmail.com</href>
+response:-->  </C:recipient>
+response:-->  <C:request-status>3.7;Invalid Calendar User</C:request-status>
+response:-->  <C:calendar-data/>
+response:--> </C:response>
+response:--></C:schedule-response>
+response:-->
+
+and then iCal reports an error 403.
