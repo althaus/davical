@@ -32,7 +32,7 @@ else {
 <a href="background.php" class="hlink">Background</a> |
 <a href="http://wiki.davical.org/w/Main_Page" class="hlink">DAViCal Wiki</a> |
 <a href="http://andrew.mcmillan.net.nz/" class="hlink">Blog</a> |
-<a href="http://sourceforge.net/projects/rscds/" class="hlink">DAViCal on Sourceforge</a>
+<a href="http://sourceforge.net/projects/davical/" class="hlink">DAViCal on Sourceforge</a>
 </div>
 </div>
 <div id="pageContent">

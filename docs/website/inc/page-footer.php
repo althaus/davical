@@ -15,7 +15,7 @@ Copyright 2007-2010 | Andrew McMillan
 </p>
 <p align="center">
 <a href="http://andrew.mcmillan.net.nz/"><img src="http://sf-rscds.mcmillan.net.nz/clear-1.png" width="1" height="1" border="0" title="DAViCal CalDAV Server by Andrew McMillan" alt=" " /></a>
-<a href="https://sourceforge.net/projects/rscds/" title="DAViCal on Sourceforge"><img src="http://sflogo.sourceforge.net/sflogo.php?group_id=179845&amp;type=2" width="125" height="37" border="0" alt="SourceForge.net Logo" /></a>
+<a href="https://sourceforge.net/projects/davical/" title="DAViCal on Sourceforge"><img src="http://sflogo.sourceforge.net/sflogo.php?group_id=179845&amp;type=2" width="125" height="37" border="0" alt="SourceForge.net Logo" /></a>
 </p>
 </div>
 
