@@ -1,0 +1,11 @@
+/**
+ * Authentication against IMAP using the imap_open function.
+ */
+$c->authenticate_hook['call'] = 'IMAP_PAM_check';
+$c->authenticate_hook['config'] =  array(
+  'imap_url' => '{localhost:993/imap/ssl/novalidate-cert}',
+  'email_base' => 'example.com'
+);
+
+include('drivers_imap_pam.php');
+
