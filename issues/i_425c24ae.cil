@@ -1,0 +1,37 @@
+Summary: Group does not confer default permission to members
+Status: New
+CreatedBy: Andrew McMillan <andrew@morphoss.com>
+AssignedTo: 
+Inserted: 2010-12-29T23:42:42
+Updated: 2010-12-29T23:42:42
+
+A member of a group should have a minimum of the default permission
+granted to them when accessing things owned directly by that group.
+
+It would appear that is not the case:
+
+Travis Williams reports:
+
+I'm having a little trouble with group permissions.
+
+I created a group called test.  I set the privileges granted to all
+users to read.  I then created a few collections and said use the
+default privileges.  I created a new user and made him part of the
+test group but he can't read the collection unless i 1) give him
+explicit permissions or 2) I have to give the group specific
+permissions to that collection (even though it is that groups
+collection).
+
+Am I misunderstanding how this works?
+
+Basicall I want to have a group with a bunch of collections (read
+only), and when I add a new principal to that group I want them to
+get read permissions to the collections, and when I add a new
+collection I want everyone to be able to read it.
+
+
+Thanks!
+
+
+Travis
+
