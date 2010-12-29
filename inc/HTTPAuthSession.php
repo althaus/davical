@@ -66,6 +66,13 @@ class HTTPAuthSession {
   function AuthFailedResponse( $auth_header = "" ) {
     global $c;
     if ( $auth_header == "" ) {
+      $auth_realm = $c->system_name;
+      if ( isset($c->per_principal_realm) ) {
+        $principal_name = preg_replace( '{^/(.*?)/.*$}', '$1', $_SERVER["PATH_INFO"]);
+        if ( $principal_name != $_SERVER["PATH_INFO"] ) {
+          $auth_realm .= ' - ' . $principal_name;
+        }
+      }
       $auth_header = sprintf( 'WWW-Authenticate: Basic realm="%s"', $c->system_name);
     }
 
