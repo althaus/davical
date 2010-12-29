@@ -34,6 +34,8 @@ for this unless you are completely hobbled by silly internal IT policies and hav
 <p>You can download DAViCal from <a href="http://debian.mcmillan.net.nz/">http://debian.mcmillan.net.nz/</a></p>
 <p>Start looking on the <a href="installation.php">DAViCal Installation Page</a> for more places to download, and
 detailed instructions as to what to do when you have it.</p>
+<p>There is a lot of information on the wiki about <a href="">DAViCal configuration settings</a> but in most cases the configuration
+will need very few of these settings.</p>
 
 <h2>Using DAViCal</h2>
 <p>Read here about <a href="clients.php">how to configure various CalDAV Clients with DAViCal</a>. There is also
