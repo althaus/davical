@@ -67,13 +67,14 @@ class HTTPAuthSession {
     global $c;
     if ( $auth_header == "" ) {
       $auth_realm = $c->system_name;
-      if ( isset($c->per_principal_realm) ) {
+      if ( isset($c->per_principal_realm) && $c->per_principal_realm ) {
         $principal_name = preg_replace( '{^/(.*?)/.*$}', '$1', $_SERVER["PATH_INFO"]);
         if ( $principal_name != $_SERVER["PATH_INFO"] ) {
           $auth_realm .= ' - ' . $principal_name;
         }
       }
-      $auth_header = sprintf( 'WWW-Authenticate: Basic realm="%s"', $c->system_name);
+      dbg_error_log( "HTTPAuth", ":AuthFailedResponse Requesting authentictaion in the '%s' realm", $auth_realm );
+      $auth_header = sprintf( 'WWW-Authenticate: Basic realm="%s"', $auth_realm );
     }
 
     header('HTTP/1.1 401 Unauthorized', true, 401 );
