@@ -15,6 +15,7 @@
 * return true if it's a whole calendar
 */
 
+require_once('AWLCache.php');
 require_once('iCalendar.php');
 require_once('WritableCollection.php');
 
@@ -627,6 +628,11 @@ EOSQL;
   if ( !(isset($c->skip_bad_event_on_import) && $c->skip_bad_event_on_import) ) {
     if ( ! $qry->Commit() ) rollback_on_error( $caldav_context, $user_no, $path);
   }
+
+  // Uncache anything to do with the collection
+  $cache = getCacheInstance();
+  $cache_ns = 'collection-'.preg_replace( '{/.*$}', '/', $path);
+  $cache->delete( $cache_ns, null );
 }
 
 
@@ -987,6 +993,11 @@ EOSQL;
   $qry->QDo("SELECT write_sync_change( $collection_id, $sync_change, :dav_name)", array(':dav_name' => $path ) );
   $qry->Commit();
 
+  // Uncache anything to do with the collection
+  $cache = getCacheInstance();
+  $cache_ns = 'collection-'.preg_replace( '{/.*$}', '/', $path);
+  $cache->delete( $cache_ns, null );
+  
   dbg_error_log( 'PUT', 'User: %d, ETag: %s, Path: %s', $author, $etag, $path);
 
   return true;  // Success!

@@ -10,6 +10,7 @@
 */
 dbg_error_log("PROPPATCH", "method handler");
 
+require_once('AWLCache.php');
 require_once('iCalendar.php');
 require_once('DAVResource.php');
 
@@ -306,6 +307,19 @@ if ( count($failure) > 0 ) {
 */
 ;
 if ( $qry->Commit() ) {
+
+  $cache = getCacheInstance();
+  $cache_ns = null;
+  if ( $dav_resource->IsPrincipal() ) {
+    $cache_ns = 'principal-'.$dav_resource->dav_name();
+  }
+  else if ( $dav_resource->IsCollection() ) {
+    // Uncache anything to do with the collection
+    $cache_ns = 'collection-'.$dav_resource->dav_name();
+  }
+
+  if ( isset($cache_ns) ) $cache->delete( $cache_ns, null );
+  
   $url = ConstructURL($request->path);
   $href = new XMLElement('href', $url );
   $desc = new XMLElement('responsedescription', translate("All requested changes were made.") );
