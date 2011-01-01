@@ -58,4 +58,13 @@
    <status>HTTP/1.1 200 OK</status>
   </propstat>
  </response>
+ <response>
+  <href>/public.php/user2/home/56f0e0e0-f742-012d-680c-002421a2359e.ics</href>
+  <propstat>
+   <prop>
+    <getetag>"61b62070fcc4fe1881e6630f6409616e"</getetag>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
 </multistatus>

@@ -7,6 +7,7 @@ TYPE=PUT
 URL=http://mycaldav/caldav.php/user2/home/
 HEADER=User-Agent: RSCDS Testing/0.7.x
 HEADER=Content-Type: text/calendar; charset=utf-8
+HEADER=X-DAViCal-Flush-Cache: now
 AUTH=admin:nimda
 
 HEAD
@@ -131,6 +132,34 @@ DTSTART:20071104T020000
 RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU
 END:STANDARD
 END:VTIMEZONE
+
+BEGIN:VEVENT
+LAST-MODIFIED:20110101T005414Z
+SEQUENCE:12
+URL;VALUE=URI:http://www.oregontrufflefestival.com
+UID:56f0e0e0-f742-012d-680c-002421a2359e
+SUMMARY:Willamette Valley Vineyards at the Oregon Truffle Festival
+DESCRIPTION:The 6th Annual Oregon Truffle Festival will be held in and arou
+ nd Eugene Oregon over three brisk winter days from January 28-30\, 2011. Cr
+ eated to celebrate the magnificent Oregon truffles as they reach the peak o
+ f ripeness in their native soil\, it is the first festival of its kind in N
+ orth America\, dedicated to sharing the experience of the chefs\, foragers 
+ and fans of Oregon\\'s wild truffles\, from their hidden source in the fore
+ st to their glory on the table.\n\nThe theme for 2011 is "Slow Food"\, and 
+ Willamette Valley Vineyards will be hosting a gourmet wine luncheon during 
+ the festival. Please visit www.oregontrufflefestival.com for more info and 
+ to purchase tickets.\n\n<img src="http://4.bp.blogspot.com/_nunnaUzLU1w/S7F
+ WYsdewdI/AAAAAAAACj4/92TfhNIHKQI/s1600/wvv.jpg">
+DTSTART;TZID=US/Pacific:20110128
+CREATED:20101231T193025Z
+DTSTAMP:20110101T005414Z
+DURATION:P1D
+LOCATION:Eugene Oregon
+X-VENUE:
+X-EMAIL-RSVP-UPDATES:true
+RRULE:FREQ=DAILY;COUNT=3;INTERVAL=1
+END:VEVENT
+
 END:VCALENDAR
 ENDDATA
 

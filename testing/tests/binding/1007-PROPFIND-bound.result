@@ -75,4 +75,15 @@
    <status>HTTP/1.1 200 OK</status>
   </propstat>
  </response>
+ <response>
+  <href>/caldav.php/user4/user2/56f0e0e0-f742-012d-680c-002421a2359e.ics</href>
+  <propstat>
+   <prop>
+    <getcontenttype>text/calendar</getcontenttype>
+    <resourcetype/>
+    <getetag>"61b62070fcc4fe1881e6630f6409616e"</getetag>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
 </multistatus>

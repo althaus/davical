@@ -314,5 +314,62 @@ END:VCALENDAR
               url: >NULL<
           user_no: >11<
 
-            count: >5<
+   A1 CalDAV DATA: >BEGIN:VCALENDAR
+PRODID:-//davical.org//NONSGML AWL Calendar//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+LAST-MODIFIED:20110101T005414Z
+SEQUENCE:12
+URL;VALUE=URI:http://www.oregontrufflefestival.com
+UID:56f0e0e0-f742-012d-680c-002421a2359e
+SUMMARY:Willamette Valley Vineyards at the Oregon Truffle Festival
+DESCRIPTION:The 6th Annual Oregon Truffle Festival will be held in and a
+ round Eugene Oregon over three brisk winter days from January 28-30\, 20
+ 11. Created to celebrate the magnificent Oregon truffles as they reach t
+ he peak of ripeness in their native soil\, it is the first festival of i
+ ts kind in North America\, dedicated to sharing the experience of the ch
+ efs\, foragers and fans of Oregon\\'s wild truffles\, from their hidden 
+ source in the forest to their glory on the table.\n\nThe theme for 2011 
+ is "Slow Food"\, and Willamette Valley Vineyards will be hosting a gourm
+ et wine luncheon during the festival. Please visit www.oregontrufflefest
+ ival.com for more info and to purchase tickets.\n\n<img src="http://4.bp
+ .blogspot.com/_nunnaUzLU1w/S7FWYsdewdI/AAAAAAAACj4/92TfhNIHKQI/s1600/wvv
+ .jpg">
+DTSTART;TZID=US/Pacific:20110128
+CREATED:20101231T193025Z
+DTSTAMP:20110101T005414Z
+DURATION:P1D
+LOCATION:Eugene Oregon
+X-VENUE:
+X-EMAIL-RSVP-UPDATES:true
+RRULE:FREQ=DAILY;COUNT=3;INTERVAL=1
+END:VEVENT
+END:VCALENDAR
+<
+      caldav_type: >VEVENT<
+            class: >PUBLIC<
+      description: >The 6th Annual Oregon Truffle Festival will be held in and around Eugene Oregon over three brisk winter days from January 28-30, 2011. Created to celebrate the magnificent Oregon truffles as they reach the peak of ripeness in their native soil, it is the first festival of its kind in North America, dedicated to sharing the experience of the chefs, foragers and fans of Oregon\'s wild truffles, from their hidden source in the forest to their glory on the table.
+
+The theme for 2011 is "Slow Food", and Willamette Valley Vineyards will be hosting a gourmet wine luncheon during the festival. Please visit www.oregontrufflefestival.com for more info and to purchase tickets.
+
+<img src="http://4.bp.blogspot.com/_nunnaUzLU1w/S7FWYsdewdI/AAAAAAAACj4/92TfhNIHKQI/s1600/wvv.jpg"><
+            dtend: >2011-01-29 00:00:00<
+          dtstamp: >2011-01-01 00:54:14<
+          dtstart: >2011-01-28 00:00:00<
+              due: >NULL<
+         location: >Eugene Oregon<
+      logged_user: >1<
+ percent_complete: >NULL<
+         priority: >NULL<
+            rrule: >FREQ=DAILY;COUNT=3;INTERVAL=1<
+           status: >NULL<
+          summary: >Willamette Valley Vineyards at the Oregon Truffle Festival<
+           transp: >NULL<
+            tz_id: >US/Pacific<
+              uid: >56f0e0e0-f742-012d-680c-002421a2359e<
+              url: >http://www.oregontrufflefestival.com<
+          user_no: >11<
+
+            count: >6<
 

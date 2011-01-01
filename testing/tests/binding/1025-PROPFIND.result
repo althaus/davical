@@ -6,7 +6,7 @@
    <prop>
     <displayname>A normal collection</displayname>
     <resource-id>
-     <href>/caldav.php/.resources/1453</href>
+     <href>/caldav.php/.resources/1454</href>
     </resource-id>
     <parent-set>
      <parent>
@@ -90,7 +90,7 @@
    <prop>
     <displayname>A sub collection</displayname>
     <resource-id>
-     <href>/caldav.php/.resources/1454</href>
+     <href>/caldav.php/.resources/1455</href>
     </resource-id>
     <parent-set>
      <parent>
