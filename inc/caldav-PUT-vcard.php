@@ -96,6 +96,10 @@ if ( !$qry->Commit() ) {
    $request->DoResponse( 500, "A database error occurred" );
 }
 
+// Uncache anything to do with the collection
+$cache = getCacheInstance();
+$cache->delete( 'collection-'.$container->dav_name(), null );
+
 header('ETag: "'. $etag . '"' );
 if ( $response_code == 200 ) $response_code = 204;
 $request->DoResponse( $response_code );

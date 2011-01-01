@@ -117,6 +117,9 @@ if ( $can_write_collection && $editor->IsSubmit() ) {
       $c->messages[] =  i18n('The file is not UTF-8 encoded, please check the error for more details.');
     }
   }
+  // Uncache anything to do with the collection
+  $cache = getCacheInstance();
+  $cache->delete( 'collection-'.$editor->Value('dav_name'), null );
 }
 else {
   if ( $id > 0 ) $editor->GetRecord();

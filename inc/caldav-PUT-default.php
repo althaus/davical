@@ -91,6 +91,10 @@ $qry->QDo("SELECT write_sync_change( $collection_id, $response_code, :dav_name)"
 $qry = new AwlQuery('COMMIT');
 if ( !$qry->Exec('move') ) rollback(500);
 
+// Uncache anything to do with the collection
+$cache = getCacheInstance();
+$cache->delete( 'collection-'.$container->dav_name(), null );
+
 header('ETag: "'. $etag . '"' );
 if ( $response_code == 200 ) $response_code = 204;
 $request->DoResponse( $response_code );

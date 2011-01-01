@@ -2,7 +2,7 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, calendar-proxy, bind, addressbook
-ETag: "0f450e6f8b3be4245401f6cc1982fd0b"
+ETag: "e722f053aaa9eef890641a0ba88837e5"
 Content-Length: 339
 Content-Type: text/xml; charset="utf-8"
 
@@ -12,7 +12,7 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/addressbook/</href>
   <propstat>
    <prop>
-    <C:getctag>"ed3adbac9a1901c4d9775d7b553d1aef"</C:getctag>
+    <C:getctag>"80a8bc51f0e0b0fdd2037f1e12f5ad47"</C:getctag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
