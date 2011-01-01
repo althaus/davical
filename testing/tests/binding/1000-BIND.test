@@ -12,6 +12,7 @@ SELECT ticket_id FROM access_ticket
                 WHERE target_collection_id = 11 AND target_resource_id is null;
 ENDSQL
 
+HEADER=X-DAViCal-Flush-Cache: true
 HEADER=User-Agent: Ticket Spec Tests
 HEADER=Content-Type: text/xml; charset="UTF-8"
 HEADER=Ticket: ##ticket##

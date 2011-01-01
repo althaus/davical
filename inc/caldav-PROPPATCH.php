@@ -10,7 +10,6 @@
 */
 dbg_error_log("PROPPATCH", "method handler");
 
-require_once('AWLCache.php');
 require_once('iCalendar.php');
 require_once('DAVResource.php');
 

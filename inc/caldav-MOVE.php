@@ -108,8 +108,13 @@ $dst_collection = $dest->GetProperty('collection_id');
 $src_user_no = $src->GetProperty('user_no');
 $dst_user_no = $dest->GetProperty('user_no');
 
+$cache = getCacheInstance();
+$cachekeys = array();
 
 if ( $src->IsCollection()  ) {
+  $cachekeys[] = ($src->ContainerType() == 'principal' ? 'principal' : 'collection').'-'.$src->parent_path();
+  $cachekeys[] = ($src->IsPrincipal() == 'principal' ? 'principal' : 'collection').'-'.$src->dav_name();
+  $cachekeys[] = ($src->IsPrincipal() ? 'principal' : 'collection').'-'.$dest->dav_name();
   if ( $dest->Exists() ) {
     $qry = new AwlQuery( 'DELETE FROM collection WHERE dav_name = :dst_name', array( ':dst_name' => $dst_name ) );
     if ( !$qry->Exec('move') ) rollback(500);
@@ -121,6 +126,11 @@ if ( $src->IsCollection()  ) {
     $sql .= ', user_no = :dst_user_no ';
     $params[':dst_user_no'] = $dst_user_no;
   }
+  if ( $src->parent_path() != $dest->parent_path() ) {
+    $sql .= ', parent_container=:parent ';
+    $params[':parent'] = $dest->parent_path();
+    $cachekeys[] = ($dest->ContainerType() == 'principal' ? 'principal' : 'collection').'-'.$dest->parent_path();
+  } 
   $sql .= 'WHERE collection_id = :src_collection';
   $params[':src_collection'] = $src_collection;
   $qry = new AwlQuery( $sql, $params );
@@ -131,6 +141,8 @@ else {
     $qry = new AwlQuery( 'DELETE FROM caldav_data WHERE dav_name = :dst_name', array( ':dst_name' => $dst_name) );
     if ( !$qry->Exec('move') ) rollback(500);
   }
+  $cachekeys[] = ($src->ContainerType() == 'principal' ? 'principal' : 'collection').'-'.$src->parent_path();
+
   $sql = 'UPDATE caldav_data SET dav_name = :dst_name';
   $params = array( ':dst_name' => $dst_name );
   if ( $src_user_no != $dst_user_no ) {
@@ -140,6 +152,7 @@ else {
   if ( $src_collection != $dst_collection ) {
     $sql .= ', collection_id = :dst_collection';
     $params[':dst_collection'] = $dst_collection;
+    $cachekeys[] = ($dest->ContainerType() == 'principal' ? 'principal' : 'collection').'-'.$dest->parent_path();
   }
   $sql .=' WHERE dav_name = :src_name';
   $params[':src_name'] = $src_name;
@@ -169,5 +182,8 @@ else {
 
 $qry = new AwlQuery('COMMIT');
 if ( !$qry->Exec('move') ) rollback(500);
+
+// We need to delete from the cache *after* we commit the transaction :-)
+foreach( $cachekeys AS $cache_ns ) $cache->delete( $cache_ns, null );
 
 $request->DoResponse( 200 );

@@ -59,6 +59,9 @@ if ( $dav_resource->IsBinding() ) {
 }
 else if ( $dav_resource->IsCollection() ) {
   if ( delete_collection( $dav_resource->resource_id() ) && $qry->Commit() ) {
+    // Uncache anything to do with the collection
+    $cache = getCacheInstance();
+    $cache->delete( 'collection-'.$dav_resource->dav_name(), null );
     $request->DoResponse( 204 );
   }
 }
@@ -78,6 +81,8 @@ else {
     if ( function_exists('log_caldav_action') ) {
       log_caldav_action( 'DELETE', $dav_resource->GetProperty('uid'), $dav_resource->GetProperty('user_no'), $dav_resource->GetProperty('collection_id'), $request->path );
     }
+    $cache = getCacheInstance();
+    $cache->delete( 'collection-'.$dav_resource->parent_path(), null );
     $request->DoResponse( 204 );
   }
 }

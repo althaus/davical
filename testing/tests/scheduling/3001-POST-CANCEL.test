@@ -3,6 +3,8 @@
 #
 TYPE=POST
 URL=http://mycaldav/caldav.php/user1/.out/
+
+HEADER=X-DAViCal-Flush-Cache: true
 HEADER=User-Agent: DAVKit/4.0.3 (732); CalendarStore/4.0.4 (997); iCal/4.0.4 (1395); Mac OS X/10.6.5 (10H574)
 HEADER=Recipient: mailto:user2@example.net
 HEADER=Content-Type: text/calendar

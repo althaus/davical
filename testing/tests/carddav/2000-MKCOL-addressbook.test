@@ -5,6 +5,8 @@ TYPE=MKCOL
 URL=http://mycaldav/caldav.php/user1/addressbook/
 HEADER=User-Agent: DAViCalTester/public
 HEADER=Content-Type: text/xml
+HEADER=X-DAViCal-Flush-Cache: true
+
 HEAD
 
 

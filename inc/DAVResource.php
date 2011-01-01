@@ -9,6 +9,7 @@
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v3 or later
 */
 
+require_once('AwlCache.php');
 require_once('AwlQuery.php');
 require_once('DAVTicket.php');
 
@@ -295,23 +296,8 @@ class DAVResource
   }
 
 
-  /**
-  * Find the collection associated with this resource.
-  */
-  function FetchCollection() {
-    global $c, $session, $request;
-    /**
-    * RFC4918, 8.3: Identifiers for collections SHOULD end in '/'
-    *    - also discussed at more length in 5.2
-    *
-    * So we look for a collection which matches one of the following URLs:
-    *  - The exact request.
-    *  - If the exact request, doesn't end in '/', then the request URL with a '/' appended
-    *  - The request URL truncated to the last '/'
-    * The collection URL for this request is therefore the longest row in the result, so we
-    * can "... ORDER BY LENGTH(dav_name) DESC LIMIT 1"
-    */
-    dbg_error_log( 'DAVResource', ':FetchCollection: Looking for collection for "%s".', $this->dav_name );
+  private function ReadCollectionFromDatabase() {
+    global $c, $session;
 
     $this->collection = (object) array(
       'collection_id' => -1,
@@ -385,7 +371,9 @@ EOSQL;
            || preg_match( '#^((/principals/[^/]+/)[^/]+)/?$#', $this->dav_name, $matches) ) {
       $this->_is_principal = true;
       $this->FetchPrincipal();
-    }
+      $this->collection->is_principal = true;
+      $this->collection->type = 'principal';
+   }
     else if ( $this->dav_name == '/' ) {
       $this->collection->dav_name = '/';
       $this->collection->type = 'root';
@@ -418,16 +406,10 @@ EOSQL;
       if ( $qry->Exec('DAVResource',__LINE__,__FILE__) && $qry->rows() == 1 && ($row = $qry->Fetch()) ) {
         $this->collection = $row;
         $this->collection->exists = true;
-        $this->_is_binding = true;
         $this->collection->parent_set = $row->parent_container;
         $this->collection->parent_container = $row->bind_parent_container;
-        $this->bound_from = str_replace( $row->bound_to, $row->dav_name, $this->dav_name);
         $this->collection->bound_from = $row->dav_name;
         $this->collection->dav_name = $row->bound_to;
-        if ( isset($row->access_ticket_id) ) {
-          if ( !isset($this->tickets) ) $this->tickets = array();
-          $this->tickets[] = new DAVTicket($row->access_ticket_id);
-        }
         if ( $row->is_calendar == 't' )
           $this->collection->type = 'calendar';
         else if ( $row->is_addressbook == 't' )
@@ -436,6 +418,13 @@ EOSQL;
           $this->collection->type = 'schedule-'. $matches[3]. 'box';
         else
           $this->collection->type = 'collection';
+
+        $this->_is_binding = true;
+        $this->bound_from = str_replace( $row->bound_to, $row->dav_name, $this->dav_name);
+        if ( isset($row->access_ticket_id) ) {
+          if ( !isset($this->tickets) ) $this->tickets = array();
+          $this->tickets[] = new DAVTicket($row->access_ticket_id);
+        }
       }
       else {
         dbg_error_log( 'DAVResource', 'No collection for path "%s".', $this->dav_name );
@@ -443,9 +432,63 @@ EOSQL;
         $this->collection->dav_name = preg_replace('{/[^/]*$}', '/', $this->dav_name);
       }
     }
+    
+  }
+  
+  /**
+  * Find the collection associated with this resource.
+  */
+  function FetchCollection() {
+    global $session;
+    
+    /**
+    * RFC4918, 8.3: Identifiers for collections SHOULD end in '/'
+    *    - also discussed at more length in 5.2
+    *
+    * So we look for a collection which matches one of the following URLs:
+    *  - The exact request.
+    *  - If the exact request, doesn't end in '/', then the request URL with a '/' appended
+    *  - The request URL truncated to the last '/'
+    * The collection URL for this request is therefore the longest row in the result, so we
+    * can "... ORDER BY LENGTH(dav_name) DESC LIMIT 1"
+    */
+    dbg_error_log( 'DAVResource', ':FetchCollection: Looking for collection for "%s".', $this->dav_name );
 
-    @dbg_error_log( 'DAVResource', ':FetchCollection: Found collection named "%s" of type "%s".', $this->collection->dav_name, $this->collection->type );
+    // Try and pull the answer out of a hat
+    $cache = getCacheInstance();
+    $cache_ns = 'collection-'.preg_replace( '{/[^/]*$}', '/', $this->dav_name);
+    $cache_key = 'dav_resource'.$session->user_no;
+    $this->collection = $cache->get( $cache_ns, $cache_key );
+    if ( $this->collection === false ) {
+      $this->ReadCollectionFromDatabase();
+      if ( $this->collection->type != 'principal' ) {
+        $cache_ns = 'collection-'.$this->collection->dav_name;
+        @dbg_error_log( 'Cache', ':FetchCollection: Setting cache ns "%s" key "%s". Type: %s', $cache_ns, $cache_key, $this->collection->type );
+        $cache->set( $cache_ns, $cache_key, $this->collection );
+      }
+      @dbg_error_log( 'DAVResource', ':FetchCollection: Found collection named "%s" of type "%s".', $this->collection->dav_name, $this->collection->type );
+    }
+    else {
+      @dbg_error_log( 'Cache', ':FetchCollection: Got cache ns "%s" key "%s". Type: %s', $cache_ns, $cache_key, $this->collection->type );
+      if ( preg_match( '#^(/[^/]+)/?$#', $this->dav_name, $matches)
+           || preg_match( '#^((/principals/[^/]+/)[^/]+)/?$#', $this->dav_name, $matches) ) {
+        $this->_is_principal = true;
+        $this->FetchPrincipal();
+        $this->collection->is_principal = true;
+        $this->collection->type = 'principal';
+      }
+      @dbg_error_log( 'DAVResource', ':FetchCollection: Read cached collection named "%s" of type "%s".', $this->collection->dav_name, $this->collection->type );
+    }
 
+    if ( isset($this->collection->bound_from) ) {
+      $this->_is_binding = true;
+      $this->bound_from = str_replace( $this->collection->bound_to, $this->collection->bound_from, $this->dav_name);
+      if ( isset($this->collection->access_ticket_id) ) {
+        if ( !isset($this->tickets) ) $this->tickets = array();
+        $this->tickets[] = new DAVTicket($this->collection->access_ticket_id);
+      }
+    }
+    
     $this->_is_collection = ( $this->_is_principal || $this->collection->dav_name == $this->dav_name || $this->collection->dav_name == $this->dav_name.'/' );
     if ( $this->_is_collection ) {
       $this->dav_name = $this->collection->dav_name;

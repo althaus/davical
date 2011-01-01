@@ -78,6 +78,12 @@ $params = array(
 $qry = new AwlQuery( $sql, $params );
 if ( $qry->Exec('BIND',__LINE__,__FILE__) ) {
   header('Location: '. ConstructURL($destination_path) );
+
+  // Uncache anything to do with the target
+  $cache = getCacheInstance();
+  $cache_ns = 'collection-'.$destination_path;
+  $cache->delete( $cache_ns, null );
+
   $request->DoResponse(201);
 }
 else {

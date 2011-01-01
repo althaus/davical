@@ -15,7 +15,7 @@
 * return true if it's a whole calendar
 */
 
-require_once('AWLCache.php');
+require_once('AwlCache.php');
 require_once('iCalendar.php');
 require_once('WritableCollection.php');
 
@@ -121,7 +121,7 @@ VALUES( :user_no, :parent_container, :dav_name, :dav_etag, :dav_displayname, TRU
       );
       $qry->QDo( $sql, $params );
     }
-    else if ( isset($public) ) {
+    else if ( isset($public) && $collection->is_public == ($public?'t':'f') ) {
       $collection = $qry->Fetch();
       $sql = 'UPDATE collection SET publicly_readable = :is_public::boolean WHERE collection_id = :collection_id';
       $params = array( ':is_public' => ($public?'t':'f'), ':collection_id' => $collection->collection_id );
@@ -129,6 +129,7 @@ VALUES( :user_no, :parent_container, :dav_name, :dav_etag, :dav_displayname, TRU
         rollback_on_error( $caldav_context, $user_no, $path );
       }
     }
+
   }
 }
 
@@ -631,7 +632,7 @@ EOSQL;
 
   // Uncache anything to do with the collection
   $cache = getCacheInstance();
-  $cache_ns = 'collection-'.preg_replace( '{/.*$}', '/', $path);
+  $cache_ns = 'collection-'.preg_replace( '{/[^/]*$}', '/', $path);
   $cache->delete( $cache_ns, null );
 }
 
@@ -995,7 +996,7 @@ EOSQL;
 
   // Uncache anything to do with the collection
   $cache = getCacheInstance();
-  $cache_ns = 'collection-'.preg_replace( '{/.*$}', '/', $path);
+  $cache_ns = 'collection-'.preg_replace( '{/[^/]*$}', '/', $path);
   $cache->delete( $cache_ns, null );
   
   dbg_error_log( 'PUT', 'User: %d, ETag: %s, Path: %s', $author, $etag, $path);

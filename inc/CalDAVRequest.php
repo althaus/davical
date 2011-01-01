@@ -14,6 +14,7 @@
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v3 or later
 */
 
+require_once("AwlCache.php");
 require_once("XMLDocument.php");
 require_once("CalDAVPrincipal.php");
 include("DAVTicket.php");
@@ -343,6 +344,11 @@ EOSQL;
       $qry->Exec('caldav',__LINE__,__FILE__);
       dbg_error_log( 'caldav', 'Created new collection as "%s".', trim($params[':boxname']) );
 
+      // Uncache anything to do with the collection
+      $cache = getCacheInstance();
+      $cache->delete( 'collection-'.$params[':dav_name'], null );
+      $cache->delete( 'principal-'.$params[':parent_container'], null );
+      
       $qry = new AwlQuery( "SELECT * FROM collection WHERE dav_name = :dav_name", array( ':dav_name' => $matches[1] ) );
       if ( $qry->Exec('caldav',__LINE__,__FILE__) && $qry->rows() == 1 && ($row = $qry->Fetch()) ) {
         $this->collection_id = $row->collection_id;
