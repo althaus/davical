@@ -9,7 +9,7 @@ require_once("./always.php");
 dbg_error_log( "feed", " User agent: %s", ((isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : "Unfortunately Mulberry and Chandler don't send a 'User-agent' header with their requests :-(")) );
 dbg_log_array( "headers", '_SERVER', $_SERVER, true );
 
-require_once('AWLCache.php');
+require_once('AwlCache.php');
 
 require_once("HTTPAuthSession.php");
 $session = new HTTPAuthSession();
@@ -183,7 +183,7 @@ function caldav_get_feed( $request, $collection ) {
   $last_modified = new RepeatRuleDateTime($collection->GetProperty('modified'));
   $feed->setDateModified($last_modified->epoch());
   $response = $feed->export('atom');
-  $cache->set( $cache_ns, $cache_key );
+  $cache->set( $cache_ns, $cache_key, $response );
   return $response;
 }
 
