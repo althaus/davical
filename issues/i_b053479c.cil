@@ -1,0 +1,10 @@
+Summary: Implement propertySearch() method in DAVPrincipal
+Status: New
+CreatedBy: Andrew McMillan <andrew@morphoss.com>
+AssignedTo: 
+Inserted: 2011-01-02T02:18:17
+Updated: 2011-01-02T02:18:17
+
+The propertySearch() method in DAVPrincipal is currently stubbed in
+but it might actually be a reasonable way of doing that. Review and
+fix.
