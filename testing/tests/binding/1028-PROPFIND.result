@@ -6,6 +6,7 @@
    <prop>
     <C:calendar-home-set>
      <href>/caldav.php/user4/</href>
+     <href>/caldav.php/user4/base/</href>
     </C:calendar-home-set>
     <resource-id>
      <href>/caldav.php/.resources/1005</href>
