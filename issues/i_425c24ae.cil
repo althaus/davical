@@ -1,9 +1,9 @@
 Summary: Group does not confer default permission to members
-Status: New
+Status: Finished
 CreatedBy: Andrew McMillan <andrew@morphoss.com>
-AssignedTo: 
+AssignedTo: Andrew McMillan <andrew@morphoss.com>
 Inserted: 2010-12-29T23:42:42
-Updated: 2010-12-29T23:42:42
+Updated: 2011-01-02T21:10:16
 
 A member of a group should have a minimum of the default permission
 granted to them when accessing things owned directly by that group.

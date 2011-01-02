@@ -929,7 +929,12 @@ BEGIN
       SELECT privileges FROM grants WHERE by_principal=in_grantor AND by_collection IS NULL
                                           AND (to_principal=in_accessor OR to_principal IN (SELECT expand_memberships(in_accessor,in_depth)))
             UNION
-      SELECT 32::BIT(24) AS privileges FROM expand_memberships(in_accessor,in_depth) WHERE expand_memberships = in_grantor
+      SELECT bit_or(sq2.privileges) FROM
+      (
+          SELECT 32::BIT(24) AS privileges FROM expand_memberships(in_accessor,in_depth) WHERE expand_memberships = in_grantor
+      			UNION
+          SELECT default_privileges AS privileges FROM principal WHERE principal_id = in_grantor
+      ) AS sq2
     ) AS subquery ;
 
   IF out_conferred IS NULL THEN
