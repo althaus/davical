@@ -37,7 +37,8 @@ $c->collections_always_exist = false;
 $c->allow_get_email_visibility = false;
 $c->permission_scan_depth = 2;
 $c->expand_pdo_parameters = true;
-$c->home_calendar_name = 'home';
+$c->home_calendar_name    = 'calendar';
+$c->home_addressbook_name = 'addresses';
 $c->enable_row_linking = true;
 $c->enable_scheduling = false;
 $c->http_auth_mode = 'Basic';
@@ -202,92 +203,7 @@ if ( $qry->Exec('always',__LINE__,__FILE__) && $row = $qry->Fetch() ) {
   if ( isset($_SERVER['HTTP_X_DAVICAL_TESTCASE']) ) $qry->QDo('SET TIMEZONE TO \'Pacific/Auckland\'');
 }
 
-
-$_known_users_name  = array();
-$_known_users_id    = array();
-$_known_users_pid   = array();
-$_known_users_email = array();
-
-function _davical_get_principal_query_cached( $where, $parameter ) {
-  global $c, $session, $_known_users_name, $_known_users_id, $_known_users_pid;
-
-  $sql = 'SELECT *, to_char(updated at time zone \'GMT\',\'Dy, DD Mon IYYY HH24:MI:SS "GMT"\') AS modified, principal.*, ';
-  if ( isset($session->principal_id) ) {
-    $sql .= 'pprivs(:session_principal::int8,principal.principal_id,:scan_depth::int) AS privileges ';
-    $params = array( ':session_principal' => $session->principal_id, ':scan_depth' => $c->permission_scan_depth );
-  }
-  else {
-    $sql .= '0::BIT(24) AS privileges ';
-    $params = array( );
-  }
-  $sql .= 'FROM usr LEFT JOIN principal USING(user_no) WHERE '. $where;
-  $params[':param'] = $parameter;
-
-  $qry = new AwlQuery( $sql, $params );
-  if ( $qry->Exec('always',__LINE__,__FILE__) && $qry->rows() == 1 && $row = $qry->Fetch() ) {
-    if ( isset($session->principal_id) ) {
-      $_known_users_name[$row->username]      = $row;
-      $_known_users_id[$row->user_no]         = $row;
-      $_known_users_pid[$row->principal_id]   = $row;
-      $_known_users_email[$row->email]        = $row;
-    }
-    return $row;
-  }
-
-  return false;
-}
-
-/**
-* Return a user record identified by a username, caching it for any subsequent lookup
-* @param string $username The username of the record to retrieve
-* @param boolean $use_cache Whether or not to use the cache (default: yes)
-*/
-function getUserByName( $username, $use_cache = true ) {
-  global $_known_users_name;
-
-  if ( $use_cache && isset( $_known_users_name[$username] ) ) return $_known_users_name[$username];
-  return _davical_get_principal_query_cached( 'lower(username) = lower(:param)', $username );
-}
-
-
-/**
-* Return a user record identified by e-mail address, caching it for any subsequent lookup
-* @param string $email The email address of the user record to retrieve
-* @param boolean $use_cache Whether or not to use the cache (default: yes)
-*/
-function getUserByEMail( $email, $use_cache = true ) {
-  global $_known_users_name;
-
-  if ( $use_cache && isset( $_known_users_email[$email] ) ) return $_known_users_email[$email];
-  return _davical_get_principal_query_cached( 'lower(email) = lower(:param)', $email );
-}
-
-
-/**
-* Return a user record identified by a user_no, caching it for any subsequent lookup
-* @param int $user_no The ID of the record to retrieve
-* @param boolean $use_cache Whether or not to use the cache (default: yes)
-*/
-function getUserByID( $user_no, $use_cache = true ) {
-  global $c, $session, $_known_users_id;
-
-  if ( $use_cache && isset( $_known_users_id[$user_no] ) ) return $_known_users_id[$user_no];
-  return _davical_get_principal_query_cached( 'user_no = :param', $user_no );
-}
-
-
-/**
-* Return a user record identified by a user_no, caching it for any subsequent lookup
-* @param int $user_no The ID of the record to retrieve
-* @param boolean $use_cache Whether or not to use the cache (default: yes)
-*/
-function getPrincipalByID( $principal_id, $use_cache = true ) {
-  global $c, $session, $_known_users_pid;
-
-  if ( $use_cache && isset( $_known_users_pid[$principal_id] ) ) return $_known_users_pid[$principal_id];
-  return _davical_get_principal_query_cached( 'principal_id = :param', $principal_id );
-}
-
+require_once('Principal.php');
 
 /**
  * Return the HTTP status code description for a given code. Hopefully

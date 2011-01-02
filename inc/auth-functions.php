@@ -27,59 +27,125 @@
 
 require_once("DataUpdate.php");
 
+if ( !function_exists('auth_functions_deprecated') ) {
+  function auth_functions_deprecated( $method, $message = null ) {
+    global $c;
+    if ( isset($c->dbg['ALL']) || isset($c->dbg['deprecated']) ) {
+      $stack = debug_backtrace();
+      array_shift($stack);
+      if ( preg_match( '{/inc/auth-functions.php$}', $stack[0]['file'] ) && $stack[0]['line'] > __LINE__ ) return;
+      dbg_error_log("LOG", " auth-functions: Call to deprecated routine '%s'%s", $method, (isset($message)?': '.$message:'') );
+      foreach( $stack AS $k => $v ) {
+        dbg_error_log( 'LOG', ' auth-functions: Deprecated call from line %4d of %s', $v['line'], $v['file']);
+      }
+    }
+  }
+}
+
+
+function getUserByName( $username, $use_cache=true ) {
+  auth_functions_deprecated('getUserByName','replaced by Principal class');
+  return new Principal('username', $username, $use_cache);
+}
+
+function getUserByEMail( $email, $use_cache = true ) {
+  auth_functions_deprecated('getUserByEMail','replaced by Principal class');
+  return new Principal('email', $email, $use_cache);
+}
+
+function getUserByID( $user_no, $use_cache = true ) {
+  auth_functions_deprecated('getUserByID','replaced by Principal class');
+  return new Principal('user_no', $user_no, $use_cache);
+}
+
+function getPrincipalByID( $principal_id, $use_cache = true ) {
+  auth_functions_deprecated('getPrincipalByID','replaced by Principal class');
+  return new Principal('principal_id', $principal_id, $use_cache);
+}
+
 
 /**
-* Create a default home calendar for the user.
+* Creates some default home collections for the user.
 * @param string $username The username of the user we are creating relationships for.
 */
-function CreateHomeCalendar( $username ) {
+function CreateHomeCollections( $username ) {
   global $session, $c;
   if ( ! isset($c->home_calendar_name) || strlen($c->home_calendar_name) == 0 ) return true;
 
-  $usr = getUserByName( $username );
-  $parent_path = "/".$username."/";
-  $calendar_path = $parent_path . $c->home_calendar_name."/";
-  $dav_etag = md5($usr->user_no . $calendar_path);
-  $qry = new AwlQuery( 'SELECT 1 FROM collection WHERE dav_name = :dav_name', array( ':dav_name' => $calendar_path) );
-  if ( $qry->Exec() ) {
-    if ( $qry->rows() > 0 ) {
-      $c->messages[] = i18n("Home calendar already exists.");
-      return true;
+  $principal = new Principal('username',$username);
+  $params = array( ':collection_path' => $principal->dav_name().$c->home_calendar_name.'/' );
+  $qry = new AwlQuery( 'SELECT 1 FROM collection WHERE dav_name = :collection_path', $params );
+  if ( !$qry->Exec() ) {
+    $c->messages[] = i18n("There was an error reading from the database.");
+    return false;
+  }
+  if ( $qry->rows() > 0 ) {
+    $c->messages[] = i18n("Home calendar already exists.");
+    return true;
+  }
+  else {
+    $sql = 'INSERT INTO collection (user_no, parent_container, dav_name, dav_etag, dav_displayname, is_calendar, created, modified, resourcetypes) ';
+    $sql .= 'VALUES( :user_no, :parent_container, :collection_path, :dav_etag, :displayname, true, current_timestamp, current_timestamp, :resourcetypes );';
+    $params = array(
+        ':user_no' => $principal->user_no(),
+        ':parent_container' => $principal->dav_name(),
+        ':collection_path' => $principal->dav_name().$c->home_calendar_name.'/',
+        ':dav_etag' => '-1',
+        ':displayname' => $principal->fullname,
+        ':resourcetypes' => '<DAV::collection/><urn:ietf:params:xml:ns:caldav:calendar/>'
+    );
+    $qry = new AwlQuery( $sql, $params );
+    if ( $qry->Exec() ) {
+      $c->messages[] = i18n("Home calendar added.");
+      dbg_error_log("User",":Write: Created user's home calendar at '%s'", $params[':collection_path'] );
+    }
+    else {
+      $c->messages[] = i18n("There was an error writing to the database.");
+      return false;
     }
   }
-  else {
-    $c->messages[] = i18n("There was an error writing to the database.");
-    return false;
-  }
 
-  $sql = 'INSERT INTO collection (user_no, parent_container, dav_name, dav_etag, dav_displayname, is_calendar, created, modified, resourcetypes) ';
-  $sql .= 'VALUES( :user_no, :parent_container, :calendar_path, :dav_etag, :displayname, true, current_timestamp, current_timestamp, :resourcetypes );';
-  $params = array(
-      ':user_no' => $usr->user_no,
-      ':parent_container' => $parent_path,
-      ':calendar_path' => $calendar_path,
-      ':dav_etag' => $dav_etag,
-      ':displayname' => $usr->fullname,
-      ':resourcetypes' => '<DAV::collection/><urn:ietf:params:xml:ns:caldav:calendar/>'
-  );
-  $qry = new AwlQuery( $sql, $params );
-  if ( $qry->Exec() ) {
-    $c->messages[] = i18n("Home calendar added.");
-    dbg_error_log("User",":Write: Created user's home calendar at '%s'", $calendar_path );
-  }
-  else {
-    $c->messages[] = i18n("There was an error writing to the database.");
-    return false;
+  if ( !isset($c->home_addressbook_name) ) {
+    $qry = new AwlQuery( 'SELECT 1 FROM collection WHERE dav_name = :dav_name', array( ':dav_name' => $principal->dav_name().$c->home_addressbook_name.'/') );
+    if ( !$qry->Exec() ) {
+      $c->messages[] = i18n("There was an error reading from the database.");
+      return false;
+    }
+    if ( $qry->rows() > 0 ) {
+      $c->messages[] = i18n("Home addressbook already exists.");
+      return true;
+    }
+    else {
+      $params[':collection_path'] = $principal->dav_name().$c->home_addressbook_name.'/';
+      $qry = new AwlQuery( $sql, $params );
+      if ( $qry->Exec() ) {
+        $c->messages[] = i18n("Home addressbook added.");
+        dbg_error_log("User",":Write: Created user's home addressbook at '%s'", $params[':collection_path'] );
+      }
+      else {
+        $c->messages[] = i18n("There was an error writing to the database.");
+        return false;
+      }
+    }
   }
   return true;
 }
 
+/**
+ * Backward compatibility
+ * @param unknown_type $username
+ */
+function CreateHomeCalendar($username) {
+  auth_functions_deprecated('CreateHomeCalendar','renamed to CreateHomeCollections');
+  return CreateHomeCollections($username);
+}
 
 /**
 * Defunct function for creating default relationships.
 * @param string $username The username of the user we are creating relationships for.
 */
 function CreateDefaultRelationships( $username ) {
+  auth_functions_deprecated('CreateDefaultRelationships','No longer applicable.');
   return true;
 }
 
@@ -90,6 +156,8 @@ function CreateDefaultRelationships( $username ) {
 */
 function UpdateUserFromExternal( &$usr ) {
   global $c;
+
+  auth_functions_deprecated('UpdateUserFromExternal','refactor to use the "Principal" class');
   /**
   * When we're doing the create we will usually need to generate a user number
   */
@@ -201,19 +269,22 @@ EOERRMSG;
   if ( $qry->Exec('Login',__LINE__,__FILE__) && $qry->rows() == 1 ) {
     $usr = $qry->Fetch();
     if ( session_validate_password( $password, $usr->password ) ) {
-      UpdateUserFromExternal($usr);
+      $principal = new Principal($username);
+      if ( $principal->Exists() ) {
+        if ( $principal->modified <= $usr->updated )
+          $principal->Update($usr);
+      }
+      else {
+        $principal->Create($usr);
+        CreateHomeCollections($username);
+      }
 
       /**
       * We disallow login by inactive users _after_ we have updated the local copy
       */
       if ( isset($usr->active) && $usr->active == 'f' ) return false;
 
-      $qry = new AwlQuery('SELECT * FROM dav_principal WHERE username = :username', array(':username' => $usr->username) );
-      if ( $qry->Exec() && $qry->rows() == 1 ) {
-        $principal = $qry->Fetch();
-        return $principal;
-      }
-      return $usr; // Somewhat optimistically
+      return $principal;
     }
   }
 

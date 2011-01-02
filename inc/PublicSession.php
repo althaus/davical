@@ -56,11 +56,25 @@ class PublicSession {
   function PublicSession() {
     global $c;
 
-    $this->user_no = -1;
-    $this->principal_id = -1;
-    $this->email = null;
-    $this->username = 'guest';
-    $this->fullname = 'Anonymous';
+    $principal = new Principal('username','unauthenticated');
+
+    // Assign each field in the selected record to the object
+    foreach( $principal AS $k => $v ) {
+      $this->{$k} = $v;
+    }
+
+    $this->username = $principal->username();
+    $this->user_no  = $principal->user_no();
+    $this->principal_id = $principal->principal_id();
+    $this->email = $principal->email();
+    $this->dav_name = $principal->dav_name();
+    $this->principal = $principal;
+    
+    if ( function_exists("awl_set_locale") && isset($this->locale) && $this->locale != "" ) {
+      awl_set_locale($this->locale);
+    }
+    
+
     $this->groups = ( isset($c->public_groups) ? $c->public_groups : array() );
     $this->roles = array( 'Public' => true );
     $this->logged_in = false;

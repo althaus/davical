@@ -184,7 +184,7 @@ function handle_schedule_request( $ical ) {
 
   foreach( $attendees AS $k => $attendee ) {
     $attendee_email = preg_replace( '/^mailto:/', '', $attendee->Value() );
-    if ( $attendee_email == $request->principal->email ) {
+    if ( $attendee_email == $request->principal->email() ) {
       dbg_error_log( "POST", "not delivering to owner" );
       continue;
     }
@@ -195,18 +195,18 @@ function handle_schedule_request( $ical ) {
 
     dbg_error_log( "POST", "Delivering to %s", $attendee_email );
 
-    $attendee_principal = new CalDAVPrincipal ( array ('email'=>$attendee_email, 'options'=> array ( 'allow_by_email' => true ) ) );
+    $attendee_principal = new DAVPrincipal ( array ('email'=>$attendee_email, 'options'=> array ( 'allow_by_email' => true ) ) );
     if ( $attendee_principal == false ){
       $attendee->SetParameterValue ('SCHEDULE-STATUS','3.7;Invalid Calendar User');
       continue;
     }
-    $deliver_path = preg_replace ( '/^.*caldav.php/','', $attendee_principal->schedule_inbox_url );
+    $deliver_path = $attendee_principal->internal_url('schedule_inbox');
 
     $ar = new DAVResource($deliver_path);
     $priv =  $ar->HavePrivilegeTo('schedule-deliver-invite' );
     if ( ! $ar->HavePrivilegeTo('schedule-deliver-invite' ) ){
       $reply = new XMLDocument( array('DAV:' => '') );
-      $privnodes = array( $reply->href(ConstructURL($attendee_principal->schedule_inbox_url)), new XMLElement( 'privilege' ) );
+      $privnodes = array( $reply->href($attendee_principal->url('schedule_inbox')), new XMLElement( 'privilege' ) );
       // RFC3744 specifies that we can only respond with one needed privilege, so we pick the first.
       $reply->NSElement( $privnodes[1], 'schedule-deliver-invite' );
       $xml = new XMLElement( 'need-privileges', new XMLElement( 'resource', $privnodes) );
@@ -222,10 +222,10 @@ function handle_schedule_request( $ical ) {
     $ncal->AddComponent ( array_merge ( $ical->GetComponents('VEVENT',false) , array ($ic) ));
     $content = $ncal->Render();
     $cid = $ar->GetProperty('collection_id');
-    dbg_error_log('DELIVER', 'to user: %s, to path: %s, collection: %s, from user: %s, caldata %s', $attendee_principal->user_no, $deliver_path, $cid, $request->user_no, $content );
-    write_resource( $attendee_principal->user_no, $deliver_path . $etag . '.ics' ,
-      $content , $ar->GetProperty('collection_id'), $request->user_no,
-      md5($content), $ncal, $put_action_type='INSERT', $caldav_context=true, $log_action=true, $etag );
+    dbg_error_log('DELIVER', 'to user: %s, to path: %s, collection: %s, from user: %s, caldata %s', $attendee_principal->user_no(), $deliver_path, $cid, $request->user_no, $content );
+    write_resource( $attendee_principal->user_no(), $deliver_path . $etag . '.ics' ,
+          $content , $ar->GetProperty('collection_id'), $request->user_no,
+          md5($content), $ncal, $put_action_type='INSERT', $caldav_context=true, $log_action=true, $etag );
     $attendee->SetParameterValue ('SCHEDULE-STATUS','1.2;Scheduling message has been delivered');
   }
 	// don't write an entry in the out box, ical doesn't delete it or ever read it again
@@ -234,7 +234,7 @@ function handle_schedule_request( $ical ) {
   $ncal->AddProperty ( 'METHOD', 'REQUEST' );
   $ncal->AddComponent ( array_merge ( $ical->GetComponents('VEVENT',false) , array ($ic) ));
   $content = $ncal->Render();
- 	$deliver_path = preg_replace ( '/^.*caldav.php/','', $request->principal->schedule_inbox_url );
+ 	$deliver_path = $request->principal->internal_url('schedule_inbox');
   $ar = new DAVResource($deliver_path);
   write_resource( $request->user_no, $deliver_path . $etag . '.ics' ,
     $content , $ar->GetProperty('collection_id'), $request->user_no,
@@ -272,8 +272,8 @@ function handle_schedule_reply ( $ical ) {
   foreach( $attendees AS $k => $attendee ) {
 	  $attendee_email = preg_replace( '/^mailto:/', '', $attendee->Value() );
 	  dbg_error_log( "POST", "Delivering to %s", $attendee_email );
-	  $attendee_principal = new CalDAVPrincipal ( array ('email'=>$attendee_email, 'options'=> array ( 'allow_by_email' => true ) ) );
-	  $deliver_path = preg_replace ( '/^.*caldav.php/','', $attendee_principal->schedule_inbox_url );
+	  $attendee_principal = new DAVPrincipal ( array ('email'=>$attendee_email, 'options'=> array ( 'allow_by_email' => true ) ) );
+	  $deliver_path = $attendee_principal->internal_url('schedule_inbox');
 	  $attendee_email = preg_replace( '/^mailto:/', '', $attendee->Value() );
     if ( $attendee_email == $request->principal->email ) {
       dbg_error_log( "POST", "not delivering to owner" );
@@ -282,7 +282,7 @@ function handle_schedule_reply ( $ical ) {
 	  $ar = new DAVResource($deliver_path);
 	  if ( ! $ar->HavePrivilegeTo('schedule-deliver-reply' ) ){
 	    $reply = new XMLDocument( array('DAV:' => '') );
-	     $privnodes = array( $reply->href(ConstructURL($attendee_principal->schedule_inbox_url)), new XMLElement( 'privilege' ) );
+	     $privnodes = array( $reply->href($attendee_principal->url('schedule_inbox')), new XMLElement( 'privilege' ) );
 	     // RFC3744 specifies that we can only respond with one needed privilege, so we pick the first.
 	     $reply->NSElement( $privnodes[1], 'schedule-deliver-reply' );
 	     $xml = new XMLElement( 'need-privileges', new XMLElement( 'resource', $privnodes) );
@@ -296,7 +296,7 @@ function handle_schedule_reply ( $ical ) {
 	  $ncal->AddProperty ( 'METHOD', 'REPLY' );
 	  $ncal->AddComponent ( array_merge ( $ical->GetComponents('VEVENT',false) , array ($ic) ));
 	  $content = $ncal->Render();
-	  write_resource( $attendee_principal->user_no, $deliver_path . $etag . '.ics' ,
+	  write_resource( $attendee_principal->user_no(), $deliver_path . $etag . '.ics' ,
 	    $content , $ar->GetProperty('collection_id'), $request->user_no,
 	    md5($content), $ncal, $put_action_type='INSERT', $caldav_context=true, $log_action=true, $etag );
 	}
@@ -314,9 +314,9 @@ function handle_schedule_reply ( $ical ) {
 */
 function write_scheduling_request( &$resource, $attendee_value, $create_resource ) {
   $email = preg_replace( '/^mailto:/', '', $attendee_value );
-  $schedule_target = getUserByEmail($email);
-  if ( isset($schedule_target) && is_object($schedule_target) ) {
-    $attendee_inbox = new WritableCollection(array('path' => $schedule_target->dav_name.'.in/'));
+  $schedule_target = new Principal('email',$email);
+  if ( $schedule_target->Exists() ) {
+    $attendee_inbox = new WritableCollection(array('path' => $schedule_target->internal_url('schedule-inbox')));
     if ( ! $attendee_inbox->HavePrivilegeTo('schedule-deliver-invite') ) {
       $response = '3.8;'.translate('No authority to deliver invitations to user.');
     }

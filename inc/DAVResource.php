@@ -527,20 +527,19 @@ EOSQL;
   */
   function FetchPrincipal() {
     if ( isset($this->principal) ) return;
-    $this->principal = new CalDAVPrincipal( array( "path" => $this->bound_from() ) );
+    $this->principal = new DAVPrincipal( array( "path" => $this->bound_from() ) );
     if ( $this->_is_principal ) {
       $this->exists = $this->principal->Exists();
-      $this->collection->dav_name = $this->dav_name;
+      $this->collection->dav_name = $this->dav_name();
       $this->collection->type = 'principal';
       if ( $this->exists ) {
+        $this->collection = $this->principal->AsCollection();
         $this->displayname = $this->principal->GetProperty('displayname');
-        $this->unique_tag = '"'.$this->principal->dav_etag.'"';
+        $this->user_no = $this->principal->user_no();
+        $this->resource_id = $this->principal->principal_id();
         $this->created = $this->principal->created;
         $this->modified = $this->principal->modified;
-        $this->resourcetypes = '<DAV::collection/><DAV::principal/>';
-        $this->resource_id = $this->principal->principal_id;
-        $this->collection = $this->principal->AsCollection();
-        $this->user_no = $this->principal->user_no;
+        $this->resourcetypes = $this->principal->resourcetypes;
       }
     }
   }
@@ -618,20 +617,20 @@ EOQRY;
 
     if ( $this->dav_name == '/' || $this->dav_name == '' ) {
       $this->privileges = (1 | 16 | 32); // read + read-acl + read-current-user-privilege-set
-      dbg_error_log( 'DAVResource', 'Read permissions for user accessing /' );
+      dbg_error_log( 'DAVResource', ':FetchPrivileges: Read permissions for user accessing /' );
       return;
     }
 
     if ( $session->AllowedTo('Admin') ) {
       $this->privileges = privilege_to_bits('all');
-      dbg_error_log( 'DAVResource', 'Full permissions for an administrator.' );
+      dbg_error_log( 'DAVResource', ':FetchPrivileges: Full permissions for an administrator.' );
       return;
     }
 
     if ( $this->IsPrincipal() ) {
       if ( !isset($this->principal) ) $this->FetchPrincipal();
       $this->privileges = $this->principal->Privileges();
-      dbg_error_log( 'DAVResource', 'Privileges of "%s" for user accessing principal "%s"', $this->privileges, $this->principal->username() );
+      dbg_error_log( 'DAVResource', ':FetchPrivileges: Privileges of "%s" for user accessing principal "%s"', $this->privileges, $this->principal->username() );
       return;
     }
 
@@ -648,12 +647,12 @@ EOQRY;
     $this->privileges = $this->collection->path_privs;
     if ( is_string($this->privileges) ) $this->privileges = bindec( $this->privileges );
 
-    dbg_error_log( 'DAVResource', 'Privileges of "%s" for user "%s" accessing "%s"',
+    dbg_error_log( 'DAVResource', ':FetchPrivileges: Privileges of "%s" for user "%s" accessing "%s"',
                        decbin($this->privileges), $session->username, $this->dav_name() );
 
     if ( isset($request->ticket) && $request->ticket->MatchesPath($this->bound_from()) ) {
       $this->privileges |= $request->ticket->privileges();
-      dbg_error_log( 'DAVResource', 'Applying permissions for ticket "%s" now: %s', $request->ticket->id(), decbin($this->privileges) );
+      dbg_error_log( 'DAVResource', ':FetchPrivileges: Applying permissions for ticket "%s" now: %s', $request->ticket->id(), decbin($this->privileges) );
     }
 
     if ( isset($this->tickets) ) {
@@ -661,7 +660,7 @@ EOQRY;
       foreach( $this->tickets AS $k => $ticket ) {
         if ( $ticket->MatchesResource($this->resource_id()) || $ticket->MatchesPath($this->bound_from()) ) {
           $this->privileges |= $ticket->privileges();
-          dbg_error_log( 'DAVResource', 'Applying permissions for ticket "%s" now: %s', $ticket->id(), decbin($this->privileges) );
+          dbg_error_log( 'DAVResource', ':FetchPrivileges: Applying permissions for ticket "%s" now: %s', $ticket->id(), decbin($this->privileges) );
         }
       }
     }
@@ -1145,7 +1144,10 @@ EOQRY;
   */
   function unique_tag() {
     if ( isset($this->unique_tag) ) return $this->unique_tag;
-    if ( $this->IsPrincipal() && !isset($this->principal) ) $this->FetchPrincipal();
+    if ( $this->IsPrincipal() && !isset($this->principal) ) {
+      $this->FetchPrincipal();
+      $this->unique_tag = $this->principal->unique_tag();
+    }
     else if ( !$this->_is_collection && !isset($this->resource) ) $this->FetchResource();
 
     if ( $this->exists !== true || !isset($this->unique_tag) ) $this->unique_tag = '';
@@ -1245,7 +1247,8 @@ EOQRY;
     $acl[] = $this->BuildACE($xmldoc, pow(2,25) - 1, new XMLElement('property', new XMLElement('owner')) );
 
     $qry = new AwlQuery('SELECT dav_principal.dav_name, grants.* FROM grants JOIN dav_principal ON (to_principal=principal_id) WHERE by_collection = :collection_id OR by_principal = :principal_id ORDER BY by_collection',
-                                array( ':collection_id' => $this->collection->collection_id, ':principal_id' => $this->principal->principal_id ) );
+                                array( ':collection_id' => $this->collection->collection_id,
+                                       ':principal_id' => $this->principal->principal_id() ) );
     if ( $qry->Exec('DAVResource') && $qry->rows() > 0 ) {
       $by_collection = null;
       while( $grant = $qry->Fetch() ) {
@@ -1276,7 +1279,12 @@ EOQRY;
         return $this->collection->collection_id;
         break;
 
-      case 'resourcetype':
+      case 'principal_id':
+        if ( !isset($this->principal) ) $this->FetchPrincipal();
+        return $this->principal->principal_id();
+        break;
+
+        case 'resourcetype':
         if ( isset($this->resourcetypes) ) {
           $this->resourcetypes = preg_replace('{^\s*<(.*)/>\s*$}', '$1', $this->resourcetypes);
           $type_list = preg_split('{(/>\s*<|\n)}', $this->resourcetypes);
@@ -1554,7 +1562,7 @@ EOQRY;
         break;
 
       case 'DAV::current-user-principal':
-        $prop->NewElement('current-user-principal', $reply->href( $request->principal->principal_url ) );
+        $prop->NewElement('current-user-principal', $reply->href( $request->principal->url() ) );
         break;
 
       case 'SOME-DENIED-PROPERTY':  /** @todo indicating the style for future expansion */

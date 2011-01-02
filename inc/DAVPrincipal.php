@@ -9,30 +9,14 @@
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v2 or later
 */
 
-/**
-* @var $_CalDAVPrincipalCache
-* A global variable holding a cache of any DAV Principals which are
-* read from the DB.
-*/
-$_CalDAVPrincipalCache = (object) array( 'p' => array(), 'u' => array() );
-
 
 /**
 * A class for things to do with a DAV Principal
 *
 * @package   davical
 */
-class CalDAVPrincipal
+class DAVPrincipal extends Principal
 {
-  /**
-  * @var The home URL of the principal
-  */
-  private $url;
-
-  /**
-  * @var Identifies whether this principal exists in the DB yet
-  */
-  private $exists;
 
   /**
   * @var RFC4791: Identifies the URL(s) of any WebDAV collections that contain
@@ -52,23 +36,6 @@ class CalDAVPrincipal
   private $calendar_free_busy_set;
 
   /**
-  * @var draft-desruisseaux-caldav-sched-03: Identify the URL of the scheduling
-  * Inbox collection owned by the associated principal resource.
-  */
-  var $schedule_inbox_url;
-
-  /**
-  * @var draft-desruisseaux-caldav-sched-03: Identify the URL of the scheduling
-  * Outbox collection owned by the associated principal resource.
-  */
-  var $schedule_outbox_url;
-
-  /**
-  * @var Whether or not we are using an e-mail address based URL.
-  */
-  var $by_email;
-
-  /**
   * @var RFC3744: The principals that are direct members of this group.
   */
   protected $_is_group;
@@ -76,47 +43,43 @@ class CalDAVPrincipal
   /**
   * @var RFC3744: The principals that are direct members of this group.
   */
-  protected $group_member_set;
+  private $group_member_set;
 
   /**
   * @var RFC3744: The groups in which the principal is directly a member.
   */
-  protected $group_membership;
+  private $group_membership;
 
   /**
    * @var caldav-cu-proxy-02: The principals which this one has read permissions on.
    */
-  protected $read_proxy_for;
+  private $read_proxy_for;
 
   /**
    * @var caldav-cu-proxy-02: The principals which this one has read-write prmissions for.
    */
-  protected $write_proxy_for;
+  private $write_proxy_for;
 
    /**
    * @var caldav-cu-proxy-02: The principals which have read permissions on this one.
    */
-  protected $read_proxy_group;
+  private $read_proxy_group;
 
   /**
    * @var caldav-cu-proxy-02: The principals which have write permissions on this one.
    */
-  protected $write_proxy_group;
+  private $write_proxy_group;
 
   /**
    * @var CardDAV: The URL to an addressbook entry for this principal
    */
-  protected $principal_address;
+  private $principal_address;
 
   /**
-   * @var The username for this principal
+   * A unique tag which will change if this principal changes
+   * @var string
    */
-  protected $username;
-
-  /**
-   * @var The dav_name for this principal - a partial path
-   */
-  protected $dav_name;
+  private $unique_tag;
 
   /**
   * Constructor
@@ -132,60 +95,44 @@ class CalDAVPrincipal
     global $session, $c;
 
     $this->exists = null;
-    $this->url = null;
 
-    if ( $parameters == null ) return false;
-    $this->by_email = false;
+    if ( $parameters == null ) return;
+
     if ( is_object($parameters) ) {
       dbg_error_log( 'principal', 'Principal: record for %s', $parameters->username );
-      $usr = $parameters;
+      parent::__construct('username',$parameters->username);
     }
     else if ( is_int($parameters) ) {
       dbg_error_log( 'principal', 'Principal: %d', $parameters );
-      $usr = getUserByID($parameters);
-      $this->user_no = $parameters['user_no'];
+      parent::__construct('principal_id',$parameters);
     }
     else if ( is_array($parameters) ) {
       if ( ! isset($parameters['options']['allow_by_email']) ) $parameters['options']['allow_by_email'] = false;
       if ( isset($parameters['username']) ) {
-        $usr = getUserByName($parameters['username']);
-        $this->username = $parameters['username'];
+        parent::__construct('username',$parameters['username']);
       }
       else if ( isset($parameters['user_no']) ) {
-        $usr = getUserByID($parameters['user_no']);
-        $this->user_no = $parameters['user_no'];
+        parent::__construct('user_no',$parameters['user_no']);
       }
-      else if ( isset($parameters['email']) && $parameters['options']['allow_by_email'] ) {
-        if ( $username = $this->UsernameFromEMail($parameters['email']) ) {
-          $usr = getUserByName($username);
-          $this->username = $username;
-        }
+      else if ( isset($parameters['principal_id']) ) {
+        parent::__construct('principal_id',$parameters['principal_id']);
+      }
+      else if ( isset($parameters['email']) ) {
+        parent::__construct('email',$parameters['email']);
       }
       else if ( isset($parameters['path']) ) {
-        dbg_error_log( 'principal', 'Finding Principal from path: "%s", options.allow_by_email: "%s"', $parameters['path'], $parameters['options']['allow_by_email'] );
-        if ( $username = $this->UsernameFromPath($parameters['path'], $parameters['options']) ) {
-          $usr = getUserByName($username);
-          $this->username = $username;
-        }
+        parent::__construct('path',$parameters['path']);
       }
       else if ( isset($parameters['principal-property-search']) ) {
-        $usr = $this->PropertySearch($parameters['principal-property-search']);
+        $username = $this->PropertySearch($parameters['principal-property-search']);
+        parent::__construct('username',$username);
       }
     }
-    if ( !isset($usr) || !is_object($usr) ) {
-      $this->exists = false;
-      return false;
-    }
 
-    $this->exists = true;
-    $this->InitialiseRecord($usr);
+    if ( ! $this->exists ) return;
 
-    if ( is_array($parameters) && !isset($parameters['username']) && !isset($parameters['user_no'])
-                 && isset($parameters['path']) && preg_match('{^/(~|principals/)}', $parameters['path']) ) {
-      // Force it to match
-      $this->url = $parameters['path'];
-      $this->dav_name = $parameters['path'];
-    }
+    $this->InitialiseRecord();
+
   }
 
 
@@ -193,33 +140,20 @@ class CalDAVPrincipal
   * Initialise the Principal object from a $usr record from the DB.
   * @param object $usr The usr record from the DB.
   */
-  function InitialiseRecord($usr) {
+  function InitialiseRecord() {
     global $c;
-    foreach( $usr AS $k => $v ) {
-      $this->{$k} = $v;
-    }
-    if ( !isset($this->modified) ) $this->modified = $this->updated;
-    if ( !isset($this->created) )  $this->created  = $this->joined;
 
-    $this->dav_etag = md5($this->username . $this->updated);
+    $this->unique_tag = '"'.md5($this->username . $this->modified).'"';
+    $this->_is_group = (isset($this->type_id) && $this->type_id == 3);
 
-    $this->_is_group = (isset($usr->type_id) && $usr->type_id == 3);
-
-    $this->principal_url = ConstructURL( '/'.$this->username.'/', true );
-    $this->url = $this->principal_url;
-
-    $this->principal_address = $this->principal_url . 'principal.vcf';
+    $this->principal_address = $this->url . 'principal.vcf';
 
     $this->user_address_set = array(
        'mailto:'.$this->email,
-       ConstructURL( '/'.$this->username.'/', true ),
+       $this->url,
 //       ConstructURL( '/~'.$this->username.'/', true ),
 //       ConstructURL( '/__uuids__/'.$this->username.'/', true ),
     );
-    $this->schedule_inbox_url = sprintf( '%s.in/', $this->url);
-    $this->schedule_outbox_url = sprintf( '%s.out/', $this->url);
-    $this->dropbox_url = sprintf( '%s.drop/', $this->url);
-    $this->notifications_url = sprintf( '%s.notify/', $this->url);
 
     if ( isset ( $c->notifications_server ) ) {
       $this->xmpp_uri = 'xmpp:pubsub.'.$c->notifications_server['host'].'?pubsub;node=/davical-'.$this->principal_id;
@@ -229,7 +163,7 @@ class CalDAVPrincipal
     if ( $this->_is_group ) {
       $this->group_member_set = array();
       $qry = new AwlQuery('SELECT usr.username FROM group_member JOIN principal ON (principal_id=member_id) JOIN usr USING(user_no) WHERE group_id = :group_id ORDER BY principal.principal_id ', array( ':group_id' => $this->principal_id) );
-      if ( $qry->Exec('CalDAVPrincipal') && $qry->rows() > 0 ) {
+      if ( $qry->Exec('DAVPrincipal') && $qry->rows() > 0 ) {
         while( $member = $qry->Fetch() ) {
           $this->group_member_set[] = ConstructURL( '/'. $member->username . '/', true);
         }
@@ -238,7 +172,7 @@ class CalDAVPrincipal
 
     $this->group_membership = array();
     $qry = new AwlQuery('SELECT usr.username FROM group_member JOIN principal ON (principal_id=group_id) JOIN usr USING(user_no) WHERE member_id = :member_id UNION SELECT usr.username FROM group_member LEFT JOIN grants ON (to_principal=group_id) JOIN principal ON (principal_id=by_principal) JOIN usr USING(user_no) WHERE member_id = :member_id and by_principal != member_id ORDER BY 1', array( ':member_id' => $this->principal_id ) );
-    if ( $qry->Exec('CalDAVPrincipal') && $qry->rows() > 0 ) {
+    if ( $qry->Exec('DAVPrincipal') && $qry->rows() > 0 ) {
       while( $group = $qry->Fetch() ) {
         $this->group_membership[] = ConstructURL( '/'. $group->username . '/', true);
       }
@@ -249,7 +183,7 @@ class CalDAVPrincipal
     $this->write_proxy_for = null;
     $this->read_proxy_for = null;
 
-    dbg_error_log( 'principal', ' User: %s (%d) URL: %s, Home: %s, By Email: %d', $this->username, $this->user_no, $this->url, $this->principal_url, $this->by_email );
+    dbg_error_log( 'principal', ' User: %s (%d) URL: %s, By Email: %d', $this->username, $this->user_no, $this->url, $this->by_email );
   }
 
 
@@ -272,7 +206,7 @@ class CalDAVPrincipal
       $sql = 'SELECT principal_id, username, pprivs(:request_principal::int8,principal_id,:scan_depth::int) FROM principal JOIN usr USING(user_no) WHERE principal_id IN (SELECT * from p_has_proxy_access_to(:request_principal,:scan_depth))';
       $params = array( ':request_principal' => $this->principal_id, ':scan_depth' => $c->permission_scan_depth );
       $qry = new AwlQuery($sql, $params);
-      if ( $qry->Exec('CalDAVPrincipal') && $qry->rows() > 0 ) {
+      if ( $qry->Exec('DAVPrincipal') && $qry->rows() > 0 ) {
         while( $relationship = $qry->Fetch() ) {
           if ( (bindec($relationship->pprivs) & $write_priv) != 0 ) {
             $this->write_proxy_for[] = ConstructURL( '/'. $relationship->username . '/', true);
@@ -287,7 +221,7 @@ class CalDAVPrincipal
 
       $sql = 'SELECT principal_id, username, pprivs(:request_principal::int8,principal_id,:scan_depth::int) FROM principal JOIN usr USING(user_no) WHERE principal_id IN (SELECT * from grants_proxy_access_from_p(:request_principal,:scan_depth))';
       $qry = new AwlQuery($sql, $params ); // reuse $params assigned for earlier query
-      if ( $qry->Exec('CalDAVPrincipal') && $qry->rows() > 0 ) {
+      if ( $qry->Exec('DAVPrincipal') && $qry->rows() > 0 ) {
         while( $relationship = $qry->Fetch() ) {
           if ( bindec($relationship->pprivs) & $write_priv ) {
             $this->write_proxy_group[] = ConstructURL( '/'. $relationship->username . '/', true);
@@ -353,85 +287,11 @@ class CalDAVPrincipal
 
 
   /**
-  * Work out the username, based on elements of the path.
-  * @param string $path The path to be used.
-  * @param array $options The request options, controlling whether e-mail paths are allowed.
-  */
-  function UsernameFromPath( $path, $options = null ) {
-    global $session, $c;
-
-    if ( $path == '/' || $path == '' ) {
-      dbg_error_log( 'principal', 'No useful path split possible' );
-      return $session->username;
-    }
-
-    $path_split = explode('/', $path );
-    @dbg_error_log( 'principal', 'Path split into at least /// %s /// %s /// %s', $path_split[1], $path_split[2], $path_split[3] );
-
-    $username = $path_split[1];
-    if ( $path_split[1] == 'principals' && isset($path_split[3]) ) $username = $path_split[3];
-    if ( substr($username,0,1) == '~' ) $username = substr($username,1);
-
-    if ( isset($options['allow_by_email']) && $options['allow_by_email'] && preg_match( '#^(\S+@\S+[.]\S+)$#', $username) ) {
-      $username = $this->UsernameFromEMail($username);
-    }
-    return $username;
-  }
-
-
-  /**
-  * Work out the username, based on the given e-mail
-  * @param string $email The email address to be used.
-  */
-  function UsernameFromEMail( $email ) {
-    @dbg_error_log( 'principal', 'Retrieving username from e-mail address "%s" ', $email );
-    $qry = new AwlQuery('SELECT username FROM usr WHERE email = :email', array( ':email' => $email ) );
-    if ( $qry->Exec('principal') && $user = $qry->Fetch() ) {
-      $username = $user->username;
-      $this->by_email = true;
-      return $username;
-    }
-    return null;
-  }
-
-
-  /**
-  * Does this principal exist?
-  * @return boolean Whether or not it exists.
-  */
-  function Exists() {
-    return $this->exists;
-  }
-
-
-  /**
   * Is this a group principal?
   * @return boolean Whether this is a group principal
   */
   function IsGroup() {
     return $this->_is_group;
-  }
-
-
-  /**
-  * Return the username
-  * @return string The username
-  */
-  function username() {
-    return (isset($this->username)?$this->username:'username not set');
-  }
-
-
-  /**
-  * Return the partial path representing this principal
-  * @return string The dav_name
-  */
-  function dav_name() {
-    if ( !isset($this->dav_name) ) {
-      if ( !isset($this->username) ) $this->dav_name = '';
-      else $this->dav_name = '/'.$this->username.'/';
-    }
-    return $this->dav_name;
   }
 
 
@@ -457,13 +317,15 @@ class CalDAVPrincipal
     return null;
   }
 
-
   /**
-  * Return the URL for this principal
-  * @return string The principal-URL, or null if they don't exist
+  * Returns the unique_tag (ETag or getctag) for this resource
   */
-  function url() {
-    return ($this->exists ? $this->url : null );
+  public function unique_tag() {
+    if ( isset($this->unique_tag) ) return $this->unique_tag;
+
+    if ( $this->exists !== true ) $this->unique_tag = '"-1"';
+
+    return $this->unique_tag;
   }
 
 
@@ -473,17 +335,18 @@ class CalDAVPrincipal
   function calendar_home_set() {
     if ( !isset($this->calendar_home_set) ) {
       $this->calendar_home_set = array();
-/*      $qry = new AwlQuery('SELECT DISTINCT parent_container FROM collection WHERE is_calendar AND user_no = :user_no', array( ':user_no' => $this->user_no));
+      $qry = new AwlQuery('SELECT DISTINCT parent_container FROM collection WHERE is_calendar AND dav_name ~ :dav_name_start',
+                             array( ':dav_name_start' => '^'.$this->dav_name));
       if ( $qry->Exec('principal',__LINE__,__FILE__) ) {
         if ( $qry->rows() > 0 ) {
           while( $calendar = $qry->Fetch() ) {
             $this->calendar_home_set[] = ConstructURL($calendar->parent_container, true);
           }
         }
-        else {*/
-          $this->calendar_home_set[] = $this->principal_url;
-//         }
-//       }
+        else {
+          $this->calendar_home_set[] = $this->url;
+        }
+      }
     }
     return $this->calendar_home_set;
   }
@@ -494,18 +357,19 @@ class CalDAVPrincipal
   */
   function addressbook_home_set() {
     if ( !isset($this->addressbook_home_set) ) {
-     $this->addressbook_home_set = array();
-/*      $qry = new AwlQuery('SELECT DISTINCT parent_container FROM collection WHERE is_addressbook AND user_no = :user_no', array( ':user_no' => $this->user_no));
+      $this->addressbook_home_set = array();
+      $qry = new AwlQuery('SELECT DISTINCT parent_container FROM collection WHERE is_addressbook AND dav_name ~ :dav_name_start',
+                             array( ':dav_name_start' => '^'.$this->dav_name));
       if ( $qry->Exec('principal',__LINE__,__FILE__) ) {
         if ( $qry->rows() > 0 ) {
           while( $addressbook = $qry->Fetch() ) {
             $this->addressbook_home_set[] = ConstructURL($addressbook->parent_container, true);
           }
         }
-        else {*/
-          $this->addressbook_home_set[] = $this->principal_url;
-//         }
-//       }
+        else {
+          $this->addressbook_home_set[] = $this->url;
+        }
+      }
     }
     return $this->addressbook_home_set;
   }
@@ -518,11 +382,11 @@ class CalDAVPrincipal
     if ( !isset($this->calendar_free_busy_set) ) {
       /**
       * calendar-free-busy-set has been dropped from draft 5 of the scheduling extensions for CalDAV
-      * in favour of
+      * in favour of ???
       */
       $this->calendar_free_busy_set = array();
-      $qry = new AwlQuery('SELECT dav_name FROM collection WHERE user_no = :user_no AND is_calendar AND (schedule_transp = \'opaque\' OR schedule_transp IS NULL) ORDER BY user_no, collection_id',
-                        array( ':user_no' => $this->user_no) );
+      $qry = new AwlQuery('SELECT dav_name FROM collection WHERE is_calendar AND (schedule_transp = \'opaque\' OR schedule_transp IS NULL) AND dav_name ~ :dav_name_start ORDER BY user_no, collection_id',
+                             array( ':dav_name_start' => '^'.$this->dav_name));
       if ( $qry->Exec('principal',__LINE__,__FILE__) ) {
         while( $calendar = $qry->Fetch() ) {
           $this->calendar_free_busy_set[] = ConstructURL($calendar->dav_name, true);
@@ -532,6 +396,7 @@ class CalDAVPrincipal
     return $this->calendar_free_busy_set;
   }
 
+  
   /**
   * Return the privileges bits for the current session user to this resource
   */
@@ -539,8 +404,10 @@ class CalDAVPrincipal
     global $session;
     if ( !isset($this->privileges) ) $this->privileges = 0;
     if ( is_string($this->privileges) ) $this->privileges = bindec( $this->privileges );
-    if ( $this->_is_group && in_array(ConstructURL('/'.$session->username.'/'), $this->GroupMemberSet()) ) {
-      $this->privileges |=  privilege_to_bits( array('DAV::read', 'DAV::read-current-user-privilege-set') ); 
+    if ( $this->_is_group ) {
+      if ( in_array($session->principal->url(), $this->GroupMemberSet()) ) {
+        $this->privileges |=  privilege_to_bits( array('DAV::read', 'DAV::read-current-user-privilege-set') );
+      } 
     }
     return $this->privileges;
   }
@@ -550,24 +417,31 @@ class CalDAVPrincipal
   * Returns a representation of the principal as a collection
   */
   function AsCollection() {
+    $dav_name = (isset($this->original_request_url) ? DeconstructURL($this->original_request_url) : $this->dav_name());
     $collection = (object) array(
-                            'collection_id' => (isset($this->principal_id) ? $this->principal_id : 0),
+                            'collection_id' => ($this->principal_id() ? $this->principal_id() : 0),
                             'is_calendar' => false,
                             'is_addressbook' => false,
                             'is_principal' => true,
-                            'type'     => 'principal' . (substr($this->dav_name(), 0, 12) == '/principals/'?'_link':''),
-                            'user_no'  => (isset($this->user_no)  ? $this->user_no : 0),
+                            'type'     => 'principal' . (isset($this->original_request_url) ? '_link' : ''),
+                            'user_no'  => ($this->user_no() ? $this->user_no() : 0),
                             'username' => $this->username(),
-                            'dav_name' => $this->dav_name,
+                            'dav_name' => $dav_name,
                             'parent_container' => '/',
-                            'email'    => (isset($this->email)    ? $this->email : ''),
-                            'created'  => (isset($this->created)  ? $this->created : date('Ymd\THis')),
-                            'updated'  => (isset($this->updated)  ? $this->updated : date('Ymd\THis'))
+                            'email'    => ($this->email()? $this->email() : ''),
+                            'created'  => $this->created,
+                            'updated'  => $this->modified,
+                            'dav_etag' => substr($this->unique_tag(),1,-1),
+                            'resourcetypes' => $this->resourcetypes
                   );
-    $collection->dav_etag = (isset($this->dav_etag) ? $this->dav_etag : md5($collection->username . $collection->updated));
     $collection->dav_displayname =  (isset($this->dav_displayname) ? $this->dav_displayname : (isset($this->fullname) ? $this->fullname : $collection->username));
 
     return $collection;
+  }
+
+
+  function PropertySearch( $parameters ) {
+    throw new Exception("Unimplemented!");
   }
 
   /**
@@ -590,7 +464,7 @@ class CalDAVPrincipal
         break;
 
       case 'DAV::principal-URL':
-        $prop->NewElement('principal-URL', $reply->href($this->principal_url) );
+        $prop->NewElement('principal-URL', $reply->href($this->url()) );
         break;
 
       case 'DAV::getlastmodified':
@@ -618,15 +492,15 @@ class CalDAVPrincipal
         break;
 
       case 'urn:ietf:params:xml:ns:caldav:schedule-inbox-URL':
-        $reply->CalDAVElement($prop, 'schedule-inbox-URL', $reply->href($this->schedule_inbox_url) );
+        $reply->CalDAVElement($prop, 'schedule-inbox-URL', $reply->href($this->url('schedule_inbox')) );
         break;
 
       case 'urn:ietf:params:xml:ns:caldav:schedule-outbox-URL':
-        $reply->CalDAVElement($prop, 'schedule-outbox-URL', $reply->href($this->schedule_outbox_url) );
+        $reply->CalDAVElement($prop, 'schedule-outbox-URL', $reply->href($this->url('schedule_outbox')) );
         break;
 
       case 'http://calendarserver.org/ns/:dropbox-home-URL':
-        $reply->CalendarserverElement($prop, 'dropbox-home-URL', $reply->href($this->dropbox_url) );
+        $reply->CalendarserverElement($prop, 'dropbox-home-URL', $reply->href($this->url('dropbox')) );
         break;
 
       case 'http://calendarserver.org/ns/:xmpp-server':
@@ -657,7 +531,7 @@ class CalDAVPrincipal
 
       case 'DAV::owner':
         // After a careful reading of RFC3744 we see that this must be the principal-URL of the owner
-        $reply->DAVElement( $prop, 'owner', $reply->href( $this->principal_url ) );
+        $reply->DAVElement( $prop, 'owner', $reply->href( $this->url ) );
         break;
 
       // Empty tag responses.

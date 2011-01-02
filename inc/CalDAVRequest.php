@@ -16,7 +16,7 @@
 
 require_once("AwlCache.php");
 require_once("XMLDocument.php");
-require_once("CalDAVPrincipal.php");
+require_once("DAVPrincipal.php");
 include("DAVTicket.php");
 
 define('DEPTH_INFINITY', 9999);
@@ -48,7 +48,7 @@ class CalDAVRequest
 
   /**
   * The 'principal' (user/resource/...) which this request seeks to access
-  * @var CalDAVPrincipal
+  * @var DAVPrincipal
   */
   var $principal;
 
@@ -137,7 +137,6 @@ class CalDAVRequest
 
     $this->options = $options;
     if ( !isset($this->options['allow_by_email']) ) $this->options['allow_by_email'] = false;
-    $this->principal = (object) array( 'username' => $session->username, 'user_no' => $session->user_no );
 
     $this->raw_post = file_get_contents ( 'php://input');
 
@@ -281,14 +280,7 @@ class CalDAVRequest
     }
     if ( strstr($this->path,'//') ) $this->path = preg_replace( '#//+#', '/', $this->path);
 
-    $this->user_no = $session->user_no;
-    $this->username = $session->username;
-    if ( $session->user_no > 0 ) {
-      $this->current_user_principal_url = new XMLElement('href', ConstructURL('/'.$session->username.'/') );
-    }
-    else {
-      $this->current_user_principal_url = new XMLElement('unauthenticated' );
-    }
+    $this->principal = new Principal('path',$this->path);
 
     /**
     * RFC2518, 5.2: URL pointing to a collection SHOULD end in '/', and if it does not then
@@ -402,11 +394,11 @@ EOSQL;
     /**
     * Extract the user whom we are accessing
     */
-    $this->principal = new CalDAVPrincipal( array( "path" => $this->path, "options" => $this->options ) );
-    if ( isset($this->principal->user_no) ) $this->user_no  = $this->principal->user_no;
-    if ( isset($this->principal->username)) $this->username = $this->principal->username;
-    if ( isset($this->principal->by_email) && $this->principal->by_email) $this->by_email = true;
-    if ( isset($this->principal->principal_id)) $this->principal_id = $this->principal->principal_id;
+    $this->principal = new DAVPrincipal( array( "path" => $this->path, "options" => $this->options ) );
+    $this->user_no  = $this->principal->user_no();
+    $this->username = $this->principal->username();
+    $this->by_email = $this->principal->byEmail();
+    $this->principal_id = $this->principal->principal_id();
 
     if ( $this->collection_type == 'principal' || $this->collection_type == 'email' || $this->collection_type == 'proxy' ) {
       $this->collection = $this->principal->AsCollection();
@@ -563,45 +555,6 @@ EOSQL;
 
 
   /**
-  * Work out the user whose calendar we are accessing, based on elements of the path.
-  */
-  function UserFromPath() {
-    global $session;
-
-    $this->user_no = $session->user_no;
-    $this->username = $session->username;
-    $this->principal_id = $session->principal_id;
-
-    @dbg_error_log( "WARN", "Call to deprecated CalDAVRequest::UserFromPath()" );
-
-    if ( $this->path == '/' || $this->path == '' ) {
-      dbg_error_log( "caldav", "No useful path split possible" );
-      return false;
-    }
-
-    $path_split = explode('/', $this->path );
-    $this->username = $path_split[1];
-    if ( $this->username == 'principals' ) $this->username = $path_split[3];
-    @dbg_error_log( "caldav", "Path split into at least /// %s /// %s /// %s", $path_split[1], $path_split[2], $path_split[3] );
-    if ( isset($this->options['allow_by_email']) && preg_match( '#/(\S+@\S+[.]\S+)/?$#', $this->path, $matches) ) {
-      $this->by_email = $matches[1];
-      $qry = new AwlQuery("SELECT user_no, principal_id, username FROM usr JOIN principal USING (user_no) WHERE email = :email",
-                          array(':email' => $this->by_email ) );
-      if ( $qry->Exec('caldav',__LINE__,__FILE__) && $user = $qry->Fetch() ) {
-        $this->user_no = $user->user_no;
-        $this->username = $user->username;
-        $this->principal_id = $user->principal_id;
-      }
-    }
-    elseif( $user = getUserByName($this->username,'caldav',__LINE__,__FILE__)) {
-      $this->principal = $user;
-      $this->user_no = $user->user_no;
-      $this->principal_id = $user->principal_id;
-    }
-  }
-
-
-  /**
   * Permissions are controlled as follows:
   *  1. if the path is '/', the request has read privileges
   *  2. if the requester is an admin, the request has read/write priviliges
@@ -620,9 +573,9 @@ EOSQL;
       $this->privileges = privilege_to_bits( array('read','read-free-busy','read-acl'));
       dbg_error_log( "caldav", "Full read permissions for user accessing /" );
     }
-    else if ( $session->AllowedTo("Admin") || $session->user_no == $this->user_no ) {
+    else if ( $session->AllowedTo("Admin") || $session->principal->user_no() == $this->user_no ) {
       $this->privileges = privilege_to_bits('all');
-      dbg_error_log( "caldav", "Full permissions for %s", ( $session->user_no == $this->user_no ? "user accessing their own hierarchy" : "a systems administrator") );
+      dbg_error_log( "caldav", "Full permissions for %s", ( $session->principal->user_no() == $this->user_no ? "user accessing their own hierarchy" : "a systems administrator") );
     }
     else {
       $this->privileges = 0;
@@ -638,7 +591,7 @@ EOSQL;
       /**
       * In other cases we need to query the database for permissions
       */
-      $params = array( ':session_principal_id' => $session->principal_id, ':scan_depth' => $c->permission_scan_depth );
+      $params = array( ':session_principal_id' => $session->principal->principal_id(), ':scan_depth' => $c->permission_scan_depth );
       if ( isset($this->by_email) && $this->by_email ) {
         $sql ='SELECT pprivs( :session_principal_id::int8, :request_principal_id::int8, :scan_depth::int ) AS perm';
         $params[':request_principal_id'] = $this->principal_id;
@@ -1006,7 +959,7 @@ EOSQL;
   */
   function AllowedTo( $activity ) {
     global $session;
-    dbg_error_log('caldav', 'Checking whether "%s" is allowed to "%s"', $session->username, $activity);
+    dbg_error_log('caldav', 'Checking whether "%s" is allowed to "%s"', $session->principal->username(), $activity);
     if ( isset($this->permissions['all']) ) return true;
     switch( $activity ) {
       case 'all':
@@ -1209,7 +1162,7 @@ EOSQL;
         $message = substr( preg_replace("#\s+#m", ' ', $message ), 0, 100) . (strlen($message) > 100 ? "..." : "");
       }
 
-      dbg_error_log("caldav", "Status: %d, Message: %s, User: %d, Path: %s", $status, $message, $session->user_no, $this->path);
+      dbg_error_log("caldav", "Status: %d, Message: %s, User: %d, Path: %s", $status, $message, $session->principal->user_no(), $this->path);
     }
     if ( isset($c->dbg['statistics']) && $c->dbg['statistics'] ) {
       $script_time = microtime(true) - $c->script_start_time;

@@ -128,23 +128,21 @@ class HTTPAuthSession {
     * Fall through to the normal PHP authentication variables.
     */
     if ( isset($_SERVER['PHP_AUTH_USER']) ) {
-      if ( $u = $this->CheckPassword( $_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'] ) ) {
+      if ( $p = $this->CheckPassword( $_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'] ) ) {
         /**
          * Maybe some external authentication didn't return false for an inactive
          * user, so we'll be pedantic here. 
          */
-        if ( $u->active ) {
-          $this->AssignSessionDetails($u);
+        if ( $p->user_active ) {
+          $this->AssignSessionDetails($p);
           return;
         }
       }
     }
 
     if ( isset($c->allow_unauthenticated) && $c->allow_unauthenticated ) {
-      $this->user_no = -1;
-      $this->username = 'guest';
-      $this->fullname = 'Unauthenticated User';
-      $this->email = 'invalid';
+      $this->AssignSessionDetails('unauthenticated');
+      $this->logged_in = false;
       return;
     }
 
@@ -247,10 +245,10 @@ class HTTPAuthSession {
       }
     }
 
-    if ( $usr = getUserByName($username) ) {
-      dbg_error_log( "BasicAuth", ":CheckPassword: Name:%s, Pass:%s, File:%s, Active:%s", $username, $password, $usr->password, ($usr->active?'Yes':'No') );
-      if ( $usr->active && session_validate_password( $password, $usr->password ) ) {
-        return $usr;
+    if ( $principal = new Principal('username', $username) ) {
+      dbg_error_log( "BasicAuth", ":CheckPassword: Name:%s, Pass:%s, File:%s, Active:%s", $username, $password, $principal->password, ($principal->user_active?'Yes':'No') );
+      if ( $principal->user_active && session_validate_password( $password, $principal->password ) ) {
+        return $principal;
       }
     }
     return false;
@@ -288,20 +286,26 @@ class HTTPAuthSession {
   * Internal function used to assign the session details to a user's new session.
   * @param object $u The user+session object we (probably) read from the database.
   */
-  function AssignSessionDetails( $u ) {
-    if ( !isset($u->principal_id) ) {
-      // If they don't have a principal_id set then we should re-read from our local database
-      $qry = new AwlQuery('SELECT * FROM dav_principal WHERE username = :username', array(':username' => $u->username) );
-      if ( $qry->Exec() && $qry->rows() == 1 ) {
-        $u = $qry->Fetch();
-      }
+  function AssignSessionDetails( $principal ) {
+    if ( is_string($principal) ) $principal = new Principal('username',$principal);
+    if ( get_class($principal) != 'Principal' ) {
+      $principal = new Principal('username',$principal->username);
     }
 
     // Assign each field in the selected record to the object
-    foreach( $u AS $k => $v ) {
+    foreach( $principal AS $k => $v ) {
       $this->{$k} = $v;
     }
-
+    if ( !get_class($principal) == 'Principal' ) {
+      throw new Exception('HTTPAuthSession::AssignSessionDetails could not find a Principal object');
+    }
+    $this->username = $principal->username();
+    $this->user_no  = $principal->user_no();
+    $this->principal_id = $principal->principal_id();
+    $this->email = $principal->email();
+    $this->dav_name = $principal->dav_name();
+    $this->principal = $principal;
+    
     $this->GetRoles();
     $this->logged_in = true;
     if ( function_exists("awl_set_locale") && isset($this->locale) && $this->locale != "" ) {

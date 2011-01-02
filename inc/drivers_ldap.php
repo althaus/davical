@@ -5,7 +5,8 @@
 * @package   davical
 * @category Technical
 * @subpackage   ldap
-* @author    Maxime Delorme <mdelorme@tennaxia.net>
+* @author    Maxime Delorme <mdelorme@tennaxia.net>,
+*   		 Andrew McMillan <andrew@mcmillan.net.nz>
 * @copyright Maxime Delorme
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v2 or later
 */
@@ -248,7 +249,7 @@ function getStaticLdap() {
 
   // If the instance is not there, create one
   if(!isset($instance)) {
-    $ldapDrivers =& new ldapDrivers($c->authenticate_hook['config']);
+    $ldapDrivers = new ldapDrivers($c->authenticate_hook['config']);
   }
   return $ldapDrivers;
 }
@@ -256,32 +257,36 @@ function getStaticLdap() {
 
 /**
 * Synchronise a cached user with one from LDAP
-* @param object $usr A user record to be updated (or created)
+* @param object $principal A Principal object to be updated (or created)
 */
-function sync_user_from_LDAP( &$usr, $mapping, $ldap_values ) {
+function sync_user_from_LDAP( Principal &$principal, $mapping, $ldap_values ) {
   global $c;
 
   dbg_error_log( "LDAP", "Going to sync the user from LDAP" );
-  $validUserFields = get_fields('usr');
 
+  $fields_to_set = array();
+  $updateable_fields = Principal::updateableFields();
+  $updateable_fields[] = 'active';  // Backward compatibility: now 'user_exists'
+  $updateable_fields[] = 'updated'; // Backward compatibility: now 'modified'
   if ( isset($c->authenticate_hook['config']['default_value']) && is_array($c->authenticate_hook['config']['default_value']) ) {
-    foreach ( $c->authenticate_hook['config']['default_value'] as $field => $value ) {
-      if ( isset($validUserFields[$field]) ) {
-        $usr->{$field} =  $value;
-        dbg_error_log( "LDAP", "Setting usr->%s to %s from configured defaults", $field, $value );
+    foreach( $updateable_fields AS $field ) {
+      if ( isset($ldap_values[$mapping[$field]]) ) {
+        $fields_to_set[$field] = $ldap_values[$mapping[$field]];
+        dbg_error_log( "LDAP", "Setting usr->%s to %s from LDAP field %s", $field, $ldap_values[$mapping[$field]], $mapping[$field] );
+      }
+      else if ( isset($c->authenticate_hook['config']['default_value'][$field] ) ) {
+        $fields_to_set[$field] = $c->authenticate_hook['config']['default_value'][$field];
+        dbg_error_log( "LDAP", "Setting usr->%s to %s from configured defaults", $field, $c->authenticate_hook['config']['default_value'][$field] );
       }
     }
   }
-
-  foreach ( $mapping as $field => $value ) {
-    dbg_error_log( "LDAP", "Considering copying %s", $field );
-    if ( isset($validUserFields[$field]) ) {
-      $usr->{$field} =  $ldap_values[$value];
-      dbg_error_log( "LDAP", "Setting usr->%s to %s from LDAP field %s", $field, $ldap_values[$value], $value );
-    }
+  if ( $principal->Exists ) {
+    $principal->Update($fields_to_set);
   }
-
-  UpdateUserFromExternal( $usr );
+  else {
+    $principal->Create($fields_to_set);
+    CreateHomeCalendar($principal->username());
+  }
 }
 
 
@@ -332,24 +337,25 @@ function LDAP_check($username, $password ){
   $ldap_timestamp = "$Y"."$m"."$d"."$H"."$M"."$S";
   $valid[$mapping["updated"]] = "$Y-$m-$d $H:$M:$S";
 
-  if ( $usr = getUserByName($username) ) {
+  $principal = new Principal('username',$username);
+  if ( $principal->Exists() ) {
     // should we update it ?
-    $db_timestamp = $usr->updated;
+    $db_timestamp = $principal->modified;
     $db_timestamp = substr(strtr($db_timestamp, array(':' => '',' '=>'','-'=>'')),0,14);
-    if($ldap_timestamp <= $db_timestamp) {
-        return $usr; // no need to update
+    if( $ldap_timestamp <= $db_timestamp ) {
+        return $principal; // no need to update
     }
     // we will need to update the user record
   }
   else {
     dbg_error_log( "LDAP", "user %s doesn't exist in local DB, we need to create it",$username );
-    $usr = (object) array( 'user_no' => 0 );
+    $principal->setUsername($username );
   }
 
   // The local cached user doesn't exist, or is older, so we create/update their details
-  sync_user_from_LDAP($usr, $mapping, $valid );
-
-  return $usr;
+  sync_user_from_LDAP( $principal, $mapping, $valid );
+  
+  return $principal;
 
 }
 
@@ -359,117 +365,132 @@ function LDAP_check($username, $password ){
 function sync_LDAP_groups(){
   global $c;
   $ldapDriver = getStaticLdap();
-  if($ldapDriver->valid){
-    $mapping = $c->authenticate_hook['config']['group_mapping_field'];
-    //$attributes = array('cn','modifyTimestamp','memberUid');
-    $attributes = array_values($mapping);
-    $ldap_groups_tmp = $ldapDriver->getAllGroups($attributes);
+  if ( $ldapDriver->valid ) return;
 
-    if ( sizeof($ldap_groups_tmp) == 0 )
-      return;
+  $mapping = $c->authenticate_hook['config']['group_mapping_field'];
+  //$attributes = array('cn','modifyTimestamp','memberUid');
+  $attributes = array_values($mapping);
+  $ldap_groups_tmp = $ldapDriver->getAllGroups($attributes);
 
-    foreach($ldap_groups_tmp as $key => $ldap_group){
-      $ldap_groups_info[$ldap_group[$mapping['username']]] = $ldap_group;
-      if (is_array($ldap_groups_info[$ldap_group[$mapping['username']]][$mapping['members']])) {
-      unset ( $ldap_groups_info[$ldap_group[$mapping['username']]][$mapping['members']]['count'] );
+  if ( sizeof($ldap_groups_tmp) == 0 ) return;
+
+  $member_field = $mapping['members'];
+
+  foreach($ldap_groups_tmp as $key => $ldap_group){
+    $group_mapping = $ldap_group[$mapping['username']];
+    $ldap_groups_info[$group_mapping] = $ldap_group;
+    if ( is_array($ldap_groups_info[$group_mapping][$member_field]) ) {
+      unset( $ldap_groups_info[$group_mapping][$member_field]['count'] );
+    }
+    else {
+      $ldap_groups_info[$group_mapping][$member_field] = array($ldap_groups_info[$group_mapping][$member_field]);
+    }
+    unset($ldap_groups_tmp[$key]);
+  }
+  $db_groups = array();
+  $db_group_members = array();
+  $qry = new AwlQuery( "SELECT g.username AS group_name, member.username AS member_name FROM dav_principal g LEFT JOIN group_member ON (g.principal_id=group_member.group_id) LEFT JOIN dav_principal member  ON (member.principal_id=group_member.member_id) WHERE g.type_id = 3");
+  $qry->Exec('sync_LDAP',__LINE__,__FILE__);
+  while($db_group = $qry->Fetch()) {
+    $db_groups[$db_group->group_name] = $db_group->group_name;
+    $db_group_members[$db_group->group_name][] = $db_group->member_name;
+  }
+
+  $ldap_groups = array_keys($ldap_groups_info);
+  // users only in ldap
+  $groups_to_create = array_diff($ldap_groups,$db_groups);
+  // users only in db
+  $groups_to_deactivate = array_diff($db_groups,$ldap_groups);
+  // users present in ldap and in the db
+  $groups_to_update = array_intersect($db_groups,$ldap_groups);
+
+  if ( sizeof ( $groups_to_create ) ){
+    $c->messages[] = sprintf(i18n('- creating groups : %s'),join(', ',$groups_to_create));
+    $validUserFields = get_fields('usr');
+    foreach ( $groups_to_create as $k => $group ){
+      $user = (object) array();
+
+      if ( isset($c->authenticate_hook['config']['default_value']) && is_array($c->authenticate_hook['config']['default_value']) ) {
+        foreach ( $c->authenticate_hook['config']['default_value'] as $field => $value ) {
+          if ( isset($validUserFields[$field]) ) {
+            $user->{$field} =  $value;
+            dbg_error_log( "LDAP", "Setting usr->%s to %s from configured defaults", $field, $value );
+          }
+        }
+      }
+      $user->user_no = 0;
+      $ldap_values = $ldap_groups_info[$group];
+      foreach ( $mapping as $field => $value ) {
+        dbg_error_log( "LDAP", "Considering copying %s", $field );
+        if ( isset($validUserFields[$field]) ) {
+          $user->{$field} =  $ldap_values[$value];
+          dbg_error_log( "LDAP", "Setting usr->%s to %s from LDAP field %s", $field, $ldap_values[$value], $value );
+        }
+      }
+      if ($user->fullname=="") {
+        $user->fullname = $group;
+      }
+      if ($user->displayname=="") {
+        $user->displayname = $group;
+      }
+      $user->username = $group;
+      $user->updated = "now";  /** @todo Use the 'updated' timestamp from LDAP for groups too */
+
+      $principal = new Principal('username',$group);
+      if ( $principal->Exists() ) {
+        $principal->Update($user);
       }
       else {
-          $ldap_groups_info[$ldap_group[$mapping['username']]][$mapping['members']] = array($ldap_groups_info[$ldap_group[$mapping['username']]][$mapping['members']]);
+        $principal->Create($user);
       }
-      unset($ldap_groups_tmp[$key]);
-    }
-    $db_groups = array ();
-    $db_group_members = array ();
-    $qry = new AwlQuery( "SELECT g.username AS group_name, member.username AS member_name FROM dav_principal g LEFT JOIN group_member ON (g.principal_id=group_member.group_id) LEFT JOIN dav_principal member  ON (member.principal_id=group_member.member_id) WHERE g.type_id = 3");
-    $qry->Exec('sync_LDAP',__LINE__,__FILE__);
-    while($db_group = $qry->Fetch()) {
-      $db_groups[$db_group->group_name] = $db_group->group_name;
-      $db_group_members[$db_group->group_name][] = $db_group->member_name;
-    }
 
-    $ldap_groups = array_keys($ldap_groups_info);
-    // users only in ldap
-    $groups_to_create = array_diff($ldap_groups,$db_groups);
-    // users only in db
-    $groups_to_deactivate = array_diff($db_groups,$ldap_groups);
-    // users present in ldap and in the db
-    $groups_to_update = array_intersect($db_groups,$ldap_groups);
-
-    if ( sizeof ( $groups_to_create ) ){
-      $c->messages[] = sprintf(i18n('- creating groups : %s'),join(', ',$groups_to_create));
-      $validUserFields = get_fields('usr');
-      foreach ( $groups_to_create as $k => $group ){
-        $user = (object) array( 'user_no' => 0, 'username' => '' );
-
-        if ( isset($c->authenticate_hook['config']['default_value']) && is_array($c->authenticate_hook['config']['default_value']) ) {
-          foreach ( $c->authenticate_hook['config']['default_value'] as $field => $value ) {
-            if ( isset($validUserFields[$field]) ) {
-              $usr->{$field} =  $value;
-              dbg_error_log( "LDAP", "Setting usr->%s to %s from configured defaults", $field, $value );
-            }
-          }
-        }
-        $user->user_no = 0;
-        $ldap_values = $ldap_groups_info[$group];
-        foreach ( $mapping as $field => $value ) {
-          dbg_error_log( "LDAP", "Considering copying %s", $field );
-          if ( isset($validUserFields[$field]) ) {
-            $user->{$field} =  $ldap_values[$value];
-            dbg_error_log( "LDAP", "Setting usr->%s to %s from LDAP field %s", $field, $ldap_values[$value], $value );
-          }
-        }
-        if ($user->fullname=="") {
-          $user->fullname = $group;
-        }
-        if ($user->displayname=="") {
-          $user->displayname = $group;
-        }
-        $user->username = $group;
-        $user->updated = "now";  /** @todo Use the 'updated' timestamp from LDAP for groups too */
-
-        UpdateUserFromExternal( $user );
-        $qry = new AwlQuery( "UPDATE dav_principal set type_id = 3 WHERE username=:group ",array(':group'=>$group) );
-        $qry->Exec('sync_LDAP',__LINE__,__FILE__);
-        $c->messages[] = sprintf(i18n('- adding users %s to group : %s'),join(',',$ldap_groups_info[$group][$mapping['members']]),$group);
-        foreach ( $ldap_groups_info[$group][$mapping['members']] as $member ){
-          $qry = new AwlQuery( "INSERT INTO group_member SELECT g.principal_id AS group_id,u.principal_id AS member_id FROM dav_principal g, dav_principal u WHERE g.username=:group AND u.username=:member;",array (':group'=>$group,':member'=>$member) );
-          $qry->Exec('sync_LDAP_groups',__LINE__,__FILE__);
-        }
-      }
-    }
-
-    if ( sizeof ( $groups_to_update ) ){
-      $c->messages[] = sprintf(i18n('- updating groups : %s'),join(', ',$groups_to_update));
-      foreach ( $groups_to_update as $group ){
-        $db_members = array_values ( $db_group_members[$group] );
-        $ldap_members = array_values ( $ldap_groups_info[$group][$mapping['members']] );
-        $add_users = array_diff ( $ldap_members, $db_members );
-        if ( sizeof ( $add_users ) ){
-          $c->messages[] = sprintf(i18n('- adding %s to group : %s'),join(', ', $add_users ), $group);
-          foreach ( $add_users as $member ){
-            $qry = new AwlQuery( "INSERT INTO group_member SELECT g.principal_id AS group_id,u.principal_id AS member_id FROM dav_principal g, dav_principal u WHERE g.username=:group AND u.username=:member",array (':group'=>$group,':member'=>$member) );
-            $qry->Exec('sync_LDAP_groups',__LINE__,__FILE__);
-          }
-        }
-        $remove_users = array_diff ( $db_members, $ldap_members );
-        if ( sizeof ( $remove_users ) ){
-          $c->messages[] = sprintf(i18n('- removing %s from group : %s'),join(', ', $remove_users ), $group);
-          foreach ( $remove_users as $member ){
-            $qry = new AwlQuery( "DELETE FROM group_member USING dav_principal g,dav_principal m WHERE group_id=g.principal_id AND member_id=m.principal_id AND g.username=:group AND m.username=:member",array (':group'=>$group,':member'=>$member) );
-            $qry->Exec('sync_LDAP_groups',__LINE__,__FILE__);
-          }
-        }
-      }
-    }
-
-    if ( sizeof ( $groups_to_deactivate ) ){
-      $c->messages[] = sprintf(i18n('- deactivate groups : %s'),join(', ',$groups_to_deactivate));
-      foreach ( $groups_to_deactivate as $group ){
-        $qry = new AwlQuery( "UPDATE dav_principal set active='f'::bool WHERE username=:group AND type_id = 3",array(':group'=>$group) );
-        $qry->Exec('sync_LDAP',__LINE__,__FILE__);
+      $qry = new AwlQuery( "UPDATE dav_principal set type_id = 3 WHERE username=:group ",array(':group'=>$group) );
+      $qry->Exec('sync_LDAP',__LINE__,__FILE__);
+      Principal::cacheDelete('username', $group);
+      $c->messages[] = sprintf(i18n('- adding users %s to group : %s'),join(',',$ldap_groups_info[$group][$mapping['members']]),$group);
+      foreach ( $ldap_groups_info[$group][$mapping['members']] as $member ){
+        $qry = new AwlQuery( "INSERT INTO group_member SELECT g.principal_id AS group_id,u.principal_id AS member_id FROM dav_principal g, dav_principal u WHERE g.username=:group AND u.username=:member;",array (':group'=>$group,':member'=>$member) );
+        $qry->Exec('sync_LDAP_groups',__LINE__,__FILE__);
+        Principal::cacheDelete('username', $member);
       }
     }
   }
+
+  if ( sizeof ( $groups_to_update ) ){
+    $c->messages[] = sprintf(i18n('- updating groups : %s'),join(', ',$groups_to_update));
+    foreach ( $groups_to_update as $group ){
+      $db_members = array_values ( $db_group_members[$group] );
+      $ldap_members = array_values ( $ldap_groups_info[$group][$member_field] );
+      $add_users = array_diff ( $ldap_members, $db_members );
+      if ( sizeof ( $add_users ) ){
+        $c->messages[] = sprintf(i18n('- adding %s to group : %s'),join(', ', $add_users ), $group);
+        foreach ( $add_users as $member ){
+          $qry = new AwlQuery( "INSERT INTO group_member SELECT g.principal_id AS group_id,u.principal_id AS member_id FROM dav_principal g, dav_principal u WHERE g.username=:group AND u.username=:member",array (':group'=>$group,':member'=>$member) );
+          $qry->Exec('sync_LDAP_groups',__LINE__,__FILE__);
+          Principal::cacheDelete('username', $member);
+        }
+      }
+      $remove_users = array_diff ( $db_members, $ldap_members );
+      if ( sizeof ( $remove_users ) ){
+        $c->messages[] = sprintf(i18n('- removing %s from group : %s'),join(', ', $remove_users ), $group);
+        foreach ( $remove_users as $member ){
+          $qry = new AwlQuery( "DELETE FROM group_member USING dav_principal g,dav_principal m WHERE group_id=g.principal_id AND member_id=m.principal_id AND g.username=:group AND m.username=:member",array (':group'=>$group,':member'=>$member) );
+          $qry->Exec('sync_LDAP_groups',__LINE__,__FILE__);
+          Principal::cacheDelete('username', $member);
+        }
+      }
+    }
+  }
+
+  if ( sizeof ( $groups_to_deactivate ) ){
+    $c->messages[] = sprintf(i18n('- deactivate groups : %s'),join(', ',$groups_to_deactivate));
+    foreach ( $groups_to_deactivate as $group ){
+      $qry = new AwlQuery( 'UPDATE dav_principal set active=FALSE WHERE username=:group AND type_id = 3',array(':group'=>$group) );
+      $qry->Exec('sync_LDAP',__LINE__,__FILE__);
+      Principal::cacheFlush('username=:group AND type_id = 3', array(':group'=>$group) );
+    }
+  }
+
 }
 
 /**
@@ -478,107 +499,111 @@ function sync_LDAP_groups(){
 function sync_LDAP(){
   global $c;
   $ldapDriver = getStaticLdap();
-  if($ldapDriver->valid){
-    $mapping = $c->authenticate_hook['config']['mapping_field'];
-    $attributes = array_values($mapping);
-    $ldap_users_tmp = $ldapDriver->getAllUsers($attributes);
+  if ( ! $ldapDriver->valid ) return;
 
-    if ( sizeof($ldap_users_tmp) == 0 )
-      return;
+  $mapping = $c->authenticate_hook['config']['mapping_field'];
+  $attributes = array_values($mapping);
+  $ldap_users_tmp = $ldapDriver->getAllUsers($attributes);
 
-    foreach($ldap_users_tmp as $key => $ldap_user){
-      $ldap_users_info[$ldap_user[$mapping["username"]]] = $ldap_user;
-      unset($ldap_users_tmp[$key]);
+  if ( sizeof($ldap_users_tmp) == 0 ) return;
+
+  foreach($ldap_users_tmp as $key => $ldap_user){
+    $ldap_users_info[$ldap_user[$mapping["username"]]] = $ldap_user;
+    unset($ldap_users_tmp[$key]);
+  }
+  $qry = new AwlQuery( "SELECT username, user_no, modified as updated FROM dav_principal where type_id=1");
+  $qry->Exec('sync_LDAP',__LINE__,__FILE__);
+  while($db_user = $qry->Fetch()) {
+    $db_users[] = $db_user->username;
+    $db_users_info[$db_user->username] = array('user_no' => $db_user->user_no, 'updated' => $db_user->updated);
+  }
+
+  // all users from ldap
+  $ldap_users = array_keys($ldap_users_info);
+  // users only in ldap
+  $users_to_create = array_diff($ldap_users,$db_users);
+  // users only in db
+  $users_to_deactivate = array_diff($db_users,$ldap_users);
+  // users present in ldap and in the db
+  $users_to_update = array_intersect($db_users,$ldap_users);
+
+  // creation of all users;
+  if ( sizeof($users_to_create) ) {
+    $c->messages[] = sprintf(i18n('- creating record for users :  %s'),join(', ',$users_to_create));
+
+    foreach( $users_to_create as $username ) {
+      $principal = new Principal( 'username', $username );
+      $valid = $ldap_users_info[$username];
+      $ldap_timestamp = $valid[$mapping['updated']];
+
+      /**
+      * This splits the LDAP timestamp apart and assigns values to $Y $m $d $H $M and $S
+      */
+      foreach($c->authenticate_hook['config']['format_updated'] as $k => $v)
+          $$k = substr($ldap_timestamp,$v[0],$v[1]);
+      $ldap_timestamp = $Y.$m.$d.$H.$M.$S;
+      $valid[$mapping["updated"]] = "$Y-$m-$d $H:$M:$S";
+
+      sync_user_from_LDAP( $principal, $mapping, $valid );
     }
-    $qry = new AwlQuery( "SELECT username, user_no, modified as updated FROM dav_principal where type_id=1");
+  }
+
+  // deactivating all users
+  $params = array();
+  $i = 0;
+  foreach( $users_to_deactivate AS $v ) {
+    if ( isset($c->do_not_sync_from_ldap) && isset($c->do_not_sync_from_ldap[$v]) ) continue;
+    $params[':u'.$i++] = strtolower($v);
+  }
+  if ( count($params) > 0 ) {
+    $c->messages[] = sprintf(i18n('- deactivating users : %s'),join(', ',$users_to_deactivate));
+    $qry = new AwlQuery( 'UPDATE usr SET active = FALSE WHERE lower(username) IN ('.implode(',',array_keys($params)).')', $params);
     $qry->Exec('sync_LDAP',__LINE__,__FILE__);
-    while($db_user = $qry->Fetch()) {
-      $db_users[] = $db_user->username;
-      $db_users_info[$db_user->username] = array('user_no' => $db_user->user_no, 'updated' => $db_user->updated);
-    }
 
-    $ldap_users = array_keys($ldap_users_info);
-    // users only in ldap
-    $users_to_create = array_diff($ldap_users,$db_users);
-    // users only in db
-    $users_to_deactivate = array_diff($db_users,$ldap_users);
-    // users present in ldap and in the db
-    $users_to_update = array_intersect($db_users,$ldap_users);
+    Principal::cacheFlush('lower(username) IN ('.implode(',',array_keys($params)).')', $params);
+  }
 
-    // creation of all users;
-    if ( sizeof($users_to_create) ) {
-      $c->messages[] = sprintf(i18n('- creating record for users :  %s'),join(', ',$users_to_create));
+  // updating all users
+  if ( sizeof($users_to_update) ) {
+    foreach ( $users_to_update as $key=> $username ) {
+      $principal = new Principal( 'username', $username );
+      $valid=$ldap_users_info[$username];
+      $ldap_timestamp = $valid[$mapping['updated']];
 
-      foreach( $users_to_create as $username ) {
-        $user = (object) array( 'user_no' => 0, 'username' => $username );
-        $valid = $ldap_users_info[$username];
-        $ldap_timestamp = $valid[$mapping["updated"]];
+      $valid['user_no'] = $db_users_info[$username]['user_no'];
+      $mapping['user_no'] = 'user_no';
 
-        /**
-        * This splits the LDAP timestamp apart and assigns values to $Y $m $d $H $M and $S
-        */
-        foreach($c->authenticate_hook['config']['format_updated'] as $k => $v)
-            $$k = substr($ldap_timestamp,$v[0],$v[1]);
-        $ldap_timestamp = "$Y"."$m"."$d"."$H"."$M"."$S";
-        $valid[$mapping["updated"]] = "$Y-$m-$d $H:$M:$S";
+      /**
+      * This splits the LDAP timestamp apart and assigns values to $Y $m $d $H $M and $S
+      */
+      foreach($c->authenticate_hook['config']['format_updated'] as $k => $v) {
+        $$k = substr($ldap_timestamp,$v[0],$v[1]);
+      }
+      $ldap_timestamp = $Y.$m.$d.$H.$M.$S;
+      $valid[$mapping['updated']] = "$Y-$m-$d $H:$M:$S";
 
-        sync_user_from_LDAP( $user, $mapping, $valid );
+      $db_timestamp = substr(strtr($db_users_info[$username]['updated'], array(':' => '',' '=>'','-'=>'')),0,14);
+      if ( $ldap_timestamp > $db_timestamp ) {
+        sync_user_from_LDAP($principal, $mapping, $valid );
+      }
+      else {
+        unset($users_to_update[$key]);
+        $users_nothing_done[] = $username;
       }
     }
+    if ( sizeof($users_to_update) )
+      $c->messages[] = sprintf(i18n('- updating user records : %s'),join(', ',$users_to_update));
+    if ( sizeof($users_nothing_done) )
+      $c->messages[] = sprintf(i18n('- nothing done on : %s'),join(', ', $users_nothing_done));
+  }
 
-    // deactivating all users
-    $params = array();
-    $i = 0;
-    foreach( $users_to_deactivate AS $v ) {
-      if ( isset($c->do_not_sync_from_ldap) && isset($c->do_not_sync_from_ldap[$v]) ) continue;
-      $params[':u'.$i++] = strtolower($v);
-    }
-    if ( count($params) > 0 ) {
-      $c->messages[] = sprintf(i18n('- deactivating users : %s'),join(', ',$users_to_deactivate));
-      $qry = new AwlQuery( 'UPDATE usr SET active = FALSE WHERE lower(username) IN ('.implode(',',array_keys($params)).')', $params);
-      $qry->Exec('sync_LDAP',__LINE__,__FILE__);
-    }
-
-    // updating all users
-    if ( sizeof($users_to_update) ) {
-      foreach ( $users_to_update as $key=> $username ) {
-        $valid=$ldap_users_info[$username];
-        $ldap_timestamp = $valid[$mapping["updated"]];
-
-        $valid["user_no"] = $db_users_info[$username]["user_no"];
-        $mapping["user_no"] = "user_no";
-
-        /**
-        * This splits the LDAP timestamp apart and assigns values to $Y $m $d $H $M and $S
-        */
-        foreach($c->authenticate_hook['config']['format_updated'] as $k => $v)
-            $$k = substr($ldap_timestamp,$v[0],$v[1]);
-        $ldap_timestamp = "$Y"."$m"."$d"."$H"."$M"."$S";
-        $valid[$mapping["updated"]] = "$Y-$m-$d $H:$M:$S";
-
-        $db_timestamp = substr(strtr($db_users_info[$username]['updated'], array(':' => '',' '=>'','-'=>'')),0,14);
-        if ( $ldap_timestamp > $db_timestamp ) {
-          sync_user_from_LDAP($usr, $mapping, $valid );
-        }
-        else {
-          unset($users_to_update[$key]);
-          $users_nothing_done[] = $username;
-        }
-      }
-      if ( sizeof($users_to_update) )
-        $c->messages[] = sprintf(i18n('- updating user records : %s'),join(', ',$users_to_update));
-      if ( sizeof($users_nothing_done) )
-        $c->messages[] = sprintf(i18n('- nothing done on : %s'),join(', ', $users_nothing_done));
-		}
-
-		$admins = 0;
-    $qry = new AwlQuery( "select count(*) as admins from usr join role_member using ( user_no ) join roles using (role_no) where usr.active = true and role_name='Admin'");
-    $qry->Exec('sync_LDAP',__LINE__,__FILE__);
-    while($db_user = $qry->Fetch()) {
-      $admins = $db_user->admins;
-		}
-		if ( $admins == 0 ) {
-      $c->messages[] = sprintf(i18n('Warning: there are no active admin users, you should fix this before logging out.'));
-		}
+  $admins = 0;
+  $qry = new AwlQuery( "SELECT count(*) AS admins FROM usr JOIN role_member USING ( user_no ) JOIN roles USING (role_no) WHERE usr.active=TRUE AND role_name='Admin'");
+  $qry->Exec('sync_LDAP',__LINE__,__FILE__);
+  while ( $db_user = $qry->Fetch() ) {
+    $admins = $db_user->admins;
+  }
+  if ( $admins == 0 ) {
+    $c->messages[] = sprintf(i18n('Warning: there are no active admin users! You should fix this before logging out.  Consider using the $c->do_not_sync_from_ldap configuration setting.'));
   }
 }

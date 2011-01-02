@@ -94,20 +94,23 @@ $aces = $xmltree->GetPath("/DAV::acl/*");
 
 $grantor = new DAVResource($request->path);
 if ( ! $grantor->Exists() ) $request->DoResponse( 404 );
-$by_principal  = null;
-$by_collection = null;
-if ( $grantor->IsPrincipal() ) $by_principal = $grantor->GetProperty('principal_id');
-else if ( $grantor->IsCollection() ) $by_collection = $grantor->GetProperty('collection_id');
-else $request->PreconditionFailed(403,'not-supported-privilege','ACLs may only be applied to Principals or Collections');
+if ( ! $grantor->IsCollection() )
+  $request->PreconditionFailed(403,'not-supported-privilege','ACLs are only supported on Principals or Collections');
 
+$grantor->NeedPrivilege('write-acl');  
+
+$cache_delete_list = array();
+  
 $qry = new AwlQuery('BEGIN');
 $qry->Exec('ACL',__LINE__,__FILE__);
 
-foreach( $aces AS $k => $ace ) {
+function process_ace( $grantor, $by_principal, $by_collection, $ace ) {
+  global $cache_delete_list;
+  
   $elements = $ace->GetContent();
-  $principal = $elements[0];
+  $principal_node = $elements[0];
   $grant = $elements[1];
-  if ( $principal->GetTag() != 'DAV::principal' ) $request->MalformedRequest('ACL request must contain a principal, not '.$principal->GetTag());
+  if ( $principal_node->GetTag() != 'DAV::principal' ) $request->MalformedRequest('ACL request must contain a principal, not '.$principal->GetTag());
   $grant_tag = $grant->GetTag();
   if ( $grant_tag == 'DAV::deny' )   $request->PreconditionFailed(403,'grant-only');
   if ( $grant_tag == 'DAV::invert' ) $request->PreconditionFailed(403,'no-invert');
@@ -120,7 +123,7 @@ foreach( $aces AS $k => $ace ) {
   }
   $privileges = privilege_to_bits($privilege_names);
 
-  $principal_content = $principal->GetContent();
+  $principal_content = $principal_node->GetContent();
   if ( count($principal_content) != 1 ) $request->MalformedRequest('ACL request must contain exactly one principal per ACE');
   $principal_content = $principal_content[0];
   switch( $principal_content->GetTag() ) {
@@ -139,10 +142,11 @@ foreach( $aces AS $k => $ace ) {
 
     case 'DAV::href':
       $principal_type = 'href';
-      $principal = new DAVResource( DeconstructURL($principal_content->GetContent()) );
-      if ( ! $principal->Exists() || !$principal->IsPrincipal() )
+      $grantee = new DAVResource( DeconstructURL($principal_content->GetContent()) );
+      $grantee_id = $grantee->getProperty('principal_id');
+      if ( !$grantee->Exists() || !$grantee->IsPrincipal() )
         $request->PreconditionFailed(403,'recognized-principal', 'Principal "' + $principal_content->GetContent() + '" not found.');
-      $sqlparms = array( ':to_principal' => $principal->GetProperty('principal_id') );
+      $sqlparms = array( ':to_principal' => $grantee_id);
       $where = 'WHERE to_principal=:to_principal AND ';
       if ( isset($by_principal) ) {
         $sqlparms[':by_principal'] = $by_principal;
@@ -163,7 +167,10 @@ foreach( $aces AS $k => $ace ) {
       }
       $sqlparms[':privileges'] = $privileges;
       $qry = new AwlQuery($sql, $sqlparms);
-      $qry->Exec('ACL',__LINE__,__FILE__);
+      if ( $qry->Exec('ACL',__LINE__,__FILE__) ) {
+        Principal::cacheDelete('dav_name',$grantee->dav_name());
+        Principal::cacheFlush('principal_id IN (SELECT member_id FROM group_member WHERE group_id = '.$grantee_id);
+      }
       break;
 
     case 'DAV::authenticated':
@@ -179,7 +186,12 @@ foreach( $aces AS $k => $ace ) {
         $sqlparms[':by_principal'] = $by_principal;
       }
       $qry = new AwlQuery($sql, $sqlparms);
-      $qry->Exec('ACL',__LINE__,__FILE__);
+      if ( $qry->Exec('ACL',__LINE__,__FILE__) ) {
+        /**
+         *  Basically this has changed everyone's permissions now, so...
+         */
+        Principal::cacheFlush('TRUE');
+      }
       break;
 
     case 'DAV::all':
@@ -192,6 +204,13 @@ foreach( $aces AS $k => $ace ) {
       break;
   }
 
+}
+
+$by_principal  = ($grantor->IsPrincipal() ? $grantor->GetProperty('principal_id') : null);
+$by_collection = ($grantor->IsPrincipal() ? null : $grantor->GetProperty('collection_id'));
+
+foreach( $aces AS $k => $ace ) {
+  process_ace($grantor, $by_principal, $by_collection, $ace);
 }
 
 $qry = new AwlQuery('COMMIT');

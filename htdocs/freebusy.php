@@ -45,12 +45,12 @@ require_once("CalDAVRequest.php");
 $request = new CalDAVRequest(array("allow_by_email" => 1));
 $path_match = '^'.$request->path;
 if ( preg_match( '{^/(\S+@[a-z0-9][a-z0-9-]*[.][a-z0-9.-]+)/?$}i', $request->path, $matches ) ) {
-  $u = getUserByEMail($matches[1]);
-  $path_match = '^/'.$u->username.'/';
+  $principal = new Principal('email',$matches[1]);
+  $path_match = '^'.$principal->dav_name();
 }
 
 if ( isset($fb_format) && $fb_format != 'text/calendar' ) {
-  $request->DoResponse( 406, 'This server only supports the text/calendar format for freebusy URLs' );
+  $request->DoResponse( 406, translate('This server only supports the text/calendar format for freebusy URLs') );
 }
 
 if ( ! $request->HavePrivilegeTo('read-free-busy') ) $request->DoResponse( 404 );

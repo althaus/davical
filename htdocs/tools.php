@@ -132,14 +132,15 @@ class Tools {
         if ( $ics != '' ) {
           include_once('check_UTF8.php');
           if ( check_string($ics) ) {
-            $path = "/".substr($file,0,-4).$path_ics;
+            $username = substr($file,0,-4);
+            $path = "/".$username.$path_ics;
             dbg_error_log( "importFromDirectory", "importing to $path");
             $c->readonly_webdav_collections = false;  // Override this setting so we can create collections/events on import.
             require_once("caldav-PUT-functions.php");
-            if ( $user = getUserByName(substr($file,0,-4),'importFromDirectory',__LINE__,__FILE__)) {
-              $user_no = $user->user_no;
+            if ( $principal = new Principal('username',$username) ) {
+              $user_no = $principal->user_no();
             }
-            if(controlRequestContainer(substr($file,0,-4),$user_no, $path,false) === -1)
+            if ( controlRequestContainer($username, $user_no, $path, false) === -1)
               continue;
             import_collection($ics,$user_no,$path,1);
             $c->messages[] = sprintf(translate('all events of user %s were deleted and replaced by those from file %s'),substr($file,0,-4),$dir.'/'.$file);

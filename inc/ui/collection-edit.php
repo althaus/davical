@@ -6,8 +6,8 @@ param_to_global('id', 'int', 'old_id', 'collection_id' );
 param_to_global('user_no', 'int' );
 param_to_global('principal_id', 'int' );
 param_to_global('collection_name', '{^.+$}' );
-if ( isset($user_no) ) $usr = getUserByID($user_no);
-if ( isset($principal_id) ) $usr = getPrincipalByID($principal_id);
+if ( isset($user_no) ) $principal = new Principal('user_no',$user_no);
+if ( isset($principal_id) ) $principal = new Principal('principal_id',$principal_id);
 $editor->SetLookup( 'timezone', 'SELECT \'\', \'*** Unknown ***\' UNION SELECT tz_id, tz_locn FROM time_zone WHERE tz_id = tz_locn AND length(tz_spec) > 100 ORDER BY 1' );
 $editor->SetLookup( 'schedule_transp', 'SELECT \'opaque\', \'Opaque\' UNION SELECT \'transp\', \'Transparent\'' );
 
@@ -39,9 +39,9 @@ $params = array(
 );
 $is_update = ( $_POST['_editor_action'][$editor->Id] == 'update' );
 if ( isset($collection_name) ) $collection_name = trim(str_replace( '/', '', $collection_name));
-if ( !$is_update && isset($collection_name) && $collection_name != '' && is_object($usr) ) {
-  $_POST['dav_name'] = sprintf('/%s/%s/', $usr->username, $collection_name );
-  $_POST['parent_container'] = sprintf('/%s/', $usr->username );
+if ( !$is_update && isset($collection_name) && $collection_name != '' && is_object($principal) ) {
+  $_POST['dav_name'] = sprintf('/%s/%s/', $principal->username(), $collection_name );
+  $_POST['parent_container'] = sprintf('/%s/', $principal->username() );
   $params[':collection_path'] = $_POST['dav_name'];
   $privsql = 'SELECT path_privs( :session_principal, :collection_path, :scan_depth) AS priv';
 }
@@ -137,8 +137,8 @@ else {
   $c->page_title = $editor->Title(translate('Create New Collection'));
   $privs = decbin(privilege_to_bits($c->default_privileges));
   $editor->Assign('default_privileges', $privs);
-  $editor->Assign('username', $usr->username);
-  $editor->Assign('user_no', $usr->user_no);
+  $editor->Assign('username', $principal->username());
+  $editor->Assign('user_no', $principal->user_no());
   $editor->Assign('is_calendar', 't' );
   $editor->Assign('use_default_privs', 't');
   $entries = 0;
