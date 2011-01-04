@@ -687,7 +687,6 @@ function ticket_row_editor() {
 
   $ticketrow = new Editor("Tickets", "access_ticket");
   $ticketrow->SetSubmitName( 'ticketrow' );
-  dbg_error_log( "ERROR", "Creating ticketrow editor: %s - %s", $can_write_principal, $ticketrow->IsSubmit());
   if ( $can_write_principal && $ticketrow->IsSubmit() ) {
 
     $username = $editor->Value('username');
