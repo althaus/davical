@@ -92,8 +92,9 @@ function apply_filter( $filters, $item ) {
  * Process a filter fragment returning an SQL fragment
  */
 $need_post_filter = false;
+$need_range_filter = false;
 function SqlFilterFragment( $filter, $components, $property = null, $parameter = null ) {
-  global $need_post_filter, $target_collection;
+  global $need_post_filter, $need_range_filter, $target_collection;
   $sql = "";
   $params = array();
   if ( !is_array($filter) ) {
@@ -145,11 +146,18 @@ function SqlFilterFragment( $filter, $components, $property = null, $parameter =
         $finish_column = 'dtstart';  // The column we compare against the END attribute
         $start = $v->GetAttribute("start");
         $finish = $v->GetAttribute("end");
+//        if ( isset($start) || isset($finish) ) {
+//          $sql .= ' AND (rrule_event_overlaps( dtstart, dtend, rrule, :time_range_start, :time_range_end ) OR event_has_exceptions(caldav_data.caldav_data) ) ';
+//          $params[':time_range_start'] = $start;
+//          $params[':time_range_end'] = $finish;
+//        }
         if ( isset($start) || isset($finish) ) {
-          $sql .= ' AND (rrule_event_overlaps( dtstart, dtend, rrule, :time_range_start, :time_range_end ) OR event_has_exceptions(caldav_data.caldav_data) ) ';
+          $sql .= ' AND (rrule IS NOT NULL OR (dtstart < :time_range_end AND (dtend > :time_range_start ';
+          $sql .= ' OR (dtend IS NULL AND dtstart > :time_range_start)))) ';
           $params[':time_range_start'] = $start;
           $params[':time_range_end'] = $finish;
         }
+        $need_range_filter = array(new RepeatRuleDateTime($start),new RepeatRuleDateTime($finish));
         break;
 
       case 'urn:ietf:params:xml:ns:caldav:text-match':
@@ -323,7 +331,12 @@ if ( $qry->Exec("calquery",__LINE__,__FILE__) && $qry->rows() > 0 ) {
         $vResource = new vComponent($calendar_object->caldav_data);
         $expanded = expand_event_instances($vResource, $expand_range_start, $expand_range_end);
         if ( $expanded->ComponentCount() == 0 ) continue;
-        $calendar_object->caldav_data = $expanded->Render();
+        if ( $need_expansion ) $calendar_object->caldav_data = $expanded->Render();
+      }
+      else if ( $need_range_filter ) {
+        $vResource = new vComponent($calendar_object->caldav_data);
+        $expanded = expand_event_instances($vResource, $need_range_filter[0], $need_range_filter[1]);
+        if ( $expanded->ComponentCount() == 0 ) continue;
       }
       $responses[] = calendar_to_xml( $properties, $calendar_object );
     }
