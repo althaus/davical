@@ -1,8 +1,8 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, calendar-access
-ETag: "19e6f18060210151545c2eead42ed1eb"
-Content-Length: 5771
+ETag: "d19bcb248e8c45b4839ae6ace44bf39f"
+Content-Length: 5803
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -23,6 +23,7 @@ UID:33169d69-2969-4a96-a3e1-2e312b7614e6
 SUMMARY:Near Daily Action Meeting
 X-MOZ-GENERATION:2
 DTSTART:20081019T220000Z
+RECURRENCE-ID:20081019T220000Z
 DURATION:PT30M
 END:VEVENT
 BEGIN:VEVENT

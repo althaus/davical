@@ -946,6 +946,7 @@ function expand_event_instances( $vResource, $range_start = null, $range_end = n
   $expand = false;
   $dtstart = null;
   $is_date = false;
+  $has_repeats = false;
   foreach( $components AS $k => $comp ) {
     if ( $comp->GetType() != 'VEVENT' && $comp->GetType() != 'VTODO' && $comp->GetType() != 'VJOURNAL' ) {
       if ( $comp->GetType() != 'VTIMEZONE' ) $new_components[] = $comp;
@@ -956,6 +957,8 @@ function expand_event_instances( $vResource, $range_start = null, $range_end = n
       $dtstart = new RepeatRuleDateTime( $dtstart_prop );
       $is_date = $dtstart->isDate();
       $instances[$dtstart->FloatOrUTC()] = $comp;
+      $rrule = $comp->GetProperty('RRULE');
+      $has_repeats = isset($rrule);
     }
     $p = $comp->GetProperty('RECURRENCE-ID');
     if ( isset($p) && $p->Value() != '' ) {
@@ -1071,7 +1074,8 @@ function expand_event_instances( $vResource, $range_start = null, $range_end = n
     $component->ClearProperties( array('DTSTART'=> true, 'DUE' => true, 'DTEND' => true,
                                        'RRULE' => true, 'RDATE' => true, 'EXDATE' => true) );
     $component->AddProperty('DTSTART', $utc, ($is_date ? array('VALUE' => 'DATE') : null) );
-    $component->AddProperty('RECURRENCE-ID', $utc, ($is_date ? array('VALUE' => 'DATE') : null) );
+    if ( $has_repeats )
+      $component->AddProperty('RECURRENCE-ID', $utc, ($is_date ? array('VALUE' => 'DATE') : null) );
     $component->AddProperty('DURATION', $duration );
     $new_components[] = $component;
   }

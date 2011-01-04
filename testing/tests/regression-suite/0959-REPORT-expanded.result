@@ -2,8 +2,8 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, calendar-proxy, bind, addressbook
-ETag: "8de0d254fb5a5aaeee4c7247782a544a"
-Content-Length: 10328
+ETag: "1797b792419f24d15eab9c20154a9a11"
+Content-Length: 10360
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -390,6 +390,7 @@ DTSTAMP:20081123T210725Z
 DURATION:PT1H
 LOCATION:
 DTSTART:20081123T230000Z
+RECURRENCE-ID:20081123T230000Z
 DURATION:PT1H
 END:VEVENT
 BEGIN:VEVENT
