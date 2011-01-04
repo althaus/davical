@@ -246,7 +246,7 @@ class HTTPAuthSession {
     }
 
     if ( $principal = new Principal('username', $username) ) {
-      dbg_error_log( "BasicAuth", ":CheckPassword: Name:%s, Pass:%s, File:%s, Active:%s", $username, $password, $principal->password, ($principal->user_active?'Yes':'No') );
+      if ( isset($c->dbg['password']) ) dbg_error_log( "password", ":CheckPassword: Name:%s, Pass:%s, File:%s, Active:%s", $username, $password, $principal->password, ($principal->user_active?'Yes':'No') );
       if ( $principal->user_active && session_validate_password( $password, $principal->password ) ) {
         return $principal;
       }
