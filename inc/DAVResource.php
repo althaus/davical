@@ -12,6 +12,7 @@
 require_once('AwlCache.php');
 require_once('AwlQuery.php');
 require_once('DAVTicket.php');
+require_once('iCalendar.php');
 
 
 /**
@@ -260,8 +261,18 @@ class DAVResource
     else {
       $this->resourcetypes = '';
       if ( isset($this->resource->caldav_data) ) {
-        if ( substr($this->resource->caldav_data,0,15) == 'BEGIN:VCALENDAR' ) {
+        $this->resource->displayname = $this->resource->summary;
+        if ( strtoupper(substr($this->resource->caldav_data,0,15)) == 'BEGIN:VCALENDAR' ) {
           $this->contenttype = 'text/calendar';
+          if ( !$this->HavePrivilegeTo('read') && $this->HavePrivilegeTo('read-free-busy') ) {
+            $vcal = new iCalComponent($this->resource->caldav_data);
+            $confidential = $vcal->CloneConfidential();
+            $this->resource->caldav_data = $confidential->Render();
+            $this->resource->displayname = $this->resource->summary = translate('Busy');
+            $this->resource->description = null;
+            $this->resource->location = null;
+            $this->resource->url = null;
+          }
         }
         else if ( strtoupper(substr($this->resource->caldav_data,0,11)) == 'BEGIN:VCARD' ) {
           $this->contenttype = 'text/vcard';
@@ -269,7 +280,6 @@ class DAVResource
         else if ( strtoupper(substr($this->resource->caldav_data,0,11)) == 'BEGIN:VLIST' ) {
           $this->contenttype = 'text/x-vlist';
         }
-        $this->resource->displayname = $this->resource->summary;
       }
     }
   }
@@ -479,7 +489,7 @@ EOSQL;
       }
       @dbg_error_log( 'DAVResource', ':FetchCollection: Read cached collection named "%s" of type "%s".', $this->collection->dav_name, $this->collection->type );
     }
-
+    
     if ( isset($this->collection->bound_from) ) {
       $this->_is_binding = true;
       $this->bound_from = str_replace( $this->collection->bound_to, $this->collection->bound_from, $this->dav_name);
@@ -1478,9 +1488,9 @@ EOQRY;
         break;
 
       case 'DAV::owner':
-        // After a careful reading of RFC3744 we see that this must be the principal-URL of the owner
-        $owner_url = ( isset($this->_is_binding) && $this->_is_binding ? $this->collection->bind_owner_url : $this->principal_url() );
-        $reply->DAVElement( $prop, 'owner', $reply->href( $owner_url ) );
+        // The principal-URL of the owner
+        if ( !isset($this->principal) ) $this->FetchPrincipal();
+        $reply->DAVElement( $prop, 'owner', $reply->href( $this->principal->url() ) );
         break;
 
       // Empty tag responses.

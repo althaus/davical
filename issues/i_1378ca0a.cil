@@ -1,9 +1,9 @@
 Summary: DAVResource should sometimes obfuscate resource data
-Status: New
+Status: Finished
 CreatedBy: Andrew McMillan <andrew@morphoss.com>
-AssignedTo: 
+AssignedTo: Andrew McMillan <andrew@morphoss.com>
 Inserted: 2011-01-02T21:25:18
-Updated: 2011-01-02T21:25:18
+Updated: 2011-01-04T04:06:12
 
 When freebusy permissions are available, DAVResource will sometimes
 be called on to provide the real resource data, and in such cases
