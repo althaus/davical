@@ -106,35 +106,6 @@ class CalDAVRequest
   function __construct( $options = array() ) {
     global $session, $c, $debugging;
 
-    $this->supported_privileges = array(
-      'all' => array(
-        'read' => translate('Read the content of a resource or collection'),
-        'write' => array(
-          'bind' => translate('Create a resource or collection'),
-          'unbind' => translate('Delete a resource or collection'),
-          'write-content' => translate('Write content'),
-          'write-properties' => translate('Write properties')
-        ),
-        'urn:ietf:params:xml:ns:caldav:read-free-busy' => translate('Read the free/busy information for a calendar collection'),
-        'read-acl' => translate('Read ACLs for a resource or collection'),
-        'read-current-user-privilege-set' => translate('Read the details of the current user\'s access control to this resource.'),
-        'write-acl' => translate('Write ACLs for a resource or collection'),
-        'unlock' => translate('Remove a lock'),
-
-        'urn:ietf:params:xml:ns:caldav:schedule-deliver' => array(
-          'urn:ietf:params:xml:ns:caldav:schedule-deliver-invite'=> translate('Deliver scheduling invitations from an organiser to this scheduling inbox'),
-          'urn:ietf:params:xml:ns:caldav:schedule-deliver-reply' => translate('Deliver scheduling replies from an attendee to this scheduling inbox'),
-          'urn:ietf:params:xml:ns:caldav:schedule-query-freebusy' => translate('Allow free/busy enquiries targeted at the owner of this scheduling inbox')
-        ),
-
-        'urn:ietf:params:xml:ns:caldav:schedule-send' => array(
-          'urn:ietf:params:xml:ns:caldav:schedule-send-invite' => translate('Send scheduling invitations as an organiser from the owner of this scheduling outbox.'),
-          'urn:ietf:params:xml:ns:caldav:schedule-send-reply' => translate('Send scheduling replies as an attendee from the owner of this scheduling outbox.'),
-          'urn:ietf:params:xml:ns:caldav:schedule-send-freebusy' => translate('Send free/busy enquiries')
-        )
-      )
-    );
-
     $this->options = $options;
     if ( !isset($this->options['allow_by_email']) ) $this->options['allow_by_email'] = false;
 
@@ -679,6 +650,37 @@ EOSQL;
   }
 
 
+  private static function supportedPrivileges() { 
+    return array(
+      'all' => array(
+        'read' => translate('Read the content of a resource or collection'),
+        'write' => array(
+          'bind' => translate('Create a resource or collection'),
+          'unbind' => translate('Delete a resource or collection'),
+          'write-content' => translate('Write content'),
+          'write-properties' => translate('Write properties')
+        ),
+        'urn:ietf:params:xml:ns:caldav:read-free-busy' => translate('Read the free/busy information for a calendar collection'),
+        'read-acl' => translate('Read ACLs for a resource or collection'),
+        'read-current-user-privilege-set' => translate('Read the details of the current user\'s access control to this resource.'),
+        'write-acl' => translate('Write ACLs for a resource or collection'),
+        'unlock' => translate('Remove a lock'),
+
+        'urn:ietf:params:xml:ns:caldav:schedule-deliver' => array(
+          'urn:ietf:params:xml:ns:caldav:schedule-deliver-invite'=> translate('Deliver scheduling invitations from an organiser to this scheduling inbox'),
+          'urn:ietf:params:xml:ns:caldav:schedule-deliver-reply' => translate('Deliver scheduling replies from an attendee to this scheduling inbox'),
+          'urn:ietf:params:xml:ns:caldav:schedule-query-freebusy' => translate('Allow free/busy enquiries targeted at the owner of this scheduling inbox')
+        ),
+
+        'urn:ietf:params:xml:ns:caldav:schedule-send' => array(
+          'urn:ietf:params:xml:ns:caldav:schedule-send-invite' => translate('Send scheduling invitations as an organiser from the owner of this scheduling outbox.'),
+          'urn:ietf:params:xml:ns:caldav:schedule-send-reply' => translate('Send scheduling replies as an attendee from the owner of this scheduling outbox.'),
+          'urn:ietf:params:xml:ns:caldav:schedule-send-freebusy' => translate('Send free/busy enquiries')
+        )
+      )
+    );
+  }
+  
   /**
   * Returns the dav_name of the resource in our internal namespace
   */
@@ -846,6 +848,7 @@ EOSQL;
         dbg_error_log( 'LOG NOTICE', 'Unusual content-type of "%s" and first word of content is "%s"',
                                         (isset($this->content_type)?$this->content_type:'(null)'), $first_word );
     }
+    $this->content_type = 'text/plain';
   }
 
 
@@ -921,7 +924,7 @@ EOSQL;
   */
   function BuildSupportedPrivileges( &$reply, $privs = null ) {
     $privileges = array();
-    if ( $privs === null ) $privs = $this->supported_privileges;
+    if ( $privs === null ) $privs = self::supportedPrivileges();
     foreach( $privs AS $k => $v ) {
       dbg_error_log( 'caldav', 'Adding privilege "%s" which is "%s".', $k, $v );
       $privilege = new XMLElement('privilege');
