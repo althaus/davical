@@ -1,0 +1,10 @@
+Summary: It should be possible to import a file of vcards
+Status: New
+CreatedBy: Andrew McMillan <andrew@morphoss.com>
+AssignedTo: 
+Inserted: 2011-01-04T20:08:27
+Updated: 2011-01-04T20:08:27
+
+In collection edit you can upload a calendar, but it should also
+be possible to upload a file of vcards if the collection is an
+addressbook.
