@@ -1,0 +1,13 @@
+#
+# A collection of NZ holidays for some years (incomplete, sadly)
+#
+#
+TYPE=PUT
+URL=http://mycaldav/caldav.php/user4/nz_holidays/
+HEADER=User-Agent: RSCDS Testing/0.9.x
+HEADER=Content-Type: text/calendar; charset=utf-8
+AUTH=user4:user4
+
+HEAD
+
+DATA=nz_holidays.ics

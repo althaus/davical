@@ -1,0 +1,769 @@
+HTTP/1.1 207 Multi-Status
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
+DAV: extended-mkcol, calendar-proxy, bind, addressbook
+ETag: "aaa970e0626e252fed189561f26be5dd"
+Content-Length: 17061
+Content-Type: text/xml; charset="utf-8"
+
+<?xml version="1.0" encoding="utf-8" ?>
+<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
+ <response>
+  <href>/caldav.php/user4/nz_holidays/20081226-1-all-publicholidays-dol.govt.nz.ics</href>
+  <propstat>
+   <prop>
+    <C:calendar-data>BEGIN:VCALENDAR
+PRODID:-//davical.org//NONSGML AWL Calendar//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+CREATED:20081117T225121Z
+LAST-MODIFIED:20081117T225144Z
+DTSTAMP:20081117T225121Z
+UID:20081226-1-all-publicholidays-dol.govt.nz
+SUMMARY:Boxing Day
+TRANSP:TRANSPARENT
+DTSTART;VALUE=DATE:20091226
+RECURRENCE-ID;VALUE=DATE:20091226
+DURATION:P1D
+END:VEVENT
+END:VCALENDAR
+</C:calendar-data>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user4/nz_holidays/20090101-1-all-publicholidays-dol.govt.nz.ics</href>
+  <propstat>
+   <prop>
+    <C:calendar-data>BEGIN:VCALENDAR
+PRODID:-//davical.org//NONSGML AWL Calendar//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+CREATED:20081117T225212Z
+LAST-MODIFIED:20081117T230337Z
+DTSTAMP:20081117T225212Z
+UID:20090101-1-all-publicholidays-dol.govt.nz
+SUMMARY:New Year's Day
+TRANSP:TRANSPARENT
+X-MOZ-GENERATION:1
+DTSTART;VALUE=DATE:20090101
+RECURRENCE-ID;VALUE=DATE:20090101
+DURATION:P1D
+END:VEVENT
+END:VCALENDAR
+</C:calendar-data>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user4/nz_holidays/20081225-1-all-publicholidays-dol.govt.nz.ics</href>
+  <propstat>
+   <prop>
+    <C:calendar-data>BEGIN:VCALENDAR
+PRODID:-//davical.org//NONSGML AWL Calendar//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+CREATED:20081117T224951Z
+LAST-MODIFIED:20081117T235108Z
+DTSTAMP:20081117T224951Z
+UID:20081225-1-all-publicholidays-dol.govt.nz
+SUMMARY:Christmas Day
+TRANSP:TRANSPARENT
+X-MOZ-GENERATION:2
+DTSTART;VALUE=DATE:20091225
+RECURRENCE-ID;VALUE=DATE:20091225
+DURATION:P1D
+END:VEVENT
+END:VCALENDAR
+</C:calendar-data>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user4/nz_holidays/20090410-1-all-publicholidays-dol.govt.nz.ics</href>
+  <propstat>
+   <prop>
+    <C:calendar-data>BEGIN:VCALENDAR
+PRODID:-//davical.org//NONSGML AWL Calendar//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+CREATED:20081117T235335Z
+LAST-MODIFIED:20081117T235417Z
+DTSTAMP:20081117T235335Z
+UID:20090410-1-all-publicholidays-dol.govt.nz
+SUMMARY:Good Friday
+TRANSP:TRANSPARENT
+DTSTART;VALUE=DATE:20090410
+DURATION:PT1440M
+END:VEVENT
+END:VCALENDAR
+</C:calendar-data>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user4/nz_holidays/20090206-1-all-publicholidays-dol.govt.nz.ics</href>
+  <propstat>
+   <prop>
+    <C:calendar-data>BEGIN:VCALENDAR
+PRODID:-//davical.org//NONSGML AWL Calendar//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+CREATED:20081117T235224Z
+LAST-MODIFIED:20081120T002639Z
+DTSTAMP:20081117T235224Z
+UID:20090206-1-all-publicholidays-dol.govt.nz
+SUMMARY:Waitangi Day
+TRANSP:TRANSPARENT
+X-MOZ-GENERATION:4
+DTSTART;VALUE=DATE:20090206
+RECURRENCE-ID;VALUE=DATE:20090206
+DURATION:P1D
+END:VEVENT
+END:VCALENDAR
+</C:calendar-data>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user4/nz_holidays/20090413-1-all-publicholidays-dol.govt.nz.ics</href>
+  <propstat>
+   <prop>
+    <C:calendar-data>BEGIN:VCALENDAR
+PRODID:-//davical.org//NONSGML AWL Calendar//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+CREATED:20081117T235455Z
+LAST-MODIFIED:20081117T235524Z
+DTSTAMP:20081117T235455Z
+UID:20090413-1-all-publicholidays-dol.govt.nz
+SUMMARY:Easter Monday
+TRANSP:TRANSPARENT
+DTSTART;VALUE=DATE:20090413
+DURATION:PT1440M
+END:VEVENT
+END:VCALENDAR
+</C:calendar-data>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user4/nz_holidays/20090425-1-all-publicholidays-dol.govt.nz.ics</href>
+  <propstat>
+   <prop>
+    <C:calendar-data>BEGIN:VCALENDAR
+PRODID:-//davical.org//NONSGML AWL Calendar//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+CREATED:20081118T011910Z
+LAST-MODIFIED:20081120T001537Z
+DTSTAMP:20081118T011910Z
+UID:20090425-1-all-publicholidays-dol.govt.nz
+SUMMARY:ANZAC Day
+TRANSP:TRANSPARENT
+X-MOZ-GENERATION:2
+DTSTART;VALUE=DATE:20090425
+RECURRENCE-ID;VALUE=DATE:20090425
+DURATION:P1D
+END:VEVENT
+END:VCALENDAR
+</C:calendar-data>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user4/nz_holidays/20090601-1-all-publicholidays-dol.govt.nz.ics</href>
+  <propstat>
+   <prop>
+    <C:calendar-data>BEGIN:VCALENDAR
+PRODID:-//davical.org//NONSGML AWL Calendar//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+CREATED:20081118T011947Z
+LAST-MODIFIED:20081118T012009Z
+DTSTAMP:20081118T011947Z
+UID:20090601-1-all-publicholidays-dol.govt.nz
+SUMMARY:Queen's Birthday
+TRANSP:TRANSPARENT
+DTSTART;VALUE=DATE:20090601
+RECURRENCE-ID;VALUE=DATE:20090601
+DURATION:P1D
+END:VEVENT
+END:VCALENDAR
+</C:calendar-data>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user4/nz_holidays/20091026-1-all-publicholidays-dol.govt.nz.ics</href>
+  <propstat>
+   <prop>
+    <C:calendar-data>BEGIN:VCALENDAR
+PRODID:-//davical.org//NONSGML AWL Calendar//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+CREATED:20081118T012125Z
+LAST-MODIFIED:20081118T012150Z
+DTSTAMP:20081118T012125Z
+UID:20091026-1-all-publicholidays-dol.govt.nz
+SUMMARY:Labour Day
+TRANSP:TRANSPARENT
+DTSTART;VALUE=DATE:20091026
+RECURRENCE-ID;VALUE=DATE:20091026
+DURATION:P1D
+END:VEVENT
+END:VCALENDAR
+</C:calendar-data>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user4/nz_holidays/20090102-1-all-publicholidays-dol.govt.nz.ics</href>
+  <propstat>
+   <prop>
+    <C:calendar-data>BEGIN:VCALENDAR
+PRODID:-//davical.org//NONSGML AWL Calendar//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+CREATED:20081117T235121Z
+LAST-MODIFIED:20081118T012314Z
+DTSTAMP:20081117T235121Z
+UID:20090102-1-all-publicholidays-dol.govt.nz
+SUMMARY:Day after New Year's Day
+TRANSP:TRANSPARENT
+DTSTART;VALUE=DATE:20090102
+RECURRENCE-ID;VALUE=DATE:20090102
+DURATION:P1D
+END:VEVENT
+END:VCALENDAR
+</C:calendar-data>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user4/nz_holidays/20091226-1-all-publicholidays-dol.govt.nz.ics</href>
+  <propstat>
+   <prop>
+    <C:calendar-data>BEGIN:VCALENDAR
+PRODID:-//davical.org//NONSGML AWL Calendar//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+CREATED:20081118T012344Z
+LAST-MODIFIED:20081118T012529Z
+DTSTAMP:20081118T012344Z
+UID:20091226-1-all-publicholidays-dol.govt.nz
+SUMMARY:Boxing Day Holiday
+TRANSP:TRANSPARENT
+X-MOZ-GENERATION:1
+DTSTART;VALUE=DATE:20091228
+RECURRENCE-ID;VALUE=DATE:20091228
+DURATION:P1D
+END:VEVENT
+END:VCALENDAR
+</C:calendar-data>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user4/nz_holidays/20091228-1-all-publicholidays-dol.govt.nz.ics</href>
+  <propstat>
+   <prop>
+    <C:calendar-data>BEGIN:VCALENDAR
+PRODID:-//davical.org//NONSGML AWL Calendar//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+CREATED:20081118T012537Z
+LAST-MODIFIED:20081118T012606Z
+DTSTAMP:20081118T012537Z
+UID:20091228-1-all-publicholidays-dol.govt.nz
+SUMMARY:Christmas Day Holiday
+TRANSP:TRANSPARENT
+DTSTART;VALUE=DATE:20091225
+RECURRENCE-ID;VALUE=DATE:20091225
+DURATION:P1D
+END:VEVENT
+END:VCALENDAR
+</C:calendar-data>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user4/nz_holidays/20100101-1-all-publicholidays-dol.govt.nz.ics</href>
+  <propstat>
+   <prop>
+    <C:calendar-data>BEGIN:VCALENDAR
+PRODID:-//davical.org//NONSGML AWL Calendar//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+CREATED:20081118T012634Z
+LAST-MODIFIED:20081118T012657Z
+DTSTAMP:20081118T012634Z
+UID:20100101-1-all-publicholidays-dol.govt.nz
+SUMMARY:New Year's Day Holiday
+TRANSP:TRANSPARENT
+DTSTART;VALUE=DATE:20090101
+RECURRENCE-ID;VALUE=DATE:20090101
+DURATION:P1D
+END:VEVENT
+END:VCALENDAR
+</C:calendar-data>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user4/nz_holidays/20100607-1-all-publicholidays-dol.govt.nz.ics</href>
+  <propstat>
+   <prop>
+    <C:calendar-data>BEGIN:VCALENDAR
+PRODID:-//davical.org//NONSGML AWL Calendar//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+CREATED:20081118T013050Z
+LAST-MODIFIED:20081118T013102Z
+DTSTAMP:20081118T013050Z
+UID:20100607-1-all-publicholidays-dol.govt.nz
+SUMMARY:Day after New Year's Day Holiday
+TRANSP:TRANSPARENT
+DTSTART;VALUE=DATE:20090102
+RECURRENCE-ID;VALUE=DATE:20090102
+DURATION:P1D
+END:VEVENT
+END:VCALENDAR
+</C:calendar-data>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user4/nz_holidays/20081201-1-all-publicholidays-dol.govt.nz.ics</href>
+  <propstat>
+   <prop>
+    <C:calendar-data>BEGIN:VCALENDAR
+PRODID:-//davical.org//NONSGML AWL Calendar//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+CREATED:20081119T200154Z
+LAST-MODIFIED:20081119T200227Z
+DTSTAMP:20081119T200154Z
+UID:20081201-1-all-publicholidays-dol.govt.nz
+SUMMARY:Westland Anniversary Day (Monday nearest 1st December)
+TRANSP:TRANSPARENT
+DTSTART;VALUE=DATE:20091130
+RECURRENCE-ID;VALUE=DATE:20091130
+DURATION:P1D
+END:VEVENT
+END:VCALENDAR
+</C:calendar-data>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user4/nz_holidays/20081201-2-all-publicholidays-dol.govt.nz.ics</href>
+  <propstat>
+   <prop>
+    <C:calendar-data>BEGIN:VCALENDAR
+PRODID:-//davical.org//NONSGML AWL Calendar//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+CREATED:20081119T200252Z
+LAST-MODIFIED:20081119T200304Z
+DTSTAMP:20081119T200252Z
+UID:20081201-2-all-publicholidays-dol.govt.nz
+SUMMARY:Chatham Islands Anniversary Day (Monday nearest 30th November)
+TRANSP:TRANSPARENT
+DTSTART;VALUE=DATE:20091130
+RECURRENCE-ID;VALUE=DATE:20091130
+DURATION:P1D
+END:VEVENT
+END:VCALENDAR
+</C:calendar-data>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user4/nz_holidays/20090126-1-all-publicholidays-dol.govt.nz.ics</href>
+  <propstat>
+   <prop>
+    <C:calendar-data>BEGIN:VCALENDAR
+PRODID:-//davical.org//NONSGML AWL Calendar//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+CREATED:20081119T200321Z
+LAST-MODIFIED:20081119T200334Z
+DTSTAMP:20081119T200321Z
+UID:20090126-1-all-publicholidays-dol.govt.nz
+SUMMARY:Auckland Anniversary Day (Monday nearest 29th January)
+TRANSP:TRANSPARENT
+DTSTART;VALUE=DATE:20090126
+RECURRENCE-ID;VALUE=DATE:20090126
+DURATION:P1D
+END:VEVENT
+END:VCALENDAR
+</C:calendar-data>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user4/nz_holidays/20090119-1-all-publicholidays-dol.govt.nz.ics</href>
+  <propstat>
+   <prop>
+    <C:calendar-data>BEGIN:VCALENDAR
+PRODID:-//davical.org//NONSGML AWL Calendar//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+CREATED:20081119T200350Z
+LAST-MODIFIED:20081119T200406Z
+DTSTAMP:20081119T200350Z
+UID:20090119-1-all-publicholidays-dol.govt.nz
+SUMMARY:Wellington Anniversary Day (Monday nearest 22nd January)
+TRANSP:TRANSPARENT
+DTSTART;VALUE=DATE:20090119
+RECURRENCE-ID;VALUE=DATE:20090119
+DURATION:P1D
+END:VEVENT
+END:VCALENDAR
+</C:calendar-data>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user4/nz_holidays/20090119-2-all-publicholidays-dol.govt.nz.ics</href>
+  <propstat>
+   <prop>
+    <C:calendar-data>BEGIN:VCALENDAR
+PRODID:-//davical.org//NONSGML AWL Calendar//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+CREATED:20081119T200431Z
+LAST-MODIFIED:20081119T200443Z
+DTSTAMP:20081119T200431Z
+UID:20090119-2-all-publicholidays-dol.govt.nz
+SUMMARY:Southland Anniversary Day (Monday nearest 17th January)
+TRANSP:TRANSPARENT
+DTSTART;VALUE=DATE:20090119
+RECURRENCE-ID;VALUE=DATE:20090119
+DURATION:P1D
+END:VEVENT
+END:VCALENDAR
+</C:calendar-data>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user4/nz_holidays/20090202-1-all-publicholidays-dol.govt.nz.ics</href>
+  <propstat>
+   <prop>
+    <C:calendar-data>BEGIN:VCALENDAR
+PRODID:-//davical.org//NONSGML AWL Calendar//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+CREATED:20081119T200519Z
+LAST-MODIFIED:20081119T200530Z
+DTSTAMP:20081119T200519Z
+UID:20090202-1-all-publicholidays-dol.govt.nz
+SUMMARY:Nelson Anniversary Day (Monday nearest 1st Feb)
+TRANSP:TRANSPARENT
+DTSTART;VALUE=DATE:20090202
+RECURRENCE-ID;VALUE=DATE:20090202
+DURATION:P1D
+END:VEVENT
+END:VCALENDAR
+</C:calendar-data>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user4/nz_holidays/20090309-1-all-publicholidays-dol.govt.nz.ics</href>
+  <propstat>
+   <prop>
+    <C:calendar-data>BEGIN:VCALENDAR
+PRODID:-//davical.org//NONSGML AWL Calendar//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+CREATED:20081119T200607Z
+LAST-MODIFIED:20081119T200622Z
+DTSTAMP:20081119T200607Z
+UID:20090309-1-all-publicholidays-dol.govt.nz
+SUMMARY:Taranaki Anniversary Day
+TRANSP:TRANSPARENT
+DTSTART;VALUE=DATE:20090309
+DURATION:PT1440M
+END:VEVENT
+END:VCALENDAR
+</C:calendar-data>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user4/nz_holidays/20090323-1-all-publicholidays-dol.govt.nz.ics</href>
+  <propstat>
+   <prop>
+    <C:calendar-data>BEGIN:VCALENDAR
+PRODID:-//davical.org//NONSGML AWL Calendar//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+CREATED:20081119T200640Z
+LAST-MODIFIED:20081119T200650Z
+DTSTAMP:20081119T200640Z
+UID:20090323-1-all-publicholidays-dol.govt.nz
+SUMMARY:Otago Anniversary Day
+TRANSP:TRANSPARENT
+DTSTART;VALUE=DATE:20090323
+DURATION:PT1440M
+END:VEVENT
+END:VCALENDAR
+</C:calendar-data>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user4/nz_holidays/20091023-1-all-publicholidays-dol.govt.nz.ics</href>
+  <propstat>
+   <prop>
+    <C:calendar-data>BEGIN:VCALENDAR
+PRODID:-//davical.org//NONSGML AWL Calendar//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+CREATED:20081119T200759Z
+LAST-MODIFIED:20081119T200809Z
+DTSTAMP:20081119T200759Z
+UID:20091023-1-all-publicholidays-dol.govt.nz
+SUMMARY:
+ Hawkes' Bay Anniversary Day (Friday before 4th Monday of October)
+TRANSP:TRANSPARENT
+DTSTART;VALUE=DATE:20091023
+RECURRENCE-ID;VALUE=DATE:20091023
+DURATION:P1D
+END:VEVENT
+END:VCALENDAR
+</C:calendar-data>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user4/nz_holidays/20091102-1-all-publicholidays-dol.govt.nz.ics</href>
+  <propstat>
+   <prop>
+    <C:calendar-data>BEGIN:VCALENDAR
+PRODID:-//davical.org//NONSGML AWL Calendar//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+CREATED:20081119T200840Z
+LAST-MODIFIED:20081119T200928Z
+DTSTAMP:20081119T200840Z
+UID:20091102-1-all-publicholidays-dol.govt.nz
+SUMMARY:Marlborough Anniversary Day (Monday after 4th Monday of October)
+TRANSP:TRANSPARENT
+DTSTART;VALUE=DATE:20091102
+RECURRENCE-ID;VALUE=DATE:20091102
+DURATION:P1D
+END:VEVENT
+END:VCALENDAR
+</C:calendar-data>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user4/nz_holidays/20091113-1-all-publicholidays-dol.govt.nz.ics</href>
+  <propstat>
+   <prop>
+    <C:calendar-data>BEGIN:VCALENDAR
+PRODID:-//davical.org//NONSGML AWL Calendar//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+CREATED:20081119T201008Z
+LAST-MODIFIED:20081119T201040Z
+DTSTAMP:20081119T201008Z
+UID:20091113-1-all-publicholidays-dol.govt.nz
+SUMMARY:Canterbury Anniversary Day (Second Friday after the first Tuesda
+ y in November)
+TRANSP:TRANSPARENT
+DTSTART;VALUE=DATE:20091113
+RECURRENCE-ID;VALUE=DATE:20091113
+DURATION:P1D
+END:VEVENT
+END:VCALENDAR
+</C:calendar-data>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user4/nz_holidays/20090928-1-all-publicholidays-dol.govt.nz.ics</href>
+  <propstat>
+   <prop>
+    <C:calendar-data>BEGIN:VCALENDAR
+PRODID:-//davical.org//NONSGML AWL Calendar//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+CREATED:20081119T201140Z
+LAST-MODIFIED:20081119T201153Z
+DTSTAMP:20081119T201140Z
+UID:20090928-1-all-publicholidays-dol.govt.nz
+SUMMARY:South Canterbury Anniversary Day (4th Monday in September)
+TRANSP:TRANSPARENT
+DTSTART;VALUE=DATE:20090928
+RECURRENCE-ID;VALUE=DATE:20090928
+DURATION:P1D
+END:VEVENT
+END:VCALENDAR
+</C:calendar-data>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+</multistatus>
+
+          dtstart: >2005-12-26 00:00:00+13<
+            rrule: >FREQ=YEARLY<
+          summary: >Boxing Day<
+
+          dtstart: >2005-01-01 00:00:00+13<
+            rrule: >FREQ=YEARLY<
+          summary: >New Year's Day<
+
+          dtstart: >2005-12-25 00:00:00+13<
+            rrule: >FREQ=YEARLY<
+          summary: >Christmas Day<
+
+          dtstart: >2009-04-10 00:00:00+12<
+            rrule: >NULL<
+          summary: >Good Friday<
+
+          dtstart: >2005-02-06 00:00:00+13<
+            rrule: >FREQ=YEARLY<
+          summary: >Waitangi Day<
+
+          dtstart: >2009-04-13 00:00:00+12<
+            rrule: >NULL<
+          summary: >Easter Monday<
+
+          dtstart: >2005-04-25 00:00:00+12<
+            rrule: >FREQ=YEARLY<
+          summary: >ANZAC Day<
+
+          dtstart: >2005-06-06 00:00:00+12<
+            rrule: >FREQ=YEARLY;BYMONTH=6;BYDAY=1MO<
+          summary: >Queen's Birthday<
+
+          dtstart: >2005-10-24 00:00:00+13<
+            rrule: >FREQ=YEARLY;BYMONTH=10;BYDAY=4MO<
+          summary: >Labour Day<
+
+          dtstart: >2005-01-02 00:00:00+13<
+            rrule: >FREQ=YEARLY<
+          summary: >Day after New Year's Day<
+
+          dtstart: >2005-12-27 00:00:00+13<
+            rrule: >FREQ=YEARLY;BYMONTH=12;BYDAY=MO,TU,WE,TH,FR;BYMONTHDAY=25,26,27,28;BYSETPOS=2<
+          summary: >Boxing Day Holiday<
+
+          dtstart: >2005-12-26 00:00:00+13<
+            rrule: >FREQ=YEARLY;BYMONTH=12;BYDAY=MO,TU,WE,TH,FR;BYMONTHDAY=25,26,27,28;BYSETPOS=1<
+          summary: >Christmas Day Holiday<
+
+          dtstart: >2005-01-03 00:00:00+13<
+            rrule: >FREQ=YEARLY;BYMONTH=1;BYDAY=MO,TU,WE,TH,FR;BYMONTHDAY=1,2,3,4;BYSETPOS=1<
+          summary: >New Year's Day Holiday<
+
+          dtstart: >2005-01-04 00:00:00+13<
+            rrule: >FREQ=YEARLY;BYMONTH=1;BYDAY=MO,TU,WE,TH,FR;BYMONTHDAY=1,2,3,4;BYSETPOS=2<
+          summary: >Day after New Year's Day Holiday<
+
+          dtstart: >2005-11-28 00:00:00+13<
+            rrule: >FREQ=YEARLY;BYDAY=MO;BYYEARDAY=-34,-33,-32,-31,-30,-29,-28<
+          summary: >Westland Anniversary Day (Monday nearest 1st December)<
+
+          dtstart: >2005-11-28 00:00:00+13<
+            rrule: >FREQ=YEARLY;BYDAY=MO;BYYEARDAY=-35,-34,-33,-32,-31,-30,-29<
+          summary: >Chatham Islands Anniversary Day (Monday nearest 30th November)<
+
+          dtstart: >2005-01-31 00:00:00+13<
+            rrule: >FREQ=YEARLY;BYYEARDAY=26,27,28,29,30,31,32;BYDAY=MO<
+          summary: >Auckland Anniversary Day (Monday nearest 29th January)<
+
+          dtstart: >2005-01-24 00:00:00+13<
+            rrule: >FREQ=YEARLY;BYYEARDAY=19,20,21,22,23,24,25;BYDAY=MO<
+          summary: >Wellington Anniversary Day (Monday nearest 22nd January)<
+
+          dtstart: >2005-01-17 00:00:00+13<
+            rrule: >FREQ=YEARLY;BYYEARDAY=14,15,16,17,18,19,20;BYDAY=MO<
+          summary: >Southland Anniversary Day (Monday nearest 17th January)<
+
+          dtstart: >2005-01-31 00:00:00+13<
+            rrule: >FREQ=YEARLY;BYYEARDAY=29,30,31,32,33,34,35;BYDAY=MO<
+          summary: >Nelson Anniversary Day (Monday nearest 1st Feb)<
+
+          dtstart: >2009-03-09 00:00:00+13<
+            rrule: >NULL<
+          summary: >Taranaki Anniversary Day<
+
+          dtstart: >2009-03-23 00:00:00+13<
+            rrule: >NULL<
+          summary: >Otago Anniversary Day<
+
+          dtstart: >2005-10-21 00:00:00+13<
+            rrule: >FREQ=YEARLY;BYMONTH=10;BYMONTHDAY=19,20,21,22,23,24,25;BYDAY=FR<
+          summary: >Hawkes' Bay Anniversary Day (Friday before 4th Monday of October)<
+
+          dtstart: >2005-10-31 00:00:00+13<
+            rrule: >FREQ=YEARLY;BYDAY=MO;BYYEARDAY=-64,-63,-62,-61,-60,-59,-58<
+          summary: >Marlborough Anniversary Day (Monday after 4th Monday of October)<
+
+          dtstart: >2005-11-11 00:00:00+13<
+            rrule: >FREQ=YEARLY;BYMONTH=11;BYMONTHDAY=11,12,13,14,15,16,17;BYDAY=FR<
+          summary: >Canterbury Anniversary Day (Second Friday after the first Tuesday in November)<
+
+          dtstart: >2005-09-26 00:00:00+12<
+            rrule: >FREQ=YEARLY;BYMONTH=9;BYDAY=4MO<
+          summary: >South Canterbury Anniversary Day (4th Monday in September)<
+

@@ -11,27 +11,8 @@
 
 if ( !class_exists('DateTime') ) return;
 
-$rrule_expand_limit = array(
-  'YEARLY'  => array( 'bymonth' => 'expand', 'byweekno' => 'expand', 'byyearday' => 'expand', 'bymonthday' => 'expand',
-                      'byday' => 'expand', 'byhour' => 'expand', 'byminute' => 'expand', 'bysecond' => 'expand' ),
-  'MONTHLY' => array( 'bymonth' => 'limit', 'bymonthday' => 'expand',
-                      'byday' => 'expand', 'byhour' => 'expand', 'byminute' => 'expand', 'bysecond' => 'expand' ),
-  'WEEKLY'  => array( 'bymonth' => 'limit',
-                      'byday' => 'expand', 'byhour' => 'expand', 'byminute' => 'expand', 'bysecond' => 'expand' ),
-  'DAILY'   => array( 'bymonth' => 'limit', 'bymonthday' => 'limit',
-                      'byday' => 'limit', 'byhour' => 'expand', 'byminute' => 'expand', 'bysecond' => 'expand' ),
-  'HOURLY'  => array( 'bymonth' => 'limit', 'bymonthday' => 'limit',
-                      'byday' => 'limit', 'byhour' => 'limit', 'byminute' => 'expand', 'bysecond' => 'expand' ),
-  'MINUTELY'=> array( 'bymonth' => 'limit', 'bymonthday' => 'limit',
-                      'byday' => 'limit', 'byhour' => 'limit', 'byminute' => 'limit', 'bysecond' => 'expand' ),
-  'SECONDLY'=> array( 'bymonth' => 'limit', 'bymonthday' => 'limit',
-                      'byday' => 'limit', 'byhour' => 'limit', 'byminute' => 'limit', 'bysecond' => 'limit' ),
-);
-
-$rrule_day_numbers = array( 'SU' => 0, 'MO' => 1, 'TU' => 2, 'WE' => 3, 'TH' => 4, 'FR' => 5, 'SA' => 6 );
-
-define( 'DEBUG_RRULE', false );
 // define( 'DEBUG_RRULE', true);
+define( 'DEBUG_RRULE', false );
 
 /**
 * Wrap the DateTimeZone class to allow parsing some iCalendar TZID strangenesses
@@ -84,16 +65,17 @@ class RepeatRuleDateTime extends DateTime {
   private $tzid;
   private $is_date;
 
-  public function __construct($date = null, $dtz = null) {
+  public function __construct($date = null, $dtz = null, $is_date = null ) {
     if ( !isset(self::$UTCzone) ) self::$UTCzone = new RepeatRuleTimeZone('UTC');
     $this->is_date = false;
+    if ( isset($is_date) ) $this->is_date = $is_date;
     if ( !isset($date) ) {
       $date = date('Ymd\THis');            
       // Floating
       $dtz = self::$UTCzone;
-      $this->tzid = null;
     }
-
+    $this->tzid = null;
+    
     if ( is_object($date) && method_exists($date,'GetParameterValue') ) {
       $tzid = $date->GetParameterValue('TZID');
       $actual_date = $date->Value();
@@ -110,8 +92,10 @@ class RepeatRuleDateTime extends DateTime {
       }
       if ( strlen($actual_date) == 8 ) {
         // We allow dates without VALUE=DATE parameter, but we don't create them like that
-        $this->is_date;
+        $this->is_date = true;
       }
+//      $value_type = $date->GetParameterValue('VALUE');
+//      if ( isset($value_type) && $value_type == 'DATE' ) $this->is_date = true;
       $date = $actual_date;
       if ( DEBUG_RRULE ) printf( "Date%s property%s: %s%s\n", ($this->is_date ? "" : "Time"),
               (isset($this->tzid) ? ' with timezone' : ''), $date,
@@ -167,7 +151,8 @@ class RepeatRuleDateTime extends DateTime {
     }
 
     parent::__construct($date, $dtz);
-
+    if ( isset($is_date) ) $this->is_date = $is_date;
+    
     return $this;
   }
 
@@ -187,7 +172,12 @@ class RepeatRuleDateTime extends DateTime {
   }
 
   public function isDate() {
-    return !isset($this->is_date);
+    return $this->is_date;
+  }
+
+  
+  public function setAsDate() {
+    $this->is_date = true;
   }
 
   
@@ -210,14 +200,19 @@ class RepeatRuleDateTime extends DateTime {
   }
 
 
-  public function UTC() {
+  public function UTC( $force_utc=false ) {
     $gmt = clone($this);
-    if ( isset($this->tzid) && $this->tzid != 'UTC' ) {
-      $dtz = parent::getTimezone();
+    if ( ($force_utc && !isset($this->tzid)) || (isset($this->tzid) && $this->tzid != 'UTC') ) {
+      if ( isset($this->tzid)) {
+        $dtz = parent::getTimezone();
+      }
+      else {
+        $dtz = new DateTimeZone(date_default_timezone_get());
+      }
       $offset = 0 - $dtz->getOffset($gmt);
       $gmt->modify( $offset . ' seconds' );
     }
-    if ( $this->is_date ) return $gmt->format('Ymd');
+    if ( $this->is_date && !$force_utc ) return $gmt->format('Ymd');
     return $gmt->format('Ymd\THis\Z');
   }
 
@@ -230,9 +225,7 @@ class RepeatRuleDateTime extends DateTime {
       $gmt->modify( $offset . ' seconds' );
     }
     if ( $this->is_date ) return $gmt->format('Ymd');
-    $result = $gmt->format('Ymd\THis');
-    if ( isset($this->tzid) ) $result .= 'Z';
-    return $result;
+    return $gmt->format('Ymd\THis') . (isset($this->tzid) ? 'Z' : '');
   }
 
 
@@ -269,11 +262,31 @@ class RepeatRuleDateTime extends DateTime {
   }
 
 
+  public function getTimeZone() {
+    return $this->tzid;
+  }
+
+
   function setDate( $year=null, $month=null, $day=null ) {
     if ( !isset($year) )  $year  = parent::format('Y');
     if ( !isset($month) ) $month = parent::format('m');
     if ( !isset($day) )   $day   = parent::format('d');
     parent::setDate( $year , $month , $day );
+    return $this;
+  }
+
+  function setYearDay( $yearday ) {
+    if ( $yearday > 0 ) {
+      $current_yearday = parent::format('z') + 1;
+    }
+    else {
+      $current_yearday = (parent::format('z') - (365 + parent::format('L')));
+    }
+    $diff = $yearday - $current_yearday;
+    if ( $diff < 0 ) $this->modify('-P'.-$diff.'D');
+    else if ( $diff > 0 ) $this->modify('P'.$diff.'D');
+//    printf( "Current: %d, Looking for: %d, Diff: %d, What we got: %s (%d,%d)\n", $current_yearday, $yearday, $diff,
+//                 parent::format('Y-m-d'), (parent::format('z')+1), ((parent::format('z') - (365 + parent::format('L')))) );
     return $this;
   }
 
@@ -329,22 +342,28 @@ class RepeatRule {
   private $position;
   private $finished;
   private $current_base;
+  private $original_rule;
 
 
-  public function __construct( $basedate, $rrule ) {
-    $this->base = ( is_object($basedate) ? $basedate : new RepeatRuleDateTime($basedate) );
+  public function __construct( $basedate, $rrule, $is_date=null ) {
+    $this->base = (is_object($basedate) ? $basedate : new RepeatRuleDateTime($basedate) );
+    $this->original_rule = $rrule;
 
     if ( DEBUG_RRULE ) {
       printf( "Constructing RRULE based on: '%s', rrule: '%s'\n", $basedate, $rrule );
     }
 
     if ( preg_match('{FREQ=([A-Z]+)(;|$)}', $rrule, $m) ) $this->freq = $m[1];
-    if ( preg_match('{UNTIL=([0-9TZ]+)(;|$)}', $rrule, $m) ) $this->until = new RepeatRuleDateTime($m[1]);
+
+    if ( preg_match('{UNTIL=([0-9TZ]+)(;|$)}', $rrule, $m) )
+      $this->until = new RepeatRuleDateTime($m[1],$this->base->getTimeZone(),$is_date);
     if ( preg_match('{COUNT=([0-9]+)(;|$)}', $rrule, $m) ) $this->count = $m[1];
     if ( preg_match('{INTERVAL=([0-9]+)(;|$)}', $rrule, $m) ) $this->interval = $m[1];
+
     if ( preg_match('{WKST=(MO|TU|WE|TH|FR|SA|SU)(;|$)}', $rrule, $m) ) $this->wkst = $m[1];
 
-    if ( preg_match('{BYDAY=(([+-]?[0-9]{0,2}(MO|TU|WE|TH|FR|SA|SU),?)+)(;|$)}', $rrule, $m) )  $this->byday = explode(',',$m[1]);
+    if ( preg_match('{BYDAY=(([+-]?[0-9]{0,2}(MO|TU|WE|TH|FR|SA|SU),?)+)(;|$)}', $rrule, $m) )
+      $this->byday = explode(',',$m[1]);
 
     if ( preg_match('{BYYEARDAY=([0-9,+-]+)(;|$)}', $rrule, $m) ) $this->byyearday = explode(',',$m[1]);
     if ( preg_match('{BYWEEKNO=([0-9,+-]+)(;|$)}', $rrule, $m) ) $this->byweekno = explode(',',$m[1]);
@@ -402,7 +421,8 @@ class RepeatRule {
     if ( !$this->valid() ) return null;
     if ( !isset($this->instances[$this->position]) ) $this->GetMoreInstances();
     if ( !$this->valid() ) return null;
-    if ( DEBUG_RRULE ) printf( "Returning date from position %d: %s (%s)\n", $this->position, $this->instances[$this->position]->format('c'), $this->instances[$this->position]->UTC() );
+    if ( DEBUG_RRULE ) printf( "Returning date from position %d: %s (%s)\n", $this->position,
+                          $this->instances[$this->position]->format('c'), $this->instances[$this->position]->UTC() );
     return $this->instances[$this->position];
   }
 
@@ -422,10 +442,41 @@ class RepeatRule {
     return false;
   }
 
-
+  /**
+   * This function returns an array which lists the order of processing, and whether the processing is
+   * to expand or limit based on this component.
+   * 
+   * Note that yearly-byday and monthly-byday have special handling which is coded within the
+   * expand_byday() method
+   * @param $freq a string indicating the frequency.
+   */
+  final private static function rrule_expand_limit( $freq ) {
+    switch( $freq ) {
+      case 'YEARLY':
+        return array( 'bymonth' => 'expand', 'byweekno' => 'expand', 'byyearday' => 'expand', 'bymonthday' => 'expand',
+                        'byday' => 'expand', 'byhour' => 'expand', 'byminute' => 'expand', 'bysecond' => 'expand' );
+      case 'MONTHLY':
+        return array( 'bymonth' => 'limit', 'bymonthday' => 'expand',
+                        'byday' => 'expand', 'byhour' => 'expand', 'byminute' => 'expand', 'bysecond' => 'expand' );
+      case 'WEEKLY':
+        return array( 'bymonth' => 'limit',
+                        'byday' => 'expand', 'byhour' => 'expand', 'byminute' => 'expand', 'bysecond' => 'expand' );
+      case 'DAILY':
+        return array( 'bymonth' => 'limit', 'bymonthday' => 'limit',
+                        'byday' => 'limit', 'byhour' => 'expand', 'byminute' => 'expand', 'bysecond' => 'expand' );
+      case 'HOURLY':
+        return array( 'bymonth' => 'limit', 'bymonthday' => 'limit',
+                        'byday' => 'limit', 'byhour' => 'limit', 'byminute' => 'expand', 'bysecond' => 'expand' );
+      case 'MINUTELY':
+        return array( 'bymonth' => 'limit', 'bymonthday' => 'limit',
+                        'byday' => 'limit', 'byhour' => 'limit', 'byminute' => 'limit', 'bysecond' => 'expand' );
+      case 'SECONDLY':
+        return array( 'bymonth' => 'limit', 'bymonthday' => 'limit',
+                        'byday' => 'limit', 'byhour' => 'limit', 'byminute' => 'limit', 'bysecond' => 'limit' );
+    }
+  }
+  
   private function GetMoreInstances() {
-    global $rrule_expand_limit;
-
     if ( $this->finished ) return;
     $got_more = false;
     $loop_limit = 10;
@@ -439,10 +490,13 @@ class RepeatRule {
       }
       if ( DEBUG_RRULE ) printf( "Getting more instances from: '%s' - %d\n", $this->current_base->format('c'), count($this->instances) );
       $this->current_set = array( clone($this->current_base) );
-      foreach( $rrule_expand_limit[$this->freq] AS $bytype => $action ) {
-        if ( isset($this->{$bytype}) ) $this->{$action.'_'.$bytype}();
-        if ( !isset($this->current_set[0]) ) break;
+      foreach( self::rrule_expand_limit($this->freq) AS $bytype => $action ) {
+        if ( isset($this->{$bytype}) ) {
+          $this->{$action.'_'.$bytype}();          
+          if ( !isset($this->current_set[0]) ) break;
+        } 
       }
+  
       sort($this->current_set);
       if ( isset($this->bysetpos) ) $this->limit_bysetpos();
 
@@ -465,11 +519,24 @@ class RepeatRule {
     }
   }
 
-
+  
+  final private static function rrule_day_number( $day ) {
+    switch( $day ) {
+      case 'SU': return 0;
+      case 'MO': return 1;
+      case 'TU': return 2;
+      case 'WE': return 3;
+      case 'TH': return 4;
+      case 'FR': return 5;
+      case 'SA': return 6;
+    }
+    return false;
+  }
+  
+  
   static public function date_mask( $date, $y, $mo, $d, $h, $mi, $s ) {
     $date_parts = explode(',',$date->format('Y,m,d,H,i,s'));
 
-    $tz = $date->getTimezone();
     if ( isset($y) || isset($mo) || isset($d) ) {
       if ( isset($y) ) $date_parts[0] = $y;
       if ( isset($mo) ) $date_parts[1] = $mo;
@@ -508,9 +575,22 @@ class RepeatRule {
     }
   }
 
-
+  private function expand_byyearday() {
+    $instances = $this->current_set;
+    $this->current_set = array();
+    $days_set = array();
+    foreach( $instances AS $k => $instance ) {
+      foreach( $this->byyearday AS $k => $yearday ) {
+        $on_yearday = clone($instance);
+        $on_yearday->setYearDay($yearday);
+        if ( isset($days_set[$on_yearday->UTC()]) ) continue;
+        $this->current_set[] = $on_yearday;
+        $days_set[$on_yearday->UTC()] = true;
+      }
+    }
+  }
+  
   private function expand_byday_in_week( $day_in_week ) {
-    global $rrule_day_numbers;
 
     /**
     * @TODO: This should really allow for WKST, since if we start a series
@@ -519,7 +599,7 @@ class RepeatRule {
     */
     $dow_of_instance = $day_in_week->format('w'); // 0 == Sunday
     foreach( $this->byday AS $k => $weekday ) {
-      $dow = $rrule_day_numbers[$weekday];
+      $dow = self::rrule_day_number($weekday);
       $offset = $dow - $dow_of_instance;
       if ( $offset < 0 ) $offset += 7;
       $expanded = clone($day_in_week);
@@ -531,14 +611,13 @@ class RepeatRule {
 
 
   private function expand_byday_in_month( $day_in_month ) {
-    global $rrule_day_numbers;
 
     $first_of_month = $this->date_mask( clone($day_in_month), null, null, 1, null, null, null);
     $dow_of_first = $first_of_month->format('w'); // 0 == Sunday
     $days_in_month = cal_days_in_month(CAL_GREGORIAN, $first_of_month->format('m'), $first_of_month->format('Y'));
     foreach( $this->byday AS $k => $weekday ) {
       if ( preg_match('{([+-])?(\d)?(MO|TU|WE|TH|FR|SA|SU)}', $weekday, $matches ) ) {
-        $dow = $rrule_day_numbers[$matches[3]];
+        $dow = self::rrule_day_number($matches[3]);
         $first_dom = 1 + $dow - $dow_of_first;  if ( $first_dom < 1 ) $first_dom +=7;  // e.g. 1st=WE, dow=MO => 1+1-3=-1 => MO is 6th, etc.
         $whichweek = intval($matches[2]);
         if ( DEBUG_RRULE ) printf( "Expanding BYDAY(M) $weekday in month of %s\n", $first_of_month->format('c') );
@@ -572,7 +651,6 @@ class RepeatRule {
 
 
   private function expand_byday_in_year( $day_in_year ) {
-    global $rrule_day_numbers;
 
     $first_of_year = $this->date_mask( clone($day_in_year), null, 1, 1, null, null, null);
     $dow_of_first = $first_of_year->format('w'); // 0 == Sunday
@@ -580,7 +658,7 @@ class RepeatRule {
     foreach( $this->byday AS $k => $weekday ) {
       if ( preg_match('{([+-])?(\d)?(MO|TU|WE|TH|FR|SA|SU)}', $weekday, $matches ) ) {
         $expanded = clone($first_of_year);
-        $dow = $rrule_day_numbers[$matches[3]];
+        $dow = self::rrule_day_number($matches[3]);
         $first_doy = 1 + $dow - $dow_of_first;  if ( $first_doy < 1 ) $first_doy +=7;  // e.g. 1st=WE, dow=MO => 1+1-3=-1 => MO is 6th, etc.
         $whichweek = intval($matches[2]);
         if ( DEBUG_RRULE ) printf( "Expanding BYDAY(Y) $weekday from date %s\n", $instance->format('c') );
@@ -689,13 +767,11 @@ class RepeatRule {
   }
 
   private function limit_byday() {
-    global $rrule_day_numbers;
-
     $fmt_char = 'w';
     $instances = $this->current_set;
     $this->current_set = array();
     foreach( $this->byday AS $k => $weekday ) {
-      $dow = $rrule_day_numbers[$weekday];
+      $dow = self::rrule_day_number($weekday);
       foreach( $instances AS $k => $instance ) {
         if ( DEBUG_RRULE ) printf( "Limiting '$fmt_char' on '%s' => '%s' ?=? '%s' (%d) ? %s\n", $instance->format('c'), $instance->format($fmt_char), $weekday, $dow, ($instance->format($fmt_char) == $dow ? 'Yes' : 'No') );
         if ( $instance->format($fmt_char) == $dow ) $this->current_set[] = $instance;
@@ -741,7 +817,7 @@ require_once("vComponent.php");
 *
 * @return array An array keyed on the UTC dates, referring to the component
 */
-function rdate_expand( $dtstart, $property, $component, $range_end = null ) {
+function rdate_expand( $dtstart, $property, $component, $range_end = null, $is_date=null ) {
   $properties = $component->GetProperties($property);
   $expansion = array();
   foreach( $properties AS $p ) {
@@ -749,8 +825,8 @@ function rdate_expand( $dtstart, $property, $component, $range_end = null ) {
     $rdate = $p->Value();
     $rdates = explode( ',', $rdate );
     foreach( $rdates AS $k => $v ) {
-      $rdate = new RepeatRuleDateTime( $v, $timezone);
-      $expansion[$rdate->UTC()] = $component;
+      $rdate = new RepeatRuleDateTime( $v, $timezone, $is_date);
+      $expansion[$rdate->FloatOrUTC()] = $component;
       if ( $rdate > $range_end ) break;
     }
   }
@@ -768,7 +844,7 @@ function rdate_expand( $dtstart, $property, $component, $range_end = null ) {
 *
 * @return array An array keyed on the UTC dates, referring to the component
 */
-function rrule_expand( $dtstart, $property, $component, $range_end ) {
+function rrule_expand( $dtstart, $property, $component, $range_end, $is_date=null ) {
   $expansion = array();
 
   $recur = $component->GetProperty($property);
@@ -777,24 +853,23 @@ function rrule_expand( $dtstart, $property, $component, $range_end ) {
 
   $this_start = $component->GetProperty('DTSTART');
   if ( isset($this_start) ) {
-    $timezone = $this_start->GetParameterValue('TZID');
-    $this_start = new RepeatRuleDateTime($this_start->Value(),$timezone);
+    $this_start = new RepeatRuleDateTime($this_start);
   }
   else {
     $this_start = clone($dtstart);
   }
 
-//  print_r( $this_start );
-//  printf( "RRULE: %s\n", $recur );
-  $rule = new RepeatRule( $this_start, $recur );
+//  if ( DEBUG_RRULE ) print_r( $this_start );
+//  if ( DEBUG_RRULE ) printf( "RRULE: %s\n", $recur );
+  $rule = new RepeatRule( $this_start, $recur, $is_date );
   $i = 0;
   $result_limit = 1000;
   while( $date = $rule->next() ) {
-//    printf( "[%3d] %s\n", $i, $date->UTC() );
-    $expansion[$date->UTC()] = $component;
+//    if ( DEBUG_RRULE ) printf( "[%3d] %s\n", $i, $date->UTC() );
+    $expansion[$date->FloatOrUTC()] = $component;
     if ( $i++ >= $result_limit || $date > $range_end ) break;
   }
-//  print_r( $expansion );
+//  if ( DEBUG_RRULE ) print_r( $expansion );
   return $expansion;
 }
 
@@ -821,21 +896,24 @@ function expand_event_instances( $vResource, $range_start = null, $range_end = n
   $instances = array();
   $expand = false;
   $dtstart = null;
+  $is_date = false;
   foreach( $components AS $k => $comp ) {
     if ( $comp->GetType() != 'VEVENT' && $comp->GetType() != 'VTODO' && $comp->GetType() != 'VJOURNAL' ) {
       if ( $comp->GetType() != 'VTIMEZONE' ) $new_components[] = $comp;
       continue;
     }
     if ( !isset($dtstart) ) {
-      $dtstart = $comp->GetProperty('DTSTART');
-      $dtstart = new RepeatRuleDateTime( $dtstart );
-      $instances[$dtstart->UTC()] = $comp;
+      $dtstart_prop = $comp->GetProperty('DTSTART');
+      $dtstart = new RepeatRuleDateTime( $dtstart_prop );
+      $is_date = $dtstart->isDate();
+      $instances[$dtstart->FloatOrUTC()] = $comp;
     }
     $p = $comp->GetProperty('RECURRENCE-ID');
     if ( isset($p) && $p->Value() != '' ) {
       $range = $p->GetParameterValue('RANGE');
       $recur_utc = new RepeatRuleDateTime($p);
-      $recur_utc = $recur_utc->UTC();
+      if ( $is_date ) $recur_utc->setAsDate();
+      $recur_utc = $recur_utc->FloatOrUTC();
       if ( isset($range) && $range == 'THISANDFUTURE' ) {
         foreach( $instances AS $k => $v ) {
           if ( DEBUG_RRULE ) printf( "Removing overridden instance at: $k\n" );
@@ -843,7 +921,7 @@ function expand_event_instances( $vResource, $range_start = null, $range_end = n
         }
       }
       else {
-        unset($instances[$recur_utc]);
+        unset($instances['x'.$recur_utc]);
       }
     }
     else if ( DEBUG_RRULE ) {
@@ -852,14 +930,14 @@ function expand_event_instances( $vResource, $range_start = null, $range_end = n
       $p =  $comp->GetProperty('UID');
       $uid = ( isset($p) ? $p->Value() : 'not set');
       printf( "Processing event '%s' with UID '%s' starting on %s\n",
-                 $summary, $uid, $dtstart->UTC() );      
+                 $summary, $uid, $dtstart->FloatOrUTC() );      
       print( "Instances at start");
       foreach( $instances AS $k => $v ) {
         print ' : '.$k;        
       }
       print "\n";
     }
-    $instances = array_merge( $instances, rrule_expand($dtstart, 'RRULE', $comp, $range_end) );
+    $instances += rrule_expand($dtstart, 'RRULE', $comp, $range_end);
     if ( DEBUG_RRULE ) {
       print( "After rrule_expand");
       foreach( $instances AS $k => $v ) {
@@ -867,7 +945,7 @@ function expand_event_instances( $vResource, $range_start = null, $range_end = n
       }
       print "\n";
     }
-    $instances = array_merge( $instances, rdate_expand($dtstart, 'RDATE', $comp, $range_end) );
+    $instances += rdate_expand($dtstart, 'RDATE', $comp, $range_end);
     if ( DEBUG_RRULE ) {
       print( "After rdate_expand");
       foreach( $instances AS $k => $v ) {
@@ -890,10 +968,13 @@ function expand_event_instances( $vResource, $range_start = null, $range_end = n
   $last_duration = null;
   $early_start = null;
   $new_components = array();
-  $start_utc = $range_start->UTC();
-  $end_utc = $range_end->UTC();
+  $start_utc = $range_start->FloatOrUTC();
+  $end_utc = $range_end->FloatOrUTC();
   foreach( $instances AS $utc => $comp ) {
-    if ( $utc > $end_utc ) break;
+    if ( $utc > $end_utc ) {
+      if ( DEBUG_RRULE ) printf( "We're done: $utc is out of the range.\n");
+      break;      
+    }
 
     $end_type = ($comp->GetType() == 'VTODO' ? 'DUE' : 'DTEND');
     $duration = $comp->GetProperty('DURATION');
@@ -920,20 +1001,29 @@ function expand_event_instances( $vResource, $range_start = null, $range_end = n
 
     if ( $utc < $start_utc ) {
       if ( isset($early_start) && isset($last_duration) && $duration == $last_duration) {
-        if ( $utc < $early_start ) continue;
+        if ( $utc < $early_start ) {
+          if ( DEBUG_RRULE ) printf( "Next please: $utc is before $early_start and before $start_utc.\n");
+          continue;
+        }
       }
       else {
         /** Calculate the latest possible start date when this event would overlap our range start */
         $latest_start = clone($range_start);
         $latest_start->modify('-'.$duration);
-        $early_start = $latest_start->UTC();
+        $early_start = $latest_start->FloatOrUTC();
         $last_duration = $duration;
-        if ( $utc < $early_start ) continue;
+        if ( $utc < $early_start ) {
+          if ( DEBUG_RRULE ) printf( "Another please: $utc is before $early_start and before $start_utc.\n");
+          continue;
+        }
       }
     }
     $component = clone($comp);
-    $component->ClearProperties( array('DTSTART'=> true, 'DUE' => true, 'DTEND' => true) );
-    $component->AddProperty('DTSTART', $utc );
+    $component->ClearProperties( array('DTSTART'=> true, 'DUE' => true, 'DTEND' => true,
+                                       'RRULE' => true, 'RDATE' => true, 'EXDATE' => true) );
+    $component->AddProperty('DTSTART', $utc, ($is_date ? array('VALUE' => 'DATE') : null) );
+    if ( $utc != $dtstart->FloatOrUTC() )
+      $component->AddProperty('RECURRENCE-ID', $utc, ($is_date ? array('VALUE' => 'DATE') : null) );
     $component->AddProperty('DURATION', $duration );
     $new_components[] = $component;
   }

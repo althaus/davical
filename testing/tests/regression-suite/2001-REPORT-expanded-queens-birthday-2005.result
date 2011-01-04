@@ -1,0 +1,40 @@
+HTTP/1.1 207 Multi-Status
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
+DAV: extended-mkcol, calendar-proxy, bind, addressbook
+ETag: "f57bc105449e3d80e3411f3169b14ce4"
+Content-Length: 722
+Content-Type: text/xml; charset="utf-8"
+
+<?xml version="1.0" encoding="utf-8" ?>
+<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
+ <response>
+  <href>/caldav.php/user4/nz_holidays/20090601-1-all-publicholidays-dol.govt.nz.ics</href>
+  <propstat>
+   <prop>
+    <C:calendar-data>BEGIN:VCALENDAR
+PRODID:-//davical.org//NONSGML AWL Calendar//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+CREATED:20081118T011947Z
+LAST-MODIFIED:20081118T012009Z
+DTSTAMP:20081118T011947Z
+UID:20090601-1-all-publicholidays-dol.govt.nz
+SUMMARY:Queen's Birthday
+TRANSP:TRANSPARENT
+DTSTART;VALUE=DATE:20050606
+DURATION:P1D
+END:VEVENT
+END:VCALENDAR
+</C:calendar-data>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+</multistatus>
+
+          dtstart: >2005-06-06 00:00:00+12<
+            rrule: >FREQ=YEARLY;BYMONTH=6;BYDAY=1MO<
+          summary: >Queen's Birthday<
+
