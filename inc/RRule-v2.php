@@ -184,7 +184,7 @@ class RepeatRuleDateTime extends DateTime {
   public function modify( $interval ) {
 //    print ">>$interval<<\n";
     if ( preg_match('{^(-)?P(([0-9-]+)W)?(([0-9-]+)D)?T?(([0-9-]+)H)?(([0-9-]+)M)?(([0-9-]+)S)?$}', $interval, $matches) ) {
-      $minus = $matches[1];
+      $minus = (isset($matches[1])?$matches[1]:'');
       $interval = '';
       if ( isset($matches[2]) && $matches[2] != '' ) $interval .= $minus . $matches[3] . ' weeks ';
       if ( isset($matches[4]) && $matches[4] != '' ) $interval .= $minus . $matches[5] . ' days ';
@@ -200,9 +200,16 @@ class RepeatRuleDateTime extends DateTime {
   }
 
 
-  public function UTC( $force_utc=false ) {
+  /**
+   * Always returns a time localised to UTC.  Even floating times are converted to UTC
+   * using the server's currently configured PHP timezone.  Even dates will include a
+   * time, which will be non-zero if they were localised dates.
+   * 
+   * @see RepeatRuleDateTime::FloatOrUTC()
+   */
+  public function UTC() {
     $gmt = clone($this);
-    if ( ($force_utc && !isset($this->tzid)) || (isset($this->tzid) && $this->tzid != 'UTC') ) {
+    if ( $this->tzid != 'UTC' ) {
       if ( isset($this->tzid)) {
         $dtz = parent::getTimezone();
       }
@@ -212,11 +219,18 @@ class RepeatRuleDateTime extends DateTime {
       $offset = 0 - $dtz->getOffset($gmt);
       $gmt->modify( $offset . ' seconds' );
     }
-    if ( $this->is_date && !$force_utc ) return $gmt->format('Ymd');
     return $gmt->format('Ymd\THis\Z');
   }
 
 
+  /**
+   * If this is a localised time then this will return the UTC equivalent.  If it is a 
+   * floating time, then you will just get the floating time.  If it is a date then it
+   * will be returned as a date.  Note that if it is a *localised* date then the answer
+   * will still be the UTC equivalent but only the date itself will be returned.
+   * 
+   * @see RepeatRuleDateTime::UTC()
+   */
   public function FloatOrUTC() {
     $gmt = clone($this);
     if ( isset($this->tzid) && $this->tzid != 'UTC' ) {
@@ -229,6 +243,9 @@ class RepeatRuleDateTime extends DateTime {
   }
 
 
+  /**
+   * Returns the string following a property name for an RFC5545 DATE-TIME value.
+   */
   public function RFC5545() {
     $result = '';
     if ( isset($this->tzid) && $this->tzid != 'UTC' ) {
@@ -247,8 +264,33 @@ class RepeatRuleDateTime extends DateTime {
   }
 
 
+  /**
+   * Create an RFC5545 format duration string from the difference between $this and the supplied $end_stamp
+   * @param RepeatRuleDateTime $end_stamp
+   */
   public function RFC5545Duration( $end_stamp ) {
-    return sprintf( 'PT%dM', intval(($end_stamp->epoch() - $this->epoch()) / 60) );
+    $diff = $end_stamp->epoch() - $this->epoch();
+    $result = ($diff < 0 ? '-P' : 'P');
+    $diff = abs($diff);
+    if ( $diff >= 86400 ) {
+      $days = floor($diff / 86400);
+      $diff -= $days * 86400;
+      if ( $diff == 0 && ($days / 7) == floor($days / 7) ) {
+        $result .= ($days/7).'W';
+        return $result;
+      }
+      $result .= $days.'D';
+    }
+    if ( $diff > 0 ) {
+      $result .= 'T';
+      $hours = floor($diff / 3600);
+      if ( $hours > 0 ) $result .= $hours . 'H';
+      $minutes = floor(($diff % 3600) / 60);
+      if ( $minutes > 0 ) $result .= $minutes . 'M';
+      $seconds = $diff % 60;
+      if ( $seconds > 0 ) $result .= $seconds . 'S';
+    }
+    return $result;
   }
 
 
@@ -928,7 +970,7 @@ function expand_event_instances( $vResource, $range_start = null, $range_end = n
         }
       }
       else {
-        unset($instances['x'.$recur_utc]);
+        unset($instances[$recur_utc]);
       }
     }
     else if ( DEBUG_RRULE ) {
