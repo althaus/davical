@@ -1071,8 +1071,7 @@ function expand_event_instances( $vResource, $range_start = null, $range_end = n
     $component->ClearProperties( array('DTSTART'=> true, 'DUE' => true, 'DTEND' => true,
                                        'RRULE' => true, 'RDATE' => true, 'EXDATE' => true) );
     $component->AddProperty('DTSTART', $utc, ($is_date ? array('VALUE' => 'DATE') : null) );
-    if ( $utc != $dtstart->FloatOrUTC() )
-      $component->AddProperty('RECURRENCE-ID', $utc, ($is_date ? array('VALUE' => 'DATE') : null) );
+    $component->AddProperty('RECURRENCE-ID', $utc, ($is_date ? array('VALUE' => 'DATE') : null) );
     $component->AddProperty('DURATION', $duration );
     $new_components[] = $component;
   }
