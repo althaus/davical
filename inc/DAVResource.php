@@ -215,8 +215,11 @@ class DAVResource
       switch ( $k ) {
         case 'created':
         case 'modified':
-        case 'resourcetypes':
           $this->{$k} = $v;
+          break;
+
+        case 'resourcetypes':
+          if ( $this->_is_collection ) $this->{$k} = $v;
           break;
 
         case 'dav_etag':
@@ -247,11 +250,11 @@ class DAVResource
           $this->collection->type = 'collection';
       }
 
-      $this->_is_calendar     = ($this->collection->is_calendar == 't');
-      $this->_is_addressbook  = ($this->collection->is_addressbook == 't');
-      $this->_is_proxy_request= ($this->collection->type == 'proxy');
+      $this->_is_calendar      = ($this->collection->is_calendar == 't');
+      $this->_is_addressbook   = ($this->collection->is_addressbook == 't');
+      $this->_is_proxy_request = ($this->collection->type == 'proxy');
       if ( $this->_is_principal && !isset($this->resourcetypes) ) {
-        $this->resourcetypes = '<DAV::collection/><DAV::principal/>';
+        $this->resourcetypes   = '<DAV::collection/><DAV::principal/>';
       }
       else if ( $this->_is_proxy_request ) {
         $this->resourcetypes  = $this->collection->resourcetypes;
@@ -1439,15 +1442,17 @@ EOQRY;
 
       case 'DAV::resourcetype':
         $resourcetypes = $prop->NewElement('resourcetype' );
-        $type_list = $this->GetProperty('resourcetype');
-        if ( !is_array($type_list) ) return true;
-//        dbg_error_log( 'DAVResource', ':ResourceProperty: "%s" are "%s".', $tag, implode(', ',$type_list) );
-        foreach( $type_list AS $k => $v ) {
-          if ( $v == '' ) continue;
-          $reply->NSElement( $resourcetypes, $v );
-        }
-        if ( $this->_is_binding ) {
-          $reply->NSElement( $resourcetypes, 'http://xmlns.davical.org/davical:webdav-binding' );
+        if ( $this->_is_collection ) {
+          $type_list = $this->GetProperty('resourcetype');
+          if ( !is_array($type_list) ) return true;
+  //        dbg_error_log( 'DAVResource', ':ResourceProperty: "%s" are "%s".', $tag, implode(', ',$type_list) );
+          foreach( $type_list AS $k => $v ) {
+            if ( $v == '' ) continue;
+            $reply->NSElement( $resourcetypes, $v );
+          }
+          if ( $this->_is_binding ) {
+            $reply->NSElement( $resourcetypes, 'http://xmlns.davical.org/davical:webdav-binding' );
+          }
         }
         break;
 
