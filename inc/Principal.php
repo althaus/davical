@@ -157,6 +157,8 @@ class Principal {
           self::$byUserno[$row->user_no]    = $row->username;
           self::$byEmail[$row->email]       = $row->username;
           $this->assignRowValues($row);
+          $this->url = ConstructURL( $this->dav_name, true );
+          $this->exists = true;
           return $this;
         }
       }

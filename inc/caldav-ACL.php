@@ -169,7 +169,7 @@ function process_ace( $grantor, $by_principal, $by_collection, $ace ) {
       $qry = new AwlQuery($sql, $sqlparms);
       if ( $qry->Exec('ACL',__LINE__,__FILE__) ) {
         Principal::cacheDelete('dav_name',$grantee->dav_name());
-        Principal::cacheFlush('principal_id IN (SELECT member_id FROM group_member WHERE group_id = '.$grantee_id);
+        Principal::cacheFlush('principal_id IN (SELECT member_id FROM group_member WHERE group_id = ?)', array($grantee_id));
       }
       break;
 
