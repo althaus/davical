@@ -115,7 +115,7 @@ function get_collection_contents( $depth, $collection, $parent_path = null ) {
   $responses = array();
   if ( ! $collection->IsCalendar() &&  ! $collection->IsAddressbook() ) {
     /**
-    * Calendar/Addressbook collections may not contain collections, so we won't look
+    * Calendar/Addressbook collections may not contain collections, so we are only looking in the other ones
     */
     $params = array( ':session_principal' => $session->principal_id, ':scan_depth' => $c->permission_scan_depth );
     if ( $bound_from == '/' ) {
@@ -204,8 +204,11 @@ function get_collection_contents( $depth, $collection, $parent_path = null ) {
     $qry = new AwlQuery( $sql, array( ':collection_dav_name' => $bound_from) );
     if( $qry->Exec('PROPFIND',__LINE__,__FILE__) && $qry->rows() > 0 ) {
       while( $item = $qry->Fetch() ) {
+        if ( $bound_from != $bound_to ) {
+          $item->bound_from = $item->dav_name;
+          $item->dav_name = str_replace($bound_from,$bound_to,$item->dav_name);
+        }
         $resource = new DAVResource($item);
-        $resource->set_bind_location( str_replace($bound_from,$bound_to,$item->dav_name));
         $responses[] = $resource->RenderAsXML($property_list, $reply, $parent_path );
       }
     }
