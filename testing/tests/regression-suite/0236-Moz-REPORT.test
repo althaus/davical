@@ -27,3 +27,17 @@ BEGINDATA
   </filter>
 </calendar-query>
 ENDDATA
+
+QUERY
+SELECT dtstart, due,
+       rrule,
+       summary
+  FROM calendar_item JOIN caldav_data USING (dav_id)
+ WHERE calendar_item.dav_name ~ '^/user1/home/'
+   AND caldav_data.caldav_type = 'VTODO'
+   AND (rrule IS NOT NULL
+       OR (dtstart >= '20071101T110000Z' AND dtstart < '20080104T110000Z')
+       OR (due >= '20071101T110000Z' AND dtstart < '20080104T110000Z')
+       )
+ENDQUERY
+

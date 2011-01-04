@@ -58,3 +58,9 @@ END:VCALENDAR
   </propstat>
  </response>
 </multistatus>
+
+          dtstart: >2007-12-09 13:30:00+13<
+              due: >2007-12-09 13:30:00+13<
+            rrule: >NULL<
+          summary: >Release 0.9.3<
+

@@ -2,8 +2,8 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, calendar-proxy, bind, addressbook
-ETag: "aaa970e0626e252fed189561f26be5dd"
-Content-Length: 17061
+ETag: "520b92db8cf462f369343599d955cc9e"
+Content-Length: 17045
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -101,7 +101,7 @@ UID:20090410-1-all-publicholidays-dol.govt.nz
 SUMMARY:Good Friday
 TRANSP:TRANSPARENT
 DTSTART;VALUE=DATE:20090410
-DURATION:PT1440M
+DURATION:P1D
 END:VEVENT
 END:VCALENDAR
 </C:calendar-data>
@@ -151,7 +151,7 @@ UID:20090413-1-all-publicholidays-dol.govt.nz
 SUMMARY:Easter Monday
 TRANSP:TRANSPARENT
 DTSTART;VALUE=DATE:20090413
-DURATION:PT1440M
+DURATION:P1D
 END:VEVENT
 END:VCALENDAR
 </C:calendar-data>
@@ -527,7 +527,7 @@ UID:20090309-1-all-publicholidays-dol.govt.nz
 SUMMARY:Taranaki Anniversary Day
 TRANSP:TRANSPARENT
 DTSTART;VALUE=DATE:20090309
-DURATION:PT1440M
+DURATION:P1D
 END:VEVENT
 END:VCALENDAR
 </C:calendar-data>
@@ -551,7 +551,7 @@ UID:20090323-1-all-publicholidays-dol.govt.nz
 SUMMARY:Otago Anniversary Day
 TRANSP:TRANSPARENT
 DTSTART;VALUE=DATE:20090323
-DURATION:PT1440M
+DURATION:P1D
 END:VEVENT
 END:VCALENDAR
 </C:calendar-data>
