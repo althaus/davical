@@ -320,6 +320,13 @@ class RepeatRuleDateTime extends DateTime {
 }
 
 
+/**
+ * This class is an implementation of RRULE parsing and expansion, as per RFC5545.  It should be reasonably
+ * complete, except that it does not handle changing the WKST - there may be a few errors in unusual rules
+ * also, but all of the common cases should be handled correctly.
+ *  
+ * @author Andrew McMillan <andrew@mcmillan.net.nz>
+ */
 class RepeatRule {
 
   private $base;
@@ -450,7 +457,7 @@ class RepeatRule {
    * expand_byday() method
    * @param $freq a string indicating the frequency.
    */
-  final private static function rrule_expand_limit( $freq ) {
+  private static function rrule_expand_limit( $freq ) {
     switch( $freq ) {
       case 'YEARLY':
         return array( 'bymonth' => 'expand', 'byweekno' => 'expand', 'byyearday' => 'expand', 'bymonthday' => 'expand',
@@ -520,7 +527,7 @@ class RepeatRule {
   }
 
   
-  final private static function rrule_day_number( $day ) {
+  public static function rrule_day_number( $day ) {
     switch( $day ) {
       case 'SU': return 0;
       case 'MO': return 1;
