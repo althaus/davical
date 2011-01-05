@@ -1,6 +1,10 @@
 <?php
 /** @TODO: work out something more than true/false returns for dependency checks */
 
+function i18n($value) {
+  return $value;  /* Just pass the value through */
+}
+
 class CheckResult {
   private $ok;
   private $use_class;
@@ -91,7 +95,7 @@ function do_error( $errormessage ) {
   printf("<p class='error'>%s</p>", $errormessage );  
 }
 
-if ( !check_gettext()->getOK() ) { do_error("The GNU 'gettext' extension for PHP is not available.");
+if ( !check_gettext()->getOK() )   do_error("The GNU 'gettext' extension for PHP is not available.");
 if ( !check_pgsql()->getOK() )     do_error("PHP 'pgsql' functions are not available");
 if ( !check_pdo()->getOK() )       do_error("PHP 'PDO' module is not available");
 if ( !check_pdo_pgsql()->getOK() ) do_error("The PDO drivers for PostgreSQL are not available");
