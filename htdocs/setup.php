@@ -62,6 +62,13 @@ function check_gettext() {
   return new CheckResult(isset($loaded_extensions['gettext']));
 }
 
+function check_iconv() {
+  global $phpinfo, $loaded_extensions;
+
+  if ( !function_exists('iconv') ) return new CheckResult(false);
+  return new CheckResult(isset($loaded_extensions['iconv']));
+}
+
 function check_suhosin_server_strip() {
   global $loaded_extensions;
 
@@ -78,13 +85,16 @@ function check_magic_quotes_runtime() {
 }
 
 function do_error( $errormessage ) {
-  printf("<p class='error'>%s</p>", translate($errormessage) );  
+  // We can't translate this because we're testing these things even before 
+  // the translation interface is available...
+  printf("<p class='error'>%s</p>", $errormessage );  
 }
 
 $loaded_extensions = array_flip(get_loaded_extensions());
 if ( !check_pgsql()->getOK() )     do_error(i18n("PHP 'pgsql' functions are not available") );
 if ( !check_pdo()->getOK() )       do_error(i18n("PHP 'PDO' module is not available") );
 if ( !check_pdo_pgsql()->getOK() ) do_error(i18n("The PDO drivers for PostgreSQL are not available") );
+if ( !check_iconv()->getOK() )     do_error(i18n("The 'iconv' extension for PHP is not available") );
 
 function get_phpinfo() {
   ob_start( );
