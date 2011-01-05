@@ -935,6 +935,7 @@ function rrule_expand( $dtstart, $property, $component, $range_end, $is_date=nul
 * @return vComponent The original vComponent, with the instances of the internal components expanded.
 */
 function expand_event_instances( $vResource, $range_start = null, $range_end = null ) {
+  global $c;
   $components = $vResource->GetComponents();
 
   if ( !isset($range_start) ) { $range_start = new RepeatRuleDateTime(); $range_start->modify('-6 weeks'); }
@@ -947,13 +948,19 @@ function expand_event_instances( $vResource, $range_start = null, $range_end = n
   $dtstart = null;
   $is_date = false;
   $has_repeats = false;
+  $dtstart_type = 'DTSTART';
   foreach( $components AS $k => $comp ) {
     if ( $comp->GetType() != 'VEVENT' && $comp->GetType() != 'VTODO' && $comp->GetType() != 'VJOURNAL' ) {
       if ( $comp->GetType() != 'VTIMEZONE' ) $new_components[] = $comp;
       continue;
     }
     if ( !isset($dtstart) ) {
-      $dtstart_prop = $comp->GetProperty('DTSTART');
+      $dtstart_prop = $comp->GetProperty($dtstart_type);
+      if ( !isset($dtstart_prop) && $comp->GetType() != 'VTODO' ) {
+        $dtstart_type = 'DUE';
+        $dtstart_prop = $comp->GetProperty($dtstart_type);
+      }
+      if ( !isset($dtstart_prop) ) continue;
       $dtstart = new RepeatRuleDateTime( $dtstart_prop );
       $is_date = $dtstart->isDate();
       $instances[$dtstart->FloatOrUTC()] = $comp;
@@ -1031,7 +1038,7 @@ function expand_event_instances( $vResource, $range_start = null, $range_end = n
     $end_type = ($comp->GetType() == 'VTODO' ? 'DUE' : 'DTEND');
     $duration = $comp->GetProperty('DURATION');
     if ( !isset($duration) || $duration->Value() == '' ) {
-      $instance_start = $comp->GetProperty('DTSTART');
+      $instance_start = $comp->GetProperty($dtstart_type);
       $dtsrt = new RepeatRuleDateTime( $instance_start );
       $instance_end = $comp->GetProperty($end_type);
       if ( isset($instance_end) ) {
@@ -1071,8 +1078,13 @@ function expand_event_instances( $vResource, $range_start = null, $range_end = n
       }
     }
     $component = clone($comp);
-    $component->ClearProperties( array('DTSTART'=> true, 'DUE' => true, 'DTEND' => true,
+    if ( isset($c->expanded_instances_include_rrule) ) {
+      $component->ClearProperties( array('DTSTART'=> true, 'DUE' => true, 'DTEND' => true ) );
+    }
+    else {
+      $component->ClearProperties( array('DTSTART'=> true, 'DUE' => true, 'DTEND' => true,
                                        'RRULE' => true, 'RDATE' => true, 'EXDATE' => true) );
+    }
     $component->AddProperty('DTSTART', $utc, ($is_date ? array('VALUE' => 'DATE') : null) );
     if ( $has_repeats )
       $component->AddProperty('RECURRENCE-ID', $utc, ($is_date ? array('VALUE' => 'DATE') : null) );
