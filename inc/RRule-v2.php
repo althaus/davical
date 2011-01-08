@@ -1086,9 +1086,9 @@ function expand_event_instances( $vResource, $range_start = null, $range_end = n
                                        'RRULE' => true, 'RDATE' => true, 'EXDATE' => true) );
     }
     $component->AddProperty('DTSTART', $utc, ($is_date ? array('VALUE' => 'DATE') : null) );
-    if ( $has_repeats )
-      $component->AddProperty('RECURRENCE-ID', $utc, ($is_date ? array('VALUE' => 'DATE') : null) );
     $component->AddProperty('DURATION', $duration );
+    if ( $has_repeats && $dtstart->FloatOrUTC() != $utc )
+      $component->AddProperty('RECURRENCE-ID', $utc, ($is_date ? array('VALUE' => 'DATE') : null) );
     $new_components[] = $component;
   }
 
