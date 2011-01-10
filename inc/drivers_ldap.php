@@ -28,15 +28,6 @@ class ldapDrivers
 
 
   /**
-  * Constructor.
-  * @param array $config The configuration data
-  */
-  function ldapDrivers($config){
-      $this->__construct($config);
-  }
-
-
-  /**
   * Initializes the LDAP connection
   *
   * @param array $config The configuration data
