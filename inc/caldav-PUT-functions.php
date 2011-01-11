@@ -669,11 +669,15 @@ function write_alarms( $dav_id, $ical ) {
         default:       $related = $ical->GetPValue('DTSTART');
       }
       $duration = $trigger->Value();
+      if ( !preg_match('{^-?P(:?\d+W)?(:?\d+D)?(:?T(:?\d+H)?(:?\d+M)?(:?\d+S)?)?$}', $duration ) ) continue;
       $minus = (substr($duration,0,1) == '-');
       $related_trigger = trim(preg_replace( '#[PT-]#', ' ', $duration ));
       if ( $minus ) {
         $related_trigger = preg_replace( '{(\d+[WDHMS])}', '-$1 ', $related_trigger );
       }
+    }
+    else {
+      if ( false === strtotime($trigger->Value()) ) continue; // Invalid date.
     }
     $qry->Bind(':action', $v->GetPValue('ACTION'));
     $qry->Bind(':trigger', $trigger->Render());
