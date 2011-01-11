@@ -2,8 +2,8 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, calendar-proxy, bind, addressbook
-ETag: "9eda5c6028557b75a22a4328a90a6d08"
-Content-Length: 757
+ETag: "f57bc105449e3d80e3411f3169b14ce4"
+Content-Length: 722
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -24,7 +24,6 @@ UID:20090601-1-all-publicholidays-dol.govt.nz
 SUMMARY:Queen's Birthday
 TRANSP:TRANSPARENT
 DTSTART;VALUE=DATE:20050606
-RECURRENCE-ID;VALUE=DATE:20050606
 DURATION:P1D
 END:VEVENT
 END:VCALENDAR
