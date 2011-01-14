@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RSCDS 0.2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-24 12:40+1200\n"
+"POT-Creation-Date: 2011-01-14 15:16+1300\n"
 "PO-Revision-Date: 2006-11-06 17:12+1300\n"
 "Last-Translator: Lorena Paoletti <andrew@mcmillan.net.nz>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,12 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+msgid "%F %T"
+msgstr ""
+
+msgid "%T"
+msgstr ""
 
 msgid "*** Default Locale ***"
 msgstr ""
@@ -71,8 +77,8 @@ msgid ""
 "<h1>Log On Please</h1><p>For access to the %s you should log on withthe username and password that "
 "have been issued to you.</p><p>If you would like to request access, please e-mail %s.</p>"
 msgstr ""
-"<h1>Por favor, iniciar sesión</h1><p>Para acceder al %s debe conectarse con el nombre de usuario y contraseña que le han sido "
-"asignado.</p><p>Si desea solicitar el acceso, por favor, e-mail %s.</p>"
+"<h1>Por favor, iniciar sesión</h1><p>Para acceder al %s debe conectarse con el nombre de usuario y "
+"contraseña que le han sido asignado.</p><p>Si desea solicitar el acceso, por favor, e-mail %s.</p>"
 
 msgid "A DAViCal principal collection may only contain collections"
 msgstr ""
@@ -81,6 +87,9 @@ msgid "A collection already exists at that location."
 msgstr ""
 
 msgid "A resource already exists at the destination."
+msgstr ""
+
+msgid "AWL Library version "
 msgstr ""
 
 msgid "Access Tickets"
@@ -149,8 +158,15 @@ msgstr ""
 msgid "Apply DB Patches"
 msgstr ""
 
+msgid "Attachment"
+msgstr ""
+
 #, fuzzy
 msgid "Binding deleted"
+msgstr "Relación eliminada"
+
+#, fuzzy
+msgid "Bindings to other collections"
 msgstr "Relación eliminada"
 
 #, fuzzy
@@ -179,6 +195,12 @@ msgstr "Calendario de los Usuario"
 
 #, c-format
 msgid "Calendar \"%s\" was loaded from file."
+msgstr ""
+
+msgid "Can only add tickets for existing collection paths which you own"
+msgstr ""
+
+msgid "Categories"
 msgstr ""
 
 #, fuzzy
@@ -265,10 +287,6 @@ msgstr ""
 msgid "Create Principal"
 msgstr "Calendario de los Usuario"
 
-#, fuzzy
-msgid "Create Ticket"
-msgstr "Crear"
-
 msgid "Create a new principal (i.e. a new user, resource or group)"
 msgstr ""
 
@@ -287,15 +305,13 @@ msgstr "Calendario de los Usuario"
 msgid "Creating new Principal record."
 msgstr "Calendario de los Usuario"
 
+msgid "Creating new ticket granting privileges to this Principal"
+msgstr ""
+
 msgid "Current DAViCal version "
 msgstr ""
 
 msgid "Current Versions"
-msgstr ""
-
-msgid ""
-"Currently this page does very little.  Suggestions or patches to make it do more useful stuff will be "
-"gratefully received."
 msgstr ""
 
 msgid "DAV Path"
@@ -448,10 +464,6 @@ msgstr "Correo Electrónico correcto"
 msgid "EMail"
 msgstr "Correo Electrónico"
 
-#, c-format
-msgid "ERROR: %s"
-msgstr ""
-
 msgid "ERROR: The full name may not be blank."
 msgstr ""
 
@@ -512,10 +524,13 @@ msgstr ""
 msgid "Expires"
 msgstr ""
 
+msgid "Fail"
+msgstr ""
+
 msgid "Failed to write collection."
 msgstr ""
 
-msgid "Failed"
+msgid "Feeds are only supported for calendars at present."
 msgstr ""
 
 msgid "For access to the"
@@ -583,7 +598,16 @@ msgstr "Ayuda"
 msgid "Home Page"
 msgstr "Página principal"
 
+msgid "Home addressbook added."
+msgstr ""
+
+msgid "Home addressbook already exists."
+msgstr ""
+
 msgid "Home calendar added."
+msgstr ""
+
+msgid "Home calendar already exists."
 msgstr ""
 
 msgid "Home"
@@ -611,11 +635,10 @@ msgstr ""
 msgid "If you would like to request access, please e-mail"
 msgstr "Si desea obtener acceso por favor envíe un correo electrónico a"
 
-#, fuzzy
-msgid "Import Calendars"
-msgstr "Calendario de los Usuario"
-
 msgid "Import all .ics files of a directory"
+msgstr ""
+
+msgid "Import calendars and Synchronise LDAP."
 msgstr ""
 
 #, fuzzy
@@ -678,6 +701,10 @@ msgstr ""
 msgid "Locale"
 msgstr ""
 
+#, fuzzy
+msgid "Location"
+msgstr "Acción"
+
 msgid "Log On Please"
 msgstr "Conectarse por favor"
 
@@ -689,6 +716,9 @@ msgid "Logout"
 msgstr "Desconectarse"
 
 msgid "Member deleted from this Group Principal"
+msgstr ""
+
+msgid "Most of DAViCal will work but upgrading to PHP 5.2 or later is strongly recommended."
 msgstr ""
 
 msgid "Name"
@@ -709,6 +739,9 @@ msgstr "Calendario de los Usuario"
 msgid "No <!-- not 'Yes' -->"
 msgstr "No"
 
+msgid "No authority to deliver invitations to user."
+msgstr ""
+
 msgid "No calendar content"
 msgstr ""
 
@@ -716,6 +749,9 @@ msgid "No collection found at that location."
 msgstr ""
 
 msgid "No scheduling support for user"
+msgstr ""
+
+msgid "No summary"
 msgstr ""
 
 #, fuzzy
@@ -743,13 +779,7 @@ msgstr "No"
 msgid "Not overwriting existing destination resource"
 msgstr ""
 
-msgid "OK"
-msgstr ""
-
 msgid "Opaque"
-msgstr ""
-
-msgid "Operations on your calendar"
 msgstr ""
 
 msgid "Override a Lock"
@@ -758,14 +788,30 @@ msgstr ""
 msgid "PDO PostgreSQL drivers"
 msgstr ""
 
+msgid "PHP DateTime class"
+msgstr ""
+
+msgid "PHP Magic Quotes GPC off"
+msgstr ""
+
+msgid "PHP Magic Quotes runtime off"
+msgstr ""
+
 msgid "PHP PDO module available"
 msgstr ""
 
 msgid "PHP PostgreSQL available"
 msgstr ""
 
+msgid "PHP iconv support"
+msgstr ""
+
 msgid "PUT on a collection is only allowed for text/calendar content against a calendar collection"
 msgstr ""
+
+#, fuzzy
+msgid "Passed"
+msgstr "Constraseña"
 
 msgid "Password"
 msgstr "Constraseña"
@@ -877,9 +923,6 @@ msgstr "Reportar un error en el sistema"
 msgid "Request Feature"
 msgstr ""
 
-msgid "Request body contains no XML data!"
-msgstr ""
-
 msgid "Request body is not valid XML data!"
 msgstr ""
 
@@ -911,6 +954,9 @@ msgid "Schedule Send"
 msgstr ""
 
 msgid "Schedule Transparency"
+msgstr ""
+
+msgid "Scheduling invitation delivered successfully"
 msgstr ""
 
 msgid "Scheduling: Deliver a Reply"
@@ -1101,6 +1147,10 @@ msgstr "La contraseña del usuario para conectarse."
 msgid "The username must not be blank, and may not contain a slash"
 msgstr ""
 
+#, fuzzy
+msgid "There was an error reading from the database."
+msgstr "Hubo un error al grabar en la base de datos."
+
 msgid "There was an error writing to the database."
 msgstr "Hubo un error al grabar en la base de datos."
 
@@ -1118,8 +1168,23 @@ msgid ""
 "<li>if a user in present in LDAP and DAViCal then update information in DAViCal</li> </ul>"
 msgstr ""
 
+msgid ""
+"This page primarily checks the environment needed for DAViCal to work correctly.  Suggestions or "
+"patches to make it do more useful stuff will be gratefully received."
+msgstr ""
+
+msgid "This server only supports the text/calendar format for freebusy URLs"
+msgstr ""
+
 msgid "Ticket ID"
 msgstr ""
+
+msgid "Time"
+msgstr ""
+
+#, fuzzy
+msgid "To Collection"
+msgstr "Relación eliminada"
 
 msgid "To ID"
 msgstr ""
@@ -1127,10 +1192,19 @@ msgstr ""
 msgid "Toggle all privileges"
 msgstr ""
 
+msgid "Tools"
+msgstr ""
+
 msgid "Transparent"
 msgstr ""
 
+msgid "URL"
+msgstr ""
+
 msgid "US Format"
+msgstr ""
+
+msgid "Unauthenticated User"
 msgstr ""
 
 msgid "United States of America (m/d/y)"
@@ -1205,7 +1279,13 @@ msgstr "Mostrar éste registro de usuario"
 msgid "Visit the DAViCal Wiki"
 msgstr ""
 
-msgid "Warning: there are no active admin users, you should fix this before logging out."
+#, c-format
+msgid "Want: %s, Currently: %s"
+msgstr ""
+
+msgid ""
+"Warning: there are no active admin users! You should fix this before logging out.  Consider using the "
+"$c->do_not_sync_from_ldap configuration setting."
 msgstr ""
 
 msgid "When the user's e-mail account was validated."
@@ -1279,6 +1359,9 @@ msgstr ""
 msgid "directory %s is not readable"
 msgstr ""
 
+msgid "drivers_imap_pam : imap_url parameter not configured in /etc/davical/*-conf.php"
+msgstr ""
+
 msgid "drivers_ldap : Could not start TLS: ldap_start_tls() failed"
 msgstr ""
 
@@ -1328,8 +1411,19 @@ msgstr ""
 msgid "the file %s is not UTF-8 encoded, please check error for more details"
 msgstr ""
 
+msgid "unauthenticated"
+msgstr ""
+
 msgid "you should log on with the username and password that have been issued to you."
 msgstr "Para conectarse debe utilizar el nombre de usuario y contraseña que le ha sido asignado."
+
+#, fuzzy
+#~ msgid "Create Ticket"
+#~ msgstr "Crear"
+
+#, fuzzy
+#~ msgid "Import Calendars"
+#~ msgstr "Calendario de los Usuario"
 
 #~ msgid "--- select a relationship type ---"
 #~ msgstr "Mostrar todos los tipos de relaciones"

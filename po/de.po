@@ -43,12 +43,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DAViCal 0.9.7.99\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-24 12:40+1200\n"
+"POT-Creation-Date: 2011-01-14 15:16+1300\n"
 "PO-Revision-Date: 2009-12-23 18:00+0100\n"
 "Last-Translator: Patrick Näf Moser <herzbube@herzbube.ch>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+msgid "%F %T"
+msgstr ""
+
+msgid "%T"
+msgstr ""
 
 msgid "*** Default Locale ***"
 msgstr ""
@@ -118,6 +124,9 @@ msgstr "Die Collection ist bereits vorhanden."
 #, fuzzy
 msgid "A resource already exists at the destination."
 msgstr "Die Collection ist bereits vorhanden."
+
+msgid "AWL Library version "
+msgstr ""
 
 msgid "Access Tickets"
 msgstr ""
@@ -191,9 +200,16 @@ msgstr "Änderungen Speichern"
 msgid "Apply DB Patches"
 msgstr "Änderungen Speichern"
 
+msgid "Attachment"
+msgstr ""
+
 #, fuzzy
 msgid "Binding deleted"
 msgstr "Principal gelöscht"
+
+#, fuzzy
+msgid "Bindings to other collections"
+msgstr "Löschen bestätigen"
 
 #, fuzzy
 msgid "Bindings to this Collection"
@@ -227,6 +243,12 @@ msgstr "Zeitzone"
 #, c-format
 msgid "Calendar \"%s\" was loaded from file."
 msgstr "Kalender \"%s\" wurde hochgeladen."
+
+msgid "Can only add tickets for existing collection paths which you own"
+msgstr ""
+
+msgid "Categories"
+msgstr ""
 
 msgid "Change Password"
 msgstr "neues Passwort"
@@ -303,11 +325,6 @@ msgstr "Neuen Principal erstellen"
 msgid "Create Principal"
 msgstr "Principal anlegen"
 
-# TODO - Kontext bestimmen
-#, fuzzy
-msgid "Create Ticket"
-msgstr "Erstellen"
-
 msgid "Create a new principal (i.e. a new user, resource or group)"
 msgstr "Einen neuen Principal (z.b. Benutzer, Ressource oder Gruppe) erstellen"
 
@@ -325,15 +342,15 @@ msgstr "Collection erstellt."
 msgid "Creating new Principal record."
 msgstr "Prinicipal erstellt."
 
+# TODO - Bessere Übersetzung von "from this Principal"
+#, fuzzy
+msgid "Creating new ticket granting privileges to this Principal"
+msgstr "Erteile neues, von diesem Principal ausgehendes Recht"
+
 msgid "Current DAViCal version "
 msgstr "aktuelle DAViCal Version"
 
 msgid "Current Versions"
-msgstr ""
-
-msgid ""
-"Currently this page does very little.  Suggestions or patches to make it do more useful stuff will be "
-"gratefully received."
 msgstr ""
 
 msgid "DAV Path"
@@ -486,10 +503,6 @@ msgstr "Email OK"
 msgid "EMail"
 msgstr "E-Mail"
 
-#, c-format
-msgid "ERROR: %s"
-msgstr "FEHLER: %s"
-
 msgid "ERROR: The full name may not be blank."
 msgstr "FEHLER: Der vollständige Name darf nicht leer sein."
 
@@ -555,12 +568,16 @@ msgstr "Bestehende Ressource stimmt mit \"If-None-Match\" Header überein - nich
 msgid "Expires"
 msgstr ""
 
+msgid "Fail"
+msgstr ""
+
 #, fuzzy
 msgid "Failed to write collection."
 msgstr "Importiere ICS-Kalenderdatei in eine neue Sammlung"
 
-msgid "Failed"
-msgstr ""
+#, fuzzy
+msgid "Feeds are only supported for calendars at present."
+msgstr "GET-Abfragen können nur bei Kalendern durchgeführt werden."
 
 # TODO - Kontext bestimmen
 msgid "For access to the"
@@ -633,7 +650,18 @@ msgstr "Hilfe"
 msgid "Home Page"
 msgstr "Startseite"
 
+#, fuzzy
+msgid "Home addressbook added."
+msgstr "Startkalender hinzugefügt."
+
+msgid "Home addressbook already exists."
+msgstr ""
+
 msgid "Home calendar added."
+msgstr "Startkalender hinzugefügt."
+
+#, fuzzy
+msgid "Home calendar already exists."
 msgstr "Startkalender hinzugefügt."
 
 msgid "Home"
@@ -664,11 +692,11 @@ msgstr "Passwort vergessen?"
 msgid "If you would like to request access, please e-mail"
 msgstr "Um einen neuen Zugang zu beantragen, schreiben Sie bitte eine E-Mail an: "
 
-msgid "Import Calendars"
-msgstr "Kalender importieren"
-
 msgid "Import all .ics files of a directory"
 msgstr "Alle ICS-Kalenderdateien eines Ordners importieren"
+
+msgid "Import calendars and Synchronise LDAP."
+msgstr ""
 
 # TODO - Principal übersetzen
 msgid "Inactive Principals"
@@ -727,6 +755,10 @@ msgstr "Datei hochladen"
 msgid "Locale"
 msgstr "Sprache"
 
+#, fuzzy
+msgid "Location"
+msgstr "Aktion"
+
 msgid "Log On Please"
 msgstr "Bitte melden Sie sich an"
 
@@ -740,6 +772,9 @@ msgstr "Abmelden"
 # TODO - Group Principal übersetzen
 msgid "Member deleted from this Group Principal"
 msgstr "Mitglied wurde von diesem Gruppen-Principal entfernt"
+
+msgid "Most of DAViCal will work but upgrading to PHP 5.2 or later is strongly recommended."
+msgstr ""
 
 msgid "Name"
 msgstr "Name"
@@ -759,6 +794,9 @@ msgstr "Principal"
 msgid "No <!-- not 'Yes' -->"
 msgstr "Nr."
 
+msgid "No authority to deliver invitations to user."
+msgstr ""
+
 # TODO - Kontext bestimmen
 #, fuzzy
 msgid "No calendar content"
@@ -769,6 +807,10 @@ msgstr "Keine Collection gefunden."
 
 msgid "No scheduling support for user"
 msgstr ""
+
+#, fuzzy
+msgid "No summary"
+msgstr "Zusammenfassung"
 
 #, fuzzy
 msgid "No"
@@ -796,17 +838,10 @@ msgstr "Nr."
 msgid "Not overwriting existing destination resource"
 msgstr "Bestehende Ziel-Ressource wird nicht überschrieben"
 
-msgid "OK"
-msgstr ""
-
 # TODO - Bessere Übersetzung von "opaque" (evt. "opak"?). Wird verwendet als
 # Bezeichnung für einen Wert der Einstellung "Schedule Transparency".
 msgid "Opaque"
 msgstr "Nicht transparent"
-
-# TODO - Bessere Übersetzung von "operations on"
-msgid "Operations on your calendar"
-msgstr "Aktionen an Ihrem Kalender"
 
 msgid "Override a Lock"
 msgstr "Sperre übersschreiben"
@@ -815,6 +850,15 @@ msgstr "Sperre übersschreiben"
 msgid "PDO PostgreSQL drivers"
 msgstr "Benutzer nicht verfügbar"
 
+msgid "PHP DateTime class"
+msgstr ""
+
+msgid "PHP Magic Quotes GPC off"
+msgstr ""
+
+msgid "PHP Magic Quotes runtime off"
+msgstr ""
+
 msgid "PHP PDO module available"
 msgstr ""
 
@@ -822,8 +866,15 @@ msgstr ""
 msgid "PHP PostgreSQL available"
 msgstr "Benutzer nicht verfügbar"
 
+msgid "PHP iconv support"
+msgstr ""
+
 msgid "PUT on a collection is only allowed for text/calendar content against a calendar collection"
 msgstr ""
+
+#, fuzzy
+msgid "Passed"
+msgstr "Passwort"
 
 msgid "Password"
 msgstr "Passwort"
@@ -942,10 +993,6 @@ msgid "Request Feature"
 msgstr "Feature beantragen"
 
 #, fuzzy
-msgid "Request body contains no XML data!"
-msgstr "REPORT Body enthält keine XML Daten!"
-
-#, fuzzy
 msgid "Request body is not valid XML data!"
 msgstr "REPORT Body enthält keine gültigen XML Daten!"
 
@@ -981,6 +1028,9 @@ msgstr "Versenden"
 
 msgid "Schedule Transparency"
 msgstr "Transparenz"
+
+msgid "Scheduling invitation delivered successfully"
+msgstr ""
 
 msgid "Scheduling: Deliver a Reply"
 msgstr "Terminplanung: Antwort zustellen"
@@ -1193,6 +1243,10 @@ msgstr "Passwort, mit dem der Benutzer sich anmeldet."
 msgid "The username must not be blank, and may not contain a slash"
 msgstr ""
 
+#, fuzzy
+msgid "There was an error reading from the database."
+msgstr "Beim Schreiben in die Datenbank ist ein Fehler aufgetreten."
+
 msgid "There was an error writing to the database."
 msgstr "Beim Schreiben in die Datenbank ist ein Fehler aufgetreten."
 
@@ -1210,8 +1264,23 @@ msgid ""
 "<li>if a user in present in LDAP and DAViCal then update information in DAViCal</li> </ul>"
 msgstr ""
 
+msgid ""
+"This page primarily checks the environment needed for DAViCal to work correctly.  Suggestions or "
+"patches to make it do more useful stuff will be gratefully received."
+msgstr ""
+
+msgid "This server only supports the text/calendar format for freebusy URLs"
+msgstr ""
+
 msgid "Ticket ID"
 msgstr ""
+
+msgid "Time"
+msgstr ""
+
+#, fuzzy
+msgid "To Collection"
+msgstr "Collection"
 
 msgid "To ID"
 msgstr "Zur ID"
@@ -1220,12 +1289,21 @@ msgstr "Zur ID"
 msgid "Toggle all privileges"
 msgstr "Standardrechte"
 
+msgid "Tools"
+msgstr ""
+
 # Wird verwendet als Bezeichnung für einen Wert der Einstellung
 # "Schedule Transparency".
 msgid "Transparent"
 msgstr "Transparent"
 
+msgid "URL"
+msgstr ""
+
 msgid "US Format"
+msgstr ""
+
+msgid "Unauthenticated User"
 msgstr ""
 
 msgid "United States of America (m/d/y)"
@@ -1297,7 +1375,13 @@ msgstr "Diesen Benutzereintrag anzeigen"
 msgid "Visit the DAViCal Wiki"
 msgstr "DAViCal Wiki besuchen"
 
-msgid "Warning: there are no active admin users, you should fix this before logging out."
+#, c-format
+msgid "Want: %s, Currently: %s"
+msgstr ""
+
+msgid ""
+"Warning: there are no active admin users! You should fix this before logging out.  Consider using the "
+"$c->do_not_sync_from_ldap configuration setting."
 msgstr ""
 
 # TODO - Kontext bestimmen
@@ -1373,6 +1457,9 @@ msgstr ""
 msgid "directory %s is not readable"
 msgstr "Ordner %s kann nicht gelesen werden"
 
+msgid "drivers_imap_pam : imap_url parameter not configured in /etc/davical/*-conf.php"
+msgstr ""
+
 msgid "drivers_ldap : Could not start TLS: ldap_start_tls() failed"
 msgstr "drivers_ldap : TLS konnte nicht gestartet werden: ldap_start_tls() ist fehlgeschlagen"
 
@@ -1424,8 +1511,30 @@ msgstr "Speicherort für ICS-Datei"
 msgid "the file %s is not UTF-8 encoded, please check error for more details"
 msgstr "Die Datei %s ist nicht UTF-8 codiert; weitere Details stehen in der Fehlermeldung."
 
+msgid "unauthenticated"
+msgstr ""
+
 msgid "you should log on with the username and password that have been issued to you."
 msgstr "melden Sie sich mit Ihrem Benutzernamen und Passwort an."
+
+# TODO - Kontext bestimmen
+#, fuzzy
+#~ msgid "Create Ticket"
+#~ msgstr "Erstellen"
+
+#~ msgid "ERROR: %s"
+#~ msgstr "FEHLER: %s"
+
+#~ msgid "Import Calendars"
+#~ msgstr "Kalender importieren"
+
+# TODO - Bessere Übersetzung von "operations on"
+#~ msgid "Operations on your calendar"
+#~ msgstr "Aktionen an Ihrem Kalender"
+
+#, fuzzy
+#~ msgid "Request body contains no XML data!"
+#~ msgstr "REPORT Body enthält keine XML Daten!"
 
 #, fuzzy
 #~ msgid "--- select a relationship type ---"
@@ -1562,9 +1671,6 @@ msgstr "melden Sie sich mit Ihrem Benutzernamen und Passwort an."
 
 #~ msgid "Start"
 #~ msgstr "Start"
-
-#~ msgid "Summary"
-#~ msgstr "Zusammenfassung"
 
 # TODO - Was bedeutet das Wort zwischen ##?
 #~ msgid "That relationship type is being used. See ##RelationshipTypeUsed##"

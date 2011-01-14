@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rscds-messages\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-24 12:40+1200\n"
+"POT-Creation-Date: 2011-01-14 15:16+1300\n"
 "PO-Revision-Date: 2007-03-31 00:24+0200\n"
 "Last-Translator: Rafal Slubowski <rafalslubowski@gmail.com>\n"
 "Language-Team: polski <pl@li.org>\n"
@@ -18,6 +18,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.4\n"
 "Plural-Forms:  nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+msgid "%F %T"
+msgstr ""
+
+msgid "%T"
+msgstr ""
 
 msgid "*** Default Locale ***"
 msgstr ""
@@ -86,6 +92,9 @@ msgstr "Zbuór już istnieje w tej lokalizacji."
 msgid "A resource already exists at the destination."
 msgstr "Zbuór już istnieje w tej lokalizacji."
 
+msgid "AWL Library version "
+msgstr ""
+
 msgid "Access Tickets"
 msgstr ""
 
@@ -153,8 +162,15 @@ msgstr ""
 msgid "Apply DB Patches"
 msgstr ""
 
+msgid "Attachment"
+msgstr ""
+
 #, fuzzy
 msgid "Binding deleted"
+msgstr "Potwierdź usunięcie typu zależności"
+
+#, fuzzy
+msgid "Bindings to other collections"
 msgstr "Potwierdź usunięcie typu zależności"
 
 #, fuzzy
@@ -184,6 +200,12 @@ msgstr "Użytkownicy kalendarza"
 
 #, c-format
 msgid "Calendar \"%s\" was loaded from file."
+msgstr ""
+
+msgid "Can only add tickets for existing collection paths which you own"
+msgstr ""
+
+msgid "Categories"
 msgstr ""
 
 #, fuzzy
@@ -270,10 +292,6 @@ msgstr ""
 msgid "Create Principal"
 msgstr "Użytkownicy kalendarza"
 
-#, fuzzy
-msgid "Create Ticket"
-msgstr "Utwórz"
-
 msgid "Create a new principal (i.e. a new user, resource or group)"
 msgstr ""
 
@@ -292,15 +310,13 @@ msgstr "Potwierdź usunięcie typu zależności"
 msgid "Creating new Principal record."
 msgstr "Użytkownicy kalendarza"
 
+msgid "Creating new ticket granting privileges to this Principal"
+msgstr ""
+
 msgid "Current DAViCal version "
 msgstr ""
 
 msgid "Current Versions"
-msgstr ""
-
-msgid ""
-"Currently this page does very little.  Suggestions or patches to make it do more useful stuff will be "
-"gratefully received."
 msgstr ""
 
 msgid "DAV Path"
@@ -452,10 +468,6 @@ msgstr "E-mail zweryfikowano"
 msgid "EMail"
 msgstr "E-mail"
 
-#, c-format
-msgid "ERROR: %s"
-msgstr "Błąd: %s"
-
 msgid "ERROR: The full name may not be blank."
 msgstr ""
 
@@ -517,10 +529,13 @@ msgstr "Zasób nie pasuje do nagłówka 'If-Match' - nie usuwam."
 msgid "Expires"
 msgstr ""
 
+msgid "Fail"
+msgstr ""
+
 msgid "Failed to write collection."
 msgstr ""
 
-msgid "Failed"
+msgid "Feeds are only supported for calendars at present."
 msgstr ""
 
 msgid "For access to the"
@@ -588,7 +603,16 @@ msgstr "Pomoc"
 msgid "Home Page"
 msgstr "Początek"
 
+msgid "Home addressbook added."
+msgstr ""
+
+msgid "Home addressbook already exists."
+msgstr ""
+
 msgid "Home calendar added."
+msgstr ""
+
+msgid "Home calendar already exists."
 msgstr ""
 
 msgid "Home"
@@ -616,11 +640,10 @@ msgstr "Jeśli zapomniałeś hasła, "
 msgid "If you would like to request access, please e-mail"
 msgstr "Jeśli chcesz poprosić o dostęp, wyślij e-mail do"
 
-#, fuzzy
-msgid "Import Calendars"
-msgstr "Użytkownicy kalendarza"
-
 msgid "Import all .ics files of a directory"
+msgstr ""
+
+msgid "Import calendars and Synchronise LDAP."
 msgstr ""
 
 #, fuzzy
@@ -683,6 +706,10 @@ msgstr ""
 msgid "Locale"
 msgstr ""
 
+#, fuzzy
+msgid "Location"
+msgstr "Akcja"
+
 msgid "Log On Please"
 msgstr "Proszę się zalogować"
 
@@ -694,6 +721,9 @@ msgid "Logout"
 msgstr "Wyloguj się"
 
 msgid "Member deleted from this Group Principal"
+msgstr ""
+
+msgid "Most of DAViCal will work but upgrading to PHP 5.2 or later is strongly recommended."
 msgstr ""
 
 msgid "Name"
@@ -714,6 +744,9 @@ msgstr "Użytkownicy kalendarza"
 msgid "No <!-- not 'Yes' -->"
 msgstr "Nr"
 
+msgid "No authority to deliver invitations to user."
+msgstr ""
+
 msgid "No calendar content"
 msgstr ""
 
@@ -722,6 +755,10 @@ msgstr "Nie znaleziono zbioru w lokalizacji"
 
 msgid "No scheduling support for user"
 msgstr ""
+
+#, fuzzy
+msgid "No summary"
+msgstr "Podsumowanie"
 
 #, fuzzy
 msgid "No"
@@ -748,13 +785,7 @@ msgstr "Nr"
 msgid "Not overwriting existing destination resource"
 msgstr ""
 
-msgid "OK"
-msgstr ""
-
 msgid "Opaque"
-msgstr ""
-
-msgid "Operations on your calendar"
 msgstr ""
 
 msgid "Override a Lock"
@@ -764,6 +795,15 @@ msgstr ""
 msgid "PDO PostgreSQL drivers"
 msgstr "Użytkownik niedostępny"
 
+msgid "PHP DateTime class"
+msgstr ""
+
+msgid "PHP Magic Quotes GPC off"
+msgstr ""
+
+msgid "PHP Magic Quotes runtime off"
+msgstr ""
+
 msgid "PHP PDO module available"
 msgstr ""
 
@@ -771,8 +811,15 @@ msgstr ""
 msgid "PHP PostgreSQL available"
 msgstr "Użytkownik niedostępny"
 
+msgid "PHP iconv support"
+msgstr ""
+
 msgid "PUT on a collection is only allowed for text/calendar content against a calendar collection"
 msgstr ""
+
+#, fuzzy
+msgid "Passed"
+msgstr "Hasło"
 
 msgid "Password"
 msgstr "Hasło"
@@ -888,9 +935,6 @@ msgstr "Zgłoś błąd w systemie"
 msgid "Request Feature"
 msgstr ""
 
-msgid "Request body contains no XML data!"
-msgstr ""
-
 msgid "Request body is not valid XML data!"
 msgstr ""
 
@@ -923,6 +967,9 @@ msgid "Schedule Send"
 msgstr ""
 
 msgid "Schedule Transparency"
+msgstr ""
+
+msgid "Scheduling invitation delivered successfully"
 msgstr ""
 
 msgid "Scheduling: Deliver a Reply"
@@ -1117,6 +1164,10 @@ msgstr "Hasło logowania."
 msgid "The username must not be blank, and may not contain a slash"
 msgstr ""
 
+#, fuzzy
+msgid "There was an error reading from the database."
+msgstr "Wystąpił błąd zapisu do bazy danych."
+
 msgid "There was an error writing to the database."
 msgstr "Wystąpił błąd zapisu do bazy danych."
 
@@ -1134,8 +1185,23 @@ msgid ""
 "<li>if a user in present in LDAP and DAViCal then update information in DAViCal</li> </ul>"
 msgstr ""
 
+msgid ""
+"This page primarily checks the environment needed for DAViCal to work correctly.  Suggestions or "
+"patches to make it do more useful stuff will be gratefully received."
+msgstr ""
+
+msgid "This server only supports the text/calendar format for freebusy URLs"
+msgstr ""
+
 msgid "Ticket ID"
 msgstr ""
+
+msgid "Time"
+msgstr ""
+
+#, fuzzy
+msgid "To Collection"
+msgstr "Ścieżka do zestawu"
 
 msgid "To ID"
 msgstr ""
@@ -1143,10 +1209,19 @@ msgstr ""
 msgid "Toggle all privileges"
 msgstr ""
 
+msgid "Tools"
+msgstr ""
+
 msgid "Transparent"
 msgstr ""
 
+msgid "URL"
+msgstr ""
+
 msgid "US Format"
+msgstr ""
+
+msgid "Unauthenticated User"
 msgstr ""
 
 msgid "United States of America (m/d/y)"
@@ -1221,7 +1296,13 @@ msgstr "Zobacz dane tego użytkownika"
 msgid "Visit the DAViCal Wiki"
 msgstr ""
 
-msgid "Warning: there are no active admin users, you should fix this before logging out."
+#, c-format
+msgid "Want: %s, Currently: %s"
+msgstr ""
+
+msgid ""
+"Warning: there are no active admin users! You should fix this before logging out.  Consider using the "
+"$c->do_not_sync_from_ldap configuration setting."
 msgstr ""
 
 msgid "When the user's e-mail account was validated."
@@ -1295,6 +1376,9 @@ msgstr ""
 msgid "directory %s is not readable"
 msgstr ""
 
+msgid "drivers_imap_pam : imap_url parameter not configured in /etc/davical/*-conf.php"
+msgstr ""
+
 msgid "drivers_ldap : Could not start TLS: ldap_start_tls() failed"
 msgstr ""
 
@@ -1344,8 +1428,22 @@ msgstr ""
 msgid "the file %s is not UTF-8 encoded, please check error for more details"
 msgstr ""
 
+msgid "unauthenticated"
+msgstr ""
+
 msgid "you should log on with the username and password that have been issued to you."
 msgstr "powinieneś zalogować się swoją nazwą użytkownika i hasłem."
+
+#, fuzzy
+#~ msgid "Create Ticket"
+#~ msgstr "Utwórz"
+
+#~ msgid "ERROR: %s"
+#~ msgstr "Błąd: %s"
+
+#, fuzzy
+#~ msgid "Import Calendars"
+#~ msgstr "Użytkownicy kalendarza"
 
 #~ msgid "--- select a relationship type ---"
 #~ msgstr "Wybierz typ zależności"
@@ -1456,9 +1554,6 @@ msgstr "powinieneś zalogować się swoją nazwą użytkownika i hasłem."
 
 #~ msgid "Start"
 #~ msgstr "Start"
-
-#~ msgid "Summary"
-#~ msgstr "Podsumowanie"
 
 #~ msgid "That relationship type is being used. See ##RelationshipTypeUsed##"
 #~ msgstr "Ten typ zależności jest używany. Zobacz ##RelationshipTypeUsed##"
