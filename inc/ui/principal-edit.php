@@ -688,7 +688,7 @@ function ticket_row_editor() {
   $ticketrow = new Editor("Tickets", "access_ticket");
   $ticketrow->SetSubmitName( 'ticketrow' );
   if ( $can_write_principal && $ticketrow->IsSubmit() ) {
-
+    
     $username = $editor->Value('username');
     $ugly_path = $_POST['target'];
     if ( $ugly_path == '/'.$username || $ugly_path == '/'.$username.'/' ) {
@@ -715,10 +715,10 @@ function ticket_row_editor() {
         return $ticketrow;
       }
     }
-      
+    
     $_POST['dav_owner_id'] = $id;
     $_POST['target_collection_id'] = $target_collection;
-    $ticket_id = clean_by_regex($_POST['ticket_id'], '/[A-Za-z0-9]+/');
+    $ticket_id = check_by_regex($_POST['ticket_id'], '/[A-Za-z0-9]+/');
     $ticketrow->SetWhere( 'dav_owner_id='.$id.' AND ticket_id='.AwlQuery::quote($ticket_id));
     if ( isset($_POST['ticket_privileges']) ) {
       $privilege_bitpos = array_flip($privilege_names);
@@ -965,7 +965,7 @@ if ( isset($id) && $id > 0 ) {
   
   $page_elements[] = bindings_to_other_browser();
   if ( isset($delete_bind_in_confirmation_required) ) $page_elements[] = confirm_delete_bind_in($delete_bind_in_confirmation_required);  
-
+  
   $page_elements[] = bindings_to_us_browser();
   if ( isset($delete_binding_confirmation_required) ) $page_elements[] = confirm_delete_binding($delete_binding_confirmation_required);
 }
