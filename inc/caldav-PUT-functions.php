@@ -658,6 +658,7 @@ function write_alarms( $dav_id, $ical ) {
   $qry->Prepare();
   foreach( $alarms AS $v ) {
     $trigger = array_merge($v->GetProperties('TRIGGER'));
+    if ( $trigger == null ) continue; // Bogus data.
     $trigger = $trigger[0];
     $related = null;
     $related_trigger = '0M';
