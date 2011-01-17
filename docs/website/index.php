@@ -56,16 +56,12 @@ through the author's company <a href="http://www.morphoss.com/products/davical/s
 
 <h1>Credits</h1>
 <p>DAViCal CalDAV Server was conceived and written by <a href="http://andrew.mcmillan.net.nz/">Andrew McMillan</a>.</p>
-Translations of the administration interface have been done by:<ul>
-<li>Lorena Paoletti (Spanish)</li>
-<li>Cristina Radalescu (German)</li>
-<li>Guillaume Rosquin &amp; Maxime Delorme (French)</li>
-<li>Nick Khazov (Russian)</li>
-<li>Eelco Maljaars (Dutch)</li>
-</ul>
-Other contributors:<ul>
-<li>Maxime Delorme (CSS, LDAP, SyncML, French translations)</li>
+<p>Many people have contributed to DAViCal, through providing translations of the interface, reporting bugs and
+sending patches for things here and there.  Some more notable contributors include:</p><ul>
+<li>Maxime Delorme (CSS, LDAP, French translations)</li>
 <li>Andrew Ruthven (Various enhancements)</li>
+<li>Rob Ostenson (LDAP & Scheduling contributions)</li>
+<li>Leho Kraav (RSS feeds)</li>
 </ul>
 
 <h1>Contributing to DAViCal</h1>
@@ -81,6 +77,12 @@ Here are some things you could do that will help us to concentrate on making DAV
 <li>writing and reviewing patches</li>
 <li>designing future functionality</li>
 <li>thinking of more interesting ways to contribute to DAViCal!</li>
+<li>you could <form style="display:inline;padding-top:1em;vertical-align:middle;" action="https://www.paypal.com/cgi-bin/webscr" method="post">
+<input type="hidden" name="cmd" value="_s-xclick">
+<input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----
+">
+<input type="image" src="images/paypal_donate_button.png" border="0" name="submit" alt="Donate to DAViCal via PayPal">
+</form> something</li>
 </ul>
 
 <p>Can you think of more?</p>
