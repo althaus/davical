@@ -48,13 +48,13 @@ for that person (or group or resource - but from now we'll just call them users)
 </ul>
 
 <h2>Configuring Calendar Clients for DAViCal</h2>
-<p>The <a href="http://rscds.sourceforge.net/clients.php">DAViCal client setup page on sourceforge</a> have information on how
+<p>The <a href="http://www.davical.org/clients.php">DAViCal client setup page on sourceforge</a> have information on how
 to configure Evolution, Sunbird, Lightning and Mulberry to use remotely hosted calendars.</p>
 <p>The administrative interface has no facility for viewing or modifying calendar data.</p>
 
 <h2>Configuring DAViCal</h2>
 <p>If you can read this then things must be mostly working already.</p>
-<p>The <a href="http://rscds.sourceforge.net/installation.php">DAViCal installation page</a> on sourceforge has
+<p>The <a href="http://www.davical.org/installation.php">DAViCal installation page</a> on sourceforge has
 some further information on how to install and configure this application.</p>
 
 <?php

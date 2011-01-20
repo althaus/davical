@@ -29,7 +29,7 @@ Other Linux Users
 -----------------
 
 You will need to download the latest versions of the davical and awl packages
-from the sourceforge download page for davical (the sf.net project is 'rscds').
+from the DAViCal site.  See http://www.davical.org/ for more information.
 
 You will need to untar these. Preferably you will untar them from within
 the "/usr/share" directory and everything will be in it's expected location
@@ -62,7 +62,10 @@ Getting Help
 The best place to get help is on IRC.  The official DAViCal
 IRC channel is #davical on irc.oftc.net
 
-There is also a mailing list, and forums on Sourceforge.
+The starting point for further help should be the DAViCal website
+at http://www.davical.org/ and from there you might visit the wiki
+which contains a fair amount of information about configuring
+DAViCal in a variety of different circumstances.
 
 
 Pre-requisites
