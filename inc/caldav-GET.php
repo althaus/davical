@@ -144,6 +144,8 @@ if ( $dav_resource->IsCollection() ) {
 $resource = $dav_resource->resource();
 $ic = new iCalComponent( $resource->caldav_data );
 
+$resource->caldav_data = preg_replace( '{(?<!\r)\n}', '\r\n', $resource->caldav_data);
+
 /** Default deny... */
 $allowed = false;
 if ( $dav_resource->HavePrivilegeTo('all', false) || $session->user_no == $resource->user_no || $session->user_no == $resource->logged_user
