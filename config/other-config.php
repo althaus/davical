@@ -9,7 +9,7 @@
 
 /**
 * Set automatically according to $_SERVER['SCRIPT_NAME']
-* It will be used to set the adress of each tab of the web interface,
+* It will be used to set the address of each tab of the web interface,
 * to set the relative address of images and so forth.  You probably should
 * not change it unless you know why you want to.
 */
