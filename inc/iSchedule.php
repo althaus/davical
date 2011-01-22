@@ -118,7 +118,7 @@ class iSchedule
 	}
 
   /**
-	* finds a remote calender server via DNS SRV records
+	* finds a remote calendar server via DNS SRV records
 	*/ 
 	function getServer ( )
 	{
