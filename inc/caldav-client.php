@@ -267,8 +267,8 @@ class CalDAVClient {
     $headers = $this->DoRequest($relative_url);
 
     /**
-    * RSCDS will always return the real etag on PUT.  Other CalDAV servers may need
-    * more work, but we are assuming we are running against RSCDS in this case.
+    * DAViCal will always return the real etag on PUT.  Other CalDAV servers may need
+    * more work, but we are assuming we are running against DAViCal in this case.
     */
     $etag = preg_replace( '/^.*Etag: "?([^"\r\n]+)"?\r?\n.*/is', '$1', $headers );
     return $etag;

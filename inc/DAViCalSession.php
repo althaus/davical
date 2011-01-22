@@ -50,7 +50,7 @@ class DAViCalSession extends Session
   /**
   * Create a new DAViCalSession object.
   *
-  * We create a Session and extend it with some additional useful RSCDS
+  * We create a Session and extend it with some additional useful DAViCal 
   * related information.
   *
   * @param string $sid A session identifier.

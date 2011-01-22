@@ -204,7 +204,7 @@ $c->schedule_private_key = 'PRIVATE-KEY-BASE-64-DATA';
 *   call_user_func( $c->authenticate_hook['call'], $username, $password )
 *
 * The login mecanism is made in 2 places:
-*  - for the web interface in: index.php that calls RSCDSSession.php that extends
+*  - for the web interface in: index.php that calls DAViCalSession.php that extends
 *    Session.php (from AWL libraries)
 *  - for the caldav client in: caldav.php that calls BasicAuthSession.php
 * Both Session.php and BasicAuthSession.php check against the

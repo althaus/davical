@@ -29,7 +29,7 @@
 
 /**
 * default = true;
-* If set, RSCDS will store each unique time zone used in any calendar to speed
+* If set, DAViCal will store each unique time zone used in any calendar to speed
 * future timezone interpretation.
 */
 // $c->save_time_zone_defs;
