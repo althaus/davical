@@ -129,7 +129,7 @@ require_once("AwlQuery.php");
 
 
 function check_datetime() {
-  if ( class_exists('DatexTime') ) return new CheckResult(true);
+  if ( class_exists('DateTime') ) return new CheckResult(true);
   $result = new CheckResult(false);
   $result->setClass('dep_warning');
   $result->setDescription(i18n('Most of DAViCal will work but upgrading to PHP 5.2 or later is strongly recommended.'));
