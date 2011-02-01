@@ -1,0 +1,9 @@
+Summary: Add support for Windows timezones
+Status: New
+CreatedBy: Andrew McMillan <andrew@morphoss.com>
+AssignedTo: 
+Inserted: 2011-02-01T10:31:35
+Updated: 2011-02-01T10:31:35
+
+Windows uses a whole nother range of timezones and we need to add
+something to translate them into Olson names.
