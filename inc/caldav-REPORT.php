@@ -329,6 +329,7 @@ elseif ( $xmltree->GetTag() == "urn:ietf:params:xml:ns:carddav:addressbook-query
   include("caldav-REPORT-cardquery.php");
 }
 else {
-  $request->PreconditionFailed( 403, 'DAV::supported-report', sprintf( '"%s" is not a supported report type') );
+  dbg_error_log( 'ERROR', "Request for unsupported report type '%s'.", $xmltree->GetTag() );
+  $request->PreconditionFailed( 403, 'DAV::supported-report', sprintf( '"%s" is not a supported report type', $xmltree->GetTag()) );
 }
 
