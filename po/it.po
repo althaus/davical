@@ -5,16 +5,17 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: DAViCal\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-20 17:13+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2011-02-20 23:56+0100\n"
+"PO-Revision-Date: 2011-02-20 22:45+0000\n"
+"Last-Translator: karora <andrew@mcmillan.net.nz>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 msgid "%F %T"
 msgstr ""
@@ -111,9 +112,8 @@ msgstr ""
 msgid "Access Tickets"
 msgstr ""
 
-#, fuzzy
 msgid "Access ticket deleted"
-msgstr "Ruoli utente"
+msgstr ""
 
 msgid "Action"
 msgstr "Azione"
@@ -128,13 +128,11 @@ msgstr ""
 msgid "Admin"
 msgstr "Amministratore"
 
-#, fuzzy
 msgid "Administration"
-msgstr "Gestisce"
+msgstr ""
 
-#, fuzzy
 msgid "Administrator"
-msgstr "Gestisce"
+msgstr ""
 
 msgid "All"
 msgstr "Tutti"
@@ -160,9 +158,8 @@ msgstr ""
 msgid "Anonymous users are not allowed to modify calendars"
 msgstr "Gli utenti anonimi non sono autorizzati a modificare i calendari"
 
-#, fuzzy
 msgid "Anonymous users may only access public calendars"
-msgstr "Gli utenti anonimi non sono autorizzati a modificare i calendari"
+msgstr ""
 
 msgid "Application DB User"
 msgstr ""
@@ -176,21 +173,17 @@ msgstr ""
 msgid "Attachment"
 msgstr ""
 
-#, fuzzy
 msgid "Binding deleted"
-msgstr "Conferma cancellazione archivio"
+msgstr ""
 
-#, fuzzy
 msgid "Bindings to other collections"
-msgstr "Conferma cancellazione archivio"
+msgstr ""
 
-#, fuzzy
 msgid "Bindings to this Collection"
-msgstr "Conferma cancellazione archivio"
+msgstr ""
 
-#, fuzzy
 msgid "Bindings to this Principal's Collections"
-msgstr "Conferma cancellazione archivio"
+msgstr ""
 
 msgid "Bound As"
 msgstr ""
@@ -205,13 +198,11 @@ msgstr "Occupato"
 msgid "Calendar \"%s\" was loaded from file."
 msgstr ""
 
-#, fuzzy
 msgid "Calendar Principals"
-msgstr "Calendario utenti"
+msgstr ""
 
-#, fuzzy
 msgid "Calendar Timezone"
-msgstr "Calendario utenti"
+msgstr ""
 
 msgid "Can only add tickets for existing collection paths which you own"
 msgstr ""
@@ -219,28 +210,23 @@ msgstr ""
 msgid "Categories"
 msgstr ""
 
-#, fuzzy
 msgid "Change Password"
-msgstr "Nuova password"
+msgstr ""
 
 msgid "Click to display user details"
 msgstr "Fare clic per visualizzare i dettagli dell'utente"
 
-#, fuzzy
 msgid "Click to edit principal details"
-msgstr "Fare clic per visualizzare i dettagli dell'utente"
+msgstr ""
 
-#, fuzzy
 msgid "Collection"
-msgstr "Percorso archivio"
+msgstr ""
 
-#, fuzzy
 msgid "Collection Grants"
-msgstr "Percorso archivio"
+msgstr ""
 
-#, fuzzy
 msgid "Collection ID"
-msgstr "Percorso archivio"
+msgstr ""
 
 msgid "Collection deleted"
 msgstr "Archivio cancellato"
@@ -257,24 +243,20 @@ msgstr ""
 msgid "Confirm"
 msgstr "Conferma"
 
-#, fuzzy
 msgid "Confirm Deletion of the Binding"
-msgstr "Conferma cancellazione archivio"
+msgstr ""
 
 msgid "Confirm Deletion of the Collection"
 msgstr "Conferma cancellazione archivio"
 
-#, fuzzy
 msgid "Confirm Deletion of the Principal"
-msgstr "Conferma cancellazione archivio"
+msgstr ""
 
-#, fuzzy
 msgid "Confirm Deletion of the Ticket"
-msgstr "Conferma cancellazione archivio"
+msgstr ""
 
-#, fuzzy
 msgid "Confirm Password"
-msgstr "Conferma la nuova password."
+msgstr ""
 
 msgid "Confirm the new password."
 msgstr "Conferma la nuova password."
@@ -285,39 +267,32 @@ msgstr ""
 msgid "Create"
 msgstr "Crea"
 
-#, fuzzy
 msgid "Create Collection"
-msgstr "Conferma cancellazione archivio"
+msgstr ""
 
-#, fuzzy
 msgid "Create Events/Collections"
-msgstr "Conferma cancellazione archivio"
+msgstr ""
 
-#, fuzzy
 msgid "Create New Collection"
-msgstr "Conferma cancellazione archivio"
+msgstr ""
 
 msgid "Create New Principal"
 msgstr ""
 
-#, fuzzy
 msgid "Create Principal"
-msgstr "Calendario utenti"
+msgstr ""
 
 msgid "Create a new principal (i.e. a new user, resource or group)"
 msgstr ""
 
-#, fuzzy
 msgid "Create a resource or collection"
-msgstr "Conferma cancellazione archivio"
+msgstr ""
 
-#, fuzzy
 msgid "Creating new Collection."
-msgstr "Conferma cancellazione archivio"
+msgstr ""
 
-#, fuzzy
 msgid "Creating new Principal record."
-msgstr "Calendario utenti"
+msgstr ""
 
 msgid "Creating new ticket granting privileges to this Principal"
 msgstr ""
@@ -334,9 +309,8 @@ msgstr ""
 msgid "DAViCal CalDAV Server"
 msgstr "DAViCal CalDAV Server"
 
-#, fuzzy
 msgid "DAViCal DB Schema version "
-msgstr "DAViCal CalDAV Server"
+msgstr ""
 
 msgid "DAViCal Homepage"
 msgstr ""
@@ -368,36 +342,29 @@ msgstr ""
 msgid "Database Error"
 msgstr "Errore database"
 
-#, fuzzy
 msgid "Database Host"
-msgstr "Errore database"
+msgstr ""
 
-#, fuzzy
 msgid "Database Name"
-msgstr "Errore database"
+msgstr ""
 
-#, fuzzy
 msgid "Database Owner"
-msgstr "Errore database"
+msgstr ""
 
-#, fuzzy
 msgid "Database Password"
-msgstr "Errore database"
+msgstr ""
 
-#, fuzzy
 msgid "Database Port"
-msgstr "Errore database"
+msgstr ""
 
-#, fuzzy
 msgid "Database Username"
-msgstr "Errore database"
+msgstr ""
 
 msgid "Database error"
 msgstr "Errore database"
 
-#, fuzzy
 msgid "Date Format Style"
-msgstr "Formato data"
+msgstr ""
 
 msgid "Date Style"
 msgstr "Formato data"
@@ -408,36 +375,29 @@ msgstr ""
 msgid "Delete"
 msgstr "Elimina"
 
-#, fuzzy
 msgid "Delete Events/Collections"
-msgstr "Conferma cancellazione archivio"
+msgstr ""
 
-#, fuzzy
 msgid "Delete Principal"
-msgstr "Calendario utenti"
+msgstr ""
 
-#, fuzzy
 msgid "Delete a resource or collection"
-msgstr "Conferma cancellazione archivio"
+msgstr ""
 
 msgid "Deleted a grant from this Principal"
 msgstr ""
 
-#, fuzzy
 msgid "Deleting Binding:"
-msgstr "Calendario utenti"
+msgstr ""
 
-#, fuzzy
 msgid "Deleting Collection:"
-msgstr "Conferma cancellazione archivio"
+msgstr ""
 
-#, fuzzy
 msgid "Deleting Principal:"
-msgstr "Calendario utenti"
+msgstr ""
 
-#, fuzzy
 msgid "Deleting Ticket:"
-msgstr "Elimina"
+msgstr ""
 
 msgid "Deliver scheduling invitations from an organiser to this scheduling inbox"
 msgstr ""
@@ -484,9 +444,8 @@ msgstr ""
 msgid "ERROR: There was a database error writing the roles information!"
 msgstr ""
 
-#, fuzzy
 msgid "Edit"
-msgstr "Modifica %s"
+msgstr ""
 
 msgid "Edit this user record"
 msgstr "Modifica questo record utente"
@@ -514,13 +473,11 @@ msgstr "Errore durante l'interrogazione al database."
 msgid "Error writing calendar details to database."
 msgstr "Errore durante la scrittura dettagli calendario nel database."
 
-#, fuzzy
 msgid "Error writing calendar properties to database."
-msgstr "Errore durante la scrittura dettagli calendario nel database."
+msgstr ""
 
-#, fuzzy
 msgid "European"
-msgstr "Europeo (d/m/y)"
+msgstr ""
 
 msgid "European (d/m/y)"
 msgstr "Europeo (d/m/y)"
@@ -537,9 +494,8 @@ msgstr ""
 msgid "Fail"
 msgstr ""
 
-#, fuzzy
 msgid "Failed to write collection."
-msgstr "Importa file ICS nell'archivio"
+msgstr ""
 
 msgid "Feeds are only supported for calendars at present."
 msgstr ""
@@ -550,16 +506,14 @@ msgstr ""
 msgid "Forbidden"
 msgstr "Negato"
 
-#, fuzzy
 msgid "Free/Busy"
-msgstr "Impegnato"
+msgstr ""
 
 msgid "Full Name"
 msgstr "Nome visualizzato"
 
-#, fuzzy
 msgid "Fullname"
-msgstr "Nome visualizzato"
+msgstr ""
 
 msgid "GET requests on collections are only supported for calendars."
 msgstr ""
@@ -607,9 +561,8 @@ msgstr "Aiuto! Ho dimenticato la password!"
 msgid "Home"
 msgstr "Home"
 
-#, fuzzy
 msgid "Home Page"
-msgstr "Home"
+msgstr ""
 
 msgid "Home addressbook added."
 msgstr ""
@@ -626,9 +579,8 @@ msgstr ""
 msgid "ID"
 msgstr ""
 
-#, fuzzy
 msgid "ISO Format"
-msgstr "Formato ISO (YYYY-MM-DD)"
+msgstr ""
 
 msgid "ISO Format (YYYY-MM-DD)"
 msgstr "Formato ISO (YYYY-MM-DD)"
@@ -649,9 +601,8 @@ msgstr "Importa tutti i file .ics di una directory"
 msgid "Import calendars and Synchronise LDAP."
 msgstr ""
 
-#, fuzzy
 msgid "Inactive Principals"
-msgstr "Calendario utenti"
+msgstr ""
 
 msgid "Incorrect content type for addressbook: "
 msgstr ""
@@ -668,9 +619,8 @@ msgstr "Nome utente o password non valida."
 msgid "Is Member of"
 msgstr ""
 
-#, fuzzy
 msgid "Is a Calendar"
-msgstr "È un calendario?"
+msgstr ""
 
 msgid "Is an Addressbook"
 msgstr ""
@@ -678,9 +628,8 @@ msgstr ""
 msgid "Is this user active?"
 msgstr "Questo utente è attivo?"
 
-#, fuzzy
 msgid "Items in Collection"
-msgstr "Percorso archivio"
+msgstr ""
 
 msgid "Joined"
 msgstr "Aggiunto"
@@ -691,16 +640,14 @@ msgstr "Lingua"
 msgid "Last used"
 msgstr "Ultimo accesso"
 
-#, fuzzy
 msgid "List Groups"
-msgstr "Ultimo accesso"
+msgstr ""
 
 msgid "List Resources"
 msgstr ""
 
-#, fuzzy
 msgid "List Users"
-msgstr "Utenti"
+msgstr ""
 
 msgid "Load From File"
 msgstr ""
@@ -708,9 +655,8 @@ msgstr ""
 msgid "Locale"
 msgstr ""
 
-#, fuzzy
 msgid "Location"
-msgstr "Azione"
+msgstr ""
 
 msgid "Log On Please"
 msgstr "Autenticazione richiesta"
@@ -730,21 +676,18 @@ msgstr ""
 msgid "Name"
 msgstr "Nome"
 
-#, fuzzy
 msgid "New Collection"
-msgstr "Percorso archivio"
+msgstr ""
 
 msgid "New Password"
 msgstr "Nuova password"
 
-#, fuzzy
 msgid "New Principal"
-msgstr "Calendario utenti"
+msgstr ""
 
 #. Translators: not 'Yes'
-#, fuzzy
 msgid "No"
-msgstr "No."
+msgstr ""
 
 msgid "No authority to deliver invitations to user."
 msgstr ""
@@ -765,13 +708,11 @@ msgstr ""
 msgid "No."
 msgstr "No."
 
-#, fuzzy
 msgid "No. of Collections"
-msgstr "Percorso archivio"
+msgstr ""
 
-#, fuzzy
 msgid "No. of Principals"
-msgstr "Calendario utenti"
+msgstr ""
 
 msgid "No. of Resources"
 msgstr ""
@@ -785,9 +726,8 @@ msgstr ""
 msgid "Override a Lock"
 msgstr ""
 
-#, fuzzy
 msgid "PDO PostgreSQL drivers"
-msgstr "L'utente non è disponibile"
+msgstr ""
 
 msgid "PHP DateTime class"
 msgstr ""
@@ -801,9 +741,8 @@ msgstr ""
 msgid "PHP PDO module available"
 msgstr ""
 
-#, fuzzy
 msgid "PHP PostgreSQL available"
-msgstr "L'utente non è disponibile"
+msgstr ""
 
 msgid "PHP iconv support"
 msgstr ""
@@ -811,9 +750,8 @@ msgstr ""
 msgid "PUT on a collection is only allowed for text/calendar content against a calendar collection"
 msgstr ""
 
-#, fuzzy
 msgid "Passed"
-msgstr "Password"
+msgstr ""
 
 msgid "Password"
 msgstr "Password"
@@ -824,20 +762,17 @@ msgstr ""
 msgid "Person"
 msgstr ""
 
-#, fuzzy
 msgid "Please confirm deletion of access ticket - see below"
-msgstr "Conferma cancellazione"
+msgstr ""
 
-#, fuzzy
 msgid "Please confirm deletion of binding - see below"
-msgstr "Conferma cancellazione"
+msgstr ""
 
 msgid "Please confirm deletion of collection - see below"
 msgstr ""
 
-#, fuzzy
 msgid "Please confirm deletion of the principal"
-msgstr "Conferma cancellazione"
+msgstr ""
 
 msgid "Please note the time and advise the administrator of your system."
 msgstr ""
@@ -845,9 +780,8 @@ msgstr ""
 msgid "Principal"
 msgstr ""
 
-#, fuzzy
 msgid "Principal Collections"
-msgstr "Conferma cancellazione archivio"
+msgstr ""
 
 msgid "Principal Grants"
 msgstr ""
@@ -858,9 +792,8 @@ msgstr ""
 msgid "Principal Type"
 msgstr ""
 
-#, fuzzy
 msgid "Principal deleted"
-msgstr "Conferma cancellazione archivio"
+msgstr ""
 
 msgid "Privileges"
 msgstr ""
@@ -908,9 +841,8 @@ msgstr ""
 msgid "Read the free/busy information for a calendar collection"
 msgstr ""
 
-#, fuzzy
 msgid "Read/Write"
-msgstr "Lettura/Scrittura"
+msgstr ""
 
 msgid "Remove"
 msgstr ""
@@ -1185,9 +1117,8 @@ msgstr ""
 msgid "Time"
 msgstr ""
 
-#, fuzzy
 msgid "To Collection"
-msgstr "Percorso archivio"
+msgstr ""
 
 msgid "To ID"
 msgstr ""
@@ -1219,9 +1150,8 @@ msgstr "Aggiorna"
 msgid "Updated"
 msgstr "Ultima modifica"
 
-#, fuzzy
 msgid "Updating Collection record."
-msgstr "Conferma cancellazione archivio"
+msgstr ""
 
 msgid "Updating Member of this Group Principal"
 msgstr ""
@@ -1247,9 +1177,8 @@ msgstr ""
 msgid "User Details"
 msgstr "Dettaglio utente"
 
-#, fuzzy
 msgid "User Functions"
-msgstr "Dettaglio utente"
+msgstr ""
 
 msgid "User Name"
 msgstr "Nome utente"
@@ -1263,13 +1192,11 @@ msgstr "L'utente è attivo"
 msgid "User record written."
 msgstr ""
 
-#, fuzzy
 msgid "Username"
-msgstr "Nome utente"
+msgstr ""
 
-#, fuzzy
 msgid "View My Details"
-msgstr "I miei dati"
+msgstr ""
 
 msgid "View my own principal record"
 msgstr ""
@@ -1301,16 +1228,14 @@ msgstr ""
 msgid "Write Access Controls"
 msgstr ""
 
-#, fuzzy
 msgid "Write Data"
-msgstr "Scrittura"
+msgstr ""
 
 msgid "Write Metadata"
 msgstr ""
 
-#, fuzzy
 msgid "Write content"
-msgstr "Scrittura"
+msgstr ""
 
 msgid "Write properties"
 msgstr ""
@@ -1387,9 +1312,8 @@ msgstr ""
 msgid "forget me not"
 msgstr "Mantieni aperta la connessione"
 
-#, fuzzy
 msgid "from principal"
-msgstr "Calendario utenti"
+msgstr ""
 
 msgid "path to store your ics"
 msgstr "percorso dove memorizzare il file ics"
@@ -1403,3 +1327,23 @@ msgstr ""
 
 msgid "you should log on with the username and password that have been issued to you."
 msgstr ""
+
+#~ msgid "Admin <!-- in the sense of 'systems admin' -->"
+#~ msgstr "Amministratore <!-- in the sense of 'systems admin' -->"
+
+#~ msgid "ERROR: %s"
+#~ msgstr "ERRORE: %s"
+
+#~ msgid "Group <!-- in the sense of a group of people -->"
+#~ msgstr "Gruppo"
+
+#~ msgid "Id <!-- short for 'Identifier' -->"
+#~ msgstr "Id <!-- short for 'Identifier' -->"
+
+#~ msgid "No. <!-- short for 'Number' -->"
+#~ msgstr "Nr. <!-- short for 'Number' -->"
+
+#~ msgid ""
+#~ "forget me not <!-- this is a colloquial phrase in english (the name of a flower) and is an option "
+#~ "allowing people to log in automatically in future -->"
+#~ msgstr "Mantieni aperta la connessione"
