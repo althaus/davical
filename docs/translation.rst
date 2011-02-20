@@ -75,3 +75,39 @@ To generate a .pot file for translators on has to use the following command:
 
 This will generate a file named ``messages.pot``.
 
+Accessing the Transifex files
+=============================
+
+Transifex does not have direct repository integration anymore.
+They have created a command line client namend ``tx``::
+
+   $ tx init
+   Creating .tx folder...
+   Transifex instance [http://www.transifex.net]: 
+   Creating skeleton...
+   Creating config file...
+   Done.
+   $ tx set --auto-remote http://www.transifex.net/projects/p/davical/
+   Auto configuring local project from remote URL...
+   Getting details for project davical
+   1 resources found. Configuring...
+   Configuring resource davical.messagespot.
+   Done.
+   $ tx pull -a
+   Pulling translations for resource davical.messagespot (source: None)
+   New translations found for the following languages: nl, et, fr, de, hu, it, ja, nb_NO, pl, ru, es_AR, sv
+   Pulling translations for resource davical.messagespot (source: None)
+    -> nl: translations/davical.messagespot/nl.po
+    -> et: translations/davical.messagespot/et.po
+    -> fr: translations/davical.messagespot/fr.po
+    -> de: translations/davical.messagespot/de.po
+    -> hu: translations/davical.messagespot/hu.po
+    -> it: translations/davical.messagespot/it.po
+    -> ja: translations/davical.messagespot/ja.po
+    -> nb_NO: translations/davical.messagespot/nb_NO.po
+    -> pl: translations/davical.messagespot/pl.po
+    -> ru: translations/davical.messagespot/ru.po
+    -> es_AR: translations/davical.messagespot/es_AR.po
+    -> sv: translations/davical.messagespot/sv.po
+   Done.
+
