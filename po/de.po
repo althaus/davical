@@ -43,7 +43,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DAViCal 0.9.7.99\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-14 15:16+1300\n"
+"POT-Creation-Date: 2011-02-20 17:13+0100\n"
 "PO-Revision-Date: 2009-12-23 18:00+0100\n"
 "Last-Translator: Patrick Näf Moser <herzbube@herzbube.ch>\n"
 "MIME-Version: 1.0\n"
@@ -62,43 +62,43 @@ msgstr ""
 msgid "*** Unknown ***"
 msgstr ""
 
-#, fuzzy, c-format
+#, fuzzy, php-format
 msgid "- adding %s to group : %s"
 msgstr "- aktualisere Benutzereinträge : %s"
 
-#, fuzzy, c-format
+#, fuzzy, php-format
 msgid "- adding users %s to group : %s"
 msgstr "- aktualisere Benutzereinträge : %s"
 
-#, fuzzy, c-format
+#, fuzzy, php-format
 msgid "- creating groups : %s"
 msgstr "- erstelle Eintrag für Benutzer : %s"
 
-#, c-format
+#, php-format
 msgid "- creating record for users :  %s"
 msgstr "- erstelle Eintrag für Benutzer : %s"
 
-#, fuzzy, c-format
+#, fuzzy, php-format
 msgid "- deactivate groups : %s"
 msgstr "- deaktiviere Benutzer : %s"
 
-#, fuzzy, c-format
+#, fuzzy, php-format
 msgid "- deactivating users : %s"
 msgstr "- deaktiviere Benutzer : %s"
 
-#, c-format
+#, php-format
 msgid "- nothing done on : %s"
 msgstr "- nichts verändert an : %s"
 
-#, c-format
+#, php-format
 msgid "- removing %s from group : %s"
 msgstr ""
 
-#, fuzzy, c-format
+#, fuzzy, php-format
 msgid "- updating groups : %s"
 msgstr "- aktualisere Benutzereinträge : %s"
 
-#, fuzzy, c-format
+#, fuzzy, php-format
 msgid "- updating user records : %s"
 msgstr "- aktualisere Benutzereinträge : %s"
 
@@ -106,7 +106,23 @@ msgid "<b>WARNING: all events in this path will be deleted before inserting allo
 msgstr ""
 "<b>WARNUNG: Vor dem Einfügen der ICS-Kalenderdatei werden alle Termine in diesem Pfad gelöscht</b>"
 
-#, c-format
+#, php-format
+msgid ""
+"<h1>Help</h1>\n"
+"<p>For initial help you should visit the <a href=\"http://www.davical.org/\" target=\"_blank\">DAViCal "
+"Home Page</a> or take\n"
+"a look at the <a href=\"http://wiki.davical.org/%s\" target=\"_blank\">DAViCal Wiki</a>.</p>\n"
+"<p>If you can't find the answers there, visit us on <a href=\"http://wikipedia.org/wiki/"
+"Internet_Relay_Chat\" target=\"_blank\">IRC</a> in\n"
+"the <b>#davical</b> channel on <a href=\"http://www.oftc.net/\" target=\"_blank\">irc.oftc.net</a>,\n"
+"or send a question to the <a href=\"http://lists.sourceforge.net/mailman/listinfo/davical-general\" "
+"target=\"_blank\">DAViCal Users mailing list</a>.</p>\n"
+"<p>The <a href=\"http://sourceforge.net/mailarchive/forum.php?forum_id=8348\" title=\"DAViCal Users "
+"Mailing List\" target=\"_blank\">mailing list\n"
+"archives can be helpful too.</p>"
+msgstr ""
+
+#, php-format
 msgid ""
 "<h1>Log On Please</h1><p>For access to the %s you should log on withthe username and password that "
 "have been issued to you.</p><p>If you would like to request access, please e-mail %s.</p>"
@@ -145,9 +161,7 @@ msgstr "Aktiv"
 msgid "Adding new member to this Group Principal"
 msgstr "Füge neues Mitglied zu diesem Gruppen-Principal hinzu"
 
-msgid "Admin <!-- in the sense of 'systems admin' -->"
-msgstr "Systemadministrator"
-
+#. Translators: in the sense of 'systems admin'
 msgid "Admin"
 msgstr "Administrator"
 
@@ -158,6 +172,10 @@ msgstr "Verwaltung"
 #, fuzzy
 msgid "Administrator"
 msgstr "Verwaltung"
+
+# TODO - Kontext bestimmen
+msgid "All"
+msgstr "Alle"
 
 msgid "All collection data will be unrecoverably deleted."
 msgstr "Alle Kalender, Termine und Ressourcen werden unwiderruflich gelöscht."
@@ -172,10 +190,6 @@ msgstr "Privilegien"
 
 msgid "All requested changes were made."
 msgstr "Alle gewünschten Änderungen wurden durchgeführt."
-
-# TODO - Kontext bestimmen
-msgid "All"
-msgstr "Alle"
 
 msgid "Allow free/busy enquiries targeted at the owner of this scheduling inbox"
 msgstr ""
@@ -232,6 +246,10 @@ msgstr "Zeige alle Benutzer"
 msgid "Busy"
 msgstr "belegt"
 
+#, php-format
+msgid "Calendar \"%s\" was loaded from file."
+msgstr "Kalender \"%s\" wurde hochgeladen."
+
 # TODO - Calendar Principals übersetzen
 #, fuzzy
 msgid "Calendar Principals"
@@ -239,10 +257,6 @@ msgstr "Kalender Principals"
 
 msgid "Calendar Timezone"
 msgstr "Zeitzone"
-
-#, c-format
-msgid "Calendar \"%s\" was loaded from file."
-msgstr "Kalender \"%s\" wurde hochgeladen."
 
 msgid "Can only add tickets for existing collection paths which you own"
 msgstr ""
@@ -261,6 +275,9 @@ msgstr "Klicken, um Benutzerangaben anzuzeigen"
 msgid "Click to edit principal details"
 msgstr "Klicken um Details des Principal zu bearbeiten"
 
+msgid "Collection"
+msgstr "Collection"
+
 #, fuzzy
 msgid "Collection Grants"
 msgstr "Berechtigungen der Sammlung"
@@ -272,9 +289,6 @@ msgstr "Sammlungs-ID"
 msgid "Collection deleted"
 msgstr "Collection gelöscht"
 
-msgid "Collection"
-msgstr "Collection"
-
 msgid "Collections may not be both CalDAV calendars and CardDAV addressbooks at the same time"
 msgstr ""
 
@@ -283,6 +297,9 @@ msgstr ""
 
 msgid "Configuring DAViCal"
 msgstr ""
+
+msgid "Confirm"
+msgstr "Bestätigen"
 
 #, fuzzy
 msgid "Confirm Deletion of the Binding"
@@ -304,11 +321,12 @@ msgstr "Passwort bestätigen"
 msgid "Confirm the new password."
 msgstr "Neues Passwort bestätigen"
 
-msgid "Confirm"
-msgstr "Bestätigen"
-
 msgid "Could not retrieve"
 msgstr ""
+
+# TODO - Kontext bestimmen
+msgid "Create"
+msgstr "Erstellen"
 
 msgid "Create Collection"
 msgstr "Collection erstellen"
@@ -332,10 +350,6 @@ msgstr "Einen neuen Principal (z.b. Benutzer, Ressource oder Gruppe) erstellen"
 msgid "Create a resource or collection"
 msgstr "Neue Sammlung erstellen"
 
-# TODO - Kontext bestimmen
-msgid "Create"
-msgstr "Erstellen"
-
 msgid "Creating new Collection."
 msgstr "Collection erstellt."
 
@@ -349,9 +363,6 @@ msgstr "Erteile neues, von diesem Principal ausgehendes Recht"
 
 msgid "Current DAViCal version "
 msgstr "aktuelle DAViCal Version"
-
-msgid "Current Versions"
-msgstr ""
 
 msgid "DAV Path"
 msgstr "DAV Pfad"
@@ -434,6 +445,10 @@ msgstr "Datumsformat"
 msgid "Default Privileges"
 msgstr "Standardrechte"
 
+# TODO - Kontext bestimmen
+msgid "Delete"
+msgstr "Löschen"
+
 msgid "Delete Events/Collections"
 msgstr "Termine/Collections löschen"
 
@@ -442,10 +457,6 @@ msgstr "Principal löschen"
 
 msgid "Delete a resource or collection"
 msgstr "Kalender oder Resource löschen"
-
-# TODO - Kontext bestimmen
-msgid "Delete"
-msgstr "Löschen"
 
 msgid "Deleted a grant from this Principal"
 msgstr "Eine Berechtigung dieses Principals gelöscht"
@@ -497,11 +508,11 @@ msgstr "Anzeigename"
 msgid "Does the user have the right to perform this role?"
 msgstr "Hat der Benutzer die Berechtigung für diese Rolle?"
 
-msgid "EMail OK"
-msgstr "Email OK"
-
 msgid "EMail"
 msgstr "E-Mail"
+
+msgid "EMail OK"
+msgstr "Email OK"
 
 msgid "ERROR: The full name may not be blank."
 msgstr "FEHLER: Der vollständige Name darf nicht leer sein."
@@ -512,13 +523,13 @@ msgstr "FEHLER: Die Passwörter stimmen nicht überein."
 msgid "ERROR: There was a database error writing the roles information!"
 msgstr "FEHLER: Datenbankfehler beim Speichern der Rolleninformation!"
 
-msgid "Edit this user record"
-msgstr "Benutzereintrag bearbeiten"
-
 # TODO - Kontext bestimmen
 #, fuzzy
 msgid "Edit"
 msgstr "%s bearbeiten"
+
+msgid "Edit this user record"
+msgstr "Benutzereintrag bearbeiten"
 
 msgid "Email Address"
 msgstr "E-Mail-Adresse"
@@ -531,11 +542,11 @@ msgstr ""
 msgid "Enter your username and password then click here to log in."
 msgstr "Geben Sie Benutzernamen und Passwort ein und klicken Sie hier, um sich anzumelden."
 
-#, fuzzy, c-format
+#, fuzzy, php-format
 msgid "Error NoGroupFound with filter >%s<, attributes >%s< , dn >%s<"
 msgstr "Der Fehler NoUserFound ist mit dem Filter >%s<, den Attributen >%s< und dn >%s< aufgetreten"
 
-#, c-format
+#, php-format
 msgid "Error NoUserFound with filter >%s<, attributes >%s< , dn >%s<"
 msgstr "Der Fehler NoUserFound ist mit dem Filter >%s<, den Attributen >%s< und dn >%s< aufgetreten"
 
@@ -550,11 +561,11 @@ msgstr "Fehler beim Schreiben der Kalenderdaten in die Datenbank."
 msgid "Error writing calendar properties to database."
 msgstr "Fehler beim Schreiben der Kalenderdaten in die Datenbank."
 
-msgid "European (d/m/y)"
-msgstr "Europäisch (tt.mm.jjjj)"
-
 #, fuzzy
 msgid "European"
+msgstr "Europäisch (tt.mm.jjjj)"
+
+msgid "European (d/m/y)"
 msgstr "Europäisch (tt.mm.jjjj)"
 
 #, fuzzy
@@ -617,8 +628,9 @@ msgstr ""
 msgid "Granting new privileges from this Principal"
 msgstr "Erteile neues, von diesem Principal ausgehendes Recht"
 
-msgid "Group <!-- in the sense of a group of people -->"
-msgstr "Gruppe <!-- im Sinne einer Gruppe Menschen -->"
+#. Translators: in the sense of a group of people
+msgid "Group"
+msgstr "Gruppe"
 
 msgid "Group Members"
 msgstr "Gruppenmitglieder"
@@ -630,11 +642,11 @@ msgstr "Gruppenmitgliedschaft"
 msgid "Group Principals"
 msgstr "Gruppen Principals"
 
-msgid "Group"
-msgstr "Gruppe"
-
 msgid "Has Members"
 msgstr "Mitglieder"
+
+msgid "Help"
+msgstr "Hilfe"
 
 # TODO - Bessere Übersetzung von "screen"
 msgid "Help on the current screen"
@@ -643,8 +655,8 @@ msgstr "Hilfe zur aktuellen Seite"
 msgid "Help! I've forgotten my password!"
 msgstr "neues Passwort beantragen!"
 
-msgid "Help"
-msgstr "Hilfe"
+msgid "Home"
+msgstr "Startseite"
 
 #, fuzzy
 msgid "Home Page"
@@ -664,23 +676,17 @@ msgstr "Startkalender hinzugefügt."
 msgid "Home calendar already exists."
 msgstr "Startkalender hinzugefügt."
 
-msgid "Home"
-msgstr "Startseite"
-
 msgid "ID"
 msgstr "ID"
-
-msgid "ISO Format (YYYY-MM-DD)"
-msgstr "ISO Format (jjjj-mm-tt)"
 
 #, fuzzy
 msgid "ISO Format"
 msgstr "ISO Format (jjjj-mm-tt)"
 
-#, fuzzy
-msgid "Id <!-- short for 'Identifier' -->"
-msgstr "Id <!-- kurz für 'Identifikator' -->"
+msgid "ISO Format (YYYY-MM-DD)"
+msgstr "ISO Format (jjjj-mm-tt)"
 
+#. Translators: short for 'Identifier'
 msgid "Id"
 msgstr "Id"
 
@@ -790,8 +796,9 @@ msgstr "Neues Passwort"
 msgid "New Principal"
 msgstr "Principal"
 
+#. Translators: not 'Yes'
 #, fuzzy
-msgid "No <!-- not 'Yes' -->"
+msgid "No"
 msgstr "Nr."
 
 msgid "No authority to deliver invitations to user."
@@ -812,11 +819,8 @@ msgstr ""
 msgid "No summary"
 msgstr "Zusammenfassung"
 
-#, fuzzy
-msgid "No"
-msgstr "Nr."
-
-msgid "No. <!-- short for 'Number' -->"
+#. Translators: short for 'Number'
+msgid "No."
 msgstr "Nr."
 
 #, fuzzy
@@ -831,9 +835,6 @@ msgstr "Gruppen Principals"
 #, fuzzy
 msgid "No. of Resources"
 msgstr "Ressourcenliste anzeigen"
-
-msgid "No."
-msgstr "Nr."
 
 msgid "Not overwriting existing destination resource"
 msgstr "Bestehende Ziel-Ressource wird nicht überschrieben"
@@ -902,6 +903,9 @@ msgstr "Löschen des Principal bestätigen"
 msgid "Please note the time and advise the administrator of your system."
 msgstr "Notieren Sie bitte die Zeit und benachrichtigen Sie den Administrator des Systems."
 
+msgid "Principal"
+msgstr "Principal"
+
 # Principal ist ein stehender Begriff in WebDAV
 #, fuzzy
 msgid "Principal Collections"
@@ -919,22 +923,17 @@ msgstr "Principal Typ"
 msgid "Principal deleted"
 msgstr "Principal gelöscht"
 
-msgid "Principal"
-msgstr "Principal"
-
-msgid "Privileges granted to All Users"
-msgstr "Privilegien für alle Benutzer"
-
 # Privileges=Privilegien ist ein stehender Begriff in WebDAV
 msgid "Privileges"
 msgstr "Privilegien"
 
+msgid "Privileges granted to All Users"
+msgstr "Privilegien für alle Benutzer"
+
 msgid "Property is read-only"
 msgstr "Eigenschaft ist schreibgeschützt"
 
-msgid "Public <!-- in the sense of being available to all users -->"
-msgstr "Öffentlich"
-
+#. Translators: in the sense of being available to all users
 msgid "Public"
 msgstr "Public"
 
@@ -946,6 +945,10 @@ msgstr "REPORT Body enthält keine XML Daten!"
 
 msgid "REPORT body is not valid XML data!"
 msgstr "REPORT Body enthält keine gültigen XML Daten!"
+
+# TODO - Kontext bestimmen
+msgid "Read"
+msgstr "Lesen"
 
 msgid "Read ACLs for a resource or collection"
 msgstr ""
@@ -969,18 +972,14 @@ msgstr ""
 msgid "Read the free/busy information for a calendar collection"
 msgstr ""
 
-# TODO - Kontext bestimmen
-msgid "Read"
-msgstr "Lesen"
-
 msgid "Read/Write"
 msgstr "Lesen/Schreiben"
 
-msgid "Remove a lock"
-msgstr "Sperre entfernen"
-
 msgid "Remove"
 msgstr "Entfernen"
+
+msgid "Remove a lock"
+msgstr "Sperre entfernen"
 
 msgid "Report Bug"
 msgstr "Fehler melden"
@@ -996,7 +995,8 @@ msgstr "Feature beantragen"
 msgid "Request body is not valid XML data!"
 msgstr "REPORT Body enthält keine gültigen XML Daten!"
 
-msgid "Resource <!-- a thing which might be booked: a room, a carpark, a projector... -->"
+#. Translators a thing which might be booked: a room, a carpark, a projector...
+msgid "Resource"
 msgstr "Ressource"
 
 # TODO - Principals übersetzen
@@ -1009,9 +1009,6 @@ msgstr "Kalender-Ressource nicht gefunden."
 
 msgid "Resource has changed on server - not deleted"
 msgstr "Ressource hat sich auf dem Server geändert - wird nicht gelöscht"
-
-msgid "Resource"
-msgstr "Ressource"
 
 # TODO - Bessere Übersetzung "to / from collections"
 msgid "Resources may not be changed to / from collections."
@@ -1087,20 +1084,20 @@ msgstr ""
 "Pfad in dem .ics Dateien gespeichert werden sollen; \"home\" wird z.B. als \"/caldav.php/me/home/\" "
 "verwendet"
 
-msgid "Setup DAViCal"
-msgstr "DAViCal konfigurieren"
-
 msgid "Setup"
 msgstr "Konfiguration"
+
+msgid "Setup DAViCal"
+msgstr "DAViCal konfigurieren"
 
 # TODO - Kontext bestimmen
 msgid "Show help on"
 msgstr "Zeige Hilfe zum Thema"
 
-msgid "Site Statistics require the database to be available!"
+msgid "Site Statistics"
 msgstr ""
 
-msgid "Site Statistics"
+msgid "Site Statistics require the database to be available!"
 msgstr ""
 
 msgid "Some properties were not able to be changed."
@@ -1124,7 +1121,7 @@ msgstr "Standardrechte"
 msgid "Status"
 msgstr "Start"
 
-#, c-format
+#, php-format
 msgid "Status: %d, Message: %s, User: %d, Path: %s"
 msgstr "Status: %d, Nachricht: %s, Benutzer: %d, Pfad: %s"
 
@@ -1375,7 +1372,7 @@ msgstr "Diesen Benutzereintrag anzeigen"
 msgid "Visit the DAViCal Wiki"
 msgstr "DAViCal Wiki besuchen"
 
-#, c-format
+#, php-format
 msgid "Want: %s, Currently: %s"
 msgstr ""
 
@@ -1387,6 +1384,9 @@ msgstr ""
 # TODO - Kontext bestimmen
 msgid "When the user's e-mail account was validated."
 msgstr "Sobald das E-Mail-Konto des Benutzers bestätigt wurde."
+
+msgid "Write"
+msgstr "Speichern"
 
 msgid "Write ACLs for a resource or collection"
 msgstr ""
@@ -1407,20 +1407,7 @@ msgstr "Daten speichern"
 msgid "Write properties"
 msgstr ""
 
-msgid "Write"
-msgstr "Speichern"
-
 msgid "Yes"
-msgstr ""
-
-#, c-format
-msgid "You are currently running DAViCal version %s. The database schema is at version %d.%d.%d."
-msgstr ""
-
-#, c-format
-msgid ""
-"You are currently running DAViCal version %s. The database schema should be at version %s and it is at "
-"version %d.%d.%d."
 msgstr ""
 
 msgid "You are editing"
@@ -1446,14 +1433,14 @@ msgstr "Sie müssen angemeldet sein um dieses System zu nutzen."
 msgid "Your configuration produced PHP errors which should be corrected"
 msgstr ""
 
-#, c-format
+#, php-format
 msgid "all events of user %s were deleted and replaced by those from file %s"
 msgstr "Alle Termine des Benutzers %s wurden gelöscht und durch Termine aus der Datei %s ersetzt"
 
 msgid "calendar-timezone property is only valid for a calendar."
 msgstr ""
 
-#, c-format
+#, php-format
 msgid "directory %s is not readable"
 msgstr "Ordner %s kann nicht gelesen werden"
 
@@ -1463,7 +1450,7 @@ msgstr ""
 msgid "drivers_ldap : Could not start TLS: ldap_start_tls() failed"
 msgstr "drivers_ldap : TLS konnte nicht gestartet werden: ldap_start_tls() ist fehlgeschlagen"
 
-#, c-format
+#, php-format
 msgid "drivers_ldap : Failed to bind to host %1$s on port %2$s with bindDN of %3$s"
 msgstr "drivers_ldap : Verbindung (bind) zu Host %1$s auf Port %2$s mit bindDN %3$s ist fehlgeschlagen"
 
@@ -1477,26 +1464,22 @@ msgstr ""
 "drivers_ldap : Verbindung (bind) zu LDAP fehlgeschlagen - bitte überprüfen, ob bindDN und passDN "
 "richtig konfiguriert sind, und ob der LDAP Server erreichbar ist"
 
-#, c-format
+#, php-format
 msgid "drivers_ldap : Unable to connect to LDAP with port %s on host %s"
 msgstr "drivers_ldap : LDAP-Verbindung zu Port %s auf Host %s fehlgeschlagen"
 
 msgid "drivers_ldap : function ldap_connect not defined, check your php_ldap module"
 msgstr "drivers_ldap : Funktion ldap_connect nicht definiert, bitte php_ldap Modul überprüfen"
 
-#, fuzzy, c-format
+#, fuzzy, php-format
 msgid "drivers_pwauth_pam : Unable to find %s file"
 msgstr "drivers_squid_pam : Kann Datei %s nicht finden"
 
-#, c-format
+#, php-format
 msgid "drivers_squid_pam : Unable to find %s file"
 msgstr "drivers_squid_pam : Kann Datei %s nicht finden"
 
-msgid ""
-"forget me not <!-- this is a colloquial phrase in english (the name of a flower) and is an option "
-"allowing people to log in automatically in future -->"
-msgstr "Login-Daten merken"
-
+#. Translators: this is a colloquial phrase in english (the name of a flower) and is an option allowing people to log in automatically in future
 msgid "forget me not"
 msgstr "angemeldet bleiben"
 
@@ -1507,7 +1490,7 @@ msgstr "von Principal"
 msgid "path to store your ics"
 msgstr "Speicherort für ICS-Datei"
 
-#, c-format
+#, php-format
 msgid "the file %s is not UTF-8 encoded, please check error for more details"
 msgstr "Die Datei %s ist nicht UTF-8 codiert; weitere Details stehen in der Fehlermeldung."
 
@@ -1516,332 +1499,3 @@ msgstr ""
 
 msgid "you should log on with the username and password that have been issued to you."
 msgstr "melden Sie sich mit Ihrem Benutzernamen und Passwort an."
-
-# TODO - Kontext bestimmen
-#, fuzzy
-#~ msgid "Create Ticket"
-#~ msgstr "Erstellen"
-
-#~ msgid "ERROR: %s"
-#~ msgstr "FEHLER: %s"
-
-#~ msgid "Import Calendars"
-#~ msgstr "Kalender importieren"
-
-# TODO - Bessere Übersetzung von "operations on"
-#~ msgid "Operations on your calendar"
-#~ msgstr "Aktionen an Ihrem Kalender"
-
-#, fuzzy
-#~ msgid "Request body contains no XML data!"
-#~ msgstr "REPORT Body enthält keine XML Daten!"
-
-#, fuzzy
-#~ msgid "--- select a relationship type ---"
-#~ msgstr "--- Wählen Sie einen Beziehungstyp ---"
-
-#~ msgid "--- select a user or resource ---"
-#~ msgstr "--- Wählen Sie einen Benutzer oder eine Ressource ---"
-
-#~ msgid "--- select a user, group or resource ---"
-#~ msgstr "--- Wählen Sie einen Benutzer, eine Gruppe oder eine Ressource ---"
-
-#, fuzzy
-#~ msgid "Add Relationship"
-#~ msgstr "Beziehung hinzufügen"
-
-# TODO - Kontext bestimmen
-#~ msgid "ADD"
-#~ msgstr "Hinzufügen"
-
-#~ msgid "All of the user's calendars and events will be unrecoverably deleted."
-#~ msgstr "Alle Kalender und Termine des Benutzers werden unwiderruflich gelöscht."
-
-#~ msgid "Calendar \"%s\" for user \"%s\" was created."
-#~ msgstr "Kalender \"%s\" für Benutzer \"%s\" wurde erstellt."
-
-# TODO - Kontext bestimmen
-#~ msgid "Changed On"
-#~ msgstr "Geändert am"
-
-#, fuzzy
-#~ msgid "Click to display that user"
-#~ msgstr "Klicken, um diesen Benutzer anzuzeigen"
-
-#, fuzzy
-#~ msgid "Click to display the contents of the collection"
-#~ msgstr "Klicken, um den Inhalt der Sammlung anzuzeigen"
-
-#~ msgid "Collection Contents"
-#~ msgstr "Inhalt der Sammlung"
-
-#~ msgid "Collection Path"
-#~ msgstr "Sammlungs-Pfad"
-
-#~ msgid "Confirm Deletion of the Relationship Type"
-#~ msgstr "Löschen bestätigen"
-
-#~ msgid "Create Calendar"
-#~ msgstr "Kalender erstellen"
-
-#~ msgid "Delete User"
-#~ msgstr "Benutzer löschen"
-
-#~ msgid "Enter the name for this resource type"
-#~ msgstr "Namen dieses Ressourcen-Typs eingeben"
-
-# TODO - Kontext bestimmen
-#~ msgid "Finish"
-#~ msgstr "Beenden"
-
-#, fuzzy
-#~ msgid "FreeBusy"
-#~ msgstr "Verfügbarkeit"
-
-#~ msgid "Is a Calendar?"
-#~ msgstr "Ist ein Kalender?"
-
-#~ msgid "Is this access read ('R') or Read and Write ('RW')?"
-#~ msgstr "Ist dieser Zugriffsmodus Lesen ('R') oder Lesen und Schreiben ('RW')?"
-
-#~ msgid "Linked From"
-#~ msgstr "Verknüpft von"
-
-#~ msgid "Linked To"
-#~ msgstr "Verknüpft nach"
-
-#~ msgid "Please Confirm Deletion"
-#~ msgstr "Löschen bitte bestätigen"
-
-#, fuzzy
-#~ msgid "Please confirm deletion of user"
-#~ msgstr "Löschen des Benutzers bitte bestätigen"
-
-#~ msgid "ReadWrite"
-#~ msgstr "Lesen und Schreiben"
-
-#~ msgid "Relationship Type Added."
-#~ msgstr "Beziehungstyp hinzugefügt."
-
-#~ msgid "Relationship Type Deleted."
-#~ msgstr "Beziehungstyp gelöscht."
-
-#~ msgid "Relationship Types"
-#~ msgstr "Beziehungstypen"
-
-#~ msgid "Relationship added."
-#~ msgstr "Beziehung hinzugefügt."
-
-#~ msgid "Relationship deleted"
-#~ msgstr "Beziehung gelöscht"
-
-#~ msgid "Relationship"
-#~ msgstr "Beziehung"
-
-#~ msgid "Relationships from this user"
-#~ msgstr "Beziehungen, die von diesem Benutzer ausgehen"
-
-#~ msgid "Relationships to this user"
-#~ msgstr "Beziehungen, die auf diesen Benutzer zeigen"
-
-# TODO - Bessere Übersetzung
-#~ msgid "Repeat Rule"
-#~ msgstr "Wiederholregel"
-
-#~ msgid "Resource changed on server - not changed."
-#~ msgstr "Ressource hat sich auf dem Server geändert - wird nicht geändert"
-
-#~ msgid "Resource does not match 'If-Match' header - not deleted"
-#~ msgstr "Ressource stimmt nicht mit \"If-Match\" Header überein - wird nicht gelöscht"
-
-#~ msgid "Rights"
-#~ msgstr "Rechte"
-
-#~ msgid "Select the type of relationship from this user"
-#~ msgstr "Von diesem Benutzer ausgehenden Beziehungstyp wählen"
-
-# TODO - Kontext bestimmen (gewagte Übersetzung!)
-#~ msgid "Select the user, resource or group to relate this user to"
-#~ msgstr ""
-#~ "Benutzer, Ressource oder Gruppe wählen, von dem/der ausgehend eine Beziehung zu diesem Benutzer "
-#~ "erstellt werden soll"
-
-#~ msgid "Should this calendar be readable without authenticating?"
-#~ msgstr "Soll dieser Kalender von nicht angemeldeten Benutzern lesbar sein?"
-
-#~ msgid "Start"
-#~ msgstr "Start"
-
-# TODO - Was bedeutet das Wort zwischen ##?
-#~ msgid "That relationship type is being used. See ##RelationshipTypeUsed##"
-#~ msgstr "Dieser Beziehungstyp wird bereits verwendet. Siehe ##BeziehungstypWirdVerwendet##"
-
-#, fuzzy
-#~ msgid ""
-#~ "The calendar name part of the path to store your ics. E.g. the \"home\" part of \"/caldav.php/"
-#~ "username/home/\""
-#~ msgstr ""
-#~ "Der Kalendername-Teil des Pfades, in dem .ics Dateien gespeichert werden sollen; z.B. \"home\" aus "
-#~ "\"/caldav.php/username/home/\""
-
-#, fuzzy
-#~ msgid "There is no collection at that URL."
-#~ msgstr "Unter dieser URL gibt es keine Collection."
-
-#~ msgid "This user's collections"
-#~ msgstr "Collections des Benutzers"
-
-#~ msgid "Type"
-#~ msgstr "Typ"
-
-#, fuzzy
-#~ msgid "Upload a .ics calendar in iCalendar format "
-#~ msgstr "Eine ICS-Kalenderdatei im iCalendar-Format hochladen "
-
-#, fuzzy
-#~ msgid "You may not add entries to this calendar."
-#~ msgstr "Sie haben nicht die Berechtigung, Einträge in diesen Kalender hinzuzufügen."
-
-#~ msgid "You may not modify entries on this calendar."
-#~ msgstr "Sie haben keine Berechtigung Einträge dieses Kalenders zu ändern."
-
-#~ msgid "You may only review the contents of your own collections in this interface."
-#~ msgstr "Hier können Sie nur die Inhalte der eigenen Collection ansehen."
-
-#~ msgid "Privileges granted to All Users:"
-#~ msgstr "Blabla"
-
-# get new password
-#~ msgid "Enter your User Name:"
-#~ msgstr "Benutzername:"
-
-#~ msgid "You may not delete entries from this calendar."
-#~ msgstr "Sie haben keine Berechtigung Einträge dieses Kalenders zu löschen."
-
-#~ msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li>"
-#~ msgstr "Folgendes wird durchgeführt: <ul><li>Gültige Benutzer im LDAP Verzeichnis überprüfen</li>"
-
-#~ msgid "You do not have sufficient access to lock that"
-#~ msgstr "Ihre Berechtigung reicht nicht aus um dies zu sperren"
-
-# TODO - Kontext bestimmen (bessere Übersetzung wahrscheinlich möglich, im Sinn
-# von "Benutzer, die diesen Kalender verwenden")
-#~ msgid "Calendar Users"
-#~ msgstr "Kalender Benutzer"
-
-# TODO - Kontext bestimmen
-#, fuzzy
-#~ msgid "Edit %s"
-#~ msgstr "%s bearbeiten"
-
-#~ msgid "New User"
-#~ msgstr "Neuer Benutzer"
-
-#~ msgid "Relationships"
-#~ msgstr "Beziehungen"
-
-#~ msgid "User Unavailable"
-#~ msgstr "Benutzer nicht verfügbar"
-
-#, fuzzy
-#~ msgid "View %s"
-#~ msgstr "%s anzeigen"
-
-#, fuzzy
-#~ msgid "Administers"
-#~ msgstr "Verwaltet"
-
-# TODO - Kontext bestimmen
-#~ msgid "Can read from"
-#~ msgstr "Kann lesen von"
-
-# TODO - Kontext bestimmen
-#~ msgid "Can see free/busy time of"
-#~ msgstr "Verfügbarkeit sichtbar von "
-
-#~ msgid "Relationship <!-- in the sense of a work relationship between people -->"
-#~ msgstr "Beziehung"
-
-#~ msgid "is Assistant to"
-#~ msgstr "ist Assistent von"
-
-#~ msgid "You may not access that calendar"
-#~ msgstr "Sie haben keine Zugriffsberechtigung für diesen Kalender"
-
-#~ msgid "You may not create a calendar there."
-#~ msgstr "Sie haben nicht die Berechtigung einen Kalender dort zu erzeugen."
-
-#, fuzzy
-#~ msgid "Default relationships added."
-#~ msgstr "Standardbeziehungen hinzugefügt."
-
-#~ msgid "Add a new user"
-#~ msgstr "Neuen Benutzer hinzufügen"
-
-#~ msgid "Browse all relationship types"
-#~ msgstr "Allen Beziehungstypen auflisten"
-
-#, fuzzy
-#~ msgid "Create Resources"
-#~ msgstr "Ressource erzeugen"
-
-#, fuzzy
-#~ msgid "Delete Resources"
-#~ msgstr "Ressource löschen"
-
-#~ msgid "Help on something or other"
-#~ msgstr "Hilfe"
-
-#, fuzzy
-#~ msgid "Operations"
-#~ msgstr "Verwaltung"
-
-#~ msgid "Setup RSCDS"
-#~ msgstr "Konfiguration"
-
-#~ msgid "<b>WARNING: all events in this path will be deleted before inserting all of the ics file</b>"
-#~ msgstr ""
-#~ "<b>WARNUNG: Alle Termine in diesem Pfad werden gelöscht, bevor die Daten der ICS-Kalenderdatei "
-#~ "eingefügt werden</b>"
-
-#~ msgid "All events of user %s were deleted and replaced by those from the file."
-#~ msgstr "Alle Termine des Benutzers %s sind gelöscht und mit denen aus der Datei ersetzt worden."
-
-#, fuzzy
-#~ msgid "Created On"
-#~ msgstr "Erstellt am"
-
-#~ msgid "Your .ics calendar"
-#~ msgstr "Ihre ICS-Kalenderdatei"
-
-#~ msgid "set the path to store your ics ex:home if you get it by caldav.php/me/home/"
-#~ msgstr ""
-#~ "Setzen Sie den Pfad um Ihre ICS-Kalenderdatei aufzubewahren (bspw. 'home', wenn sie von 'caldav.php/"
-#~ "me/home/' stammt)"
-
-#~ msgid "Really Simple CalDAV Store"
-#~ msgstr "Ganz einfacher CalDAV Store"
-
-#~ msgid "if your use OpenLDAP 2.X.X maybe, unable to connect to LDAP with port %s on host %s"
-#~ msgstr "Nutzen Sie vielleicht OpenLDAP 2.X.X? Keine Verbindung zu LDAP am Port %s des Hosts %s"
-
-#~ msgid "Group?"
-#~ msgstr "Gruppe?"
-
-#~ msgid "Is the target of this relationship a group of access rights?"
-#~ msgstr "Ist das Ziel dieser Beziehung eine Gruppe von Zugriffsrechten?"
-
-#~ msgid "Prefix"
-#~ msgstr "Präfix"
-
-#~ msgid "Restrict access to prefixes matching this pattern"
-#~ msgstr "Zugriff auf Präfixe beschränken, die auf dieses Muster zutreffen"
-
-#~ msgid "To Group?"
-#~ msgstr "Zur Gruppe?"
-
-#~ msgid "Relationship Type Updated."
-#~ msgstr "Beziehungstyp aktualisiert"
-
-#~ msgid "Email"
-#~ msgstr "E-Mail"

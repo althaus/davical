@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-14 15:16+1300\n"
+"POT-Creation-Date: 2011-02-20 17:15+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,43 +29,43 @@ msgstr ""
 msgid "*** Unknown ***"
 msgstr ""
 
-#, c-format
+#, php-format
 msgid "- adding %s to group : %s"
 msgstr ""
 
-#, c-format
+#, php-format
 msgid "- adding users %s to group : %s"
 msgstr ""
 
-#, c-format
+#, php-format
 msgid "- creating groups : %s"
 msgstr ""
 
-#, c-format
+#, php-format
 msgid "- creating record for users :  %s"
 msgstr ""
 
-#, c-format
+#, php-format
 msgid "- deactivate groups : %s"
 msgstr ""
 
-#, c-format
+#, php-format
 msgid "- deactivating users : %s"
 msgstr ""
 
-#, c-format
+#, php-format
 msgid "- nothing done on : %s"
 msgstr ""
 
-#, c-format
+#, php-format
 msgid "- removing %s from group : %s"
 msgstr ""
 
-#, c-format
+#, php-format
 msgid "- updating groups : %s"
 msgstr ""
 
-#, c-format
+#, php-format
 msgid "- updating user records : %s"
 msgstr ""
 
@@ -74,7 +74,27 @@ msgid ""
 "the ics file</b>"
 msgstr ""
 
-#, c-format
+#, php-format
+msgid ""
+"<h1>Help</h1>\n"
+"<p>For initial help you should visit the <a href=\"http://www.davical.org/\" "
+"target=\"_blank\">DAViCal Home Page</a> or take\n"
+"a look at the <a href=\"http://wiki.davical.org/%s\" target=\"_blank"
+"\">DAViCal Wiki</a>.</p>\n"
+"<p>If you can't find the answers there, visit us on <a href=\"http://"
+"wikipedia.org/wiki/Internet_Relay_Chat\" target=\"_blank\">IRC</a> in\n"
+"the <b>#davical</b> channel on <a href=\"http://www.oftc.net/\" target="
+"\"_blank\">irc.oftc.net</a>,\n"
+"or send a question to the <a href=\"http://lists.sourceforge.net/mailman/"
+"listinfo/davical-general\" target=\"_blank\">DAViCal Users mailing list</a>."
+"</p>\n"
+"<p>The <a href=\"http://sourceforge.net/mailarchive/forum.php?"
+"forum_id=8348\" title=\"DAViCal Users Mailing List\" target=\"_blank"
+"\">mailing list\n"
+"archives can be helpful too.</p>"
+msgstr ""
+
+#, php-format
 msgid ""
 "<h1>Log On Please</h1><p>For access to the %s you should log on withthe "
 "username and password that have been issued to you.</p><p>If you would like "
@@ -108,9 +128,7 @@ msgstr ""
 msgid "Adding new member to this Group Principal"
 msgstr ""
 
-msgid "Admin <!-- in the sense of 'systems admin' -->"
-msgstr ""
-
+#. Translators: in the sense of 'systems admin'
 msgid "Admin"
 msgstr ""
 
@@ -118,6 +136,9 @@ msgid "Administration"
 msgstr ""
 
 msgid "Administrator"
+msgstr ""
+
+msgid "All"
 msgstr ""
 
 msgid "All collection data will be unrecoverably deleted."
@@ -131,9 +152,6 @@ msgid "All privileges"
 msgstr ""
 
 msgid "All requested changes were made."
-msgstr ""
-
-msgid "All"
 msgstr ""
 
 msgid ""
@@ -182,14 +200,14 @@ msgstr ""
 msgid "Busy"
 msgstr ""
 
+#, php-format
+msgid "Calendar \"%s\" was loaded from file."
+msgstr ""
+
 msgid "Calendar Principals"
 msgstr ""
 
 msgid "Calendar Timezone"
-msgstr ""
-
-#, c-format
-msgid "Calendar \"%s\" was loaded from file."
 msgstr ""
 
 msgid "Can only add tickets for existing collection paths which you own"
@@ -207,6 +225,9 @@ msgstr ""
 msgid "Click to edit principal details"
 msgstr ""
 
+msgid "Collection"
+msgstr ""
+
 msgid "Collection Grants"
 msgstr ""
 
@@ -214,9 +235,6 @@ msgid "Collection ID"
 msgstr ""
 
 msgid "Collection deleted"
-msgstr ""
-
-msgid "Collection"
 msgstr ""
 
 msgid ""
@@ -228,6 +246,9 @@ msgid "Configuring Calendar Clients for DAViCal"
 msgstr ""
 
 msgid "Configuring DAViCal"
+msgstr ""
+
+msgid "Confirm"
 msgstr ""
 
 msgid "Confirm Deletion of the Binding"
@@ -248,10 +269,10 @@ msgstr ""
 msgid "Confirm the new password."
 msgstr ""
 
-msgid "Confirm"
+msgid "Could not retrieve"
 msgstr ""
 
-msgid "Could not retrieve"
+msgid "Create"
 msgstr ""
 
 msgid "Create Collection"
@@ -275,9 +296,6 @@ msgstr ""
 msgid "Create a resource or collection"
 msgstr ""
 
-msgid "Create"
-msgstr ""
-
 msgid "Creating new Collection."
 msgstr ""
 
@@ -288,9 +306,6 @@ msgid "Creating new ticket granting privileges to this Principal"
 msgstr ""
 
 msgid "Current DAViCal version "
-msgstr ""
-
-msgid "Current Versions"
 msgstr ""
 
 msgid "DAV Path"
@@ -366,6 +381,9 @@ msgstr ""
 msgid "Default Privileges"
 msgstr ""
 
+msgid "Delete"
+msgstr ""
+
 msgid "Delete Events/Collections"
 msgstr ""
 
@@ -373,9 +391,6 @@ msgid "Delete Principal"
 msgstr ""
 
 msgid "Delete a resource or collection"
-msgstr ""
-
-msgid "Delete"
 msgstr ""
 
 msgid "Deleted a grant from this Principal"
@@ -424,10 +439,10 @@ msgstr ""
 msgid "Does the user have the right to perform this role?"
 msgstr ""
 
-msgid "EMail OK"
+msgid "EMail"
 msgstr ""
 
-msgid "EMail"
+msgid "EMail OK"
 msgstr ""
 
 msgid "ERROR: The full name may not be blank."
@@ -439,10 +454,10 @@ msgstr ""
 msgid "ERROR: There was a database error writing the roles information!"
 msgstr ""
 
-msgid "Edit this user record"
+msgid "Edit"
 msgstr ""
 
-msgid "Edit"
+msgid "Edit this user record"
 msgstr ""
 
 msgid "Email Address"
@@ -456,11 +471,11 @@ msgstr ""
 msgid "Enter your username and password then click here to log in."
 msgstr ""
 
-#, c-format
+#, php-format
 msgid "Error NoGroupFound with filter >%s<, attributes >%s< , dn >%s<"
 msgstr ""
 
-#, c-format
+#, php-format
 msgid "Error NoUserFound with filter >%s<, attributes >%s< , dn >%s<"
 msgstr ""
 
@@ -473,10 +488,10 @@ msgstr ""
 msgid "Error writing calendar properties to database."
 msgstr ""
 
-msgid "European (d/m/y)"
+msgid "European"
 msgstr ""
 
-msgid "European"
+msgid "European (d/m/y)"
 msgstr ""
 
 msgid "Existing resource does not match \"If-Match\" header - not accepted."
@@ -530,7 +545,8 @@ msgstr ""
 msgid "Granting new privileges from this Principal"
 msgstr ""
 
-msgid "Group <!-- in the sense of a group of people -->"
+#. Translators: in the sense of a group of people
+msgid "Group"
 msgstr ""
 
 msgid "Group Members"
@@ -542,10 +558,10 @@ msgstr ""
 msgid "Group Principals"
 msgstr ""
 
-msgid "Group"
+msgid "Has Members"
 msgstr ""
 
-msgid "Has Members"
+msgid "Help"
 msgstr ""
 
 msgid "Help on the current screen"
@@ -554,7 +570,7 @@ msgstr ""
 msgid "Help! I've forgotten my password!"
 msgstr ""
 
-msgid "Help"
+msgid "Home"
 msgstr ""
 
 msgid "Home Page"
@@ -572,21 +588,16 @@ msgstr ""
 msgid "Home calendar already exists."
 msgstr ""
 
-msgid "Home"
-msgstr ""
-
 msgid "ID"
-msgstr ""
-
-msgid "ISO Format (YYYY-MM-DD)"
 msgstr ""
 
 msgid "ISO Format"
 msgstr ""
 
-msgid "Id <!-- short for 'Identifier' -->"
+msgid "ISO Format (YYYY-MM-DD)"
 msgstr ""
 
+#. Translators: short for 'Identifier'
 msgid "Id"
 msgstr ""
 
@@ -688,7 +699,8 @@ msgstr ""
 msgid "New Principal"
 msgstr ""
 
-msgid "No <!-- not 'Yes' -->"
+#. Translators: not 'Yes'
+msgid "No"
 msgstr ""
 
 msgid "No authority to deliver invitations to user."
@@ -706,10 +718,8 @@ msgstr ""
 msgid "No summary"
 msgstr ""
 
-msgid "No"
-msgstr ""
-
-msgid "No. <!-- short for 'Number' -->"
+#. Translators: short for 'Number'
+msgid "No."
 msgstr ""
 
 msgid "No. of Collections"
@@ -719,9 +729,6 @@ msgid "No. of Principals"
 msgstr ""
 
 msgid "No. of Resources"
-msgstr ""
-
-msgid "No."
 msgstr ""
 
 msgid "Not overwriting existing destination resource"
@@ -786,6 +793,9 @@ msgstr ""
 msgid "Please note the time and advise the administrator of your system."
 msgstr ""
 
+msgid "Principal"
+msgstr ""
+
 msgid "Principal Collections"
 msgstr ""
 
@@ -801,21 +811,16 @@ msgstr ""
 msgid "Principal deleted"
 msgstr ""
 
-msgid "Principal"
+msgid "Privileges"
 msgstr ""
 
 msgid "Privileges granted to All Users"
 msgstr ""
 
-msgid "Privileges"
-msgstr ""
-
 msgid "Property is read-only"
 msgstr ""
 
-msgid "Public <!-- in the sense of being available to all users -->"
-msgstr ""
-
+#. Translators: in the sense of being available to all users
 msgid "Public"
 msgstr ""
 
@@ -826,6 +831,9 @@ msgid "REPORT body contains no XML data!"
 msgstr ""
 
 msgid "REPORT body is not valid XML data!"
+msgstr ""
+
+msgid "Read"
 msgstr ""
 
 msgid "Read ACLs for a resource or collection"
@@ -849,16 +857,13 @@ msgstr ""
 msgid "Read the free/busy information for a calendar collection"
 msgstr ""
 
-msgid "Read"
-msgstr ""
-
 msgid "Read/Write"
 msgstr ""
 
-msgid "Remove a lock"
+msgid "Remove"
 msgstr ""
 
-msgid "Remove"
+msgid "Remove a lock"
 msgstr ""
 
 msgid "Report Bug"
@@ -873,9 +878,8 @@ msgstr ""
 msgid "Request body is not valid XML data!"
 msgstr ""
 
-msgid ""
-"Resource <!-- a thing which might be booked: a room, a carpark, a "
-"projector... -->"
+#. Translators a thing which might be booked: a room, a carpark, a projector...
+msgid "Resource"
 msgstr ""
 
 msgid "Resource Calendar Principals"
@@ -885,9 +889,6 @@ msgid "Resource Not Found."
 msgstr ""
 
 msgid "Resource has changed on server - not deleted"
-msgstr ""
-
-msgid "Resource"
 msgstr ""
 
 msgid "Resources may not be changed to / from collections."
@@ -962,19 +963,19 @@ msgid ""
 "me/home/"
 msgstr ""
 
-msgid "Setup DAViCal"
+msgid "Setup"
 msgstr ""
 
-msgid "Setup"
+msgid "Setup DAViCal"
 msgstr ""
 
 msgid "Show help on"
 msgstr ""
 
-msgid "Site Statistics require the database to be available!"
+msgid "Site Statistics"
 msgstr ""
 
-msgid "Site Statistics"
+msgid "Site Statistics require the database to be available!"
 msgstr ""
 
 msgid "Some properties were not able to be changed."
@@ -996,7 +997,7 @@ msgstr ""
 msgid "Status"
 msgstr ""
 
-#, c-format
+#, php-format
 msgid "Status: %d, Message: %s, User: %d, Path: %s"
 msgstr ""
 
@@ -1239,7 +1240,7 @@ msgstr ""
 msgid "Visit the DAViCal Wiki"
 msgstr ""
 
-#, c-format
+#, php-format
 msgid "Want: %s, Currently: %s"
 msgstr ""
 
@@ -1249,6 +1250,9 @@ msgid ""
 msgstr ""
 
 msgid "When the user's e-mail account was validated."
+msgstr ""
+
+msgid "Write"
 msgstr ""
 
 msgid "Write ACLs for a resource or collection"
@@ -1269,22 +1273,7 @@ msgstr ""
 msgid "Write properties"
 msgstr ""
 
-msgid "Write"
-msgstr ""
-
 msgid "Yes"
-msgstr ""
-
-#, c-format
-msgid ""
-"You are currently running DAViCal version %s. The database schema is at "
-"version %d.%d.%d."
-msgstr ""
-
-#, c-format
-msgid ""
-"You are currently running DAViCal version %s. The database schema should be "
-"at version %s and it is at version %d.%d.%d."
 msgstr ""
 
 msgid "You are editing"
@@ -1308,14 +1297,14 @@ msgstr ""
 msgid "Your configuration produced PHP errors which should be corrected"
 msgstr ""
 
-#, c-format
+#, php-format
 msgid "all events of user %s were deleted and replaced by those from file %s"
 msgstr ""
 
 msgid "calendar-timezone property is only valid for a calendar."
 msgstr ""
 
-#, c-format
+#, php-format
 msgid "directory %s is not readable"
 msgstr ""
 
@@ -1327,7 +1316,7 @@ msgstr ""
 msgid "drivers_ldap : Could not start TLS: ldap_start_tls() failed"
 msgstr ""
 
-#, c-format
+#, php-format
 msgid ""
 "drivers_ldap : Failed to bind to host %1$s on port %2$s with bindDN of %3$s"
 msgstr ""
@@ -1342,7 +1331,7 @@ msgid ""
 "and passDN, and that your LDAP server is reachable"
 msgstr ""
 
-#, c-format
+#, php-format
 msgid "drivers_ldap : Unable to connect to LDAP with port %s on host %s"
 msgstr ""
 
@@ -1350,20 +1339,15 @@ msgid ""
 "drivers_ldap : function ldap_connect not defined, check your php_ldap module"
 msgstr ""
 
-#, c-format
+#, php-format
 msgid "drivers_pwauth_pam : Unable to find %s file"
 msgstr ""
 
-#, c-format
+#, php-format
 msgid "drivers_squid_pam : Unable to find %s file"
 msgstr ""
 
-msgid ""
-"forget me not <!-- this is a colloquial phrase in english (the name of a "
-"flower) and is an option allowing people to log in automatically in future --"
-">"
-msgstr ""
-
+#. Translators: this is a colloquial phrase in english (the name of a flower) and is an option allowing people to log in automatically in future
 msgid "forget me not"
 msgstr ""
 
@@ -1373,7 +1357,7 @@ msgstr ""
 msgid "path to store your ics"
 msgstr ""
 
-#, c-format
+#, php-format
 msgid "the file %s is not UTF-8 encoded, please check error for more details"
 msgstr ""
 
