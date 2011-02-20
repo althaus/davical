@@ -3,6 +3,42 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+# Sprachregelungen:
+# - ing-Form in die Ich-Form übersetzen, aber ohne Pronomen "ich". Zum
+#   Beispiel "Deleting user" = "Lösche Benutzer"
+# - Aufforderungen falls möglich nicht in die Du-Form übersetzen, also z.B.
+#   "Change password" = "Kennwort ändern" (und nicht "Ändere das Kennwort").
+#   Diese Textbausteine sind oft Beschriftungen für Knöpfe und dergleichen,
+#   also Funktionsbezeichnungen, und nicht wirklich Aufforderungen an den
+#   Benutzer.
+#
+# Begriffe (falls für einen Begriff keine bessere Übersetzung gefunden werden
+# kann, macht es Sinn, sich an die Übersetzungen anderer Kalender-orientierter
+# Projekte wie z.B. Evolution zu halten):
+# - Record = Eintrag (statt des technischen "Datensatz")
+# - Resource = Ressource
+# - Calendar = Kalender
+# - Relationship, relationship type = Beziehung, Beziehungstyp
+# - Busy = Besetzt (Evolution verwendet "beschäftigt")
+# - Free/busy = Verfügbarkeit (von Evolution übernommen)
+# - Collection = Sammlung (von Evolution übernommen)
+# - Schedule, scheduling = Terminplan, Terminplanung
+# - Deliver, delivery = Zustellen, Zustellung (von Evolution übernommen)
+# - Privileges = Privilegien, (nicht: "Rechte/Berechtigung", da Begriff aus WebDAV)
+#
+# Nicht übersetzte Begriffe:
+# - Principal -> Begriff aus WebDAV
+#
+# Hinweise:
+# Im Gegensatz zu bisherigen Übersetzung ist "You" nun stets mit "Sie"
+# übersetzt. Die "Du"-Form wirkt zumindest in D bei technischen Systemen stets 
+# sehr unprofessionell.
+#
+# Cristina Radalescu <andrew@mcmillan.net.nz>, 2006.
+# Patrick Näf Moser <herzbube@herzbube.ch>, 2009.
+# Peter Schäfer-Hutter <peter.schaefer@gmx.de>, 2010.
+# Michael Hoffmann <mhoffmann@arcor.de>, 052010
+
 msgid ""
 msgstr ""
 "Project-Id-Version: DAViCal\n"
