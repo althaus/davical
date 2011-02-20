@@ -7,8 +7,9 @@ snapshot : version = $(shell sed -n 's:\([0-9\.]*\)[-a-f0-9-]*:\1:p' VERSION)-gi
 
 all: htdocs/always.php built-docs built-po
 
-built-docs: docs/api/phpdoc.ini htdocs/*.php inc/*.php
+built-docs: docs/api/phpdoc.ini htdocs/*.php inc/*.php docs/translation.rst
 	phpdoc -c docs/api/phpdoc.ini || echo "NOTICE: Failed to build optional API docs"
+	rst2pdf docs/translation.rst || echo "NOTICE: Failed to build ReST docs"
 	touch built-docs
 
 built-po: htdocs/always.php scripts/po/rebuild-translations.sh po/*.po
@@ -37,6 +38,7 @@ snapshot: release
 clean:
 	rm -f built-docs built-po
 	-find . -name "*~" -delete
+	rm docs/translation.pdf
 
 clean-all: clean
 	-find docs/api/* ! -name "phpdoc.ini" ! -name ".gitignore" -delete
