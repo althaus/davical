@@ -1,0 +1,64 @@
+%define issnapshot @@ISSNAPSHOT@@
+%define gitrev @@GITREV@@
+
+%if 0%{issnapshot}
+%define snapshotversionstring .%{gitrev}git
+%define snapshotpackagestring -git%{gitrev}
+%endif
+
+Name: davical
+Summary: CalDAV Server
+Version: @@VERSION@@
+Release: 1%{?snapshotversionstring}%{?dist}
+Group: System Environment/Daemons
+License: GPL and LGPL
+Source: http://debian.mcmillan.net.nz/packages/davical/davical-%{version}%{?snapshotpackagestring}.tar.gz
+
+URL: http://davical.org/
+BuildArch: noarch
+BuildRequires: php-awl
+BuildRequires: sed
+Requires: php php-gettext php-pgsql
+Requires: postgresql postgresql-server
+Requires: php-awl
+Requires: perl-YAML
+Requires: perl-DBD-Pg
+ 
+%description
+The DAViCal CalDAV Server is designed to trivially store
+CalDAV calendars, such as those from Evolution, Sunbird/Lightning,
+Mulberry, iCal, iPhone or SOHO Organizer, in a central location,
+providing shared calendars, free/busy publication and a basic
+administration interface.
+ 
+ 
+%prep
+%setup -q -n "davical-%{version}%{?snapshotpackagestring}"
+
+%build
+sed -i "s#set_include_path('../inc:../htdocs:/usr/share/awl/inc');#set_include_path('/usr/share/davical/inc:/usr/share/davical/htdocs:/usr/share/php/awl/inc');#" scripts/sync-remote-caldav.php
+sed -i 's:../../awl/inc:%{_datadir}/php/awl/inc:' htdocs/always.php
+sed -i 's:AWL_LOCATION="../awl":AWL_LOCATION="%{_datadir}/php/awl":' scripts/po/rebuild-translations.sh
+make
+ 
+%install
+install -D -p -m 755 scripts/sync-remote-caldav.php %{buildroot}/%{_bindir}/sync-remote-caldav
+
+mkdir -p %{buildroot}%{_datadir}/%{name}
+cp -a dba htdocs locale inc %{buildroot}/%{_datadir}/%{name}
+
+install -D -p -m 644 config/example-config.php %{buildroot}/%{_sysconfdir}/%{name}/config.php
+
+install -D -p -m 644 config/apache-davical.conf %{buildroot}/%{_sysconfdir}/httpd/conf.d/davical.conf
+
+%files
+%defattr(-,root,root)
+%{_datadir}/%{name}/*
+%config(noreplace) %{_sysconfdir}/%{name}/config.php
+%config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf
+%{_bindir}/sync-remote-caldav
+%doc README ChangeLog
+
+%changelog
+* Tue Feb 22 2011 Felix Möller <mail@felixmoeller.de> - 0.9.9.4
+- Initial Version of DAViCal package

@@ -2,8 +2,13 @@
 #
 
 package=davical
-version=$(shell cat VERSION)
-snapshot : version = $(shell sed -n 's:\([0-9\.]*\)[-a-f0-9-]*:\1:p' VERSION)-git$(shell git rev-parse --short HEAD)
+majorversion = $(shell sed -n 's:\([0-9\.]*\)[-a-f0-9-]*:\1:p' VERSION)
+gitrev = 0
+version = $(majorversion)
+issnapshot = 0
+snapshot : gitrev = $(shell git rev-parse --short HEAD)
+snapshot : version = $(majorversion)-git$(gitrev)
+snapshot : issnapshot = 1
 
 all: htdocs/always.php built-docs built-po
 
@@ -27,10 +32,15 @@ htdocs/always.php: scripts/build-always.sh VERSION dba/davical.sql inc/always.ph
 #
 release: built-docs VERSION
 	-ln -s . $(package)-$(version)
+	sed 's:@@VERSION@@:$(majorversion):' davical.spec.in | \
+	sed 's:@@ISSNAPSHOT@@:$(issnapshot):' | \
+	sed 's:@@GITREV@@:$(gitrev):' > davical.spec
+	echo "git ls-files |grep -v '.git'|sed -e s:^:$(package)-$(version)/:"
 	tar czf ../$(package)-$(version).tar.gz \
 	    --no-recursion --dereference $(package)-$(version) \
 	    $(shell git ls-files |grep -v '.git'|sed -e s:^:$(package)-$(version)/:) \
-	    $(shell find $(package)-$(version)/docs/api/ ! -name "phpdoc.ini" )
+	    $(shell find $(package)-$(version)/docs/api/ ! -name "phpdoc.ini" ) \
+	    davical.spec
 	rm $(package)-$(version)
 
 snapshot: release
@@ -39,6 +49,7 @@ clean:
 	rm -f built-docs built-po
 	-find . -name "*~" -delete
 	rm docs/translation.pdf
+	rm davical.spec
 
 clean-all: clean
 	-find docs/api/* ! -name "phpdoc.ini" ! -name ".gitignore" -delete
