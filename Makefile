@@ -11,7 +11,7 @@ built-docs: docs/api/phpdoc.ini htdocs/*.php inc/*.php
 	phpdoc -c docs/api/phpdoc.ini || echo "NOTICE: Failed to build optional API docs"
 	touch built-docs
 
-built-po: htdocs/always.php scripts/po/rebuild-translations.sh scripts/po/extract.pl po/*.po
+built-po: htdocs/always.php scripts/po/rebuild-translations.sh po/*.po
 	scripts/po/rebuild-translations.sh
 	touch built-po
 
