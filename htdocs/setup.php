@@ -71,6 +71,13 @@ function check_iconv() {
   return new CheckResult(isset($loaded_extensions['iconv']));
 }
 
+function check_ldap() {
+  global $phpinfo, $loaded_extensions;
+
+  if (!function_exists('ldap_connect')) return new CheckResult(false);
+  return new CheckResult(isset($loaded_extensions['ldap']));
+}
+
 function check_suhosin_server_strip() {
   global $loaded_extensions;
 
@@ -218,6 +225,8 @@ EOTABLE;
 
 
 function build_dependencies_table( ) {
+  global $c;
+  
   $dependencies = array(
     translate('Current DAViCal version ')         => 'check_davical_version',
     translate('DAViCal DB Schema version ')       => 'check_schema_version',
@@ -232,7 +241,11 @@ function build_dependencies_table( ) {
     translate('PHP Magic Quotes GPC off')         => 'check_magic_quotes_gpc',
     translate('PHP Magic Quotes runtime off')     => 'check_magic_quotes_runtime'
     );
-  
+
+  if ( isset($c->authenticate_hook) && isset($c->authenticate_hook['call']) && $c->authenticate_hook['call'] == 'LDAP_check') {
+    $dependencies[translate('PHP LDAP module available')] = 'check_ldap';
+  }
+    
   $dependencies_table = '';
   $dep_tpl = '<tr class="%s">
   <td>%s</td>
