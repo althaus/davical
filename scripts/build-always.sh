@@ -12,4 +12,4 @@ fi
 
 sed -e "/^ *.c->version_string *= *'[^']*' *;/ s/^ *.c->version_string *= *'[^']*' *;/\$c->version_string = '${DAVICAL_VERSION}';/" \
     -e "/^ *.c->want_dbversion *=.*$/ s/^ *.c->want_dbversion *=.*$/\$c->want_dbversion = array(${DB_VERSION});/" \
-    -e "/^ *.c->want_awl_version *=.*$/ s/^ *.c->want_awl_version *=.*$/\$c->want_awl_version = ${AWL_VERSION};/"
+    -e "/^ *.c->want_awl_version *=.*$/ s/^ *.c->want_awl_version *=.*$/\$c->want_awl_version = '${AWL_VERSION}';/"
