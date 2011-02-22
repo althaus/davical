@@ -3,7 +3,7 @@ Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, calendar-proxy, bind, addressbook
 Etag: "2c32a2f8aba853654eb17fe037a4db4d"
-Content-Length: 747
+Content-Length: 780
 Content-Type: text/calendar; charset="utf-8"
 
 BEGIN:VCALENDAR
