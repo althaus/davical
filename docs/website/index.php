@@ -44,7 +44,7 @@ a page on the wiki which will sometimes have newer information.</p>
 <h2>Getting Help</h2>
 <p>Specifically: help on DAViCal!</p>
 <p>The <em>best</em> place to go for help on DAViCal is the <a href="http://wiki.davical.org/">DAViCal Wiki</a>.</p>
-<p>If you can't find your answer there, then the IRC channel #davical on <a href="http://irc.oftc.net/">irc.oftc.net</a> is
+<p>If you can't find your answer there, then the IRC channel #davical on <a href="irc://irc.oftc.net/">irc.oftc.net</a> is
 a great next port of call.  Many problems can be solved quickly with a short on-line chat.</p>
 <p>Almost as good as the IRC channel is the <a href="https://lists.sourceforge.net/mailman/listinfo/davical-general">DAViCal General Mailing List</a>.</p>
 Other places to try include:<ul>
