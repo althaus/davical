@@ -189,7 +189,6 @@ single virtual host.</p>
 
 <p>I use a Virtual Host stanza like this:</p>
 <pre>
-#
 # Virtual Host def for Debian packaged DAViCal
 &lt;VirtualHost 123.4.56.78 &gt;
   DocumentRoot /usr/share/davical/htdocs
@@ -317,7 +316,7 @@ you will also want to add access for in your pg_hba.conf, although in that case 
 may want to set the user to have a password, since it has full control over the DAViCal
 database structure and content.</p>
 
-See <a href="http://wiki.davical.org/w/Update-davical-database">http://wiki.davical.org/w/Update-davical-database</a> for more information.
+<p>See <a href="http://wiki.davical.org/w/Update-davical-database">http://wiki.davical.org/w/Update-davical-database</a> for more information.</p>
 
 <?php
  include("inc/page-footer.php");
