@@ -72,6 +72,10 @@ else {
 
   $params = array( ':dav_id' => $dav_resource->resource_id() );
 
+  // We need to serialise access to this process just for this collection
+  $cache = getCacheInstance();
+  $myLock = $cache->acquireLock('collection-'.$dav_resource->parent_path());
+
   if ( $qry->QDo("SELECT write_sync_change(collection_id, 404, caldav_data.dav_name) FROM caldav_data WHERE dav_id = :dav_id", $params )
     && $qry->QDo("DELETE FROM property WHERE dav_name = (SELECT dav_name FROM caldav_data WHERE dav_id = :dav_id)", $params )
     && $qry->QDo("DELETE FROM locks WHERE dav_name = (SELECT dav_name FROM caldav_data WHERE dav_id = :dav_id)", $params )
@@ -81,10 +85,12 @@ else {
     if ( function_exists('log_caldav_action') ) {
       log_caldav_action( 'DELETE', $dav_resource->GetProperty('uid'), $dav_resource->GetProperty('user_no'), $dav_resource->GetProperty('collection_id'), $request->path );
     }
-    $cache = getCacheInstance();
     $cache->delete( 'collection-'.$dav_resource->parent_path(), null );
+    $cache->releaseLock($myLock);
     $request->DoResponse( 204 );
   }
+  $cache->releaseLock($myLock);
+
 }
 
 $request->DoResponse( 500 );
