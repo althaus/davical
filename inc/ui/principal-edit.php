@@ -475,7 +475,11 @@ function group_memberships_browser() {
 function group_row_editor() {
   global $c, $id, $editor, $can_write_principal;
   $grouprow = new Editor("Group Members", "group_member");
-  $grouprow->SetLookup( 'member_id', 'SELECT principal_id, coalesce(displayname,fullname,username) FROM dav_principal WHERE principal_id NOT IN (SELECT member_id FROM group_member WHERE group_id = '.$id.') AND principal_id != '.$id);
+  $sql = 'SELECT principal_id, coalesce(displayname,fullname,username) FROM dav_principal ';
+  $sql .= 'WHERE principal_id NOT IN (SELECT member_id FROM group_member WHERE group_id = '.$id.') ';
+  $sql .= 'AND principal_id != '.$id;
+  $sql .= 'ORDER BY 2';
+  $grouprow->SetLookup( 'member_id', $sql);
   $grouprow->SetSubmitName( 'savegrouprow' );
 
   if ( $can_write_principal ) {
