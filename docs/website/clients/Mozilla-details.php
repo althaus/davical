@@ -8,7 +8,7 @@
 <ol>
 <li>Select "New Calendar" from the "File" menu.</li>
 <li>Choose "On the Network" (click "Next")<img src="clients/Mozilla-dialog1.png" /> <br /> &nbsp;</li>
-<li>Choose a format of "CalDAV" and enter a URL like: "http://calendar.example.net/caldav.php/username/" (click "Next")<img src="clients/Mozilla-dialog2.png" /> <br /> &nbsp;</li>
+<li>Choose a format of "CalDAV" and enter a URL like: "http://calendar.example.net/caldav.php/username/home/" (click "Next")<img src="clients/Mozilla-dialog2.png" /> <br /> &nbsp;</li>
 <li>Give the calendar an appropriate display name, and choose a colour for events on this calendar. (click "Next")<img src="clients/Mozilla-dialog3.png" /> <br /> &nbsp;</li>
 <li>click "Finish"</li>
 </ol>
