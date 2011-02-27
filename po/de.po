@@ -83,7 +83,7 @@ msgstr "- erstelle Eintrag für Benutzer: %s"
 
 #, php-format
 msgid "- deactivate groups : %s"
-msgstr "- deaktiviere Guppen: %s"
+msgstr "- deaktiviere Gruppen: %s"
 
 #, php-format
 msgid "- deactivating users : %s"
@@ -91,7 +91,7 @@ msgstr "- deaktiviere Benutzer: %s"
 
 #, php-format
 msgid "- nothing done on : %s"
-msgstr "- nichts verändert an : %s"
+msgstr "- nichts verändert an: %s"
 
 #, php-format
 msgid "- removing %s from group : %s"
@@ -134,7 +134,7 @@ msgstr ""
 "und Passwort anmelden.</p><p>Um einen Zugang zu beantragen, schreiben Sie eine E-Mail an %s.</p>"
 
 msgid "A DAViCal principal collection may only contain collections"
-msgstr "Eine DAViCal Rechtesammlung darf nur "
+msgstr "Eine DAViCal-Prinzipalen-Sammlung dar nur andere Sammlungen enthalten"
 
 msgid "A collection already exists at that location."
 msgstr "Die Sammlung ist bereits vorhanden."
@@ -158,7 +158,7 @@ msgid "Active"
 msgstr "Aktiv"
 
 msgid "Adding new member to this Group Principal"
-msgstr "Füge neues Mitglied zu diesem Gruppenprinzipal hinzu"
+msgstr "Füge neues Mitglied zu diesem Gruppenprinzipalen hinzu"
 
 #. Translators: in the sense of 'systems admin'
 msgid "Admin"
@@ -228,7 +228,7 @@ msgid "Browse all users"
 msgstr "Zeige alle Benutzer"
 
 msgid "Busy"
-msgstr "belegt"
+msgstr "beschäftigt"
 
 #, php-format
 msgid "Calendar \"%s\" was loaded from file."
@@ -379,7 +379,7 @@ msgid "Database Error"
 msgstr "Datenbankfehler"
 
 msgid "Database Host"
-msgstr "Datenbankhost"
+msgstr "Datenbankserver"
 
 msgid "Database Name"
 msgstr "Datenbankname"
@@ -770,11 +770,14 @@ msgstr "PDO-PostgreSQL-Treiber"
 msgid "PHP DateTime class"
 msgstr ""
 
+msgid "PHP LDAP module available"
+msgstr ""
+
 msgid "PHP Magic Quotes GPC off"
-msgstr "PHP Magic Quotes GPC off"
+msgstr "PHP Magic Quotes GPC deaktiviert"
 
 msgid "PHP Magic Quotes runtime off"
-msgstr "PHP Magic Quotes runtime off"
+msgstr "PHP Magic Quotes runtime deaktiviert"
 
 msgid "PHP PDO module available"
 msgstr "PHP-PDO-Modul vorhanden"
@@ -844,7 +847,7 @@ msgstr "Eigenschaft ist schreibgeschützt"
 
 #. Translators: in the sense of being available to all users
 msgid "Public"
-msgstr "Public"
+msgstr "Öffentlich"
 
 msgid "Publicly Readable"
 msgstr "Für alle lesbar"
@@ -1230,10 +1233,10 @@ msgid "Updating grants by this Principal"
 msgstr "Berechtigungen dieses Prinzipalen aktualisiert"
 
 msgid "Upgrade DAViCal database schema"
-msgstr "DAViCal-Datenbankschema erweitert"
+msgstr "DAViCal-Datenbankschema aktualisieren"
 
 msgid "Upgrade Database"
-msgstr "Datenbank erweitert"
+msgstr "Datenbank aktualisieren"
 
 msgid "Upload a .ics calendar in iCalendar format to initialise or replace this calendar."
 msgstr ""
@@ -1348,28 +1351,28 @@ msgid "drivers_imap_pam : imap_url parameter not configured in /etc/davical/*-co
 msgstr ""
 
 msgid "drivers_ldap : Could not start TLS: ldap_start_tls() failed"
-msgstr "drivers_ldap : TLS konnte nicht gestartet werden: ldap_start_tls() ist fehlgeschlagen"
+msgstr "drivers_ldap: TLS konnte nicht gestartet werden: ldap_start_tls() ist fehlgeschlagen"
 
 #, php-format
 msgid "drivers_ldap : Failed to bind to host %1$s on port %2$s with bindDN of %3$s"
-msgstr "drivers_ldap : Verbindung (bind) zu Host %1$s auf Port %2$s mit bindDN %3$s ist fehlgeschlagen"
+msgstr "drivers_ldap: Verbindung (bind) zu Host %1$s auf Port %2$s mit bindDN %3$s ist fehlgeschlagen"
 
 msgid "drivers_ldap : Failed to set LDAP to use protocol version 3, TLS not supported"
-msgstr "drivers_ldap : LDAP Protokoll-Version 3 konnte nicht gesetzt werden, TLS wird nicht unterstützt"
+msgstr "drivers_ldap: LDAP Protokoll-Version 3 konnte nicht gesetzt werden, TLS wird nicht unterstützt"
 
 msgid ""
 "drivers_ldap : Unable to bind to LDAP - check your configuration for bindDN and passDN, and that your "
 "LDAP server is reachable"
 msgstr ""
-"drivers_ldap : Verbindung (bind) zu LDAP fehlgeschlagen - bitte überprüfen, ob bindDN und passDN "
+"drivers_ldap: Verbindung (bind) zu LDAP fehlgeschlagen - bitte überprüfen, ob bindDN und passDN "
 "richtig konfiguriert sind, und ob der LDAP Server erreichbar ist"
 
 #, php-format
 msgid "drivers_ldap : Unable to connect to LDAP with port %s on host %s"
-msgstr "drivers_ldap : LDAP-Verbindung zu Port %s auf Host %s fehlgeschlagen"
+msgstr "drivers_ldap: LDAP-Verbindung zu Port %s auf Host %s fehlgeschlagen"
 
 msgid "drivers_ldap : function ldap_connect not defined, check your php_ldap module"
-msgstr "drivers_ldap : Funktion ldap_connect nicht definiert, bitte php_ldap Modul überprüfen"
+msgstr "drivers_ldap: Funktion ldap_connect nicht definiert, bitte php_ldap Modul überprüfen"
 
 #, php-format
 msgid "drivers_pwauth_pam : Unable to find %s file"
@@ -1412,13 +1415,13 @@ msgstr "Melden Sie sich mit dem Ihnen zugesendeten Benutzernamen und Passwort an
 #~ msgstr "Fehlgeschlagen"
 
 #~ msgid "Group <!-- in the sense of a group of people -->"
-#~ msgstr "Gruppe <!-- im Sinne einer Gruppe Menschen -->"
+#~ msgstr "Gruppe"
 
 #~ msgid "Id <!-- short for 'Identifier' -->"
-#~ msgstr "Id <!-- Abkürzung für 'Identifier' -->"
+#~ msgstr "Id"
 
 #~ msgid "No <!-- not 'Yes' -->"
-#~ msgstr "Nein <!-- nicht \"Ja\" -->"
+#~ msgstr "Nein"
 
 #~ msgid "No. <!-- short for 'Number' -->"
 #~ msgstr "Nr."
@@ -1444,13 +1447,13 @@ msgstr "Melden Sie sich mit dem Ihnen zugesendeten Benutzernamen und Passwort an
 #~ msgstr "J-m-t H:i"
 
 #~ msgid "You are currently running DAViCal version %s. The database schema is at version %d.%d.%d."
-#~ msgstr "Die aktuell laufende DAViCal Version ist %s. Das Datenbankschema hat die Version %d.%d.%d"
+#~ msgstr "Die aktuell laufende DAViCal-Version ist %s. Das Datenbankschema hat die Version %d.%d.%d"
 
 #~ msgid ""
 #~ "You are currently running DAViCal version %s. The database schema should be at version %s and it is "
 #~ "at version %d.%d.%d."
 #~ msgstr ""
-#~ "Die aktuell laufende DAViCal Version ist %s. Das Datenbankschema sollte die Version %s haben, "
+#~ "Die aktuell laufende DAViCal-Version ist %s. Das Datenbankschema sollte die Version %s haben, "
 #~ "aktuelle Version: %d.%d.%d"
 
 #~ msgid ""
