@@ -1,5 +1,5 @@
 <h1>iCal</h1>
-<p><a href="http://www.apple.com/macosx/features/300.html#ical">iCal</a>, from version 3.0 (released with OS 10.5) is generally well-behaved
+<p><a href="http://www.apple.com/macosx/what-is-macosx/mail-ical-address-book.html">iCal</a>, from version 3.0 (released with OS 10.5) is generally well-behaved
   and will discover your own calendars when configured.  It will not allow you to manipulate other calendars on
   the same server, however, unless you use different credentials to access them.</p>
 

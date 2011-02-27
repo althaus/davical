@@ -56,7 +56,7 @@ echo "source /usr/portage/local/layman/make.conf" &gt;&gt; /etc/make.conf
 <h3>Slackware, BSD and the rest</h3>
 
 <p>You will need to download the latest versions of the <code>DAViCal</code> and <code>awl</code> packages
-from the <a href="http://sourceforge.net/project/showfiles.php?group_id=179845">sourceforge download page for DAViCal</a>.</p>
+from the <a href="http://sourceforge.net/projects/davical/files/">sourceforge download page for DAViCal</a>.</p>
 <p>You will need to untar these.  Preferably you will untar them from within the "<code>/usr/share</code>" directory and everything
 will be in it's expected location (well, except the docs, but it will at least be tidy and everything will be in one place).</p>
 
