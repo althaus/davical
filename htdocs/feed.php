@@ -136,7 +136,9 @@ function caldav_get_feed( $request, $collection ) {
       $dt_end = new RepeatRuleDateTime($event->dtend);
       if  ( $dt_end != null ) {
         $p_time .= ' - ' . ( $dt_end->AsDate() == $dt_start->AsDate()
+                                 # Translators: his is the formatting of just the time. See http://php.net/manual/en/function.strftime.php
                                  ? strftime(translate('%T'), $dt_end->epoch())
+                                 # Translators: this is the formatting of a date with time. See http://php.net/manual/en/function.strftime.php
                                  : strftime(translate('%F %T'), $dt_end->epoch())
                             );
       }
