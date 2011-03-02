@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DAViCal\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-20 23:56+0100\n"
-"PO-Revision-Date: 2011-02-20 22:45+0000\n"
-"Last-Translator: karora <andrew@mcmillan.net.nz>\n"
+"POT-Creation-Date: 2011-03-02 23:13+0100\n"
+"PO-Revision-Date: 2011-03-02 21:31+0000\n"
+"Last-Translator: fmms <mail@felixmoeller.de>\n"
 "Language-Team: Estonian <>\n"
 "Language: et\n"
 "MIME-Version: 1.0\n"
@@ -17,9 +17,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
+#. Translators: this is the formatting of a date with time. See http://php.net/manual/en/function.strftime.php
 msgid "%F %T"
 msgstr ""
 
+#. Translators: his is the formatting of just the time. See http://php.net/manual/en/function.strftime.php
 msgid "%T"
 msgstr ""
 
@@ -729,6 +731,9 @@ msgstr ""
 msgid "PHP DateTime class"
 msgstr ""
 
+msgid "PHP LDAP module available"
+msgstr ""
+
 msgid "PHP Magic Quotes GPC off"
 msgstr ""
 
@@ -1322,6 +1327,3 @@ msgstr ""
 
 msgid "you should log on with the username and password that have been issued to you."
 msgstr ""
-
-#~ msgid "Y-m-d H:i"
-#~ msgstr "d. M, Y H:i"
