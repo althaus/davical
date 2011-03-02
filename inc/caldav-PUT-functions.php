@@ -320,7 +320,7 @@ function write_scheduling_request( &$resource, $attendee_value, $create_resource
     if ( ! $attendee_inbox->HavePrivilegeTo('schedule-deliver-invite') ) {
       $response = '3.8;'.translate('No authority to deliver invitations to user.');
     }
-    if ( $attendee_inbox->WriteCalendarMember($resource, $create_resource) ) {
+    else if ( $attendee_inbox->WriteCalendarMember($resource, $create_resource) ) {
       $response = '2.0;'.translate('Scheduling invitation delivered successfully');
     }
     else {
@@ -374,8 +374,8 @@ function update_scheduling_requests( &$resource ) {
   }
 
   $attendees = $resource->GetPropertiesByPath('/VCALENDAR/*/ATTENDEE');
-	$wr_attendees = $resource->GetPropertiesByPath('/VCALENDAR/*/X-WR-ATTENDEE');
-	if ( count ( $wr_attendees ) > 0 ) {
+  $wr_attendees = $resource->GetPropertiesByPath('/VCALENDAR/*/X-WR-ATTENDEE');
+  if ( count ( $wr_attendees ) > 0 ) {
     dbg_error_log( 'POST', 'Non-compliant iCal request.  Using X-WR-ATTENDEE property' );
     foreach( $wr_attendees AS $k => $v ) {
       $attendees[] = $v;
