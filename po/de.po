@@ -43,8 +43,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DAViCal\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-20 23:56+0100\n"
-"PO-Revision-Date: 2011-02-20 22:45+0000\n"
+"POT-Creation-Date: 2011-03-02 23:13+0100\n"
+"PO-Revision-Date: 2011-03-02 21:58+0000\n"
 "Last-Translator: fmms <mail@felixmoeller.de>\n"
 "Language-Team: German <>\n"
 "Language: de\n"
@@ -53,11 +53,13 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
+#. Translators: this is the formatting of a date with time. See http://php.net/manual/en/function.strftime.php
 msgid "%F %T"
 msgstr ""
 
+#. Translators: his is the formatting of just the time. See http://php.net/manual/en/function.strftime.php
 msgid "%T"
-msgstr ""
+msgstr "%T "
 
 msgid "*** Default Locale ***"
 msgstr "*** Standard Locale ***"
@@ -207,7 +209,7 @@ msgid "Apply DB Patches"
 msgstr "Datenbankkorrekturen anwenden"
 
 msgid "Attachment"
-msgstr ""
+msgstr "Anhang"
 
 msgid "Binding deleted"
 msgstr "Zuordnung gelöscht"
@@ -244,7 +246,7 @@ msgid "Can only add tickets for existing collection paths which you own"
 msgstr "Es können nur Tickets für eigene Sammlungen erstellt werden"
 
 msgid "Categories"
-msgstr ""
+msgstr "Kategorien"
 
 msgid "Change Password"
 msgstr "Passwort ändern"
@@ -530,13 +532,13 @@ msgid "Expires"
 msgstr "Abgelaufen"
 
 msgid "Fail"
-msgstr ""
+msgstr "Fehlgeschlagen"
 
 msgid "Failed to write collection."
 msgstr "Speichern der Sammlung fehlgeschlagen"
 
 msgid "Feeds are only supported for calendars at present."
-msgstr ""
+msgstr "Feeds werden zurzeit nur für Kalender unterstützt."
 
 msgid "For access to the"
 msgstr "Für den Zugriff auf"
@@ -603,10 +605,10 @@ msgid "Home Page"
 msgstr "Homepage"
 
 msgid "Home addressbook added."
-msgstr ""
+msgstr "Hauptadressbuch hinzugefügt."
 
 msgid "Home addressbook already exists."
-msgstr ""
+msgstr "Hauptadressbuch existiert bereits"
 
 msgid "Home calendar added."
 msgstr "Hauptkalender hinzugefügt."
@@ -694,7 +696,7 @@ msgid "Locale"
 msgstr "Sprache"
 
 msgid "Location"
-msgstr ""
+msgstr "Ort"
 
 msgid "Log On Please"
 msgstr "Bitte melden Sie sich an"
@@ -709,7 +711,7 @@ msgid "Member deleted from this Group Principal"
 msgstr "Mitglied wurde von diesem Gruppenprinzipalen entfernt"
 
 msgid "Most of DAViCal will work but upgrading to PHP 5.2 or later is strongly recommended."
-msgstr ""
+msgstr "DAViCal wird größtenteils funktionieren, aber PHP 5.2 oder neuer wird empfohlen. "
 
 msgid "Name"
 msgstr "Name"
@@ -740,7 +742,7 @@ msgid "No scheduling support for user"
 msgstr "Keine Scheduling-Unterstützung für den Benutzer"
 
 msgid "No summary"
-msgstr ""
+msgstr "Keine Zusammenfassung"
 
 #. Translators: short for 'Number'
 msgid "No."
@@ -768,10 +770,10 @@ msgid "PDO PostgreSQL drivers"
 msgstr "PDO-PostgreSQL-Treiber"
 
 msgid "PHP DateTime class"
-msgstr ""
+msgstr "PHP DateTime Klasse"
 
 msgid "PHP LDAP module available"
-msgstr ""
+msgstr "PHP LDAP Modul verfügbar"
 
 msgid "PHP Magic Quotes GPC off"
 msgstr "PHP Magic Quotes GPC deaktiviert"
@@ -786,13 +788,13 @@ msgid "PHP PostgreSQL available"
 msgstr "PHP-PostgreSQL vorhanden"
 
 msgid "PHP iconv support"
-msgstr ""
+msgstr "PHP iconv Unterstützung"
 
 msgid "PUT on a collection is only allowed for text/calendar content against a calendar collection"
 msgstr "PUT-Anfrage an eine Collection ist nur erlaubt für text/calendar bei eine Kalender-Collection"
 
 msgid "Passed"
-msgstr ""
+msgstr "Erfolgreich"
 
 msgid "Password"
 msgstr "Passwort"
@@ -1127,7 +1129,7 @@ msgid "The username must not be blank, and may not contain a slash"
 msgstr "Der Benutzername darf nicht leer sein und keinen Slash enthalten"
 
 msgid "There was an error reading from the database."
-msgstr ""
+msgstr "Es ist ein Fehler beim Lesen von der Datenbank aufgetreten"
 
 msgid "There was an error writing to the database."
 msgstr "Beim Schreiben in die Datenbank ist ein Fehler aufgetreten."
@@ -1179,13 +1181,13 @@ msgstr ""
 "angenommen."
 
 msgid "This server only supports the text/calendar format for freebusy URLs"
-msgstr ""
+msgstr "Der Server unterstützt nur das text/calendar Format für FreeBusy-URLs"
 
 msgid "Ticket ID"
 msgstr "Ticket-ID"
 
 msgid "Time"
-msgstr ""
+msgstr "Zeit"
 
 msgid "To Collection"
 msgstr "Zur Sammlung"
@@ -1203,13 +1205,13 @@ msgid "Transparent"
 msgstr "Transparent"
 
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 msgid "US Format"
 msgstr "US-Format"
 
 msgid "Unauthenticated User"
-msgstr ""
+msgstr "Nicht eingeloggter Benutzer"
 
 msgid "United States of America (m/d/y)"
 msgstr "Vereinigte Staaten von Amerika (m/t/j)"
@@ -1281,12 +1283,15 @@ msgstr "DAViCal-Wiki besuchen"
 
 #, php-format
 msgid "Want: %s, Currently: %s"
-msgstr ""
+msgstr "Erwartet: %s, erhalten: %s"
 
 msgid ""
 "Warning: there are no active admin users! You should fix this before logging out.  Consider using the "
 "$c->do_not_sync_from_ldap configuration setting."
 msgstr ""
+"Warnung: Es sind keine aktiven Admin-Benutzer. Sie sollten dies vor dem Abmelden beheben. \n"
+"\n"
+"Ziehen sie die Option $c->do_not_sync_from_ldap in Erwägung."
 
 msgid "When the user's e-mail account was validated."
 msgstr "Sobald das E-Mail-Konto des Benutzers bestätigt wurde."
@@ -1348,7 +1353,7 @@ msgid "directory %s is not readable"
 msgstr "Ordner %s kann nicht gelesen werden"
 
 msgid "drivers_imap_pam : imap_url parameter not configured in /etc/davical/*-conf.php"
-msgstr ""
+msgstr "drivers_imap_pam: imap_url parameter wurde nicht in /etc/davical/*-conf.php konfiguriert"
 
 msgid "drivers_ldap : Could not start TLS: ldap_start_tls() failed"
 msgstr "drivers_ldap: TLS konnte nicht gestartet werden: ldap_start_tls() ist fehlgeschlagen"
@@ -1397,66 +1402,7 @@ msgid "the file %s is not UTF-8 encoded, please check error for more details"
 msgstr "Die Datei %s ist nicht in UTF-8 codiert; weitere Details stehen in der Fehlermeldung."
 
 msgid "unauthenticated"
-msgstr ""
+msgstr "Nicht angemeldet"
 
 msgid "you should log on with the username and password that have been issued to you."
 msgstr "Melden Sie sich mit dem Ihnen zugesendeten Benutzernamen und Passwort an."
-
-#~ msgid "Admin <!-- in the sense of 'systems admin' -->"
-#~ msgstr "Systemadministrator"
-
-#~ msgid "Current Versions"
-#~ msgstr "Aktuelle Versionen"
-
-#~ msgid "ERROR: %s"
-#~ msgstr "FEHLER: %s"
-
-#~ msgid "Failed"
-#~ msgstr "Fehlgeschlagen"
-
-#~ msgid "Group <!-- in the sense of a group of people -->"
-#~ msgstr "Gruppe"
-
-#~ msgid "Id <!-- short for 'Identifier' -->"
-#~ msgstr "Id"
-
-#~ msgid "No <!-- not 'Yes' -->"
-#~ msgstr "Nein"
-
-#~ msgid "No. <!-- short for 'Number' -->"
-#~ msgstr "Nr."
-
-#~ msgid "OK"
-#~ msgstr "OK"
-
-#~ msgid "Public <!-- in the sense of being available to all users -->"
-#~ msgstr "Öffentlich"
-
-#~ msgid "Resource <!-- a thing which might be booked: a room, a carpark, a projector... -->"
-#~ msgstr "Ressource"
-
-#~ msgid "Start: "
-#~ msgstr "Start:"
-
-#~ msgid "Warning: there are no active admin users, you should fix this before logging out."
-#~ msgstr ""
-#~ "Warnung: Es sind keine aktiven Administratoren mehr vorhanden, dies sollte vor dem Ausloggen "
-#~ "behoben werden."
-
-#~ msgid "Y-m-d H:i"
-#~ msgstr "J-m-t H:i"
-
-#~ msgid "You are currently running DAViCal version %s. The database schema is at version %d.%d.%d."
-#~ msgstr "Die aktuell laufende DAViCal-Version ist %s. Das Datenbankschema hat die Version %d.%d.%d"
-
-#~ msgid ""
-#~ "You are currently running DAViCal version %s. The database schema should be at version %s and it is "
-#~ "at version %d.%d.%d."
-#~ msgstr ""
-#~ "Die aktuell laufende DAViCal-Version ist %s. Das Datenbankschema sollte die Version %s haben, "
-#~ "aktuelle Version: %d.%d.%d"
-
-#~ msgid ""
-#~ "forget me not <!-- this is a colloquial phrase in english (the name of a flower) and is an option "
-#~ "allowing people to log in automatically in future -->"
-#~ msgstr "angemeldet bleiben"

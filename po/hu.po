@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DAViCal\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-20 23:56+0100\n"
-"PO-Revision-Date: 2011-02-20 22:45+0000\n"
-"Last-Translator: karora <andrew@mcmillan.net.nz>\n"
+"POT-Creation-Date: 2011-03-02 23:13+0100\n"
+"PO-Revision-Date: 2011-03-02 21:31+0000\n"
+"Last-Translator: fmms <mail@felixmoeller.de>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
@@ -17,9 +17,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
+#. Translators: this is the formatting of a date with time. See http://php.net/manual/en/function.strftime.php
 msgid "%F %T"
 msgstr ""
 
+#. Translators: his is the formatting of just the time. See http://php.net/manual/en/function.strftime.php
 msgid "%T"
 msgstr ""
 
@@ -731,6 +733,9 @@ msgstr ""
 msgid "PHP DateTime class"
 msgstr ""
 
+msgid "PHP LDAP module available"
+msgstr ""
+
 msgid "PHP Magic Quotes GPC off"
 msgstr ""
 
@@ -1324,29 +1329,3 @@ msgstr ""
 
 msgid "you should log on with the username and password that have been issued to you."
 msgstr "Lépjen be felhasználónevével és jelszavával."
-
-#~ msgid "Admin <!-- in the sense of 'systems admin' -->"
-#~ msgstr "Adminisztrátor"
-
-#~ msgid "ERROR: %s"
-#~ msgstr "HIBA: %s"
-
-#~ msgid "Group <!-- in the sense of a group of people -->"
-#~ msgstr "Csoport"
-
-#~ msgid "Id <!-- short for 'Identifier' -->"
-#~ msgstr "Id"
-
-#~ msgid "No. <!-- short for 'Number' -->"
-#~ msgstr "Sz."
-
-#~ msgid "Public <!-- in the sense of being available to all users -->"
-#~ msgstr "Nyilvános"
-
-#~ msgid "Resource <!-- a thing which might be booked: a room, a carpark, a projector... -->"
-#~ msgstr "Erőforrás"
-
-#~ msgid ""
-#~ "forget me not <!-- this is a colloquial phrase in english (the name of a flower) and is an option "
-#~ "allowing people to log in automatically in future -->"
-#~ msgstr "Emlékezzen rám ezen a gépen"

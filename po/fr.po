@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DAViCal\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-20 23:56+0100\n"
-"PO-Revision-Date: 2011-02-20 22:45+0000\n"
-"Last-Translator: tikismoke <webmaster@tikijs.dyndns.org>\n"
+"POT-Creation-Date: 2011-03-02 23:13+0100\n"
+"PO-Revision-Date: 2011-03-02 21:31+0000\n"
+"Last-Translator: fmms <mail@felixmoeller.de>\n"
 "Language-Team: French <None>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -17,9 +17,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1)\n"
 
+#. Translators: this is the formatting of a date with time. See http://php.net/manual/en/function.strftime.php
 msgid "%F %T"
 msgstr ""
 
+#. Translators: his is the formatting of just the time. See http://php.net/manual/en/function.strftime.php
 msgid "%T"
 msgstr ""
 
@@ -176,16 +178,16 @@ msgid "Attachment"
 msgstr ""
 
 msgid "Binding deleted"
-msgstr ""
+msgstr "Liaison supprimée"
 
 msgid "Bindings to other collections"
-msgstr ""
+msgstr "Liaison vers d'autres collections"
 
 msgid "Bindings to this Collection"
-msgstr ""
+msgstr "Liaison vers cette Collection"
 
 msgid "Bindings to this Principal's Collections"
-msgstr ""
+msgstr "Liaison vers cette Collection Principale"
 
 msgid "Bound As"
 msgstr ""
@@ -248,7 +250,7 @@ msgid "Confirm"
 msgstr "Confirmer"
 
 msgid "Confirm Deletion of the Binding"
-msgstr ""
+msgstr "Confirmer la suppréssion de la liaison"
 
 msgid "Confirm Deletion of the Collection"
 msgstr "Confirmer la suppression de la collection"
@@ -299,7 +301,7 @@ msgid "Creating new Principal record."
 msgstr "Création de l'enrengistrement d'un nouveau compte."
 
 msgid "Creating new ticket granting privileges to this Principal"
-msgstr ""
+msgstr "Création d'un nouveau billet accordant des privilèges à cet utilisateur principal"
 
 msgid "Current DAViCal version "
 msgstr "Version DAViCal courante "
@@ -329,7 +331,7 @@ msgid "DKIM signature invalid "
 msgstr "Signature DKIM invalide."
 
 msgid "DKIM signature missing"
-msgstr ""
+msgstr "signature DKIM manquante"
 
 msgid "DKIM signature validation failed(DNS ERROR)"
 msgstr "La validation de la signature DKIM a échoué (erreur DNS)"
@@ -392,7 +394,7 @@ msgid "Deleted a grant from this Principal"
 msgstr "Supprimer un accès donné par cet utilisateur"
 
 msgid "Deleting Binding:"
-msgstr ""
+msgstr "Suppression des liaisons:"
 
 msgid "Deleting Collection:"
 msgstr "Suppression de la collection :"
@@ -740,11 +742,14 @@ msgstr "Pilote PDO pour PostgreSQL"
 msgid "PHP DateTime class"
 msgstr ""
 
-msgid "PHP Magic Quotes GPC off"
+msgid "PHP LDAP module available"
 msgstr ""
 
+msgid "PHP Magic Quotes GPC off"
+msgstr "PHP Magic Quotes GPC désactivé"
+
 msgid "PHP Magic Quotes runtime off"
-msgstr ""
+msgstr "PHP Magic Quotes Runtime désactivé"
 
 msgid "PHP PDO module available"
 msgstr "Module PDO PHP disponible"
@@ -997,7 +1002,7 @@ msgid "Sync LDAP Groups with RSCDS"
 msgstr ""
 
 msgid "Sync LDAP with DAViCal"
-msgstr ""
+msgstr "Synchroniser LDAP avec DAViCal"
 
 msgid "Target"
 msgstr "Cible"
@@ -1033,7 +1038,7 @@ msgid "The application program does not understand that request."
 msgstr "L'application ne comprend pas la demande."
 
 msgid "The binding will be deleted."
-msgstr ""
+msgstr "La liason sera supprimée."
 
 msgid "The calendar path contains illegal characters."
 msgstr "le chemin vers le calendrier contient des caractères interdits."
@@ -1052,7 +1057,7 @@ msgid "The destination collection does not exist"
 msgstr "La collection de destination n'existe pas"
 
 msgid "The displayname may only be set on collections, principals or bindings."
-msgstr ""
+msgstr "Le nom à afficher ne peut être défini que pour une Collection, Principale ou une liaison"
 
 msgid "The email address really should not be blank."
 msgstr "L'adresse courriel ne devrait vraiment pas être vide."
@@ -1340,63 +1345,3 @@ msgstr ""
 
 msgid "you should log on with the username and password that have been issued to you."
 msgstr "Vous devez vous connecter avec le nom d'utilisateur et le mot de passe qui vous ont été fournis."
-
-#~ msgid "Admin <!-- in the sense of 'systems admin' -->"
-#~ msgstr "Administrateur du système"
-
-#~ msgid "Current Versions"
-#~ msgstr "Versions courantes"
-
-#~ msgid "ERROR: %s"
-#~ msgstr "ERREUR : %s"
-
-#~ msgid "Failed"
-#~ msgstr "Echec"
-
-#~ msgid "Group <!-- in the sense of a group of people -->"
-#~ msgstr "Groupe"
-
-#~ msgid "Id <!-- short for 'Identifier' -->"
-#~ msgstr "Id"
-
-#~ msgid "No <!-- not 'Yes' -->"
-#~ msgstr "Non"
-
-#~ msgid "No. <!-- short for 'Number' -->"
-#~ msgstr "N°"
-
-#~ msgid "OK"
-#~ msgstr "Ok"
-
-#~ msgid "Public <!-- in the sense of being available to all users -->"
-#~ msgstr "Public"
-
-#~ msgid "Resource <!-- a thing which might be booked: a room, a carpark, a projector... -->"
-#~ msgstr "Ressource"
-
-#~ msgid "Start: "
-#~ msgstr "Démarrer:"
-
-#~ msgid "Warning: there are no active admin users, you should fix this before logging out."
-#~ msgstr ""
-#~ "Attention: il n'y a pas d'utilisateurs actifs avec les droits d'administration, vous devez résoudre "
-#~ "ce problème avant de vous déconnecter."
-
-#~ msgid "Y-m-d H:i"
-#~ msgstr "A-m-j H:m"
-
-#~ msgid "You are currently running DAViCal version %s. The database schema is at version %d.%d.%d."
-#~ msgstr ""
-#~ "Vous utilisez la version %s de DAViCal. Le schéma de la base de données est à la version %d.%d.%d."
-
-#~ msgid ""
-#~ "You are currently running DAViCal version %s. The database schema should be at version %s and it is "
-#~ "at version %d.%d.%d."
-#~ msgstr ""
-#~ "Vous utilisez la version %s de DAViCal. Le schéma de la base de données devrait être à la version "
-#~ "%s mais est actuellement à la version %d.%d.%d."
-
-#~ msgid ""
-#~ "forget me not <!-- this is a colloquial phrase in english (the name of a flower) and is an option "
-#~ "allowing people to log in automatically in future -->"
-#~ msgstr "Ne pas m'oublier <!-- other 2nd degree meaning but funny too -->"
