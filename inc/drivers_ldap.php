@@ -210,8 +210,9 @@ class ldapDrivers
         return false;
       }
     }
-    else if ( empty($passwd) ) {
-      dbg_error_log( 'LDAP', 'drivers_ldap : user %s did not supply a password: login rejected', $dnUser );
+    else if ( empty($passwd) || preg_match('/[\x00-\x19]/',$passwd) ) {
+      // See http://www.php.net/manual/en/function.ldap-bind.php#73718 for more background
+      dbg_error_log( 'LDAP', 'drivers_ldap : user %s supplied empty or invalid password (%s): login rejected', $dnUser, $passwd );
       return false;
     }
     else {
