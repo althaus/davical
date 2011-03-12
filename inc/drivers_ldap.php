@@ -209,7 +209,12 @@ class ldapDrivers
       if ($username != $_SERVER["REMOTE_USER"]) {
         return false;
       }
-    } else {
+    }
+    else if ( empty($passwd) ) {
+      dbg_error_log( 'LDAP', 'drivers_ldap : user %s did not supply a password: login rejected', $dnUser );
+      return false;
+    }
+    else {
       if ( !@ldap_bind($this->connect, $dnUser, $passwd) ) {
         dbg_error_log( "LDAP", "drivers_ldap : Failed to bind to user %s using password %s", $dnUser, $passwd );
         return false;
