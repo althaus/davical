@@ -165,7 +165,7 @@ if [ "$ADMINPW" = "" ] ; then
   ADMINPW="please change this password"
 fi
 
-psql -qX -c "UPDATE usr SET password = '**${ADMINPW}' WHERE user_no = 1;" "${DBNAME}"
+psql -qX ${DBA} -c "UPDATE usr SET password = '**${ADMINPW}' WHERE user_no = 1;" "${DBNAME}"
 
 echo "NOTE"
 echo "===="
