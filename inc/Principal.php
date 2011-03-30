@@ -91,7 +91,7 @@ class Principal {
   protected $by_email;  
 
   /**
-   * If we're using memcached these is the namespace we'll put stuff in
+   * If we're using memcached this is the namespace we'll put stuff in
    * @var unknown_type
    */
   private $cacheNs;
@@ -114,6 +114,27 @@ class Principal {
         break;
     }
 
+    
+    /**
+     * This will allow protected properties to be referenced for retrieval, but not
+     * referenced for update.
+     * @param $property
+     */
+    function __get( $property ) {
+      return $this->{$property};      
+    }
+
+    
+    /**
+     * This will allow protected properties to be examined for whether they are set
+     * without making them writable.  PHP 5.1 or later only.
+     * @param $property
+     */
+    function __isset( $property ) {
+      return isset($this->{$property});      
+    }
+
+    
     $cache = new AwlCache();
     if ( $use_cache && isset($session->principal_id) ) {
       switch ( $type ) {
