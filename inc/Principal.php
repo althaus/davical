@@ -97,6 +97,7 @@ class Principal {
   private $cacheNs;
   private $cacheKey;
   
+    
   function __construct( $type, $value, $use_cache=true ) {
     global $c, $session;
 
@@ -112,26 +113,6 @@ class Principal {
         $type = 'username';
         $value = substr($value, 1, -1);
         break;
-    }
-
-    
-    /**
-     * This will allow protected properties to be referenced for retrieval, but not
-     * referenced for update.
-     * @param $property
-     */
-    function __get( $property ) {
-      return $this->{$property};      
-    }
-
-    
-    /**
-     * This will allow protected properties to be examined for whether they are set
-     * without making them writable.  PHP 5.1 or later only.
-     * @param $property
-     */
-    function __isset( $property ) {
-      return isset($this->{$property});      
     }
 
     
@@ -233,6 +214,25 @@ class Principal {
     if ( $type == 'username' && $value == 'unauthenticated' ) {
       $this->assignGuestValues();
     }
+  }
+
+  /**
+   * This will allow protected properties to be referenced for retrieval, but not
+   * referenced for update.
+   * @param $property
+   */
+  public function __get( $property ) {
+    return $this->{$property};      
+  }
+
+  
+  /**
+   * This will allow protected properties to be examined for whether they are set
+   * without making them writable.  PHP 5.1 or later only.
+   * @param $property
+   */
+  public function __isset( $property ) {
+    return isset($this->{$property});      
   }
 
   private function assignGuestValues() {
