@@ -433,7 +433,11 @@ function import_collection( $ics_content, $user_no, $path, $caldav_context, $app
   $resources = array();
   foreach( $components AS $k => $comp ) {
     $uid = $comp->GetPValue('UID');
-    if ( $uid == null || $uid == '' ) continue;
+    if ( $uid == null || $uid == '' ) {
+      $uid = uuid();
+      $comp->AddProperty('UID',$uid);
+      dbg_error_log( 'LOG WARN', ' PUT: New collection resource does not have a UID - we assign one!' );
+    }
     if ( !isset($resources[$uid]) ) $resources[$uid] = array();
     $resources[$uid][] = $comp;
 
