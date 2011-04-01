@@ -109,7 +109,7 @@ class CalDAVRequest
     $this->options = $options;
     if ( !isset($this->options['allow_by_email']) ) $this->options['allow_by_email'] = false;
 
-    $this->raw_post = file_get_contents ( 'php://input');
+    $this->raw_post = file_get_contents( 'php://input');
 
     if ( (isset($c->dbg['ALL']) && $c->dbg['ALL']) || (isset($c->dbg['request']) && $c->dbg['request']) ) {
       /** Log the request headers */
