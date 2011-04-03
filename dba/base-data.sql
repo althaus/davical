@@ -22,8 +22,9 @@ INSERT INTO principal ( principal_id, type_id, user_no, displayname, default_pri
 INSERT INTO role_member (user_no, role_no) VALUES(1, 1);
 
 
--- Set the insert sequence to the next number, with a minimum of 1000
-SELECT setval('usr_user_no_seq', (SELECT 1000 UNION SELECT user_no FROM usr ORDER BY 1 DESC LIMIT 1) );
+-- Set the usr & dav_id sequence to the next number, with a minimum of 1000
+SELECT setval('usr_user_no_seq', 1000 );
+SELECT setval('dav_id_seq', 1000 );
 
 INSERT INTO relationship_type ( rt_id, rt_name, confers, bit_confers )
     VALUES( 1, 'Administers', 'A', privilege_to_bits('DAV::all') );
