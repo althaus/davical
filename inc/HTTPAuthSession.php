@@ -45,12 +45,18 @@ class HTTPAuthSession {
   /**#@-*/
 
   /**
-  * The constructor, which just calls the actual type configured
+  * The constructor, which just calls the type supplied or configured
   */
   function HTTPAuthSession() {
     global $c;
 
-    if ( isset($c->http_auth_mode) && $c->http_auth_mode == "Digest" ) {
+    if ( ! empty($_SERVER['PHP_AUTH_DIGEST'])) {
+      $this->DigestAuthSession();
+    }
+//    else if ( isset($_SERVER["AUTHORIZATION"]) || isset($_SERVER['PHP_AUTH_USER']) ) {
+//      $this->BasicAuthSession();
+//    }
+    else if ( isset($c->http_auth_mode) && $c->http_auth_mode == "Digest" ) {
       $this->DigestAuthSession();
     }
     else {
@@ -73,7 +79,7 @@ class HTTPAuthSession {
           $auth_realm .= ' - ' . $principal_name;
         }
       }
-      dbg_error_log( "HTTPAuth", ":AuthFailedResponse Requesting authentictaion in the '%s' realm", $auth_realm );
+      dbg_error_log( "HTTPAuth", ":AuthFailedResponse Requesting authentication in the '%s' realm", $auth_realm );
       $auth_header = sprintf( 'WWW-Authenticate: Basic realm="%s"', $auth_realm );
     }
 
@@ -81,7 +87,7 @@ class HTTPAuthSession {
     header('Content-type: text/plain; ; charset="utf-8"' );
     header( $auth_header );
     echo 'Please log in for access to this system.';
-    dbg_error_log( "HTTPAuth", ":Session: User is not authorised" );
+    dbg_error_log( "HTTPAuth", ":Session: User is not authorised: %s ", $_SERVER['REMOTE_ADDR'] );
     exit;
   }
 
@@ -168,30 +174,55 @@ class HTTPAuthSession {
   function DigestAuthSession() {
     global $c;
 
+    $realm = $c->system_name;
+    $opaque = $realm;
+    if ( isset($_SERVER['HTTP_USER_AGENT']) ) $opaque .= $_SERVER['HTTP_USER_AGENT'];
+    if ( isset($_SERVER['REMOTE_ADDR']) )     $opaque .= $_SERVER['REMOTE_ADDR'];
+    $opaque = sha1($opaque);
+    
     if ( ! empty($_SERVER['PHP_AUTH_DIGEST'])) {
       // analyze the PHP_AUTH_DIGEST variable
       if ( $data = $this->ParseDigestHeader($_SERVER['PHP_AUTH_DIGEST']) ) {
-        // generate the valid response
-        $user_password = "Don't be silly! Why would a user have a password like this!!?";
-        /**
-        * @todo At this point we need to query the database for something fitting
-        * either strategy (A) or (B) above, in order to set $user_password to
-        * something useful!
-        */
-        $A1 = md5($data['username'] . ':' . $c->system_name . ':' . $user_password);
-        $A2 = md5($_SERVER['REQUEST_METHOD'].':'.$data['uri']);
-        $valid_response = md5($A1.':'.$data['nonce'].':'.$data['nc'].':'.$data['cnonce'].':'.$data['qop'].':'.$A2);
 
-        if ( $data['response'] == $valid_response ) {
-          $this->AssignSessionDetails($u);
-          return;
+        if ( $data['uri'] != $_SERVER['REQUEST_URI'] ) {
+          dbg_error_log( "ERROR", " DigestAuth: WTF! URI is '%s' and request URI is '%s'!?!" );
+          $this->AuthFailedResponse();
+          // Does not return
+        }
+        
+        // generate the valid response
+        $test_user = new Principal('username', $data['username']);
+
+        if ( preg_match( '{\*(Digest)?\*(.*)}', $test_user->password, $matches ) ) {
+          if ( $matches[1] == 'Digest' )
+            $A1 = $matches[2];
+          else {
+            dbg_error_log( "HTTPAuth", "Constructing A1 from md5(%s:%s:%s)", $data['username'], $realm, $matches[2] );
+            $A1 = md5($data['username'] . ':' . $realm . ':' . $matches[2]);
+          }
+          $A2 = md5($_SERVER['REQUEST_METHOD'].':'.$data['uri']);
+          $valid_response = md5($A1.':'.$data['nonce'].':'.$data['nc'].':'.$data['cnonce'].':'.$data['qop'].':'.$A2);
+  
+          if ( $data['response'] == $valid_response ) {
+            $this->AssignSessionDetails($test_user);
+            dbg_error_log( "HTTPAuth", "Success!!!" );
+            return;
+          }
+        }
+        else {
+          // Their account is not configured for Digest auth so we need to use Basic.
+          $this->AuthFailedResponse();
+          // Does not return
         }
       }
     }
 
-    $nonce = uniqid();
-    $opaque = md5($c->system_name);
-    $this->AuthFailedResponse( sprintf('WWW-Authenticate: Digest realm="%s", qop="auth,auth-int", nonce="%s", opaque="%s"', $c->system_name, $nonce, $opaque ) );
+    $nonce = sha1(uniqid('',true));
+    $authheader = sprintf('WWW-Authenticate: Digest realm="%s", qop="auth", nonce="%s", opaque="%s", algorithm="MD5"',
+                                     $realm, $nonce, $opaque );
+    dbg_error_log( "HTTPAuth", $authheader );
+    $this->AuthFailedResponse( $authheader );
+    // Does not return
   }
 
 
@@ -204,16 +235,30 @@ class HTTPAuthSession {
     $needed_parts = array('nonce'=>1, 'nc'=>1, 'cnonce'=>1, 'qop'=>1, 'username'=>1, 'uri'=>1, 'response'=>1);
     $data = array();
 
-    preg_match_all('@(\w+)=(?:([\'"])([^\2]+)\2|([^\s,]+))@', $auth_header, $matches, PREG_SET_ORDER);
-
+    preg_match_all('{(\w+)="([^"]+)"}', $auth_header, $matches, PREG_SET_ORDER);
     foreach ($matches as $m) {
-      $data[$m[1]] = $m[3] ? $m[3] : $m[4];
+//      dbg_error_log( "HTTPAuth", 'Match: "%s"', $m[0] );
+      $data[$m[1]] = $m[2];
       unset($needed_parts[$m[1]]);
+      dbg_error_log( "HTTPAuth", 'Received: %s: %s', $m[1], $m[2] );
     }
 
+    preg_match_all('{(\w+)=([^" ,]+)}', $auth_header, $matches, PREG_SET_ORDER);
+    foreach ($matches as $m) {
+//      dbg_error_log( "HTTPAuth", 'Match: "%s"', $m[0] );
+      $data[$m[1]] = $m[2];
+      unset($needed_parts[$m[1]]);
+      dbg_error_log( "HTTPAuth", 'Received: %s: %s', $m[1], $m[2] );
+    }
+
+    
+    @dbg_error_log( "HTTPAuth", 'Received: nonce: %s, nc: %s, cnonce: %s, qop: %s, username: %s, uri: %s, response: %s',
+        $data['nonce'], $data['nc'], $data['cnonce'], $data['qop'], $data['username'], $data['uri'], $data['response']
+      );
     return $needed_parts ? false : $data;
   }
 
+  
   /**
   * CheckPassword does all of the password checking and
   * returns a user record object, or false if it all ends in tears.
@@ -254,6 +299,7 @@ class HTTPAuthSession {
     return false;
   }
 
+  
   /**
   * Checks whether a user is allowed to do something.
   *
