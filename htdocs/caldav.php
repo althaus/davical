@@ -24,8 +24,34 @@ elseif ( isset($_SERVER['PATH_INFO']) && preg_match( '{^/\.well-known/(.+)$}', $
   exit(0);
 }
 require_once('./always.php');
-// dbg_error_log( 'caldav', ' User agent: %s', ((isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : 'Unfortunately Mulberry does not send a "User-agent" header with its requests :-(')) );
-// dbg_log_array( 'headers', '_SERVER', $_SERVER, true );
+
+function logRequestHeaders() {
+  global $c;
+  
+  /** Log the request headers */
+  $lines = apache_request_headers();
+  dbg_error_log( "LOG ", "***************** Request Header ****************" );
+  dbg_error_log( "LOG ", "%s %s", $_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI'] );
+  foreach( $lines AS $k => $v ) {
+    if ( $k != 'Authorization' || (isset($c->dbg['password']) && $c->dbg['password'] ) ) 
+      dbg_error_log( "LOG headers", "-->%s: %s", $k, $v );
+    else
+      dbg_error_log( "LOG headers", "-->%s: %s", $k, 'Delicious tasty password eaten by debugging monster!' );
+  }
+  dbg_error_log( "LOG ", "******************** Request ********************" );
+
+  // Log the request in all it's gory detail.
+  $lines = preg_split( '#[\r\n]+#', file_get_contents( 'php://input'));
+  foreach( $lines AS $v ) {
+    dbg_error_log( "LOG request", "-->%s", $v );
+  }
+  unset($lines);
+}
+
+if ( (isset($c->dbg['ALL']) && $c->dbg['ALL']) || (isset($c->dbg['request']) && $c->dbg['request']) )
+  logRequestHeaders();
+
+
 require_once('HTTPAuthSession.php');
 $session = new HTTPAuthSession();
 

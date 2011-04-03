@@ -111,25 +111,6 @@ class CalDAVRequest
 
     $this->raw_post = file_get_contents( 'php://input');
 
-    if ( (isset($c->dbg['ALL']) && $c->dbg['ALL']) || (isset($c->dbg['request']) && $c->dbg['request']) ) {
-      /** Log the request headers */
-      $lines = apache_request_headers();
-      dbg_error_log( "LOG ", "***************** Request Header ****************" );
-      dbg_error_log( "LOG ", "%s %s", $_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI'] );
-      foreach( $lines AS $k => $v ) {
-        if ( $k == 'Authorization' )
-          dbg_error_log( "LOG headers", "-->%s: %s", $k, 'Delicious tasty password eaten by debugging monster!' );
-        else
-        dbg_error_log( "LOG headers", "-->%s: %s", $k, $v );
-      }
-      dbg_error_log( "LOG ", "******************** Request ********************" );
-      // Log the request in all it's gory detail.
-      $lines = preg_split( '#[\r\n]+#', $this->raw_post);
-      foreach( $lines AS $v ) {
-        dbg_error_log( "LOG request", "-->%s", $v );
-      }
-    }
-
     if ( isset($debugging) && isset($_GET['method']) ) {
       $_SERVER['REQUEST_METHOD'] = $_GET['method'];
     }
