@@ -82,7 +82,7 @@
    <prop>
     <displayname>US Holidays</displayname>
     <resource-id>
-     <href>/caldav.php/.resources/1432</href>
+     <href>/caldav.php/.resources/1466</href>
     </resource-id>
     <parent-set>
      <parent>
@@ -100,7 +100,7 @@
    <prop>
     <displayname>User 4 Outbox</displayname>
     <resource-id>
-     <href>/caldav.php/.resources/1562</href>
+     <href>/caldav.php/.resources/1596</href>
     </resource-id>
     <parent-set>
      <parent>

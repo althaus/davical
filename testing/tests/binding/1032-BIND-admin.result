@@ -7,7 +7,7 @@ Content-Length: 0
 Content-Type: text/plain; charset="utf-8"
 
 
-          bind_id: >1564<
+          bind_id: >1598<
        bind_owner: >1005<
   bound_source_id: >11<
   dav_displayname: >Updated Displayname with PROPPATCH<
@@ -19,7 +19,7 @@ target_collection: >11<
 target_resource_i: >NULL<
      ticket_owner: >1003<
 
-          bind_id: >1565<
+          bind_id: >1599<
        bind_owner: >1005<
   bound_source_id: >10<
   dav_displayname: >User 1's Calendaranza<
@@ -31,7 +31,7 @@ target_collection: >10<
 target_resource_i: >NULL<
      ticket_owner: >1002<
 
-          bind_id: >1569<
+          bind_id: >1603<
        bind_owner: >1005<
   bound_source_id: >10<
   dav_displayname: >User 1's Calendaranza<
@@ -43,7 +43,7 @@ target_collection: >10<
 target_resource_i: >NULL<
      ticket_owner: >1002<
 
-          bind_id: >1570<
+          bind_id: >1604<
        bind_owner: >1005<
   bound_source_id: >11<
   dav_displayname: >User 2's Calendar, as uploaded by Admin<
@@ -55,7 +55,7 @@ target_collection: >11<
 target_resource_i: >NULL<
      ticket_owner: >1003<
 
-          bind_id: >1583<
+          bind_id: >1617<
        bind_owner: >1<
   bound_source_id: >12<
   dav_displayname: >user3 home<

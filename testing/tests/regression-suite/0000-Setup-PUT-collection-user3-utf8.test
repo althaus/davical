@@ -1,0 +1,28 @@
+#
+# PUT a calendar collection to user3 to test UTF-8 processing
+#
+TYPE=PUT
+URL=http://mycaldav/caldav.php/user3/utf8/
+HEADER=User-Agent: RSCDS Testing/0.9.x
+HEADER=Content-Type: text/calendar; charset=utf-8
+AUTH=user3:user3
+
+HEAD
+
+QUERY
+SELECT caldav_data.user_no, caldav_type, logged_user, 
+       uid, dtstamp, dtstart at time zone tz_locn as dtstart, dtend at time zone tz_locn as dtend, due, summary, location,
+       description, priority, class, transp, rrule, url,
+       percent_complete, tz_id, status,
+       caldav_data AS "A1 CalDAV DATA"
+FROM caldav_data JOIN calendar_item USING(dav_name) JOIN time_zone USING (tz_id)
+WHERE caldav_data.dav_name ~ '^/user3/utf8/'
+ENDQUERY
+
+QUERY
+SELECT count(*)
+  FROM caldav_data JOIN calendar_item USING(dav_name)
+  WHERE caldav_data.dav_name ~ '^/user3/utf8/'
+ENDQUERY
+
+DATA=utf8-test
