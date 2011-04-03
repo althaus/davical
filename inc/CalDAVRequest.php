@@ -109,7 +109,8 @@ class CalDAVRequest
     $this->options = $options;
     if ( !isset($this->options['allow_by_email']) ) $this->options['allow_by_email'] = false;
 
-    $this->raw_post = file_get_contents( 'php://input');
+    if ( !isset($c->raw_post) ) $c->raw_post = file_get_contents( 'php://input');
+    $this->raw_post = $c->raw_post;
 
     if ( isset($debugging) && isset($_GET['method']) ) {
       $_SERVER['REQUEST_METHOD'] = $_GET['method'];

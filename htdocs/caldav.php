@@ -41,13 +41,14 @@ function logRequestHeaders() {
   dbg_error_log( "LOG ", "******************** Request ********************" );
 
   // Log the request in all it's gory detail.
-  $lines = preg_split( '#[\r\n]+#', file_get_contents( 'php://input'));
+  $lines = preg_split( '#[\r\n]+#', $c->raw_post );
   foreach( $lines AS $v ) {
     dbg_error_log( "LOG request", "-->%s", $v );
   }
   unset($lines);
 }
 
+if ( !isset($c->raw_post) ) $c->raw_post = file_get_contents( 'php://input');
 if ( (isset($c->dbg['ALL']) && $c->dbg['ALL']) || (isset($c->dbg['request']) && $c->dbg['request']) )
   logRequestHeaders();
 
