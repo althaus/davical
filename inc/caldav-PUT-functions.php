@@ -680,6 +680,9 @@ function write_alarms( $dav_id, $ical ) {
       if ( $minus ) {
         $related_trigger = preg_replace( '{(\d+[WDHMS])}', '-$1 ', $related_trigger );
       }
+      else {
+        $related_trigger = preg_replace( '{(\d+[WDHMS])}', '$1 ', $related_trigger );
+      }
     }
     else {
       if ( false === strtotime($trigger->Value()) ) continue; // Invalid date.
