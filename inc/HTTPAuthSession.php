@@ -197,15 +197,18 @@ class HTTPAuthSession {
           if ( $matches[1] == 'Digest' )
             $A1 = $matches[2];
           else {
-            dbg_error_log( "HTTPAuth", "Constructing A1 from md5(%s:%s:%s)", $data['username'], $realm, $matches[2] );
+//            dbg_error_log( "HTTPAuth", "Constructing A1 from md5(%s:%s:%s)", $data['username'], $realm, $matches[2] );
             $A1 = md5($data['username'] . ':' . $realm . ':' . $matches[2]);
           }
           $A2 = md5($_SERVER['REQUEST_METHOD'].':'.$data['uri']);
-          $valid_response = md5($A1.':'.$data['nonce'].':'.$data['nc'].':'.$data['cnonce'].':'.$data['qop'].':'.$A2);
-  
+          $auth_string = $A1.':'.$data['nonce'].':'.$data['nc'].':'.$data['cnonce'].':'.$data['qop'].':'.$A2;
+//          dbg_error_log( "HTTPAuth", "DigestAuthString: %s", $auth_string);
+          $valid_response = md5($auth_string);
+//          dbg_error_log( "HTTPAuth", "DigestResponse: %s", $valid_response);
+          
           if ( $data['response'] == $valid_response ) {
             $this->AssignSessionDetails($test_user);
-            dbg_error_log( "HTTPAuth", "Success!!!" );
+//            dbg_error_log( "HTTPAuth", "Success!!!" );
             return;
           }
         }
