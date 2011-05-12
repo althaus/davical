@@ -38,7 +38,7 @@ function rollback_on_error( $caldav_context, $user_no, $path, $message='', $erro
   global $c, $bad_events;
   if ( !$message ) $message = translate('Database error');
   $qry = new AwlQuery();
-  $qry->Rollback();
+  if ( $qry->TransactionState() != 0 ) $qry->Rollback();
   if ( $caldav_context ) {
     if ( isset($bad_events) && isset($c->skip_bad_event_on_import) && $c->skip_bad_event_on_import ) {
       $bad_events[] = $message;
