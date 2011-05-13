@@ -815,7 +815,7 @@ EOXML;
     $this->DoRequest( $this->calendar_url );
 
     $report = array();
-    foreach( $this->xmltags as $k => $v ) {
+    foreach( $this->xmlnodes as $k => $v ) {
       switch( $v['tag'] ) {
         case 'DAV::response':
           if ( $v['type'] == 'open' ) {
