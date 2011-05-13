@@ -91,6 +91,10 @@ EOSQL;
   $first_status = 0;
   
   if ( $qry->Exec("REPORT",__LINE__,__FILE__) ) {
+    if ( $qry->rows() > 50 ) {
+      // If there are more than 50 rows to send we should not send full data in response ...
+      $c->sync_resource_data_ok = false;
+    }
     while( $object = $qry->Fetch() ) {
       if ( $object->dav_name == $last_dav_name ) {
         /** The complex case: this is the second or subsequent for this dav_id */

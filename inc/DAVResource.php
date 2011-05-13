@@ -1597,6 +1597,7 @@ EOQRY;
       case 'urn:ietf:params:xml:ns:carddav:address-data':
       case 'urn:ietf:params:xml:ns:caldav:calendar-data':
         if ( $this->_is_collection ) return false;
+        if ( !isset($c->sync_resource_data_ok) || $c->sync_resource_data_ok == false ) return false;
         if ( !isset($this->resource) ) $this->FetchResource();
         $reply->NSElement($prop, $tag, $this->resource->caldav_data );
         break;
