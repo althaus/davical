@@ -193,11 +193,18 @@ function handle_schedule_request( $ical ) {
       continue;
     }
 
+    if ( isset($c->enable_auto_schedule) && !$c->enable_auto_schedule ) {
+      // In this case we're being asked not to do auto-scheduling, so we build
+      // a response back for the client saying we can't...  
+      $attendee->SetParameterValue ('SCHEDULE-STATUS','5.3;No scheduling support for user');
+      continue;
+    }
+
     dbg_error_log( "POST", "Delivering to %s", $attendee_email );
 
     $attendee_principal = new DAVPrincipal ( array ('email'=>$attendee_email, 'options'=> array ( 'allow_by_email' => true ) ) );
     if ( $attendee_principal == false ){
-      $attendee->SetParameterValue ('SCHEDULE-STATUS','3.7;Invalid Calendar User');
+      $attendee->SetParameterValue ('SCHEDULE-STATUS','5.3;No scheduling support for user');
       continue;
     }
     $deliver_path = $attendee_principal->internal_url('schedule_inbox');
