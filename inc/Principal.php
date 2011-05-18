@@ -26,6 +26,7 @@ class Principal {
   private static $db_mandatory_fields = array(
         'username', 
   );
+
   public static function updateableFields() {
     return array(
             'username', 'email', 'user_active', 'modified', 'password', 'fullname', 
@@ -104,6 +105,13 @@ class Principal {
     $this->exists = false;
     $this->by_email = false;
     $this->original_request_url = null;
+
+    if ( !is_array($db_mandatory_fields) ) {
+      $db_mandatory_fields = array(
+        'username', 
+      );
+    }
+    
     switch( $type ) {
       case 'path':
         $type = 'username';
@@ -430,7 +438,7 @@ class Principal {
       $sql_params[':'.$k] = $field_values->{$k};  
     }
 
-    if ( $inserting ) {
+    if ( $inserting && isset($this->db_mandatory_fields) ) {
       foreach( $this->db_mandatory_fields AS $k ) {
         if ( !isset($sql_params[':'.$k]) ) {
           throw new Exception( get_class($this).'::Create: Mandatory field "'.$k.'" is not set.');
