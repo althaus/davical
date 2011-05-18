@@ -106,12 +106,6 @@ class Principal {
     $this->by_email = false;
     $this->original_request_url = null;
 
-    if ( !is_array($db_mandatory_fields) ) {
-      $db_mandatory_fields = array(
-        'username', 
-      );
-    }
-    
     switch( $type ) {
       case 'path':
         $type = 'username';
@@ -438,8 +432,8 @@ class Principal {
       $sql_params[':'.$k] = $field_values->{$k};  
     }
 
-    if ( $inserting && isset($this->db_mandatory_fields) ) {
-      foreach( $this->db_mandatory_fields AS $k ) {
+    if ( $inserting && isset(self::$db_mandatory_fields) ) {
+      foreach( self::$db_mandatory_fields AS $k ) {
         if ( !isset($sql_params[':'.$k]) ) {
           throw new Exception( get_class($this).'::Create: Mandatory field "'.$k.'" is not set.');
         } 
