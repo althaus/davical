@@ -1,0 +1,83 @@
+HTTP/1.1 207 Multi-Status
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
+DAV: extended-mkcol, calendar-proxy, bind, addressbook
+ETag: "c6026dd8dbea9512cd6e210a06f30c4a"
+Content-Length: 1795
+Content-Type: text/xml; charset="utf-8"
+
+<?xml version="1.0" encoding="utf-8" ?>
+<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:carddav">
+ <response>
+  <href>/caldav.php/user1/</href>
+  <propstat>
+   <prop>
+    <C:addressbook-home-set>
+     <href>/caldav.php/user1/</href>
+    </C:addressbook-home-set>
+    <displayname>User 1</displayname>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user2/</href>
+  <propstat>
+   <prop>
+    <C:addressbook-home-set>
+     <href>/caldav.php/user2/</href>
+    </C:addressbook-home-set>
+    <displayname>User 2</displayname>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user3/</href>
+  <propstat>
+   <prop>
+    <C:addressbook-home-set>
+     <href>/caldav.php/user3/</href>
+    </C:addressbook-home-set>
+    <displayname>User 3</displayname>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user4/</href>
+  <propstat>
+   <prop>
+    <C:addressbook-home-set>
+     <href>/caldav.php/user4/</href>
+    </C:addressbook-home-set>
+    <displayname>User 4</displayname>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user5/</href>
+  <propstat>
+   <prop>
+    <C:addressbook-home-set>
+     <href>/caldav.php/user5/</href>
+    </C:addressbook-home-set>
+    <displayname>User 5</displayname>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/User%20Six/</href>
+  <propstat>
+   <prop>
+    <C:addressbook-home-set>
+     <href>/caldav.php/User%20Six/</href>
+    </C:addressbook-home-set>
+    <displayname>User 6</displayname>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+</multistatus>

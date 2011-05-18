@@ -1,0 +1,29 @@
+#
+# principal-match REPORT on a principal-property (displayname)
+#
+TYPE=REPORT
+URL=http://mycaldav/caldav.php/
+AUTH=user1:user1
+
+HEADER=User-Agent: DAViCal Testing
+HEADER=Accept: text/xml
+HEADER=Content-Type: text/xml; charset=utf-8
+HEADER=Depth: 0
+HEAD
+
+BEGINDATA
+<?xml version="1.0" encoding="utf-8" ?>
+<D:principal-property-search xmlns:D="DAV:">
+  <D:property-search>
+    <D:prop>
+      <D:displayname/>
+    </D:prop>
+    <D:match>User</D:match>
+  </D:property-search>
+  <D:prop>
+    <C:addressbook-home-set xmlns:C="urn:ietf:params:xml:ns:carddav"/>
+    <D:displayname/>
+  </D:prop>
+</D:principal-property-search>
+ENDDATA
+

@@ -66,6 +66,9 @@ switch( $xmltree->GetTag() ) {
   case 'DAV::expand-property':
     include("caldav-REPORT-expand-property.php");
     exit; // Not that it should return anyway.
+  case 'DAV::principal-match':
+    include("caldav-REPORT-principal-match.php");
+    exit; // Not that it should return anyway.
 }
 
 

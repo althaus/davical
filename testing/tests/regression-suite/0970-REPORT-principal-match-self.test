@@ -1,0 +1,23 @@
+#
+# principal-match REPORT on self as user1
+#
+TYPE=REPORT
+URL=http://mycaldav/caldav.php/
+AUTH=user1:user1
+
+HEADER=User-Agent: DAViCal Testing
+HEADER=Accept: text/xml
+HEADER=Content-Type: text/xml; charset=utf-8
+HEADER=Depth: 0
+HEAD
+
+BEGINDATA
+<?xml version="1.0" encoding="utf-8" ?>
+<D:principal-match xmlns:D="DAV:">
+  <D:self/>
+  <D:prop>
+    <C:addressbook-home-set xmlns:C="urn:ietf:params:xml:ns:carddav"/>
+  </D:prop>
+</D:principal-match>
+ENDDATA
+
