@@ -82,7 +82,7 @@ function check_suhosin_server_strip() {
   global $loaded_extensions;
 
   if ( !isset($loaded_extensions['suhosin']) ) return new CheckResult(true);
-  return new CheckResult( ini_get('suhosin.server.strip') == "0" );
+  return new CheckResult( ini_get('suhosin.server.strip') == "0" || strtolower(ini_get('suhosin.server.strip')) == "off" );
 }
 
 function check_magic_quotes_gpc() {
