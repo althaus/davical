@@ -167,6 +167,11 @@ class RepeatRuleDateTime extends DateTime {
   }
 
 
+  public function setAsFloat() {
+    unset($this->tzid);
+  }
+
+
   public function isFloating() {
     return !isset($this->tzid);
   }
@@ -229,24 +234,28 @@ class RepeatRuleDateTime extends DateTime {
    * will be returned as a date.  Note that if it is a *localised* date then the answer
    * will still be the UTC equivalent but only the date itself will be returned.
    * 
+   * If return_floating_times is true then all dates will be returned as floating times
+   * and UTC will not be returned. 
+   * 
    * @see RepeatRuleDateTime::UTC()
    */
-  public function FloatOrUTC() {
+  public function FloatOrUTC($return_floating_times = false) {
     $gmt = clone($this);
-    if ( isset($this->tzid) && $this->tzid != 'UTC' ) {
+    if ( !$return_floating_times && isset($this->tzid) && $this->tzid != 'UTC' ) {
       $dtz = parent::getTimezone();
       $offset = 0 - $dtz->getOffset($gmt);
       $gmt->modify( $offset . ' seconds' );
     }
     if ( $this->is_date ) return $gmt->format('Ymd');
-    return $gmt->format('Ymd\THis') . (isset($this->tzid) ? 'Z' : '');
+    if ( $return_floating_times ) return $gmt->format('Ymd\THis');
+    return $gmt->format('Ymd\THis') . (!$return_floating_times && isset($this->tzid) ? 'Z' : '');
   }
 
 
   /**
    * Returns the string following a property name for an RFC5545 DATE-TIME value.
    */
-  public function RFC5545() {
+  public function RFC5545($return_floating_times = false) {
     $result = '';
     if ( isset($this->tzid) && $this->tzid != 'UTC' ) {
       $result = ';TZID='.$this->tzid;
@@ -256,7 +265,7 @@ class RepeatRuleDateTime extends DateTime {
     }
     else {
       $result .= ':' . $this->format('Ymd\THis');
-      if ( isset($this->tzid) && $this->tzid == 'UTC' ) {
+      if ( !$return_floating_times && isset($this->tzid) && $this->tzid == 'UTC' ) {
         $result .= 'Z';
       }
     }
@@ -394,12 +403,13 @@ class RepeatRule {
   private $original_rule;
 
 
-  public function __construct( $basedate, $rrule, $is_date=null ) {
+  public function __construct( $basedate, $rrule, $is_date=null, $return_floating_times=false ) {
+    if ( $return_floating_times ) $basedate->setAsFloat();
     $this->base = (is_object($basedate) ? $basedate : new RepeatRuleDateTime($basedate) );
     $this->original_rule = $rrule;
 
     if ( DEBUG_RRULE ) {
-      printf( "Constructing RRULE based on: '%s', rrule: '%s'\n", $basedate, $rrule );
+      printf( "Constructing RRULE based on: '%s', rrule: '%s' (we float: %s)\n", $basedate, $rrule, ($return_floating_times?"yes":"no") );
     }
 
     if ( preg_match('{FREQ=([A-Z]+)(;|$)}', $rrule, $m) ) $this->freq = $m[1];
@@ -438,7 +448,7 @@ class RepeatRule {
     }
     $this->frequency_string = sprintf('+%d %s', $this->interval, $this->freq_name );
     if ( DEBUG_RRULE ) printf( "Frequency modify string is: '%s', base is: '%s'\n", $this->frequency_string, $this->base->format('c') );
-    $this->Start();
+    $this->Start($return_floating_times);
   }
 
 
@@ -447,9 +457,9 @@ class RepeatRule {
   }
 
 
-  public function Start() {
+  public function Start($return_floating_times=false) {
     $this->instances = array();
-    $this->GetMoreInstances();
+    $this->GetMoreInstances($return_floating_times);
     $this->rewind();
     $this->finished = false;
   }
@@ -460,25 +470,25 @@ class RepeatRule {
   }
 
 
-  public function next() {
+  public function next($return_floating_times=false) {
     $this->position++;
-    return $this->current();
+    return $this->current($return_floating_times);
   }
 
 
-  public function current() {
+  public function current($return_floating_times=false) {
     if ( !$this->valid() ) return null;
-    if ( !isset($this->instances[$this->position]) ) $this->GetMoreInstances();
+    if ( !isset($this->instances[$this->position]) ) $this->GetMoreInstances($return_floating_times);
     if ( !$this->valid() ) return null;
     if ( DEBUG_RRULE ) printf( "Returning date from position %d: %s (%s)\n", $this->position,
-                          $this->instances[$this->position]->format('c'), $this->instances[$this->position]->UTC() );
+                          $this->instances[$this->position]->format('c'), $this->instances[$this->position]->FloatOrUTC($return_floating_times) );
     return $this->instances[$this->position];
   }
 
 
-  public function key() {
+  public function key($return_floating_times=false) {
     if ( !$this->valid() ) return null;
-    if ( !isset($this->instances[$this->position]) ) $this->GetMoreInstances();
+    if ( !isset($this->instances[$this->position]) ) $this->GetMoreInstances($return_floating_times);
     if ( !isset($this->keys[$this->position]) ) {
       $this->keys[$this->position] = $this->instances[$this->position];
     }
@@ -525,11 +535,12 @@ class RepeatRule {
     }
   }
   
-  private function GetMoreInstances() {
+  private function GetMoreInstances($return_floating_times=false) {
     if ( $this->finished ) return;
     $got_more = false;
     $loop_limit = 10;
     $loops = 0;
+    if ( $return_floating_times ) $this->base->setAsFloat();
     while( !$this->finished && !$got_more && $loops++ < $loop_limit ) {
       if ( !isset($this->current_base) ) {
         $this->current_base = clone($this->base);
@@ -537,6 +548,7 @@ class RepeatRule {
       else {
         $this->current_base->modify( $this->frequency_string );
       }
+      if ( $return_floating_times ) $this->current_base->setAsFloat();
       if ( DEBUG_RRULE ) printf( "Getting more instances from: '%s' - %d\n", $this->current_base->format('c'), count($this->instances) );
       $this->current_set = array( clone($this->current_base) );
       foreach( self::rrule_expand_limit($this->freq) AS $bytype => $action ) {
@@ -866,7 +878,7 @@ require_once("vComponent.php");
 *
 * @return array An array keyed on the UTC dates, referring to the component
 */
-function rdate_expand( $dtstart, $property, $component, $range_end = null, $is_date=null ) {
+function rdate_expand( $dtstart, $property, $component, $range_end = null, $is_date=null, $return_floating_times=false ) {
   $properties = $component->GetProperties($property);
   $expansion = array();
   foreach( $properties AS $p ) {
@@ -875,7 +887,8 @@ function rdate_expand( $dtstart, $property, $component, $range_end = null, $is_d
     $rdates = explode( ',', $rdate );
     foreach( $rdates AS $k => $v ) {
       $rdate = new RepeatRuleDateTime( $v, $timezone, $is_date);
-      $expansion[$rdate->FloatOrUTC()] = $component;
+      if ( $return_floating_times ) $rdate->setAsFloat();
+      $expansion[$rdate->FloatOrUTC($return_floating_times)] = $component;
       if ( $rdate > $range_end ) break;
     }
   }
@@ -893,7 +906,7 @@ function rdate_expand( $dtstart, $property, $component, $range_end = null, $is_d
 *
 * @return array An array keyed on the UTC dates, referring to the component
 */
-function rrule_expand( $dtstart, $property, $component, $range_end, $is_date=null ) {
+function rrule_expand( $dtstart, $property, $component, $range_end, $is_date=null, $return_floating_times=false ) {
   $expansion = array();
 
   $recur = $component->GetProperty($property);
@@ -907,15 +920,16 @@ function rrule_expand( $dtstart, $property, $component, $range_end, $is_date=nul
   else {
     $this_start = clone($dtstart);
   }
-
+  if ( $return_floating_times ) $this_start->setAsFloat();
+  
 //  if ( DEBUG_RRULE ) print_r( $this_start );
-//  if ( DEBUG_RRULE ) printf( "RRULE: %s\n", $recur );
-  $rule = new RepeatRule( $this_start, $recur, $is_date );
+  if ( DEBUG_RRULE ) printf( "RRULE: %s (floating: %s)\n", $recur, ($return_floating_times?"yes":"no") );
+  $rule = new RepeatRule( $this_start, $recur, $is_date, $return_floating_times );
   $i = 0;
   $result_limit = 1000;
-  while( $date = $rule->next() ) {
+  while( $date = $rule->next($return_floating_times) ) {
 //    if ( DEBUG_RRULE ) printf( "[%3d] %s\n", $i, $date->UTC() );
-    $expansion[$date->FloatOrUTC()] = $component;
+    $expansion[$date->FloatOrUTC($return_floating_times)] = $component;
     if ( $i++ >= $result_limit || $date > $range_end ) break;
   }
 //  if ( DEBUG_RRULE ) print_r( $expansion );
@@ -934,7 +948,7 @@ function rrule_expand( $dtstart, $property, $component, $range_end, $is_date=nul
 *
 * @return vComponent The original vComponent, with the instances of the internal components expanded.
 */
-function expand_event_instances( $vResource, $range_start = null, $range_end = null ) {
+function expand_event_instances( $vResource, $range_start = null, $range_end = null, $return_floating_times=false ) {
   global $c;
   $components = $vResource->GetComponents();
 
@@ -962,8 +976,10 @@ function expand_event_instances( $vResource, $range_start = null, $range_end = n
       }
       if ( !isset($dtstart_prop) ) continue;
       $dtstart = new RepeatRuleDateTime( $dtstart_prop );
+      if ( $return_floating_times ) $dtstart->setAsFloat();
+      if ( DEBUG_RRULE ) printf( "Component is: %s (floating: %s)\n", $comp->GetType(), ($return_floating_times?"yes":"no") );
       $is_date = $dtstart->isDate();
-      $instances[$dtstart->FloatOrUTC()] = $comp;
+      $instances[$dtstart->FloatOrUTC($return_floating_times)] = $comp;
       $rrule = $comp->GetProperty('RRULE');
       $has_repeats = isset($rrule);
     }
@@ -972,7 +988,7 @@ function expand_event_instances( $vResource, $range_start = null, $range_end = n
       $range = $p->GetParameterValue('RANGE');
       $recur_utc = new RepeatRuleDateTime($p);
       if ( $is_date ) $recur_utc->setAsDate();
-      $recur_utc = $recur_utc->FloatOrUTC();
+      $recur_utc = $recur_utc->FloatOrUTC($return_floating_times);
       if ( isset($range) && $range == 'THISANDFUTURE' ) {
         foreach( $instances AS $k => $v ) {
           if ( DEBUG_RRULE ) printf( "Removing overridden instance at: $k\n" );
@@ -989,14 +1005,14 @@ function expand_event_instances( $vResource, $range_start = null, $range_end = n
       $p =  $comp->GetProperty('UID');
       $uid = ( isset($p) ? $p->Value() : 'not set');
       printf( "Processing event '%s' with UID '%s' starting on %s\n",
-                 $summary, $uid, $dtstart->FloatOrUTC() );      
+                 $summary, $uid, $dtstart->FloatOrUTC($return_floating_times) );      
       print( "Instances at start");
       foreach( $instances AS $k => $v ) {
         print ' : '.$k;        
       }
       print "\n";
     }
-    $instances += rrule_expand($dtstart, 'RRULE', $comp, $range_end);
+    $instances += rrule_expand($dtstart, 'RRULE', $comp, $range_end, null, $return_floating_times);
     if ( DEBUG_RRULE ) {
       print( "After rrule_expand");
       foreach( $instances AS $k => $v ) {
@@ -1004,7 +1020,7 @@ function expand_event_instances( $vResource, $range_start = null, $range_end = n
       }
       print "\n";
     }
-    $instances += rdate_expand($dtstart, 'RDATE', $comp, $range_end);
+    $instances += rdate_expand($dtstart, 'RDATE', $comp, $range_end, null, $return_floating_times);
     if ( DEBUG_RRULE ) {
       print( "After rdate_expand");
       foreach( $instances AS $k => $v ) {
@@ -1012,7 +1028,7 @@ function expand_event_instances( $vResource, $range_start = null, $range_end = n
       }
       print "\n";
     }
-    foreach ( rdate_expand($dtstart, 'EXDATE', $comp, $range_end) AS $k => $v ) {
+    foreach ( rdate_expand($dtstart, 'EXDATE', $comp, $range_end, null, $return_floating_times) AS $k => $v ) {
       unset($instances[$k]);
     }
     if ( DEBUG_RRULE ) {
@@ -1027,8 +1043,8 @@ function expand_event_instances( $vResource, $range_start = null, $range_end = n
   $last_duration = null;
   $early_start = null;
   $new_components = array();
-  $start_utc = $range_start->FloatOrUTC();
-  $end_utc = $range_end->FloatOrUTC();
+  $start_utc = $range_start->FloatOrUTC($return_floating_times);
+  $end_utc = $range_end->FloatOrUTC($return_floating_times);
   foreach( $instances AS $utc => $comp ) {
     if ( $utc > $end_utc ) {
       if ( DEBUG_RRULE ) printf( "We're done: $utc is out of the range.\n");
@@ -1040,10 +1056,11 @@ function expand_event_instances( $vResource, $range_start = null, $range_end = n
     if ( !isset($duration) || $duration->Value() == '' ) {
       $instance_start = $comp->GetProperty($dtstart_type);
       $dtsrt = new RepeatRuleDateTime( $instance_start );
+      if ( $return_floating_times ) $dtsrt->setAsFloat();
       $instance_end = $comp->GetProperty($end_type);
       if ( isset($instance_end) ) {
         $dtend = new RepeatRuleDateTime( $instance_end );
-        $duration = $dtstart->RFC5545Duration( $dtend );
+        $duration = $dtsrt->RFC5545Duration( $dtend );
       }
       else {
         if ( $instance_start->GetParameterValue('VALUE') == 'DATE' ) {
@@ -1069,7 +1086,7 @@ function expand_event_instances( $vResource, $range_start = null, $range_end = n
         /** Calculate the latest possible start date when this event would overlap our range start */
         $latest_start = clone($range_start);
         $latest_start->modify('-'.$duration);
-        $early_start = $latest_start->FloatOrUTC();
+        $early_start = $latest_start->FloatOrUTC($return_floating_times);
         $last_duration = $duration;
         if ( $utc < $early_start ) {
           if ( DEBUG_RRULE ) printf( "Another please: $utc is before $early_start and before $start_utc.\n");
@@ -1087,7 +1104,7 @@ function expand_event_instances( $vResource, $range_start = null, $range_end = n
     }
     $component->AddProperty('DTSTART', $utc, ($is_date ? array('VALUE' => 'DATE') : null) );
     $component->AddProperty('DURATION', $duration );
-    if ( $has_repeats && $dtstart->FloatOrUTC() != $utc )
+    if ( $has_repeats && $dtstart->FloatOrUTC($return_floating_times) != $utc )
       $component->AddProperty('RECURRENCE-ID', $utc, ($is_date ? array('VALUE' => 'DATE') : null) );
     $new_components[] = $component;
   }

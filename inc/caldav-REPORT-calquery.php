@@ -2,7 +2,7 @@
 
 $need_expansion = false;
 function check_for_expansion( $calendar_data_node ) {
-  global $need_expansion, $expand_range_start, $expand_range_end;
+  global $need_expansion, $expand_range_start, $expand_range_end, $expand_as_floating;
 
   if ( !class_exists('DateTime') ) return; /** We don't support expansion on PHP5.1 */
 
@@ -11,8 +11,13 @@ function check_for_expansion( $calendar_data_node ) {
     $need_expansion = true;
     $expand_range_start = $expansion[0]->GetAttribute('start');
     $expand_range_end = $expansion[0]->GetAttribute('end');
+    $expand_as_floating = $expansion[0]->GetAttribute('floating');
     if ( isset($expand_range_start) ) $expand_range_start = new RepeatRuleDateTime($expand_range_start);
     if ( isset($expand_range_end) )   $expand_range_end   = new RepeatRuleDateTime($expand_range_end);
+    if ( isset($expand_as_floating) && $expand_as_floating == "yes" )
+      $expand_as_floating = true;
+    else
+      $expand_as_floating = false;
   }
 }
 
@@ -329,7 +334,7 @@ if ( $qry->Exec("calquery",__LINE__,__FILE__) && $qry->rows() > 0 ) {
       }
       if ( $need_expansion ) {
         $vResource = new vComponent($calendar_object->caldav_data);
-        $expanded = expand_event_instances($vResource, $expand_range_start, $expand_range_end);
+        $expanded = expand_event_instances($vResource, $expand_range_start, $expand_range_end, $expand_as_floating );
         if ( $expanded->ComponentCount() == 0 ) continue;
         if ( $need_expansion ) $calendar_object->caldav_data = $expanded->Render();
       }
