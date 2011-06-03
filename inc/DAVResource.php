@@ -1580,7 +1580,7 @@ EOQRY;
         $prop->NewElement('current-user-principal', $reply->href( $request->principal->url() ) );
         break;
 
-      case 'SOME-DENIED-PROPERTY':  /** @todo indicating the style for future expansion */
+      case 'SOME-DENIED-PROPERTY':  /** indicating the style for future expansion */
         $denied[] = $reply->Tag($tag);
         break;
 
