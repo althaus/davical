@@ -225,7 +225,7 @@ function SqlFilterFragment( $filter, $components, $property = null, $parameter =
           case 'DTEND':
           case 'DUE':
           case 'PRIORITY':
-            $subproperty = strtolower($propertyname);
+            $subproperty = 'calendar_item.'.strtolower($propertyname);
             break;
 
           case 'COMPLETED':  /** @todo this should be moved into the properties supported in SQL. */
