@@ -179,10 +179,11 @@ function SqlFilterFragment( $filter, $components, $property = null, $parameter =
             break;
         }
         $params[':text_match'] = '%'.$search.'%';
-        dbg_error_log("calquery", " text-match: (%s IS NULL OR %s%s %s '%s') ", $property, (isset($negate) && strtolower($negate) == "yes" ? "NOT ": ""),
-                                          $property, $comparison, $params[':text_match'] );
-        $sql .= sprintf( "AND (%s IS NULL OR %s%s %s :text_match) ", $property, (isset($negate) && strtolower($negate) == "yes" ? "NOT ": ""),
+        $fragment = sprintf( 'AND (%s%s %s :text_match) ',
+                        (isset($negate) && strtolower($negate) == "yes" ? $property.' IS NULL OR NOT ': ''),
                                           $property, $comparison );
+        dbg_error_log('calquery', ' text-match: %s', $fragment );
+        $sql .= $fragment;
         break;
 
       case 'urn:ietf:params:xml:ns:caldav:comp-filter':
