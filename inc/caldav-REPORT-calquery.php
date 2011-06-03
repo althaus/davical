@@ -206,7 +206,7 @@ function SqlFilterFragment( $filter, $components, $property = null, $parameter =
         $propertyname = $v->GetAttribute("name");
         switch( $propertyname ) {
           case 'PERCENT-COMPLETE':
-            $property = 'percent_complete';
+            $subproperty = 'percent_complete';
             break;
 
           case 'UID':
@@ -224,7 +224,7 @@ function SqlFilterFragment( $filter, $components, $property = null, $parameter =
           case 'DTEND':
           case 'DUE':
           case 'PRIORITY':
-            $property = strtolower($propertyname);
+            $subproperty = strtolower($propertyname);
             break;
 
           case 'COMPLETED':  /** @todo this should be moved into the properties supported in SQL. */
@@ -233,11 +233,13 @@ function SqlFilterFragment( $filter, $components, $property = null, $parameter =
             dbg_error_log("calquery", "Could not handle 'prop-filter' on %s in SQL", $propertyname );
             continue;
         }
-        $subfilter = $v->GetContent();
-        $success = SqlFilterFragment( $subfilter, $components, $property, $parameter );
-        if ( $success === false ) continue; else {
-          $sql .= $success['sql'];
-          $params = array_merge( $params, $success['params'] );
+        if ( isset($subproperty) ) {
+          $subfilter = $v->GetContent();
+          $success = SqlFilterFragment( $subfilter, $components, $subproperty, $parameter );
+          if ( $success === false ) continue; else {
+            $sql .= $success['sql'];
+            $params = array_merge( $params, $success['params'] );
+          }
         }
         break;
 
