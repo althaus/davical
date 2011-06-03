@@ -231,21 +231,21 @@ function handle_schedule_request( $ical ) {
     $cid = $ar->GetProperty('collection_id');
     dbg_error_log('DELIVER', 'to user: %s, to path: %s, collection: %s, from user: %s, caldata %s', $attendee_principal->user_no(), $deliver_path, $cid, $request->user_no, $content );
     write_resource( $attendee_principal->user_no(), $deliver_path . $etag . '.ics' ,
-          $content , $ar->GetProperty('collection_id'), $request->user_no,
-          md5($content), $ncal, $put_action_type='INSERT', $caldav_context=true, $log_action=true, $etag );
+    $content , $ar->GetProperty('collection_id'), $request->user_no,
+    md5($content), $ncal, $put_action_type='INSERT', $caldav_context=true, $log_action=true, $etag );
     $attendee->SetParameterValue ('SCHEDULE-STATUS','1.2;Scheduling message has been delivered');
   }
-	// don't write an entry in the out box, ical doesn't delete it or ever read it again
+  // don't write an entry in the out box, ical doesn't delete it or ever read it again
   $ncal = new iCalComponent (  );
   $ncal->VCalendar ();
   $ncal->AddProperty ( 'METHOD', 'REQUEST' );
   $ncal->AddComponent ( array_merge ( $ical->GetComponents('VEVENT',false) , array ($ic) ));
   $content = $ncal->Render();
- 	$deliver_path = $request->principal->internal_url('schedule_inbox');
+  $deliver_path = $request->principal->internal_url('schedule_inbox');
   $ar = new DAVResource($deliver_path);
   write_resource( $request->user_no, $deliver_path . $etag . '.ics' ,
-    $content , $ar->GetProperty('collection_id'), $request->user_no,
-    md5($content), $ncal, $put_action_type='INSERT', $caldav_context=true, $log_action=true, $etag );
+  $content , $ar->GetProperty('collection_id'), $request->user_no,
+  md5($content), $ncal, $put_action_type='INSERT', $caldav_context=true, $log_action=true, $etag );
   //$etag = md5($content);
   header('ETag: "'. $etag . '"' );
   header('Schedule-Tag: "'.$etag . '"' );
@@ -269,7 +269,7 @@ function handle_schedule_reply ( $ical ) {
   $attendees = array_merge($organizer,$ic->GetProperties('ATTENDEE'));
   $wr_attendees = $ic->GetProperties('X-WR-ATTENDEE');
   if ( count ( $wr_attendees ) > 0 ) {
-    dbg_error_log( "POST", "Non-compliant iCal request.  Using X-WR-ATTENDEE property" );
+    dbg_error_log( "POST", "Non-compliant iCalendar request.  Using X-WR-ATTENDEE property" );
     foreach( $wr_attendees AS $k => $v ) {
       $attendees[] = $v;
     }
@@ -277,36 +277,36 @@ function handle_schedule_reply ( $ical ) {
   dbg_error_log( "POST", "Attempting to deliver scheduling request for %d attendees", count($attendees) );
 
   foreach( $attendees AS $k => $attendee ) {
-	  $attendee_email = preg_replace( '/^mailto:/', '', $attendee->Value() );
-	  dbg_error_log( "POST", "Delivering to %s", $attendee_email );
-	  $attendee_principal = new DAVPrincipal ( array ('email'=>$attendee_email, 'options'=> array ( 'allow_by_email' => true ) ) );
-	  $deliver_path = $attendee_principal->internal_url('schedule_inbox');
-	  $attendee_email = preg_replace( '/^mailto:/', '', $attendee->Value() );
+    $attendee_email = preg_replace( '/^mailto:/', '', $attendee->Value() );
+    dbg_error_log( "POST", "Delivering to %s", $attendee_email );
+    $attendee_principal = new DAVPrincipal ( array ('email'=>$attendee_email, 'options'=> array ( 'allow_by_email' => true ) ) );
+    $deliver_path = $attendee_principal->internal_url('schedule_inbox');
+    $attendee_email = preg_replace( '/^mailto:/', '', $attendee->Value() );
     if ( $attendee_email == $request->principal->email ) {
       dbg_error_log( "POST", "not delivering to owner" );
       continue;
     }
-	  $ar = new DAVResource($deliver_path);
-	  if ( ! $ar->HavePrivilegeTo('schedule-deliver-reply' ) ){
-	    $reply = new XMLDocument( array('DAV:' => '') );
-	     $privnodes = array( $reply->href($attendee_principal->url('schedule_inbox')), new XMLElement( 'privilege' ) );
-	     // RFC3744 specifies that we can only respond with one needed privilege, so we pick the first.
-	     $reply->NSElement( $privnodes[1], 'schedule-deliver-reply' );
-	     $xml = new XMLElement( 'need-privileges', new XMLElement( 'resource', $privnodes) );
-	     $xmldoc = $reply->Render('error',$xml);
-			 $request->DoResponse( 403, $xmldoc, 'text/xml; charset="utf-8"' );
-			 continue;
-	  }
+    $ar = new DAVResource($deliver_path);
+    if ( ! $ar->HavePrivilegeTo('schedule-deliver-reply' ) ){
+      $reply = new XMLDocument( array('DAV:' => '') );
+      $privnodes = array( $reply->href($attendee_principal->url('schedule_inbox')), new XMLElement( 'privilege' ) );
+      // RFC3744 specifies that we can only respond with one needed privilege, so we pick the first.
+      $reply->NSElement( $privnodes[1], 'schedule-deliver-reply' );
+      $xml = new XMLElement( 'need-privileges', new XMLElement( 'resource', $privnodes) );
+      $xmldoc = $reply->Render('error',$xml);
+      $request->DoResponse( 403, $xmldoc, 'text/xml; charset="utf-8"' );
+      continue;
+    }
 
-	  $ncal = new iCalComponent (  );
-	  $ncal->VCalendar ();
-	  $ncal->AddProperty ( 'METHOD', 'REPLY' );
-	  $ncal->AddComponent ( array_merge ( $ical->GetComponents('VEVENT',false) , array ($ic) ));
-	  $content = $ncal->Render();
-	  write_resource( $attendee_principal->user_no(), $deliver_path . $etag . '.ics' ,
-	    $content , $ar->GetProperty('collection_id'), $request->user_no,
-	    md5($content), $ncal, $put_action_type='INSERT', $caldav_context=true, $log_action=true, $etag );
-	}
+    $ncal = new iCalComponent (  );
+    $ncal->VCalendar ();
+    $ncal->AddProperty ( 'METHOD', 'REPLY' );
+    $ncal->AddComponent ( array_merge ( $ical->GetComponents('VEVENT',false) , array ($ic) ));
+    $content = $ncal->Render();
+    write_resource( $attendee_principal->user_no(), $deliver_path . $etag . '.ics' ,
+    $content , $ar->GetProperty('collection_id'), $request->user_no,
+    md5($content), $ncal, $put_action_type='INSERT', $caldav_context=true, $log_action=true, $etag );
+  }
   $request->DoResponse( 201, 'Created' );
 }
 
