@@ -188,6 +188,16 @@ $c->collections_always_exist = false;
 $c->schedule_private_key = 'PRIVATE-KEY-BASE-64-DATA';
 */
 
+/*
+* External subscription (BIND) minimum refresh interval
+* Required if you want to enable remote binding ( webcal subscriptions )
+* Default: none
+*/  
+/*
+$c->external_refresh = 60;
+*/
+
+
 
 
 /***************************************************************************

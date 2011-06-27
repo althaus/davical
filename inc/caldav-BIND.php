@@ -47,45 +47,88 @@ if ( $destination->Exists() ) {
   $request->PreconditionFailed(403,'DAV::can-overwrite',translate('A resource already exists at the destination.'));
 }
 
-$source = new DAVResource( $href );
-if ( !$source->Exists() ) {
-  $request->PreconditionFailed(403,'DAV::bind-source-exists',translate('The BIND Request MUST identify an existing resource.'));
-}
+if ( preg_match ( '{^https?://[A-Za-z][^/]*/.+$}', $href ) ) {
+	require_once('external-fetch.php');
+	$qry = new AwlQuery( );
+  $qry->QDo('SELECT collection_id FROM collection WHERE dav_name = :dav_name ', array( ':dav_name' => '/.external/'. md5($href) ));
+  if ( $qry->rows() == 1 && ($row = $qry->Fetch()) ) {
+		$dav_id = $row->dav_id;
+	}
+	else {
+		create_external ( '/.external/'. md5($href) ,true,false );
+	  $qry->QDo('SELECT collection_id FROM collection WHERE dav_name = :dav_name ', array( ':dav_name' => '/.external/'. md5($href) ));
+	  if ( $qry->rows() != 1 || !($row = $qry->Fetch()) ) 
+			$request->DoResponse(500,translate('Database Error1'));
+		$dav_id = $row->collection_id;
+	}
 
-if ( $source->IsPrincipal() || !$source->IsCollection() ) {
-  $request->PreconditionFailed(403,'DAV::binding-allowed',translate('DAViCal only allows BIND requests for collections at present.'));
-}
-
-/*
-  bind_id INT8 DEFAULT nextval('dav_id_seq') PRIMARY KEY,
-  bound_source_id INT8 REFERENCES collection(collection_id) ON UPDATE CASCADE ON DELETE CASCADE,
-  access_ticket_id TEXT REFERENCES access_ticket(ticket_id) ON UPDATE CASCADE ON DELETE SET NULL,
-  parent_container TEXT NOT NULL,
-  dav_name TEXT UNIQUE NOT NULL,
-  dav_displayname TEXT
-*/
-
-$sql = 'INSERT INTO dav_binding ( bound_source_id, access_ticket_id, dav_owner_id, parent_container, dav_name, dav_displayname )
-VALUES( :target_id, :ticket_id, :session_principal, :parent_container, :dav_name, :displayname )';
-$params = array(
-    ':target_id'    => $source->GetProperty('collection_id'),
-    ':ticket_id'    => (isset($request->ticket) ? $request->ticket->id() : null),
-    ':parent_container' => $parent->dav_name(),
-    ':session_principal' => $session->principal_id,
-    ':dav_name'     => $destination_path,
-    ':displayname'  => $source->GetProperty('displayname')
-);
-$qry = new AwlQuery( $sql, $params );
-if ( $qry->Exec('BIND',__LINE__,__FILE__) ) {
-  header('Location: '. ConstructURL($destination_path) );
-
-  // Uncache anything to do with the target
-  $cache = getCacheInstance();
-  $cache_ns = 'collection-'.$destination_path;
-  $cache->delete( $cache_ns, null );
-
-  $request->DoResponse(201);
-}
+	$sql = 'INSERT INTO dav_binding ( bound_source_id, access_ticket_id, dav_owner_id, parent_container, dav_name, dav_displayname, external_url, type )
+	VALUES( :target_id, :ticket_id, :session_principal, :parent_container, :dav_name, :displayname, :external_url, :external_type )';
+	$params = array(
+      ':target_id'    => $dav_id,
+      ':ticket_id'    => null,
+      ':parent_container' => $parent->dav_name(),
+      ':session_principal' => $session->principal_id,
+      ':dav_name'     => $destination_path,
+      ':displayname'  => $segment,
+      ':external_url' => $href,
+      ':external_type' => 'calendar'
+  );
+	$qry = new AwlQuery( $sql, $params );
+	if ( $qry->Exec('BIND',__LINE__,__FILE__) ) {
+		$qry = new AwlQuery( 'SELECT bind_id from dav_binding where dav_name = :dav_name', array( ':dav_name' => $destination_path ) );
+	  if ( ! $qry->Exec('BIND',__LINE__,__FILE__) || $qry->rows() != 1 || !($row = $qry->Fetch()) ) 
+			$request->DoResponse(500,translate('Database Error1'));
+		fetch_external ( $row->bind_id, '' );
+	  $request->DoResponse(201);
+ 	} 
+	else {
+	  $request->DoResponse(500,translate('Database Error2'));
+	}
+} 
 else {
-  $request->DoResponse(500,translate('Database Error'));
+	$source = new DAVResource( $href );
+	if ( !$source->Exists() ) {
+	  $request->PreconditionFailed(403,'DAV::bind-source-exists',translate('The BIND Request MUST identify an existing resource.'));
+	}
+
+	if ( $source->IsPrincipal() || !$source->IsCollection() ) {
+	  $request->PreconditionFailed(403,'DAV::binding-allowed',translate('DAViCal only allows BIND requests for collections at present.'));
+	}
+	
+	/*
+	  bind_id INT8 DEFAULT nextval('dav_id_seq') PRIMARY KEY,
+	  bound_source_id INT8 REFERENCES collection(collection_id) ON UPDATE CASCADE ON DELETE CASCADE,
+	  access_ticket_id TEXT REFERENCES access_ticket(ticket_id) ON UPDATE CASCADE ON DELETE SET NULL,
+    parent_container TEXT NOT NULL,
+    dav_name TEXT UNIQUE NOT NULL,
+    dav_displayname TEXT,
+    external_url TEXT,
+    type TEXT
+	*/
+	
+	$sql = 'INSERT INTO dav_binding ( bound_source_id, access_ticket_id, dav_owner_id, parent_container, dav_name, dav_displayname )
+	VALUES( :target_id, :ticket_id, :session_principal, :parent_container, :dav_name, :displayname )';
+	$params = array(
+      ':target_id'    => $source->GetProperty('collection_id'),
+      ':ticket_id'    => (isset($request->ticket) ? $request->ticket->id() : null),
+      ':parent_container' => $parent->dav_name(),
+      ':session_principal' => $session->principal_id,
+      ':dav_name'     => $destination_path,
+      ':displayname'  => $source->GetProperty('displayname')
+  );
+  $qry = new AwlQuery( $sql, $params );
+	if ( $qry->Exec('BIND',__LINE__,__FILE__) ) {
+	  header('Location: '. ConstructURL($destination_path) );
+	
+	  // Uncache anything to do with the target
+	  $cache = getCacheInstance();
+	  $cache_ns = 'collection-'.$destination_path;
+	  $cache->delete( $cache_ns, null );
+	
+	  $request->DoResponse(201);
+	}
+	else {
+	  $request->DoResponse(500,translate('Database Error'));
+	}
 }

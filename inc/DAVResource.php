@@ -98,6 +98,11 @@ class DAVResource
   private $_is_binding;
 
   /**
+  * @var True if this resource is a binding to an external resource
+  */
+  private $_is_external;
+
+  /**
   * @var True if this resource is an addressbook collection
   */
   private $_is_addressbook;
@@ -158,6 +163,7 @@ class DAVResource
     $this->_is_principal     = false;
     $this->_is_calendar      = false;
     $this->_is_binding       = false;
+    $this->_is_external      = false;
     $this->_is_addressbook   = false;
     $this->_is_proxy_request = false;
     if ( isset($parameters) && is_object($parameters) ) {
@@ -400,7 +406,8 @@ EOSQL;
 SELECT collection.*, path_privs(:session_principal::int8, collection.dav_name,:scan_depth::int), p.principal_id,
     p.type_id AS principal_type_id, p.displayname AS principal_displayname, p.default_privileges AS principal_default_privileges,
     time_zone.tz_spec, dav_binding.access_ticket_id, dav_binding.parent_container AS bind_parent_container,
-    dav_binding.dav_displayname, owner.dav_name AS bind_owner_url, dav_binding.dav_name AS bound_to
+		dav_binding.dav_displayname, owner.dav_name AS bind_owner_url, dav_binding.dav_name AS bound_to,  
+    dav_binding.external_url AS external_url, dav_binding.type AS external_type, dav_binding.bind_id AS bind_id 
 FROM dav_binding
     LEFT JOIN collection ON (collection.collection_id=bound_source_id)
     LEFT JOIN principal p USING (user_no)
@@ -431,7 +438,16 @@ EOSQL;
           $this->collection->type = 'schedule-'. $matches[3]. 'box';
         else
           $this->collection->type = 'collection';
-
+        if ( strlen($row->external_url) > 8 ) {
+          $this->collection->bound_from = $row->external_url;
+          $this->_is_external = true;
+          if ( $row->external_type == 'calendar' )
+            $this->collection->type = 'calendar';
+          else if ( $row->external_type == 'addressbook' )
+            $this->collection->type = 'addressbook';
+          else
+            $this->collection->type = 'collection';
+        }
         $this->_is_binding = true;
         $this->bound_from = str_replace( $row->bound_to, $row->dav_name, $this->dav_name);
         if ( isset($row->access_ticket_id) ) {
@@ -1044,6 +1060,14 @@ EOQRY;
   */
   function IsBinding() {
     return $this->_is_binding;
+  }
+
+
+  /**
+  * Checks whether this resource is a bind to an external resource
+  */
+  function IsExternal() {
+    return $this->_is_external;
   }
 
 
