@@ -321,7 +321,9 @@ CREATE TABLE dav_binding (
   dav_owner_id INT8 NOT NULL REFERENCES principal(principal_id) ON UPDATE CASCADE ON DELETE CASCADE,
   parent_container TEXT NOT NULL,
   dav_name TEXT UNIQUE NOT NULL,
-  dav_displayname TEXT
+  dav_displayname TEXT,
+	external_url TEXT,
+	type TEXT
 );
 
 

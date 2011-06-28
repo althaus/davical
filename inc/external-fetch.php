@@ -36,20 +36,35 @@ function create_external ( $path,$is_calendar,$is_addressbook )
 
 function fetch_external ( $bind_id, $min_age )
 {
-  $sql = 'SELECT collection.*, collection.dav_name as path, dav_binding.external_url as external_url FROM dav_binding LEFT JOIN collection ON (collection.collection_id=bound_source_id) WHERE bind_id = :bind_id';
+  $sql = 'SELECT collection.*, collection.dav_name AS path, dav_binding.external_url AS external_url, EXTRACT(epoch FROM caldav_data.modified) AS updated FROM dav_binding LEFT JOIN collection ON (collection.collection_id=bound_source_id) JOIN caldav_data USING (collection_id) WHERE bind_id = :bind_id';
   $params = array( ':bind_id' => $bind_id );
   if ( strlen ( $min_age ) > 2 ) {
-    $sql .= ' and collection.modified + interval :interval > NOW()';
+    $sql .= ' AND collection.modified + interval :interval > NOW()';
     $params[':interval'] = $min_age;
   }
+  $sql .= ' ORDER BY modified DESC LIMIT 1';
   $qry = new AwlQuery( $sql, $params );
   if ( $qry->Exec('DAVResource') && $qry->rows() > 0 && $row = $qry->Fetch() ) {
     $curl = curl_init ( $row->external_url );
     curl_setopt ( $curl, CURLOPT_RETURNTRANSFER, true );
+    curl_setopt ( $curl, CURLOPT_HEADER, true );
+    curl_setopt ( $curl, CURLOPT_FILETIME, true );
+    curl_setopt ( $curl, CURLOPT_NOBODY, true );
+    $ics = curl_exec ( $curl );
+    $info = curl_getinfo ( $curl );
+    if ( $info['filetime'] <=  $row->updated ) { 
+      dbg_error_log("request", "external resource unchanged " . $info['filetime'] );
+      curl_close ( $curl );
+      $qry = new AwlQuery( 'UPDATE collection SET modified=NOW() WHERE collection_id = :cid', array ( ':cid' => $row->collection_id ) );
+      $qry->Exec('DAVResource');  
+      return true;
+    }
+    dbg_error_log("request", "external resource changed, re importing" . $info['filetime'] );
+    curl_setopt ( $curl, CURLOPT_NOBODY, false );
     $ics = curl_exec ( $curl );
     curl_close ( $curl );
     if ( is_string ( $ics ) && strlen ( $ics ) > 20 ) {
-      $qry = new AwlQuery( 'UPDATE collection SET modified=NOW() where collection_id = :cid', array ( ':cid' => $row->collection_id ) );
+      $qry = new AwlQuery( 'UPDATE collection SET modified=NOW() WHERE collection_id = :cid', array ( ':cid' => $row->collection_id ) );
       $qry->Exec('DAVResource');  
       require_once ( 'caldav-PUT-functions.php');
       import_collection ( $ics , $row->user_no, $row->path, 'External Fetch' , false ) ;
@@ -64,8 +79,8 @@ function update_external ( $request )
   global $c;
   if ( $c->external_refresh < 1 )
     return ;
-  $sql = 'SELECT bind_id from dav_binding LEFT JOIN collection ON (collection.collection_id=bound_source_id) collection where dav_name = :dav_name and collection.modified + interval :interval < NOW()';
-  $qry = new AwlQuery( $sql, array ( ':dav_name' => $request->dav_name, ':interval' => $c->external_refresh + ' minutes' ) );
+  $sql = 'SELECT bind_id from dav_binding LEFT JOIN collection ON (collection.collection_id=bound_source_id) WHERE dav_binding.dav_name = :dav_name AND collection.modified + interval :interval < NOW()';
+  $qry = new AwlQuery( $sql, array ( ':dav_name' => $request->dav_name(), ':interval' => $c->external_refresh . ' minutes' ) );
   if ( $qry->Exec('DAVResource') && $qry->rows() > 0 && $row = $qry->Fetch() ) {
     if ( $row->bind_id != 0 )
       fetch_external ( $row->bind_id );
