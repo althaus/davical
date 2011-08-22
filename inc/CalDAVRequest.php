@@ -1080,7 +1080,7 @@ EOSQL;
     $xmldoc = sprintf('<?xml version="1.0" encoding="utf-8" ?>
 <error xmlns="DAV:">
   <%s/>%s
-</error>', $precondition, $explanation );
+</error>', str_replace('DAV::', '', $precondition), $explanation );
 
     $this->DoResponse( $status, $xmldoc, 'text/xml; charset="utf-8"' );
     exit(0);  // Unecessary, but might clarify things
