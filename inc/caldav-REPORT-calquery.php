@@ -25,31 +25,31 @@ function check_for_expansion( $calendar_data_node ) {
  * Build the array of properties to include in the report output
  */
 $qry_content = $xmltree->GetContent('urn:ietf:params:xml:ns:caldav:calendar-query');
-$proptype = $qry_content[0]->GetTag();
-$properties = array();
-switch( $proptype ) {
-  case 'DAV::prop':
-    $qry_props = $xmltree->GetPath('/urn:ietf:params:xml:ns:caldav:calendar-query/'.$proptype.'/*');
-    foreach( $qry_content[0]->GetElements() AS $k => $v ) {
-      $propertyname = preg_replace( '/^.*:/', '', $v->GetTag() );
-      $properties[$propertyname] = 1;
-      if ( $v->GetTag() == 'urn:ietf:params:xml:ns:caldav:calendar-data' ) check_for_expansion($v);
-    }
-    break;
 
-  case 'DAV::allprop':
-    $properties['allprop'] = 1;
-    if ( $qry_content[1]->GetTag() == 'DAV::include' ) {
-      foreach( $qry_content[1]->GetElements() AS $k => $v ) {
-        $include_properties[] = $v->GetTag(); /** $include_properties is referenced in DAVResource where allprop is expanded */
+while (list($idx, $qqq) = each($qry_content))
+{
+  $proptype = $qry_content[$idx]->GetTag();
+  $properties = array();
+  switch( $proptype ) {
+    case 'DAV::prop':
+      $qry_props = $xmltree->GetPath('/urn:ietf:params:xml:ns:caldav:calendar-query/'.$proptype.'/*');
+      foreach( $qry_content[$idx]->GetElements() AS $k => $v ) {
+        $propertyname = preg_replace( '/^.*:/', '', $v->GetTag() );
+        $properties[$propertyname] = 1;
         if ( $v->GetTag() == 'urn:ietf:params:xml:ns:caldav:calendar-data' ) check_for_expansion($v);
       }
-    }
-    break;
-
-  default:
-    $propertyname = preg_replace( '/^.*:/', '', $proptype );
-    $properties[$propertyname] = 1;
+      break;
+  
+    case 'DAV::allprop':
+      $properties['allprop'] = 1;
+        if ( $qry_content[$idx]->GetTag() == 'DAV::include' ) {
+        foreach( $qry_content[$idx]->GetElements() AS $k => $v ) {
+          $include_properties[] = $v->GetTag(); /** $include_properties is referenced in DAVResource where allprop is expanded */
+          if ( $v->GetTag() == 'urn:ietf:params:xml:ns:caldav:calendar-data' ) check_for_expansion($v);
+        }
+      }
+      break;
+  }
 }
 
 /**
@@ -156,10 +156,19 @@ function SqlFilterFragment( $filter, $components, $property = null, $parameter =
 //          $params[':time_range_start'] = $start;
 //          $params[':time_range_end'] = $finish;
 //        }
-        if ( isset($start) || isset($finish) ) {
+        if ( isset($start) && isset($finish) ) {
           $sql .= ' AND (rrule IS NOT NULL OR (dtstart < :time_range_end AND (dtend > :time_range_start ';
           $sql .= ' OR (dtend IS NULL AND dtstart > :time_range_start)))) ';
           $params[':time_range_start'] = $start;
+          $params[':time_range_end'] = $finish;
+        }
+        elseif ( isset($start) ) {
+          $sql .= ' AND (rrule IS NOT NULL OR (dtend > :time_range_start ';
+          $sql .= ' OR (dtend IS NULL AND dtstart > :time_range_start))) ';
+          $params[':time_range_start'] = $start;
+        }
+        elseif ( isset($finish) ) {
+          $sql .= ' AND (rrule IS NOT NULL OR dtstart < :time_range_end) ';
           $params[':time_range_end'] = $finish;
         }
         $need_range_filter = array(new RepeatRuleDateTime($start),new RepeatRuleDateTime($finish));
@@ -212,7 +221,7 @@ function SqlFilterFragment( $filter, $components, $property = null, $parameter =
 
           case 'UID':
           case 'SUMMARY':
-          case 'LOCATION':
+//          case 'LOCATION':
           case 'DESCRIPTION':
           case 'CLASS':
           case 'TRANSP':
