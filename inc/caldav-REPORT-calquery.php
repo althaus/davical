@@ -26,10 +26,10 @@ function check_for_expansion( $calendar_data_node ) {
  */
 $qry_content = $xmltree->GetContent('urn:ietf:params:xml:ns:caldav:calendar-query');
 
+$properties = array();
 while (list($idx, $qqq) = each($qry_content))
 {
   $proptype = $qry_content[$idx]->GetTag();
-  $properties = array();
   switch( $proptype ) {
     case 'DAV::prop':
       $qry_props = $xmltree->GetPath('/urn:ietf:params:xml:ns:caldav:calendar-query/'.$proptype.'/*');

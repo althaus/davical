@@ -317,7 +317,9 @@ label.privilege {
  <tr> <th class="right">$prompt_collection_id:</th>    <td class="left">$value_id</td> </tr>
  <tr> <th class="right">$prompt_dav_name:</th>         <td class="left">$value_dav_name</td> </tr>
  <tr> <th class="right">$prompt_entries:</th>          <td class="left">$entries</td> </tr>
- <tr> <th class="right">$prompt_load_file:</th>        <td class="left">##ics_file.file.60##</td> </tr>
+ <tr> <th class="right">$prompt_load_file:</th>        <td class="left">##ics_file.file.60##
+  <label class="privilege" title="Should the uploaded entries be appended to the calendar"><input type="checkbox" name="mode" value="append">Append</label>
+ </td> </tr> 
  <tr> <th class="right">$prompt_displayname:</th>      <td class="left">##dav_displayname.input.50##</td> </tr>
  <tr> <th class="right">$prompt_public:</th>           <td class="left">##publicly_readable.checkbox##</td> </tr>
  <tr> <th class="right">$prompt_calendar:</th>         <td class="left">##is_calendar.checkbox##</td> </tr>
@@ -352,6 +354,7 @@ toggle_visible('fld_use_default_privs','!privileges_settings');
 
 EOTEMPLATE;
 
+ 
 
 $editor->SetTemplate( $template );
 $page_elements[] = $editor;
