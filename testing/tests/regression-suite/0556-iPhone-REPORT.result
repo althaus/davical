@@ -1,0 +1,61 @@
+HTTP/1.1 207 Multi-Status
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
+DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
+ETag: "f8dadc8317ee98556653219683035b90"
+Content-Length: 1567
+Content-Type: text/xml; charset="utf-8"
+
+<?xml version="1.0" encoding="utf-8" ?>
+<multistatus xmlns="DAV:">
+ <response>
+  <href>/caldav.php/user1/home/2178279a-aec2-471f-832d-1f6df6203f2f.ics</href>
+  <propstat>
+   <prop>
+    <getcontenttype>text/calendar</getcontenttype>
+    <getetag>"509b0f0d8a3363379f9f5727f5dd74a0"</getetag>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/home/917b9e47-b748-4550-a566-657fbe672447.ics</href>
+  <propstat>
+   <prop>
+    <getcontenttype>text/calendar</getcontenttype>
+    <getetag>"cb3d9dc3e8c157f53eba3ea0e1e0f146"</getetag>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/home/0575d895-a006-4ed8-9be6-0d1b6b6b1f96.ics</href>
+  <propstat>
+   <prop>
+    <getcontenttype>text/calendar</getcontenttype>
+    <getetag>"00ad5eb1eb5507884710b0b66aa5d5c4"</getetag>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/home/b1679f77-673d-4f46-b3eb-2420e1bba301.ics</href>
+  <propstat>
+   <prop>
+    <getcontenttype>text/calendar</getcontenttype>
+    <getetag>"a2990674708634a311bb98a59865ca50"</getetag>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/home/e6eb5bc9-f7f9-4a0a-94e8-8e90eefc7d08.ics</href>
+  <propstat>
+   <prop>
+    <getcontenttype>text/calendar</getcontenttype>
+    <getetag>"8f581a053df6d833254756dfd7553d37"</getetag>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+</multistatus>

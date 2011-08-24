@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<multistatus xmlns="DAV:">
+ <response>
+  <href>/caldav.php/user1/addressbook/andrew_mcmillan.vcf</href>
+  <propstat>
+   <prop/>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <allprop/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+</multistatus>

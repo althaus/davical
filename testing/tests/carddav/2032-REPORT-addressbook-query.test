@@ -1,0 +1,27 @@
+#
+# Request a REPORT 
+#
+TYPE=REPORT
+URL=http://mycaldav/caldav.php/user1/addressbook/
+
+HEADER=Accept: text/xml,application/xml
+HEADER=Content-Type: text/xml
+HEADER=Depth: 1
+
+# HEAD
+
+BEGINDATA
+<?xml version="1.0" encoding="utf-8" ?>
+<C:addressbook-query xmlns:D="DAV:"
+                  xmlns:C="urn:ietf:params:xml:ns:carddav">
+  <D:allprop/>
+  <C:filter test="anyof">
+    <C:prop-filter name="NICKNAME">
+      <C:text-match collation="i;unicode-casemap"
+                    match-type="contains"
+      >aro</C:text-match>
+    </C:prop-filter>
+  </C:filter>
+</C:addressbook-query>
+ENDDATA
+

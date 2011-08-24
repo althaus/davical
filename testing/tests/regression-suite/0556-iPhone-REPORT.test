@@ -1,0 +1,28 @@
+#
+# Testing with a process similar to iPhone 5
+#
+TYPE=REPORT
+URL=http://mycaldav/caldav.php/user1/home/
+HEAD
+
+AUTH=user1:user1
+
+HEADER=User-Agent: iOS/5.0 (9A5302b) dataaccessd/1.0
+HEADER=Content-Type: text/xml
+HEADER=Depth: 1
+
+#
+BEGINDATA
+<?xml version="1.0" encoding="UTF-8"?>
+<D:calendar-query xmlns:D="urn:ietf:params:xml:ns:caldav">
+  <D:filter>
+    <D:comp-filter name="VCALENDAR">
+      <D:comp-filter name="VTODO"/>
+    </D:comp-filter>
+  </D:filter>
+  <A:prop xmlns:A="DAV:">
+    <A:getcontenttype/>
+    <A:getetag/>
+  </A:prop>
+</D:calendar-query>
+ENDDATA

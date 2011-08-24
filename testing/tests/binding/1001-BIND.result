@@ -1,13 +1,13 @@
 HTTP/1.1 403 Forbidden
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
-DAV: extended-mkcol, calendar-proxy, bind, addressbook
-Content-Length: 138
+DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
+Content-Length: 133
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
 <error xmlns="DAV:">
-  <DAV::can-overwrite/>A resource already exists at the destination.
+  <can-overwrite/>A resource already exists at the destination.
 </error>
           bind_id: >1598<
   bound_source_id: >11<
