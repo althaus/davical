@@ -14,7 +14,7 @@ require_once('iCalendar.php');
 require_once('DAVResource.php');
 
 $dav_resource = new DAVResource($request->path);
-if ( ! ($dav_resource->HavePrivilegeTo('DAV::write-properties') || $dav_resource->IsBinding() ) ) {
+if ( ! ($dav_resource->HavePrivilegeTo('DAV::write-properties') ) ) {
   $request->DoResponse( 403 );
 }
 
