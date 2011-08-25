@@ -51,6 +51,125 @@ class RepeatRuleTimeZone extends DateTimeZone {
   }
 }
 
+/**
+ * Provide a useful way of dealing with RFC5545 duration strings of the form
+ * ^-?P(\dW)|((\dD)?(T(\dH)?(\dM)?(\dS)?)?)$
+ */
+class Rfc5545Duration {
+  private $epoch_seconds = null;
+  private $days = 0;
+  private $secs = 0;
+  private $as_text = null;
+
+  /**
+   * Construct a new Rfc5545Duration either from incoming seconds or a text string.
+   * @param mixed $in_duration
+   */
+  function __construct( $in_duration ) {
+    if ( preg_match('{^-?P(\dW)|((\dD)?(T(\dH)?(\dM)?(\dS)?)?)$}i', $subject, $matches) ) {
+      $this->as_text = $in_duration;
+      $this->epoch_seconds = null;
+    }
+    elseif ( is_integer($in_duration) ) {
+      $this->epoch_seconds = $in_duration;
+      $this->as_text = null;
+    }
+  }
+
+  /**
+   * Return true if $this and $other are equal, false otherwise.
+   * @param Rfc5545Duration $other
+   * @return boolean
+   */
+  function equals( $other ) {
+    if ( $this == $other ) return true;
+    if ( $this->asSeconds() == $other->asSeconds() ) return true; 
+    return false; 
+  }
+
+  /**
+   * Returns the duration as epoch seconds.
+   */
+  function asSeconds() {
+    if ( !isset($this->epoch_seconds) ) {
+      if ( preg_match('{^(-?)P(\d+W)|((\d+D)?(T(\d+H)?(\d+M)?(\d+S)?)?)$}i', $subject, $matches) ) {
+        if ( isset($matches[2]) ) $this->days = ($matches[2] * 7);
+        else {
+          if ( isset($matches[4]) ) $this->days = $matches[4];
+          $this->secs = 0;
+          if ( isset($matches[6]) ) $this->secs += $matches[6] * 3600;
+          if ( isset($matches[7]) ) $this->days += $matches[7] * 60;
+          if ( isset($matches[8]) ) $this->days += $matches[8];
+        }
+        if ( $matches[1] == '-' ) {
+          $this->days *= -1;
+          $this->secs *= -1;
+        }
+        $this->epoch_seconds = ($this->days * 86400) + $this->secs;
+      }
+      else {
+        throw new Exception('Invalid epoch: "'+$this->as_text+"'");
+      }
+    }
+    return $this->epoch_seconds;
+  }
+
+  
+  /**
+   * Returns the duration as a text string of the form ^(-?)P(\d+W)|((\d+D)?(T(\d+H)?(\d+M)?(\d+S)?)?)$
+   */
+  function __toString() {
+    if ( !isset($this->as_text) ) {
+      $this->as_text = ($in_duration < 0 ? '-P' : 'P');
+      $in_duration = abs($in_duration);
+      if ( $in_duration >= 86400 ) {
+        $this->days = floor($in_duration / 86400);
+        $in_duration -= $this->days * 86400;
+        if ( $in_duration == 0 && ($this->days / 7) == floor($this->days / 7) ) {
+          $this->as_text .= ($this->days/7).'W';
+          return $this->as_text;
+        }
+        $this->as_text .= $this->days.'D';
+      }
+      if ( $in_duration > 0 ) {
+        $secs = $in_duration;
+        $this->as_text .= 'T';
+        $hours = floor($in_duration / 3600);
+        if ( $hours > 0 ) $this->as_text .= $hours . 'H';
+        $minutes = floor(($in_duration % 3600) / 60);
+        if ( $minutes > 0 ) $this->as_text .= $minutes . 'M';
+        $seconds = $in_duration % 60;
+        if ( $seconds > 0 ) $this->as_text .= $seconds . 'S';
+      }
+    }
+    return $this->as_text;
+  }
+
+
+  /**
+   * Factory method to return an Rfc5545Duration object from the difference
+   * between two dates.
+   * 
+   * This is flawed, at present: we should really localise both dates and work 
+   * out the difference in days, then localise the times and work out the difference
+   * between the clock times.  On the other hand we're replacing a quick and dirty
+   * hack that did it exactly the same way in the past, so we're not making things
+   * any *worse* and at least we're making it clear that it could be improved...
+   * 
+   * The problem strikes (as they all do) across DST boundaries.
+   * 
+   * @todo Improve this to calculate the days difference and then the clock time diff
+   * and work from there.
+   * 
+   * @param RepeatRuleDateTime $d1
+   * @param RepeatRuleDateTime $d2
+   * @return Rfc5545Duration
+   */
+  static function fromTwoDates( $d1, $d2 ) {
+    $diff = $d2->epoch() - $d1->epoch();
+    return new Rfc5545Duration($diff);
+  } 
+}
 
 /**
 * Wrap the DateTime class to make it friendlier to passing in random strings from iCalendar
@@ -268,36 +387,6 @@ class RepeatRuleDateTime extends DateTime {
       if ( !$return_floating_times && isset($this->tzid) && $this->tzid == 'UTC' ) {
         $result .= 'Z';
       }
-    }
-    return $result;
-  }
-
-
-  /**
-   * Create an RFC5545 format duration string from the difference between $this and the supplied $end_stamp
-   * @param RepeatRuleDateTime $end_stamp
-   */
-  public function RFC5545Duration( $end_stamp ) {
-    $diff = $end_stamp->epoch() - $this->epoch();
-    $result = ($diff < 0 ? '-P' : 'P');
-    $diff = abs($diff);
-    if ( $diff >= 86400 ) {
-      $days = floor($diff / 86400);
-      $diff -= $days * 86400;
-      if ( $diff == 0 && ($days / 7) == floor($days / 7) ) {
-        $result .= ($days/7).'W';
-        return $result;
-      }
-      $result .= $days.'D';
-    }
-    if ( $diff > 0 ) {
-      $result .= 'T';
-      $hours = floor($diff / 3600);
-      if ( $hours > 0 ) $result .= $hours . 'H';
-      $minutes = floor(($diff % 3600) / 60);
-      if ( $minutes > 0 ) $result .= $minutes . 'M';
-      $seconds = $diff % 60;
-      if ( $seconds > 0 ) $result .= $seconds . 'S';
     }
     return $result;
   }
@@ -654,7 +743,7 @@ class RepeatRule {
   private function expand_byday_in_week( $day_in_week ) {
 
     /**
-    * @TODO: This should really allow for WKST, since if we start a series
+    * @todo This should really allow for WKST, since if we start a series
     * on (eg.) TH and interval > 1, a MO, TU, FR repeat will not be in the
     * same week with this code.
     */
@@ -1060,23 +1149,23 @@ function expand_event_instances( $vResource, $range_start = null, $range_end = n
       $instance_end = $comp->GetProperty($end_type);
       if ( isset($instance_end) ) {
         $dtend = new RepeatRuleDateTime( $instance_end );
-        $duration = $dtsrt->RFC5545Duration( $dtend );
+        $duration = Rfc5545Duration::fromTwoDates($dtsrt, $dtend);
       }
       else {
         if ( $instance_start->GetParameterValue('VALUE') == 'DATE' ) {
-          $duration = 'P1D';
+          $duration = new Rfc5545Duration('P1D');
         }
         else {
-          $duration = 'P0D';  // For clarity
+          $duration = new Rfc5545Duration(0);
         }
       }
     }
     else {
-      $duration = $duration->Value();
+      $duration = new Rfc5545Duration($duration->Value());
     }
 
     if ( $utc < $start_utc ) {
-      if ( isset($early_start) && isset($last_duration) && $duration == $last_duration) {
+      if ( isset($early_start) && isset($last_duration) && $duration->equals($last_duration) ) {
         if ( $utc < $early_start ) {
           if ( DEBUG_RRULE ) printf( "Next please: $utc is before $early_start and before $start_utc.\n");
           continue;
@@ -1112,9 +1201,39 @@ function expand_event_instances( $vResource, $range_start = null, $range_end = n
   // Add overriden instances
   foreach( $components AS $k => $comp ) {
     $p = $comp->GetProperty('RECURRENCE-ID');
-    if (isset($p) && $p->Value() != '') {
-      $new_components[$p->Value()] = $comp;
+    if ( isset($p) && $p->Value() != '') {
+      if ( !isset($new_components[$p->Value()]) ) {
+        // The component we're replacing is outside the range.  Unless the replacement
+        // is *in* the range we will move along to the next one.
+        $dtstart_prop = $comp->GetProperty($dtstart_type);
+        if ( !isset($dtstart_prop) ) continue;  // No start: no expansion.  Note that we consider 'DUE' to be a start if DTSTART is missing
+        $dtstart = new RepeatRuleDateTime( $dtstart_prop );
+        $is_date = $dtstart->isDate();  
+        if ( $return_floating_times ) $dtstart->setAsFloat();
+        $dtstart = $dtstart->FloatOrUTC($return_floating_times);
+        if ( $dtstart > $end_utc ) continue; // Start after end of range, skip it
+        
+        $end_type = ($comp->GetType() == 'VTODO' ? 'DUE' : 'DTEND');
+        $duration = $comp->GetProperty('DURATION');
+        if ( !isset($duration) || $duration->Value() == '' ) {
+          $instance_end = $comp->GetProperty($end_type);
+          if ( isset($instance_end) ) {
+            $dtend = new RepeatRuleDateTime( $instance_end );
+            if ( $return_floating_times ) $dtend->setAsFloat();
+            $dtend = $dtend->FloatOrUTC($return_floating_times); 
+          }
+          else {
+            $dtend = $dtstart  + ($is_date ? $dtstart + 86400 : 0 );
+          }
+        }
+        else {
+          $duration = new Rfc5545Duration($duration->Value());
+          $dtend = $dtstart + $duration->asSeconds();
+        }
+        if ( $dtend < $start_utc ) continue; // End before start of range: skip that too.
+      }
       if ( DEBUG_RRULE ) printf( "Replacing overridden instance at %s\n", $p->Value());
+      $new_components[$p->Value()] = $comp;
     }
   }
   
