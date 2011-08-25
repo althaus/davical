@@ -60,7 +60,7 @@ function handle_freebusy_request( $ic ) {
     $attendee_email = preg_replace( '/^mailto:/', '', $attendee->Value() );
     dbg_error_log( "POST", "Calculating free/busy for %s", $attendee_email );
 
-    /** @TODO: Refactor this so we only do one query here and loop through the results */
+    /** @todo Refactor this so we only do one query here and loop through the results */
     $params = array( ':session_principal' => $session->principal_id, ':scan_depth' => $c->permission_scan_depth, ':email' => $attendee_email );
     $qry = new AwlQuery('SELECT pprivs(:session_principal::int8,principal_id,:scan_depth::int) AS p, username FROM usr JOIN principal USING(user_no) WHERE lower(usr.email) = lower(:email)', $params );
     if ( !$qry->Exec('POST',__LINE__,__FILE__) ) $request->DoResponse( 501, 'Database error');

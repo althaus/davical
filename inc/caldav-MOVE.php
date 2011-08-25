@@ -119,7 +119,7 @@ if ( $src->IsCollection()  ) {
     $qry = new AwlQuery( 'DELETE FROM collection WHERE dav_name = :dst_name', array( ':dst_name' => $dst_name ) );
     if ( !$qry->Exec('move') ) rollback(500);
   }
-  /** @TODO: Need to confirm this will work correctly if we move this into another user's hierarchy. */
+  /** @todo Need to confirm this will work correctly if we move this into another user's hierarchy. */
   $sql = 'UPDATE collection SET dav_name = :dst_name ';
   $params = array(':dst_name' => $dst_name);
   if ( $src_user_no != $dst_user_no ) {

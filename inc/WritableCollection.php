@@ -18,7 +18,7 @@ class WritableCollection extends DAVResource {
   $resources = $ic->GetComponents('VTIMEZONE',false); // Not matching VTIMEZONE
   if ( !isset($resources[0]) ) {
     $resource_type = 'Unknown';
-    /** @TODO: Handle writing non-calendar resources, like address book entries or random file data */
+    /** @todo Handle writing non-calendar resources, like address book entries or random file data */
     rollback_on_error( $caldav_context, $user_no, $path, translate('No calendar content'), 412 );
     return false;
   }
@@ -121,7 +121,7 @@ class WritableCollection extends DAVResource {
 
   $class = $first->GetPValue('CLASS');
   /* Check and see if we should over ride the class. */
-  /** @TODO: is there some way we can move this out of this function? Or at least get rid of the need for the SQL query here. */
+  /** @todo is there some way we can move this out of this function? Or at least get rid of the need for the SQL query here. */
   if ( public_events_only($user_no, $path) ) {
     $class = 'PUBLIC';
   }

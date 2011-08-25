@@ -52,7 +52,7 @@ VALUES( :dav_id, :version, :uid, :nickname, :fn, :name, :note, :org, :url, :fbur
     foreach( $properties AS $k => $v ) {
       $pname = ':' . strtolower($v->Name());
       if ( $pname == ':n' ) $pname = ':name';
-      if ( !isset($params[$pname]) /** @TODO: or this is one is in the user's language */ ) $params[$pname] = $v->Value();
+      if ( !isset($params[$pname]) /** @todo or this is one is in the user's language */ ) $params[$pname] = $v->Value();
     }
 
     $qry->QDo( $sql, $params );

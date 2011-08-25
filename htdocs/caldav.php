@@ -93,7 +93,7 @@ $allowed = implode( ', ', array_keys($request->supported_methods) );
 if ( ! ($request->IsPrincipal() || isset($request->collection) || $request->method == 'PUT' || $request->method == 'MKCALENDAR' || $request->method == 'MKCOL' ) ) {
   if ( preg_match( '#^/principals/users(/.*/)$#', $request->path, $matches ) ) {
     // Although this doesn't work with the iPhone, perhaps it will with iCal...
-    /** @TODO: integrate handling this URL into CalDAVRequest.php */
+    /** @todo integrate handling this URL into CalDAVRequest.php */
     $redirect_url = ConstructURL('/caldav.php'.$matches[1]);
     dbg_error_log( 'LOG WARNING', 'Redirecting %s for "%s" to "%s"', $request->method, $request->path, $redirect_url );
     header('Location: '.$redirect_url );

@@ -1,5 +1,5 @@
 <?php
-/** @TODO: work out something more than true/false returns for dependency checks */
+/** todo work out something more than true/false returns for dependency checks */
 
 function i18n($value) {
   return $value;  /* Just pass the value through */

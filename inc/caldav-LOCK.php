@@ -143,7 +143,7 @@ if ( $request->method == "LOCK" ) {
 }
 elseif (  $request->method == "UNLOCK" ) {
   /**
-  * @TODO: respond with preconditionfailed(409,'lock-token-matches-request-uri') if
+  * @todo respond with preconditionfailed(409,'lock-token-matches-request-uri') if
   * there is no lock to be deleted.
   */
   dbg_error_log( "LOCK", "Attempting to unlock resource '%s'", $request->path);

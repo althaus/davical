@@ -33,7 +33,7 @@ $c->pg_connect[] = "dbname=davical user=davical_app";
 
 /**
 * default: true
-* If true, then TODO requested  from someone other than the admmin or owner
+* If true, then VTODO requested  from someone other than the admmin or owner
 * of a calendar will not get any answer.  Often these todo are only relevant
 * to the owner, but in some shared calendar situations they might not be in
 * which case you should set this to false.

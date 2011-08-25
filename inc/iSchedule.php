@@ -341,6 +341,5 @@ $d = new iSchedule ();
 if ( $d->validateRequest ( ) )
 {
 	include ( 'caldav-POST.php' );
-	// TODO
-	// handle request.
+	// @todo handle request.
 }
