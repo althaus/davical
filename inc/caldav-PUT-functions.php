@@ -175,21 +175,21 @@ function handle_schedule_request( $ical ) {
   $attendees = $ic->GetProperties('ATTENDEE');
   $wr_attendees = $ic->GetProperties('X-WR-ATTENDEE');
   if ( count ( $wr_attendees ) > 0 ) {
-    dbg_error_log( "POST", "Non-compliant iCal request.  Using X-WR-ATTENDEE property" );
+    dbg_error_log( "PUT", "Non-compliant iCal request.  Using X-WR-ATTENDEE property" );
     foreach( $wr_attendees AS $k => $v ) {
       $attendees[] = $v;
     }
   }
-  dbg_error_log( "POST", "Attempting to deliver scheduling request for %d attendees", count($attendees) );
+  dbg_error_log( "PUT", "Attempting to deliver scheduling request for %d attendees", count($attendees) );
 
   foreach( $attendees AS $k => $attendee ) {
     $attendee_email = preg_replace( '/^mailto:/', '', $attendee->Value() );
     if ( $attendee_email == $request->principal->email() ) {
-      dbg_error_log( "POST", "not delivering to owner" );
+      dbg_error_log( "PUT", "not delivering to owner" );
       continue;
     }
     if ( $attendee->GetParameterValue ( 'PARTSTAT' ) != 'NEEDS-ACTION' || preg_match ( '/^[35]\.[3-9]/',  $attendee->GetParameterValue ( 'SCHEDULE-STATUS' ) ) ) {
-      dbg_error_log( "POST", "attendee %s does not need action", $attendee_email );
+      dbg_error_log( "PUT", "attendee %s does not need action", $attendee_email );
       continue;
     }
 
@@ -200,7 +200,7 @@ function handle_schedule_request( $ical ) {
       continue;
     }
 
-    dbg_error_log( "POST", "Delivering to %s", $attendee_email );
+    dbg_error_log( "PUT", "Delivering to %s", $attendee_email );
 
     $attendee_principal = new DAVPrincipal ( array ('email'=>$attendee_email, 'options'=> array ( 'allow_by_email' => true ) ) );
     if ( $attendee_principal == false ){
@@ -269,21 +269,21 @@ function handle_schedule_reply ( $ical ) {
   $attendees = array_merge($organizer,$ic->GetProperties('ATTENDEE'));
   $wr_attendees = $ic->GetProperties('X-WR-ATTENDEE');
   if ( count ( $wr_attendees ) > 0 ) {
-    dbg_error_log( "POST", "Non-compliant iCalendar request.  Using X-WR-ATTENDEE property" );
+    dbg_error_log( "PUT", "Non-compliant iCalendar request.  Using X-WR-ATTENDEE property" );
     foreach( $wr_attendees AS $k => $v ) {
       $attendees[] = $v;
     }
   }
-  dbg_error_log( "POST", "Attempting to deliver scheduling request for %d attendees", count($attendees) );
+  dbg_error_log( "PUT", "Attempting to deliver scheduling request for %d attendees", count($attendees) );
 
   foreach( $attendees AS $k => $attendee ) {
     $attendee_email = preg_replace( '/^mailto:/', '', $attendee->Value() );
-    dbg_error_log( "POST", "Delivering to %s", $attendee_email );
+    dbg_error_log( "PUT", "Delivering to %s", $attendee_email );
     $attendee_principal = new DAVPrincipal ( array ('email'=>$attendee_email, 'options'=> array ( 'allow_by_email' => true ) ) );
     $deliver_path = $attendee_principal->internal_url('schedule_inbox');
     $attendee_email = preg_replace( '/^mailto:/', '', $attendee->Value() );
     if ( $attendee_email == $request->principal->email ) {
-      dbg_error_log( "POST", "not delivering to owner" );
+      dbg_error_log( "PUT", "not delivering to owner" );
       continue;
     }
     $ar = new DAVResource($deliver_path);
@@ -351,9 +351,9 @@ function create_scheduling_requests( &$resource ) {
   }
 
   $attendees = $resource->GetPropertiesByPath('/VCALENDAR/*/ATTENDEE');
-	$wr_attendees = $resource->GetPropertiesByPath('/VCALENDAR/*/X-WR-ATTENDEE');
-	if ( count ( $wr_attendees ) > 0 ) {
-    dbg_error_log( 'POST', 'Non-compliant iCal request.  Using X-WR-ATTENDEE property' );
+  $wr_attendees = $resource->GetPropertiesByPath('/VCALENDAR/*/X-WR-ATTENDEE');
+  if ( count ( $wr_attendees ) > 0 ) {
+    dbg_error_log( 'PUT', 'Non-compliant iCal request.  Using X-WR-ATTENDEE property' );
     foreach( $wr_attendees AS $k => $v ) {
       $attendees[] = $v;
     }
@@ -383,7 +383,7 @@ function update_scheduling_requests( &$resource ) {
   $attendees = $resource->GetPropertiesByPath('/VCALENDAR/*/ATTENDEE');
   $wr_attendees = $resource->GetPropertiesByPath('/VCALENDAR/*/X-WR-ATTENDEE');
   if ( count ( $wr_attendees ) > 0 ) {
-    dbg_error_log( 'POST', 'Non-compliant iCal request.  Using X-WR-ATTENDEE property' );
+    dbg_error_log( 'PUT', 'Non-compliant iCal request.  Using X-WR-ATTENDEE property' );
     foreach( $wr_attendees AS $k => $v ) {
       $attendees[] = $v;
     }
@@ -730,7 +730,7 @@ function write_attendees( $dav_id, $ical ) {
       dbg_error_log( 'LOG', 'Duplicate attendee "%s" in resource "%d"', $attendee, $dav_id );
       dbg_error_log( 'LOG', 'Original:  "%s"', $processed[$attendee] );
       dbg_error_log( 'LOG', 'Duplicate: "%s"', $v->Render() );
-      continue; /** @TODO: work out why we get duplicate ATTENDEE on one VEVENT */
+      continue; /** @todo work out why we get duplicate ATTENDEE on one VEVENT */
     }
     $qry->Bind(':attendee', $attendee );
     $qry->Bind(':status',   $v->GetParameterValue('STATUS') );
@@ -768,7 +768,7 @@ function write_resource( $user_no, $path, $caldav_data, $collection_id, $author,
   $resources = $ic->GetComponents('VTIMEZONE',false); // Not matching VTIMEZONE
   if ( !isset($resources[0]) ) {
     $resource_type = 'Unknown';
-    /** @TODO: Handle writing non-calendar resources, like address book entries or random file data */
+    /** @todo Handle writing non-calendar resources, like address book entries or random file data */
     rollback_on_error( $caldav_context, $user_no, $path, translate('No calendar content'), 412 );
     return false;
   }
@@ -867,7 +867,7 @@ function write_resource( $user_no, $path, $caldav_data, $collection_id, $author,
   
   $class = $first->GetPValue('CLASS');
   /* Check and see if we should over ride the class. */
-  /** @TODO: is there some way we can move this out of this function? Or at least get rid of the need for the SQL query here. */
+  /** @todo is there some way we can move this out of this function? Or at least get rid of the need for the SQL query here. */
   if ( public_events_only($user_no, $path) ) {
     $class = 'PUBLIC';
   }
