@@ -1106,9 +1106,18 @@ function expand_event_instances( $vResource, $range_start = null, $range_end = n
     $component->AddProperty('DURATION', $duration );
     if ( $has_repeats && $dtstart->FloatOrUTC($return_floating_times) != $utc )
       $component->AddProperty('RECURRENCE-ID', $utc, ($is_date ? array('VALUE' => 'DATE') : null) );
-    $new_components[] = $component;
+    $new_components[$utc] = $component;
   }
 
+  // Add overriden instances
+  foreach( $components AS $k => $comp ) {
+    $p = $comp->GetProperty('RECURRENCE-ID');
+    if (isset($p) && $p->Value() != '') {
+      $new_components[$p->Value()] = $comp;
+      if ( DEBUG_RRULE ) printf( "Replacing overridden instance at %s\n", $p->Value());
+    }
+  }
+  
   $vResource->SetComponents($new_components);
 
   return $vResource;
