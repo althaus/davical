@@ -1,0 +1,8 @@
+[davical.messagespot]
+file_filter = po/<lang>.po
+source_file = po/messages.pot
+source_lang = en
+
+[main]
+host = http://www.transifex.net
+

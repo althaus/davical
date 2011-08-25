@@ -1,21 +1,30 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
+#   <daniel@aleksand.no>, 2011.
+# Sven Olsen <sven@svenolsen.net>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: DAViCal\n"
-"Report-Msgid-Bugs-To: http://repo.or.cz/w/davical.git/tree/HEAD:/issues\n"
-"POT-Creation-Date: 2010-12-25 17:26+0200\n"
-"PO-Revision-Date: 2011-02-20 22:45+0000\n"
-"Last-Translator: karora <andrew@mcmillan.net.nz>\n"
-"Language-Team: Norwegian Bokmål (Norway) <None>\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-08-25 11:42+1200\n"
+"PO-Revision-Date: 2011-08-15 23:39+0000\n"
+"Last-Translator: aleksand <daniel@aleksand.no>\n"
+"Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.net/projects/p/davical/team/nb_NO/)\n"
+"Language: nb_NO\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: nb_NO\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#. Translators: this is the formatting of a date with time. See http://php.net/manual/en/function.strftime.php
+msgid "%F %T"
+msgstr "%F %T"
+
+#. Translators: his is the formatting of just the time. See http://php.net/manual/en/function.strftime.php
+msgid "%T"
+msgstr "%T"
 
 msgid "*** Default Locale ***"
 msgstr "*** Standard Locale ***"
@@ -23,52 +32,83 @@ msgstr "*** Standard Locale ***"
 msgid "*** Unknown ***"
 msgstr "*** Ukjent ***"
 
-#, c-format
+#, php-format
 msgid "- adding %s to group : %s"
-msgstr "- legger %s til gruppe : %s"
+msgstr "- legger til %s i gruppe : %s"
 
-#, c-format
+#, php-format
 msgid "- adding users %s to group : %s"
-msgstr "- legger brukere %s til gruppe : %s"
+msgstr "- legger til brukerene %s i gruppe : %s"
 
-#, c-format
+#, php-format
 msgid "- creating groups : %s"
-msgstr "- lager grupper : %s"
+msgstr "- oppretter grupper : %s"
 
-#, c-format
+#, php-format
 msgid "- creating record for users :  %s"
-msgstr "- lager post for brukere : %s"
+msgstr "- oppretter post for brukere : %s"
 
-#, c-format
+#, php-format
 msgid "- deactivate groups : %s"
 msgstr "- deaktiverer grupper : %s"
 
-#, c-format
+#, php-format
 msgid "- deactivating users : %s"
 msgstr "- deaktiverer brukere : %s"
 
-#, c-format
+#, php-format
 msgid "- nothing done on : %s"
-msgstr "- ingenting gjort med : %s"
+msgstr "- ingen endring på : %s"
 
-#, c-format
+#, php-format
 msgid "- removing %s from group : %s"
 msgstr "- fjerner %s fra gruppe : %s"
 
-#, c-format
+#, php-format
 msgid "- updating groups : %s"
 msgstr "- oppdaterer grupper : %s"
 
-#, c-format
+#, php-format
 msgid "- updating user records : %s"
 msgstr "- oppdaterer brukerdata : %s"
 
 msgid "<b>WARNING: all events in this path will be deleted before inserting allof the ics file</b>"
 msgstr "<b>ADVARSEL: alle hendelser i denne banen vil bli slettet ved innsetting av ics filen</b>"
 
-#, c-format
-msgid "<h1>Log On Please</h1><p>For access to the %s you should log on withthe username and password that have been issued to you.</p><p>If you would like to request access, please e-mail %s.</p>"
-msgstr "<h1>Logg deg inn</h1><p>For tilgang til %s skal du oppgi brukernavnet og passordet du fikk</p><p>Vil du be om tilgang, kontakt %s.</p>"
+#, php-format
+msgid ""
+"<h1>Help</h1>\n"
+"<p>For initial help you should visit the <a href=\"http://www.davical.org/\" target=\"_blank\">DAViCal "
+"Home Page</a> or take\n"
+"a look at the <a href=\"http://wiki.davical.org/%s\" target=\"_blank\">DAViCal Wiki</a>.</p>\n"
+"<p>If you can't find the answers there, visit us on <a href=\"http://wikipedia.org/wiki/"
+"Internet_Relay_Chat\" target=\"_blank\">IRC</a> in\n"
+"the <b>#davical</b> channel on <a href=\"http://www.oftc.net/\" target=\"_blank\">irc.oftc.net</a>,\n"
+"or send a question to the <a href=\"http://lists.sourceforge.net/mailman/listinfo/davical-general\" "
+"target=\"_blank\">DAViCal Users mailing list</a>.</p>\n"
+"<p>The <a href=\"http://sourceforge.net/mailarchive/forum.php?forum_id=8348\" title=\"DAViCal Users "
+"Mailing List\" target=\"_blank\">mailing list\n"
+"archives can be helpful too.</p>"
+msgstr ""
+"<h1>Hjelp</h1>\n"
+"<p>For oppstartshjelp bør du besøke <a href=\"http://www.davical.org\" target=\"_blank\">DAViCal-"
+"hjemmesiden</a> eller ta en titt på <a href=\"http://wiki.davical.org/%s\" target=\"_blank\">DAViCal "
+"wikien.</a></p>\n"
+"<p>Kan du ikke finne svaret der, kom innom vår kanal <b>#davical</b> på <a href=\"http://www.oftc.net/"
+"\" target=\"_blank\">irc.oftc.net</a> nettverket på <a href=\"http://wikipedia.org/wiki/"
+"Internet_Relay_Chat\" target=\"_blank\">IRC.</a>\n"
+"Eller send spørsmålet til <a href=\"http://lists.sourceforge.net/mailman/listinfo/davical-general\" "
+"target=\"_blank\">DAViCal epostlisten for brukere</a>.</p>\n"
+"<p><a href=\"http://sourceforge.net/mailarchive/forum.php?forum_id=8348\" title=\"DAViCal Users "
+"Mailing List\" target=\"_blank\">Epostlistearkivene</a> kan også være nyttige.</p>"
+
+#, php-format
+msgid ""
+"<h1>Log On Please</h1><p>For access to the %s you should log on withthe username and password that "
+"have been issued to you.</p><p>If you would like to request access, please e-mail %s.</p>"
+msgstr ""
+"<h1>Logg deg inn</h1><p>For tilgang til %s skal du oppgi brukernavnet og passordet du fikk</p><p>Vil "
+"du be om tilgang, kontakt %s.</p>"
 
 msgid "A DAViCal principal collection may only contain collections"
 msgstr "En DAViCal kontosamling kan bare inneholde samlinger"
@@ -97,9 +137,7 @@ msgstr "Aktiv"
 msgid "Adding new member to this Group Principal"
 msgstr "Legger nytt medlem til denne Gruppekontoen"
 
-msgid "Admin <!-- in the sense of 'systems admin' -->"
-msgstr "Admin"
-
+#. Translators: in the sense of 'systems admin'
 msgid "Admin"
 msgstr "Admin"
 
@@ -108,6 +146,9 @@ msgstr "Administrasjon"
 
 msgid "Administrator"
 msgstr "Administrator"
+
+msgid "All"
+msgstr "Alle"
 
 msgid "All collection data will be unrecoverably deleted."
 msgstr "Alle data til samlingen vil ugjenopprettelig bli slettet"
@@ -120,9 +161,6 @@ msgstr "Alle privilegier"
 
 msgid "All requested changes were made."
 msgstr "Alle forespurte endringer ble utfort"
-
-msgid "All"
-msgstr "Alle"
 
 msgid "Allow free/busy enquiries targeted at the owner of this scheduling inbox"
 msgstr "Tillat ledig/opptatt forespørsler rettet til eieren av denne innboksen"
@@ -145,6 +183,9 @@ msgstr "Utfør endringer"
 msgid "Apply DB Patches"
 msgstr "Utfør DB endringer"
 
+msgid "Attachment"
+msgstr "Vedlegg"
+
 msgid "Binding deleted"
 msgstr "Forbindelse slettet"
 
@@ -166,18 +207,21 @@ msgstr "Bla gjennom alle brukere"
 msgid "Busy"
 msgstr "Opptatt"
 
+#, php-format
+msgid "Calendar \"%s\" was loaded from file."
+msgstr "Kalenderen \"%s\" ble lastet fra fil."
+
 msgid "Calendar Principals"
 msgstr "Kalenderkontoer"
 
 msgid "Calendar Timezone"
 msgstr "Kalender tidssone"
 
-#, c-format
-msgid "Calendar \"%s\" was loaded from file."
-msgstr "Kalender \"%s\" ble lastet fra fil."
-
 msgid "Can only add tickets for existing collection paths which you own"
 msgstr "Kan bare legge til tilgang til eksiterende samlinger du eier"
+
+msgid "Categories"
+msgstr "Kategorier"
 
 msgid "Change Password"
 msgstr "Endre passord"
@@ -188,6 +232,9 @@ msgstr "Klikk for brukerdetaljer"
 msgid "Click to edit principal details"
 msgstr "Klikk for redigering av kontodetaljer"
 
+msgid "Collection"
+msgstr "Samling"
+
 msgid "Collection Grants"
 msgstr "Samlingsrettigheter"
 
@@ -197,9 +244,6 @@ msgstr "Samlings ID"
 msgid "Collection deleted"
 msgstr "Samling slettet"
 
-msgid "Collection"
-msgstr "Samling"
-
 msgid "Collections may not be both CalDAV calendars and CardDAV addressbooks at the same time"
 msgstr "Samlinger kan ikke være både CalDAV og CardDAV adressebøker samtidig"
 
@@ -208,6 +252,9 @@ msgstr "Konfigurerer Kalender klienter for DAViCal"
 
 msgid "Configuring DAViCal"
 msgstr "Konfigurerer DAViCal"
+
+msgid "Confirm"
+msgstr "Bekreft"
 
 msgid "Confirm Deletion of the Binding"
 msgstr "Bekreft sletting av forbindelsen"
@@ -227,11 +274,11 @@ msgstr "Bekreft passordet"
 msgid "Confirm the new password."
 msgstr "Bekreft nytt passord"
 
-msgid "Confirm"
-msgstr "Bekreft"
-
 msgid "Could not retrieve"
 msgstr "Kunne ikke hente"
+
+msgid "Create"
+msgstr "Opprett"
 
 msgid "Create Collection"
 msgstr "Opprett samling"
@@ -254,9 +301,6 @@ msgstr "Lag ny konto (ny bruker, ressurs eller gruppe)"
 msgid "Create a resource or collection"
 msgstr "Lag en ressurs eller samling"
 
-msgid "Create"
-msgstr "Opprett"
-
 msgid "Creating new Collection."
 msgstr "Oppretter ny samling"
 
@@ -268,9 +312,6 @@ msgstr "Oppretter ny tilgang med privilegier til denne konto"
 
 msgid "Current DAViCal version "
 msgstr "Gjeldende DAViCal versjon"
-
-msgid "Current Versions"
-msgstr "Gjeldende versjoner"
 
 msgid "DAV Path"
 msgstr "DAV bane"
@@ -344,6 +385,9 @@ msgstr "Datoformat"
 msgid "Default Privileges"
 msgstr "Standard privilegier"
 
+msgid "Delete"
+msgstr "Slett"
+
 msgid "Delete Events/Collections"
 msgstr "Slett hendelser/samlinger"
 
@@ -352,9 +396,6 @@ msgstr "Slett konto"
 
 msgid "Delete a resource or collection"
 msgstr "Slett en ressurs eller samling"
-
-msgid "Delete"
-msgstr "Slett"
 
 msgid "Deleted a grant from this Principal"
 msgstr "Slettet en rettighet til denne kontoen"
@@ -401,15 +442,11 @@ msgstr "Visningsnavn"
 msgid "Does the user have the right to perform this role?"
 msgstr "Har brukeren rettigheter til denne rollen ?"
 
-msgid "EMail OK"
-msgstr "Epost OK"
-
 msgid "EMail"
 msgstr "Epost"
 
-#, c-format
-msgid "ERROR: %s"
-msgstr "FEIL: %s"
+msgid "EMail OK"
+msgstr "Epost OK"
 
 msgid "ERROR: The full name may not be blank."
 msgstr "FEIL: Det fulle navnet kan ikke være tomt"
@@ -420,11 +457,11 @@ msgstr "FEIL: Det nye passordet må stemme med det bekreftede passordet"
 msgid "ERROR: There was a database error writing the roles information!"
 msgstr "FEIL: Det var en databasefeil under skriving av rolleinformasjon"
 
-msgid "Edit this user record"
-msgstr "Rediger denne brukerens post"
-
 msgid "Edit"
 msgstr "Rediger"
+
+msgid "Edit this user record"
+msgstr "Rediger denne brukerens post"
 
 msgid "Email Address"
 msgstr "Epostadresse"
@@ -435,11 +472,11 @@ msgstr "Oppgi brukernavnet, om du vet det, og klikk her for tilsending av midler
 msgid "Enter your username and password then click here to log in."
 msgstr "Oppgi brukernavn og passord og klikk her for å logge inn"
 
-#, c-format
+#, php-format
 msgid "Error NoGroupFound with filter >%s<, attributes >%s< , dn >%s<"
 msgstr "Error NoGroupFound with filter >%s<, attributes >%s< , dn >%s<"
 
-#, c-format
+#, php-format
 msgid "Error NoUserFound with filter >%s<, attributes >%s< , dn >%s<"
 msgstr "Error NoUserFound with filter >%s<, attributes >%s< , dn >%s<"
 
@@ -452,11 +489,11 @@ msgstr "Feil under skriving av detaljer til database"
 msgid "Error writing calendar properties to database."
 msgstr "Feil under skriving av kalenderegenskaper til database"
 
-msgid "European (d/m/y)"
-msgstr "Europeisk (d/m/y)"
-
 msgid "European"
 msgstr "Europeisk"
+
+msgid "European (d/m/y)"
+msgstr "Europeisk (d/m/y)"
 
 msgid "Existing resource does not match \"If-Match\" header - not accepted."
 msgstr "Eksisterende ressurs passer ikke \"If-Match\" header - ikke akseptert."
@@ -467,11 +504,14 @@ msgstr "Eksisterende ressurs passer \"If-None-Match\" header - ikke akseptert,"
 msgid "Expires"
 msgstr "Løper ut"
 
+msgid "Fail"
+msgstr "Feil"
+
 msgid "Failed to write collection."
 msgstr "Mislykkes med skriving av samling"
 
-msgid "Failed"
-msgstr "Mislykkes"
+msgid "Feeds are only supported for calendars at present."
+msgstr "Kanalabonnement støttes kun av kalendere for øyeblikket."
 
 msgid "For access to the"
 msgstr "For adgang til"
@@ -506,7 +546,8 @@ msgstr "Opprett"
 msgid "Granting new privileges from this Principal"
 msgstr "Oppretter nye privilegier fra denne kontoen"
 
-msgid "Group <!-- in the sense of a group of people -->"
+#. Translators: in the sense of a group of people
+msgid "Group"
 msgstr "Gruppe"
 
 msgid "Group Members"
@@ -518,11 +559,11 @@ msgstr "Gruppemedlemskap"
 msgid "Group Principals"
 msgstr "Gruppekontoer"
 
-msgid "Group"
-msgstr "Gruppe"
-
 msgid "Has Members"
 msgstr "Har medlemmer"
+
+msgid "Help"
+msgstr "Hjelp"
 
 msgid "Help on the current screen"
 msgstr "Hjelp til gjeldende side"
@@ -530,11 +571,17 @@ msgstr "Hjelp til gjeldende side"
 msgid "Help! I've forgotten my password!"
 msgstr "Hjelp! Jeg har glemt passordet"
 
-msgid "Help"
-msgstr "Hjelp"
+msgid "Home"
+msgstr "Home"
 
 msgid "Home Page"
 msgstr "Hjemmeside"
+
+msgid "Home addressbook added."
+msgstr "La til hovedadressebok."
+
+msgid "Home addressbook already exists."
+msgstr "Hovedadressebok finnes fra før."
 
 msgid "Home calendar added."
 msgstr "Home kalender lagt til"
@@ -542,21 +589,16 @@ msgstr "Home kalender lagt til"
 msgid "Home calendar already exists."
 msgstr "Home kalender eksisterer allerede"
 
-msgid "Home"
-msgstr "Home"
-
 msgid "ID"
 msgstr "ID"
-
-msgid "ISO Format (YYYY-MM-DD)"
-msgstr "ISO Format (YYYY-MM-DD)"
 
 msgid "ISO Format"
 msgstr "ISO Format"
 
-msgid "Id <!-- short for 'Identifier' -->"
-msgstr "Id <!-- forkortelse for 'Identifier' -->"
+msgid "ISO Format (YYYY-MM-DD)"
+msgstr "ISO Format (YYYY-MM-DD)"
 
+#. Translators: short for 'Identifier'
 msgid "Id"
 msgstr "Id"
 
@@ -626,6 +668,9 @@ msgstr "Last fra fil"
 msgid "Locale"
 msgstr "Locale"
 
+msgid "Location"
+msgstr "Plassering"
+
 msgid "Log On Please"
 msgstr "Logg inn"
 
@@ -637,6 +682,11 @@ msgstr "Logg ut"
 
 msgid "Member deleted from this Group Principal"
 msgstr "Medlem slettet fra denne gruppekonto"
+
+msgid "Most of DAViCal will work but upgrading to PHP 5.2 or later is strongly recommended."
+msgstr ""
+"De fleste funksjoner av DAViCal vil fungere, men å oppgradere til PHP 5.2 eller nyere er anbefalt på "
+"det sterkeste."
 
 msgid "Name"
 msgstr "Navn"
@@ -650,7 +700,8 @@ msgstr "Nytt passord"
 msgid "New Principal"
 msgstr "Ny konto"
 
-msgid "No <!-- not 'Yes' -->"
+#. Translators: not 'Yes'
+msgid "No"
 msgstr "Nei"
 
 msgid "No authority to deliver invitations to user."
@@ -665,10 +716,11 @@ msgstr "Ingen samling funnet på den lokasjonen"
 msgid "No scheduling support for user"
 msgstr "Ingen hendelsesupport for bruker"
 
-msgid "No"
-msgstr "Nei"
+msgid "No summary"
+msgstr "Ingen oppsummering"
 
-msgid "No. <!-- short for 'Number' -->"
+#. Translators: short for 'Number'
+msgid "No."
 msgstr "Nr."
 
 msgid "No. of Collections"
@@ -680,14 +732,8 @@ msgstr "Nr. til konto"
 msgid "No. of Resources"
 msgstr "Nr. til ressurs"
 
-msgid "No."
-msgstr "Nr."
-
 msgid "Not overwriting existing destination resource"
 msgstr "Skriver ikke over eksisterende ressurs"
-
-msgid "OK"
-msgstr "OK"
 
 msgid "Opaque"
 msgstr "Opaque"
@@ -697,6 +743,12 @@ msgstr "Bryt en lås"
 
 msgid "PDO PostgreSQL drivers"
 msgstr "PDO PostgreSQL drivere"
+
+msgid "PHP DateTime class"
+msgstr "PHP DateTime class"
+
+msgid "PHP LDAP module available"
+msgstr "PHP LDAP modul tilgjengelig"
 
 msgid "PHP Magic Quotes GPC off"
 msgstr "PHP Magic Quotes GPC off"
@@ -710,8 +762,14 @@ msgstr "PHP PDO modul tilgjengelig"
 msgid "PHP PostgreSQL available"
 msgstr "PHP PostgreSQL tilgjengelig"
 
+msgid "PHP iconv support"
+msgstr "Støtte for PHP iconv"
+
 msgid "PUT on a collection is only allowed for text/calendar content against a calendar collection"
 msgstr "PUT på en samling er bare tillatt for tekst/kaldender innhold i en kalendersamling"
+
+msgid "Passed"
+msgstr "Godkjent"
 
 msgid "Password"
 msgstr "Passord"
@@ -737,6 +795,9 @@ msgstr "Bekreft sletting av kontoen"
 msgid "Please note the time and advise the administrator of your system."
 msgstr "Noter klokkeslett og oppgi til systemets administrator"
 
+msgid "Principal"
+msgstr "Konto"
+
 msgid "Principal Collections"
 msgstr "Konto samlinger"
 
@@ -752,21 +813,16 @@ msgstr "Konto type"
 msgid "Principal deleted"
 msgstr "Konto slettet"
 
-msgid "Principal"
-msgstr "Konto"
+msgid "Privileges"
+msgstr "Rettigheter"
 
 msgid "Privileges granted to All Users"
 msgstr "Rettigheter tildelt til alle brukere"
 
-msgid "Privileges"
-msgstr "Rettigheter"
-
 msgid "Property is read-only"
 msgstr "Egenskapen er kun lese"
 
-msgid "Public <!-- in the sense of being available to all users -->"
-msgstr "Offentlig"
-
+#. Translators: in the sense of being available to all users
 msgid "Public"
 msgstr "Offentlig"
 
@@ -778,6 +834,9 @@ msgstr "REPORT body inneholder ingen XML data!"
 
 msgid "REPORT body is not valid XML data!"
 msgstr "REPORT body er ikke gyldig XML data!"
+
+msgid "Read"
+msgstr "Les"
 
 msgid "Read ACLs for a resource or collection"
 msgstr "Les tilgangslister for en ressurs eller samling"
@@ -800,17 +859,14 @@ msgstr "Les detaljer om gjeldende brukers adgangskontroll til denne ressursen"
 msgid "Read the free/busy information for a calendar collection"
 msgstr "Les Ledig/Opptatt informasjon for en kalendersamling"
 
-msgid "Read"
-msgstr "Les"
-
 msgid "Read/Write"
 msgstr "Les/Skriv"
 
-msgid "Remove a lock"
-msgstr "Fjern en lås"
-
 msgid "Remove"
 msgstr "Fjern"
+
+msgid "Remove a lock"
+msgstr "Fjern en lås"
 
 msgid "Report Bug"
 msgstr "Rapporter feil"
@@ -824,7 +880,8 @@ msgstr "Be om funksjonalitet"
 msgid "Request body is not valid XML data!"
 msgstr "Request body er ikke gyldig XML data!"
 
-msgid "Resource <!-- a thing which might be booked: a room, a carpark, a projector... -->"
+#. Translators a thing which might be booked: a room, a carpark, a projector...
+msgid "Resource"
 msgstr "Ressurs"
 
 msgid "Resource Calendar Principals"
@@ -835,9 +892,6 @@ msgstr "Ressurs ikke funnet"
 
 msgid "Resource has changed on server - not deleted"
 msgstr "Ressurs er endret på tjener - ikke slettet"
-
-msgid "Resource"
-msgstr "Ressurs"
 
 msgid "Resources may not be changed to / from collections."
 msgstr "Ressurser kan ikke endres fra/til samlinger"
@@ -905,20 +959,20 @@ msgstr "Sett hendelse-leveringsprivilegier"
 msgid "Set the path to store your ics e.g. 'home' will be referenced as /caldav.php/me/home/"
 msgstr "Sett banen for å lagre din ics, f.eks. vil 'home' bli referert som /caldav.php/me/home/"
 
-msgid "Setup DAViCal"
-msgstr "Sett opp DAViCal"
-
 msgid "Setup"
 msgstr "Oppsett"
+
+msgid "Setup DAViCal"
+msgstr "Sett opp DAViCal"
 
 msgid "Show help on"
 msgstr "Vis hjelp om"
 
-msgid "Site Statistics require the database to be available!"
-msgstr "Statistikk krever en tilgjengelig database!"
-
 msgid "Site Statistics"
 msgstr "Statistikk"
+
+msgid "Site Statistics require the database to be available!"
+msgstr "Statistikk krever en tilgjengelig database!"
 
 msgid "Some properties were not able to be changed."
 msgstr "Noen egenskaper kunne ikke endres"
@@ -935,13 +989,10 @@ msgstr "Spesielle samlinger kan ikke inneholde kalendre eller andre spesialsamli
 msgid "Specific Privileges"
 msgstr "Spesifikke privilegier"
 
-msgid "Start: "
-msgstr "Start: "
-
 msgid "Status"
 msgstr "Status"
 
-#, c-format
+#, php-format
 msgid "Status: %d, Message: %s, User: %d, Path: %s"
 msgstr "Status: %d, Message: %s, User: %d, Path: %s"
 
@@ -996,7 +1047,8 @@ msgstr "Forbindelsen vil bli slettet"
 msgid "The calendar path contains illegal characters."
 msgstr "Kalenderbanen inneholder ulovlige karakterer"
 
-msgid "The calendar-free-busy-set is superseded by the schedule-transp property of a calendar collection."
+msgid ""
+"The calendar-free-busy-set is superseded by the schedule-transp property of a calendar collection."
 msgstr "Kalenderens Ledig/Opptatt-sett er overstyrt av schedule-transp egenskapen til en kalendersamling"
 
 msgid "The calendar-query report must be run against a calendar or a scheduling collection"
@@ -1047,20 +1099,50 @@ msgstr "Brukerens passord for å logge inn"
 msgid "The username must not be blank, and may not contain a slash"
 msgstr "Brukernavnet kan ikke være tomt og kan ikke inneholde slash"
 
+msgid "There was an error reading from the database."
+msgstr "En feil oppsto ved lesning fra databasen."
+
 msgid "There was an error writing to the database."
 msgstr "Det oppsto en feil under skriving til databasen"
 
-msgid "This operation does the following: <ul><li>check valid groups in LDAP directory</li> <li>check groups in DAViCal</li></ul> then <ul><li>if a group is present in DAViCal but not in LDAP set as inactive in DAViCal</li> <li>if a group is present in LDAP but not in DAViCal create the group in DAViCal</li> <li>if a group in present in LDAP and DAViCal then update information in DAViCal</li> </ul>"
-msgstr "Denne operasjonen gjør følgende: <ul><li>sjekker gyldige grupper i LDAP katalogen</li> <li>sjekker grupper i DAViCal</li></ul> deretter <ul><li>hvis en gruppe finnes i DAViCal men ikke i LDAP setter som inaktiv i DAViCal</li> <li>hvis en gruppe finnnes i LDAP men ikke i DAViCal oppretter en gruppe i DAViCal</li> <li>hvis en gruppe finnes i LDAP og DAViCal oppdaterer informasjonen i DAViCal</li> </ul>"
+msgid ""
+"This operation does the following: <ul><li>check valid groups in LDAP directory</li> <li>check groups "
+"in DAViCal</li></ul> then <ul><li>if a group is present in DAViCal but not in LDAP set as inactive in "
+"DAViCal</li> <li>if a group is present in LDAP but not in DAViCal create the group in DAViCal</li> "
+"<li>if a group in present in LDAP and DAViCal then update information in DAViCal</li> </ul>"
+msgstr ""
+"Denne operasjonen gjør følgende: <ul><li>sjekker gyldige grupper i LDAP katalogen</li> <li>sjekker "
+"grupper i DAViCal</li></ul> deretter <ul><li>hvis en gruppe finnes i DAViCal men ikke i LDAP setter "
+"som inaktiv i DAViCal</li> <li>hvis en gruppe finnnes i LDAP men ikke i DAViCal oppretter en gruppe i "
+"DAViCal</li> <li>hvis en gruppe finnes i LDAP og DAViCal oppdaterer informasjonen i DAViCal</li> </ul>"
 
-msgid "This operation does the following: <ul><li>check valid users in LDAP directory</li> <li>check users in DAViCal</li></ul> then <ul><li>if a user is present in DAViCal but not in LDAP set him as inactive in DAViCal</li> <li>if a user is present in LDAP but not in DAViCal create the user in DAViCal</li> <li>if a user in present in LDAP and DAViCal then update information in DAViCal</li> </ul>"
-msgstr "Denne operasjonen gjør følgende: <ul><li>sjekker gyldige gruppe i LDAP katalogen</li> <li>sjekker brukere i DAViCal</li></ul> deretter <ul><li>hvis en bruker finnes i DAViCal men ikke i LDAP setter denne sim inaktiv i DAViCal</li> <li>hvis en bruker finnes i LDAP men ikke i DAViCal oppretter brukeren i DAViCal</li> <li>hvis brukeren finnes i LDAP og DAViCal oppdaterer informasjonen i DAViCal</li> </ul>"
+msgid ""
+"This operation does the following: <ul><li>check valid users in LDAP directory</li> <li>check users in "
+"DAViCal</li></ul> then <ul><li>if a user is present in DAViCal but not in LDAP set him as inactive in "
+"DAViCal</li> <li>if a user is present in LDAP but not in DAViCal create the user in DAViCal</li> "
+"<li>if a user in present in LDAP and DAViCal then update information in DAViCal</li> </ul>"
+msgstr ""
+"Denne operasjonen gjør følgende: <ul><li>sjekker gyldige gruppe i LDAP katalogen</li> <li>sjekker "
+"brukere i DAViCal</li></ul> deretter <ul><li>hvis en bruker finnes i DAViCal men ikke i LDAP setter "
+"denne sim inaktiv i DAViCal</li> <li>hvis en bruker finnes i LDAP men ikke i DAViCal oppretter "
+"brukeren i DAViCal</li> <li>hvis brukeren finnes i LDAP og DAViCal oppdaterer informasjonen i DAViCal</"
+"li> </ul>"
 
-msgid "This page primarily checks the environment needed for DAViCal to work correctly.  Suggestions or patches to make it do more useful stuff will be gratefully received."
-msgstr "Denne siden sjekker miljøet nødvendig for at DAViCal skal virke korrekt.  Forslag eller patsjer for å gjøre det enda bedre vil mottas med takk."
+msgid ""
+"This page primarily checks the environment needed for DAViCal to work correctly.  Suggestions or "
+"patches to make it do more useful stuff will be gratefully received."
+msgstr ""
+"Denne siden sjekker miljøet nødvendig for at DAViCal skal virke korrekt.  Forslag eller patsjer for å "
+"gjøre det enda bedre vil mottas med takk."
+
+msgid "This server only supports the text/calendar format for freebusy URLs"
+msgstr "Denne tjeneren støtter bare text/calendar formatert freebusy-adresser."
 
 msgid "Ticket ID"
 msgstr "Tilgangs ID"
+
+msgid "Time"
+msgstr "Tid"
 
 msgid "To Collection"
 msgstr "Til samling"
@@ -1077,8 +1159,14 @@ msgstr "Verktøy"
 msgid "Transparent"
 msgstr "Gjennomsiktig"
 
+msgid "URL"
+msgstr "URL"
+
 msgid "US Format"
 msgstr "US Format"
+
+msgid "Unauthenticated User"
+msgstr "Ikke-autentisert bruker"
 
 msgid "United States of America (m/d/y)"
 msgstr "United States of America (m/d/y)"
@@ -1146,11 +1234,22 @@ msgstr "Vis denne brukerens post"
 msgid "Visit the DAViCal Wiki"
 msgstr "Besøk DAViCal Wiki"
 
-msgid "Warning: there are no active admin users, you should fix this before logging out."
-msgstr "Advarsel: det er ingen aktive adminbrukere, du bør rette dette før du logger ut"
+#, php-format
+msgid "Want: %s, Currently: %s"
+msgstr "Ønsket: %s, Nåværende: %s"
+
+msgid ""
+"Warning: there are no active admin users! You should fix this before logging out.  Consider using the "
+"$c->do_not_sync_from_ldap configuration setting."
+msgstr ""
+"Advarsel: det finnes ingen administratorbrukere! Du bør rette feilen før du logger ut. Foreslår bruk "
+"av $c->do_not_sync_from_ldap konfigurasjonsinstillingen."
 
 msgid "When the user's e-mail account was validated."
 msgstr "Da brukerens epost ble kontrollert"
+
+msgid "Write"
+msgstr "Skriv"
 
 msgid "Write ACLs for a resource or collection"
 msgstr "Skriv ACL for en ressurs eller samling"
@@ -1170,22 +1269,8 @@ msgstr "Skriv innhold"
 msgid "Write properties"
 msgstr "Skriv egenskaper"
 
-msgid "Write"
-msgstr "Skriv"
-
-msgid "Y-m-d H:i"
-msgstr "Y-m-d H:i"
-
 msgid "Yes"
 msgstr "Ja"
-
-#, c-format
-msgid "You are currently running DAViCal version %s. The database schema is at version %d.%d.%d."
-msgstr "Du kjører DAViCal versjon %s. Database schema er version %d.%d.%d."
-
-#, c-format
-msgid "You are currently running DAViCal version %s. The database schema should be at version %s and it is at version %d.%d.%d."
-msgstr "Du kjører DAViCal version %s. Database schema skulle være %s og er versjon %d.%d.%d."
 
 msgid "You are editing"
 msgstr "Du redigerer"
@@ -1208,48 +1293,53 @@ msgstr "Du må logge inn for å bruke systemet"
 msgid "Your configuration produced PHP errors which should be corrected"
 msgstr "Konfigurasjonen lagde PHP feil som må rettes"
 
-#, c-format
+#, php-format
 msgid "all events of user %s were deleted and replaced by those from file %s"
 msgstr "alle hendelser til bruker %s ble slettet og erstattet av dem fra filen %s"
 
 msgid "calendar-timezone property is only valid for a calendar."
 msgstr "kalender tidssone egenskap er kun gyldig for en kalender"
 
-#, c-format
+#, php-format
 msgid "directory %s is not readable"
 msgstr "mappen %s er ikke lesbar"
+
+msgid "drivers_imap_pam : imap_url parameter not configured in /etc/davical/*-conf.php"
+msgstr "drivers_imap_pam : imap_url parameter ikke konfigurert i /etc/davical/*-conf.php"
 
 msgid "drivers_ldap : Could not start TLS: ldap_start_tls() failed"
 msgstr "drivers_ldap : Kunne ikke starte TLS: ldap_start_tls() feilet"
 
-#, c-format
+#, php-format
 msgid "drivers_ldap : Failed to bind to host %1$s on port %2$s with bindDN of %3$s"
 msgstr "drivers_ldap : Feilet å binde til vert %1$s på port %2$s with bindDN of %3$s"
 
 msgid "drivers_ldap : Failed to set LDAP to use protocol version 3, TLS not supported"
 msgstr "drivers_ldap : Feilet å sette LDAP til å bruke protokoll version 3, TLS ikke støttet"
 
-msgid "drivers_ldap : Unable to bind to LDAP - check your configuration for bindDN and passDN, and that your LDAP server is reachable"
-msgstr "drivers_ldap : Ute av stand til å binde til LDAP - sjekk din konfigurasjon for bindDN og passDN, og at din  LDAP server kan nås"
+msgid ""
+"drivers_ldap : Unable to bind to LDAP - check your configuration for bindDN and passDN, and that your "
+"LDAP server is reachable"
+msgstr ""
+"drivers_ldap : Ute av stand til å binde til LDAP - sjekk din konfigurasjon for bindDN og passDN, og at "
+"din  LDAP server kan nås"
 
-#, c-format
+#, php-format
 msgid "drivers_ldap : Unable to connect to LDAP with port %s on host %s"
 msgstr "drivers_ldap : Ute av stand til kommunikasjon med LDAP med port %s på vert %s"
 
 msgid "drivers_ldap : function ldap_connect not defined, check your php_ldap module"
 msgstr "drivers_ldap : function ldap_connect ikke definert, sjekk din php_ldap modul"
 
-#, c-format
+#, php-format
 msgid "drivers_pwauth_pam : Unable to find %s file"
 msgstr "drivers_pwauth_pam : Unable to find %s file"
 
-#, c-format
+#, php-format
 msgid "drivers_squid_pam : Unable to find %s file"
 msgstr "drivers_squid_pam : Unable to find %s file"
 
-msgid "forget me not <!-- this is a colloquial phrase in english (the name of a flower) and is an option allowing people to log in automatically in future -->"
-msgstr "forglem meg ei (husk meg)"
-
+#. Translators: this is a colloquial phrase in english (the name of a flower) and is an option allowing people to log in automatically in future
 msgid "forget me not"
 msgstr "forglem meg ei"
 
@@ -1259,9 +1349,12 @@ msgstr "fra konto"
 msgid "path to store your ics"
 msgstr "bane for å lagre din ics"
 
-#, c-format
+#, php-format
 msgid "the file %s is not UTF-8 encoded, please check error for more details"
 msgstr "filen %s er ikke UTF-8 encoded, sjekk feil for flere detaljer"
+
+msgid "unauthenticated"
+msgstr "Ikke-autentisert"
 
 msgid "you should log on with the username and password that have been issued to you."
 msgstr "logg på med brukernavnet og passordet du fikk utstedt"

@@ -1,16 +1,17 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+# tikismoke <webmaster@tikijs.dyndns.org>, 2011.
+# Andrew McMillan <andrew@mcmillan.net.nz>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: DAViCal\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-02 23:13+0100\n"
-"PO-Revision-Date: 2011-03-02 21:31+0000\n"
-"Last-Translator: fmms <mail@felixmoeller.de>\n"
-"Language-Team: French <None>\n"
+"POT-Creation-Date: 2011-08-25 11:42+1200\n"
+"PO-Revision-Date: 2011-04-05 16:53+0000\n"
+"Last-Translator: tikismoke <webmaster@tikijs.dyndns.org>\n"
+"Language-Team: French (http://www.transifex.net/projects/p/davical/team/fr/)\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,11 +20,11 @@ msgstr ""
 
 #. Translators: this is the formatting of a date with time. See http://php.net/manual/en/function.strftime.php
 msgid "%F %T"
-msgstr ""
+msgstr "%F %T"
 
 #. Translators: his is the formatting of just the time. See http://php.net/manual/en/function.strftime.php
 msgid "%T"
-msgstr ""
+msgstr "%T"
 
 msgid "*** Default Locale ***"
 msgstr "*** Locale par défaut ***"
@@ -102,7 +103,7 @@ msgstr ""
 "mail à %s.</p>"
 
 msgid "A DAViCal principal collection may only contain collections"
-msgstr ""
+msgstr "Une collection DAViCal principale ne peut contenir que des collections"
 
 msgid "A collection already exists at that location."
 msgstr "Une collection existe déjà à cet emplacement."
@@ -142,10 +143,10 @@ msgid "All"
 msgstr "Tous"
 
 msgid "All collection data will be unrecoverably deleted."
-msgstr "Toutes les données de la collection seront effacées definitivement."
+msgstr "Toutes les données de la collection seront effacées définitivement."
 
 msgid "All of the principal's calendars and events will be unrecoverably deleted."
-msgstr "Tous les calendriers et les évènements de l'utilisateur seront effacées definitivement."
+msgstr "Tous les calendriers et les évènements de l'utilisateur seront effacées définitivement."
 
 msgid "All privileges"
 msgstr "Tous les Privilèges"
@@ -166,7 +167,7 @@ msgid "Anonymous users may only access public calendars"
 msgstr "Les utilisateurs anonymes peuvent uniquement accéder aux calendriers publics"
 
 msgid "Application DB User"
-msgstr ""
+msgstr "Utilisateur de BDD Application"
 
 msgid "Apply Changes"
 msgstr "Appliquer les modifications"
@@ -175,7 +176,7 @@ msgid "Apply DB Patches"
 msgstr "Appliquer la rustine à la base"
 
 msgid "Attachment"
-msgstr ""
+msgstr "Pièce jointe"
 
 msgid "Binding deleted"
 msgstr "Liaison supprimée"
@@ -212,7 +213,7 @@ msgid "Can only add tickets for existing collection paths which you own"
 msgstr "Ne peut ajouter des ticket que sur un chemin de collection existant que vous possédez"
 
 msgid "Categories"
-msgstr ""
+msgstr "Catégories"
 
 msgid "Change Password"
 msgstr "changer le mot de passe"
@@ -250,7 +251,7 @@ msgid "Confirm"
 msgstr "Confirmer"
 
 msgid "Confirm Deletion of the Binding"
-msgstr "Confirmer la suppréssion de la liaison"
+msgstr "Confirmer la suppression de la liaison"
 
 msgid "Confirm Deletion of the Collection"
 msgstr "Confirmer la suppression de la collection"
@@ -298,7 +299,7 @@ msgid "Creating new Collection."
 msgstr "Créer une nouvelle collection."
 
 msgid "Creating new Principal record."
-msgstr "Création de l'enrengistrement d'un nouveau compte."
+msgstr "Création de l'enregistrement d'un nouveau compte."
 
 msgid "Creating new ticket granting privileges to this Principal"
 msgstr "Création d'un nouveau billet accordant des privilèges à cet utilisateur principal"
@@ -337,13 +338,13 @@ msgid "DKIM signature validation failed(DNS ERROR)"
 msgstr "La validation de la signature DKIM a échoué (erreur DNS)"
 
 msgid "DKIM signature validation failed(KEY Parse ERROR)"
-msgstr "La validation de la signature DKIM a échoué (erreur d'analyse de cle)"
+msgstr "La validation de la signature DKIM a échoué (erreur d'analyse de clé)"
 
 msgid "DKIM signature validation failed(KEY Validation ERROR)"
-msgstr "La validation de la signature DKIM a échoué (erreur de validation de cle)"
+msgstr "La validation de la signature DKIM a échoué (erreur de validation de clé)"
 
 msgid "DKIM signature validation failed(Signature verification ERROR)"
-msgstr ""
+msgstr "validation de la signature DKIM échouée (erreur de vérification de signature)"
 
 msgid "Database Error"
 msgstr "Erreur de base de données"
@@ -496,13 +497,13 @@ msgid "Existing resource does not match \"If-Match\" header - not accepted."
 msgstr "La ressource existante ne correspond pas à l'entête (HTTP) 'If-Match' - pas accepté."
 
 msgid "Existing resource matches \"If-None-Match\" header - not accepted."
-msgstr "La ressource existante correpond à l'entête (HTTP) 'if-None-Match' - pas accepté."
+msgstr "La ressource existante correspond à l'entête (HTTP) 'if-None-Match' - pas accepté."
 
 msgid "Expires"
 msgstr "Expires"
 
 msgid "Fail"
-msgstr ""
+msgstr "Échec"
 
 msgid "Failed to write collection."
 msgstr "Échec de l'écriture de la collection."
@@ -575,10 +576,10 @@ msgid "Home Page"
 msgstr "Accueil"
 
 msgid "Home addressbook added."
-msgstr ""
+msgstr "Carnet d'adresses ajouté."
 
 msgid "Home addressbook already exists."
-msgstr ""
+msgstr "Carnet d'adresses déjà existant."
 
 msgid "Home calendar added."
 msgstr "Calendrier Home ajouté."
@@ -648,7 +649,7 @@ msgid "Language"
 msgstr "Langue"
 
 msgid "Last used"
-msgstr "Dernièr utilisé"
+msgstr "Dernier utilisé"
 
 msgid "List Groups"
 msgstr "Liste des Groupes"
@@ -666,7 +667,7 @@ msgid "Locale"
 msgstr "Langue"
 
 msgid "Location"
-msgstr ""
+msgstr "Emplacement"
 
 msgid "Log On Please"
 msgstr "Veuillez vous connecter"
@@ -682,6 +683,8 @@ msgstr "Membre supprimé de ce groupe"
 
 msgid "Most of DAViCal will work but upgrading to PHP 5.2 or later is strongly recommended."
 msgstr ""
+"La plupart des fonctions DAViCal fonctionneront, mais une mise à jour vers PHP 5.2 ou ultérieure est "
+"fortement recommandé."
 
 msgid "Name"
 msgstr "Nom"
@@ -743,7 +746,7 @@ msgid "PHP DateTime class"
 msgstr ""
 
 msgid "PHP LDAP module available"
-msgstr ""
+msgstr "module PHP LDAP disponible"
 
 msgid "PHP Magic Quotes GPC off"
 msgstr "PHP Magic Quotes GPC désactivé"
@@ -758,13 +761,13 @@ msgid "PHP PostgreSQL available"
 msgstr "PHP PostgreSQL disponible"
 
 msgid "PHP iconv support"
-msgstr ""
+msgstr "support PHP iconv"
 
 msgid "PUT on a collection is only allowed for text/calendar content against a calendar collection"
 msgstr ""
 
 msgid "Passed"
-msgstr ""
+msgstr "Passé"
 
 msgid "Password"
 msgstr "Mot de passe"
@@ -855,7 +858,7 @@ msgid "Read the free/busy information for a calendar collection"
 msgstr "Lire les informations Libre/Occupé pour un calendrier"
 
 msgid "Read/Write"
-msgstr "Lecture/Ecriture"
+msgstr "Lecture/Écriture"
 
 msgid "Remove"
 msgstr "Supprimer"
@@ -996,7 +999,7 @@ msgid "Submit"
 msgstr "Valider"
 
 msgid "Suhosin \"server.strip\" disabled"
-msgstr ""
+msgstr "Suhosin \"server.strip\" désacitivé"
 
 msgid "Sync LDAP Groups with RSCDS"
 msgstr ""
@@ -1038,7 +1041,7 @@ msgid "The application program does not understand that request."
 msgstr "L'application ne comprend pas la demande."
 
 msgid "The binding will be deleted."
-msgstr "La liason sera supprimée."
+msgstr "La liaison sera supprimée."
 
 msgid "The calendar path contains illegal characters."
 msgstr "le chemin vers le calendrier contient des caractères interdits."
@@ -1051,7 +1054,7 @@ msgid "The calendar-query report must be run against a calendar or a scheduling 
 msgstr ""
 
 msgid "The collection name may not be blank."
-msgstr "Le nom de la collection ne devrait pas etre vide."
+msgstr "Le nom de la collection ne devrait pas être vide."
 
 msgid "The destination collection does not exist"
 msgstr "La collection de destination n'existe pas"
@@ -1096,7 +1099,7 @@ msgid "The username must not be blank, and may not contain a slash"
 msgstr "Le nom de l'utilisateur ne devrait pas être vide et ne devrait pas contenir de slash ('/')"
 
 msgid "There was an error reading from the database."
-msgstr ""
+msgstr "Il y a eu une erreur lors de la lecture de la base de données."
 
 msgid "There was an error writing to the database."
 msgstr "Il s'est produit une erreur lors de l'écriture des données."
@@ -1124,13 +1127,13 @@ msgstr ""
 "bienvenus."
 
 msgid "This server only supports the text/calendar format for freebusy URLs"
-msgstr ""
+msgstr "Ce serveur ne supporte que le format texte/calendrier pour l'URL Libre/occupé"
 
 msgid "Ticket ID"
 msgstr "Id du ticket"
 
 msgid "Time"
-msgstr ""
+msgstr "Temps"
 
 msgid "To Collection"
 msgstr ""
@@ -1148,13 +1151,13 @@ msgid "Transparent"
 msgstr "Transparent"
 
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 msgid "US Format"
 msgstr "Format US"
 
 msgid "Unauthenticated User"
-msgstr ""
+msgstr "Utilisateur non authentifié"
 
 msgid "United States of America (m/d/y)"
 msgstr "États-Unis d'Amérique (m / d / y)"
@@ -1224,7 +1227,7 @@ msgstr "Aller au wiki de DAViCal"
 
 #, php-format
 msgid "Want: %s, Currently: %s"
-msgstr ""
+msgstr "Nécessite: %s , actuellement: %s"
 
 msgid ""
 "Warning: there are no active admin users! You should fix this before logging out.  Consider using the "
@@ -1253,7 +1256,7 @@ msgid "Write content"
 msgstr "Écrire du contenu"
 
 msgid "Write properties"
-msgstr "Écrire les propriétès"
+msgstr "Écrire les propriétés"
 
 msgid "Yes"
 msgstr "Oui"
@@ -1277,7 +1280,7 @@ msgid "You must log in to use this system."
 msgstr "Vous devez vous connecter pour utiliser ce logiciel."
 
 msgid "Your configuration produced PHP errors which should be corrected"
-msgstr ""
+msgstr "Votre configuration a généré des erreurs PHP qui devrait être corrigé"
 
 #, php-format
 msgid "all events of user %s were deleted and replaced by those from file %s"
@@ -1331,7 +1334,7 @@ msgid "forget me not"
 msgstr "Ne pas m'oublier"
 
 msgid "from principal"
-msgstr ""
+msgstr "depuis principal"
 
 msgid "path to store your ics"
 msgstr "le chemin où stocker votre ics"
@@ -1341,7 +1344,7 @@ msgid "the file %s is not UTF-8 encoded, please check error for more details"
 msgstr "Le fichier %s n'est pas encodé en UTF-8, merci de vérifier les erreurs pour plus d'information."
 
 msgid "unauthenticated"
-msgstr ""
+msgstr "non authentifié"
 
 msgid "you should log on with the username and password that have been issued to you."
 msgstr "Vous devez vous connecter avec le nom d'utilisateur et le mot de passe qui vous ont été fournis."

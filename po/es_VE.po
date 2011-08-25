@@ -1,76 +1,78 @@
-# Argentinian Spanish translation of RSCDS
-# Copyright (C) 2006 Andrew McMillan
-# This file is distributed under the same license as the RSCDS package.
-# Lorena Paoletti <andrew@mcmillan.net.nz>, 2006.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
 #
-#, fuzzy
+# e1th0r <hcolina@gmail.com>, 2011.
 msgid ""
 msgstr ""
-"Project-Id-Version: RSCDS 0.2.3\n"
+"Project-Id-Version: DAViCal\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-20 17:13+0100\n"
-"PO-Revision-Date: 2006-11-06 17:12+1300\n"
-"Last-Translator: Lorena Paoletti <andrew@mcmillan.net.nz>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"POT-Creation-Date: 2011-08-25 11:42+1200\n"
+"PO-Revision-Date: 2011-03-26 13:25+0000\n"
+"Last-Translator: e1th0r <hcolina@gmail.com>\n"
+"Language-Team: Spanish (Venezuela) (http://www.transifex.net/projects/p/davical/team/es_VE/)\n"
+"Language: es_VE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
+#. Translators: this is the formatting of a date with time. See http://php.net/manual/en/function.strftime.php
 msgid "%F %T"
 msgstr ""
 
+#. Translators: his is the formatting of just the time. See http://php.net/manual/en/function.strftime.php
 msgid "%T"
 msgstr ""
 
 msgid "*** Default Locale ***"
-msgstr ""
+msgstr "** Locales por defecto **"
 
 msgid "*** Unknown ***"
-msgstr ""
+msgstr "** Desconocido **"
 
-#, fuzzy, php-format
+#, php-format
 msgid "- adding %s to group : %s"
-msgstr "Mostrar el registro de éste usuario"
+msgstr "Agregando %s al grupo: %s"
 
-#, fuzzy, php-format
+#, php-format
 msgid "- adding users %s to group : %s"
-msgstr "Mostrar el registro de éste usuario"
+msgstr "- agregando usuarios %s al grupo: %s"
 
-#, fuzzy, php-format
+#, php-format
 msgid "- creating groups : %s"
-msgstr "Mostrar el registro de éste usuario"
+msgstr "- creando grupos: %s"
 
 #, php-format
 msgid "- creating record for users :  %s"
-msgstr ""
+msgstr "- creando registros para usuarios: %s"
 
-#, fuzzy, php-format
+#, php-format
 msgid "- deactivate groups : %s"
-msgstr "Mostrar el registro de éste usuario"
+msgstr "- desactivar grupos: %s"
 
-#, fuzzy, php-format
+#, php-format
 msgid "- deactivating users : %s"
-msgstr "Mostrar el registro de éste usuario"
+msgstr "- desactivando usuarios: %s"
 
 #, php-format
 msgid "- nothing done on : %s"
-msgstr ""
+msgstr "- Nada que hacer en: %s"
 
 #, php-format
 msgid "- removing %s from group : %s"
-msgstr ""
+msgstr "- removiendo %s del grupo: %s"
 
-#, fuzzy, php-format
+#, php-format
 msgid "- updating groups : %s"
-msgstr "Mostrar el registro de éste usuario"
+msgstr "- actualizando grupos: %s"
 
-#, fuzzy, php-format
+#, php-format
 msgid "- updating user records : %s"
-msgstr "Mostrar el registro de éste usuario"
+msgstr "- actualizando registros de usuario: %s"
 
 msgid "<b>WARNING: all events in this path will be deleted before inserting allof the ics file</b>"
-msgstr ""
+msgstr "</b>"
 
 #, php-format
 msgid ""
@@ -93,8 +95,6 @@ msgid ""
 "<h1>Log On Please</h1><p>For access to the %s you should log on withthe username and password that "
 "have been issued to you.</p><p>If you would like to request access, please e-mail %s.</p>"
 msgstr ""
-"<h1>Por favor, iniciar sesión</h1><p>Para acceder al %s debe conectarse con el nombre de usuario y "
-"contraseña que le han sido asignado.</p><p>Si desea solicitar el acceso, por favor, e-mail %s.</p>"
 
 msgid "A DAViCal principal collection may only contain collections"
 msgstr ""
@@ -106,14 +106,13 @@ msgid "A resource already exists at the destination."
 msgstr ""
 
 msgid "AWL Library version "
-msgstr ""
+msgstr "Versión de la librería AWL"
 
 msgid "Access Tickets"
-msgstr ""
+msgstr "Ticket de acceso"
 
-#, fuzzy
 msgid "Access ticket deleted"
-msgstr "Roles del Usuario"
+msgstr "Ticket de acceso borrado"
 
 msgid "Action"
 msgstr "Acción"
@@ -122,22 +121,20 @@ msgid "Active"
 msgstr "Activo"
 
 msgid "Adding new member to this Group Principal"
-msgstr ""
+msgstr "Agregando un nuevo miembro al grupo principal"
 
 #. Translators: in the sense of 'systems admin'
 msgid "Admin"
-msgstr "Administrador"
+msgstr "Administrador del Sistema"
 
-#, fuzzy
 msgid "Administration"
-msgstr "Administrador"
+msgstr "Administración"
 
-#, fuzzy
 msgid "Administrator"
 msgstr "Administrador"
 
 msgid "All"
-msgstr ""
+msgstr "Todo"
 
 msgid "All collection data will be unrecoverably deleted."
 msgstr ""
@@ -146,7 +143,7 @@ msgid "All of the principal's calendars and events will be unrecoverably deleted
 msgstr ""
 
 msgid "All privileges"
-msgstr ""
+msgstr "Todos los privilegios"
 
 msgid "All requested changes were made."
 msgstr ""
@@ -167,25 +164,22 @@ msgid "Application DB User"
 msgstr ""
 
 msgid "Apply Changes"
-msgstr ""
+msgstr "Aplicar cambios"
 
 msgid "Apply DB Patches"
-msgstr ""
+msgstr "Aplicar parche a la BD"
 
 msgid "Attachment"
+msgstr "Adjunto"
+
+msgid "Binding deleted"
 msgstr ""
 
-#, fuzzy
-msgid "Binding deleted"
-msgstr "Relación eliminada"
-
-#, fuzzy
 msgid "Bindings to other collections"
-msgstr "Relación eliminada"
+msgstr ""
 
-#, fuzzy
 msgid "Bindings to this Collection"
-msgstr "Relación eliminada"
+msgstr ""
 
 msgid "Bindings to this Principal's Collections"
 msgstr ""
@@ -194,56 +188,47 @@ msgid "Bound As"
 msgstr ""
 
 msgid "Browse all users"
-msgstr "Mostrar todos los usuarios"
+msgstr "Examinar todos los usuarios"
 
 msgid "Busy"
-msgstr ""
+msgstr "Ocupado"
 
 #, php-format
 msgid "Calendar \"%s\" was loaded from file."
-msgstr ""
+msgstr "Calendario \"%s\" fue cargado desde un archivo."
 
-#, fuzzy
 msgid "Calendar Principals"
-msgstr "Calendario de los Usuario"
+msgstr "Calendario principal"
 
-#, fuzzy
 msgid "Calendar Timezone"
-msgstr "Calendario de los Usuario"
+msgstr ""
 
 msgid "Can only add tickets for existing collection paths which you own"
 msgstr ""
 
 msgid "Categories"
+msgstr "Categorías"
+
+msgid "Change Password"
+msgstr "Cambiar password"
+
+msgid "Click to display user details"
 msgstr ""
 
-#, fuzzy
-msgid "Change Password"
-msgstr "Nueva Constraseña"
-
-#, fuzzy
-msgid "Click to display user details"
-msgstr "Hacer clic para mostrar esa relación"
-
-#, fuzzy
 msgid "Click to edit principal details"
-msgstr "Hacer clic para mostrar esa relación"
+msgstr ""
 
-#, fuzzy
 msgid "Collection"
-msgstr "Relación eliminada"
+msgstr "Colección"
 
-#, fuzzy
 msgid "Collection Grants"
-msgstr "Relación eliminada"
+msgstr ""
 
-#, fuzzy
 msgid "Collection ID"
-msgstr "Relación eliminada"
+msgstr ""
 
-#, fuzzy
 msgid "Collection deleted"
-msgstr "Relación eliminada"
+msgstr ""
 
 msgid "Collections may not be both CalDAV calendars and CardDAV addressbooks at the same time"
 msgstr ""
@@ -257,67 +242,56 @@ msgstr ""
 msgid "Confirm"
 msgstr "Confirmar"
 
-#, fuzzy
 msgid "Confirm Deletion of the Binding"
-msgstr "Calendario de los Usuario"
+msgstr ""
 
 msgid "Confirm Deletion of the Collection"
 msgstr ""
 
-#, fuzzy
 msgid "Confirm Deletion of the Principal"
-msgstr "Calendario de los Usuario"
+msgstr ""
 
-#, fuzzy
 msgid "Confirm Deletion of the Ticket"
-msgstr "Calendario de los Usuario"
+msgstr ""
 
-#, fuzzy
 msgid "Confirm Password"
-msgstr "Confirmar la nueva contraseña."
+msgstr "Confirmar contraseña"
 
 msgid "Confirm the new password."
-msgstr "Confirmar la nueva contraseña."
+msgstr "Confirmar nueva contraseña"
 
 msgid "Could not retrieve"
-msgstr ""
+msgstr "No se peude obtener"
 
 msgid "Create"
 msgstr "Crear"
 
-#, fuzzy
 msgid "Create Collection"
-msgstr "Calendario de los Usuario"
+msgstr "Craer colección"
 
-#, fuzzy
 msgid "Create Events/Collections"
-msgstr "Calendario de los Usuario"
+msgstr "Crear Evento/Colección"
 
-#, fuzzy
 msgid "Create New Collection"
-msgstr "Calendario de los Usuario"
+msgstr "Crear nueva colección"
 
 msgid "Create New Principal"
 msgstr ""
 
-#, fuzzy
 msgid "Create Principal"
-msgstr "Calendario de los Usuario"
+msgstr ""
 
 msgid "Create a new principal (i.e. a new user, resource or group)"
 msgstr ""
 
-#, fuzzy
 msgid "Create a resource or collection"
-msgstr "Calendario de los Usuario"
+msgstr ""
 
-#, fuzzy
 msgid "Creating new Collection."
-msgstr "Calendario de los Usuario"
+msgstr ""
 
-#, fuzzy
 msgid "Creating new Principal record."
-msgstr "Calendario de los Usuario"
+msgstr ""
 
 msgid "Creating new ticket granting privileges to this Principal"
 msgstr ""
@@ -326,7 +300,7 @@ msgid "Current DAViCal version "
 msgstr ""
 
 msgid "DAV Path"
-msgstr ""
+msgstr "Ruta DAV"
 
 msgid "DAV::resourcetype may only be set to a new value, it may not be removed."
 msgstr ""
@@ -364,80 +338,65 @@ msgstr ""
 msgid "DKIM signature validation failed(Signature verification ERROR)"
 msgstr ""
 
-#, fuzzy
 msgid "Database Error"
-msgstr "Error en la Base de Datos."
+msgstr ""
 
-#, fuzzy
 msgid "Database Host"
-msgstr "Error en la Base de Datos."
+msgstr ""
 
-#, fuzzy
 msgid "Database Name"
-msgstr "Error en la Base de Datos."
+msgstr ""
 
-#, fuzzy
 msgid "Database Owner"
-msgstr "Error en la Base de Datos."
+msgstr ""
 
-#, fuzzy
 msgid "Database Password"
-msgstr "Error en la Base de Datos."
+msgstr ""
 
-#, fuzzy
 msgid "Database Port"
-msgstr "Error en la Base de Datos."
+msgstr ""
 
-#, fuzzy
 msgid "Database Username"
-msgstr "Error en la Base de Datos."
+msgstr ""
 
-#, fuzzy
 msgid "Database error"
-msgstr "Error en la Base de Datos."
+msgstr ""
 
-#, fuzzy
 msgid "Date Format Style"
-msgstr "Formato de Fecha"
+msgstr ""
 
 msgid "Date Style"
-msgstr "Formato de Fecha"
+msgstr ""
 
 msgid "Default Privileges"
 msgstr ""
 
 msgid "Delete"
-msgstr "Borrar"
+msgstr ""
 
-#, fuzzy
 msgid "Delete Events/Collections"
-msgstr "Calendario de los Usuario"
+msgstr ""
 
-#, fuzzy
 msgid "Delete Principal"
-msgstr "Calendario de los Usuario"
+msgstr ""
 
-#, fuzzy
 msgid "Delete a resource or collection"
-msgstr "Calendario de los Usuario"
+msgstr ""
 
 msgid "Deleted a grant from this Principal"
 msgstr ""
 
-#, fuzzy
 msgid "Deleting Binding:"
-msgstr "Calendario de los Usuario"
+msgstr ""
 
 msgid "Deleting Collection:"
 msgstr ""
 
-#, fuzzy
 msgid "Deleting Principal:"
-msgstr "Calendario de los Usuario"
+msgstr ""
 
-#, fuzzy
 msgid "Deleting Ticket:"
-msgstr "Borrar"
+msgstr ""
 
 msgid "Deliver scheduling invitations from an organiser to this scheduling inbox"
 msgstr ""
@@ -467,13 +426,13 @@ msgid "Displayname"
 msgstr ""
 
 msgid "Does the user have the right to perform this role?"
-msgstr "¿El usuario tiene permiso para efectuar este rol?"
+msgstr ""
 
 msgid "EMail"
-msgstr "Correo Electrónico"
+msgstr ""
 
 msgid "EMail OK"
-msgstr "Correo Electrónico correcto"
+msgstr ""
 
 msgid "ERROR: The full name may not be blank."
 msgstr ""
@@ -482,14 +441,13 @@ msgid "ERROR: The new password must match the confirmed password."
 msgstr ""
 
 msgid "ERROR: There was a database error writing the roles information!"
-msgstr "ERROR: Hubo un error en la base de datos al grabar la información de los roles!"
+msgstr ""
 
-#, fuzzy
 msgid "Edit"
-msgstr "Editar"
+msgstr ""
 
 msgid "Edit this user record"
-msgstr "Mostrar el registro de éste usuario"
+msgstr ""
 
 msgid "Email Address"
 msgstr ""
@@ -511,20 +469,17 @@ msgstr ""
 msgid "Error querying database."
 msgstr ""
 
-#, fuzzy
 msgid "Error writing calendar details to database."
-msgstr "Hubo un error al grabar en la base de datos."
+msgstr ""
 
-#, fuzzy
 msgid "Error writing calendar properties to database."
-msgstr "Hubo un error al grabar en la base de datos."
+msgstr ""
 
-#, fuzzy
 msgid "European"
-msgstr "Formato Europeo (d/m/y)"
+msgstr ""
 
 msgid "European (d/m/y)"
-msgstr "Formato Europeo (d/m/y)"
+msgstr ""
 
 msgid "Existing resource does not match \"If-Match\" header - not accepted."
 msgstr ""
@@ -545,7 +500,7 @@ msgid "Feeds are only supported for calendars at present."
 msgstr ""
 
 msgid "For access to the"
-msgstr "Para acceder a"
+msgstr ""
 
 msgid "Forbidden"
 msgstr ""
@@ -554,11 +509,10 @@ msgid "Free/Busy"
 msgstr ""
 
 msgid "Full Name"
-msgstr "Nombre Completo"
+msgstr ""
 
-#, fuzzy
 msgid "Fullname"
-msgstr "Nombre Completo"
+msgstr ""
 
 msgid "GET requests on collections are only supported for calendars."
 msgstr ""
@@ -580,7 +534,7 @@ msgstr ""
 
 #. Translators: in the sense of a group of people
 msgid "Group"
-msgstr "Grupo"
+msgstr ""
 
 msgid "Group Members"
 msgstr ""
@@ -595,7 +549,7 @@ msgid "Has Members"
 msgstr ""
 
 msgid "Help"
-msgstr "Ayuda"
+msgstr ""
 
 msgid "Help on the current screen"
 msgstr ""
@@ -604,11 +558,10 @@ msgid "Help! I've forgotten my password!"
 msgstr ""
 
 msgid "Home"
-msgstr "Página principal"
+msgstr ""
 
-#, fuzzy
 msgid "Home Page"
-msgstr "Página principal"
+msgstr ""
 
 msgid "Home addressbook added."
 msgstr ""
@@ -625,22 +578,21 @@ msgstr ""
 msgid "ID"
 msgstr ""
 
-#, fuzzy
 msgid "ISO Format"
-msgstr "Formato ISO (YYYY-MM-DD)"
+msgstr ""
 
 msgid "ISO Format (YYYY-MM-DD)"
-msgstr "Formato ISO (YYYY-MM-DD)"
+msgstr ""
 
 #. Translators: short for 'Identifier'
 msgid "Id"
-msgstr "No"
+msgstr ""
 
 msgid "If you have forgotten your password then"
 msgstr ""
 
 msgid "If you would like to request access, please e-mail"
-msgstr "Si desea obtener acceso por favor envíe un correo electrónico a"
+msgstr ""
 
 msgid "Import all .ics files of a directory"
 msgstr ""
@@ -648,9 +600,8 @@ msgstr ""
 msgid "Import calendars and Synchronise LDAP."
 msgstr ""
 
-#, fuzzy
 msgid "Inactive Principals"
-msgstr "Calendario de los Usuario"
+msgstr ""
 
 msgid "Incorrect content type for addressbook: "
 msgstr ""
@@ -659,48 +610,43 @@ msgid "Incorrect content type for calendar: "
 msgstr ""
 
 msgid "Invalid user name or password."
-msgstr "Usuario o contraseña incorrectos."
+msgstr ""
 
 msgid "Invalid username or password."
-msgstr "Usuario o contraseña incorrectos."
+msgstr ""
 
 msgid "Is Member of"
 msgstr ""
 
-#, fuzzy
 msgid "Is a Calendar"
-msgstr "Calendario de los Usuario"
+msgstr ""
 
 msgid "Is an Addressbook"
 msgstr ""
 
 msgid "Is this user active?"
-msgstr "¿Éste usuario está activo?"
+msgstr ""
 
-#, fuzzy
 msgid "Items in Collection"
-msgstr "Relación eliminada"
+msgstr ""
 
 msgid "Joined"
-msgstr "Incorporado"
+msgstr ""
 
 msgid "Language"
-msgstr "Idioma"
+msgstr "Idiomas"
 
 msgid "Last used"
-msgstr "Utilizado por última vez"
+msgstr ""
 
-#, fuzzy
 msgid "List Groups"
-msgstr "Grupo"
+msgstr ""
 
-#, fuzzy
 msgid "List Resources"
-msgstr "Recurso"
+msgstr ""
 
-#, fuzzy
 msgid "List Users"
-msgstr "Usuarios"
+msgstr ""
 
 msgid "Load From File"
 msgstr ""
@@ -708,19 +654,17 @@ msgstr ""
 msgid "Locale"
 msgstr ""
 
-#, fuzzy
 msgid "Location"
-msgstr "Acción"
+msgstr "Ubicación"
 
 msgid "Log On Please"
-msgstr "Conectarse por favor"
+msgstr ""
 
-#, fuzzy
 msgid "Log out of DAViCal"
-msgstr "Desconectarse de"
+msgstr "Desconectarse de DAViCal"
 
 msgid "Logout"
-msgstr "Desconectarse"
+msgstr "Deconectar"
 
 msgid "Member deleted from this Group Principal"
 msgstr ""
@@ -731,52 +675,46 @@ msgstr ""
 msgid "Name"
 msgstr "Nombre"
 
-#, fuzzy
 msgid "New Collection"
-msgstr "Relación eliminada"
+msgstr "Nueva colección"
 
 msgid "New Password"
-msgstr "Nueva Constraseña"
+msgstr "Nuevo password"
 
-#, fuzzy
 msgid "New Principal"
-msgstr "Calendario de los Usuario"
+msgstr ""
 
 #. Translators: not 'Yes'
-#, fuzzy
 msgid "No"
-msgstr "No"
+msgstr ""
 
 msgid "No authority to deliver invitations to user."
 msgstr ""
 
 msgid "No calendar content"
-msgstr ""
+msgstr "No hay contenido en el calendario"
 
 msgid "No collection found at that location."
 msgstr ""
 
 msgid "No scheduling support for user"
-msgstr ""
+msgstr "No hay calendario soportado para el usuario"
 
 msgid "No summary"
-msgstr ""
+msgstr "Sin resumen"
 
 #. Translators: short for 'Number'
 msgid "No."
-msgstr "No"
+msgstr "Núm."
 
-#, fuzzy
 msgid "No. of Collections"
-msgstr "Relación eliminada"
+msgstr "Núm. de colecciones"
 
-#, fuzzy
 msgid "No. of Principals"
-msgstr "Calendario de los Usuario"
+msgstr ""
 
-#, fuzzy
 msgid "No. of Resources"
-msgstr "Recurso"
+msgstr "Nñum. de recursos"
 
 msgid "Not overwriting existing destination resource"
 msgstr ""
@@ -793,6 +731,9 @@ msgstr ""
 msgid "PHP DateTime class"
 msgstr ""
 
+msgid "PHP LDAP module available"
+msgstr ""
+
 msgid "PHP Magic Quotes GPC off"
 msgstr ""
 
@@ -803,26 +744,25 @@ msgid "PHP PDO module available"
 msgstr ""
 
 msgid "PHP PostgreSQL available"
-msgstr ""
+msgstr "PHP PostgreSQL disponible"
 
 msgid "PHP iconv support"
-msgstr ""
+msgstr "PHP iconv soportado"
 
 msgid "PUT on a collection is only allowed for text/calendar content against a calendar collection"
 msgstr ""
 
-#, fuzzy
 msgid "Passed"
-msgstr "Constraseña"
+msgstr ""
 
 msgid "Password"
-msgstr "Constraseña"
+msgstr "Contraseña"
 
 msgid "Path"
-msgstr ""
+msgstr "Ruta"
 
 msgid "Person"
-msgstr ""
+msgstr "Persona"
 
 msgid "Please confirm deletion of access ticket - see below"
 msgstr ""
@@ -837,7 +777,7 @@ msgid "Please confirm deletion of the principal"
 msgstr ""
 
 msgid "Please note the time and advise the administrator of your system."
-msgstr "Por favor, tome nota de la fecha y hora y contacte a su administrador de sistemas."
+msgstr ""
 
 msgid "Principal"
 msgstr ""
@@ -854,9 +794,8 @@ msgstr ""
 msgid "Principal Type"
 msgstr ""
 
-#, fuzzy
 msgid "Principal deleted"
-msgstr "Relación eliminada"
+msgstr ""
 
 msgid "Privileges"
 msgstr ""
@@ -869,10 +808,10 @@ msgstr ""
 
 #. Translators: in the sense of being available to all users
 msgid "Public"
-msgstr "Público"
+msgstr ""
 
 msgid "Publicly Readable"
-msgstr ""
+msgstr "Públicamente legible"
 
 msgid "REPORT body contains no XML data!"
 msgstr ""
@@ -881,7 +820,7 @@ msgid "REPORT body is not valid XML data!"
 msgstr ""
 
 msgid "Read"
-msgstr ""
+msgstr "Leer"
 
 msgid "Read ACLs for a resource or collection"
 msgstr ""
@@ -895,9 +834,8 @@ msgstr ""
 msgid "Read Free/Busy Information"
 msgstr ""
 
-#, fuzzy
 msgid "Read the content of a resource or collection"
-msgstr "Hacer clic para mostrar esa relación"
+msgstr ""
 
 msgid "Read the details of the current user's access control to this resource."
 msgstr ""
@@ -906,19 +844,19 @@ msgid "Read the free/busy information for a calendar collection"
 msgstr ""
 
 msgid "Read/Write"
-msgstr ""
+msgstr "Leer/escribir"
 
 msgid "Remove"
-msgstr ""
+msgstr "Remover"
 
 msgid "Remove a lock"
 msgstr ""
 
 msgid "Report Bug"
-msgstr "Reportar Error"
+msgstr "Reportar un error"
 
 msgid "Report a bug in the system"
-msgstr "Reportar un error en el sistema"
+msgstr ""
 
 msgid "Request Feature"
 msgstr ""
@@ -928,7 +866,7 @@ msgstr ""
 
 #. Translators a thing which might be booked: a room, a carpark, a projector...
 msgid "Resource"
-msgstr "Recurso"
+msgstr ""
 
 msgid "Resource Calendar Principals"
 msgstr ""
@@ -1012,7 +950,7 @@ msgid "Setup DAViCal"
 msgstr ""
 
 msgid "Show help on"
-msgstr "Mostrar ayuda sobre"
+msgstr ""
 
 msgid "Site Statistics"
 msgstr ""
@@ -1122,35 +1060,34 @@ msgid "The full name must not be blank."
 msgstr ""
 
 msgid "The name this user can log into the system with."
-msgstr "El nombre con el cual éste usuario puede conectase al sistema."
+msgstr ""
 
 msgid "The path on the server where your .ics files are."
 msgstr ""
 
 msgid "The preferred language for this person."
-msgstr "El idioma preferido por ésta persona."
+msgstr ""
 
 msgid "The style of dates used for this person."
-msgstr "El estilo de fechas utilizado por ésta persona."
+msgstr ""
 
 msgid "The user's e-mail address."
-msgstr "La dirección de correo electrónico del usuario."
+msgstr ""
 
 msgid "The user's full name."
-msgstr "El nombre completo del usuario."
+msgstr ""
 
 msgid "The user's password for logging in."
-msgstr "La contraseña del usuario para conectarse."
+msgstr ""
 
 msgid "The username must not be blank, and may not contain a slash"
 msgstr ""
 
-#, fuzzy
 msgid "There was an error reading from the database."
-msgstr "Hubo un error al grabar en la base de datos."
+msgstr ""
 
 msgid "There was an error writing to the database."
-msgstr "Hubo un error al grabar en la base de datos."
+msgstr ""
 
 msgid ""
 "This operation does the following: <ul><li>check valid groups in LDAP directory</li> <li>check groups "
@@ -1180,9 +1117,8 @@ msgstr ""
 msgid "Time"
 msgstr ""
 
-#, fuzzy
 msgid "To Collection"
-msgstr "Relación eliminada"
+msgstr ""
 
 msgid "To ID"
 msgstr ""
@@ -1206,24 +1142,22 @@ msgid "Unauthenticated User"
 msgstr ""
 
 msgid "United States of America (m/d/y)"
-msgstr "Estados Unidos de América (m/d/y)"
+msgstr ""
 
 msgid "Update"
-msgstr "Actualizar"
+msgstr ""
 
 msgid "Updated"
-msgstr "Actualizado"
+msgstr ""
 
-#, fuzzy
 msgid "Updating Collection record."
-msgstr "Mostrar mi registro de usuario"
+msgstr ""
 
 msgid "Updating Member of this Group Principal"
 msgstr ""
 
-#, fuzzy
 msgid "Updating Principal record."
-msgstr "Mostrar mi registro de usuario"
+msgstr ""
 
 msgid "Updating grants by this Principal"
 msgstr ""
@@ -1241,38 +1175,34 @@ msgid "User Calendar Principals"
 msgstr ""
 
 msgid "User Details"
-msgstr "Datos del Usuario"
+msgstr ""
 
-#, fuzzy
 msgid "User Functions"
-msgstr "Datos del Usuario"
+msgstr ""
 
 msgid "User Name"
-msgstr "Nombre del Usuario"
+msgstr ""
 
 msgid "User Roles"
-msgstr "Roles del Usuario"
+msgstr ""
 
 msgid "User is active"
-msgstr "El usuario está activo"
+msgstr ""
 
 msgid "User record written."
-msgstr "Registro del usuario grabado."
+msgstr ""
 
-#, fuzzy
 msgid "Username"
-msgstr "Nombre del Usuario"
+msgstr "Nombre de usuario"
 
-#, fuzzy
 msgid "View My Details"
-msgstr "Mis Datos"
+msgstr ""
 
-#, fuzzy
 msgid "View my own principal record"
-msgstr "Mostrar mi registro de usuario"
+msgstr ""
 
 msgid "View this user record"
-msgstr "Mostrar éste registro de usuario"
+msgstr ""
 
 msgid "Visit the DAViCal Wiki"
 msgstr ""
@@ -1287,10 +1217,10 @@ msgid ""
 msgstr ""
 
 msgid "When the user's e-mail account was validated."
-msgstr "Cuando fue validada la cuenta de correo del usuario."
+msgstr ""
 
 msgid "Write"
-msgstr ""
+msgstr "Escritura"
 
 msgid "Write ACLs for a resource or collection"
 msgstr ""
@@ -1311,27 +1241,25 @@ msgid "Write properties"
 msgstr ""
 
 msgid "Yes"
-msgstr ""
+msgstr "Sí"
 
 msgid "You are editing"
-msgstr ""
+msgstr "Estás editando"
 
 msgid "You are not authorised to use this function."
-msgstr "No está autorizado a utilizar ésta función."
+msgstr "No estás autorizado para usar esta función"
 
 msgid "You are viewing"
+msgstr "Estás viendo..."
+
+msgid "You do not have permission to modify this record."
 msgstr ""
 
-#, fuzzy
-msgid "You do not have permission to modify this record."
-msgstr "No está autorizado a utilizar ésta función."
-
-#, fuzzy
 msgid "You may not PUT to a collection URL"
-msgstr "No está autorizado a utilizar ésta función."
+msgstr ""
 
 msgid "You must log in to use this system."
-msgstr "Debe conectarte para usar el sistema."
+msgstr ""
 
 msgid "Your configuration produced PHP errors which should be corrected"
 msgstr ""
@@ -1345,7 +1273,7 @@ msgstr ""
 
 #, php-format
 msgid "directory %s is not readable"
-msgstr ""
+msgstr "El directorio %s no es legible"
 
 msgid "drivers_imap_pam : imap_url parameter not configured in /etc/davical/*-conf.php"
 msgstr ""
@@ -1382,21 +1310,22 @@ msgstr ""
 
 #. Translators: this is a colloquial phrase in english (the name of a flower) and is an option allowing people to log in automatically in future
 msgid "forget me not"
-msgstr ""
+msgstr "Mantender la sesión activa"
 
-#, fuzzy
 msgid "from principal"
-msgstr "Calendario de los Usuario"
+msgstr ""
 
 msgid "path to store your ics"
-msgstr ""
+msgstr "ruta para almacenar tu ics"
 
 #, php-format
 msgid "the file %s is not UTF-8 encoded, please check error for more details"
 msgstr ""
+"El archivo %s no está codificado en formato UTF-8; por favor, chequee los errores para obtener más "
+"detalles"
 
 msgid "unauthenticated"
-msgstr ""
+msgstr "No autenticado"
 
 msgid "you should log on with the username and password that have been issued to you."
-msgstr "Para conectarse debe utilizar el nombre de usuario y contraseña que le ha sido asignado."
+msgstr ""

@@ -25,8 +25,23 @@ xgettext --no-location --add-comments=Translators --keyword=translate --keyword=
 sed 's.^"Content-Type: text/plain; charset=CHARSET\\n"."Content-Type: text/plain; charset=UTF-8\\n".' ${PODIR}/messages.tmp > ${PODIR}/messages.pot
 rm ${PODIR}/messages.tmp ${PODIR}/pofilelist.tmp
 
+locale_list() {
+  ls ${PODIR}/*.po | cut -f2 -d/ | cut -f1 -d.
+}
 
-for LOCALE in `grep VALUES dba/supported_locales.sql | cut -f2 -d"'" | cut -f1 -d'_'` ; do
+build_supported_locales() {
+  echo "TRUNCATE supported_locales;"
+  echo "INSERT INTO supported_locales ( locale, locale_name_en, locale_name_locale )"
+  echo "    VALUES( 'en', 'English', 'English' );"
+  for LOCALE in `locale_list`; do
+    echo "INSERT INTO supported_locales ( locale, locale_name_en, locale_name_locale )"
+    cat ${PODIR}/${LOCALE}.values
+  done
+}
+
+build_supported_locales >dba/supported_locales.sql
+
+for LOCALE in `locale_list` ; do
   [ "${LOCALE}" = "en" ] && continue
   if [ ! -f ${PODIR}/${LOCALE}.po ] ; then
     cp ${PODIR}/messages.pot ${PODIR}/${LOCALE}.po
@@ -34,7 +49,7 @@ for LOCALE in `grep VALUES dba/supported_locales.sql | cut -f2 -d"'" | cut -f1 -
   msgmerge --no-fuzzy-matching --quiet --width 105 --update ${PODIR}/${LOCALE}.po ${PODIR}/messages.pot
 done
 
-for LOCALE in `grep VALUES dba/supported_locales.sql | cut -f2 -d"'" | cut -f1 -d'_'` ; do
+for LOCALE in `locale_list` ; do
   [ "${LOCALE}" = "en" ] && continue
   mkdir -p ${LOCALEDIR}/${LOCALE}/LC_MESSAGES
   msgfmt ${PODIR}/${LOCALE}.po -o ${LOCALEDIR}/${LOCALE}/LC_MESSAGES/${APPLICATION}.mo
