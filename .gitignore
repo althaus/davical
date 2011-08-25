@@ -17,6 +17,7 @@ testing/regression.conf
 subdav
 docs/website/api
 htdocs/api
+htdocs/jq
 htdocs/test.php
 inc/test-RRULE-v2.php
 perms-perf.base
