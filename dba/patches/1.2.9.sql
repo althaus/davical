@@ -1,8 +1,6 @@
 
--- This database update adds support for tickets to be handed out to grant
--- specific access to a collection or individual resource, as read-only or
--- read-write.  A table is also added to manage WebDAV binding, in line
--- with http://tools.ietf.org/html/draft-ietf-webdav-bind.
+-- This database update adds some extra columns / tables for tracking
+-- alarms, attendee states and addressbook address field expansion.
 
 BEGIN;
 SELECT check_db_revision(1,2,8);
