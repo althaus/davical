@@ -61,15 +61,17 @@ switch( $xmltree->GetTag() ) {
     include("caldav-REPORT-pps-set.php");
     exit; // Not that it should return anyway.
   case 'DAV::sync-collection':
-    require_once("external-fetch.php");
-		if ( $target->IsExternal() )
-      update_external ( $target );
+		if ( $target->IsExternal() ) {
+			require_once("external-fetch.php");
+			update_external ( $target );
+		}
     include("caldav-REPORT-sync-collection.php");
     exit; // Not that it should return anyway.
   case 'DAV::expand-property':
-    require_once("external-fetch.php");
-    if ( $target->IsExternal() )
-      update_external ( $target );
+    if ( $target->IsExternal() ) {
+			require_once("external-fetch.php");
+			update_external ( $target );
+		}
     include("caldav-REPORT-expand-property.php");
     exit; // Not that it should return anyway.
   case 'DAV::principal-match':
@@ -319,9 +321,10 @@ function component_to_xml( $properties, $item ) {
   return $response;
 }
 
-require_once("external-fetch.php");
-if ( $target->IsExternal() )
-  update_external ( $target );
+if ( $target->IsExternal() ) {
+	require_once("external-fetch.php");
+	update_external ( $target );
+}
 
 if ( $xmltree->GetTag() == "urn:ietf:params:xml:ns:caldav:calendar-query" ) {
   $calquery = $xmltree->GetPath("/urn:ietf:params:xml:ns:caldav:calendar-query/*");

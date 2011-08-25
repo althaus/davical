@@ -135,6 +135,10 @@ function get_collection_contents( $depth, $collection, $parent_path = null ) {
       if( $qry->Exec('PROPFIND',__LINE__,__FILE__) && $qry->rows() > 0 ) {
         while( $binding = $qry->Fetch() ) {
           $resource = new DAVResource($binding->dav_name);
+					if ( $resource->IsExternal() ) {
+						require_once("external-fetch.php");
+						update_external ( $resource );
+					}
           if ( $resource->HavePrivilegeTo('DAV::read', false) ) {
             $resource->set_bind_location( str_replace($bound_from,$bound_to,$binding->dav_name));
             $responses[] = $resource->RenderAsXML($property_list, $reply);
@@ -233,6 +237,10 @@ else {
     $request->PreconditionFailed( 404, 'must-exist', translate('That resource is not present on this server.') );
   }
   $resource->NeedPrivilege('DAV::read');
+	if ( $resource->IsExternal() ) {
+		require_once("external-fetch.php");
+		update_external ( $resource );
+	}
   if ( $resource->IsCollection() ) {
     dbg_error_log('PROPFIND','Getting collection contents: Depth %d, Path: %s', $request->depth, $resource->dav_name() );
     $responses[] = $resource->RenderAsXML($property_list, $reply);
