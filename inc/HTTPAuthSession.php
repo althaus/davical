@@ -269,6 +269,9 @@ class HTTPAuthSession {
   function CheckPassword( $username, $password ) {
     global $c;
 
+    if(isset($c->login_append_domain_if_missing) && $c->login_append_domain_if_missing && !preg_match('/@/',$username))
+      $username.='@'.$c->domain_name;
+
     if ( isset($c->authenticate_hook) && isset($c->authenticate_hook['call']) && function_exists($c->authenticate_hook['call']) ) {
       /**
       * The authenticate hook needs to:
