@@ -145,7 +145,33 @@ function CreateHomeCalendar($username) {
 * @param string $username The username of the user we are creating relationships for.
 */
 function CreateDefaultRelationships( $username ) {
-  auth_functions_deprecated('CreateDefaultRelationships','No longer applicable.');
+  global $c;
+  if(! isset($c->default_relationships) || count($c->default_relationships) == 0) return true;
+
+  $changes = false;
+  foreach($c->default_relationships as $group => $relationships)
+  {
+    $sql = 'INSERT INTO grants (by_principal, to_principal, privileges) VALUES(:by_principal, :to_principal, :privileges::INT::BIT(24))';
+    $params = array(
+      ':by_principal' => getUserByName($username)->principal_id,
+      ':to_principal' => $group,
+      ':privileges' => privilege_to_bits($relationships)
+    );
+    $qry = new AwlQuery($sql, $params);
+
+    if ( $qry->Exec() ) {
+      $changes = true;
+      dbg_error_log("User",":Write: Created user's default relationship by:'%s', to:'%s', privileges:'%s'",$params[':by_principal'],$params[':to_principal'],$params[':privileges']);
+    }
+    else {
+      $c->messages[] = i18n("There was an error writing to the database.");
+      return false;
+    }
+  }
+
+  if($changes)
+    $c->messages[] = i18n("Default relationships added.");
+
   return true;
 }
 
@@ -208,6 +234,7 @@ function UpdateUserFromExternal( &$usr ) {
                           array( ':privs' => privilege_to_bits($c->default_privileges), ':username' => $usr->username) );
     $qry->Exec('Login',__LINE__,__FILE__);
     CreateHomeCalendar($usr->username);
+    CreateDefaultRelationships($usr->username);
   }
   else if ( $usr->fullname != $old->{'fullname'} ) {
     // Also update the displayname if the fullname has been updated.
