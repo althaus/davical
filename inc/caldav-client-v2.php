@@ -790,15 +790,15 @@ EOXML;
   * definition of the calendar data in iCalendar format.
   *
   * @param string $filter XML fragment which is the <filter> element of a calendar-query
-  * @param string $url The URL of the calendar, or null to use the 'current' calendar_url
+  * @param string $url The URL of the calendar, or empty/null to use the 'current' calendar_url
   *
   * @return array An array of the relative URLs, etags, and events from the server.  Each element of the array will
   *               be an array with 'href', 'etag' and 'data' elements, corresponding to the URL, the server-supplied
   *               etag (which only varies when the data changes) and the calendar data in iCalendar format.
   */
-  function DoCalendarQuery( $filter, $url = null ) {
+  function DoCalendarQuery( $filter, $url = '' ) {
 
-    if ( isset($url) ) $this->SetCalendar($url);
+    if ( !empty($url) ) $this->SetCalendar($url);
 
     $this->body = <<<EOXML
 <?xml version="1.0" encoding="utf-8" ?>
