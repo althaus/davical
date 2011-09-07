@@ -26,15 +26,6 @@ class pwauthPamDrivers
 
 
   /**
-   * Constructor.
-   * @param string $config path where pwauth is
-   */
-  function pwauthPamDrivers($config){
-    $this->__construct($config);
-  }
-
-
-  /**
    * The constructor
    *
    * @param string $config path where pwauth is

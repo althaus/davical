@@ -23,21 +23,11 @@ class squidPamDrivers
 
 
   /**
-  * Constructor.
-  * @param string $config path where /usr/lib/squid/pam_auth is
-  */
-  function squidPamDrivers($config){
-      $this->__construct($config);
-  }
-
-
-  /**
   * The constructor
   *
   * @param string $config path where /usr/lib/squid/pam_auth is
   */
-  function __construct($config)
-  {
+  function __construct($config) {
       global $c;
       if (! file_exists($config)){
           $c->messages[] = sprintf(i18n( 'drivers_squid_pam : Unable to find %s file'), $config );
@@ -54,8 +44,10 @@ class squidPamDrivers
 function SQUID_PAM_check($username, $password ){
   global $c;
 
+  $script = $c->authenticate_hook['config']['script'];
+  if ( empty($script) ) $script = $c->authenticate_hook['config']['path'];
   $cmd = sprintf( 'echo %s %s | %s -n common-auth', escapeshellarg($username), escapeshellarg($password),
-                                 $c->authenticate_hook['config']['script']);
+                                 $script);
   $auth_result = exec($cmd);
   if ( $auth_result == "OK") {
     dbg_error_log('pwauth', 'User %s successfully authenticated', $username);
