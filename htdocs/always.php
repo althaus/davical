@@ -18,11 +18,13 @@ unset($session); unset($request); unset($dbconn); unset($_awl_dbconn); unset($in
 // An ultra-simple exception handler to catch errors that occur
 // before we get a more functional exception handler in place...
 function early_exception_handler($e) {
-  echo "Uncaught early exception: ", $e->getMessage(), "\nAt line ", $e->getLine(), " of ", $e->getFile(), "\n";
+  echo "Exception [".$e->getCode()."] ".$e->getmessage()."\n";
+  echo "At line ", $e->getLine(), " of ", $e->getFile(), "\n";
+  echo "================= Stack Trace ===================\n";
 
   $trace = array_reverse($e->getTrace());
   foreach( $trace AS $k => $v ) {
-    printf( "=====================================================\n%s[%d] %s%s%s()\n", $v['file'], $v['line'], (isset($v['class'])?$v['class']:''), (isset($v['type'])?$v['type']:''), (isset($v['function'])?$v['function']:'') );
+    printf( "%s[%d] %s%s%s()\n", $v['file'], $v['line'], (isset($v['class'])?$v['class']:''), (isset($v['type'])?$v['type']:''), (isset($v['function'])?$v['function']:'') );
   }
 }
 set_exception_handler('early_exception_handler');
@@ -75,7 +77,8 @@ $c->dbg = array();
 if ( ! @include_once('AWLUtilities.php') ) {
   $try_paths = array(
         '../../awl/inc'
-      , '/usr/share/awl/inc'
+      , '/usr/share/awl/inc'        // Where it ends up on Debian
+      , '/usr/share/php/awl/inc'    // Fedora's standard for PHP libraries
       , '/usr/local/share/awl/inc'
   );
   foreach( $try_paths AS $awl_include_path ) {
@@ -169,7 +172,7 @@ init_gettext( 'davical', $c->locale_path );
 *
 */
 $c->code_version = 0;
-$c->want_awl_version = '0.46';
+$c->want_awl_version = '0.47';
 $c->version_string = '0.9.9.4'; // The actual version # is replaced into that during the build /release process
 if ( isset($c->version_string) && preg_match( '/(\d+)\.(\d+)\.(\d+)(.*)/', $c->version_string, $matches) ) {
   $c->code_major = $matches[1];
@@ -336,8 +339,9 @@ function ISODateToHTTPDate( $isodate ) {
 * Convert a date into ISO format into the sparkly new ISO format.
 * @param string $indate The date to convert
 */
-function DateToISODate( $indate ) {
+function DateToISODate( $indate, $in_utc=false ) {
   // Use strtotime since strptime is not available on Windows platform.
+  if ( $in_utc ) return( gmdate('Ymd\THis\Z', strtotime($indate)) );
   return( date('c', strtotime($indate)) );
 }
 

@@ -1,0 +1,71 @@
+HTTP/1.1 100 Continue
+
+HTTP/1.1 204 No Content
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
+DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
+ETag: "e69b6d5b70189b96126c8993bcf1648a"
+Content-Length: 0
+Content-Type: text/plain; charset="utf-8"
+
+
+      caldav_type: >VEVENT<
+         dav_etag: >e69b6d5b70189b96126c8993bcf1648a<
+            dtend: >2010-11-23 16:00:00<
+          dtstamp: >2010-11-24 22:19:00<
+          dtstart: >2010-11-23 11:00:00<
+              due: >NULL<
+         location: >NULL<
+      logged_user: >10<
+          summary: >Multiple Beard Meeting<
+              uid: >PUT-attendees<
+          user_no: >10<
+
+      caldav_type: >VEVENT<
+         dav_etag: >e69b6d5b70189b96126c8993bcf1648a<
+            dtend: >2010-11-23 16:00:00<
+          dtstamp: >2010-11-24 22:19:00<
+          dtstart: >2010-11-23 11:00:00<
+              due: >NULL<
+         location: >NULL<
+      logged_user: >10<
+          summary: >Multiple Beard Meeting<
+              uid: >PUT-attendees<
+          user_no: >11<
+
+      caldav_type: >VEVENT<
+         dav_etag: >e69b6d5b70189b96126c8993bcf1648a<
+            dtend: >2010-11-23 16:00:00<
+          dtstamp: >2010-11-24 22:19:00<
+          dtstart: >2010-11-23 11:00:00<
+              due: >NULL<
+         location: >NULL<
+      logged_user: >10<
+          summary: >Multiple Beard Meeting<
+              uid: >PUT-attendees<
+          user_no: >12<
+
+      caldav_type: >VEVENT<
+         dav_etag: >e69b6d5b70189b96126c8993bcf1648a<
+            dtend: >2010-11-23 16:00:00<
+          dtstamp: >2010-11-24 22:19:00<
+          dtstart: >2010-11-23 11:00:00<
+              due: >NULL<
+         location: >NULL<
+      logged_user: >10<
+          summary: >Multiple Beard Meeting<
+              uid: >PUT-attendees<
+          user_no: >13<
+
+      caldav_type: >VEVENT<
+         dav_etag: >e69b6d5b70189b96126c8993bcf1648a<
+            dtend: >2010-11-23 16:00:00<
+          dtstamp: >2010-11-24 22:19:00<
+          dtstart: >2010-11-23 11:00:00<
+              due: >NULL<
+         location: >NULL<
+      logged_user: >10<
+          summary: >Multiple Beard Meeting<
+              uid: >PUT-attendees<
+          user_no: >101<
+

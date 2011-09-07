@@ -467,7 +467,7 @@ EOSQL;
   /**
   * Find the collection associated with this resource.
   */
-  function FetchCollection() {
+  protected function FetchCollection() {
     global $session;
     
     /**
@@ -536,7 +536,7 @@ EOSQL;
         if ( isset($this->collection->dav_displayname) ) $this->collection->displayname = $this->collection->dav_displayname;
       }
       else {
-        if ( !isset($this->parent) ) $this->FetchParentContainer();
+        if ( !isset($this->parent) ) $this->GetParentContainer();
         $this->user_no = $this->parent->GetProperty('user_no');
       }
       if ( isset($this->collection->resourcetypes) )
@@ -554,7 +554,7 @@ EOSQL;
   /**
   * Find the principal associated with this resource.
   */
-  function FetchPrincipal() {
+  protected function FetchPrincipal() {
     if ( isset($this->principal) ) return;
     $this->principal = new DAVPrincipal( array( "path" => $this->bound_from() ) );
     if ( $this->_is_principal ) {
@@ -577,7 +577,7 @@ EOSQL;
   /**
   * Retrieve the actual resource.
   */
-  function FetchResource() {
+  protected function FetchResource() {
     global $c, $session;
 
     if ( isset($this->exists) ) return;   // True or false, we've got what we can already
@@ -606,10 +606,12 @@ EOQRY;
   /**
   * Fetch any dead properties for this URL
   */
-  function FetchDeadProperties() {
+  protected function FetchDeadProperties() {
     if ( isset($this->dead_properties) ) return;
 
     $this->dead_properties = array();
+    if ( !$this->exists || !$this->_is_collection ) return;
+
     $qry = new AwlQuery('SELECT property_name, property_value FROM property WHERE dav_name= :dav_name', array(':dav_name' => $this->dav_name) );
     if ( $qry->Exec('DAVResource') ) {
       while ( $property = $qry->Fetch() ) {
@@ -620,28 +622,9 @@ EOQRY;
 
 
   /**
-  * Fetch the parent to this resource.
-  */
-  function FetchParentContainer() {
-    if ( $this->dav_name == '/' ) return null;
-    if ( !isset($this->parent) ) {
-      if ( $this->_is_collection ) {
-        dbg_error_log( 'DAVResource', 'Retrieving "%s" - parent of "%s" (dav_name: %s)', $this->parent_path(), $this->collection->dav_name, $this->dav_name() );
-        $this->parent = new DAVResource( $this->parent_path() );
-      }
-      else {
-        dbg_error_log( 'DAVResource', 'Retrieving "%s" - parent of "%s" (dav_name: %s)', $this->parent_path(), $this->collection->dav_name, $this->dav_name() );
-        $this->parent = new DAVResource($this->collection->dav_name);
-      }
-    }
-    return $this->parent;
-  }
-
-
-  /**
   * Build permissions for this URL
   */
-  function FetchPrivileges() {
+  protected function FetchPrivileges() {
     global $session, $request;
 
     if ( $this->dav_name == '/' || $this->dav_name == '' ) {
@@ -666,7 +649,7 @@ EOQRY;
     if ( ! isset($this->collection) ) $this->FetchCollection();
     $this->privileges = 0;
     if ( !isset($this->collection->path_privs) ) {
-      if ( !isset($this->parent) ) $this->FetchParentContainer();
+      if ( !isset($this->parent) ) $this->GetParentContainer();
 
       $this->collection->path_privs = $this->parent->Privileges();
       $this->collection->user_no = $this->parent->GetProperty('user_no');
@@ -693,6 +676,34 @@ EOQRY;
         }
       }
     }
+  }
+
+
+  /**
+  * Get a DAVResource which is the parent to this resource.
+  */
+  function GetParentContainer() {
+    if ( $this->dav_name == '/' ) return null;
+    if ( !isset($this->parent) ) {
+      if ( $this->_is_collection ) {
+        dbg_error_log( 'DAVResource', 'Retrieving "%s" - parent of "%s" (dav_name: %s)', $this->parent_path(), $this->collection->dav_name, $this->dav_name() );
+        $this->parent = new DAVResource( $this->parent_path() );
+      }
+      else {
+        dbg_error_log( 'DAVResource', 'Retrieving "%s" - parent of "%s" (dav_name: %s)', $this->parent_path(), $this->collection->dav_name, $this->dav_name() );
+        $this->parent = new DAVResource($this->collection->dav_name);
+      }
+    }
+    return $this->parent;
+  }
+
+  
+  /**
+  * Fetch the parent to this resource.
+  */
+  function FetchParentContainer() {
+    deprecated('DAVResource::FetchParentContainer');
+    return $this->GetParentContainer();
   }
 
 
@@ -1096,7 +1107,7 @@ EOQRY;
     if ( $this->collection->dav_name != $this->dav_name ) {
       return $this->collection->exists;
     }
-    $parent = $this->FetchParentContainer();
+    $parent = $this->GetParentContainer();
     return $parent->Exists();
   }
 
@@ -1164,6 +1175,24 @@ EOQRY;
   function principal_url() {
     if ( !isset($this->principal) ) $this->FetchPrincipal();
     return $this->principal->url();
+  }
+
+
+  /**
+  * Returns the internal user_no for the principal for this resource
+  */
+  function user_no() {
+    if ( !isset($this->principal) ) $this->FetchPrincipal();
+    return $this->principal->user_no();
+  }
+
+
+  /**
+  * Returns the internal collection_id for this collection, or the collection containing this resource
+  */
+  function collection_id() {
+    if ( !isset($this->collection) ) $this->FetchCollection();
+    return $this->collection->collection_id;
   }
 
 
@@ -1321,7 +1350,7 @@ EOQRY;
         return $this->principal->principal_id();
         break;
 
-        case 'resourcetype':
+      case 'resourcetype':
         if ( isset($this->resourcetypes) ) {
           $this->resourcetypes = preg_replace('{^\s*<(.*)/>\s*$}', '$1', $this->resourcetypes);
           $type_list = preg_split('{(/>\s*<|\n)}', $this->resourcetypes);
@@ -1481,13 +1510,13 @@ EOQRY;
         break;
 
       case 'DAV::getlastmodified':
-        /** peculiarly, it seems that getlastmodified is HTTP Date format! */
+        /** getlastmodified is HTTP Date format: i.e. the Last-Modified header in response to a GET */
         $reply->NSElement($prop, $tag, ISODateToHTTPDate($this->GetProperty('modified')) );
         break;
 
       case 'DAV::creationdate':
-        /** bizarrely, it seems that creationdate is ISO8601 format */
-        $reply->NSElement($prop, $tag, DateToISODate($this->GetProperty('created')) );
+        /** creationdate is ISO8601 format */
+        $reply->NSElement($prop, $tag, DateToISODate($this->GetProperty('created'), true) );
         break;
 
       case 'DAV::getcontentlength':

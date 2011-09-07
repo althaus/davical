@@ -11,7 +11,6 @@
 dbg_error_log("POST", "method handler");
 
 require_once("XMLDocument.php");
-require_once("iCalendar.php");
 include_once('caldav-PUT-functions.php');
 include_once('freebusy-functions.php');
 
@@ -97,8 +96,7 @@ function handle_freebusy_request( $ic ) {
     $fb->SetProperties( $ic->GetProperties('ORGANIZER'), 'ORGANIZER');
     $fb->AddProperty( $attendee );
 
-    $vcal = new iCalComponent();
-    $vcal->VCalendar( array('METHOD' => 'REPLY') );
+    $vcal = new vCalendar( array('METHOD' => 'REPLY') );
     $vcal->AddComponent( $fb );
 
     $response = $reply->NewXMLElement( "response", false, false, 'urn:ietf:params:xml:ns:caldav' );
@@ -124,7 +122,7 @@ function handle_cancel_request( $ic ) {
   $request->XMLResponse( 200, $response );
 }
 
-$ical = new iCalComponent( $request->raw_post );
+$ical = new vComponent( $request->raw_post );
 $method =  $ical->GetPValue('METHOD');
 
 $resources = $ical->GetComponents('VTIMEZONE',false);

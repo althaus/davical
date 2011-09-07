@@ -91,7 +91,6 @@ function add_proxy_response( $which, $parent_path ) {
   $collection->description     = '';
 
   $resource = new DAVResource($collection);
-  $resource->FetchPrincipal();
   return $resource->RenderAsXML($property_list, $reply);
 
 }

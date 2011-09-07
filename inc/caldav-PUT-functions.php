@@ -16,7 +16,8 @@
 */
 
 require_once('AwlCache.php');
-require_once('iCalendar.php');
+require_once('vComponent.php');
+require_once('vCalendar.php');
 require_once('WritableCollection.php');
 
 $bad_events = null;
@@ -159,10 +160,23 @@ function public_events_only( $user_no, $dav_name ) {
   return false;
 }
 
+/**
+ * Get a TZID string from this VEVENT/VTODO/... component if we can
+ * @param vComponent $comp
+ * @return The TZID value we found, or null
+ */
+function GetTZID( vComponent $comp ) {
+  $p = $comp->GetProperty('DTSTART');
+  if ( !isset($p) && $comp->GetType() == 'VTODO' ) {
+    $p = $comp->GetProperty('DUE');
+  }
+  if ( !isset($p) ) return null;
+  return $p->GetParameterValue('TZID');
+}
 
 /**
 * Deliver scheduling requests to attendees
-* @param iCalComponent $ical the VCALENDAR to deliver
+* @param vComponent $ical the VCALENDAR to deliver
 */
 function handle_schedule_request( $ical ) {
   global $c, $session, $request;
@@ -207,7 +221,7 @@ function handle_schedule_request( $ical ) {
       $attendee->SetParameterValue ('SCHEDULE-STATUS','5.3;No scheduling support for user');
       continue;
     }
-    $deliver_path = $attendee_principal->internal_url('schedule_inbox');
+    $deliver_path = $attendee_principal->internal_url('schedule-inbox');
 
     $ar = new DAVResource($deliver_path);
     $priv =  $ar->HavePrivilegeTo('schedule-deliver-invite' );
@@ -223,29 +237,23 @@ function handle_schedule_request( $ical ) {
 
 
     $attendee->SetParameterValue ('SCHEDULE-STATUS','1.2;Scheduling message has been delivered');
-    $ncal = new iCalComponent (  );
-    $ncal->VCalendar ();
-    $ncal->AddProperty ( 'METHOD', 'REQUEST' );
+    $ncal = new vCalendar( array('METHOD' => 'REQUEST') );
     $ncal->AddComponent ( array_merge ( $ical->GetComponents('VEVENT',false) , array ($ic) ));
     $content = $ncal->Render();
     $cid = $ar->GetProperty('collection_id');
     dbg_error_log('DELIVER', 'to user: %s, to path: %s, collection: %s, from user: %s, caldata %s', $attendee_principal->user_no(), $deliver_path, $cid, $request->user_no, $content );
-    write_resource( $attendee_principal->user_no(), $deliver_path . $etag . '.ics' ,
-    $content , $ar->GetProperty('collection_id'), $request->user_no,
-    md5($content), $ncal, $put_action_type='INSERT', $caldav_context=true, $log_action=true, $etag );
-    $attendee->SetParameterValue ('SCHEDULE-STATUS','1.2;Scheduling message has been delivered');
+    write_resource( $deliver_path . $etag . '.ics', $content, $ar, $request->user_no,
+        md5($content), $ncal, $put_action_type='INSERT', $caldav_context=true, $log_action=true, $etag );
+        $attendee->SetParameterValue ('SCHEDULE-STATUS','1.2;Scheduling message has been delivered');
   }
   // don't write an entry in the out box, ical doesn't delete it or ever read it again
-  $ncal = new iCalComponent (  );
-  $ncal->VCalendar ();
-  $ncal->AddProperty ( 'METHOD', 'REQUEST' );
+  $ncal = new vCalendar(array('METHOD' => 'REQUEST'));
   $ncal->AddComponent ( array_merge ( $ical->GetComponents('VEVENT',false) , array ($ic) ));
   $content = $ncal->Render();
-  $deliver_path = $request->principal->internal_url('schedule_inbox');
+  $deliver_path = $request->principal->internal_url('schedule-inbox');
   $ar = new DAVResource($deliver_path);
-  write_resource( $request->user_no, $deliver_path . $etag . '.ics' ,
-  $content , $ar->GetProperty('collection_id'), $request->user_no,
-  md5($content), $ncal, $put_action_type='INSERT', $caldav_context=true, $log_action=true, $etag );
+  write_resource( $deliver_path . $etag . '.ics', $content, $ar, $request->user_no, md5($content),
+                     $ncal, $put_action_type='INSERT', $caldav_context=true, $log_action=true, $etag );
   //$etag = md5($content);
   header('ETag: "'. $etag . '"' );
   header('Schedule-Tag: "'.$etag . '"' );
@@ -254,10 +262,10 @@ function handle_schedule_request( $ical ) {
 
 /**
 * Deliver scheduling replies to organizer and other attendees
-* @param iCalComponent $ical the VCALENDAR to deliver
+* @param vComponent $ical the VCALENDAR to deliver
 * @return false on error
 */
-function handle_schedule_reply ( $ical ) {
+function handle_schedule_reply ( vComponent $ical ) {
   global $c, $session, $request;
   $resources = $ical->GetComponents('VTIMEZONE',false);
   $ic = $resources[0];
@@ -298,14 +306,11 @@ function handle_schedule_reply ( $ical ) {
       continue;
     }
 
-    $ncal = new iCalComponent (  );
-    $ncal->VCalendar ();
-    $ncal->AddProperty ( 'METHOD', 'REPLY' );
+    $ncal = new vCalendar( array('METHOD' => 'REPLY') );
     $ncal->AddComponent ( array_merge ( $ical->GetComponents('VEVENT',false) , array ($ic) ));
     $content = $ncal->Render();
-    write_resource( $attendee_principal->user_no(), $deliver_path . $etag . '.ics' ,
-    $content , $ar->GetProperty('collection_id'), $request->user_no,
-    md5($content), $ncal, $put_action_type='INSERT', $caldav_context=true, $log_action=true, $etag );
+    write_resource( $deliver_path . $etag . '.ics', $content, $ar, $request->user_no, md5($content),
+                       $ncal, $put_action_type='INSERT', $caldav_context=true, $log_action=true, $etag );
   }
   $request->DoResponse( 201, 'Created' );
 }
@@ -315,23 +320,23 @@ function handle_schedule_reply ( $ical ) {
 
 /**
 * Create a scheduling request in the schedule inbox for the
-* @param iCalComponent $resource The VEVENT/VTODO/... resource we are scheduling
-* @param iCalProp $attendee The attendee we are scheduling
+* @param vComponent $resource The VEVENT/VTODO/... resource we are scheduling
+* @param vProperty $attendee The attendee we are scheduling
 * @return float The result of the scheduling request, per caldav-sched #3.5.4
 */
-function write_scheduling_request( &$resource, $attendee_value, $create_resource ) {
-  $email = preg_replace( '/^mailto:/', '', $attendee_value );
+function write_scheduling_request( vComponent $resource, $attendee_value, $create_resource ) {
+  $email = preg_replace( '/^mailto:/i', '', $attendee_value );
   $schedule_target = new Principal('email',$email);
   if ( $schedule_target->Exists() ) {
     $attendee_inbox = new WritableCollection(array('path' => $schedule_target->internal_url('schedule-inbox')));
     if ( ! $attendee_inbox->HavePrivilegeTo('schedule-deliver-invite') ) {
       $response = '3.8;'.translate('No authority to deliver invitations to user.');
     }
-    else if ( $attendee_inbox->WriteCalendarMember($resource, $create_resource) ) {
-      $response = '2.0;'.translate('Scheduling invitation delivered successfully');
+    else if ( $attendee_inbox->WriteCalendarMember($resource, $create_resource) === false ) {
+      $response = '5.3;'.translate('No scheduling support for user');
     }
     else {
-      $response = '5.3;'.translate('No scheduling support for user');
+      $response = '2.0;'.translate('Scheduling invitation delivered successfully');
     }
   }
   else {
@@ -342,9 +347,9 @@ function write_scheduling_request( &$resource, $attendee_value, $create_resource
 
 /**
 * Create scheduling requests in the schedule inbox for the
-* @param iCalComponent $resource The VEVENT/VTODO/... resource we are scheduling
+* @param vComponent $resource The VEVENT/VTODO/... resource we are scheduling
 */
-function create_scheduling_requests( &$resource ) {
+function create_scheduling_requests( vComponent $resource ) {
   if ( ! is_object($resource) ) {
     dbg_error_log( 'PUT', 'create_scheduling_requests called with non-object parameter (%s)', gettype($resource) );
     return;
@@ -365,16 +370,18 @@ function create_scheduling_requests( &$resource ) {
 
   dbg_error_log( 'PUT', 'Adding to scheduling inbox %d attendees', count($attendees) );
   foreach( $attendees AS $attendee ) {
-    $attendee->SetParameterValue( 'SCHEDULE-STATUS', write_scheduling_request( $resource, $attendee->Value(), true ) );
+    $schedule_status = write_scheduling_request( $resource, $attendee->Value(), true );
+    dbg_error_log( 'PUT', 'Status for attendee <%s> set to "%s"', $attendee->Value(), $schedule_status );
+    $attendee->SetParameterValue( 'SCHEDULE-STATUS', $schedule_status );
   }
 }
 
 
 /**
 * Update scheduling requests in the schedule inbox for the
-* @param iCalComponent $resource The VEVENT/VTODO/... resource we are scheduling
+* @param vComponent $resource The VEVENT/VTODO/... resource we are scheduling
 */
-function update_scheduling_requests( &$resource ) {
+function update_scheduling_requests( vComponent $resource ) {
   if ( ! is_object($resource) ) {
     dbg_error_log( 'PUT', 'update_scheduling_requests called with non-object parameter (%s)', gettype($resource) );
     return;
@@ -420,7 +427,7 @@ function import_collection( $ics_content, $user_no, $path, $caldav_context, $app
     }
   }
 
-  $calendar = new iCalComponent($ics_content);
+  $calendar = new vComponent($ics_content);
   $timezones = $calendar->GetComponents('VTIMEZONE',true);
   $components = $calendar->GetComponents('VTIMEZONE',false);
 
@@ -436,7 +443,7 @@ function import_collection( $ics_content, $user_no, $path, $caldav_context, $app
     $tz_ids[$tz->GetPValue('TZID')] = $k;
   }
 
-  /** Build an array of resources.  Each resource is an array of iCalComponent */
+  /** Build an array of resources.  Each resource is an array of vComponent */
   $resources = array();
   foreach( $components AS $k => $comp ) {
     $uid = $comp->GetPValue('UID');
@@ -449,9 +456,8 @@ function import_collection( $ics_content, $user_no, $path, $caldav_context, $app
     $resources[$uid][] = $comp;
 
     /** Ensure we have the timezone component for this in our array as well */
-    $tzid = $comp->GetPParamValue('DTSTART', 'TZID');
-    if ( !isset($tzid) || $tzid == '' ) $tzid = $comp->GetPParamValue('DUE','TZID');
-    if ( !isset($resources[$uid][$tzid]) && isset($tz_ids[$tzid]) ) {
+    $tzid = GetTZID($comp);
+    if ( !empty($tzid) && !isset($resources[$uid][$tzid]) && isset($tz_ids[$tzid]) ) {
       $resources[$uid][$tzid] = $timezones[$tz_ids[$tzid]];
     }
   }
@@ -491,8 +497,7 @@ EOSQL;
     if ( isset($c->skip_bad_event_on_import) && $c->skip_bad_event_on_import ) $qry->Begin();
 
     /** Construct the VCALENDAR data */
-    $vcal = new iCalComponent();
-    $vcal->VCalendar();
+    $vcal = new vCalendar();
     $vcal->SetComponents($resource);
     create_scheduling_requests($vcal);
     $icalendar = $vcal->Render();
@@ -549,7 +554,8 @@ EOSQL;
         * So we're looking for 'VALUE=DATE', to identify the duration, effectively.
         *
         */
-        $value_type = $first->GetPParamValue('DTSTART','VALUE');
+        $dtstart_prop = $first->GetProperty('DTSTART');
+        $value_type = $dtstart_prop->GetParameterValue('VALUE');
         dbg_error_log('PUT','DTSTART without DTEND. DTSTART value type is %s', $value_type );
         if ( isset($value_type) && $value_type == 'DATE' )
           $dtend = '(:dtstart::timestamp with time zone::date + \'1 day\'::interval)';
@@ -563,7 +569,7 @@ EOSQL;
     $calitem_params[':modified'] = $last_modified;
 
     $dtstamp = $first->GetPValue('DTSTAMP');
-    if ( !isset($dtstamp) || $dtstamp == '' ) $dtstamp = $last_modified;
+    if ( empty($dtstamp) ) $dtstamp = $last_modified;
     $calitem_params[':dtstamp'] = $dtstamp;
 
     /** RFC2445, 4.8.1.3: Default is PUBLIC, or also if overridden by the collection settings */
@@ -573,9 +579,8 @@ EOSQL;
 
 
     /** Calculate what timezone to set, first, if possible */
-    $tzid = $first->GetPParamValue('DTSTART','TZID');
-    if ( !isset($tzid) || $tzid == '' ) $tzid = $first->GetPParamValue('DUE','TZID');
-    if ( isset($tzid) && $tzid != '' ) {
+    $tzid = GetTZID($first);
+    if ( !empty($tzid) ) {
       if ( isset($resource[$tzid]) ) {
         $tz = $resource[$tzid];
         $tz_locn = $tz->GetPValue('X-LIC-LOCATION');
@@ -649,14 +654,14 @@ EOSQL;
 
 
 /**
-* Given a dav_id and an original iCalComponent, pull out each of the VALARMs
+* Given a dav_id and an original vComponent, pull out each of the VALARMs
 * and write the values into the calendar_alarm table.
 *
 * @param int $dav_id The dav_id of the caldav_data we're processing
-* @param iCalComponent The VEVENT or VTODO containing the VALARM
+* @param vComponent The VEVENT or VTODO containing the VALARM
 * @return null
 */
-function write_alarms( $dav_id, $ical ) {
+function write_alarms( $dav_id, vComponent $ical ) {
   $qry = new AwlQuery('DELETE FROM calendar_alarm WHERE dav_id = '.$dav_id );
   $qry->Exec('PUT',__LINE__,__FILE__);
 
@@ -710,10 +715,10 @@ function write_alarms( $dav_id, $ical ) {
 * Parse out the attendee property and write a row to the
 * calendar_attendee table for each one.
 * @param int $dav_id The dav_id of the caldav_data we're processing
-* @param iCalComponent The VEVENT or VTODO containing the ATTENDEEs
+* @param vComponent The VEVENT or VTODO containing the ATTENDEEs
 * @return null
 */
-function write_attendees( $dav_id, $ical ) {
+function write_attendees( $dav_id, vComponent $ical ) {
   $qry = new AwlQuery('DELETE FROM calendar_attendee WHERE dav_id = '.$dav_id );
   $qry->Exec('PUT',__LINE__,__FILE__);
 
@@ -754,7 +759,7 @@ function write_attendees( $dav_id, $ical ) {
 * @param int $collection_id The ID of the collection containing the resource being written
 * @param int $author The user_no who wants to put this resource on the server
 * @param string $etag An etag unique for this event
-* @param object $ic The parsed iCalendar object
+* @param vComponent $ic The parsed iCalendar object
 * @param string $put_action_type INSERT or UPDATE depending on what we are to do
 * @param boolean $caldav_context True, if we are responding via CalDAV, false for other ways of calling this
 * @param string Either 'INSERT' or 'UPDATE': the type of action we are doing
@@ -762,7 +767,8 @@ function write_attendees( $dav_id, $ical ) {
 * @param string $weak_etag An etag that is NOT modified on ATTENDEE changes for this event
 * @return boolean True for success, false for failure.
 */
-function write_resource( $user_no, $path, $caldav_data, $collection_id, $author, $etag, $ic, $put_action_type, $caldav_context, $log_action=true, $weak_etag=null ) {
+function write_resource( $path, $caldav_data, DAVResource $collection, $author, $etag,
+                         vComponent $ic, $put_action_type, $caldav_context, $log_action=true, $weak_etag=null ) {
   global $tz_regex;
 
   $resources = $ic->GetComponents('VTIMEZONE',false); // Not matching VTIMEZONE
@@ -774,8 +780,15 @@ function write_resource( $user_no, $path, $caldav_data, $collection_id, $author,
   }
   else {
     $first = $resources[0];
+    if ( !($first  instanceof vComponent) ) {
+      print $ic->Render();
+      fatal('This is not a vComponent!');
+    }
     $resource_type = $first->GetType();
   }
+  
+  $user_no = $collection->user_no();
+  $collection_id = $collection->collection_id();
 
   $qry = new AwlQuery();
   $qry->Begin();
@@ -806,13 +819,14 @@ function write_resource( $user_no, $path, $caldav_data, $collection_id, $author,
   $dav_id = $row->dav_id;
   $dav_params[':dav_id'] = $dav_id;
   $calitem_params[':dav_id'] = $dav_id;
-  
-  $dtstart = $first->GetPValue('DTSTART');
-  $calitem_params[':dtstart'] = $dtstart;
-  if ( (!isset($dtstart) || $dtstart == '') && $first->GetPValue('DUE') != '' ) {
-    $dtstart = $first->GetPValue('DUE');
-  }
 
+  $due = null;
+  if ( $first->GetType() == 'VTODO' ) $due = $first->GetPValue('DUE'); 
+  $calitem_params[':due'] = $due;
+  $dtstart = $first->GetPValue('DTSTART');
+  if ( empty($dtstart) ) $dtstart = $due; 
+  $calitem_params[':dtstart'] = $dtstart;
+  
   $dtend = $first->GetPValue('DTEND');
   if ( isset($dtend) && $dtend != '' ) {
     dbg_error_log( 'PUT', ' DTEND: "%s", DTSTART: "%s", DURATION: "%s"', $dtend, $dtstart, $first->GetPValue('DURATION') );
@@ -820,6 +834,7 @@ function write_resource( $user_no, $path, $caldav_data, $collection_id, $author,
     $dtend = ':dtend';
   }
   else {
+    // In this case we'll construct the SQL directly as a calculation relative to :dtstart
     $dtend = 'NULL';
     if ( $first->GetPValue('DURATION') != '' AND $dtstart != '' ) {
       $duration = trim(preg_replace( '#[PT]#', ' ', $first->GetPValue('DURATION') ));
@@ -841,7 +856,8 @@ function write_resource( $user_no, $path, $caldav_data, $collection_id, $author,
       * So we're looking for 'VALUE=DATE', to identify the duration, effectively.
       *
       */
-      $value_type = $first->GetPParamValue('DTSTART','VALUE');
+      $dtstart_prop = $first->GetProperty('DTSTART');
+      $value_type = $dtstart_prop->GetParameterValue('VALUE');
       dbg_error_log('PUT','DTSTART without DTEND. DTSTART value type is %s', $value_type );
       if ( isset($value_type) && $value_type == 'DATE' )
         $dtend = '(:dtstart::timestamp with time zone::date + \'1 day\'::interval)';
@@ -882,20 +898,17 @@ function write_resource( $user_no, $path, $caldav_data, $collection_id, $author,
   }
   $calitem_params[':class'] = $class;
 
-
   /** Calculate what timezone to set, first, if possible */
   $last_tz_locn = 'Turkmenikikamukau';  // I really hope this location doesn't exist!
-  $tzid = $first->GetPParamValue('DTSTART','TZID');
-  if ( !isset($tzid) || $tzid == '' ) $tzid = $first->GetPParamValue('DUE','TZID');
+  $tzid = GetTZID($first);
   $timezones = $ic->GetComponents('VTIMEZONE');
   foreach( $timezones AS $k => $tz ) {
     if ( $tz->GetPValue('TZID') != $tzid ) {
       /**
-      * We'll pretend they didn't forget to give us a TZID and that they
-      * really hope the server is running in the timezone they supplied... but be noisy about it.
+      * We'll skip any tz definitions that are for a TZID other than the DTSTART/DUE on the first VEVENT/VTODO 
       */
-      dbg_error_log( 'ERROR', ' Event includes TZID[%s] but uses TZID[%s]!', $tz->GetPValue('TZID'), $tzid );
-      $tzid = $tz->GetPValue('TZID');
+      dbg_error_log( 'ERROR', ' Event uses TZID[%s], skipping included TZID[%s]!', $tz->GetPValue('TZID'), $tzid );
+      continue;
     }
     // This is the one
     $tz_locn = $tz->GetPValue('X-LIC-LOCATION');
@@ -941,13 +954,12 @@ function write_resource( $user_no, $path, $caldav_data, $collection_id, $author,
   $calitem_params[':rrule'] = $first->GetPValue('RRULE');
   $calitem_params[':url'] = $first->GetPValue('URL');
   $calitem_params[':priority'] = $first->GetPValue('PRIORITY');
-  $calitem_params[':due'] = $first->GetPValue('DUE');
   $calitem_params[':percent_complete'] = $first->GetPValue('PERCENT-COMPLETE');
   $calitem_params[':status'] = $first->GetPValue('STATUS');
 
   if ( !isset($dav_params[':modified']) ) $dav_params[':modified'] = 'now';
   if ( $put_action_type == 'INSERT' ) {
-    create_scheduling_requests($vcal);
+    if ( !$collection->IsSchedulingCollection() ) create_scheduling_requests($ic);
     $sql = 'INSERT INTO caldav_data ( dav_id, user_no, dav_name, dav_etag, caldav_data, caldav_type, logged_user, created, modified, collection_id, weak_etag )
             VALUES( :dav_id, :user_no, :dav_name, :etag, :dav_data, :caldav_type, :session_user, :created, :modified, :collection_id, :weak_etag )';
     $dav_params[':collection_id'] = $collection_id;
@@ -956,11 +968,12 @@ function write_resource( $user_no, $path, $caldav_data, $collection_id, $author,
     $dav_params[':created'] = (isset($created) && $created != '' ? $created : $dtstamp);
   }
   else {
-    update_scheduling_requests($vcal);
+    if ( !$collection->IsSchedulingCollection() ) update_scheduling_requests($ic);
     $sql = 'UPDATE caldav_data SET caldav_data=:dav_data, dav_etag=:etag, caldav_type=:caldav_type, logged_user=:session_user,
             modified=:modified, weak_etag=:weak_etag WHERE dav_id=:dav_id';
   }
   if ( !$qry->QDo($sql,$dav_params) ) {
+    fatal('Insert into calendar_item failed...');
     rollback_on_error( $caldav_context, $user_no, $path);
     return false;
   }
@@ -972,7 +985,7 @@ INSERT INTO calendar_item (user_no, dav_name, dav_id, dav_etag, uid, dtstamp,
                 dtstart, dtend, summary, location, class, transp,
                 description, rrule, tz_id, last_modified, url, priority,
                 created, due, percent_complete, status, collection_id )
-   VALUES ( :user_no, :dav_name, currval('dav_id_seq'), :etag, :uid, :dtstamp,
+   VALUES ( :user_no, :dav_name, :dav_id, :etag, :uid, :dtstamp,
                 :dtstart, $dtend, :summary, :location, :class, :transp,
                 :description, :rrule, :tzid, :modified, :url, :priority,
                 :created, :due, :percent_complete, :status, :collection_id )
@@ -986,8 +999,9 @@ EOSQL;
   else {
     $sql = <<<EOSQL
 UPDATE calendar_item SET dav_etag=:etag, uid=:uid, dtstamp=:dtstamp,
-                dtstart=:dtstart, dtend=$dtend, summary=:summary, location=:location, class=:class, transp=:transp,
-                description=:description, rrule=:rrule, tz_id=:tzid, last_modified=:modified, url=:url, priority=:priority,
+                dtstart=:dtstart, dtend=$dtend, summary=:summary, location=:location,
+                class=:class, transp=:transp, description=:description, rrule=:rrule,
+                tz_id=:tzid, last_modified=:modified, url=:url, priority=:priority,
                 due=:due, percent_complete=:percent_complete, status=:status
        WHERE dav_id=:dav_id
 EOSQL;
@@ -1037,18 +1051,16 @@ EOSQL;
 function simple_write_resource( $path, $caldav_data, $put_action_type, $write_action_log = false ) {
 
   $etag = md5($caldav_data);
-  $ic = new iCalComponent( $caldav_data );
 
   /**
   * We pull the user_no & collection_id out of the collection table, based on the resource path
   */
   $collection_path = preg_replace( '#/[^/]*$#', '/', $path );
-  $qry = new AwlQuery( 'SELECT user_no, collection_id FROM collection WHERE dav_name = :dav_name ', array( ':dav_name' => $collection_path ) );
-  if ( $qry->Exec('PUT',__LINE__,__FILE__) && $qry->rows() == 1 ) {
-    $collection = $qry->Fetch();
-    $user_no = $collection->user_no;
+  $collection = new DAVResource($collection_path);
+  if ( $collection->IsCollection() || $collection->IsSchedulingCollection() ) {
 
-    return write_resource( $user_no, $path, $caldav_data, $collection->collection_id, $user_no, $etag, $ic, $put_action_type, false, $write_action_log );
+    $vc = new vComponent( $caldav_data );
+    return write_resource( $path, $caldav_data, $collection, $user_no, $etag, $vc, $put_action_type, false, $write_action_log );
   }
   return false;
 }

@@ -381,10 +381,13 @@ class Principal {
     }
 
     switch( $type ) {
-      case 'schedule_inbox':     $result .= '.in/';        break;
-      case 'schedule_outbox':    $result .= '.out/';       break;
+      case 'principal':          break;
+      case 'schedule-inbox':     $result .= '.in/';        break;
+      case 'schedule-outbox':    $result .= '.out/';       break;
       case 'dropbox':            $result .= '.drop/';      break;
       case 'notifications':      $result .= '.notify/';    break;
+      default:
+        fatal('Unknown internal URL type "'.$type.'"');
     }
     return $result;
   }

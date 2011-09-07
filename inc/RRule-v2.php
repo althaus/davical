@@ -11,6 +11,25 @@
 
 if ( !class_exists('DateTime') ) return;
 
+/**
+* Try and extract something like "Pacific/Auckland" or "America/Indiana/Indianapolis" if possible, given
+* the VTIMEZONE component that is passed in.  This is much more complex than olson_from_tzstring since
+* we start to examine the rules and work out what actual timezone this might be.
+*/
+function olson_from_vtimezone( vComponent $vtz ) {
+  $tzid = $vtz->GetProperty('TZID');
+  if ( empty($tzid) ) $tzid = $vtz->GetProperty('TZID'); 
+  if ( !empty($tzid) ) {
+    $result = olson_from_tzstring($tzid);
+    if ( !empty($result) ) return $result;
+  }
+
+  /**
+   * @todo: We'll do other stuff here, in due course...
+   */
+  return null;
+}
+
 // define( 'DEBUG_RRULE', true);
 define( 'DEBUG_RRULE', false );
 
@@ -59,20 +78,24 @@ class Rfc5545Duration {
   private $epoch_seconds = null;
   private $days = 0;
   private $secs = 0;
-  private $as_text = null;
+  private $as_text = '';
 
   /**
    * Construct a new Rfc5545Duration either from incoming seconds or a text string.
    * @param mixed $in_duration
    */
   function __construct( $in_duration ) {
-    if ( preg_match('{^-?P(\dW)|((\dD)?(T(\dH)?(\dM)?(\dS)?)?)$}i', $subject, $matches) ) {
+    if ( is_integer($in_duration) ) {
+      $this->epoch_seconds = $in_duration;
+      $this->as_text = '';
+    }
+    else if ( gettype($in_duration) == 'string' ) {
+//      preg_match('{^-?P(\dW)|((\dD)?(T(\dH)?(\dM)?(\dS)?)?)$}i', $in_duration, $matches) ) {
       $this->as_text = $in_duration;
       $this->epoch_seconds = null;
     }
-    elseif ( is_integer($in_duration) ) {
-      $this->epoch_seconds = $in_duration;
-      $this->as_text = null;
+    else {
+//      fatal('Passed duration is neither numeric nor string!');
     }
   }
 
@@ -117,11 +140,12 @@ class Rfc5545Duration {
   
   /**
    * Returns the duration as a text string of the form ^(-?)P(\d+W)|((\d+D)?(T(\d+H)?(\d+M)?(\d+S)?)?)$
+   * @return string The stringified stuff.
    */
   function __toString() {
-    if ( !isset($this->as_text) ) {
-      $this->as_text = ($in_duration < 0 ? '-P' : 'P');
-      $in_duration = abs($in_duration);
+    if ( empty($this->as_text) ) {
+      $this->as_text = ($this->epoch_seconds < 0 ? '-P' : 'P');
+      $in_duration = abs($this->epoch_seconds);
       if ( $in_duration >= 86400 ) {
         $this->days = floor($in_duration / 86400);
         $in_duration -= $this->days * 86400;

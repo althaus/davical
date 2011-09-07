@@ -492,11 +492,11 @@ class DAVPrincipal extends Principal
         break;
 
       case 'urn:ietf:params:xml:ns:caldav:schedule-inbox-URL':
-        $reply->CalDAVElement($prop, 'schedule-inbox-URL', $reply->href($this->url('schedule_inbox')) );
+        $reply->CalDAVElement($prop, 'schedule-inbox-URL', $reply->href($this->url('schedule-inbox')) );
         break;
 
       case 'urn:ietf:params:xml:ns:caldav:schedule-outbox-URL':
-        $reply->CalDAVElement($prop, 'schedule-outbox-URL', $reply->href($this->url('schedule_outbox')) );
+        $reply->CalDAVElement($prop, 'schedule-outbox-URL', $reply->href($this->url('schedule-outbox')) );
         break;
 
       case 'http://calendarserver.org/ns/:dropbox-home-URL':
