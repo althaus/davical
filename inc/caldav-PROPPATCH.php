@@ -14,8 +14,11 @@ require_once('iCalendar.php');
 require_once('DAVResource.php');
 
 $dav_resource = new DAVResource($request->path);
-if ( ! ($dav_resource->HavePrivilegeTo('DAV::write-properties') ) ) {
-  $request->DoResponse( 403 );
+if ( !$dav_resource->HavePrivilegeTo('DAV::write-properties') ) {
+  $parent = $dav_resource->GetParentContainer();
+  if ( !$dav_resource->IsBinding() || !$parent->HavePrivilegeTo('DAV::write') ) {
+    $request->PreconditionFailed(403, 'DAV::write-properties', 'You do not have permission to write properties to that resource' );
+  }
 }
 
 $position = 0;
@@ -24,7 +27,7 @@ $xmltree = BuildXMLTree( $request->xml_tags, $position);
 // echo $xmltree->Render();
 
 if ( $xmltree->GetTag() != "DAV::propertyupdate" ) {
-  $request->DoResponse( 403 );
+  $request->PreconditionFailed( 403, 'DAV::propertyupdate', 'XML request did not contain a &lt;propertyupdate&gt; tag' );
 }
 
 /**
