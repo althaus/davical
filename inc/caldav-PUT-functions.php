@@ -369,8 +369,10 @@ function create_scheduling_requests( vComponent $resource ) {
   }
 
   dbg_error_log( 'PUT', 'Adding to scheduling inbox %d attendees', count($attendees) );
+  $schedule_request = new VCalendar( array('METHOD' => 'REQUEST') );
+  $schedule_request->SetComponents( $resource->GetComponents() );
   foreach( $attendees AS $attendee ) {
-    $schedule_status = write_scheduling_request( $resource, $attendee->Value(), true );
+    $schedule_status = write_scheduling_request( $schedule_request, $attendee->Value(), true );
     dbg_error_log( 'PUT', 'Status for attendee <%s> set to "%s"', $attendee->Value(), $schedule_status );
     $attendee->SetParameterValue( 'SCHEDULE-STATUS', $schedule_status );
   }
@@ -401,8 +403,12 @@ function update_scheduling_requests( vComponent $resource ) {
   }
 
   dbg_error_log( 'PUT', 'Adding to scheduling inbox %d attendees', count($attendees) );
+  $schedule_request = new VCalendar( array('METHOD' => 'REQUEST') );
+  $schedule_request->SetComponents( $resource->GetComponents() );
   foreach( $attendees AS $attendee ) {
-    $attendee->SetParameterValue( 'SCHEDULE-STATUS', write_scheduling_request( $resource, $attendee->Value(), false ) );
+    $schedule_status = write_scheduling_request( $schedule_request, $attendee->Value(), false );
+    dbg_error_log( 'PUT', 'Status for attendee <%s> set to "%s"', $attendee->Value(), $schedule_status );
+    $attendee->SetParameterValue( 'SCHEDULE-STATUS', $schedule_status );
   }
 }
 

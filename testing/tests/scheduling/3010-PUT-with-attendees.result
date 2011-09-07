@@ -1,6 +1,6 @@
 HTTP/1.1 100 Continue
 
-HTTP/1.1 204 No Content
+HTTP/1.1 201 Created
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
@@ -10,7 +10,7 @@ Content-Type: text/plain; charset="utf-8"
 
 
       caldav_type: >VEVENT<
-         dav_etag: >e69b6d5b70189b96126c8993bcf1648a<
+         dav_etag: >29961c088fb4666d00f6894e5dd3cfe8<
             dtend: >2010-11-23 16:00:00<
           dtstamp: >2010-11-24 22:19:00<
           dtstart: >2010-11-23 11:00:00<
@@ -22,7 +22,7 @@ Content-Type: text/plain; charset="utf-8"
           user_no: >10<
 
       caldav_type: >VEVENT<
-         dav_etag: >e69b6d5b70189b96126c8993bcf1648a<
+         dav_etag: >29961c088fb4666d00f6894e5dd3cfe8<
             dtend: >2010-11-23 16:00:00<
           dtstamp: >2010-11-24 22:19:00<
           dtstart: >2010-11-23 11:00:00<
@@ -34,7 +34,7 @@ Content-Type: text/plain; charset="utf-8"
           user_no: >11<
 
       caldav_type: >VEVENT<
-         dav_etag: >e69b6d5b70189b96126c8993bcf1648a<
+         dav_etag: >29961c088fb4666d00f6894e5dd3cfe8<
             dtend: >2010-11-23 16:00:00<
           dtstamp: >2010-11-24 22:19:00<
           dtstart: >2010-11-23 11:00:00<
@@ -46,7 +46,7 @@ Content-Type: text/plain; charset="utf-8"
           user_no: >12<
 
       caldav_type: >VEVENT<
-         dav_etag: >e69b6d5b70189b96126c8993bcf1648a<
+         dav_etag: >29961c088fb4666d00f6894e5dd3cfe8<
             dtend: >2010-11-23 16:00:00<
           dtstamp: >2010-11-24 22:19:00<
           dtstart: >2010-11-23 11:00:00<
