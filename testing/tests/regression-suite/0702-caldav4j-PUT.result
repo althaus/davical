@@ -41,9 +41,9 @@ END:VCALENDAR
             class: >PUBLIC<
          dav_etag: >c056350d3c91ac45724c0f9773778941<
       description: >NULL<
-            dtend: >2006-01-02 00:00:00<
+            dtend: >2006-01-02 00:00:00+13<
           dtstamp: >2009-05-15 09:53:26<
-          dtstart: >2006-01-01 00:00:00<
+          dtstart: >2006-01-01 00:00:00+13<
               due: >NULL<
     last_modified: >2009-05-15 09:53:26<
          location: >NULL<
@@ -54,7 +54,7 @@ END:VCALENDAR
            status: >NULL<
           summary: >All_Day_NY_JAN1<
            transp: >NULL<
-            tz_id: >America/New_York<
+            tz_id: >NULL<
               uid: >C68DADAD-37CE-44F7-8A37-52E1D02E29CA<
               url: >NULL<
           user_no: >10<
