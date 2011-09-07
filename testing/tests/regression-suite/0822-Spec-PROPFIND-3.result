@@ -4,7 +4,7 @@
   <href>/caldav.php/user1/home/</href>
   <propstat>
    <prop>
-    <creationdate>2009-06-03T00:00:00+12:00</creationdate>
+    <creationdate>20090602T120000Z</creationdate>
     <displayname>user1 home</displayname>
     <getcontentlanguage/>
     <getcontenttype>httpd/unix-directory</getcontenttype>
@@ -42,7 +42,7 @@
   <href>/caldav.php/user1/home/3F4CF6227300FD062D9EF3CDFB30D32D-0.ics</href>
   <propstat>
    <prop>
-    <creationdate>2006-11-02T09:02:17+13:00</creationdate>
+    <creationdate>20061101T200217Z</creationdate>
     <displayname>Lunch with David</displayname>
     <getcontentlanguage/>
     <getcontentlength>747</getcontentlength>
@@ -77,7 +77,7 @@
   <href>/caldav.php/user1/home/20061101T073004Z.ics</href>
   <propstat>
    <prop>
-    <creationdate>2006-11-01T07:30:00+13:00</creationdate>
+    <creationdate>20061031T183000Z</creationdate>
     <displayname>A Meeting</displayname>
     <getcontentlanguage/>
     <getcontentlength>1059</getcontentlength>
@@ -112,7 +112,7 @@
   <href>/caldav.php/user1/home/4aaf8f37-f232-4c8e-a72e-e171d4c4fe54.ics</href>
   <propstat>
    <prop>
-    <creationdate>2006-11-20T04:13:36+13:00</creationdate>
+    <creationdate>20061119T151336Z</creationdate>
     <displayname>Weekly Project Meeting</displayname>
     <getcontentlanguage/>
     <getcontentlength>999</getcontentlength>
@@ -147,7 +147,7 @@
   <href>/caldav.php/user1/home/9d050be7-8a02-4355-8ed3-02a9fc5f473f.ics</href>
   <propstat>
    <prop>
-    <creationdate>2006-12-23T03:23:50+13:00</creationdate>
+    <creationdate>20061222T142350Z</creationdate>
     <displayname>Confidential Event</displayname>
     <getcontentlanguage/>
     <getcontentlength>956</getcontentlength>
@@ -182,7 +182,7 @@
   <href>/caldav.php/user1/home/1906b3ca-4890-468a-9b58-1de74bf2c716.ics</href>
   <propstat>
    <prop>
-    <creationdate>2006-12-23T03:14:15+13:00</creationdate>
+    <creationdate>20061222T141415Z</creationdate>
     <displayname>Private Event</displayname>
     <getcontentlanguage/>
     <getcontentlength>970</getcontentlength>
@@ -217,7 +217,7 @@
   <href>/caldav.php/user1/home/fbd57454-d966-4a14-8341-abe1edb1ae66.ics</href>
   <propstat>
    <prop>
-    <creationdate>2006-12-23T05:16:46+13:00</creationdate>
+    <creationdate>20061222T161646Z</creationdate>
     <displayname>Tentative Event</displayname>
     <getcontentlanguage/>
     <getcontentlength>929</getcontentlength>
@@ -252,7 +252,7 @@
   <href>/caldav.php/user1/home/2178279a-aec2-471f-832d-1f6df6203f2f.ics</href>
   <propstat>
    <prop>
-    <creationdate>2007-08-05T20:02:15+12:00</creationdate>
+    <creationdate>20070805T080215Z</creationdate>
     <displayname>Incomplete, uncancelled</displayname>
     <getcontentlanguage/>
     <getcontentlength>415</getcontentlength>
@@ -287,7 +287,7 @@
   <href>/caldav.php/user1/home/917b9e47-b748-4550-a566-657fbe672447.ics</href>
   <propstat>
    <prop>
-    <creationdate>2007-08-05T20:15:57+12:00</creationdate>
+    <creationdate>20070805T081557Z</creationdate>
     <displayname>50% Complete, uncancelled</displayname>
     <getcontentlanguage/>
     <getcontentlength>449</getcontentlength>
@@ -322,7 +322,7 @@
   <href>/caldav.php/user1/home/0575d895-a006-4ed8-9be6-0d1b6b6b1f96.ics</href>
   <propstat>
    <prop>
-    <creationdate>2007-08-05T20:16:47+12:00</creationdate>
+    <creationdate>20070805T081647Z</creationdate>
     <displayname>Due 7/8/7 16:30, completed</displayname>
     <getcontentlanguage/>
     <getcontentlength>961</getcontentlength>
@@ -357,7 +357,7 @@
   <href>/caldav.php/user1/home/b1679f77-673d-4f46-b3eb-2420e1bba301.ics</href>
   <propstat>
    <prop>
-    <creationdate>2007-08-06T22:32:44+12:00</creationdate>
+    <creationdate>20070806T103244Z</creationdate>
     <displayname>A Cancelled Task, with a start and due date</displayname>
     <getcontentlanguage/>
     <getcontentlength>1001</getcontentlength>
@@ -392,7 +392,7 @@
   <href>/caldav.php/user1/home/e70576e9-c1e0-431e-a507-0386fd82f223.ics</href>
   <propstat>
    <prop>
-    <creationdate>2007-12-03T20:26:30+13:00</creationdate>
+    <creationdate>20071203T072630Z</creationdate>
     <displayname>Morning Meeting</displayname>
     <getcontentlanguage/>
     <getcontentlength>1119</getcontentlength>
@@ -427,7 +427,7 @@
   <href>/caldav.php/user1/home/e6eb5bc9-f7f9-4a0a-94e8-8e90eefc7d08.ics</href>
   <propstat>
    <prop>
-    <creationdate>2007-12-03T20:29:15+13:00</creationdate>
+    <creationdate>20071203T072915Z</creationdate>
     <displayname>Release 0.9.3</displayname>
     <getcontentlanguage/>
     <getcontentlength>1013</getcontentlength>
@@ -462,7 +462,7 @@
   <href>/caldav.php/user1/home/71e2ae82-7870-11db-c6d6-f6927c144649.ics</href>
   <propstat>
    <prop>
-    <creationdate>2006-05-11T04:37:51+12:00</creationdate>
+    <creationdate>20060510T163751Z</creationdate>
     <displayname>Beer O'Clock</displayname>
     <getcontentlanguage/>
     <getcontentlength>769</getcontentlength>
@@ -497,7 +497,7 @@
   <href>/caldav.php/user1/home/da81c0ee-7871-11db-c6d6-f6927c144649.ics</href>
   <propstat>
    <prop>
-    <creationdate>2006-10-24T11:52:17+13:00</creationdate>
+    <creationdate>20061023T225217Z</creationdate>
     <displayname>Morning Mgmt Mtg</displayname>
     <getcontentlanguage/>
     <getcontentlength>313</getcontentlength>
@@ -532,7 +532,7 @@
   <href>/caldav.php/user1/home/AAA9318E-37D9-4319-8626-95ECD3D3B243.ics</href>
   <propstat>
    <prop>
-    <creationdate>2007-11-23T09:30:48+13:00</creationdate>
+    <creationdate>20071122T203048Z</creationdate>
     <displayname>BBQ @ ML's</displayname>
     <getcontentlanguage/>
     <getcontentlength>981</getcontentlength>
@@ -567,7 +567,7 @@
   <href>/caldav.php/user1/home/70D23799-4A68-4905-AB9F-4D47BA693CFD.ics</href>
   <propstat>
    <prop>
-    <creationdate>2009-10-06T22:58:07+13:00</creationdate>
+    <creationdate>20091006T095807Z</creationdate>
     <displayname>New Event</displayname>
     <getcontentlanguage/>
     <getcontentlength>676</getcontentlength>
@@ -602,7 +602,7 @@
   <href>/caldav.php/user1/home/DAYPARTY-77C6-4FB7-BDD3-6882E2F1BE74.ics</href>
   <propstat>
    <prop>
-    <creationdate>2008-10-24T22:07:49+13:00</creationdate>
+    <creationdate>20081024T090749Z</creationdate>
     <displayname>Party all day!</displayname>
     <getcontentlanguage/>
     <getcontentlength>772</getcontentlength>
@@ -637,7 +637,7 @@
   <href>/caldav.php/user1/home/MICROPARTY-77C6-4FB7-BDD3-6882E2F1BE74.ics</href>
   <propstat>
    <prop>
-    <creationdate>2008-10-24T22:07:49+13:00</creationdate>
+    <creationdate>20081024T090749Z</creationdate>
     <displayname>Woohoo!  Time to Par-tay!</displayname>
     <getcontentlanguage/>
     <getcontentlength>800</getcontentlength>

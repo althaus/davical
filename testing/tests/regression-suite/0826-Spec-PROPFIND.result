@@ -99,7 +99,7 @@
       </grant>
      </ace>
     </acl>
-    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
+    <creationdate>20090531T120000Z</creationdate>
     <displayname>DAViCal CalDAV Server</displayname>
     <getcontentlanguage/>
     <getcontenttype>httpd/unix-directory</getcontenttype>

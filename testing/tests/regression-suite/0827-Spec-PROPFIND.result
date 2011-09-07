@@ -99,7 +99,7 @@
       </grant>
      </ace>
     </acl>
-    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
+    <creationdate>20090531T120000Z</creationdate>
     <displayname>DAViCal CalDAV Server</displayname>
     <getcontentlanguage/>
     <getcontenttype>httpd/unix-directory</getcontenttype>
@@ -221,7 +221,7 @@
       <grant/>
      </ace>
     </acl>
-    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
+    <creationdate>20090531T120000Z</creationdate>
     <displayname>User 1</displayname>
     <getcontentlanguage/>
     <getcontenttype>httpd/unix-directory</getcontenttype>
@@ -259,7 +259,7 @@
   <href>/manager1/</href>
   <propstat>
    <prop>
-    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
+    <creationdate>20090531T120000Z</creationdate>
     <displayname>Manager 1</displayname>
     <getcontentlanguage/>
     <getcontenttype>httpd/unix-directory</getcontenttype>
@@ -303,7 +303,7 @@
   <href>/assistant1/</href>
   <propstat>
    <prop>
-    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
+    <creationdate>20090531T120000Z</creationdate>
     <displayname>Assistant 1</displayname>
     <getcontentlanguage/>
     <getcontenttype>httpd/unix-directory</getcontenttype>
@@ -441,7 +441,7 @@
       </grant>
      </ace>
     </acl>
-    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
+    <creationdate>20090531T120000Z</creationdate>
     <displayname>Resource 1</displayname>
     <getcontentlanguage/>
     <getcontenttype>httpd/unix-directory</getcontenttype>
@@ -573,7 +573,7 @@
       </grant>
      </ace>
     </acl>
-    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
+    <creationdate>20090531T120000Z</creationdate>
     <displayname>Resource 2</displayname>
     <getcontentlanguage/>
     <getcontenttype>httpd/unix-directory</getcontenttype>

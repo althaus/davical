@@ -102,7 +102,7 @@
       </grant>
      </ace>
     </acl>
-    <creationdate>YYYY-MM-DDThh:mm:ss+ZZ:ZZ</creationdate>
+    <creationdate>20090602T120000Z</creationdate>
     <displayname>user1 home</displayname>
     <getcontentlanguage/>
     <getcontenttype>httpd/unix-directory</getcontenttype>
