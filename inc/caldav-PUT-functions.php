@@ -242,7 +242,7 @@ function handle_schedule_request( $ical ) {
     $content = $ncal->Render();
     $cid = $ar->GetProperty('collection_id');
     dbg_error_log('DELIVER', 'to user: %s, to path: %s, collection: %s, from user: %s, caldata %s', $attendee_principal->user_no(), $deliver_path, $cid, $request->user_no, $content );
-    write_resource( $deliver_path . $etag . '.ics', $content, $ar, $request->user_no,
+    write_resource( new DAVResource($deliver_path . $etag . '.ics'), $content, $ar, $request->user_no,
         md5($content), $ncal, $put_action_type='INSERT', $caldav_context=true, $log_action=true, $etag );
         $attendee->SetParameterValue ('SCHEDULE-STATUS','1.2;Scheduling message has been delivered');
   }
@@ -252,7 +252,7 @@ function handle_schedule_request( $ical ) {
   $content = $ncal->Render();
   $deliver_path = $request->principal->internal_url('schedule-inbox');
   $ar = new DAVResource($deliver_path);
-  write_resource( $deliver_path . $etag . '.ics', $content, $ar, $request->user_no, md5($content),
+  write_resource( new DAVResource($deliver_path . $etag . '.ics'), $content, $ar, $request->user_no, md5($content),
                      $ncal, $put_action_type='INSERT', $caldav_context=true, $log_action=true, $etag );
   //$etag = md5($content);
   header('ETag: "'. $etag . '"' );
@@ -309,7 +309,7 @@ function handle_schedule_reply ( vComponent $ical ) {
     $ncal = new vCalendar( array('METHOD' => 'REPLY') );
     $ncal->AddComponent ( array_merge ( $ical->GetComponents('VEVENT',false) , array ($ic) ));
     $content = $ncal->Render();
-    write_resource( $deliver_path . $etag . '.ics', $content, $ar, $request->user_no, md5($content),
+    write_resource( new DAVResource($deliver_path . $etag . '.ics'), $content, $ar, $request->user_no, md5($content),
                        $ncal, $put_action_type='INSERT', $caldav_context=true, $log_action=true, $etag );
   }
   $request->DoResponse( 201, 'Created' );
@@ -773,10 +773,10 @@ function write_attendees( $dav_id, vComponent $ical ) {
 * @param string $weak_etag An etag that is NOT modified on ATTENDEE changes for this event
 * @return boolean True for success, false for failure.
 */
-function write_resource( $path, $caldav_data, DAVResource $collection, $author, $etag,
-                         vComponent $ic, $put_action_type, $caldav_context, $log_action=true, $weak_etag=null ) {
+function write_resource( DAVResource $resource, $caldav_data, DAVResource $collection, $author, $etag, vComponent $ic, $put_action_type, $caldav_context, $log_action=true, $weak_etag=null ) {
   global $tz_regex;
 
+  $path = $resource->bound_from();
   $resources = $ic->GetComponents('VTIMEZONE',false); // Not matching VTIMEZONE
   if ( !isset($resources[0]) ) {
     $resource_type = 'Unknown';
@@ -1055,18 +1055,18 @@ EOSQL;
 * @return boolean True for success, false for failure.
 */
 function simple_write_resource( $path, $caldav_data, $put_action_type, $write_action_log = false ) {
-
-  $etag = md5($caldav_data);
+  global $session;
 
   /**
   * We pull the user_no & collection_id out of the collection table, based on the resource path
   */
+  $dav_resource = new DAVResource($path);
+  $etag = md5($caldav_data);
   $collection_path = preg_replace( '#/[^/]*$#', '/', $path );
   $collection = new DAVResource($collection_path);
   if ( $collection->IsCollection() || $collection->IsSchedulingCollection() ) {
-
     $vc = new vComponent( $caldav_data );
-    return write_resource( $path, $caldav_data, $collection, $user_no, $etag, $vc, $put_action_type, false, $write_action_log );
+    return write_resource( $dav_resource, $caldav_data, $collection, $session->user_no, $etag, $vc, $put_action_type, false, $write_action_log );
   }
   return false;
 }
