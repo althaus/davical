@@ -92,7 +92,7 @@ if ( $dav_resource->Exists() ) {
 $put_action_type = ($dav_resource->Exists() ? 'UPDATE' : 'INSERT');
 $collection = $dav_resource->GetParentContainer();
 
-write_resource( $dav_resource->bound_from(), $request->raw_post, $collection,
+write_resource( $dav_resource, $request->raw_post, $collection,
                                 $session->user_no, $etag, $ic, $put_action_type, true, true );
 
 header(sprintf('ETag: "%s"', $etag) );

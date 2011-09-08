@@ -113,8 +113,7 @@ switch ( $request->method ) {
     $request->CoerceContentType();
     switch( $request->content_type ) {
       case 'text/calendar':
-        /** use original DAViCal 'PUT' code which will be rewritten */
-        include('caldav-PUT.php');
+        include('caldav-PUT-vcalendar.php');
         break;
       case 'text/vcard':
       case 'text/x-vcard':
