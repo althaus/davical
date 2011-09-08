@@ -53,7 +53,6 @@ if ( $dav_resource->IsCollection()  ) {
 }
 
 $etag = md5($request->raw_post);
-$ic = new vComponent( $request->raw_post );
 
 if ( ! $dav_resource->Exists() && (isset($request->etag_if_match) && $request->etag_if_match != '') ) {
   /**
@@ -92,8 +91,8 @@ if ( $dav_resource->Exists() ) {
 $put_action_type = ($dav_resource->Exists() ? 'UPDATE' : 'INSERT');
 $collection = $dav_resource->GetParentContainer();
 
-write_resource( $dav_resource, $request->raw_post, $collection,
-                                $session->user_no, $etag, $ic, $put_action_type, true, true );
+write_resource( $dav_resource, $request->raw_post, $collection, $session->user_no, $etag,
+                                $put_action_type, true, true );
 
 header(sprintf('ETag: "%s"', $etag) );
 

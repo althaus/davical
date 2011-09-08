@@ -238,13 +238,13 @@ function handle_schedule_request( $ical ) {
 
     $attendee->SetParameterValue ('SCHEDULE-STATUS','1.2;Scheduling message has been delivered');
     $ncal = new vCalendar( array('METHOD' => 'REQUEST') );
-    $ncal->AddComponent ( array_merge ( $ical->GetComponents('VEVENT',false) , array ($ic) ));
+    $ncal->AddComponent( array_merge( $ical->GetComponents('VEVENT',false), array($ic) ));
     $content = $ncal->Render();
     $cid = $ar->GetProperty('collection_id');
     dbg_error_log('DELIVER', 'to user: %s, to path: %s, collection: %s, from user: %s, caldata %s', $attendee_principal->user_no(), $deliver_path, $cid, $request->user_no, $content );
-    write_resource( new DAVResource($deliver_path . $etag . '.ics'), $content, $ar, $request->user_no,
-        md5($content), $ncal, $put_action_type='INSERT', $caldav_context=true, $log_action=true, $etag );
-        $attendee->SetParameterValue ('SCHEDULE-STATUS','1.2;Scheduling message has been delivered');
+    write_resource( new DAVResource($deliver_path . $etag . '.ics'), $content, $ar, $request->user_no, md5($content),
+                    $put_action_type='INSERT', $caldav_context=true, $log_action=true, $etag );
+    $attendee->SetParameterValue ('SCHEDULE-STATUS','1.2;Scheduling message has been delivered');
   }
   // don't write an entry in the out box, ical doesn't delete it or ever read it again
   $ncal = new vCalendar(array('METHOD' => 'REQUEST'));
@@ -253,7 +253,7 @@ function handle_schedule_request( $ical ) {
   $deliver_path = $request->principal->internal_url('schedule-inbox');
   $ar = new DAVResource($deliver_path);
   write_resource( new DAVResource($deliver_path . $etag . '.ics'), $content, $ar, $request->user_no, md5($content),
-                     $ncal, $put_action_type='INSERT', $caldav_context=true, $log_action=true, $etag );
+                     $put_action_type='INSERT', $caldav_context=true, $log_action=true, $etag );
   //$etag = md5($content);
   header('ETag: "'. $etag . '"' );
   header('Schedule-Tag: "'.$etag . '"' );
@@ -265,31 +265,24 @@ function handle_schedule_request( $ical ) {
 * @param vComponent $ical the VCALENDAR to deliver
 * @return false on error
 */
-function handle_schedule_reply ( vComponent $ical ) {
+function handle_schedule_reply ( vCalendar $ical ) {
   global $c, $session, $request;
   $resources = $ical->GetComponents('VTIMEZONE',false);
   $ic = $resources[0];
   $etag = md5 ( $request->raw_post );
-  $organizer = $ic->GetProperties('ORGANIZER');
+  $organizer = $ical->GetOrganizer();
   // for now we treat events with out organizers as an error
   if ( count ( $organizer ) < 1 ) return false;
 
-  $attendees = array_merge($organizer,$ic->GetProperties('ATTENDEE'));
-  $wr_attendees = $ic->GetProperties('X-WR-ATTENDEE');
-  if ( count ( $wr_attendees ) > 0 ) {
-    dbg_error_log( "PUT", "Non-compliant iCalendar request.  Using X-WR-ATTENDEE property" );
-    foreach( $wr_attendees AS $k => $v ) {
-      $attendees[] = $v;
-    }
-  }
+  $attendees = array_merge($organizer,$ical->GetAttendees());
   dbg_error_log( "PUT", "Attempting to deliver scheduling request for %d attendees", count($attendees) );
 
   foreach( $attendees AS $k => $attendee ) {
-    $attendee_email = preg_replace( '/^mailto:/', '', $attendee->Value() );
+    $attendee_email = preg_replace( '/^mailto:/i', '', $attendee->Value() );
     dbg_error_log( "PUT", "Delivering to %s", $attendee_email );
     $attendee_principal = new DAVPrincipal ( array ('email'=>$attendee_email, 'options'=> array ( 'allow_by_email' => true ) ) );
     $deliver_path = $attendee_principal->internal_url('schedule_inbox');
-    $attendee_email = preg_replace( '/^mailto:/', '', $attendee->Value() );
+    $attendee_email = preg_replace( '/^mailto:/i', '', $attendee->Value() );
     if ( $attendee_email == $request->principal->email ) {
       dbg_error_log( "PUT", "not delivering to owner" );
       continue;
@@ -310,7 +303,7 @@ function handle_schedule_reply ( vComponent $ical ) {
     $ncal->AddComponent ( array_merge ( $ical->GetComponents('VEVENT',false) , array ($ic) ));
     $content = $ncal->Render();
     write_resource( new DAVResource($deliver_path . $etag . '.ics'), $content, $ar, $request->user_no, md5($content),
-                       $ncal, $put_action_type='INSERT', $caldav_context=true, $log_action=true, $etag );
+                       $put_action_type='INSERT', $caldav_context=true, $log_action=true, $etag );
   }
   $request->DoResponse( 201, 'Created' );
 }
@@ -349,20 +342,13 @@ function write_scheduling_request( vComponent $resource, $attendee_value, $creat
 * Create scheduling requests in the schedule inbox for the
 * @param vComponent $resource The VEVENT/VTODO/... resource we are scheduling
 */
-function create_scheduling_requests( vComponent $resource ) {
+function create_scheduling_requests( vCalendar $resource ) {
   if ( ! is_object($resource) ) {
     dbg_error_log( 'PUT', 'create_scheduling_requests called with non-object parameter (%s)', gettype($resource) );
     return;
   }
 
-  $attendees = $resource->GetPropertiesByPath('/VCALENDAR/*/ATTENDEE');
-  $wr_attendees = $resource->GetPropertiesByPath('/VCALENDAR/*/X-WR-ATTENDEE');
-  if ( count ( $wr_attendees ) > 0 ) {
-    dbg_error_log( 'PUT', 'Non-compliant iCal request.  Using X-WR-ATTENDEE property' );
-    foreach( $wr_attendees AS $k => $v ) {
-      $attendees[] = $v;
-    }
-  }
+  $attendees = $resource->GetAttendees();
   if ( count($attendees) == 0 ) {
     dbg_error_log( 'PUT', 'Event has no attendees - no scheduling required.', count($attendees) );
     return;
@@ -383,20 +369,13 @@ function create_scheduling_requests( vComponent $resource ) {
 * Update scheduling requests in the schedule inbox for the
 * @param vComponent $resource The VEVENT/VTODO/... resource we are scheduling
 */
-function update_scheduling_requests( vComponent $resource ) {
+function update_scheduling_requests( vCalendar $resource ) {
   if ( ! is_object($resource) ) {
     dbg_error_log( 'PUT', 'update_scheduling_requests called with non-object parameter (%s)', gettype($resource) );
     return;
   }
 
-  $attendees = $resource->GetPropertiesByPath('/VCALENDAR/*/ATTENDEE');
-  $wr_attendees = $resource->GetPropertiesByPath('/VCALENDAR/*/X-WR-ATTENDEE');
-  if ( count ( $wr_attendees ) > 0 ) {
-    dbg_error_log( 'PUT', 'Non-compliant iCal request.  Using X-WR-ATTENDEE property' );
-    foreach( $wr_attendees AS $k => $v ) {
-      $attendees[] = $v;
-    }
-  }
+  $attendees = $resource->GetAttendees();
   if ( count($attendees) == 0 ) {
     dbg_error_log( 'PUT', 'Event has no attendees - no scheduling required.', count($attendees) );
     return;
@@ -642,7 +621,7 @@ EOSQL;
     if ( !$qry->QDo($sql,$calitem_params) ) rollback_on_error( $caldav_context, $user_no, $path);
 
     write_alarms($dav_id, $first);
-    write_attendees($dav_id, $first);
+    write_attendees($dav_id, $vcal);
 
     create_scheduling_requests( $vcal );
     if ( isset($c->skip_bad_event_on_import) && $c->skip_bad_event_on_import ) $qry->Commit();
@@ -660,7 +639,7 @@ EOSQL;
 
 
 /**
-* Given a dav_id and an original vComponent, pull out each of the VALARMs
+* Given a dav_id and an original vCalendar, pull out each of the VALARMs
 * and write the values into the calendar_alarm table.
 *
 * @param int $dav_id The dav_id of the caldav_data we're processing
@@ -724,11 +703,11 @@ function write_alarms( $dav_id, vComponent $ical ) {
 * @param vComponent The VEVENT or VTODO containing the ATTENDEEs
 * @return null
 */
-function write_attendees( $dav_id, vComponent $ical ) {
+function write_attendees( $dav_id, vCalendar $ical ) {
   $qry = new AwlQuery('DELETE FROM calendar_attendee WHERE dav_id = '.$dav_id );
   $qry->Exec('PUT',__LINE__,__FILE__);
 
-  $attendees = $ical->GetProperties('ATTENDEE');
+  $attendees = $ical->GetAttendees();
   if ( count($attendees) < 1 ) return;
 
   $qry->SetSql('INSERT INTO calendar_attendee ( dav_id, status, partstat, cn, attendee, role, rsvp, property )
@@ -773,10 +752,11 @@ function write_attendees( $dav_id, vComponent $ical ) {
 * @param string $weak_etag An etag that is NOT modified on ATTENDEE changes for this event
 * @return boolean True for success, false for failure.
 */
-function write_resource( DAVResource $resource, $caldav_data, DAVResource $collection, $author, $etag, vComponent $ic, $put_action_type, $caldav_context, $log_action=true, $weak_etag=null ) {
+function write_resource( DAVResource $resource, $caldav_data, DAVResource $collection, $author, $etag, $put_action_type, $caldav_context, $log_action=true, $weak_etag=null ) {
   global $tz_regex;
 
   $path = $resource->bound_from();
+  $ic = new vCalendar( $caldav_data );
   $resources = $ic->GetComponents('VTIMEZONE',false); // Not matching VTIMEZONE
   if ( !isset($resources[0]) ) {
     $resource_type = 'Unknown';
@@ -1015,7 +995,7 @@ EOSQL;
   }
 
   write_alarms($dav_id, $first);
-  write_attendees($dav_id, $first);
+  write_attendees($dav_id, $ic);
 
   if ( $log_action && function_exists('log_caldav_action') ) {
     log_caldav_action( $put_action_type, $first->GetPValue('UID'), $user_no, $collection_id, $path );
@@ -1065,8 +1045,7 @@ function simple_write_resource( $path, $caldav_data, $put_action_type, $write_ac
   $collection_path = preg_replace( '#/[^/]*$#', '/', $path );
   $collection = new DAVResource($collection_path);
   if ( $collection->IsCollection() || $collection->IsSchedulingCollection() ) {
-    $vc = new vComponent( $caldav_data );
-    return write_resource( $dav_resource, $caldav_data, $collection, $session->user_no, $etag, $vc, $put_action_type, false, $write_action_log );
+    return write_resource( $dav_resource, $caldav_data, $collection, $session->user_no, $etag, $put_action_type, false, $write_action_log );
   }
   return false;
 }
