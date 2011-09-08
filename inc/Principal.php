@@ -371,6 +371,8 @@ class Principal {
   * @return string The principal-URL
   */
   public function url($type = 'principal', $internal=false ) {
+    global $c;
+    
     if ( $internal )
       $result = $this->dav_name();
     else {
@@ -382,6 +384,7 @@ class Principal {
 
     switch( $type ) {
       case 'principal':          break;
+      case 'schedule-default-calendar':  $result .= $c->home_calendar_name; break;
       case 'schedule-inbox':     $result .= '.in/';        break;
       case 'schedule-outbox':    $result .= '.out/';       break;
       case 'dropbox':            $result .= '.drop/';      break;
