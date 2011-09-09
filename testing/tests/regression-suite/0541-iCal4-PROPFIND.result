@@ -2,8 +2,8 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
-ETag: "19e51f9bc18826db107f6b07900cea8a"
-Content-Length: 1388
+ETag: "f979bd69bf442e8e93634acdea5bb42b"
+Content-Length: 1457
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -22,6 +22,9 @@ Content-Type: text/xml; charset="utf-8"
      <C:comp name="VTIMEZONE"/>
      <C:comp name="VFREEBUSY"/>
     </C:supported-calendar-component-set>
+    <C:schedule-default-calendar-URL>
+     <href>/user1/home/</href>
+    </C:schedule-default-calendar-URL>
     <C:calendar-timezone>BEGIN:VCALENDAR
 PRODID:-//davical.org//NONSGML AWL Calendar//EN
 VERSION:2.0
@@ -52,7 +55,6 @@ END:VCALENDAR
    <prop>
     <C:calendar-description/>
     <C:schedule-calendar-transp/>
-    <C:schedule-default-calendar-URL/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>

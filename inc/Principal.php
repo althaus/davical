@@ -97,7 +97,10 @@ class Principal {
    */
   private $cacheNs;
   private $cacheKey;
-  
+
+  protected $collections;
+  protected $dead_properties;
+  protected $default_calendar;
     
   function __construct( $type, $value, $use_cache=true ) {
     global $c, $session;
@@ -365,6 +368,77 @@ class Principal {
 
   
   /**
+  * Ensure the principal's dead properties are loaded
+  */
+  protected function FetchDeadProperties() {
+    if ( isset($this->dead_properties) ) return;
+
+    $this->dead_properties = array();
+    $qry = new AwlQuery('SELECT property_name, property_value FROM property WHERE dav_name= :dav_name', array(':dav_name' => $this->dav_name()) );
+    if ( $qry->Exec('Principal') ) {
+      while ( $property = $qry->Fetch() ) {
+        $this->dead_properties[$property->property_name] = $property->property_value;
+      }
+    }
+  }
+  
+  
+  /**
+  * Fetch the list of collections for this principal
+  * @return string The internal dav_name for the home_calendar, or null if there is none
+  */
+  protected function FetchCollections() {
+    if ( isset($this->collections) ) return;
+    
+    $this->collections = array();
+    $qry = new AwlQuery('SELECT * FROM collection WHERE user_no= :user_no', array(':user_no' => $this->user_no()) );
+    if ( $qry->Exec('Principal') ) {
+      while ( $collection = $qry->Fetch() ) {
+        $this->collections[$collection->dav_name] = $collection;
+      }
+    }
+  }
+
+  
+  /**
+  * Return the default calendar for this principal
+  * @return string The internal dav_name for the home_calendar, or false if there is none
+  */
+  function default_calendar() {
+    global $c;
+    
+    if ( !isset($this->default_calendar) ) {
+      $this->default_calendar = false;
+      if ( !isset($this->dead_properties) ) $this->FetchDeadProperties();
+      if ( isset($this->dead_properties['urn:ietf:params:xml:ns:caldav:schedule-default-calendar-URL']) ) {
+        $this->default_calendar = $this->dead_properties['urn:ietf:params:xml:ns:caldav:schedule-default-calendar-URL'];
+      }
+      else {
+        if ( !isset($this->collections) ) $this->FetchCollections();
+        $dav_name = $this->dav_name().$c->home_calendar_name.'/';
+        if ( isset($this->collections[$dav_name]) && ($this->collections[$dav_name]->is_calendar == 't') ) {
+              $this->default_calendar = $dav_name;
+        }
+        else {
+          $dav_name = $this->dav_name().'home/';
+          if ( isset($this->collections[$dav_name]) && ($this->collections[$dav_name]->is_calendar == 't') ) {
+            $this->default_calendar = $dav_name;
+          }
+          else {
+            foreach( $this->collections AS $dav_name => $collection ) {
+              if ( $collection->is_calendar == 't' ) {
+                $this->default_calendar = $dav_name;
+              }
+            }
+          }
+        }
+      }
+    }
+    return $this->default_calendar;
+  }
+
+  
+  /**
   * Return the URL for this principal
   * @param string $type The type of URL we want (the principal, by default)
   * @param boolean $internal Whether an internal reference is requested
@@ -384,7 +458,7 @@ class Principal {
 
     switch( $type ) {
       case 'principal':          break;
-      case 'schedule-default-calendar':  $result .= $c->home_calendar_name; break;
+      case 'schedule-default-calendar':  $result = $this->default_calendar(); break;
       case 'schedule-inbox':     $result .= '.in/';        break;
       case 'schedule-outbox':    $result .= '.out/';       break;
       case 'dropbox':            $result .= '.drop/';      break;
