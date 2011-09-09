@@ -1,0 +1,14 @@
+#
+# Test REPORT response to a request for an unsupported report
+#
+TYPE=REPORT
+URL=http://regression.host/caldav.php/user1/home/
+
+
+BEGINDATA
+<?xml version="1.0" encoding="UTF-8"?>
+<non-existent-report xmlns="bogus:namespace:which:does:not:exist">
+  <bogus-tag/>
+</non-existent-report>
+ENDDATA
+

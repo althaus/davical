@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<error xmlns="DAV:">
+  <supported-report/>"bogus:namespace:which:does:not:exist:non-existent-report" is not a supported report type
+</error>
