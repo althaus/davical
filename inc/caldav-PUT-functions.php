@@ -316,6 +316,7 @@ function handle_schedule_reply ( vCalendar $ical ) {
 * @param boolean $create true if the scheduling requests are being created.
 */
 function do_scheduling_requests( vCalendar $resource, $create ) {
+  global $request;
   if ( ! is_object($resource) ) {
     dbg_error_log( 'PUT', 'do_scheduling_requests called with non-object parameter (%s)', gettype($resource) );
     return;
@@ -332,6 +333,10 @@ function do_scheduling_requests( vCalendar $resource, $create ) {
   $schedule_request->AddProperty('METHOD','REQUEST');
   foreach( $attendees AS $attendee ) {
     $email = preg_replace( '/^mailto:/i', '', $attendee->Value() );
+    if ( $email == $request->principal->email() ) {
+      dbg_error_log( "PUT", "not delivering to owner" );
+      continue;
+    }
     $schedule_target = new Principal('email',$email);
     if ( $schedule_target->Exists() ) {
       $attendee_calendar = new WritableCollection(array('path' => $schedule_target->internal_url('schedule-default-calendar')));
