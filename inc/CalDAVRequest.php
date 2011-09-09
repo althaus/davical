@@ -126,7 +126,7 @@ class CalDAVRequest
       }
       if ( $this->method == 'PROPFIND' || $this->method == 'REPORT' ) {
         if ( !preg_match( '{^(text|application)/xml$}', $this->content_type ) ) {
-          dbg_error_log( "LOG request", 'Request is "%s" but client set content-type to "%s". Assuming they meant XML!',
+          @dbg_error_log( "LOG request", 'Request is "%s" but client set content-type to "%s". Assuming they meant XML!',
                                                  $request->method, $this->content_type );
           $this->content_type = 'text/xml';
         }
