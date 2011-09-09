@@ -934,7 +934,8 @@ function write_resource( DAVResource $resource, $caldav_data, DAVResource $colle
     $sql = 'UPDATE caldav_data SET caldav_data=:dav_data, dav_etag=:etag, caldav_type=:caldav_type, logged_user=:session_user,
             modified=:modified, weak_etag=:weak_etag WHERE dav_id=:dav_id';
   }
-  if ( !$qry->QDo($sql,$dav_params) ) {
+  $qry = new AwlQuery($sql,$dav_params);
+  if ( !$qry->Exec('PUT',__LINE__,__FILE__) ) {
     fatal('Insert into calendar_item failed...');
     rollback_on_error( $caldav_context, $user_no, $path);
     return false;
