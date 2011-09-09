@@ -309,83 +309,59 @@ function handle_schedule_reply ( vCalendar $ical ) {
 }
 
 
-
-
 /**
-* Create a scheduling request in the schedule inbox for the
+* Create/Update the scheduling requests for this resource.  This includes updating
+* the scheduled user's default calendar.
 * @param vComponent $resource The VEVENT/VTODO/... resource we are scheduling
-* @param vProperty $attendee The attendee we are scheduling
-* @return float The result of the scheduling request, per caldav-sched #3.5.4
+* @param boolean $create true if the scheduling requests are being created.
 */
-function write_scheduling_request( vComponent $resource, $attendee_value, $create_resource ) {
-  $email = preg_replace( '/^mailto:/i', '', $attendee_value );
-  $schedule_target = new Principal('email',$email);
-  if ( $schedule_target->Exists() ) {
-    $attendee_inbox = new WritableCollection(array('path' => $schedule_target->internal_url('schedule-inbox')));
-    if ( ! $attendee_inbox->HavePrivilegeTo('schedule-deliver-invite') ) {
-      $response = '3.8;'.translate('No authority to deliver invitations to user.');
-    }
-    else if ( $attendee_inbox->WriteCalendarMember($resource, $create_resource) === false ) {
-      $response = '5.3;'.translate('No scheduling support for user');
+function do_scheduling_requests( vCalendar $resource, $create ) {
+  if ( ! is_object($resource) ) {
+    dbg_error_log( 'PUT', 'do_scheduling_requests called with non-object parameter (%s)', gettype($resource) );
+    return;
+  }
+
+  $attendees = $resource->GetAttendees();
+  if ( count($attendees) == 0 ) {
+    dbg_error_log( 'PUT', 'Event has no attendees - no scheduling required.', count($attendees) );
+    return;
+  }
+
+  dbg_error_log( 'PUT', 'Adding to scheduling inbox %d attendees', count($attendees) );
+  $schedule_request = clone($resource);
+  $schedule_request->AddProperty('METHOD','REQUEST');
+  foreach( $attendees AS $attendee ) {
+    $email = preg_replace( '/^mailto:/i', '', $attendee->Value() );
+    $schedule_target = new Principal('email',$email);
+    if ( $schedule_target->Exists() ) {
+      $attendee_calendar = new WritableCollection(array('path' => $schedule_target->internal_url('schedule-default-calendar')));
+      if ( !$attendee_calendar->Exists() ) {
+        dbg_error_log('ERROR','Default calendar at "%s" does not exist for user "%s"',
+                      $attendee_calendar->dav_name(), $schedule_target->username());
+        $response = '5.3;'.translate('No scheduling support for user');
+      }
+      else if ( $attendee_calendar->WriteCalendarMember($resource, $create) === false ) {
+        dbg_error_log('ERROR','Could not write new calendar member to %s', $attendee_calendar->dav_name(),
+        $attendee_calendar->dav_name(), $schedule_target->username());
+        $response = '5.3;'.translate('No scheduling support for user');
+      }
+      else {
+        $attendee_inbox = new WritableCollection(array('path' => $schedule_target->internal_url('schedule-inbox')));
+        if ( ! $attendee_inbox->HavePrivilegeTo('schedule-deliver-invite') ) {
+          $response = '3.8;'.translate('No authority to deliver invitations to user.');
+        }
+        else if ( $attendee_inbox->WriteCalendarMember($schedule_request, $create) === false ) {
+          $response = '5.3;'.translate('No scheduling support for user');
+        }
+        else {
+          $response = '2.0;'.translate('Scheduling invitation delivered successfully');
+        }
+      }
     }
     else {
-      $response = '2.0;'.translate('Scheduling invitation delivered successfully');
+      $response = '5.3;'.translate('No scheduling support for user');
     }
-  }
-  else {
-    $response = '5.3;'.translate('No scheduling support for user');
-  }
-  return '"'.$response.'"';
-}
-
-/**
-* Create scheduling requests in the schedule inbox for the
-* @param vComponent $resource The VEVENT/VTODO/... resource we are scheduling
-*/
-function create_scheduling_requests( vCalendar $resource ) {
-  if ( ! is_object($resource) ) {
-    dbg_error_log( 'PUT', 'create_scheduling_requests called with non-object parameter (%s)', gettype($resource) );
-    return;
-  }
-
-  $attendees = $resource->GetAttendees();
-  if ( count($attendees) == 0 ) {
-    dbg_error_log( 'PUT', 'Event has no attendees - no scheduling required.', count($attendees) );
-    return;
-  }
-
-  dbg_error_log( 'PUT', 'Adding to scheduling inbox %d attendees', count($attendees) );
-  $schedule_request = new VCalendar( array('METHOD' => 'REQUEST') );
-  $schedule_request->SetComponents( $resource->GetComponents() );
-  foreach( $attendees AS $attendee ) {
-    $schedule_status = write_scheduling_request( $schedule_request, $attendee->Value(), true );
-    dbg_error_log( 'PUT', 'Status for attendee <%s> set to "%s"', $attendee->Value(), $schedule_status );
-    $attendee->SetParameterValue( 'SCHEDULE-STATUS', $schedule_status );
-  }
-}
-
-
-/**
-* Update scheduling requests in the schedule inbox for the
-* @param vComponent $resource The VEVENT/VTODO/... resource we are scheduling
-*/
-function update_scheduling_requests( vCalendar $resource ) {
-  if ( ! is_object($resource) ) {
-    dbg_error_log( 'PUT', 'update_scheduling_requests called with non-object parameter (%s)', gettype($resource) );
-    return;
-  }
-
-  $attendees = $resource->GetAttendees();
-  if ( count($attendees) == 0 ) {
-    dbg_error_log( 'PUT', 'Event has no attendees - no scheduling required.', count($attendees) );
-    return;
-  }
-
-  dbg_error_log( 'PUT', 'Adding to scheduling inbox %d attendees', count($attendees) );
-  $schedule_request = new VCalendar( array('METHOD' => 'REQUEST') );
-  $schedule_request->SetComponents( $resource->GetComponents() );
-  foreach( $attendees AS $attendee ) {
-    $schedule_status = write_scheduling_request( $schedule_request, $attendee->Value(), false );
+    $schedule_status = '"'.$response.'"';
     dbg_error_log( 'PUT', 'Status for attendee <%s> set to "%s"', $attendee->Value(), $schedule_status );
     $attendee->SetParameterValue( 'SCHEDULE-STATUS', $schedule_status );
   }
@@ -484,7 +460,7 @@ EOSQL;
     /** Construct the VCALENDAR data */
     $vcal = new vCalendar();
     $vcal->SetComponents($resource);
-    create_scheduling_requests($vcal);
+    do_scheduling_requests($vcal,true);
     $icalendar = $vcal->Render();
 
     /** As ever, we mostly deal with the first resource component */
@@ -623,7 +599,7 @@ EOSQL;
     write_alarms($dav_id, $first);
     write_attendees($dav_id, $vcal);
 
-    create_scheduling_requests( $vcal );
+    do_scheduling_requests( $vcal, true );
     if ( isset($c->skip_bad_event_on_import) && $c->skip_bad_event_on_import ) $qry->Commit();
   }
 
@@ -945,7 +921,7 @@ function write_resource( DAVResource $resource, $caldav_data, DAVResource $colle
 
   if ( !isset($dav_params[':modified']) ) $dav_params[':modified'] = 'now';
   if ( $put_action_type == 'INSERT' ) {
-    if ( !$collection->IsSchedulingCollection() ) create_scheduling_requests($ic);
+    if ( !$collection->IsSchedulingCollection() ) do_scheduling_requests($ic,true);
     $sql = 'INSERT INTO caldav_data ( dav_id, user_no, dav_name, dav_etag, caldav_data, caldav_type, logged_user, created, modified, collection_id, weak_etag )
             VALUES( :dav_id, :user_no, :dav_name, :etag, :dav_data, :caldav_type, :session_user, :created, :modified, :collection_id, :weak_etag )';
     $dav_params[':collection_id'] = $collection_id;
@@ -954,7 +930,7 @@ function write_resource( DAVResource $resource, $caldav_data, DAVResource $colle
     $dav_params[':created'] = (isset($created) && $created != '' ? $created : $dtstamp);
   }
   else {
-    if ( !$collection->IsSchedulingCollection() ) update_scheduling_requests($ic);
+    if ( !$collection->IsSchedulingCollection() ) do_scheduling_requests($ic,false);
     $sql = 'UPDATE caldav_data SET caldav_data=:dav_data, dav_etag=:etag, caldav_type=:caldav_type, logged_user=:session_user,
             modified=:modified, weak_etag=:weak_etag WHERE dav_id=:dav_id';
   }

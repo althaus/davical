@@ -5,11 +5,9 @@ Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
 ETag: "e69b6d5b70189b96126c8993bcf1648a"
-Content-Length: 112
+Content-Length: 0
 Content-Type: text/plain; charset="utf-8"
 
-
-Notice: Undefined variable: log_action in /home/karora/projects/davical/inc/WritableCollection.php on line 259
 
       caldav_data: >BEGIN:VCALENDAR
 VERSION:2.0

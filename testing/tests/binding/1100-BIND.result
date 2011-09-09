@@ -35,7 +35,7 @@ Content-Type: text/plain; charset="utf-8"
            length: >8<
  parent_container: >/user4/base/<
 
-          bind_id: >1625<
+          bind_id: >1629<
   bound_source_id: >1601<
   dav_displayname: >A normal collection<
          dav_name: >/user4/boundbase/<

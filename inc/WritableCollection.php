@@ -4,12 +4,19 @@ include_once('DAVResource.php');
 class WritableCollection extends DAVResource {
 
   /**
-   * Writes the data to a member in the collection and returns the segment_name of the resource in our internal namespace. 
-   * @param vComponent $data The resource to be written.
+   * Writes the data to a member in the collection and returns the segment_name of the 
+   * resource in our internal namespace.
+   *  
+   * @param vCalendar $vcal The resource to be written.
    * @param boolean $create_resource True if this is a new resource.
-   * @param $segment_name The name of the resource within the collection, or false on failure.
+   * @param boolean $do_scheduling True if we should also do scheduling for this write. Default false.
+   * @param string $segment_name The name of the resource within the collection, or null if this
+   *                             call should invent one based on the UID of the vCalendar.
+   * @param boolean $log_action Whether to log this action.  Defaults to false since this is normally called
+   *                             in situations where one is writing secondary data. 
+   * @return string The segment_name of the resource within the collection, as written, or false on failure.
    */
-  function WriteCalendarMember( vComponent $data, $create_resource, $do_scheduling=true, $segment_name = null ) {
+  function WriteCalendarMember( vCalendar $vcal, $create_resource, $do_scheduling=false, $segment_name = null, $log_action=false ) {
     if ( !$this->IsSchedulingCollection() && !$this->IsCalendar() ) {
       dbg_error_log( 'PUT', '"%s" is not a calendar or scheduling collection!', $this->dav_name);
       return false;
@@ -17,7 +24,7 @@ class WritableCollection extends DAVResource {
 
     global $tz_regex, $session, $caldav_context;
   
-    $resources = $data->GetComponents('VTIMEZONE',false); // Not matching VTIMEZONE
+    $resources = $vcal->GetComponents('VTIMEZONE',false); // Not matching VTIMEZONE
     $user_no = $this->user_no();
     $collection_id = $this->collection_id();
 
@@ -36,7 +43,7 @@ class WritableCollection extends DAVResource {
     }
     $path = $this->dav_name() . $segment_name;
 
-    $caldav_data = $data->Render();
+    $caldav_data = $vcal->Render();
     $etag = md5($caldav_data);
     $weak_etag = null;
     
@@ -53,6 +60,7 @@ class WritableCollection extends DAVResource {
     }
     if ( $qry->rows() != 1 || !($row = $qry->Fetch()) ) {
       // No dav_id?  => We're toast!
+      dbg_error_log( 'PUT', 'No dav_id!!!', $path);
       rollback_on_error( $caldav_context, $user_no, $path);
       return false;
     }
@@ -73,13 +81,13 @@ class WritableCollection extends DAVResource {
     ) );
     
     if ( $create_resource ) {
-      if ( !$this->IsSchedulingCollection() ) create_scheduling_requests($vcal);
+      if ( !$this->IsSchedulingCollection() && $do_scheduling ) do_scheduling_requests($vcal,true);
       $sql = 'INSERT INTO caldav_data ( dav_id, user_no, dav_name, dav_etag, caldav_data, caldav_type, logged_user, created, modified, collection_id, weak_etag )
               VALUES( :dav_id, :user_no, :dav_name, :etag, :dav_data, :caldav_type, :session_user, current_timestamp, current_timestamp, :collection_id, :weak_etag )';
       $dav_params[':collection_id'] = $collection_id;
     }
     else {
-      if ( !$this->IsSchedulingCollection() ) update_scheduling_requests($vcal);
+      if ( !$this->IsSchedulingCollection() && $do_scheduling ) do_scheduling_requests($vcal,false);
       $sql = 'UPDATE caldav_data SET caldav_data=:dav_data, dav_etag=:etag, caldav_type=:caldav_type, logged_user=:session_user,
               modified=current_timestamp, weak_etag=:weak_etag WHERE dav_id=:dav_id';
     }
@@ -168,7 +176,7 @@ class WritableCollection extends DAVResource {
       $due_prop = $first->GetProperty('DUE'); 
       $tzid = $due_prop->GetParameterValue('TZID');
     }
-    $timezones = $data->GetComponents('VTIMEZONE');
+    $timezones = $vcal->GetComponents('VTIMEZONE');
     foreach( $timezones AS $k => $tz ) {
       if ( $tz->GetPValue('TZID') != $tzid ) {
         /**
@@ -253,7 +261,7 @@ EOSQL;
   
     if ( !$this->IsSchedulingCollection() ) {
       write_alarms($dav_id, $first);
-      write_attendees($dav_id, $first);
+      write_attendees($dav_id, $vcal);
       if ( $log_action && function_exists('log_caldav_action') ) {
         log_caldav_action( $put_action_type, $first->GetPValue('UID'), $user_no, $collection_id, $path );
       }
@@ -278,25 +286,35 @@ EOSQL;
   }
   
   /**
-   * Writes the data to a member in the collection and returns the segment_name of the resource in our internal namespace. 
-   * @param $data mixed The resource to be written.
+   * Writes the data to a member in the collection and returns the segment_name of the 
+   * resource in our internal namespace.
+   *  
+   * A caller who wants scheduling not to happen for this write must already
+   * know they are dealing with a calendar, so should be calling WriteCalendarMember
+   * directly.
+   *  
+   * @param $resource mixed The resource to be written.
    * @param $create_resource boolean True if this is a new resource.
    * @param $segment_name The name of the resource within the collection, or false on failure.
+   * @param boolean $log_action Whether to log this action.  Defaults to true since this is normally called
+   *                             in situations where one is writing primary data.
+   * @return string The segment_name that was given, or one that was assigned if null was given. 
    */
-  function WriteMember( $data, $create_resource, $segment_name = null ) {
+  function WriteMember( $resource, $create_resource, $segment_name = null, $log_action=true ) {
     if ( ! $this->IsCollection() ) {
       dbg_error_log( 'PUT', '"%s" is not a collection path', $this->dav_name);
       return false;
     }
-    if ( ! is_object($data) ) {
+    if ( ! is_object($resource) ) {
       dbg_error_log( 'PUT', 'No data supplied!' );
       return false; 
     }
 
-    if ( $data instanceof vComponent )
-      return $this->WriteCalendarMember($data,$create_resource,$segment_name);
-    else if ( $data instanceof VCard )
-      return $this->WriteAddressbookMember($data,$create_resource,$segment_name);
+    if ( $resource instanceof vCalendar ) {
+      return $this->WriteCalendarMember($resource,$create_resource,true,$segment_name,$log_action);
+    }
+    else if ( $resource instanceof VCard )
+      return $this->WriteAddressbookMember($resource,$create_resource,$segment_name, $log_action);
     
     return $segment_name;
   }
