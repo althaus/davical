@@ -10,6 +10,8 @@ snapshot : gitrev = $(shell git rev-parse --short HEAD)
 snapshot : version = $(majorversion)-git$(gitrev)
 snapshot : issnapshot = 1
 
+nodocs: htdocs/always.php built-po
+
 all: htdocs/always.php built-docs built-po
 
 built-docs: docs/api/phpdoc.ini htdocs/*.php inc/*.php docs/translation.rst
