@@ -86,6 +86,11 @@ class CalDAVRequest
   protected $exists;
 
   /**
+  * The value of any 'Destionation:' header, if present.
+  */
+  var $destination;
+
+  /**
   * The decimal privileges allowed by this user to the identified resource.
   */
   protected $privileges;
@@ -166,7 +171,12 @@ class CalDAVRequest
     /**
     * MOVE/COPY use a "Destination" header and (optionally) an "Overwrite" one.
     */
-    if ( isset($_SERVER['HTTP_DESTINATION']) ) $this->destination = $_SERVER['HTTP_DESTINATION'];
+    if ( isset($_SERVER['HTTP_DESTINATION']) ) {
+      $this->destination = $_SERVER['HTTP_DESTINATION'];
+      if ( preg_match('{^(https?)://([a-z.-]+)(:[0-9]+)?(/.*)$}', $this->destination, $matches ) ) {
+        $this->destination = $matches[4];
+      }
+    }
     $this->overwrite = ( isset($_SERVER['HTTP_OVERWRITE']) && ($_SERVER['HTTP_OVERWRITE'] == 'F') ? false : true ); // RFC4918, 9.8.4 says default True.
 
     /**
