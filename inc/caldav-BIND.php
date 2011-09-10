@@ -58,7 +58,7 @@ if ( preg_match ( '{^https?://[A-Za-z][^/]*/.+$}', $href ) ) {
 		create_external ( '/.external/'. md5($href) ,true,false );
 	  $qry->QDo('SELECT collection_id FROM collection WHERE dav_name = :dav_name ', array( ':dav_name' => '/.external/'. md5($href) ));
 	  if ( $qry->rows() != 1 || !($row = $qry->Fetch()) ) 
-			$request->DoResponse(500,translate('Database Error1'));
+			$request->DoResponse(500,translate('Database Error'));
 		$dav_id = $row->collection_id;
 	}
 
@@ -83,7 +83,7 @@ if ( preg_match ( '{^https?://[A-Za-z][^/]*/.+$}', $href ) ) {
 	  $request->DoResponse(201);
  	} 
 	else {
-	  $request->DoResponse(500,translate('Database Error2'));
+	  $request->DoResponse(500,translate('Database Error'));
 	}
 } 
 else {
