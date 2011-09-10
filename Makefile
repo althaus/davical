@@ -50,8 +50,8 @@ snapshot: release
 clean:
 	rm -f built-docs built-po
 	-find . -name "*~" -delete
-	rm docs/translation.pdf
-	rm davical.spec
+	-rm docs/translation.pdf
+	-rm davical.spec
 
 clean-all: clean
 	-find docs/api/* ! -name "phpdoc.ini" ! -name ".gitignore" -delete

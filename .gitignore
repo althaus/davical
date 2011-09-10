@@ -35,3 +35,5 @@ testing/tests/*/initial.dbdump
 testing/*-dumps
 testing/*.ics
 *.swp
+davical.spec
+docs/translation.pdf
