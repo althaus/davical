@@ -20,10 +20,12 @@ if [ ! -d "${AWL_LOCATION}" ]; then
   fi
 fi
 
-sed "s:../awl:${AWL_LOCATION}:" ${PODIR}/pofilelist.txt > ${PODIR}/pofilelist.tmp
+egrep -l '(i18n|translate)' htdocs/*.php inc/*.php inc/ui/*.php > ${PODIR}/pofilelist.tmp1
+sed "s:../awl:${AWL_LOCATION}:" ${PODIR}/pofilelist.txt >> ${PODIR}/pofilelist.tmp1
+sort ${PODIR}/pofilelist.tmp1 | uniq > ${PODIR}/pofilelist.tmp
 xgettext --no-location --add-comments=Translators --keyword=translate --keyword=i18n --output=${PODIR}/messages.tmp -s -f ${PODIR}/pofilelist.tmp
 sed 's.^"Content-Type: text/plain; charset=CHARSET\\n"."Content-Type: text/plain; charset=UTF-8\\n".' ${PODIR}/messages.tmp > ${PODIR}/messages.pot
-rm ${PODIR}/messages.tmp ${PODIR}/pofilelist.tmp
+rm ${PODIR}/messages.tmp ${PODIR}/pofilelist.tmp ${PODIR}/pofilelist.tmp1
 
 locale_list() {
   ls ${PODIR}/*.po | cut -f2 -d/ | cut -f1 -d.
