@@ -1,3 +1,137 @@
+2011-09-10  Andrew McMillan  <andrew@morphoss.com>
+	* Write schedule resources to attendee calendars and inboxes on PUT.
+
+2011-09-09  Andrew McMillan  <andrew@morphoss.com>
+	* Add test of error response for a REPORT which is not supported.
+	* Add support for the CalDAV:schedule-default-calendar-URL property.
+
+2011-09-08  Andrew McMillan  <andrew@morphoss.com>
+	* Rename caldav-PUT.php to reflect it's calendaring association.
+	* Decruftify, and allow the squid pam to use 'path' instead of 'script' in it's config.
+	* Fix PROPPATCH behaviour on bound resources.
+
+2011-09-07  Andrew McMillan  <andrew@morphoss.com>
+	* Correct handling of PUT with unreferenced VTIMEZONE
+
+2011-08-29  Andrew McMillan  <andrew@morphoss.com>
+	* Restore default relationships, which still have utility in complex environments.
+
+2011-08-28  Andrew McMillan  <andrew@morphoss.com>
+	* Workaround MacOS X 10.6 Addressbook cannot login to CardDav with '@' in username
+
+2011-08-26  Andrew McMillan  <andrew@morphoss.com>
+	* Only include override components if they happen within the period.
+	* Change to depend on postgresql-client >= 8.1 and AWL = 0.47-1
+
+2011-06-28  Rob Ostensen  <rob@boxacle.net>
+	* Add support for remote url BINDing
+
+2011-08-25  Andrew McMillan  <andrew@morphoss.com>
+	* PROPPATCH is allowed on binds.
+	* Make locale handling use stuff pulled from transifex.net
+	* Add Brazilian Portuguese and Mexican Spanish.
+
+2011-08-24  Andrew McMillan  <andrew@morphoss.com>
+	* Test results including calendar-auto-schedule header as default.
+	* Fix calendar-query handling of properties.
+
+2011-08-23  Andrew McMillan  <andrew@morphoss.com>
+	* Fix XML output of <error> block.
+	* Handle <prop> following <filter> & a single-ended time filter.
+
+2011-06-01  Andrew McMillan  <andrew@morphoss.com>
+	* Allow the calendar-query expansion to return all events in floating time.
+
+2011-05-22  Andrew McMillan  <andrew@morphoss.com>
+	* Setup test should recognise "Off" as well as "0"
+
+2011-05-18  Andrew McMillan  <andrew@morphoss.com>
+	* Add first cut implementation of principal-match report.
+
+2011-05-13  Andrew McMillan  <andrew@morphoss.com>
+	* When sync-collection is asked for data, only return it if < 50 rows.
+
+2011-04-03  Andrew McMillan  <andrew@morphoss.com>
+	* Ensure dav_id_seq is initialized to a non-colliding value.
+	* Add support for Digest authentication.
+
+2011-04-01  Andrew McMillan  <andrew@morphoss.com>
+	* When an import event has no UID we reluctantly assign one.
+
+2011-03-13  Andrew McMillan  <andrew@morphoss.com>
+	* A more complete fix for weird passwords with LDAP.
+	* Apparently an attempt to bind with an empty password will return TRUE!
+
+2011-03-03  Felix Möller  <mail@felixmoeller.de>
+	* Add explaination for translators.
+
+2011-03-03  Andrew McMillan  <andrew@morphoss.com>
+	* Fix bug in schedule status response where there is no authority.
+
+2011-02-27  Felix Möller  <mail@felixmoeller.de>
+	* Sync german translation with Transifex.
+
+2011-02-23  Andrew McMillan  <andrew@morphoss.com>
+	* Fix sort order of members listed in a group.
+	* Add support for locking with memcached during delete to avoid deadlocks.
+
+2011-02-22  Andrew McMillan  <andrew@morphoss.com>
+	* Force line endings to consistent CRLF in GET.
+
+2011-02-22  Felix Möller  <mail@felixmoeller.de>
+	* Producing tarballs now which can be build by rpmbuild -ta davical.tar.gz
+
+2011-02-22  Andrew McMillan  <andrew@morphoss.com>
+	* Check for LDAP module, but only if LDAP is configured.
+
+2011-02-21  Felix Möller  <mail@felixmoeller.de>
+	* add automatic building of translation documentation
+	* Remove obsoleted strings from translation
+	* Adding documentation for translators
+
+2011-02-21  Andrew McMillan  <andrew@morphoss.com>
+	* Move from extract.pl to standard xgettext
+
+2011-01-22  Felix Möller  <mail@felixmoeller.de>
+	* Removing the last traces of RSCDS and renaming it to DAViCal.
+
+2011-02-21  Andrew McMillan  <andrew@morphoss.com>
+	* Build AWL desired version string as quoted value.
+
+2011-02-20  Andrew McMillan  <andrew@morphoss.com>
+	* Correct error message for unsupported report request.
+
+2011-01-21  Andrew McMillan  <andrew@morphoss.com>
+	* Ensure resources are always returned with CRLF rather than just LF.
+
+2011-01-18  Andrew McMillan  <andrew@morphoss.com>
+	* Skip alarms with bogus trigger data.
+
+2011-01-15  Andrew McMillan  <andrew@morphoss.com>
+	* Block invalid tickets from having access.
+
+2011-01-14  Andrew McMillan  <andrew@morphoss.com>
+	* Add norwegian and estonian translation files.
+
+2011-01-12  Andrew McMillan  <andrew@morphoss.com>
+	* Validate alarm date-time or duration before adding it to the DB.
+
+2011-01-04  Andrew McMillan  <andrew@morphoss.com>
+	* Finally give up on the SQL rrule pre-processing.
+	* Move debug logged password behind specific 'password' debug setting.
+	* Obfuscate event data when reader only has read-free-busy permission.
+
+2011-01-03  Andrew McMillan  <andrew@morphoss.com>
+	* List all of a user's calendar homes
+	* Extend default_privileges to members of a group.
+
+2010-12-31  Andrew McMillan  <andrew@morphoss.com>
+	* Add support for caching of feed, and uncaching on collection change.
+
+2010-12-30  Andrew McMillan  <andrew@morphoss.com>
+	* Let auth realm be 'per Principal' to work around Mozilla #247486
+	* IMAP PAM authentication from Oliver Schulze
+
 2010-12-28  Andrew McMillan  <andrew@morphoss.com>
 	* Release 0.9.9.4
 
