@@ -1253,3 +1253,29 @@ END;
 $$ LANGUAGE plpgsql;
 CREATE TRIGGER alarm_changed AFTER UPDATE ON calendar_alarm
     FOR EACH ROW EXECUTE PROCEDURE alarm_changed();
+
+CREATE or REPLACE FUNCTION real_path_exists( TEXT ) RETURNS BOOLEAN AS $$
+DECLARE
+  in_path ALIAS FOR $1;
+  tmp BOOLEAN;
+BEGIN
+  IF in_path = '/' THEN
+    RETURN TRUE;
+  END IF;
+  IF in_path ~ '^/[^/]+/$' THEN
+    SELECT TRUE INTO tmp FROM usr WHERE username = substring( in_path from 2 for length(in_path) - 2);
+    IF FOUND THEN
+      RETURN TRUE;
+    END IF;
+  ELSE
+    IF in_path ~ '^/.*/$' THEN
+      SELECT TRUE INTO tmp FROM collection WHERE dav_name = in_path;
+      IF FOUND THEN
+        RETURN TRUE;
+      END IF;
+    END IF;
+  END IF;
+  RETURN FALSE;
+END;
+$$ LANGUAGE plpgsql ;
+    
