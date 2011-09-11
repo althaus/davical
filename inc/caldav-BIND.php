@@ -78,7 +78,7 @@ if ( preg_match ( '{^https?://[A-Za-z][^/]*/.+$}', $href ) ) {
 	if ( $qry->Exec('BIND',__LINE__,__FILE__) ) {
 		$qry = new AwlQuery( 'SELECT bind_id from dav_binding where dav_name = :dav_name', array( ':dav_name' => $destination_path ) );
 	  if ( ! $qry->Exec('BIND',__LINE__,__FILE__) || $qry->rows() != 1 || !($row = $qry->Fetch()) ) 
-			$request->DoResponse(500,translate('Database Error1'));
+			$request->DoResponse(500,translate('Database Error'));
 		fetch_external ( $row->bind_id, '' );
 	  $request->DoResponse(201);
  	} 
