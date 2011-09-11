@@ -48,21 +48,23 @@ if ( ! ( $dav_resource->resource_id() > 0 ) ) {
 $qry = new AwlQuery();
 $qry->Begin();
 
-if ( $dav_resource->IsBinding() ) {
-  $params = array( ':dav_name' => $dav_resource->dav_name() );
-
-  if ( $qry->QDo("DELETE FROM dav_binding WHERE dav_name = :dav_name", $params )
-    && $qry->Commit() ) {
-    @dbg_error_log( "DELETE", "DELETE: Binding: %d, ETag: %s, Path: %s", $session->user_no, $request->etag_if_match, $request->path);
-    $request->DoResponse( 204 );
+if ( $dav_resource->IsCollection() ) {
+  if ( $dav_resource->IsBinding() ) {
+    $params = array( ':dav_name' => $dav_resource->dav_name() );
+  
+    if ( $qry->QDo("DELETE FROM dav_binding WHERE dav_name = :dav_name", $params )
+      && $qry->Commit() ) {
+      @dbg_error_log( "DELETE", "DELETE: Binding: %d, ETag: %s, Path: %s", $session->user_no, $request->etag_if_match, $request->path);
+      $request->DoResponse( 204 );
+    }
   }
-}
-else if ( $dav_resource->IsCollection() ) {
-  if ( delete_collection( $dav_resource->resource_id() ) && $qry->Commit() ) {
-    // Uncache anything to do with the collection
-    $cache = getCacheInstance();
-    $cache->delete( 'collection-'.$dav_resource->dav_name(), null );
-    $request->DoResponse( 204 );
+  else {
+    if ( delete_collection( $dav_resource->resource_id() ) && $qry->Commit() ) {
+      // Uncache anything to do with the collection
+      $cache = getCacheInstance();
+      $cache->delete( 'collection-'.$dav_resource->dav_name(), null );
+      $request->DoResponse( 204 );
+    }
   }
 }
 else {
