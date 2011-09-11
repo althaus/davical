@@ -13,10 +13,13 @@ APPLICATION="davical"
 AWL_LOCATION="../awl"
 
 if [ ! -d "${AWL_LOCATION}" ]; then
-  AWL_LOCATION=/usr/share/awl
+  AWL_LOCATION="`find .. -type d -name 'awl-*.*'`"
   if [ ! -d "${AWL_LOCATION}" ]; then
-    echo "I can't find a location for the AWL libraries and I need those strings too"
-    exit 1
+    AWL_LOCATION=/usr/share/awl
+    if [ ! -d "${AWL_LOCATION}" ]; then
+      echo "I can't find a location for the AWL libraries and I need those strings too"
+      exit 1
+    fi
   fi
 fi
 
