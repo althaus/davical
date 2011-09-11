@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DAViCal\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-25 11:42+1200\n"
+"POT-Creation-Date: 2011-09-11 10:15+1200\n"
 "PO-Revision-Date: 2011-08-15 23:39+0000\n"
 "Last-Translator: aleksand <daniel@aleksand.no>\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.net/projects/p/davical/team/nb_NO/)\n"
@@ -384,6 +384,9 @@ msgstr "Datoformat"
 
 msgid "Default Privileges"
 msgstr "Standard privilegier"
+
+msgid "Default relationships added."
+msgstr ""
 
 msgid "Delete"
 msgstr "Slett"

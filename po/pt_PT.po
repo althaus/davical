@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DAViCal\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-25 11:42+1200\n"
+"POT-Creation-Date: 2011-09-11 10:15+1200\n"
 "PO-Revision-Date: 2011-03-22 22:02+0000\n"
 "Last-Translator: m42 <p.m42.ribeiro@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.net/projects/p/davical/team/pt_PT/)\n"
@@ -384,6 +384,9 @@ msgstr "Estilo de data"
 
 msgid "Default Privileges"
 msgstr "Privilégios predefinidos"
+
+msgid "Default relationships added."
+msgstr ""
 
 msgid "Delete"
 msgstr "Eliminar"
