@@ -190,7 +190,7 @@ $_SERVER['SERVER_NAME'] = $c->domain_name;
 
 require_once('AwlQuery.php');
 
-$c->want_dbversion = array(1,2,9);
+$c->want_dbversion = array(1,2,10);
 $c->schema_version = 0;
 $qry = new AwlQuery( 'SELECT schema_major, schema_minor, schema_patch FROM awl_db_revision ORDER BY schema_id DESC LIMIT 1;' );
 if ( $qry->Exec('always',__LINE__,__FILE__) && $row = $qry->Fetch() ) {
