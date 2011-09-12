@@ -489,7 +489,9 @@ class Principal {
       $field_values->{'user_active'} = $field_values->{'active'};
     if ( !isset($field_values->{'modified'}) && isset($field_values->{'updated'}) )
       $field_values->{'modified'} = $field_values->{'updated'};
-
+    if ( !isset($field_values->{'type_id'}) )
+      $field_values->{'type_id'} = 1; // Default to 'person'
+    
       
     $sql = '';
     if ( $inserting ) {
