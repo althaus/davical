@@ -518,10 +518,10 @@ class Principal {
           throw new Exception( get_class($this).'::Create: Mandatory field "'.$k.'" is not set.');
         } 
       }
-      $sql = 'INSERT INTO '.$this->db_tablename.' ('.implode(',',$insert_fields).') VALUES('.implode(',',$param_names).')';
+      $sql = 'INSERT INTO '.self::$db_tablename.' ('.implode(',',$insert_fields).') VALUES('.implode(',',$param_names).')';
     }
     else {
-      $sql = 'UPDATE '.$this->db_tablename.' SET '.implode(',',$update_list);
+      $sql = 'UPDATE '.self::$db_tablename.' SET '.implode(',',$update_list);
       $sql .= ' WHERE principal_id=:principal_id';
       $sql_params[':principal_id'] = $this->principal_id; 
     }
