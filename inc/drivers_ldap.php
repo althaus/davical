@@ -277,7 +277,7 @@ function sync_user_from_LDAP( Principal &$principal, $mapping, $ldap_values ) {
       }
     }
   }
-  if ( $principal->Exists ) {
+  if ( $principal->Exists() ) {
     $principal->Update($fields_to_set);
   }
   else {
