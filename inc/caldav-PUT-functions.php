@@ -339,6 +339,11 @@ function do_scheduling_requests( vCalendar $resource, $create ) {
       dbg_error_log( "PUT", "not delivering to owner" );
       continue;
     }
+    $agent = $attendee->GetParameterValue('SCHDEULE-AGENT');
+    if ( $agent && $agent != 'SERVER' ) {
+      dbg_error_log( "PUT", "not delivering to %s, schedule agent set to value other than server", $email );
+      continue;
+    }
     $schedule_target = new Principal('email',$email);
     if ( $schedule_target->Exists() ) {
       $attendee_calendar = new WritableCollection(array('path' => $schedule_target->internal_url('schedule-default-calendar')));
