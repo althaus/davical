@@ -339,7 +339,7 @@ function do_scheduling_requests( vCalendar $resource, $create ) {
       dbg_error_log( "PUT", "not delivering to owner" );
       continue;
     }
-    $agent = $attendee->GetParameterValue('SCHDEULE-AGENT');
+    $agent = $attendee->GetParameterValue('SCHEDULE-AGENT');
     if ( $agent && $agent != 'SERVER' ) {
       dbg_error_log( "PUT", "not delivering to %s, schedule agent set to value other than server", $email );
       continue;
