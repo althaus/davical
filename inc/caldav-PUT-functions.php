@@ -316,7 +316,9 @@ function handle_schedule_reply ( vCalendar $ical ) {
 * @param boolean $create true if the scheduling requests are being created.
 */
 function do_scheduling_requests( vCalendar $resource, $create ) {
-  global $request;
+  global $request, $c;
+  if ( isset($c->enable_auto_schedule) && !$c->enable_auto_schedule ) return;
+  
   if ( ! is_object($resource) ) {
     dbg_error_log( 'PUT', 'do_scheduling_requests called with non-object parameter (%s)', gettype($resource) );
     return;
@@ -465,7 +467,6 @@ EOSQL;
     /** Construct the VCALENDAR data */
     $vcal = new vCalendar();
     $vcal->SetComponents($resource);
-    do_scheduling_requests($vcal,true);
     $icalendar = $vcal->Render();
 
     /** As ever, we mostly deal with the first resource component */
@@ -719,24 +720,25 @@ function write_attendees( $dav_id, vCalendar $ical ) {
 /**
 * Actually write the resource to the database.  All checking of whether this is reasonable
 * should be done before this is called.
-* @param int $user_no The user_no owning this resource on the server
-* @param string $path The path to the resource being written
-* @param string $caldav_data The actual resource to be written
-* @param int $collection_id The ID of the collection containing the resource being written
+* 
+* @param DAVResource $resource The resource being written
+* @param string $caldav_data The actual data to be written
+* @param DAVResource $collection The collection containing the resource being written
 * @param int $author The user_no who wants to put this resource on the server
 * @param string $etag An etag unique for this event
-* @param vComponent $ic The parsed iCalendar object
 * @param string $put_action_type INSERT or UPDATE depending on what we are to do
 * @param boolean $caldav_context True, if we are responding via CalDAV, false for other ways of calling this
 * @param string Either 'INSERT' or 'UPDATE': the type of action we are doing
 * @param boolean $log_action Whether to log the fact that we are writing this into an action log (if configured)
 * @param string $weak_etag An etag that is NOT modified on ATTENDEE changes for this event
+* 
 * @return boolean True for success, false for failure.
 */
 function write_resource( DAVResource $resource, $caldav_data, DAVResource $collection, $author, $etag, $put_action_type, $caldav_context, $log_action=true, $weak_etag=null ) {
-  global $tz_regex;
+  global $tz_regex, $session;
 
   $path = $resource->bound_from();
+  $user_no = $collection->user_no();
   $ic = new vCalendar( $caldav_data );
   $resources = $ic->GetComponents('VTIMEZONE',false); // Not matching VTIMEZONE
   if ( !isset($resources[0]) ) {
@@ -754,7 +756,6 @@ function write_resource( DAVResource $resource, $caldav_data, DAVResource $colle
     $resource_type = $first->GetType();
   }
   
-  $user_no = $collection->user_no();
   $collection_id = $collection->collection_id();
 
   $qry = new AwlQuery();
@@ -868,32 +869,27 @@ function write_resource( DAVResource $resource, $caldav_data, DAVResource $colle
   /** Calculate what timezone to set, first, if possible */
   $last_tz_locn = 'Turkmenikikamukau';  // I really hope this location doesn't exist!
   $tzid = GetTZID($first);
-  $timezones = $ic->GetComponents('VTIMEZONE');
-  foreach( $timezones AS $k => $tz ) {
-    if ( $tz->GetPValue('TZID') != $tzid ) {
-      /**
-      * We'll skip any tz definitions that are for a TZID other than the DTSTART/DUE on the first VEVENT/VTODO 
-      */
-      dbg_error_log( 'ERROR', ' Event uses TZID[%s], skipping included TZID[%s]!', $tz->GetPValue('TZID'), $tzid );
-      continue;
-    }
-    // This is the one
-    $tz_locn = $tz->GetPValue('X-LIC-LOCATION');
-    if ( ! isset($tz_locn) ) {
-      if ( preg_match( '#([^/]+/[^/]+)$#', $tzid, $matches ) )
-        $tz_locn = $matches[1];
-      else if ( isset($tzid) && $tzid != '' ) {
-        dbg_error_log( 'ERROR', ' Couldn\'t guess Olsen TZ from TZID[%s].  This may end in tears...', $tzid );
+  if ( !empty($tzid) ) {
+    $timezones = $ic->GetComponents('VTIMEZONE');
+    foreach( $timezones AS $k => $tz ) {
+      if ( $tz->GetPValue('TZID') != $tzid ) {
+        /**
+        * We'll skip any tz definitions that are for a TZID other than the DTSTART/DUE on the first VEVENT/VTODO 
+        */
+        dbg_error_log( 'ERROR', ' Event uses TZID[%s], skipping included TZID[%s]!', $tz->GetPValue('TZID'), $tzid );
+        continue;
       }
-    }
-    else {
-      if ( ! preg_match( $tz_regex, $tz_locn ) ) {
-        if ( preg_match( '#([^/]+/[^/]+)$#', $tzid, $matches ) ) $tz_locn = $matches[1];
+      $tz_locn = olson_from_tzstring($tzid);
+      if ( empty($tz_locn) ) {
+        $tz_locn = $tz->GetPValue('X-LIC-LOCATION');
+        if ( !empty($tz_locn) ) {
+          $tz_locn = olson_from_tzstring($tz_locn);
+        }
       }
     }
 
     dbg_error_log( 'PUT', ' Using TZID[%s] and location of [%s]', $tzid, (isset($tz_locn) ? $tz_locn : '') );
-    if ( isset($tz_locn) && ($tz_locn != $last_tz_locn) && preg_match( $tz_regex, $tz_locn ) ) {
+    if ( !empty($tz_locn) && ($tz_locn != $last_tz_locn) && preg_match( $tz_regex, $tz_locn ) ) {
       dbg_error_log( 'PUT', ' Setting timezone to %s', $tz_locn );
       if ( $tz_locn != '' ) {
         $qry->QDo('SET TIMEZONE TO \''.$tz_locn."'" );

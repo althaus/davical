@@ -1,0 +1,28 @@
+#!/usr/bin/perl
+#
+#
+use strict;
+use autodie;
+
+my ($dtstart, $rrule, $limit );
+
+$limit = 100;
+$dtstart = '19270311T040000Z';
+
+while( <> ) {
+  m{\s* TZ \s* [:=] \s* (\S+.*) $}xi && do {
+    printf( "SET timezone TO '%s';\n", $1);
+  };
+  m{\s* LIMIT \s* [:=] \s* (\d+) $}xi && do {
+    $limit = $1;
+  };
+  m{\s* DTSTART \s* [:=] \s* (\S+.*) $}ix && do {
+    $dtstart = $1;
+  };
+  m{\s* RRULE \s* [:=] \s* (\S+.*) $}ix && do {
+    $rrule = $1;
+    printf( "SELECT * FROM event_instances('%s', '%s' ) LIMIT %d;\n", $dtstart, $rrule, $limit);
+    $limit = 100;
+  };
+}
+

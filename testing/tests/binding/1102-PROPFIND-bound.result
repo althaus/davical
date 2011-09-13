@@ -6,7 +6,7 @@
    <prop>
     <displayname>A normal collection</displayname>
     <resource-id>
-     <href>/caldav.php/.resources/1601</href>
+     <href>/caldav.php/.resources/1602</href>
     </resource-id>
     <parent-set>
      <parent>
@@ -99,7 +99,7 @@
    <prop>
     <displayname>A sub collection</displayname>
     <resource-id>
-     <href>/caldav.php/.resources/1602</href>
+     <href>/caldav.php/.resources/1603</href>
     </resource-id>
     <parent-set>
      <parent>
@@ -125,7 +125,7 @@
    <prop>
     <displayname>newcalendar</displayname>
     <resource-id>
-     <href>/caldav.php/.resources/1615</href>
+     <href>/caldav.php/.resources/1616</href>
     </resource-id>
     <parent-set>
      <parent>
