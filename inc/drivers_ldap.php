@@ -277,7 +277,7 @@ function sync_user_from_LDAP( Principal &$principal, $mapping, $ldap_values ) {
       }
     }
   }
-  if ( $principal->Exists ) {
+  if ( $principal->Exists() ) {
     $principal->Update($fields_to_set);
   }
   else {
@@ -362,7 +362,7 @@ function LDAP_check($username, $password ){
 function sync_LDAP_groups(){
   global $c;
   $ldapDriver = getStaticLdap();
-  if ( $ldapDriver->valid ) return;
+  if ( ! $ldapDriver->valid ) return;
 
   $mapping = $c->authenticate_hook['config']['group_mapping_field'];
   //$attributes = array('cn','modifyTimestamp','memberUid');
@@ -467,7 +467,7 @@ function sync_LDAP_groups(){
           Principal::cacheDelete('username', $member);
         }
       }
-      $remove_users = array_diff ( $db_members, $ldap_members );
+      $remove_users = @array_flip( @array_flip( array_diff( $db_members, $ldap_members ) ));
       if ( sizeof ( $remove_users ) ){
         $c->messages[] = sprintf(i18n('- removing %s from group : %s'),join(', ', $remove_users ), $group);
         foreach ( $remove_users as $member ){

@@ -8,6 +8,11 @@ Content-Length: 0
 Content-Type: text/plain; charset="utf-8"
 
 
+         dav_etag: >0e091d7cf1ea4f613199a2a60090a7e1<
+         dav_name: >/user4/base/newcalendar/4887b3b0-0f91-012d-1259-002421a2359e.ics<
+          dtstart: >2010-07-17 10:00:00+12<
+          summary: >New Event<
+
          dav_etag: >228540edb5690f6e8adb855aaa98ee98<
          dav_name: >/user4/base/newcalendar/73d1f980-ec28-012c-11f9-002421a2359e.ics<
           dtstart: >2010-01-06 11:00:00+13<
@@ -32,11 +37,6 @@ Content-Type: text/plain; charset="utf-8"
          dav_name: >/user4/base/newcalendar/950ca060-0f87-012d-1259-002421a2359e.ics<
           dtstart: >2010-05-03 13:00:00+12<
           summary: >Youngberg Hill Winemaker Dinner @ The Stephanie Inn<
-
-         dav_etag: >0e091d7cf1ea4f613199a2a60090a7e1<
-         dav_name: >/user4/base/newcalendar/4887b3b0-0f91-012d-1259-002421a2359e.ics<
-          dtstart: >2010-07-17 10:00:00+12<
-          summary: >New Event<
 
          dav_etag: >a5972f272523b97d6cade1486a8b1c40<
          dav_name: >/user4/base/newcalendar/ed3beb90-0f8a-012d-1259-002421a2359e.ics<

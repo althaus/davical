@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DAViCal\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-25 11:42+1200\n"
+"POT-Creation-Date: 2011-09-11 10:15+1200\n"
 "PO-Revision-Date: 2011-07-09 18:08+0000\n"
 "Last-Translator: gurkenpapst <gurkenpapst@gmail.com>\n"
 "Language-Team: German (http://www.transifex.net/projects/p/davical/team/de/)\n"
@@ -391,6 +391,9 @@ msgstr "Datumsformat"
 
 msgid "Default Privileges"
 msgstr "Standardrechte"
+
+msgid "Default relationships added."
+msgstr ""
 
 msgid "Delete"
 msgstr "Löschen"

@@ -100,6 +100,7 @@ CREATE TABLE collection (
   UNIQUE(user_no,dav_name)
 );
 
+ALTER TABLE collection ADD CONSTRAINT unique_path UNIQUE (dav_name);
 
 -- The main event.  Where we store the things the calendar throws at us.
 CREATE TABLE caldav_data (
@@ -147,7 +148,9 @@ CREATE TABLE calendar_item (
   completed TIMESTAMP WITH TIME ZONE,
   dav_id INT8 UNIQUE,
   collection_id INT8 REFERENCES collection(collection_id) ON UPDATE CASCADE ON DELETE CASCADE DEFERRABLE,
-
+  first_instance_start TIMESTAMP WITHOUT TIME ZONE DEFAULT NULL,
+  last_instance_end    TIMESTAMP WITHOUT TIME ZONE DEFAULT NULL,
+  
   -- Cascade updates / deletes from the caldav_data table
   CONSTRAINT caldav_exists FOREIGN KEY ( user_no, dav_name )
                 REFERENCES caldav_data ( user_no, dav_name )
@@ -264,6 +267,7 @@ CREATE TABLE principal (
   default_privileges BIT(24)
 );
 
+ALTER TABLE principal ADD CONSTRAINT unique_user UNIQUE (user_no);
 
 
 -- Allowing identification of group members.
@@ -322,8 +326,8 @@ CREATE TABLE dav_binding (
   parent_container TEXT NOT NULL,
   dav_name TEXT UNIQUE NOT NULL,
   dav_displayname TEXT,
-	external_url TEXT,
-	type TEXT
+  external_url TEXT,
+  type TEXT
 );
 
 
@@ -395,4 +399,33 @@ CREATE TABLE calendar_attendee (
   PRIMARY KEY ( dav_id, attendee )
 );
 
-SELECT new_db_revision(1,2,9, 'Septembre' );
+
+CREATE or REPLACE FUNCTION real_path_exists( TEXT ) RETURNS BOOLEAN AS $$
+DECLARE
+  in_path ALIAS FOR $1;
+  tmp BOOLEAN;
+BEGIN
+  IF in_path = '/' THEN
+    RETURN TRUE;
+  END IF;
+  IF in_path ~ '^/[^/]+/$' THEN
+    SELECT TRUE INTO tmp FROM usr WHERE username = substring( in_path from 2 for length(in_path) - 2);
+    IF FOUND THEN
+      RETURN TRUE;
+    END IF;
+  ELSE
+    IF in_path ~ '^/.*/$' THEN
+      SELECT TRUE INTO tmp FROM collection WHERE dav_name = in_path;
+      IF FOUND THEN
+        RETURN TRUE;
+      END IF;
+    END IF;
+  END IF;
+  RETURN FALSE;
+END;
+$$ LANGUAGE plpgsql ;
+
+ALTER TABLE dav_binding ADD CONSTRAINT "dav_name_does_not_exist"
+		CHECK (NOT real_path_exists(dav_name));
+
+SELECT new_db_revision(1,2,10, 'Octobre' );

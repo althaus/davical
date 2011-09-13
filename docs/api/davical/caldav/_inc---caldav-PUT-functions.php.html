@@ -41,14 +41,14 @@
 			|													<a href="#sec-functions">Functions</a>
 					</div>
 		<div class="info-box-body">	
-			<a name="_WritableCollection_php"><!-- --></a>
+			<a name="_vComponent_php"><!-- --></a>
 <div class="evenrow">
 	
 	<div>
 		<img src="../../media/images/Page.png" alt=" " />
 		<span class="include-title">
 			<span class="include-type">require_once</span>
-			(<span class="include-name"><a href="../../davical/_inc---WritableCollection.php.html">'WritableCollection.php'</a></span>)
+			(<span class="include-name">'vComponent.php'</span>)
 			(line <span class="line-number">19</span>)
 		</span>
 	</div>
@@ -56,14 +56,44 @@
 	<!-- ========== Info from phpDoc block ========= -->
 	
 </div>
-<a name="_iCalendar_php"><!-- --></a>
+<a name="_WritableCollection_php"><!-- --></a>
 <div class="oddrow">
 	
 	<div>
 		<img src="../../media/images/Page.png" alt=" " />
 		<span class="include-title">
 			<span class="include-type">require_once</span>
-			(<span class="include-name">'iCalendar.php'</span>)
+			(<span class="include-name"><a href="../../davical/_inc---WritableCollection.php.html">'WritableCollection.php'</a></span>)
+			(line <span class="line-number">21</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+</div>
+<a name="_vCalendar_php"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<img src="../../media/images/Page.png" alt=" " />
+		<span class="include-title">
+			<span class="include-type">require_once</span>
+			(<span class="include-name">'vCalendar.php'</span>)
+			(line <span class="line-number">20</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+</div>
+<a name="_AwlCache_php"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<img src="../../media/images/Page.png" alt=" " />
+		<span class="include-title">
+			<span class="include-type">require_once</span>
+			(<span class="include-name">'AwlCache.php'</span>)
 			(line <span class="line-number">18</span>)
 		</span>
 	</div>
@@ -92,7 +122,7 @@
 	
 	<div>
 		<img src="../../media/images/Function.png" />
-		<span class="method-title">controlRequestContainer</span> (line <span class="line-number">67</span>)
+		<span class="method-title">controlRequestContainer</span> (line <span class="line-number">69</span>)
 	</div> 
 
 	<!-- ========== Info from phpDoc block ========= -->
@@ -125,41 +155,70 @@
 		
 	
 </div>
-<a name="functioncreate_scheduling_requests" id="functioncreate_scheduling_requests"><!-- --></a>
+<a name="functiondo_scheduling_requests" id="functiondo_scheduling_requests"><!-- --></a>
 <div class="oddrow">
 	
 	<div>
 		<img src="../../media/images/Function.png" />
-		<span class="method-title">create_scheduling_requests</span> (line <span class="line-number">338</span>)
+		<span class="method-title">do_scheduling_requests</span> (line <span class="line-number">318</span>)
 	</div> 
 
 	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">Create scheduling requests in the schedule inbox for the</p>
+<p class="short-description">Create/Update the scheduling requests for this resource.  This includes updating  the scheduled user's default calendar.</p>
 	<div class="method-signature">
 		<span class="method-result">void</span>
 		<span class="method-name">
-			create_scheduling_requests
+			do_scheduling_requests
 		</span>
-					(<span class="var-type"></span>&nbsp;<span class="var-name">&$resource</span>, <span class="var-type">iCalComponent</span>&nbsp;<span class="var-name">$resource</span>)
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$resource</span>, <span class="var-type">boolean</span>&nbsp;<span class="var-name">$create</span>)
 			</div>
 
 			<ul class="parameters">
 					<li>
-				<span class="var-type">iCalComponent</span>
+				<span class="var-type">vComponent</span>
 				<span class="var-name">$resource</span><span class="var-description">: The VEVENT/VTODO/... resource we are scheduling</span>			</li>
 					<li>
-				<span class="var-type"></span>
-				<span class="var-name">&$resource</span>			</li>
+				<span class="var-type">boolean</span>
+				<span class="var-name">$create</span><span class="var-description">: true if the scheduling requests are being created.</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functionGetTZID" id="functionGetTZID"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<img src="../../media/images/Function.png" />
+		<span class="method-title">GetTZID</span> (line <span class="line-number">168</span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Get a TZID string from this VEVENT/VTODO/... component if we can</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> TZID value we found, or null</li>
+			</ul>
+	<div class="method-signature">
+		<span class="method-result">The</span>
+		<span class="method-name">
+			GetTZID
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$comp</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type">vComponent</span>
+				<span class="var-name">$comp</span>			</li>
 				</ul>
 		
 	
 </div>
 <a name="functionhandle_schedule_reply" id="functionhandle_schedule_reply"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 	
 	<div>
 		<img src="../../media/images/Function.png" />
-		<span class="method-title">handle_schedule_reply</span> (line <span class="line-number">251</span>)
+		<span class="method-title">handle_schedule_reply</span> (line <span class="line-number">268</span>)
 	</div> 
 
 	<!-- ========== Info from phpDoc block ========= -->
@@ -172,23 +231,23 @@
 		<span class="method-name">
 			handle_schedule_reply
 		</span>
-					(<span class="var-type">iCalComponent</span>&nbsp;<span class="var-name">$ical</span>)
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$ical</span>)
 			</div>
 
 			<ul class="parameters">
 					<li>
-				<span class="var-type">iCalComponent</span>
+				<span class="var-type">vComponent</span>
 				<span class="var-name">$ical</span><span class="var-description">: the VCALENDAR to deliver</span>			</li>
 				</ul>
 		
 	
 </div>
 <a name="functionhandle_schedule_request" id="functionhandle_schedule_request"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 	
 	<div>
 		<img src="../../media/images/Function.png" />
-		<span class="method-title">handle_schedule_request</span> (line <span class="line-number">165</span>)
+		<span class="method-title">handle_schedule_request</span> (line <span class="line-number">181</span>)
 	</div> 
 
 	<!-- ========== Info from phpDoc block ========= -->
@@ -198,23 +257,23 @@
 		<span class="method-name">
 			handle_schedule_request
 		</span>
-					(<span class="var-type">iCalComponent</span>&nbsp;<span class="var-name">$ical</span>)
+					(<span class="var-type">vComponent</span>&nbsp;<span class="var-name">$ical</span>)
 			</div>
 
 			<ul class="parameters">
 					<li>
-				<span class="var-type">iCalComponent</span>
+				<span class="var-type">vComponent</span>
 				<span class="var-name">$ical</span><span class="var-description">: the VCALENDAR to deliver</span>			</li>
 				</ul>
 		
 	
 </div>
 <a name="functionimport_collection" id="functionimport_collection"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 	
 	<div>
 		<img src="../../media/images/Function.png" />
-		<span class="method-title">import_collection</span> (line <span class="line-number">403</span>)
+		<span class="method-title">import_collection</span> (line <span class="line-number">385</span>)
 	</div> 
 
 	<!-- ========== Info from phpDoc block ========= -->
@@ -248,11 +307,11 @@
 	
 </div>
 <a name="functionpublic_events_only" id="functionpublic_events_only"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 	
 	<div>
 		<img src="../../media/images/Function.png" />
-		<span class="method-title">public_events_only</span> (line <span class="line-number">141</span>)
+		<span class="method-title">public_events_only</span> (line <span class="line-number">144</span>)
 	</div> 
 
 	<!-- ========== Info from phpDoc block ========= -->
@@ -280,11 +339,11 @@
 	
 </div>
 <a name="functionrollback_on_error" id="functionrollback_on_error"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 	
 	<div>
 		<img src="../../media/images/Function.png" />
-		<span class="method-title">rollback_on_error</span> (line <span class="line-number">36</span>)
+		<span class="method-title">rollback_on_error</span> (line <span class="line-number">38</span>)
 	</div> 
 
 	<!-- ========== Info from phpDoc block ========= -->
@@ -318,11 +377,11 @@
 	
 </div>
 <a name="functionsimple_write_resource" id="functionsimple_write_resource"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 	
 	<div>
 		<img src="../../media/images/Function.png" />
-		<span class="method-title">simple_write_resource</span> (line <span class="line-number">1006</span>)
+		<span class="method-title">simple_write_resource</span> (line <span class="line-number">1019</span>)
 	</div> 
 
 	<!-- ========== Info from phpDoc block ========= -->
@@ -355,51 +414,22 @@
 		
 	
 </div>
-<a name="functionupdate_scheduling_requests" id="functionupdate_scheduling_requests"><!-- --></a>
-<div class="evenrow">
-	
-	<div>
-		<img src="../../media/images/Function.png" />
-		<span class="method-title">update_scheduling_requests</span> (line <span class="line-number">368</span>)
-	</div> 
-
-	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">Update scheduling requests in the schedule inbox for the</p>
-	<div class="method-signature">
-		<span class="method-result">void</span>
-		<span class="method-name">
-			update_scheduling_requests
-		</span>
-					(<span class="var-type"></span>&nbsp;<span class="var-name">&$resource</span>, <span class="var-type">iCalComponent</span>&nbsp;<span class="var-name">$resource</span>)
-			</div>
-
-			<ul class="parameters">
-					<li>
-				<span class="var-type">iCalComponent</span>
-				<span class="var-name">$resource</span><span class="var-description">: The VEVENT/VTODO/... resource we are scheduling</span>			</li>
-					<li>
-				<span class="var-type"></span>
-				<span class="var-name">&$resource</span>			</li>
-				</ul>
-		
-	
-</div>
 <a name="functionwrite_alarms" id="functionwrite_alarms"><!-- --></a>
 <div class="oddrow">
 	
 	<div>
 		<img src="../../media/images/Function.png" />
-		<span class="method-title">write_alarms</span> (line <span class="line-number">641</span>)
+		<span class="method-title">write_alarms</span> (line <span class="line-number">630</span>)
 	</div> 
 
 	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">Given a dav_id and an original iCalComponent, pull out each of the VALARMs  and write the values into the calendar_alarm table.</p>
+<p class="short-description">Given a dav_id and an original vCalendar, pull out each of the VALARMs  and write the values into the calendar_alarm table.</p>
 	<div class="method-signature">
 		<span class="method-result">null</span>
 		<span class="method-name">
 			write_alarms
 		</span>
-					(<span class="var-type">int</span>&nbsp;<span class="var-name">$dav_id</span>, <span class="var-type">iCalComponent</span>&nbsp;<span class="var-name">$ical</span>)
+					(<span class="var-type">int</span>&nbsp;<span class="var-name">$dav_id</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$ical</span>)
 			</div>
 
 			<ul class="parameters">
@@ -407,7 +437,7 @@
 				<span class="var-type">int</span>
 				<span class="var-name">$dav_id</span><span class="var-description">: The dav_id of the caldav_data we're processing</span>			</li>
 					<li>
-				<span class="var-type">iCalComponent</span>
+				<span class="var-type">vComponent</span>
 				<span class="var-name">$ical</span><span class="var-description">: The VEVENT or VTODO containing the VALARM</span>			</li>
 				</ul>
 		
@@ -418,7 +448,7 @@
 	
 	<div>
 		<img src="../../media/images/Function.png" />
-		<span class="method-title">write_attendees</span> (line <span class="line-number">690</span>)
+		<span class="method-title">write_attendees</span> (line <span class="line-number">687</span>)
 	</div> 
 
 	<!-- ========== Info from phpDoc block ========= -->
@@ -428,7 +458,7 @@
 		<span class="method-name">
 			write_attendees
 		</span>
-					(<span class="var-type">int</span>&nbsp;<span class="var-name">$dav_id</span>, <span class="var-type">iCalComponent</span>&nbsp;<span class="var-name">$ical</span>)
+					(<span class="var-type">int</span>&nbsp;<span class="var-name">$dav_id</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$ical</span>)
 			</div>
 
 			<ul class="parameters">
@@ -436,7 +466,7 @@
 				<span class="var-type">int</span>
 				<span class="var-name">$dav_id</span><span class="var-description">: The dav_id of the caldav_data we're processing</span>			</li>
 					<li>
-				<span class="var-type">iCalComponent</span>
+				<span class="var-type">vComponent</span>
 				<span class="var-name">$ical</span><span class="var-description">: The VEVENT or VTODO containing the ATTENDEEs</span>			</li>
 				</ul>
 		
@@ -447,7 +477,7 @@
 	
 	<div>
 		<img src="../../media/images/Function.png" />
-		<span class="method-title">write_resource</span> (line <span class="line-number">739</span>)
+		<span class="method-title">write_resource</span> (line <span class="line-number">736</span>)
 	</div> 
 
 	<!-- ========== Info from phpDoc block ========= -->
@@ -460,7 +490,7 @@
 		<span class="method-name">
 			write_resource
 		</span>
-					(<span class="var-type">int</span>&nbsp;<span class="var-name">$user_no</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$path</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$caldav_data</span>, <span class="var-type">int</span>&nbsp;<span class="var-name">$collection_id</span>, <span class="var-type">int</span>&nbsp;<span class="var-name">$author</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$etag</span>, <span class="var-type">object</span>&nbsp;<span class="var-name">$ic</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$put_action_type</span>, <span class="var-type">boolean</span>&nbsp;<span class="var-name">$caldav_context</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$log_action</span> = <span class="var-default">true</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$weak_etag</span> = <span class="var-default">null</span>])
+					(<span class="var-type"><a href="../../davical/Resource/DAVResource.html">DAVResource</a></span>&nbsp;<span class="var-name">$resource</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$caldav_data</span>, <span class="var-type"><a href="../../davical/Resource/DAVResource.html">DAVResource</a></span>&nbsp;<span class="var-name">$collection</span>, <span class="var-type">int</span>&nbsp;<span class="var-name">$author</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$etag</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$put_action_type</span>, <span class="var-type">boolean</span>&nbsp;<span class="var-name">$caldav_context</span>, [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$log_action</span> = <span class="var-default">true</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$weak_etag</span> = <span class="var-default">null</span>], <span class="var-type">int</span>&nbsp;<span class="var-name">$user_no</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$path</span>, <span class="var-type">int</span>&nbsp;<span class="var-name">$collection_id</span>, <span class="var-type">vComponent</span>&nbsp;<span class="var-name">$ic</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">9</span>)
 			</div>
 
 			<ul class="parameters">
@@ -483,7 +513,7 @@
 				<span class="var-type">string</span>
 				<span class="var-name">$etag</span><span class="var-description">: An etag unique for this event</span>			</li>
 					<li>
-				<span class="var-type">object</span>
+				<span class="var-type">vComponent</span>
 				<span class="var-name">$ic</span><span class="var-description">: The parsed iCalendar object</span>			</li>
 					<li>
 				<span class="var-type">string</span>
@@ -493,51 +523,19 @@
 				<span class="var-name">$caldav_context</span><span class="var-description">: True, if we are responding via CalDAV, false for other ways of calling this</span>			</li>
 					<li>
 				<span class="var-type">string</span>
-				<span class="var-name">$log_action</span><span class="var-description">: Either 'INSERT' or 'UPDATE': the type of action we are doing</span>			</li>
+				<span class="var-name">9</span><span class="var-description">: Either 'INSERT' or 'UPDATE': the type of action we are doing</span>			</li>
+					<li>
+				<span class="var-type">boolean</span>
+				<span class="var-name">$log_action</span><span class="var-description">: Whether to log the fact that we are writing this into an action log (if configured)</span>			</li>
 					<li>
 				<span class="var-type">string</span>
 				<span class="var-name">$weak_etag</span><span class="var-description">: An etag that is NOT modified on ATTENDEE changes for this event</span>			</li>
-				</ul>
-		
-	
-</div>
-<a name="functionwrite_scheduling_request" id="functionwrite_scheduling_request"><!-- --></a>
-<div class="evenrow">
-	
-	<div>
-		<img src="../../media/images/Function.png" />
-		<span class="method-title">write_scheduling_request</span> (line <span class="line-number">313</span>)
-	</div> 
-
-	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">Create a scheduling request in the schedule inbox for the</p>
-	<ul class="tags">
-				<li><span class="field">return:</span> The result of the scheduling request, per caldav-sched #3.5.4</li>
-			</ul>
-	<div class="method-signature">
-		<span class="method-result">float</span>
-		<span class="method-name">
-			write_scheduling_request
-		</span>
-					(<span class="var-type"></span>&nbsp;<span class="var-name">&$resource</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$attendee_value</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$create_resource</span>, <span class="var-type">iCalComponent</span>&nbsp;<span class="var-name">$resource</span>, <span class="var-type">iCalProp</span>&nbsp;<span class="var-name">$attendee</span>)
-			</div>
-
-			<ul class="parameters">
 					<li>
-				<span class="var-type">iCalComponent</span>
-				<span class="var-name">$resource</span><span class="var-description">: The VEVENT/VTODO/... resource we are scheduling</span>			</li>
+				<span class="var-type"><a href="../../davical/Resource/DAVResource.html">DAVResource</a></span>
+				<span class="var-name">$resource</span>			</li>
 					<li>
-				<span class="var-type">iCalProp</span>
-				<span class="var-name">$attendee</span><span class="var-description">: The attendee we are scheduling</span>			</li>
-					<li>
-				<span class="var-type"></span>
-				<span class="var-name">&$resource</span>			</li>
-					<li>
-				<span class="var-type"></span>
-				<span class="var-name">$attendee_value</span>			</li>
-					<li>
-				<span class="var-type"></span>
-				<span class="var-name">$create_resource</span>			</li>
+				<span class="var-type"><a href="../../davical/Resource/DAVResource.html">DAVResource</a></span>
+				<span class="var-name">$collection</span>			</li>
 				</ul>
 		
 	
@@ -546,7 +544,7 @@
 	</div>
 	
 	<p class="notes" id="credit">
-		Documentation generated on Tue, 28 Dec 2010 02:16:03 +1300 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+		Documentation generated on Sun, 11 Sep 2011 20:48:08 +1200 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
 	</p>
 	</div></body>
 </html>

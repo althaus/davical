@@ -27,25 +27,30 @@
 <a href="#caldav-PROPFIND.php">caldav-PROPFIND.php</a><br>
 <a href="#caldav-PROPPATCH.php">caldav-PROPPATCH.php</a><br>
 <a href="#caldav-PUT-default.php">caldav-PUT-default.php</a><br>
+<a href="#caldav-PUT-vcalendar.php">caldav-PUT-vcalendar.php</a><br>
 <a href="#caldav-PUT-vcard.php">caldav-PUT-vcard.php</a><br>
-<a href="#caldav-PUT.php">caldav-PUT.php</a><br>
 <a href="#caldav-REPORT-calquery.php">caldav-REPORT-calquery.php</a><br>
 <a href="#caldav-REPORT-cardquery.php">caldav-REPORT-cardquery.php</a><br>
 <a href="#caldav-REPORT-expand-property.php">caldav-REPORT-expand-property.php</a><br>
 <a href="#caldav-REPORT-freebusy.php">caldav-REPORT-freebusy.php</a><br>
 <a href="#caldav-REPORT-multiget.php">caldav-REPORT-multiget.php</a><br>
+<a href="#caldav-REPORT-principal-match.php">caldav-REPORT-principal-match.php</a><br>
 <a href="#caldav-REPORT-principal.php">caldav-REPORT-principal.php</a><br>
 <a href="#caldav-REPORT.php">caldav-REPORT.php</a><br>
 <a href="#caldav.php">caldav.php</a><br>
 <a href="#CalDAVRequest.php">CalDAVRequest.php</a><br>
 <a href="#check_UTF8.php">check_UTF8.php</a><br>
 <a href="#collection-edit.php">collection-edit.php</a><br>
+<a href="#createdb.php">createdb.php</a><br>
 <a href="#davical_configuration_missing.php">davical_configuration_missing.php</a><br>
 <a href="#DAVResource.php">DAVResource.php</a><br>
 <a href="#DAVTicket.php">DAVTicket.php</a><br>
+<a href="#dbexec.php">dbexec.php</a><br>
+<a href="#drivers_imap_pam.php">drivers_imap_pam.php</a><br>
 <a href="#drivers_ldap.php">drivers_ldap.php</a><br>
 <a href="#drivers_pwauth_pam.php">drivers_pwauth_pam.php</a><br>
 <a href="#drivers_squid_pam.php">drivers_squid_pam.php</a><br>
+<a href="#external-fetch.php">external-fetch.php</a><br>
 <a href="#feed.php">feed.php</a><br>
 <a href="#freebusy-functions.php">freebusy-functions.php</a><br>
 <a href="#freebusy.php">freebusy.php</a><br>
@@ -54,15 +59,18 @@
 <a href="#interactive-page.php">interactive-page.php</a><br>
 <a href="#iSchedule.php">iSchedule.php</a><br>
 <a href="#log_caldav_action.php">log_caldav_action.php</a><br>
+<a href="#newfile.php">newfile.php</a><br>
 <a href="#other_translated_strings.php">other_translated_strings.php</a><br>
 <a href="#page-footer.php">page-footer.php</a><br>
 <a href="#page-header.php">page-header.php</a><br>
 <a href="#principal-browse.php">principal-browse.php</a><br>
 <a href="#principal-edit.php">principal-edit.php</a><br>
+<a href="#Principal.php">Principal.php</a><br>
 <a href="#public.php">public.php</a><br>
 <a href="#pubsub.php">pubsub.php</a><br>
 <a href="#RRule-v2.php">RRule-v2.php</a><br>
 <a href="#setup.php">setup.php</a><br>
+<a href="#SqlToArray.php">SqlToArray.php</a><br>
 <a href="#test-RRULE-v2.php">test-RRULE-v2.php</a><br>
 <a href="#test-RRULE.php">test-RRULE.php</a><br>
 <a href="#test.php">test.php</a><br>
@@ -75,26 +83,28 @@
 <h1>Post-parsing</h1>
 <h2>Warnings:</h2><br>
 <b>Warning</b> - 
-duplicate class element "RRuleTest" in file /home/karora/projects/davical/inc/test-RRULE-v2.php will be ignored.
-Use an @ignore tag on the original if you want this case to be documented.<br>
-<b>Warning</b> - 
-duplicate function element "apply_filter" in file /home/karora/projects/davical/inc/caldav-REPORT-cardquery.php will be ignored.
-Use an @ignore tag on the original if you want this case to be documented.<br>
-<b>Warning</b> - 
-duplicate class element "CalDAVClient" in file /home/karora/projects/davical/inc/caldav-client-v2.php will be ignored.
-Use an @ignore tag on the original if you want this case to be documented.<br>
-<b>Warning</b> - Class VCard parent vComponent not found<br>
-<b>Warning</b> - Class AtomFeed parent XMLDocument not found<br>
-<b>Warning</b> - Class DAViCalSession parent Session not found<br>
-<b>Warning</b> - 
-duplicate function element "privilege_format_function" in file /home/karora/projects/davical/inc/ui/principal-edit.php will be ignored.
-Use an @ignore tag on the original if you want this case to be documented.<br>
-<b>Warning</b> - 
 duplicate function element "check_for_expansion" in file /home/karora/projects/davical/inc/caldav-REPORT-multiget.php will be ignored.
 Use an @ignore tag on the original if you want this case to be documented.<br>
 <b>Warning</b> - 
 duplicate function element "edit_grant_row" in file /home/karora/projects/davical/inc/ui/principal-edit.php will be ignored.
 Use an @ignore tag on the original if you want this case to be documented.<br>
+<b>Warning</b> - Class VCard parent vComponent not found<br>
+<b>Warning</b> - 
+duplicate class element "CalDAVClient" in file /home/karora/projects/davical/inc/caldav-client-v2.php will be ignored.
+Use an @ignore tag on the original if you want this case to be documented.<br>
+<b>Warning</b> - 
+duplicate function element "apply_filter" in file /home/karora/projects/davical/inc/caldav-REPORT-cardquery.php will be ignored.
+Use an @ignore tag on the original if you want this case to be documented.<br>
+<b>Warning</b> - 
+duplicate class element "RRuleTest" in file /home/karora/projects/davical/inc/test-RRULE-v2.php will be ignored.
+Use an @ignore tag on the original if you want this case to be documented.<br>
+<b>Warning</b> - @todo on an include element is ignored (line 105, file /home/karora/projects/davical/htdocs/caldav.php)<br>
+<b>Warning</b> - 
+duplicate function element "privilege_format_function" in file /home/karora/projects/davical/inc/ui/principal-edit.php will be ignored.
+Use an @ignore tag on the original if you want this case to be documented.<br>
+<b>Warning</b> - Class DAViCalSession parent Session not found<br>
+<b>Warning</b> - @todo on an include element is ignored (line 105, file /home/karora/projects/davical/htdocs/caldav.php)<br>
+<b>Warning</b> - Class AtomFeed parent XMLDocument not found<br>
 <a name="admin.php"></a>
 <h1>admin.php</h1>
 <h2>Warnings:</h2><br>
@@ -102,9 +112,9 @@ Use an @ignore tag on the original if you want this case to be documented.<br>
 <a name="always.php"></a>
 <h1>always.php</h1>
 <h2>Warnings:</h2><br>
-<b>Warning on line 26</b> - Page-level DocBlock precedes "function early_exception_handler", use another DocBlock to document the source element<br>
+<b>Warning on line 28</b> - Page-level DocBlock precedes "function early_exception_handler", use another DocBlock to document the source element<br>
 <h2>Errors:</h2><br>
-<b>Error on line 26</b> - DocBlock has multiple @package tags, illegal. ignoring additional tag "@package davical"<br>
+<b>Error on line 28</b> - DocBlock has multiple @package tags, illegal. ignoring additional tag "@package davical"<br>
 <a name="AtomFeed.php"></a>
 <h1>AtomFeed.php</h1>
 <h2>Warnings:</h2><br>
@@ -117,8 +127,8 @@ Use an @ignore tag on the original if you want this case to be documented.<br>
 <h2>Warnings:</h2><br>
 <b>Warning on line 27</b> - Page-level DocBlock precedes "require_once "DataUpdate.php"", use another DocBlock to document the source element<br>
 <h2>Errors:</h2><br>
-<b>Error on line 27</b> - DocBlock has multiple @package tags, illegal. ignoring additional tag "@package davical"<br>
 <b>Error on line 27</b> - "include" require_once's DocBlock has @subpackage tags, illegal. ignoring tag "@subpackage authentication"<br>
+<b>Error on line 27</b> - DocBlock has multiple @package tags, illegal. ignoring additional tag "@package davical"<br>
 <a name="caldav-ACL.php"></a>
 <h1>caldav-ACL.php</h1>
 <h2>Warnings:</h2><br>
@@ -139,8 +149,8 @@ Use an @ignore tag on the original if you want this case to be documented.<br>
 <h2>Warnings:</h2><br>
 <b>Warning on line 12</b> - Page-level DocBlock precedes "require_once 'DAVResource.php'", use another DocBlock to document the source element<br>
 <h2>Errors:</h2><br>
-<b>Error on line 12</b> - "include" require_once's DocBlock has @subpackage tags, illegal. ignoring tag "@subpackage caldav"<br>
 <b>Error on line 12</b> - DocBlock has multiple @package tags, illegal. ignoring additional tag "@package davical"<br>
+<b>Error on line 12</b> - "include" require_once's DocBlock has @subpackage tags, illegal. ignoring tag "@subpackage caldav"<br>
 <a name="caldav-DELTICKET.php"></a>
 <h1>caldav-DELTICKET.php</h1>
 <h2>Warnings:</h2><br>
@@ -152,35 +162,33 @@ Use an @ignore tag on the original if you want this case to be documented.<br>
 <a name="caldav-LOCK.php"></a>
 <h1>caldav-LOCK.php</h1>
 <h2>Warnings:</h2><br>
-<b>Warning on line 148</b> - Unknown tag "@TODO:" used<br>
 <b>Warning on line 161</b> - File "/home/karora/projects/davical/inc/caldav-LOCK.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
 <a name="caldav-MKCOL.php"></a>
 <h1>caldav-MKCOL.php</h1>
 <h2>Warnings:</h2><br>
 <b>Warning on line 11</b> - Page-level DocBlock precedes "require_once 'AwlQuery.php'", use another DocBlock to document the source element<br>
 <h2>Errors:</h2><br>
-<b>Error on line 11</b> - DocBlock has multiple @package tags, illegal. ignoring additional tag "@package davical"<br>
 <b>Error on line 11</b> - "include" require_once's DocBlock has @subpackage tags, illegal. ignoring tag "@subpackage caldav"<br>
+<b>Error on line 11</b> - DocBlock has multiple @package tags, illegal. ignoring additional tag "@package davical"<br>
 <a name="caldav-MKTICKET.php"></a>
 <h1>caldav-MKTICKET.php</h1>
 <h2>Warnings:</h2><br>
 <b>Warning on line 19</b> - package davical is already in category Technical, will now replace with category Documentation<br>
 <b>Warning on line 20</b> - Page-level DocBlock precedes "require_once 'DAVResource.php'", use another DocBlock to document the source element<br>
 <h2>Errors:</h2><br>
-<b>Error on line 20</b> - DocBlock has multiple @package tags, illegal. ignoring additional tag "@package davical"<br>
 <b>Error on line 20</b> - "include" require_once's DocBlock has @subpackage tags, illegal. ignoring tag "@subpackage caldav"<br>
+<b>Error on line 20</b> - DocBlock has multiple @package tags, illegal. ignoring additional tag "@package davical"<br>
 <a name="caldav-MOVE.php"></a>
 <h1>caldav-MOVE.php</h1>
 <h2>Warnings:</h2><br>
 <b>Warning on line 12</b> - Page-level DocBlock precedes "require_once 'DAVResource.php'", use another DocBlock to document the source element<br>
-<b>Warning on line 117</b> - Unknown tag "@TODO:" used<br>
 <a name="caldav-OPTIONS.php"></a>
 <h1>caldav-OPTIONS.php</h1>
 <h2>Warnings:</h2><br>
 <b>Warning on line 12</b> - Page-level DocBlock precedes "include_once 'DAVResource.php'", use another DocBlock to document the source element<br>
 <h2>Errors:</h2><br>
-<b>Error on line 12</b> - DocBlock has multiple @package tags, illegal. ignoring additional tag "@package davical"<br>
 <b>Error on line 12</b> - "include" include_once's DocBlock has @subpackage tags, illegal. ignoring tag "@subpackage caldav"<br>
+<b>Error on line 12</b> - DocBlock has multiple @package tags, illegal. ignoring additional tag "@package davical"<br>
 <a name="caldav-POST.php"></a>
 <h1>caldav-POST.php</h1>
 <h2>Warnings:</h2><br>
@@ -203,21 +211,18 @@ Use an @ignore tag on the original if you want this case to be documented.<br>
 <h1>caldav-PUT-default.php</h1>
 <h2>Warnings:</h2><br>
 <b>Warning on line 12</b> - Page-level DocBlock precedes "require_once 'DAVResource.php'", use another DocBlock to document the source element<br>
+<a name="caldav-PUT-vcalendar.php"></a>
+<h1>caldav-PUT-vcalendar.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 12</b> - Page-level DocBlock precedes "require_once 'DAVResource.php'", use another DocBlock to document the source element<br>
 <a name="caldav-PUT-vcard.php"></a>
 <h1>caldav-PUT-vcard.php</h1>
 <h2>Warnings:</h2><br>
 <b>Warning on line 12</b> - Page-level DocBlock precedes "require_once 'DAVResource.php'", use another DocBlock to document the source element<br>
-<a name="caldav-PUT.php"></a>
-<h1>caldav-PUT.php</h1>
-<h2>Warnings:</h2><br>
-<b>Warning on line 12</b> - Page-level DocBlock precedes "require_once 'DAVResource.php'", use another DocBlock to document the source element<br>
-<h2>Errors:</h2><br>
-<b>Error on line 12</b> - DocBlock has multiple @package tags, illegal. ignoring additional tag "@package davical"<br>
-<b>Error on line 12</b> - "include" require_once's DocBlock has @subpackage tags, illegal. ignoring tag "@subpackage caldav"<br>
 <a name="caldav-REPORT-calquery.php"></a>
 <h1>caldav-REPORT-calquery.php</h1>
 <h2>Warnings:</h2><br>
-<b>Warning on line 333</b> - File "/home/karora/projects/davical/inc/caldav-REPORT-calquery.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<b>Warning on line 363</b> - File "/home/karora/projects/davical/inc/caldav-REPORT-calquery.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
 <a name="caldav-REPORT-cardquery.php"></a>
 <h1>caldav-REPORT-cardquery.php</h1>
 <h2>Warnings:</h2><br>
@@ -235,6 +240,10 @@ Use an @ignore tag on the original if you want this case to be documented.<br>
 <h2>Warnings:</h2><br>
 <b>Warning on line 107</b> - Unknown tag "@todo:" used<br>
 <b>Warning on line 125</b> - File "/home/karora/projects/davical/inc/caldav-REPORT-multiget.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="caldav-REPORT-principal-match.php"></a>
+<h1>caldav-REPORT-principal-match.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 56</b> - File "/home/karora/projects/davical/inc/caldav-REPORT-principal-match.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
 <a name="caldav-REPORT-principal.php"></a>
 <h1>caldav-REPORT-principal.php</h1>
 <h2>Warnings:</h2><br>
@@ -250,14 +259,13 @@ Use an @ignore tag on the original if you want this case to be documented.<br>
 <h1>caldav.php</h1>
 <h2>Warnings:</h2><br>
 <b>Warning on line 22</b> - Page-level DocBlock precedes "require 'well-known.php'", use another DocBlock to document the source element<br>
-<b>Warning on line 69</b> - Unknown tag "@TODO:" used<br>
 <h2>Errors:</h2><br>
 <b>Error on line 22</b> - DocBlock has multiple @package tags, illegal. ignoring additional tag "@package davical"<br>
 <b>Error on line 22</b> - "include" require's DocBlock has @subpackage tags, illegal. ignoring tag "@subpackage caldav"<br>
 <a name="CalDAVRequest.php"></a>
 <h1>CalDAVRequest.php</h1>
 <h2>Warnings:</h2><br>
-<b>Warning on line 16</b> - Page-level DocBlock precedes "require_once "XMLDocument.php"", use another DocBlock to document the source element<br>
+<b>Warning on line 16</b> - Page-level DocBlock precedes "require_once "AwlCache.php"", use another DocBlock to document the source element<br>
 <a name="check_UTF8.php"></a>
 <h1>check_UTF8.php</h1>
 <h2>Warnings:</h2><br>
@@ -265,7 +273,11 @@ Use an @ignore tag on the original if you want this case to be documented.<br>
 <a name="collection-edit.php"></a>
 <h1>collection-edit.php</h1>
 <h2>Warnings:</h2><br>
-<b>Warning on line 532</b> - File "/home/karora/projects/davical/inc/ui/collection-edit.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<b>Warning on line 538</b> - File "/home/karora/projects/davical/inc/ui/collection-edit.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="createdb.php"></a>
+<h1>createdb.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 31</b> - File "/home/karora/projects/davical/htdocs/createdb.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
 <a name="davical_configuration_missing.php"></a>
 <h1>davical_configuration_missing.php</h1>
 <h2>Warnings:</h2><br>
@@ -273,8 +285,8 @@ Use an @ignore tag on the original if you want this case to be documented.<br>
 <a name="DAVResource.php"></a>
 <h1>DAVResource.php</h1>
 <h2>Warnings:</h2><br>
-<b>Warning on line 11</b> - Page-level DocBlock precedes "require_once 'AwlQuery.php'", use another DocBlock to document the source element<br>
 <b>Warning on line 11</b> - package davical is already in category Technical, will now replace with category Documentation<br>
+<b>Warning on line 11</b> - Page-level DocBlock precedes "require_once 'AwlCache.php'", use another DocBlock to document the source element<br>
 <h2>Errors:</h2><br>
 <b>Error on line 11</b> - DocBlock has multiple @package tags, illegal. ignoring additional tag "@package davical"<br>
 <b>Error on line 11</b> - "include" require_once's DocBlock has @subpackage tags, illegal. ignoring tag "@subpackage Resource"<br>
@@ -283,37 +295,56 @@ Use an @ignore tag on the original if you want this case to be documented.<br>
 <h2>Warnings:</h2><br>
 <b>Warning on line 11</b> - Page-level DocBlock precedes "require_once 'AwlQuery.php'", use another DocBlock to document the source element<br>
 <h2>Errors:</h2><br>
-<b>Error on line 11</b> - "include" require_once's DocBlock has @subpackage tags, illegal. ignoring tag "@subpackage DAVTicket"<br>
 <b>Error on line 11</b> - DocBlock has multiple @package tags, illegal. ignoring additional tag "@package davical"<br>
+<b>Error on line 11</b> - "include" require_once's DocBlock has @subpackage tags, illegal. ignoring tag "@subpackage DAVTicket"<br>
+<a name="dbexec.php"></a>
+<h1>dbexec.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 58</b> - File "/home/karora/projects/davical/htdocs/dbexec.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="drivers_imap_pam.php"></a>
+<h1>drivers_imap_pam.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 13</b> - Page-level DocBlock precedes "require_once "auth-functions.php"", use another DocBlock to document the source element<br>
+<b>Warning on line 13</b> - package davical is already in category Documentation, will now replace with category Technical<br>
+<b>Warning on line 16</b> - no @package tag was used in a DocBlock for class imapPamDrivers<br>
+<h2>Errors:</h2><br>
+<b>Error on line 13</b> - "include" require_once's DocBlock has @subpackage tags, illegal. ignoring tag "@subpackage ldap"<br>
+<b>Error on line 13</b> - DocBlock has multiple @package tags, illegal. ignoring additional tag "@package davical"<br>
 <a name="drivers_ldap.php"></a>
 <h1>drivers_ldap.php</h1>
 <h2>Warnings:</h2><br>
-<b>Warning on line 12</b> - Page-level DocBlock precedes "require_once "auth-functions.php"", use another DocBlock to document the source element<br>
-<b>Warning on line 15</b> - no @package tag was used in a DocBlock for class ldapDrivers<br>
+<b>Warning on line 13</b> - Page-level DocBlock precedes "require_once "auth-functions.php"", use another DocBlock to document the source element<br>
+<b>Warning on line 16</b> - no @package tag was used in a DocBlock for class ldapDrivers<br>
 <h2>Errors:</h2><br>
-<b>Error on line 12</b> - DocBlock has multiple @package tags, illegal. ignoring additional tag "@package davical"<br>
-<b>Error on line 12</b> - "include" require_once's DocBlock has @subpackage tags, illegal. ignoring tag "@subpackage ldap"<br>
+<b>Error on line 13</b> - DocBlock has multiple @package tags, illegal. ignoring additional tag "@package davical"<br>
+<b>Error on line 13</b> - "include" require_once's DocBlock has @subpackage tags, illegal. ignoring tag "@subpackage ldap"<br>
 <a name="drivers_pwauth_pam.php"></a>
 <h1>drivers_pwauth_pam.php</h1>
 <h2>Warnings:</h2><br>
-<b>Warning on line 15</b> - package davical is already in category Documentation, will now replace with category Technical<br>
-<b>Warning on line 15</b> - Page-level DocBlock precedes "require_once "auth-functions.php"", use another DocBlock to document the source element<br>
-<b>Warning on line 18</b> - no @package tag was used in a DocBlock for class pwauthPamDrivers<br>
+<b>Warning on line 16</b> - Page-level DocBlock precedes "require_once "auth-functions.php"", use another DocBlock to document the source element<br>
+<b>Warning on line 19</b> - no @package tag was used in a DocBlock for class pwauthPamDrivers<br>
 <h2>Errors:</h2><br>
-<b>Error on line 15</b> - DocBlock has multiple @package tags, illegal. ignoring additional tag "@package davical"<br>
-<b>Error on line 15</b> - "include" require_once's DocBlock has @subpackage tags, illegal. ignoring tag "@subpackage pwauth"<br>
+<b>Error on line 16</b> - "include" require_once's DocBlock has @subpackage tags, illegal. ignoring tag "@subpackage pwauth"<br>
+<b>Error on line 16</b> - DocBlock has multiple @package tags, illegal. ignoring additional tag "@package davical"<br>
 <a name="drivers_squid_pam.php"></a>
 <h1>drivers_squid_pam.php</h1>
 <h2>Warnings:</h2><br>
-<b>Warning on line 12</b> - Page-level DocBlock precedes "require_once "auth-functions.php"", use another DocBlock to document the source element<br>
-<b>Warning on line 15</b> - no @package tag was used in a DocBlock for class squidPamDrivers<br>
+<b>Warning on line 13</b> - Page-level DocBlock precedes "require_once "auth-functions.php"", use another DocBlock to document the source element<br>
+<b>Warning on line 16</b> - no @package tag was used in a DocBlock for class squidPamDrivers<br>
 <h2>Errors:</h2><br>
-<b>Error on line 12</b> - "include" require_once's DocBlock has @subpackage tags, illegal. ignoring tag "@subpackage ldap"<br>
-<b>Error on line 12</b> - DocBlock has multiple @package tags, illegal. ignoring additional tag "@package davical"<br>
+<b>Error on line 13</b> - DocBlock has multiple @package tags, illegal. ignoring additional tag "@package davical"<br>
+<b>Error on line 13</b> - "include" require_once's DocBlock has @subpackage tags, illegal. ignoring tag "@subpackage ldap"<br>
+<a name="external-fetch.php"></a>
+<h1>external-fetch.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 34</b> - Page-level DocBlock precedes "function create_external", use another DocBlock to document the source element<br>
+<h2>Errors:</h2><br>
+<b>Error on line 34</b> - "function" create_external's DocBlock has @subpackage tags, illegal. ignoring tag "@subpackage external-bind"<br>
+<b>Error on line 34</b> - DocBlock has multiple @package tags, illegal. ignoring additional tag "@package davical"<br>
 <a name="feed.php"></a>
 <h1>feed.php</h1>
 <h2>Warnings:</h2><br>
-<b>Warning on line 193</b> - File "/home/karora/projects/davical/htdocs/feed.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<b>Warning on line 206</b> - File "/home/karora/projects/davical/htdocs/feed.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
 <a name="freebusy-functions.php"></a>
 <h1>freebusy-functions.php</h1>
 <h2>Warnings:</h2><br>
@@ -340,16 +371,20 @@ Use an @ignore tag on the original if you want this case to be documented.<br>
 <h2>Warnings:</h2><br>
 <b>Warning on line 16</b> - Page-level DocBlock precedes "require_once "XMLDocument.php"", use another DocBlock to document the source element<br>
 <h2>Errors:</h2><br>
-<b>Error on line 16</b> - DocBlock has multiple @package tags, illegal. ignoring additional tag "@package davical"<br>
 <b>Error on line 16</b> - "include" require_once's DocBlock has @subpackage tags, illegal. ignoring tag "@subpackage iSchedule"<br>
+<b>Error on line 16</b> - DocBlock has multiple @package tags, illegal. ignoring additional tag "@package davical"<br>
 <a name="log_caldav_action.php"></a>
 <h1>log_caldav_action.php</h1>
 <h2>Warnings:</h2><br>
 <b>Warning on line 24</b> - package davical is already in category Documentation, will now replace with category Technical<br>
+<a name="newfile.php"></a>
+<h1>newfile.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 49</b> - File "/home/karora/projects/davical/htdocs/newfile.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
 <a name="other_translated_strings.php"></a>
 <h1>other_translated_strings.php</h1>
 <h2>Warnings:</h2><br>
-<b>Warning on line 52</b> - File "/home/karora/projects/davical/inc/other_translated_strings.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<b>Warning on line 50</b> - File "/home/karora/projects/davical/inc/other_translated_strings.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
 <a name="page-footer.php"></a>
 <h1>page-footer.php</h1>
 <h2>Warnings:</h2><br>
@@ -365,14 +400,21 @@ Use an @ignore tag on the original if you want this case to be documented.<br>
 <a name="principal-edit.php"></a>
 <h1>principal-edit.php</h1>
 <h2>Warnings:</h2><br>
-<b>Warning on line 971</b> - File "/home/karora/projects/davical/inc/ui/principal-edit.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<b>Warning on line 974</b> - File "/home/karora/projects/davical/inc/ui/principal-edit.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Principal.php"></a>
+<h1>Principal.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 11</b> - Page-level DocBlock precedes "require_once 'AwlCache.php'", use another DocBlock to document the source element<br>
+<h2>Errors:</h2><br>
+<b>Error on line 11</b> - "include" require_once's DocBlock has @subpackage tags, illegal. ignoring tag "@subpackage Principal"<br>
+<b>Error on line 11</b> - DocBlock has multiple @package tags, illegal. ignoring additional tag "@package davical"<br>
 <a name="public.php"></a>
 <h1>public.php</h1>
 <h2>Warnings:</h2><br>
 <b>Warning on line 10</b> - Page-level DocBlock precedes "require "./always.php"", use another DocBlock to document the source element<br>
 <h2>Errors:</h2><br>
-<b>Error on line 10</b> - DocBlock has multiple @package tags, illegal. ignoring additional tag "@package davical"<br>
 <b>Error on line 10</b> - "include" require's DocBlock has @subpackage tags, illegal. ignoring tag "@subpackage caldav"<br>
+<b>Error on line 10</b> - DocBlock has multiple @package tags, illegal. ignoring additional tag "@package davical"<br>
 <a name="pubsub.php"></a>
 <h1>pubsub.php</h1>
 <h2>Warnings:</h2><br>
@@ -380,18 +422,20 @@ Use an @ignore tag on the original if you want this case to be documented.<br>
 <a name="RRule-v2.php"></a>
 <h1>RRule-v2.php</h1>
 <h2>Warnings:</h2><br>
-<b>Warning on line 32</b> - Page-level DocBlock precedes "define DEBUG_RRULE", use another DocBlock to document the source element<br>
 <b>Warning on line 38</b> - no @package tag was used in a DocBlock for class RepeatRuleTimeZone<br>
-<b>Warning on line 79</b> - no @package tag was used in a DocBlock for class RepeatRuleDateTime<br>
-<b>Warning on line 309</b> - no @package tag was used in a DocBlock for class RepeatRule<br>
-<h2>Errors:</h2><br>
-<b>Error on line 32</b> - DEBUG_RRULE define's DocBlock has @package tag, illegal. ignoring tag "@package awl"<br>
-<b>Error on line 32</b> - "define" DEBUG_RRULE's DocBlock has @subpackage tags, illegal. ignoring tag "@subpackage caldav"<br>
+<b>Warning on line 76</b> - no @package tag was used in a DocBlock for class Rfc5545Duration<br>
+<b>Warning on line 203</b> - no @package tag was used in a DocBlock for class RepeatRuleDateTime<br>
+<b>Warning on line 493</b> - no @package tag was used in a DocBlock for class RepeatRule<br>
 <a name="setup.php"></a>
 <h1>setup.php</h1>
 <h2>Warnings:</h2><br>
-<b>Warning on line 6</b> - Unknown tag "@TODO:" used<br>
-<b>Warning on line 7</b> - no @package tag was used in a DocBlock for file /home/karora/projects/davical/htdocs/setup.php<br>
+<b>Warning on line 7</b> - no @package tag was used in a DocBlock for class CheckResult<br>
+<b>Warning on line 378</b> - File "/home/karora/projects/davical/htdocs/setup.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="SqlToArray.php"></a>
+<h1>SqlToArray.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class SqlToArray<br>
+<b>Warning on line 47</b> - File "/home/karora/projects/davical/htdocs/SqlToArray.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
 <a name="test-RRULE-v2.php"></a>
 <h1>test-RRULE-v2.php</h1>
 <h2>Warnings:</h2><br>
@@ -405,7 +449,7 @@ Use an @ignore tag on the original if you want this case to be documented.<br>
 <a name="test.php"></a>
 <h1>test.php</h1>
 <h2>Warnings:</h2><br>
-<b>Warning on line 9</b> - File "/home/karora/projects/davical/htdocs/test.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<b>Warning on line 27</b> - File "/home/karora/projects/davical/htdocs/test.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
 <a name="tools.php"></a>
 <h1>tools.php</h1>
 <h2>Warnings:</h2><br>
@@ -431,9 +475,9 @@ Use an @ignore tag on the original if you want this case to be documented.<br>
 <h1>WritableCollection.php</h1>
 <h2>Warnings:</h2><br>
 <b>Warning on line 3</b> - no @package tag was used in a DocBlock for class WritableCollection<br>
-<b>Warning on line 268</b> - File "/home/karora/projects/davical/inc/WritableCollection.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<b>Warning on line 321</b> - File "/home/karora/projects/davical/inc/WritableCollection.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
 	<p class="notes" id="credit">
-		Documentation generated on Tue, 28 Dec 2010 02:16:05 +1300 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+		Documentation generated on Sun, 11 Sep 2011 20:48:12 +1200 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
 	</p>
 	</body>
 </html>
