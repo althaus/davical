@@ -1,0 +1,62 @@
+HTTP/1.1 201 Created
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
+DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
+ETag: "0b17d5f4102e63037d2ae732e4ca563d"
+Content-Length: 0
+Content-Type: text/plain; charset="utf-8"
+
+
+      CalDAV Data: >BEGIN:VCALENDAR
+CALSCALE:GREGORIAN
+PRODID:-//Ximian//NONSGML Evolution Calendar//EN
+VERSION:2.0
+BEGIN:VTIMEZONE
+TZID:(UTC-05:00) Eastern Time (US & Canada)
+BEGIN:STANDARD
+DTSTART:16010101T020000
+TZOFFSETFROM:-0400
+TZOFFSETTO:-0500
+RRULE:FREQ=YEARLY;INTERVAL=1;BYDAY=1SU;BYMONTH=11
+END:STANDARD
+BEGIN:DAYLIGHT
+DTSTART:16010101T020000
+TZOFFSETFROM:-0500
+TZOFFSETTO:-0400
+RRULE:FREQ=YEARLY;INTERVAL=1;BYDAY=2SU;BYMONTH=3
+END:DAYLIGHT
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:PUT-eastern-time
+DTSTAMP:20101009T214524Z
+SUMMARY;LANGUAGE=en-US:Psychic's Anonymous Meeting
+DTSTART;TZID="(UTC-05:00) Eastern Time (US & Canada)":20110912T110000
+DTEND;TZID="(UTC-05:00) Eastern Time (US & Canada)":20110912T113000
+LOCATION:You will know when you arrive
+CREATED:20101010T014639
+LAST-MODIFIED:20101010T014639
+END:VEVENT
+END:VCALENDAR
+<
+      caldav_type: >VEVENT<
+            class: >PUBLIC<
+         dav_etag: >0b17d5f4102e63037d2ae732e4ca563d<
+      description: >NULL<
+            dtend: >2011-09-12 11:30:00<
+          dtstamp: >2010-10-09 21:45:24<
+          dtstart: >2011-09-12 11:00:00<
+              due: >NULL<
+    last_modified: >2010-10-10 01:46:39<
+         location: >You will know when you arrive<
+      logged_user: >10<
+ percent_complete: >NULL<
+         priority: >NULL<
+            rrule: >NULL<
+           status: >NULL<
+          summary: >Psychic's Anonymous Meeting<
+           transp: >NULL<
+            tz_id: >(UTC-05:00) Eastern Time (US & Canada)<
+              uid: >PUT-eastern-time<
+              url: >NULL<
+          user_no: >10<
+

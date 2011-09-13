@@ -4,6 +4,20 @@ include_once('DAVResource.php');
 class WritableCollection extends DAVResource {
 
   /**
+   * Get a TZID string from this VEVENT/VTODO/... component if we can
+   * @param vComponent $comp
+   * @return The TZID value we found, or null
+   */
+  private static function GetTZID( vComponent $comp ) {
+    $p = $comp->GetProperty('DTSTART');
+    if ( !isset($p) && $comp->GetType() == 'VTODO' ) {
+      $p = $comp->GetProperty('DUE');
+    }
+    if ( !isset($p) ) return null;
+    return $p->GetParameterValue('TZID');
+  }
+  
+    /**
    * Writes the data to a member in the collection and returns the segment_name of the 
    * resource in our internal namespace.
    *  
@@ -167,41 +181,21 @@ class WritableCollection extends DAVResource {
     }
     $calitem_params[':class'] = $class;
   
-  
     /** Calculate what timezone to set, first, if possible */
     $last_tz_locn = 'Turkmenikikamukau';  // I really hope this location doesn't exist!
-    $dtstart_prop = $first->GetProperty('DTSTART'); 
-    $tzid = $dtstart_prop->GetParameterValue('TZID');
-    if ( empty($tzid) && $first->GetType() == 'VTODO' ) {
-      $due_prop = $first->GetProperty('DUE'); 
-      $tzid = $due_prop->GetParameterValue('TZID');
-    }
-    $timezones = $vcal->GetComponents('VTIMEZONE');
-    foreach( $timezones AS $k => $tz ) {
-      if ( $tz->GetPValue('TZID') != $tzid ) {
-        /**
-        * We'll skip any tz definitions that are for a TZID other than the DTSTART/DUE on the first VEVENT/VTODO 
-        */
-        dbg_error_log( 'ERROR', ' Event uses TZID[%s], skipping included TZID[%s]!', $tz->GetPValue('TZID'), $tzid );
-        continue;
-      }
-      // This is the one
-      $tz_locn = $tz->GetPValue('X-LIC-LOCATION');
-      if ( ! isset($tz_locn) ) {
-        if ( preg_match( '#([^/]+/[^/]+)$#', $tzid, $matches ) )
-          $tz_locn = $matches[1];
-        else if ( isset($tzid) && $tzid != '' ) {
-          dbg_error_log( 'ERROR', ' Couldn\'t guess Olsen TZ from TZID[%s].  This may end in tears...', $tzid );
+    $tzid = self::GetTZID($first);
+    if ( !empty($tzid) ) {
+      $tz = $vcal->GetTimeZone($tzid);
+      $tz_locn = olson_from_tzstring($tzid);
+      if ( empty($tz_locn) ) {
+        $tz_locn = $tz->GetPValue('X-LIC-LOCATION');
+        if ( !empty($tz_locn) ) {
+          $tz_locn = olson_from_tzstring($tz_locn);
         }
       }
-      else {
-        if ( ! preg_match( $tz_regex, $tz_locn ) ) {
-          if ( preg_match( '#([^/]+/[^/]+)$#', $tzid, $matches ) ) $tz_locn = $matches[1];
-        }
-      }
-  
+    
       dbg_error_log( 'PUT', ' Using TZID[%s] and location of [%s]', $tzid, (isset($tz_locn) ? $tz_locn : '') );
-      if ( isset($tz_locn) && ($tz_locn != $last_tz_locn) && preg_match( $tz_regex, $tz_locn ) ) {
+      if ( !empty($tz_locn) && ($tz_locn != $last_tz_locn) && preg_match( $tz_regex, $tz_locn ) ) {
         dbg_error_log( 'PUT', ' Setting timezone to %s', $tz_locn );
         if ( $tz_locn != '' ) {
           $qry->QDo('SET TIMEZONE TO \''.$tz_locn."'" );
@@ -216,9 +210,9 @@ class WritableCollection extends DAVResource {
         $qry->QDo('INSERT INTO time_zone (tz_id, tz_locn, tz_spec) VALUES(:tzid,:tzlocn,:tzspec)', $params );
       }
       if ( !isset($tz_locn) || $tz_locn == '' ) $tz_locn = $tzid;
-  
+    
     }
-  
+
     $created = $first->GetPValue('CREATED');
     if ( $created == '00001231T000000Z' ) $created = '20001231T000000Z';
     $calitem_params[':created'] = $created;
