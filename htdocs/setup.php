@@ -78,6 +78,13 @@ function check_ldap() {
   return new CheckResult(isset($loaded_extensions['ldap']));
 }
 
+function check_calendar() {
+  global $phpinfo, $loaded_extensions;
+
+  if (!function_exists('cal_days_in_month')) return new CheckResult(false);
+  return new CheckResult(isset($loaded_extensions['calendar']));
+}
+
 function check_suhosin_server_strip() {
   global $loaded_extensions;
 
@@ -239,7 +246,8 @@ function build_dependencies_table( ) {
     translate('PHP DateTime class')               => 'check_datetime',
     translate('Suhosin "server.strip" disabled')  => 'check_suhosin_server_strip',
     translate('PHP Magic Quotes GPC off')         => 'check_magic_quotes_gpc',
-    translate('PHP Magic Quotes runtime off')     => 'check_magic_quotes_runtime'
+    translate('PHP Magic Quotes runtime off')     => 'check_magic_quotes_runtime',
+    translate('PHP calendar extension available') => 'check_calendar'
     );
 
   if ( isset($c->authenticate_hook) && isset($c->authenticate_hook['call']) && $c->authenticate_hook['call'] == 'LDAP_check') {

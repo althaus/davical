@@ -754,6 +754,9 @@ msgstr ""
 msgid "PHP LDAP module available"
 msgstr ""
 
+msgid "PHP calendar extension available"
+msgstr ""
+
 msgid "PHP Magic Quotes GPC off"
 msgstr ""
 
