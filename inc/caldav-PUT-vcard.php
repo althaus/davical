@@ -24,7 +24,7 @@ $lock_opener = $request->FailIfLocked();
 
 $dest = new DAVResource($request->path);
 
-$container = $dest->FetchParentContainer();
+$container = $dest->GetParentContainer();
 if ( ! $dest->Exists() ) {
   if ( $container->IsPrincipal() ) {
     $request->PreconditionFailed(405,'method-not-allowed',translate('A DAViCal principal collection may only contain collections'));
