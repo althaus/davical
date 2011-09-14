@@ -1,0 +1,7 @@
+#
+# List timezone server timezones
+#
+TYPE=GET
+URL=http://regression.host/tz.php?action=list
+HEAD
+

@@ -20,6 +20,10 @@ switch ( $request->path ) {
     header('Location: ' . ConstructURL('/',true) );
     $request->DoResponse(301); // Moved permanently
     // does not return.
+  case '/.well-known/timezone':
+    header('Location: ' . ConstructURL('/tz.php',true) );
+    $request->DoResponse(301); // Moved permanently
+    // does not return.
 }
 
 
