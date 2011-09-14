@@ -1,5 +1,7 @@
 <?php
 
+include_once('vCalendar.php');
+
 $need_expansion = false;
 function check_for_expansion( $calendar_data_node ) {
   global $need_expansion, $expand_range_start, $expand_range_end, $expand_as_floating;
@@ -54,23 +56,11 @@ while (list($idx, $qqq) = each($qry_content))
 
 /**
  * There can only be *one* FILTER element, and it must contain *one* COMP-FILTER
- * element.  In every case I can see this contained COMP-FILTER element will be a
- * VCALENDAR, but perhaps there are others.  In our case we strip it if that is
- * the case and leave it alone otherwise.
+ * element.  In every case I can see this contained COMP-FILTER element will
+ * necessarily be a VCALENDAR, which then may contain other COMP-FILTER etc.
  */
 $qry_filters = $xmltree->GetPath('/urn:ietf:params:xml:ns:caldav:calendar-query/urn:ietf:params:xml:ns:caldav:filter/*');
-if ( count($qry_filters) == 1 ) {
-  $qry_filters = $qry_filters[0];  // There can only be one FILTER element
-  if ( $qry_filters->GetTag() == "urn:ietf:params:xml:ns:caldav:comp-filter" && $qry_filters->GetAttribute("name") == "VCALENDAR" )
-    $qry_filters = $qry_filters->GetContent();  // Everything is inside a VCALENDAR AFAICS
-  else {
-    dbg_error_log("calquery", "Got bizarre CALDAV:FILTER[%s=%s]] which does not contain comp-filter = VCALENDAR!!", $qry_filters->GetTag(), $qry_filters->GetAttribute("name") );
-    $qry_filters = false;
-  }
-}
-else {
-  $qry_filters = false;
-}
+if ( count($qry_filters) != 1 ) $qry_filters = false;
 
 
 /**
@@ -88,8 +78,8 @@ function apply_filter( $filters, $item ) {
   if ( count($filters) == 0 ) return true;
 
   dbg_error_log("calquery","Applying filter for item '%s'", $item->dav_name );
-  $ical = new iCalendar( array( "icalendar" => $item->caldav_data) );
-  return $ical->TestFilter($filters);
+  $ical = new vCalendar( $item->caldav_data );
+  return $ical->StartFilter($filters);
 }
 
 
@@ -197,11 +187,11 @@ function SqlFilterFragment( $filter, $components, $property = null, $parameter =
 
       case 'urn:ietf:params:xml:ns:caldav:comp-filter':
         $comp_filter_name = $v->GetAttribute("name");
-        if ( count($components) == 0 ) {
+        if ( $comp_filter_name != 'VCALENDAR' && count($components) == 0 ) {
           $sql .= "AND caldav_data.caldav_type = :component_name_filter ";
           $params[':component_name_filter'] = $comp_filter_name;
+          $components[] = $comp_filter_name;
         }
-        $components[] = $comp_filter_name;
         $subfilter = $v->GetContent();
         if ( is_array( $subfilter ) ) {
           $success = SqlFilterFragment( $subfilter, $components, $property, $parameter );
@@ -284,6 +274,11 @@ function SqlFilterFragment( $filter, $components, $property = null, $parameter =
  */
 function BuildSqlFilter( $filter ) {
   $components = array();
+  if ( $filter->GetTag() == "urn:ietf:params:xml:ns:caldav:comp-filter" && $filter->GetAttribute("name") == "VCALENDAR" )
+    $filter = $filter->GetContent();  // Everything is inside a VCALENDAR AFAICS
+  else {
+    dbg_error_log("calquery", "Got bizarre CALDAV:FILTER[%s=%s]] which does not contain comp-filter = VCALENDAR!!", $filter->GetTag(), $filter->GetAttribute("name") );
+  }
   return SqlFilterFragment( $filter, $components );
 }
 
