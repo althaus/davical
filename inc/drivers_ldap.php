@@ -261,7 +261,7 @@ function sync_user_from_LDAP( Principal &$principal, $mapping, $ldap_values ) {
 
   dbg_error_log( "LDAP", "Going to sync the user from LDAP" );
 
-  $fields_to_set = array();
+  $fields_to_set = array( 'username' => $principal->username() );
   $updateable_fields = Principal::updateableFields();
   $updateable_fields[] = 'active';  // Backward compatibility: now 'user_exists'
   $updateable_fields[] = 'updated'; // Backward compatibility: now 'modified'
