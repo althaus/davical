@@ -45,6 +45,9 @@ GRANT SELECT,INSERT,UPDATE,DELETE
   ON addressbook_address_adr
   ON addressbook_address_tel
   ON addressbook_address_email
+  ON timezones
+  ON tz_aliases
+  ON tz_localnames
 
 GRANT SELECT,UPDATE
   ON relationship_type_rt_id_seq
@@ -54,6 +57,7 @@ GRANT SELECT,UPDATE
   ON session_session_id_seq
   ON principal_type_principal_type_id_seq
   ON sync_tokens_sync_token_seq
+  ON timezones_our_tzno_seq
 
 GRANT SELECT,INSERT
   ON time_zone

@@ -13,14 +13,14 @@ REPLACE=/^DTEND:20070630T235959Z$/DTEND:correct/
 
 QUERY
 SELECT calendar_item.rrule, calendar_item.status,
-       dtstart AT TIME ZONE tz_locn AS "a)    Start",
-       tz_locn AS "b) Location",
+       dtstart AT TIME ZONE olson_name AS "a)    Start",
+       olson_name AS "b) Location",
        to_char(calendar_item.dtstart at time zone 'GMT','YYYYMMDD"T"HH24MISS"Z"') AS "c)UTC Start",
        to_char(calendar_item.dtend at time zone 'GMT','YYYYMMDD"T"HH24MISS"Z"') AS "d)  UTC End"
  FROM usr INNER JOIN collection USING (user_no)
           INNER JOIN caldav_data USING (collection_id)
           INNER JOIN calendar_item USING(dav_id)
-          LEFT JOIN time_zone USING(tz_id)
+          LEFT JOIN timezones ON (tz_id=tzid)
 WHERE usr.email = 'user1@example.net'
   AND collection.is_calendar AND collection.schedule_transp = 'opaque'
   AND rrule_event_overlaps( dtstart, dtend, rrule, '20061001T000000Z', '20070630T235959Z' )

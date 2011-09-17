@@ -327,9 +327,9 @@ class DAVResource
     $base_sql = 'SELECT collection.*, path_privs(:session_principal::int8, collection.dav_name,:scan_depth::int), ';
     $base_sql .= 'p.principal_id, p.type_id AS principal_type_id, ';
     $base_sql .= 'p.displayname AS principal_displayname, p.default_privileges AS principal_default_privileges, ';
-    $base_sql .= 'time_zone.tz_spec ';
+    $base_sql .= 'timezones.vtimezone ';
     $base_sql .= 'FROM collection LEFT JOIN principal p USING (user_no) ';
-    $base_sql .= 'LEFT JOIN time_zone ON (collection.timezone=time_zone.tz_id) ';
+    $base_sql .= 'LEFT JOIN timezones ON (collection.timezone=timezones.tzid) ';
     $base_sql .= 'WHERE ';
     $sql = $base_sql .'collection.dav_name = :raw_path ';
     $params = array( ':raw_path' => $this->dav_name, ':session_principal' => $session->principal_id, ':scan_depth' => $c->permission_scan_depth );
@@ -405,14 +405,14 @@ EOSQL;
       $sql = <<<EOSQL
 SELECT collection.*, path_privs(:session_principal::int8, collection.dav_name,:scan_depth::int), p.principal_id,
     p.type_id AS principal_type_id, p.displayname AS principal_displayname, p.default_privileges AS principal_default_privileges,
-    time_zone.tz_spec, dav_binding.access_ticket_id, dav_binding.parent_container AS bind_parent_container,
+    timezones.vtimezone, dav_binding.access_ticket_id, dav_binding.parent_container AS bind_parent_container,
 		dav_binding.dav_displayname, owner.dav_name AS bind_owner_url, dav_binding.dav_name AS bound_to,  
     dav_binding.external_url AS external_url, dav_binding.type AS external_type, dav_binding.bind_id AS bind_id 
 FROM dav_binding
     LEFT JOIN collection ON (collection.collection_id=bound_source_id)
     LEFT JOIN principal p USING (user_no)
     LEFT JOIN dav_principal owner ON (dav_binding.dav_owner_id=owner.principal_id)
-    LEFT JOIN time_zone ON (collection.timezone=time_zone.tz_id)
+    LEFT JOIN timezones ON (collection.timezone=timezones.tzid)
  WHERE dav_binding.dav_name = :raw_path
 EOSQL;
       $params = array( ':raw_path' => $this->dav_name, ':session_principal' => $session->principal_id, ':scan_depth' => $c->permission_scan_depth );
@@ -1639,11 +1639,11 @@ EOQRY;
 
       case 'urn:ietf:params:xml:ns:caldav:calendar-timezone':
         if ( ! $this->_is_collection ) return false;
-        if ( !isset($this->collection->tz_spec) || $this->collection->tz_spec == '' ) return false;
+        if ( !isset($this->collection->vtimezone) || $this->collection->vtimezone == '' ) return false;
 
         $cal = new iCalComponent();
         $cal->VCalendar();
-        $cal->AddComponent( new iCalComponent($this->collection->tz_spec) );
+        $cal->AddComponent( new iCalComponent($this->collection->vtimezone) );
         $reply->NSElement($prop, $tag, $cal->Render() );
         break;
 

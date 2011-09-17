@@ -34,14 +34,14 @@ REPLACE=/^DTSTAMP:\d{4}[01]\d[0123]\dT[012]\d[0-5]\d[0-6]\dZ\r?$/DTSTAMP:yyyymmd
 
 QUERY
 SELECT calendar_item.rrule, calendar_item.status,
-       dtstart AT TIME ZONE tz_locn AS "a)    Start",
-       tz_locn AS "b) Location",
+       dtstart AT TIME ZONE olson_name AS "a)    Start",
+       olson_name AS "b) Location",
        to_char(calendar_item.dtstart at time zone 'GMT','YYYYMMDD"T"HH24MISS"Z"') AS "c)UTC Start",
        to_char(calendar_item.dtend at time zone 'GMT','YYYYMMDD"T"HH24MISS"Z"') AS "d)  UTC End"
  FROM usr INNER JOIN collection USING (user_no)
           INNER JOIN caldav_data USING (collection_id)
           INNER JOIN calendar_item USING(dav_id)
-          LEFT JOIN time_zone USING(tz_id)
+          LEFT JOIN timezones ON (tz_id=tzid)
 WHERE caldav_data.dav_name ~ '^/user2/'
   AND collection.is_calendar
   AND rrule_event_overlaps( dtstart, dtend, rrule, '20081022T054500Z', '20081024T083000Z' )

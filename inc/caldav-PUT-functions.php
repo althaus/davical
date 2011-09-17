@@ -575,11 +575,11 @@ EOSQL;
         $last_tz_locn = $tz_locn;
       }
       $params = array( ':tzid' => $tzid);
-      $qry = new AwlQuery('SELECT tz_locn FROM time_zone WHERE tz_id = :tzid', $params );
+      $qry = new AwlQuery('SELECT 1 FROM timezones WHERE tzid = :tzid', $params );
       if ( $qry->Exec('PUT',__LINE__,__FILE__) && $qry->rows() == 0 ) {
-        $params[':tzlocn'] = $tz_locn;
-        $params[':tzspec'] = (isset($tz) ? $tz->Render() : null );
-        $qry->QDo('INSERT INTO time_zone (tz_id, tz_locn, tz_spec) VALUES(:tzid,:tzlocn,:tzspec)', $params );
+        $params[':olson_name'] = $tz_locn;
+        $params[':vtimezone'] = (isset($tz) ? $tz->Render() : null );
+        $qry->QDo('INSERT INTO timezones (tzid, olson_name, active, vtimezone) VALUES(:tzid,:olson_name,false,:vtimezone)', $params );
       }
       if ( !isset($tz_locn) || $tz_locn == '' ) $tz_locn = $tzid;
     }
@@ -902,11 +902,11 @@ function write_resource( DAVResource $resource, $caldav_data, DAVResource $colle
       $last_tz_locn = $tz_locn;
     }
     $params = array( ':tzid' => $tzid);
-    $qry = new AwlQuery('SELECT tz_locn FROM time_zone WHERE tz_id = :tzid', $params );
+    $qry = new AwlQuery('SELECT 1 FROM timezones WHERE tzid = :tzid', $params );
     if ( $qry->Exec('PUT',__LINE__,__FILE__) && $qry->rows() == 0 ) {
-      $params[':tzlocn'] = $tz_locn;
-      $params[':tzspec'] = (isset($tz) ? $tz->Render() : null );
-      $qry->QDo('INSERT INTO time_zone (tz_id, tz_locn, tz_spec) VALUES(:tzid,:tzlocn,:tzspec)', $params );
+      $params[':olson_name'] = $tz_locn;
+      $params[':vtimezone'] = (isset($tz) ? $tz->Render() : null );
+      $qry->QDo('INSERT INTO timezones (tzid, olson_name, active, vtimezone) VALUES(:tzid,:olson_name,false,:vtimezone)', $params );
     }
     if ( !isset($tz_locn) || $tz_locn == '' ) $tz_locn = $tzid;
 

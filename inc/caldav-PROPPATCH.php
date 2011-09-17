@@ -10,7 +10,7 @@
 */
 dbg_error_log("PROPPATCH", "method handler");
 
-require_once('iCalendar.php');
+require_once('vCalendar.php');
 require_once('DAVResource.php');
 
 $dav_resource = new DAVResource($request->path);
@@ -152,11 +152,19 @@ foreach( $setprops AS $k => $setting ) {
       if ( $dav_resource->IsCollection() && $dav_resource->IsCalendar() && ! $dav_resource->IsBinding() ) {
         $tzcomponent = $setting->GetPath('urn:ietf:params:xml:ns:caldav:calendar-timezone');
         $tzstring = $tzcomponent[0]->GetContent();
-        $calendar = new iCalendar( array( 'icalendar' => $tzstring) );
-        $timezones = $calendar->component->GetComponents('VTIMEZONE');
-        if ( $timezones === false || count($timezones) == 0 ) break;
+        $calendar = new vCalendar( $tzstring );
+        $timezones = $calendar->GetComponents('VTIMEZONE');
+        if ( count($timezones) == 0 ) break;
         $tz = $timezones[0];  // Backward compatibility
         $tzid = $tz->GetPValue('TZID');
+        $params = array( ':tzid' => $tzid );
+        $qry = new AwlQuery('SELECT 1 FROM timezones WHERE tzid = :tzid', $params );
+        if ( $qry->Exec('PUT',__LINE__,__FILE__) && $qry->rows() == 0 ) {
+          $params[':olson_name'] = $calendar->GetOlsonName($tz);
+          $params[':vtimezone'] = (isset($tz) ? $tz->Render() : null );
+          $qry->QDo('INSERT INTO timezones (tzid, olson_name, active, vtimezone) VALUES(:tzid,:olson_name,false,:vtimezone)', $params );
+        }
+        
         $qry->QDo('UPDATE collection SET timezone = :tzid WHERE dav_name = :dav_name',
                                        array( ':tzid' => $tzid, ':dav_name' => $dav_resource->dav_name()) );
       }
