@@ -147,14 +147,15 @@ function SqlFilterFragment( $filter, $components, $property = null, $parameter =
 //          $params[':time_range_end'] = $finish;
 //        }
         if ( isset($start) && isset($finish) ) {
-          $sql .= ' AND (rrule IS NOT NULL OR dtstart IS NULL OR (dtstart < :time_range_end AND (dtend > :time_range_start ';
-          $sql .= ' OR (dtend IS NULL AND dtstart > :time_range_start)))) ';
+          $sql .= ' AND (rrule IS NOT NULL OR dtstart IS NULL';
+          $sql .= ' OR (dtstart < :time_range_end AND (dtend > :time_range_start ';
+          $sql .= ' OR (dtend IS NULL AND dtstart < :time_range_end)))) ';
           $params[':time_range_start'] = $start;
           $params[':time_range_end'] = $finish;
         }
         elseif ( isset($start) ) {
-          $sql .= ' AND (rrule IS NOT NULL OR dtstart IS NULL OR (dtend > :time_range_start ';
-          $sql .= ' OR (dtend IS NULL AND dtstart > :time_range_start))) ';
+          $sql .= ' AND (rrule IS NOT NULL OR dtstart IS NULL';
+          $sql .= ' OR (dtstart > :time_range_start)) ';
           $params[':time_range_start'] = $start;
         }
         elseif ( isset($finish) ) {
