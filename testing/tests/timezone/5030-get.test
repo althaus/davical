@@ -1,0 +1,8 @@
+#
+# List timezone server timezones
+#
+TYPE=GET
+URL=http://regression.host/tz.php?action=get&tzid=Pacific/Auckland&lang=en_US
+HEAD
+
+REPLACE=/LAST-MODIFIED:[0-9TZ]{16}/LAST-MODIFIED:all good/
