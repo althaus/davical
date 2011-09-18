@@ -1,0 +1,9 @@
+#
+# List timezone server timezones
+#
+TYPE=GET
+URL=http://regression.host/tz.php?action=list
+HEAD
+
+REPLACE=/dtstamp>[0-9TZ]{16}/dtstamp>all good/
+REPLACE=/last-modified>[0-9TZ]{16}/last-modified>all good/

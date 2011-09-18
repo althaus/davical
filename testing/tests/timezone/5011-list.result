@@ -1,0 +1,9 @@
+HTTP/1.1 200 OK
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+Content-Length: 239
+Content-Type: application/xml; charset="utf-8"
+
+<?xml version="1.0" encoding="utf-8" ?>
+<urn:ietf:params:xml:ns:timezone-service:timezone-list xmlns:urn:ietf:params:xml:ns:timezone-service="">
+ <dtstamp>all good</dtstamp>
+</urn:ietf:params:xml:ns:timezone-service:timezone-list>

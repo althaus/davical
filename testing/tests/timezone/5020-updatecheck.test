@@ -1,0 +1,7 @@
+#
+# Request the timezone server update itself
+#
+TYPE=GET
+URL=http://regression.host/tz.php?action=updatecheck
+HEAD
+

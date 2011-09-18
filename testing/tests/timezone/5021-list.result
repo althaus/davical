@@ -1,0 +1,1843 @@
+HTTP/1.1 200 OK
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+Content-Type: application/xml; charset="utf-8"
+
+<?xml version="1.0" encoding="utf-8" ?>
+<urn:ietf:params:xml:ns:timezone-service:timezone-list xmlns:urn:ietf:params:xml:ns:timezone-service="">
+ <dtstamp>all good</dtstamp>
+ <summary>
+  <tzid>Europe/Budapest</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Europe/Budapest</local-name>
+ </summary>
+ <summary>
+  <tzid>Europe/Podgorica</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Europe/Podgorica</local-name>
+ </summary>
+ <summary>
+  <tzid>Europe/Mariehamn</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Europe/Mariehamn</local-name>
+ </summary>
+ <summary>
+  <tzid>Europe/Copenhagen</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Europe/Copenhagen</local-name>
+ </summary>
+ <summary>
+  <tzid>Pacific/Auckland</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Pacific/Auckland</local-name>
+ </summary>
+ <summary>
+  <tzid>America/New_York</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/New_York</local-name>
+ </summary>
+ <summary>
+  <tzid>Europe/Lisbon</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Europe/Lisbon</local-name>
+ </summary>
+ <summary>
+  <tzid>Europe/Moscow</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Europe/Moscow</local-name>
+ </summary>
+ <summary>
+  <tzid>Europe/Vienna</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Europe/Vienna</local-name>
+ </summary>
+ <summary>
+  <tzid>Europe/Andorra</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Europe/Andorra</local-name>
+ </summary>
+ <summary>
+  <tzid>Europe/Prague</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Europe/Prague</local-name>
+ </summary>
+ <summary>
+  <tzid>Europe/Simferopol</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Europe/Simferopol</local-name>
+ </summary>
+ <summary>
+  <tzid>Europe/Amsterdam</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Europe/Amsterdam</local-name>
+ </summary>
+ <summary>
+  <tzid>Europe/Minsk</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Europe/Minsk</local-name>
+ </summary>
+ <summary>
+  <tzid>Europe/Monaco</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Europe/Monaco</local-name>
+ </summary>
+ <summary>
+  <tzid>Europe/Zaporozhye</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Europe/Zaporozhye</local-name>
+ </summary>
+ <summary>
+  <tzid>Europe/Sofia</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Europe/Sofia</local-name>
+ </summary>
+ <summary>
+  <tzid>Europe/Tirane</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Europe/Tirane</local-name>
+ </summary>
+ <summary>
+  <tzid>Europe/Kiev</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Europe/Kiev</local-name>
+ </summary>
+ <summary>
+  <tzid>Europe/Jersey</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Europe/Jersey</local-name>
+ </summary>
+ <summary>
+  <tzid>Europe/Helsinki</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Europe/Helsinki</local-name>
+ </summary>
+ <summary>
+  <tzid>Europe/Istanbul</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Europe/Istanbul</local-name>
+ </summary>
+ <summary>
+  <tzid>Europe/Sarajevo</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Europe/Sarajevo</local-name>
+ </summary>
+ <summary>
+  <tzid>Europe/Zurich</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Europe/Zurich</local-name>
+ </summary>
+ <summary>
+  <tzid>Europe/Riga</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Europe/Riga</local-name>
+ </summary>
+ <summary>
+  <tzid>Europe/Guernsey</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Europe/Guernsey</local-name>
+ </summary>
+ <summary>
+  <tzid>Europe/Bucharest</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Europe/Bucharest</local-name>
+ </summary>
+ <summary>
+  <tzid>Europe/Tallinn</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Europe/Tallinn</local-name>
+ </summary>
+ <summary>
+  <tzid>Europe/Vatican</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Europe/Vatican</local-name>
+ </summary>
+ <summary>
+  <tzid>Europe/Berlin</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Europe/Berlin</local-name>
+ </summary>
+ <summary>
+  <tzid>Europe/Oslo</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Europe/Oslo</local-name>
+ </summary>
+ <summary>
+  <tzid>Europe/Stockholm</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Europe/Stockholm</local-name>
+ </summary>
+ <summary>
+  <tzid>Europe/Belgrade</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Europe/Belgrade</local-name>
+ </summary>
+ <summary>
+  <tzid>Europe/Ljubljana</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Europe/Ljubljana</local-name>
+ </summary>
+ <summary>
+  <tzid>Europe/Athens</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Europe/Athens</local-name>
+ </summary>
+ <summary>
+  <tzid>Europe/Madrid</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Europe/Madrid</local-name>
+ </summary>
+ <summary>
+  <tzid>Europe/Gibraltar</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Europe/Gibraltar</local-name>
+ </summary>
+ <summary>
+  <tzid>Europe/Bratislava</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Europe/Bratislava</local-name>
+ </summary>
+ <summary>
+  <tzid>Europe/Warsaw</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Europe/Warsaw</local-name>
+ </summary>
+ <summary>
+  <tzid>Europe/Brussels</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Europe/Brussels</local-name>
+ </summary>
+ <summary>
+  <tzid>Europe/Uzhgorod</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Europe/Uzhgorod</local-name>
+ </summary>
+ <summary>
+  <tzid>Europe/London</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Europe/London</local-name>
+ </summary>
+ <summary>
+  <tzid>Europe/Volgograd</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Europe/Volgograd</local-name>
+ </summary>
+ <summary>
+  <tzid>Europe/San_Marino</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Europe/San_Marino</local-name>
+ </summary>
+ <summary>
+  <tzid>Europe/Dublin</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Europe/Dublin</local-name>
+ </summary>
+ <summary>
+  <tzid>Europe/Isle_of_Man</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Europe/Isle_of_Man</local-name>
+ </summary>
+ <summary>
+  <tzid>Europe/Rome</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Europe/Rome</local-name>
+ </summary>
+ <summary>
+  <tzid>Europe/Vilnius</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Europe/Vilnius</local-name>
+ </summary>
+ <summary>
+  <tzid>Europe/Skopje</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Europe/Skopje</local-name>
+ </summary>
+ <summary>
+  <tzid>Europe/Vaduz</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Europe/Vaduz</local-name>
+ </summary>
+ <summary>
+  <tzid>Europe/Zagreb</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Europe/Zagreb</local-name>
+ </summary>
+ <summary>
+  <tzid>Europe/Paris</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Europe/Paris</local-name>
+ </summary>
+ <summary>
+  <tzid>Europe/Luxembourg</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Europe/Luxembourg</local-name>
+ </summary>
+ <summary>
+  <tzid>Europe/Kaliningrad</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Europe/Kaliningrad</local-name>
+ </summary>
+ <summary>
+  <tzid>Europe/Nicosia</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Europe/Nicosia</local-name>
+ </summary>
+ <summary>
+  <tzid>Europe/Chisinau</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Europe/Chisinau</local-name>
+ </summary>
+ <summary>
+  <tzid>Europe/Malta</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Europe/Malta</local-name>
+ </summary>
+ <summary>
+  <tzid>Europe/Samara</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Europe/Samara</local-name>
+ </summary>
+ <summary>
+  <tzid>Atlantic/St_Helena</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Atlantic/St_Helena</local-name>
+ </summary>
+ <summary>
+  <tzid>Atlantic/Madeira</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Atlantic/Madeira</local-name>
+ </summary>
+ <summary>
+  <tzid>Atlantic/Cape_Verde</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Atlantic/Cape_Verde</local-name>
+ </summary>
+ <summary>
+  <tzid>Atlantic/Canary</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Atlantic/Canary</local-name>
+ </summary>
+ <summary>
+  <tzid>Atlantic/Azores</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Atlantic/Azores</local-name>
+ </summary>
+ <summary>
+  <tzid>Atlantic/Reykjavik</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Atlantic/Reykjavik</local-name>
+ </summary>
+ <summary>
+  <tzid>Atlantic/Faroe</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Atlantic/Faroe</local-name>
+ </summary>
+ <summary>
+  <tzid>Atlantic/Bermuda</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Atlantic/Bermuda</local-name>
+ </summary>
+ <summary>
+  <tzid>Pacific/Norfolk</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Pacific/Norfolk</local-name>
+ </summary>
+ <summary>
+  <tzid>Pacific/Funafuti</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Pacific/Funafuti</local-name>
+ </summary>
+ <summary>
+  <tzid>Pacific/Tahiti</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Pacific/Tahiti</local-name>
+ </summary>
+ <summary>
+  <tzid>Pacific/Majuro</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Pacific/Majuro</local-name>
+ </summary>
+ <summary>
+  <tzid>Pacific/Wake</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Pacific/Wake</local-name>
+ </summary>
+ <summary>
+  <tzid>Pacific/Pago_Pago</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Pacific/Pago_Pago</local-name>
+ </summary>
+ <summary>
+  <tzid>Pacific/Palau</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Pacific/Palau</local-name>
+ </summary>
+ <summary>
+  <tzid>Pacific/Marquesas</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Pacific/Marquesas</local-name>
+ </summary>
+ <summary>
+  <tzid>Pacific/Fakaofo</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Pacific/Fakaofo</local-name>
+ </summary>
+ <summary>
+  <tzid>Pacific/Efate</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Pacific/Efate</local-name>
+ </summary>
+ <summary>
+  <tzid>Pacific/Noumea</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Pacific/Noumea</local-name>
+ </summary>
+ <summary>
+  <tzid>Pacific/Guadalcanal</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Pacific/Guadalcanal</local-name>
+ </summary>
+ <summary>
+  <tzid>Pacific/Chatham</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Pacific/Chatham</local-name>
+ </summary>
+ <summary>
+  <tzid>Pacific/Gambier</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Pacific/Gambier</local-name>
+ </summary>
+ <summary>
+  <tzid>Pacific/Tarawa</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Pacific/Tarawa</local-name>
+ </summary>
+ <summary>
+  <tzid>Pacific/Pitcairn</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Pacific/Pitcairn</local-name>
+ </summary>
+ <summary>
+  <tzid>Pacific/Nauru</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Pacific/Nauru</local-name>
+ </summary>
+ <summary>
+  <tzid>Pacific/Johnston</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Pacific/Johnston</local-name>
+ </summary>
+ <summary>
+  <tzid>Pacific/Rarotonga</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Pacific/Rarotonga</local-name>
+ </summary>
+ <summary>
+  <tzid>Pacific/Pohnpei</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Pacific/Pohnpei</local-name>
+ </summary>
+ <summary>
+  <tzid>Pacific/Tongatapu</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Pacific/Tongatapu</local-name>
+ </summary>
+ <summary>
+  <tzid>Pacific/Fiji</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Pacific/Fiji</local-name>
+ </summary>
+ <summary>
+  <tzid>Pacific/Kwajalein</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Pacific/Kwajalein</local-name>
+ </summary>
+ <summary>
+  <tzid>Pacific/Guam</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Pacific/Guam</local-name>
+ </summary>
+ <summary>
+  <tzid>Pacific/Wallis</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Pacific/Wallis</local-name>
+ </summary>
+ <summary>
+  <tzid>Pacific/Kosrae</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Pacific/Kosrae</local-name>
+ </summary>
+ <summary>
+  <tzid>Pacific/Port_Moresby</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Pacific/Port_Moresby</local-name>
+ </summary>
+ <summary>
+  <tzid>Pacific/Niue</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Pacific/Niue</local-name>
+ </summary>
+ <summary>
+  <tzid>Pacific/Enderbury</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Pacific/Enderbury</local-name>
+ </summary>
+ <summary>
+  <tzid>Pacific/Kiritimati</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Pacific/Kiritimati</local-name>
+ </summary>
+ <summary>
+  <tzid>Pacific/Honolulu</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Pacific/Honolulu</local-name>
+ </summary>
+ <summary>
+  <tzid>Pacific/Midway</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Pacific/Midway</local-name>
+ </summary>
+ <summary>
+  <tzid>Pacific/Saipan</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Pacific/Saipan</local-name>
+ </summary>
+ <summary>
+  <tzid>Pacific/Chuuk</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Pacific/Chuuk</local-name>
+ </summary>
+ <summary>
+  <tzid>Pacific/Apia</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Pacific/Apia</local-name>
+ </summary>
+ <summary>
+  <tzid>Australia/Sydney</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Australia/Sydney</local-name>
+ </summary>
+ <summary>
+  <tzid>Australia/Hobart</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Australia/Hobart</local-name>
+ </summary>
+ <summary>
+  <tzid>Australia/Currie</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Australia/Currie</local-name>
+ </summary>
+ <summary>
+  <tzid>Australia/Adelaide</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Australia/Adelaide</local-name>
+ </summary>
+ <summary>
+  <tzid>Australia/Broken_Hill</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Australia/Broken_Hill</local-name>
+ </summary>
+ <summary>
+  <tzid>Australia/Eucla</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Australia/Eucla</local-name>
+ </summary>
+ <summary>
+  <tzid>Australia/Darwin</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Australia/Darwin</local-name>
+ </summary>
+ <summary>
+  <tzid>Australia/Brisbane</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Australia/Brisbane</local-name>
+ </summary>
+ <summary>
+  <tzid>Australia/Melbourne</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Australia/Melbourne</local-name>
+ </summary>
+ <summary>
+  <tzid>Australia/Perth</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Australia/Perth</local-name>
+ </summary>
+ <summary>
+  <tzid>Australia/Lindeman</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Australia/Lindeman</local-name>
+ </summary>
+ <summary>
+  <tzid>Australia/Lord_Howe</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Australia/Lord_Howe</local-name>
+ </summary>
+ <summary>
+  <tzid>Africa/Casablanca</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Africa/Casablanca</local-name>
+ </summary>
+ <summary>
+  <tzid>Africa/Ndjamena</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Africa/Ndjamena</local-name>
+ </summary>
+ <summary>
+  <tzid>Africa/Addis_Ababa</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Africa/Addis_Ababa</local-name>
+ </summary>
+ <summary>
+  <tzid>Africa/Windhoek</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Africa/Windhoek</local-name>
+ </summary>
+ <summary>
+  <tzid>Africa/Nouakchott</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Africa/Nouakchott</local-name>
+ </summary>
+ <summary>
+  <tzid>Africa/Tunis</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Africa/Tunis</local-name>
+ </summary>
+ <summary>
+  <tzid>Africa/Algiers</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Africa/Algiers</local-name>
+ </summary>
+ <summary>
+  <tzid>Africa/Johannesburg</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Africa/Johannesburg</local-name>
+ </summary>
+ <summary>
+  <tzid>Africa/Cairo</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Africa/Cairo</local-name>
+ </summary>
+ <summary>
+  <tzid>Africa/Bamako</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Africa/Bamako</local-name>
+ </summary>
+ <summary>
+  <tzid>Africa/Abidjan</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Africa/Abidjan</local-name>
+ </summary>
+ <summary>
+  <tzid>Africa/Mbabane</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Africa/Mbabane</local-name>
+ </summary>
+ <summary>
+  <tzid>Africa/Maseru</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Africa/Maseru</local-name>
+ </summary>
+ <summary>
+  <tzid>Africa/Mogadishu</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Africa/Mogadishu</local-name>
+ </summary>
+ <summary>
+  <tzid>Africa/Banjul</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Africa/Banjul</local-name>
+ </summary>
+ <summary>
+  <tzid>Africa/Freetown</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Africa/Freetown</local-name>
+ </summary>
+ <summary>
+  <tzid>Africa/Luanda</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Africa/Luanda</local-name>
+ </summary>
+ <summary>
+  <tzid>Africa/Dakar</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Africa/Dakar</local-name>
+ </summary>
+ <summary>
+  <tzid>Africa/Kampala</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Africa/Kampala</local-name>
+ </summary>
+ <summary>
+  <tzid>Africa/Dar_es_Salaam</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Africa/Dar_es_Salaam</local-name>
+ </summary>
+ <summary>
+  <tzid>Africa/Malabo</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Africa/Malabo</local-name>
+ </summary>
+ <summary>
+  <tzid>Africa/Kinshasa</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Africa/Kinshasa</local-name>
+ </summary>
+ <summary>
+  <tzid>Africa/Kigali</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Africa/Kigali</local-name>
+ </summary>
+ <summary>
+  <tzid>Africa/Bujumbura</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Africa/Bujumbura</local-name>
+ </summary>
+ <summary>
+  <tzid>Africa/Conakry</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Africa/Conakry</local-name>
+ </summary>
+ <summary>
+  <tzid>Africa/Blantyre</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Africa/Blantyre</local-name>
+ </summary>
+ <summary>
+  <tzid>Africa/Niamey</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Africa/Niamey</local-name>
+ </summary>
+ <summary>
+  <tzid>Africa/Djibouti</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Africa/Djibouti</local-name>
+ </summary>
+ <summary>
+  <tzid>Africa/Lagos</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Africa/Lagos</local-name>
+ </summary>
+ <summary>
+  <tzid>Africa/Brazzaville</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Africa/Brazzaville</local-name>
+ </summary>
+ <summary>
+  <tzid>Africa/Tripoli</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Africa/Tripoli</local-name>
+ </summary>
+ <summary>
+  <tzid>Africa/Lusaka</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Africa/Lusaka</local-name>
+ </summary>
+ <summary>
+  <tzid>Africa/Ouagadougou</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Africa/Ouagadougou</local-name>
+ </summary>
+ <summary>
+  <tzid>Africa/Bangui</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Africa/Bangui</local-name>
+ </summary>
+ <summary>
+  <tzid>Africa/El_Aaiun</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Africa/El_Aaiun</local-name>
+ </summary>
+ <summary>
+  <tzid>Africa/Lubumbashi</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Africa/Lubumbashi</local-name>
+ </summary>
+ <summary>
+  <tzid>Africa/Bissau</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Africa/Bissau</local-name>
+ </summary>
+ <summary>
+  <tzid>Africa/Libreville</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Africa/Libreville</local-name>
+ </summary>
+ <summary>
+  <tzid>Africa/Harare</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Africa/Harare</local-name>
+ </summary>
+ <summary>
+  <tzid>Africa/Porto-Novo</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Africa/Porto-Novo</local-name>
+ </summary>
+ <summary>
+  <tzid>Africa/Monrovia</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Africa/Monrovia</local-name>
+ </summary>
+ <summary>
+  <tzid>Africa/Juba</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Africa/Juba</local-name>
+ </summary>
+ <summary>
+  <tzid>Africa/Ceuta</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Africa/Ceuta</local-name>
+ </summary>
+ <summary>
+  <tzid>Africa/Nairobi</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Africa/Nairobi</local-name>
+ </summary>
+ <summary>
+  <tzid>Africa/Douala</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Africa/Douala</local-name>
+ </summary>
+ <summary>
+  <tzid>Africa/Khartoum</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Africa/Khartoum</local-name>
+ </summary>
+ <summary>
+  <tzid>Africa/Maputo</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Africa/Maputo</local-name>
+ </summary>
+ <summary>
+  <tzid>Africa/Accra</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Africa/Accra</local-name>
+ </summary>
+ <summary>
+  <tzid>Africa/Lome</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Africa/Lome</local-name>
+ </summary>
+ <summary>
+  <tzid>Africa/Sao_Tome</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Africa/Sao_Tome</local-name>
+ </summary>
+ <summary>
+  <tzid>Africa/Asmara</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Africa/Asmara</local-name>
+ </summary>
+ <summary>
+  <tzid>Africa/Gaborone</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Africa/Gaborone</local-name>
+ </summary>
+ <summary>
+  <tzid>Arctic/Longyearbyen</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Arctic/Longyearbyen</local-name>
+ </summary>
+ <summary>
+  <tzid>Antarctica/Rothera</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Antarctica/Rothera</local-name>
+ </summary>
+ <summary>
+  <tzid>Antarctica/South_Pole</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Antarctica/South_Pole</local-name>
+ </summary>
+ <summary>
+  <tzid>Antarctica/Mawson</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Antarctica/Mawson</local-name>
+ </summary>
+ <summary>
+  <tzid>Antarctica/Casey</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Antarctica/Casey</local-name>
+ </summary>
+ <summary>
+  <tzid>Antarctica/Palmer</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Antarctica/Palmer</local-name>
+ </summary>
+ <summary>
+  <tzid>Antarctica/Vostok</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Antarctica/Vostok</local-name>
+ </summary>
+ <summary>
+  <tzid>Antarctica/Macquarie</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Antarctica/Macquarie</local-name>
+ </summary>
+ <summary>
+  <tzid>Antarctica/Syowa</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Antarctica/Syowa</local-name>
+ </summary>
+ <summary>
+  <tzid>Antarctica/McMurdo</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Antarctica/McMurdo</local-name>
+ </summary>
+ <summary>
+  <tzid>Antarctica/DumontDUrville</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Antarctica/DumontDUrville</local-name>
+ </summary>
+ <summary>
+  <tzid>Antarctica/Davis</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Antarctica/Davis</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Chihuahua</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Chihuahua</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Cambridge_Bay</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Cambridge_Bay</local-name>
+ </summary>
+ <summary>
+  <tzid>America/St_Johns</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/St_Johns</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Cancun</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Cancun</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Toronto</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Toronto</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Chicago</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Chicago</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Metlakatla</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Metlakatla</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Winnipeg</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Winnipeg</local-name>
+ </summary>
+ <summary>
+  <tzid>America/North_Dakota/Beulah</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/North_Dakota/Beulah</local-name>
+ </summary>
+ <summary>
+  <tzid>America/North_Dakota/Center</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/North_Dakota/Center</local-name>
+ </summary>
+ <summary>
+  <tzid>America/North_Dakota/New_Salem</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/North_Dakota/New_Salem</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Barbados</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Barbados</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Moncton</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Moncton</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Mazatlan</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Mazatlan</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Anguilla</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Anguilla</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Tortola</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Tortola</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Juneau</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Juneau</local-name>
+ </summary>
+ <summary>
+  <tzid>America/St_Vincent</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/St_Vincent</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Inuvik</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Inuvik</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Blanc-Sablon</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Blanc-Sablon</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Iqaluit</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Iqaluit</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Swift_Current</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Swift_Current</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Rainy_River</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Rainy_River</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Scoresbysund</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Scoresbysund</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Costa_Rica</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Costa_Rica</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Dominica</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Dominica</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Tegucigalpa</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Tegucigalpa</local-name>
+ </summary>
+ <summary>
+  <tzid>America/El_Salvador</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/El_Salvador</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Grand_Turk</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Grand_Turk</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Nome</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Nome</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Hermosillo</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Hermosillo</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Ojinaga</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Ojinaga</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Tijuana</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Tijuana</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Jamaica</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Jamaica</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Mexico_City</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Mexico_City</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Guatemala</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Guatemala</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Santa_Isabel</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Santa_Isabel</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Nassau</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Nassau</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Shiprock</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Shiprock</local-name>
+ </summary>
+ <summary>
+  <tzid>America/St_Lucia</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/St_Lucia</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Marigot</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Marigot</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Grenada</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Grenada</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Port-au-Prince</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Port-au-Prince</local-name>
+ </summary>
+ <summary>
+  <tzid>America/St_Kitts</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/St_Kitts</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Atikokan</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Atikokan</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Miquelon</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Miquelon</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Anchorage</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Anchorage</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Managua</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Managua</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Antigua</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Antigua</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Godthab</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Godthab</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Phoenix</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Phoenix</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Cayman</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Cayman</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Sitka</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Sitka</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Thule</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Thule</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Montserrat</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Montserrat</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Martinique</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Martinique</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Puerto_Rico</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Puerto_Rico</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Adak</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Adak</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Dawson</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Dawson</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Monterrey</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Monterrey</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Whitehorse</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Whitehorse</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Goose_Bay</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Goose_Bay</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Guadeloupe</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Guadeloupe</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Dawson_Creek</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Dawson_Creek</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Resolute</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Resolute</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Belize</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Belize</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Denver</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Denver</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Merida</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Merida</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Los_Angeles</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Los_Angeles</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Halifax</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Halifax</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Regina</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Regina</local-name>
+ </summary>
+ <summary>
+  <tzid>America/St_Barthelemy</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/St_Barthelemy</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Bahia_Banderas</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Bahia_Banderas</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Indiana/Winamac</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Indiana/Winamac</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Indiana/Tell_City</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Indiana/Tell_City</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Indiana/Vincennes</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Indiana/Vincennes</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Indiana/Indianapolis</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Indiana/Indianapolis</local-name>
+ </summary>
+ <summary>
+  <tzid>Indian/Mauritius</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Indian/Mauritius</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Indiana/Petersburg</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Indiana/Petersburg</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Indiana/Knox</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Indiana/Knox</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Indiana/Marengo</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Indiana/Marengo</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Indiana/Vevay</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Indiana/Vevay</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Kentucky/Louisville</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Kentucky/Louisville</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Kentucky/Monticello</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Kentucky/Monticello</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Rankin_Inlet</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Rankin_Inlet</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Glace_Bay</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Glace_Bay</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Yakutat</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Yakutat</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Boise</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Boise</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Edmonton</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Edmonton</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Yellowknife</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Yellowknife</local-name>
+ </summary>
+ <summary>
+  <tzid>America/St_Thomas</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/St_Thomas</local-name>
+ </summary>
+ <summary>
+  <tzid>Indian/Mahe</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Indian/Mahe</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Montreal</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Montreal</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Pangnirtung</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Pangnirtung</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Detroit</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Detroit</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Vancouver</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Vancouver</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Matamoros</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Matamoros</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Nipigon</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Nipigon</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Havana</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Havana</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Menominee</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Menominee</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Thunder_Bay</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Thunder_Bay</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Santo_Domingo</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Santo_Domingo</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Danmarkshavn</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Danmarkshavn</local-name>
+ </summary>
+ <summary>
+  <tzid>America/Panama</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">America/Panama</local-name>
+ </summary>
+ <summary>
+  <tzid>Indian/Chagos</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Indian/Chagos</local-name>
+ </summary>
+ <summary>
+  <tzid>Indian/Comoro</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Indian/Comoro</local-name>
+ </summary>
+ <summary>
+  <tzid>Indian/Mayotte</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Indian/Mayotte</local-name>
+ </summary>
+ <summary>
+  <tzid>Indian/Kerguelen</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Indian/Kerguelen</local-name>
+ </summary>
+ <summary>
+  <tzid>Indian/Antananarivo</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Indian/Antananarivo</local-name>
+ </summary>
+ <summary>
+  <tzid>Indian/Maldives</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Indian/Maldives</local-name>
+ </summary>
+ <summary>
+  <tzid>Indian/Reunion</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Indian/Reunion</local-name>
+ </summary>
+ <summary>
+  <tzid>Indian/Christmas</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Indian/Christmas</local-name>
+ </summary>
+ <summary>
+  <tzid>Indian/Cocos</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Indian/Cocos</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Seoul</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Seoul</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Sakhalin</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Sakhalin</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Tehran</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Tehran</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Aden</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Aden</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Macau</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Macau</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Bishkek</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Bishkek</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Kabul</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Kabul</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Hovd</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Hovd</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Anadyr</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Anadyr</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Kuwait</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Kuwait</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Omsk</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Omsk</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Manila</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Manila</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Makassar</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Makassar</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Vientiane</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Vientiane</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Oral</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Oral</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Kashgar</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Kashgar</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Yekaterinburg</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Yekaterinburg</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Kamchatka</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Kamchatka</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Harbin</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Harbin</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Aqtobe</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Aqtobe</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Chongqing</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Chongqing</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Samarkand</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Samarkand</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Kuala_Lumpur</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Kuala_Lumpur</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Taipei</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Taipei</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Shanghai</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Shanghai</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Singapore</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Singapore</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Kuching</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Kuching</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Tbilisi</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Tbilisi</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Dhaka</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Dhaka</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Krasnoyarsk</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Krasnoyarsk</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Istanbul</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Istanbul</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Tashkent</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Tashkent</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Jerusalem</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Jerusalem</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Ulaanbaatar</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Ulaanbaatar</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Beirut</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Beirut</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Jayapura</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Jayapura</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Tokyo</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Tokyo</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Bangkok</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Bangkok</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Kolkata</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Kolkata</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Baku</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Baku</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Karachi</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Karachi</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Muscat</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Muscat</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Kathmandu</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Kathmandu</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Gaza</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Gaza</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Yerevan</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Yerevan</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Colombo</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Colombo</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Phnom_Penh</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Phnom_Penh</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Vladivostok</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Vladivostok</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Almaty</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Almaty</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Riyadh</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Riyadh</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Thimphu</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Thimphu</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Dubai</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Dubai</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Qyzylorda</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Qyzylorda</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Aqtau</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Aqtau</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Hong_Kong</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Hong_Kong</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Novosibirsk</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Novosibirsk</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Dushanbe</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Dushanbe</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Ashgabat</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Ashgabat</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Brunei</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Brunei</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Novokuznetsk</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Novokuznetsk</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Pyongyang</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Pyongyang</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Magadan</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Magadan</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Bahrain</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Bahrain</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Damascus</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Damascus</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Qatar</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Qatar</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Choibalsan</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Choibalsan</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Ho_Chi_Minh</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Ho_Chi_Minh</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Yakutsk</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Yakutsk</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Irkutsk</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Irkutsk</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Dili</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Dili</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Urumqi</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Urumqi</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Nicosia</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Nicosia</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Pontianak</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Pontianak</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Amman</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Amman</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Jakarta</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Jakarta</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Baghdad</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Baghdad</local-name>
+ </summary>
+ <summary>
+  <tzid>Asia/Rangoon</tzid>
+  <last-modified>all good</last-modified>
+  <local-name lang="">Asia/Rangoon</local-name>
+ </summary>
+</urn:ietf:params:xml:ns:timezone-service:timezone-list>
