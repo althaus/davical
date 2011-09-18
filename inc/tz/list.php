@@ -28,6 +28,9 @@ if ( !empty($changedsince) ) {
 }
 if ( !empty($where)) $sql .= ' WHERE '.$where;
 
+if ( !empty($c->strict_result_ordering) && $c->strict_result_ordering ) {
+  $sql .= ' ORDER BY tzid';
+}
 /*
 <dtstamp>2009-10-11T09:32:11Z</dtstamp>
 <summary>

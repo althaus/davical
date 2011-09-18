@@ -8,72 +8,72 @@ Content-Type: application/xml; charset="utf-8"
  <dtstamp>all good</dtstamp>
  <summary>
   <tzid>Pacific/Auckland</tzid>
-  <last-modified>20110919T032240Z</last-modified>
+  <last-modified>all good</last-modified>
   <inactive/>
   <local-name lang="en_US">Pacific/Auckland</local-name>
  </summary>
  <summary>
   <tzid>America/Los_Angeles</tzid>
-  <last-modified>20110918T082240Z</last-modified>
+  <last-modified>all good</last-modified>
   <inactive/>
   <local-name lang="en_US">America/Los_Angeles</local-name>
  </summary>
  <summary>
   <tzid>Europe/Helsinki</tzid>
-  <last-modified>20110918T182240Z</last-modified>
+  <last-modified>all good</last-modified>
   <inactive/>
   <local-name lang="en_US">Europe/Helsinki</local-name>
  </summary>
  <summary>
   <tzid>New Zealand Standard Time</tzid>
-  <last-modified>20110919T032248Z</last-modified>
+  <last-modified>all good</last-modified>
   <inactive/>
   <alias>Pacific/Auckland</alias>
   <local-name lang="en_US">New Zealand Standard Time</local-name>
  </summary>
  <summary>
   <tzid>/softwarestudio.org/Olson_20011030_5/Pacific/Auckland</tzid>
-  <last-modified>20110919T032253Z</last-modified>
+  <last-modified>all good</last-modified>
   <inactive/>
   <alias>Pacific/Auckland</alias>
   <local-name lang="en_US">/softwarestudio.org/Olson_20011030_5/Pacific/Auckland</local-name>
  </summary>
  <summary>
   <tzid>/mozilla.org/20050126_1/Pacific/Auckland</tzid>
-  <last-modified>20110919T032256Z</last-modified>
+  <last-modified>all good</last-modified>
   <inactive/>
   <alias>Pacific/Auckland</alias>
   <local-name lang="en_US">/mozilla.org/20050126_1/Pacific/Auckland</local-name>
  </summary>
  <summary>
   <tzid>/mozilla.org/20050126_1/Antarctica/McMurdo</tzid>
-  <last-modified>20110919T032256Z</last-modified>
+  <last-modified>all good</last-modified>
   <inactive/>
   <alias>Antarctica/McMurdo</alias>
   <local-name lang="en_US">/mozilla.org/20050126_1/Antarctica/McMurdo</local-name>
  </summary>
  <summary>
   <tzid>/mozilla.org/20070129_1/Antarctica/McMurdo</tzid>
-  <last-modified>20110919T032258Z</last-modified>
+  <last-modified>all good</last-modified>
   <inactive/>
   <alias>Antarctica/McMurdo</alias>
   <local-name lang="en_US">/mozilla.org/20070129_1/Antarctica/McMurdo</local-name>
  </summary>
  <summary>
   <tzid>Europe/Prague</tzid>
-  <last-modified>20110919T032319Z</last-modified>
+  <last-modified>all good</last-modified>
   <inactive/>
   <local-name lang="en_US">Europe/Prague</local-name>
  </summary>
  <summary>
   <tzid>America/New_York</tzid>
-  <last-modified>20110918T112328Z</last-modified>
+  <last-modified>all good</last-modified>
   <inactive/>
   <local-name lang="en_US">America/New_York</local-name>
  </summary>
  <summary>
   <tzid>(UTC-05:00) Eastern Time (US &amp; Canada)</tzid>
-  <last-modified>20110918T112401Z</last-modified>
+  <last-modified>all good</last-modified>
   <inactive/>
   <alias>America/New_York</alias>
   <local-name lang="en_US">(UTC-05:00) Eastern Time (US &amp; Canada)</local-name>
