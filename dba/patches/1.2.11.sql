@@ -10,6 +10,7 @@ CREATE TABLE timezones (
   olson_name TEXT,
   active BOOLEAN,
   last_modified TIMESTAMP DEFAULT current_timestamp,
+  etag TEXT,
   vtimezone TEXT
 );
 
@@ -29,8 +30,8 @@ CREATE TABLE tz_localnames (
 -- Let's assume that all timezone definitions currently present are old, and
 -- we can find newer ones.  We don't really want the service feeding them out
 -- so we'll mark them inactive as well.
-INSERT INTO timezones (tzid, olson_name, active, last_modified, vtimezone )
-	SELECT tz_id, tz_locn, false, '1970-01-01T00:00:00Z', tz_spec FROM time_zone;
+INSERT INTO timezones (tzid, olson_name, active, last_modified, vtimezone, etag )
+	SELECT tz_id, tz_locn, false, '1970-01-01T00:00:00Z', tz_spec, 'import' FROM time_zone;
 INSERT INTO tz_aliases (our_tzno, tzalias)
     SELECT timezones.our_tzno, tz_locn FROM time_zone LEFT JOIN timezones ON (tz_id = tzid)
     									 WHERE tz_locn IS NOT NULL AND tz_locn != '';
