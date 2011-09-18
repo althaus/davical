@@ -465,7 +465,7 @@ INSERT INTO calendar_item (user_no, dav_name, dav_id, dav_etag, uid, dtstamp, dt
                 :description, :rrule, :tzid, :modified, :url, :priority, :created, :due, :percent_complete, :status, :collection_id)
 EOSQL;
 
-  $last_tz_locn = '';
+  $last_olson = '';
   foreach( $resources AS $uid => $resource ) {
     if ( isset($c->skip_bad_event_on_import) && $c->skip_bad_event_on_import ) $qry->Begin();
 
@@ -552,39 +552,25 @@ EOSQL;
 
     /** Calculate what timezone to set, first, if possible */
     $tzid = GetTZID($first);
-    if ( !empty($tzid) ) {
-      if ( isset($resource[$tzid]) ) {
-        $tz = $resource[$tzid];
-        $tz_locn = $tz->GetPValue('X-LIC-LOCATION');
-      }
-      else {
-        unset($tz);
-        unset($tz_locn);
-      }
-      if ( ! isset($tz_locn) || ! preg_match( $tz_regex, $tz_locn ) ) {
-        if ( preg_match( '#([^/]+/[^/]+)$#', $tzid, $matches ) ) {
-          $tz_locn = $matches[1];
-        }
-      }
-      dbg_error_log( 'PUT', ' Using TZID[%s] and location of [%s]', $tzid, (isset($tz_locn) ? $tz_locn : '') );
-      if ( isset($tz_locn) && ($tz_locn != $last_tz_locn) && preg_match( $tz_regex, $tz_locn ) ) {
-        dbg_error_log( 'PUT', ' Setting timezone to %s', $tz_locn );
-        if ( $tz_locn != '' ) {
-          $qry->QDo('SET TIMEZONE TO \''.$tz_locn."'" );
-        }
-        $last_tz_locn = $tz_locn;
+    if ( !empty($tzid) && !empty($resource[$tzid]) ) {
+      $tz = $resource[$tzid];
+      $olson = $vcal->GetOlsonName($tz);
+      dbg_error_log( 'PUT', ' Using TZID[%s] and location of [%s]', $tzid, (isset($olson) ? $olson : '') );
+      if ( !empty($olson) && ($olson != $last_olson) && preg_match( $tz_regex, $olson ) ) {
+        dbg_error_log( 'PUT', ' Setting timezone to %s', $olson );
+        $qry->QDo('SET TIMEZONE TO \''.$olson."'" );
+        $last_olson = $olson;
       }
       $params = array( ':tzid' => $tzid);
       $qry = new AwlQuery('SELECT 1 FROM timezones WHERE tzid = :tzid', $params );
       if ( $qry->Exec('PUT',__LINE__,__FILE__) && $qry->rows() == 0 ) {
-        $params[':olson_name'] = $tz_locn;
+        $params[':olson_name'] = $olson;
         $params[':vtimezone'] = (isset($tz) ? $tz->Render() : null );
         $qry->QDo('INSERT INTO timezones (tzid, olson_name, active, vtimezone) VALUES(:tzid,:olson_name,false,:vtimezone)', $params );
       }
-      if ( !isset($tz_locn) || $tz_locn == '' ) $tz_locn = $tzid;
     }
     else {
-      $tzid = null;
+      $tz = $olson = $tzid = null;
     }
 
     $sql = str_replace( '##dtend##', $dtend, $calitem_insert );
@@ -872,7 +858,7 @@ function write_resource( DAVResource $resource, $caldav_data, DAVResource $colle
   $calitem_params[':class'] = $class;
 
   /** Calculate what timezone to set, first, if possible */
-  $last_tz_locn = 'Turkmenikikamukau';  // I really hope this location doesn't exist!
+  $last_olson = 'Turkmenikikamukau';  // I really hope this location doesn't exist!
   $tzid = GetTZID($first);
   if ( !empty($tzid) ) {
     $timezones = $ic->GetComponents('VTIMEZONE');
@@ -884,31 +870,31 @@ function write_resource( DAVResource $resource, $caldav_data, DAVResource $colle
         dbg_error_log( 'ERROR', ' Event uses TZID[%s], skipping included TZID[%s]!', $tz->GetPValue('TZID'), $tzid );
         continue;
       }
-      $tz_locn = olson_from_tzstring($tzid);
-      if ( empty($tz_locn) ) {
-        $tz_locn = $tz->GetPValue('X-LIC-LOCATION');
-        if ( !empty($tz_locn) ) {
-          $tz_locn = olson_from_tzstring($tz_locn);
+      $olson = olson_from_tzstring($tzid);
+      if ( empty($olson) ) {
+        $olson = $tz->GetPValue('X-LIC-LOCATION');
+        if ( !empty($olson) ) {
+          $olson = olson_from_tzstring($olson);
         }
       }
     }
 
-    dbg_error_log( 'PUT', ' Using TZID[%s] and location of [%s]', $tzid, (isset($tz_locn) ? $tz_locn : '') );
-    if ( !empty($tz_locn) && ($tz_locn != $last_tz_locn) && preg_match( $tz_regex, $tz_locn ) ) {
-      dbg_error_log( 'PUT', ' Setting timezone to %s', $tz_locn );
-      if ( $tz_locn != '' ) {
-        $qry->QDo('SET TIMEZONE TO \''.$tz_locn."'" );
+    dbg_error_log( 'PUT', ' Using TZID[%s] and location of [%s]', $tzid, (isset($olson) ? $olson : '') );
+    if ( !empty($olson) && ($olson != $last_olson) && preg_match( $tz_regex, $olson ) ) {
+      dbg_error_log( 'PUT', ' Setting timezone to %s', $olson );
+      if ( $olson != '' ) {
+        $qry->QDo('SET TIMEZONE TO \''.$olson."'" );
       }
-      $last_tz_locn = $tz_locn;
+      $last_olson = $olson;
     }
     $params = array( ':tzid' => $tzid);
     $qry = new AwlQuery('SELECT 1 FROM timezones WHERE tzid = :tzid', $params );
     if ( $qry->Exec('PUT',__LINE__,__FILE__) && $qry->rows() == 0 ) {
-      $params[':olson_name'] = $tz_locn;
+      $params[':olson_name'] = $olson;
       $params[':vtimezone'] = (isset($tz) ? $tz->Render() : null );
       $qry->QDo('INSERT INTO timezones (tzid, olson_name, active, vtimezone) VALUES(:tzid,:olson_name,false,:vtimezone)', $params );
     }
-    if ( !isset($tz_locn) || $tz_locn == '' ) $tz_locn = $tzid;
+    if ( !isset($olson) || $olson == '' ) $olson = $tzid;
 
   }
 

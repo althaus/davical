@@ -81,7 +81,7 @@
    <prop>
     <getcontenttype>text/calendar</getcontenttype>
     <resourcetype/>
-    <getetag>"61b62070fcc4fe1881e6630f6409616e"</getetag>
+    <getetag>"e18c0d539b6dcb56df2d266dd4305008"</getetag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>

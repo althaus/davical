@@ -182,35 +182,25 @@ class WritableCollection extends DAVResource {
     $calitem_params[':class'] = $class;
   
     /** Calculate what timezone to set, first, if possible */
-    $last_tz_locn = 'Turkmenikikamukau';  // I really hope this location doesn't exist!
+    $last_olson = 'Turkmenikikamukau';  // I really hope this location doesn't exist!
     $tzid = self::GetTZID($first);
     if ( !empty($tzid) ) {
       $tz = $vcal->GetTimeZone($tzid);
-      $tz_locn = olson_from_tzstring($tzid);
-      if ( empty($tz_locn) ) {
-        $tz_locn = $tz->GetPValue('X-LIC-LOCATION');
-        if ( !empty($tz_locn) ) {
-          $tz_locn = olson_from_tzstring($tz_locn);
-        }
-      }
+      $olson = $vcal->GetOlsonName($tz);
     
-      dbg_error_log( 'PUT', ' Using TZID[%s] and location of [%s]', $tzid, (isset($tz_locn) ? $tz_locn : '') );
-      if ( !empty($tz_locn) && ($tz_locn != $last_tz_locn) && preg_match( $tz_regex, $tz_locn ) ) {
-        dbg_error_log( 'PUT', ' Setting timezone to %s', $tz_locn );
-        if ( $tz_locn != '' ) {
-          $qry->QDo('SET TIMEZONE TO \''.$tz_locn."'" );
-        }
-        $last_tz_locn = $tz_locn;
+      dbg_error_log( 'PUT', ' Using TZID[%s] and location of [%s]', $tzid, (isset($olson) ? $olson : '') );
+      if ( !empty($olson) && ($olson != $last_olson) && preg_match( $tz_regex, $olson ) ) {
+        dbg_error_log( 'PUT', ' Setting timezone to %s', $olson );
+        $qry->QDo('SET TIMEZONE TO \''.$olson."'" );
+        $last_olson = $olson;
       }
       $params = array( ':tzid' => $tzid);
-      $qry = new AwlQuery('SELECT tz_locn FROM time_zone WHERE tz_id = :tzid', $params );
+      $qry = new AwlQuery('SELECT 1 FROM timezones WHERE tzid = :tzid', $params );
       if ( $qry->Exec('PUT',__LINE__,__FILE__) && $qry->rows() == 0 ) {
-        $params[':tzlocn'] = $tz_locn;
-        $params[':tzspec'] = (isset($tz) ? $tz->Render() : null );
-        $qry->QDo('INSERT INTO time_zone (tz_id, tz_locn, tz_spec) VALUES(:tzid,:tzlocn,:tzspec)', $params );
+        $params[':olson_name'] = $olson;
+        $params[':vtimezone'] = (isset($tz) ? $tz->Render() : null );
+        $qry->QDo('INSERT INTO timezones (tzid, olson_name, active, vtimezone) VALUES(:tzid,:olson_name,false,:vtimezone)', $params );
       }
-      if ( !isset($tz_locn) || $tz_locn == '' ) $tz_locn = $tzid;
-    
     }
 
     $created = $first->GetPValue('CREATED');

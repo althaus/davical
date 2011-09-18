@@ -58,7 +58,7 @@ END:VCALENDAR
 
             class: >PRIVATE<
          dav_name: >/user1/anotherone/20060803T084628Z-6040-1000-1-6@lamb.ics<
-           finish: >20060802T093456Z<
+           finish: >20060802T003456Z<
             rrule: >FREQ=YEARLY;INTERVAL=1<
-            start: >20060801T093456Z<
+            start: >20060801T003456Z<
 

@@ -2,7 +2,7 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
-ETag: "b3ace8dea004efa048f0e7db51448bf2"
+ETag: "b11fc11a4033759ef4a7694f058b95cc"
 Content-Length: 3932
 Content-Type: text/xml; charset="utf-8"
 
@@ -37,7 +37,7 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user2/home/</href>
   <propstat>
    <prop>
-    <C:getctag>"6151ba0f3b42abe18dd6d3958447bce6"</C:getctag>
+    <C:getctag>"2b0f71bb9f856c9bb9a2b43bc777a3c9"</C:getctag>
     <displayname>User 2's Calendar, as uploaded by Admin</displayname>
     <resourcetype>
      <collection/>

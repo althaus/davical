@@ -40,15 +40,17 @@ END:VCALENDAR
 
             class: >PUBLIC<
          dav_name: >/user1/anotherone/86203AFD481A6C42892013E6E0C4845D039A2543@AKEXBE02.telecom.tcnz.net.ics<
-           finish: >20070120T053000Z<
+           finish: >20070119T203000Z<
             rrule: >NULL<
-            start: >20070120T053000Z<
+            start: >20070119T203000Z<
           summary: >Reminder for Mark for Absolom Livasathan's PGP WF Services cost  request<
+            tz_id: >NULL<
 
             class: >PRIVATE<
          dav_name: >/user1/anotherone/20060803T084628Z-6040-1000-1-6@lamb.ics<
-           finish: >20060802T093456Z<
+           finish: >20060802T003456Z<
             rrule: >FREQ=YEARLY;INTERVAL=1<
-            start: >20060801T093456Z<
+            start: >20060801T003456Z<
           summary: >Steve's Private Birthday<
+            tz_id: >NULL<
 

@@ -336,7 +336,7 @@ DESCRIPTION:The 6th Annual Oregon Truffle Festival will be held in and a
  ival.com for more info and to purchase tickets.\n\n<img src="http://4.bp
  .blogspot.com/_nunnaUzLU1w/S7FWYsdewdI/AAAAAAAACj4/92TfhNIHKQI/s1600/wvv
  .jpg">
-DTSTART;TZID=US/Pacific:20110128
+DTSTART;TZID=America/Los_Angeles:20110128
 CREATED:20101231T193025Z
 DTSTAMP:20110101T005414Z
 DURATION:P1D
@@ -345,6 +345,38 @@ X-VENUE:
 X-EMAIL-RSVP-UPDATES:true
 RRULE:FREQ=DAILY;COUNT=3;INTERVAL=1
 END:VEVENT
+BEGIN:VTIMEZONE
+TZID:America/Los_Angeles
+X-TZINFO:America/Los_Angeles[2007g/Partial@883612800000]
+BEGIN:DAYLIGHT
+TZOFFSETTO:-0700
+TZOFFSETFROM:-0800
+TZNAME:America/Los_Angeles(DST)
+DTSTART:19980405T020000
+RRULE:FREQ=YEARLY;UNTIL=20060403T100000Z;BYMONTH=4;BYDAY=1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETTO:-0800
+TZOFFSETFROM:-0700
+TZNAME:America/Los_Angeles(STD)
+DTSTART:19981025T020000
+RRULE:FREQ=YEARLY;UNTIL=20061030T100000Z;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+BEGIN:DAYLIGHT
+TZOFFSETTO:-0700
+TZOFFSETFROM:-0800
+TZNAME:America/Los_Angeles(DST)
+DTSTART:20070311T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETTO:-0800
+TZOFFSETFROM:-0700
+TZNAME:America/Los_Angeles(STD)
+DTSTART:20071104T020000
+RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU
+END:STANDARD
+END:VTIMEZONE
 END:VCALENDAR
 <
       caldav_type: >VEVENT<
@@ -366,7 +398,7 @@ The theme for 2011 is "Slow Food", and Willamette Valley Vineyards will be hosti
            status: >NULL<
           summary: >Willamette Valley Vineyards at the Oregon Truffle Festival<
            transp: >NULL<
-            tz_id: >US/Pacific<
+            tz_id: >America/Los_Angeles<
               uid: >56f0e0e0-f742-012d-680c-002421a2359e<
               url: >http://www.oregontrufflefestival.com<
           user_no: >11<

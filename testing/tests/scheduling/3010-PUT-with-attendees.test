@@ -66,7 +66,7 @@ QUERY
 SELECT caldav_data.user_no, caldav_data.dav_name,
        caldav_type, logged_user, caldav_data.caldav_data,
        summary
-FROM caldav_data JOIN calendar_item USING(dav_name) LEFT JOIN time_zone USING (tz_id)
+FROM caldav_data JOIN calendar_item USING(dav_name) LEFT JOIN timezones ON (tz_id=tzid)
 WHERE calendar_item.uid = 'PUT-attendees';
 ENDQUERY
 

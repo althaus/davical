@@ -36,7 +36,8 @@ SELECT calendar_item.rrule,
      to_char(calendar_item.dtend at time zone 'GMT','YYYYMMDD"T"HH24MISS"Z"') AS finish,
      class,
      calendar_item.dav_name,
-     calendar_item.summary
+     calendar_item.summary,
+     calendar_item.tz_id
  FROM usr INNER JOIN collection USING (user_no)
          INNER JOIN caldav_data USING (collection_id)
          INNER JOIN calendar_item USING(dav_id)

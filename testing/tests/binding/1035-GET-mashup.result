@@ -2,7 +2,7 @@ HTTP/1.1 200 OK
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
-Content-Length: 21609
+Content-Length: 21618
 Etag: "ae93907cb03bc025b8e733eb61f3a09e"
 Content-Type: text/calendar; charset="utf-8"
 
@@ -87,7 +87,7 @@ DESCRIPTION:The 6th Annual Oregon Truffle Festival will be held in and a
  ival.com for more info and to purchase tickets.\n\n<img src="http://4.bp
  .blogspot.com/_nunnaUzLU1w/S7FWYsdewdI/AAAAAAAACj4/92TfhNIHKQI/s1600/wvv
  .jpg">
-DTSTART;TZID=US/Pacific:20110128
+DTSTART;TZID=America/Los_Angeles:20110128
 CREATED:20101231T193025Z
 DTSTAMP:20110101T005414Z
 DURATION:P1D
