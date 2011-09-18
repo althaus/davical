@@ -11,6 +11,10 @@
 
 require_once('vCalendar.php');
 
+if ( empty($format) ) $format = 'text/calendar';
+if ( $format != 'text/calendar' ) {
+  $request->PreconditionFailed(403, $precondition);
+}
 
 $sql = 'SELECT our_tzno, tzid, active, olson_name, vtimezone, etag, ';
 $sql .= 'to_char(last_modified AT TIME ZONE \'UTC\',\'Dy, DD Mon IYYY HH24:MI:SS "GMT"\') AS last_modified ';
@@ -29,7 +33,7 @@ if ( $qry->rows() < 1 ) {
 $tz = $qry->Fetch();
 
 $vtz = new vCalendar($tz->vtimezone);
-$vtz->AddProperty('TZ-URL', ConstructURL($_SERVER['REQUEST_URI']));
+$vtz->AddProperty('TZ-URL', $c->protocol_server_port . $_SERVER['REQUEST_URI']);
 $vtz->AddProperty('TZNAME', $tz->olson_name );
 if ( $qry->QDo('SELECT * FROM tz_localnames WHERE our_tzno = :our_tzno', array(':our_tzno'=>$tz->our_tzno)) && $qry->rows() ) {
   while( $name = $qry->Fetch() ) {
@@ -39,8 +43,7 @@ if ( $qry->QDo('SELECT * FROM tz_localnames WHERE our_tzno = :our_tzno', array('
   }
 }
 
-
-header( 'Etag: "'.$tz->dav_etag.'"' );
+header( 'Etag: "'.$tz->etag.'"' );
 header( 'Last-Modified', $tz->last_modified );
 
 $request->DoResponse(200, $vtz->Render(), 'text/calendar');

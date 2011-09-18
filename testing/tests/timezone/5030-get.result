@@ -1,7 +1,7 @@
 HTTP/1.1 200 OK
 Date: Dow, 01 Jan 2000 00:00:00 GMT
-Etag: ""
-Content-Length: 605
+Etag: "b6098dd509534c18b8bb8a979afa7df4"
+Content-Length: 601
 Content-Type: text/calendar
 
 BEGIN:VCALENDAR
@@ -9,7 +9,7 @@ PRODID:-//Morphoss Ltd//NONSGML aCal//EN
 VERSION:2.0
 LAST-MODIFIED:all good
 TZ-URL:
- /tz.php/tz.php%3Faction%3Dget%26tzid%3DPacific/Auckland%26lang%3Den_US
+ http://mycaldav/tz.php?action=get&tzid=Pacific/Auckland&lang=en_US
 TZNAME:Pacific/Auckland
 BEGIN:VTIMEZONE
 TZID:Pacific/Auckland

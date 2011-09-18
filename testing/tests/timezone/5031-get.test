@@ -1,0 +1,8 @@
+#
+# List timezone server timezones
+#
+TYPE=GET
+URL=http://regression.host/tz.php?action=get&tzid=Europe/Madrid&lang=es_ES&format=text/calendar
+HEAD
+
+REPLACE=/LAST-MODIFIED:[0-9TZ]{16}/LAST-MODIFIED:all good/
