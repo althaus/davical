@@ -37,3 +37,7 @@ testing/*.ics
 *.swp
 davical.spec
 docs/translation.pdf
+zonedb/tzcode
+zonedb/tzdata
+zonedb/vtimezones
+zonedb/*.tar.gz
