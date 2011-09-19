@@ -146,22 +146,21 @@ function SqlFilterFragment( $filter, $components, $property = null, $parameter =
 //          $params[':time_range_start'] = $start;
 //          $params[':time_range_end'] = $finish;
 //        }
-        if ( isset($start) && isset($finish) ) {
-          $sql .= ' AND (rrule IS NOT NULL OR dtstart IS NULL';
-          $sql .= ' OR (dtstart < :time_range_end AND (dtend > :time_range_start OR (dtend IS NULL AND dtstart > :time_range_start))))';
+        $start_sql = $finish_sql = '';
+        if ( isset($start) ) {
           $params[':time_range_start'] = $start;
-          $params[':time_range_end'] = $finish;
+          $start_sql .= ' ((dtend IS NULL AND dtstart > :time_range_start) OR dtend > :time_range_start) ';
         }
-        elseif ( isset($start) ) {
-          $sql .= ' AND (rrule IS NOT NULL OR dtstart IS NULL';
-          $sql .= ' OR (dtend IS NULL AND dtstart > :time_range_start)';
-          $sql .= ' OR dtend > :time_range_start) ';
-          $params[':time_range_start'] = $start;
-        }
-        elseif ( isset($finish) ) {
-          $sql .= ' AND (rrule IS NOT NULL OR dtstart IS NULL';
-          $sql .= ' OR dtstart < :time_range_end) ';
+        if ( isset($finish) ) {
           $params[':time_range_end'] = $finish;
+          $finish_sql = ' dtstart < :time_range_end ';
+        }
+        if ( isset($start) || isset($finish) ) {
+          $sql .= ' AND (rrule IS NOT NULL OR dtstart IS NULL OR (';
+          if ( isset($start) ) $sql .= $start_sql;
+          if ( isset($start) && isset($finish) ) $sql .= ' AND ';
+          if ( isset($finish) ) $sql .= $finish_sql;
+          $sql .= '))';
         }
         $need_range_filter = array(new RepeatRuleDateTime($start),new RepeatRuleDateTime($finish));
         break;
