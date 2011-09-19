@@ -1,0 +1,74 @@
+HTTP/1.1 200 OK
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+Etag: "60b52981cbe6fab393b6f40f24aec132"
+Content-Length: 1968
+Content-Type: application/xml; charset="utf-8"
+
+<?xml version="1.0" encoding="utf-8" ?>
+<timezones xmlns="urn:ietf:params:xml:ns:timezone-service">
+ <dtstamp>all good</dtstamp>
+ <tzdata>
+  <tzid>America/Indiana/Indianapolis</tzid>
+  <calscale>Gregorian</calscale>
+  <observance>
+   <name>EDT</name>
+   <onset>20140309T070000Z</onset>
+   <utc-offset-from>-05:00</utc-offset-from>
+   <utc-offset-to>-04:00</utc-offset-to>
+  </observance>
+  <observance>
+   <name>EST</name>
+   <onset>20141102T070000Z</onset>
+   <utc-offset-from>-04:00</utc-offset-from>
+   <utc-offset-to>-05:00</utc-offset-to>
+  </observance>
+  <observance>
+   <name>EDT</name>
+   <onset>20150308T070000Z</onset>
+   <utc-offset-from>-05:00</utc-offset-from>
+   <utc-offset-to>-04:00</utc-offset-to>
+  </observance>
+  <observance>
+   <name>EST</name>
+   <onset>20151101T070000Z</onset>
+   <utc-offset-from>-04:00</utc-offset-from>
+   <utc-offset-to>-05:00</utc-offset-to>
+  </observance>
+  <observance>
+   <name>EDT</name>
+   <onset>20160313T070000Z</onset>
+   <utc-offset-from>-05:00</utc-offset-from>
+   <utc-offset-to>-04:00</utc-offset-to>
+  </observance>
+  <observance>
+   <name>EST</name>
+   <onset>20161106T070000Z</onset>
+   <utc-offset-from>-04:00</utc-offset-from>
+   <utc-offset-to>-05:00</utc-offset-to>
+  </observance>
+  <observance>
+   <name>EDT</name>
+   <onset>20170312T070000Z</onset>
+   <utc-offset-from>-05:00</utc-offset-from>
+   <utc-offset-to>-04:00</utc-offset-to>
+  </observance>
+  <observance>
+   <name>EST</name>
+   <onset>20171105T070000Z</onset>
+   <utc-offset-from>-04:00</utc-offset-from>
+   <utc-offset-to>-05:00</utc-offset-to>
+  </observance>
+  <observance>
+   <name>EDT</name>
+   <onset>20180311T070000Z</onset>
+   <utc-offset-from>-05:00</utc-offset-from>
+   <utc-offset-to>-04:00</utc-offset-to>
+  </observance>
+  <observance>
+   <name>EST</name>
+   <onset>20181104T070000Z</onset>
+   <utc-offset-from>-04:00</utc-offset-from>
+   <utc-offset-to>-05:00</utc-offset-to>
+  </observance>
+ </tzdata>
+</timezones>

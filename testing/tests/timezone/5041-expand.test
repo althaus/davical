@@ -1,0 +1,8 @@
+#
+# Fetch an expanded timezone from the server.
+#
+TYPE=GET
+URL=http://regression.host/tz.php?action=expand&tzid=America/Indiana/Indianapolis&start=2009-01-01
+HEAD
+
+REPLACE=/dtstamp>[0-9TZ]{16}/dtstamp>all good/

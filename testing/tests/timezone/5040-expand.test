@@ -1,0 +1,8 @@
+#
+# List timezone server timezones
+#
+TYPE=GET
+URL=http://regression.host/tz.php?action=expand&tzid=Pacific/Auckland
+HEAD
+
+REPLACE=/dtstamp>[0-9TZ]{16}/dtstamp>all good/
