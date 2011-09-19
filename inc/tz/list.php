@@ -11,7 +11,7 @@
 
 require_once('vComponent.php');
 
-$response = new XMLDocument( array("" => "urn:ietf:params:xml:ns:timezone-service") );
+$response = new XMLDocument( array("urn:ietf:params:xml:ns:timezone-service" => "") );
 $tzlist = $response->NewXMLElement('timezone-list');
 $tzlist->NewElement('dtstamp', gmdate('Ymd\THis\Z'));
 
