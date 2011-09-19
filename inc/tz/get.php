@@ -13,7 +13,7 @@ require_once('vCalendar.php');
 
 if ( empty($format) ) $format = 'text/calendar';
 if ( $format != 'text/calendar' ) {
-  $request->PreconditionFailed(403, $precondition);
+  $request->PreconditionFailed(403, 'supported-format', 'This server currently only supports text/calendar format.');
 }
 
 $sql = 'SELECT our_tzno, tzid, active, olson_name, vtimezone, etag, ';
