@@ -9,7 +9,7 @@ HOSTNAME=regression
 # We need to run the regression tests in the timezone they were written for.
 export PGTZ=Pacific/Auckland
 
-ALLSUITES="regression-suite binding carddav"
+ALLSUITES="regression-suite binding carddav scheduling timezone"
 
 . ./regression.conf
 
