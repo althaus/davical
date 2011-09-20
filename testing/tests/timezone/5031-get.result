@@ -1,6 +1,6 @@
 HTTP/1.1 200 OK
 Date: Dow, 01 Jan 2000 00:00:00 GMT
-Etag: "0db80e352e12f15a4cceab465c77671b"
+ETag: "Some good etag"
 Content-Length: 611
 Content-Type: text/calendar
 

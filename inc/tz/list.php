@@ -13,9 +13,9 @@ require_once('vComponent.php');
 
 $response = new XMLDocument( array("urn:ietf:params:xml:ns:timezone-service" => "") );
 $tzlist = $response->NewXMLElement('timezone-list');
-$tzlist->NewElement('dtstamp', gmdate('Ymd\THis\Z'));
+$tzlist->NewElement('dtstamp', gmdate('Y-m-d\TH:i:s\Z'));
 
-$sql = 'SELECT our_tzno, tzid, active, to_char(last_modified AT TIME ZONE \'UTC\',\'YYYYMMDD\"T\"HH24MISS"Z"\') AS last_modified, olson_name, vtimezone FROM timezones';
+$sql = 'SELECT our_tzno, tzid, active, to_char(last_modified AT TIME ZONE \'UTC\',\'YYYY-MM-DD\"T\"HH24:MI:SS"Z"\') AS last_modified, olson_name, vtimezone FROM timezones';
 $params = array();
 $where = '';
 if ( $returnall !== true ) {

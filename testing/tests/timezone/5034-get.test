@@ -1,8 +1,8 @@
 #
-# List timezone server timezones
+# Request bogus timezone that will never exist
 #
 TYPE=GET
-URL=http://regression.host/tz.php?action=get&tzid=Pacific/Auckland&lang=en_US
+URL=http://regression.host/tz.php?action=get&tzid=US/Canada&lang=en_CA
 HEAD
 
 REPLACE=/LAST-MODIFIED:[0-9TZ]{16}/LAST-MODIFIED:all good/

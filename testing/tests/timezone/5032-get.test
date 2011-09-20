@@ -6,3 +6,4 @@ URL=http://regression.host/tz.php?action=get&tzid=Europe/London&lang=en_UK&forma
 HEAD
 
 REPLACE=/LAST-MODIFIED:[0-9TZ]{16}/LAST-MODIFIED:all good/
+REPLACE=!ETag: "\S+"!ETag: "Some good etag"!

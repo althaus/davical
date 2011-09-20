@@ -5,4 +5,6 @@ TYPE=GET
 URL=http://regression.host/tz.php?action=expand&tzid=America/Indiana/Indianapolis&end=2013-07-01
 HEAD
 
-REPLACE=/dtstamp>[0-9TZ]{16}/dtstamp>all good/
+REPLACE=/dtstamp>[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z/dtstamp>all good/
+REPLACE=!ETag: "\S+"!ETag: "Some good etag"!
+

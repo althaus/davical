@@ -1,7 +1,7 @@
 HTTP/1.1 200 OK
 Date: Dow, 01 Jan 2000 00:00:00 GMT
-Etag: "60b52981cbe6fab393b6f40f24aec132"
-Content-Length: 1968
+ETag: "Some good etag"
+Content-Length: 2012
 Content-Type: application/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -12,61 +12,61 @@ Content-Type: application/xml; charset="utf-8"
   <calscale>Gregorian</calscale>
   <observance>
    <name>EDT</name>
-   <onset>20140309T070000Z</onset>
+   <onset>2014-03-09T07:00:00Z</onset>
    <utc-offset-from>-05:00</utc-offset-from>
    <utc-offset-to>-04:00</utc-offset-to>
   </observance>
   <observance>
    <name>EST</name>
-   <onset>20141102T070000Z</onset>
+   <onset>2014-11-02T07:00:00Z</onset>
    <utc-offset-from>-04:00</utc-offset-from>
    <utc-offset-to>-05:00</utc-offset-to>
   </observance>
   <observance>
    <name>EDT</name>
-   <onset>20150308T070000Z</onset>
+   <onset>2015-03-08T07:00:00Z</onset>
    <utc-offset-from>-05:00</utc-offset-from>
    <utc-offset-to>-04:00</utc-offset-to>
   </observance>
   <observance>
    <name>EST</name>
-   <onset>20151101T070000Z</onset>
+   <onset>2015-11-01T07:00:00Z</onset>
    <utc-offset-from>-04:00</utc-offset-from>
    <utc-offset-to>-05:00</utc-offset-to>
   </observance>
   <observance>
    <name>EDT</name>
-   <onset>20160313T070000Z</onset>
+   <onset>2016-03-13T07:00:00Z</onset>
    <utc-offset-from>-05:00</utc-offset-from>
    <utc-offset-to>-04:00</utc-offset-to>
   </observance>
   <observance>
    <name>EST</name>
-   <onset>20161106T070000Z</onset>
+   <onset>2016-11-06T07:00:00Z</onset>
    <utc-offset-from>-04:00</utc-offset-from>
    <utc-offset-to>-05:00</utc-offset-to>
   </observance>
   <observance>
    <name>EDT</name>
-   <onset>20170312T070000Z</onset>
+   <onset>2017-03-12T07:00:00Z</onset>
    <utc-offset-from>-05:00</utc-offset-from>
    <utc-offset-to>-04:00</utc-offset-to>
   </observance>
   <observance>
    <name>EST</name>
-   <onset>20171105T070000Z</onset>
+   <onset>2017-11-05T07:00:00Z</onset>
    <utc-offset-from>-04:00</utc-offset-from>
    <utc-offset-to>-05:00</utc-offset-to>
   </observance>
   <observance>
    <name>EDT</name>
-   <onset>20180311T070000Z</onset>
+   <onset>2018-03-11T07:00:00Z</onset>
    <utc-offset-from>-05:00</utc-offset-from>
    <utc-offset-to>-04:00</utc-offset-to>
   </observance>
   <observance>
    <name>EST</name>
-   <onset>20181104T070000Z</onset>
+   <onset>2018-11-04T07:00:00Z</onset>
    <utc-offset-from>-04:00</utc-offset-from>
    <utc-offset-to>-05:00</utc-offset-to>
   </observance>

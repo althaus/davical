@@ -76,34 +76,60 @@ function expand_timezone_onsets( vCalendar $vResource, RepeatRuleDateTime $range
     $dtstart_prop->SetParameterValue('TZID',$zone_tz);
     $dtstart = new RepeatRuleDateTime( $dtstart_prop );
     $is_date = $dtstart->isDate();
-    $instances[$dtstart->FloatOrUTC()] = $comp;
+    $instances[$dtstart->UTC('Y-m-d\TH:i:s\Z')] = $comp;
     $rrule = $comp->GetProperty('RRULE');
     $has_repeats = isset($rrule);
     if ( !$has_repeats ) continue;
 
-    $instances += rrule_expand($dtstart, 'RRULE', $comp, $range_end);
-    if ( DEBUG_EXPAND ) {
-      print( "After rrule_expand");
-      foreach( $instances AS $k => $v ) {
-        print ' : '.$k;
+    $recur = $comp->GetProperty('RRULE');
+    if ( isset($recur) ) {
+      $recur = $recur->Value();
+      $this_start = clone($dtstart);
+      $rule = new RepeatRule( $this_start, $recur, $is_date );
+      $i = 0;
+      $result_limit = 1000;
+      while( $date = $rule->next() ) {
+        $instances[$date->UTC('Y-m-d\TH:i:s\Z')] = $comp;
+        if ( $i++ >= $result_limit || $date > $range_end ) break;
       }
-      print "\n";
+      if ( DEBUG_EXPAND ) {
+        print( "After rrule_expand");
+        foreach( $instances AS $k => $v ) {
+          print ' : '.$k;
+        }
+        print "\n";
+      }
     }
-    $instances += rdate_expand($dtstart, 'RDATE', $comp, $range_end);
-    if ( DEBUG_EXPAND ) {
-      print( "After rdate_expand");
-      foreach( $instances AS $k => $v ) {
-        print ' : '.$k;
+
+    $properties = $comp->GetProperties('RDATE');
+    if ( count($properties) ) {
+      foreach( $properties AS $p ) {
+        $timezone = $p->GetParameterValue('TZID');
+        $rdate = $p->Value();
+        $rdates = explode( ',', $rdate );
+        foreach( $rdates AS $k => $v ) {
+          $rdate = new RepeatRuleDateTime( $v, $timezone, $is_date);
+          if ( $return_floating_times ) $rdate->setAsFloat();
+          $instances[$rdate->UTC('Y-m-d\TH:i:s\Z')] = $comp;
+          if ( $rdate > $range_end ) break;
+        }
       }
-      print "\n";
+   
+      if ( DEBUG_EXPAND ) {
+        print( "After rdate_expand");
+        foreach( $instances AS $k => $v ) {
+          print ' : '.$k;
+        }
+        print "\n";
+      }
     }
   }
 
   ksort($instances);
 
   $onsets = array();
-  $start_utc = $range_start->FloatOrUTC();
-  $end_utc = $range_end->FloatOrUTC();
+  $start_utc = $range_start->UTC('Y-m-d\TH:i:s\Z');
+  $end_utc = $range_end->UTC('Y-m-d\TH:i:s\Z');
   foreach( $instances AS $utc => $comp ) {
     if ( $utc > $end_utc ) {
       if ( DEBUG_EXPAND ) printf( "We're done: $utc is out of the range.\n");
@@ -124,7 +150,7 @@ function expand_timezone_onsets( vCalendar $vResource, RepeatRuleDateTime $range
   return $onsets;
 }
 
-header( 'Etag: "'.$tz->etag.'"' );
+header( 'ETag: "'.$tz->etag.'"' );
 header( 'Last-Modified', $tz->last_modified );
 header('Content-Type: application/xml; charset="utf-8"');
 
@@ -132,7 +158,7 @@ $vtz = new vCalendar($tz->vtimezone);
 
 $response = new XMLDocument(array("urn:ietf:params:xml:ns:timezone-service" => ""));
 $timezones = $response->NewXMLElement('urn:ietf:params:xml:ns:timezone-service:timezones');
-$timezones->NewElement('dtstamp', gmdate('Ymd\THis\Z'));
+$timezones->NewElement('dtstamp', gmdate('Y-m-d\TH:i:s\Z'));
 
 $from = new RepeatRuleDateTime($start);
 $until = new RepeatRuleDateTime($end);

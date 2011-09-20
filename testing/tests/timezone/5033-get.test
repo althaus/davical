@@ -1,0 +1,9 @@
+#
+# Get timezone with invalid format
+#
+TYPE=GET
+URL=http://regression.host/tz.php?action=get&tzid=Pacific/Auckland&lang=pt_BR&format=text/html
+HEAD
+
+REPLACE=/LAST-MODIFIED:[0-9TZ]{16}/LAST-MODIFIED:all good/
+REPLACE=!ETag: "\S+"!ETag: "Some good etag"!

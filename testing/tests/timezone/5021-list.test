@@ -5,5 +5,5 @@ TYPE=GET
 URL=http://regression.host/tz.php?action=list
 HEAD
 
-REPLACE=/dtstamp>[0-9TZ]{16}/dtstamp>all good/
-REPLACE=/last-modified>[0-9TZ]{16}/last-modified>all good/
+REPLACE=/dtstamp>[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z/dtstamp>all good/
+REPLACE=/last-modified>[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z/last-modified>all good/
