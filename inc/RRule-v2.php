@@ -355,7 +355,7 @@ class RepeatRuleDateTime extends DateTime {
    * 
    * @see RepeatRuleDateTime::FloatOrUTC()
    */
-  public function UTC() {
+  public function UTC($fmt = 'Ymd\THis\Z' ) {
     $gmt = clone($this);
     if ( $this->tzid != 'UTC' ) {
       if ( isset($this->tzid)) {
@@ -367,7 +367,7 @@ class RepeatRuleDateTime extends DateTime {
       $offset = 0 - $dtz->getOffset($gmt);
       $gmt->modify( $offset . ' seconds' );
     }
-    return $gmt->format('Ymd\THis\Z');
+    return $gmt->format($fmt);
   }
 
 
@@ -583,6 +583,11 @@ class RepeatRule {
   }
 
 
+  /**
+   * Return the next date in the repeating series.
+   * @param boolean $return_floating_times Whether to return dates as floating times.
+   * @return vComponent The next instance.
+   */
   public function next($return_floating_times=false) {
     $this->position++;
     return $this->current($return_floating_times);
