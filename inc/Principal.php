@@ -483,6 +483,7 @@ class Principal {
 
   
   private function Write( $field_values, $inserting=true ) {
+    global $c;
     if ( is_array($field_values) ) $field_values = (object) $field_values;
 
     if ( !isset($field_values->{'user_active'}) ) {
