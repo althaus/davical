@@ -1,6 +1,7 @@
+#!/usr/bin/env php
 <?php
 /**
-* DAViCal Timezone Service handler - capabilitis
+* DAViCal Timezone Service handler - update timezones
 *
 * @package   davical
 * @subpackage   tzservice
@@ -8,6 +9,36 @@
 * @copyright Morphoss Ltd
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v3 or later
 */
+$script_file = __FILE__;
+if ( $argc < 2 ) {
+
+  echo <<<USAGE
+Usage:
+
+	$script_file davical.example.com [timezone_source]
+
+Where 'davical.example.com' is the hostname of your DAViCal server and the
+optional 'timezone_source' is the source of the timezone data.  If not specified
+this will default to the value of the $$c->tzsource configuration value, with
+a further default to the zonedb/vtimezone directory relative to the root of the
+DAViCal installation.
+
+This script can be used to initialise or update the timezone information in
+DAViCal used for the in-built timezone service.
+
+USAGE;
+  exit(1);
+}
+
+$_SERVER['SERVER_NAME'] = $argv[1];
+
+chdir(str_replace('/scripts/tz-update.php','/htdocs',$script_file));
+
+require_once("./always.php");
+
+if ( isset($argv[2]) ) {
+  $c->tzsource = $argv[2];
+}
 
 require_once('vCalendar.php');
 require_once('XMLDocument.php');
