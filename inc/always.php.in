@@ -109,8 +109,10 @@ $c->protocol_server_port = sprintf( '%s://%s%s',
                  (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on'? 'https' : 'http'),
                  $_SERVER['SERVER_NAME'],
                  (
-                   ( (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] != 'on') && $_SERVER['SERVER_PORT'] == 80 )
-                           || (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' && $_SERVER['SERVER_PORT'] == 443 )
+                    ( (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] != 'on')
+                                        && (!isset($_SERVER['SERVER_PORT']) || $_SERVER['SERVER_PORT'] == 80) )
+                           || (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on'
+                           				&& (!isset($_SERVER['SERVER_PORT']) || $_SERVER['SERVER_PORT'] == 443) )
                    ? ''
                    : ':'.$_SERVER['SERVER_PORT']
                  ) );
