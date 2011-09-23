@@ -1,0 +1,11 @@
+#
+# Request the timezone server update itself
+#
+
+# First set some old last_modified but only for Pacific zones
+SCRIPT=psql regression -c "UPDATE timezones SET last_modified='2011-01-01' where tzid ~ '^Pacific/A'"
+
+#
+# Now sync with bedework server
+SCRIPT=../scripts/tz-update.php regression.host http://dev.bedework.org/tzsvr/
+
