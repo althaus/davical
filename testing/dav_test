@@ -46,6 +46,8 @@ push @arguments, "--silent"  unless ( $debug );
 push @arguments, "--verbose" if ( $debug );
 
 my $url;
+my $script;
+my @scripts = ( );
 my $is_head_request = 0;
 my @auth = ( "--user", "user1:user1" );
 
@@ -182,14 +184,18 @@ while( <TEST> ) {
     $url =~ s{alternate.host}{$althost};
   };
 
+  $line =~ /^\s*SCRIPT\s*=\s*(\S.*)$/ && do {
+    $script=$1;
+    $script =~ s{regression.host}{$webhost};
+    $script =~ s{alternate.host}{$althost};
+    push @scripts, $script;
+  };
+
 }
 
-if ( !defined($url) ) {
+if ( !defined($url) && !defined($script) ) {
   print <<EOERROR ;
-The .test file must contain a URL.  It may also contain a TYPE line (to
-specify the request type, such as PROPFIND, MKCOL, PUT etc) and it may
-contain a number of HEADER lines to specify additional headers to send
-along with the request.
+The .test file must contain either a URL or a SCRIPT.
 EOERROR
   exit (2);
 }
@@ -209,17 +215,32 @@ else {
 }
 
 
-push @arguments, $url;
+if ( defined($url) ) {
+  push @arguments, $url;
 
-print STDERR join " ", "curl", @arguments, "\n" if ( $debug );
+  print STDERR join " ", "curl", @arguments, "\n" if ( $debug );
 
-open RESULTS, "-|", "curl", @arguments;
-while( <RESULTS> ) {
-  my $line = $_;
-  foreach my $replacement ( @$replacements ) {
-    $line =~ s/$replacement->{'pattern'}/$replacement->{'replacement'}/;
+  open RESULTS, "-|", "curl", @arguments;
+  while( <RESULTS> ) {
+    my $line = $_;
+    foreach my $replacement ( @$replacements ) {
+      $line =~ s/$replacement->{'pattern'}/$replacement->{'replacement'}/;
+    }
+    print $line;
   }
-  print $line;
+}
+
+if ( defined($script) ) {
+  foreach $script ( @scripts ) {
+    open RESULTS, "-|", $script;
+    while( <RESULTS> ) {
+      my $line = $_;
+      foreach my $replacement ( @$replacements ) {
+        $line =~ s/$replacement->{'pattern'}/$replacement->{'replacement'}/;
+      }
+      print $line;
+    }
+  }
 }
 
 if ( defined(@{$queries}) && @{$queries} ) {
