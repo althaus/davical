@@ -8,14 +8,26 @@
 * @copyright Morphoss Ltd
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v3 or later
 */
-
+$primary_source = '';
+$source = '';
+if ( substr($c->tzsource,0,4) == 'http' ) {
+  $source = '<source>'.$c->tzsource.'</source>';
+}
+else {
+  if ( empty($c->tzsource) ) $c->tzsource = '../zonedb/vtimezones';
+  if ( file_exists($c->tzsource.'/primary-source') ) {
+    $primary_source = '<primary-source>'.file_get_contents($c->tzsource.'/primary-source').'</primary-source>';
+  }
+}
+$contact = $c->admin_email;
 header('Content-Type: application/xml; charset="utf-8"');
-?>
+
+echo <<<EOCAP
 <?xml version="1.0" encoding="utf-8" ?>
 <capabilities xmlns="urn:ietf:params:xml:ns:timezone-service">
   <info>
-    <primary-source>Olson:2011m</primary-source>
-    <contact>mailto:tzs@example.org</contact>
+    $primary_source$source
+    <contact>mailto:$contact</contact>
   </info>
 
   <operation>
@@ -121,5 +133,6 @@ header('Content-Type: application/xml; charset="utf-8"');
     <description>Gets the capabilities of the server</description>
   </operation>
 </capabilities>
-<?php 
+EOCAP;
+
 exit(0);
