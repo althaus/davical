@@ -1,3 +1,33 @@
+2011-09-23  Andrew McMillan  <andrew@morphoss.com>
+	* Release 0.9.9.6
+
+2011-09-22  Andrew McMillan  <andrew@morphoss.com>
+	* Implement Timezone Server Protocol per -02 draft RFC
+	* Add a script that can be run from cron to sync from LDAP.
+	* Fix accidental null assignments on update from external authentication (LDAP)
+
+2011-09-20  Andrew McMillan  <andrew@morphoss.com>
+	* Add timezone and scheduling to the default regression set.
+	* Provide an alternative 1.2.10a patch with fixed check_db_revision().
+
+2011-09-19  Andrew McMillan  <andrew@morphoss.com>
+	* Rewrite time-range SQL clauses for clarity and correctness.
+
+2011-09-17  Andrew McMillan  <andrew@morphoss.com>
+	* Tests for open-ended time-range calendar-query.
+	* Fix an error in calendar-query handling of time-range queries.
+
+2011-09-14  Andrew McMillan  <andrew@morphoss.com>
+	* Migrate away from deprecated iCalendar class.
+	* Ensure username is initialised to something appropriate from LDAP
+	* Allow null dtstart to match any range, as per Scheduling Draft.
+
+2011-09-14  Rob Ostensen  <rob@boxacle.net>
+	* add a check to the setup page for the php calendar extension
+
+2011-09-13  Rob Ostensen  <rob@boxacle.net>
+	* skip scheduling attendees with schedule-agent set to something other than server
+
 2011-09-10  Andrew McMillan  <andrew@morphoss.com>
 	* Write schedule resources to attendee calendars and inboxes on PUT.
 
