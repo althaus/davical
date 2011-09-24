@@ -69,12 +69,28 @@ LANGUAGE 'PlPgSQL' IMMUTABLE STRICT;
 CREATE SEQUENCE dav_id_seq;
 
 
--- Not particularly needed, perhaps, except as a way to collect
--- a bunch of valid iCalendar time zone specifications... :-)
-CREATE TABLE time_zone (
-  tz_id TEXT PRIMARY KEY,
-  tz_locn TEXT,
-  tz_spec TEXT
+-- Used by the timezone server, but we also load it with random timezones
+-- from events, if we don't already have those definitions.
+CREATE TABLE timezones (
+  our_tzno SERIAL PRIMARY KEY,
+  tzid TEXT UNIQUE NOT NULL,
+  olson_name TEXT,
+  active BOOLEAN,
+  last_modified TIMESTAMP DEFAULT current_timestamp,
+  etag TEXT,
+  vtimezone TEXT
+);
+
+CREATE TABLE tz_aliases (
+  our_tzno INT8 REFERENCES timezones(our_tzno),
+  tzalias TEXT NOT NULL
+);
+
+CREATE TABLE tz_localnames (
+  our_tzno INT8 REFERENCES timezones(our_tzno),
+  locale TEXT NOT NULL,
+  localised_name TEXT NOT NULL,
+  preferred BOOLEAN DEFAULT TRUE
 );
 
 
@@ -95,7 +111,7 @@ CREATE TABLE collection (
   is_addressbook BOOLEAN DEFAULT FALSE,
   resourcetypes TEXT DEFAULT '<DAV::collection/>',
   schedule_transp TEXT DEFAULT 'opaque',
-  timezone TEXT REFERENCES time_zone(tz_id) ON DELETE SET NULL ON UPDATE CASCADE,
+  timezone TEXT REFERENCES timezones(tzid) ON DELETE SET NULL ON UPDATE CASCADE,
   description TEXT DEFAULT '',
   UNIQUE(user_no,dav_name)
 );
@@ -143,7 +159,7 @@ CREATE TABLE calendar_item (
   rrule TEXT,
   url TEXT,
   percent_complete NUMERIC(7,2),
-  tz_id TEXT REFERENCES time_zone( tz_id ),
+  tz_id TEXT REFERENCES timezones( tzid ),
   status TEXT,
   completed TIMESTAMP WITH TIME ZONE,
   dav_id INT8 UNIQUE,
@@ -428,4 +444,4 @@ $$ LANGUAGE plpgsql ;
 ALTER TABLE dav_binding ADD CONSTRAINT "dav_name_does_not_exist"
 		CHECK (NOT real_path_exists(dav_name));
 
-SELECT new_db_revision(1,2,10, 'Octobre' );
+SELECT new_db_revision(1,2,11, 'Novembre' );
