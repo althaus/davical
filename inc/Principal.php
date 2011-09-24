@@ -319,7 +319,7 @@ class Principal {
   * @return string The username
   */
   function setUsername($new_username) {
-    if ( $this->exists ) return false;
+    if ( $this->exists && isset($this->username) ) return false;
     $this->username = $new_username;
     return $this->username;
   }

@@ -346,9 +346,9 @@ function LDAP_check($username, $password ){
   }
   else {
     dbg_error_log( "LDAP", "user %s doesn't exist in local DB, we need to create it",$username );
-    $principal->setUsername($username );
   }
-
+  $principal->setUsername($username);
+  
   // The local cached user doesn't exist, or is older, so we create/update their details
   sync_user_from_LDAP( $principal, $mapping, $valid );
   
