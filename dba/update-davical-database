@@ -322,7 +322,7 @@ sub apply_sql_file {
   push @psql_opts, "-p", "$dbport" if ( $dbport != 5432 );
   push @psql_opts, "-U", $dbuser if ( $dbuser ne "" );
   push @psql_opts, $dbname;    # It seems that FreeBSD has a poorer argument parsing library so non-option arguments must be last
-  $ENV{'PGPASS'} = $dbpass if ( $dbpass ne "" );
+  $ENV{'PGPASSWORD'} = $dbpass if ( $dbpass ne "" );
 
   my $command = join ' ', @psql_opts;
   $last_results = `$command 2>&1 1>/dev/null`;
