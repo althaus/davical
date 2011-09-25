@@ -387,6 +387,7 @@ function privilege_to_bits( $raw_privs ) {
       case 'schedule-deliver'                : $out_priv |=  7168;  break; // 1024 + 2048 + 4096
       case 'schedule-send'                   : $out_priv |= 57344;  break; // 8192 + 16384 + 32768
       case 'all'                             : $out_priv  = DAVICAL_MAXPRIV;  break;
+      case 'fake_privilege_for_input'        : break;
       default:
         dbg_error_log( 'ERROR', 'Cannot convert privilege of "%s" into bits.', $priv );
 

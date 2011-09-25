@@ -1,6 +1,5 @@
-The database is version 8.4 currently at revision 1.2.10.
-Applying patch 1.2.11.sql ... succeeded.
-Successfully applied 1 patches.
+The database is version 8.4 currently at revision 1.2.11.
+No patches were applied.
 Supported locales updated.
 Updated view: dav_principal.sql applied.
 CalDAV functions updated.

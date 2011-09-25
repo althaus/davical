@@ -70,42 +70,45 @@ function getPrincipalByID( $principal_id, $use_cache = true ) {
 */
 function CreateHomeCollections( $username ) {
   global $session, $c;
-  if ( ! isset($c->home_calendar_name) || strlen($c->home_calendar_name) == 0 ) return true;
+  if ( empty($c->home_calendar_name) && empty($c->home_addressbook_name) ) return true;
 
   $principal = new Principal('username',$username);
-  $params = array( ':collection_path' => $principal->dav_name().$c->home_calendar_name.'/' );
-  $qry = new AwlQuery( 'SELECT 1 FROM collection WHERE dav_name = :collection_path', $params );
-  if ( !$qry->Exec() ) {
-    $c->messages[] = i18n("There was an error reading from the database.");
-    return false;
-  }
-  if ( $qry->rows() > 0 ) {
-    $c->messages[] = i18n("Home calendar already exists.");
-    return true;
-  }
-  else {
-    $sql = 'INSERT INTO collection (user_no, parent_container, dav_name, dav_etag, dav_displayname, is_calendar, created, modified, resourcetypes) ';
-    $sql .= 'VALUES( :user_no, :parent_container, :collection_path, :dav_etag, :displayname, true, current_timestamp, current_timestamp, :resourcetypes );';
-    $params = array(
-        ':user_no' => $principal->user_no(),
-        ':parent_container' => $principal->dav_name(),
-        ':collection_path' => $principal->dav_name().$c->home_calendar_name.'/',
-        ':dav_etag' => '-1',
-        ':displayname' => $principal->fullname,
-        ':resourcetypes' => '<DAV::collection/><urn:ietf:params:xml:ns:caldav:calendar/>'
-    );
-    $qry = new AwlQuery( $sql, $params );
-    if ( $qry->Exec() ) {
-      $c->messages[] = i18n("Home calendar added.");
-      dbg_error_log("User",":Write: Created user's home calendar at '%s'", $params[':collection_path'] );
+  
+  $sql = 'INSERT INTO collection (user_no, parent_container, dav_name, dav_etag, dav_displayname, is_calendar, created, modified, resourcetypes) ';
+  $sql .= 'VALUES( :user_no, :parent_container, :collection_path, :dav_etag, :displayname, true, current_timestamp, current_timestamp, :resourcetypes );';
+  if ( !empty($c->home_calendar_name) ) {
+    $params = array( ':collection_path' => $principal->dav_name().$c->home_calendar_name.'/' );
+    $qry = new AwlQuery( 'SELECT 1 FROM collection WHERE dav_name = :collection_path', $params );
+    if ( !$qry->Exec() ) {
+      $c->messages[] = i18n("There was an error reading from the database.");
+      return false;
+    }
+    if ( $qry->rows() > 0 ) {
+      $c->messages[] = i18n("Home calendar already exists.");
+      return true;
     }
     else {
-      $c->messages[] = i18n("There was an error writing to the database.");
-      return false;
+      $params = array(
+          ':user_no' => $principal->user_no(),
+          ':parent_container' => $principal->dav_name(),
+          ':collection_path' => $principal->dav_name().$c->home_calendar_name.'/',
+          ':dav_etag' => '-1',
+          ':displayname' => $principal->fullname,
+          ':resourcetypes' => '<DAV::collection/><urn:ietf:params:xml:ns:caldav:calendar/>'
+      );
+      $qry = new AwlQuery( $sql, $params );
+      if ( $qry->Exec() ) {
+        $c->messages[] = i18n("Home calendar added.");
+        dbg_error_log("User",":Write: Created user's home calendar at '%s'", $params[':collection_path'] );
+      }
+      else {
+        $c->messages[] = i18n("There was an error writing to the database.");
+        return false;
+      }
     }
   }
 
-  if ( !isset($c->home_addressbook_name) ) {
+  if ( !empty($c->home_addressbook_name) ) {
     $qry = new AwlQuery( 'SELECT 1 FROM collection WHERE dav_name = :dav_name', array( ':dav_name' => $principal->dav_name().$c->home_addressbook_name.'/') );
     if ( !$qry->Exec() ) {
       $c->messages[] = i18n("There was an error reading from the database.");

@@ -174,8 +174,8 @@ init_gettext( 'davical', $c->locale_path );
 *
 */
 $c->code_version = 0;
-$c->want_awl_version = '0.47';
-$c->version_string = '0.9.9.5'; // The actual version # is replaced into that during the build /release process
+$c->want_awl_version = '0.48';
+$c->version_string = '0.9.9.6'; // The actual version # is replaced into that during the build /release process
 if ( isset($c->version_string) && preg_match( '/(\d+)\.(\d+)\.(\d+)(.*)/', $c->version_string, $matches) ) {
   $c->code_major = $matches[1];
   $c->code_minor = $matches[2];
@@ -192,7 +192,7 @@ $_SERVER['SERVER_NAME'] = $c->domain_name;
 
 require_once('AwlQuery.php');
 
-$c->want_dbversion = array(1,2,10);
+$c->want_dbversion = array(1,2,11);
 $c->schema_version = 0;
 $qry = new AwlQuery( 'SELECT schema_major, schema_minor, schema_patch FROM awl_db_revision ORDER BY schema_id DESC LIMIT 1;' );
 if ( $qry->Exec('always',__LINE__,__FILE__) && $row = $qry->Fetch() ) {
@@ -387,6 +387,7 @@ function privilege_to_bits( $raw_privs ) {
       case 'schedule-deliver'                : $out_priv |=  7168;  break; // 1024 + 2048 + 4096
       case 'schedule-send'                   : $out_priv |= 57344;  break; // 8192 + 16384 + 32768
       case 'all'                             : $out_priv  = DAVICAL_MAXPRIV;  break;
+      case 'fake_privilege_for_input'        : break;
       default:
         dbg_error_log( 'ERROR', 'Cannot convert privilege of "%s" into bits.', $priv );
 
