@@ -1,3 +1,10 @@
+davical (0.9.9.6-1) unstable; urgency=low
+
+  * New upstream release (closes:#628566,#619513,#619477,#619515,#641591)
+  * Switch to dpkg-source 3.0 (native) format
+
+ -- Andrew McMillan <awm@debian.org>  Tue, 27 Sep 2011 13:23:28 +1300
+
 davical (0.9.9.5-1) unstable; urgency=low
 
   * New upstream release (closes:#610612, #639262)

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DAViCal\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-11 10:15+1200\n"
+"POT-Creation-Date: 2011-09-27 11:30+1300\n"
 "PO-Revision-Date: 2011-03-22 22:02+0000\n"
 "Last-Translator: m42 <p.m42.ribeiro@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.net/projects/p/davical/team/pt_PT/)\n"
@@ -767,6 +767,9 @@ msgstr "Módulo PDO do PHP disponível"
 msgid "PHP PostgreSQL available"
 msgstr "PHP PostgreSQL disponível"
 
+msgid "PHP calendar extension available"
+msgstr ""
+
 msgid "PHP iconv support"
 msgstr "Suporte iconv do PHP"
 
@@ -1044,6 +1047,9 @@ msgstr "O ticket de acesso será apagado."
 
 msgid "The addressbook-query report must be run against an addressbook collection"
 msgstr "O relatório addressbook-query tem que ser executado sobre uma colecção de livros de endereços"
+
+msgid "The application failed to understand that request."
+msgstr ""
 
 msgid "The application program does not understand that request."
 msgstr "O programa não entende esse pedido."

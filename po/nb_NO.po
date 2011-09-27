@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DAViCal\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-11 10:15+1200\n"
+"POT-Creation-Date: 2011-09-27 11:30+1300\n"
 "PO-Revision-Date: 2011-08-15 23:39+0000\n"
 "Last-Translator: aleksand <daniel@aleksand.no>\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.net/projects/p/davical/team/nb_NO/)\n"
@@ -765,6 +765,9 @@ msgstr "PHP PDO modul tilgjengelig"
 msgid "PHP PostgreSQL available"
 msgstr "PHP PostgreSQL tilgjengelig"
 
+msgid "PHP calendar extension available"
+msgstr ""
+
 msgid "PHP iconv support"
 msgstr "Støtte for PHP iconv"
 
@@ -1040,6 +1043,9 @@ msgstr "Adgangstilgangen vil bli slettet"
 
 msgid "The addressbook-query report must be run against an addressbook collection"
 msgstr "Adressebok-forespørselsrapport må kjøres mot en adressebok-samling"
+
+msgid "The application failed to understand that request."
+msgstr ""
 
 msgid "The application program does not understand that request."
 msgstr "Programmet forstår ikke forespørselen"
