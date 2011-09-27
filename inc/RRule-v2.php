@@ -343,6 +343,9 @@ class RepeatRuleDateTime extends DateTime {
 //    printf( "Modify '%s' by: >>%s<<\n", $this->__toString(), $interval );
 //    print_r($this);
     if ( !isset($interval) || $interval == '' ) $interval = '1 day';
+    if ( parent::format('d') > 28 && strstr($interval,'month') !== false ) {
+      $this->setDate(null,null,28);
+    }
     parent::modify($interval);
     return $this->__toString();
   }
@@ -431,10 +434,36 @@ class RepeatRuleDateTime extends DateTime {
   }
 
 
+  /**
+   * Returns a 1 if this year is a leap year, otherwise a 0
+   * @param int $year The year we are quizzical about.
+   * @return 1 if this is a leap year, 0 otherwise
+   */
+  public static function hasLeapDay($year) {
+    if ( ($year % 4) == 0 && (($year % 100) != 0 || ($year % 400) == 0) ) return 1;
+    return 0;
+  }
+
+  /**
+   * Returns the number of days in a year/month pair
+   * @param int $year
+   * @param int $month
+   * @return int the number of days in the month
+   */
+  public static function daysInMonth( $year, $month ) {
+    if ($month == 4 || $month == 6 || $month == 9 || $month == 11) return 30;
+    else if ($month != 2) return 31;
+    return 28 + RepeatRuleDateTime::hasLeapDay($year);
+  }
+
+  
   function setDate( $year=null, $month=null, $day=null ) {
     if ( !isset($year) )  $year  = parent::format('Y');
     if ( !isset($month) ) $month = parent::format('m');
     if ( !isset($day) )   $day   = parent::format('d');
+    if ( $day < 0 ) {
+      $day += RepeatRuleDateTime::daysInMonth($year, $month) + 1;
+    }
     parent::setDate( $year , $month , $day );
     return $this;
   }
@@ -749,7 +778,9 @@ class RepeatRule {
     $this->current_set = array();
     foreach( $instances AS $k => $instance ) {
       foreach( $this->bymonthday AS $k => $monthday ) {
-        $this->current_set[] = $this->date_mask( clone($instance), null, null, $monthday, null, null, null);
+        $expanded = $this->date_mask( clone($instance), null, null, $monthday, null, null, null);
+        if ( DEBUG_RRULE ) printf( "Expanded BYMONTHDAY $monthday into date %s from %s\n", $expanded->format('c'), $instance->format('c') );
+        $this->current_set[] = $expanded;
       }
     }
   }
