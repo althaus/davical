@@ -2,7 +2,7 @@ HTTP/1.1 200 OK
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
-Content-Length: 7224
+Content-Length: 7623
 Content-Type: text/plain
 
 #!/usr/bin/php
@@ -130,4 +130,12 @@ PHP & SQL results are identical (-:
 =~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=
 20000404T010000 - FREQ=YEARLY;BYDAY=1SU;BYMONTH=4;COUNT=15
 Time zone 4
+PHP & SQL results are identical (-: 
+=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=
+20110905 - FREQ=DAILY;BYDAY=MO,TU,WE,TH,FR;COUNT=6
+Six Working Days
+PHP & SQL results are identical (-: 
+=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=
+20110905 - FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR;COUNT=6
+Six Working Days
 PHP & SQL results are identical (-: 

@@ -721,7 +721,10 @@ class RepeatRule {
           $position++;
           $this->instances[$position] = $instance;
           if ( DEBUG_RRULE ) printf( "Added date %s into position %d in current set\n", $instance->format('c'), $position );
-          if ( isset($this->count) && ($position + 1) >= $this->count ) $this->finished = true;
+          if ( isset($this->count) && ($position + 1) >= $this->count ) {
+            $this->finished = true;
+            return;
+          }
         }
       }
     }

@@ -89,6 +89,8 @@ $tests = array(
   , new RRuleTest( "Time zone 2", "19700927T020000", "FREQ=YEARLY;INTERVAL=1;BYDAY=-1SU;BYMONTH=9" )
   , new RRuleTest( "Time zone 3", "19810329T030000", "FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU" )
   , new RRuleTest( "Time zone 4", "20000404T010000", "FREQ=YEARLY;BYDAY=1SU;BYMONTH=4;COUNT=15" )
+  , new RRuleTest( "Six Working Days", "20110905", "FREQ=DAILY;BYDAY=MO,TU,WE,TH,FR;COUNT=6" )
+  , new RRuleTest( "Six Working Days", "20110905", "FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR;COUNT=6" )
 );
 
 foreach( $tests AS $k => $test ) {
