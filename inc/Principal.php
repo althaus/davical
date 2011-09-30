@@ -497,7 +497,7 @@ class Principal {
     if ( !isset($field_values->{'type_id'}) && $inserting )
       $field_values->{'type_id'} = 1; // Default to 'person'
     if ( !isset($field_values->{'default_privileges'}) && $inserting )
-      $field_values->{'default_privileges'} = decbin(privilege_to_bits($c->default_privileges));
+      $field_values->{'default_privileges'} = sprintf('%024s',decbin(privilege_to_bits($c->default_privileges)));
     
       
     $sql = '';
