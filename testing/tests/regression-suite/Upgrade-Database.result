@@ -1,7 +1,5 @@
 Supported locales updated.
 Updated view: dav_principal.sql applied.
 CalDAV functions updated.
-DBD::Pg::db do failed: ERROR:  relation "time_zone" does not exist at ../dba/update-davical-database line 400, <PERMS> line 63.
-DBD::Pg::db do failed: ERROR:  relation "time_zone" does not exist at ../dba/update-davical-database line 410, <PERMS> line 63.
 RRULE functions updated.
 Database permissions updated.
