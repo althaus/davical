@@ -1,0 +1,25 @@
+HTTP/1.1 201 Created
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
+DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
+Cache-Control: no-cache
+Content-Length: 0
+Content-Type: text/plain; charset="utf-8"
+
+
+  dav_displayname: >Untitled<
+      is_calendar: >1<
+ parent_container: >/user1/<
+public_events_onl: >0<
+          user_no: >10<
+
+       changed_by: >10<
+    property_name: >http://apple.com/ns/ical/:calendar-color<
+   property_value: >#391B71A0<
+
+       changed_by: >10<
+    property_name: >urn:ietf:params:xml:ns:caldav:supported-calendar-component-set<
+   property_value: >
+ <urn:ietf:params:xml:ns:caldav:comp name="VTODO"/>
+<
+

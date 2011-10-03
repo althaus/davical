@@ -104,7 +104,12 @@ if ( isset($request->xml_tags) ) {
         $success[$tag] = 1;
         break;
 
-      case 'urn:ietf:params:xml:ns:caldav:supported-calendar-component-set':  /** Ignored, since we will support all component types */
+      case 'urn:ietf:params:xml:ns:caldav:supported-calendar-component-set':
+        /** We allow this to be written as a dead property */
+        $dav_properties[$tag] = $content;
+        $success[$tag] = 1;
+        break;
+
       case 'urn:ietf:params:xml:ns:caldav:supported-calendar-data':  /** Ignored, since we will support iCalendar 2.0 */
       case 'urn:ietf:params:xml:ns:caldav:calendar-data':  /** Ignored, since we will support iCalendar 2.0 */
       case 'urn:ietf:params:xml:ns:caldav:max-resource-size':  /** Ignored, since we will support arbitrary size */
