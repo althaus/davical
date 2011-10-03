@@ -17,7 +17,7 @@ $responses = array();
 $sync_tokens = $xmltree->GetPath('/DAV::sync-collection/DAV::sync-token');
 $sync_token = $sync_tokens[0]->GetContent();
 if ( !isset($sync_token) ) $sync_token = 0;
-$sync_token = intval($sync_token);
+$sync_token = intval(str_ireplace('data:,', '', $sync_token ));
 dbg_error_log( 'sync', " sync-token: %s", $sync_token );
 
 
@@ -59,7 +59,7 @@ $new_token = $row->new_sync_token;
 
 if ( $sync_token == $new_token ) {
   // No change, so we just re-send the old token.
-  $responses[] = new XMLElement( 'sync-token', $new_token );
+  $responses[] = new XMLElement( 'sync-token', 'data:,'.$new_token );
 }
 else {
   if ( $sync_token == 0 ) {
@@ -142,7 +142,7 @@ EOSQL;
         $last_dav_name  = $object->dav_name;
       }
     }
-    $responses[] = new XMLElement( 'sync-token', $new_token );
+    $responses[] = new XMLElement( 'sync-token', 'data:,'.$new_token );
   }
   else {
     $request->DoResponse( 500, translate("Database error") );
