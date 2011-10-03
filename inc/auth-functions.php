@@ -74,8 +74,8 @@ function CreateHomeCollections( $username ) {
 
   $principal = new Principal('username',$username);
   
-  $sql = 'INSERT INTO collection (user_no, parent_container, dav_name, dav_etag, dav_displayname, is_calendar, created, modified, resourcetypes) ';
-  $sql .= 'VALUES( :user_no, :parent_container, :collection_path, :dav_etag, :displayname, true, current_timestamp, current_timestamp, :resourcetypes );';
+  $sql = 'INSERT INTO collection (user_no, parent_container, dav_name, dav_etag, dav_displayname, is_calendar, is_addressbook, created, modified, resourcetypes) ';
+  $sql .= 'VALUES( :user_no, :parent_container, :collection_path, :dav_etag, :displayname, :is_calendar, :is_addressbook, current_timestamp, current_timestamp, :resourcetypes );';
   if ( !empty($c->home_calendar_name) ) {
     $params = array( ':collection_path' => $principal->dav_name().$c->home_calendar_name.'/' );
     $qry = new AwlQuery( 'SELECT 1 FROM collection WHERE dav_name = :collection_path', $params );
@@ -93,7 +93,9 @@ function CreateHomeCollections( $username ) {
           ':parent_container' => $principal->dav_name(),
           ':collection_path' => $principal->dav_name().$c->home_calendar_name.'/',
           ':dav_etag' => '-1',
-          ':displayname' => $principal->fullname,
+          ':is_calendar' => true,
+          ':is_addressbook' => false,
+          ':displayname' => $principal->fullname . " calendar",
           ':resourcetypes' => '<DAV::collection/><urn:ietf:params:xml:ns:caldav:calendar/>'
       );
       $qry = new AwlQuery( $sql, $params );
@@ -120,6 +122,10 @@ function CreateHomeCollections( $username ) {
     }
     else {
       $params[':collection_path'] = $principal->dav_name().$c->home_addressbook_name.'/';
+      $params[':displayname'] = $principal->fullname . " addressbook";
+      $params[':resourcetypes'] = '<DAV::collection/><urn:ietf:params:xml:ns:carddav:addressbook/>';
+      $params[':is_calendar'] = false;
+      $params[':is_addressbook'] = true;
       $qry = new AwlQuery( $sql, $params );
       if ( $qry->Exec() ) {
         $c->messages[] = i18n("Home addressbook added.");
