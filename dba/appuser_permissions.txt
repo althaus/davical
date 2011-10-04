@@ -59,9 +59,6 @@ GRANT SELECT,UPDATE
   ON sync_tokens_sync_token_seq
   ON timezones_our_tzno_seq
 
-GRANT SELECT,INSERT
-  ON time_zone
-
 GRANT SELECT
   ON supported_locales
   ON awl_db_revision

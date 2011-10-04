@@ -121,7 +121,7 @@ initialise_regression() {
     check_result "${TEST}"
   fi
 
-  TEST="Really Upgrade Database"
+  TEST="Really-Upgrade-Database"
   ../dba/update-davical-database --dbname=${DBNAME} --appuser davical_app --owner davical_dba >"${RESULTS}/${TEST}" 2>&1
   check_result "${TEST}"
 

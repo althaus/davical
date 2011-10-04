@@ -18,7 +18,7 @@ Content-Type: application/xml; charset="utf-8"
   </observance>
   <observance>
    <name>EST</name>
-   <onset>2009-11-01T07:00:00Z</onset>
+   <onset>2009-11-01T06:00:00Z</onset>
    <utc-offset-from>-04:00</utc-offset-from>
    <utc-offset-to>-05:00</utc-offset-to>
   </observance>
@@ -30,7 +30,7 @@ Content-Type: application/xml; charset="utf-8"
   </observance>
   <observance>
    <name>EST</name>
-   <onset>2010-11-07T07:00:00Z</onset>
+   <onset>2010-11-07T06:00:00Z</onset>
    <utc-offset-from>-04:00</utc-offset-from>
    <utc-offset-to>-05:00</utc-offset-to>
   </observance>
@@ -42,7 +42,7 @@ Content-Type: application/xml; charset="utf-8"
   </observance>
   <observance>
    <name>EST</name>
-   <onset>2011-11-06T07:00:00Z</onset>
+   <onset>2011-11-06T06:00:00Z</onset>
    <utc-offset-from>-04:00</utc-offset-from>
    <utc-offset-to>-05:00</utc-offset-to>
   </observance>
@@ -54,7 +54,7 @@ Content-Type: application/xml; charset="utf-8"
   </observance>
   <observance>
    <name>EST</name>
-   <onset>2012-11-04T07:00:00Z</onset>
+   <onset>2012-11-04T06:00:00Z</onset>
    <utc-offset-from>-04:00</utc-offset-from>
    <utc-offset-to>-05:00</utc-offset-to>
   </observance>
@@ -66,7 +66,7 @@ Content-Type: application/xml; charset="utf-8"
   </observance>
   <observance>
    <name>EST</name>
-   <onset>2013-11-03T07:00:00Z</onset>
+   <onset>2013-11-03T06:00:00Z</onset>
    <utc-offset-from>-04:00</utc-offset-from>
    <utc-offset-to>-05:00</utc-offset-to>
   </observance>
@@ -78,7 +78,7 @@ Content-Type: application/xml; charset="utf-8"
   </observance>
   <observance>
    <name>EST</name>
-   <onset>2014-11-02T07:00:00Z</onset>
+   <onset>2014-11-02T06:00:00Z</onset>
    <utc-offset-from>-04:00</utc-offset-from>
    <utc-offset-to>-05:00</utc-offset-to>
   </observance>
@@ -90,7 +90,7 @@ Content-Type: application/xml; charset="utf-8"
   </observance>
   <observance>
    <name>EST</name>
-   <onset>2015-11-01T07:00:00Z</onset>
+   <onset>2015-11-01T06:00:00Z</onset>
    <utc-offset-from>-04:00</utc-offset-from>
    <utc-offset-to>-05:00</utc-offset-to>
   </observance>
@@ -102,7 +102,7 @@ Content-Type: application/xml; charset="utf-8"
   </observance>
   <observance>
    <name>EST</name>
-   <onset>2016-11-06T07:00:00Z</onset>
+   <onset>2016-11-06T06:00:00Z</onset>
    <utc-offset-from>-04:00</utc-offset-from>
    <utc-offset-to>-05:00</utc-offset-to>
   </observance>
@@ -114,7 +114,7 @@ Content-Type: application/xml; charset="utf-8"
   </observance>
   <observance>
    <name>EST</name>
-   <onset>2017-11-05T07:00:00Z</onset>
+   <onset>2017-11-05T06:00:00Z</onset>
    <utc-offset-from>-04:00</utc-offset-from>
    <utc-offset-to>-05:00</utc-offset-to>
   </observance>
@@ -126,7 +126,7 @@ Content-Type: application/xml; charset="utf-8"
   </observance>
   <observance>
    <name>EST</name>
-   <onset>2018-11-04T07:00:00Z</onset>
+   <onset>2018-11-04T06:00:00Z</onset>
    <utc-offset-from>-04:00</utc-offset-from>
    <utc-offset-to>-05:00</utc-offset-to>
   </observance>
@@ -138,7 +138,7 @@ Content-Type: application/xml; charset="utf-8"
   </observance>
   <observance>
    <name>EST</name>
-   <onset>2019-11-03T07:00:00Z</onset>
+   <onset>2019-11-03T06:00:00Z</onset>
    <utc-offset-from>-04:00</utc-offset-from>
    <utc-offset-to>-05:00</utc-offset-to>
   </observance>
@@ -150,7 +150,7 @@ Content-Type: application/xml; charset="utf-8"
   </observance>
   <observance>
    <name>EST</name>
-   <onset>2020-11-01T07:00:00Z</onset>
+   <onset>2020-11-01T06:00:00Z</onset>
    <utc-offset-from>-04:00</utc-offset-from>
    <utc-offset-to>-05:00</utc-offset-to>
   </observance>
@@ -162,7 +162,7 @@ Content-Type: application/xml; charset="utf-8"
   </observance>
   <observance>
    <name>EST</name>
-   <onset>2021-11-07T07:00:00Z</onset>
+   <onset>2021-11-07T06:00:00Z</onset>
    <utc-offset-from>-04:00</utc-offset-from>
    <utc-offset-to>-05:00</utc-offset-to>
   </observance>

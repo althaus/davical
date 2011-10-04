@@ -1,0 +1,9 @@
+UPDATE 2
+Fetching timezone list
+Found timezone Pacific/Auckland needs updating
+Fetching zone for Pacific/Auckland from http://dev.bedework.org/tzsvr/?action=get&tzid=Pacific/Auckland
+Writing updated zone for 'Pacific/Auckland'
+Found timezone Pacific/Apia needs updating
+Fetching zone for Pacific/Apia from http://dev.bedework.org/tzsvr/?action=get&tzid=Pacific/Apia
+Writing updated zone for 'Pacific/Apia'
+Added 0 new zones, updated data for 2 zones and added 206 new aliases

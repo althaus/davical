@@ -46,6 +46,7 @@ define( 'DEBUG_EXPAND', false );
 * @param object $vResource is a VCALENDAR with a VTIMEZONE containing components needing expansion
 * @param object $range_start A RepeatRuleDateTime which is the beginning of the range for events.
 * @param object $range_end A RepeatRuleDateTime which is the end of the range for events.
+* @param int $offset_from The offset from UTC in seconds at the onset time.
 *
 * @return array of onset datetimes with UTC from/to offsets
 */
@@ -60,8 +61,6 @@ function expand_timezone_onsets( vCalendar $vResource, RepeatRuleDateTime $range
   $is_date = false;
   $has_repeats = false;
   $zone_tz = $vtz->GetPValue('TZID');
-  $range_start->setTimeZone($zone_tz);
-  $range_end->setTimeZone($zone_tz);
   
   foreach( $components AS $k => $comp ) {
     if ( DEBUG_EXPAND ) {
@@ -73,8 +72,14 @@ function expand_timezone_onsets( vCalendar $vResource, RepeatRuleDateTime $range
     }
     $dtstart_prop = $comp->GetProperty('DTSTART');
     if ( !isset($dtstart_prop) ) continue;
-    $dtstart_prop->SetParameterValue('TZID',$zone_tz);
     $dtstart = new RepeatRuleDateTime( $dtstart_prop );
+    $dtstart->setTimeZone('UTC');
+    $offset_from = $comp->GetPValue('TZOFFSETFROM');
+    $offset_from = (($offset_from / 100) * 3600) + ((abs($offset_from) % 100) * 60 * ($offset_from < 0 ? -1 : 0));
+    $offset_from *= -1;
+    $offset_from = "$offset_from seconds";
+    dbg_error_log( 'tz/update', "%s of offset\n", $offset_from);
+    $dtstart->modify($offset_from);
     $is_date = $dtstart->isDate();
     $instances[$dtstart->UTC('Y-m-d\TH:i:s\Z')] = $comp;
     $rrule = $comp->GetProperty('RRULE');

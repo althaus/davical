@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DAViCal\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-11 10:15+1200\n"
+"POT-Creation-Date: 2011-09-27 11:30+1300\n"
 "PO-Revision-Date: 2011-03-22 15:19+0000\n"
 "Last-Translator: fmms <mail@felixmoeller.de>\n"
 "Language-Team: Dutch (http://www.transifex.net/projects/p/davical/team/nl/)\n"
@@ -755,6 +755,9 @@ msgstr ""
 msgid "PHP PostgreSQL available"
 msgstr ""
 
+msgid "PHP calendar extension available"
+msgstr ""
+
 msgid "PHP iconv support"
 msgstr ""
 
@@ -1031,6 +1034,9 @@ msgid "The access ticket will be deleted."
 msgstr ""
 
 msgid "The addressbook-query report must be run against an addressbook collection"
+msgstr ""
+
+msgid "The application failed to understand that request."
 msgstr ""
 
 msgid "The application program does not understand that request."

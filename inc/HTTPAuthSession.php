@@ -272,6 +272,18 @@ class HTTPAuthSession {
     if(isset($c->login_append_domain_if_missing) && $c->login_append_domain_if_missing && !preg_match('/@/',$username))
       $username.='@'.$c->domain_name;
 
+    if ( !isset($c->authenticate_hook) || !isset($c->authenticate_hook['call'])
+                      || !function_exists($c->authenticate_hook['call'])
+                      || (isset($c->authenticate_hook['optional']) && $c->authenticate_hook['optional']) )
+    {
+      if ( $principal = new Principal('username', $username) ) {
+        if ( isset($c->dbg['password']) ) dbg_error_log( "password", ":CheckPassword: Name:%s, Pass:%s, File:%s, Active:%s", $username, $password, $principal->password, ($principal->user_active?'Yes':'No') );
+        if ( $principal->user_active && session_validate_password( $password, $principal->password ) ) {
+          return $principal;
+        }
+      }
+    }
+
     if ( isset($c->authenticate_hook) && isset($c->authenticate_hook['call']) && function_exists($c->authenticate_hook['call']) ) {
       /**
       * The authenticate hook needs to:
@@ -284,24 +296,9 @@ class HTTPAuthSession {
       * It can expect that:
       *   - Configuration data will be in $c->authenticate_hook['config'], which might be an array, or whatever is needed.
       */
-      $hook_response = call_user_func( $c->authenticate_hook['call'], $username, $password );
-      /**
-       * make the authentication hook optional: if the flag is set, ignore a return value of 'false'
-       */
-      if (isset($c->authenticate_hook['optional']) && $c->authenticate_hook['optional']) {
-        if ($hook_response !== false) { return $hook_response; }
-      }
-      else {
-        return $hook_response;
-      }
+      return call_user_func( $c->authenticate_hook['call'], $username, $password );
     }
 
-    if ( $principal = new Principal('username', $username) ) {
-      if ( isset($c->dbg['password']) ) dbg_error_log( "password", ":CheckPassword: Name:%s, Pass:%s, File:%s, Active:%s", $username, $password, $principal->password, ($principal->user_active?'Yes':'No') );
-      if ( $principal->user_active && session_validate_password( $password, $principal->password ) ) {
-        return $principal;
-      }
-    }
     return false;
   }
 

@@ -14,3 +14,4 @@ TZDATAFILE="`ls -t tzdata*.tar.gz|tail -n 1`"
 )
 
 vzic --olson-dir tzdata --output-dir vtimezones
+echo "Olson `echo $TZDATAFILE | cut -f1 -d.`" >vtimezones/primary-source

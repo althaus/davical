@@ -3,14 +3,6 @@
 Supported locales updated.
 Updated view: dav_principal.sql applied.
 CalDAV functions updated.
-DBD::Pg::db do failed: ERROR:  relation "timezones" does not exist at ../dba/update-davical-database line 400, <PERMS> line 48.
-DBD::Pg::db do failed: ERROR:  relation "timezones" does not exist at ../dba/update-davical-database line 410, <PERMS> line 48.
-DBD::Pg::db do failed: ERROR:  relation "tz_aliases" does not exist at ../dba/update-davical-database line 400, <PERMS> line 49.
-DBD::Pg::db do failed: ERROR:  relation "tz_aliases" does not exist at ../dba/update-davical-database line 410, <PERMS> line 49.
-DBD::Pg::db do failed: ERROR:  relation "tz_localnames" does not exist at ../dba/update-davical-database line 400, <PERMS> line 50.
-DBD::Pg::db do failed: ERROR:  relation "tz_localnames" does not exist at ../dba/update-davical-database line 410, <PERMS> line 50.
-DBD::Pg::db do failed: ERROR:  relation "timezones_our_tzno_seq" does not exist at ../dba/update-davical-database line 400, <PERMS> line 60.
-DBD::Pg::db do failed: ERROR:  relation "timezones_our_tzno_seq" does not exist at ../dba/update-davical-database line 410, <PERMS> line 60.
 RRULE functions updated.
 Database permissions updated.
 NOTE

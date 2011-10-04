@@ -18,7 +18,7 @@ Content-Type: application/xml; charset="utf-8"
   </observance>
   <observance>
    <name>EST</name>
-   <onset>2011-11-06T07:00:00Z</onset>
+   <onset>2011-11-06T06:00:00Z</onset>
    <utc-offset-from>-04:00</utc-offset-from>
    <utc-offset-to>-05:00</utc-offset-to>
   </observance>
@@ -30,7 +30,7 @@ Content-Type: application/xml; charset="utf-8"
   </observance>
   <observance>
    <name>EST</name>
-   <onset>2012-11-04T07:00:00Z</onset>
+   <onset>2012-11-04T06:00:00Z</onset>
    <utc-offset-from>-04:00</utc-offset-from>
    <utc-offset-to>-05:00</utc-offset-to>
   </observance>

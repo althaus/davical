@@ -273,7 +273,7 @@
 	
 	<div>
 		<img src="../../media/images/Function.png" />
-		<span class="method-title">import_collection</span> (line <span class="line-number">385</span>)
+		<span class="method-title">import_collection</span> (line <span class="line-number">392</span>)
 	</div> 
 
 	<!-- ========== Info from phpDoc block ========= -->
@@ -381,7 +381,7 @@
 	
 	<div>
 		<img src="../../media/images/Function.png" />
-		<span class="method-title">simple_write_resource</span> (line <span class="line-number">1019</span>)
+		<span class="method-title">simple_write_resource</span> (line <span class="line-number">1006</span>)
 	</div> 
 
 	<!-- ========== Info from phpDoc block ========= -->
@@ -419,7 +419,7 @@
 	
 	<div>
 		<img src="../../media/images/Function.png" />
-		<span class="method-title">write_alarms</span> (line <span class="line-number">630</span>)
+		<span class="method-title">write_alarms</span> (line <span class="line-number">622</span>)
 	</div> 
 
 	<!-- ========== Info from phpDoc block ========= -->
@@ -448,7 +448,7 @@
 	
 	<div>
 		<img src="../../media/images/Function.png" />
-		<span class="method-title">write_attendees</span> (line <span class="line-number">687</span>)
+		<span class="method-title">write_attendees</span> (line <span class="line-number">679</span>)
 	</div> 
 
 	<!-- ========== Info from phpDoc block ========= -->
@@ -477,7 +477,7 @@
 	
 	<div>
 		<img src="../../media/images/Function.png" />
-		<span class="method-title">write_resource</span> (line <span class="line-number">736</span>)
+		<span class="method-title">write_resource</span> (line <span class="line-number">728</span>)
 	</div> 
 
 	<!-- ========== Info from phpDoc block ========= -->
@@ -490,31 +490,25 @@
 		<span class="method-name">
 			write_resource
 		</span>
-					(<span class="var-type"><a href="../../davical/Resource/DAVResource.html">DAVResource</a></span>&nbsp;<span class="var-name">$resource</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$caldav_data</span>, <span class="var-type"><a href="../../davical/Resource/DAVResource.html">DAVResource</a></span>&nbsp;<span class="var-name">$collection</span>, <span class="var-type">int</span>&nbsp;<span class="var-name">$author</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$etag</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$put_action_type</span>, <span class="var-type">boolean</span>&nbsp;<span class="var-name">$caldav_context</span>, [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$log_action</span> = <span class="var-default">true</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$weak_etag</span> = <span class="var-default">null</span>], <span class="var-type">int</span>&nbsp;<span class="var-name">$user_no</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$path</span>, <span class="var-type">int</span>&nbsp;<span class="var-name">$collection_id</span>, <span class="var-type">vComponent</span>&nbsp;<span class="var-name">$ic</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">9</span>)
+					(<span class="var-type"><a href="../../davical/Resource/DAVResource.html">DAVResource</a></span>&nbsp;<span class="var-name">$resource</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$caldav_data</span>, <span class="var-type"><a href="../../davical/Resource/DAVResource.html">DAVResource</a></span>&nbsp;<span class="var-name">$collection</span>, <span class="var-type">int</span>&nbsp;<span class="var-name">$author</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$etag</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$put_action_type</span>, <span class="var-type">boolean</span>&nbsp;<span class="var-name">$caldav_context</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$log_action</span> = <span class="var-default">true</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$weak_etag</span> = <span class="var-default">null</span>])
 			</div>
 
 			<ul class="parameters">
 					<li>
-				<span class="var-type">int</span>
-				<span class="var-name">$user_no</span><span class="var-description">: The user_no owning this resource on the server</span>			</li>
+				<span class="var-type"><a href="../../davical/Resource/DAVResource.html">DAVResource</a></span>
+				<span class="var-name">$resource</span><span class="var-description">: The resource being written</span>			</li>
 					<li>
 				<span class="var-type">string</span>
-				<span class="var-name">$path</span><span class="var-description">: The path to the resource being written</span>			</li>
+				<span class="var-name">$caldav_data</span><span class="var-description">: The actual data to be written</span>			</li>
 					<li>
-				<span class="var-type">string</span>
-				<span class="var-name">$caldav_data</span><span class="var-description">: The actual resource to be written</span>			</li>
-					<li>
-				<span class="var-type">int</span>
-				<span class="var-name">$collection_id</span><span class="var-description">: The ID of the collection containing the resource being written</span>			</li>
+				<span class="var-type"><a href="../../davical/Resource/DAVResource.html">DAVResource</a></span>
+				<span class="var-name">$collection</span><span class="var-description">: The collection containing the resource being written</span>			</li>
 					<li>
 				<span class="var-type">int</span>
 				<span class="var-name">$author</span><span class="var-description">: The user_no who wants to put this resource on the server</span>			</li>
 					<li>
 				<span class="var-type">string</span>
 				<span class="var-name">$etag</span><span class="var-description">: An etag unique for this event</span>			</li>
-					<li>
-				<span class="var-type">vComponent</span>
-				<span class="var-name">$ic</span><span class="var-description">: The parsed iCalendar object</span>			</li>
 					<li>
 				<span class="var-type">string</span>
 				<span class="var-name">$put_action_type</span><span class="var-description">: INSERT or UPDATE depending on what we are to do</span>			</li>
@@ -523,19 +517,10 @@
 				<span class="var-name">$caldav_context</span><span class="var-description">: True, if we are responding via CalDAV, false for other ways of calling this</span>			</li>
 					<li>
 				<span class="var-type">string</span>
-				<span class="var-name">9</span><span class="var-description">: Either 'INSERT' or 'UPDATE': the type of action we are doing</span>			</li>
-					<li>
-				<span class="var-type">boolean</span>
-				<span class="var-name">$log_action</span><span class="var-description">: Whether to log the fact that we are writing this into an action log (if configured)</span>			</li>
+				<span class="var-name">$log_action</span><span class="var-description">: Either 'INSERT' or 'UPDATE': the type of action we are doing</span>			</li>
 					<li>
 				<span class="var-type">string</span>
 				<span class="var-name">$weak_etag</span><span class="var-description">: An etag that is NOT modified on ATTENDEE changes for this event</span>			</li>
-					<li>
-				<span class="var-type"><a href="../../davical/Resource/DAVResource.html">DAVResource</a></span>
-				<span class="var-name">$resource</span>			</li>
-					<li>
-				<span class="var-type"><a href="../../davical/Resource/DAVResource.html">DAVResource</a></span>
-				<span class="var-name">$collection</span>			</li>
 				</ul>
 		
 	
@@ -544,7 +529,7 @@
 	</div>
 	
 	<p class="notes" id="credit">
-		Documentation generated on Sun, 11 Sep 2011 20:48:08 +1200 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+		Documentation generated on Tue, 27 Sep 2011 11:30:44 +1300 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
 	</p>
 	</div></body>
 </html>

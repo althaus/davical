@@ -1,0 +1,27 @@
+#
+# Testing with a process similar to iPhone 3.1
+#
+TYPE=PROPFIND
+URL=http://mycaldav/caldav.php/user1/
+HEAD
+
+AUTH=user1:user1
+
+HEADER=User-Agent: DAVKit/4.0 (728.3); iCalendar/1 (34); iPhone/3.0 7A341
+HEADER=Content-Type: text/xml
+HEADER=Depth: 1
+
+#
+# This query from the iPhone goes to the calendar-home-set and checks
+# what is available under that collection.
+#
+BEGINDATA
+<?xml version="1.0" encoding="utf-8"?>
+<x0:propfind xmlns:x0="DAV:" xmlns:x1="urn:ietf:params:xml:ns:caldav">
+ <x0:prop>
+  <x0:displayname/>
+  <x1:supported-calendar-component-set/>
+  <x0:resourcetype/>
+ </x0:prop>
+</x0:propfind>
+ENDDATA

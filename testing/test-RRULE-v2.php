@@ -80,7 +80,8 @@ $tests = array(
   , new RRuleTest( "The last working day of each month", "20061107T113000", "RRULE:FREQ=MONTHLY;BYDAY=MO,TU,WE,TH,FR;BYSETPOS=-1;COUNT=30" )
   , new RRuleTest( "Every working day", "20081020T103000", "RRULE:FREQ=MONTHLY;BYDAY=MO,TU,WE,TH,FR;COUNT=30" )
   , new RRuleTest( "Every working day", "20081020T110000", "RRULE:FREQ=DAILY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR;COUNT=30" )
-//**SQL is wrong  , new RRuleTest( "1st Tuesday, 2nd Wednesday, 3rd Thursday & 4th Friday, every March, June, September, October and December", "20081001T133000", "RRULE:FREQ=MONTHLY;INTERVAL=1;BYDAY=1TU,2WE,3TH,4FR;BYMONTH=3,6,9,10,12" )
+  , new RRuleTest( "The last day of each month", "20110831", "RRULE:FREQ=MONTHLY;BYMONTHDAY=-1" )
+  , new RRuleTest( "1st Tuesday, 2nd Wednesday, 3rd Thursday & 4th Friday, every March, June, September, October and December (SQL is wrong)", "20081001T133000", "RRULE:FREQ=MONTHLY;INTERVAL=1;BYDAY=1TU,2WE,3TH,4FR;BYMONTH=3,6,9,10,12" )
   , new RRuleTest( "Every tuesday and friday", "20081017T084500", "RRULE:FREQ=MONTHLY;INTERVAL=1;BYDAY=TU,FR;COUNT=30" )
   , new RRuleTest( "Every tuesday and friday", "20081017T084500", "RRULE:FREQ=WEEKLY;INTERVAL=1;BYDAY=TU,FR;COUNT=30" )
   , new RRuleTest( "Every tuesday and friday", "20081017T084500", "RRULE:FREQ=DAILY;INTERVAL=1;BYDAY=TU,FR;COUNT=30" )
@@ -88,6 +89,8 @@ $tests = array(
   , new RRuleTest( "Time zone 2", "19700927T020000", "FREQ=YEARLY;INTERVAL=1;BYDAY=-1SU;BYMONTH=9" )
   , new RRuleTest( "Time zone 3", "19810329T030000", "FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU" )
   , new RRuleTest( "Time zone 4", "20000404T010000", "FREQ=YEARLY;BYDAY=1SU;BYMONTH=4;COUNT=15" )
+  , new RRuleTest( "Six Working Days", "20110905", "FREQ=DAILY;BYDAY=MO,TU,WE,TH,FR;COUNT=6" )
+  , new RRuleTest( "Six Working Days", "20110905", "FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR;COUNT=6" )
 );
 
 foreach( $tests AS $k => $test ) {

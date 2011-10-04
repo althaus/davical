@@ -220,7 +220,7 @@ function principal_editor() {
     if ( $_POST['type_id'] != 3 && $editor->IsCreate() ) {
       /** We only add the default calendar if it isn't a group, and this is a create action */
       require_once('auth-functions.php');
-      CreateHomeCalendar($editor->Value('username'));
+      CreateHomeCollections($editor->Value('username'));
     }
     if ( $session->AllowedTo('Admin') ) {
       if ( $_POST['is_admin'] == 'on' ) {
@@ -380,7 +380,7 @@ function build_privileges_html( $ed, $fname ) {
   $btn_ss = htmlspecialchars(translate('Schedule Send'));    $btn_ss_title = htmlspecialchars(translate('Set schedule-deliver privileges'));
   
   $privs_dec = bindec($ed->Value($fname));
-  $privileges_set = '<div id="privileges">'."\n";
+  $privileges_set = sprintf('<div id="privileges"><input type="hidden" name="%s[fake_privilege_for_input]" value="0">%s', $fname, "\n");
   for( $i=0; $i < count($privilege_names); $i++ ) {
     $privilege_set = ( (1 << $i) & $privs_dec ? ' CHECKED' : '');
     $privileges_set .= sprintf( '  <label class="privilege"><input name="%s[%s]" id="%s_%s" type="checkbox"%s>%s</label>'."\n",

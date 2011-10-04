@@ -319,7 +319,7 @@ class Principal {
   * @return string The username
   */
   function setUsername($new_username) {
-    if ( $this->exists ) return false;
+    if ( $this->exists && isset($this->username) ) return false;
     $this->username = $new_username;
     return $this->username;
   }
@@ -483,14 +483,21 @@ class Principal {
 
   
   private function Write( $field_values, $inserting=true ) {
+    global $c;
     if ( is_array($field_values) ) $field_values = (object) $field_values;
 
-    if ( !isset($field_values->{'user_active'}) && isset($field_values->{'active'}) )
-      $field_values->{'user_active'} = $field_values->{'active'};
+    if ( !isset($field_values->{'user_active'}) ) {
+      if ( isset($field_values->{'active'}) )
+        $field_values->{'user_active'} = $field_values->{'active'};
+      else if ( $inserting )
+        $field_values->{'user_active'} = true;
+    }
     if ( !isset($field_values->{'modified'}) && isset($field_values->{'updated'}) )
       $field_values->{'modified'} = $field_values->{'updated'};
-    if ( !isset($field_values->{'type_id'}) )
+    if ( !isset($field_values->{'type_id'}) && $inserting )
       $field_values->{'type_id'} = 1; // Default to 'person'
+    if ( !isset($field_values->{'default_privileges'}) && $inserting )
+      $field_values->{'default_privileges'} = sprintf('%024s',decbin(privilege_to_bits($c->default_privileges)));
     
       
     $sql = '';
@@ -511,7 +518,7 @@ class Principal {
       else {
         $update_list[] = $k.'=:'.$k;
       }
-      $sql_params[':'.$k] = $field_values->{$k};  
+      $sql_params[':'.$k] = (isset($field_values->{$k}) ? $field_values->{$k} : $this->{$k});  
     }
 
     if ( $inserting && isset(self::$db_mandatory_fields) ) {

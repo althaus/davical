@@ -139,6 +139,11 @@ class CalDAVRequest
     }
     $this->user_agent = ((isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : "Probably Mulberry"));
 
+    if ( isset($_SERVER['HTTP_CONTENT_ENCODING']) ) {
+      @dbg_error_log('caldav', 'Content-Encoding: %s', $_SERVER['HTTP_CONTENT_ENCODING']);
+      $this->PreconditionFailed(402, 'content-encoding', 'This server does not presently support encoded content.');
+    }
+    
     /**
     * A variety of requests may set the "Depth" header to control recursion
     */

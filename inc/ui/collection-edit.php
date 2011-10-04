@@ -8,7 +8,7 @@ param_to_global('principal_id', 'int' );
 param_to_global('collection_name', '{^.+$}' );
 if ( isset($user_no) ) $principal = new Principal('user_no',$user_no);
 if ( isset($principal_id) ) $principal = new Principal('principal_id',$principal_id);
-$editor->SetLookup( 'timezone', 'SELECT \'\', \'*** Unknown ***\' UNION SELECT tz_id, tz_locn FROM time_zone WHERE tz_id = tz_locn AND length(tz_spec) > 100 ORDER BY 1' );
+$editor->SetLookup( 'timezone', 'SELECT \'\', \'*** Unknown ***\' UNION SELECT tzid, olson_name FROM timezones WHERE tzid = olson_name AND length(vtimezone) > 100 ORDER BY 1' );
 $editor->SetLookup( 'schedule_transp', 'SELECT \'opaque\', \'Opaque\' UNION SELECT \'transp\', \'Transparent\'' );
 
 
@@ -190,7 +190,7 @@ function privilege_format_function( $value, $column, $row ) {
 }
 
 $default_privileges = bindec($editor->Value('default_privileges'));
-$privileges_set = '<div id="privileges">';
+$privileges_set = '<div id="privileges"><input type="hidden" name="default_privileges[fake_privilege_for_input]" value="0">';
 for( $i=0; $i<count($privilege_names); $i++ ) {
   $privilege_set = ( (1 << $i) & $default_privileges ? ' CHECKED' : '');
   $privileges_set .= '<label class="privilege"><input name="default_privileges['.$privilege_names[$i].']" id="default_privileges_'.$privilege_names[$i].'" type="checkbox"'.$privilege_set.'>'.$privilege_xlate[$privilege_names[$i]].'</label>'."\n";

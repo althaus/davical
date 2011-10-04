@@ -1,0 +1,7 @@
+The database is version 8.4 currently at revision 1.2.11.
+No patches were applied.
+Supported locales updated.
+Updated view: dav_principal.sql applied.
+CalDAV functions updated.
+RRULE functions updated.
+Database permissions updated.

@@ -1590,8 +1590,20 @@ EOQRY;
 
       case 'urn:ietf:params:xml:ns:caldav:supported-calendar-component-set':
         if ( ! $this->_is_collection ) return false;
-        if ( $this->IsCalendar() )
-          $set_of_components = array( 'VEVENT', 'VTODO', 'VJOURNAL', 'VTIMEZONE', 'VFREEBUSY' );
+        if ( $this->IsCalendar() ) {
+          if ( !isset($this->dead_properties) ) $this->FetchDeadProperties();
+          if ( isset($this->dead_properties[$tag]) ) {
+            $set_of_components = explode('"', $this->dead_properties[$tag]);
+            foreach( $set_of_components AS $k => $v ) {
+              if ( !preg_match('{(VEVENT|VTODO|VJOURNAL|VTIMEZONE|VFREEBUSY)}', $v) ) {
+                unset( $set_of_components[$k] );
+              }
+            }
+          }
+          else {
+            $set_of_components = array( 'VEVENT', 'VTODO', 'VJOURNAL', 'VTIMEZONE', 'VFREEBUSY' );
+          }
+        }
         else if ( $this->IsSchedulingCollection() )
           $set_of_components = array( 'VEVENT', 'VTODO', 'VFREEBUSY' );
         else return false;
