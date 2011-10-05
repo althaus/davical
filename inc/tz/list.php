@@ -30,7 +30,7 @@ if ( $returnall !== true ) {
 }
 if ( !empty($changedsince) ) {
   if ( !empty($where) ) $where .= ' AND ';
-  $where .= 'last_modified >= :changedsince';
+  $where .= 'last_modified > :changedsince';
   $params[':changedsince'] = $changedsince;
 }
 if ( !empty($where)) $sql .= ' WHERE '.$where;
