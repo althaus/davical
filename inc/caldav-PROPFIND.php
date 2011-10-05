@@ -198,7 +198,7 @@ function get_collection_contents( $depth, $collection, $parent_path = null ) {
 
     $sql = 'SELECT collection.*, principal.*, calendar_item.*, caldav_data.*, ';
     $sql .= "to_char(coalesce(calendar_item.created, caldav_data.created) at time zone 'GMT',$date_format) AS created, ";
-    $sql .= "to_char(last_modified at time zone 'GMT',$date_format) AS modified, ";
+    $sql .= "to_char(coalesce(calendar_item.last_modified, caldav_data.modified) at time zone 'GMT',$date_format) AS modified, ";
     $sql .= 'summary AS dav_displayname ';
     $sql .= 'FROM caldav_data LEFT JOIN calendar_item USING( dav_id, user_no, dav_name, collection_id) ';
     $sql .= 'LEFT JOIN collection USING(collection_id,user_no) LEFT JOIN principal USING(user_no) ';
