@@ -21,7 +21,7 @@ switch ( $request->path ) {
     $request->DoResponse(301); // Moved permanently
     // does not return.
   case '/.well-known/timezone':
-    header('Location: ' . ConstructURL('/tz.php',true) );
+    header('Location: ' . str_replace('/caldav.php', '', ConstructURL('/tz.php',true)) );
     $request->DoResponse(301); // Moved permanently
     // does not return.
 }
