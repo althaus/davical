@@ -566,7 +566,11 @@ EOSQL;
       if ( $qry->Exec('PUT',__LINE__,__FILE__) && $qry->rows() == 0 ) {
         $params[':olson_name'] = $olson;
         $params[':vtimezone'] = (isset($tz) ? $tz->Render() : null );
-        $qry->QDo('INSERT INTO timezones (tzid, olson_name, active, vtimezone) VALUES(:tzid,:olson_name,false,:vtimezone)', $params );
+        $params[':last_modified'] = (isset($tz) ? $tz->GetPValue('LAST-MODIFIED') : null );
+        if ( empty($params[':last_modified']) ) {
+          $params[':last_modified'] = gmdate('Ymd\THis\Z');
+        }
+        $qry->QDo('INSERT INTO timezones (tzid, olson_name, active, vtimezone, last_modified) VALUES(:tzid,:olson_name,false,:vtimezone,:last_modified)', $params );
       }
     }
     else {
