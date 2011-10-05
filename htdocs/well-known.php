@@ -17,7 +17,7 @@ if ( ! isset ( $request ) ) {
 switch ( $request->path ) {
   case '/.well-known/caldav':
   case '/.well-known/carddav':
-    header('Location: ' . ConstructURL('/',true) );
+    header('Location: ' . $c->protocol_server_port . ConstructURL('/',true) );
     $request->DoResponse(301); // Moved permanently
     // does not return.
   case '/.well-known/timezone':
@@ -26,7 +26,7 @@ switch ( $request->path ) {
       $parameters .= ($parameters == '' ? '?' : '&' );
       $parameters .= $k.'='.rawurlencode($v); 
     }
-    header('Location: ' . str_replace('/caldav.php', '', ConstructURL('/tz.php',true)).$parameters );
+    header('Location: ' . $c->protocol_server_port . str_replace('/caldav.php', '', ConstructURL('/tz.php',true)).$parameters );
     $request->DoResponse(301); // Moved permanently
     // does not return.
 }
