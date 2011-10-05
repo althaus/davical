@@ -33,6 +33,11 @@ if ( !empty($changedsince) ) {
   $where .= 'last_modified > :changedsince';
   $params[':changedsince'] = $changedsince;
 }
+if ( !empty($tzid) ) {
+  if ( !empty($where) ) $where .= ' AND ';
+  $where .= '(tzid = :tzid OR our_tzno IN (SELECT our_tzno FROM tz_aliases WHERE tzalias = :tzid))';
+  $params[':tzid'] = $tzid;
+}
 if ( !empty($where)) $sql .= ' WHERE '.$where;
 
 if ( !empty($c->strict_result_ordering) && $c->strict_result_ordering ) {
