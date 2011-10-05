@@ -17,14 +17,14 @@ if ( $format != 'text/calendar' ) {
 }
 
 $sql = 'SELECT our_tzno, tzid, active, olson_name, vtimezone, etag, ';
-$sql .= 'to_char((last_modified::timestamp WITH TIME ZONE) AT TIME ZONE \'UTC\',\'Dy, DD Mon IYYY HH24:MI:SS "GMT"\') AS last_modified ';
+$sql .= 'to_char(last_modified,\'Dy, DD Mon IYYY HH24:MI:SS "GMT"\') AS last_modified ';
 $sql .= 'FROM timezones WHERE tzid=:tzid';
 $params = array( ':tzid' => $tzid );
 $qry = new AwlQuery($sql,$params);
 if ( !$qry->Exec() ) exit(1);
 if ( $qry->rows() < 1 ) {
   $sql = 'SELECT our_tzno, tzid, active, olson_name, vtimezone, etag, ';
-  $sql .= 'to_char((last_modified::timestamp WITH TIME ZONE) AT TIME ZONE \'UTC\',\'Dy, DD Mon IYYY HH24:MI:SS "GMT"\') AS last_modified ';
+  $sql .= 'to_char(last_modified,\'Dy, DD Mon IYYY HH24:MI:SS "GMT"\') AS last_modified ';
   $sql .= 'FROM timezones JOIN tz_aliases USING(our_tzno) WHERE tzalias=:tzid';
   if ( !$qry->Exec() ) exit(1);
   if ( $qry->rows() < 1 ) $request->DoResponse(404);
