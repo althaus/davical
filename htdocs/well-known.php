@@ -21,7 +21,12 @@ switch ( $request->path ) {
     $request->DoResponse(301); // Moved permanently
     // does not return.
   case '/.well-known/timezone':
-    header('Location: ' . str_replace('/caldav.php', '', ConstructURL('/tz.php',true)) );
+    $parameters = '';
+    foreach( $_GET as $k => $v ) {
+      $parameters .= ($parameters == '' ? '?' : '&' );
+      $parameters .= $k.'='.rawurlencode($v); 
+    }
+    header('Location: ' . str_replace('/caldav.php', '', ConstructURL('/tz.php',true)).$parameters );
     $request->DoResponse(301); // Moved permanently
     // does not return.
 }
