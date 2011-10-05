@@ -44,8 +44,8 @@ if ( $qry->QDo('SELECT * FROM tz_localnames WHERE our_tzno = :our_tzno', array('
 }
 
 header( 'ETag: "'.$tz->etag.'"' );
-header( 'Last-Modified', $tz->last_modified );
-header( 'Content-Disposition', 'Attachment; Filename="'.str_replace('/','-',$tzid . '.ics"' ));
+header( 'Last-Modified: '. $tz->last_modified );
+header( 'Content-Disposition: Attachment; Filename="'.str_replace('/','-',$tzid . '.ics"' ));
 
 $request->DoResponse(200, $vtz->Render(), 'text/calendar; charset=UTF-8');
 
