@@ -26,7 +26,7 @@ $request = new CalDAVRequest();
 
 $code_file = sprintf( 'tz/%s.php', $action );
 if ( ! @include_once( $code_file ) ) {
-  $request->PreconditionFailed(400, "supported-action", 'The action "'.$_GET['action'].'" is not understood.' );
+  $request->PreconditionFailed(400, "supported-action", 'The action "'.$action.'" is not understood.' );
 }
 
 $request->DoResponse( 500, translate("The application failed to understand that request.") );
