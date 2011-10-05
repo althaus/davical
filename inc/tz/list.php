@@ -74,7 +74,7 @@ if ( $qry->Exec('tz/list',__LINE__,__FILE__) && $qry->rows() > 0 ) {
       }
     }
     else {
-      $elements[] = new XMLElement('local-name', $tz->tzid, array( 'lang' => $lang ) );
+      $elements[] = new XMLElement('local-name', $tz->tzid, ( empty($lang) ? null : array( 'lang' => $lang ) ) );
     }
     $tzlist->NewElement('summary', $elements);
   }
