@@ -114,6 +114,9 @@ if ( $request->method == "LOCK" ) {
     * A fresh lock
     */
     $lock_token = uuid();
+    $lock_timeout = (empty($request->timeout) ? 30 : intval($request->timeout) );
+    if ( $lock_timeout < 1 ) $lock_timeout = 30;
+    else if ( $lock_timeout > 300 ) $lock_timeout = 300;
     $sql = 'INSERT INTO locks ( dav_name, opaquelocktoken, type, scope, depth, owner, timeout, start )
              VALUES( :dav_name, :lock_token, :type, :scope, :request_depth, :owner, :timeout::interval, current_timestamp )';
     $params = array(
@@ -123,7 +126,7 @@ if ( $request->method == "LOCK" ) {
         ':scope'         => $lockinfo['scope'],
         ':request_depth' => $request->depth,
         ':owner'         => $lockinfo['owner'],
-        ':timeout'       => $request->timeout.' seconds'
+        ':timeout'       => $lock_timeout.' seconds'
     );
     header( "Lock-Token: <opaquelocktoken:$lock_token>" );
   }
