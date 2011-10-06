@@ -159,7 +159,7 @@ if ( empty($c->tzsource) ) $c->tzsource = '../zonedb/vtimezones';
 if ( preg_match('{^http}', $c->tzsource ) ) {
 
   $changesince = null;
-  $qry = new AwlQuery("SELECT tzid, to_char(last_modified,'YYYY-MM-DD\"T\"HH24:MI:SS') AS last_modified FROM timezones");
+  $qry = new AwlQuery("SELECT tzid, to_char(last_modified,'YYYY-MM-DD\"T\"HH24:MI:SS\"Z\"') AS last_modified FROM timezones");
   $current_zones = array();
   if ( $qry->Exec('tz/updatecheck',__LINE__,__FILE__) && $qry->rows() > 0 ) {
     while( $row = $qry->Fetch() )
