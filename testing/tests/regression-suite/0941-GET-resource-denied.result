@@ -2,8 +2,8 @@ HTTP/1.1 200 OK
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
-Etag: "c3658901fd4689d4a1e1d6f08601ef4f"
-Content-Length: 826
+Etag: "bcc402382688cb3e8e57379c757dbcb0"
+Content-Length: 676
 Content-Type: text/calendar; charset="utf-8"
 
 BEGIN:VCALENDAR
@@ -11,8 +11,7 @@ CALSCALE:GREGORIAN
 PRODID:-//Ximian//NONSGML Evolution Calendar//EN
 VERSION:2.0
 BEGIN:VTIMEZONE
-TZID:/softwarestudio.org/Olson_20011030_5/Pacific/Auckland
-X-LIC-LOCATION:Pacific/Auckland
+TZID:Pacific/Auckland
 BEGIN:STANDARD
 TZOFFSETFROM:+1300
 TZOFFSETTO:+1200
@@ -31,10 +30,8 @@ END:VTIMEZONE
 BEGIN:VEVENT
 SUMMARY:Busy
 CLASS:CONFIDENTIAL
-DTSTART;TZID=/softwarestudio.org/Olson_20011030_5/Pacific/Auckland:
- 20061101T100000
-DTEND;TZID=/softwarestudio.org/Olson_20011030_5/Pacific/Auckland:
- 20061101T110000
+DTSTART;TZID=Pacific/Auckland:20061101T100000
+DTEND;TZID=Pacific/Auckland:20061101T110000
 UID:20061101T073000Z-10468-1000-1-7@ubu
 END:VEVENT
 END:VCALENDAR

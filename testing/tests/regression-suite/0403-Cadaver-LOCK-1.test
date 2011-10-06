@@ -1,0 +1,15 @@
+#
+# Basic testing with Cadaver DAV client
+#
+TYPE=LOCK
+URL=http://mycaldav/caldav.php/user1/home/20061101T073004Z.ics
+HEADER=User-Agent: cadaver/0.23.3 neon/0.29.6
+HEADER=Depth: 0
+HEADER=Content-Type: application/xml
+HEAD
+
+BEGINDATA
+<lockinfo xmlns='DAV:'>
+ <lockscope><exclusive/></lockscope>
+<locktype><write/></locktype></lockinfo>
+ENDDATA

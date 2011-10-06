@@ -2,12 +2,12 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
-ETag: "297a698b8d8c51217f0de910462dc6d8"
-Content-Length: 2206
+ETag: "966d4f7d769690fca393be5ba814e8a2"
+Content-Length: 2655
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
-<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav" xmlns:C1="http://calendarserver.org/ns/">
+<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav" xmlns:C1="urn:ietf:params:xml:ns:carddav" xmlns:C2="http://calendarserver.org/ns/">
  <response>
   <href>/caldav.php/user1/</href>
   <propstat>
@@ -47,6 +47,25 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
  </response>
  <response>
+  <href>/caldav.php/user1/addresses/</href>
+  <propstat>
+   <prop>
+    <getcontenttype>httpd/unix-directory</getcontenttype>
+    <resourcetype>
+     <collection/>
+     <C1:addressbook/>
+    </resourcetype>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <getcontentlength/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+ <response>
   <href>/caldav.php/user1/created/</href>
   <propstat>
    <prop>
@@ -72,7 +91,7 @@ Content-Type: text/xml; charset="utf-8"
     <getcontenttype>httpd/unix-directory</getcontenttype>
     <resourcetype>
      <collection/>
-     <C1:calendar-proxy-read/>
+     <C2:calendar-proxy-read/>
     </resourcetype>
    </prop>
    <status>HTTP/1.1 200 OK</status>
@@ -91,7 +110,7 @@ Content-Type: text/xml; charset="utf-8"
     <getcontenttype>httpd/unix-directory</getcontenttype>
     <resourcetype>
      <collection/>
-     <C1:calendar-proxy-write/>
+     <C2:calendar-proxy-write/>
     </resourcetype>
    </prop>
    <status>HTTP/1.1 200 OK</status>

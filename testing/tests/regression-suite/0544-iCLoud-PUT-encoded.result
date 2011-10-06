@@ -2,16 +2,7 @@ HTTP/1.1 201 Created
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
-Location: /caldav.php/user4/user2/
+ETag: "6ddd18264a9d40c1c9d37a005eeb7e4f"
 Content-Length: 0
 Content-Type: text/plain; charset="utf-8"
-
-
-          bind_id: >1601<
-  bound_source_id: >11<
-  dav_displayname: >User 2's Calendar, as uploaded by Admin<
-         dav_name: >/user4/user2/<
-     dav_owner_id: >1005<
-           length: >8<
- parent_container: >/user4/<
 

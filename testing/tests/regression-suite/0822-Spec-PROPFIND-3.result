@@ -78,11 +78,11 @@
   <propstat>
    <prop>
     <creationdate>20061031T183000Z</creationdate>
-    <displayname>A Meeting</displayname>
+    <displayname>A Changed Meeting</displayname>
     <getcontentlanguage/>
-    <getcontentlength>1059</getcontentlength>
+    <getcontentlength>829</getcontentlength>
     <getcontenttype>text/calendar</getcontenttype>
-    <getetag>"c3658901fd4689d4a1e1d6f08601ef4f"</getetag>
+    <getetag>"bcc402382688cb3e8e57379c757dbcb0"</getetag>
     <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
     <resourcetype/>
     <supportedlock>
@@ -573,6 +573,41 @@
     <getcontentlength>676</getcontentlength>
     <getcontenttype>text/calendar</getcontenttype>
     <getetag>"257b9df4aaf573a578af4aadd033abf4"</getetag>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <resourcetype/>
+    <supportedlock>
+     <lockentry>
+      <lockscope>
+       <exclusive/>
+      </lockscope>
+      <locktype>
+       <write/>
+      </locktype>
+     </lockentry>
+    </supportedlock>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <lockdiscovery/>
+    <source/>
+    <checked-in/>
+    <checked-out/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/home/0544-gzip-PUT.ics</href>
+  <propstat>
+   <prop>
+    <creationdate>20111004T023507Z</creationdate>
+    <displayname>In Central Europe, 2pm, Oct 5th for 1 hour</displayname>
+    <getcontentlanguage/>
+    <getcontentlength>761</getcontentlength>
+    <getcontenttype>text/calendar</getcontenttype>
+    <getetag>"6ddd18264a9d40c1c9d37a005eeb7e4f"</getetag>
     <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
     <resourcetype/>
     <supportedlock>

@@ -7,21 +7,21 @@ Content-Length: 0
 Content-Type: text/plain; charset="utf-8"
 
 
-          bind_id: >1599<
+          bind_id: >1601<
   bound_source_id: >11<
   dav_displayname: >Updated Displayname with PROPPATCH<
          dav_name: >/user4/user2/<
            length: >8<
  parent_container: >/user4/<
 
-          bind_id: >1600<
+          bind_id: >1602<
   bound_source_id: >10<
   dav_displayname: >User 1's Calendaranza<
          dav_name: >/user4/user1/<
            length: >8<
  parent_container: >/user4/<
 
-          bind_id: >1604<
+          bind_id: >1606<
   bound_source_id: >10<
   dav_displayname: >User 1's Calendaranza<
          dav_name: >/user4/base/user1/<

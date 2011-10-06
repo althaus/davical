@@ -2,12 +2,12 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
-ETag: "ffa85945cfea407705b4af67ba7f4259"
-Content-Length: 11513
+ETag: "2bac61d8cc65cae86757a7dd00eef4e2"
+Content-Length: 12754
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
-<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav" xmlns:C1="http://calendarserver.org/ns/" xmlns:A="http://apple.com/ns/ical/">
+<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav" xmlns:C1="http://calendarserver.org/ns/" xmlns:A="http://apple.com/ns/ical/" xmlns:C2="urn:ietf:params:xml:ns:carddav">
  <response>
   <href>/caldav.php/user1/</href>
   <propstat>
@@ -70,7 +70,7 @@ Content-Type: text/xml; charset="utf-8"
   <propstat>
    <prop>
     <displayname>user1 home</displayname>
-    <C1:getctag>"86a1e7300c8b748329ad3617974ad08a"</C1:getctag>
+    <C1:getctag>"a707eb83606863b8f1f30274b6b1a5b8"</C1:getctag>
     <A:calendar-color>#0252D4FF</A:calendar-color>
     <C:supported-calendar-component-set>
      <C:comp name="VEVENT"/>
@@ -127,6 +127,63 @@ Content-Type: text/xml; charset="utf-8"
   <propstat>
    <prop>
     <C:calendar-description/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/addresses/</href>
+  <propstat>
+   <prop>
+    <displayname>user1 addresses</displayname>
+    <C1:getctag>"24c9e15e52afc47c225b757e7bee1f9d"</C1:getctag>
+    <resourcetype>
+     <collection/>
+     <C2:addressbook/>
+    </resourcetype>
+    <current-user-privilege-set>
+     <privilege>
+      <all/>
+     </privilege>
+     <privilege>
+      <read/>
+     </privilege>
+     <privilege>
+      <unlock/>
+     </privilege>
+     <privilege>
+      <read-acl/>
+     </privilege>
+     <privilege>
+      <read-current-user-privilege-set/>
+     </privilege>
+     <privilege>
+      <write-acl/>
+     </privilege>
+     <privilege>
+      <write/>
+     </privilege>
+     <privilege>
+      <write-properties/>
+     </privilege>
+     <privilege>
+      <write-content/>
+     </privilege>
+     <privilege>
+      <bind/>
+     </privilege>
+     <privilege>
+      <unbind/>
+     </privilege>
+    </current-user-privilege-set>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <C:calendar-description/>
+    <A:calendar-color/>
+    <C:supported-calendar-component-set/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>

@@ -2,8 +2,8 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
-ETag: "12c556718c27de34471b0b9f333610fc"
-Content-Length: 15922
+ETag: "98b7c2157174c7fe61cb19bd4807456c"
+Content-Length: 17006
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -384,6 +384,50 @@ Content-Type: text/xml; charset="utf-8"
  </response>
  <response>
   <href>/caldav.php/user1/home/70D23799-4A68-4905-AB9F-4D47BA693CFD.ics</href>
+  <propstat>
+   <prop>
+    <C:calendar-home-set>
+     <href>/caldav.php/user1/</href>
+    </C:calendar-home-set>
+    <C:calendar-user-address-set>
+     <href>mailto:user1@example.net</href>
+     <href>/caldav.php/user1/</href>
+    </C:calendar-user-address-set>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <A:dropbox-home-URL/>
+    <A:notifications-URL/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/home/0544-gzip-PUT.ics</href>
+  <propstat>
+   <prop>
+    <C:calendar-home-set>
+     <href>/caldav.php/user1/</href>
+    </C:calendar-home-set>
+    <C:calendar-user-address-set>
+     <href>mailto:user1@example.net</href>
+     <href>/caldav.php/user1/</href>
+    </C:calendar-user-address-set>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <A:dropbox-home-URL/>
+    <A:notifications-URL/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/addresses/</href>
   <propstat>
    <prop>
     <C:calendar-home-set>

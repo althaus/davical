@@ -54,6 +54,15 @@ INSERT INTO collection (user_no, parent_container, dav_name, dav_etag,
            FALSE, FALSE, user_no, '<DAV::collection/><urn:ietf:params:xml:ns:caldav:calendar/>'
       FROM usr;
 
+INSERT INTO collection (user_no, parent_container, dav_name, dav_etag,
+                 dav_displayname, is_calendar, is_addressbook, created, modified,
+                 public_events_only, publicly_readable, collection_id, resourcetypes )
+    SELECT user_no, '/' || username || '/',  '/' || username || '/addresses/', md5(username),
+           username || ' addresses', FALSE, TRUE, '1957-07-26', '1998-03-16',
+           FALSE, FALSE, user_no + 50, '<DAV::collection/><urn:ietf:params:xml:ns:carddav:addressbook/>'
+      FROM usr;
+
+
 INSERT INTO principal (type_id, user_no, displayname, default_privileges)
          SELECT 1, user_no, fullname, privilege_to_bits(ARRAY['read-free-busy','schedule-send','schedule-deliver']) FROM usr
                  WHERE NOT EXISTS(SELECT 1 FROM role_member JOIN roles USING(role_no) WHERE role_name = 'Group' AND role_member.user_no = usr.user_no)

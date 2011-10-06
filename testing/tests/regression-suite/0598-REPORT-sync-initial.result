@@ -2,8 +2,8 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
-ETag: "4455c8df8e5a0572ba52dccb00843cfe"
-Content-Length: 4030
+ETag: "f3c2aff3ffaca5f51dea5f2aa5eb194a"
+Content-Length: 4253
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -21,7 +21,7 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/home/20061101T073004Z.ics</href>
   <propstat>
    <prop>
-    <getetag>"c3658901fd4689d4a1e1d6f08601ef4f"</getetag>
+    <getetag>"bcc402382688cb3e8e57379c757dbcb0"</getetag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -148,6 +148,15 @@ Content-Type: text/xml; charset="utf-8"
   <propstat>
    <prop>
     <getetag>"257b9df4aaf573a578af4aadd033abf4"</getetag>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/home/0544-gzip-PUT.ics</href>
+  <propstat>
+   <prop>
+    <getetag>"6ddd18264a9d40c1c9d37a005eeb7e4f"</getetag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>

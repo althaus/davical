@@ -3,7 +3,7 @@ Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
 Lock-Token: <opaquelocktoken:xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx>
-Content-Length: 456
+Content-Length: 412
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -18,9 +18,9 @@ Content-Type: text/xml; charset="utf-8"
    </lockscope>
    <depth>0</depth>
    <owner>
-    <href>http://andrew.mcmillan.net.nz/node/5/</href>
+    <href/>
    </owner>
-   <timeout>Second-300</timeout>
+   <timeout>Second-30</timeout>
    <locktoken>
     <href>opaquelocktoken:xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx</href>
    </locktoken>

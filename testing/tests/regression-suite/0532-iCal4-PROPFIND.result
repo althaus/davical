@@ -2,12 +2,12 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
-ETag: "e7cd1ee6cd4eb1e0e2aaa1d2b5a0bfb1"
-Content-Length: 15648
+ETag: "9e402a9adb641a6ce4891a105f7963bd"
+Content-Length: 17404
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
-<multistatus xmlns="DAV:" xmlns:C="http://calendarserver.org/ns/" xmlns:C1="urn:ietf:params:xml:ns:caldav" xmlns:A="http://apple.com/ns/ical/">
+<multistatus xmlns="DAV:" xmlns:C="http://calendarserver.org/ns/" xmlns:C1="urn:ietf:params:xml:ns:caldav" xmlns:A="http://apple.com/ns/ical/" xmlns:C2="urn:ietf:params:xml:ns:carddav">
  <response>
   <href>/caldav.php/user1/</href>
   <propstat>
@@ -153,6 +153,78 @@ Content-Type: text/xml; charset="utf-8"
     <C1:calendar-description/>
     <A:calendar-color/>
     <A:calendar-order/>
+    <C1:schedule-calendar-transp/>
+    <quota-available-bytes/>
+    <quota-used-bytes/>
+    <C1:calendar-timezone/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/addresses/</href>
+  <propstat>
+   <prop>
+    <C:getctag>"24c9e15e52afc47c225b757e7bee1f9d"</C:getctag>
+    <displayname>user1 addresses</displayname>
+    <resourcetype>
+     <collection/>
+     <C2:addressbook/>
+    </resourcetype>
+    <C1:calendar-free-busy-set>
+     <href>/caldav.php/user1/home/</href>
+     <href>/caldav.php/user1/created/</href>
+     <href>/caldav.php/user1/6E20BB7C-EFD9-4F0F-9BDC-5335E04D47E0/</href>
+    </C1:calendar-free-busy-set>
+    <C1:schedule-default-calendar-URL>
+     <href>/user1/home/</href>
+    </C1:schedule-default-calendar-URL>
+    <current-user-privilege-set>
+     <privilege>
+      <all/>
+     </privilege>
+     <privilege>
+      <read/>
+     </privilege>
+     <privilege>
+      <unlock/>
+     </privilege>
+     <privilege>
+      <read-acl/>
+     </privilege>
+     <privilege>
+      <read-current-user-privilege-set/>
+     </privilege>
+     <privilege>
+      <write-acl/>
+     </privilege>
+     <privilege>
+      <write/>
+     </privilege>
+     <privilege>
+      <write-properties/>
+     </privilege>
+     <privilege>
+      <write-content/>
+     </privilege>
+     <privilege>
+      <bind/>
+     </privilege>
+     <privilege>
+      <unbind/>
+     </privilege>
+    </current-user-privilege-set>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <C:xmpp-server/>
+    <C:xmpp-uri/>
+    <C1:calendar-description/>
+    <A:calendar-color/>
+    <A:calendar-order/>
+    <C1:supported-calendar-component-set/>
     <C1:schedule-calendar-transp/>
     <quota-available-bytes/>
     <quota-used-bytes/>

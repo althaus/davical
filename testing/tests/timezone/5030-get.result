@@ -1,8 +1,10 @@
 HTTP/1.1 200 OK
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 ETag: "Some good etag"
+Last-Modified: Dow, 01 Jan 2000 00:00:00 GMT
+Content-Disposition: Attachment; Filename="Pacific-Auckland.ics"
 Content-Length: 3658
-Content-Type: text/calendar
+Content-Type: text/calendar; charset=UTF-8
 
 BEGIN:VCALENDAR
 VERSION:2.0

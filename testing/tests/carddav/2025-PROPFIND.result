@@ -2,29 +2,30 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
-ETag: "e76f1252cff440810b604e3903cc364b"
-Content-Length: 675
+ETag: "c407a846b30b1e658173c72fab664629"
+Content-Length: 636
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
-<multistatus xmlns="DAV:" xmlns:C="http://calendarserver.org/ns/" xmlns:A="http://apple.com/ns/ical/" xmlns:C1="urn:ietf:params:xml:ns:caldav">
+<multistatus xmlns="DAV:" xmlns:A="http://apache.org/dav/props/" xmlns:C="urn:ietf:params:xml:ns:carddav">
  <response>
-  <href>/caldav.php/user1/home/</href>
+  <href>/caldav.php/user3/addresses/</href>
   <propstat>
    <prop>
-    <displayname>user1 home</displayname>
-    <C:getctag>"86d97f6156e59bbf1b1514e804a6cc1c"</C:getctag>
+    <getlastmodified>Sun, 15 Mar 1998 12:00:00 GMT</getlastmodified>
     <resourcetype>
      <collection/>
-     <C1:calendar/>
+     <C:addressbook/>
     </resourcetype>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
   <propstat>
    <prop>
-    <A:calendar-color/>
-    <C1:calendar-description/>
+    <getcontentlength/>
+    <A:executable/>
+    <checked-in/>
+    <checked-out/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
