@@ -162,6 +162,9 @@ class CalDAVRequest
           $this->content_type = 'text/xml';
         }
       }
+      else if ( $this->method == 'PUT' || $this->method == 'POST' ) {
+        $this->CoerceContentType();
+      }
     }
     $this->user_agent = ((isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : "Probably Mulberry"));
 
@@ -840,7 +843,11 @@ EOSQL;
     if ( isset($this->content_type) ) {
       $type = explode( '/', $this->content_type, 2);
       /** @todo: Perhaps we should look at the target collection type, also. */
-      if ( $type[0] == 'text' ) return;
+      if ( $type[0] == 'text' ) {
+        if ( !empty($type[2]) && ($type[2] == 'vcard' || $type[2] == 'calendar' || $type[2] == 'x-vcard') ) {
+          return;
+        }
+      }
     }
 
     /** Null (or peculiar) content-type supplied so we have to try and work it out... */
@@ -866,7 +873,7 @@ EOSQL;
         dbg_error_log( 'LOG NOTICE', 'Unusual content-type of "%s" and first word of content is "%s"',
                                         (isset($this->content_type)?$this->content_type:'(null)'), $first_word );
     }
-    $this->content_type = 'text/plain';
+    if ( empty($this->content_type) ) $this->content_type = 'text/plain';
   }
 
 
