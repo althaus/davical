@@ -1,0 +1,62 @@
+HTTP/1.1 207 Multi-Status
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
+DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
+ETag: "8b72e0eb2a2a3afd42cf96e4df5e9974"
+Content-Length: 950
+Content-Type: text/xml; charset="utf-8"
+
+<?xml version="1.0" encoding="utf-8" ?>
+<multistatus xmlns="DAV:">
+ <response>
+  <href>/caldav.php/user1/home/e70576e9-c1e0-431e-a507-0386fd82f223.ics</href>
+  <propstat>
+   <prop>
+    <getetag>"e8060931f30c1798ac58ffbe4ec0bffc"</getetag>
+    <getcontenttype>text/calendar</getcontenttype>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/home/da81c0ee-7871-11db-c6d6-f6927c144649.ics</href>
+  <propstat>
+   <prop>
+    <getetag>"6f16959eee5c920b45548840b1e9ea19"</getetag>
+    <getcontenttype>text/calendar</getcontenttype>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/home/0544-gzip-PUT.ics</href>
+  <propstat>
+   <prop>
+    <getetag>"6ddd18264a9d40c1c9d37a005eeb7e4f"</getetag>
+    <getcontenttype>text/calendar</getcontenttype>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+</multistatus>
+
+         dav_name: >/user1/home/4aaf8f37-f232-4c8e-a72e-e171d4c4fe54.ics<
+          dtstart: >2006-11-02 10:00:00+13<
+            rrule: >FREQ=WEEKLY;COUNT=26;INTERVAL=1;BYDAY=TH<
+
+         dav_name: >/user1/home/e70576e9-c1e0-431e-a507-0386fd82f223.ics<
+          dtstart: >2007-12-11 07:45:00+13<
+            rrule: >FREQ=WEEKLY;INTERVAL=1;BYDAY=TU,TH<
+
+         dav_name: >/user1/home/71e2ae82-7870-11db-c6d6-f6927c144649.ics<
+          dtstart: >2006-11-03 16:00:00+13<
+            rrule: >FREQ=WEEKLY;INTERVAL=2;UNTIL=20071222T235900<
+
+         dav_name: >/user1/home/da81c0ee-7871-11db-c6d6-f6927c144649.ics<
+          dtstart: >2006-11-03 07:30:00+13<
+            rrule: >FREQ=MONTHLY<
+
+         dav_name: >/user1/home/0544-gzip-PUT.ics<
+          dtstart: >2011-10-05 14:00:00+13<
+            rrule: >NULL<
+

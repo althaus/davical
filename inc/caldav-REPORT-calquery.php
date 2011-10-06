@@ -87,9 +87,9 @@ function apply_filter( $filters, $item ) {
  * Process a filter fragment returning an SQL fragment
  */
 $need_post_filter = false;
-$need_range_filter = false;
+$range_filter = null;
 function SqlFilterFragment( $filter, $components, $property = null, $parameter = null ) {
-  global $need_post_filter, $need_range_filter, $target_collection;
+  global $need_post_filter, $range_filter, $target_collection;
   $sql = "";
   $params = array();
   if ( !is_array($filter) ) {
@@ -160,7 +160,8 @@ function SqlFilterFragment( $filter, $components, $property = null, $parameter =
         }
         @dbg_error_log('calquery', 'filter-sql: %s', $sql);
         @dbg_error_log('calquery', 'time-range-start: %s,  time-range-end: %s, ', $params[':time_range_start'], $params[':time_range_end']);
-        $need_range_filter = array(new RepeatRuleDateTime($start),new RepeatRuleDateTime($finish));
+        $range_filter = new RepeatRuleDateRange((empty($start) ? null : new RepeatRuleDateTime($start)),
+                                    (empty($finish)? null : new RepeatRuleDateTime($finish)));
         break;
 
       case 'urn:ietf:params:xml:ns:caldav:text-match':
@@ -344,10 +345,12 @@ if ( $qry->Exec("calquery",__LINE__,__FILE__) && $qry->rows() > 0 ) {
         if ( $expanded->ComponentCount() == 0 ) continue;
         if ( $need_expansion ) $calendar_object->caldav_data = $expanded->Render();
       }
-      else if ( $need_range_filter ) {
+      else if ( isset($range_filter) ) {
         $vResource = new vComponent($calendar_object->caldav_data);
-        $expanded = expand_event_instances($vResource, $need_range_filter[0], $need_range_filter[1]);
-        if ( $expanded->ComponentCount() == 0 ) continue;
+        $expanded = getVCalendarRange($vResource);
+        dbg_error_log('calquery', 'Expanded to %s:%s which might overlap %s:%s',
+                       $expanded->from, $expanded->until, $range_filter->from, $range_filter->until );
+        if ( !$expanded->overlaps($range_filter) ) continue;
       }
       $responses[] = calendar_to_xml( $properties, $calendar_object );
     }
