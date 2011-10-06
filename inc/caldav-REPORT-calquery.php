@@ -135,33 +135,31 @@ function SqlFilterFragment( $filter, $components, $property = null, $parameter =
 
       case 'urn:ietf:params:xml:ns:caldav:time-range':
         /**
-        * @todo We should probably allow time range queries against other properties, since eventually some client may want to do this.
+        * @todo We should probably allow time range queries against other properties, since
+        *  eventually some client may want to do this.
         */
         $start_column = ($components[sizeof($components)-1] == 'VTODO' ? "due" : 'dtend');     // The column we compare against the START attribute
         $finish_column = 'dtstart';  // The column we compare against the END attribute
         $start = $v->GetAttribute("start");
         $finish = $v->GetAttribute("end");
-//        if ( isset($start) || isset($finish) ) {
-//          $sql .= ' AND (rrule_event_overlaps( dtstart, dtend, rrule, :time_range_start, :time_range_end ) OR event_has_exceptions(caldav_data.caldav_data) ) ';
-//          $params[':time_range_start'] = $start;
-//          $params[':time_range_end'] = $finish;
-//        }
         $start_sql = $finish_sql = '';
         if ( isset($start) ) {
           $params[':time_range_start'] = $start;
-          $start_sql .= ' ((dtend IS NULL AND dtstart > :time_range_start) OR dtend > :time_range_start) ';
+          $start_sql .= ' (('.$start_column.' IS NULL AND '.$finish_column.' > :time_range_start) OR '.$start_column.' > :time_range_start) ';
         }
         if ( isset($finish) ) {
           $params[':time_range_end'] = $finish;
-          $finish_sql = ' dtstart < :time_range_end ';
+          $finish_sql = ' '.$finish_column.' < :time_range_end ';
         }
         if ( isset($start) || isset($finish) ) {
-          $sql .= ' AND (rrule IS NOT NULL OR dtstart IS NULL OR (';
+          $sql .= ' AND (rrule IS NOT NULL OR '.$finish_column.' IS NULL OR (';
           if ( isset($start) ) $sql .= $start_sql;
           if ( isset($start) && isset($finish) ) $sql .= ' AND ';
           if ( isset($finish) ) $sql .= $finish_sql;
           $sql .= '))';
         }
+        @dbg_error_log('calquery', 'filter-sql: %s', $sql);
+        @dbg_error_log('calquery', 'time-range-start: %s,  time-range-end: %s, ', $params[':time_range_start'], $params[':time_range_end']);
         $need_range_filter = array(new RepeatRuleDateTime($start),new RepeatRuleDateTime($finish));
         break;
 
