@@ -105,6 +105,9 @@ $lock_opener = $request->FailIfLocked();
 
 if ( $request->method == "LOCK" ) {
   dbg_error_log( "LOCK", "Attempting to lock resource '%s'", $request->path);
+  $lock_timeout = (empty($request->timeout) ? 30 : intval($request->timeout) );
+  if ( $lock_timeout < 1 ) $lock_timeout = 30;
+  else if ( $lock_timeout > 300 ) $lock_timeout = 300;
   if ( ($lock_token = $request->IsLocked()) ) { // NOTE Assignment in if() is expected here.
     $sql = 'UPDATE locks SET start = current_timestamp WHERE opaquelocktoken = :lock_token';
     $params = array( ':lock_token' => $lock_token);
@@ -114,9 +117,6 @@ if ( $request->method == "LOCK" ) {
     * A fresh lock
     */
     $lock_token = uuid();
-    $lock_timeout = (empty($request->timeout) ? 30 : intval($request->timeout) );
-    if ( $lock_timeout < 1 ) $lock_timeout = 30;
-    else if ( $lock_timeout > 300 ) $lock_timeout = 300;
     $sql = 'INSERT INTO locks ( dav_name, opaquelocktoken, type, scope, depth, owner, timeout, start )
              VALUES( :dav_name, :lock_token, :type, :scope, :request_depth, :owner, :timeout::interval, current_timestamp )';
     $params = array(
@@ -139,7 +139,7 @@ if ( $request->method == "LOCK" ) {
       new XMLElement( 'lockscope', new XMLElement( $lock_row->scope )),
       new XMLElement( 'depth',     $request->GetDepthName() ),
       new XMLElement( 'owner',     new XMLElement( 'href', $lock_row->owner )),
-      new XMLElement( 'timeout',   'Second-'.$request->timeout),
+      new XMLElement( 'timeout',   'Second-'.$lock_timeout),
       new XMLElement( 'locktoken', new XMLElement( 'href', 'opaquelocktoken:'.$lock_token ))
   );
   $response = new XMLElement("lockdiscovery", new XMLElement( "activelock", $activelock), array("xmlns" => "DAV:") );
