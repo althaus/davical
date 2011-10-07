@@ -19,11 +19,16 @@ if ( isset($_SERVER['PATH_INFO']) && preg_match( '{^(/favicon.ico|davical.css|(i
   }
   exit(0);
 }
-elseif ( isset($_SERVER['PATH_INFO']) && preg_match( '{^/\.well-known/(.+)$}', $_SERVER['PATH_INFO'], $matches ) ) {
-	require ('well-known.php');
+require_once('./always.php');
+
+if ( isset($_SERVER['PATH_INFO']) && preg_match( '{^/\.well-known/(.+)$}', $_SERVER['PATH_INFO'], $matches ) ) {
+  require ('well-known.php');
   exit(0);
 }
-require_once('./always.php');
+elseif ( isset($_SERVER['PATH_INFO']) && $_SERVER['PATH_INFO'] == '/autodiscover/autodiscover.xml' ) {
+  require ('autodiscover-handler.php');
+  exit(0);
+}
 
 function logRequestHeaders() {
   global $c;
