@@ -114,28 +114,60 @@ class CalDAVRequest
     $this->options = $options;
     if ( !isset($this->options['allow_by_email']) ) $this->options['allow_by_email'] = false;
 
+    /**
+    * Our path is /<script name>/<user name>/<user controlled> if it ends in
+    * a trailing '/' then it is referring to a DAV 'collection' but otherwise
+    * it is referring to a DAV data item.
+    *
+    * Permissions are controlled as follows:
+    *  1. if there is no <user name> component, the request has read privileges
+    *  2. if the requester is an admin, the request has read/write priviliges
+    *  3. if there is a <user name> component which matches the logged on user
+    *     then the request has read/write privileges
+    *  4. otherwise we query the defined relationships between users and use
+    *     the minimum privileges returned from that analysis.
+    */
+    $this->path = (isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : "/");
+    $this->path = rawurldecode($this->path);
+
+    /** Allow a request for .../calendar.ics to translate into the calendar URL */
+    if ( preg_match( '#^(/[^/]+/[^/]+).ics$#', $this->path, $matches ) ) {
+      $this->path = $matches[1]. '/';
+    }
+
+    // dbg_error_log( "caldav", "Sanitising path '%s'", $this->path );
+    $bad_chars_regex = '/[\\^\\[\\(\\\\]/';
+    if ( preg_match( $bad_chars_regex, $this->path ) ) {
+      $this->DoResponse( 400, translate("The calendar path contains illegal characters.") );
+    }
+    if ( strstr($this->path,'//') ) $this->path = preg_replace( '#//+#', '/', $this->path);
+
     if ( !isset($c->raw_post) ) $c->raw_post = file_get_contents( 'php://input');
     if ( isset($_SERVER['HTTP_CONTENT_ENCODING']) ) {
-      @dbg_error_log('caldav', 'Content-Encoding: %s', $_SERVER['HTTP_CONTENT_ENCODING'] );
-      switch( $_SERVER['HTTP_CONTENT_ENCODING'] ) {
+      $encoding = $_SERVER['HTTP_CONTENT_ENCODING'];
+      @dbg_error_log('caldav', 'Content-Encoding: %s', $encoding );
+      $encoding = preg_replace('{[^a-z0-9-]}i','',$encoding);
+      if ( ! ini_get('open_basedir') && (isset($c->dbg['ALL']) || isset($c->dbg['caldav'])) ) {
+        $fh = fopen('/tmp/encoded_data.'.$encoding,'w');
+        if ( $fh ) {
+          fwrite($fh,$c->raw_post);
+          fclose($fh);
+        }
+      }
+      switch( $encoding ) {
         case 'gzip':
-          $this->raw_post = gzdecode($c->raw_post);
+          $this->raw_post = @gzdecode($c->raw_post);
           break;
         case 'deflate':
-          $this->raw_post = gzinflate($c->raw_post);
+          $this->raw_post = @gzinflate($c->raw_post);
           break;
         case 'compress':
-          $this->raw_post = gzuncompress($c->raw_post);
+          $this->raw_post = @gzuncompress($c->raw_post);
           break;
         default:
-          if ( ! ini_get('open_basedir') && (isset($c->dbg['ALL']) || isset($c->dbg['caldav'])) ) {
-            $fh = fopen('/tmp/raw_post','w');
-            if ( $fh ) {
-              fwrite($fh,$request->raw_post);
-              fclose($fh);
-            }
-          }
-          $this->PreconditionFailed(402, 'content-encoding', 'This server does not presently support content encoded with "%s"', $_SERVER['HTTP_CONTENT_ENCODING']);
+      }
+      if ( empty($this->raw_post) && !empty($c->raw_post) ) {
+        $this->PreconditionFailed(415, 'content-encoding', sprintf('Unable to decode "%s" content encoding.', $_SERVER['HTTP_CONTENT_ENCODING']));
       }
       $c->raw_post = $this->raw_post;
     }
@@ -243,34 +275,6 @@ class CalDAVRequest
       }
       if ( ! isset($this->timeout) || $this->timeout == 0 ) $this->timeout = (isset($c->default_lock_timeout) ? $c->default_lock_timeout : 900);
     }
-
-    /**
-    * Our path is /<script name>/<user name>/<user controlled> if it ends in
-    * a trailing '/' then it is referring to a DAV 'collection' but otherwise
-    * it is referring to a DAV data item.
-    *
-    * Permissions are controlled as follows:
-    *  1. if there is no <user name> component, the request has read privileges
-    *  2. if the requester is an admin, the request has read/write priviliges
-    *  3. if there is a <user name> component which matches the logged on user
-    *     then the request has read/write privileges
-    *  4. otherwise we query the defined relationships between users and use
-    *     the minimum privileges returned from that analysis.
-    */
-    $this->path = (isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : "/");
-    $this->path = rawurldecode($this->path);
-
-    /** Allow a request for .../calendar.ics to translate into the calendar URL */
-    if ( preg_match( '#^(/[^/]+/[^/]+).ics$#', $this->path, $matches ) ) {
-      $this->path = $matches[1]. '/';
-    }
-
-    // dbg_error_log( "caldav", "Sanitising path '%s'", $this->path );
-    $bad_chars_regex = '/[\\^\\[\\(\\\\]/';
-    if ( preg_match( $bad_chars_regex, $this->path ) ) {
-      $this->DoResponse( 400, translate("The calendar path contains illegal characters.") );
-    }
-    if ( strstr($this->path,'//') ) $this->path = preg_replace( '#//+#', '/', $this->path);
 
     $this->principal = new Principal('path',$this->path);
 
