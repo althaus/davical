@@ -2,8 +2,8 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
-ETag: "f3c2aff3ffaca5f51dea5f2aa5eb194a"
-Content-Length: 4253
+ETag: "f855e21bdab0b98d0bfefa0211bde9ac"
+Content-Length: 4479
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -157,6 +157,15 @@ Content-Type: text/xml; charset="utf-8"
   <propstat>
    <prop>
     <getetag>"6ddd18264a9d40c1c9d37a005eeb7e4f"</getetag>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/home/0545-deflate-PUT.ics</href>
+  <propstat>
+   <prop>
+    <getetag>"4a3aa58a3e11487e87d87024465d4182"</getetag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>

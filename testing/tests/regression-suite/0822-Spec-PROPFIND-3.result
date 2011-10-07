@@ -634,6 +634,41 @@
   </propstat>
  </response>
  <response>
+  <href>/caldav.php/user1/home/0545-deflate-PUT.ics</href>
+  <propstat>
+   <prop>
+    <creationdate>20111004T023507Z</creationdate>
+    <displayname>In Prague, 10am, Oct 7th for 1 hour</displayname>
+    <getcontentlanguage/>
+    <getcontentlength>710</getcontentlength>
+    <getcontenttype>text/calendar</getcontenttype>
+    <getetag>"4a3aa58a3e11487e87d87024465d4182"</getetag>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <resourcetype/>
+    <supportedlock>
+     <lockentry>
+      <lockscope>
+       <exclusive/>
+      </lockscope>
+      <locktype>
+       <write/>
+      </locktype>
+     </lockentry>
+    </supportedlock>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <lockdiscovery/>
+    <source/>
+    <checked-in/>
+    <checked-out/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+ <response>
   <href>/caldav.php/user1/home/DAYPARTY-77C6-4FB7-BDD3-6882E2F1BE74.ics</href>
   <propstat>
    <prop>

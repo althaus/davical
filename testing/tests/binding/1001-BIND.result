@@ -9,7 +9,7 @@ Content-Type: text/xml; charset="utf-8"
 <error xmlns="DAV:">
   <can-overwrite/>A resource already exists at the destination.
 </error>
-          bind_id: >1601<
+          bind_id: >1602<
   bound_source_id: >11<
   dav_displayname: >User 2's Calendar, as uploaded by Admin<
          dav_name: >/user4/user2/<

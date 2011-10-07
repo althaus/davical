@@ -2,7 +2,7 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
-ETag: "2bac61d8cc65cae86757a7dd00eef4e2"
+ETag: "4f2f5fe4966246175dfc7a90396422d2"
 Content-Length: 12754
 Content-Type: text/xml; charset="utf-8"
 
@@ -70,7 +70,7 @@ Content-Type: text/xml; charset="utf-8"
   <propstat>
    <prop>
     <displayname>user1 home</displayname>
-    <C1:getctag>"a707eb83606863b8f1f30274b6b1a5b8"</C1:getctag>
+    <C1:getctag>"243d78db0cc75a576d2603eef69efdc9"</C1:getctag>
     <A:calendar-color>#0252D4FF</A:calendar-color>
     <C:supported-calendar-component-set>
      <C:comp name="VEVENT"/>
