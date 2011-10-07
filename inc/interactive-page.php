@@ -27,6 +27,7 @@ $user_menu->AddOption(translate('View My Details'),$c->base_url.'/admin.php?acti
 $user_menu->AddOption(translate('List Users'),$c->base_url.'/admin.php?action=browse&t=principal&type=1');
 $user_menu->AddOption(translate('List Resources'),$c->base_url.'/admin.php?action=browse&t=principal&type=2');
 $user_menu->AddOption(translate('List Groups'),$c->base_url.'/admin.php?action=browse&t=principal&type=3');
+$user_menu->AddOption(translate('List External Calendars'),$c->base_url.'/admin.php?action=browse&t=external');
 
 $admin_menu = new MenuSet('submenu', 'submenu', 'submenu_active');
 if ( $session->AllowedTo('Admin' )) {
