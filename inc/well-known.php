@@ -1,7 +1,5 @@
 <?php
 
-require_once('./always.php');
-
 dbg_error_log( 'well-known', 'iSchedule requested' );
 
 require_once('HTTPAuthSession.php');

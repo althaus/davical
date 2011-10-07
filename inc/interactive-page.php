@@ -36,6 +36,7 @@ if ( $session->AllowedTo('Admin' )) {
   $admin_menu->AddOption(translate('Tools'),$c->base_url.'/tools.php',translate('Import calendars and Synchronise LDAP.') );
   $user_menu->AddOption(translate('Inactive Principals'),$c->base_url.'/admin.php?action=browse&t=principal&active=f');
   $user_menu->AddOption(translate('Create Principal'),$c->base_url.'/admin.php?action=edit&t=principal',translate('Create a new principal (i.e. a new user, resource or group)'));
+  $admin_menu->AddOption(translate('List External Calendars'),$c->base_url.'/admin.php?action=browse&t=external');
 }
 
 $related_menu = new MenuSet('related', 'menu', 'menu_active');

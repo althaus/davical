@@ -1,0 +1,14 @@
+#
+# Testing with a process similar to iCal4
+#
+TYPE=PUT
+URL=http://regression.host/caldav.php/user1/home/0546-deflate-PUT.ics
+HEAD
+
+HEADER=DAVKit/4.0 (729); CalendarStore/4.0 (965); iCal/4.0 (1362); Mac OS X/10.6.1 (10B504)
+HEADER=Content-Type: text/calendar
+HEADER=Content-Encoding: deflate
+
+#
+#
+DATA=0544-gzip-PUT
