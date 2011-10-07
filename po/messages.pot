@@ -508,6 +508,9 @@ msgstr ""
 msgid "Expires"
 msgstr ""
 
+msgid "External Url"
+msgstr ""
+
 msgid "Fail"
 msgstr ""
 
@@ -655,6 +658,9 @@ msgid "Language"
 msgstr ""
 
 msgid "Last used"
+msgstr ""
+
+msgid "List External Calendars"
 msgstr ""
 
 msgid "List Groups"
@@ -872,6 +878,9 @@ msgid "Read the free/busy information for a calendar collection"
 msgstr ""
 
 msgid "Read/Write"
+msgstr ""
+
+msgid "References"
 msgstr ""
 
 msgid "Remove"
