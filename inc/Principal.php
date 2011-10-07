@@ -513,7 +513,7 @@ class Principal {
       if ( !isset($field_values->{$k}) && !isset($this->{$k}) ) continue;
       if ( $inserting ) {
         $insert_fields[] = $k;
-        $param_names[] = ':'.$k;
+        $param_names[] = ':'.$k . ($k == 'default_privileges' ? '::BIT(24)' : '');
       }
       else {
         $update_list[] = $k.'=:'.$k;
