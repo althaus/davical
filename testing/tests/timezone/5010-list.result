@@ -1,6 +1,6 @@
 HTTP/1.1 200 OK
 Date: Dow, 01 Jan 2000 00:00:00 GMT
-Content-Length: 2644
+Content-Length: 3064
 Content-Type: application/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -65,11 +65,25 @@ Content-Type: application/xml; charset="utf-8"
   <local-name lang="en_US">Pacific/Auckland</local-name>
  </summary>
  <summary>
+  <tzid>Prague_in_Central_Europe</tzid>
+  <last-modified>all good</last-modified>
+  <inactive/>
+  <alias/>
+  <local-name lang="en_US">Prague_in_Central_Europe</local-name>
+ </summary>
+ <summary>
   <tzid>/softwarestudio.org/Olson_20011030_5/Pacific/Auckland</tzid>
   <last-modified>all good</last-modified>
   <inactive/>
   <alias>Pacific/Auckland</alias>
   <local-name lang="en_US">/softwarestudio.org/Olson_20011030_5/Pacific/Auckland</local-name>
+ </summary>
+ <summary>
+  <tzid>Somewhere_in_Central_Europe</tzid>
+  <last-modified>all good</last-modified>
+  <inactive/>
+  <alias/>
+  <local-name lang="en_US">Somewhere_in_Central_Europe</local-name>
  </summary>
  <summary>
   <tzid>(UTC-05:00) Eastern Time (US &amp; Canada)</tzid>

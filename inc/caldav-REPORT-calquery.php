@@ -87,9 +87,9 @@ function apply_filter( $filters, $item ) {
  * Process a filter fragment returning an SQL fragment
  */
 $need_post_filter = false;
-$need_range_filter = false;
+$range_filter = null;
 function SqlFilterFragment( $filter, $components, $property = null, $parameter = null ) {
-  global $need_post_filter, $need_range_filter, $target_collection;
+  global $need_post_filter, $range_filter, $target_collection;
   $sql = "";
   $params = array();
   if ( !is_array($filter) ) {
@@ -135,34 +135,33 @@ function SqlFilterFragment( $filter, $components, $property = null, $parameter =
 
       case 'urn:ietf:params:xml:ns:caldav:time-range':
         /**
-        * @todo We should probably allow time range queries against other properties, since eventually some client may want to do this.
+        * @todo We should probably allow time range queries against other properties, since
+        *  eventually some client may want to do this.
         */
         $start_column = ($components[sizeof($components)-1] == 'VTODO' ? "due" : 'dtend');     // The column we compare against the START attribute
         $finish_column = 'dtstart';  // The column we compare against the END attribute
         $start = $v->GetAttribute("start");
         $finish = $v->GetAttribute("end");
-//        if ( isset($start) || isset($finish) ) {
-//          $sql .= ' AND (rrule_event_overlaps( dtstart, dtend, rrule, :time_range_start, :time_range_end ) OR event_has_exceptions(caldav_data.caldav_data) ) ';
-//          $params[':time_range_start'] = $start;
-//          $params[':time_range_end'] = $finish;
-//        }
         $start_sql = $finish_sql = '';
         if ( isset($start) ) {
           $params[':time_range_start'] = $start;
-          $start_sql .= ' ((dtend IS NULL AND dtstart > :time_range_start) OR dtend > :time_range_start) ';
+          $start_sql .= ' (('.$start_column.' IS NULL AND '.$finish_column.' > :time_range_start) OR '.$start_column.' > :time_range_start) ';
         }
         if ( isset($finish) ) {
           $params[':time_range_end'] = $finish;
-          $finish_sql = ' dtstart < :time_range_end ';
+          $finish_sql = ' '.$finish_column.' < :time_range_end ';
         }
         if ( isset($start) || isset($finish) ) {
-          $sql .= ' AND (rrule IS NOT NULL OR dtstart IS NULL OR (';
+          $sql .= ' AND (rrule IS NOT NULL OR '.$finish_column.' IS NULL OR (';
           if ( isset($start) ) $sql .= $start_sql;
           if ( isset($start) && isset($finish) ) $sql .= ' AND ';
           if ( isset($finish) ) $sql .= $finish_sql;
           $sql .= '))';
         }
-        $need_range_filter = array(new RepeatRuleDateTime($start),new RepeatRuleDateTime($finish));
+        @dbg_error_log('calquery', 'filter-sql: %s', $sql);
+        @dbg_error_log('calquery', 'time-range-start: %s,  time-range-end: %s, ', $params[':time_range_start'], $params[':time_range_end']);
+        $range_filter = new RepeatRuleDateRange((empty($start) ? null : new RepeatRuleDateTime($start)),
+                                    (empty($finish)? null : new RepeatRuleDateTime($finish)));
         break;
 
       case 'urn:ietf:params:xml:ns:caldav:text-match':
@@ -346,10 +345,12 @@ if ( $qry->Exec("calquery",__LINE__,__FILE__) && $qry->rows() > 0 ) {
         if ( $expanded->ComponentCount() == 0 ) continue;
         if ( $need_expansion ) $calendar_object->caldav_data = $expanded->Render();
       }
-      else if ( $need_range_filter ) {
+      else if ( isset($range_filter) ) {
         $vResource = new vComponent($calendar_object->caldav_data);
-        $expanded = expand_event_instances($vResource, $need_range_filter[0], $need_range_filter[1]);
-        if ( $expanded->ComponentCount() == 0 ) continue;
+        $expanded = getVCalendarRange($vResource);
+        dbg_error_log('calquery', 'Expanded to %s:%s which might overlap %s:%s',
+                       $expanded->from, $expanded->until, $range_filter->from, $range_filter->until );
+        if ( !$expanded->overlaps($range_filter) ) continue;
       }
       $responses[] = calendar_to_xml( $properties, $calendar_object );
     }

@@ -1,3 +1,17 @@
+#
+# Doing a PUT with cadaver
+#
+TYPE=PUT
+URL=http://regression.host/caldav.php/user1/home/20061101T073004Z.ics
+
+GETSQL=locktoken
+SELECT opaquelocktoken FROM locks WHERE dav_name = '/user1/home/20061101T073004Z.ics'
+ENDSQL
+
+HEADER=User-Agent: cadaver/0.22.3 neon/0.25.5
+HEADER=If: <http://dev.davical.org:1080/caldav.php/user1/home/20061101T073004Z.ics> (<opaquelocktoken:##locktoken##>)
+
+BEGINDATA
 BEGIN:VCALENDAR
 CALSCALE:GREGORIAN
 PRODID:-//Ximian//NONSGML Evolution Calendar//EN
@@ -5,13 +19,9 @@ VERSION:2.0
 BEGIN:VEVENT
 UID:20061101T073000Z-10468-1000-1-7@ubu
 DTSTAMP:20061101T073000Z
-DTSTART;TZID=/softwarestudio.org/Olson_20011030_5/Pacific/Auckland:
- 20061101T100000
-DTEND;TZID=/softwarestudio.org/Olson_20011030_5/Pacific/Auckland:
- 20061101T110000
-SUMMARY:A Meeting
-X-EVOLUTION-CALDAV-HREF:http:
- //user1@mycaldav/caldav.php/user1/home/20061101T073004Z.ics
+DTSTART;TZID=Pacific/Auckland:20061101T100000
+DTEND;TZID=Pacific/Auckland:20061101T110000
+SUMMARY:A Changed Meeting
 BEGIN:VALARM
 X-EVOLUTION-ALARM-UID:20061101T073000Z-10480-1000-1-5@ubu
 ACTION:DISPLAY
@@ -20,8 +30,7 @@ DESCRIPTION:A Meeting
 END:VALARM
 END:VEVENT
 BEGIN:VTIMEZONE
-TZID:/softwarestudio.org/Olson_20011030_5/Pacific/Auckland
-X-LIC-LOCATION:Pacific/Auckland
+TZID:Pacific/Auckland
 BEGIN:STANDARD
 TZOFFSETFROM:+1300
 TZOFFSETTO:+1200
@@ -38,3 +47,4 @@ RRULE:FREQ=YEARLY;INTERVAL=1;BYDAY=1SU;BYMONTH=10
 END:DAYLIGHT
 END:VTIMEZONE
 END:VCALENDAR
+ENDDATA

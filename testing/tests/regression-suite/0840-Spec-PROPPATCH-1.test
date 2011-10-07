@@ -30,13 +30,13 @@ ENDDATA
 
 QUERY
 SELECT dav_displayname, is_calendar, resourcetypes,
-       modified > (current_timestamp - '60 seconds'::interval) AS changed_last_60secs
+       modified > (current_timestamp - '120 seconds'::interval) AS changed_recently
   FROM collection WHERE dav_name = '/user1/home/' ORDER BY collection_id
 ENDQUERY
 
 QUERY
 SELECT dav_name, property_name, property_value, changed_by,
-       changed_on > (current_timestamp - '60 seconds'::interval) AS changed_last_30secs
+       changed_on > (current_timestamp - '120 seconds'::interval) AS changed_recently
   FROM property
  WHERE dav_name = '/user1/home/'
  ORDER BY dav_name, property_name

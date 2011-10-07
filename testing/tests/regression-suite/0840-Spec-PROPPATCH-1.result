@@ -36,19 +36,19 @@ Content-Type: text/xml; charset="utf-8"
  </response>
 </multistatus>
 
-changed_last_60se: >1<
+ changed_recently: >1<
   dav_displayname: >user1 home<
       is_calendar: >1<
     resourcetypes: ><DAV::collection/><urn:ietf:params:xml:ns:caldav:calendar/><
 
        changed_by: >10<
-changed_last_30se: >1<
+ changed_recently: >1<
          dav_name: >/user1/home/<
     property_name: >http://apple.com/ns/ical/:calendar-color<
    property_value: >#0252D4FF<
 
        changed_by: >10<
-changed_last_30se: >1<
+ changed_recently: >1<
          dav_name: >/user1/home/<
     property_name: >http://apple.com/ns/ical/:calendar-order<
    property_value: >1<

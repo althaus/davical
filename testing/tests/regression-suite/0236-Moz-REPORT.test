@@ -35,9 +35,14 @@ SELECT dtstart, due,
   FROM calendar_item JOIN caldav_data USING (dav_id)
  WHERE calendar_item.dav_name ~ '^/user1/home/'
    AND caldav_data.caldav_type = 'VTODO'
-   AND (rrule IS NOT NULL
-       OR (dtstart >= '20071101T110000Z' AND dtstart < '20080104T110000Z')
-       OR (due >= '20071101T110000Z' AND dtstart < '20080104T110000Z')
-       )
+   AND (rrule IS NOT NULL OR dtstart IS NULL
+        OR (
+              (
+                  (due IS NULL AND dtstart > '20071101T110000Z')
+                  OR due > '20071101T110000Z'
+              )
+              AND  dtstart < '20080104T110000Z'
+           )
+    )
 ENDQUERY
 

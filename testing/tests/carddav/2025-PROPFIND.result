@@ -1,0 +1,33 @@
+HTTP/1.1 207 Multi-Status
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
+DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
+ETag: "c407a846b30b1e658173c72fab664629"
+Content-Length: 636
+Content-Type: text/xml; charset="utf-8"
+
+<?xml version="1.0" encoding="utf-8" ?>
+<multistatus xmlns="DAV:" xmlns:A="http://apache.org/dav/props/" xmlns:C="urn:ietf:params:xml:ns:carddav">
+ <response>
+  <href>/caldav.php/user3/addresses/</href>
+  <propstat>
+   <prop>
+    <getlastmodified>Sun, 15 Mar 1998 12:00:00 GMT</getlastmodified>
+    <resourcetype>
+     <collection/>
+     <C:addressbook/>
+    </resourcetype>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <getcontentlength/>
+    <A:executable/>
+    <checked-in/>
+    <checked-out/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+</multistatus>

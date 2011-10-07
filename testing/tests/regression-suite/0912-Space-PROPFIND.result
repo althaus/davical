@@ -2,12 +2,12 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
-ETag: "dc48f1e4638af53b05dd0f29f1906989"
-Content-Length: 3827
+ETag: "f640afc35eb1b3892d84512c69748944"
+Content-Length: 4581
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
-<multistatus xmlns="DAV:" xmlns:C="http://calendarserver.org/ns/" xmlns:C1="urn:ietf:params:xml:ns:caldav" xmlns:A="http://apple.com/ns/ical/">
+<multistatus xmlns="DAV:" xmlns:C="http://calendarserver.org/ns/" xmlns:C1="urn:ietf:params:xml:ns:caldav" xmlns:A="http://apple.com/ns/ical/" xmlns:C2="urn:ietf:params:xml:ns:carddav">
  <response>
   <href>/caldav.php/User%20Six/</href>
   <propstat>
@@ -43,6 +43,32 @@ Content-Type: text/xml; charset="utf-8"
     <resourcetype>
      <collection/>
      <C1:calendar/>
+    </resourcetype>
+    <C1:calendar-free-busy-set>
+     <href>/caldav.php/User%20Six/home/</href>
+     <href>/caldav.php/User%20Six/DEADBEEF-EFD9-4F0F-9BDC-5335E04D47E0/</href>
+    </C1:calendar-free-busy-set>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <C1:calendar-description/>
+    <A:calendar-color/>
+    <A:calendar-order/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/User%20Six/addresses/</href>
+  <propstat>
+   <prop>
+    <C:getctag>"28e06afe6d538a7e84518750357ef98d"</C:getctag>
+    <displayname>User Six addresses</displayname>
+    <resourcetype>
+     <collection/>
+     <C2:addressbook/>
     </resourcetype>
     <C1:calendar-free-busy-set>
      <href>/caldav.php/User%20Six/home/</href>

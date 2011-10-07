@@ -1,0 +1,29 @@
+HTTP/1.1 200 OK
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
+DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
+Lock-Token: <opaquelocktoken:xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx>
+Content-Length: 412
+Content-Type: text/xml; charset="utf-8"
+
+<?xml version="1.0" encoding="utf-8" ?>
+<prop xmlns="DAV:">
+ <lockdiscovery>
+  <activelock>
+   <locktype>
+    <write/>
+   </locktype>
+   <lockscope>
+    <exclusive/>
+   </lockscope>
+   <depth>0</depth>
+   <owner>
+    <href/>
+   </owner>
+   <timeout>Second-30</timeout>
+   <locktoken>
+    <href>opaquelocktoken:xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx</href>
+   </locktoken>
+  </activelock>
+ </lockdiscovery>
+</prop>

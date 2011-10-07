@@ -13,9 +13,16 @@ require_once('vComponent.php');
 
 $response = new XMLDocument( array("urn:ietf:params:xml:ns:timezone-service" => "") );
 $tzlist = $response->NewXMLElement('timezone-list');
-$tzlist->NewElement('dtstamp', gmdate('Y-m-d\TH:i:s\Z'));
+$qry = new AwlQuery('SELECT to_char(max(last_modified),\'YYYY-MM-DD\"T\"HH24:MI:SS"Z"\') AS dtstamp FROM timezones');
+if ( $qry->Exec('tz/list',__LINE__,__FILE__) && $qry->rows() > 0 ) {
+  $row = $qry->Fetch();
+  $tzlist->NewElement('dtstamp', $row->dtstamp);
+}
+else {
+  $tzlist->NewElement('dtstamp', gmdate('Y-m-d\TH:i:s\Z'));
+}
 
-$sql = 'SELECT our_tzno, tzid, active, to_char(last_modified AT TIME ZONE \'UTC\',\'YYYY-MM-DD\"T\"HH24:MI:SS"Z"\') AS last_modified, olson_name, vtimezone FROM timezones';
+$sql = 'SELECT our_tzno, tzid, active, to_char(last_modified,\'YYYY-MM-DD\"T\"HH24:MI:SS"Z"\') AS last_modified, olson_name, vtimezone FROM timezones';
 $params = array();
 $where = '';
 if ( $returnall !== true ) {
@@ -23,8 +30,13 @@ if ( $returnall !== true ) {
 }
 if ( !empty($changedsince) ) {
   if ( !empty($where) ) $where .= ' AND ';
-  $where .= 'last_modified >= :changedsince';
+  $where .= 'last_modified > :changedsince';
   $params[':changedsince'] = $changedsince;
+}
+if ( !empty($tzid) ) {
+  if ( !empty($where) ) $where .= ' AND ';
+  $where .= '(tzid = :tzid OR our_tzno IN (SELECT our_tzno FROM tz_aliases WHERE tzalias = :tzid))';
+  $params[':tzid'] = $tzid;
 }
 if ( !empty($where)) $sql .= ' WHERE '.$where;
 
@@ -67,7 +79,7 @@ if ( $qry->Exec('tz/list',__LINE__,__FILE__) && $qry->rows() > 0 ) {
       }
     }
     else {
-      $elements[] = new XMLElement('local-name', $tz->tzid, array( 'lang' => $lang ) );
+      $elements[] = new XMLElement('local-name', $tz->tzid, ( empty($lang) ? null : array( 'lang' => $lang ) ) );
     }
     $tzlist->NewElement('summary', $elements);
   }

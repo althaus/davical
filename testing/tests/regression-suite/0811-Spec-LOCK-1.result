@@ -2,7 +2,7 @@ HTTP/1.1 200 OK
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
-Content-Length: 460
+Content-Length: 456
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -19,7 +19,7 @@ Content-Type: text/xml; charset="utf-8"
    <owner>
     <href>http://andrew.mcmillan.net.nz/node/5/</href>
    </owner>
-   <timeout>Second-8640000</timeout>
+   <timeout>Second-300</timeout>
    <locktoken>
     <href>opaquelocktoken:xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx</href>
    </locktoken>

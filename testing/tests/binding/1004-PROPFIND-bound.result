@@ -59,6 +59,24 @@
   </propstat>
  </response>
  <response>
+  <href>/caldav.php/user4/addresses/</href>
+  <propstat>
+   <prop>
+    <displayname>user4 addresses</displayname>
+    <resource-id>
+     <href>/caldav.php/.resources/63</href>
+    </resource-id>
+    <parent-set>
+     <parent>
+      <href>/caldav.php</href>
+      <segment>user4</segment>
+     </parent>
+    </parent-set>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
   <href>/caldav.php/user4/nz_holidays/</href>
   <propstat>
    <prop>
@@ -100,7 +118,7 @@
    <prop>
     <displayname>User 4 Outbox</displayname>
     <resource-id>
-     <href>/caldav.php/.resources/1597</href>
+     <href>/caldav.php/.resources/1600</href>
     </resource-id>
     <parent-set>
      <parent>

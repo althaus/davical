@@ -1,0 +1,25 @@
+#
+# PROPFIND on addressbook resource
+#
+TYPE=PROPFIND
+URL=http://regression.host/caldav.php/user3/addresses/
+HEADER=User-Agent: cadaver/0.23.3 neon/0.29.6
+HEADER=Content-Type: application/xml
+HEADER=Depth: 1
+HEAD
+
+AUTH=user3:user3
+
+
+BEGINDATA
+<?xml version="1.0" encoding="utf-8"?>
+<propfind xmlns="DAV:"><prop>
+<getcontentlength xmlns="DAV:"/>
+<getlastmodified xmlns="DAV:"/>
+<executable xmlns="http://apache.org/dav/props/"/>
+<resourcetype xmlns="DAV:"/>
+<checked-in xmlns="DAV:"/>
+<checked-out xmlns="DAV:"/>
+</prop></propfind>
+ENDDATA
+

@@ -514,6 +514,56 @@ class RepeatRuleDateTime extends DateTime {
 
 
 /**
+ * This class is used to hold a pair of dates defining a range.  The range may be open-ended by including
+ * a null for one end or the other, or both.
+ *  
+ * @author Andrew McMillan <andrew@mcmillan.net.nz>
+ */
+class RepeatRuleDateRange {
+  public $from;
+  public $until;
+
+  /**
+   * Construct a new RepeatRuleDateRange which will be the range between $date1 and $date2. The earliest of the two
+   * dates will be used as the start of the period, the latest as the end.  If one of the dates is null then the order
+   * of the parameters is significant, with the null treated as -infinity if it is first, or +infinity if it is second.
+   * If both parameters are null then the range is from -infinity to +infinity.
+   *  
+   * @param RepeatRuleDateTime $date1
+   * @param RepeatRuleDateTime $date2
+   */
+  function __construct( $date1, $date2 ) {
+    if ( $date1 != null && $date2 != null && $date1 > $date2 )  {
+      $this->from = $date2;
+      $this->until = $date1;
+    }
+    else {
+      $this->from = $date1;
+      $this->until = $date2;
+    }
+  }
+
+  /**
+   * Assess whether this range overlaps the supplied range.  null values are treated as infinity.
+   * @param RepeatRuleDateRange $other
+   * @return boolean
+   */
+  function overlaps( RepeatRuleDateRange $other ) {
+    if ( ($this->until == null && $this->from == null) || ($other->until == null && $other->from == null ) ) return true;
+    if ( $this->until == null && $other->until == null ) return true;
+    if ( $this->from == null && $other->from == null ) return true;
+
+    if ( $this->until == null ) return ($other->until > $this->from);
+    if ( $this->from == null ) return ($other->from < $this->until);
+    if ( $other->until == null ) return ($this->until > $other->from);
+    if ( $other->from == null ) return ($thi->from < $other->until);
+
+    return !( $this->until < $other->from || $this->from > $other->until );
+  }
+}
+
+
+/**
  * This class is an implementation of RRULE parsing and expansion, as per RFC5545.  It should be reasonably
  * complete, except that it does not handle changing the WKST - there may be a few errors in unusual rules
  * also, but all of the common cases should be handled correctly.
@@ -594,6 +644,15 @@ class RepeatRule {
   }
 
 
+  /**
+   * If this repeat rule has an UNTIL= or COUNT= then we can know it will end. Eventually.
+   * @return boolean Whether or not one of these properties is present.
+   */
+  public function hasLimitedOccurrences() {
+    return ( isset($this->count) || isset($this->until) );    
+  }
+
+
   public function set_timezone( $tzstring ) {
     $this->base->setTimezone(new DateTimeZone($tzstring));
   }
@@ -606,7 +665,7 @@ class RepeatRule {
     $this->finished = false;
   }
 
-
+  
   public function rewind() {
     $this->position = -1;
   }
@@ -1019,6 +1078,7 @@ class RepeatRule {
 }
 
 
+
 require_once("vComponent.php");
 
 /**
@@ -1104,11 +1164,13 @@ function expand_event_instances( $vResource, $range_start = null, $range_end = n
   global $c;
   $components = $vResource->GetComponents();
 
-  if ( !isset($range_start) ) { $range_start = new RepeatRuleDateTime(); $range_start->modify('-6 weeks'); }
-  if ( !isset($range_end) )   { $range_end   = clone($range_start);      $range_end->modify('+6 months');  }
+  if ( empty($range_start) ) { $range_start = new RepeatRuleDateTime(); $range_start->modify('-6 weeks'); }
+  if ( empty($range_end) )   {
+      $range_end   = clone($range_start);
+      $range_end->modify('+6 months');  
+  }
 
   $new_components = array();
-  $result_limit = 1000;
   $instances = array();
   $expand = false;
   $dtstart = null;
@@ -1303,4 +1365,87 @@ function expand_event_instances( $vResource, $range_start = null, $range_end = n
   $vResource->SetComponents($new_components);
 
   return $vResource;
+}
+
+
+/**
+* Return a RepeatRuleDateRange from the earliest start to the latest end of the event.
+* 
+* @todo: This should probably be made part of the VCalendar object when we move the RRule.php into AWL.
+*
+* @param object $vResource A vComponent which is a VCALENDAR containing components needing expansion
+* @return RepeatRuleDateRange Representing the range of time covered by the event. 
+*/
+function getVCalendarRange( $vResource ) {
+  global $c;
+  $components = $vResource->GetComponents();
+
+  $dtstart = null;
+  $duration = null;
+  $earliest_start = null;
+  $latest_end = null;
+  $has_repeats = false;
+  foreach( $components AS $k => $comp ) {
+    $dtstart_prop = $comp->GetProperty('DTSTART');
+    $dtend_prop = $comp->GetProperty('DTEND');
+    $due_prop = $comp->GetProperty('DUE');
+    
+    if ( isset($dtstart_prop) )
+      $dtstart = new RepeatRuleDateTime( $dtstart_prop );
+    else if ( isset($due_prop) )
+      $dtstart = new RepeatRuleDateTime( $due_prop );
+    else if ( isset($dtend_prop) )
+      $dtstart = new RepeatRuleDateTime( $dtend_prop );
+    else
+      continue;
+
+    $duration_prop = $comp->GetProperty('DURATION');
+    if ( empty($dtend_prop) ) {
+      if ( empty($duration_prop) ) {
+        $duration = new Rfc5545Duration(0);
+      }
+      else {
+        $duration = new Rfc5545Duration($duration_prop->Value());
+      }
+    }
+    else {
+      $dtend = new RepeatRuleDateTime( $dtend_prop );
+      $duration = new Rfc5545Duration($dtend->epoch() - $dtstart->epoch());
+    }
+
+    $rrule = $comp->GetProperty('RRULE');
+    $limited_occurrences = true;
+    if ( isset($rrule) ) {
+      $rule = new RepeatRule($dtstart, $rrule);
+      $limited_occurrences  = $rule->hasLimitedOccurrences();
+    }
+    
+    if ( $limited_occurrences ) {
+      $instances = array();
+      $instances[$dtstart->FloatOrUTC()] = $dtstart;
+      if ( !isset($range_end) ) {
+        $range_end   = new RepeatRuleDateTime();
+        $range_end->modify('+150 years');
+      }  
+      $instances += rrule_expand($dtstart, 'RRULE', $comp, $range_end);
+      $instances += rdate_expand($dtstart, 'RDATE', $comp, $range_end);
+      foreach ( rdate_expand($dtstart, 'EXDATE', $comp, $range_end) AS $k => $v ) {
+        unset($instances[$k]);
+      }
+      $instances = array_keys($instances);
+      asort($instances);
+      $first = new RepeatRuleDateTime($instances[0]);
+      $last = new RepeatRuleDateTime($instances[count($instances)-1]);
+      $last->modify($duration);
+      if ( empty($earliest_start) || $first < $earliest_start )  $earliest_start = $first;
+      if ( empty($latest_end) || $last > $latest_end )           $latest_end = $last;
+    }
+    else {
+      if ( empty($earliest_start) || $dtstart < $earliest_start ) $earliest_start = $dtstart;
+      $latest_end = null;
+      break;
+    }
+  }
+
+  return new RepeatRuleDateRange($earliest_start, $latest_end );
 }

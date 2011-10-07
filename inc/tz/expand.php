@@ -14,21 +14,21 @@ require_once('RRule-v2.php');
 
 if ( empty($format) ) $format = 'text/calendar';
 if ( $format != 'text/calendar' ) {
-  $request->PreconditionFailed(403, 'supported-format', 'This server currently only supports text/calendar format.');
+  $request->PreconditionFailed(403, 'supported-format', 'This server currently only supports text/calendar format.', 'urn:ietf:params:xml:ns:timezone-service' );
 }
 
 if ( empty($start) ) $start = sprintf( '%04d-01-01', date('Y'));
 if ( empty($end) )   $end   = sprintf( '%04d-12-31', date('Y') + 10);
 
 $sql = 'SELECT our_tzno, tzid, active, olson_name, vtimezone, etag, ';
-$sql .= 'to_char(last_modified AT TIME ZONE \'UTC\',\'Dy, DD Mon IYYY HH24:MI:SS "GMT"\') AS last_modified ';
+$sql .= 'to_char(last_modified,\'Dy, DD Mon IYYY HH24:MI:SS "GMT"\') AS last_modified ';
 $sql .= 'FROM timezones WHERE tzid=:tzid';
 $params = array( ':tzid' => $tzid );
 $qry = new AwlQuery($sql,$params);
 if ( !$qry->Exec() ) exit(1);
 if ( $qry->rows() < 1 ) {
   $sql = 'SELECT our_tzno, tzid, active, olson_name, vtimezone, etag, ';
-  $sql .= 'to_char(last_modified AT TIME ZONE \'UTC\',\'Dy, DD Mon IYYY HH24:MI:SS "GMT"\') AS last_modified ';
+  $sql .= 'to_char(last_modified,\'Dy, DD Mon IYYY HH24:MI:SS "GMT"\') AS last_modified ';
   $sql .= 'FROM timezones JOIN tz_aliases USING(our_tzno) WHERE tzalias=:tzid';
   if ( !$qry->Exec() ) exit(1);
   if ( $qry->rows() < 1 ) $request->DoResponse(404);
@@ -163,7 +163,14 @@ $vtz = new vCalendar($tz->vtimezone);
 
 $response = new XMLDocument(array("urn:ietf:params:xml:ns:timezone-service" => ""));
 $timezones = $response->NewXMLElement('urn:ietf:params:xml:ns:timezone-service:timezones');
-$timezones->NewElement('dtstamp', gmdate('Y-m-d\TH:i:s\Z'));
+$qry = new AwlQuery('SELECT to_char(max(last_modified),\'YYYY-MM-DD\"T\"HH24:MI:SS"Z"\') AS dtstamp FROM timezones');
+if ( $qry->Exec('tz/list',__LINE__,__FILE__) && $qry->rows() > 0 ) {
+  $row = $qry->Fetch();
+  $timezones->NewElement('dtstamp', $row->dtstamp);
+}
+else {
+  $timezones->NewElement('dtstamp', gmdate('Y-m-d\TH:i:s\Z'));
+}
 
 $from = new RepeatRuleDateTime($start);
 $until = new RepeatRuleDateTime($end);

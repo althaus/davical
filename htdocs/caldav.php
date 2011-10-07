@@ -110,7 +110,6 @@ switch ( $request->method ) {
   case 'HEAD':       include('caldav-GET.php');            break;
   case 'PROPPATCH':  include('caldav-PROPPATCH.php');      break;
   case 'PUT':
-    $request->CoerceContentType();
     switch( $request->content_type ) {
       case 'text/calendar':
         include('caldav-PUT-vcalendar.php');

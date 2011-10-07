@@ -1,0 +1,20 @@
+#
+# Test GET access to a non-public calendar using a ticket.
+#
+TYPE=GET
+URL=http://regression.host/public.php/user2/home/9429a973-2b13-4b1a-be09-948d75425c45.ics
+NOAUTH
+
+# Get the ticket we created earlier in 948...
+GETSQL=ticket
+SELECT ticket_id FROM access_ticket
+                WHERE target_collection_id = 11 AND target_resource_id is null;
+ENDSQL
+
+HEADER=User-Agent: DAViCalTester/public
+HEADER=Ticket: ##ticket##
+HEAD
+
+BEGINDATA
+ENDDATA
+

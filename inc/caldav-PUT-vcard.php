@@ -39,7 +39,7 @@ else {
     if ( ! isset($c->readonly_webdav_collections) || $c->readonly_webdav_collections ) {
       $request->PreconditionFailed(405,'method-not-allowed',translate('You may not PUT to a collection URL'));
     }
-    $request->DoResponse(403,translate('PUT on a collection is only allowed for text/calendar content against a calendar collection'));
+    $request->DoResponse(403,translate('PUT on a collection is only allowed for text/vcard content against an addressbook collection'));
   }
   $dest->NeedPrivilege('DAV::write-content');
 }

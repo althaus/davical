@@ -115,7 +115,33 @@ class CalDAVRequest
     if ( !isset($this->options['allow_by_email']) ) $this->options['allow_by_email'] = false;
 
     if ( !isset($c->raw_post) ) $c->raw_post = file_get_contents( 'php://input');
-    $this->raw_post = $c->raw_post;
+    if ( isset($_SERVER['HTTP_CONTENT_ENCODING']) ) {
+      @dbg_error_log('caldav', 'Content-Encoding: %s', $_SERVER['HTTP_CONTENT_ENCODING'] );
+      switch( $_SERVER['HTTP_CONTENT_ENCODING'] ) {
+        case 'gzip':
+          $this->raw_post = gzdecode($c->raw_post);
+          break;
+        case 'deflate':
+          $this->raw_post = gzinflate($c->raw_post);
+          break;
+        case 'compress':
+          $this->raw_post = gzuncompress($c->raw_post);
+          break;
+        default:
+          if ( ! ini_get('open_basedir') && (isset($c->dbg['ALL']) || isset($c->dbg['caldav'])) ) {
+            $fh = fopen('/tmp/raw_post','w');
+            if ( $fh ) {
+              fwrite($fh,$request->raw_post);
+              fclose($fh);
+            }
+          }
+          $this->PreconditionFailed(402, 'content-encoding', 'This server does not presently support content encoded with "%s"', $_SERVER['HTTP_CONTENT_ENCODING']);
+      }
+      $c->raw_post = $this->raw_post;
+    }
+    else {
+      $this->raw_post = $c->raw_post;
+    }
 
     if ( isset($debugging) && isset($_GET['method']) ) {
       $_SERVER['REQUEST_METHOD'] = $_GET['method'];
@@ -136,14 +162,12 @@ class CalDAVRequest
           $this->content_type = 'text/xml';
         }
       }
+      else if ( $this->method == 'PUT' || $this->method == 'POST' ) {
+        $this->CoerceContentType();
+      }
     }
     $this->user_agent = ((isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : "Probably Mulberry"));
 
-    if ( isset($_SERVER['HTTP_CONTENT_ENCODING']) ) {
-      @dbg_error_log('caldav', 'Content-Encoding: %s', $_SERVER['HTTP_CONTENT_ENCODING']);
-      $this->PreconditionFailed(402, 'content-encoding', 'This server does not presently support encoded content.');
-    }
-    
     /**
     * A variety of requests may set the "Depth" header to control recursion
     */
@@ -819,7 +843,11 @@ EOSQL;
     if ( isset($this->content_type) ) {
       $type = explode( '/', $this->content_type, 2);
       /** @todo: Perhaps we should look at the target collection type, also. */
-      if ( $type[0] == 'text' ) return;
+      if ( $type[0] == 'text' ) {
+        if ( !empty($type[2]) && ($type[2] == 'vcard' || $type[2] == 'calendar' || $type[2] == 'x-vcard') ) {
+          return;
+        }
+      }
     }
 
     /** Null (or peculiar) content-type supplied so we have to try and work it out... */
@@ -845,7 +873,7 @@ EOSQL;
         dbg_error_log( 'LOG NOTICE', 'Unusual content-type of "%s" and first word of content is "%s"',
                                         (isset($this->content_type)?$this->content_type:'(null)'), $first_word );
     }
-    $this->content_type = 'text/plain';
+    if ( empty($this->content_type) ) $this->content_type = 'text/plain';
   }
 
 
@@ -1091,11 +1119,11 @@ EOSQL;
   * @param string $precondition The namespaced precondition tag.
   * @param string $explanation An optional text explanation for the failure.
   */
-  function PreconditionFailed( $status, $precondition, $explanation = '') {
+  function PreconditionFailed( $status, $precondition, $explanation = '', $xmlns='DAV:') {
     $xmldoc = sprintf('<?xml version="1.0" encoding="utf-8" ?>
-<error xmlns="DAV:">
+<error xmlns="%s">
   <%s/>%s
-</error>', str_replace('DAV::', '', $precondition), $explanation );
+</error>', $xmlns, str_replace($xmlns.':', '', $precondition), $explanation );
 
     $this->DoResponse( $status, $xmldoc, 'text/xml; charset="utf-8"' );
     exit(0);  // Unecessary, but might clarify things

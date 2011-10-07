@@ -13,18 +13,18 @@ require_once('vCalendar.php');
 
 if ( empty($format) ) $format = 'text/calendar';
 if ( $format != 'text/calendar' ) {
-  $request->PreconditionFailed(403, 'supported-format', 'This server currently only supports text/calendar format.');
+  $request->PreconditionFailed(403, 'supported-format', 'This server currently only supports text/calendar format.', 'urn:ietf:params:xml:ns:timezone-service');
 }
 
 $sql = 'SELECT our_tzno, tzid, active, olson_name, vtimezone, etag, ';
-$sql .= 'to_char(last_modified AT TIME ZONE \'UTC\',\'Dy, DD Mon IYYY HH24:MI:SS "GMT"\') AS last_modified ';
+$sql .= 'to_char(last_modified,\'Dy, DD Mon IYYY HH24:MI:SS "GMT"\') AS last_modified ';
 $sql .= 'FROM timezones WHERE tzid=:tzid';
 $params = array( ':tzid' => $tzid );
 $qry = new AwlQuery($sql,$params);
 if ( !$qry->Exec() ) exit(1);
 if ( $qry->rows() < 1 ) {
   $sql = 'SELECT our_tzno, tzid, active, olson_name, vtimezone, etag, ';
-  $sql .= 'to_char(last_modified AT TIME ZONE \'UTC\',\'Dy, DD Mon IYYY HH24:MI:SS "GMT"\') AS last_modified ';
+  $sql .= 'to_char(last_modified,\'Dy, DD Mon IYYY HH24:MI:SS "GMT"\') AS last_modified ';
   $sql .= 'FROM timezones JOIN tz_aliases USING(our_tzno) WHERE tzalias=:tzid';
   if ( !$qry->Exec() ) exit(1);
   if ( $qry->rows() < 1 ) $request->DoResponse(404);
@@ -44,8 +44,9 @@ if ( $qry->QDo('SELECT * FROM tz_localnames WHERE our_tzno = :our_tzno', array('
 }
 
 header( 'ETag: "'.$tz->etag.'"' );
-header( 'Last-Modified', $tz->last_modified );
+header( 'Last-Modified: '. $tz->last_modified );
+header( 'Content-Disposition: Attachment; Filename="'.str_replace('/','-',$tzid . '.ics"' ));
 
-$request->DoResponse(200, $vtz->Render(), 'text/calendar');
+$request->DoResponse(200, $vtz->Render(), 'text/calendar; charset=UTF-8');
 
 exit(0);
