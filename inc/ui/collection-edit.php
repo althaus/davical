@@ -132,6 +132,15 @@ if ( $editor->Available() ) {
   $entryqry = new AwlQuery( 'SELECT count(*) as count from caldav_data where collection_id='.$editor->Value('collection_id')  );
   $entryqry->Exec('admin-collection-edit');
   $entries = $entryqry->Fetch();  $entries = $entries->count;
+  
+  $externalqry = new AwlQuery( 'SELECT external_url from dav_binding where bound_source_id=:id  limit 1', array(':id' => $editor->Value('collection_id') ) );
+  $externalqry->Exec('external-bind-url');
+  $external = $externalqry->Fetch();  $external_url = $external->external_url;
+  if ( $external_url ) {
+    $external_bind = "\n<tr> <th class='right'>" . translate('External Url') . "</th>         <td class='left'>$external_url</td> </tr>";
+  } else {
+    $external_bind = "";
+  }
 }
 else {
   $c->page_title = $editor->Title(translate('Create New Collection'));
@@ -315,7 +324,7 @@ label.privilege {
 </style>
 <table>
  <tr> <th class="right">$prompt_collection_id:</th>    <td class="left">$value_id</td> </tr>
- <tr> <th class="right">$prompt_dav_name:</th>         <td class="left">$value_dav_name</td> </tr>
+ <tr> <th class="right">$prompt_dav_name:</th>         <td class="left">$value_dav_name</td> </tr>$external_bind
  <tr> <th class="right">$prompt_entries:</th>          <td class="left">$entries</td> </tr>
  <tr> <th class="right">$prompt_load_file:</th>        <td class="left">##ics_file.file.60##
   <label class="privilege" title="Should the uploaded entries be appended to the calendar"><input type="checkbox" name="mode" value="append">Append</label>
