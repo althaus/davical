@@ -1,6 +1,6 @@
 <?php
 
-// Editor component for company records
+// Editor component for collections
 $editor = new Editor(translate('Collection'), 'collection');
 param_to_global('id', 'int', 'old_id', 'collection_id' );
 param_to_global('user_no', 'int' );
