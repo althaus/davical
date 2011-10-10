@@ -848,7 +848,7 @@ EOSQL;
       $type = explode( '/', $this->content_type, 2);
       /** @todo: Perhaps we should look at the target collection type, also. */
       if ( $type[0] == 'text' ) {
-        if ( !empty($type[2]) && ($type[2] == 'vcard' || $type[2] == 'calendar' || $type[2] == 'x-vcard') ) {
+        if ( !empty($type[1]) && ($type[1] == 'vcard' || $type[1] == 'calendar' || $type[1] == 'x-vcard') ) {
           return;
         }
       }
