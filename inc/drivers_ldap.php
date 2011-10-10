@@ -282,7 +282,7 @@ function sync_user_from_LDAP( Principal &$principal, $mapping, $ldap_values ) {
   }
   else {
     $principal->Create($fields_to_set);
-    CreateHomeCalendar($principal->username());
+    CreateHomeCollections($principal->username());
   }
 }
 
