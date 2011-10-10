@@ -101,7 +101,24 @@ class Principal {
   protected $collections;
   protected $dead_properties;
   protected $default_calendar;
-    
+
+  /**
+   * Construct a new Principal object.  The principal record will be retrieved from the database, or (if not found) initialised to a new record.  You can test for whether the Principal exists by calling the Exists() method on the returned object.
+   * 
+   * Depending on the supplied $type, the following behaviour will occur:
+   *  path:          Will attempt to extract a username or email from the supplied path, and then do what those do.
+   *  dav_name:      Expects the dav_name of a <em>principal</em>, exactly, like: /principal/ and will use that as for username.
+   *  user_no:       Expects an integer which is the usr.user_no (deprecated)
+   *  principal_id:  Expects an integer which is the principal.principal_id
+   *  email:         Will try and retrieve a unique principal by using the email address.  Will fail (subsequent call to Exists() will be false) if there is not a unique match.
+   *  username:      Will retrieve based on strtolower($value) = lower(usr.username)
+   * 
+   * @param string $type One of 'path', 'dav_name', 'user_no', 'principal_id', 'email' or 'username'
+   * @param mixed $value A value appropriate to the $type requested. 
+   * @param boolean $use_cache Whether to use an available cache source (default true)
+   * @throws Exception When provided with an invalid $type parameter.
+   * @return Principal
+   */
   function __construct( $type, $value, $use_cache=true ) {
     global $c, $session;
 
@@ -516,7 +533,7 @@ class Principal {
         $param_names[] = ':'.$k . ($k == 'default_privileges' ? '::BIT(24)' : '');
       }
       else {
-        $update_list[] = $k.'=:'.$k;
+        $update_list[] = $k.'=:'.($k == 'default_privileges' ? '::BIT(24)' : '');
       }
       $sql_params[':'.$k] = (isset($field_values->{$k}) ? $field_values->{$k} : $this->{$k});  
     }
