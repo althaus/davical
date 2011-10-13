@@ -317,7 +317,7 @@ function handle_schedule_reply ( vCalendar $ical ) {
 */
 function do_scheduling_requests( vCalendar $resource, $create ) {
   global $request, $c;
-  if ( isset($c->enable_auto_schedule) && !$c->enable_auto_schedule ) return;
+  if ( !isset($request) || (isset($c->enable_auto_schedule) && !$c->enable_auto_schedule) ) return;
   
   if ( ! is_object($resource) ) {
     dbg_error_log( 'PUT', 'do_scheduling_requests called with non-object parameter (%s)', gettype($resource) );
