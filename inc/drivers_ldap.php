@@ -263,20 +263,20 @@ function sync_user_from_LDAP( Principal &$principal, $mapping, $ldap_values ) {
 
   $fields_to_set = array();
   $updateable_fields = Principal::updateableFields();
-  if ( isset($c->authenticate_hook['config']['default_value']) && is_array($c->authenticate_hook['config']['default_value']) ) {
-    foreach( $updateable_fields AS $field ) {
-      if ( isset($mapping['active']) && !isset($mapping['user_active']) ) $field = 'active';  // Backward compatibility: now 'user_active'
-      else if ( isset($mapping['updated']) && !isset($mapping['modified']) ) $field = 'updated'; // Backward compatibility: now 'modified'
-      if ( isset($mapping[$field]) && isset($ldap_values[$mapping[$field]]) ) {
-        $fields_to_set[$field] = $ldap_values[$mapping[$field]];
-        dbg_error_log( "LDAP", "Setting usr->%s to %s from LDAP field %s", $field, $ldap_values[$mapping[$field]], $mapping[$field] );
-      }
-      else if ( isset($c->authenticate_hook['config']['default_value'][$field] ) ) {
-        $fields_to_set[$field] = $c->authenticate_hook['config']['default_value'][$field];
-        dbg_error_log( "LDAP", "Setting usr->%s to %s from configured defaults", $field, $c->authenticate_hook['config']['default_value'][$field] );
-      }
+  foreach( $updateable_fields AS $field ) {
+    if ( isset($mapping['active']) && !isset($mapping['user_active']) ) $field = 'active';  // Backward compatibility: now 'user_active'
+    else if ( isset($mapping['updated']) && !isset($mapping['modified']) ) $field = 'updated'; // Backward compatibility: now 'modified'
+    if ( isset($mapping[$field]) && isset($ldap_values[$mapping[$field]]) ) {
+      $fields_to_set[$field] = $ldap_values[$mapping[$field]];
+      dbg_error_log( "LDAP", "Setting usr->%s to %s from LDAP field %s", $field, $ldap_values[$mapping[$field]], $mapping[$field] );
+    }
+    else if ( isset($c->authenticate_hook['config']['default_value']) && is_array($c->authenticate_hook['config']['default_value'])
+              && isset($c->authenticate_hook['config']['default_value'][$field] ) ) {
+      $fields_to_set[$field] = $c->authenticate_hook['config']['default_value'][$field];
+      dbg_error_log( "LDAP", "Setting usr->%s to %s from configured defaults", $field, $c->authenticate_hook['config']['default_value'][$field] );
     }
   }
+    
   if ( $principal->Exists() ) {
     $principal->Update($fields_to_set);
   }
