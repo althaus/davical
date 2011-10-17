@@ -263,9 +263,17 @@ function sync_user_from_LDAP( Principal &$principal, $mapping, $ldap_values ) {
 
   $fields_to_set = array();
   $updateable_fields = Principal::updateableFields();
+  if ( isset($mapping['active']) && !isset($mapping['user_active']) ) {
+    // Backward compatibility: now 'user_active'
+    $mapping['user_active'] = $mapping['active'];
+    unset($mapping['active']);
+  }
+  if ( isset($mapping['updated']) && !isset($mapping['modified']) ) {
+    // Backward compatibility: now 'modified'
+    $mapping['modified'] = $mapping['updated'];
+    unset($mapping['updated']);
+  }
   foreach( $updateable_fields AS $field ) {
-    if ( isset($mapping['active']) && !isset($mapping['user_active']) ) $field = 'active';  // Backward compatibility: now 'user_active'
-    else if ( isset($mapping['updated']) && !isset($mapping['modified']) ) $field = 'updated'; // Backward compatibility: now 'modified'
     if ( isset($mapping[$field]) && isset($ldap_values[$mapping[$field]]) ) {
       $fields_to_set[$field] = $ldap_values[$mapping[$field]];
       dbg_error_log( "LDAP", "Setting usr->%s to %s from LDAP field %s", $field, $ldap_values[$mapping[$field]], $mapping[$field] );
