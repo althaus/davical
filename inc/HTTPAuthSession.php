@@ -112,10 +112,10 @@ class HTTPAuthSession {
     else if ( isset($c->authenticate_hook['server_auth_type'])
               && isset($_SERVER["REMOTE_USER"]) && !empty($_SERVER["REMOTE_USER"])) {
       if ( ( is_array($c->authenticate_hook['server_auth_type'])
-                && in_array($_SERVER['AUTH_TYPE'], $c->authenticate_hook['server_auth_type']) )
+                    && in_array($_SERVER['AUTH_TYPE'], $c->authenticate_hook['server_auth_type']) )
          ||
            ( !is_array($c->authenticate_hook['server_auth_type'])
-                && $c->authenticate_hook['server_auth_type'] == $_SERVER['AUTH_TYPE'] )
+                    && $c->authenticate_hook['server_auth_type'] == $_SERVER['AUTH_TYPE'] )
          ) {
         /**
         * The authentication has happened in the server, and we should accept it.
