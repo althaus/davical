@@ -60,7 +60,7 @@ class Tools {
 
     $html .= $ef->SubmitButton( "Sync_LDAP", translate('Submit'));
 
-    $html .= '<h1>'.translate('Sync LDAP Groups with RSCDS') .'</h1>';
+    $html .= '<h1>'.translate('Sync LDAP Groups with DAViCal') .'</h1>';
     $html .= "<table width=\"100%\" class=\"data\">\n";
     $html .= $ef->StartForm( array("autocomplete" => "off" ) );
     $html .= sprintf( "<tr><td style=\"text-align:left\" colspan=\"2\" >%s</td></tr>\n",
