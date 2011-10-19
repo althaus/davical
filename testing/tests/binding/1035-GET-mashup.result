@@ -2,7 +2,7 @@ HTTP/1.1 200 OK
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
-Content-Length: 22330
+Content-Length: 22543
 Etag: "ae93907cb03bc025b8e733eb61f3a09e"
 Content-Type: text/calendar; charset="utf-8"
 
@@ -390,14 +390,17 @@ SUMMARY:An invited event.  Black tie with pink polka dots is essential.
  chained to a nearby fence.
 ORGANIZER;RSVP=TRUE;PARTSTAT=ACCEPTED;ROLE=CHAIR:mailto:user1@example.ne
  t
-ATTENDEE;RSVP=TRUE;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT:mailto:use
- r2@example.net
-ATTENDEE;RSVP=TRUE;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT:mailto:use
- r3@example.net
+ATTENDEE;RSVP=TRUE;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT;SCHEDULE-S
+ TATUS="2.0\;Scheduling invitation delivered successfully":mailto:user2@e
+ xample.net
+ATTENDEE;RSVP=TRUE;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT;SCHEDULE-S
+ TATUS="2.0\;Scheduling invitation delivered successfully":mailto:user3@e
+ xample.net
 ATTENDEE;RSVP=TRUE;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT:mailto:use
  r4@example.net
-ATTENDEE;RSVP=TRUE;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT:mailto:use
- r5@example.net
+ATTENDEE;RSVP=TRUE;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT;SCHEDULE-S
+ TATUS="2.0\;Scheduling invitation delivered successfully":mailto:user5@e
+ xample.net
 DTSTART:20100322T160000
 DTEND:20100322T170000
 X-MOZ-GENERATION:3

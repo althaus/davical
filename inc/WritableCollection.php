@@ -43,6 +43,7 @@ class WritableCollection extends DAVResource {
     $collection_id = $this->collection_id();
 
     if ( !isset($resources[0]) ) {
+      dbg_error_log( 'PUT', 'No calendar content!');
       rollback_on_error( $caldav_context, $user_no, $this->dav_name.'/'.$segment_name, translate('No calendar content'), 412 );
       return false;
     }
@@ -73,10 +74,18 @@ class WritableCollection extends DAVResource {
       $qry->QDo('SELECT dav_id FROM caldav_data WHERE dav_name = :dav_name ', array(':dav_name' => $path));
     }
     if ( $qry->rows() != 1 || !($row = $qry->Fetch()) ) {
-      // No dav_id?  => We're toast!
-      dbg_error_log( 'PUT', 'No dav_id!!!', $path);
-      rollback_on_error( $caldav_context, $user_no, $path);
-      return false;
+      if ( !$create_resource ) {
+        // Looks like we will have to create it, even if the caller thought we wouldn't
+        $qry->QDo('SELECT nextval(\'dav_id_seq\') AS dav_id');
+        if ( $qry->rows() != 1 || !($row = $qry->Fetch()) ) {
+          // No dav_id?  => We're toast!
+          trace_bug( 'No dav_id for "%s" on %s!!!', $path, ($create_resource ? 'create': 'update'));
+          rollback_on_error( $caldav_context, $user_no, $path);
+          return false;
+        }
+        $create_resource = true;
+        dbg_error_log( 'PUT', 'Unexpected need to create resource at "%s"', $path);
+      }
     }
     $dav_id = $row->dav_id;
 
@@ -94,14 +103,19 @@ class WritableCollection extends DAVResource {
         ':weak_etag' => $weak_etag
     ) );
     
+    if ( !$this->IsSchedulingCollection() && $do_scheduling ) {
+      if ( do_scheduling_requests($vcal, $create_resource ) ) {
+        $dav_params[':dav_data'] = $vcal->Render(null, true);
+        $etag = null;
+      }
+    }
+
     if ( $create_resource ) {
-      if ( !$this->IsSchedulingCollection() && $do_scheduling ) do_scheduling_requests($vcal,true);
       $sql = 'INSERT INTO caldav_data ( dav_id, user_no, dav_name, dav_etag, caldav_data, caldav_type, logged_user, created, modified, collection_id, weak_etag )
               VALUES( :dav_id, :user_no, :dav_name, :etag, :dav_data, :caldav_type, :session_user, current_timestamp, current_timestamp, :collection_id, :weak_etag )';
       $dav_params[':collection_id'] = $collection_id;
     }
     else {
-      if ( !$this->IsSchedulingCollection() && $do_scheduling ) do_scheduling_requests($vcal,false);
       $sql = 'UPDATE caldav_data SET caldav_data=:dav_data, dav_etag=:etag, caldav_type=:caldav_type, logged_user=:session_user,
               modified=current_timestamp, weak_etag=:weak_etag WHERE dav_id=:dav_id';
     }

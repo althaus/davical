@@ -1,0 +1,54 @@
+HTTP/1.1 204 No Content
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
+DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
+Content-Length: 0
+Content-Type: text/plain; charset="utf-8"
+
+
+      caldav_type: >VEVENT<
+         dav_name: >/manager1/home/E1A13F04-iCal-schedule.ics<
+      logged_user: >20<
+          summary: >Meeting with User1<
+          user_no: >20<
+        vcalendar: >BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Apple Inc.//iCal 4.0.4//EN
+CALSCALE:GREGORIAN
+BEGIN:VTIMEZONE
+TZID:Pacific/Auckland
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+1200
+RRULE:FREQ=YEARLY;BYMONTH=9;BYDAY=-1SU
+DTSTART:20070930T020000
+TZNAME:GMT+13:00
+TZOFFSETTO:+1300
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+1300
+RRULE:FREQ=YEARLY;BYMONTH=4;BYDAY=1SU
+DTSTART:20080406T030000
+TZNAME:GMT+12:00
+TZOFFSETTO:+1200
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+CREATED:20111018T195845Z
+UID:E1A13F04-iCal-schedule
+DTEND;TZID=Pacific/Auckland:20111019T110000
+ATTENDEE;CN=Manager 1;CUTYPE=INDIVIDUAL;PARTSTAT=ACCEPTED:
+ mailto:manager1@example.net
+ATTENDEE;CN=user1@example.net;CUTYPE=INDIVIDUAL;EMAIL=user1@example.net;
+ PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT;RSVP=TRUE;SCHEDULE-STATUS="3.
+ 8\;No authority to deliver invitations to user.":mailto:user1@example.ne
+ t
+TRANSP:OPAQUE
+SUMMARY:Meeting with User1
+DTSTART;TZID=Pacific/Auckland:20111019T100000
+DTSTAMP:20111018T200107Z
+ORGANIZER;CN="Manager 1":mailto:manager1@example.net
+SEQUENCE:4
+END:VEVENT
+END:VCALENDAR
+<
+

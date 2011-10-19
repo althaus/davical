@@ -1,0 +1,36 @@
+#
+# Testing for how iCal does a POST for free/busy
+#
+TYPE=POST
+URL=http://regression.host/caldav.php/manager1/.out/
+
+HEADER=X-DAViCal-Flush-Cache: true
+HEADER=DAVKit/4.0.3 (732.2); CalendarStore/4.0.4 (997.7); iCal/4.0.4 (1395.7); Mac OS X/10.6.8 (10K549)
+HEADER=Originator: mailto:manager1@example.net
+HEADER=Recipient: mailto:manager1@example.net, mailto:user1@example.net
+HEADER=Content-Type: text/calendar
+
+AUTH=manager1:manager1
+
+BEGINDATA
+BEGIN:VCALENDAR
+CALSCALE:GREGORIAN
+VERSION:2.0
+METHOD:REQUEST
+PRODID:-//Apple Inc.//iCal 4.0.4//EN
+BEGIN:VFREEBUSY
+UID:E9F98477-A9C2-43F9-8371-CBA0CBCB0300
+DTEND:20111019T110000Z
+ATTENDEE:mailto:manager1@example.net
+ATTENDEE:mailto:user1@example.net
+DTSTART:20111018T110000Z
+X-CALENDARSERVER-MASK-UID:E1A13F04-iCal-schedule
+DTSTAMP:20111019T085957Z
+ORGANIZER:mailto:manager1@example.net
+SUMMARY:Availability for mailto:manager1@example.net and mailto:user1@ex
+ ample.net
+END:VFREEBUSY
+END:VCALENDAR
+ENDDATA
+
+REPLACE=/DTSTAMP:\d{8}T\d{6}Z/DTSTAMP:yyyymmddThhmmssZ/
