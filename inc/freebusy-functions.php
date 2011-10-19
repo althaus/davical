@@ -50,6 +50,9 @@ function get_freebusy( $path_match, $range_start, $range_end, $bin_privs = null 
       if ( $calendar_object->status == 'TENTATIVE' ) {
         $extra = ';BUSY-TENTATIVE';
       }
+      else if ( isset($c->_workaround_client_freebusy_bug) && $c->_workaround_client_freebusy_bug ) {
+        $extra = ';BUSY';
+      }
 //      else if ( $debugging ) {
 //        $extra = ';'.$calendar_object->dav_id;
 //      }
