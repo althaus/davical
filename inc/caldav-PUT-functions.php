@@ -312,6 +312,132 @@ function handle_schedule_reply ( vCalendar $ical ) {
 
 
 /**
+ * Do the scheduling adjustments for a REPLY when an ATTENDEE updates their status.
+ * @param vCalendar $resource The resource that the ATTENDEE is writing to their calendar
+ * @param string $organizer The property which is the event ORGANIZER.
+ */
+function do_scheduling_reply( vCalendar $resource, vProperty $organizer ) {
+  global $request;
+  $organizer_email = preg_replace( '/^mailto:/i', '', $organizer->Value() );
+  $organizer_principal = new Principal('email',$organizer_email );
+  if ( !$organizer_principal->Exists() ) {
+    dbg_error_log( 'PUT', 'Organizer "%s" not found - cannot perform scheduling reply.', $organizer );
+    return false;
+  }
+  $sql = 'SELECT caldav_data.dav_name, caldav_data.caldav_data FROM caldav_data JOIN calendar_item USING(dav_id) ';
+  $sql .= 'WHERE caldav_data.collection_id IN (SELECT collection_id FROM collection WHERE is_calendar AND user_no =?) ';
+  $sql .= 'AND uid=? LIMIT 1';
+  $uids = $resource->GetPropertiesByPath('/VCALENDAR/*/UID');
+  if ( count($uids) == 0 ) {
+    dbg_error_log( 'PUT', 'No UID in VCALENDAR - giving up on REPLY.' );
+    return false;
+  }
+  $uid = $uids[0]->Value();
+  $qry = new AwlQuery($sql,$organizer_principal->user_no(), $uid);
+  if ( !$qry->Exec('PUT',__LINE__,__FILE__) || $qry->rows() < 1 ) {
+    dbg_error_log( 'PUT', 'Could not find original event from organizer - giving up on REPLY.' );
+    return false;
+  }
+  $row = $qry->Fetch();
+  $attendees = $resource->GetAttendees();
+  foreach( $attendees AS $v ) {
+    $email = preg_replace( '/^mailto:/i', '', $v->Value() );
+    if ( $email == $request->principal->email() ) {
+      $attendee = $v;
+    }
+  }
+  if ( empty($attendee) ) {
+    dbg_error_log( 'PUT', 'Could not find ATTENDEE in VEVENT - giving up on REPLY.' );
+    return false;
+  }
+  $schedule_original = new vCalendar($row->caldav_data);
+  $schedule_original->UpdateAttendeeStatus($request->principal->email(), clone($attendee) );
+
+  $collection_path = preg_replace('{/[^/]+$}', '/', $row->dav_name );
+  $segment_name = str_replace($collection_path, '', $row->dav_name );
+  $organizer_calendar = new WritableCollection(array('path' => $collection_path));
+  $organizer_inbox = new WritableCollection(array('path' => $organizer_principal->internal_url('schedule-inbox')));
+
+  $schedule_reply = clone($schedule_original);
+  $schedule_reply->AddProperty('METHOD', 'REPLY');
+
+  dbg_error_log( 'PUT', 'Writing scheduling REPLY from %s to %s', $request->principal->email(), $organizer_principal->email() );
+  
+  $response = '3.7'; // Organizer was not found on server.
+  if ( !$organizer_calendar->Exists() ) {
+    dbg_error_log('ERROR','Default calendar at "%s" does not exist for user "%s"',
+                              $organizer_calendar->dav_name(), $schedule_target->username());
+    $response = '5.2'; // No scheduling support for user
+  }
+  else {
+    if ( ! $organizer_inbox->HavePrivilegeTo('schedule-deliver-reply') ) {
+      $response = '3.8'; // No authority to deliver replies to organizer.
+    }
+    else if ( $organizer_inbox->WriteCalendarMember($schedule_reply, false, false, $request->principal->username().$segment_name) !== false ) {
+      $response = '1.2'; // Scheduling reply delivered successfully
+      if ( $organizer_calendar->WriteCalendarMember($schedule_original, false, false, $segment_name) === false ) {
+        dbg_error_log('ERROR','Could not write updated calendar member to %s',
+                $attendee_calendar->dav_name(), $attendee_calendar->dav_name(), $schedule_target->username());
+        trace_bug('Failed to write scheduling resource.');
+      }
+    }
+  }
+
+  $schedule_request = clone($schedule_original);
+  $schedule_request->AddProperty('METHOD', 'REQUEST');
+
+  dbg_error_log( 'PUT', 'Status for organizer <%s> set to "%s"', $organizer->Value(), $response );
+  $organizer->SetParameterValue( 'SCHEDULE-STATUS', $response );
+  $resource->UpdateOrganizerStatus($organizer);
+  $scheduling_actions = true;
+  
+  $attendees = $schedule_original->GetAttendees();
+  foreach( $attendees AS $attendee ) {
+    $email = preg_replace( '/^mailto:/i', '', $attendee->Value() );
+    if ( $email == $request->principal->email() || $email == $organizer_principal->email() ) continue;
+
+    $agent = $attendee->GetParameterValue('SCHEDULE-AGENT');
+    if ( $agent && $agent != 'SERVER' ) {
+      dbg_error_log( "PUT", "not delivering to %s, schedule agent set to value other than server", $email );
+      continue;
+    }
+    $schedule_target = new Principal('email',$email);
+    $response = '3.7'; // Attendee was not found on server.
+    if ( $schedule_target->Exists() ) {
+      $attendee_calendar = new WritableCollection(array('path' => $schedule_target->internal_url('schedule-default-calendar')));
+      if ( !$attendee_calendar->Exists() ) {
+        dbg_error_log('ERROR','Default calendar at "%s" does not exist for user "%s"',
+        $attendee_calendar->dav_name(), $schedule_target->username());
+        $response = '5.2'; // No scheduling support for user
+      }
+      else {
+        $attendee_inbox = new WritableCollection(array('path' => $schedule_target->internal_url('schedule-inbox')));
+        if ( ! $attendee_inbox->HavePrivilegeTo('schedule-deliver-invite') ) {
+          $response = '3.8'; //  No authority to deliver invitations to user.
+        }
+        else if ( $attendee_inbox->WriteCalendarMember($schedule_request, false) !== false ) {
+          $response = '1.2'; // Scheduling invitation delivered successfully
+          if ( $attendee_calendar->WriteCalendarMember($schedule_original, false) === false ) {
+            dbg_error_log('ERROR','Could not write updated calendar member to %s', 
+                    $attendee_calendar->dav_name(), $attendee_calendar->dav_name(), $schedule_target->username());
+            trace_bug('Failed to write scheduling resource.');
+          }
+        }
+      }
+    }
+    dbg_error_log( 'PUT', 'Status for attendee <%s> set to "%s"', $attendee->Value(), $response );
+    $attendee->SetParameterValue( 'SCHEDULE-STATUS', $response );
+    $scheduling_actions = true;
+    
+    $resource->UpdateAttendeeStatus($email, clone($attendee));
+    
+  }
+  
+  return $scheduling_actions;
+}
+
+
+/**
 * Create/Update the scheduling requests for this resource.  This includes updating
 * the scheduled user's default calendar.
 * @param vComponent $resource The VEVENT/VTODO/... resource we are scheduling
@@ -326,6 +452,20 @@ function do_scheduling_requests( vCalendar $resource, $create, $old_data = null 
     trace_bug( 'do_scheduling_requests called with non-object parameter (%s)', gettype($resource) );
     return  false;
   }
+
+  $organizer = $resource->GetOrganizer();
+  if ( $organizer === false || empty($organizer) ) {
+    dbg_error_log( 'PUT', 'Event has no organizer - no scheduling required.' );
+    return false;
+  }
+  $organizer_email = preg_replace( '/^mailto:/i', '', $organizer->Value() );
+
+  if ( $request->principal->email() != $organizer_email ) {
+    return do_scheduling_reply($resource,$organizer);
+  }
+  
+  $schedule_request = clone($resource);
+  $schedule_request->AddProperty('METHOD', 'REQUEST');
 
   $old_attendees = array();
   if ( !empty($old_data) ) {
@@ -344,14 +484,12 @@ function do_scheduling_requests( vCalendar $resource, $create, $old_data = null 
     $removed_attendees[$email] = $attendee;
   }
 
-  dbg_error_log( 'PUT', 'Adding to scheduling inbox %d attendees', count($attendees) );
-  $schedule_request = clone($resource);
-  $schedule_request->AddProperty('METHOD','REQUEST');
+  dbg_error_log( 'PUT', 'Writing scheduling resources for %d attendees', count($attendees) );
   $scheduling_actions = false;
   foreach( $attendees AS $attendee ) {
     $email = preg_replace( '/^mailto:/i', '', $attendee->Value() );
     if ( $email == $request->principal->email() ) {
-      dbg_error_log( "PUT", "not delivering to owner" );
+      dbg_error_log( "PUT", "not delivering to owner '%s'", $request->principal->email() );
       continue;
     }
 
@@ -369,30 +507,33 @@ function do_scheduling_requests( vCalendar $resource, $create, $old_data = null 
       continue;
     }
     $schedule_target = new Principal('email',$email);
-    $response = '5.3;'.translate('No scheduling support for user');
+    $response = '3.7';  // Attendee was not found on server.
+    dbg_error_log( 'PUT', 'Handling scheduling resources for %s on %s which is %s', $email,
+                     ($create?'create':'update'), ($attendee_is_new? 'new' : 'an update') );
     if ( $schedule_target->Exists() ) {
       $attendee_calendar = new WritableCollection(array('path' => $schedule_target->internal_url('schedule-default-calendar')));
       if ( !$attendee_calendar->Exists() ) {
         dbg_error_log('ERROR','Default calendar at "%s" does not exist for user "%s"',
                       $attendee_calendar->dav_name(), $schedule_target->username());
+        $response = '5.2';  // No scheduling support for user
       }
       else {
         $attendee_inbox = new WritableCollection(array('path' => $schedule_target->internal_url('schedule-inbox')));
         if ( ! $attendee_inbox->HavePrivilegeTo('schedule-deliver-invite') ) {
-          $response = '3.8;'.translate('No authority to deliver invitations to user.');
+          $response = '3.8';  // No authority to deliver invitations to user.
         }
         else if ( $attendee_inbox->WriteCalendarMember($schedule_request, $attendee_is_new) !== false ) {
-          $response = '2.0;'.translate('Scheduling invitation delivered successfully');
+          $response = '1.2';  // Scheduling invitation delivered successfully
           if ( $attendee_calendar->WriteCalendarMember($resource, $attendee_is_new) === false ) {
-                dbg_error_log('ERROR','Could not write new calendar member to %s', $attendee_calendar->dav_name(),
-                              $attendee_calendar->dav_name(), $schedule_target->username());
+                dbg_error_log('ERROR','Could not write %s calendar member to %s', ($attendee_is_new?'new':'updated'),
+                        $attendee_calendar->dav_name(), $attendee_calendar->dav_name(), $schedule_target->username());
+                trace_bug('Failed to write scheduling resource.');
           }
         }
       }
     }
-    $schedule_status = '"'.$response.'"';
-    dbg_error_log( 'PUT', 'Status for attendee <%s> set to "%s"', $attendee->Value(), $schedule_status );
-    $attendee->SetParameterValue( 'SCHEDULE-STATUS', $schedule_status );
+    dbg_error_log( 'PUT', 'Status for attendee <%s> set to "%s"', $attendee->Value(), $response );
+    $attendee->SetParameterValue( 'SCHEDULE-STATUS', $response );
     $scheduling_actions = true;
   }
 
@@ -946,7 +1087,7 @@ function write_resource( DAVResource $resource, $caldav_data, DAVResource $colle
   $calitem_params[':status'] = $first->GetPValue('STATUS');
 
   if ( !$collection->IsSchedulingCollection() ) {
-    if ( do_scheduling_requests($vcal, ($put_action_type == 'INSERT') ) ) {
+    if ( do_scheduling_requests($vcal, ($put_action_type == 'INSERT'), $old_dav_data ) ) {
       $dav_params[':dav_data'] = $vcal->Render(null, true);
       $etag = null;
     }

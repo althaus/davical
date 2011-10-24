@@ -39,9 +39,8 @@ DTEND;TZID=Pacific/Auckland:20111019T110000
 ATTENDEE;CN=Manager 1;CUTYPE=INDIVIDUAL;PARTSTAT=ACCEPTED:
  mailto:manager1@example.net
 ATTENDEE;CN=user1@example.net;CUTYPE=INDIVIDUAL;EMAIL=user1@example.net;
- PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT;RSVP=TRUE;SCHEDULE-STATUS="3.
- 8\;No authority to deliver invitations to user.":mailto:user1@example.ne
- t
+ PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT;RSVP=TRUE;SCHEDULE-STATUS=3.8
+ :mailto:user1@example.net
 TRANSP:OPAQUE
 SUMMARY:Meeting with User1
 DTSTART;TZID=Pacific/Auckland:20111019T100000

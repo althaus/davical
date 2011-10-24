@@ -21,13 +21,13 @@ UID:70399cd7-50a4-4be4-a665-af593e19a7fd
 SUMMARY:An invited event.  Black tie with pink polka dots is essential.  D
  o not bring a leopard.  Any leopards which do attend will be forcibly chai
  ned to a nearby fence.
-ORGANIZER;RSVP=TRUE;PARTSTAT=ACCEPTED;ROLE=CHAIR:mailto:user1@example.net
+ORGANIZER;RSVP=TRUE;PARTSTAT=ACCEPTED;ROLE=CHAIR:mailto:user4@example.net
  
 ATTENDEE;RSVP=TRUE;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT:mailto:user2
  @example.net
 ATTENDEE;RSVP=TRUE;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT:mailto:user3
  @example.net
-ATTENDEE;RSVP=TRUE;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT:mailto:user4
+ATTENDEE;RSVP=TRUE;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT:mailto:user1
  @example.net
 ATTENDEE;RSVP=TRUE;PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT:mailto:user5
  @example.net
