@@ -11,7 +11,7 @@ include_once('RRule-v2.php');
 
 
 function get_freebusy( $path_match, $range_start, $range_end, $bin_privs = null ) {
-  global $request;
+  global $request, $c;
 
 //  printf( "Path: %s\n", $path_match);
 //  print_r($range_start);
