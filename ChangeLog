@@ -1,3 +1,71 @@
+2011-10-24  Andrew McMillan  <andrew@morphoss.com>
+	* Release 0.9.9.7
+	* More work on CalDAV Scheduling
+	  - Handle REPLY from ATTENDEE accepting/declining meeting.
+	  - Handle processing on ORGANIZER further changing meeting.
+
+2011-10-20  Andrew McMillan  <andrew@morphoss.com>
+	* Add a config setting to force unnecessary FBTYPE parameter in freebusy response.
+	* Fix errors in PROPPATCH response.
+	* More work on CalDAV Scheduling
+	  - Update the SCHEDULE-STATUS parameter correctly.
+	  - Don't include ETag in PUT response when scheduling actions occur.
+	  - Write scheduling resources to attendee calendars for modifications.
+
+2011-10-18  Andrew McMillan  <andrew@morphoss.com>
+	* A basic, untested, handler for /autodiscover/autodiscover.xml
+	* Make sure default relationships are created.
+	* Fix various brokenness with LDAP introduced in 0.9.9.5
+
+2011-10-16  Andrew McMillan  <andrew@morphoss.com>
+	* Support an array of server_auth_type since Kerberos can send different ones.
+
+2011-10-14  Andrew McMillan  <andrew@morphoss.com>
+	* Fix tools.php to allow importing of a directory of calendars again.
+	* Fix various data casting issues, particularly to handle integer usernames.
+
+2011-10-07  Rob Ostensen  <rob@boxacle.net>
+	* Add a page to list externally bound calendars.
+
+2011-09-14  Rob Ostensen  <rob@boxacle.net>
+	* Add a check to the setup page for the php calendar extension
+
+2011-10-07  Andrew McMillan  <andrew@morphoss.com>
+	* Fail more gracefully on crap encoding input.
+	* Test for 'deflate' content encoding.
+	* Rewrite calendar-query handling of time-range constraints.
+
+2011-10-06  Andrew McMillan  <andrew@morphoss.com>
+	* Fix a regression in lock handling.
+	* Fix handling where supplied content-type header is busted.
+	* Set limits & defaults on lock duration.
+	* Implement support for proposed tzid parameter on list requests.
+
+2011-10-05  Andrew McMillan  <andrew@morphoss.com>
+	* Various fixes to timezone server implementation.
+
+2011-10-05  Andrew McMillan  <andrew@morphoss.com>
+	* Support gzip/deflate/compress encoding of incoming entity for PUT etc.
+	* Add protocol://hostname onto HTTP Location header per spec.
+
+2011-10-05  Andrew McMillan  <andrew@morphoss.com>
+	* Fix handling of .well-known where the base handler is not caldav.php
+
+2011-10-04  Andrew McMillan  <andrew@morphoss.com>
+	* Updated MKCOL/MKCALENDAR to support setting a supported-calendar-component-set
+	* Change sync-token response to be a URI, per spec.
+	* Correctly create the addressbook collection as an addressbook.
+
+2011-10-01  Andrew McMillan  <andrew@morphoss.com>
+	* Fix the way default privileges are set for the SQL.
+
+2011-09-30  Andrew McMillan  <andrew@morphoss.com>
+	* Get rid of unsightly error due to removal of time_zone table.
+
+2011-09-28  Andrew McMillan  <andrew@morphoss.com>
+	* Fix bug handling COUNT= with BYDAY=multiple and FREQ=WEEKLY
+	* Fix handling of BYMONTHDAY=-N in repeat rules.
+
 2011-09-23  Andrew McMillan  <andrew@morphoss.com>
 	* Release 0.9.9.6
 

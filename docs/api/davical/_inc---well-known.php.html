@@ -3,13 +3,13 @@
   <html xmlns="http://www.w3.org/1999/xhtml">
 		<head>
 			<!-- template designed by Marco Von Ballmoos -->
-			<title>Docs for page freebusy.php</title>
+			<title>Docs for page well-known.php</title>
 			<link rel="stylesheet" href="../media/stylesheet.css" />
 			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
 		</head>
 		<body>
 			<div class="page-body">			
-<h2 class="file-name"><img src="../media/images/Page_logo.png" alt="File" style="vertical-align: middle">/htdocs/freebusy.php</h2>
+<h2 class="file-name"><img src="../media/images/Page_logo.png" alt="File" style="vertical-align: middle">/inc/well-known.php</h2>
 
 <a name="sec-description"></a>
 <div class="info-box">
@@ -17,7 +17,8 @@
 	<div class="nav-bar">
 					<span class="disabled">Description</span> |
 									<a href="#sec-includes">Includes</a>
-												</div>
+			|											<a href="#sec-functions">Functions</a>
+			</div>
 	<div class="info-box-body">	
 		<!-- ========== Info from phpDoc block ========= -->
 		
@@ -31,32 +32,18 @@
 		<div class="nav-bar">
 			<a href="#sec-description">Description</a> |
 						<span class="disabled">Includes</span>
-														</div>
+			|													<a href="#sec-functions">Functions</a>
+					</div>
 		<div class="info-box-body">	
-			<a name="__/always_php"><!-- --></a>
-<div class="oddrow">
-	
-	<div>
-		<img src="../media/images/Page.png" alt=" " />
-		<span class="include-title">
-			<span class="include-type">require_once</span>
-			(<span class="include-name"><a href="../davical/_htdocs---always.php.html">"./always.php"</a></span>)
-			(line <span class="line-number">2</span>)
-		</span>
-	</div>
-
-	<!-- ========== Info from phpDoc block ========= -->
-	
-</div>
-<a name="_PublicSession_php"><!-- --></a>
+			<a name="_iSchedule_php"><!-- --></a>
 <div class="evenrow">
 	
 	<div>
 		<img src="../media/images/Page.png" alt=" " />
 		<span class="include-title">
-			<span class="include-type">require_once</span>
-			(<span class="include-name"><a href="../davical/PublicSession/_inc---PublicSession.php.html">PublicSession.php</a></span>)
-			(line <span class="line-number">6</span>)
+			<span class="include-type">include</span>
+			(<span class="include-name"><a href="../davical/iSchedule/_inc---iSchedule.php.html">'iSchedule.php'</a></span>)
+			(line <span class="line-number">44</span>)
 		</span>
 	</div>
 
@@ -70,8 +57,8 @@
 		<img src="../media/images/Page.png" alt=" " />
 		<span class="include-title">
 			<span class="include-type">require_once</span>
-			(<span class="include-name"><a href="../davical/HTTPAuthSession/_inc---HTTPAuthSession.php.html">HTTPAuthSession.php</a></span>)
-			(line <span class="line-number">10</span>)
+			(<span class="include-name"><a href="../davical/HTTPAuthSession/_inc---HTTPAuthSession.php.html">'HTTPAuthSession.php'</a></span>)
+			(line <span class="line-number">5</span>)
 		</span>
 	</div>
 
@@ -85,24 +72,8 @@
 		<img src="../media/images/Page.png" alt=" " />
 		<span class="include-title">
 			<span class="include-type">require_once</span>
-			(<span class="include-name"><a href="../davical/Request/_inc---CalDAVRequest.php.html">CalDAVRequest.php</a></span>)
-			(line <span class="line-number">44</span>)
-		</span>
-	</div>
-
-	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">We also allow URLs like .../freebusy.php/user@example.com to work, so long as  the e-mail matches a single user whose calendar we have rights to.</p>
-	
-</div>
-<a name="_freebusy-functions_php"><!-- --></a>
-<div class="oddrow">
-	
-	<div>
-		<img src="../media/images/Page.png" alt=" " />
-		<span class="include-title">
-			<span class="include-type">require_once</span>
-			(<span class="include-name"><a href="../davical/_inc---freebusy-functions.php.html">freebusy-functions.php</a></span>)
-			(line <span class="line-number">58</span>)
+			(<span class="include-name"><a href="../davical/Request/_inc---CalDAVRequest.php.html">'CalDAVRequest.php'</a></span>)
+			(line <span class="line-number">10</span>)
 		</span>
 	</div>
 
@@ -114,9 +85,40 @@
 	
 	
 	
+	<a name="sec-functions"></a>	
+	<div class="info-box">
+		<div class="info-box-title">Functions</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+										<a href="#sec-includes">Includes</a>
+				|												<span class="disabled">Functions</span>
+		</div>
+		<div class="info-box-body">	
+			<a name="functionischedule_get" id="functionischedule_get"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<img src="../media/images/Function.png" />
+		<span class="method-title">ischedule_get</span> (line <span class="line-number">58</span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			ischedule_get
+		</span>
+				()
+			</div>
+
+		
+	
+</div>
+		</div>
+	</div>
 	
 	<p class="notes" id="credit">
-		Documentation generated on Mon, 24 Oct 2011 20:09:28 +1300 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+		Documentation generated on Mon, 24 Oct 2011 20:09:30 +1300 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
 	</p>
 	</div></body>
 </html>
