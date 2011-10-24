@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DAViCal\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-27 11:30+1300\n"
+"POT-Creation-Date: 2011-10-24 21:19+1300\n"
 "PO-Revision-Date: 2011-03-22 15:19+0000\n"
 "Last-Translator: fmms <mail@felixmoeller.de>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -141,6 +141,10 @@ msgstr "Alla"
 msgid "All collection data will be unrecoverably deleted."
 msgstr "All data för samlingen kommer att raderas oåterkallerligen."
 
+#, php-format
+msgid "All events of user \"%s\" were deleted and replaced by those from file %s"
+msgstr ""
+
 msgid "All of the principal's calendars and events will be unrecoverably deleted."
 msgstr ""
 
@@ -184,6 +188,9 @@ msgid "Bindings to this Collection"
 msgstr ""
 
 msgid "Bindings to this Principal's Collections"
+msgstr ""
+
+msgid "Body contains no XML data!"
 msgstr ""
 
 msgid "Bound As"
@@ -495,6 +502,12 @@ msgstr "Befintlig resurs matchar \"If-None-Match\"-header - ej accepterad."
 msgid "Expires"
 msgstr ""
 
+msgid "External Calendars"
+msgstr ""
+
+msgid "External Url"
+msgstr ""
+
 msgid "Fail"
 msgstr ""
 
@@ -644,6 +657,9 @@ msgstr "Språk"
 msgid "Last used"
 msgstr "Senast använd"
 
+msgid "List External Calendars"
+msgstr ""
+
 msgid "List Groups"
 msgstr "Lista grupper"
 
@@ -693,17 +709,11 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-msgid "No authority to deliver invitations to user."
-msgstr ""
-
 msgid "No calendar content"
 msgstr "Inget kalenderinnehåll"
 
 msgid "No collection found at that location."
 msgstr "Ingen samling funnen på denna plats."
-
-msgid "No scheduling support for user"
-msgstr ""
 
 msgid "No summary"
 msgstr ""
@@ -758,6 +768,9 @@ msgid "PHP iconv support"
 msgstr ""
 
 msgid "PUT on a collection is only allowed for text/calendar content against a calendar collection"
+msgstr ""
+
+msgid "PUT on a collection is only allowed for text/vcard content against an addressbook collection"
 msgstr ""
 
 msgid "Passed"
@@ -854,10 +867,16 @@ msgstr ""
 msgid "Read/Write"
 msgstr ""
 
+msgid "References"
+msgstr ""
+
 msgid "Remove"
 msgstr ""
 
 msgid "Remove a lock"
+msgstr ""
+
+msgid "Remove dangling external calendars"
 msgstr ""
 
 msgid "Report Bug"
@@ -899,9 +918,6 @@ msgstr ""
 
 msgid "Schedule Transparency"
 msgstr "Bokningstransparens"
-
-msgid "Scheduling invitation delivered successfully"
-msgstr ""
 
 msgid "Scheduling: Deliver a Reply"
 msgstr "Bokning: leverera ett svar"
@@ -948,8 +964,9 @@ msgstr ""
 msgid "Set schedule-deliver privileges"
 msgstr ""
 
-msgid "Set the path to store your ics e.g. 'home' will be referenced as /caldav.php/me/home/"
-msgstr "Ange sökväg till dina ics, t ex 'home' kommer att hänvisa till /caldav.php/me/home/"
+msgid ""
+"Set the path to store your ics e.g. 'calendar' will be referenced as /caldav.php/username/calendar/"
+msgstr ""
 
 msgid "Setup"
 msgstr "Konfigurera"
@@ -994,7 +1011,7 @@ msgstr "Skicka"
 msgid "Suhosin \"server.strip\" disabled"
 msgstr ""
 
-msgid "Sync LDAP Groups with RSCDS"
+msgid "Sync LDAP Groups with DAViCal"
 msgstr ""
 
 msgid "Sync LDAP with DAViCal"
@@ -1061,6 +1078,10 @@ msgstr ""
 msgid "The email address really should not be blank."
 msgstr ""
 
+#, php-format
+msgid "The file \"%s\" is not UTF-8 encoded, please check error for more details"
+msgstr ""
+
 msgid "The file is not UTF-8 encoded, please check the error for more details."
 msgstr "Filen är inte teckenkodad i UTF-8, var god kontrollera felet för fler detaljer."
 
@@ -1078,6 +1099,10 @@ msgstr "sökvägen på servern där dina .ics ligger."
 
 msgid "The preferred language for this person."
 msgstr "Det föredragna språket för dena person."
+
+#, php-format
+msgid "The principal \"%s\" does not exist"
+msgstr ""
 
 msgid "The style of dates used for this person."
 msgstr "Datumformatet för denna person."
@@ -1117,6 +1142,11 @@ msgstr ""
 msgid ""
 "This page primarily checks the environment needed for DAViCal to work correctly.  Suggestions or "
 "patches to make it do more useful stuff will be gratefully received."
+msgstr ""
+
+msgid ""
+"This process will import each file in a directory named \"username.ics\" and create a user and "
+"calendar for each file to import."
 msgstr ""
 
 msgid "This server only supports the text/calendar format for freebusy URLs"
@@ -1275,10 +1305,6 @@ msgstr "Du måste logga in för att använda detta system."
 msgid "Your configuration produced PHP errors which should be corrected"
 msgstr ""
 
-#, php-format
-msgid "all events of user %s were deleted and replaced by those from file %s"
-msgstr "Alla händelser för användare %s raderades och ersattes med dem från filen %s"
-
 msgid "calendar-timezone property is only valid for a calendar."
 msgstr ""
 
@@ -1331,12 +1357,17 @@ msgstr ""
 msgid "path to store your ics"
 msgstr "sökväg för att spara din .ics"
 
-#, php-format
-msgid "the file %s is not UTF-8 encoded, please check error for more details"
-msgstr "filen %s är inte UTF-8 kodad, kontrollera fel-loggen för detaljer"
-
 msgid "unauthenticated"
 msgstr ""
 
 msgid "you should log on with the username and password that have been issued to you."
 msgstr "du behöver logga in med det användarnamn och lösenord du erhållit."
+
+#~ msgid "Set the path to store your ics e.g. 'home' will be referenced as /caldav.php/me/home/"
+#~ msgstr "Ange sökväg till dina ics, t ex 'home' kommer att hänvisa till /caldav.php/me/home/"
+
+#~ msgid "all events of user %s were deleted and replaced by those from file %s"
+#~ msgstr "Alla händelser för användare %s raderades och ersattes med dem från filen %s"
+
+#~ msgid "the file %s is not UTF-8 encoded, please check error for more details"
+#~ msgstr "filen %s är inte UTF-8 kodad, kontrollera fel-loggen för detaljer"

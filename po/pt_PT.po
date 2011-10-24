@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DAViCal\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-27 11:30+1300\n"
+"POT-Creation-Date: 2011-10-24 21:19+1300\n"
 "PO-Revision-Date: 2011-03-22 22:02+0000\n"
 "Last-Translator: m42 <p.m42.ribeiro@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.net/projects/p/davical/team/pt_PT/)\n"
@@ -153,6 +153,10 @@ msgstr "Todos"
 msgid "All collection data will be unrecoverably deleted."
 msgstr "Todos os dados da colecção serão irremediavelmente apagados"
 
+#, php-format
+msgid "All events of user \"%s\" were deleted and replaced by those from file %s"
+msgstr ""
+
 msgid "All of the principal's calendars and events will be unrecoverably deleted."
 msgstr "Todos os calendários e eventos do principal serão irremediavelmente apagados."
 
@@ -197,6 +201,9 @@ msgstr "Ligações a esta colecção"
 
 msgid "Bindings to this Principal's Collections"
 msgstr "Ligações às colecções deste Principal"
+
+msgid "Body contains no XML data!"
+msgstr ""
 
 msgid "Bound As"
 msgstr "Ligado Como"
@@ -509,6 +516,12 @@ msgstr "Recurso existente corresponde com cabeçalho \"If-None-Match\" - não ac
 msgid "Expires"
 msgstr "Expira"
 
+msgid "External Calendars"
+msgstr ""
+
+msgid "External Url"
+msgstr ""
+
 msgid "Fail"
 msgstr "Falha"
 
@@ -658,6 +671,9 @@ msgstr "Idioma"
 msgid "Last used"
 msgstr "Último usado"
 
+msgid "List External Calendars"
+msgstr ""
+
 msgid "List Groups"
 msgstr "Listar Grupos"
 
@@ -709,17 +725,11 @@ msgstr "Novo principal"
 msgid "No"
 msgstr "Não"
 
-msgid "No authority to deliver invitations to user."
-msgstr "Sem autoridade para entregar convites ao utilizador."
-
 msgid "No calendar content"
 msgstr "Sem conteúdo de calendário"
 
 msgid "No collection found at that location."
 msgstr "Colecção não encontrada nessa localização."
-
-msgid "No scheduling support for user"
-msgstr "Sem suporte de marcações para o utilizador"
 
 msgid "No summary"
 msgstr "Sem sumário"
@@ -777,6 +787,9 @@ msgid "PUT on a collection is only allowed for text/calendar content against a c
 msgstr ""
 "PUT numa colecção é apenas permitido para conteúdo de texto/calendário em face de uma colecção de "
 "calendário"
+
+msgid "PUT on a collection is only allowed for text/vcard content against an addressbook collection"
+msgstr ""
 
 msgid "Passed"
 msgstr "Passou"
@@ -872,11 +885,17 @@ msgstr "Ler informação de livre/ocupado para uma colecção de calendários"
 msgid "Read/Write"
 msgstr "Ler/Escrever"
 
+msgid "References"
+msgstr ""
+
 msgid "Remove"
 msgstr "Remover"
 
 msgid "Remove a lock"
 msgstr "Remover um lock"
+
+msgid "Remove dangling external calendars"
+msgstr ""
 
 msgid "Report Bug"
 msgstr "Relatar um bug"
@@ -917,9 +936,6 @@ msgstr "Horário enviado"
 
 msgid "Schedule Transparency"
 msgstr "Transparência do horário"
-
-msgid "Scheduling invitation delivered successfully"
-msgstr "Convite enviado com sucesso"
 
 msgid "Scheduling: Deliver a Reply"
 msgstr "Horários: Entregar uma resposta"
@@ -966,8 +982,9 @@ msgstr "Definir privilégios de leitura+escrita"
 msgid "Set schedule-deliver privileges"
 msgstr "Definir privilégios de marcação-entrega"
 
-msgid "Set the path to store your ics e.g. 'home' will be referenced as /caldav.php/me/home/"
-msgstr "Definir o caminho para guardar o seu ics e.g. 'home' será referido como /caldav.php/me/home/"
+msgid ""
+"Set the path to store your ics e.g. 'calendar' will be referenced as /caldav.php/username/calendar/"
+msgstr ""
 
 msgid "Setup"
 msgstr "Configurar"
@@ -1012,8 +1029,8 @@ msgstr "Submeter"
 msgid "Suhosin \"server.strip\" disabled"
 msgstr "\"server.strip\" do suhosin desabilitado"
 
-msgid "Sync LDAP Groups with RSCDS"
-msgstr "Sincronizar grupos LDAP com RSCDS"
+msgid "Sync LDAP Groups with DAViCal"
+msgstr ""
 
 msgid "Sync LDAP with DAViCal"
 msgstr "Sincronizar LDAP com o DAViCal"
@@ -1081,6 +1098,10 @@ msgstr "O nome a mostrar só pode ser definido em colecções, principais ou lig
 msgid "The email address really should not be blank."
 msgstr "O endereço de email não devia, de facto, ficar em branco."
 
+#, php-format
+msgid "The file \"%s\" is not UTF-8 encoded, please check error for more details"
+msgstr ""
+
 msgid "The file is not UTF-8 encoded, please check the error for more details."
 msgstr ""
 "O ficheiro não está codificado em UTF-8, por favor verifique a mensagem de erro para mais detalhes."
@@ -1099,6 +1120,10 @@ msgstr "O caminho no servidor onde estão guardados os seus ficheiros .ics."
 
 msgid "The preferred language for this person."
 msgstr "O idioma preferido para esta pessoa."
+
+#, php-format
+msgid "The principal \"%s\" does not exist"
+msgstr ""
 
 msgid "The style of dates used for this person."
 msgstr "O estilo de datas em uso para esta pessoa."
@@ -1150,6 +1175,11 @@ msgid ""
 msgstr ""
 "Esta página verifica o ambiente de execução necessário para que o DAViCal trabalhe correctamente. "
 "Sugestões ou correcções para que faça coisas mais úteis serão recebidos com gratidão."
+
+msgid ""
+"This process will import each file in a directory named \"username.ics\" and create a user and "
+"calendar for each file to import."
+msgstr ""
 
 msgid "This server only supports the text/calendar format for freebusy URLs"
 msgstr "Este servidor suporta apenas o formato text/calendar para URLs de livre/ocupado"
@@ -1311,10 +1341,6 @@ msgstr "Tem que entrar para poder usar este sistema."
 msgid "Your configuration produced PHP errors which should be corrected"
 msgstr "A sua configuração criou alguns erros de PHP que devem ser corrigidos"
 
-#, php-format
-msgid "all events of user %s were deleted and replaced by those from file %s"
-msgstr "todos os eventos do utilizador %s foram apagados e substituídos pelos do ficheiro %s"
-
 msgid "calendar-timezone property is only valid for a calendar."
 msgstr "a propriedade calendar-timezone só é válida para um calendário."
 
@@ -1367,12 +1393,29 @@ msgstr "a partir do principal"
 msgid "path to store your ics"
 msgstr "caminho para guardar o seu ics"
 
-#, php-format
-msgid "the file %s is not UTF-8 encoded, please check error for more details"
-msgstr "o ficheiro %s não está codificado em UTF-8, por favor verifique os erros para mais detalhes"
-
 msgid "unauthenticated"
 msgstr "não autenticado"
 
 msgid "you should log on with the username and password that have been issued to you."
 msgstr "deve entrar com o nome de utilizador e password que lhe foram atribuídas."
+
+#~ msgid "No authority to deliver invitations to user."
+#~ msgstr "Sem autoridade para entregar convites ao utilizador."
+
+#~ msgid "No scheduling support for user"
+#~ msgstr "Sem suporte de marcações para o utilizador"
+
+#~ msgid "Scheduling invitation delivered successfully"
+#~ msgstr "Convite enviado com sucesso"
+
+#~ msgid "Set the path to store your ics e.g. 'home' will be referenced as /caldav.php/me/home/"
+#~ msgstr "Definir o caminho para guardar o seu ics e.g. 'home' será referido como /caldav.php/me/home/"
+
+#~ msgid "Sync LDAP Groups with RSCDS"
+#~ msgstr "Sincronizar grupos LDAP com RSCDS"
+
+#~ msgid "all events of user %s were deleted and replaced by those from file %s"
+#~ msgstr "todos os eventos do utilizador %s foram apagados e substituídos pelos do ficheiro %s"
+
+#~ msgid "the file %s is not UTF-8 encoded, please check error for more details"
+#~ msgstr "o ficheiro %s não está codificado em UTF-8, por favor verifique os erros para mais detalhes"

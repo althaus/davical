@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DAViCal\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-27 11:30+1300\n"
+"POT-Creation-Date: 2011-10-24 21:19+1300\n"
 "PO-Revision-Date: 2011-03-22 15:19+0000\n"
 "Last-Translator: fmms <mail@felixmoeller.de>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -141,6 +141,10 @@ msgstr "全て"
 msgid "All collection data will be unrecoverably deleted."
 msgstr "全てのコレクションデータが回復不能な方法で削除されます。"
 
+#, php-format
+msgid "All events of user \"%s\" were deleted and replaced by those from file %s"
+msgstr ""
+
 msgid "All of the principal's calendars and events will be unrecoverably deleted."
 msgstr "そのプリンシパルの全てのカレンダーとイベントが回復不能な方法で削除されます。"
 
@@ -184,6 +188,9 @@ msgid "Bindings to this Collection"
 msgstr ""
 
 msgid "Bindings to this Principal's Collections"
+msgstr ""
+
+msgid "Body contains no XML data!"
 msgstr ""
 
 msgid "Bound As"
@@ -496,6 +503,12 @@ msgstr "既存の資源が\"If-Match\"ヘッダと一致します - 受け付け
 msgid "Expires"
 msgstr ""
 
+msgid "External Calendars"
+msgstr ""
+
+msgid "External Url"
+msgstr ""
+
 msgid "Fail"
 msgstr ""
 
@@ -645,6 +658,9 @@ msgstr "言語"
 msgid "Last used"
 msgstr "最終更新日"
 
+msgid "List External Calendars"
+msgstr ""
+
 msgid "List Groups"
 msgstr "グループのリスト"
 
@@ -694,17 +710,11 @@ msgstr ""
 msgid "No"
 msgstr "いいえ"
 
-msgid "No authority to deliver invitations to user."
-msgstr ""
-
 msgid "No calendar content"
 msgstr "カレンダーの内容がありません"
 
 msgid "No collection found at that location."
 msgstr "その場所にはコレクションが見つかりませんでした。"
-
-msgid "No scheduling support for user"
-msgstr ""
 
 msgid "No summary"
 msgstr ""
@@ -759,6 +769,9 @@ msgid "PHP iconv support"
 msgstr ""
 
 msgid "PUT on a collection is only allowed for text/calendar content against a calendar collection"
+msgstr ""
+
+msgid "PUT on a collection is only allowed for text/vcard content against an addressbook collection"
 msgstr ""
 
 msgid "Passed"
@@ -855,11 +868,17 @@ msgstr "カレンダーコレクションのための予定有無情報を読み
 msgid "Read/Write"
 msgstr "読み書き"
 
+msgid "References"
+msgstr ""
+
 msgid "Remove"
 msgstr ""
 
 msgid "Remove a lock"
 msgstr "ロックを解除する"
+
+msgid "Remove dangling external calendars"
+msgstr ""
 
 msgid "Report Bug"
 msgstr "バグの報告"
@@ -900,9 +919,6 @@ msgstr "スケジュール送信"
 
 msgid "Schedule Transparency"
 msgstr "スケジュールの透明性"
-
-msgid "Scheduling invitation delivered successfully"
-msgstr ""
 
 msgid "Scheduling: Deliver a Reply"
 msgstr "スケジューリング: 返信を届ける"
@@ -949,8 +965,9 @@ msgstr "読み書き権限を設定する"
 msgid "Set schedule-deliver privileges"
 msgstr "スケジュール配達権限を設定する"
 
-msgid "Set the path to store your ics e.g. 'home' will be referenced as /caldav.php/me/home/"
-msgstr "あなたのicsを保管するパスを設定して下さい。例:'home'は/caldav.php/me/home/として参照されます。"
+msgid ""
+"Set the path to store your ics e.g. 'calendar' will be referenced as /caldav.php/username/calendar/"
+msgstr ""
 
 msgid "Setup"
 msgstr "セットアップ"
@@ -995,7 +1012,7 @@ msgstr "送信"
 msgid "Suhosin \"server.strip\" disabled"
 msgstr ""
 
-msgid "Sync LDAP Groups with RSCDS"
+msgid "Sync LDAP Groups with DAViCal"
 msgstr ""
 
 msgid "Sync LDAP with DAViCal"
@@ -1062,6 +1079,10 @@ msgstr ""
 msgid "The email address really should not be blank."
 msgstr ""
 
+#, php-format
+msgid "The file \"%s\" is not UTF-8 encoded, please check error for more details"
+msgstr ""
+
 msgid "The file is not UTF-8 encoded, please check the error for more details."
 msgstr ""
 "そのファイル%sはUTF-8でエンコードされていません。さらなる詳細についてはそのエラーを確認して下さい。"
@@ -1080,6 +1101,10 @@ msgstr "あなたの.icsファイルがあるサーバー上のパス。"
 
 msgid "The preferred language for this person."
 msgstr "この人が好む言語。"
+
+#, php-format
+msgid "The principal \"%s\" does not exist"
+msgstr ""
 
 msgid "The style of dates used for this person."
 msgstr "この人が利用する日付のスタイル。"
@@ -1119,6 +1144,11 @@ msgstr ""
 msgid ""
 "This page primarily checks the environment needed for DAViCal to work correctly.  Suggestions or "
 "patches to make it do more useful stuff will be gratefully received."
+msgstr ""
+
+msgid ""
+"This process will import each file in a directory named \"username.ics\" and create a user and "
+"calendar for each file to import."
 msgstr ""
 
 msgid "This server only supports the text/calendar format for freebusy URLs"
@@ -1277,10 +1307,6 @@ msgstr "このシステムを利用するにはログインしなくてはなり
 msgid "Your configuration produced PHP errors which should be corrected"
 msgstr ""
 
-#, php-format
-msgid "all events of user %s were deleted and replaced by those from file %s"
-msgstr "ユーザー%sのイベントは全て削除され、ファイル%sのもので置き換えられました。"
-
 msgid "calendar-timezone property is only valid for a calendar."
 msgstr ""
 
@@ -1333,12 +1359,18 @@ msgstr "プリンシパルから"
 msgid "path to store your ics"
 msgstr "あなたのicsを保管するパス"
 
-#, php-format
-msgid "the file %s is not UTF-8 encoded, please check error for more details"
-msgstr "ファイル%sはUTF-8でエンコードされていません、詳細はエラーを確認して下さい"
-
 msgid "unauthenticated"
 msgstr ""
 
 msgid "you should log on with the username and password that have been issued to you."
 msgstr "あなたに発行したユーザー名とパスワードでログオンして下さい。"
+
+#~ msgid "Set the path to store your ics e.g. 'home' will be referenced as /caldav.php/me/home/"
+#~ msgstr ""
+#~ "あなたのicsを保管するパスを設定して下さい。例:'home'は/caldav.php/me/home/として参照されます。"
+
+#~ msgid "all events of user %s were deleted and replaced by those from file %s"
+#~ msgstr "ユーザー%sのイベントは全て削除され、ファイル%sのもので置き換えられました。"
+
+#~ msgid "the file %s is not UTF-8 encoded, please check error for more details"
+#~ msgstr "ファイル%sはUTF-8でエンコードされていません、詳細はエラーを確認して下さい"

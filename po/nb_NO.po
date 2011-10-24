@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DAViCal\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-27 11:30+1300\n"
+"POT-Creation-Date: 2011-10-24 21:19+1300\n"
 "PO-Revision-Date: 2011-08-15 23:39+0000\n"
 "Last-Translator: aleksand <daniel@aleksand.no>\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.net/projects/p/davical/team/nb_NO/)\n"
@@ -153,6 +153,10 @@ msgstr "Alle"
 msgid "All collection data will be unrecoverably deleted."
 msgstr "Alle data til samlingen vil ugjenopprettelig bli slettet"
 
+#, php-format
+msgid "All events of user \"%s\" were deleted and replaced by those from file %s"
+msgstr ""
+
 msgid "All of the principal's calendars and events will be unrecoverably deleted."
 msgstr "Alle kontoens kalendre og hendelser vil ugjenopprettelig bli slettet"
 
@@ -197,6 +201,9 @@ msgstr "Forbindelser til denne samlingen"
 
 msgid "Bindings to this Principal's Collections"
 msgstr "Forbindelse til denne kontoens samlinger"
+
+msgid "Body contains no XML data!"
+msgstr ""
 
 msgid "Bound As"
 msgstr "Forbundet som"
@@ -507,6 +514,12 @@ msgstr "Eksisterende ressurs passer \"If-None-Match\" header - ikke akseptert,"
 msgid "Expires"
 msgstr "Løper ut"
 
+msgid "External Calendars"
+msgstr ""
+
+msgid "External Url"
+msgstr ""
+
 msgid "Fail"
 msgstr "Feil"
 
@@ -656,6 +669,9 @@ msgstr "Språk"
 msgid "Last used"
 msgstr "Sist brukt"
 
+msgid "List External Calendars"
+msgstr ""
+
 msgid "List Groups"
 msgstr "Liste grupper"
 
@@ -707,17 +723,11 @@ msgstr "Ny konto"
 msgid "No"
 msgstr "Nei"
 
-msgid "No authority to deliver invitations to user."
-msgstr "Ingen autorisasjon til å levere invitasjoner til bruker"
-
 msgid "No calendar content"
 msgstr "Ikke noe kalenderinnhold"
 
 msgid "No collection found at that location."
 msgstr "Ingen samling funnet på den lokasjonen"
-
-msgid "No scheduling support for user"
-msgstr "Ingen hendelsesupport for bruker"
 
 msgid "No summary"
 msgstr "Ingen oppsummering"
@@ -773,6 +783,9 @@ msgstr "Støtte for PHP iconv"
 
 msgid "PUT on a collection is only allowed for text/calendar content against a calendar collection"
 msgstr "PUT på en samling er bare tillatt for tekst/kaldender innhold i en kalendersamling"
+
+msgid "PUT on a collection is only allowed for text/vcard content against an addressbook collection"
+msgstr ""
 
 msgid "Passed"
 msgstr "Godkjent"
@@ -868,11 +881,17 @@ msgstr "Les Ledig/Opptatt informasjon for en kalendersamling"
 msgid "Read/Write"
 msgstr "Les/Skriv"
 
+msgid "References"
+msgstr ""
+
 msgid "Remove"
 msgstr "Fjern"
 
 msgid "Remove a lock"
 msgstr "Fjern en lås"
+
+msgid "Remove dangling external calendars"
+msgstr ""
 
 msgid "Report Bug"
 msgstr "Rapporter feil"
@@ -913,9 +932,6 @@ msgstr "Hendelse Send"
 
 msgid "Schedule Transparency"
 msgstr "Hendelse gjennomsiktighet"
-
-msgid "Scheduling invitation delivered successfully"
-msgstr "Hendelsesinvitasjon ble levert"
 
 msgid "Scheduling: Deliver a Reply"
 msgstr "Hendelse: Gi et svar"
@@ -962,8 +978,9 @@ msgstr "Sett lese+skrive rettigheter"
 msgid "Set schedule-deliver privileges"
 msgstr "Sett hendelse-leveringsprivilegier"
 
-msgid "Set the path to store your ics e.g. 'home' will be referenced as /caldav.php/me/home/"
-msgstr "Sett banen for å lagre din ics, f.eks. vil 'home' bli referert som /caldav.php/me/home/"
+msgid ""
+"Set the path to store your ics e.g. 'calendar' will be referenced as /caldav.php/username/calendar/"
+msgstr ""
 
 msgid "Setup"
 msgstr "Oppsett"
@@ -1008,8 +1025,8 @@ msgstr "Send"
 msgid "Suhosin \"server.strip\" disabled"
 msgstr "Suhosin \"server.strip\" disabled"
 
-msgid "Sync LDAP Groups with RSCDS"
-msgstr "Synk LDAP Grupper med RSCDS"
+msgid "Sync LDAP Groups with DAViCal"
+msgstr ""
 
 msgid "Sync LDAP with DAViCal"
 msgstr "Synk LDAP med DAViCal"
@@ -1075,6 +1092,10 @@ msgstr "Visningsnavn kan bare settes på samlinger, kontoer eller forbindelser"
 msgid "The email address really should not be blank."
 msgstr "Epostadressen skulle absolutt ikke være tom"
 
+#, php-format
+msgid "The file \"%s\" is not UTF-8 encoded, please check error for more details"
+msgstr ""
+
 msgid "The file is not UTF-8 encoded, please check the error for more details."
 msgstr "Filen er ikke UTF-8 encoded, sjekk feilen for flere detaljer"
 
@@ -1092,6 +1113,10 @@ msgstr "Banen på tjeneren hvor dine ics filer er"
 
 msgid "The preferred language for this person."
 msgstr "Foretrukket språk for denne personen"
+
+#, php-format
+msgid "The principal \"%s\" does not exist"
+msgstr ""
 
 msgid "The style of dates used for this person."
 msgstr "Datoformat brukt for denne personen"
@@ -1143,6 +1168,11 @@ msgid ""
 msgstr ""
 "Denne siden sjekker miljøet nødvendig for at DAViCal skal virke korrekt.  Forslag eller patsjer for å "
 "gjøre det enda bedre vil mottas med takk."
+
+msgid ""
+"This process will import each file in a directory named \"username.ics\" and create a user and "
+"calendar for each file to import."
+msgstr ""
 
 msgid "This server only supports the text/calendar format for freebusy URLs"
 msgstr "Denne tjeneren støtter bare text/calendar formatert freebusy-adresser."
@@ -1302,10 +1332,6 @@ msgstr "Du må logge inn for å bruke systemet"
 msgid "Your configuration produced PHP errors which should be corrected"
 msgstr "Konfigurasjonen lagde PHP feil som må rettes"
 
-#, php-format
-msgid "all events of user %s were deleted and replaced by those from file %s"
-msgstr "alle hendelser til bruker %s ble slettet og erstattet av dem fra filen %s"
-
 msgid "calendar-timezone property is only valid for a calendar."
 msgstr "kalender tidssone egenskap er kun gyldig for en kalender"
 
@@ -1358,12 +1384,29 @@ msgstr "fra konto"
 msgid "path to store your ics"
 msgstr "bane for å lagre din ics"
 
-#, php-format
-msgid "the file %s is not UTF-8 encoded, please check error for more details"
-msgstr "filen %s er ikke UTF-8 encoded, sjekk feil for flere detaljer"
-
 msgid "unauthenticated"
 msgstr "Ikke-autentisert"
 
 msgid "you should log on with the username and password that have been issued to you."
 msgstr "logg på med brukernavnet og passordet du fikk utstedt"
+
+#~ msgid "No authority to deliver invitations to user."
+#~ msgstr "Ingen autorisasjon til å levere invitasjoner til bruker"
+
+#~ msgid "No scheduling support for user"
+#~ msgstr "Ingen hendelsesupport for bruker"
+
+#~ msgid "Scheduling invitation delivered successfully"
+#~ msgstr "Hendelsesinvitasjon ble levert"
+
+#~ msgid "Set the path to store your ics e.g. 'home' will be referenced as /caldav.php/me/home/"
+#~ msgstr "Sett banen for å lagre din ics, f.eks. vil 'home' bli referert som /caldav.php/me/home/"
+
+#~ msgid "Sync LDAP Groups with RSCDS"
+#~ msgstr "Synk LDAP Grupper med RSCDS"
+
+#~ msgid "all events of user %s were deleted and replaced by those from file %s"
+#~ msgstr "alle hendelser til bruker %s ble slettet og erstattet av dem fra filen %s"
+
+#~ msgid "the file %s is not UTF-8 encoded, please check error for more details"
+#~ msgstr "filen %s er ikke UTF-8 encoded, sjekk feil for flere detaljer"
