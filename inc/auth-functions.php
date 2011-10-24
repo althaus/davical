@@ -239,7 +239,7 @@ function UpdateUserFromExternal( &$usr ) {
   if ( isset($usr->active) && ($usr->active === 'f' || $usr->active === false) ) return false;
 
   if ( $type == 'INSERT' ) {
-    $qry = new AwlQuery( 'INSERT INTO principal( type_id, user_no, displayname, default_privileges) SELECT 1, user_no, fullname, :privs::INT::BIT(24) FROM usr WHERE username=:username',
+    $qry = new AwlQuery( 'INSERT INTO principal( type_id, user_no, displayname, default_privileges) SELECT 1, user_no, fullname, :privs::INT::BIT(24) FROM usr WHERE username=(text(:username))',
                           array( ':privs' => privilege_to_bits($c->default_privileges), ':username' => $usr->username) );
     $qry->Exec('Login',__LINE__,__FILE__);
     CreateHomeCalendar($usr->username);

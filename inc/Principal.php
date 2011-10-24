@@ -200,7 +200,7 @@ class Principal {
     $sql .= 'FROM dav_principal WHERE ';
     switch ( $type ) {
       case 'username':
-        $sql .= 'lower(username)=lower(:param)';
+        $sql .= 'lower(username)=lower(text(:param))';
         break;
       case 'user_no':
         $sql .= 'user_no=:param';
