@@ -5,13 +5,14 @@
 # Translators:
 # Andrew McMillan <andrew@mcmillan.net.nz>, 2011.
 # tikismoke <webmaster@tikijs.dyndns.org>, 2011.
+#   <webmaster@tikijs.dyndns.org>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: DAViCal\n"
 "Report-Msgid-Bugs-To: http://repo.or.cz/w/davical.git/tree/HEAD:/issues\n"
 "POT-Creation-Date: 2011-10-24 21:19+1300\n"
-"PO-Revision-Date: 2011-10-24 08:21+0000\n"
-"Last-Translator: karora <andrew@mcmillan.net.nz>\n"
+"PO-Revision-Date: 2011-10-25 16:52+0000\n"
+"Last-Translator: tikismoke <webmaster@tikijs.dyndns.org>\n"
 "Language-Team: French (http://www.transifex.net/projects/p/davical/team/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,10 +31,11 @@ msgid "%T"
 msgstr "%T"
 
 msgid "*** Default Locale ***"
-msgstr "*** Locale par défaut ***"
+msgstr ""
+"Une collection DAViCal principale ne peut contenir que des collections"
 
 msgid "*** Unknown ***"
-msgstr "*** Inconnu ***"
+msgstr "Ajout d'un nouveau membre à ce groupe 'principal'"
 
 #, php-format
 msgid "- adding %s to group : %s"
@@ -151,6 +153,8 @@ msgstr "Toutes les données de la collection seront effacées définitivement."
 #, php-format
 msgid "All events of user \"%s\" were deleted and replaced by those from file %s"
 msgstr ""
+"Tous les événements de l'utilisateur \"%s\" ont été supprimés et remplacés "
+"par ceux du fichier %s"
 
 msgid ""
 "All of the principal's calendars and events will be unrecoverably deleted."
@@ -167,17 +171,17 @@ msgstr "Toutes les modifications demandées ont eu lieu"
 msgid ""
 "Allow free/busy enquiries targeted at the owner of this scheduling inbox"
 msgstr ""
+"Autoriser les requêtes Libre/Ocupé envoyé au propriétaire de cette boîte de "
+"réception planification"
 
 msgid "An \"Administrator\" user has full rights to the whole DAViCal System"
-msgstr "Un \"administrateur\" a tous les droits sur le système DAViCal"
+msgstr "Mise à jour d'enregistrement de principal."
 
 msgid "Anonymous users are not allowed to modify calendars"
-msgstr ""
-"Les utilisateurs anonymes ne sont pas autorisés à modifier les calendriers"
+msgstr "Mise à jour accorde par ce principal"
 
 msgid "Anonymous users may only access public calendars"
 msgstr ""
-"Les utilisateurs anonymes peuvent uniquement accéder aux calendriers publics"
 
 msgid "Application DB User"
 msgstr "Utilisateur de BDD Application"
@@ -352,6 +356,8 @@ msgstr "Wiki DAViCal"
 
 msgid "DAViCal only allows BIND requests for collections at present."
 msgstr ""
+"A l'heure actuelle DAViCal ne permet que les requêtes BIND pour les "
+"collections."
 
 msgid "DKIM signature invalid "
 msgstr "Signature DKIM invalide."
@@ -408,7 +414,7 @@ msgid "Default Privileges"
 msgstr "Privilèges par défaut"
 
 msgid "Default relationships added."
-msgstr ""
+msgstr "Relations par défaut ajouté."
 
 msgid "Delete"
 msgstr "Supprimer"
@@ -440,9 +446,13 @@ msgstr "Suppression du Ticket:"
 msgid ""
 "Deliver scheduling invitations from an organiser to this scheduling inbox"
 msgstr ""
+"Livrer les invitations programmé par un organisateur à cette boîte de "
+"réception planification"
 
 msgid "Deliver scheduling replies from an attendee to this scheduling inbox"
 msgstr ""
+"Livrer les réponses aux invitations d'un participant à cette boîte de "
+"réception planification"
 
 msgid "Dependencies"
 msgstr "Dépendances"
@@ -545,7 +555,7 @@ msgid "Expires"
 msgstr "Expires"
 
 msgid "External Calendars"
-msgstr ""
+msgstr "Calendrier externe"
 
 msgid "External Url"
 msgstr ""
@@ -660,7 +670,7 @@ msgid "Import all .ics files of a directory"
 msgstr "Importer tous les fichiers .ics d'un répertoire"
 
 msgid "Import calendars and Synchronise LDAP."
-msgstr ""
+msgstr "Importer les calendriers et synchroniser LDAP."
 
 msgid "Inactive Principals"
 msgstr "Comptes inactifs"
@@ -702,7 +712,7 @@ msgid "Last used"
 msgstr "Dernier utilisé"
 
 msgid "List External Calendars"
-msgstr ""
+msgstr "Liste des Calendrier externe"
 
 msgid "List Groups"
 msgstr "Liste des Groupes"
@@ -923,7 +933,7 @@ msgid "Read/Write"
 msgstr "Lecture/Écriture"
 
 msgid "References"
-msgstr ""
+msgstr "Références"
 
 msgid "Remove"
 msgstr "Supprimer"
@@ -968,37 +978,37 @@ msgid "Revoke"
 msgstr "Retirer"
 
 msgid "Schedule Deliver"
-msgstr "Programmation de livraison"
+msgstr "Planifier la livraison"
 
 msgid "Schedule Send"
-msgstr "Programmation d'envoi"
+msgstr "Planifier l'envoi"
 
 msgid "Schedule Transparency"
 msgstr ""
 
 msgid "Scheduling: Deliver a Reply"
-msgstr "Programmation: Envoyer une réponse"
+msgstr "Planification: Envoyer une réponse"
 
 msgid "Scheduling: Deliver an Invitation"
-msgstr "Programmation: Envoyer une invitation"
+msgstr "Planification: Envoyer une invitation"
 
 msgid "Scheduling: Delivery"
-msgstr "Programmation: livraison"
+msgstr "Planification: livraison"
 
 msgid "Scheduling: Query free/busy"
-msgstr "Programmation: Requête Libre/Occupé"
+msgstr "Planification: Requête Libre/Occupé"
 
 msgid "Scheduling: Send a Reply"
-msgstr "Programmation: Envoyer une réponse"
+msgstr "Planification: Envoyer une réponse"
 
 msgid "Scheduling: Send an Invitation"
-msgstr "Programmation: Envoyer une invitation"
+msgstr "Planification: Envoyer une invitation"
 
 msgid "Scheduling: Send free/busy"
-msgstr "Programmation: Envoyer Libre/Occupé"
+msgstr "Planification: Envoyer Libre/Occupé"
 
 msgid "Scheduling: Sending"
-msgstr "Programmation d'envoi"
+msgstr "Planification d'envoi"
 
 msgid "Send free/busy enquiries"
 msgstr "Envoyer une requête Libre/Occupé"
@@ -1007,11 +1017,15 @@ msgid ""
 "Send scheduling invitations as an organiser from the owner of this "
 "scheduling outbox."
 msgstr ""
+"Envoyer les réponses aux invitations comme organisateur au propriétaire de "
+"cette boîte d’envoi planification"
 
 msgid ""
 "Send scheduling replies as an attendee from the owner of this scheduling "
 "outbox."
 msgstr ""
+"Envoyer les réponses aux invitations comme participant au propriétaire de "
+"cette boîte d’envoi planification"
 
 msgid "Set free/busy privileges"
 msgstr "Attribuer le privilège Libre/Occupé"
@@ -1023,7 +1037,7 @@ msgid "Set read+write privileges"
 msgstr "Définir des privilèges de lecture + écriture"
 
 msgid "Set schedule-deliver privileges"
-msgstr "Définir les privilèges de programmation-livraison"
+msgstr "Définir les privilèges de planification-livraison"
 
 msgid ""
 "Set the path to store your ics e.g. 'calendar' will be referenced as "
@@ -1077,7 +1091,7 @@ msgid "Suhosin \"server.strip\" disabled"
 msgstr "Suhosin \"server.strip\" désacitivé"
 
 msgid "Sync LDAP Groups with DAViCal"
-msgstr ""
+msgstr "Synchronisation des groupes LDAP avec DAViCal"
 
 msgid "Sync LDAP with DAViCal"
 msgstr "Synchroniser LDAP avec DAViCal"
@@ -1115,7 +1129,7 @@ msgid ""
 msgstr ""
 
 msgid "The application failed to understand that request."
-msgstr ""
+msgstr "L'application n'a pas réussi à comprendre cette rzquête."
 
 msgid "The application program does not understand that request."
 msgstr "L'application ne comprend pas la demande."
@@ -1135,6 +1149,8 @@ msgid ""
 "The calendar-query report must be run against a calendar or a scheduling "
 "collection"
 msgstr ""
+"La réponse à la requete calendrier doit être exécuté sur un calendrier ou "
+"une collection planification"
 
 msgid "The collection name may not be blank."
 msgstr "Le nom de la collection ne devrait pas être vide."
@@ -1180,7 +1196,7 @@ msgstr "La langue parlée par cette personne."
 
 #, php-format
 msgid "The principal \"%s\" does not exist"
-msgstr ""
+msgstr "L'utilisateur \"%s\" n'existe pas"
 
 msgid "The style of dates used for this person."
 msgstr "Le style de dates utilisé par cette personne."
@@ -1236,6 +1252,9 @@ msgid ""
 "This process will import each file in a directory named \"username.ics\" and"
 " create a user and calendar for each file to import."
 msgstr ""
+"Ce processus va importer chaque fichier dans un répertoire nommé "
+"\"username.ics\" et créez un utilisateur et un calendrier pour chaque "
+"fichier à importer."
 
 msgid "This server only supports the text/calendar format for freebusy URLs"
 msgstr ""
@@ -1249,7 +1268,7 @@ msgid "Time"
 msgstr "Temps"
 
 msgid "To Collection"
-msgstr ""
+msgstr "Pour la Collection"
 
 msgid "To ID"
 msgstr "Pour l'ID"
@@ -1282,7 +1301,7 @@ msgid "Updated"
 msgstr "Mis à jour"
 
 msgid "Updating Collection record."
-msgstr ""
+msgstr "Mise à jour de l'enregistrement collection"
 
 msgid "Updating Member of this Group Principal"
 msgstr "Membre de ce groupe mis à jour"
@@ -1391,7 +1410,7 @@ msgid "You do not have permission to modify this record."
 msgstr "Vous n'avez pas l'autorisation de modifier cet enregistrement."
 
 msgid "You may not PUT to a collection URL"
-msgstr ""
+msgstr "Vous ne pouvez pas utilisé PUT avec un URL de collection"
 
 msgid "You must log in to use this system."
 msgstr "Vous devez vous connecter pour utiliser ce logiciel."
@@ -1400,7 +1419,7 @@ msgid "Your configuration produced PHP errors which should be corrected"
 msgstr "Votre configuration a généré des erreurs PHP qui devrait être corrigé"
 
 msgid "calendar-timezone property is only valid for a calendar."
-msgstr ""
+msgstr "La propriété fuseau horaire n'est valide que pour un calendrier."
 
 #, php-format
 msgid "directory %s is not readable"
