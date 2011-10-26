@@ -9,6 +9,7 @@
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v2 or later
 */
 
+require_once('Principal.php');
 
 /**
 * A class for things to do with a DAV Principal
