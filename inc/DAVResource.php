@@ -11,6 +11,7 @@
 
 require_once('AwlCache.php');
 require_once('AwlQuery.php');
+require_once('DAVPrincipal.php');
 require_once('DAVTicket.php');
 require_once('iCalendar.php');
 
