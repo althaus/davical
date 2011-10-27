@@ -78,6 +78,13 @@ function check_ldap() {
   return new CheckResult(isset($loaded_extensions['ldap']));
 }
 
+function check_real_php() {
+  global $phpinfo, $loaded_extensions;
+  // Looking for "Server API </td><td class="v">Apache 2.0 Filter" in the phpinfo
+  if ( preg_match('{Server API.*Apache 2\.. Filter}', $phpinfo) ) return new CheckResult(false);
+  return new CheckResult(true);
+}
+
 function check_calendar() {
   global $phpinfo, $loaded_extensions;
 
@@ -238,6 +245,7 @@ function build_dependencies_table( ) {
     translate('Current DAViCal version ')         => 'check_davical_version',
     translate('DAViCal DB Schema version ')       => 'check_schema_version',
     translate('AWL Library version ')             => 'check_awl_version',
+    translate('PHP not using Apache Filter mode') => 'check_real_php',
     translate('PHP PDO module available')         => 'check_pdo',
     translate('PDO PostgreSQL drivers')           => 'check_pdo_pgsql',
     translate('PHP PostgreSQL available')         => 'check_pgsql',
@@ -258,13 +266,15 @@ function build_dependencies_table( ) {
   $dep_tpl = '<tr class="%s">
   <td>%s</td>
   <td>%s</td>
+  <td><a href="http://wiki.davical.org/w/Setup_Failure_Codes/%s">Explanation on DAViCal Wiki</a></td>
 </tr>
 ';
   foreach( $dependencies AS $k => $v ) {
     $check_result = $v();
     $dependencies_table .= sprintf( $dep_tpl, $check_result->getClass(),
                              $k,
-                             $check_result->getDescription()
+                             $check_result->getDescription(),
+                             rawurlencode($k)
                            );
   }
   
