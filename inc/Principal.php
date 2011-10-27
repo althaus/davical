@@ -137,19 +137,29 @@ class Principal {
         break;
     }
 
-    
+
+    /**
+     * There are some values we can construct on the basis of the constructor value.
+     */
+    switch ( $type ) {
+      case 'user_no':        $this->user_no = $value;          break;
+      case 'principal_id':   $this->principal_id = $value;     break;
+      case 'email':          $this->email = $value;            break;
+      case 'username':       $this->username = $value;         break;
+      default:
+        throw new Exception('Can only retrieve a Principal by user_no,principal_id,username or email address');
+    }
+
     $cache = new AwlCache();
     if ( $use_cache && isset($session->principal_id) ) {
       switch ( $type ) {
         case 'user_no':
-          $this->user_no = $value;
           if ( isset(self::$byUserno[$value]) ) {
             $type = 'username';
             $value = self::$byUserno[$value];
           }
           break;
         case 'principal_id':
-          $this->principal_id = $value;
           if ( isset(self::$byId[$value]) ) {
             $type = 'username';
             $value = self::$byId[$value];
@@ -157,16 +167,11 @@ class Principal {
           break;
         case 'email':
           $this->by_email = true;
-          $this->email = $value;
           if ( isset(self::$byEmail[$value]) ) {
             $type = 'username';
             $value = self::$byEmail[$value];
           }
           break;
-        case 'username':
-          break;
-        default:
-          throw new Exception('Can only retrieve a Principal by user_no,principal_id,username or email address');
       }
 
       if ( $type == 'username' ) {
@@ -260,13 +265,12 @@ class Principal {
   private function assignGuestValues() {
     $this->user_no = -1;
     $this->exists = false;
-    $this->username = translate('unauthenticated');
+    if ( empty($this->username) ) $this->username = translate('unauthenticated');
     $this->fullname = $this->displayname = translate('Unauthenticated User');
     $this->email = false;
     $this->is_principal = true;
     $this->is_calendar = false;
     $this->principal_id = -1;
-    $this->dav_name = '/';
     $this->privileges = $this->default_privileges = 0;    
   }
 
