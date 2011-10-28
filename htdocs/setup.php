@@ -248,7 +248,7 @@ function build_dependencies_table( ) {
     translate('PHP not using Apache Filter mode') => 'check_real_php',
     translate('PHP PDO module available')         => 'check_pdo',
     translate('PDO PostgreSQL drivers')           => 'check_pdo_pgsql',
-    translate('PHP PostgreSQL available')         => 'check_pgsql',
+//    translate('PHP PostgreSQL available')         => 'check_pgsql',
     translate('GNU gettext support')              => 'check_gettext',
     translate('PHP iconv support')                => 'check_iconv',
     translate('PHP DateTime class')               => 'check_datetime',
