@@ -551,7 +551,7 @@ function sync_LDAP(){
         $ldap_timestamp = $Y.$m.$d.$H.$M.$S;
       }
       else if ( preg_match('{^(\d{8})(\d{6})(Z)?$', $ldap_timestamp, $matches ) ) {
-        $ldap_timestamp = $matches[1].'T'.$matches[2].$matches[3]
+        $ldap_timestamp = $matches[1].'T'.$matches[2].$matches[3];
       }
       else if ( empty($ldap_timestamp) ) {
         $ldap_timestamp = date('c');
