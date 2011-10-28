@@ -542,13 +542,21 @@ function sync_LDAP(){
       $valid = $ldap_users_info[$username];
       $ldap_timestamp = $valid[$mapping['modified']];
 
-      /**
-      * This splits the LDAP timestamp apart and assigns values to $Y $m $d $H $M and $S
-      */
-      foreach($c->authenticate_hook['config']['format_updated'] as $k => $v)
-          $$k = substr($ldap_timestamp,$v[0],$v[1]);
-      $ldap_timestamp = $Y.$m.$d.$H.$M.$S;
-      $valid[$mapping['modified']] = "$Y-$m-$d $H:$M:$S";
+      if ( !empty($c->authenticate_hook['config']['format_updated']) ) {
+        /**
+        * This splits the LDAP timestamp apart and assigns values to $Y $m $d $H $M and $S
+        */
+        foreach($c->authenticate_hook['config']['format_updated'] as $k => $v)
+            $$k = substr($ldap_timestamp,$v[0],$v[1]);
+        $ldap_timestamp = $Y.$m.$d.$H.$M.$S;
+      }
+      else if ( preg_match('{^(\d{8})(\d{6})(Z)?$', $ldap_timestamp, $matches ) {
+        $ldap_timestamp = $matches[1].'T'.$matches[2].$matches[3]
+      }
+      else if ( empty($ldap_timestamp) ) {
+        $ldap_timestamp = date('c');
+      }
+      $valid[$mapping['modified']] = $ldap_timestamp;
 
       sync_user_from_LDAP( $principal, $mapping, $valid );
     }
