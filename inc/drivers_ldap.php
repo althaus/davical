@@ -323,7 +323,7 @@ function LDAP_check($username, $password ){
     $filter_munge = "($ldapDriver->filterUsers)";
   }
 
-  $filter = "(&$filter_munge(".$mapping["username"]."=$username))";
+  $filter = "(&$filter_munge(".$mapping['username']."=$username))";
   $valid = $ldapDriver->requestUser( $filter, $attributes, $username, $password );
 
   // is a valid user or not
@@ -332,7 +332,7 @@ function LDAP_check($username, $password ){
     return false;
   }
 
-  $ldap_timestamp = $valid[$mapping["updated"]];
+  $ldap_timestamp = $valid[$mapping['modified']];
 
   /**
   * This splits the LDAP timestamp apart and assigns values to $Y $m $d $H $M and $S
@@ -341,7 +341,7 @@ function LDAP_check($username, $password ){
     $$k = substr($ldap_timestamp,$v[0],$v[1]);
 
   $ldap_timestamp = "$Y"."$m"."$d"."$H"."$M"."$S";
-  $valid[$mapping["updated"]] = "$Y-$m-$d $H:$M:$S";
+  $valid[$mapping['modified']] = "$Y-$m-$d $H:$M:$S";
 
   $principal = new Principal('username',$username);
   if ( $principal->Exists() ) {
@@ -514,7 +514,7 @@ function sync_LDAP(){
   if ( sizeof($ldap_users_tmp) == 0 ) return;
 
   foreach($ldap_users_tmp as $key => $ldap_user){
-    $ldap_users_info[$ldap_user[$mapping["username"]]] = $ldap_user;
+    $ldap_users_info[$ldap_user[$mapping['username']]] = $ldap_user;
     unset($ldap_users_tmp[$key]);
   }
   $qry = new AwlQuery( "SELECT username, user_no, modified as updated FROM dav_principal where type_id=1");
@@ -548,7 +548,7 @@ function sync_LDAP(){
       foreach($c->authenticate_hook['config']['format_updated'] as $k => $v)
           $$k = substr($ldap_timestamp,$v[0],$v[1]);
       $ldap_timestamp = $Y.$m.$d.$H.$M.$S;
-      $valid[$mapping["updated"]] = "$Y-$m-$d $H:$M:$S";
+      $valid[$mapping['modified']] = "$Y-$m-$d $H:$M:$S";
 
       sync_user_from_LDAP( $principal, $mapping, $valid );
     }
