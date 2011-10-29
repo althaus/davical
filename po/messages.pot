@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-27 11:30+1300\n"
+"POT-Creation-Date: 2011-10-24 21:19+1300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -146,6 +146,11 @@ msgstr ""
 msgid "All collection data will be unrecoverably deleted."
 msgstr ""
 
+#, php-format
+msgid ""
+"All events of user \"%s\" were deleted and replaced by those from file %s"
+msgstr ""
+
 msgid ""
 "All of the principal's calendars and events will be unrecoverably deleted."
 msgstr ""
@@ -191,6 +196,9 @@ msgid "Bindings to this Collection"
 msgstr ""
 
 msgid "Bindings to this Principal's Collections"
+msgstr ""
+
+msgid "Body contains no XML data!"
 msgstr ""
 
 msgid "Bound As"
@@ -508,6 +516,9 @@ msgstr ""
 msgid "Expires"
 msgstr ""
 
+msgid "External Calendars"
+msgstr ""
+
 msgid "External Url"
 msgstr ""
 
@@ -714,16 +725,10 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-msgid "No authority to deliver invitations to user."
-msgstr ""
-
 msgid "No calendar content"
 msgstr ""
 
 msgid "No collection found at that location."
-msgstr ""
-
-msgid "No scheduling support for user"
 msgstr ""
 
 msgid "No summary"
@@ -760,9 +765,6 @@ msgstr ""
 msgid "PHP LDAP module available"
 msgstr ""
 
-msgid "PHP calendar extension available"
-msgstr ""
-
 msgid "PHP Magic Quotes GPC off"
 msgstr ""
 
@@ -784,6 +786,11 @@ msgstr ""
 msgid ""
 "PUT on a collection is only allowed for text/calendar content against a "
 "calendar collection"
+msgstr ""
+
+msgid ""
+"PUT on a collection is only allowed for text/vcard content against an "
+"addressbook collection"
 msgstr ""
 
 msgid "Passed"
@@ -889,6 +896,9 @@ msgstr ""
 msgid "Remove a lock"
 msgstr ""
 
+msgid "Remove dangling external calendars"
+msgstr ""
+
 msgid "Report Bug"
 msgstr ""
 
@@ -927,9 +937,6 @@ msgid "Schedule Send"
 msgstr ""
 
 msgid "Schedule Transparency"
-msgstr ""
-
-msgid "Scheduling invitation delivered successfully"
 msgstr ""
 
 msgid "Scheduling: Deliver a Reply"
@@ -982,8 +989,8 @@ msgid "Set schedule-deliver privileges"
 msgstr ""
 
 msgid ""
-"Set the path to store your ics e.g. 'home' will be referenced as /caldav.php/"
-"me/home/"
+"Set the path to store your ics e.g. 'calendar' will be referenced as /caldav."
+"php/username/calendar/"
 msgstr ""
 
 msgid "Setup"
@@ -1030,7 +1037,7 @@ msgstr ""
 msgid "Suhosin \"server.strip\" disabled"
 msgstr ""
 
-msgid "Sync LDAP Groups with RSCDS"
+msgid "Sync LDAP Groups with DAViCal"
 msgstr ""
 
 msgid "Sync LDAP with DAViCal"
@@ -1102,6 +1109,11 @@ msgstr ""
 msgid "The email address really should not be blank."
 msgstr ""
 
+#, php-format
+msgid ""
+"The file \"%s\" is not UTF-8 encoded, please check error for more details"
+msgstr ""
+
 msgid "The file is not UTF-8 encoded, please check the error for more details."
 msgstr ""
 
@@ -1118,6 +1130,10 @@ msgid "The path on the server where your .ics files are."
 msgstr ""
 
 msgid "The preferred language for this person."
+msgstr ""
+
+#, php-format
+msgid "The principal \"%s\" does not exist"
 msgstr ""
 
 msgid "The style of dates used for this person."
@@ -1163,6 +1179,11 @@ msgid ""
 "This page primarily checks the environment needed for DAViCal to work "
 "correctly.  Suggestions or patches to make it do more useful stuff will be "
 "gratefully received."
+msgstr ""
+
+msgid ""
+"This process will import each file in a directory named \"username.ics\" and "
+"create a user and calendar for each file to import."
 msgstr ""
 
 msgid "This server only supports the text/calendar format for freebusy URLs"
@@ -1323,10 +1344,6 @@ msgstr ""
 msgid "Your configuration produced PHP errors which should be corrected"
 msgstr ""
 
-#, php-format
-msgid "all events of user %s were deleted and replaced by those from file %s"
-msgstr ""
-
 msgid "calendar-timezone property is only valid for a calendar."
 msgstr ""
 
@@ -1381,10 +1398,6 @@ msgid "from principal"
 msgstr ""
 
 msgid "path to store your ics"
-msgstr ""
-
-#, php-format
-msgid "the file %s is not UTF-8 encoded, please check error for more details"
 msgstr ""
 
 msgid "unauthenticated"

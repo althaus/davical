@@ -109,23 +109,27 @@ class HTTPAuthSession {
         $_SERVER['PHP_AUTH_PW'] = $pass;
       }
     }
-    else if ( isset($c->authenticate_hook['server_auth_type']) && $c->authenticate_hook['server_auth_type'] == $_SERVER['AUTH_TYPE']
+    else if ( isset($c->authenticate_hook['server_auth_type'])
               && isset($_SERVER["REMOTE_USER"]) && !empty($_SERVER["REMOTE_USER"])) {
-      /**
-      * The authentication has happened in the server, and we should accept it.
-      * Perhaps this 'split' is not a good idea though.  People may want to use the
-      * full ID as the username.  A further option may be desirable.
-      *
-      */
-      $_SERVER['PHP_AUTH_USER'] = $_SERVER['REMOTE_USER'];
-      $_SERVER['PHP_AUTH_PW'] = 'Externally Authenticated';
-      if ( ! isset($c->authenticate_hook['call']) ) {
+      if ( ( is_array($c->authenticate_hook['server_auth_type'])
+                    && in_array($_SERVER['AUTH_TYPE'], $c->authenticate_hook['server_auth_type']) )
+         ||
+           ( !is_array($c->authenticate_hook['server_auth_type'])
+                    && $c->authenticate_hook['server_auth_type'] == $_SERVER['AUTH_TYPE'] )
+         ) {
         /**
-        * Since we still need to get the user's details from somewhere.  We change the default
-        * authentication hook to auth_external which simply retrieves a user row from the DB
-        * and does no password checking.
+        * The authentication has happened in the server, and we should accept it.
         */
-        $c->authenticate_hook['call'] = 'auth_external';
+        $_SERVER['PHP_AUTH_USER'] = $_SERVER['REMOTE_USER'];
+        $_SERVER['PHP_AUTH_PW'] = 'Externally Authenticated';
+        if ( ! isset($c->authenticate_hook['call']) ) {
+          /**
+          * Since we still need to get the user's details from somewhere.  We change the default
+          * authentication hook to auth_external which simply retrieves a user row from the DB
+          * and does no password checking.
+          */
+          $c->authenticate_hook['call'] = 'auth_external';
+        }
       }
     }
 

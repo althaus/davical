@@ -85,7 +85,10 @@ while( <TEST> ) {
       if ( $state eq "SQL" ) {
         get_sql_value( $sql_variable, $sql_values, $sql_statement );
       }
-      elsif ( $state eq "SQL" || $state eq "QUERY" ) {
+      elsif ( $state eq "DOSQL" ) {
+        do_sql( $sql_statement );
+      }
+      elsif ( $state eq "QUERY" ) {
         push @$queries, $sql_statement;
       }
       $state = "";
@@ -93,7 +96,7 @@ while( <TEST> ) {
     elsif ( $state eq "DATA" ) {
       $data_binary .= $line;
     }
-    elsif ( $state eq "SQL" || $state eq "QUERY" ) {
+    elsif ( $state eq "SQL" || $state eq "QUERY" || $state eq "DOSQL" ) {
       $sql_statement .= $line;
     }
     next;
@@ -148,6 +151,11 @@ while( <TEST> ) {
     $sql_variable = $1;
     $sql_statement = "";
     $state = "SQL";
+  };
+
+  $line =~ /^DOSQL\s*$/ && do {
+    $sql_statement = "";
+    $state = "DOSQL";
   };
 
   $line =~ /^REPLACE\s*=\s*(\S)(.*)$/ && do {
@@ -270,6 +278,24 @@ if ( defined(@{$queries}) && @{$queries} ) {
 exit(0);
 
 
+=item do_sql( $sql_statement )
+Queries the database using the specified statement and
+ignores the result.
+=cut
+sub do_sql {
+  my $sql = shift;
+
+  opendb() unless defined($dbh);
+  $dbh->do($sql);
+  if ( $dbh->err ) {
+    print $dbh->errstr, "\n";
+    return;
+  }
+  print "SQL executed successfully.\n";
+  print $sql, "\n";
+}
+
+
 =item get_sql_value( $sql_variable, $sql_values, $sql_statement )
 Queries the database using the specified statement and puts
 the first column of the first row returned into the
@@ -298,7 +324,7 @@ with DBD::Pg.
 =cut
 sub opendb {
   $dsn = "dbi:Pg:dbname=$dsn";
-  $dbh = DBI->connect($dsn, $dbuser, $dbpass, { AutoCommit => 0 } ) or die "Can't connect to database $dsn";
+  $dbh = DBI->connect($dsn, $dbuser, $dbpass, { AutoCommit => 1 } ) or die "Can't connect to database $dsn";
 }
 
 

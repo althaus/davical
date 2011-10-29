@@ -1,0 +1,70 @@
+#
+# PUT an event with attendees
+#
+TYPE=PUT
+URL=http://regression.host/caldav.php/manager1/home/E1A13F04-iCal-schedule.ics
+HEADER=Content-Type: text/calendar
+HEADER=DAVKit/4.0.3 (732.2); CalendarStore/4.0.4 (997.7); iCal/4.0.4 (1395.7); Mac OS X/10.6.8 (10K549)
+HEAD
+
+AUTH=manager1:manager1
+
+# Before we run, this time we'll set schedule-deliver privileges
+# on the invitee...
+DOSQL
+UPDATE dav_principal
+   SET default_privileges = privilege_to_bits(ARRAY['schedule-deliver'])
+ WHERE dav_name = '/user1/'
+ENDDOSQL
+
+BEGINDATA
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Apple Inc.//iCal 4.0.4//EN
+CALSCALE:GREGORIAN
+BEGIN:VTIMEZONE
+TZID:Pacific/Auckland
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+1200
+RRULE:FREQ=YEARLY;BYMONTH=9;BYDAY=-1SU
+DTSTART:20070930T020000
+TZNAME:GMT+13:00
+TZOFFSETTO:+1300
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+1300
+RRULE:FREQ=YEARLY;BYMONTH=4;BYDAY=1SU
+DTSTART:20080406T030000
+TZNAME:GMT+12:00
+TZOFFSETTO:+1200
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+CREATED:20111018T195845Z
+UID:E1A13F04-iCal-schedule
+DTEND;TZID=Pacific/Auckland:20111019T110000
+ATTENDEE;CN="Manager 1";CUTYPE=INDIVIDUAL;PARTSTAT=ACCEPTED:mailto:manag
+ er1@example.net
+ATTENDEE;CN="user1@example.net";CUTYPE=INDIVIDUAL;EMAIL="user1@example.n
+ et";PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT;RSVP=TRUE:mailto:user1@ex
+ ample.net
+TRANSP:OPAQUE
+SUMMARY:Meeting with User1
+DTSTART;TZID=Pacific/Auckland:20111019T100000
+DTSTAMP:20111018T200107Z
+ORGANIZER;CN="Manager 1":mailto:manager1@example.net
+SEQUENCE:5
+END:VEVENT
+END:VCALENDAR
+ENDDATA
+
+
+QUERY
+SELECT caldav_data.user_no, caldav_data.dav_name,
+       caldav_type, logged_user, caldav_data.caldav_data AS "vcalendar",
+       summary
+FROM caldav_data JOIN calendar_item USING(dav_name) LEFT JOIN timezones ON (tz_id=tzid)
+WHERE calendar_item.uid = 'E1A13F04-iCal-schedule'
+ORDER BY caldav_data.dav_id
+ENDQUERY
+

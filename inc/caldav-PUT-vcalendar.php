@@ -94,6 +94,6 @@ $collection = $dav_resource->GetParentContainer();
 write_resource( $dav_resource, $request->raw_post, $collection, $session->user_no, $etag,
                                 $put_action_type, true, true );
 
-header(sprintf('ETag: "%s"', $etag) );
+if ( isset($etag) ) header(sprintf('ETag: "%s"', $etag) );
 
 $request->DoResponse( ($dav_resource->Exists() ? 204 : 201) );

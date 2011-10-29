@@ -560,6 +560,23 @@ class RepeatRuleDateRange {
 
     return !( $this->until < $other->from || $this->from > $other->until );
   }
+
+  /**
+   * Get an Rfc5545Duration from this date range.  If the from date is null it will be null.
+   * If the until date is null the duration will either be 1 day (if the from is a date) or 0 otherwise.
+   *   
+   * @return NULL|Rfc5545Duration
+   */
+  function getDuration() {
+    if ( !isset($this->from) ) return null;
+    if ( $this->from->isDate() && !isset($this->until) )
+      $duration = 'P1D';
+    else if ( !isset($this->until) )
+      $duration = 'P0D';
+    else
+      $duration = ( $this->until->epoch() - $this->from->epoch() );
+    return new Rfc5545Duration( $duration );
+  }
 }
 
 
@@ -1369,6 +1386,59 @@ function expand_event_instances( $vResource, $range_start = null, $range_end = n
 
 
 /**
+ * Return a date range for this component.
+ * @param vComponent $comp
+ * @throws Exception (1) When DTSTART is not present but the RFC says MUST and (2) when we get an unsupported component
+ * @return RepeatRuleDateRange
+ */
+function getComponentRange(vComponent $comp) {
+  $dtstart_prop = $comp->GetProperty('DTSTART');
+  $duration_prop = $comp->GetProperty('DURATION');
+  if ( isset($duration_prop) ) {
+    if ( !isset($dtstart_prop) ) throw new Exception('Invalid '.$comp->GetType().' containing DURATION without DTSTART', 0);
+    $dtstart = new RepeatRuleDateTime($dtstart_prop);
+    $dtend = clone($dtstart);
+    $dtend->modify(new Rfc5545Duration($duration_prop->Value()));
+  }
+  else {
+    $completed_prop = null;
+    switch ( $comp->GetType() ) {
+      case 'VEVENT':
+        if ( !isset($dtstart_prop) ) throw new Exception('Invalid VEVENT without DTSTART', 0);
+        $dtend_prop = $comp->GetProperty('DTEND');
+        break;
+      case 'VTODO':
+        $completed_prop = $comp->GetProperty('COMPLETED');
+        $dtend_prop = $comp->GetProperty('DUE');
+        break;
+      case 'VJOURNAL':
+        if ( !isset($dtstart_prop) )
+          $dtstart_prop = $comp->GetProperty('DTSTAMP');
+        $dtend_prop = $dtstart_prop;
+      default:
+        throw new Exception('getComponentRange cannot handle "'.$comp->GetType().'" components', 0);
+    }
+  
+    if ( isset($dtstart_prop) )
+      $dtstart = new RepeatRuleDateTime($dtstart_prop);
+    else 
+      $dtstart = null;
+  
+    if ( isset($dtend_prop) )
+      $dtend = new RepeatRuleDateTime($dtend_prop);
+    else
+      $dtend = null;
+
+    if ( isset($completed_prop) ) {
+      $completed = new RepeatRuleDateTime($completed_prop);
+      if ( !isset($dtstart) || (isset($dtstart) && $completed < $dtstart) ) $dtstart = $completed;
+      if ( !isset($dtend) || (isset($dtend) && $completed > $dtend) ) $dtend = $completed;
+    }
+  }
+  return new RepeatRuleDateRange($dtstart, $dtend);
+}
+
+/**
 * Return a RepeatRuleDateRange from the earliest start to the latest end of the event.
 * 
 * @todo: This should probably be made part of the VCalendar object when we move the RRule.php into AWL.
@@ -1386,32 +1456,11 @@ function getVCalendarRange( $vResource ) {
   $latest_end = null;
   $has_repeats = false;
   foreach( $components AS $k => $comp ) {
-    $dtstart_prop = $comp->GetProperty('DTSTART');
-    $dtend_prop = $comp->GetProperty('DTEND');
-    $due_prop = $comp->GetProperty('DUE');
-    
-    if ( isset($dtstart_prop) )
-      $dtstart = new RepeatRuleDateTime( $dtstart_prop );
-    else if ( isset($due_prop) )
-      $dtstart = new RepeatRuleDateTime( $due_prop );
-    else if ( isset($dtend_prop) )
-      $dtstart = new RepeatRuleDateTime( $dtend_prop );
-    else
-      continue;
-
-    $duration_prop = $comp->GetProperty('DURATION');
-    if ( empty($dtend_prop) ) {
-      if ( empty($duration_prop) ) {
-        $duration = new Rfc5545Duration(0);
-      }
-      else {
-        $duration = new Rfc5545Duration($duration_prop->Value());
-      }
-    }
-    else {
-      $dtend = new RepeatRuleDateTime( $dtend_prop );
-      $duration = new Rfc5545Duration($dtend->epoch() - $dtstart->epoch());
-    }
+    if ( $comp->GetType() == 'VTIMEZONE' ) continue;
+    $range = getComponentRange($comp);
+    $dtstart = $range->from;
+    if ( !isset($dtstart) ) continue;
+    $duration = $range->getDuration();
 
     $rrule = $comp->GetProperty('RRULE');
     $limited_occurrences = true;

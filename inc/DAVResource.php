@@ -11,6 +11,7 @@
 
 require_once('AwlCache.php');
 require_once('AwlQuery.php');
+require_once('DAVPrincipal.php');
 require_once('DAVTicket.php');
 require_once('iCalendar.php');
 
@@ -360,9 +361,9 @@ class DAVResource
       $params[':resourcetypes'] = sprintf('<DAV::collection/><urn:ietf:params:xml:ns:caldav:%s/>', $this->collection_type );
       $sql = <<<EOSQL
 INSERT INTO collection ( user_no, parent_container, dav_name, dav_displayname, is_calendar, created, modified, dav_etag, resourcetypes )
-    VALUES( (SELECT user_no FROM usr WHERE username = :username),
+    VALUES( (SELECT user_no FROM usr WHERE username = text(:username)),
             :parent_container, :dav_name,
-            (SELECT fullname FROM usr WHERE username = :username) || :boxname,
+            (SELECT fullname FROM usr WHERE username = text(:username)) || :boxname,
              FALSE, current_timestamp, current_timestamp, '1', :resourcetypes )
 EOSQL;
       $qry = new AwlQuery( $sql, $params );

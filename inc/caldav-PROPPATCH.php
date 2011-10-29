@@ -334,7 +334,18 @@ if ( $qry->Commit() ) {
   $href = new XMLElement('href', $url );
   $desc = new XMLElement('responsedescription', translate("All requested changes were made.") );
 
-  $multistatus = new XMLElement( "multistatus", new XMLElement( 'response', array( $href, $desc ) ), array('xmlns'=>'DAV:') );
+  $propstat = array();
+  foreach( $success AS $tag => $v ) {
+    $propstat[] = new XMLElement( 'propstat', array(
+    new XMLElement( 'prop', new XMLElement($tag)),
+    new XMLElement( 'status', 'HTTP/1.1 200 OK' ),
+    ));
+  }
+  
+  $url = ConstructURL($request->path);
+  array_unshift( $failure, new XMLElement('href', $url ) );
+  
+  $multistatus = new XMLElement( "multistatus", new XMLElement( 'response', array( $href, $propstat, $desc ) ), array('xmlns'=>'DAV:') );
   $request->DoResponse( 200, $multistatus->Render(0,'<?xml version="1.0" encoding="utf-8" ?>'), 'text/xml; charset="utf-8"' );
 }
 

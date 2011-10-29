@@ -2,7 +2,7 @@
 # PUT an event with attendees
 #
 TYPE=PUT
-URL=http://mycaldav/caldav.php/resource2/home/PUT-attendees.ics
+URL=http://mycaldav/caldav.php/user1/home/PUT-attendees.ics
 HEADER=Content-Type: text/calendar
 HEADER=User-Agent: DAVKit/2.0 (10.5.1; wrbt) iCal 3.0.1
 HEAD
@@ -64,9 +64,10 @@ ENDDATA
 
 QUERY
 SELECT caldav_data.user_no, caldav_data.dav_name,
-       caldav_type, logged_user, caldav_data.caldav_data,
+       caldav_type, logged_user, caldav_data.caldav_data AS "vcalendar",
        summary
 FROM caldav_data JOIN calendar_item USING(dav_name) LEFT JOIN timezones ON (tz_id=tzid)
-WHERE calendar_item.uid = 'PUT-attendees';
+WHERE calendar_item.uid = 'PUT-attendees'
+ORDER BY caldav_data.dav_id
 ENDQUERY
 

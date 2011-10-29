@@ -322,9 +322,9 @@ class CalDAVRequest
       $params[':resourcetypes'] = sprintf('<DAV::collection/><urn:ietf:params:xml:ns:caldav:%s/>', $this->collection_type );
       $sql = <<<EOSQL
 INSERT INTO collection ( user_no, parent_container, dav_name, dav_displayname, is_calendar, created, modified, dav_etag, resourcetypes )
-    VALUES( (SELECT user_no FROM usr WHERE username = :username),
+    VALUES( (SELECT user_no FROM usr WHERE username = text(:username)),
             :parent_container, :dav_name,
-            (SELECT fullname FROM usr WHERE username = :username) || :boxname,
+            (SELECT fullname FROM usr WHERE username = text(:username)) || :boxname,
              FALSE, current_timestamp, current_timestamp, '1', :resourcetypes )
 EOSQL;
 
@@ -848,7 +848,7 @@ EOSQL;
       $type = explode( '/', $this->content_type, 2);
       /** @todo: Perhaps we should look at the target collection type, also. */
       if ( $type[0] == 'text' ) {
-        if ( !empty($type[2]) && ($type[2] == 'vcard' || $type[2] == 'calendar' || $type[2] == 'x-vcard') ) {
+        if ( !empty($type[1]) && ($type[1] == 'vcard' || $type[1] == 'calendar' || $type[1] == 'x-vcard') ) {
           return;
         }
       }

@@ -263,26 +263,25 @@ function sync_user_from_LDAP( Principal &$principal, $mapping, $ldap_values ) {
 
   $fields_to_set = array();
   $updateable_fields = Principal::updateableFields();
-  $updateable_fields[] = 'active';  // Backward compatibility: now 'user_exists'
-  $updateable_fields[] = 'updated'; // Backward compatibility: now 'modified'
-  if ( isset($c->authenticate_hook['config']['default_value']) && is_array($c->authenticate_hook['config']['default_value']) ) {
-    foreach( $updateable_fields AS $field ) {
-      if ( isset($ldap_values[$mapping[$field]]) ) {
-        $fields_to_set[$field] = $ldap_values[$mapping[$field]];
-        dbg_error_log( "LDAP", "Setting usr->%s to %s from LDAP field %s", $field, $ldap_values[$mapping[$field]], $mapping[$field] );
-      }
-      else if ( isset($c->authenticate_hook['config']['default_value'][$field] ) ) {
-        $fields_to_set[$field] = $c->authenticate_hook['config']['default_value'][$field];
-        dbg_error_log( "LDAP", "Setting usr->%s to %s from configured defaults", $field, $c->authenticate_hook['config']['default_value'][$field] );
-      }
+  foreach( $updateable_fields AS $field ) {
+    if ( isset($mapping[$field]) && isset($ldap_values[$mapping[$field]]) ) {
+      $fields_to_set[$field] = $ldap_values[$mapping[$field]];
+      dbg_error_log( "LDAP", "Setting usr->%s to %s from LDAP field %s", $field, $ldap_values[$mapping[$field]], $mapping[$field] );
+    }
+    else if ( isset($c->authenticate_hook['config']['default_value']) && is_array($c->authenticate_hook['config']['default_value'])
+              && isset($c->authenticate_hook['config']['default_value'][$field] ) ) {
+      $fields_to_set[$field] = $c->authenticate_hook['config']['default_value'][$field];
+      dbg_error_log( "LDAP", "Setting usr->%s to %s from configured defaults", $field, $c->authenticate_hook['config']['default_value'][$field] );
     }
   }
+    
   if ( $principal->Exists() ) {
     $principal->Update($fields_to_set);
   }
   else {
     $principal->Create($fields_to_set);
-    CreateHomeCalendar($principal->username());
+    CreateHomeCollections($principal->username());
+    CreateDefaultRelationships($principal->username());
   }
 }
 
@@ -300,6 +299,16 @@ function LDAP_check($username, $password ){
   }
 
   $mapping = $c->authenticate_hook['config']['mapping_field'];
+  if ( isset($mapping['active']) && !isset($mapping['user_active']) ) {
+    // Backward compatibility: now 'user_active'
+    $mapping['user_active'] = $mapping['active'];
+    unset($mapping['active']);
+  }
+  if ( isset($mapping['updated']) && !isset($mapping['modified']) ) {
+    // Backward compatibility: now 'modified'
+    $mapping['modified'] = $mapping['updated'];
+    unset($mapping['updated']);
+  }
   $attributes = array_values($mapping);
 
   /**
@@ -314,7 +323,7 @@ function LDAP_check($username, $password ){
     $filter_munge = "($ldapDriver->filterUsers)";
   }
 
-  $filter = "(&$filter_munge(".$mapping["username"]."=$username))";
+  $filter = "(&$filter_munge(".$mapping['username']."=$username))";
   $valid = $ldapDriver->requestUser( $filter, $attributes, $username, $password );
 
   // is a valid user or not
@@ -323,7 +332,7 @@ function LDAP_check($username, $password ){
     return false;
   }
 
-  $ldap_timestamp = $valid[$mapping["updated"]];
+  $ldap_timestamp = $valid[$mapping['modified']];
 
   /**
   * This splits the LDAP timestamp apart and assigns values to $Y $m $d $H $M and $S
@@ -332,7 +341,7 @@ function LDAP_check($username, $password ){
     $$k = substr($ldap_timestamp,$v[0],$v[1]);
 
   $ldap_timestamp = "$Y"."$m"."$d"."$H"."$M"."$S";
-  $valid[$mapping["updated"]] = "$Y-$m-$d $H:$M:$S";
+  $valid[$mapping['modified']] = "$Y-$m-$d $H:$M:$S";
 
   $principal = new Principal('username',$username);
   if ( $principal->Exists() ) {
@@ -505,7 +514,7 @@ function sync_LDAP(){
   if ( sizeof($ldap_users_tmp) == 0 ) return;
 
   foreach($ldap_users_tmp as $key => $ldap_user){
-    $ldap_users_info[$ldap_user[$mapping["username"]]] = $ldap_user;
+    $ldap_users_info[$ldap_user[$mapping['username']]] = $ldap_user;
     unset($ldap_users_tmp[$key]);
   }
   $qry = new AwlQuery( "SELECT username, user_no, modified as updated FROM dav_principal where type_id=1");
@@ -531,15 +540,23 @@ function sync_LDAP(){
     foreach( $users_to_create as $username ) {
       $principal = new Principal( 'username', $username );
       $valid = $ldap_users_info[$username];
-      $ldap_timestamp = $valid[$mapping['updated']];
+      $ldap_timestamp = $valid[$mapping['modified']];
 
-      /**
-      * This splits the LDAP timestamp apart and assigns values to $Y $m $d $H $M and $S
-      */
-      foreach($c->authenticate_hook['config']['format_updated'] as $k => $v)
-          $$k = substr($ldap_timestamp,$v[0],$v[1]);
-      $ldap_timestamp = $Y.$m.$d.$H.$M.$S;
-      $valid[$mapping["updated"]] = "$Y-$m-$d $H:$M:$S";
+      if ( !empty($c->authenticate_hook['config']['format_updated']) ) {
+        /**
+        * This splits the LDAP timestamp apart and assigns values to $Y $m $d $H $M and $S
+        */
+        foreach($c->authenticate_hook['config']['format_updated'] as $k => $v)
+            $$k = substr($ldap_timestamp,$v[0],$v[1]);
+        $ldap_timestamp = $Y.$m.$d.$H.$M.$S;
+      }
+      else if ( preg_match('{^(\d{8})(\d{6})(Z)?$', $ldap_timestamp, $matches ) ) {
+        $ldap_timestamp = $matches[1].'T'.$matches[2].$matches[3];
+      }
+      else if ( empty($ldap_timestamp) ) {
+        $ldap_timestamp = date('c');
+      }
+      $valid[$mapping['modified']] = $ldap_timestamp;
 
       sync_user_from_LDAP( $principal, $mapping, $valid );
     }
@@ -565,7 +582,7 @@ function sync_LDAP(){
     foreach ( $users_to_update as $key=> $username ) {
       $principal = new Principal( 'username', $username );
       $valid=$ldap_users_info[$username];
-      $ldap_timestamp = $valid[$mapping['updated']];
+      $ldap_timestamp = $valid[$mapping['modified']];
 
       $valid['user_no'] = $db_users_info[$username]['user_no'];
       $mapping['user_no'] = 'user_no';
@@ -577,7 +594,7 @@ function sync_LDAP(){
         $$k = substr($ldap_timestamp,$v[0],$v[1]);
       }
       $ldap_timestamp = $Y.$m.$d.$H.$M.$S;
-      $valid[$mapping['updated']] = "$Y-$m-$d $H:$M:$S";
+      $valid[$mapping['modified']] = "$Y-$m-$d $H:$M:$S";
 
       $db_timestamp = substr(strtr($db_users_info[$username]['updated'], array(':' => '',' '=>'','-'=>'')),0,14);
       if ( $ldap_timestamp > $db_timestamp ) {
