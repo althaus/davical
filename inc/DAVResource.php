@@ -283,6 +283,17 @@ class DAVResource
             $this->resource->location = null;
             $this->resource->url = null;
           }
+          else if ( isset($c->hide_alarms) && $c->hide_alarms && !$this->HavePrivilegeTo('write') ) {
+            $vcal1 = new iCalComponent($this->resource->caldav_data);
+            $comps = $vcal1->GetComponents();
+            $vcal2 = new iCalComponent();
+            $vcal2->VCalendar();
+            foreach( $comps AS $comp ) {
+              $comp->ClearComponents('VALARM');
+              $vcal2->AddComponent($comp);
+            }
+            $this->resource->caldav_data = $vcal2->Render();
+          }
         }
         else if ( strtoupper(substr($this->resource->caldav_data,0,11)) == 'BEGIN:VCARD' ) {
           $this->contenttype = 'text/vcard';
