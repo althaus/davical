@@ -39,7 +39,7 @@ if ( $xmltree->GetTag() != 'DAV::principal-property-search'
   $target->NeedPrivilege( array('DAV::read', 'urn:ietf:params:xml:ns:caldav:read-free-busy'), true ); // They may have either
 }
 
-require_once("iCalendar.php");
+require_once("vCalendar.php");
 
 $reportnum = -1;
 $report = array();
@@ -80,110 +80,6 @@ switch( $xmltree->GetTag() ) {
 }
 
 
-/**
-* Return XML for a single calendar (or todo) entry from the DB
-*
-* @param array $properties The properties for this calendar
-* @param string $item The calendar data for this calendar
-*
-* @return string An XML document which is the response for the calendar
-*/
-function calendar_to_xml( $properties, $item ) {
-  global $session, $c, $request, $reply;
-
-  dbg_error_log("REPORT","Building XML Response for item '%s'", $item->dav_name );
-
-  $denied = array();
-  $caldav_data = $item->caldav_data;
-  $displayname = $item->summary;
-  if ( isset($properties['calendar-data']) || isset($properties['displayname']) ) {
-    if ( !$request->AllowedTo('all') && $session->user_no != $item->user_no ){
-      // the user is not admin / owner of this calendarlooking at his calendar and can not admin the other cal
-      /** @todo We should examine the ORGANIZER and ATTENDEE fields in the event.  If this person is there then they should see this */
-      if ( $item->class == 'CONFIDENTIAL' || !$request->AllowedTo('read') ) {
-        $ical = new iCalComponent( $caldav_data );
-        $resources = $ical->GetComponents('VTIMEZONE',false);
-        $first = $resources[0];
-
-        // if the event is confidential we fake one that just says "Busy"
-        $confidential = new iCalComponent();
-        $confidential->SetType($first->GetType());
-        $confidential->AddProperty( 'SUMMARY', translate('Busy') );
-        $confidential->AddProperty( 'CLASS', 'CONFIDENTIAL' );
-        $confidential->SetProperties( $first->GetProperties('DTSTART'), 'DTSTART' );
-        $confidential->SetProperties( $first->GetProperties('RRULE'), 'RRULE' );
-        $confidential->SetProperties( $first->GetProperties('DURATION'), 'DURATION' );
-        $confidential->SetProperties( $first->GetProperties('DTEND'), 'DTEND' );
-        $confidential->SetProperties( $first->GetProperties('UID'), 'UID' );
-        $ical->SetComponents(array($confidential),$confidential->GetType());
-
-        $caldav_data = $ical->Render();
-        $displayname = translate('Busy');
-      }
-    }
-  }
-
-  $url = ConstructURL($item->dav_name);
-
-  $prop = new XMLElement("prop");
-  foreach( $properties AS $k => $v ) {
-    switch( $k ) {
-      case 'getcontentlength':
-        $contentlength = strlen($caldav_data);
-        $prop->NewElement($k, $contentlength );
-        break;
-      case 'getlastmodified':
-        $prop->NewElement($k, ISODateToHTTPDate($item->modified) );
-        break;
-      case 'calendar-data':
-        $reply->CalDAVElement($prop, $k, $caldav_data );
-        break;
-      case 'getcontenttype':
-        $prop->NewElement($k, "text/calendar" );
-        break;
-      case 'current-user-principal':
-        $prop->NewElement("current-user-principal", $request->current_user_principal_xml);
-        break;
-      case 'displayname':
-        $prop->NewElement($k, $displayname );
-        break;
-      case 'resourcetype':
-        $prop->NewElement($k); // Just an empty resourcetype for a non-collection.
-        break;
-      case 'getetag':
-        $prop->NewElement($k, '"'.$item->dav_etag.'"' );
-        break;
-      case '"current-user-privilege-set"':
-        $prop->NewElement($k, privileges($request->permissions) );
-        break;
-      case 'SOME-DENIED-PROPERTY':  /** indicating the style for future expansion */
-        $denied[] = $v;
-        break;
-      default:
-        dbg_error_log( 'REPORT', "Request for unsupported property '%s' of calendar item.", $v );
-        $unsupported[] = $v;
-    }
-  }
-  $status = new XMLElement("status", "HTTP/1.1 200 OK" );
-
-  $propstat = new XMLElement( "propstat", array( $prop, $status) );
-  $href = new XMLElement("href", $url );
-  $elements = array($href,$propstat);
-
-  if ( count($denied) > 0 ) {
-    $status = new XMLElement("status", "HTTP/1.1 403 Forbidden" );
-    $noprop = new XMLElement("prop");
-    foreach( $denied AS $k => $v ) {
-      $noprop->NewElement( strtolower($v) );
-    }
-    $elements[] = new XMLElement( "propstat", array( $noprop, $status) );
-  }
-
-  $response = new XMLElement( "response", $elements );
-
-  return $response;
-}
-
 
 /**
 * Return XML for a single component from the DB
@@ -219,33 +115,27 @@ function component_to_xml( $properties, $item ) {
       $contenttype = 'text/vcard';
       break;
   }
-  if ( isset($properties['calendar-data']) || isset($properties['displayname']) ) {
-    if ( !$request->AllowedTo('all') && $session->user_no != $item->user_no ){
-      // the user is not admin / owner of this calendarlooking at his calendar and can not admin the other cal
-      /** @todo We should examine the ORGANIZER and ATTENDEE fields in the event.  If this person is there then they should see this */
-      if ( $type == 'calendar' && $item->class == 'CONFIDENTIAL' || !$request->AllowedTo('read') ) {
-        $ical = new iCalComponent( $caldav_data );
-        $resources = $ical->GetComponents('VTIMEZONE',false);
-        $first = $resources[0];
-
-        // if the event is confidential we fake one that just says "Busy"
-        $confidential = new iCalComponent();
-        $confidential->SetType($first->GetType());
-        $confidential->AddProperty( 'SUMMARY', translate('Busy') );
-        $confidential->AddProperty( 'CLASS', 'CONFIDENTIAL' );
-        $confidential->SetProperties( $first->GetProperties('DTSTART'), 'DTSTART' );
-        $confidential->SetProperties( $first->GetProperties('RRULE'), 'RRULE' );
-        $confidential->SetProperties( $first->GetProperties('DURATION'), 'DURATION' );
-        $confidential->SetProperties( $first->GetProperties('DTEND'), 'DTEND' );
-        $confidential->SetProperties( $first->GetProperties('UID'), 'UID' );
-        $ical->SetComponents(array($confidential),$confidential->GetType());
-
-        $caldav_data = $ical->Render();
-        $displayname = translate('Busy');
+  if ( $type == 'calendar' ) {
+    if ( isset($properties['calendar-data']) || isset($properties['displayname']) ) {
+      if ( !$request->AllowedTo('all') && $session->user_no != $item->user_no ) {
+        // the user is not admin / owner of this calendar looking at his calendar and can not admin the other cal
+        if ( $item->class == 'CONFIDENTIAL' || !$request->AllowedTo('read') ) {
+          dbg_error_log("REPORT","Anonymising confidential event for: %s", $item->dav_name );
+          $vcal = new vCalendar( $caldav_data );
+          $caldav_data = $vcal->Confidential()->Render();
+          $displayname = translate('Busy');
+        }
       }
     }
+  
+    if ( isset($properties['calendar-data']) && isset($c->hide_alarm) && $c->hide_alarm && !$request->HavePrivilegeTo('write') ) {
+      dbg_error_log("REPORT","Stripping event alarms for: %s", $item->dav_name );
+      $vcal = new vCalendar($caldav_data);
+      $vcal->ClearComponents('VALARM');
+      $caldav_data = $vcal->Render();
+    }
   }
-
+  
   $url = ConstructURL($item->dav_name);
 
   $prop = new XMLElement("prop");

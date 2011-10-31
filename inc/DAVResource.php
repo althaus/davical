@@ -283,7 +283,7 @@ class DAVResource
             $this->resource->location = null;
             $this->resource->url = null;
           }
-          else if ( isset($c->hide_alarms) && $c->hide_alarms && !$this->HavePrivilegeTo('write') ) {
+          else if ( isset($c->hide_alarm) && $c->hide_alarm && !$this->HavePrivilegeTo('write') ) {
             $vcal1 = new iCalComponent($this->resource->caldav_data);
             $comps = $vcal1->GetComponents();
             $vcal2 = new iCalComponent();
