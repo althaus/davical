@@ -1059,11 +1059,23 @@ EOQRY;
 
 
   /**
-  * Checks whether this resource is a calendar
-  * @param string $type The type of scheduling collection, 'read', 'write' or 'any'
+  * Checks whether this resource is a scheduling inbox/outbox collection
+  * @param string $type The type of scheduling collection, 'inbox', 'outbox' or 'any'
   */
   function IsSchedulingCollection( $type = 'any' ) {
     if ( $this->_is_collection && preg_match( '{schedule-(inbox|outbox)}', $this->collection->type, $matches ) ) {
+      return ($type == 'any' || $type == $matches[1]);
+    }
+    return false;
+  }
+
+
+  /**
+  * Checks whether this resource is IN a scheduling inbox/outbox collection
+  * @param string $type The type of scheduling collection, 'inbox', 'outbox' or 'any'
+  */
+  function IsInSchedulingCollection( $type = 'any' ) {
+    if ( !$this->_is_collection && preg_match( '{schedule-(inbox|outbox)}', $this->collection->type, $matches ) ) {
       return ($type == 'any' || $type == $matches[1]);
     }
     return false;
@@ -1257,6 +1269,14 @@ EOQRY;
 
 
   /**
+  * Checks whether the target collection is for public events only
+  */
+  function IsPublicOnly() {
+    return ( isset($this->collection->publicly_events_only) && $this->collection->publicly_events_only == 't' );
+  }
+
+
+  /**
   * Return the type of whatever contains this resource, or would if it existed.
   */
   function ContainerType() {
@@ -1382,6 +1402,11 @@ EOQRY;
         return clone($this->resource);
         break;
 
+      case 'dav-data':
+        if ( !isset($this->resource) ) $this->FetchResource();
+        return $this->resource->caldav_data;
+        break;
+        
       case 'principal':
         if ( !isset($this->principal) ) $this->FetchPrincipal();
         return clone($this->principal);

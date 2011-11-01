@@ -17,6 +17,7 @@ $container->NeedPrivilege('DAV::unbind');
 
 $lock_opener = $request->FailIfLocked();
 
+require_once('schedule-functions.php');
 
 function delete_collection( $id ) {
   $params = array( ':collection_id' => $id );
@@ -72,12 +73,14 @@ else {
     $request->DoResponse( 412, translate("Resource has changed on server - not deleted") );
   }
 
-  $params = array( ':dav_id' => $dav_resource->resource_id() );
-
+  // Check to see if we need to do any scheduling transactions for this one.
+  do_scheduling_for_delete($dav_resource);
+  
   // We need to serialise access to this process just for this collection
   $cache = getCacheInstance();
   $myLock = $cache->acquireLock('collection-'.$dav_resource->parent_path());
 
+  $params = array( ':dav_id' => $dav_resource->resource_id() );
   if ( $qry->QDo("SELECT write_sync_change(collection_id, 404, caldav_data.dav_name) FROM caldav_data WHERE dav_id = :dav_id", $params )
     && $qry->QDo("DELETE FROM property WHERE dav_name = (SELECT dav_name FROM caldav_data WHERE dav_id = :dav_id)", $params )
     && $qry->QDo("DELETE FROM locks WHERE dav_name = (SELECT dav_name FROM caldav_data WHERE dav_id = :dav_id)", $params )
@@ -92,7 +95,6 @@ else {
     $request->DoResponse( 204 );
   }
   $cache->releaseLock($myLock);
-
 }
 
 $request->DoResponse( 500 );

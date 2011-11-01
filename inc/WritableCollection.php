@@ -17,7 +17,7 @@ class WritableCollection extends DAVResource {
     return $p->GetParameterValue('TZID');
   }
   
-    /**
+  /**
    * Writes the data to a member in the collection and returns the segment_name of the 
    * resource in our internal namespace.
    *  
@@ -36,7 +36,7 @@ class WritableCollection extends DAVResource {
       return false;
     }
 
-    global $tz_regex, $session, $caldav_context;
+    global $session, $caldav_context;
   
     $resources = $vcal->GetComponents('VTIMEZONE',false); // Not matching VTIMEZONE
     $user_no = $this->user_no();
@@ -179,18 +179,11 @@ class WritableCollection extends DAVResource {
     $calitem_params[':dtstamp'] = $dtstamp;
   
     $class = $first->GetPValue('CLASS');
-    /* Check and see if we should over ride the class. */
-    /** @todo is there some way we can move this out of this function? Or at least get rid of the need for the SQL query here. */
-    if ( public_events_only($user_no, $path) ) {
-      $class = 'PUBLIC';
-    }
-  
     /*
      * It seems that some calendar clients don't set a class...
-     * RFC2445, 4.8.1.3:
-     * Default is PUBLIC
+     * RFC2445, 4.8.1.3: Default is PUBLIC
      */
-    if ( !isset($class) || $class == '' ) {
+    if ( $this->IsPublicOnly() || !isset($class) || $class == '' ) {
       $class = 'PUBLIC';
     }
     $calitem_params[':class'] = $class;
@@ -202,18 +195,10 @@ class WritableCollection extends DAVResource {
       $tz = $vcal->GetTimeZone($tzid);
       $olson = $vcal->GetOlsonName($tz);
     
-      dbg_error_log( 'PUT', ' Using TZID[%s] and location of [%s]', $tzid, (isset($olson) ? $olson : '') );
-      if ( !empty($olson) && ($olson != $last_olson) && preg_match( $tz_regex, $olson ) ) {
+      if ( !empty($olson) && ($olson != $last_olson) ) {
         dbg_error_log( 'PUT', ' Setting timezone to %s', $olson );
         $qry->QDo('SET TIMEZONE TO \''.$olson."'" );
         $last_olson = $olson;
-      }
-      $params = array( ':tzid' => $tzid);
-      $qry = new AwlQuery('SELECT 1 FROM timezones WHERE tzid = :tzid', $params );
-      if ( $qry->Exec('PUT',__LINE__,__FILE__) && $qry->rows() == 0 ) {
-        $params[':olson_name'] = $olson;
-        $params[':vtimezone'] = (isset($tz) ? $tz->Render() : null );
-        $qry->QDo('INSERT INTO timezones (tzid, olson_name, active, vtimezone) VALUES(:tzid,:olson_name,false,:vtimezone)', $params );
       }
     }
 
@@ -258,8 +243,8 @@ EOSQL;
     }
   
     if ( !$this->IsSchedulingCollection() ) {
-      write_alarms($dav_id, $first);
-      write_attendees($dav_id, $vcal);
+      $this->WriteCalendarAlarms($dav_id, $vcal);
+      $this->WriteCalendarAttendees($dav_id, $vcal);
       if ( $log_action && function_exists('log_caldav_action') ) {
         log_caldav_action( $put_action_type, $first->GetPValue('UID'), $user_no, $collection_id, $path );
       }
@@ -315,6 +300,146 @@ EOSQL;
       return $this->WriteAddressbookMember($resource,$create_resource,$segment_name, $log_action);
     
     return $segment_name;
+  }
+
+  
+  /**
+  * Given a dav_id and an original vCalendar, pull out each of the VALARMs
+  * and write the values into the calendar_alarm table.
+  *
+  * @return null
+  */
+  function WriteCalendarAlarms( $dav_id, vCalendar $vcal ) {
+    $qry = new AwlQuery('DELETE FROM calendar_alarm WHERE dav_id = '.$dav_id );
+    $qry->Exec('PUT',__LINE__,__FILE__);
+
+    $components = $vcal->GetComponents();
+    
+    $qry->SetSql('INSERT INTO calendar_alarm ( dav_id, action, trigger, summary, description, component, next_trigger )
+            VALUES( '.$dav_id.', :action, :trigger, :summary, :description, :component,
+                                        :related::timestamp with time zone + :related_trigger::interval )' );
+    $qry->Prepare();
+    foreach( $components AS $component ) {
+      if ( $component->GetType() == 'VTIMEZONE' ) continue;
+      $alarms = $component->GetComponents('VALARM');
+      if ( count($alarms) < 1 ) return;
+
+      foreach( $alarms AS $v ) {
+        $trigger = array_merge($v->GetProperties('TRIGGER'));
+        if ( $trigger == null ) continue; // Bogus data.
+        $trigger = $trigger[0];
+        $related = null;
+        $related_trigger = '0M';
+        $trigger_type = $trigger->GetParameterValue('VALUE');
+        if ( !isset($trigger_type) || $trigger_type == 'DURATION' ) {
+          switch ( $trigger->GetParameterValue('RELATED') ) {
+            case 'DTEND':  $related = $component->GetPValue('DTEND'); break;
+            case 'DUE':    $related = $component->GetPValue('DUE');   break;
+            default:       $related = $component->GetPValue('DTSTART');
+          }
+          $duration = $trigger->Value();
+          if ( !preg_match('{^-?P(:?\d+W)?(:?\d+D)?(:?T(:?\d+H)?(:?\d+M)?(:?\d+S)?)?$}', $duration ) ) continue;
+          $minus = (substr($duration,0,1) == '-');
+          $related_trigger = trim(preg_replace( '#[PT-]#', ' ', $duration ));
+          if ( $minus ) {
+            $related_trigger = preg_replace( '{(\d+[WDHMS])}', '-$1 ', $related_trigger );
+          }
+          else {
+            $related_trigger = preg_replace( '{(\d+[WDHMS])}', '$1 ', $related_trigger );
+          }
+        }
+        else {
+          if ( false === strtotime($trigger->Value()) ) continue; // Invalid date.
+        }
+        $qry->Bind(':action', $v->GetPValue('ACTION'));
+        $qry->Bind(':trigger', $trigger->Render());
+        $qry->Bind(':summary', $v->GetPValue('SUMMARY'));
+        $qry->Bind(':description', $v->GetPValue('DESCRIPTION'));
+        $qry->Bind(':component', $v->Render());
+        $qry->Bind(':related', $related );
+        $qry->Bind(':related_trigger', $related_trigger );
+        $qry->Exec('PUT',__LINE__,__FILE__);
+      }
+    }
+  }
+  
+  
+  /**
+   * Parse out the attendee property and write a row to the
+   * calendar_attendee table for each one.
+   * @param int $dav_id The dav_id of the caldav_data we're processing
+   * @param vComponent The VEVENT or VTODO containing the ATTENDEEs
+   * @return null
+   */
+  function WriteCalendarAttendees( $dav_id, vCalendar $vcal ) {
+    $qry = new AwlQuery('DELETE FROM calendar_attendee WHERE dav_id = '.$dav_id );
+    $qry->Exec('PUT',__LINE__,__FILE__);
+  
+    $attendees = $vcal->GetAttendees();
+    if ( count($attendees) < 1 ) return;
+  
+    $qry->SetSql('INSERT INTO calendar_attendee ( dav_id, status, partstat, cn, attendee, role, rsvp, property )
+            VALUES( '.$dav_id.', :status, :partstat, :cn, :attendee, :role, :rsvp, :property )' );
+    $qry->Prepare();
+    $processed = array();
+    foreach( $attendees AS $v ) {
+      $attendee = $v->Value();
+      if ( isset($processed[$attendee]) ) {
+        dbg_error_log( 'LOG', 'Duplicate attendee "%s" in resource "%d"', $attendee, $dav_id );
+        dbg_error_log( 'LOG', 'Original:  "%s"', $processed[$attendee] );
+        dbg_error_log( 'LOG', 'Duplicate: "%s"', $v->Render() );
+        continue; /** @todo work out why we get duplicate ATTENDEE on one VEVENT */
+      }
+      $qry->Bind(':attendee', $attendee );
+      $qry->Bind(':status',   $v->GetParameterValue('STATUS') );
+      $qry->Bind(':partstat', $v->GetParameterValue('PARTSTAT') );
+      $qry->Bind(':cn',       $v->GetParameterValue('CN') );
+      $qry->Bind(':role',     $v->GetParameterValue('ROLE') );
+      $qry->Bind(':rsvp',     $v->GetParameterValue('RSVP') );
+      $qry->Bind(':property', $v->Render() );
+      $qry->Exec('PUT',__LINE__,__FILE__);
+      $processed[$attendee] = $v->Render();
+    }
+  }
+  
+  /**
+   * Writes the data to a member in the collection and returns the segment_name of the 
+   * resource in our internal namespace.
+   *  
+   * @param vCalendar $member_dav_name The path to the resource to be deleted.
+   * @return boolean Success is true, or false on failure.
+   */
+  function actualDeleteCalendarMember( $member_dav_name ) {
+    global $session, $caldav_context;
+
+    // A quick sanity check...
+    $segment_name = str_replace( $this->dav_name(), '', $member_dav_name );
+    if ( strstr($segment_name, '/') !== false ) {
+      @dbg_error_log( "DELETE", "DELETE: Refused to delete member '%s' from calendar '%s'!", $member_dav_name, $this->dav_name() );
+      return false;
+    }
+
+    // We need to serialise access to this process just for this collection
+    $cache = getCacheInstance();
+    $myLock = $cache->acquireLock('collection-'.$this->dav_name());
+    
+    $qry = new AwlQuery();
+    $params = array( ':dav_name' => $member_dav_name );
+
+    if ( $qry->QDo("SELECT write_sync_change(collection_id, 404, caldav_data.dav_name) FROM caldav_data WHERE dav_name = :dav_name", $params )
+                    && $qry->QDo("DELETE FROM property WHERE dav_name = :dav_name", $params )
+                    && $qry->QDo("DELETE FROM locks WHERE dav_name = :dav_name", $params )
+                    && $qry->QDo("DELETE FROM caldav_data WHERE dav_name = :dav_name", $params ) ) {
+      @dbg_error_log( "DELETE", "DELETE: Calendar member %s deleted from calendar '%s'", $member_dav_name, $this->dav_name() );
+
+      $cache->releaseLock($myLock);
+      
+      return true;
+    }
+
+    $cache->releaseLock($myLock);
+    return false;
+    
   }
 
 }
