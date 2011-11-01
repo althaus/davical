@@ -10,13 +10,25 @@ that Mulberry does it.</p>
 <li>Calendar namespace</li>
 </ul>
 
-<p>The host name is, of course, up to you.  The 'root path' should be <code>/caldav.php/</code> and anything following that is the calendar namespace.</p>
-<p>Within the calendar namespace DAViCal uses the first element of the path as the user or resource name, so that a client connecting at the root path
-can see all of the (accessible) users and resources available to them (Mulberry displays this hierarchy) with any calendars below that.</p>
-<p>Effectively this means that in Evolution, Sunbird and Lightning you should really specify a calendar URL which is something like:</p>
+<p>The host name is, of course, up to you.  The 'root path' should be 
+<code>/caldav.php/</code> and anything following that is the calendar 
+namespace.</p>
+
+<p>Within the calendar namespace DAViCal uses the first element of the 
+path as the user or 'princpal' name, so that a client connecting at the 
+root path can see all of the (accessible) users and resources available 
+to them (Mulberry displays this hierarchy) with any calendars below that.</p>
+
+<p>This means that in Evolution, Lightning and other software wanting a
+'calendar' URL you should specify a URL which is something like:</p>
 <pre>
-http://calendar.example.net/caldav.php/username/home/
+http://calendar.example.net/caldav.php/username/calendar/
 </pre>
-<p>Then, when more calendar client software sees it as useful to be able to browse that hierarchy, you won't be up for any heavy database manipulation.</p>
-<p>I may well enforce this standard in some way before release 1.0, as well as auto-creating the <code>collection</code> records when Evolution, Lightning
-or Sunbird attempt to store to a non-existent collection.</p>
+
+<p>DAViCal creates two collections automatically when a user is created.  In
+recent versions these are called 'calendar' and 'addressbook'.  Some software
+also makes it easy to create more calendars and addressbooks, or you can create
+more through DAViCal's web interface, also.</p>
+
+<p>In older versions of DAViCal (pre 0.9.9.5) the default calendar was named 'home'
+and there was no default addressbook.</p> 

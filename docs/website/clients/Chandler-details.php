@@ -7,7 +7,7 @@ written in Python.</p>
 
 <ol>
 <li>Select "Subscribe" from the "Share" menu (or in older builds it was in the "Collection" menu).</li>
-<li>Enter a URL like: "http://calendar.example.net/caldav.php/username/home/" (click "Subscribe") <img src="clients/Chandler-dialog1.png" /> <br /> &nbsp;</li>
+<li>Enter a URL like: "http://calendar.example.net/caldav.php/username/calendar/" (click "Subscribe") <img src="clients/Chandler-dialog1.png" /> <br /> &nbsp;</li>
 <li>You will then be prompted for a username/password with in an expanded dialog.  Enter these and click "Subscribe" again. <img src="clients/Chandler-dialog2.png" /> <br /> &nbsp;</li>
 <li>You should now have a new calendar showing.</li>
 </ol>
