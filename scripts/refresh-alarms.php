@@ -1,29 +1,18 @@
-#!/usr/bin/php
+#!/usr/bin/env php
 <?php
+/**
+* Script to refresh the pending alarm times for the next alarm instance.
+*
+* @package   davical
+* @subpackage   alarms
+* @author    Andrew McMillan <andrew@morphoss.com>
+* @copyright Morphoss Ltd
+* @license   http://gnu.org/copyleft/gpl.html GNU GPL v3 or later
+*/
+$script_file = __FILE__;
 
-set_include_path('.');
-
-function add_path_for( $include, $paths ) {
-  foreach( $paths AS $test_path ) {
-    if ( @file_exists($test_path.'/'.$include) ) {
-      set_include_path( $test_path. PATH_SEPARATOR. get_include_path());
-      return;
-    }
-  }
-}
-
-add_path_for('AWLUtilities.php', array( '../../awl/inc' , '../awl/inc'
-      , '../../../awl/inc' , '/usr/share/awl/inc' , '/usr/local/share/awl/inc') );
-add_path_for('caldav-client-v2.php', array( '../../davical/inc' , '../davical/inc'
-      , '../../../davical/inc' , '/usr/share/davical/inc' , '/usr/local/share/davical/inc') );
-add_path_for('always.php', array( 'scripts' ) );
-add_path_for('sync-config.php', array( 'config' ) );
-
-
-require('always.php');
-require_once('AwlQuery.php');
-require_once('RRule-v2.php');
-require_once('vComponent.php');
+chdir(str_replace('/scripts/refresh-alarms.php','/htdocs',$script_file));
+$_SERVER['SERVER_NAME'] = 'localhost';
 
 /**
 * Call with something like e.g.:
@@ -41,15 +30,17 @@ $args->near_past = 'P1D';
 $args->far_past = 'P1200D';
 $debugging = null;
 
+
 function parse_arguments() {
   global $args;
 
-  $opts = getopt( 'f:p:n:d:lh' );
+  $opts = getopt( 'f:p:s:n:d:lh' );
   foreach( $opts AS $k => $v ) {
     switch( $k ) {
       case 'f':   $args->future = $v;  break;
       case 'n':   $args->near_past = $v;  break;
       case 'p':   $args->far_past = $v;  break;
+      case 's':   $_SERVER['SERVER_NAME'] = $v; break;
       case 'd':   $args->debug = true;  $debugging = explode(',',$v); break;
       case 'l':   $args->set_last = true; break;
       case 'h':   usage();  break;
@@ -59,9 +50,10 @@ function parse_arguments() {
 }
 
 function usage() {
-  echo <<<EOUSAGE
+
+  echo <<<USAGE
 Usage:
-   refresh-alarms.php [-d]
+   refresh-alarms.php [-s server.domain.tld] [-d] [other options]
 
   -n <duration>    Near past period to skip for finding last instances: default 1 days ('P1D')
   -p <duration>    Far past period to examine for finding last instances: default ~3 years ('P1200D')
@@ -71,8 +63,7 @@ Usage:
 
   -d               Enable debugging
 
-EOUSAGE;
-
+USAGE;
   exit(0);
 }
 
@@ -85,6 +76,11 @@ if ( $args->debug && is_array($debugging )) {
 }
 $args->near_past = '-' .  $args->near_past;
 $args->far_past = '-' . $args->far_past;
+
+require_once("./always.php");
+require_once('AwlQuery.php');
+require_once('RRule-v2.php');
+require_once('vComponent.php');
 
 
 /**
