@@ -15,7 +15,7 @@ HEAD
 #   - An iTIP message in the managers's inbox.
 QUERY
 SELECT calendar_item.dav_name,
-       caldav_data.caldav_data
+       regexp_replace(caldav_data,'DTSTAMP:[0-9T]{15}Z','DTSTAMP:looks good') AS vcalendar
   FROM calendar_item JOIN caldav_data USING(dav_id, dav_name)
  WHERE uid = 'E1A13F04-iCal-schedule'
  ORDER BY dav_id
