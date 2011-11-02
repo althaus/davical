@@ -70,6 +70,11 @@ function doItipAttendeeReply( vCalendar $resource, $partstat ) {
   $organizer = $resource->GetOrganizer();
   $organizer_email = preg_replace( '/^mailto:/i', '', $organizer->Value() );
   $organizer_principal = new Principal('email',$organizer_email );
+  
+  if ( !$organizer_principal->Exists() ) {
+    dbg_error_log( 'schedule', 'Unknown ORGANIZER "%s" - unable to notify.', $organizer->Value() );
+    return true;
+  }
 
   $sql = 'SELECT caldav_data.dav_name, caldav_data.caldav_data FROM caldav_data JOIN calendar_item USING(dav_id) ';
   $sql .= 'WHERE caldav_data.collection_id IN (SELECT collection_id FROM collection WHERE is_calendar AND user_no =?) ';
@@ -80,7 +85,7 @@ function doItipAttendeeReply( vCalendar $resource, $partstat ) {
     return true;
   }
   $uid = $uids[0]->Value();
-  $qry = new AwlQuery($sql,$organizer_principal->user_no(), $uid);
+  $qry = new AwlQuery($sql, $organizer_principal->user_no(), $uid);
   if ( !$qry->Exec('schedule',__LINE__,__FILE__) || $qry->rows() < 1 ) {
     dbg_error_log( 'schedule', 'Could not find original event from organizer - giving up on REPLY.' );
     return true;
