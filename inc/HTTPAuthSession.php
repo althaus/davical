@@ -88,7 +88,7 @@ class HTTPAuthSession {
     header( $auth_header );
     echo 'Please log in for access to this system.';
     dbg_error_log( "HTTPAuth", ":Session: User is not authorised: %s ", $_SERVER['REMOTE_ADDR'] );
-    exit;
+    @ob_flush();   exit(0);
   }
 
 

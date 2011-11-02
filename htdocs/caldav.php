@@ -17,17 +17,17 @@ if ( isset($_SERVER['PATH_INFO']) && preg_match( '{^(/favicon.ico|davical.css|(i
   else {
     fpassthru($fh);
   }
-  exit(0);
+  @ob_flush(); exit(0);
 }
 require_once('./always.php');
 
 if ( isset($_SERVER['PATH_INFO']) && preg_match( '{^/\.well-known/(.+)$}', $_SERVER['PATH_INFO'], $matches ) ) {
   require ('well-known.php');
-  exit(0);
+  @ob_flush(); exit(0);
 }
 elseif ( isset($_SERVER['PATH_INFO']) && $_SERVER['PATH_INFO'] == '/autodiscover/autodiscover.xml' ) {
   require ('autodiscover-handler.php');
-  exit(0);
+  @ob_flush(); exit(0);
 }
 
 function logRequestHeaders() {
@@ -102,7 +102,7 @@ if ( ! ($request->IsPrincipal() || isset($request->collection) || $request->meth
     $redirect_url = ConstructURL('/caldav.php'.$matches[1]);
     dbg_error_log( 'LOG WARNING', 'Redirecting %s for "%s" to "%s"', $request->method, $request->path, $redirect_url );
     header('Location: '.$redirect_url );
-    exit(0);
+    @ob_flush(); exit(0);
   }
 }
 

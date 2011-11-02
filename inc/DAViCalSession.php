@@ -113,7 +113,7 @@ class DAViCalSession extends Session
       || (isset($c->restrict_admin_port) && $c->restrict_admin_port != $_SERVER['SERVER_PORT'] ) ) {
       header('Location: caldav.php');
       dbg_error_log( 'LOG WARNING', 'Access to "%s" via "%s:%d" rejected.', $_SERVER['REQUEST_URI'], $current_domain, $_SERVER['SERVER_PORT'] );
-      exit(0);
+      @ob_flush(); exit(0);
     }
     if ( isset($c->restrict_admin_roles) && $roles == '' ) $roles = $c->restrict_admin_roles;
     if ( $this->logged_in && $roles == '' ) return;
@@ -156,7 +156,7 @@ class DAViCalSession extends Session
     }
 
     include('page-footer.php');
-    exit;
+    @ob_flush(); exit(0);
   }
 }
 

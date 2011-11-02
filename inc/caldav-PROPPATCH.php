@@ -353,6 +353,5 @@ if ( $qry->Commit() ) {
 * Or it was all crap.
 */
 $request->DoResponse( 500 );
-
-exit(0);
+exit(0); // unneccessary
 

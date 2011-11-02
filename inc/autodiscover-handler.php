@@ -14,7 +14,7 @@ $request = new CalDAVRequest();
 
 if ( !isset($c->enable_autodiscover) || ! $c->enable_autodiscover ) {
   $request->DoResponse( 404 );
-  exit(0);
+  exit(0); // unneccessary
 }
 
 $ns_outlook_req_2006 = "http://schemas.microsoft.com/exchange/autodiscover/outlook/requestschema/2006";
@@ -40,7 +40,7 @@ function errorResponse( $code, $message, $debugdata = '' ) {
 ERROR;
 
   $request->DoResponse( $code, $response, 'text/xml; charset="utf-8"' );
-  exit(0);
+  exit(0); // unneccessary
 }
 
 
