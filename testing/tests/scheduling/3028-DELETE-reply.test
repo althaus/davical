@@ -1,0 +1,18 @@
+#
+# iCal DELETE's the invitation in the .in
+#
+TYPE=DELETE
+URL=http://regression.host/user1/.in/E1A13F04-iCal-schedule.ics
+
+HEADER=User-Agent: DAVKit/4.0.3 (732.2); CalendarStore/4.0.4 (997.7); iCal/4.0.4 (1395.7); Mac OS X/10.6.8 (10K549)
+HEAD
+
+#
+# Query to confirm we got rid of it. There should be two now.
+QUERY
+SELECT dav_name
+  FROM calendar_item
+ WHERE uid = 'E1A13F04-iCal-schedule'
+ ORDER BY dav_id
+ENDQUERY
+

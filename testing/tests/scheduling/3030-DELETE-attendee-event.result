@@ -1,0 +1,70 @@
+HTTP/1.1 204 No Content
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
+DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
+Content-Length: 0
+Content-Type: text/plain; charset="utf-8"
+
+
+         dav_name: >/manager1/home/E1A13F04-iCal-schedule.ics<
+        vcalendar: >BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Apple Inc.//iCal 4.0.4//EN
+CALSCALE:GREGORIAN
+BEGIN:VTIMEZONE
+TZID:Pacific/Auckland
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+1200
+RRULE:FREQ=YEARLY;BYMONTH=9;BYDAY=-1SU
+DTSTART:20070930T020000
+TZNAME:GMT+13:00
+TZOFFSETTO:+1300
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+1300
+RRULE:FREQ=YEARLY;BYMONTH=4;BYDAY=1SU
+DTSTART:20080406T030000
+TZNAME:GMT+12:00
+TZOFFSETTO:+1200
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+CREATED:20111018T195845Z
+UID:E1A13F04-iCal-schedule
+DTEND;TZID=Pacific/Auckland:20111019T140000
+TRANSP:OPAQUE
+SUMMARY:Meeting with User1
+DTSTART;TZID=Pacific/Auckland:20111019T130000
+DTSTAMP:looks good
+ORGANIZER;CN="Manager 1":mailto:manager1@example.net
+SEQUENCE:6
+ATTENDEE;CN=Manager 1;CUTYPE=INDIVIDUAL;PARTSTAT=ACCEPTED:
+ mailto:manager1@example.net
+ATTENDEE;CN=user1@example.net;CUTYPE=INDIVIDUAL;EMAIL=user1@example.net;
+ PARTSTAT=DECLINED;ROLE=REQ-PARTICIPANT;RSVP=TRUE;SCHEDULE-STATUS=2.0:mai
+ lto:user1@example.net
+END:VEVENT
+END:VCALENDAR
+<
+
+         dav_name: >/manager1/.in/user1E1A13F04-iCal-schedule.ics<
+        vcalendar: >BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Apple Inc.//iCal 4.0.4//EN
+CALSCALE:GREGORIAN
+METHOD:REPLY
+REQUEST-STATUS:2.0
+BEGIN:VEVENT
+UID:E1A13F04-iCal-schedule
+DTEND:20111019T010000Z
+ATTENDEE;CN=user1@example.net;CUTYPE=INDIVIDUAL;EMAIL=user1@example.net;
+ PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT;RSVP=TRUE;SCHEDULE-STATUS=1.2
+ :mailto:user1@example.net
+DTSTART:20111019T000000Z
+ORGANIZER;CN="Manager 1":mailto:manager1@example.net
+SEQUENCE:7
+DTSTAMP:looks good
+END:VEVENT
+END:VCALENDAR
+<
+

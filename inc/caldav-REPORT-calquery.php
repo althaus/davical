@@ -334,25 +334,25 @@ $sql = 'SELECT caldav_data.*,calendar_item.*  FROM collection INNER JOIN caldav_
 if ( isset($c->strict_result_ordering) && $c->strict_result_ordering ) $sql .= " ORDER BY caldav_data.dav_id";
 $qry = new AwlQuery( $sql, $params );
 if ( $qry->Exec("calquery",__LINE__,__FILE__) && $qry->rows() > 0 ) {
-  while( $calendar_object = $qry->Fetch() ) {
-    if ( !$need_post_filter || apply_filter( $qry_filters, $calendar_object ) ) {
+  while( $dav_object = $qry->Fetch() ) {
+    if ( !$need_post_filter || apply_filter( $qry_filters, $dav_object ) ) {
       if ( $bound_from != $target_collection->dav_name() ) {
-        $calendar_object->dav_name = str_replace( $bound_from, $target_collection->dav_name(), $calendar_object->dav_name);
+        $dav_object->dav_name = str_replace( $bound_from, $target_collection->dav_name(), $dav_object->dav_name);
       }
       if ( $need_expansion ) {
-        $vResource = new vComponent($calendar_object->caldav_data);
+        $vResource = new vComponent($dav_object->caldav_data);
         $expanded = expand_event_instances($vResource, $expand_range_start, $expand_range_end, $expand_as_floating );
         if ( $expanded->ComponentCount() == 0 ) continue;
-        if ( $need_expansion ) $calendar_object->caldav_data = $expanded->Render();
+        if ( $need_expansion ) $dav_object->caldav_data = $expanded->Render();
       }
       else if ( isset($range_filter) ) {
-        $vResource = new vComponent($calendar_object->caldav_data);
+        $vResource = new vComponent($dav_object->caldav_data);
         $expanded = getVCalendarRange($vResource);
         dbg_error_log('calquery', 'Expanded to %s:%s which might overlap %s:%s',
                        $expanded->from, $expanded->until, $range_filter->from, $range_filter->until );
         if ( !$expanded->overlaps($range_filter) ) continue;
       }
-      $responses[] = calendar_to_xml( $properties, $calendar_object );
+      $responses[] = component_to_xml( $properties, $dav_object );
     }
   }
 }

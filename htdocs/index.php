@@ -4,7 +4,7 @@ if ( $_SERVER['REQUEST_METHOD'] != "GET" && $_SERVER['REQUEST_METHOD'] != "POST"
   * If the request is not a GET or POST then they must really want caldav.php!
   */
   include("./caldav.php");
-  exit;  // Not that it should return from that!
+  @ob_flush(); exit(0);  // Not that it should return from that!
 }
 
 include("./always.php");

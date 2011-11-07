@@ -1,11 +1,13 @@
 #
-# PUT an event with attendees
+# PUT an event with several attendees - so we can delete the organizer
+# copy in the next request.
+#
+# After this we should see 7 events: 1 manager, 3 attendees, 3 attendee iTIP
 #
 TYPE=PUT
 URL=http://regression.host/caldav.php/manager1/home/E1A13F04-iCal-schedule.ics
 HEADER=Content-Type: text/calendar
 HEADER=DAVKit/4.0.3 (732.2); CalendarStore/4.0.4 (997.7); iCal/4.0.4 (1395.7); Mac OS X/10.6.8 (10K549)
-HEADER=If-Match: "d60f8959edc5eee6e949a2e5b81dd746"
 HEAD
 
 AUTH=manager1:manager1
@@ -41,15 +43,22 @@ ATTENDEE;CN="Manager 1";CUTYPE=INDIVIDUAL;PARTSTAT=ACCEPTED:mailto:manag
 ATTENDEE;CN="user1@example.net";CUTYPE=INDIVIDUAL;EMAIL="user1@example.n
  et";PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT;RSVP=TRUE:mailto:user1@ex
  ample.net
+ATTENDEE;CN="user2@example.net";CUTYPE=INDIVIDUAL;EMAIL="user2@example.n
+ et";PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT;RSVP=TRUE:mailto:user2@ex
+ ample.net
+ATTENDEE;CN="user3@example.net";CUTYPE=INDIVIDUAL;EMAIL="user3@example.n
+ et";PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT;RSVP=TRUE:mailto:user3@ex
+ ample.net
 TRANSP:OPAQUE
 SUMMARY:Meeting with User1
 DTSTART;TZID=Pacific/Auckland:20111019T130000
 DTSTAMP:20111024T035702Z
 ORGANIZER;CN="Manager 1":mailto:manager1@example.net
-SEQUENCE:6
+SEQUENCE:7
 END:VEVENT
 END:VCALENDAR
 ENDDATA
+
 
 
 QUERY

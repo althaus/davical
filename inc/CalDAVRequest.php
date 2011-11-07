@@ -1201,8 +1201,7 @@ EOSQL;
       @dbg_error_log("statistics", "Method: %s, Status: %d, Script: %5.3lfs, Queries: %5.3lfs, URL: %s",
                          $this->method, $status, $script_time, $c->total_query_time, $this->path);
     }
-
-    exit(0);
+    @ob_flush(); exit(0);
   }
 
 }

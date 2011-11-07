@@ -1,0 +1,95 @@
+SQL executed successfully.
+DELETE FROM caldav_data WHERE dav_name ~ E'/\\.in/.*E1A13F04-iCal-schedule\\.ics'
+
+HTTP/1.1 204 No Content
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
+DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
+Content-Length: 0
+Content-Type: text/plain; charset="utf-8"
+
+
+      caldav_data: >BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Apple Inc.//iCal 4.0.4//EN
+CALSCALE:GREGORIAN
+METHOD:CANCEL
+REQUEST-STATUS:2.0
+BEGIN:VEVENT
+UID:E1A13F04-iCal-schedule
+DTEND:20111019T010000Z
+ATTENDEE;CN=Manager 1;CUTYPE=INDIVIDUAL;PARTSTAT=ACCEPTED:
+ mailto:manager1@example.net
+ATTENDEE;CN=user1@example.net;CUTYPE=INDIVIDUAL;EMAIL=user1@example.net;
+ PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT;RSVP=TRUE;SCHEDULE-STATUS=1.2
+ :mailto:user1@example.net
+ATTENDEE;CN=user2@example.net;CUTYPE=INDIVIDUAL;EMAIL=user2@example.net;
+ PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT;RSVP=TRUE;SCHEDULE-STATUS=1.2
+ :mailto:user2@example.net
+ATTENDEE;CN=user3@example.net;CUTYPE=INDIVIDUAL;EMAIL=user3@example.net;
+ PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT;RSVP=TRUE;SCHEDULE-STATUS=1.2
+ :mailto:user3@example.net
+DTSTART:20111019T000000Z
+ORGANIZER;CN="Manager 1":mailto:manager1@example.net
+SEQUENCE:7
+END:VEVENT
+END:VCALENDAR
+<
+         dav_name: >/user1/.in/E1A13F04-iCal-schedule.ics<
+
+      caldav_data: >BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Apple Inc.//iCal 4.0.4//EN
+CALSCALE:GREGORIAN
+METHOD:CANCEL
+REQUEST-STATUS:2.0
+BEGIN:VEVENT
+UID:E1A13F04-iCal-schedule
+DTEND:20111019T010000Z
+ATTENDEE;CN=Manager 1;CUTYPE=INDIVIDUAL;PARTSTAT=ACCEPTED:
+ mailto:manager1@example.net
+ATTENDEE;CN=user1@example.net;CUTYPE=INDIVIDUAL;EMAIL=user1@example.net;
+ PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT;RSVP=TRUE;SCHEDULE-STATUS=1.2
+ :mailto:user1@example.net
+ATTENDEE;CN=user2@example.net;CUTYPE=INDIVIDUAL;EMAIL=user2@example.net;
+ PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT;RSVP=TRUE;SCHEDULE-STATUS=1.2
+ :mailto:user2@example.net
+ATTENDEE;CN=user3@example.net;CUTYPE=INDIVIDUAL;EMAIL=user3@example.net;
+ PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT;RSVP=TRUE;SCHEDULE-STATUS=1.2
+ :mailto:user3@example.net
+DTSTART:20111019T000000Z
+ORGANIZER;CN="Manager 1":mailto:manager1@example.net
+SEQUENCE:7
+END:VEVENT
+END:VCALENDAR
+<
+         dav_name: >/user2/.in/E1A13F04-iCal-schedule.ics<
+
+      caldav_data: >BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Apple Inc.//iCal 4.0.4//EN
+CALSCALE:GREGORIAN
+METHOD:CANCEL
+REQUEST-STATUS:2.0
+BEGIN:VEVENT
+UID:E1A13F04-iCal-schedule
+DTEND:20111019T010000Z
+ATTENDEE;CN=Manager 1;CUTYPE=INDIVIDUAL;PARTSTAT=ACCEPTED:
+ mailto:manager1@example.net
+ATTENDEE;CN=user1@example.net;CUTYPE=INDIVIDUAL;EMAIL=user1@example.net;
+ PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT;RSVP=TRUE;SCHEDULE-STATUS=1.2
+ :mailto:user1@example.net
+ATTENDEE;CN=user2@example.net;CUTYPE=INDIVIDUAL;EMAIL=user2@example.net;
+ PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT;RSVP=TRUE;SCHEDULE-STATUS=1.2
+ :mailto:user2@example.net
+ATTENDEE;CN=user3@example.net;CUTYPE=INDIVIDUAL;EMAIL=user3@example.net;
+ PARTSTAT=NEEDS-ACTION;ROLE=REQ-PARTICIPANT;RSVP=TRUE;SCHEDULE-STATUS=1.2
+ :mailto:user3@example.net
+DTSTART:20111019T000000Z
+ORGANIZER;CN="Manager 1":mailto:manager1@example.net
+SEQUENCE:7
+END:VEVENT
+END:VCALENDAR
+<
+         dav_name: >/user3/.in/E1A13F04-iCal-schedule.ics<
+

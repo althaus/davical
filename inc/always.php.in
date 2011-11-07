@@ -26,6 +26,7 @@ function early_exception_handler($e) {
   foreach( $trace AS $k => $v ) {
     printf( "%s[%d] %s%s%s()\n", $v['file'], $v['line'], (isset($v['class'])?$v['class']:''), (isset($v['type'])?$v['type']:''), (isset($v['function'])?$v['function']:'') );
   }
+  @ob_flush();
 }
 set_exception_handler('early_exception_handler');
 
@@ -89,7 +90,7 @@ if ( ! @include_once('AWLUtilities.php') ) {
   }
   if ( ! @include_once('AWLUtilities.php') ) {
     echo "Could not find the AWL libraries. Are they installed? Check your include_path in php.ini!\n";
-    exit;
+    @ob_flush(); exit(0);
   }
 }
 
@@ -145,7 +146,7 @@ else if ( @file_exists('config/config.php') ) {
 }
 else {
   include('davical_configuration_missing.php');
-  exit;
+  @ob_flush();  exit(0);
 }
 $config_warnings = trim(ob_get_contents());
 ob_end_clean();

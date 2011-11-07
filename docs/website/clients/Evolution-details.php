@@ -5,7 +5,7 @@ was little in the way of a repository available to test against until recently.<
 
 <ol>
 <li>Select "File" then "New" then "Calendar" from the menus.</li>
-<li>Choose a type of "CalDAV", enter a name, and a URL such as <code>caldav://server.domain.name/caldav.php/username/home/</code>, enter your user name for DAViCal and click "OK".<img src="clients/Evolution-dialog1.png" /> <br />&nbsp;</li>
+<li>Choose a type of "CalDAV", enter a name, and a URL such as <code>caldav://server.domain.name/caldav.php/username/calendar/</code>, enter your user name for DAViCal and click "OK".<img src="clients/Evolution-dialog1.png" /> <br />&nbsp;</li>
 <li>You should now be prompted for a password for that username.  Enter the password and your calendar should now show.</li>
 </ol>
 

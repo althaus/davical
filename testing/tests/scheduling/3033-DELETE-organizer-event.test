@@ -1,0 +1,31 @@
+#
+# We now DELETE the ORGANIZER's copy of the actual event.
+#  - This should send a CANCEL reply and remove each attendee's
+#    copy of the event
+#
+TYPE=DELETE
+URL=http://regression.host/manager1/home/E1A13F04-iCal-schedule.ics
+
+HEADER=User-Agent: DAVKit/4.0.3 (732.2); CalendarStore/4.0.4 (997.7); iCal/4.0.4 (1395.7); Mac OS X/10.6.8 (10K549)
+HEAD
+
+AUTH=manager1:manager1
+
+# Before we run, this time we'll assume everyone has read their inbox
+# and all existing iTIP messages are deleted.
+DOSQL
+DELETE FROM caldav_data WHERE dav_name ~ E'/\\.in/.*E1A13F04-iCal-schedule\\.ics'
+ENDDOSQL
+
+#
+# Query to confirm we got rid of it. There should be two now:
+#   - An event in the manager's calendar, with a PARTSTART=DECLINED for user 1
+#   - An iTIP message in the managers's inbox.
+QUERY
+SELECT calendar_item.dav_name,
+       caldav_data.caldav_data
+  FROM calendar_item JOIN caldav_data USING(dav_id, dav_name)
+ WHERE uid = 'E1A13F04-iCal-schedule'
+ ORDER BY dav_id
+ENDQUERY
+

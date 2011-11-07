@@ -88,7 +88,7 @@ class HTTPAuthSession {
     header( $auth_header );
     echo 'Please log in for access to this system.';
     dbg_error_log( "HTTPAuth", ":Session: User is not authorised: %s ", $_SERVER['REMOTE_ADDR'] );
-    exit;
+    @ob_flush();   exit(0);
   }
 
 
@@ -139,6 +139,11 @@ class HTTPAuthSession {
     */
     if ( isset($_SERVER['PHP_AUTH_USER']) ) {
       if ( $p = $this->CheckPassword( $_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'] ) ) {
+        if ( isset($p->active) && !isset($p->user_active) ) {
+          trace_bug('Some authentication failed to return a dav_principal record and needs fixing.');
+          $p->user_active = $p->active;
+        }
+
         /**
          * Maybe some external authentication didn't return false for an inactive
          * user, so we'll be pedantic here. 
@@ -300,7 +305,11 @@ class HTTPAuthSession {
       * It can expect that:
       *   - Configuration data will be in $c->authenticate_hook['config'], which might be an array, or whatever is needed.
       */
-      return call_user_func( $c->authenticate_hook['call'], $username, $password );
+      $principal = call_user_func( $c->authenticate_hook['call'], $username, $password );
+      if ( $principal !== false && !($principal instanceof Principal) ) {
+        $principal = new Principal('username', $username);
+      }
+      return $principal;
     }
 
     return false;

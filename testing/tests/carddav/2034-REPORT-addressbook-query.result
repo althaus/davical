@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<multistatus xmlns="DAV:" xmlns:VC="urn:ietf:params:xml:ns:carddav">
+ <response>
+  <href>/caldav.php/user1/addressbook/andrew_mcmillan.vcf</href>
+  <propstat>
+   <prop>
+    <VC:address-data>BEGIN:VCARD
+VERSION:3.0
+REV:2010-03-29T09:23:34Z
+UID:pas-id-4BB0719600000000
+X-SKYPE;X-EVOLUTION-UI-SLOT=1;TYPE=HOME:karora__
+X-JABBER;X-EVOLUTION-UI-SLOT=3;TYPE=HOME:karora@irc.oftc.net
+TEL;X-EVOLUTION-UI-SLOT=3;TYPE=CELL:+64 22 123 4567
+TEL;X-EVOLUTION-UI-SLOT=2;TYPE=HOME,VOICE:+64 4 123 4567
+TEL;X-EVOLUTION-UI-SLOT=1;TYPE=WORK,VOICE:+64 22 123 4567
+EMAIL;X-EVOLUTION-UI-SLOT=2;TYPE=HOME:andrew@mcmillan.net.nz
+EMAIL;X-EVOLUTION-UI-SLOT=1;TYPE=WORK:andrew@morphoss.com
+LABEL;TYPE=HOME:16 Kaka Place\nPorikana\n4173\nNew Zealand
+ADR;TYPE=HOME:;;16 Kaka Place;Porikana;;4173;New Zealand
+X-MOZILLA-HTML:FALSE
+X-EVOLUTION-VIDEO-URL:
+FBURL:https://davical.morphoss.com/freebusy.php/andrew@morphoss.com
+CALADRURI:mailto:andrew@morphoss.com
+CALURI:https://dotcal.com/karora
+X-EVOLUTION-BLOG-URL:http://andrew.mcmillan.net.nz/
+CATEGORIES:Developer,Personal,Debian,
+X-EVOLUTION-FILE-AS:McMillan\, Andrew
+N:McMillan;Andrew;Watson;;
+FN:Andrew Watson McMillan
+NOTE:Primary author of DAViCal CalDAV Server.
+X-EVOLUTION-SPOUSE:Heather Buchanan
+X-EVOLUTION-ANNIVERSARY:1989-04-22
+BDAY:1958-07-26
+NICKNAME:karora
+X-EVOLUTION-ASSISTANT:
+X-EVOLUTION-MANAGER:
+ROLE:Geek
+ORG:dotCal;;Porirua
+TITLE:Chief Technology Officer
+URL:http://andrew.mcmillan.net.nz/
+END:VCARD
+</VC:address-data>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+</multistatus>

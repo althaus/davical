@@ -299,7 +299,7 @@ function AuthExternalAWL( $username, $password ) {
   </body>
   </html>
 EOERRMSG;
-    exit(1);
+    @ob_flush();  exit(1);
   }
 
   if ( $qry->Exec('Login',__LINE__,__FILE__) && $qry->rows() == 1 ) {

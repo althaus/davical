@@ -1,0 +1,23 @@
+#
+# We now DELETE the ATTENDEE's copy of the actual event.
+#  - This should send a CANCEL reply and update the manager's
+#    event copy with the PARTSTAT=DECLINED 
+#
+TYPE=DELETE
+URL=http://regression.host/user1/home/E1A13F04-iCal-schedule.ics
+
+HEADER=User-Agent: DAVKit/4.0.3 (732.2); CalendarStore/4.0.4 (997.7); iCal/4.0.4 (1395.7); Mac OS X/10.6.8 (10K549)
+HEAD
+
+#
+# Query to confirm we got rid of it. There should be two now:
+#   - An event in the manager's calendar, with a PARTSTART=DECLINED for user 1
+#   - An iTIP message in the managers's inbox.
+QUERY
+SELECT calendar_item.dav_name,
+       regexp_replace(caldav_data,'DTSTAMP:[0-9T]{15}Z','DTSTAMP:looks good') AS vcalendar
+  FROM calendar_item JOIN caldav_data USING(dav_id, dav_name)
+ WHERE uid = 'E1A13F04-iCal-schedule'
+ ORDER BY dav_id
+ENDQUERY
+

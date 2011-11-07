@@ -34,7 +34,7 @@ switch ( $request->path ) {
 if ( $c->enable_scheduling != true )
 {
  $request->DoResponse( 404, translate('The application program does not understand that request.') );
- exit ();
+ // Does not return
 }
 
 header ( 'iSchedule-Version: 1.0' );
@@ -103,5 +103,6 @@ RESPONSE;
     </capability-set>
  </query-result>
 RESPONSE;
- exit ( 0 );
+
+  @ob_flush();   exit(0);
 }

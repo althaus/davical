@@ -7,7 +7,8 @@ function get_address_properties( $address_data_xml ) {
   global $address_data_properties;
   $expansion = $address_data_xml->GetElements();
   foreach( $expansion AS $k => $v ) {
-    $address_data_properties[strtoupper($v->GetAttribute('name'))] = true;
+    if ( $v instanceof XMLElement )
+      $address_data_properties[strtoupper($v->GetAttribute('name'))] = true;
   }
 }
 

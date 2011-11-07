@@ -24,7 +24,7 @@ if ( ! @include_once( $code_file ) ) {
   $c->messages[] = sprintf('No page found to %s %s%s%s', $action, ($action == 'browse' ? '' : 'a '), $component, ($action == 'browse' ? 's' : ''));
   include('page-header.php');
   include('page-footer.php');
-  exit(0);
+  @ob_flush(); exit(0);
 }
 
 include('page-header.php');

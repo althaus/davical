@@ -2,8 +2,8 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, calendar-proxy, bind, addressbook
-ETag: "452f45250e12e66d9f6db823b4615a48"
-Content-Length: 3503
+ETag: "987fc68a44b7bc99bdf6fe3ab2d0b0ad"
+Content-Length: 3587
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -60,6 +60,16 @@ END:VCALENDAR
     <C:calendar-data>BEGIN:VCALENDAR
 PRODID:-//Mozilla Calendar//NONSGML Sunbird//EN
 VERSION:2.0
+BEGIN:VEVENT
+CREATED:20061223T032350Z
+LAST-MODIFIED:20061223T033144Z
+DTSTAMP:20061223T033144Z
+UID:9d050be7-8a02-4355-8ed3-02a9fc5f473f
+CLASS:CONFIDENTIAL
+DTSTART;TZID=/mozilla.org/20050126_1/Antarctica/McMurdo:20061223T160000
+DTEND;TZID=/mozilla.org/20050126_1/Antarctica/McMurdo:20061223T180000
+SUMMARY:Busy
+END:VEVENT
 BEGIN:VTIMEZONE
 TZID:/mozilla.org/20050126_1/Antarctica/McMurdo
 X-LIC-LOCATION:Antarctica/McMurdo
@@ -78,13 +88,6 @@ DTSTART:19701004T020000
 RRULE:FREQ=YEARLY;INTERVAL=1;BYDAY=1SU;BYMONTH=10
 END:DAYLIGHT
 END:VTIMEZONE
-BEGIN:VEVENT
-SUMMARY:Busy
-CLASS:CONFIDENTIAL
-DTSTART;TZID=/mozilla.org/20050126_1/Antarctica/McMurdo:20061223T160000
-DTEND;TZID=/mozilla.org/20050126_1/Antarctica/McMurdo:20061223T180000
-UID:9d050be7-8a02-4355-8ed3-02a9fc5f473f
-END:VEVENT
 END:VCALENDAR
 </C:calendar-data>
    </prop>
