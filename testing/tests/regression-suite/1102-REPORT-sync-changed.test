@@ -1,0 +1,23 @@
+#
+# Check for support of REPORT sync-collection with no sync-token
+#
+TYPE=REPORT
+URL=http://mycaldav/caldav.php/user1/home/
+HEADER=User-agent: sync-collection changes REPORT
+HEADER=Content-type: text/xml
+HEAD
+
+# Should be no changes - we just requested this, after all.
+
+# <calendar-data xmlns="urn:ietf:params:xml:ns:caldav"/>
+BEGINDATA
+<?xml version="1.0" encoding="utf-8" ?>
+<sync-collection xmlns="DAV:">
+  <prop>
+    <getetag/>
+    <getlastmodified/>
+  </prop>
+  <sync-token>data:,4</sync-token>
+</sync-collection>
+ENDDATA
+
