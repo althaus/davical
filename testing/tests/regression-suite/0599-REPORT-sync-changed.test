@@ -10,7 +10,7 @@ HEAD
 BEGINDATA
 <?xml version="1.0" encoding="utf-8" ?>
 <D:sync-collection xmlns:D="DAV:">
-  <D:sync-token>1</D:sync-token>
+  <D:sync-token>data:,1</D:sync-token>
   <D:prop>
     <D:getetag/>
   </D:prop>
