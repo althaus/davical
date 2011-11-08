@@ -451,7 +451,6 @@ EOSQL;
         else
           $this->collection->type = 'collection';
         if ( strlen($row->external_url) > 8 ) {
-          $this->collection->bound_from = $row->external_url;
           $this->_is_external = true;
           if ( $row->external_type == 'calendar' )
             $this->collection->type = 'calendar';
@@ -639,7 +638,7 @@ EOQRY;
   protected function FetchPrivileges() {
     global $session, $request;
 
-    if ( $this->dav_name == '/' || $this->dav_name == '' ) {
+    if ( $this->dav_name == '/' || $this->dav_name == '' || $this->_is_external ) {
       $this->privileges = (1 | 16 | 32); // read + read-acl + read-current-user-privilege-set
       dbg_error_log( 'DAVResource', ':FetchPrivileges: Read permissions for user accessing /' );
       return;
@@ -1584,8 +1583,13 @@ EOQRY;
 
       case 'DAV::owner':
         // The principal-URL of the owner
-        if ( !isset($this->principal) ) $this->FetchPrincipal();
-        $reply->DAVElement( $prop, 'owner', $reply->href( $this->principal->url() ) );
+        if ( $this->IsExternal() ){
+          $reply->DAVElement( $prop, 'owner', $reply->href( $this->collection->bound_from ) );
+        }
+        else {
+          if ( !isset($this->principal) ) $this->FetchPrincipal();
+          $reply->DAVElement( $prop, 'owner', $reply->href( $this->principal->url() ) );
+        }
         break;
 
       // Empty tag responses.
