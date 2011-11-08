@@ -7,13 +7,17 @@ HEADER=User-agent: sync-collection changes REPORT
 HEADER=Content-type: text/xml
 HEAD
 
+# Should be everything changes - this tag does not exist, after all.
+
+# <calendar-data xmlns="urn:ietf:params:xml:ns:caldav"/>
 BEGINDATA
 <?xml version="1.0" encoding="utf-8" ?>
-<D:sync-collection xmlns:D="DAV:">
-  <D:sync-token>data:,1</D:sync-token>
-  <D:prop>
-    <D:getetag/>
-  </D:prop>
-</D:sync-collection>
+<sync-collection xmlns="DAV:">
+  <prop>
+    <getetag/>
+    <getlastmodified/>
+  </prop>
+  <sync-token>data:,5</sync-token>
+</sync-collection>
 ENDDATA
 
