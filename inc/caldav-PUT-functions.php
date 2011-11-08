@@ -648,7 +648,8 @@ EOSQL;
 
     $dav_data_params = $base_params;
     $dav_data_params[':user_no'] = $user_no;
-    $dav_data_params[':dav_name'] = sprintf( '%s%s.ics', $path, $uid );
+    // We don't allow a '/' in the UID to appear in the path, but anything else is fair game.
+    $dav_data_params[':dav_name'] = sprintf( '%s%s.ics', $path, str_replace('/','',$uid) );
     $dav_data_params[':etag'] = md5($icalendar);
     $calitem_params = $dav_data_params;
     $dav_data_params[':dav_data'] = $icalendar;
