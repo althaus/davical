@@ -82,8 +82,13 @@ EOSQL;
                            LEFT JOIN addressbook_resource USING (dav_id)
                            WHERE collection.collection_id = :collection_id
          AND sync_time > (SELECT modification_time FROM sync_tokens WHERE sync_token = :sync_token)
-     ORDER BY collection.collection_id, sync_changes.dav_name, sync_changes.sync_time
 EOSQL;
+    if ( isset($c->strict_result_ordering) && $c->strict_result_ordering ) {
+      $sql .= " ORDER BY collection.collection_id, lower(sync_changes.dav_name), sync_changes.sync_time";
+    }
+    else {
+      $sql .= " ORDER BY collection.collection_id, sync_changes.dav_name, sync_changes.sync_time";
+    }
   }
   $qry = new AwlQuery($sql, $params );
  
