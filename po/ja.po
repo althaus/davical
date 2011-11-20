@@ -1,30 +1,28 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # Andrew McMillan <andrew@mcmillan.net.nz>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: DAViCal\n"
-"Report-Msgid-Bugs-To: http://repo.or.cz/w/davical.git/tree/HEAD:/issues\n"
-"POT-Creation-Date: 2011-10-24 21:19+1300\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-11-21 01:29+1300\n"
 "PO-Revision-Date: 2011-10-24 08:21+0000\n"
 "Last-Translator: karora <andrew@mcmillan.net.nz>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ja\n"
 "Plural-Forms: nplurals=1; plural=0\n"
 
-#. Translators: this is the formatting of a date with time. See
-#. http://php.net/manual/en/function.strftime.php
+#. Translators: this is the formatting of a date with time. See http://php.net/manual/en/function.strftime.php
 msgid "%F %T"
 msgstr ""
 
-#. Translators: his is the formatting of just the time. See
-#. http://php.net/manual/en/function.strftime.php
+#. Translators: his is the formatting of just the time. See http://php.net/manual/en/function.strftime.php
 msgid "%T"
 msgstr ""
 
@@ -74,30 +72,32 @@ msgstr ""
 msgid "- updating user records : %s"
 msgstr "- ユーザー情報を更新中: %s"
 
-msgid ""
-"<b>WARNING: all events in this path will be deleted before inserting allof "
-"the ics file</b>"
+msgid "<b>WARNING: all events in this path will be deleted before inserting allof the ics file</b>"
 msgstr "<b>警告：このパス内の全てのイベントは、icsファイルの挿入の前に削除されます。</b>"
 
 #, php-format
 msgid ""
 "<h1>Help</h1>\n"
-"<p>For initial help you should visit the <a href=\"http://www.davical.org/\" target=\"_blank\">DAViCal Home Page</a> or take\n"
+"<p>For initial help you should visit the <a href=\"http://www.davical.org/\" target=\"_blank\">DAViCal "
+"Home Page</a> or take\n"
 "a look at the <a href=\"http://wiki.davical.org/%s\" target=\"_blank\">DAViCal Wiki</a>.</p>\n"
-"<p>If you can't find the answers there, visit us on <a href=\"http://wikipedia.org/wiki/Internet_Relay_Chat\" target=\"_blank\">IRC</a> in\n"
+"<p>If you can't find the answers there, visit us on <a href=\"http://wikipedia.org/wiki/"
+"Internet_Relay_Chat\" target=\"_blank\">IRC</a> in\n"
 "the <b>#davical</b> channel on <a href=\"http://www.oftc.net/\" target=\"_blank\">irc.oftc.net</a>,\n"
-"or send a question to the <a href=\"http://lists.sourceforge.net/mailman/listinfo/davical-general\" target=\"_blank\">DAViCal Users mailing list</a>.</p>\n"
-"<p>The <a href=\"http://sourceforge.net/mailarchive/forum.php?forum_id=8348\" title=\"DAViCal Users Mailing List\" target=\"_blank\">mailing list\n"
+"or send a question to the <a href=\"http://lists.sourceforge.net/mailman/listinfo/davical-general\" "
+"target=\"_blank\">DAViCal Users mailing list</a>.</p>\n"
+"<p>The <a href=\"http://sourceforge.net/mailarchive/forum.php?forum_id=8348\" title=\"DAViCal Users "
+"Mailing List\" target=\"_blank\">mailing list\n"
 "archives can be helpful too.</p>"
 msgstr ""
 
 #, php-format
 msgid ""
-"<h1>Log On Please</h1><p>For access to the %s you should log on withthe "
-"username and password that have been issued to you.</p><p>If you would like "
-"to request access, please e-mail %s.</p>"
+"<h1>Log On Please</h1><p>For access to the %s you should log on withthe username and password that "
+"have been issued to you.</p><p>If you would like to request access, please e-mail %s.</p>"
 msgstr ""
-"<H1>ログオンして下さい</H1><P>%sにアクセスするには、あなたに対して発行されたユーザー名およびパスワードでログオンして下さい。</P><P>アクセスをリクエストしたい場合は、%sにメールを送ってください。</P>"
+"<H1>ログオンして下さい</H1><P>%sにアクセスするには、あなたに対して発行されたユーザー名およびパスワード"
+"でログオンして下さい。</P><P>アクセスをリクエストしたい場合は、%sにメールを送ってください。</P>"
 
 msgid "A DAViCal principal collection may only contain collections"
 msgstr ""
@@ -146,8 +146,7 @@ msgstr "全てのコレクションデータが回復不能な方法で削除さ
 msgid "All events of user \"%s\" were deleted and replaced by those from file %s"
 msgstr ""
 
-msgid ""
-"All of the principal's calendars and events will be unrecoverably deleted."
+msgid "All of the principal's calendars and events will be unrecoverably deleted."
 msgstr "そのプリンシパルの全てのカレンダーとイベントが回復不能な方法で削除されます。"
 
 msgid "All privileges"
@@ -156,8 +155,7 @@ msgstr ""
 msgid "All requested changes were made."
 msgstr "全てのリクエストされた変更が実行されました。"
 
-msgid ""
-"Allow free/busy enquiries targeted at the owner of this scheduling inbox"
+msgid "Allow free/busy enquiries targeted at the owner of this scheduling inbox"
 msgstr "このスケジュール受信箱のオーナーに対する予定の有無の問い合わせを許可する。"
 
 msgid "An \"Administrator\" user has full rights to the whole DAViCal System"
@@ -242,9 +240,7 @@ msgstr "コレクションID"
 msgid "Collection deleted"
 msgstr "コレクションが削除されました"
 
-msgid ""
-"Collections may not be both CalDAV calendars and CardDAV addressbooks at the"
-" same time"
+msgid "Collections may not be both CalDAV calendars and CardDAV addressbooks at the same time"
 msgstr ""
 
 msgid "Configuring Calendar Clients for DAViCal"
@@ -316,8 +312,7 @@ msgstr "現在のDAViCalバージョン"
 msgid "DAV Path"
 msgstr "DAVパス"
 
-msgid ""
-"DAV::resourcetype may only be set to a new value, it may not be removed."
+msgid "DAV::resourcetype may only be set to a new value, it may not be removed."
 msgstr ""
 
 msgid "DAViCal CalDAV Server"
@@ -416,8 +411,7 @@ msgstr "プリンシパルを削除中:"
 msgid "Deleting Ticket:"
 msgstr ""
 
-msgid ""
-"Deliver scheduling invitations from an organiser to this scheduling inbox"
+msgid "Deliver scheduling invitations from an organiser to this scheduling inbox"
 msgstr "主催者からのスケジュール招待をこのスケジュール受信箱に届ける"
 
 msgid "Deliver scheduling replies from an attendee to this scheduling inbox"
@@ -471,10 +465,9 @@ msgstr "このユーザー情報を編集"
 msgid "Email Address"
 msgstr "Emailアドレス"
 
-msgid ""
-"Enter a username, if you know it, and click here, to be e-mailed a temporary"
-" password."
-msgstr "知っている場合はユーザー名を入力し、ここをクリックしてください。暫定パスワードがメールで送信されます。"
+msgid "Enter a username, if you know it, and click here, to be e-mailed a temporary password."
+msgstr ""
+"知っている場合はユーザー名を入力し、ここをクリックしてください。暫定パスワードがメールで送信されます。"
 
 msgid "Enter your username and password then click here to log in."
 msgstr "あなたのユーザー名とパスワードを入力してから、ここをクリックしてログインして下さい。"
@@ -699,9 +692,7 @@ msgstr "ログアウト"
 msgid "Member deleted from this Group Principal"
 msgstr "このグループプリンシパルからメンバーを削除しました"
 
-msgid ""
-"Most of DAViCal will work but upgrading to PHP 5.2 or later is strongly "
-"recommended."
+msgid "Most of DAViCal will work but upgrading to PHP 5.2 or later is strongly recommended."
 msgstr ""
 
 msgid "Name"
@@ -769,23 +760,19 @@ msgstr ""
 msgid "PHP PDO module available"
 msgstr "PHP PDOモジュール利用可能"
 
-msgid "PHP PostgreSQL available"
-msgstr "PHP PostgreSQL利用可能"
-
 msgid "PHP calendar extension available"
 msgstr ""
 
 msgid "PHP iconv support"
 msgstr ""
 
-msgid ""
-"PUT on a collection is only allowed for text/calendar content against a "
-"calendar collection"
+msgid "PHP not using Apache Filter mode"
 msgstr ""
 
-msgid ""
-"PUT on a collection is only allowed for text/vcard content against an "
-"addressbook collection"
+msgid "PUT on a collection is only allowed for text/calendar content against a calendar collection"
+msgstr ""
+
+msgid "PUT on a collection is only allowed for text/vcard content against an addressbook collection"
 msgstr ""
 
 msgid "Passed"
@@ -873,8 +860,7 @@ msgstr "予定有無情報を読み取る"
 msgid "Read the content of a resource or collection"
 msgstr "資源またはコレクションの内容を読み取る"
 
-msgid ""
-"Read the details of the current user's access control to this resource."
+msgid "Read the details of the current user's access control to this resource."
 msgstr "この資源への現在のユーザーのアクセス制御の詳細を読み取る"
 
 msgid "Read the free/busy information for a calendar collection"
@@ -907,8 +893,7 @@ msgstr "機能をリクエストする"
 msgid "Request body is not valid XML data!"
 msgstr ""
 
-#. Translators a thing which might be booked: a room, a carpark, a
-#. projector...
+#. Translators a thing which might be booked: a room, a carpark, a projector...
 msgid "Resource"
 msgstr "資源"
 
@@ -963,14 +948,10 @@ msgstr ""
 msgid "Send free/busy enquiries"
 msgstr "予定の有無の問い合わせを送信する"
 
-msgid ""
-"Send scheduling invitations as an organiser from the owner of this "
-"scheduling outbox."
+msgid "Send scheduling invitations as an organiser from the owner of this scheduling outbox."
 msgstr "このスケジュール送信箱のオーナーから、主催者としてスケジュール招待を送信する"
 
-msgid ""
-"Send scheduling replies as an attendee from the owner of this scheduling "
-"outbox."
+msgid "Send scheduling replies as an attendee from the owner of this scheduling outbox."
 msgstr "このスケジュール送信箱のオーナーから、出席者としてスケジュール返信を送信する"
 
 msgid "Set free/busy privileges"
@@ -986,8 +967,7 @@ msgid "Set schedule-deliver privileges"
 msgstr "スケジュール配達権限を設定する"
 
 msgid ""
-"Set the path to store your ics e.g. 'calendar' will be referenced as "
-"/caldav.php/username/calendar/"
+"Set the path to store your ics e.g. 'calendar' will be referenced as /caldav.php/username/calendar/"
 msgstr ""
 
 msgid "Setup"
@@ -1014,8 +994,7 @@ msgstr "いくつかの特性は設定できませんでした。"
 msgid "Source resource does not exist."
 msgstr "元の資源が存在しません。"
 
-msgid ""
-"Special collections may not contain a calendar or other special collection."
+msgid "Special collections may not contain a calendar or other special collection."
 msgstr "特殊なコレクションは、カレンダーまたは他の特殊なコレクションを含めません。"
 
 msgid "Specific Privileges"
@@ -1058,8 +1037,7 @@ msgstr ""
 msgid "The BIND method is not allowed at that location."
 msgstr ""
 
-msgid ""
-"The CalDAV:schedule-calendar-transp property may only be set on calendars."
+msgid "The CalDAV:schedule-calendar-transp property may only be set on calendars."
 msgstr ""
 
 msgid "The DAViCal Home Page"
@@ -1068,8 +1046,7 @@ msgstr "DAViCal Home Page"
 msgid "The access ticket will be deleted."
 msgstr ""
 
-msgid ""
-"The addressbook-query report must be run against an addressbook collection"
+msgid "The addressbook-query report must be run against an addressbook collection"
 msgstr ""
 
 msgid "The application failed to understand that request."
@@ -1085,13 +1062,10 @@ msgid "The calendar path contains illegal characters."
 msgstr "カレンダーパスに不正な文字が使用されています。"
 
 msgid ""
-"The calendar-free-busy-set is superseded by the schedule-transp property of "
-"a calendar collection."
+"The calendar-free-busy-set is superseded by the schedule-transp property of a calendar collection."
 msgstr "カレンダー予定有無設定よりも、カレンダーコレクションのスケジュール透過属性が優先します。"
 
-msgid ""
-"The calendar-query report must be run against a calendar or a scheduling "
-"collection"
+msgid "The calendar-query report must be run against a calendar or a scheduling collection"
 msgstr ""
 
 msgid "The collection name may not be blank."
@@ -1100,8 +1074,7 @@ msgstr ""
 msgid "The destination collection does not exist"
 msgstr ""
 
-msgid ""
-"The displayname may only be set on collections, principals or bindings."
+msgid "The displayname may only be set on collections, principals or bindings."
 msgstr ""
 
 msgid "The email address really should not be blank."
@@ -1111,9 +1084,9 @@ msgstr ""
 msgid "The file \"%s\" is not UTF-8 encoded, please check error for more details"
 msgstr ""
 
-msgid ""
-"The file is not UTF-8 encoded, please check the error for more details."
-msgstr "そのファイル%sはUTF-8でエンコードされていません。さらなる詳細についてはそのエラーを確認して下さい。"
+msgid "The file is not UTF-8 encoded, please check the error for more details."
+msgstr ""
+"そのファイル%sはUTF-8でエンコードされていません。さらなる詳細についてはそのエラーを確認して下さい。"
 
 msgid "The full name for this person, group or other type of principal."
 msgstr ""
@@ -1156,32 +1129,27 @@ msgid "There was an error writing to the database."
 msgstr "データベースへの書き込み中にエラーがありました。"
 
 msgid ""
-"This operation does the following: <ul><li>check valid groups in LDAP "
-"directory</li> <li>check groups in DAViCal</li></ul> then <ul><li>if a group"
-" is present in DAViCal but not in LDAP set as inactive in DAViCal</li> "
-"<li>if a group is present in LDAP but not in DAViCal create the group in "
-"DAViCal</li> <li>if a group in present in LDAP and DAViCal then update "
-"information in DAViCal</li> </ul>"
+"This operation does the following: <ul><li>check valid groups in LDAP directory</li> <li>check groups "
+"in DAViCal</li></ul> then <ul><li>if a group is present in DAViCal but not in LDAP set as inactive in "
+"DAViCal</li> <li>if a group is present in LDAP but not in DAViCal create the group in DAViCal</li> "
+"<li>if a group in present in LDAP and DAViCal then update information in DAViCal</li> </ul>"
 msgstr ""
 
 msgid ""
-"This operation does the following: <ul><li>check valid users in LDAP "
-"directory</li> <li>check users in DAViCal</li></ul> then <ul><li>if a user "
-"is present in DAViCal but not in LDAP set him as inactive in DAViCal</li> "
-"<li>if a user is present in LDAP but not in DAViCal create the user in "
-"DAViCal</li> <li>if a user in present in LDAP and DAViCal then update "
-"information in DAViCal</li> </ul>"
+"This operation does the following: <ul><li>check valid users in LDAP directory</li> <li>check users in "
+"DAViCal</li></ul> then <ul><li>if a user is present in DAViCal but not in LDAP set him as inactive in "
+"DAViCal</li> <li>if a user is present in LDAP but not in DAViCal create the user in DAViCal</li> "
+"<li>if a user in present in LDAP and DAViCal then update information in DAViCal</li> </ul>"
 msgstr ""
 
 msgid ""
-"This page primarily checks the environment needed for DAViCal to work "
-"correctly.  Suggestions or patches to make it do more useful stuff will be "
-"gratefully received."
+"This page primarily checks the environment needed for DAViCal to work correctly.  Suggestions or "
+"patches to make it do more useful stuff will be gratefully received."
 msgstr ""
 
 msgid ""
-"This process will import each file in a directory named \"username.ics\" and"
-" create a user and calendar for each file to import."
+"This process will import each file in a directory named \"username.ics\" and create a user and "
+"calendar for each file to import."
 msgstr ""
 
 msgid "This server only supports the text/calendar format for freebusy URLs"
@@ -1244,9 +1212,7 @@ msgstr "DAViCalデータベーススキーマをアップグレードする"
 msgid "Upgrade Database"
 msgstr "データベースのアップグレード"
 
-msgid ""
-"Upload a .ics calendar in iCalendar format to initialise or replace this "
-"calendar."
+msgid "Upload a .ics calendar in iCalendar format to initialise or replace this calendar."
 msgstr "このカレンダーを初期化または置換するために、.icsカレンダーをiCalendar形式でアップロードする"
 
 msgid "User Calendar Principals"
@@ -1290,8 +1256,8 @@ msgid "Want: %s, Currently: %s"
 msgstr ""
 
 msgid ""
-"Warning: there are no active admin users! You should fix this before logging"
-" out.  Consider using the $c->do_not_sync_from_ldap configuration setting."
+"Warning: there are no active admin users! You should fix this before logging out.  Consider using the "
+"$c->do_not_sync_from_ldap configuration setting."
 msgstr ""
 
 msgid "When the user's e-mail account was validated."
@@ -1349,37 +1315,31 @@ msgstr ""
 msgid "directory %s is not readable"
 msgstr "ディレクトリ%sは読み取り可能ではありません。"
 
-msgid ""
-"drivers_imap_pam : imap_url parameter not configured in "
-"/etc/davical/*-conf.php"
+msgid "drivers_imap_pam : imap_url parameter not configured in /etc/davical/*-conf.php"
 msgstr ""
 
 msgid "drivers_ldap : Could not start TLS: ldap_start_tls() failed"
 msgstr "drivers_ldap : TLSを開始できませんでした : ldap_start_tls()failed"
 
 #, php-format
-msgid ""
-"drivers_ldap : Failed to bind to host %1$s on port %2$s with bindDN of %3$s"
+msgid "drivers_ldap : Failed to bind to host %1$s on port %2$s with bindDN of %3$s"
 msgstr "drivers_ldap : ホスト%1$sにポート%2$s、bindDN%3$sでバインドに失敗しました"
 
-msgid ""
-"drivers_ldap : Failed to set LDAP to use protocol version 3, TLS not "
-"supported"
+msgid "drivers_ldap : Failed to set LDAP to use protocol version 3, TLS not supported"
 msgstr "drivers_ldap : LDAPをプロトコルバージョン３で使用に失敗しました、TLSはサポートされていません"
 
 msgid ""
-"drivers_ldap : Unable to bind to LDAP - check your configuration for bindDN "
-"and passDN, and that your LDAP server is reachable"
+"drivers_ldap : Unable to bind to LDAP - check your configuration for bindDN and passDN, and that your "
+"LDAP server is reachable"
 msgstr ""
-"drivers_ldap : LDAPにバインドできません - "
-"bindDNとpassDNの設定を確認し、LDAPサーバーに到達可能であること確認して下さい。"
+"drivers_ldap : LDAPにバインドできません - bindDNとpassDNの設定を確認し、LDAPサーバーに到達可能であるこ"
+"と確認して下さい。"
 
 #, php-format
 msgid "drivers_ldap : Unable to connect to LDAP with port %s on host %s"
 msgstr "drivers_ldap : ホスト%2$sのポート%1$sでLDAPに接続できませんでした"
 
-msgid ""
-"drivers_ldap : function ldap_connect not defined, check your php_ldap module"
+msgid "drivers_ldap : function ldap_connect not defined, check your php_ldap module"
 msgstr "drivers_ldap : 関数ldap_connectが定義できませんでした、php_ldap moduleを確認して下さい"
 
 #, php-format
@@ -1390,8 +1350,7 @@ msgstr ""
 msgid "drivers_squid_pam : Unable to find %s file"
 msgstr "drivers_squid_pam : ファイル%sが見つかりません"
 
-#. Translators: this is a colloquial phrase in english (the name of a flower)
-#. and is an option allowing people to log in automatically in future
+#. Translators: this is a colloquial phrase in english (the name of a flower) and is an option allowing people to log in automatically in future
 msgid "forget me not"
 msgstr "私を忘れないで"
 
@@ -1404,9 +1363,8 @@ msgstr "あなたのicsを保管するパス"
 msgid "unauthenticated"
 msgstr ""
 
-msgid ""
-"you should log on with the username and password that have been issued to "
-"you."
+msgid "you should log on with the username and password that have been issued to you."
 msgstr "あなたに発行したユーザー名とパスワードでログオンして下さい。"
 
-
+#~ msgid "PHP PostgreSQL available"
+#~ msgstr "PHP PostgreSQL利用可能"
