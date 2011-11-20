@@ -6,6 +6,7 @@ INSERT INTO supported_locales ( locale, locale_name_en, locale_name_locale )
 INSERT INTO supported_locales ( locale, locale_name_en, locale_name_locale )
   VALUES( 'es_AR', 'Spanish (Argentina)', 'Español (Argentina)' );
 INSERT INTO supported_locales ( locale, locale_name_en, locale_name_locale )
+  VALUES( 'es_ES', 'Spanish (Spain)', 'Español (Espana)' );
 INSERT INTO supported_locales ( locale, locale_name_en, locale_name_locale )
   VALUES( 'es_MX', 'Spanish (Mexico)', 'Español (Mexico)' );
 INSERT INTO supported_locales ( locale, locale_name_en, locale_name_locale )
