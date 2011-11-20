@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DAViCal\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-21 01:29+1300\n"
+"POT-Creation-Date: 2011-11-21 10:59+1300\n"
 "PO-Revision-Date: 2011-10-25 12:52+0000\n"
 "Last-Translator: adobo <jorge@adobo.org>\n"
 "Language-Team: Spanish (Spain) (http://www.transifex.net/projects/p/davical/team/es_ES/)\n"
@@ -847,6 +847,12 @@ msgstr "Permisos"
 msgid "Privileges granted to All Users"
 msgstr "Permisos dados a todos los usuarios"
 
+msgid "Privileges to allow delivery of scheduling messages"
+msgstr ""
+
+msgid "Privileges to delegate scheduling decisions"
+msgstr ""
+
 msgid "Property is read-only"
 msgstr "Esta propiedad es de sólo lectura"
 
@@ -987,9 +993,6 @@ msgstr "Activar permisos de lectura"
 
 msgid "Set read+write privileges"
 msgstr "Activar permisos de lectura+escritura"
-
-msgid "Set schedule-deliver privileges"
-msgstr "Asignar permisos de entrega de planificación (schedule-deliver)"
 
 msgid ""
 "Set the path to store your ics e.g. 'calendar' will be referenced as /caldav.php/username/calendar/"
@@ -1414,6 +1417,9 @@ msgstr "no autenticado"
 
 msgid "you should log on with the username and password that have been issued to you."
 msgstr "deberá autenticarse con el nombre de usuario y contraseña que se le comunicaron."
+
+#~ msgid "Set schedule-deliver privileges"
+#~ msgstr "Asignar permisos de entrega de planificación (schedule-deliver)"
 
 #~ msgid "PHP PostgreSQL available"
 #~ msgstr "PHP PostgreSQL disponible"

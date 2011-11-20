@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DAViCal\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-21 01:29+1300\n"
+"POT-Creation-Date: 2011-11-21 10:59+1300\n"
 "PO-Revision-Date: 2011-10-24 08:21+0000\n"
 "Last-Translator: karora <andrew@mcmillan.net.nz>\n"
 "Language-Team: Estonian (http://www.transifex.net/projects/p/davical/team/et/)\n"
@@ -822,6 +822,12 @@ msgstr ""
 msgid "Privileges granted to All Users"
 msgstr ""
 
+msgid "Privileges to allow delivery of scheduling messages"
+msgstr ""
+
+msgid "Privileges to delegate scheduling decisions"
+msgstr ""
+
 msgid "Property is read-only"
 msgstr ""
 
@@ -957,9 +963,6 @@ msgid "Set read privileges"
 msgstr ""
 
 msgid "Set read+write privileges"
-msgstr ""
-
-msgid "Set schedule-deliver privileges"
 msgstr ""
 
 msgid ""

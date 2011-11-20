@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DAViCal\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-21 01:29+1300\n"
+"POT-Creation-Date: 2011-11-21 10:59+1300\n"
 "PO-Revision-Date: 2011-10-25 06:15+0000\n"
 "Last-Translator: zenlord <zenlord@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.net/projects/p/davical/team/nl/)\n"
@@ -842,6 +842,12 @@ msgstr "Bevoegdheden"
 msgid "Privileges granted to All Users"
 msgstr "Bevoegdheden aan alle Gebruikers toegekend"
 
+msgid "Privileges to allow delivery of scheduling messages"
+msgstr ""
+
+msgid "Privileges to delegate scheduling decisions"
+msgstr ""
+
 msgid "Property is read-only"
 msgstr "Eigenschap is alleen-lezen"
 
@@ -978,9 +984,6 @@ msgstr "'Alleen-lezen'-bevoegdheden instellen"
 
 msgid "Set read+write privileges"
 msgstr "'Lees+Schrijf'-bevoegdheden instellen"
-
-msgid "Set schedule-deliver privileges"
-msgstr "'Planning'-bevoegdheden instellen"
 
 msgid ""
 "Set the path to store your ics e.g. 'calendar' will be referenced as /caldav.php/username/calendar/"
@@ -1401,6 +1404,9 @@ msgstr "niet geverifieerd"
 
 msgid "you should log on with the username and password that have been issued to you."
 msgstr "U moet zich aanmelden met de gebruikersnaam en het wachtwoord die U zijn toegewezen."
+
+#~ msgid "Set schedule-deliver privileges"
+#~ msgstr "'Planning'-bevoegdheden instellen"
 
 #~ msgid "PHP PostgreSQL available"
 #~ msgstr "PHP PostgreSQL beschikbaar"
