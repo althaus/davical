@@ -102,7 +102,7 @@ $qry = new AwlQuery('BEGIN');
 if ( !$qry->Exec('move') ) rollback(500);
 
 $src_name = $src->dav_name();
-$dst_name = $dest->dav_name();
+$dst_name = ($dest->IsBinding() ? $dest->bound_from() : $dest->dav_name());
 $src_collection = $src->GetProperty('collection_id');
 $dst_collection = $dest->GetProperty('collection_id');
 $src_user_no = $src->GetProperty('user_no');
