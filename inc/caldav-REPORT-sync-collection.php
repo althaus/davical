@@ -109,7 +109,7 @@ EOSQL;
             new XMLElement( 'href', ConstructURL($object->dav_name) ),
             new XMLElement( 'status', display_status($object->sync_status) )
           );
-          $responses[] = new XMLElement( 'sync-response', $resultset );
+          $responses[] = new XMLElement( 'response', $resultset );
           $first_status = 404;
         }
         else if ( $object->sync_status == 201 && $first_status == 404 ) {
