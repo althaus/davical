@@ -212,12 +212,12 @@ class ldapDrivers
     }
     else if ( empty($passwd) || preg_match('/[\x00-\x19]/',$passwd) ) {
       // See http://www.php.net/manual/en/function.ldap-bind.php#73718 for more background
-      dbg_error_log( 'LDAP', 'drivers_ldap : user %s supplied empty or invalid password (%s): login rejected', $dnUser, $passwd );
+      dbg_error_log( 'LDAP', 'drivers_ldap : user %s supplied empty or invalid password: login rejected', $dnUser );
       return false;
     }
     else {
       if ( !@ldap_bind($this->connect, $dnUser, $passwd) ) {
-        dbg_error_log( "LDAP", "drivers_ldap : Failed to bind to user %s using password %s", $dnUser, $passwd );
+        dbg_error_log( "LDAP", "drivers_ldap : Failed to bind to user %s ", $dnUser );
         return false;
       }
     }
