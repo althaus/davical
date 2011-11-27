@@ -127,12 +127,15 @@ function component_to_xml( $properties, $item ) {
         }
       }
     }
-  
-    if ( isset($properties['calendar-data']) && isset($c->hide_alarm) && $c->hide_alarm && !$request->HavePrivilegeTo('write') ) {
-      dbg_error_log("REPORT","Stripping event alarms for: %s", $item->dav_name );
-      $vcal = new vCalendar($caldav_data);
-      $vcal->ClearComponents('VALARM');
-      $caldav_data = $vcal->Render();
+
+    if ( isset($c->hide_alarm) && $c->hide_alarm ) {
+      $dav_resource = new DAVResource($request->path);
+      if ( isset($properties['calendar-data']) && !$dav_resource->HavePrivilegeTo('write') ) {
+        dbg_error_log("REPORT","Stripping event alarms for: %s", $item->dav_name );
+        $vcal = new vCalendar($caldav_data);
+        $vcal->ClearComponents('VALARM');
+        $caldav_data = $vcal->Render();
+      }
     }
   }
   
