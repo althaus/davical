@@ -14,11 +14,11 @@ require_once('DAVResource.php');
 
 $dav_resource = new DAVResource($request->path);
 if ( ! $dav_resource->HavePrivilegeTo('DAV::write-content') ) {
-  $request->DoResponse(403);
+  $request->DoResponse(403,'No write permission');
 }
 
 if ( ! $dav_resource->Exists() && ! $dav_resource->HavePrivilegeTo('DAV::bind') ) {
-  $request->DoResponse(403);
+  $request->DoResponse(403,'No bind permission.');
 }
 
 if ( ! ini_get('open_basedir') && (isset($c->dbg['ALL']) || (isset($c->dbg['put']) && $c->dbg['put'])) ) {
