@@ -89,7 +89,7 @@ if ( $mode == 'caldav' ) {
   if ( $collection->Privileges() != privilege_to_bits('DAV::all') ) {
     $where .= " AND (calendar_item.class != 'PRIVATE' OR calendar_item.class IS NULL) ";
   }
-  if ( isset($c->hide_TODO) && $c->hide_TODO && ! $collection->HavePrivilegeTo('all') )
+  if ( isset($c->hide_TODO) && $c->hide_TODO && ! $collection->HavePrivilegeTo('all') ) {
     $where .= " AND caldav_data.caldav_type NOT IN ('VTODO') ";
   }
 }
