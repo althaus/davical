@@ -2,14 +2,14 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, calendar-proxy, bind, addressbook
-ETag: "38a9a5f68b0d1510588fb3456181b129"
-Content-Length: 1037
+ETag: "cdb4786ea5b91bf38b8f332da104965d"
+Content-Length: 1034
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
 <multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
  <response>
-  <href>/caldav.php/user1/anotherone/86203AFD481A6C42892013E6E0C4845D039A2543%40AKEXBE02.telecom.tcnz.net.ics</href>
+  <href>/caldav.php/user1/anotherone/86203AFD481A6C42892013E6E0C4845D039A2543AKEXBE02.telecom.tcnz.net.ics</href>
   <propstat>
    <prop>
     <getetag>"621885941033781f3462950c9bc2844b"</getetag>
@@ -39,7 +39,7 @@ END:VCALENDAR
 </multistatus>
 
             class: >PUBLIC<
-         dav_name: >/user1/anotherone/86203AFD481A6C42892013E6E0C4845D039A2543@AKEXBE02.telecom.tcnz.net.ics<
+         dav_name: >/user1/anotherone/86203AFD481A6C42892013E6E0C4845D039A2543AKEXBE02.telecom.tcnz.net.ics<
            finish: >20070119T203000Z<
             rrule: >NULL<
             start: >20070119T203000Z<
@@ -47,7 +47,7 @@ END:VCALENDAR
             tz_id: >NULL<
 
             class: >PRIVATE<
-         dav_name: >/user1/anotherone/20060803T084628Z-6040-1000-1-6@lamb.ics<
+         dav_name: >/user1/anotherone/20060803T084628Z-6040-1000-1-6lamb.ics<
            finish: >20060802T003456Z<
             rrule: >FREQ=YEARLY;INTERVAL=1<
             start: >20060801T003456Z<
