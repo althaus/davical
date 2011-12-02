@@ -47,7 +47,8 @@ if ( $destination->Exists() ) {
   $request->PreconditionFailed(403,'DAV::can-overwrite',translate('A resource already exists at the destination.'));
 }
 
-if ( preg_match ( '{^https?://[A-Za-z][^/]*/.+$}', $href ) ) {
+if ( preg_match ( '{^https?://[A-Za-z][^/]*/.+$}', $href ) && ! stripos( $href, 'localhost' ) < 9 
+    && ! stripos( $href, '127.0.0.1' ) < 9 && ! stripos( $href, $_SERVER['SERVER_NAME'] ) < 9 && ! stripos( $href, $_SERVER['SERVER_ADDR'] ) < 9 ) {
 	require_once('external-fetch.php');
 	$qry = new AwlQuery( );
   $qry->QDo('SELECT collection_id FROM collection WHERE dav_name = :dav_name ', array( ':dav_name' => '/.external/'. md5($href) ));
