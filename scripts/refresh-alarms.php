@@ -25,21 +25,19 @@ $args = (object) array();
 $args->debug = false;
 $args->set_last = false;
 
-$args->future = 'P2000D';
+$args->future = 'P400D';
 $args->near_past = 'P1D';
-$args->far_past = 'P1200D';
 $debugging = null;
 
 
 function parse_arguments() {
   global $args;
 
-  $opts = getopt( 'f:p:s:n:d:lh' );
+  $opts = getopt( 'f:p:s:d:lh' );
   foreach( $opts AS $k => $v ) {
     switch( $k ) {
       case 'f':   $args->future = $v;  break;
-      case 'n':   $args->near_past = $v;  break;
-      case 'p':   $args->far_past = $v;  break;
+      case 'p':   $args->near_past = $v;  break;
       case 's':   $_SERVER['SERVER_NAME'] = $v; break;
       case 'd':   $args->debug = true;  $debugging = explode(',',$v); break;
       case 'l':   $args->set_last = true; break;
@@ -53,15 +51,15 @@ function usage() {
 
   echo <<<USAGE
 Usage:
-   refresh-alarms.php [-s server.domain.tld] [-d] [other options]
+   refresh-alarms.php [-s server.domain.tld] [other options]
 
-  -n <duration>    Near past period to skip for finding last instances: default 1 days ('P1D')
-  -p <duration>    Far past period to examine for finding last instances: default ~3 years ('P1200D')
+  -s <server>      The servername to be used to identify the DAViCal configuration file.
+  -p <duration>    Near past period to review for finding recently last instances: default 1 days ('P1D')
   -f <duration>    Future period to consider for finding future alarms: default ~5 years ('P2000D')
 
   -l               Try to set the 'last' alarm date in historical alarms
 
-  -d               Enable debugging
+  -d xxx           Enable debugging where 'xxx' is a comma-separated list of debug subsystems
 
 USAGE;
   exit(0);
@@ -75,12 +73,11 @@ if ( $args->debug && is_array($debugging )) {
   }
 }
 $args->near_past = '-' .  $args->near_past;
-$args->far_past = '-' . $args->far_past;
 
 require_once("./always.php");
 require_once('AwlQuery.php');
 require_once('RRule-v2.php');
-require_once('vComponent.php');
+require_once('vCalendar.php');
 
 
 /**
@@ -108,16 +105,18 @@ $expand_range_end->modify( $args->future );
 $earliest   = clone($expand_range_start);
 $earliest->modify( $args->near_past );
 
+if ( $args->debug ) printf( "Looking for event instances between '%s' and '%s'\n", $earliest->UTC(), $expand_range_end->UTC() );
+
 $sql = 'SELECT * FROM calendar_alarm JOIN calendar_item USING (dav_id) JOIN caldav_data USING (dav_id) WHERE rrule IS NOT NULL AND next_trigger IS NULL';
 if ( $args->debug ) printf( "%s\n", $sql );
 $qry = new AwlQuery( $sql );
 if ( $qry->Exec() && $qry->rows() ) {
   while( $alarm = $qry->Fetch() ) {
-    if ( $args->debug ) printf( "Processing alarm for '%s' based on '%s','%s', '%s'\n",
+    if ( $args->debug ) printf( "refresh: Processing alarm for '%s' based on '%s','%s', '%s'\n",
                           $alarm->dav_name, $alarm->dtstart, $alarm->rrule, $alarm->trigger );
     $ic = new vComponent( $alarm->caldav_data );
     $expanded = expand_event_instances( $ic, $earliest, $expand_range_end );
-    $expanded->MaskComponents( array( 'VEVENT', 'VTODO', 'VJOURNAL' ) );
+    $expanded->MaskComponents( array( 'VEVENT'=>1, 'VTODO'=>1, 'VJOURNAL'=>1 ) );
     $instances = $expanded->GetComponents();
 
     $trigger = new vProperty( $alarm->trigger );
@@ -129,6 +128,7 @@ if ( $qry->Exec() && $qry->rows() ) {
     $last = null;
     foreach( $instances AS $k => $component ) {
       $when = new RepeatRuleDateTime( $component->GetPValue('DTSTART') ); // a UTC value
+      if ( $args->debug ) printf( "refresh: Looking at event instance on '%s'\n", $when->UTC() );
       if ( $related == 'END' ) {
         $when->modify( $component->GetPValue('DURATION') );
       }
@@ -140,17 +140,36 @@ if ( $qry->Exec() && $qry->rows() ) {
         $last = clone($when);
       }
     }
+    $trigger_type = $trigger->GetParameterValue('VALUE');
+    if ( $trigger_type == 'DATE' || $trigger_type == 'DATE-TIME' || preg_match('{^\d{8}T\d{6}Z?$}', $trigger->Value()) ) {
+      $first = new RepeatRuleDateTime($trigger);
+      if ( $first > $expand_range_start && (empty($next) || $first < $next ) )
+        $next = $first;
+      else if ( empty($next) ) {
+        if ( $args->set_last && (empty($last) || $first > $last) )
+          $last = $first;
+      }
+    }
+    if ( $args->set_last && !isset($last) && (!isset($next) || $next < $expand_range_Start) ) {
+      $vc = new vCalendar( $alarm->caldav_data );
+      $range = getVCalendarRange($vc);
+      if ( isset($range->until) && $range->until < $earliest ) $last = $range->until;
+    }
+    
     if ( isset($next) && $next < $expand_range_end ) {
-      if ( $args->debug ) printf( "Found next alarm instance on '%s'\n", $next->UTC() );
+      if ( $args->debug ) printf( "refresh: Found next alarm instance on '%s'\n", $next->UTC() );
       $sql = 'UPDATE calendar_alarm SET next_trigger = :next WHERE dav_id = :id AND component = :component';
       $update = new AwlQuery( $sql, array( ':next' => $next->UTC(), ':id' => $alarm->dav_id, ':component' => $alarm->component ) );
       $update->Exec('refresh-alarms', __LINE__, __FILE__ );
     }
     else if ( $args->set_last && isset($last) && $last < $earliest ) {
-      if ( $args->debug ) printf( "Found past final alarm instance on '%s'\n", $last->UTC() );
+      if ( $args->debug ) printf( "refresh: Found past final alarm instance on '%s'\n", $last->UTC() );
       $sql = 'UPDATE calendar_alarm SET next_trigger = :last WHERE dav_id = :id AND component = :component';
       $update = new AwlQuery( $sql, array( ':last' => $last->UTC(), ':id' => $alarm->dav_id, ':component' => $alarm->component ) );
       $update->Exec('refresh-alarms', __LINE__, __FILE__ );
+    }
+    else if ( $args->debug && isset($next) && $next < $expand_range_end ) {
+      printf( "refresh: Found next alarm instance on '%s' after '%s'\n", $next->UTC(), $expand_range_end->UTC() );
     }
   }
 }

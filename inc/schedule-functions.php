@@ -49,7 +49,7 @@ function do_scheduling_for_delete(DAVResource $deleted_resource ) {
   }
   else {
     if ( isset($_SERVER['HTTP_SCHEDULE_REPLY']) && $_SERVER['HTTP_SCHEDULE_REPLY'] == 'F') {
-      dbg_error_log( 'schedule', 'Schedule-Request header set to "F" - no scheduling required.' );
+      dbg_error_log( 'schedule', 'Schedule-Reply header set to "F" - no scheduling required.' );
       return true;
     }
     return doItipAttendeeReply( $vcal, 'DECLINED', $request->principal->email());

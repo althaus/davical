@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-24 21:19+1300\n"
+"POT-Creation-Date: 2011-11-21 10:59+1300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -774,13 +774,13 @@ msgstr ""
 msgid "PHP PDO module available"
 msgstr ""
 
-msgid "PHP PostgreSQL available"
-msgstr ""
-
 msgid "PHP calendar extension available"
 msgstr ""
 
 msgid "PHP iconv support"
+msgstr ""
+
+msgid "PHP not using Apache Filter mode"
 msgstr ""
 
 msgid ""
@@ -842,6 +842,12 @@ msgid "Privileges"
 msgstr ""
 
 msgid "Privileges granted to All Users"
+msgstr ""
+
+msgid "Privileges to allow delivery of scheduling messages"
+msgstr ""
+
+msgid "Privileges to delegate scheduling decisions"
 msgstr ""
 
 msgid "Property is read-only"
@@ -983,9 +989,6 @@ msgid "Set read privileges"
 msgstr ""
 
 msgid "Set read+write privileges"
-msgstr ""
-
-msgid "Set schedule-deliver privileges"
 msgstr ""
 
 msgid ""
