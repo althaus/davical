@@ -24,7 +24,7 @@ $lock_opener = $request->FailIfLocked();
 
 $dest = new DAVResource($request->path);
 
-$container = $dest->FetchParentContainer();
+$container = $dest->GetParentContainer();
 if ( $container->IsCalendar() ) {
   $request->PreconditionFailed(412,'urn:ietf:params:xml:ns:caldav:supported-calendar-data',
                   translate('Incorrect content type for calendar: ') . $request->content_type );
