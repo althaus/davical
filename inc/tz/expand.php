@@ -163,7 +163,7 @@ $vtz = new vCalendar($tz->vtimezone);
 
 $response = new XMLDocument(array("urn:ietf:params:xml:ns:timezone-service" => ""));
 $timezones = $response->NewXMLElement('urn:ietf:params:xml:ns:timezone-service:timezones');
-$qry = new AwlQuery('SELECT to_char(max(last_modified),\'YYYY-MM-DD\"T\"HH24:MI:SS"Z"\') AS dtstamp FROM timezones');
+$qry = new AwlQuery('SELECT to_char(max(last_modified),\'YYYY-MM-DD"T"HH24:MI:SS"Z"\') AS dtstamp FROM timezones');
 if ( $qry->Exec('tz/list',__LINE__,__FILE__) && $qry->rows() > 0 ) {
   $row = $qry->Fetch();
   $timezones->NewElement('dtstamp', $row->dtstamp);
