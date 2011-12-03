@@ -710,7 +710,7 @@ EOQRY;
 
   
   /**
-  * Fetch the parent to this resource.
+  * Fetch the parent to this resource. This is deprecated - use GetParentContainer() instead.
   */
   function FetchParentContainer() {
     deprecated('DAVResource::FetchParentContainer');
