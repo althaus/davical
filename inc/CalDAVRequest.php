@@ -515,6 +515,9 @@ EOSQL;
     * should reasonably expect to see either text/xml or application/xml
     */
     if ( isset($this->content_type) && preg_match( '#(application|text)/xml#', $this->content_type ) ) {
+      if ( !isset($this->raw_post) || $this->raw_post == '' ) {
+        $this->XMLResponse( 400, new XMLElement( 'error', new XMLElement('missing-xml'), array( 'xmlns' => 'DAV:') ) );
+      }
       $xml_parser = xml_parser_create_ns('UTF-8');
       $this->xml_tags = array();
       xml_parser_set_option ( $xml_parser, XML_OPTION_SKIP_WHITE, 1 );
