@@ -1,6 +1,6 @@
 HTTP/1.1 200 OK
 Date: Dow, 01 Jan 2000 00:00:00 GMT
-Content-Length: 3064
+Content-Length: 3238
 Content-Type: application/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -29,6 +29,12 @@ Content-Type: application/xml; charset="utf-8"
   <last-modified>all good</last-modified>
   <inactive/>
   <local-name lang="en_US">Europe/Prague</local-name>
+ </summary>
+ <summary>
+  <tzid>Europe/Zagreb</tzid>
+  <last-modified>all good</last-modified>
+  <inactive/>
+  <local-name lang="en_US">Europe/Zagreb</local-name>
  </summary>
  <summary>
   <tzid>/mozilla.org/20050126_1/Antarctica/McMurdo</tzid>

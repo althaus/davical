@@ -51,8 +51,9 @@ DURATION:P1D
 LOCATION:Chamisal Vineyards\\, Oregon
 X-VENUE:Chamisal Vineyards
 END:VEVENT
+END:VCALENDAR
 <
-         dav_etag: >4d7d14bee6ce017c086e6f1de56f1641<
+         dav_etag: >82d83a8c540d8fa53d5ad843b6456558<
          dav_name: >/User Six/home/c0f7c860-1345-012d-125f-002421a2359e.ics<
       description: >2nd Annual Lobsterfest
 Saturday, August 7
