@@ -1,3 +1,93 @@
+2012-01-04  Andrew McMillan  <andrew@morphoss.com>
+	* Release 1.0
+
+2011-12-14  Andrew McMillan  <andrew@morphoss.com>
+	* Handle bound resources correctly in sync-collection report.
+	* Catch missing-xml in request separately from invalid-xml.
+
+2011-12-07  Andrew McMillan  <andrew@morphoss.com>
+	* Add the "CardDAV" word into DAViCal's description.
+	* Improve expand performance by only doing expansion if we know we need it.
+
+2011-12-03  Andrew McMillan  <andrew@morphoss.com>
+	* Use supplied content_type even on zero-length requests.
+
+2011-12-03  Rob Ostensen  <rob@boxacle.net>
+	* When creating an external bind don't consider local host as external
+
+2011-11-30  Andrew McMillan  <andrew@morphoss.com>
+	* Strip URL-unfriendly characters from UID before using it as URL segment.
+
+2011-11-29  Andrew McMillan  <andrew@morphoss.com>
+	* Slightly more helpful 403 response.
+
+2011-11-27  Andrew McMillan  <andrew@morphoss.com>
+	* Fix logic error in hide_TODO setting.
+	* Make hide_alarm work on bound resources.
+
+2011-11-26  Andrew McMillan  <andrew@morphoss.com>
+	* Correct bug in sync-collection report response.
+	* Fix BIT24 casting for the LDAP driver.
+
+2011-11-25  Andrew McMillan  <andrew@morphoss.com>
+	* Remove password from LDAP log messages.
+
+2011-11-22  Andrew McMillan  <andrew@morphoss.com>
+	* Fix for MOVE into a bound location.
+
+2011-11-21  Andrew McMillan  <andrew@morphoss.com>
+	* Tooltips for schedule-deliver and schedule-send.
+	* Current localisations from Transifex.
+	* The tooltips for schedule-send and schedule-deliver should be different!
+	* Correctly calculate the next alarm time.
+	* Update e-mail address to current one, mention wiki.
+
+2011-11-09  Andrew McMillan  <andrew@morphoss.com>
+	* Make sync-collection handle new format for sync token.
+	* Don't allow a / in the UID to infect the path on import.
+
+2011-11-09  Rob Ostensen  <rob@boxacle.net>
+	* Fix propfind depth:1 on bind to external url
+
+2011-11-02  Andrew McMillan  <andrew@morphoss.com>
+	* Handle DELETE scheduling actions.
+	* Force output buffers to be flushed, if they're turned on.
+	* Correct handling of empty CardDAV:address-data element in request.
+
+2011-11-01  Andrew McMillan  <andrew@morphoss.com>
+	* Update refresh-alarms script to newer style initialisation.
+	* Fix handling of active flag for general external authentication mechanisms.
+	* Update website to reflect new default calendar name.
+
+2011-10-31  Andrew McMillan  <andrew@morphoss.com>
+	* Rationalise confidential event rewriting.
+
+2011-10-30  Andrew McMillan  <andrew@morphoss.com>
+	* Add the $c->hide_alarms functionality into DAVResource class.
+
+2011-10-28  Andrew McMillan  <andrew@morphoss.com>
+	* Allow LDAP sync to work if the date is reasonable and no 'format_updated' is set.
+	* We don't need to test for the PostgreSQL non-PDO drivers now.
+	* Switch out deprecated LDAP mappings before we use them anywhere.
+	* Fix LDAP user creation where memcached support is off.
+
+2011-10-27  Andrew McMillan  <andrew@morphoss.com>
+	* Add test for PHP filter module and wiki links for each test.
+
+2011-10-25  Andrew McMillan  <andrew@morphoss.com>
+	* Updates to Brazilian Portuguese, German and Dutch translations.
+	* We need $c to be global here.
+	* A couple more places restricting numeric usernames.
+
+2011-10-25  Rob Ostensen  <rob@boxacle.net>
+	* External bind changes, added a clean up button, urls now show for
+	  external collections and added a few strings for translation
+
+2011-10-24  Andrew McMillan  <andrew@morphoss.com>
+	* Release 0.9.9.7
+	* More fixes to CalDAV Scheduling
+	  - Handle REPLY from ATTENDEE accepting/declining meeting.
+	  - Handle processing on ORGANIZER further changing meeting.
 2011-10-24  Andrew McMillan  <andrew@morphoss.com>
 	* Release 0.9.9.7
 	* More work on CalDAV Scheduling

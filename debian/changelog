@@ -1,3 +1,9 @@
+davical (1.0.0-1) unstable; urgency=low
+
+  * New upstream release (closes:#643809, #618957).
+
+ -- Andrew McMillan <awm@debian.org>  Wed, 04 Jan 2012 16:41:50 +1300
+
 davical (0.9.9.7-1) unstable; urgency=low
 
   * New upstream release.
