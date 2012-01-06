@@ -341,7 +341,11 @@ if ( $qry->Exec("calquery",__LINE__,__FILE__) && $qry->rows() > 0 ) {
       }
       if ( $need_expansion ) {
         $vResource = new vComponent($dav_object->caldav_data);
+        $expanded = getVCalendarRange($vResource);
+        if ( !$expanded->overlaps($range_filter) ) continue;
+
         $expanded = expand_event_instances($vResource, $expand_range_start, $expand_range_end, $expand_as_floating );
+
         if ( $expanded->ComponentCount() == 0 ) continue;
         if ( $need_expansion ) $dav_object->caldav_data = $expanded->Render();
       }
@@ -356,6 +360,7 @@ if ( $qry->Exec("calquery",__LINE__,__FILE__) && $qry->rows() > 0 ) {
     }
   }
 }
+
 $multistatus = new XMLElement( "multistatus", $responses, $reply->GetXmlNsArray() );
 
 $request->XMLResponse( 207, $multistatus );

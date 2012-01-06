@@ -409,6 +409,14 @@
 			<div class="index-item-details"><a href="davical/Request/CalDAVRequest.html#methodAllowedTo">CalDAVRequest::AllowedTo()</a> in CalDAVRequest.php</div>
 							<div class="index-item-description">Are we allowed to do the requested activity</div>
 					</dd>
+			<dt class="field">
+						<img src="media/images/Method.png" alt="Method" title="Method" />
+			<span class="method-title">actualDeleteCalendarMember</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="davical/Resource/WritableCollection.html#methodactualDeleteCalendarMember">WritableCollection::actualDeleteCalendarMember()</a> in WritableCollection.php</div>
+							<div class="index-item-description">Writes the data to a member in the collection and returns the segment_name of the  resource in our internal namespace.</div>
+					</dd>
 		</dl>
 	<a name="b"></a>
 	<div class="index-letter-section">
@@ -670,6 +678,13 @@
 					</dd>
 			<dt class="field">
 						<img src="media/images/Function.png" alt="Function" title="Function" />
+			<span class="method-title">check_real_php</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="davical/_htdocs---setup.php.html#functioncheck_real_php">check_real_php()</a> in setup.php</div>
+					</dd>
+			<dt class="field">
+						<img src="media/images/Function.png" alt="Function" title="Function" />
 			<span class="method-title">check_schema_version</span>
 					</dt>
 		<dd class="index-item-body">
@@ -839,14 +854,6 @@
 		<dd class="index-item-body">
 			<div class="index-item-details"><a href="davical/authentication/_inc---auth-functions.php.html#functionCreateHomeCollections">CreateHomeCollections()</a> in auth-functions.php</div>
 							<div class="index-item-description">Creates some default home collections for the user.</div>
-					</dd>
-			<dt class="field">
-						<img src="media/images/Function.png" alt="Function" title="Function" />
-			<span class="method-title">calendar_to_xml</span>
-					</dt>
-		<dd class="index-item-body">
-			<div class="index-item-details"><a href="davical/caldav/_inc---caldav-REPORT.php.html#functioncalendar_to_xml">calendar_to_xml()</a> in caldav-REPORT.php</div>
-							<div class="index-item-description">Return XML for a single calendar (or todo) entry from the DB</div>
 					</dd>
 			<dt class="field">
 						<img src="media/images/Function.png" alt="Function" title="Function" />
@@ -1269,11 +1276,43 @@
 					</dd>
 			<dt class="field">
 						<img src="media/images/Function.png" alt="Function" title="Function" />
+			<span class="method-title">deliverItipCancel</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="davical/caldav/_inc---schedule-functions.php.html#functiondeliverItipCancel">deliverItipCancel()</a> in schedule-functions.php</div>
+							<div class="index-item-description">Delivers the iTIP CANCEL message to an ATTENDEE's Scheduling Inbox Collection.</div>
+					</dd>
+			<dt class="field">
+						<img src="media/images/Function.png" alt="Function" title="Function" />
 			<span class="method-title">display_status</span>
 					</dt>
 		<dd class="index-item-body">
 			<div class="index-item-details"><a href="davical/caldav/_inc---caldav-REPORT-sync-collection.php.html#functiondisplay_status">display_status()</a> in caldav-REPORT-sync-collection.php</div>
 							<div class="index-item-description">Build the array of properties to include in the report output</div>
+					</dd>
+			<dt class="field">
+						<img src="media/images/Function.png" alt="Function" title="Function" />
+			<span class="method-title">doItipAttendeeReply</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="davical/caldav/_inc---schedule-functions.php.html#functiondoItipAttendeeReply">doItipAttendeeReply()</a> in schedule-functions.php</div>
+							<div class="index-item-description">Do the scheduling adjustments for a REPLY when an ATTENDEE updates their status.</div>
+					</dd>
+			<dt class="field">
+						<img src="media/images/Function.png" alt="Function" title="Function" />
+			<span class="method-title">doItipOrganizerCancel</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="davical/caldav/_inc---schedule-functions.php.html#functiondoItipOrganizerCancel">doItipOrganizerCancel()</a> in schedule-functions.php</div>
+							<div class="index-item-description">Handles sending the iTIP CANCEL messages to each ATTENDEE by the ORGANIZER.</div>
+					</dd>
+			<dt class="field">
+						<img src="media/images/Function.png" alt="Function" title="Function" />
+			<span class="method-title">do_scheduling_for_delete</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="davical/caldav/_inc---schedule-functions.php.html#functiondo_scheduling_for_delete">do_scheduling_for_delete()</a> in schedule-functions.php</div>
+							<div class="index-item-description">Entry point for scheduling on DELETE, for which there are thee outcomes: <ul><li>We don't do scheduling (disabled, no organizer, ...)</li><li>We are an ATTENDEE declining the meeting.</li></ul></div>
 					</dd>
 			<dt class="field">
 						<img src="media/images/Function.png" alt="Function" title="Function" />
@@ -1803,7 +1842,7 @@
 					</dt>
 		<dd class="index-item-body">
 			<div class="index-item-details"><a href="davical/Resource/DAVResource.html#methodFetchParentContainer">DAVResource::FetchParentContainer()</a> in DAVResource.php</div>
-							<div class="index-item-description">Fetch the parent to this resource.</div>
+							<div class="index-item-description">Fetch the parent to this resource. This is deprecated - use GetParentContainer() instead.</div>
 					</dd>
 			<dt class="field">
 						<img src="media/images/Method.png" alt="Method" title="Method" />
@@ -2004,6 +2043,13 @@
 					</dt>
 		<dd class="index-item-body">
 			<div class="index-item-details"><a href="davical/authentication/_inc---auth-functions.php.html#functiongetUserByName">getUserByName()</a> in auth-functions.php</div>
+					</dd>
+			<dt class="field">
+						<img src="media/images/Function.png" alt="Function" title="Function" />
+			<span class="method-title">GetItip</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="davical/caldav/_inc---schedule-functions.php.html#functionGetItip">GetItip()</a> in schedule-functions.php</div>
 					</dd>
 			<dt class="field">
 						<img src="media/images/Function.png" alt="Function" title="Function" />
@@ -2534,6 +2580,14 @@
 					</dd>
 			<dt class="field">
 						<img src="media/images/Method.png" alt="Method" title="Method" />
+			<span class="method-title">IsInSchedulingCollection</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="davical/Resource/DAVResource.html#methodIsInSchedulingCollection">DAVResource::IsInSchedulingCollection()</a> in DAVResource.php</div>
+							<div class="index-item-description">Checks whether this resource is IN a scheduling inbox/outbox collection</div>
+					</dd>
+			<dt class="field">
+						<img src="media/images/Method.png" alt="Method" title="Method" />
 			<span class="method-title">IsLocked</span>
 					</dt>
 		<dd class="index-item-body">
@@ -2558,11 +2612,19 @@
 					</dd>
 			<dt class="field">
 						<img src="media/images/Method.png" alt="Method" title="Method" />
+			<span class="method-title">IsPublicOnly</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="davical/Resource/DAVResource.html#methodIsPublicOnly">DAVResource::IsPublicOnly()</a> in DAVResource.php</div>
+							<div class="index-item-description">Checks whether the target collection is for public events only</div>
+					</dd>
+			<dt class="field">
+						<img src="media/images/Method.png" alt="Method" title="Method" />
 			<span class="method-title">IsSchedulingCollection</span>
 					</dt>
 		<dd class="index-item-body">
 			<div class="index-item-details"><a href="davical/Resource/DAVResource.html#methodIsSchedulingCollection">DAVResource::IsSchedulingCollection()</a> in DAVResource.php</div>
-							<div class="index-item-description">Checks whether this resource is a calendar</div>
+							<div class="index-item-description">Checks whether this resource is a scheduling inbox/outbox collection</div>
 					</dd>
 		</dl>
 	<a name="l"></a>
@@ -2857,6 +2919,14 @@
 					</dt>
 		<dd class="index-item-body">
 			<div class="index-item-details"><a href="davical/caldav/_htdocs---public.php.html">public.php</a> in public.php</div>
+					</dd>
+			<dt class="field">
+						<img src="media/images/Function.png" alt="Function" title="Function" />
+			<span class="method-title">processItipCancel</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="davical/caldav/_inc---schedule-functions.php.html#functionprocessItipCancel">processItipCancel()</a> in schedule-functions.php</div>
+							<div class="index-item-description">Does the actual processing of the iTIP CANCEL message on behalf of an ATTENDEE,  which generally means writing it into the ATTENDEE's default calendar.</div>
 					</dd>
 			<dt class="field">
 						<img src="media/images/Function.png" alt="Function" title="Function" />
@@ -3478,6 +3548,13 @@
 			<div class="index-item-details"><a href="davical/SqlToArray.html">SqlToArray</a> in SqlToArray.php</div>
 					</dd>
 			<dt class="field">
+						<img src="media/images/Page.png" alt="Page" title="Page" />
+			<span class="include-title">schedule-functions.php</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="davical/caldav/_inc---schedule-functions.php.html">schedule-functions.php</a> in schedule-functions.php</div>
+					</dd>
+			<dt class="field">
 						<img src="media/images/Function.png" alt="Function" title="Function" />
 			<span class="method-title">send_dav_header</span>
 					</dt>
@@ -3986,6 +4063,22 @@
 		<dd class="index-item-body">
 			<div class="index-item-details"><a href="davical/Resource/WritableCollection.html">WritableCollection</a> in WritableCollection.php</div>
 							<div class="index-item-description">A class for things to do with a DAV Resource</div>
+					</dd>
+			<dt class="field">
+						<img src="media/images/Method.png" alt="Method" title="Method" />
+			<span class="method-title">WriteCalendarAlarms</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="davical/Resource/WritableCollection.html#methodWriteCalendarAlarms">WritableCollection::WriteCalendarAlarms()</a> in WritableCollection.php</div>
+							<div class="index-item-description">Given a dav_id and an original vCalendar, pull out each of the VALARMs  and write the values into the calendar_alarm table.</div>
+					</dd>
+			<dt class="field">
+						<img src="media/images/Method.png" alt="Method" title="Method" />
+			<span class="method-title">WriteCalendarAttendees</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="davical/Resource/WritableCollection.html#methodWriteCalendarAttendees">WritableCollection::WriteCalendarAttendees()</a> in WritableCollection.php</div>
+							<div class="index-item-description">Parse out the attendee property and write a row to the  calendar_attendee table for each one.</div>
 					</dd>
 			<dt class="field">
 						<img src="media/images/Method.png" alt="Method" title="Method" />

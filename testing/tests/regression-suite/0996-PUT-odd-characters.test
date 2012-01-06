@@ -60,6 +60,7 @@ DURATION:P1D
 LOCATION:Chamisal Vineyards\\, Oregon
 X-VENUE:Chamisal Vineyards
 END:VEVENT
+END:VCALENDAR
 ENDDATA
 
 QUERY

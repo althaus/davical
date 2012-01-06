@@ -65,10 +65,10 @@ sending patches for things here and there.  Some more notable contributors inclu
 </ul>
 
 <h1>Contributing to DAViCal</h1>
-<p>We welcome contributions from interested people.  You don't need to be able to write code - there are lots of
+<p><img src="images/larger.png" alt="DAViCal Logo" height="160" width="160" align="right" class="gone">We welcome contributions from interested people.  You don't need to be able to write code - there are lots of
 small tasks around the project that can be done.
 CalDAV server:</p>
-Here are some things you could do that will help us to concentrate on making DAViCal a better:<ul>
+<p>Here are some things you could do that will help us to concentrate on making DAViCal better:<ul>
 <li>writing documentation</li>
 <li>helping people on IRC, on the mailing list or sf.net forums</li>
 <li>translating the DAViCal interface to another language</li>

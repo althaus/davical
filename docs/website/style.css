@@ -202,6 +202,11 @@ pre {
   vertical-align: text-top;
   }
 
+.gone {
+	width: 0.01em;
+	height: 0.01em;
+}
+
 .prompt {
   font-weight: 700;
   width: 4em;

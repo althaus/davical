@@ -2,7 +2,7 @@ Source: davical
 Section: web
 Priority: extra
 Maintainer: Andrew McMillan <awm@debian.org>
-Standards-Version: 3.9.1
+Standards-Version: 3.9.2
 Build-Depends: debhelper (>= 7), libawl-php, gettext
 Vcs-git: git://repo.or.cz/davical.git
 Vcs-browser: http://repo.or.cz/w/davical.git
@@ -10,24 +10,25 @@ Homepage: http://davical.org/
 
 Package: davical
 Architecture: all
-Depends: ${misc:Depends}, debconf (>= 1.0.32), php5-pgsql, postgresql-client (>= 8.1), libawl-php (>= 0.49-1~), libawl-php (<< 0.50), libdbd-pg-perl, libyaml-perl
+Depends: ${misc:Depends}, debconf (>= 1.0.32), php5-pgsql, postgresql-client (>= 8.1), libawl-php (>= 0.50-1~), libawl-php (<< 0.51), libdbd-pg-perl, libyaml-perl
 Recommends: postgresql (>= 8.3)
-Description: The DAViCal CalDAV Server
- The DAViCal CalDAV Server is designed to trivially store
- CalDAV calendars, such as those from Evolution, Sunbird/Lightning,
+Description: The DAViCal CalDAV & CardDAV Server
+ The DAViCal CalDAV Server is designed to store CalDAV calendars and
+ CardDAV addressbooks, such as those from Evolution, Sunbird/Lightning,
  Mulberry, iCal, iPhone or SOHO Organizer, in a central location,
- providing shared calendars, free/busy publication and a basic
- administration interface.
+ providing shared calendars, free/busy publication and a
+ basic administration interface.
 
 Package: davical-doc
 Section: doc
 Architecture: all
 Depends: ${misc:Depends}
-Description: The DAViCal CalDAV Server - documentation
- The DAViCal CalDAV Server is designed to trivially store
- CalDAV calendars, such as those from Evolution, Sunbird/Lightning,
- Mulberry, iCal or SOHO Organizer, in a central location, providing
- shared calendars, free/busy publication and basic administration
+Description: The DAViCal CalDAV & CardDAV Server - technical documentation
+ The DAViCal CalDAV Server is designed to store CalDAV calendars and
+ CardDAV addressbooks, such as those from Evolution, Sunbird/Lightning,
+ Mulberry, iCal, iPhone or SOHO Organizer, in a central location,
+ providing shared calendars, free/busy publication and a
+ basic administration interface.
  .
  This package contains detailed technical documentation for the
  classes and methods in the DAViCal programs.  Some user-centric

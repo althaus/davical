@@ -37,7 +37,10 @@ $collection = new DAVResource( $request->path );
 if ( !$collection->Exists() ) {
   $request->DoResponse( 404 );
 }
-  
+$bound_from = $collection->bound_from();
+$collection_path = $collection->dav_name();
+$request_via_binding = ($bound_from != $collection_path);
+
 $params = array( ':collection_id' => $collection->GetProperty('collection_id'), ':sync_token' => $sync_token );
 $sql = "SELECT new_sync_token( :sync_token, :collection_id)";
 $qry = new AwlQuery($sql, $params);
@@ -101,6 +104,9 @@ EOSQL;
       $c->sync_resource_data_ok = false;
     }
     while( $object = $qry->Fetch() ) {
+      if ( $request_via_binding )
+        $object->dav_name = str_replace( $bound_from, $collection_path, $object->dav_name);
+
       if ( $object->dav_name == $last_dav_name ) {
         /** The complex case: this is the second or subsequent for this dav_id */
         if ( $object->sync_status == 404 ) {

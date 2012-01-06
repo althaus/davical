@@ -20,9 +20,9 @@ require_once("classBrowser.php");
 require_once("caldav-PUT-functions.php");
 include_once('check_UTF8.php');
 
-if ( !$session->AllowedTo("Admin" ) )
+if ( !$session->AllowedTo("Admin" ) ) {
   @ob_flush(); exit(0);
-
+}
 if( function_exists("sync_LDAP") && isset($_POST['Sync_LDAP'])){
   sync_LDAP();
 }

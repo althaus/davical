@@ -182,11 +182,11 @@ class CalDAVRequest
       $_SERVER['REQUEST_METHOD'] = $_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'];
     }
     $this->method = $_SERVER['REQUEST_METHOD'];
+    $this->content_type = (isset($_SERVER['CONTENT_TYPE']) ? $_SERVER['CONTENT_TYPE'] : null);
+    if ( preg_match( '{^(\S+/\S+)\s*(;.*)?$}', $this->content_type, $matches ) ) {
+      $this->content_type = $matches[1];
+    }
     if ( isset($_SERVER['CONTENT_LENGTH']) && $_SERVER['CONTENT_LENGTH'] > 7 ) {
-      $this->content_type = (isset($_SERVER['CONTENT_TYPE']) ? $_SERVER['CONTENT_TYPE'] : null);
-      if ( preg_match( '{^(\S+/\S+)\s*(;.*)?$}', $this->content_type, $matches ) ) {
-        $this->content_type = $matches[1];
-      }
       if ( $this->method == 'PROPFIND' || $this->method == 'REPORT' ) {
         if ( !preg_match( '{^(text|application)/xml$}', $this->content_type ) ) {
           @dbg_error_log( "LOG request", 'Request is "%s" but client set content-type to "%s". Assuming they meant XML!',
@@ -515,6 +515,9 @@ EOSQL;
     * should reasonably expect to see either text/xml or application/xml
     */
     if ( isset($this->content_type) && preg_match( '#(application|text)/xml#', $this->content_type ) ) {
+      if ( !isset($this->raw_post) || $this->raw_post == '' ) {
+        $this->XMLResponse( 400, new XMLElement( 'error', new XMLElement('missing-xml'), array( 'xmlns' => 'DAV:') ) );
+      }
       $xml_parser = xml_parser_create_ns('UTF-8');
       $this->xml_tags = array();
       xml_parser_set_option ( $xml_parser, XML_OPTION_SKIP_WHITE, 1 );
