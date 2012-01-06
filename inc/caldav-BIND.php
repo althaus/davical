@@ -47,8 +47,10 @@ if ( $destination->Exists() ) {
   $request->PreconditionFailed(403,'DAV::can-overwrite',translate('A resource already exists at the destination.'));
 }
 
-if ( preg_match ( '{^https?://[A-Za-z][^/]*/.+$}', $href ) && ! stripos( $href, 'localhost' ) < 9 
-    && ! stripos( $href, '127.0.0.1' ) < 9 && ! stripos( $href, $_SERVER['SERVER_NAME'] ) < 9 && ! stripos( $href, $_SERVER['SERVER_ADDR'] ) < 9 ) {
+//  external binds shouldn't ever point back to ourselves but they should be a valid http[s] url
+if ( preg_match ( '{^https?://([^/]+)(:[0-9]\+)?/.+$}', $href, $matches ) && 
+    strcasecmp( $matches[0], 'localhost' ) !== 0 && strcasecmp( $matches[0], '127.0.0.1' ) !== 0 
+    && strcasecmp( $matches[0], $_SERVER['SERVER_NAME'] ) !== 0 && strcasecmp( $matches[0], $_SERVER['SERVER_ADDR'] ) !== 0 ) {
 	require_once('external-fetch.php');
 	$qry = new AwlQuery( );
   $qry->QDo('SELECT collection_id FROM collection WHERE dav_name = :dav_name ', array( ':dav_name' => '/.external/'. md5($href) ));

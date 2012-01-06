@@ -107,6 +107,13 @@ function check_magic_quotes_runtime() {
   return new CheckResult( (get_magic_quotes_runtime() == 0) );
 }
 
+function check_curl() {
+  global $phpinfo, $loaded_extensions;
+
+  if (!function_exists('curl_init')) return new CheckResult(false);
+  return new CheckResult(isset($loaded_extensions['curl']));
+}
+
 $loaded_extensions = array_flip(get_loaded_extensions());
 
 
@@ -255,7 +262,8 @@ function build_dependencies_table( ) {
     translate('Suhosin "server.strip" disabled')  => 'check_suhosin_server_strip',
     translate('PHP Magic Quotes GPC off')         => 'check_magic_quotes_gpc',
     translate('PHP Magic Quotes runtime off')     => 'check_magic_quotes_runtime',
-    translate('PHP calendar extension available') => 'check_calendar'
+    translate('PHP calendar extension available') => 'check_calendar',
+    translate('PHP curl support')                 => 'check_curl'
     );
 
   if ( isset($c->authenticate_hook) && isset($c->authenticate_hook['call']) && $c->authenticate_hook['call'] == 'LDAP_check') {
