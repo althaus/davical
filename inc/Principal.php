@@ -533,7 +533,10 @@ class Principal {
     foreach( self::updateableFields() AS $k ) {
       if ( !isset($field_values->{$k}) && !isset($this->{$k}) ) continue;
       if ( $inserting ) {
-        $param_names[] = ':'.$k;
+        if ($k == 'default_privileges')
+          $param_names[] = 'cast(:'.$k.' as text)::BIT(24)';
+        else
+          $param_names[] = ':'.$k;
         $insert_fields[] = $k;
       }
       else {
