@@ -10,8 +10,10 @@ snapshot : gitrev = $(shell git rev-parse --short HEAD)
 snapshot : version = $(majorversion)-git$(gitrev)
 snapshot : issnapshot = 1
 
+.PHONY: nodocs
 nodocs: htdocs/always.php built-po
 
+.PHONY: all
 all: htdocs/always.php built-docs built-po
 
 built-docs: docs/api/phpdoc.ini htdocs/*.php inc/*.php docs/translation.rst
@@ -32,6 +34,7 @@ htdocs/always.php: scripts/build-always.sh VERSION dba/davical.sql inc/always.ph
 #
 # Build a release .tar.gz file in the directory above us
 #
+.PHONY: release
 release: built-docs VERSION
 	-ln -s . $(package)-$(version)
 	sed 's:@@VERSION@@:$(majorversion):' davical.spec.in | \
@@ -45,15 +48,16 @@ release: built-docs VERSION
 	    davical.spec
 	rm $(package)-$(version)
 
+.PHONY: snapshot
 snapshot: release
 
+.PHONY: clean
 clean:
 	rm -f built-docs built-po
 	-find . -name "*~" -delete
 	-rm docs/translation.pdf
 	-rm davical.spec
 
+.PHONY: clean-all
 clean-all: clean
 	-find docs/api/* ! -name "phpdoc.ini" ! -name ".gitignore" -delete
-
-.PHONY:  all clean release
