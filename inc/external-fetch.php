@@ -62,9 +62,10 @@ function fetch_external ( $bind_id, $min_age = '1 hour' )
     curl_setopt ( $curl, CURLOPT_NOBODY, true );
     $ics = curl_exec ( $curl );
     $info = curl_getinfo ( $curl );
-    if ( $info['filetime'] <=  $row->updated ) { 
+    if ( isset($info['filetime']) && new DateTime("@" . $info['filetime']) <=  $local_ts ) { 
       dbg_error_log("external", "external resource unchanged " . $info['filetime'] );
       curl_close ( $curl );
+      // BUGlet: should track server-time instead of local-time
       $qry = new AwlQuery( 'UPDATE collection SET modified=NOW() WHERE collection_id = :cid', array ( ':cid' => $row->collection_id ) );
       $qry->Exec('DAVResource');  
       return true;
@@ -74,6 +75,7 @@ function fetch_external ( $bind_id, $min_age = '1 hour' )
     $ics = curl_exec ( $curl );
     curl_close ( $curl );
     if ( is_string ( $ics ) && strlen ( $ics ) > 20 ) {
+			// BUGlet: should track server-time instead of local-time
 			$qry = new AwlQuery( 'UPDATE collection SET modified=NOW(), dav_etag=:etag WHERE collection_id = :cid', 
 				array ( ':cid' => $row->collection_id, ':etag' => md5($ics) ) );
 			$qry->Exec('DAVResource');  
