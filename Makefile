@@ -1,11 +1,11 @@
 #!/usr/bin/make -f
 #
 
-package=davical
-majorversion = $(shell sed -n 's:\([0-9\.]*\)[-a-f0-9-]*:\1:p' VERSION)
-gitrev = 0
-version = $(majorversion)
-issnapshot = 0
+package := davical
+majorversion := $(shell sed -n 's:\([0-9\.]*\)[-a-f0-9-]*:\1:p' VERSION)
+gitrev := 0
+version := $(majorversion)
+issnapshot := 0
 snapshot : gitrev = $(shell git rev-parse --short HEAD)
 snapshot : version = $(majorversion)-git$(gitrev)
 snapshot : issnapshot = 1
