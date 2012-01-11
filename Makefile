@@ -19,17 +19,17 @@ all: htdocs/always.php built-docs built-po
 built-docs: docs/api/phpdoc.ini htdocs/*.php inc/*.php docs/translation.rst
 	phpdoc -c docs/api/phpdoc.ini || echo "NOTICE: Failed to build optional API docs"
 	rst2pdf docs/translation.rst || echo "NOTICE: Failed to build ReST docs"
-	touch built-docs
+	touch $@
 
 built-po: htdocs/always.php scripts/po/rebuild-translations.sh po/*.po
 	scripts/po/rebuild-translations.sh
-	touch built-po
+	touch $@
 
 #
 # Insert the current version number into always.php
 #
-htdocs/always.php: scripts/build-always.sh VERSION dba/davical.sql inc/always.php.in
-	scripts/build-always.sh <inc/always.php.in >htdocs/always.php
+htdocs/always.php: inc/always.php.in scripts/build-always.sh VERSION dba/davical.sql
+	scripts/build-always.sh <$< >$@
 
 #
 # Build a release .tar.gz file in the directory above us
