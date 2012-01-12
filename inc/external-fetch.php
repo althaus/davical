@@ -39,7 +39,7 @@ function create_external ( $path,$is_calendar,$is_addressbook )
   }
 }
 
-function fetch_external ( $bind_id, $min_age )
+function fetch_external ( $bind_id, $min_age = '1 hour' )
 {
   if ( ! function_exists ( "curl_init" ) ) {
     dbg_error_log("external", "external resource cannot be fetched without curl, please install curl");

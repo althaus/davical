@@ -101,6 +101,8 @@ class HTTPAuthSession {
     /**
     * Get HTTP Auth to work with PHP+FastCGI
     */
+    if ( !isset($_SERVER["AUTHORIZATION"]) && isset($_SERVER["HTTP_AUTHORIZATION"]) && !empty($_SERVER["HTTP_AUTHORIZATION"]))
+      $_SERVER["AUTHORIZATION"] = $_SERVER["HTTP_AUTHORIZATION"];
     if (isset($_SERVER["AUTHORIZATION"]) && !empty($_SERVER["AUTHORIZATION"])) {
       list ($type, $cred) = split (" ", $_SERVER['AUTHORIZATION']);
       if ($type == 'Basic') {
