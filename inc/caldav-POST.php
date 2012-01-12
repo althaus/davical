@@ -122,7 +122,7 @@ function handle_cancel_request( $ic ) {
   $request->XMLResponse( 200, $response );
 }
 
-$ical = new vComponent( $request->raw_post );
+$ical = new vCalendar( $request->raw_post );
 $method =  $ical->GetPValue('METHOD');
 
 $resources = $ical->GetComponents('VTIMEZONE',false);
