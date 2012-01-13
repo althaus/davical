@@ -41,23 +41,8 @@
 			|													<a href="#sec-functions">Functions</a>
 					</div>
 		<div class="info-box-body">	
-			<a name="_vCalendar_php"><!-- --></a>
+			<a name="_vComponent_php"><!-- --></a>
 <div class="evenrow">
-	
-	<div>
-		<img src="../../media/images/Page.png" alt=" " />
-		<span class="include-title">
-			<span class="include-type">require_once</span>
-			(<span class="include-name">'vCalendar.php'</span>)
-			(line <span class="line-number">20</span>)
-		</span>
-	</div>
-
-	<!-- ========== Info from phpDoc block ========= -->
-	
-</div>
-<a name="_vComponent_php"><!-- --></a>
-<div class="oddrow">
 	
 	<div>
 		<img src="../../media/images/Page.png" alt=" " />
@@ -72,7 +57,7 @@
 	
 </div>
 <a name="_WritableCollection_php"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 	
 	<div>
 		<img src="../../media/images/Page.png" alt=" " />
@@ -80,6 +65,21 @@
 			<span class="include-type">require_once</span>
 			(<span class="include-name"><a href="../../davical/_inc---WritableCollection.php.html">'WritableCollection.php'</a></span>)
 			(line <span class="line-number">21</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+</div>
+<a name="_vCalendar_php"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<img src="../../media/images/Page.png" alt=" " />
+		<span class="include-title">
+			<span class="include-type">require_once</span>
+			(<span class="include-name">'vCalendar.php'</span>)
+			(line <span class="line-number">20</span>)
 		</span>
 	</div>
 
@@ -303,12 +303,12 @@
 		
 	
 </div>
-<a name="functionimport_collection" id="functionimport_collection"><!-- --></a>
+<a name="functionimport_addressbook_collection" id="functionimport_addressbook_collection"><!-- --></a>
 <div class="evenrow">
 	
 	<div>
 		<img src="../../media/images/Function.png" />
-		<span class="method-title">import_collection</span> (line <span class="line-number">561</span>)
+		<span class="method-title">import_addressbook_collection</span> (line <span class="line-number">597</span>)
 	</div> 
 
 	<!-- ========== Info from phpDoc block ========= -->
@@ -316,7 +316,48 @@
 	<div class="method-signature">
 		<span class="method-result">void</span>
 		<span class="method-name">
-			import_collection
+			import_addressbook_collection
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$vcard_content</span>, <span class="var-type">int</span>&nbsp;<span class="var-name">$user_no</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$path</span>, <span class="var-type">boolean</span>&nbsp;<span class="var-name">$caldav_context</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$appending</span> = <span class="var-default">false</span>], <span class="var-type">string</span>&nbsp;<span class="var-name">$ics_content</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$ics_content</span><span class="var-description">: the ics file to import</span>			</li>
+					<li>
+				<span class="var-type">int</span>
+				<span class="var-name">$user_no</span><span class="var-description">: the user wich will receive this ics file</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$path</span><span class="var-description">: the $path where it will be store such as /user_foo/home/</span>			</li>
+					<li>
+				<span class="var-type">boolean</span>
+				<span class="var-name">$caldav_context</span><span class="var-description">: <p>Whether we are responding via CalDAV or interactively</p><p>Any VEVENTs with the same UID will be concatenated together</p></span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$vcard_content</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$appending</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functionimport_calendar_collection" id="functionimport_calendar_collection"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<img src="../../media/images/Function.png" />
+		<span class="method-title">import_calendar_collection</span> (line <span class="line-number">694</span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">This function will import a whole calendar</p>
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			import_calendar_collection
 		</span>
 					(<span class="var-type">string</span>&nbsp;<span class="var-name">$ics_content</span>, <span class="var-type">int</span>&nbsp;<span class="var-name">$user_no</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$path</span>, <span class="var-type">boolean</span>&nbsp;<span class="var-name">$caldav_context</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$appending</span> = <span class="var-default">false</span>])
 			</div>
@@ -334,6 +375,47 @@
 					<li>
 				<span class="var-type">boolean</span>
 				<span class="var-name">$caldav_context</span><span class="var-description">: <p>Whether we are responding via CalDAV or interactively</p><p>Any VEVENTs with the same UID will be concatenated together</p></span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$appending</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functionimport_collection" id="functionimport_collection"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<img src="../../media/images/Function.png" />
+		<span class="method-title">import_collection</span> (line <span class="line-number">561</span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">This function will import a whole collection</p>
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			import_collection
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$import_content</span>, <span class="var-type">int</span>&nbsp;<span class="var-name">$user_no</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$path</span>, <span class="var-type">boolean</span>&nbsp;<span class="var-name">$caldav_context</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$appending</span> = <span class="var-default">false</span>], <span class="var-type">string</span>&nbsp;<span class="var-name">$ics_content</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$ics_content</span><span class="var-description">: the ics file to import</span>			</li>
+					<li>
+				<span class="var-type">int</span>
+				<span class="var-name">$user_no</span><span class="var-description">: the user wich will receive this ics file</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$path</span><span class="var-description">: the $path where it will be store such as /user_foo/home/</span>			</li>
+					<li>
+				<span class="var-type">boolean</span>
+				<span class="var-name">$caldav_context</span><span class="var-description">: <p>Whether we are responding via CalDAV or interactively</p><p>The work is either done by</p></span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$import_content</span>			</li>
 					<li>
 				<span class="var-type"></span>
 				<span class="var-name">$appending</span>			</li>
@@ -416,7 +498,7 @@
 	
 	<div>
 		<img src="../../media/images/Function.png" />
-		<span class="method-title">simple_write_resource</span> (line <span class="line-number">1187</span>)
+		<span class="method-title">simple_write_resource</span> (line <span class="line-number">1306</span>)
 	</div> 
 
 	<!-- ========== Info from phpDoc block ========= -->
@@ -454,7 +536,7 @@
 	
 	<div>
 		<img src="../../media/images/Function.png" />
-		<span class="method-title">write_alarms</span> (line <span class="line-number">796</span>)
+		<span class="method-title">write_alarms</span> (line <span class="line-number">915</span>)
 	</div> 
 
 	<!-- ========== Info from phpDoc block ========= -->
@@ -483,7 +565,7 @@
 	
 	<div>
 		<img src="../../media/images/Function.png" />
-		<span class="method-title">write_attendees</span> (line <span class="line-number">853</span>)
+		<span class="method-title">write_attendees</span> (line <span class="line-number">972</span>)
 	</div> 
 
 	<!-- ========== Info from phpDoc block ========= -->
@@ -512,7 +594,7 @@
 	
 	<div>
 		<img src="../../media/images/Function.png" />
-		<span class="method-title">write_resource</span> (line <span class="line-number">902</span>)
+		<span class="method-title">write_resource</span> (line <span class="line-number">1021</span>)
 	</div> 
 
 	<!-- ========== Info from phpDoc block ========= -->
@@ -567,7 +649,7 @@
 	</div>
 	
 	<p class="notes" id="credit">
-		Documentation generated on Wed, 04 Jan 2012 16:20:17 +1300 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+		Documentation generated on Fri, 13 Jan 2012 23:44:53 +1300 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
 	</p>
 	</div></body>
 </html>
