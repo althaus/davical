@@ -550,6 +550,42 @@ function do_scheduling_requests( vCalendar $resource, $create, $old_data = null 
 
 
 /**
+* This function will import a whole collection
+* @param string $ics_content the ics file to import
+* @param int $user_no the user wich will receive this ics file
+* @param string $path the $path where it will be store such as /user_foo/home/
+* @param boolean $caldav_context Whether we are responding via CalDAV or interactively
+*
+* The work is either done by 
+*/
+function import_collection( $import_content, $user_no, $path, $caldav_context, $appending = false ) {
+  global $c;
+  
+  if ( ! ini_get('open_basedir') && (isset($c->dbg['ALL']) || isset($c->dbg['put'])) ) {
+    $fh = fopen('/tmp/PUT-2.txt','w');
+    if ( $fh ) {
+      fwrite($fh,$import_content);
+      fclose($fh);
+    }
+  }
+
+  if ( preg_match( '{^begin:(vcard|vcalendar)}i', $import_content, $matches) ) {
+    if ( $matches[1] == 'VCARD' )
+      import_addressbook_collection( $import_content, $user_no, $path, $caldav_context, $appending );
+    elseif ( $matches[1] == 'VCALENDAR' )
+      import_calendar_collection( $import_content, $user_no, $path, $caldav_context, $appending );
+  
+    // Uncache anything to do with the collection
+    $cache = getCacheInstance();
+    $cache_ns = 'collection-'.preg_replace( '{/[^/]*$}', '/', $path);
+    $cache->delete( $cache_ns, null );
+  }
+  else {
+    dbg_error_log('PUT', 'Can only import files which are VCARD or VCALENDAR');
+  } 
+}
+
+/**
 * This function will import a whole calendar
 * @param string $ics_content the ics file to import
 * @param int $user_no the user wich will receive this ics file
@@ -558,17 +594,105 @@ function do_scheduling_requests( vCalendar $resource, $create, $old_data = null 
 *
 * Any VEVENTs with the same UID will be concatenated together
 */
-function import_collection( $ics_content, $user_no, $path, $caldav_context, $appending = false ) {
-  global $c, $session, $tz_regex;
+function import_addressbook_collection( $vcard_content, $user_no, $path, $caldav_context, $appending = false ) {
+  global $c, $session;
+  // We hack this into an enclosing component because vComponent only expects a single root component
+  $addressbook = new vComponent("BEGIN:ADDRESSES\r\n".$vcard_content."\r\nEND:ADDRESSES\r\n");
 
-  if ( ! ini_get('open_basedir') && (isset($c->dbg['ALL']) || isset($c->dbg['put'])) ) {
-    $fh = fopen('/tmp/PUT-2.txt','w');
-    if ( $fh ) {
-      fwrite($fh,$ics_content);
-      fclose($fh);
-    }
+  require_once('vcard.php');
+
+  $sql = 'SELECT * FROM collection WHERE dav_name = :dav_name';
+  $qry = new AwlQuery( $sql, array( ':dav_name' => $path) );
+  if ( ! $qry->Exec('PUT',__LINE__,__FILE__) ) rollback_on_error( $caldav_context, $user_no, $path );
+  if ( ! $qry->rows() == 1 ) {
+    dbg_error_log( 'ERROR', ' PUT: Collection does not exist at "%s" for user %d', $path, $user_no );
+    rollback_on_error( $caldav_context, $user_no, $path );
   }
+  $collection = $qry->Fetch();
+  
+  if ( !(isset($c->skip_bad_event_on_import) && $c->skip_bad_event_on_import) ) $qry->Begin();
+  $base_params = array(
+       ':collection_id' => $collection->collection_id,
+       ':session_user' => $session->user_no,
+       ':caldav_type' => 'VCARD'
+  );
+  if ( !$appending ) {
+    if ( !$qry->QDo('DELETE FROM caldav_data WHERE collection_id = :collection_id', $base_params) )
+    rollback_on_error( $caldav_context, $user_no, $collection->collection_id );
+  }
+  
+  $dav_data_insert = <<<EOSQL
+INSERT INTO caldav_data ( user_no, dav_name, dav_etag, caldav_data, caldav_type, logged_user, created, modified, collection_id )
+    VALUES( :user_no, :dav_name, :etag, :dav_data, :caldav_type, :session_user, :created, :modified, :collection_id )
+EOSQL;
+  
 
+  $resources = $addressbook->GetComponents();
+  foreach( $resources AS $k => $resource ) {
+    if ( isset($c->skip_bad_event_on_import) && $c->skip_bad_event_on_import ) $qry->Begin();
+  
+    $vcard = new vCard( $resource->Render() );
+
+    $uid = $vcard->GetPValue('UID');
+    if ( empty($uid) ) {
+      $uid = uuid();
+      $vcard->AddProperty('UID',$uid);
+    }
+
+    $last_modified = $vcard->GetPValue('REV');
+    if ( empty($last_modified) ) {
+      $last_modified = gmdate( 'Ymd\THis\Z' );
+      $vcard->AddProperty('REV',$last_modified);
+    }
+
+    $created = $vcard->GetPValue('X-CREATED');
+    if ( empty($last_modified) ) {
+      $created = gmdate( 'Ymd\THis\Z' );
+      $vcard->AddProperty('X-CREATED',$created);
+    }
+
+    $rendered_card = $vcard->Render();
+    
+    $dav_data_params = $base_params;
+    $dav_data_params[':user_no'] = $user_no;
+    // We don't allow any of &?\/@%+: in the UID to appear in the path, but anything else is fair game.
+    $dav_data_params[':dav_name'] = sprintf( '%s%s.ics', $path, preg_replace('{[&?\\/@%+:]}','',$uid) );
+    $dav_data_params[':etag'] = md5($rendered_card);
+    $dav_data_params[':dav_data'] = $rendered_card;
+    $dav_data_params[':modified'] = $last_modified;
+    $dav_data_params[':created'] = $created;
+        
+    if ( isset($c->skip_bad_event_on_import) && $c->skip_bad_event_on_import ) $qry->Begin();
+    
+    if ( !$qry->QDo($dav_data_insert,$dav_data_params) ) rollback_on_error( $caldav_context, $user_no, $path );
+  
+    $qry->QDo('SELECT dav_id FROM caldav_data WHERE dav_name = :dav_name ', array(':dav_name' => $dav_data_params[':dav_name']));
+    if ( $qry->rows() == 1 && $row = $qry->Fetch() ) {
+      $dav_id = $row->dav_id;
+    }
+      
+    $vcard->Write( $row->dav_id, false );
+    
+    if ( isset($c->skip_bad_event_on_import) && $c->skip_bad_event_on_import ) $qry->Commit();
+  }
+  
+  if ( !(isset($c->skip_bad_event_on_import) && $c->skip_bad_event_on_import) ) {
+    if ( ! $qry->Commit() ) rollback_on_error( $caldav_context, $user_no, $path);
+  }
+  
+}
+
+/**
+* This function will import a whole calendar
+* @param string $ics_content the ics file to import
+* @param int $user_no the user wich will receive this ics file
+* @param string $path the $path where it will be store such as /user_foo/home/
+* @param boolean $caldav_context Whether we are responding via CalDAV or interactively
+*
+* Any VEVENTs with the same UID will be concatenated together
+*/
+function import_calendar_collection( $ics_content, $user_no, $path, $caldav_context, $appending = false ) {
+  global $c, $session, $tz_regex;
   $calendar = new vComponent($ics_content);
   $timezones = $calendar->GetComponents('VTIMEZONE',true);
   $components = $calendar->GetComponents('VTIMEZONE',false);
@@ -777,11 +901,6 @@ EOSQL;
   if ( !(isset($c->skip_bad_event_on_import) && $c->skip_bad_event_on_import) ) {
     if ( ! $qry->Commit() ) rollback_on_error( $caldav_context, $user_no, $path);
   }
-
-  // Uncache anything to do with the collection
-  $cache = getCacheInstance();
-  $cache_ns = 'collection-'.preg_replace( '{/[^/]*$}', '/', $path);
-  $cache->delete( $cache_ns, null );
 }
 
 
