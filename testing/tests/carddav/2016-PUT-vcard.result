@@ -4,14 +4,12 @@ HTTP/1.1 201 Created
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
-ETag: "e67537e9d473e93911eccd6e63e9ac3a"
 Content-Length: 0
 Content-Type: text/plain; charset="utf-8"
 
 
         caladruri: >NULL<
            caluri: >NULL<
-         dav_etag: >e67537e9d473e93911eccd6e63e9ac3a<
          dav_name: >/user1/addressbook/mustrmahn.vcf<
             fburl: >NULL<
                fn: >Überwerbung GmbH<
@@ -19,7 +17,6 @@ Content-Type: text/plain; charset="utf-8"
          nickname: >Boss<
              note: >Test vCard<
               org: >Überwerbung GmbH;Marketing<
-              uid: >NULL<
               url: >NULL<
           version: >3.0<
 
@@ -37,8 +34,8 @@ Content-Type: text/plain; charset="utf-8"
              type: >CELL<
 
               tel: >+49 30 1234567<
-             type: >pref<
+             type: >WORK~|~pref<
 
             email: >karl@mustermann.de<
-             type: >pref<
+             type: >INTERNET~|~WORK~|~pref<
 

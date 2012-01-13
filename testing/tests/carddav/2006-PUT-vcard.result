@@ -2,22 +2,21 @@ HTTP/1.1 201 Created
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
-ETag: "fada70a725708bce8521efb87acfa629"
 Content-Length: 0
 Content-Type: text/plain; charset="utf-8"
 
 
         caladruri: >NULL<
            caluri: >NULL<
-         dav_etag: >fada70a725708bce8521efb87acfa629<
          dav_name: >/user1/addressbook/donald_kelly.vcf<
+    etag_not_null: >1<
             fburl: >NULL<
                fn: >Donald Kelly<
                 n: >Kelly;Donald;;;<
          nickname: >NULL<
              note: >NULL<
               org: >Esposo Designs Ltd<
-              uid: >NULL<
+     uid_not_null: >1<
               url: >www.example.co.nz<
           version: >2.1<
 

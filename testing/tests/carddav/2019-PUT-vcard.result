@@ -2,14 +2,12 @@ HTTP/1.1 201 Created
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
-ETag: "feaa1a28c9942fc56403e2f97f75171b"
 Content-Length: 0
 Content-Type: text/plain; charset="utf-8"
 
 
         caladruri: >NULL<
            caluri: >NULL<
-         dav_etag: >feaa1a28c9942fc56403e2f97f75171b<
          dav_name: >/user1/addressbook/Jörg_Test-Roßdeutscher_2_0.vcf<
             fburl: >NULL<
                fn: >Jörg Test-Roßdeutscher<
@@ -17,7 +15,6 @@ Content-Type: text/plain; charset="utf-8"
          nickname: >NULL<
              note: >Technik, Web, DTP, SysAdmin, €-Vermögensverwalter<
               org: >Factor Design AG;<
-              uid: >NULL<
               url: >www.gesindel.baz<
           version: >2.1<
 
