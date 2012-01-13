@@ -357,7 +357,7 @@ label.privilege {
 </form>
 <script language="javascript">
 toggle_enabled('fld_is_calendar','=fld_timezone','=fld_schedule_transp','!fld_is_addressbook','=fld_ics_file');
-toggle_enabled('fld_is_addressbook','!fld_is_calendar');
+toggle_enabled('fld_is_addressbook','!fld_is_calendar','=fld_ics_file');
 toggle_visible('fld_use_default_privs','!privileges_settings');
 </script>
 
