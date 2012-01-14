@@ -222,8 +222,8 @@ class ldapDrivers
       }
     }
 
-
-    dbg_error_log( "LDAP", "drivers_ldap : Bound to user %s using password %s", $dnUser, $passwd );
+    dbg_error_log( "LDAP", "drivers_ldap : Bound to user %s using password %s", $dnUser,
+          (isset($c->dbg['password']) && $c->dbg['password'] ? $passwd : 'another delicious password for the debugging monster!') );
 
     $i = ldap_first_entry($this->connect,$entry);
     $arr = ldap_get_attributes($this->connect,$i);
