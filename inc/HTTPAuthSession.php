@@ -53,7 +53,7 @@ class HTTPAuthSession {
     if ( ! empty($_SERVER['PHP_AUTH_DIGEST'])) {
       $this->DigestAuthSession();
     }
-    else if ( isset($_SERVER["AUTHORIZATION"]) || isset($_SERVER['PHP_AUTH_USER']) ) {
+    else if ( isset($_SERVER['PHP_AUTH_USER']) || isset($_SERVER["AUTHORIZATION"]) ) {
       $this->BasicAuthSession();
     }
     else if ( isset($c->http_auth_mode) && $c->http_auth_mode == "Digest" ) {
