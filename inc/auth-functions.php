@@ -68,7 +68,7 @@ function getPrincipalByID( $principal_id, $use_cache = true ) {
 * Creates some default home collections for the user.
 * @param string $username The username of the user we are creating relationships for.
 */
-function CreateHomeCollections( $username ) {
+function CreateHomeCollections( $username, $defult_timezone = null ) {
   global $session, $c;
   if ( empty($c->home_calendar_name) && empty($c->home_addressbook_name) ) return true;
 
@@ -184,6 +184,12 @@ function CreateDefaultRelationships( $username ) {
   return true;
 }
 
+
+function UpdateCollectionTimezones( $username, $new_timezone=null ) {
+  if ( empty($new_timezone) ) return; 
+  $qry = new AwlQuery('UPDATE collection SET timezone=? WHERE dav_name LIKE ? AND is_calendar', '/'.$username.'/%', $new_timezone);
+  $qry->Exec();
+}
 
 /**
 * Update the local cache of the remote user details
@@ -305,7 +311,7 @@ EOERRMSG;
   if ( $qry->Exec('Login',__LINE__,__FILE__) && $qry->rows() == 1 ) {
     $usr = $qry->Fetch();
     if ( session_validate_password( $password, $usr->password ) ) {
-      $principal = new Principal($username);
+      $principal = new Principal('username',$username);
       if ( $principal->Exists() ) {
         if ( $principal->modified <= $usr->updated )
           $principal->Update($usr);
