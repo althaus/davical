@@ -1,3 +1,24 @@
+2012-01-13  Andrew McMillan  <andrew@morphoss.com>
+	* Handle VCARD adr/tel/email which have multiple types.
+	* Set the default URL to the default calendar name rather than /home/
+	* Enable the file upload for addressbook collections.
+	* Handle addressbook import along with calendar import.
+	* Write UID and REV property n VCARD if they are missing.
+	* Fix bug in scheduling on POST request.
+	* Fix permissions on user create via external auth.
+
+2012-01-12  Andrew McMillan  <andrew@morphoss.com>
+	* Allow for silly programs that send content-type XML with a GET request.
+	* Support use of HTTP_AUTHORIZATION in addition to AUTHORIZATION cgi.
+	* Add a default min_age for external binds.
+
+2012-01-06  Rob Ostensen  <rob@boxacle.net>
+	* Prevent external binds from being created/updated if curl is missing.
+	* Add check to setup page to test whether curl is installed.
+
+2012-01-05  Andrew McMillan  <andrew@morphoss.com>
+	* Release 1.0.1
+
 2012-01-04  Andrew McMillan  <andrew@morphoss.com>
 	* Release 1.0
 

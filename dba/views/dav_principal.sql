@@ -23,8 +23,8 @@ DO INSTEAD
     VALUES(
       COALESCE( NEW.user_no, nextval('usr_user_no_seq')),
       COALESCE( NEW.user_active, TRUE),
-      current_timestamp,
-      current_timestamp,
+      COALESCE( NEW.created, current_timestamp),
+      COALESCE( NEW.modified, current_timestamp),
       NEW.username, NEW.password,
       COALESCE( NEW.fullname, NEW.displayname ),
       NEW.email, NEW.email_ok,

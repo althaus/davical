@@ -2,14 +2,12 @@ HTTP/1.1 201 Created
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
-ETag: "d43780719361367f2d690f1f966e3da1"
 Content-Length: 0
 Content-Type: text/plain; charset="utf-8"
 
 
         caladruri: >NULL<
            caluri: >NULL<
-         dav_etag: >d43780719361367f2d690f1f966e3da1<
          dav_name: >/user1/addressbook/van_houtte.vcf<
             fburl: >NULL<
                fn: >Vincent VAN HOUTTE<
@@ -17,7 +15,6 @@ Content-Type: text/plain; charset="utf-8"
          nickname: >NULL<
              note: >NULL<
               org: >Advocatenkantoor Suy, Van Baeveghem & Van Houtte;;<
-              uid: >NULL<
               url: >NULL<
           version: >3.0<
 

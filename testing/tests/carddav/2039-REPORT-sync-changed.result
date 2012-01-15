@@ -2,7 +2,7 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
-ETag: "6c643c2bb832c75fb7417ba9e47269f0"
+ETag: "a fine looking etag"
 Content-Length: 1794
 Content-Type: text/xml; charset="utf-8"
 
@@ -12,7 +12,7 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/addressbook/andresenesq.vcf</href>
   <propstat>
    <prop>
-    <getetag>"f6ae02ec1b5612fe4737092734d062c7"</getetag>
+    <get?tag>"deadbeefcafef00ddeadbeefcafefeed"<.get?tag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -21,7 +21,7 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/addressbook/F06EC844-EACD-4ADF-8823-588603991E04-ABSPlugin.vcf</href>
   <propstat>
    <prop>
-    <getetag>"0ea4d7759e103090c6494505b5da0f11"</getetag>
+    <get?tag>"deadbeefcafef00ddeadbeefcafefeed"<.get?tag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -30,7 +30,7 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/addressbook/hans_dieter.vcf</href>
   <propstat>
    <prop>
-    <getetag>"db3e92c0ae37268c647949367e2030cc"</getetag>
+    <get?tag>"deadbeefcafef00ddeadbeefcafefeed"<.get?tag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -39,7 +39,7 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/addressbook/J%C3%B6rg_Test-Ro%C3%9Fdeutscher_2_0.vcf</href>
   <propstat>
    <prop>
-    <getetag>"feaa1a28c9942fc56403e2f97f75171b"</getetag>
+    <get?tag>"deadbeefcafef00ddeadbeefcafefeed"<.get?tag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -48,7 +48,7 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/addressbook/J%C3%B6rg_Test-Ro%C3%9Fdeutscher_3_0.vcf</href>
   <propstat>
    <prop>
-    <getetag>"5a32961b9938a7d6a354a757a8a1ea36"</getetag>
+    <get?tag>"deadbeefcafef00ddeadbeefcafefeed"<.get?tag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -57,7 +57,7 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/addressbook/mustrmahn.vcf</href>
   <propstat>
    <prop>
-    <getetag>"e67537e9d473e93911eccd6e63e9ac3a"</getetag>
+    <get?tag>"deadbeefcafef00ddeadbeefcafefeed"<.get?tag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -66,7 +66,7 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/addressbook/van_houtte.vcf</href>
   <propstat>
    <prop>
-    <getetag>"d43780719361367f2d690f1f966e3da1"</getetag>
+    <get?tag>"deadbeefcafef00ddeadbeefcafefeed"<.get?tag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>

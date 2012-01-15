@@ -2,14 +2,12 @@ HTTP/1.1 201 Created
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
-ETag: "5a32961b9938a7d6a354a757a8a1ea36"
 Content-Length: 0
 Content-Type: text/plain; charset="utf-8"
 
 
         caladruri: >NULL<
            caluri: >NULL<
-         dav_etag: >5a32961b9938a7d6a354a757a8a1ea36<
          dav_name: >/user1/addressbook/Jörg_Test-Roßdeutscher_3_0.vcf<
             fburl: >NULL<
                fn: >Jörg Test-Roßdeutscher<
@@ -17,7 +15,6 @@ Content-Type: text/plain; charset="utf-8"
          nickname: >NULL<
              note: >Technik, Web, DTP, SysAdmin, €-Vermögensverwalter<
               org: >Factor Design AG;<
-              uid: >NULL<
               url: >NULL<
           version: >3.0<
 
@@ -38,17 +35,17 @@ Content-Type: text/plain; charset="utf-8"
              type: >HOME<
 
               tel: >040 999999432571-43<
-             type: >pref<
+             type: >WORK~|~pref<
 
             email: >joerg.rossdeutscher@gesindel.foo<
-             type: >HOME<
+             type: >INTERNET~|~HOME<
 
             email: >raettchen@gmail.bar<
-             type: >HOME<
+             type: >INTERNET~|~HOME<
 
             email: >joerg@factordesign.foo<
-             type: >WORK<
+             type: >INTERNET~|~WORK<
 
             email: >joerg.rossdeutscher@factordesign.foo<
-             type: >pref<
+             type: >INTERNET~|~WORK~|~pref<
 

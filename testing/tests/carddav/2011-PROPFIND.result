@@ -19,7 +19,7 @@
   <href>/caldav.php/user1/addressbook/andrew_mcmillan.vcf</href>
   <propstat>
    <prop>
-    <getetag>"24bae2a7f81c0a79413a656c06d8326b"</getetag>
+    <get?tag>"deadbeefcafef00ddeadbeefcafefeed"<.get?tag>
     <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
    </prop>
    <status>HTTP/1.1 200 OK</status>
@@ -29,7 +29,7 @@
   <href>/caldav.php/user1/addressbook/donald_kelly.vcf</href>
   <propstat>
    <prop>
-    <getetag>"fada70a725708bce8521efb87acfa629"</getetag>
+    <get?tag>"deadbeefcafef00ddeadbeefcafefeed"<.get?tag>
     <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
    </prop>
    <status>HTTP/1.1 200 OK</status>
@@ -39,7 +39,7 @@
   <href>/caldav.php/user1/addressbook/PHRsMa4mvY.vcf</href>
   <propstat>
    <prop>
-    <getetag>"70da8e376791d07c9fae3dbda0b40314"</getetag>
+    <get?tag>"deadbeefcafef00ddeadbeefcafefeed"<.get?tag>
     <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
    </prop>
    <status>HTTP/1.1 200 OK</status>
@@ -47,9 +47,5 @@
  </response>
 </multistatus>
 
-         dav_etag: >24bae2a7f81c0a79413a656c06d8326b<
-
-         dav_etag: >fada70a725708bce8521efb87acfa629<
-
-         dav_etag: >70da8e376791d07c9fae3dbda0b40314<
+            count: >3<
 

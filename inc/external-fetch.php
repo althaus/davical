@@ -1,4 +1,4 @@
-<?PHP
+<?php
 /**
 * Functions for managing external BIND resources
 *
@@ -55,16 +55,20 @@ function fetch_external ( $bind_id, $min_age = '1 hour' )
   $sql .= ' ORDER BY modified DESC LIMIT 1';
   $qry = new AwlQuery( $sql, $params );
   if ( $qry->Exec('DAVResource') && $qry->rows() > 0 && $row = $qry->Fetch() ) {
+    $local_ts = new DateTime($row->modified);
     $curl = curl_init ( $row->external_url );
     curl_setopt ( $curl, CURLOPT_RETURNTRANSFER, true );
     curl_setopt ( $curl, CURLOPT_HEADER, true );
     curl_setopt ( $curl, CURLOPT_FILETIME, true );
     curl_setopt ( $curl, CURLOPT_NOBODY, true );
+    curl_setopt ( $curl, CURLOPT_TIMEVALUE, $local_ts->format("U") );
+    curl_setopt ( $curl, CURLOPT_TIMECONDITION, CURL_TIMECOND_IFMODSINCE );
     $ics = curl_exec ( $curl );
     $info = curl_getinfo ( $curl );
-    if ( $info['filetime'] <=  $row->updated ) { 
+    if ( $info['http_code'] === 304 || isset($info['filetime']) && new DateTime("@" . $info['filetime']) <=  $local_ts ) { 
       dbg_error_log("external", "external resource unchanged " . $info['filetime'] );
       curl_close ( $curl );
+      // BUGlet: should track server-time instead of local-time
       $qry = new AwlQuery( 'UPDATE collection SET modified=NOW() WHERE collection_id = :cid', array ( ':cid' => $row->collection_id ) );
       $qry->Exec('DAVResource');  
       return true;
@@ -74,6 +78,7 @@ function fetch_external ( $bind_id, $min_age = '1 hour' )
     $ics = curl_exec ( $curl );
     curl_close ( $curl );
     if ( is_string ( $ics ) && strlen ( $ics ) > 20 ) {
+			// BUGlet: should track server-time instead of local-time
 			$qry = new AwlQuery( 'UPDATE collection SET modified=NOW(), dav_etag=:etag WHERE collection_id = :cid', 
 				array ( ':cid' => $row->collection_id, ':etag' => md5($ics) ) );
 			$qry->Exec('DAVResource');  
