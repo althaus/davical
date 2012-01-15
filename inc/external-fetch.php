@@ -1,4 +1,4 @@
-<?PHP
+<?php
 /**
 * Functions for managing external BIND resources
 *
