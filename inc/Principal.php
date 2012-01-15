@@ -553,6 +553,16 @@ class Principal {
           throw new Exception( get_class($this).'::Create: Mandatory field "'.$k.'" is not set.');
         } 
       }
+      if ( isset($this->user_no) ) {
+        $param_names[] = ':user_no';
+        $insert_fields[] = 'user_no'; 
+        $sql_params[':user_no'] = $this->user_no;
+      }
+      if ( isset($this->created) ) {
+        $param_names[] = ':created';
+        $insert_fields[] = 'created';
+        $sql_params[':created'] = $this->created;
+      }
       $sql = 'INSERT INTO '.self::$db_tablename.' ('.implode(',',$insert_fields).') VALUES('.implode(',',$param_names).')';
     }
     else {
