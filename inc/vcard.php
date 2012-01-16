@@ -90,7 +90,9 @@ CREATE TABLE addressbook_address_adr (
     $params = array( ':dav_id' => $dav_id );
     $qry->QDo('DELETE FROM addressbook_address_adr WHERE dav_id = :dav_id', $params );
     foreach( $addresses AS $adr ) {
-      $params[':type'] = $adr->GetParameterValue('TYPE');
+      $type = $adr->GetParameterValue('TYPE');
+      if ( is_array($type) ) $type = implode('~|~',$type);
+      $params[':type'] = $type;
       $address = explode(';',$adr->Value());
 
       // We use @ to suppress the warnings here, because the NULL in the database suits us well.
@@ -128,7 +130,9 @@ CREATE TABLE addressbook_address_tel (
     $params = array( ':dav_id' => $dav_id );
     $qry->QDo('DELETE FROM addressbook_address_tel WHERE dav_id = :dav_id', $params );
     foreach( $telephones AS $tel ) {
-      $params[':type'] = $tel->GetParameterValue('TYPE');
+      $type = $tel->GetParameterValue('TYPE');
+      if ( is_array($type) ) $type = implode('~|~',$type);
+      $params[':type'] = $type;
       if ( ! isset($params[':type']) ) $params[':type'] = 'voice';
       $params[':tel'] = $tel->Value();
       $params[':property'] = $tel->Render();
@@ -157,7 +161,9 @@ CREATE TABLE addressbook_address_email (
     $params = array( ':dav_id' => $dav_id );
     $qry->QDo('DELETE FROM addressbook_address_email WHERE dav_id = :dav_id', $params );
     foreach( $emails AS $email ) {
-      $params[':type'] = $email->GetParameterValue('TYPE');
+      $type = $email->GetParameterValue('TYPE');
+      if ( is_array($type) ) $type = implode('~|~',$type);
+      $params[':type'] = $type;
       $params[':email'] = $email->Value();
       $params[':property'] = $email->Render();
       $qry->QDo( 'INSERT INTO addressbook_address_email (dav_id, type, email, property) VALUES( :dav_id, :type, :email, :property)', $params );

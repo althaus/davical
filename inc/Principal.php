@@ -532,20 +532,19 @@ class Principal {
     $sql_params = array();
     foreach( self::updateableFields() AS $k ) {
       if ( !isset($field_values->{$k}) && !isset($this->{$k}) ) continue;
+      $param_name = ':'.$k;
+      $sql_params[$param_name] = (isset($field_values->{$k}) ? $field_values->{$k} : $this->{$k});  
+      if ( $k == 'default_privileges' ) {
+        $sql_params[$param_name] = sprintf('%024s',$sql_params[$param_name]);
+        $param_name = 'cast('.$param_name.' as text)::BIT(24)';
+      }
       if ( $inserting ) {
-        $param_names[] = ':'.$k;
+        $param_names[] = $param_name;
         $insert_fields[] = $k;
       }
       else {
-        if ($k == 'default_privileges') {
-          $update_list[] = $k.'=cast(:'.$k.' as text)::BIT(24)';
-        }
-        else {
-          $update_list[] = $k.'=:'.$k;
-        }
+        $update_list[] = $k.'='.$param_name;
       }
-
-      $sql_params[':'.$k] = (isset($field_values->{$k}) ? $field_values->{$k} : $this->{$k});  
     }
 
     if ( $inserting && isset(self::$db_mandatory_fields) ) {
@@ -553,6 +552,16 @@ class Principal {
         if ( !isset($sql_params[':'.$k]) ) {
           throw new Exception( get_class($this).'::Create: Mandatory field "'.$k.'" is not set.');
         } 
+      }
+      if ( isset($this->user_no) ) {
+        $param_names[] = ':user_no';
+        $insert_fields[] = 'user_no'; 
+        $sql_params[':user_no'] = $this->user_no;
+      }
+      if ( isset($this->created) ) {
+        $param_names[] = ':created';
+        $insert_fields[] = 'created';
+        $sql_params[':created'] = $this->created;
       }
       $sql = 'INSERT INTO '.self::$db_tablename.' ('.implode(',',$insert_fields).') VALUES('.implode(',',$param_names).')';
     }

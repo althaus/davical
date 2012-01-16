@@ -23,3 +23,7 @@ BEGINDATA
 ENDDATA
 
 
+REPLACE=/<get.tag>"[0-9a-f]{32}"<.get.tag>/<get?tag>"deadbeefcafef00ddeadbeefcafefeed"<.get?tag>/
+REPLACE=/^UID:.+/UID:excellent-looking-uid-string/
+REPLACE=/^REV:\d{8}T\d{6}Z/REV:YYYYMMDDTHHMMSSZ/
+REPLACE=/^ETag: "[0-9a-f]+"\s$/ETag: "a fine looking etag"/

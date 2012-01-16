@@ -2,7 +2,7 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
-ETag: "e7de8b24ed85d9e45aaef081a5e527a6"
+ETag: "a fine looking etag"
 Content-Length: 948
 Content-Type: text/xml; charset="utf-8"
 
@@ -12,7 +12,7 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/addressbook/andrew_mcmillan.vcf</href>
   <propstat>
    <prop>
-    <getetag>"24bae2a7f81c0a79413a656c06d8326b"</getetag>
+    <get?tag>"deadbeefcafef00ddeadbeefcafefeed"<.get?tag>
     <getcontenttype>text/vcard</getcontenttype>
    </prop>
    <status>HTTP/1.1 200 OK</status>
@@ -22,7 +22,7 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/addressbook/donald_kelly.vcf</href>
   <propstat>
    <prop>
-    <getetag>"fada70a725708bce8521efb87acfa629"</getetag>
+    <get?tag>"deadbeefcafef00ddeadbeefcafefeed"<.get?tag>
     <getcontenttype>text/vcard</getcontenttype>
    </prop>
    <status>HTTP/1.1 200 OK</status>
@@ -32,7 +32,7 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/addressbook/PHRsMa4mvY.vcf</href>
   <propstat>
    <prop>
-    <getetag>"70da8e376791d07c9fae3dbda0b40314"</getetag>
+    <get?tag>"deadbeefcafef00ddeadbeefcafefeed"<.get?tag>
     <getcontenttype>text/vcard</getcontenttype>
    </prop>
    <status>HTTP/1.1 200 OK</status>

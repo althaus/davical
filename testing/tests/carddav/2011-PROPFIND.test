@@ -20,11 +20,11 @@ BEGINDATA
 </propfind>
 ENDDATA
 
+REPLACE=/<get.tag>"[0-9a-f]{32}"<.get.tag>/<get?tag>"deadbeefcafef00ddeadbeefcafefeed"<.get?tag>/
 
 QUERY
-SELECT caldav_data.dav_etag
+SELECT count(1)
 FROM collection LEFT JOIN caldav_data USING(collection_id)
 WHERE collection.dav_name = '/user1/addressbook/'
-ORDER BY caldav_data.dav_id
 ENDQUERY
 

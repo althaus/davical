@@ -24,8 +24,8 @@ end:vcard
 ENDDATA
 
 QUERY
-SELECT caldav_data.dav_name, caldav_data.dav_etag,
-       version, uid, nickname, fn, n, note, org, url, fburl, caladruri, caluri
+SELECT caldav_data.dav_name, caldav_data.dav_etag IS NOT NULL AS "etag_not_null",
+       version, uid IS NOT NULL AS "uid_not_null", nickname, fn, n, note, org, url, fburl, caladruri, caluri
   FROM caldav_data LEFT JOIN addressbook_resource USING(dav_id)
   WHERE caldav_data.dav_name ~ '/user1/addressbook/donald_kelly.vcf'
 ENDQUERY

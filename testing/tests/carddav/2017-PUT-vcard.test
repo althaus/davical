@@ -411,8 +411,8 @@ END:VCARD
 ENDDATA
 
 QUERY
-SELECT caldav_data.dav_name, caldav_data.dav_etag,
-       version, uid, nickname, fn, n, note, org, url, fburl, caladruri, caluri
+SELECT caldav_data.dav_name,
+       version, nickname, fn, n, note, org, url, fburl, caladruri, caluri
   FROM caldav_data LEFT JOIN addressbook_resource USING(dav_id)
   WHERE caldav_data.dav_name ~ '/user1/addressbook/andresenesq.vcf'
 ENDQUERY

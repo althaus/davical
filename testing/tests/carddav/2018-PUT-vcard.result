@@ -4,14 +4,12 @@ HTTP/1.1 201 Created
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
-ETag: "db3e92c0ae37268c647949367e2030cc"
 Content-Length: 0
 Content-Type: text/plain; charset="utf-8"
 
 
         caladruri: >http://davical.hadi-schmist.home/access<
            caluri: >http://davical.hadi-schmist.home/hadi<
-         dav_etag: >db3e92c0ae37268c647949367e2030cc<
          dav_name: >/user1/addressbook/hans_dieter.vcf<
             fburl: >http://davical.hadi-schmist.home/freebusy<
                fn: >Hans Dieter Schmidt<
@@ -37,8 +35,8 @@ Content-Type: text/plain; charset="utf-8"
           country: >Deutschland<
          locality: >Hamburg-Harburg<
          postcode: >21373<
-         property: >ADR;TYPE=WORK;CHARSET=utf-8:\;Uni Harburg\, -\;Innstraße 71\;Hamburg-Har
- burg\;Hamburg\;21373\;Deutschland<
+         property: >ADR;TYPE=WORK;CHARSET=utf-8:
+ ;Uni Harburg\, -;Innstraße 71;Hamburg-Harburg;Hamburg;21373;Deutschland<
            region: >Hamburg<
    street_address: >Innstraße 71<
              type: >WORK<

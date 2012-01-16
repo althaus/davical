@@ -794,7 +794,7 @@ function access_ticket_browser() {
     $ticket_id = substr( str_replace('/', '', str_replace('+', '',base64_encode(sha1(date('r') .rand(0,2100000000) . microtime(true),true)))), 7, 8);
     $extra_row = array( 'ticket_id' => $ticket_id,
                         'expires' => date( 'Y-m-d', time() + (86400 * 31) ),
-                        'target' => '/'.$editor->Value('username').'/home/'
+                        'target' => '/'.$editor->Value('username').'/'.$c->home_calendar_name.'/'
                       );
     $browser->MatchedRow('ticket_id', $ticket_id, 'edit_ticket_row');
     $browser->AddRow($extra_row);

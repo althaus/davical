@@ -2,8 +2,8 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
-ETag: "87ab9b65008470d67893424808e1c0b4"
-Content-Length: 2266
+ETag: "a fine looking etag"
+Content-Length: 2330
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -12,11 +12,11 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/addressbook/andrew_mcmillan.vcf</href>
   <propstat>
    <prop>
-    <getetag>"24bae2a7f81c0a79413a656c06d8326b"</getetag>
+    <get?tag>"deadbeefcafef00ddeadbeefcafefeed"<.get?tag>
     <VC:address-data>BEGIN:VCARD
 VERSION:3.0
 REV:2010-03-29T09:23:34Z
-UID:pas-id-4BB0719600000000
+UID:excellent-looking-uid-string
 X-SKYPE;X-EVOLUTION-UI-SLOT=1;TYPE=HOME:karora__
 X-JABBER;X-EVOLUTION-UI-SLOT=3;TYPE=HOME:karora@irc.oftc.net
 TEL;X-EVOLUTION-UI-SLOT=3;TYPE=CELL:+64 22 123 4567
@@ -57,8 +57,8 @@ END:VCARD
   <href>/caldav.php/user1/addressbook/donald_kelly.vcf</href>
   <propstat>
    <prop>
-    <getetag>"fada70a725708bce8521efb87acfa629"</getetag>
-    <VC:address-data>begin:vcard
+    <get?tag>"deadbeefcafef00ddeadbeefcafefeed"<.get?tag>
+    <VC:address-data>BEGIN:VCARD
 fn:Donald Kelly
 n:Kelly;Donald;;;
 org:Esposo Designs Ltd
@@ -70,7 +70,9 @@ tel;type=cell:+64 2 1234-4321
 x-mozilla-html:TRUE
 url:www.example.co.nz
 version:2.1
-end:vcard
+UID:excellent-looking-uid-string
+REV:YYYYMMDDTHHMMSSZ
+END:VCARD
 </VC:address-data>
    </prop>
    <status>HTTP/1.1 200 OK</status>

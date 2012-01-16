@@ -129,7 +129,7 @@ END:VCARD
 ENDDATA
 
 QUERY
-SELECT caldav_data.dav_name, caldav_data.dav_etag,
+SELECT caldav_data.dav_name,
        version, uid, nickname, fn, n, note, org, url, fburl, caladruri, caluri
   FROM caldav_data LEFT JOIN addressbook_resource USING(dav_id)
   WHERE caldav_data.dav_name ~ '/user1/addressbook/hans_dieter.vcf'

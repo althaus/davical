@@ -54,20 +54,50 @@ if ( isset($request->etag_if_match) && $request->etag_if_match != $dest->unique_
 
 $collection_id = $container->GetProperty('collection_id');
 
+$original_etag = md5($request->raw_post);
+
+require_once('vcard.php');
+$vcard = new vCard( $request->raw_post );
+
 $qry = new AwlQuery();
 $qry->Begin();
 
-$etag = md5($request->raw_post);
+$uid = $vcard->GetPValue('UID');
+if ( empty($uid) ) {
+  $uid = uuid();
+  $vcard->AddProperty('UID',$uid);
+}
+
+$last_modified = $vcard->GetPValue('REV');
+if ( empty($last_modified) ) {
+  $last_modified = gmdate( 'Ymd\THis\Z' );
+  $vcard->AddProperty('REV',$last_modified);
+}
+elseif ( stripos($last_modified, 'TZ') ) {
+  // At least one of my examples has this crap.
+  $last_modified = str_replace('TZ','T000000Z',$last_modified);
+  $vcard->ClearProperties('REV');
+  $vcard->AddProperty('REV',$last_modified);
+}
+elseif( preg_match('{^(\d{8})(\d{6})Z?}', $last_modified, $matches) ) {
+  $last_modified = $matches[1] . 'T' . $matches[2] . 'Z';
+  $vcard->ClearProperties('REV');
+  $vcard->AddProperty('REV',$last_modified);
+}
+
+$rendered_card = $vcard->Render(); 
+$etag = md5($rendered_card);
 $params = array(
     ':user_no' => $dest->GetProperty('user_no'),
     ':dav_name' => $dest->bound_from(),
     ':etag' => $etag,
-    ':dav_data' => $request->raw_post,
-    ':session_user' => $session->user_no
+    ':dav_data' => $rendered_card,
+    ':session_user' => $session->user_no,
+    ':modified' => $last_modified
 );
 if ( $dest->Exists() ) {
   $sql = 'UPDATE caldav_data SET caldav_data=:dav_data, dav_etag=:etag, logged_user=:session_user,
-          modified=current_timestamp, user_no=:user_no, caldav_type=\'VCARD\' WHERE dav_name=:dav_name';
+          modified=:modified, user_no=:user_no, caldav_type=\'VCARD\' WHERE dav_name=:dav_name';
   $response_code = 200;
   $qry->QDo( $sql, $params );
 
@@ -75,7 +105,7 @@ if ( $dest->Exists() ) {
 }
 else {
   $sql = 'INSERT INTO caldav_data ( user_no, dav_name, dav_etag, caldav_data, caldav_type, logged_user, created, modified, collection_id )
-          VALUES( :user_no, :dav_name, :etag, :dav_data, \'VCARD\', :session_user, current_timestamp, current_timestamp, :collection_id )';
+          VALUES( :user_no, :dav_name, :etag, :dav_data, \'VCARD\', :session_user, current_timestamp, :modified, :collection_id )';
   $params[':collection_id'] = $collection_id;
   $response_code = 201;
   $qry->QDo( $sql, $params );
@@ -84,9 +114,6 @@ else {
 }
 $row = $qry->Fetch();
 
-require_once('vcard.php');
-
-$vcard = new vCard( $request->raw_post );
 $vcard->Write( $row->dav_id, $dest->Exists() );
 
 $qry->QDo("SELECT write_sync_change( $collection_id, $response_code, :dav_name)", array(':dav_name' => $dest->bound_from() ) );
@@ -100,6 +127,6 @@ if ( !$qry->Commit() ) {
 $cache = getCacheInstance();
 $cache->delete( 'collection-'.$container->dav_name(), null );
 
-header('ETag: "'. $etag . '"' );
+if ( $etag == $original_etag ) header('ETag: "'. $etag . '"' ); // Only send the ETag if we didn't change what they gave us.
 if ( $response_code == 200 ) $response_code = 204;
 $request->DoResponse( $response_code );

@@ -187,7 +187,7 @@ class CalDAVRequest
       $this->content_type = $matches[1];
     }
     if ( isset($_SERVER['CONTENT_LENGTH']) && $_SERVER['CONTENT_LENGTH'] > 7 ) {
-      if ( $this->method == 'PROPFIND' || $this->method == 'REPORT' ) {
+      if ( $this->method == 'PROPFIND' || $this->method == 'REPORT' || $this->method == 'PROPPATCH' || $this->method == 'BIND' || $this->method == 'MKTICKET' || $this->method == 'ACL' ) {
         if ( !preg_match( '{^(text|application)/xml$}', $this->content_type ) ) {
           @dbg_error_log( "LOG request", 'Request is "%s" but client set content-type to "%s". Assuming they meant XML!',
                                                  $request->method, $this->content_type );
@@ -196,6 +196,13 @@ class CalDAVRequest
       }
       else if ( $this->method == 'PUT' || $this->method == 'POST' ) {
         $this->CoerceContentType();
+      }
+    }
+    else if ( !preg_match( '{^(text|application)/xml$}', $this->content_type ) ) {
+      if ( $this->method == 'GET' || $this->method == 'HEAD' || $this->method == 'OPTIONS' || $this->method == 'MKCALENDAR' || $this->method == 'MKCOL' ) {
+        @dbg_error_log( "LOG request", '%s Request specified %s content type but none is present. Assuming null content-type.',
+            $request->method, $this->content_type );
+        $this->content_type = 'text/plain';
       }
     }
     $this->user_agent = ((isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : "Probably Mulberry"));
