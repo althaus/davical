@@ -34,12 +34,34 @@ class iSchedule
   private $failOnError = true;
   private $subdomainsOK = true;
   private $remote_public_key ;
+  private $required_headers = Array ( 'Host',  // draft 01 section 7.1 required headers
+                                      'Originator', 
+                                      'Recipient', 
+                                      'Content-Type' );
+  private $disallowed_headers = Array ( 'Connection',  // draft 01 section 7.1 disallowed headers
+                                        'Keep-Alive', 
+                                        'Proxy-Authenticate', 
+                                        'Proxy-Authorization', 
+                                        'TE', 
+                                        'Trailers', 
+                                        'Transfer-Encoding', 
+                                        'Upgrade' );
 
   function __construct ( )
   {
+    global $c;
     $this->selector = 'cal';
     if ( is_object ( $c ) && isset ( $c->scheduling_dkim_selector ) )
+    {
       $this->scheduling_dkim_selector = $c->scheduling_dkim_selector ;
+      $this->schedule_private_key = $c->schedule_private_key ;
+      if ( isset ( $c->scheduling_dkim_algo ) )
+        $this->scheduling_dkim_algo = $c->scheduling_dkim_algo;
+      else
+        $this->scheduling_dkim_algo = 'sha256';
+      if ( isset ( $c->scheduling_dkim_valid_time ) )
+        $this->valid_time = $c->scheduling_dkim_valid_time;
+    }
   }
 
   /**
@@ -57,6 +79,14 @@ class iSchedule
       return false;
     }
     return true;  
+  }
+
+  /**
+  * strictly for testing purposes
+  */
+  function setTxt ( $dk )
+  {
+    $this->dk = $dk;
   }
 
   /**
@@ -196,26 +226,33 @@ class iSchedule
     $b = '';
     if ( ! is_array ( $headers ) )
       return false;
-    foreach ( $headers as $value )
+    foreach ( $headers as $key => $value )
     {
-      $b .= $value . "\n";
+      $b .= $key . ': ' . $value . "\r\n";
     }
-    $h = implode ( ':', array_keys ( $headers ) ); 
+    $dk['v'] = '1';
+    $dk['a'] = 'rsa-' . $this->scheduling_dkim_algo;
     $dk['s'] = $this->selector;
     $dk['d'] = $this->domain;
-    $dk['c'] = 'simple-http';
-    $dk['i'] = '@' . $_SERVER['SERVER_NAME']; //optional
-    $dk['q'] = 'dns/txt';
+    $dk['c'] = 'simple-http'; // implied canonicalization of simple-http/simple from rfc4871 Section-3.5
+    if ( isset ( $_SERVER['SERVER_NAME'] ) && strstr ( $_SERVER['SERVER_NAME'], $this->domain ) !== false ) // don't use when testing
+      $dk['i'] = '@' . $_SERVER['SERVER_NAME']; //optional
+    $dk['q'] = 'dns/txt'; // optional, dns/txt is the default if missing
     $dk['l'] = strlen ( $body ); //optional
+    $dk['t'] = time ( ); // timestamp of signature, optional
+    if ( isset ( $this->valid_time ) )
+      $dk['x'] = $this->valid_time; // unix timestamp expiriation of signature, optional
+    $dk['h'] = implode ( ':', array_keys ( $headers ) ); 
     $dk['bh'] = base64_encode ( hash ( 'sha256', $body , true ) );
-     //a=rsa-sha1; d=caveman.name; s=cal; c=simple-http; q=dns/txt; h=Originator:Recipient:Host:Content-Type; b
-    // XXX finish me
-    $value = 'DKIM-Signature: ';
+    $value = '';
     foreach ( $dk as $key => $val )
-      $value = "$value$key=$val; ";
-    $value = $value . 'b=';
-    $value .= base64_encode ( hash ( 'sha256', $b . $value, true ) ) ;
-    header ( $value );
+      $value .= "$key=$val; ";
+    $value .= 'b=';
+    $tosign = $b . 'DKIM-Signature: ' . $value;
+    openssl_sign ( $tosign, $sig, $this->schedule_private_key, $this->scheduling_dkim_algo );
+    $this->tosign = $tosign;
+    $value .= base64_encode ( $sig );
+    return $value;
   }
 
   /**
@@ -255,7 +292,7 @@ class iSchedule
     // the canonicalization method is currently undefined as of draft-01 of the iSchedule spec
     // but it does define the value, it should be simple-http.  RFC4871 also defines two methods
     // simple and relaxed, simple is probably the same as simple http
-    // relaxed allows for header case folding and whitespace folding, see section 3.4.4 or RFC4871
+    // relaxed allows for header case folding and whitespace folding, see section 3.4.4 of RFC4871
     if ( ! preg_match ( '{(simple|simple-http|relaxed)(/(simple|simple-http|relaxed))?}', $dkim['c'], $matches ) ) // canonicalization method
       return 'bad canonicalization:' . $dkim['c'] ;
     if ( count ( $matches ) > 2 )
@@ -264,7 +301,7 @@ class iSchedule
       $this->body_cannon = $matches[1];
     $this->header_cannon = $matches[1];
     // signing algorythm REQUIRED
-    if ( $dkim['a'] != 'rsa-sha1' && $dkim['a'] != 'rsa-sha256' ) 
+    if ( $dkim['a'] != 'rsa-sha1' && $dkim['a'] != 'rsa-sha256' ) // we only support the minimum required
       return 'bad signing algorythm:' . $dkim['a'] ;
     // query method to retrieve public key, could/should we add https to the spec?  REQUIRED 
     if ( $dkim['q'] != 'dns/txt' ) 
@@ -273,14 +310,16 @@ class iSchedule
     if ( ! isset ( $dkim['d'] ) )  
       return 'missing signing domain';
     $this->remote_server = $dkim['d'];
-    // identity of signing agent, OPTIONAL
+    // identity of signing AGENT, OPTIONAL
     if ( isset ( $dkim['i'] ) )    
+    {
       // if present, domain of the signing agent must be a match or a subdomain of the signing domain
       if ( ! stristr ( $dkim['i'], $dkim['d'] ) ) // RFC4871 does not specify a case match requirement
         return 'signing domain mismatch';
-    // grab the local part of the signing agent if it's an email address
-    if ( strstr ( $dkim [ 'i' ], '@' ) )
-      $this->remote_user = substr ( $dkim [ 'i' ], 0, strpos ( $dkim [ 'i' ], '@' ) - 1 );
+      // grab the local part of the signing agent if it's an email address
+      if ( strstr ( $dkim [ 'i' ], '@' ) )
+        $this->remote_user = substr ( $dkim [ 'i' ], 0, strpos ( $dkim [ 'i' ], '@' ) - 1 );
+    }
     // selector used to retrieve public key REQUIRED
     if ( ! isset ( $dkim['s'] ) )  
       return 'missing selector';
@@ -289,13 +328,10 @@ class iSchedule
     if ( ! isset ( $dkim['h'] ) )  
       return 'missing list of signed headers';
     $this->signed_headers = preg_split ( '/:/', $dkim['h'] );
+    
     foreach ( $this->signed_headers as $h )
-      // signed header fields MUST actually be present in the request
-      // DKIM Signature is NOT allowed in signed header fields per RFC4871
-      if ( ( ! isset ( $_SERVER['HTTP_' . strtr ( strtoupper ( $h ), '-', '_' ) ] ) &&
-             ! isset ( $_SERVER[ strtr ( strtoupper ( $h ), '-', '_' ) ] ) ) 
-          || strtolower ( $h ) == 'dkim-signature' )
-        return "header $h is signed but missing from request";
+      if ( strtolower ( $h ) == 'dkim-signature' )
+        return "DKIM Signature is NOT allowed in signed header fields per RFC4871";
     // body hash REQUIRED
     if ( ! isset ( $dkim['bh'] ) ) 
       return 'missing body signature';
@@ -334,15 +370,15 @@ class iSchedule
     $signed = '';
     foreach ( $this->signed_headers as $h )
       if ( isset ( $_SERVER['HTTP_' . strtoupper ( strtr ( $h, '-', '_' ) ) ] ) )
-        $signed .= "$h: " . $_SERVER['HTTP_' . strtoupper ( strtr ( $h, '-', '_' ) ) ] . "\n";
+        $signed .= "$h: " . $_SERVER['HTTP_' . strtoupper ( strtr ( $h, '-', '_' ) ) ] . "\r\n";
       else
-        $signed .= "$h: " . $_SERVER[ strtoupper ( strtr ( $h, '-', '_' ) ) ] . "\n";
-    if ( ! isset ( $_SERVER['HTTP_ORIGINATOR'] ) || stripos ( $signed, 'Originator' ) !== false ) //required header, must be signed
-      return false;
-    if ( ! isset ( $_SERVER['HTTP_RECIPIENT'] ) || stripos ( $signed, 'Recipient' ) !== false ) //required header, must be signed 
-      return false;
+        $signed .= "$h: " . $_SERVER[ strtoupper ( strtr ( $h, '-', '_' ) ) ] . "\r\n";
+    if ( ! isset ( $_SERVER['HTTP_ORIGINATOR'] ) || stripos ( $signed, 'Originator' ) === false ) //required header, must be signed
+      return "missing Originator";
+    if ( ! isset ( $_SERVER['HTTP_RECIPIENT'] ) || stripos ( $signed, 'Recipient' ) === false ) //required header, must be signed 
+      return "missing Recipient";
     if ( ! isset ( $_SERVER['HTTP_ISCHEDULE_VERSION'] ) || $_SERVER['HTTP_ISCHEDULE_VERSION'] != '1' ) //required header and we only speak version 1 for now 
-      return false;
+      return "missing or mismatch ischedule-version header";
     $body = $request->raw_post;
     if ( ! isset ( $this->signed_length ) )
       $this->signed_length = strlen ( $body );
@@ -350,17 +386,17 @@ class iSchedule
       $body = substr ( $body, 0, $this->signed_length );
     if ( isset ( $this->remote_user_rule ) )
       if ( $this->remote_user_rule != '*' && ! stristr ( $this->remote_user, $this->remote_user_rule ) )
-        return false;
-    $body_hash = base64_encode ( hash ( preg_replace ( '/^.*(sha[1256]+).*/','$1', $this->DKSig['a'] ), $body , true ) );
+        return "remote user rule failure";
+    $hash_algo = preg_replace ( '/^.*(sha[1256]+).*/','$1', $this->DKSig['a'] );
+    $body_hash = base64_encode ( hash ( $hash_algo, $body , true ) );
     if ( $this->DKSig['bh'] != $body_hash )
-      return false;
+      return "body hash mismatch";
     $sig = $_SERVER['HTTP_DKIM_SIGNATURE'];
     $sig = preg_replace ( '/ b=[^;\s\n\t]+/', ' b=', $sig );
-    $sig = preg_replace ( '/[\r\n]*$/', '', $sig );
     $signed .= 'DKIM-Signature: ' . $sig;
-    $verify = openssl_verify ( $signed, base64_decode ( $this->DKSig['b'] ), $this->remote_public_key );
+    $verify = openssl_verify ( $signed, base64_decode ( $this->DKSig['b'] ), $this->remote_public_key, $hash_algo );
     if (  $verify != 1 )
-      return false;
+      return "signature verification failed";
     $this->failed = false;
     return true;
   }
@@ -388,15 +424,16 @@ class iSchedule
       $request->DoResponse( 403, translate('DKIM signature validation failed(KEY Parse ERROR)') );
     if ( ! $this->validateKey () || $this->failed )
       $request->DoResponse( 403, translate('DKIM signature validation failed(KEY Validation ERROR)') );
-    if ( ! $this->verifySignature () || $this->failed )
+    $err = $this->verifySignature ();
+    if ( $err !== true || $this->failed )
       $request->DoResponse( 403, translate('DKIM signature validation failed(Signature verification ERROR)') . $this->verifySignature() );
     return true;
   }
 }
 
 $d = new iSchedule ();
-if ( $d->validateRequest ( ) )
-{
+//if ( $d->validateRequest ( ) )
+//{
   //include ( 'caldav-POST.php' );
   // @todo handle request.
-}
+//}
