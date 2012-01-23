@@ -116,6 +116,11 @@ while( <TEST> ) {
     @auth = ();
   };
 
+  $line =~ /^\s*DIGEST\s*(#|$|=)/ && do {
+    push @arguments, "--digest";
+    @auth = ( "--user", $1 );
+  };
+
   $line =~ /^\s*AUTH\s*=\s*(\S.*)$/ && do {
     @auth = ( "--user", $1 );
   };
