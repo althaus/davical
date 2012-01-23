@@ -122,12 +122,15 @@ VALUES( :user_no, :parent_container, :dav_name, :dav_etag, :dav_displayname, TRU
       );
       $qry->QDo( $sql, $params );
     }
-    else if ( isset($public) && $collection->is_public == ($public?'t':'f') ) {
+    else if ( isset($public) ) {
       $collection = $qry->Fetch();
-      $sql = 'UPDATE collection SET publicly_readable = :is_public::boolean WHERE collection_id = :collection_id';
-      $params = array( ':is_public' => ($public?'t':'f'), ':collection_id' => $collection->collection_id );
-      if ( ! $qry->QDo($sql,$params) ) {
-        rollback_on_error( $caldav_context, $user_no, $path );
+      if ( empty($collection->is_public) ) $collection->is_public = 'f'; 
+      if ( $collection->is_public == ($public?'t':'f')  ) {
+        $sql = 'UPDATE collection SET publicly_readable = :is_public::boolean WHERE collection_id = :collection_id';
+        $params = array( ':is_public' => ($public?'t':'f'), ':collection_id' => $collection->collection_id );
+        if ( ! $qry->QDo($sql,$params) ) {
+          rollback_on_error( $caldav_context, $user_no, $path );
+        }
       }
     }
 
