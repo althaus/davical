@@ -115,7 +115,7 @@ class Rfc5545Duration {
    */
   function asSeconds() {
     if ( !isset($this->epoch_seconds) ) {
-      if ( preg_match('{^(-?)P(\d+W)|((\d+D)?(T(\d+H)?(\d+M)?(\d+S)?)?)$}i', $subject, $matches) ) {
+      if ( preg_match('{^(-?)P(\d+W)|((\d+D)?(T(\d+H)?(\d+M)?(\d+S)?)?)$}i', $this->as_text, $matches) ) {
         if ( isset($matches[2]) ) $this->days = ($matches[2] * 7);
         else {
           if ( isset($matches[4]) ) $this->days = $matches[4];
