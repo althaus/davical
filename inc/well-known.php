@@ -36,12 +36,10 @@ if ( $c->enable_scheduling != true )
  $request->DoResponse( 404, translate('The application program does not understand that request.') );
  // Does not return
 }
-
-header ( 'iSchedule-Version: 1.0' );
-
+dbg_log_array( 'well-known', 'method:'. $request->method );
 switch ( $request->method ) {
   case 'GET':        ischedule_get();                      break;
-  case 'POST':       include('iSchedule.php');             break;
+  case 'POST':       include('iSchedule-POST.php');             break;
 
   default:
     dbg_error_log( 'well-known', 'Unhandled request method >>%s<<', $request->method );
@@ -63,6 +61,7 @@ function ischedule_get ( )
   $request->DoResponse( 404, translate('The application program does not understand that request.' . $request->path ) );
   return false;
  }
+ header ( 'iSchedule-Version: 1.0' );
  header ( 'Content-Type: application/xml; charset=utf-8' );
  echo '<?xml version="1.0" encoding="utf-8" ?>';
  echo <<<RESPONSE
@@ -86,7 +85,6 @@ function ischedule_get ( )
       </supported-calendar-data-type>
       <supported-attachment-values>
         <inline-attachment/>
-        <external-attachment/>
       </supported-attachment-values>
       <supported-recipient-uri-scheme-set>
         <scheme>mailto</scheme>
@@ -98,6 +96,7 @@ function ischedule_get ( )
       <max-recipients>250</max-recipients>
 
 RESPONSE;
+ //  <external-attachment/> // TODO: figure out if we actually support this
  echo '      <administrator>mailto:' . $c->admin_email . '</administrator>' . "\n";
  echo <<<RESPONSE
     </capability-set>

@@ -55,6 +55,12 @@ class iSchedule
     {
       $this->scheduling_dkim_selector = $c->scheduling_dkim_selector ;
       $this->schedule_private_key = $c->schedule_private_key ;
+      if ( ! preg_match ( '/BEGIN RSA PRIVATE KEY/', $this->schedule_private_key ) )
+      {
+        $key = file_get_contents ( $this->schedule_private_key );
+        if ( $key !== false )
+          $this->schedule_private_key = $key;
+      }
       if ( isset ( $c->scheduling_dkim_algo ) )
         $this->scheduling_dkim_algo = $c->scheduling_dkim_algo;
       else
@@ -70,11 +76,24 @@ class iSchedule
   function getTxt ()
   {
     // TODO handle parents of subdomains and procuration records
+    
     $dkim = dns_get_record ( $this->remote_selector . '._domainkey.' . $this->remote_server , DNS_TXT );
     if ( count ( $dkim ) > 0 )
+    {
       $this->dk = $dkim [ 0 ] [ 'txt' ];
+      if ( $dkim [ 0 ] [ 'entries' ] )
+      {
+        $this->dk = '';
+        foreach ( $dkim [ 0 ] [ 'entries' ] as $v )
+        {
+          $this->dk .= trim ( $v );
+        } 
+      }
+      dbg_error_log( 'ischedule', 'getTxt '. $this->dk . ' XX');
+    }
     else 
     {
+      dbg_error_log( 'ischedule', 'getTxt FAILED '. print_r ( $dkim ) );
       $this->failed = true;
       return false;
     }
@@ -96,12 +115,13 @@ class iSchedule
   {
     if ( $this->failed == true )
       return false;
-    $clean = preg_replace ( '/[\s\t]*([;=])[\s\t]*/', '$1', $this->dk );
+    $clean = preg_replace ( '/\s?([;=])\s?/', '$1', $this->dk );
     $pairs = preg_split ( '/;/', $clean );
     $this->parsed = array();
-    foreach ( $pairs  as $v )
+    foreach ( $pairs as $v )
     {
       list($key,$value) = preg_split ( '/=/', $v, 2 );
+      $value = trim ( $value, '\\' );
       if ( preg_match ( '/(g|k|n|p|s|t|v)/', $key ) )
         $this->parsed [ $key ] = $value;
       else
@@ -118,13 +138,19 @@ class iSchedule
     $this->failed = true;
     if ( isset ( $this->parsed [ 's' ] ) )
     {
-      if ( ! preg_match ( '/(\*|calendar)/', $this->parsed [ 's' ] ) )
+      if ( ! preg_match ( '/(\*|calendar)/', $this->parsed [ 's' ] ) ) {
+        dbg_error_log( 'ischedule', 'validateKey ERROR: bad selector' );
         return false; // not a wildcard or calendar key
+      }
     }
-    if ( isset ( $this->parsed [ 'k' ] ) && $this->parsed [ 'k' ] != 'rsa' )
+    if ( isset ( $this->parsed [ 'k' ] ) && $this->parsed [ 'k' ] != 'rsa' ) {
+      dbg_error_log( 'ischedule', 'validateKey ERROR: bad key algorythm, algo was:' . $this->parsed [ 'k' ] );
       return false; // we only speak rsa for now
-    if ( isset ( $this->parsed [ 't' ] ) && ! preg_match ( '/^[y:s]+$/', $this->parsed [ 't' ] ) )
+    }
+    if ( isset ( $this->parsed [ 't' ] ) && ! preg_match ( '/^[y:s]+$/', $this->parsed [ 't' ] ) ) {
+      dbg_error_log( 'ischedule', 'validateKey ERROR: type mismatch' );
       return false;
+    }
     else
     {
       if ( preg_match ( '/y/', $this->parsed [ 't' ] ) )
@@ -138,13 +164,17 @@ class iSchedule
       $this->remote_user_rule = '*';
     if ( isset ( $this->parsed [ 'p' ] ) )
     {
-      $data = "-----BEGIN PUBLIC KEY-----\n" . implode ("\n",str_split ( preg_replace ( '/_/', '', $this->parsed [ 'p' ] ), 64 )) . "\n-----END PUBLIC KEY-----"; 
+      if ( preg_match ( '/[^A-Za-z0-9_=+\/]/', $this->parsed [ 'p' ] ) )
+        return false;
+      $data = "-----BEGIN PUBLIC KEY-----\n" . implode ("\n",str_split ( $this->parsed [ 'p' ], 64 )) . "\n-----END PUBLIC KEY-----"; 
       if ( $data === false )
         return false;
       $this->remote_public_key = $data;
     }
-    else 
+    else {
+      dbg_error_log( 'ischedule', 'validateKey ERROR: no key in dns record' . $this->parsed [ 'p' ] );
       return false;
+    }
     $this->failed = false;
     return true;
   }
@@ -155,43 +185,64 @@ class iSchedule
   function getServer ( )
   {
     $this->remote_ssl = false;
-    $r = dns_get_record ( '_ischedules._tcp.' . $this->domain , DNS_SRV );
-    if ( 0 < count ( $r ) )
+    $parts = explode ( '.', $this->domain );
+    $tld = $parts [ count ( $parts ) - 1 ];
+    $len = 2;
+    if ( strlen ( $tld ) == 2 && in_array ( $tld, Array ( 'uk', 'nz' ) ) ) 
+      $len = 3; // some country code tlds should have 3 components
+    if ( $this->domain == 'mycaldav' || $this->domain == 'altcaldav' )
+      $len = 1;
+    while ( count ( $parts ) >= $len ) 
     {
-      $remote_server            = $r [ 0 ] [ 'target' ];
-      $remote_port              = $r [ 0 ] [ 'port' ];
-      $this->remote_ssl = true;
-    }
-    if ( ! isset ( $remote_server ) )
-    {
-      $r = dns_get_record ( '_ischedule._tcp.' . $this->domain , DNS_SRV );
+      $r = dns_get_record ( '_ischedules._tcp.' . implode ( '.', $parts ) , DNS_SRV );
       if ( 0 < count ( $r ) )
       {
         $remote_server            = $r [ 0 ] [ 'target' ];
         $remote_port              = $r [ 0 ] [ 'port' ];
+        $this->remote_ssl = true;
+        break;
       }
-    }
-    elseif ( $this->try_anyway == true )
-    {
       if ( ! isset ( $remote_server ) )
-        $remote_server = $this->domain;
-      if ( ! isset ( $remote_port ) )
-        $remote_port = 80;
+      {
+        $r = dns_get_record ( '_ischedule._tcp.' . implode ( '.', $parts ) , DNS_SRV );
+        if ( 0 < count ( $r ) )
+        {
+          $remote_server            = $r [ 0 ] [ 'target' ];
+          $remote_port              = $r [ 0 ] [ 'port' ];
+          break;
+        }
+      }
+      array_shift ( $parts );
     }
-    if ( ! isset ( $remote_server ) )
-      return false;
+    if ( ! isset ( $remote_server ) ) 
+    {
+      if ( $this->try_anyway == true )
+      {
+        if ( ! isset ( $remote_server ) )
+          $remote_server = $this->domain;
+        if ( ! isset ( $remote_port ) )
+          $remote_port = 80;
+      }
+      else
+        return false;
+    }
     $this->remote_server = $remote_server;
     $this->remote_port = $remote_port;
+    return true;
   }
 
   /**
   * get capabilities from remote server 
   */ 
-  function getCapabilities ( )
+  function getCapabilities ( $domain = null )
   {
-    $remote_capabilities = file_get_contents ( 'http'. ( $this->remote_ssl ? 's' : '' ) . '://' . 
-      $this->remote_server . ':' . $this->remote_port . 
-      '/.well-known/ischedule?query=capabilities' );
+    if ( $domain != null && $this->domain != $domain )
+      $this->domain = $domain;
+    if ( ! isset ( $this->remote_server ) && isset ( $this->domain ) && ! $this->getServer ( ) )
+      return false;
+    $this->remote_url = 'http'. ( $this->remote_ssl ? 's' : '' ) . '://' . 
+      $this->remote_server . ':' . $this->remote_port . '/.well-known/ischedule';
+    $remote_capabilities = file_get_contents ( $this->remote_url . '?query=capabilities' );
     if ( $remote_capabilities === false )
       return false;
     $xml_parser = xml_parser_create_ns('UTF-8');
@@ -213,6 +264,64 @@ class iSchedule
     } 
     $this->capbilities_xml = $xmltree;
     return true;
+  }
+
+  /**
+  *  query capabilities retrieved from server
+  */ 
+  function queryCapabilities ( $capability, $domain = null )
+  {
+    if ( ! isset ( $this->capabilities_xml ) )
+    {
+      if ( $domain == null )
+        return false;
+      if ( $this->domain != $domain )
+        $this->domain = $domain;
+      if ( ! $this->getCapabilities ( ) )
+        return false;
+    }
+    switch ( $capability )
+    {
+      case 'VEVENT':
+      case 'VFREEBUSY':
+      case 'VTODO':
+        $comp = $this->capbilities_xml->GetPath ( 'supported-scheduling-message-set/comp' );
+        foreach ( $comp as $c )
+        {
+          if ( $c->GetAttribute ( 'name' ) == $capability )
+            return true;
+        }
+        return false;
+      case 'VFREEBUSY/REQUEST':
+      case 'VTODO/ADD':
+      case 'VTODO/REQUEST':
+      case 'VTODO/REPLY':
+      case 'VTODO/CANCEL':
+      case 'VEVENT/ADD':
+      case 'VEVENT/REQUEST':
+      case 'VEVENT/REPLY':
+      case 'VEVENT/CANCEL':
+      case 'VEVENT/PUBLISH':
+      case 'VEVENT/COUNTER':
+      case 'VEVENT/DECLINECOUNTER':
+        $comp = $this->capbilities_xml->GetPath ( 'supported-scheduling-message-set/comp' );
+        list ( $component, $method ) = explode ( '/', $capbility );
+        foreach ( $comp as $c )
+        {
+          if ( $c->GetAttribute ( 'name' ) == $component )
+          {
+            $methods = $c->GetElements ( 'method' );
+            foreach ( $methods as $m )
+            {
+              if ( $c->GetAttribute ( 'name' ) == $method )
+                return true;
+            }
+          }
+        }
+        return false;
+      default:
+        return false;
+    }
   }
 
   /**
@@ -257,21 +366,83 @@ class iSchedule
 
   /**
   * send request to remote server
+  * $address should be an email address or an array of email addresses all with the same domain
+  * $type should be in the format COMPONENT/METHOD eg (VFREEBUSY, VEVENT/REQUEST, VEVENT/REPLY, etc. )
+  * $data is the vcalendar data N.B. must already be rendered into text format 
   */ 
   function sendRequest ( $address, $type, $data )
   {
-    $this->domain = $address;
-    if ( ! $this->getServer ( ) )
+    global $session;
+    if ( is_array ( $address ) )
+      list ( $user, $domain ) = explode ( '@', $address[0] );
+    else
+      list ( $user, $domain ) = explode ( '@', $address );
+    if ( ! $this->getCapabilities ( $domain ) )
     {
-      $request->DoResponse( 403, translate('Server not found') );
       return false;
     }
-    if ( ! $this->getCapabilities ( ) )
+    if ( $this->queryCapabilities ( $type ) )
     {
-      $request->DoResponse( 403, translate('Server not found') );
-      return false;
+      list ( $component, $method ) = explode ( '/', $type );
+      $headers = array ( );
+      $headers['Schedule-Version'] = '1.0';
+      $headers['Originator'] = 'mailto:' . $session->email;
+      if ( is_array ( $address ) )
+        $headers['Recipient'] = 'mailto:' . implode ( ', mailto:' . $address );
+      else
+        $headers['Recipient'] = 'mailto:' . $address;
+      $headers['Content-Type'] = 'text/calendar; component=' . $component ;
+      if ( $method )
+        $headers['Content-Type'] .= '; method=' . $method;
+      $headers['DKIM-Signature'] = $this->signDKIM ( $headers, $body );
+      $request_headers = array ( );
+      foreach ( $headers as $k => $v )  
+        $request_headers[] = $k . ':' . $v;
+      $request_headers[] = 'Expect:'; // supress expect header
+      $curl = curl_init ( $this->remote_url );
+      curl_setopt ( $curl, CURLOPT_RETURNTRANSFER, true );
+      curl_setopt ( $curl, CURLOPT_HEADER, true );
+      curl_setopt ( $curl, CURLOPT_CUSTOMREQUEST, 'POST' );
+      curl_setopt ( $curl, CURLOPT_HTTPHEADER, array() ); // start with no headers set
+      curl_setopt ( $curl, CURLOPT_HTTPHEADER, $request_headers );
+      curl_setopt ( $curl, CURLOPT_POST, 1); 
+      curl_setopt ( $curl, CURLOPT_POSTFIELDS, $data); 
+      $xmlresponse = curl_exec ( $curl );
+      $info = curl_getinfo ( $curl );
+      curl_close ( $curl );
+      $xml_parser = xml_parser_create_ns('UTF-8');
+      $xml_tags = array();
+      xml_parser_set_option ( $xml_parser, XML_OPTION_SKIP_WHITE, 1 );
+      xml_parser_set_option ( $xml_parser, XML_OPTION_CASE_FOLDING, 0 );
+      $rc = xml_parse_into_struct( $xml_parser, $remote_capabilities, $xml_tags );
+      if ( $rc == false ) {
+        dbg_error_log( 'ERROR', 'XML parsing error: %s at line %d, column %d',
+                    xml_error_string(xml_get_error_code($xml_parser)),
+                    xml_get_current_line_number($xml_parser), xml_get_current_column_number($xml_parser) );
+        return false;
+      }
+      xml_parser_free($xml_parser); 
+      $xmltree = BuildXMLTree( $xml_tags );
+      if ( !is_object($xmltree) ) {
+        dbg_error_log( 'ERROR', 'iSchedule RESPONSE body is not valid XML data!' );
+        return false;
+      }
+      $resp = $xmtree->GetPath ( 'response' );
+      $result = array();
+      foreach ( $resp as $r )
+      {
+        $recipient = $r->GetElements ( 'recipient' );
+        $status    = $r->GetElements ( 'request-status' );
+        if ( count ( $recipient ) > 1 )
+          continue; // this should be an error
+        $result [ $recipient[0]->GetContent() ] = $status[0]->GetContent();
+      }
+      if ( count ( $result ) > 1 )
+        return false;
+      return $result;
     }
-    // find names on 'urn:ietf:params:xml:ns:ischedule::supported-scheduling-message-set' comp name='vevent'  method name='request' 
+    else
+      return false;
   }
 
   /**
@@ -387,16 +558,21 @@ class iSchedule
     if ( isset ( $this->remote_user_rule ) )
       if ( $this->remote_user_rule != '*' && ! stristr ( $this->remote_user, $this->remote_user_rule ) )
         return "remote user rule failure";
-    $hash_algo = preg_replace ( '/^.*(sha[1256]+).*/','$1', $this->DKSig['a'] );
+    $hash_algo = preg_replace ( '/^.*(sha1|sha256).*/','$1', $this->DKSig['a'] );
     $body_hash = base64_encode ( hash ( $hash_algo, $body , true ) );
     if ( $this->DKSig['bh'] != $body_hash )
       return "body hash mismatch";
     $sig = $_SERVER['HTTP_DKIM_SIGNATURE'];
-    $sig = preg_replace ( '/ b=[^;\s\n\t]+/', ' b=', $sig );
+    $sig = preg_replace ( '/ b=[^;\s\r\n\t]+/', ' b=', $sig );
     $signed .= 'DKIM-Signature: ' . $sig;
     $verify = openssl_verify ( $signed, base64_decode ( $this->DKSig['b'] ), $this->remote_public_key, $hash_algo );
     if (  $verify != 1 )
-      return "signature verification failed";
+    {
+      openssl_sign ( $signed, $sigb, $this->schedule_private_key, $hash_algo );
+      $sigc = base64_encode ( $sigb );
+      $verify1 = openssl_verify ( $signed, $sigc, $this->remote_public_key, $hash_algo );
+      return "signature verification failed " . $this->remote_public_key . " \n\n". $sig . " \n" . $hash_algo . "\n". print_r ($verify,1) . " XX " . $verify1 . "\n";
+    }
     $this->failed = false;
     return true;
   }
@@ -415,25 +591,22 @@ class iSchedule
       return false;
     }
     
+    dbg_error_log ('ischedule','beginning validation');
     $err = $this->parseDKIM ( $sig );
     if ( $err !== true || $this->failed )
-      $request->DoResponse( 403, translate('DKIM signature invalid ' ) . "\n" . $err . "\n" . $sig );
+      $request->DoResponse( 400, translate('DKIM signature invalid ' ) . "\n" . $err . "\n" . $sig );
     if ( ! $this->getTxt () || $this->failed )
-      $request->DoResponse( 403, translate('DKIM signature validation failed(DNS ERROR)') );
+      $request->DoResponse( 400, translate('DKIM signature validation failed(DNS ERROR)') );
     if ( ! $this->parseTxt () || $this->failed )
-      $request->DoResponse( 403, translate('DKIM signature validation failed(KEY Parse ERROR)') );
+      $request->DoResponse( 400, translate('DKIM signature validation failed(KEY Parse ERROR)') );
     if ( ! $this->validateKey () || $this->failed )
-      $request->DoResponse( 403, translate('DKIM signature validation failed(KEY Validation ERROR)') );
+      $request->DoResponse( 400, translate('DKIM signature validation failed(KEY Validation ERROR)') );
     $err = $this->verifySignature ();
     if ( $err !== true || $this->failed )
-      $request->DoResponse( 403, translate('DKIM signature validation failed(Signature verification ERROR)') . $this->verifySignature() );
+      $request->DoResponse( 400, translate('DKIM signature validation failed(Signature verification ERROR)') . $this->verifySignature() );
+    dbg_error_log ('ischedule','signature ok');
+    //$request->DoResponse( 200, translate('DKIM signature validation ok') );
     return true;
   }
 }
 
-$d = new iSchedule ();
-//if ( $d->validateRequest ( ) )
-//{
-  //include ( 'caldav-POST.php' );
-  // @todo handle request.
-//}
