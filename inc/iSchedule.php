@@ -431,11 +431,15 @@ class iSchedule
       $result = array();
       foreach ( $resp as $r )
       {
-        $recipient = $r->GetElements ( 'recipient' );
-        $status    = $r->GetElements ( 'request-status' );
+        $recipient     = $r->GetElements ( 'recipient' );
+        $status        = $r->GetElements ( 'request-status' );
+        $calendardata  = $r->GetElements ( 'calendar-data' );
         if ( count ( $recipient ) > 1 )
           continue; // this should be an error
-        $result [ $recipient[0]->GetContent() ] = $status[0]->GetContent();
+        if ( count ( $calendardata ) > 1 )
+          $result [ $recipient[0]->GetContent() ] = $calendardata[0]->GetContent();
+        else
+          $result [ $recipient[0]->GetContent() ] = $status[0]->GetContent();
       }
       if ( count ( $result ) > 1 )
         return false;
