@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<I:schedule-response xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav" xmlns:I="urn:ietf:params:xml:ns:ischedule">
+ <I:response>
+  <C:recipient>
+   <href>mailto:user1@example.net</href>
+  </C:recipient>
+  <C:request-status>2.0;Success</C:request-status>
+  <C:calendar-data>BEGIN:VCALENDAR
+PRODID:-//davical.org//NONSGML AWL Calendar//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+METHOD:REPLY
+BEGIN:VFREEBUSY
+DTSTAMP:yyyymmddThhmmssZ
+DTSTART:20111004T110000Z
+DTEND:20111008T110000Z
+FREEBUSY:20111005T140000Z/20111005T150000Z
+FREEBUSY:20111005T184500Z/20111005T193000Z
+FREEBUSY:20111007T100000Z/20111007T110000Z
+UID:E9F98477-A9C2-43F9-8371-CBA0CBCB0300
+END:VFREEBUSY
+END:VCALENDAR
+</C:calendar-data>
+ </I:response>
+</I:schedule-response>
