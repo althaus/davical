@@ -223,9 +223,12 @@ class iSchedule
         if ( ! isset ( $remote_port ) )
           $remote_port = 80;
       }
-      else
+      else {
+        dbg_error_log('ischedule', $domain . ' did not have srv records for iSchedule' );
         return false;
+      }
     }
+    dbg_error_log('ischedule', $this->domain . ' found srv records for ' . $remote_server . ':' . $remote_port );
     $this->remote_server = $remote_server;
     $this->remote_port = $remote_port;
     return true;
@@ -254,15 +257,18 @@ class iSchedule
       dbg_error_log( 'ERROR', 'XML parsing error: %s at line %d, column %d',
                   xml_error_string(xml_get_error_code($xml_parser)),
                   xml_get_current_line_number($xml_parser), xml_get_current_column_number($xml_parser) );
+      dbg_error_log('ischedule', $this->domain . ' iSchedule error parsing remote xml' );
       return false;
     }
     xml_parser_free($xml_parser); 
     $xmltree = BuildXMLTree( $this->xml_tags );
     if ( !is_object($xmltree) ) {
+      dbg_error_log('ischedule', $this->domain . ' iSchedule error in remote xml' );
       $request->DoResponse( 406, translate("REPORT body is not valid XML data!") );
       return false;
     } 
-    $this->capbilities_xml = $xmltree;
+    dbg_error_log('ischedule', $this->domain . ' got capabilites' );
+    $this->capabilities_xml = $xmltree;
     return true;
   }
 
@@ -273,6 +279,7 @@ class iSchedule
   {
     if ( ! isset ( $this->capabilities_xml ) )
     {
+      dbg_error_log('ischedule', $this->domain . ' capabilities not set, quering for capability:' . $capability );
       if ( $domain == null )
         return false;
       if ( $this->domain != $domain )
@@ -280,12 +287,13 @@ class iSchedule
       if ( ! $this->getCapabilities ( ) )
         return false;
     }
+    dbg_error_log('ischedule', $this->domain . ' quering for capability:' . $capability );
     switch ( $capability )
     {
       case 'VEVENT':
       case 'VFREEBUSY':
       case 'VTODO':
-        $comp = $this->capbilities_xml->GetPath ( 'supported-scheduling-message-set/comp' );
+        $comp = $this->capabilities_xml->GetPath ( 'supported-scheduling-message-set/comp' );
         foreach ( $comp as $c )
         {
           if ( $c->GetAttribute ( 'name' ) == $capability )
@@ -304,10 +312,14 @@ class iSchedule
       case 'VEVENT/PUBLISH':
       case 'VEVENT/COUNTER':
       case 'VEVENT/DECLINECOUNTER':
-        $comp = $this->capbilities_xml->GetPath ( 'supported-scheduling-message-set/comp' );
-        list ( $component, $method ) = explode ( '/', $capbility );
+        dbg_error_log('ischedule', $this->domain . ' xml query' );
+        $comp = $this->capabilities_xml->GetElements ( 'comp', true );
+        return true;
+        list ( $component, $method ) = explode ( '/', $capability );
+        dbg_error_log('ischedule', $this->domain . ' quering for capability:' . count ( $c ) . ' ' . $component );
         foreach ( $comp as $c )
         {
+          dbg_error_log('ischedule', $this->domain . ' quering for capability:' . $c->GetAttribute ( 'name' ) );
           if ( $c->GetAttribute ( 'name' ) == $component )
           {
             $methods = $c->GetElements ( 'method' );
@@ -379,10 +391,13 @@ class iSchedule
       list ( $user, $domain ) = explode ( '@', $address );
     if ( ! $this->getCapabilities ( $domain ) )
     {
+      dbg_error_log('ischedule', $domain . ' did not have iSchedule capabilities for ' . $type );
       return false;
     }
+    dbg_error_log('ischedule', $domain . ' trying with iSchedule capabilities for ' . $type );
     if ( $this->queryCapabilities ( $type ) )
     {
+      dbg_error_log('ischedule', $domain . ' trying with iSchedule capabilities for ' . $type . ' OK');
       list ( $component, $method ) = explode ( '/', $type );
       $headers = array ( );
       $headers['Schedule-Version'] = '1.0';
@@ -410,6 +425,7 @@ class iSchedule
       $xmlresponse = curl_exec ( $curl );
       $info = curl_getinfo ( $curl );
       curl_close ( $curl );
+      error_log($xmlresponse);
       $xml_parser = xml_parser_create_ns('UTF-8');
       $xml_tags = array();
       xml_parser_set_option ( $xml_parser, XML_OPTION_SKIP_WHITE, 1 );
