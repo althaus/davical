@@ -13,6 +13,7 @@ dbg_error_log("POST", "method handler");
 require_once("XMLDocument.php");
 include_once('caldav-PUT-functions.php');
 include_once('freebusy-functions.php');
+include_once('iSchedule.php');
 
 if ( ! $request->AllowedTo("CALDAV:schedule-send-freebusy")
   && ! $request->AllowedTo("CALDAV:schedule-send-invite")
@@ -31,7 +32,7 @@ if ( ! ini_get('open_basedir') && (isset($c->dbg['ALL']) || isset($c->dbg['post'
 
 
 function handle_freebusy_request( $ic ) {
-  global $c, $session, $request;
+  global $c, $session, $request, $ical;
 
   $reply = new XMLDocument( array("DAV:" => "", "urn:ietf:params:xml:ns:caldav" => "C" ) );
   $responses = array();
@@ -77,8 +78,20 @@ function handle_freebusy_request( $ic ) {
     $reply->CalDAVElement($response, "recipient", $reply->href($attendee->Value()) );
 
     if ( $qry->rows() == 0 ) {
-      $reply->CalDAVElement($response, "request-status", "3.7;Invalid Calendar User" );
-      $reply->CalDAVElement($response, "calendar-data" );
+      $remote = new iSchedule ();
+      $answer = $remote->sendRequest ( $attendee->Value(), 'VFREEBUSY/REQUEST', $ical->Render() );
+      if ( $answer === false ) {
+        $reply->CalDAVElement($response, "request-status", "3.7;Invalid Calendar User" );
+        $reply->CalDAVElement($response, "calendar-data" );
+      }
+      elseif ( substr( $answer, 0, 1 ) >= 1 ) {
+        $reply->CalDAVElement($response, "request-status", $answer );
+        $reply->CalDAVElement($response, "calendar-data" );
+      }
+      else {
+        $reply->CalDAVElement($response, "request-status", "2.0;Success" );
+        $reply->CalDAVElement($response, "calendar-data", $answer );
+      }
       $responses[] = $response;
       continue;
     }

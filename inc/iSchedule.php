@@ -313,7 +313,7 @@ class iSchedule
       case 'VEVENT/COUNTER':
       case 'VEVENT/DECLINECOUNTER':
         dbg_error_log('ischedule', $this->domain . ' xml query' );
-        $comp = $this->capabilities_xml->GetElements ( 'comp', true );
+        $comp = $this->capabilities_xml->GetPath ( '/query-result/capability-set/supported-scheduling-message-set/comp' );
         return true;
         list ( $component, $method ) = explode ( '/', $capability );
         dbg_error_log('ischedule', $this->domain . ' quering for capability:' . count ( $c ) . ' ' . $component );
@@ -409,21 +409,23 @@ class iSchedule
       $headers['Content-Type'] = 'text/calendar; component=' . $component ;
       if ( $method )
         $headers['Content-Type'] .= '; method=' . $method;
-      $headers['DKIM-Signature'] = $this->signDKIM ( $headers, $body );
+      //$headers['DKIM-Signature'] = $this->signDKIM ( $headers, $body );
+      $Signature = $this->signDKIM ( $headers, $body );
       $request_headers = array ( );
       foreach ( $headers as $k => $v )  
         $request_headers[] = $k . ':' . $v;
-      $request_headers[] = 'Expect:'; // supress expect header
       $curl = curl_init ( $this->remote_url );
       curl_setopt ( $curl, CURLOPT_RETURNTRANSFER, true );
       curl_setopt ( $curl, CURLOPT_HEADER, true );
-      curl_setopt ( $curl, CURLOPT_CUSTOMREQUEST, 'POST' );
       curl_setopt ( $curl, CURLOPT_HTTPHEADER, array() ); // start with no headers set
       curl_setopt ( $curl, CURLOPT_HTTPHEADER, $request_headers );
+      curl_setopt ( $curl, CURLOPT_SSL_VERIFYHOST, 1); 
       curl_setopt ( $curl, CURLOPT_POST, 1); 
       curl_setopt ( $curl, CURLOPT_POSTFIELDS, $data); 
+      //curl_setopt ( $curl, CURLOPT_CUSTOMREQUEST, 'POST' );
       $xmlresponse = curl_exec ( $curl );
       $info = curl_getinfo ( $curl );
+      error_log ( print_r ( $request_headers , true ) . print_r ( $data , true ) . $Signature );
       curl_close ( $curl );
       error_log($xmlresponse);
       $xml_parser = xml_parser_create_ns('UTF-8');
@@ -443,7 +445,7 @@ class iSchedule
         dbg_error_log( 'ERROR', 'iSchedule RESPONSE body is not valid XML data!' );
         return false;
       }
-      $resp = $xmtree->GetPath ( 'response' );
+      $resp = $xmtree->GetPath ( '/schedule-response/response' );
       $result = array();
       foreach ( $resp as $r )
       {
