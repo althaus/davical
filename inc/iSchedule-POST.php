@@ -116,6 +116,7 @@ else {
 function ischedule_freebusy_request( $ic, $attendees, $attendees_fail) {
   global $c, $session, $request;
   $reply = new XMLDocument( array( "urn:ietf:params:xml:ns:ischedule" => "I" ) );
+  $icalAttendees = $ic->GetAttendees();
   $responses = array();
   $ical = $ic->GetComponents('VFREEBUSY');
   $ical = $ical[0];
@@ -134,10 +135,13 @@ function ischedule_freebusy_request( $ic, $attendees, $attendees_fail) {
 
     $fb->AddProperty( 'UID',       $ical->GetPValue('UID') );
     $fb->SetProperties( $ic->GetProperties('ORGANIZER'), 'ORGANIZER');
-    $fb->AddProperty( $attendee );
 
+    foreach( $icalAttendees AS $ia ) {
+      if ( $ia->Value() == 'mailto:' . $attendee ) { // FIXME: this is probably wrong
+        $fb->AddProperty( $ia );
+      }
+    }
     $vcal = new vCalendar( array('METHOD' => 'REPLY') );
-    $vcal->AddComponent( $fb );
     $vcal->AddComponent( $fb );
 
     $response = $reply->NewXMLElement( "response", false, false, 'urn:ietf:params:xml:ns:ischedule' );
