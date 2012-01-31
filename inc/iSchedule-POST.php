@@ -115,7 +115,7 @@ else {
 
 function ischedule_freebusy_request( $ic, $attendees, $attendees_fail) {
   global $c, $session, $request;
-  $reply = new XMLDocument( array("DAV:" => "", "urn:ietf:params:xml:ns:caldav" => "C", "urn:ietf:params:xml:ns:ischedule" => "I" ) );
+  $reply = new XMLDocument( array( "urn:ietf:params:xml:ns:ischedule" => "I" ) );
   $responses = array();
   $ical = $ic->GetComponents('VFREEBUSY');
   $ical = $ical[0];
@@ -140,16 +140,17 @@ function ischedule_freebusy_request( $ic, $attendees, $attendees_fail) {
     $vcal->AddComponent( $fb );
 
     $response = $reply->NewXMLElement( "response", false, false, 'urn:ietf:params:xml:ns:ischedule' );
-    $reply->CalDAVElement($response, "recipient", $reply->href('mailto:'.$attendee->email) );
-    $reply->CalDAVElement($response, "request-status", "2.0;Success" );  // Cargo-cult setting
-    $reply->CalDAVElement($response, "calendar-data", $vcal->Render() );
+    $response->NewElement( "recipient", $reply->href('mailto:'.$attendee->email), false, 'urn:ietf:params:xml:ns:ischedule' );
+    $response->NewElement( "request-status", "2.0;Success", false, 'urn:ietf:params:xml:ns:ischedule' );  // Cargo-cult setting
+    $response->NewElement( "calendar-data", $vcal->Render(), false, 'urn:ietf:params:xml:ns:ischedule' );
+         
     $responses[] = $response;
   }
 
   foreach ( $attendees_fail AS $k => $attendee ) {
     $XMLresponse = $reply->NewXMLElement("response", false, false, 'urn:ietf:params:xml:ns:ischedule');
-    $reply->CalDAVElement($XMLresponse, "recipient", $reply->href('mailto:'.$attendee));
-    $reply->CalDAVElement($XMLresponse, "request-status",'5.3;cannot schedule this user, unknown or access denied');
+    $XMLresponse->NewElement( "recipient", $reply->href('mailto:'.$attendee));
+    $XMLresponse->NewElement( "request-status",'5.3;cannot schedule this user, unknown or access denied');
     $responses[] = $XMLresponse;
   }
   $response = $reply->NewXMLElement( "schedule-response", $responses, $reply->GetXmlNsArray(), 'urn:ietf:params:xml:ns:ischedule' );

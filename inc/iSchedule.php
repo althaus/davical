@@ -287,13 +287,12 @@ class iSchedule
       if ( ! $this->getCapabilities ( ) )
         return false;
     }
-    dbg_error_log('ischedule', $this->domain . ' quering for capability:' . $capability );
     switch ( $capability )
     {
       case 'VEVENT':
       case 'VFREEBUSY':
       case 'VTODO':
-        $comp = $this->capabilities_xml->GetPath ( 'supported-scheduling-message-set/comp' );
+        $comp = $this->capabilities_xml->GetPath ( 'urn:ietf:params:xml:ns:ischedule:supported-scheduling-message-set/urn:ietf:params:xml:ns:ischedule:comp' );
         foreach ( $comp as $c )
         {
           if ( $c->GetAttribute ( 'name' ) == $capability )
@@ -313,19 +312,20 @@ class iSchedule
       case 'VEVENT/COUNTER':
       case 'VEVENT/DECLINECOUNTER':
         dbg_error_log('ischedule', $this->domain . ' xml query' );
-        $comp = $this->capabilities_xml->GetPath ( '/query-result/capability-set/supported-scheduling-message-set/comp' );
-        return true;
+        $comp = $this->capabilities_xml->GetPath ( 'urn:ietf:params:xml:ns:ischedule:supported-scheduling-message-set/urn:ietf:params:xml:ns:ischedule:comp' );
         list ( $component, $method ) = explode ( '/', $capability );
-        dbg_error_log('ischedule', $this->domain . ' quering for capability:' . count ( $c ) . ' ' . $component );
+        dbg_error_log('ischedule', $this->domain . ' quering for capability:' . count ( $comp ) . ' ' . $component );
         foreach ( $comp as $c )
         {
-          dbg_error_log('ischedule', $this->domain . ' quering for capability:' . $c->GetAttribute ( 'name' ) );
+          dbg_error_log('ischedule', $this->domain . ' quering for capability:' . $c->GetAttribute ( 'name' ) . ' == ' . $component );
           if ( $c->GetAttribute ( 'name' ) == $component )
           {
-            $methods = $c->GetElements ( 'method' );
+            $methods = $c->GetElements ( 'urn:ietf:params:xml:ns:ischedule:method' );
+            if ( count ( $methods ) == 0 )
+              return true; // seems like we should accept everything if there are no children
             foreach ( $methods as $m )
             {
-              if ( $c->GetAttribute ( 'name' ) == $method )
+              if ( $m->GetAttribute ( 'name' ) == $method )
                 return true;
             }
           }
@@ -342,10 +342,10 @@ class iSchedule
   * @param string $body the body of the POST
   * @param array  $headers the headers to sign as passed to header ();
   */
-  function signDKIM ( $body, $headers )
+  function signDKIM ( $headers, $body )
   {
     $b = '';
-    if ( ! is_array ( $headers ) )
+    if ( is_array ( $headers ) !== true )
       return false;
     foreach ( $headers as $key => $value )
     {
@@ -400,67 +400,78 @@ class iSchedule
       dbg_error_log('ischedule', $domain . ' trying with iSchedule capabilities for ' . $type . ' OK');
       list ( $component, $method ) = explode ( '/', $type );
       $headers = array ( );
-      $headers['Schedule-Version'] = '1.0';
+      $headers['iSchedule-Version'] = '1.0';
       $headers['Originator'] = 'mailto:' . $session->email;
       if ( is_array ( $address ) )
-        $headers['Recipient'] = 'mailto:' . implode ( ', mailto:' . $address );
+        $headers['Recipient'] = implode ( ', ' , $address );
       else
-        $headers['Recipient'] = 'mailto:' . $address;
+        $headers['Recipient'] = $address;
       $headers['Content-Type'] = 'text/calendar; component=' . $component ;
       if ( $method )
         $headers['Content-Type'] .= '; method=' . $method;
-      //$headers['DKIM-Signature'] = $this->signDKIM ( $headers, $body );
-      $Signature = $this->signDKIM ( $headers, $body );
+      $headers['DKIM-Signature'] = $this->signDKIM ( $headers, $body );
+      //$Signature = $this->signDKIM ( $headers, $data );
       $request_headers = array ( );
       foreach ( $headers as $k => $v )  
-        $request_headers[] = $k . ':' . $v;
+        $request_headers[] = $k . ': ' . $v;
       $curl = curl_init ( $this->remote_url );
       curl_setopt ( $curl, CURLOPT_RETURNTRANSFER, true );
-      curl_setopt ( $curl, CURLOPT_HEADER, true );
+      //curl_setopt ( $curl, CURLOPT_HEADER, true );
       curl_setopt ( $curl, CURLOPT_HTTPHEADER, array() ); // start with no headers set
       curl_setopt ( $curl, CURLOPT_HTTPHEADER, $request_headers );
-      curl_setopt ( $curl, CURLOPT_SSL_VERIFYHOST, 1); 
+      curl_setopt ( $curl, CURLOPT_SSL_VERIFYPEER, false); 
+      curl_setopt ( $curl, CURLOPT_SSL_VERIFYHOST, false); 
       curl_setopt ( $curl, CURLOPT_POST, 1); 
       curl_setopt ( $curl, CURLOPT_POSTFIELDS, $data); 
-      //curl_setopt ( $curl, CURLOPT_CUSTOMREQUEST, 'POST' );
+      curl_setopt ( $curl, CURLOPT_CUSTOMREQUEST, 'POST' );
       $xmlresponse = curl_exec ( $curl );
       $info = curl_getinfo ( $curl );
-      error_log ( print_r ( $request_headers , true ) . print_r ( $data , true ) . $Signature );
+      //error_log ( print_r ( $request_headers , true ) . print_r ( $data , true ) . ' -- ' );
       curl_close ( $curl );
-      error_log($xmlresponse);
+      error_log($xmlresponse."\nXXX\n" . print_r ( $info , true ));
       $xml_parser = xml_parser_create_ns('UTF-8');
       $xml_tags = array();
       xml_parser_set_option ( $xml_parser, XML_OPTION_SKIP_WHITE, 1 );
       xml_parser_set_option ( $xml_parser, XML_OPTION_CASE_FOLDING, 0 );
-      $rc = xml_parse_into_struct( $xml_parser, $remote_capabilities, $xml_tags );
+      $rc = xml_parse_into_struct( $xml_parser, $xmlresponse, $xml_tags );
       if ( $rc == false ) {
         dbg_error_log( 'ERROR', 'XML parsing error: %s at line %d, column %d',
                     xml_error_string(xml_get_error_code($xml_parser)),
                     xml_get_current_line_number($xml_parser), xml_get_current_column_number($xml_parser) );
         return false;
       }
-      xml_parser_free($xml_parser); 
       $xmltree = BuildXMLTree( $xml_tags );
+      xml_parser_free($xml_parser); 
       if ( !is_object($xmltree) ) {
         dbg_error_log( 'ERROR', 'iSchedule RESPONSE body is not valid XML data!' );
         return false;
       }
-      $resp = $xmtree->GetPath ( '/schedule-response/response' );
+      $resp = $xmtree->GetPath ( 'response' );
+      error_log ( print_r ( $xmltree, true ) );
       $result = array();
       foreach ( $resp as $r )
       {
-        $recipient     = $r->GetElements ( 'recipient' );
-        $status        = $r->GetElements ( 'request-status' );
-        $calendardata  = $r->GetElements ( 'calendar-data' );
+        error_log ( print_r ( $r, true ) );
+        $recipient     = $r->GetElements ( 'urn:ietf:params:xml:ns:ischedule:recipient' );
+        $status        = $r->GetElements ( 'urn:ietf:params:xml:ns:ischedule:request-status' );
+        $calendardata  = $r->GetElements ( 'urn:ietf:params:xml:ns:ischedule:calendar-data' );
         if ( count ( $recipient ) > 1 )
           continue; // this should be an error
         if ( count ( $calendardata ) > 1 )
-          $result [ $recipient[0]->GetContent() ] = $calendardata[0]->GetContent();
+        {
+          //$result [ $recipient[0]->GetContent() ] = $calendardata[0]->GetContent();
+        }
         else
-          $result [ $recipient[0]->GetContent() ] = $status[0]->GetContent();
+        {
+          //$result [ $recipient[0]->GetContent() ] = $status[0]->GetContent();
+        }
       }
       if ( count ( $result ) > 1 )
+      {
+        //dbg_error_log ( 'ischedule', 'no recipient data found for ' . $headers['Recipient'] );
         return false;
+      }
+      //dbg_error_log ( 'ischedule', 'recipient data found for ' . $headers['Recipient'] . ' ' . print_r ( $result, true )  );
       return $result;
     }
     else
