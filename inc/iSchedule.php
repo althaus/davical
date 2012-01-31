@@ -428,7 +428,6 @@ class iSchedule
       $info = curl_getinfo ( $curl );
       //error_log ( print_r ( $request_headers , true ) . print_r ( $data , true ) . ' -- ' );
       curl_close ( $curl );
-      error_log($xmlresponse."\nXXX\n" . print_r ( $info , true ));
       $xml_parser = xml_parser_create_ns('UTF-8');
       $xml_tags = array();
       xml_parser_set_option ( $xml_parser, XML_OPTION_SKIP_WHITE, 1 );
@@ -446,33 +445,28 @@ class iSchedule
         dbg_error_log( 'ERROR', 'iSchedule RESPONSE body is not valid XML data!' );
         return false;
       }
-      $resp = $xmtree->GetPath ( 'response' );
-      error_log ( print_r ( $xmltree, true ) );
+      $resp = $xmltree->GetPath ( '/*/urn:ietf:params:xml:ns:ischedule:response' );
       $result = array();
       foreach ( $resp as $r )
       {
-        error_log ( print_r ( $r, true ) );
         $recipient     = $r->GetElements ( 'urn:ietf:params:xml:ns:ischedule:recipient' );
         $status        = $r->GetElements ( 'urn:ietf:params:xml:ns:ischedule:request-status' );
         $calendardata  = $r->GetElements ( 'urn:ietf:params:xml:ns:ischedule:calendar-data' );
-        if ( count ( $recipient ) > 1 )
+        if ( count ( $recipient ) < 1 )
           continue; // this should be an error
-        if ( count ( $calendardata ) > 1 )
+        if ( count ( $calendardata ) > 0 )
         {
-          //$result [ $recipient[0]->GetContent() ] = $calendardata[0]->GetContent();
+          $result [ $recipient[0]->GetContent() ] = $calendardata[0]->GetContent();
         }
         else
         {
-          //$result [ $recipient[0]->GetContent() ] = $status[0]->GetContent();
+          $result [ $recipient[0]->GetContent() ] = $status[0]->GetContent();
         }
       }
-      if ( count ( $result ) > 1 )
-      {
-        //dbg_error_log ( 'ischedule', 'no recipient data found for ' . $headers['Recipient'] );
+      if ( count ( $result ) < 1 )
         return false;
-      }
-      //dbg_error_log ( 'ischedule', 'recipient data found for ' . $headers['Recipient'] . ' ' . print_r ( $result, true )  );
-      return $result;
+      else
+        return $result;
     }
     else
       return false;

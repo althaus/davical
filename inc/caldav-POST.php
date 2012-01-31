@@ -80,19 +80,22 @@ function handle_freebusy_request( $ic ) {
     if ( $qry->rows() == 0 ) {
       $remote = new iSchedule ();
       $answer = $remote->sendRequest ( $attendee->Value(), 'VFREEBUSY/REQUEST', $ical->Render() );
-      if ( $answer === false ) {
-        $reply->CalDAVElement($response, "request-status", "3.7;Invalid Calendar User" );
-        $reply->CalDAVElement($response, "calendar-data" );
+      foreach ( $answer as $a )
+      {
+        if ( $a === false ) {
+          $reply->CalDAVElement($response, "request-status", "3.7;Invalid Calendar User" );
+          $reply->CalDAVElement($response, "calendar-data" );
+        }
+        elseif ( substr( $a, 0, 1 ) >= 1 ) {
+          $reply->CalDAVElement($response, "request-status", $a );
+          $reply->CalDAVElement($response, "calendar-data" );
+        }
+        else {
+          $reply->CalDAVElement($response, "request-status", "2.0;Success" );
+          $reply->CalDAVElement($response, "calendar-data", $a );
+        }
+        $responses[] = $response;
       }
-      elseif ( substr( $answer, 0, 1 ) >= 1 ) {
-        $reply->CalDAVElement($response, "request-status", $answer );
-        $reply->CalDAVElement($response, "calendar-data" );
-      }
-      else {
-        $reply->CalDAVElement($response, "request-status", "2.0;Success" );
-        $reply->CalDAVElement($response, "calendar-data", $answer );
-      }
-      $responses[] = $response;
       continue;
     }
     if ( ! $attendee_usr = $qry->Fetch() ) $request->DoResponse( 501, 'Database error');
