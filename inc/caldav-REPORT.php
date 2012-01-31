@@ -200,7 +200,7 @@ function component_to_xml( $properties, $item ) {
     $elements[] = new XMLElement( "propstat", array( $noprop, $status) );
   }
 
-  if ( count($unsupported) > 0 ) {
+  if ( !(isset($request->brief_response) && $request->brief_response) && count($unsupported) > 0 ) {
     $status = new XMLElement("status", "HTTP/1.1 404 Not Found" );
     $noprop = new XMLElement("prop");
     foreach( $unsupported AS $k => $v ) {

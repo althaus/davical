@@ -1636,13 +1636,13 @@ EOQRY;
           if ( isset($this->dead_properties[$tag]) ) {
             $set_of_components = explode('"', $this->dead_properties[$tag]);
             foreach( $set_of_components AS $k => $v ) {
-              if ( !preg_match('{(VEVENT|VTODO|VJOURNAL|VTIMEZONE|VFREEBUSY)}', $v) ) {
+              if ( !preg_match('{(VEVENT|VTODO|VJOURNAL|VTIMEZONE|VFREEBUSY|VPOLL|VAVAILABILITY)}', $v) ) {
                 unset( $set_of_components[$k] );
               }
             }
           }
           else {
-            $set_of_components = array( 'VEVENT', 'VTODO', 'VJOURNAL', 'VTIMEZONE', 'VFREEBUSY' );
+            $set_of_components = array( 'VEVENT', 'VTODO', 'VJOURNAL', 'VTIMEZONE', 'VFREEBUSY', 'VPOLL', 'VAVAILABILITY' );
           }
         }
         else if ( $this->IsSchedulingCollection() )
@@ -1800,7 +1800,7 @@ EOQRY;
       $elements[] = new XMLElement( 'propstat', array( $noprop, $status) );
     }
 
-    if ( count($not_found) > 0 ) {
+    if ( !(isset($request->brief_response) && $request->brief_response) && count($not_found) > 0 ) {
       $status = new XMLElement('status', 'HTTP/1.1 404 Not Found' );
       $noprop = new XMLElement('prop');
       foreach( $not_found AS $k => $v ) {

@@ -106,6 +106,11 @@ class CalDAVRequest
   public $ticket;
 
   /**
+   * Whether this request included the 'Brief: T' header.
+   */
+  public $brief_response;
+  
+  /**
   * Create a new CalDAVRequest object.
   */
   function __construct( $options = array() ) {
@@ -113,6 +118,8 @@ class CalDAVRequest
 
     $this->options = $options;
     if ( !isset($this->options['allow_by_email']) ) $this->options['allow_by_email'] = false;
+    
+    $this->brief_response = (isset($_SERVER['HTTP_BRIEF']) && (strtoupper($_SERVER['HTTP_BRIEF']) == 'T'));
 
     /**
     * Our path is /<script name>/<user name>/<user controlled> if it ends in
