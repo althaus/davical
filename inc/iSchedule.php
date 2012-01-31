@@ -53,6 +53,7 @@ class iSchedule
     $this->selector = 'cal';
     if ( is_object ( $c ) && isset ( $c->scheduling_dkim_selector ) )
     {
+      $this->scheduling_dkim_domain = $c->scheduling_dkim_domain ;
       $this->scheduling_dkim_selector = $c->scheduling_dkim_selector ;
       $this->schedule_private_key = $c->schedule_private_key ;
       if ( ! preg_match ( '/BEGIN RSA PRIVATE KEY/', $this->schedule_private_key ) )
@@ -344,6 +345,8 @@ class iSchedule
   */
   function signDKIM ( $headers, $body )
   {
+    if ( $this->scheduling_dkim_domain == null )
+      return false; 
     $b = '';
     if ( is_array ( $headers ) !== true )
       return false;
@@ -354,7 +357,7 @@ class iSchedule
     $dk['v'] = '1';
     $dk['a'] = 'rsa-' . $this->scheduling_dkim_algo;
     $dk['s'] = $this->selector;
-    $dk['d'] = $this->domain;
+    $dk['d'] = $this->scheduling_dkim_domain;
     $dk['c'] = 'simple-http'; // implied canonicalization of simple-http/simple from rfc4871 Section-3.5
     if ( isset ( $_SERVER['SERVER_NAME'] ) && strstr ( $_SERVER['SERVER_NAME'], $this->domain ) !== false ) // don't use when testing
       $dk['i'] = '@' . $_SERVER['SERVER_NAME']; //optional
@@ -385,6 +388,8 @@ class iSchedule
   function sendRequest ( $address, $type, $data )
   {
     global $session;
+    if ( $this->scheduling_dkim_domain == null )
+      return false; 
     if ( is_array ( $address ) )
       list ( $user, $domain ) = explode ( '@', $address[0] );
     else
@@ -410,13 +415,13 @@ class iSchedule
       if ( $method )
         $headers['Content-Type'] .= '; method=' . $method;
       $headers['DKIM-Signature'] = $this->signDKIM ( $headers, $body );
-      //$Signature = $this->signDKIM ( $headers, $data );
+      if ( $headers['DKIM-Signature'] == false )
+        return false;
       $request_headers = array ( );
       foreach ( $headers as $k => $v )  
         $request_headers[] = $k . ': ' . $v;
       $curl = curl_init ( $this->remote_url );
       curl_setopt ( $curl, CURLOPT_RETURNTRANSFER, true );
-      //curl_setopt ( $curl, CURLOPT_HEADER, true );
       curl_setopt ( $curl, CURLOPT_HTTPHEADER, array() ); // start with no headers set
       curl_setopt ( $curl, CURLOPT_HTTPHEADER, $request_headers );
       curl_setopt ( $curl, CURLOPT_SSL_VERIFYPEER, false); 
@@ -426,8 +431,14 @@ class iSchedule
       curl_setopt ( $curl, CURLOPT_CUSTOMREQUEST, 'POST' );
       $xmlresponse = curl_exec ( $curl );
       $info = curl_getinfo ( $curl );
-      //error_log ( print_r ( $request_headers , true ) . print_r ( $data , true ) . ' -- ' );
       curl_close ( $curl );
+      if ( $info['http_code'] >= 400 )
+      {
+        dbg_error_log ( 'ischedule', 'remote server returned error (%s)', $info['http_code'] );
+        return false;
+      }
+      
+      error_log ( 'remote response '. $xmlresponse . print_r ( $info, true ) );
       $xml_parser = xml_parser_create_ns('UTF-8');
       $xml_tags = array();
       xml_parser_set_option ( $xml_parser, XML_OPTION_SKIP_WHITE, 1 );

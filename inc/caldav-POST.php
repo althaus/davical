@@ -80,6 +80,11 @@ function handle_freebusy_request( $ic ) {
     if ( $qry->rows() == 0 ) {
       $remote = new iSchedule ();
       $answer = $remote->sendRequest ( $attendee->Value(), 'VFREEBUSY/REQUEST', $ical->Render() );
+      if ( $a === false ) {
+        $reply->CalDAVElement($response, "request-status", "3.7;Invalid Calendar User" );
+        $reply->CalDAVElement($response, "calendar-data" );
+        continue;
+      }
       foreach ( $answer as $a )
       {
         if ( $a === false ) {

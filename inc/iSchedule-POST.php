@@ -130,7 +130,7 @@ function ischedule_freebusy_request( $ic, $attendees, $attendees_fail) {
 
   foreach( $attendees AS $k => $attendee ) {
     $response = $reply->NewXMLElement("response", false, false, 'urn:ietf:params:xml:ns:ischedule');
-    $fb = get_freebusy( $attendee->dav_name, $range_start, $range_end );
+    $fb = get_freebusy( '^'.$attendee->dav_name, $range_start, $range_end );
 
     $fb->AddProperty( 'UID',       $ical->GetPValue('UID') );
     $fb->SetProperties( $ic->GetProperties('ORGANIZER'), 'ORGANIZER');

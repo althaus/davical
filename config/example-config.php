@@ -172,6 +172,15 @@ $c->collections_always_exist = false;
 //$c->enable_scheduling = true;
 
 /**
+* Domain Key domain to use when signing outbound scheduling requests, this 
+* is the domain with the public key in a TXT record as shown above.
+*
+* TODO: enable domain/signing by per user keys, patches welcome.
+* Default: none
+*/
+//$c->scheduling_dkim_domain = '';
+
+/**
 * Domain Key selector to use when signing outbound scheduling requests.
 *
 * TODO: enable selectors/signing by per user keys, patches welcome.
