@@ -134,13 +134,12 @@ function ischedule_freebusy_request( $ic, $attendees, $attendees_fail) {
     $fb = get_freebusy( '^'.$attendee->dav_name, $range_start, $range_end );
 
     $fb->AddProperty( 'UID',       $ical->GetPValue('UID') );
-    $fb->SetProperties( $ic->GetProperties('ORGANIZER'), 'ORGANIZER');
-
-    foreach( $icalAttendees AS $ia ) {
-      if ( $ia->Value() == 'mailto:' . $attendee ) { // FIXME: this is probably wrong
-        $fb->AddProperty( $ia );
-      }
+    $fb->SetProperties( $ical->GetProperties('ORGANIZER'), 'ORGANIZER');
+    foreach ( $ical->GetProperties('ATTENDEE') as $at ) {
+      if ( $at->Value() == 'mailto:' . $attendee->email )
+        $fb->AddProperty( $at );
     }
+
     $vcal = new vCalendar( array('METHOD' => 'REPLY') );
     $vcal->AddComponent( $fb );
 
