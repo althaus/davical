@@ -140,8 +140,8 @@ function ischedule_freebusy_request( $ic, $attendees, $attendees_fail) {
     $vcal->AddComponent( $fb );
 
     $response = $reply->NewXMLElement( "response", false, false, 'urn:ietf:params:xml:ns:ischedule' );
-    $response->NewElement( "recipient", $reply->href('mailto:'.$attendee->email), false, 'urn:ietf:params:xml:ns:ischedule' );
-    $response->NewElement( "request-status", "2.0;Success", false, 'urn:ietf:params:xml:ns:ischedule' );  // Cargo-cult setting
+    $response->NewElement( "recipient", 'mailto:'.$attendee->email, false, 'urn:ietf:params:xml:ns:ischedule' );
+    $response->NewElement( "request-status", "2.0;Success", false, 'urn:ietf:params:xml:ns:ischedule' );  
     $response->NewElement( "calendar-data", $vcal->Render(), false, 'urn:ietf:params:xml:ns:ischedule' );
          
     $responses[] = $response;
