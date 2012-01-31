@@ -19,6 +19,7 @@ require_once('AwlCache.php');
 require_once('vComponent.php');
 require_once('vCalendar.php');
 require_once('WritableCollection.php');
+include_once('iSchedule.php');
 
 $bad_events = null;
 
@@ -528,6 +529,27 @@ function do_scheduling_requests( vCalendar $resource, $create, $old_data = null 
                 dbg_error_log('ERROR','Could not write %s calendar member to %s', ($attendee_is_new?'new':'updated'),
                         $attendee_calendar->dav_name(), $attendee_calendar->dav_name(), $schedule_target->username());
                 trace_bug('Failed to write scheduling resource.');
+          }
+        }
+      }
+    }
+    else {
+      $remote = new iSchedule ();
+      $answer = $remote->sendRequest ( $email, 'VEVENT/REQUEST', $schedule_request->Render() );
+      if ( $answer === false ) {
+        $response = "3.7;Invalid Calendar User" ;
+      }
+      else {
+        foreach ( $answer as $a ) // should only be one element in array
+        {
+          if ( $a === false ) {
+            $response = "3.7;Invalid Calendar User" ;
+          }
+          elseif ( substr( $a, 0, 1 ) >= 1 ) {
+            $response = $a ;
+          }
+          else {
+            $response = "2.0;Success" ;
           }
         }
       }

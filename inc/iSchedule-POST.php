@@ -138,6 +138,7 @@ function ischedule_freebusy_request( $ic, $attendees, $attendees_fail) {
 
     $vcal = new vCalendar( array('METHOD' => 'REPLY') );
     $vcal->AddComponent( $fb );
+    $vcal->AddComponent( $fb );
 
     $response = $reply->NewXMLElement( "response", false, false, 'urn:ietf:params:xml:ns:ischedule' );
     $response->NewElement( "recipient", 'mailto:'.$attendee->email, false, 'urn:ietf:params:xml:ns:ischedule' );
@@ -159,7 +160,7 @@ function ischedule_freebusy_request( $ic, $attendees, $attendees_fail) {
 
 function ischedule_request( $ic, $attendees, $attendees_fail ) {
   global $c, $session, $request;
-  $reply = new XMLDocument( array("DAV:" => "", "urn:ietf:params:xml:ns:caldav" => "C", "urn:ietf:params:xml:ns:ischedule" => "I" ) );
+  $reply = new XMLDocument( array( "urn:ietf:params:xml:ns:ischedule" => "I" ) );
   $responses = array();
   $ical = $ic->GetComponents('VEVENT');
   $ical = $ical[0];
@@ -186,15 +187,15 @@ function ischedule_request( $ic, $attendees, $attendees_fail ) {
         }
       }
     }
-    dbg_error_log( 'PUT', 'Status for attendee <%s> set to "%s"', $attendee->email, $response );
-    $XMLresponse->NewElement("recipient", $reply->href('mailto:'.$attendee->email), false, 'urn:ietf:params:xml:ns:ischedule' );
+    dbg_error_log( 'ischedule', 'Status for attendee <%s> set to "%s"', $attendee->email, $response );
+    $XMLresponse->NewElement("recipient", 'mailto:'.$attendee->email, false, 'urn:ietf:params:xml:ns:ischedule' );
     $XMLresponse->NewElement("request-status", $response, false, 'urn:ietf:params:xml:ns:ischedule' ); 
     $responses[] = $XMLresponse;
   }
 
   foreach ( $attendees_fail AS $k => $attendee ) {
     $XMLresponse = $reply->NewXMLElement("response", false, false, 'urn:ietf:params:xml:ns:ischedule');
-    $XMLresponse->NewElement("recipient", $reply->href('mailto:'.$attendee->email), false, 'urn:ietf:params:xml:ns:ischedule' );
+    $XMLresponse->NewElement("recipient", 'mailto:'.$attendee->email, false, 'urn:ietf:params:xml:ns:ischedule' );
     $XMLresponse->NewElement("request-status", '5.3;cannot schedule this user, unknown or access denied', false, 'urn:ietf:params:xml:ns:ischedule' ); 
     $responses[] = $XMLresponse;
   }
