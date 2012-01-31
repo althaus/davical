@@ -64,6 +64,7 @@ binary-common:
 #	dh_link
 	dh_compress --exclude=.js
 	dh_fixperms
+	rm debian/davical/usr/share/davical/htdocs/.htaccess || true
 #	dh_perl
 #	dh_python
 #	dh_makeshlibs
