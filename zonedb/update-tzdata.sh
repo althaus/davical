@@ -1,17 +1,25 @@
 #!/bin/sh
 
-wget --continue 'ftp://elsie.nci.nih.gov/pub/tz*.tar.gz'
+wget --continue 'ftp://ftp.iana.org/tz/tz*.tar.gz'
 
-TZCODEFILE="`ls -t tzcode*.tar.gz|tail -n 1`"
-TZDATAFILE="`ls -t tzdata*.tar.gz|tail -n 1`"
+TZCODEFILE="`readlink tzcode-latest.tar.gz`"
+TZDATAFILE="`readlink tzdata-latest.tar.gz`"
 
-(
-  mkdir tzcode && cd tzcode && tar -xfz ../$TZCODEFILE
-)
+# if [ ! -f $TZCODEFILE ]; then
+  (
+    wget --continue -O $TZCODEFILE 'ftp://ftp.iana.org/tz/'$TZCODEFILE
+    rm -rf tzcode
+    mkdir -p tzcode && cd tzcode && tar -xzf ../$TZCODEFILE
+  )
+# fi
 
-(
-  mkdir tzdata && cd tzdata && tar -xfz ../$TZDATAFILE
-)
+# if [ ! -f $TZDATAFILE ]; then
+  (
+    wget --continue -O $TZDATAFILE 'ftp://ftp.iana.org/tz/'$TZDATAFILE
+    rm -rf tzdata
+    mkdir -p tzdata && cd tzdata && tar -xzf ../$TZDATAFILE
+  )
+# fi
 
 vzic --pure --olson-dir tzdata --output-dir vtimezones
 echo "Olson `echo $TZDATAFILE | cut -f1 -d.`" >vtimezones/primary-source
