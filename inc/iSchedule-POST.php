@@ -63,19 +63,18 @@ if ( $d->validateRequest ( ) ) {
     } 
   }
   if ( ! in_array ( preg_replace( '/^mailto:/i', '', $_SERVER['HTTP_ORIGINATOR'] ), $addresses ) ) { // should this be case sensitive?
-    $request->DoResponse( 400, translate('sender must be organizer or attendee of event') );
+    $request->DoResponse( 412, translate('sender must be organizer or attendee of event') );
   }
   foreach ( $recipients as $v ) {
     if ( ! in_array ( preg_replace( '/^mailto:/i', '', $v ), $addresses ) ) { // should this be case sensitive?
       dbg_error_log('ischedule','recipient missing from event ' . $v );
-      $reply->XMLResponse( 400, translate('recipient must be organizer or attendee of event') . $v );
+      $reply->XMLResponse( 403, translate('recipient must be organizer or attendee of event') . $v );
       continue;
     }
     $email = preg_replace( '/^mailto:/', '', $v );
     dbg_error_log('ischedule','recipient ' . $v );
     $schedule_target = new Principal('email',$email);
     if ( $schedule_target == false ){
-      //$attendee->SetParameterValue ('SCHEDULE-STATUS','5.3;No scheduling support for user');
       array_push ( $attendees_fail, $schedule_target );
       continue;
     }
@@ -84,6 +83,8 @@ if ( $d->validateRequest ( ) ) {
   }
   $method =  $ical->GetPValue('METHOD');
   $content_type = explode ( ';', $_SERVER['CONTENT_TYPE'] );
+  if ( $content_type[0] != 'text/calendar' )
+    $reply->XMLResponse( 406, 'content must be text/calendar' );
   $content_parts = Array ();
   foreach ( $content_type as $v ) {
     list ( $a, $b ) = explode ( '=', trim ( $v ), 2 );

@@ -628,12 +628,14 @@ class iSchedule
       $request->DoResponse( 403, translate('DKIM signature missing') );
       return false;
     }
+    if ( isset ( $_SERVER['HTTP_ORGANIZER'] ) )
+      $request->DoResponse( 403, translate('Organizer Missing') );
     
     dbg_error_log ('ischedule','beginning validation');
     $err = $this->parseDKIM ( $sig );
     if ( $err !== true || $this->failed )
-      $request->DoResponse( 400, translate('DKIM signature invalid ' ) . "\n" . $err . "\n" . $sig );
-    if ( ! $this->getTxt () || $this->failed )
+      $request->DoResponse( 412, 'DKIM signature invalid ' . "\n" . $err . "\n" );
+    if ( ! $this->getTxt () || $this->failed ) // this could also be a 424 failed dependency response
       $request->DoResponse( 400, translate('DKIM signature validation failed(DNS ERROR)') );
     if ( ! $this->parseTxt () || $this->failed )
       $request->DoResponse( 400, translate('DKIM signature validation failed(KEY Parse ERROR)') );
@@ -641,9 +643,8 @@ class iSchedule
       $request->DoResponse( 400, translate('DKIM signature validation failed(KEY Validation ERROR)') );
     $err = $this->verifySignature ();
     if ( $err !== true || $this->failed )
-      $request->DoResponse( 400, translate('DKIM signature validation failed(Signature verification ERROR)') . $this->verifySignature() );
+      $request->DoResponse( 412, translate('DKIM signature validation failed(Signature verification ERROR)') . '\n' . $err );
     dbg_error_log ('ischedule','signature ok');
-    //$request->DoResponse( 200, translate('DKIM signature validation ok') );
     return true;
   }
 }
