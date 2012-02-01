@@ -2,34 +2,26 @@ HTTP/1.1 100 Continue
 
 HTTP/1.1 200 OK
 Date: Dow, 01 Jan 2000 00:00:00 GMT
-ETag: "b951656a8843d8a7101d57896e278106"
-Content-Length: 805
+ETag: "2f9bb75f51266683f713f8d382a67bff"
+Content-Length: 672
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
-<I:schedule-response xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav" xmlns:I="urn:ietf:params:xml:ns:ischedule">
+<I:schedule-response xmlns:I="urn:ietf:params:xml:ns:ischedule">
  <I:response>
-  <I:recipient>
-   <href>mailto:user1@example.net</href>
-  </I:recipient>
+  <I:recipient>mailto:user1@example.net</I:recipient>
   <I:request-status>2.0;delivered</I:request-status>
  </I:response>
  <I:response>
-  <I:recipient>
-   <href>mailto:user2@example.net</href>
-  </I:recipient>
+  <I:recipient>mailto:user2@example.net</I:recipient>
   <I:request-status>2.0;delivered</I:request-status>
  </I:response>
  <I:response>
-  <I:recipient>
-   <href>mailto:user3@example.net</href>
-  </I:recipient>
+  <I:recipient>mailto:user3@example.net</I:recipient>
   <I:request-status>2.0;delivered</I:request-status>
  </I:response>
  <I:response>
-  <I:recipient>
-   <href>mailto:user4@example.net</href>
-  </I:recipient>
+  <I:recipient>mailto:user4@example.net</I:recipient>
   <I:request-status>2.0;delivered</I:request-status>
  </I:response>
 </I:schedule-response>
@@ -93,7 +85,7 @@ END:VCALENDAR
 
       caldav_type: >VEVENT<
          dav_name: >/user2/.in/iSchedule-POST-attendees.ics<
-      logged_user: >10<
+      logged_user: >11<
           summary: >Multiple Beard Meeting<
           user_no: >11<
         vcalendar: >BEGIN:VCALENDAR
@@ -150,7 +142,7 @@ END:VCALENDAR
 
       caldav_type: >VEVENT<
          dav_name: >/user3/.in/iSchedule-POST-attendees.ics<
-      logged_user: >10<
+      logged_user: >12<
           summary: >Multiple Beard Meeting<
           user_no: >12<
         vcalendar: >BEGIN:VCALENDAR
@@ -207,7 +199,7 @@ END:VCALENDAR
 
       caldav_type: >VEVENT<
          dav_name: >/user4/.in/iSchedule-POST-attendees.ics<
-      logged_user: >10<
+      logged_user: >13<
           summary: >Multiple Beard Meeting<
           user_no: >13<
         vcalendar: >BEGIN:VCALENDAR

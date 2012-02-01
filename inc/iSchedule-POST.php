@@ -15,6 +15,29 @@ require_once('vCalendar.php');
 require_once('WritableCollection.php');
 include_once('freebusy-functions.php');
 
+
+class FakeSession {
+  function __construct($principal) {
+    // Assign each field in the selected record to the object
+    foreach( $principal AS $k => $v ) {
+      $this->{$k} = $v;
+    }
+    $this->username = $principal->username();
+    $this->user_no  = $principal->user_no();
+    $this->principal_id = $principal->principal_id();
+    $this->email = $principal->email();
+    $this->dav_name = $principal->dav_name();
+    $this->principal = $principal;
+   
+    $this->logged_in = true;
+ 
+  }
+ 
+  function AllowedTo($do_something) {
+    return true;
+  }
+}
+
 $d = new iSchedule ();
 if ( $d->validateRequest ( ) ) {
   $ical = new vCalendar( $request->raw_post );
@@ -163,6 +186,7 @@ function ischedule_freebusy_request( $ic, $attendees, $attendees_fail) {
 
 function ischedule_request( $ic, $attendees, $attendees_fail ) {
   global $c, $session, $request;
+  $oldSession = $session;
   $reply = new XMLDocument( array( "urn:ietf:params:xml:ns:ischedule" => "I" ) );
   $responses = array();
   $ical = $ic->GetComponents('VEVENT');
@@ -174,6 +198,7 @@ function ischedule_request( $ic, $attendees, $attendees_fail ) {
     $schedule_target = new Principal('email',$attendee->email);
     $response = '3.7'; // Attendee was not found on server.
     if ( $schedule_target->Exists() ) {
+      $session = new FakeSession($schedule_target);
       $attendee_calendar = new WritableCollection(array('path' => $schedule_target->internal_url('schedule-default-calendar')));
       if ( !$attendee_calendar->Exists() ) {
         dbg_error_log('ERROR','Default calendar at "%s" does not exist for user "%s"',
@@ -189,6 +214,7 @@ function ischedule_request( $ic, $attendees, $attendees_fail ) {
           $response = '2.0;delivered'; // Scheduling invitation delivered successfully
         }
       }
+      $session = $oldSession;
     }
     dbg_error_log( 'ischedule', 'Status for attendee <%s> set to "%s"', $attendee->email, $response );
     $XMLresponse->NewElement("recipient", 'mailto:'.$attendee->email, false, 'urn:ietf:params:xml:ns:ischedule' );
