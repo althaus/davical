@@ -28,11 +28,11 @@ class FakeSession {
     $this->email = $principal->email();
     $this->dav_name = $principal->dav_name();
     $this->principal = $principal;
-   
+
     $this->logged_in = true;
- 
+
   }
- 
+
   function AllowedTo($do_something) {
     return true;
   }
@@ -128,12 +128,12 @@ if ( $d->validateRequest ( ) ) {
       break;
     default:
       dbg_error_log('ischedule','invalid request' );
-      $request->DoResponse( 400, translate('invalid request XX1') );
+      $request->DoResponse( 400, translate('invalid request') );
   }
 }
 else {
   dbg_error_log('ischedule','invalid request' );
-  $request->DoResponse( 400, translate('invalid request XX2') );
+  $request->DoResponse( 400, translate('invalid request') );
 }
 
 function ischedule_freebusy_request( $ic, $attendees, $attendees_fail) {
