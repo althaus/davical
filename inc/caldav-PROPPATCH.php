@@ -210,7 +210,7 @@ foreach( $setprops AS $k => $setting ) {
     * If we don't have any special processing for the property, we just store it verbatim (which will be an XML fragment).
     */
     default:
-      $qry->QDo('SELECT set_dav_property( :dav_name, :user_no, :tag::text, :value::text)',
+      $qry->QDo('SELECT set_dav_property( :dav_name, :user_no::integer, :tag::text, :value::text)',
             array( ':dav_name' => $dav_resource->dav_name(), ':user_no' => $request->user_no, ':tag' => $tag, ':value' => $content) );
       $success[$tag] = 1;
       break;
