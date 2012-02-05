@@ -14,6 +14,22 @@ $responses = array();
 /**
  * Build the array of properties to include in the report output
  */
+$sync_level = $xmltree->GetPath('/DAV::sync-collection/DAV::sync-level');
+if ( empty($sync_level) ) {
+  $sync_level = $request->depth;
+}
+else {
+  $sync_level = $sync_level[0]->GetContent();
+  if ( $sync_level == 'infinity' )
+  $sync_level = DEPTH_INFINITY;
+  else
+  $sync_level = 1;
+}
+
+if ( $sync_level == DEPTH_INFINITY ) {
+  $request->PreconditionFailed(403, 'DAV::sync-traversal-supported','This server does not support sync-traversal');
+}
+
 $sync_tokens = $xmltree->GetPath('/DAV::sync-collection/DAV::sync-token');
 $sync_token = $sync_tokens[0]->GetContent();
 if ( !isset($sync_token) ) $sync_token = 0;
