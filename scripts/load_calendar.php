@@ -50,7 +50,7 @@ chdir(preg_replace('{/scripts/[^/]+.php$}','/htdocs',$script_file));
 require_once("./always.php");
 require_once('caldav-PUT-functions.php');
 require_once('check_UTF8.php');
-
+$c->readonly_webdav_collections = false; // Override any active default.
 
 dbg_error_log('load-collection',':Write: Loaded %d bytes from %s', strlen($ics), $source );
 if ( !check_string($ics) ) {
