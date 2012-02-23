@@ -1199,8 +1199,10 @@ EOSQL;
       }
     }
 
-    header( "Content-Length: ".strlen($message) );
-    echo $message;
+    if ( $message != '' ) {
+      @header( "Content-Length: ".strlen($message) );
+      echo $message;
+    }
 
     if ( isset($c->dbg['caldav']) && $c->dbg['caldav'] ) {
       if ( strlen($message) > 100 || strstr($message, "\n") ) {
