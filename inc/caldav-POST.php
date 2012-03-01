@@ -83,8 +83,10 @@ function handle_freebusy_request( $ic ) {
       if ( $answer === false ) {
         $reply->CalDAVElement($response, "request-status", "3.7;Invalid Calendar User" );
         $reply->CalDAVElement($response, "calendar-data" );
+        $responses[] = $response;
         continue;
       }
+      
       foreach ( $answer as $a )
       {
         if ( $a === false ) {
