@@ -2,8 +2,8 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
-ETag: "9750b11e4998e1538b7bb3626ae19b39"
-Content-Length: 2156
+ETag: "6991cc83557b9ab4224fafebcb6e8565"
+Content-Length: 2220
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -76,6 +76,8 @@ Content-Type: text/xml; charset="utf-8"
      <C:comp name="VJOURNAL"/>
      <C:comp name="VTIMEZONE"/>
      <C:comp name="VFREEBUSY"/>
+     <C:comp name="VPOLL"/>
+     <C:comp name="VAVAILABILITY"/>
     </C:supported-calendar-component-set>
     <C:supported-calendar-data>text/calendar</C:supported-calendar-data>
    </prop>

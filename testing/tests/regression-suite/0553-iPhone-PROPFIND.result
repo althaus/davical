@@ -2,8 +2,8 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
-ETag: "4f2f5fe4966246175dfc7a90396422d2"
-Content-Length: 12754
+ETag: "6ef0b9c58af6fb12800d0ebd056e0e85"
+Content-Length: 12946
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -78,6 +78,8 @@ Content-Type: text/xml; charset="utf-8"
      <C:comp name="VJOURNAL"/>
      <C:comp name="VTIMEZONE"/>
      <C:comp name="VFREEBUSY"/>
+     <C:comp name="VPOLL"/>
+     <C:comp name="VAVAILABILITY"/>
     </C:supported-calendar-component-set>
     <resourcetype>
      <collection/>
@@ -200,6 +202,8 @@ Content-Type: text/xml; charset="utf-8"
      <C:comp name="VJOURNAL"/>
      <C:comp name="VTIMEZONE"/>
      <C:comp name="VFREEBUSY"/>
+     <C:comp name="VPOLL"/>
+     <C:comp name="VAVAILABILITY"/>
     </C:supported-calendar-component-set>
     <resourcetype>
      <collection/>
@@ -413,6 +417,8 @@ Content-Type: text/xml; charset="utf-8"
      <C:comp name="VJOURNAL"/>
      <C:comp name="VTIMEZONE"/>
      <C:comp name="VFREEBUSY"/>
+     <C:comp name="VPOLL"/>
+     <C:comp name="VAVAILABILITY"/>
     </C:supported-calendar-component-set>
     <resourcetype>
      <collection/>
