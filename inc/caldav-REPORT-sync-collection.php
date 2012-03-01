@@ -21,9 +21,9 @@ if ( empty($sync_level) ) {
 else {
   $sync_level = $sync_level[0]->GetContent();
   if ( $sync_level == 'infinity' )
-  $sync_level = DEPTH_INFINITY;
+    $sync_level = DEPTH_INFINITY;
   else
-  $sync_level = 1;
+    $sync_level = 1;
 }
 
 if ( $sync_level == DEPTH_INFINITY ) {
