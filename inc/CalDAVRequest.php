@@ -223,7 +223,6 @@ class CalDAVRequest
       * chosen.
       */
       switch( $this->method ) {
-        case 'PROPFIND':
         case 'DELETE':
         case 'MOVE':
         case 'COPY':
@@ -231,14 +230,15 @@ class CalDAVRequest
           $this->depth = 'infinity';
           break;
 
+        case 'PROPFIND':
         case 'REPORT':
         default:
           $this->depth = 0;
       }
     }
-    if ( $this->depth == 'infinity' ) $this->depth = DEPTH_INFINITY;
+    if ( !is_int($this->depth) && "infinity" == $this->depth  ) $this->depth = DEPTH_INFINITY;
     $this->depth = intval($this->depth);
-
+    
     /**
     * MOVE/COPY use a "Destination" header and (optionally) an "Overwrite" one.
     */
