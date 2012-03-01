@@ -388,7 +388,7 @@ class iSchedule
   function sendRequest ( $address, $type, $data )
   {
     global $session;
-    if ( $this->scheduling_dkim_domain == null )
+    if ( empty($this->scheduling_dkim_domain) )
       return false; 
     if ( is_array ( $address ) )
       list ( $user, $domain ) = explode ( '@', $address[0] );
