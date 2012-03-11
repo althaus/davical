@@ -38,14 +38,15 @@ class iSchedule
                                       'Originator', 
                                       'Recipient', 
                                       'Content-Type' );
-  private $disallowed_headers = Array ( 'Connection',  // draft 01 section 7.1 disallowed headers
-                                        'Keep-Alive', 
-                                        'Proxy-Authenticate', 
-                                        'Proxy-Authorization', 
-                                        'TE', 
-                                        'Trailers', 
-                                        'Transfer-Encoding', 
-                                        'Upgrade' );
+  private $disallowed_headers = Array ( 'connection',  // draft 01 section 7.1 disallowed headers
+                                        'keep-alive', 
+                                        'dkim-signature', 
+                                        'proxy-authenticate', 
+                                        'proxy-authorization', 
+                                        'te', 
+                                        'trailers', 
+                                        'transfer-encoding', 
+                                        'upgrade' );
 
   function __construct ( )
   {
@@ -537,10 +538,10 @@ class iSchedule
     if ( ! isset ( $dkim['h'] ) )  
       return 'missing list of signed headers';
     $this->signed_headers = preg_split ( '/:/', $dkim['h'] );
-    
+
     foreach ( $this->signed_headers as $h )
-      if ( strtolower ( $h ) == 'dkim-signature' )
-        return "DKIM Signature is NOT allowed in signed header fields per RFC4871";
+      if ( in_array ( strtolower ( $h ), $this->disallowed_headers ) )
+        return "$h is NOT allowed in signed header fields per RFC4871 or iSchedule";
     // body hash REQUIRED
     if ( ! isset ( $dkim['bh'] ) ) 
       return 'missing body signature';
@@ -557,6 +558,7 @@ class iSchedule
   
   /**
   * split up a mailto uri into domain and user components
+  * TODO handle other uri types (eg http) 
   */ 
   function parseURI ( $uri )
   {
@@ -571,6 +573,7 @@ class iSchedule
 
   /**
   * verifies parsed DKIM header is valid for current message with a signature from the public key in DNS 
+  * TODO handle multiple headers of the same name 
   */ 
   function verifySignature ( )
   {
@@ -589,7 +592,7 @@ class iSchedule
     if ( ! isset ( $_SERVER['HTTP_ISCHEDULE_VERSION'] ) || $_SERVER['HTTP_ISCHEDULE_VERSION'] != '1' ) //required header and we only speak version 1 for now 
       return "missing or mismatch ischedule-version header";
     $body = $request->raw_post;
-    if ( ! isset ( $this->signed_length ) )
+    if ( ! isset ( $this->signed_length ) ) // Should we use the Content-Length header if the signed length is missing?
       $this->signed_length = strlen ( $body );
     else
       $body = substr ( $body, 0, $this->signed_length );
