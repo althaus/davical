@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DAViCal\n"
 "Report-Msgid-Bugs-To: http://repo.or.cz/w/davical.git/tree/HEAD:/issues\n"
-"POT-Creation-Date: 2011-11-21 10:59+1300\n"
-"PO-Revision-Date: 2011-11-20 22:15+0000\n"
+"POT-Creation-Date: 2012-03-12 13:00+1300\n"
+"PO-Revision-Date: 2012-03-12 00:05+0000\n"
 "Last-Translator: Andrew McMillan <andrew@mcmillan.net.nz>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -96,8 +96,7 @@ msgid ""
 "<h1>Log On Please</h1><p>For access to the %s you should log on withthe "
 "username and password that have been issued to you.</p><p>If you would like "
 "to request access, please e-mail %s.</p>"
-msgstr ""
-"<H1>ログオンして下さい</H1><P>%sにアクセスするには、あなたに対して発行されたユーザー名およびパスワードでログオンして下さい。</P><P>アクセスをリクエストしたい場合は、%sにメールを送ってください。</P>"
+msgstr "<H1>ログオンして下さい</H1><P>%sにアクセスするには、あなたに対して発行されたユーザー名およびパスワードでログオンして下さい。</P><P>アクセスをリクエストしたい場合は、%sにメールを送ってください。</P>"
 
 msgid "A DAViCal principal collection may only contain collections"
 msgstr ""
@@ -335,9 +334,6 @@ msgstr "DAViCal Wiki"
 msgid "DAViCal only allows BIND requests for collections at present."
 msgstr ""
 
-msgid "DKIM signature invalid "
-msgstr ""
-
 msgid "DKIM signature missing"
 msgstr ""
 
@@ -446,6 +442,9 @@ msgstr "表示名"
 
 msgid "Does the user have the right to perform this role?"
 msgstr "このユーザーはこのロールを行う権限を持っていますか？"
+
+msgid "Domain"
+msgstr ""
 
 msgid "EMail"
 msgstr "Email"
@@ -748,6 +747,9 @@ msgstr "既存の宛先資源に上書きしていません"
 msgid "Opaque"
 msgstr "不透明"
 
+msgid "Organizer Missing"
+msgstr ""
+
 msgid "Override a Lock"
 msgstr "ロックをオーバーライドする"
 
@@ -772,10 +774,16 @@ msgstr "PHP PDOモジュール利用可能"
 msgid "PHP calendar extension available"
 msgstr ""
 
+msgid "PHP curl support"
+msgstr ""
+
 msgid "PHP iconv support"
 msgstr ""
 
 msgid "PHP not using Apache Filter mode"
+msgstr ""
+
+msgid "PHP5 curl support is required for external binds"
 msgstr ""
 
 msgid ""
@@ -931,6 +939,9 @@ msgid "Resources may not be changed to / from collections."
 msgstr "資源はコレクションに変更することもコレクションから変更することもできません。"
 
 msgid "Revoke"
+msgstr ""
+
+msgid "SRV Record"
 msgstr ""
 
 msgid "Schedule Deliver"
@@ -1373,9 +1384,7 @@ msgstr "drivers_ldap : LDAPをプロトコルバージョン３で使用に失�
 msgid ""
 "drivers_ldap : Unable to bind to LDAP - check your configuration for bindDN "
 "and passDN, and that your LDAP server is reachable"
-msgstr ""
-"drivers_ldap : LDAPにバインドできません - "
-"bindDNとpassDNの設定を確認し、LDAPサーバーに到達可能であること確認して下さい。"
+msgstr "drivers_ldap : LDAPにバインドできません - bindDNとpassDNの設定を確認し、LDAPサーバーに到達可能であること確認して下さい。"
 
 #, php-format
 msgid "drivers_ldap : Unable to connect to LDAP with port %s on host %s"
@@ -1401,8 +1410,20 @@ msgstr "私を忘れないで"
 msgid "from principal"
 msgstr "プリンシパルから"
 
+msgid "iSchedule Domains"
+msgstr ""
+
+msgid "invalid request"
+msgstr ""
+
 msgid "path to store your ics"
 msgstr "あなたのicsを保管するパス"
+
+msgid "recipient must be organizer or attendee of event"
+msgstr ""
+
+msgid "sender must be organizer or attendee of event"
+msgstr ""
 
 msgid "unauthenticated"
 msgstr ""
@@ -1411,5 +1432,3 @@ msgid ""
 "you should log on with the username and password that have been issued to "
 "you."
 msgstr "あなたに発行したユーザー名とパスワードでログオンして下さい。"
-
-

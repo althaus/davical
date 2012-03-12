@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DAViCal\n"
 "Report-Msgid-Bugs-To: http://repo.or.cz/w/davical.git/tree/HEAD:/issues\n"
-"POT-Creation-Date: 2011-11-21 10:59+1300\n"
-"PO-Revision-Date: 2011-11-20 22:15+0000\n"
+"POT-Creation-Date: 2012-03-12 13:00+1300\n"
+"PO-Revision-Date: 2012-03-12 00:05+0000\n"
 "Last-Translator: Andrew McMillan <andrew@mcmillan.net.nz>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -77,9 +77,7 @@ msgstr "- uppdaterar användarposter : %s"
 msgid ""
 "<b>WARNING: all events in this path will be deleted before inserting allof "
 "the ics file</b>"
-msgstr ""
-"<b>Varning: alla händelser i denna sökväg kommer att raderas innan ics-filen"
-" läggs till</b>"
+msgstr "<b>Varning: alla händelser i denna sökväg kommer att raderas innan ics-filen läggs till</b>"
 
 #, php-format
 msgid ""
@@ -98,10 +96,7 @@ msgid ""
 "<h1>Log On Please</h1><p>For access to the %s you should log on withthe "
 "username and password that have been issued to you.</p><p>If you would like "
 "to request access, please e-mail %s.</p>"
-msgstr ""
-"<h1>Var god logga in</h1><p>För att få tillgång till %s behöver du logga in "
-"med det användarnamn och lösenord som tilldelats dig.</p><p>För att begära "
-"ett konto, skicka e-post till %s.</p>"
+msgstr "<h1>Var god logga in</h1><p>För att få tillgång till %s behöver du logga in med det användarnamn och lösenord som tilldelats dig.</p><p>För att begära ett konto, skicka e-post till %s.</p>"
 
 msgid "A DAViCal principal collection may only contain collections"
 msgstr ""
@@ -339,9 +334,6 @@ msgstr "DAViCal Wiki"
 msgid "DAViCal only allows BIND requests for collections at present."
 msgstr ""
 
-msgid "DKIM signature invalid "
-msgstr ""
-
 msgid "DKIM signature missing"
 msgstr ""
 
@@ -451,6 +443,9 @@ msgstr "Visningsnamn"
 msgid "Does the user have the right to perform this role?"
 msgstr "Har användaren rättighet att utföra denna roll?"
 
+msgid "Domain"
+msgstr ""
+
 msgid "EMail"
 msgstr "E-post"
 
@@ -478,14 +473,10 @@ msgstr "E-postadress"
 msgid ""
 "Enter a username, if you know it, and click here, to be e-mailed a temporary"
 " password."
-msgstr ""
-"Mata in ett användarnamn, om du känner till det, för att erhålla e-post med "
-"ett engångslösenord"
+msgstr "Mata in ett användarnamn, om du känner till det, för att erhålla e-post med ett engångslösenord"
 
 msgid "Enter your username and password then click here to log in."
-msgstr ""
-"Mata in ditt användarnamn och lösenord och klicka sedan här för att logga "
-"in."
+msgstr "Mata in ditt användarnamn och lösenord och klicka sedan här för att logga in."
 
 #, php-format
 msgid "Error NoGroupFound with filter >%s<, attributes >%s< , dn >%s<"
@@ -756,6 +747,9 @@ msgstr "Skriver ej över befintlig resursdestination"
 msgid "Opaque"
 msgstr "Ej transparent"
 
+msgid "Organizer Missing"
+msgstr ""
+
 msgid "Override a Lock"
 msgstr "Bryt upp ett lås"
 
@@ -780,10 +774,16 @@ msgstr ""
 msgid "PHP calendar extension available"
 msgstr ""
 
+msgid "PHP curl support"
+msgstr ""
+
 msgid "PHP iconv support"
 msgstr ""
 
 msgid "PHP not using Apache Filter mode"
+msgstr ""
+
+msgid "PHP5 curl support is required for external binds"
 msgstr ""
 
 msgid ""
@@ -941,6 +941,9 @@ msgstr "Resurs kan inte ändras till / från samlingar."
 msgid "Revoke"
 msgstr ""
 
+msgid "SRV Record"
+msgstr ""
+
 msgid "Schedule Deliver"
 msgstr ""
 
@@ -1027,9 +1030,7 @@ msgstr "Källresursen existerar inte."
 
 msgid ""
 "Special collections may not contain a calendar or other special collection."
-msgstr ""
-"Speciella samlingar får inte innehålla en kalender eller en annan speciell "
-"samling."
+msgstr "Speciella samlingar får inte innehålla en kalender eller en annan speciell samling."
 
 msgid "Specific Privileges"
 msgstr ""
@@ -1126,9 +1127,7 @@ msgstr ""
 
 msgid ""
 "The file is not UTF-8 encoded, please check the error for more details."
-msgstr ""
-"Filen är inte teckenkodad i UTF-8, var god kontrollera felet för fler "
-"detaljer."
+msgstr "Filen är inte teckenkodad i UTF-8, var god kontrollera felet för fler detaljer."
 
 msgid "The full name for this person, group or other type of principal."
 msgstr ""
@@ -1375,22 +1374,17 @@ msgstr "drivers_ldap : Could not start TLS: ldap_start_tls() failed"
 #, php-format
 msgid ""
 "drivers_ldap : Failed to bind to host %1$s on port %2$s with bindDN of %3$s"
-msgstr ""
-"drivers_ldap : Failed to bind to host %1$s on port %2$s with bindDN of %3$s"
+msgstr "drivers_ldap : Failed to bind to host %1$s on port %2$s with bindDN of %3$s"
 
 msgid ""
 "drivers_ldap : Failed to set LDAP to use protocol version 3, TLS not "
 "supported"
-msgstr ""
-"drivers_ldap : Failed to set LDAP to use protocol version 3, TLS not "
-"supported"
+msgstr "drivers_ldap : Failed to set LDAP to use protocol version 3, TLS not supported"
 
 msgid ""
 "drivers_ldap : Unable to bind to LDAP - check your configuration for bindDN "
 "and passDN, and that your LDAP server is reachable"
-msgstr ""
-"drivers_ldap : Unable to bind to LDAP - check your configuration for bindDN "
-"and passDN, and that your LDAP server is reachable"
+msgstr "drivers_ldap : Unable to bind to LDAP - check your configuration for bindDN and passDN, and that your LDAP server is reachable"
 
 #, php-format
 msgid "drivers_ldap : Unable to connect to LDAP with port %s on host %s"
@@ -1398,8 +1392,7 @@ msgstr "drivers_ldap : Unable to connect to LDAP with port %s on host %s"
 
 msgid ""
 "drivers_ldap : function ldap_connect not defined, check your php_ldap module"
-msgstr ""
-"drivers_ldap : function ldap_connect not defined, check your php_ldap module"
+msgstr "drivers_ldap : function ldap_connect not defined, check your php_ldap module"
 
 #, php-format
 msgid "drivers_pwauth_pam : Unable to find %s file"
@@ -1417,8 +1410,20 @@ msgstr "Kom ihåg mig"
 msgid "from principal"
 msgstr ""
 
+msgid "iSchedule Domains"
+msgstr ""
+
+msgid "invalid request"
+msgstr ""
+
 msgid "path to store your ics"
 msgstr "sökväg för att spara din .ics"
+
+msgid "recipient must be organizer or attendee of event"
+msgstr ""
+
+msgid "sender must be organizer or attendee of event"
+msgstr ""
 
 msgid "unauthenticated"
 msgstr ""
@@ -1427,5 +1432,3 @@ msgid ""
 "you should log on with the username and password that have been issued to "
 "you."
 msgstr "du behöver logga in med det användarnamn och lösenord du erhållit."
-
-

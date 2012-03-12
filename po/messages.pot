@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-21 10:59+1300\n"
+"POT-Creation-Date: 2012-03-12 13:00+1300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -340,9 +340,6 @@ msgstr ""
 msgid "DAViCal only allows BIND requests for collections at present."
 msgstr ""
 
-msgid "DKIM signature invalid "
-msgstr ""
-
 msgid "DKIM signature missing"
 msgstr ""
 
@@ -450,6 +447,9 @@ msgid "Displayname"
 msgstr ""
 
 msgid "Does the user have the right to perform this role?"
+msgstr ""
+
+msgid "Domain"
 msgstr ""
 
 msgid "EMail"
@@ -753,6 +753,9 @@ msgstr ""
 msgid "Opaque"
 msgstr ""
 
+msgid "Organizer Missing"
+msgstr ""
+
 msgid "Override a Lock"
 msgstr ""
 
@@ -777,10 +780,16 @@ msgstr ""
 msgid "PHP calendar extension available"
 msgstr ""
 
+msgid "PHP curl support"
+msgstr ""
+
 msgid "PHP iconv support"
 msgstr ""
 
 msgid "PHP not using Apache Filter mode"
+msgstr ""
+
+msgid "PHP5 curl support is required for external binds"
 msgstr ""
 
 msgid ""
@@ -934,6 +943,9 @@ msgid "Resources may not be changed to / from collections."
 msgstr ""
 
 msgid "Revoke"
+msgstr ""
+
+msgid "SRV Record"
 msgstr ""
 
 msgid "Schedule Deliver"
@@ -1400,7 +1412,19 @@ msgstr ""
 msgid "from principal"
 msgstr ""
 
+msgid "iSchedule Domains"
+msgstr ""
+
+msgid "invalid request"
+msgstr ""
+
 msgid "path to store your ics"
+msgstr ""
+
+msgid "recipient must be organizer or attendee of event"
+msgstr ""
+
+msgid "sender must be organizer or attendee of event"
 msgstr ""
 
 msgid "unauthenticated"

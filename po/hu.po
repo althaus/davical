@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DAViCal\n"
 "Report-Msgid-Bugs-To: http://repo.or.cz/w/davical.git/tree/HEAD:/issues\n"
-"POT-Creation-Date: 2011-11-21 10:59+1300\n"
-"PO-Revision-Date: 2011-11-20 22:15+0000\n"
+"POT-Creation-Date: 2012-03-12 13:00+1300\n"
+"PO-Revision-Date: 2012-03-12 00:05+0000\n"
 "Last-Translator: Andrew McMillan <andrew@mcmillan.net.nz>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -96,9 +96,7 @@ msgid ""
 "<h1>Log On Please</h1><p>For access to the %s you should log on withthe "
 "username and password that have been issued to you.</p><p>If you would like "
 "to request access, please e-mail %s.</p>"
-msgstr ""
-"<h1>Lépjen be</h1><p>'%s' - hozzáféréshez lépjen befelhasználónevével és "
-"jelszavával</p><p>Ha hozzáférést szeretne kapni, írjon ide: %s</p>"
+msgstr "<h1>Lépjen be</h1><p>'%s' - hozzáféréshez lépjen befelhasználónevével és jelszavával</p><p>Ha hozzáférést szeretne kapni, írjon ide: %s</p>"
 
 msgid "A DAViCal principal collection may only contain collections"
 msgstr ""
@@ -336,9 +334,6 @@ msgstr ""
 msgid "DAViCal only allows BIND requests for collections at present."
 msgstr ""
 
-msgid "DKIM signature invalid "
-msgstr ""
-
 msgid "DKIM signature missing"
 msgstr ""
 
@@ -448,6 +443,9 @@ msgstr ""
 msgid "Does the user have the right to perform this role?"
 msgstr "Van jogosultsága a felhasználónak?"
 
+msgid "Domain"
+msgstr ""
+
 msgid "EMail"
 msgstr "E-mail"
 
@@ -475,9 +473,7 @@ msgstr ""
 msgid ""
 "Enter a username, if you know it, and click here, to be e-mailed a temporary"
 " password."
-msgstr ""
-"Írja be a felhasználónevet. Egy e-mailt fog kapni egy új ideiglenes "
-"jelszóval."
+msgstr "Írja be a felhasználónevet. Egy e-mailt fog kapni egy új ideiglenes jelszóval."
 
 msgid "Enter your username and password then click here to log in."
 msgstr "Írja be a felhasználónevét és jelszavát a belépéshez"
@@ -751,6 +747,9 @@ msgstr ""
 msgid "Opaque"
 msgstr ""
 
+msgid "Organizer Missing"
+msgstr ""
+
 msgid "Override a Lock"
 msgstr ""
 
@@ -775,10 +774,16 @@ msgstr ""
 msgid "PHP calendar extension available"
 msgstr ""
 
+msgid "PHP curl support"
+msgstr ""
+
 msgid "PHP iconv support"
 msgstr ""
 
 msgid "PHP not using Apache Filter mode"
+msgstr ""
+
+msgid "PHP5 curl support is required for external binds"
 msgstr ""
 
 msgid ""
@@ -934,6 +939,9 @@ msgid "Resources may not be changed to / from collections."
 msgstr "Erőforrások nem cserélhetők fel gyűjteményekkel"
 
 msgid "Revoke"
+msgstr ""
+
+msgid "SRV Record"
 msgstr ""
 
 msgid "Schedule Deliver"
@@ -1402,7 +1410,19 @@ msgstr "Emlékezzen rám"
 msgid "from principal"
 msgstr ""
 
+msgid "iSchedule Domains"
+msgstr ""
+
+msgid "invalid request"
+msgstr ""
+
 msgid "path to store your ics"
+msgstr ""
+
+msgid "recipient must be organizer or attendee of event"
+msgstr ""
+
+msgid "sender must be organizer or attendee of event"
 msgstr ""
 
 msgid "unauthenticated"
@@ -1412,5 +1432,3 @@ msgid ""
 "you should log on with the username and password that have been issued to "
 "you."
 msgstr "Lépjen be felhasználónevével és jelszavával."
-
-
