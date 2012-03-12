@@ -86,6 +86,8 @@ include("classBrowser.php");
 
 function SRVOk ( $value, $name, $row ) {
   global $BrowserCurrentRow;
+  if ( $BrowserCurrentRow->domain = '' )
+    return ''; // skip empty rows
   $s = new iSchedule();
   $s->domain = $BrowserCurrentRow->domain; 
   return translate( ( $s->getServer()?'OK': SRVFormat ( $s->domain ) ) );
