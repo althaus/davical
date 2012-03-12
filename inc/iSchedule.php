@@ -77,7 +77,13 @@ class iSchedule
   */ 
   function getTxt ()
   {
+    global $icfg;
     // TODO handle parents of subdomains and procuration records
+    if ( $icfg [ $this->remote_selector . '._domainkey.' . $this->remote_server ] )
+    {
+      $this->dk = $icfg [ $this->remote_selector . '._domainkey.' . $this->remote_server ];
+      return true;
+    }
     
     $dkim = dns_get_record ( $this->remote_selector . '._domainkey.' . $this->remote_server , DNS_TXT );
     if ( count ( $dkim ) > 0 )
@@ -186,6 +192,14 @@ class iSchedule
   */ 
   function getServer ( )
   {
+    global $icfg;
+    if ( $icfg [ $this->domain ] )
+    {
+      $this->remote_server = $icfg [ $this->domain ] [ 'server' ];
+      $this->remote_port = $icfg [ $this->domain ] [ 'port' ];
+      $this->remote_ssl = $icfg [ $this->domain ] [ 'ssl' ];
+      return true;
+    }
     $this->remote_ssl = false;
     $parts = explode ( '.', $this->domain );
     $tld = $parts [ count ( $parts ) - 1 ];
