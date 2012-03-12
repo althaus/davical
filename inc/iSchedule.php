@@ -226,7 +226,7 @@ class iSchedule
           $remote_port = 80;
       }
       else {
-        dbg_error_log('ischedule', $domain . ' did not have srv records for iSchedule' );
+        dbg_error_log('ischedule', 'Domain %s did not have srv records for iSchedule', $this->domain );
         return false;
       }
     }
