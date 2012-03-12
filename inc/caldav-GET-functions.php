@@ -31,7 +31,7 @@ function obfuscated_event( $icalendar ) {
 }
 
 function export_iCalendar( DAVResource $dav_resource ) {
-  global $session;
+  global $session, $c;
   if ( ! $dav_resource->IsCalendar() && !(isset($c->get_includes_subcollections) && $c->get_includes_subcollections) ) {
     /** RFC2616 says we must send an Allow header if we send a 405 */
     header("Allow: PROPFIND,PROPPATCH,OPTIONS,MKCOL,REPORT,DELETE");
@@ -70,7 +70,11 @@ function export_iCalendar( DAVResource $dav_resource ) {
   if ( isset($displayname) ) {
     $vcal->AddProperty("X-WR-CALNAME", $displayname);
   }
-
+  if ( !empty($c->auto_refresh_duration) ) {
+    $vcal->AddProperty("X-APPLE-AUTO-REFRESH-INTERVAL", $c->auto_refresh_duration);
+    $vcal->AddProperty("AUTO-REFRESH", $c->auto_refresh_duration);
+  }
+  
   $need_zones = array();
   $timezones = array();
   while( $event = $qry->Fetch() ) {
