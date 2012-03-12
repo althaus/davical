@@ -12,18 +12,6 @@ Content-Type: application/xml; charset="utf-8"
   <calscale>Gregorian</calscale>
   <observance>
    <name>NZST</name>
-   <onset>2011-04-03T14:00:00Z</onset>
-   <utc-offset-from>+13:00</utc-offset-from>
-   <utc-offset-to>+12:00</utc-offset-to>
-  </observance>
-  <observance>
-   <name>NZDT</name>
-   <onset>2011-09-25T14:00:00Z</onset>
-   <utc-offset-from>+12:00</utc-offset-from>
-   <utc-offset-to>+13:00</utc-offset-to>
-  </observance>
-  <observance>
-   <name>NZST</name>
    <onset>2012-04-01T14:00:00Z</onset>
    <utc-offset-from>+13:00</utc-offset-from>
    <utc-offset-to>+12:00</utc-offset-to>
@@ -139,6 +127,18 @@ Content-Type: application/xml; charset="utf-8"
   <observance>
    <name>NZDT</name>
    <onset>2021-09-26T14:00:00Z</onset>
+   <utc-offset-from>+12:00</utc-offset-from>
+   <utc-offset-to>+13:00</utc-offset-to>
+  </observance>
+  <observance>
+   <name>NZST</name>
+   <onset>2022-04-03T14:00:00Z</onset>
+   <utc-offset-from>+13:00</utc-offset-from>
+   <utc-offset-to>+12:00</utc-offset-to>
+  </observance>
+  <observance>
+   <name>NZDT</name>
+   <onset>2022-09-25T14:00:00Z</onset>
    <utc-offset-from>+12:00</utc-offset-from>
    <utc-offset-to>+13:00</utc-offset-to>
   </observance>

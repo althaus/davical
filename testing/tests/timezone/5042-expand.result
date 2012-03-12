@@ -1,7 +1,7 @@
 HTTP/1.1 200 OK
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 ETag: "Some good etag"
-Content-Length: 1132
+Content-Length: 780
 Content-Type: application/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -10,18 +10,6 @@ Content-Type: application/xml; charset="utf-8"
  <tzdata>
   <tzid>America/Indiana/Indianapolis</tzid>
   <calscale>Gregorian</calscale>
-  <observance>
-   <name>EDT</name>
-   <onset>2011-03-13T07:00:00Z</onset>
-   <utc-offset-from>-05:00</utc-offset-from>
-   <utc-offset-to>-04:00</utc-offset-to>
-  </observance>
-  <observance>
-   <name>EST</name>
-   <onset>2011-11-06T06:00:00Z</onset>
-   <utc-offset-from>-04:00</utc-offset-from>
-   <utc-offset-to>-05:00</utc-offset-to>
-  </observance>
   <observance>
    <name>EDT</name>
    <onset>2012-03-11T07:00:00Z</onset>
