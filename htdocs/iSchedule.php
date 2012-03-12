@@ -93,7 +93,7 @@ function SRVOk ( $value, $name, $row ) {
 
 function SRVFormat ( $domain ) {
   global $c;
-  switch ( $_REQUEST['srv_format'] )
+  switch ( @$_REQUEST['srv_format'] )
   {
     case 'dnsmasq':
       return 'srv_host=_ischedules._tcp.' . $domain .','. ($c->scheduling_dkim_domain?$c->scheduling_dkim_domain:$_SERVER['SERVER_NAME']) .','. $_SERVER['SERVER_PORT'] ;
