@@ -73,9 +73,9 @@ class HTTPAuthSession {
     global $c;
     if ( $auth_header == "" ) {
       $auth_realm = $c->system_name;
-      if ( isset($c->per_principal_realm) && $c->per_principal_realm ) {
-        $principal_name = preg_replace( '{^/(.*?)/.*$}', '$1', $_SERVER["PATH_INFO"]);
-        if ( $principal_name != $_SERVER["PATH_INFO"] ) {
+      if ( isset($c->per_principal_realm) && $c->per_principal_realm && !empty($_SERVER['PATH_INFO']) ) {
+        $principal_name = preg_replace( '{^/(.*?)/.*$}', '$1', $_SERVER['PATH_INFO']);
+        if ( $principal_name != $_SERVER['PATH_INFO'] ) {
           $auth_realm .= ' - ' . $principal_name;
         }
       }
@@ -101,9 +101,9 @@ class HTTPAuthSession {
     /**
     * Get HTTP Auth to work with PHP+FastCGI
     */
-    if ( !isset($_SERVER["AUTHORIZATION"]) && isset($_SERVER["HTTP_AUTHORIZATION"]) && !empty($_SERVER["HTTP_AUTHORIZATION"]))
-      $_SERVER["AUTHORIZATION"] = $_SERVER["HTTP_AUTHORIZATION"];
-    if (isset($_SERVER["AUTHORIZATION"]) && !empty($_SERVER["AUTHORIZATION"])) {
+    if ( !isset($_SERVER['AUTHORIZATION']) && isset($_SERVER['HTTP_AUTHORIZATION']) && !empty($_SERVER['HTTP_AUTHORIZATION']))
+      $_SERVER['AUTHORIZATION'] = $_SERVER['HTTP_AUTHORIZATION'];
+    if (isset($_SERVER['AUTHORIZATION']) && !empty($_SERVER['AUTHORIZATION'])) {
       list ($type, $cred) = split (" ", $_SERVER['AUTHORIZATION']);
       if ($type == 'Basic') {
         list ($user, $pass) = explode (":", base64_decode($cred));
@@ -112,7 +112,7 @@ class HTTPAuthSession {
       }
     }
     else if ( isset($c->authenticate_hook['server_auth_type'])
-              && isset($_SERVER["REMOTE_USER"]) && !empty($_SERVER["REMOTE_USER"])) {
+              && isset($_SERVER['REMOTE_USER']) && !empty($_SERVER['REMOTE_USER'])) {
       if ( ( is_array($c->authenticate_hook['server_auth_type'])
                     && in_array($_SERVER['AUTH_TYPE'], $c->authenticate_hook['server_auth_type']) )
          ||
