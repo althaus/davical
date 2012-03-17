@@ -1260,6 +1260,22 @@ EOQRY;
 
 
   /**
+   * Returns the current sync_token for this collection, or the containing collection
+   */
+  function sync_token() {
+    if ( !isset($this->sync_token) ) { 
+      $sql = 'SELECT sync_token FROM sync_tokens WHERE collection_id = :collection_id ORDER BY sync_token DESC LIMIT 1';
+      $params = array( ':collection_id' => $this->collection_id());
+      $qry = new AwlQuery($sql, $params );
+      if ( !$qry->Exec() || !$row = $qry->Fetch() ) {
+        if ( !$qry->QDo('SELECT new_sync_token( 0, :collection_id) AS sync_token', $params) ) throw new Exception('Problem with database query');
+      }
+      $this->sync_token = 'data:,'.$row->sync_token;
+    }
+    return $this->sync_token;
+  }
+  
+  /**
   * Checks whether the target collection is publicly_readable
   */
   function IsPublic() {
@@ -1606,6 +1622,11 @@ EOQRY;
       case 'http://calendarserver.org/ns/:getctag':
         if ( ! $this->_is_collection ) return false;
         $reply->NSElement($prop, $tag, $this->unique_tag() );
+        break;
+
+      case 'DAV::sync-token':
+        if ( ! $this->_is_collection ) return false;
+        $reply->NSElement($prop, $tag, $this->sync_token() );
         break;
 
       case 'http://calendarserver.org/ns/:calendar-proxy-read-for':
