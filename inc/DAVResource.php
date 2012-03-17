@@ -596,8 +596,8 @@ EOSQL;
 
     $sql = <<<EOQRY
 SELECT calendar_item.*, addressbook_resource.*, caldav_data.*
-     FROM caldav_data LEFT JOIN calendar_item USING (collection_id,dav_id)
-                       LEFT JOIN addressbook_resource USING (dav_id)
+     FROM caldav_data LEFT OUTER JOIN calendar_item USING (collection_id,dav_id)
+                       LEFT OUTER JOIN addressbook_resource USING (dav_id)
      WHERE caldav_data.dav_name = :dav_name
 EOQRY;
     $params = array( ':dav_name' => $this->bound_from() );
