@@ -1263,12 +1263,13 @@ EOQRY;
    * Returns the current sync_token for this collection, or the containing collection
    */
   function sync_token() {
+    if ( $this->IsPrincipal() ) return null;
     if ( !isset($this->sync_token) ) { 
       $sql = 'SELECT sync_token FROM sync_tokens WHERE collection_id = :collection_id ORDER BY sync_token DESC LIMIT 1';
       $params = array( ':collection_id' => $this->collection_id());
       $qry = new AwlQuery($sql, $params );
       if ( !$qry->Exec() || !$row = $qry->Fetch() ) {
-        if ( !$qry->QDo('SELECT new_sync_token( 0, :collection_id) AS sync_token', $params) ) throw new Exception('Problem with database query');
+        if ( !$qry->QDo('SELECT new_sync_token( 0, :collection_id) AS sync_token', $params) )  throw new Exception('Problem with database query');
       }
       $this->sync_token = 'data:,'.$row->sync_token;
     }
@@ -1608,6 +1609,11 @@ EOQRY;
         }
         break;
 
+      case 'DAV::add-member':
+        if ( ! $this->_is_collection ) return false;
+        $reply->DAVElement( $prop, 'add-member', $reply->href($this->collection->dav_name().'?add-member') );
+        break;
+
       // Empty tag responses.
       case 'DAV::group':
       case 'DAV::alternate-URI-set':
@@ -1625,7 +1631,7 @@ EOQRY;
         break;
 
       case 'DAV::sync-token':
-        if ( ! $this->_is_collection ) return false;
+        if ( ! $this->_is_collection || $this->_is_principal ) return false;
         $reply->NSElement($prop, $tag, $this->sync_token() );
         break;
 
