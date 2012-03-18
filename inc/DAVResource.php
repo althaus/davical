@@ -1632,8 +1632,10 @@ EOQRY;
         break;
 
       case 'DAV::sync-token':
-        if ( ! $this->_is_collection || $this->_is_principal ) return false;
-        $reply->NSElement($prop, $tag, $this->sync_token() );
+        if ( ! $this->_is_collection ) return false;
+        $sync_token = $this->sync_token();
+        if ( empty($sync_token) ) return false;
+        $reply->NSElement($prop, $tag, $sync_token );
         break;
 
       case 'http://calendarserver.org/ns/:calendar-proxy-read-for':
