@@ -1611,7 +1611,7 @@ EOQRY;
 
       case 'DAV::add-member':
         if ( ! $this->_is_collection ) return false;
-        $reply->DAVElement( $prop, 'add-member', $reply->href($this->collection->dav_name().'?add-member') );
+        $reply->DAVElement( $prop, 'add-member', $reply->href($this->collection->dav_name.'?add-member') );
         break;
 
       // Empty tag responses.
