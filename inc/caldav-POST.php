@@ -15,13 +15,6 @@ include_once('caldav-PUT-functions.php');
 include_once('freebusy-functions.php');
 include_once('iSchedule.php');
 
-if ( ! $request->AllowedTo("CALDAV:schedule-send-freebusy")
-  && ! $request->AllowedTo("CALDAV:schedule-send-invite")
-  && ! $request->AllowedTo("CALDAV:schedule-send-reply") ) {
-  // $request->DoResponse(403);
-  dbg_error_log( "WARN", ": POST: permissions not yet checked" );
-}
-
 if ( ! ini_get('open_basedir') && (isset($c->dbg['ALL']) || isset($c->dbg['post'])) ) {
   $fh = fopen('/tmp/POST.txt','w');
   if ( $fh ) {
@@ -34,6 +27,7 @@ if ( ! ini_get('open_basedir') && (isset($c->dbg['ALL']) || isset($c->dbg['post'
 function handle_freebusy_request( $ic ) {
   global $c, $session, $request, $ical;
 
+  $request->NeedPrivilege('CALDAV:schedule-send-freebusy');
   $reply = new XMLDocument( array("DAV:" => "", "urn:ietf:params:xml:ns:caldav" => "C" ) );
   $responses = array();
 
@@ -137,6 +131,8 @@ function handle_freebusy_request( $ic ) {
 function handle_cancel_request( $ic ) {
   global $c, $session, $request;
 
+  $request->NeedPrivilege('CALDAV:schedule-send-reply');
+  
   $reply = new XMLDocument( array("DAV:" => "", "urn:ietf:params:xml:ns:caldav" => "C" ) );
 
   $response = $reply->NewXMLElement( "response", false, false, 'urn:ietf:params:xml:ns:caldav' );
@@ -144,6 +140,7 @@ function handle_cancel_request( $ic ) {
   $response = $reply->NewXMLElement( "schedule-response", $response, $reply->GetXmlNsArray() );
   $request->XMLResponse( 200, $response );
 }
+
 
 $ical = new vCalendar( $request->raw_post );
 $method =  $ical->GetPValue('METHOD');
@@ -156,6 +153,7 @@ switch ( $method ) {
     if ( $first->GetType() == 'VFREEBUSY' )
       handle_freebusy_request( $first );
     elseif ( $first->GetType() == 'VEVENT' ) {
+      $request->NeedPrivilege('CALDAV:schedule-send-invite');
       handle_schedule_request( $ical );
     }
     else {
@@ -164,6 +162,7 @@ switch ( $method ) {
     break;
   case 'REPLY':
     dbg_error_log('POST', 'Handling iTIP "REPLY" with "%s" component.', $first->GetType() );
+    $request->NeedPrivilege('CALDAV:schedule-send-reply');
     handle_schedule_reply ( $ical );
     break;
 
