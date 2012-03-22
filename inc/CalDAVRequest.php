@@ -230,8 +230,11 @@ class CalDAVRequest
           $this->depth = 'infinity';
           break;
 
-        case 'PROPFIND':
         case 'REPORT':
+          $this->depth = 0;
+          break;
+
+        case 'PROPFIND':
         default:
           $this->depth = 0;
       }
@@ -740,8 +743,9 @@ EOSQL;
   * Returns the tail of a Regex appropriate for this Depth, when appended to
   *
   */
-  function DepthRegexTail() {
+  function DepthRegexTail( $for_collection_report = false) {
     if ( $this->IsInfiniteDepth() ) return '';
+    if ( $this->depth == 0 && $for_collection_report ) return '[^/]+$';
     if ( $this->depth == 0 ) return '$';
     return '[^/]*/?$';
   }
