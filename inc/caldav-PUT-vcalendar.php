@@ -12,7 +12,30 @@ dbg_error_log("PUT", "method handler");
 
 require_once('DAVResource.php');
 
-$dav_resource = new DAVResource($request->path);
+include_once('caldav-PUT-functions.php');
+
+$vcalendar = new vCalendar( $request->raw_post );
+$uid = $vcalendar->GetUID();
+if ( empty($uid) ) {
+  $uid = uuid();
+  $vcalendar->SetUID($uid);
+}
+
+if ( $add_member ) {
+  $request->path = $request->dav_name() . $uid . '.ics';
+  $dav_resource = new DAVResource($request->path);
+  if ( $dav_resource->Exists() ) {
+    $uid = uuid();
+    $vcalendar->SetUID($uid);
+    $request->path = $request->dav_name() . $uid . '.ics';
+    $dav_resource = new DAVResource($request->path);
+    
+    if ( $dav_resource->Exists() ) throw new Exception("Failed to generate unique segment name for add-member!");
+  }
+}
+else {
+  $dav_resource = new DAVResource($request->path);
+}
 if ( ! $dav_resource->HavePrivilegeTo('DAV::write-content') ) {
   $request->DoResponse(403,'No write permission');
 }
@@ -29,7 +52,6 @@ if ( ! ini_get('open_basedir') && (isset($c->dbg['ALL']) || (isset($c->dbg['put'
   }
 }
 
-include_once('caldav-PUT-functions.php');
 controlRequestContainer( $dav_resource->GetProperty('username'), $dav_resource->GetProperty('user_no'), $dav_resource->bound_from(), true);
 
 $lock_opener = $request->FailIfLocked();

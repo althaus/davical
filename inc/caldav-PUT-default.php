@@ -22,7 +22,18 @@ if ( ! ini_get('open_basedir') && (isset($c->dbg['ALL']) || (isset($c->dbg['put'
 
 $lock_opener = $request->FailIfLocked();
 
-$dest = new DAVResource($request->path);
+if ( $add_member ) {
+  $request->path = $request->dav_name() . uuid();
+  $dest = new DAVResource($request->path);
+  if ( $dest->Exists() ) {
+    $request->path = $request->dav_name() . uuid();
+    $dest = new DAVResource($request->path);
+    if ( $dest->Exists() ) throw new Exception("Failed to generate unique segment name for add-member!");
+  }
+}
+else {
+  $dest = new DAVResource($request->path);
+}
 
 $container = $dest->GetParentContainer();
 if ( $container->IsCalendar() ) {

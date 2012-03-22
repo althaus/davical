@@ -22,7 +22,28 @@ if ( ! ini_get('open_basedir') && (isset($c->dbg['ALL']) || (isset($c->dbg['put'
 
 $lock_opener = $request->FailIfLocked();
 
-$dest = new DAVResource($request->path);
+require_once('vcard.php');
+$vcard = new vCard( $request->raw_post );
+$uid = $vcard->GetPValue('UID');
+if ( empty($uid) ) {
+  $uid = uuid();
+  $vcard->AddProperty('UID',$uid);
+}
+
+if ( $add_member ) {
+  $request->path = $request->dav_name() . $uid . '.vcf';
+  $dest = new DAVResource($request->path);
+  if ( $dest->Exists() ) {
+    $uid = uuid();
+    $vcard->AddProperty('UID',$uid);
+    $request->path = $request->dav_name() . $uid . '.vcf';
+    $dest = new DAVResource($request->path);
+    if ( $dest->Exists() ) throw new Exception("Failed to generate unique segment name for add-member!");
+  }
+}
+else {
+  $dest = new DAVResource($request->path);
+}
 
 $container = $dest->GetParentContainer();
 if ( ! $dest->Exists() ) {
@@ -56,8 +77,6 @@ $collection_id = $container->GetProperty('collection_id');
 
 $original_etag = md5($request->raw_post);
 
-require_once('vcard.php');
-$vcard = new vCard( $request->raw_post );
 
 $qry = new AwlQuery();
 $qry->Begin();
@@ -126,6 +145,8 @@ if ( !$qry->Commit() ) {
 // Uncache anything to do with the collection
 $cache = getCacheInstance();
 $cache->delete( 'collection-'.$container->dav_name(), null );
+
+if ( $add_member ) header('Location: '.$c->protocol_server_port_script.$request->path);
 
 if ( $etag == $original_etag ) header('ETag: "'. $etag . '"' ); // Only send the ETag if we didn't change what they gave us.
 if ( $response_code == 200 ) $response_code = 204;
