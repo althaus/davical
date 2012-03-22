@@ -1,9 +1,9 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
-DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
-ETag: "d83c49ce3cf0c0afe823248336c35521"
-Content-Length: 6648
+DAV: extended-mkcol, bind, addressbook, calendar-auto-schedule, calendar-proxy
+ETag: "1b04205588aa0a39b89c5f000dc8c23e"
+Content-Length: 6649
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -218,5 +218,5 @@ Content-Type: text/xml; charset="utf-8"
    <status>HTTP/1.1 200 OK</status>
   </propstat>
  </response>
- <sync-token>data:,5</sync-token>
+ <sync-token>data:,10</sync-token>
 </multistatus>

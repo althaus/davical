@@ -17,7 +17,7 @@ BEGINDATA
     <getetag/>
     <getlastmodified/>
   </prop>
-  <sync-token>data:,5</sync-token>
+  <sync-token>data:,10</sync-token>
 </sync-collection>
 ENDDATA
 
