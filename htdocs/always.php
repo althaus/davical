@@ -62,7 +62,7 @@ $c->images      = $c->base_url . '/images';
 $c->template_usr = array( 'active' => true,
                           'locale' => 'en_GB',
                           'date_format_type' => 'E',
-                          'email_ok' => date('Y-m-d')
+                          'email_ok' => @date('Y-m-d')
                         );
 
 $c->hide_TODO = true;                      // VTODO only visible to collection owner
