@@ -4,7 +4,7 @@ DELETE FROM caldav_data WHERE dav_name ~ E'/\\.in/.*E1A13F04-iCal-schedule\\.ics
 HTTP/1.1 204 No Content
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
-DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
+DAV: extended-mkcol, bind, addressbook, calendar-auto-schedule, calendar-proxy
 Content-Length: 0
 Content-Type: text/plain; charset="utf-8"
 
