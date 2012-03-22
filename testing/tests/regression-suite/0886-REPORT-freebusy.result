@@ -1,7 +1,7 @@
 HTTP/1.1 200 OK
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
-DAV: extended-mkcol, calendar-proxy, bind, addressbook, calendar-auto-schedule
+DAV: extended-mkcol, bind, addressbook, calendar-auto-schedule, calendar-proxy
 Content-Length: 2752
 Content-Type: text/calendar
 
@@ -72,12 +72,6 @@ FREEBUSY:20070615T040000Z/20070615T054500Z
 FREEBUSY:20070629T040000Z/20070629T054500Z
 END:VFREEBUSY
 END:VCALENDAR
-
-         Dav Name: >/user1/collection/Daily_NY_5pm.ics<
-         a) start: >20060101T220000Z<
-         b)finish: >20060101T230000Z<
-            rrule: >FREQ=DAILY;INTERVAL=1;COUNT=1000<
-           status: >NULL<
 
          Dav Name: >/user1/home/da81c0ee-7871-11db-c6d6-f6927c144649.ics<
          a) start: >20061102T183000Z<
