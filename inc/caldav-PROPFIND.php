@@ -169,7 +169,7 @@ function get_collection_contents( $depth, $collection, $parent_path = null ) {
       }
     }
 
-    if ( $collection->IsPrincipal() ) {
+    if ( (!isset($c->disable_caldav_proxy) || $c->disable_caldav_proxy == false) && $collection->IsPrincipal() ) {
       // Caldav Proxy: 5.1 par. 2: Add child resources calendar-proxy-(read|write)
       dbg_error_log('PROPFIND','Adding calendar-proxy-read and write. Path: %s', $bound_from );
       $response = add_proxy_response('read', $bound_from );

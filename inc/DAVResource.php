@@ -1271,6 +1271,7 @@ EOQRY;
       $qry = new AwlQuery($sql, $params );
       if ( !$qry->Exec() || !$row = $qry->Fetch() ) {
         if ( !$qry->QDo('SELECT new_sync_token( 0, :collection_id) AS sync_token', $params) )  throw new Exception('Problem with database query');
+        $row = $qry->Fetch();
       }
       $this->sync_token = 'data:,'.$row->sync_token;
     }
@@ -1641,6 +1642,7 @@ EOQRY;
       case 'http://calendarserver.org/ns/:calendar-proxy-read-for':
         $proxy_type = 'read';
       case 'http://calendarserver.org/ns/:calendar-proxy-write-for':
+        if ( isset($c->disable_caldav_proxy) && $c->disable_caldav_proxy ) return false;
         if ( !isset($proxy_type) ) $proxy_type = 'write';
         $reply->CalendarserverElement($prop, 'calendar-proxy-'.$proxy_type.'-for', $reply->href( $this->principal->ProxyFor($proxy_type) ) );
         break;

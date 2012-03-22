@@ -199,44 +199,43 @@ class DAVPrincipal extends Principal
     $this->write_proxy_for = array();
     $this->read_proxy_for = array();
 
-    if ( !isset($c->disable_caldav_proxy) || $c->disable_caldav_proxy === false ) {
+    if ( isset($c->disable_caldav_proxy) && $c->disable_caldav_proxy ) return;
 
-      $write_priv = privilege_to_bits(array('write'));
-      // whom are we a proxy for? who is a proxy for us?
-      // (as per Caldav Proxy section 5.1 Paragraph 7 and 5)
-      $sql = 'SELECT principal_id, username, pprivs(:request_principal::int8,principal_id,:scan_depth::int) FROM principal JOIN usr USING(user_no) WHERE principal_id IN (SELECT * from p_has_proxy_access_to(:request_principal,:scan_depth))';
-      $params = array( ':request_principal' => $this->principal_id, ':scan_depth' => $c->permission_scan_depth );
-      $qry = new AwlQuery($sql, $params);
-      if ( $qry->Exec('DAVPrincipal') && $qry->rows() > 0 ) {
-        while( $relationship = $qry->Fetch() ) {
-          if ( (bindec($relationship->pprivs) & $write_priv) != 0 ) {
-            $this->write_proxy_for[] = ConstructURL( '/'. $relationship->username . '/', true);
-            $this->group_membership[] = ConstructURL( '/'. $relationship->username . '/calendar-proxy-write/', true);
-          }
-          else {
-            $this->read_proxy_for[] = ConstructURL( '/'. $relationship->username . '/', true);
-            $this->group_membership[] = ConstructURL( '/'. $relationship->username . '/calendar-proxy-read/', true);
-          }
+    $write_priv = privilege_to_bits(array('write'));
+    // whom are we a proxy for? who is a proxy for us?
+    // (as per Caldav Proxy section 5.1 Paragraph 7 and 5)
+    $sql = 'SELECT principal_id, username, pprivs(:request_principal::int8,principal_id,:scan_depth::int) FROM principal JOIN usr USING(user_no) WHERE principal_id IN (SELECT * from p_has_proxy_access_to(:request_principal,:scan_depth))';
+    $params = array( ':request_principal' => $this->principal_id, ':scan_depth' => $c->permission_scan_depth );
+    $qry = new AwlQuery($sql, $params);
+    if ( $qry->Exec('DAVPrincipal') && $qry->rows() > 0 ) {
+      while( $relationship = $qry->Fetch() ) {
+        if ( (bindec($relationship->pprivs) & $write_priv) != 0 ) {
+          $this->write_proxy_for[] = ConstructURL( '/'. $relationship->username . '/', true);
+          $this->group_membership[] = ConstructURL( '/'. $relationship->username . '/calendar-proxy-write/', true);
+        }
+        else {
+          $this->read_proxy_for[] = ConstructURL( '/'. $relationship->username . '/', true);
+          $this->group_membership[] = ConstructURL( '/'. $relationship->username . '/calendar-proxy-read/', true);
         }
       }
+    }
 
-      $sql = 'SELECT principal_id, username, pprivs(:request_principal::int8,principal_id,:scan_depth::int) FROM principal JOIN usr USING(user_no) WHERE principal_id IN (SELECT * from grants_proxy_access_from_p(:request_principal,:scan_depth))';
-      $qry = new AwlQuery($sql, $params ); // reuse $params assigned for earlier query
-      if ( $qry->Exec('DAVPrincipal') && $qry->rows() > 0 ) {
-        while( $relationship = $qry->Fetch() ) {
-          if ( bindec($relationship->pprivs) & $write_priv ) {
-            $this->write_proxy_group[] = ConstructURL( '/'. $relationship->username . '/', true);
-          }
-          else {
-            $this->read_proxy_group[] = ConstructURL( '/'. $relationship->username . '/', true);
-          }
+    $sql = 'SELECT principal_id, username, pprivs(:request_principal::int8,principal_id,:scan_depth::int) FROM principal JOIN usr USING(user_no) WHERE principal_id IN (SELECT * from grants_proxy_access_from_p(:request_principal,:scan_depth))';
+    $qry = new AwlQuery($sql, $params ); // reuse $params assigned for earlier query
+    if ( $qry->Exec('DAVPrincipal') && $qry->rows() > 0 ) {
+      while( $relationship = $qry->Fetch() ) {
+        if ( bindec($relationship->pprivs) & $write_priv ) {
+          $this->write_proxy_group[] = ConstructURL( '/'. $relationship->username . '/', true);
+        }
+        else {
+          $this->read_proxy_group[] = ConstructURL( '/'. $relationship->username . '/', true);
         }
       }
+    }
 //      @dbg_error_log( 'principal', 'Read-proxy-for:    %s', implode(',',$this->read_proxy_for) );
 //      @dbg_error_log( 'principal', 'Write-proxy-for:   %s', implode(',',$this->write_proxy_for) );
 //      @dbg_error_log( 'principal', 'Read-proxy-group:  %s', implode(',',$this->read_proxy_group) );
 //      @dbg_error_log( 'principal', 'Write-proxy-group: %s', implode(',',$this->write_proxy_group) );
-    }
   }
 
 

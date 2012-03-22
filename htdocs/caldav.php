@@ -72,15 +72,9 @@ function send_dav_header() {
     $dav = $c->override_dav_header;
   }
   else {
-    /** hack to get around bugzilla #463392 - remove sometime after 2011-02-28 */
-    if ( isset($_SERVER['HTTP_USER_AGENT']) && preg_match( '{ Gecko/(20[01]\d[01]\d[0123]\d)(\d+)? }', $_SERVER['HTTP_USER_AGENT'], $matches ) && $matches[1] < 20100520 ) {
-      $dav = '1, 2, 3, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy, bind, addressbook';
-    }
-    else {
-       // We don't actually do calendar-auto-schedule yet - when we do we should add it on here.
-      $dav = '1, 2, 3, access-control, calendar-access, calendar-schedule, extended-mkcol, calendar-proxy, bind, addressbook';
-      if ( $c->enable_auto_schedule ) $dav .= ', calendar-auto-schedule';
-    }
+    $dav = '1, 2, 3, access-control, calendar-access, calendar-schedule, extended-mkcol, bind, addressbook';
+    if ( $c->enable_auto_schedule ) $dav .= ', calendar-auto-schedule';
+    if ( !isset($c->disable_caldav_proxy) || $c->disable_caldav_proxy == false) $dav .= ', calendar-proxy';
   }
   $dav = explode( "\n", wordwrap( $dav ) );
   foreach( $dav AS $v ) {
@@ -105,15 +99,21 @@ if ( ! ($request->IsPrincipal() || isset($request->collection) || $request->meth
     @ob_flush(); exit(0);
   }
 }
+param_to_global('add_member','.*');
+$add_member = isset($add_member);
 
 switch ( $request->method ) {
   case 'OPTIONS':    include_once('caldav-OPTIONS.php');   break;
   case 'REPORT':     include_once('caldav-REPORT.php');    break;
   case 'PROPFIND':   include('caldav-PROPFIND.php');       break;
   case 'GET':        include('caldav-GET.php');            break;
-  case 'POST':       include('caldav-POST.php');           break;
   case 'HEAD':       include('caldav-GET.php');            break;
   case 'PROPPATCH':  include('caldav-PROPPATCH.php');      break;
+  case 'POST':
+    if ( !$add_member ) {
+      include('caldav-POST.php');
+      break;
+    }
   case 'PUT':
     switch( $request->content_type ) {
       case 'text/calendar':
