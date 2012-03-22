@@ -31,7 +31,7 @@ function obfuscated_event( $icalendar ) {
 }
 
 function export_iCalendar( DAVResource $dav_resource ) {
-  global $session, $c;
+  global $session, $c, $request;
   if ( ! $dav_resource->IsCalendar() && !(isset($c->get_includes_subcollections) && $c->get_includes_subcollections) ) {
     /** RFC2616 says we must send an Allow header if we send a 405 */
     header("Allow: PROPFIND,PROPPATCH,OPTIONS,MKCOL,REPORT,DELETE");
