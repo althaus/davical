@@ -925,6 +925,7 @@ EOFILTER;
   *
   * @param uid
   * @param string    $relative_url The URL relative to the base_url specified when the calendar was opened.  Default ''.
+  * @param string    $component_type The component type inside the VCALENDAR.  Default 'VEVENT'.
   *
   * @return array An array of the relative URL, etag, and calendar data returned from DoCalendarQuery() @see DoCalendarQuery()
   */
