@@ -76,8 +76,10 @@ class CalDAVClient {
   protected $requestMethod = "GET";
   protected $httpRequest = "";  // for debugging http headers sent
   protected $xmlRequest = "";   // for debugging xml sent
-  protected $httpResponse = ""; // http headers received
   protected $xmlResponse = "";  // xml received
+  protected $httpResponseCode = 0; // http response code
+  protected $httpResponseHeaders = "";
+  protected $httpResponseBody = "";  
 
   protected $parser; // our XML parser object
 
@@ -167,11 +169,7 @@ class CalDAVClient {
    */
   function ParseResponse( $response ) {
     $pos = strpos($response, '<?xml');
-    if ($pos === false) {
-      $this->httpResponse = trim($response);
-    }
-    else {
-      $this->httpResponse = trim(substr($response, 0, $pos));
+    if ($pos !== false) {
       $this->xmlResponse = trim(substr($response, $pos));
       $this->xmlResponse = preg_replace('{>[^>]*$}s', '>',$this->xmlResponse );
       $parser = xml_parser_create_ns('UTF-8');
@@ -268,7 +266,6 @@ class CalDAVClient {
     $this->httpRequest = join("\r\n",$headers);
     $this->xmlRequest = $this->body;
 
-    $this->httpResponse = '';
     $this->xmlResponse = '';
 
     $fip = fsockopen( $this->protocol . '://' . $this->server, $this->port, $errno, $errstr, _FSOCK_TIMEOUT); //error handling?
@@ -280,6 +277,7 @@ class CalDAVClient {
 
     list( $this->httpResponseHeaders, $this->httpResponseBody ) = preg_split( '{\r?\n\r?\n}s', $response, 2 );
     if ( preg_match( '{Transfer-Encoding: chunked}i', $this->httpResponseHeaders ) ) $this->Unchunk();
+    $this->httpResponseCode = intval(substr($this->httpResponseHeaders,0,3));
 
     $this->headers = array();  // reset the headers array for our next request
     $this->ParseResponse($this->httpResponseBody);
@@ -431,7 +429,7 @@ class CalDAVClient {
       $this->SetMatch( true, $etag );
     }
     $this->DoRequest($url);
-    return $this->resultcode;
+    return $this->httpResponseCode;
   }
 
 
