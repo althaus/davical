@@ -277,7 +277,10 @@ class CalDAVClient {
 
     list( $this->httpResponseHeaders, $this->httpResponseBody ) = preg_split( '{\r?\n\r?\n}s', $response, 2 );
     if ( preg_match( '{Transfer-Encoding: chunked}i', $this->httpResponseHeaders ) ) $this->Unchunk();
-    $this->httpResponseCode = intval(substr($this->httpResponseHeaders,0,3));
+    if ( preg_match('/HTTP\/\d\.\d (\d{3})/', $this->httpResponseHeaders, $status) )
+      $this->httpResponseCode = intval($status);
+    else
+      $this->httpResponseCode = 0;
 
     $this->headers = array();  // reset the headers array for our next request
     $this->ParseResponse($this->httpResponseBody);
