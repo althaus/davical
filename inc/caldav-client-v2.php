@@ -928,41 +928,13 @@ EOFILTER;
   *
   * @return array An array of the relative URL, etag, and calendar data returned from DoCalendarQuery() @see DoCalendarQuery()
   */
-  function GetEntryByUid( $uid, $relative_url = '' ) {
+  function GetEntryByUid( $uid, $relative_url = '', $component_type = 'VEVENT' ) {
     $filter = "";
     if ( $uid ) {
       $filter = <<<EOFILTER
   <C:filter>
     <C:comp-filter name="VCALENDAR">
-          <C:comp-filter name="VEVENT">
-                <C:prop-filter name="UID">
-                        <C:text-match icollation="i;octet">$uid</C:text-match>
-                </C:prop-filter>
-          </C:comp-filter>
-    </C:comp-filter>
-  </C:filter>
-EOFILTER;
-    }
-
-    return $this->DoCalendarQuery($filter, $relative_url);
-  }
-
-
-  /**
-  * Get the calendar entry by UID
-  *
-  * @param uid
-  * @param string    $relative_url The URL relative to the base_url specified when the calendar was opened.  Default ''.
-  *
-  * @return array An array of the relative URL, etag, and calendar data returned from DoCalendarQuery() @see DoCalendarQuery()
-  */
-  function GetTodoByUid( $uid, $relative_url = '' ) {
-    $filter = "";
-    if ( $uid ) {
-      $filter = <<<EOFILTER
-  <C:filter>
-    <C:comp-filter name="VCALENDAR">
-          <C:comp-filter name="VTODO">
+          <C:comp-filter name="$component_type">
                 <C:prop-filter name="UID">
                         <C:text-match icollation="i;octet">$uid</C:text-match>
                 </C:prop-filter>
