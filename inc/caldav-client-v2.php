@@ -949,6 +949,34 @@ EOFILTER;
 
 
   /**
+  * Get the calendar entry by UID
+  *
+  * @param uid
+  * @param string    $relative_url The URL relative to the base_url specified when the calendar was opened.  Default ''.
+  *
+  * @return array An array of the relative URL, etag, and calendar data returned from DoCalendarQuery() @see DoCalendarQuery()
+  */
+  function GetTodoByUid( $uid, $relative_url = '' ) {
+    $filter = "";
+    if ( $uid ) {
+      $filter = <<<EOFILTER
+  <C:filter>
+    <C:comp-filter name="VCALENDAR">
+          <C:comp-filter name="VTODO">
+                <C:prop-filter name="UID">
+                        <C:text-match icollation="i;octet">$uid</C:text-match>
+                </C:prop-filter>
+          </C:comp-filter>
+    </C:comp-filter>
+  </C:filter>
+EOFILTER;
+    }
+
+    return $this->DoCalendarQuery($filter, $relative_url);
+  }
+
+
+  /**
   * Get the calendar entry by HREF
   *
   * @param string    $href         The href from a call to GetEvents or GetTodos etc.
