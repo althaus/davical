@@ -120,7 +120,7 @@ class CalDAVClient {
   * @param string $etag The etag to match / not match against.
   */
   function SetMatch( $match, $etag = '*' ) {
-    $this->headers['match'] = sprintf( "%s-Match: %s", ($match ? "If" : "If-None"), $etag);
+    $this->headers['match'] = sprintf( "%s-Match: \"%s\"", ($match ? "If" : "If-None"), trim($etag,'"'));
   }
 
   /**
@@ -599,7 +599,7 @@ class CalDAVClient {
   *
   * @param string $url The URL to find the principal-URL from
   */
-  function FindPrincipal( $url ) {
+  function FindPrincipal( $url=null ) {
     $xml = $this->DoPROPFINDRequest( $url, array('resourcetype', 'current-user-principal', 'owner', 'principal-URL',
                                   'urn:ietf:params:xml:ns:caldav:calendar-home-set'), 1);
 
