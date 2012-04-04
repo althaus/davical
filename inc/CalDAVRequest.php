@@ -197,7 +197,7 @@ class CalDAVRequest
       if ( $this->method == 'PROPFIND' || $this->method == 'REPORT' || $this->method == 'PROPPATCH' || $this->method == 'BIND' || $this->method == 'MKTICKET' || $this->method == 'ACL' ) {
         if ( !preg_match( '{^(text|application)/xml$}', $this->content_type ) ) {
           @dbg_error_log( "LOG request", 'Request is "%s" but client set content-type to "%s". Assuming they meant XML!',
-                                                 $request->method, $this->content_type );
+                                                 $this->method, $this->content_type );
           $this->content_type = 'text/xml';
         }
       }
@@ -1076,6 +1076,59 @@ EOSQL;
   }
 
 
+  /**
+   * Check that the incoming Etag matches the one for the existing (or non-existing) resource.
+   * 
+   * @param boolean $exists Whether the destination exists
+   * @param string $dest_etag The etag for the destination.
+   */
+  function CheckEtagMatch( $exists, $dest_etag ) {
+    global $c;
+    
+    if ( ! $exists ) {
+      if ( (isset($this->etag_if_match) && $this->etag_if_match != '') ) {
+        /**
+        * RFC2068, 14.25:
+        * If none of the entity tags match, or if "*" is given and no current
+        * entity exists, the server MUST NOT perform the requested method, and
+        * MUST return a 412 (Precondition Failed) response.
+        */
+        $this->PreconditionFailed(412, 'if-match', translate('No resource exists at the destination.'));
+      }
+    }
+    else {
+    
+      if ( isset($c->strict_etag_checking) && $c->strict_etag_checking )
+         $trim_chars = '\'\\" ';
+      else
+        $trim_chars = ' ';
+
+      if ( isset($this->etag_if_match) && $this->etag_if_match != '' && trim( $this->etag_if_match, $trim_chars) != trim( $dest_etag, $trim_chars ) ) {
+        /**
+        * RFC2068, 14.25:
+        * If none of the entity tags match, or if "*" is given and no current
+        * entity exists, the server MUST NOT perform the requested method, and
+        * MUST return a 412 (Precondition Failed) response.
+        */
+        $this->PreconditionFailed(412,'if-match',sprintf('Existing resource ETag of <<%s>> does not match <<%s>>', $dest_etag, $this->etag_if_match) );
+      }
+      else if ( isset($this->etag_none_match) && $this->etag_none_match != ''
+                   && ($this->etag_none_match == $dest_etag || $this->etag_none_match == '*') ) {
+        /**
+        * RFC2068, 14.26:
+        * If any of the entity tags match the entity tag of the entity that
+        * would have been returned in the response to a similar GET request
+        * (without the If-None-Match header) on that resource, or if "*" is
+        * given and any current entity exists for that resource, then the
+        * server MUST NOT perform the requested method.
+        */
+        $this->PreconditionFailed(412,'if-none-match', translate( 'Existing resource matches "If-None-Match" header - not accepted.'));
+      }
+    }
+
+  }
+
+  
   /**
   * Is the user has the privileges to do what is requested.
   */

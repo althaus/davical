@@ -65,13 +65,7 @@ else {
   $dest->NeedPrivilege('DAV::write-content');
 }
 
-if ( isset($request->etag_none_match) && $request->etag_none_match != '*' && $dest->Exists() ) {
-  $request->PreconditionFailed(412,'if-none-match', translate('A resource already exists at the destination.'));
-}
-
-if ( isset($request->etag_if_match) && $request->etag_if_match != $dest->unique_tag() ) {
-  $request->PreconditionFailed(412,'if-match',sprintf('Existing resource ETag of "%s" does not match "%s"', $dest->unique_tag(), $request->etag_if_match) );
-}
+$request->CheckEtagMatch( $dest->Exists(), $dest->unique_tag() );
 
 $collection_id = $container->GetProperty('collection_id');
 

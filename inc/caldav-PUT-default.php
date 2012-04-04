@@ -63,13 +63,7 @@ else {
   $dest->NeedPrivilege('DAV::write-content');
 }
 
-if ( isset($request->etag_none_match) && $request->etag_none_match != '*' && $dest->Exists() ) {
-  $request->DoResponse(412);
-}
-
-if ( isset($request->etag_if_match) && $request->etag_if_match != $dest->unique_tag() ) {
-  $request->DoResponse(412);
-}
+$request->CheckEtagMatch( $dest->Exists(), $dest->unique_tag() );
 
 $collection_id = $container->GetProperty('collection_id');
 

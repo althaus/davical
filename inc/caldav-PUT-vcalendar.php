@@ -76,39 +76,7 @@ if ( $dav_resource->IsCollection()  ) {
 
 $etag = md5($request->raw_post);
 
-if ( ! $dav_resource->Exists() && (isset($request->etag_if_match) && $request->etag_if_match != '') ) {
-  /**
-  * RFC2068, 14.25:
-  * If none of the entity tags match, or if "*" is given and no current
-  * entity exists, the server MUST NOT perform the requested method, and
-  * MUST return a 412 (Precondition Failed) response.
-  */
-  $request->PreconditionFailed(412,'if-match');
-}
-
-if ( $dav_resource->Exists() ) {
-  if ( isset($request->etag_if_match) && $request->etag_if_match != '' && $request->etag_if_match != $dav_resource->unique_tag() ) {
-    /**
-    * RFC2068, 14.25:
-    * If none of the entity tags match, or if "*" is given and no current
-    * entity exists, the server MUST NOT perform the requested method, and
-    * MUST return a 412 (Precondition Failed) response.
-    */
-    $request->PreconditionFailed(412,'if-match',sprintf('Existing resource ETag of "%s" does not match "%s"', $dav_resource->unique_tag(), $request->etag_if_match) );
-  }
-  else if ( isset($request->etag_none_match) && $request->etag_none_match != ''
-               && ($request->etag_none_match == $dav_resource->unique_tag() || $request->etag_none_match == '*') ) {
-    /**
-    * RFC2068, 14.26:
-    * If any of the entity tags match the entity tag of the entity that
-    * would have been returned in the response to a similar GET request
-    * (without the If-None-Match header) on that resource, or if "*" is
-    * given and any current entity exists for that resource, then the
-    * server MUST NOT perform the requested method.
-    */
-    $request->PreconditionFailed(412,'if-none-match', translate( 'Existing resource matches "If-None-Match" header - not accepted.'));
-  }
-}
+$request->CheckEtagMatch( $dav_resource->Exists(), $dav_resource->unique_tag() );
 
 $put_action_type = ($dav_resource->Exists() ? 'UPDATE' : 'INSERT');
 $collection = $dav_resource->GetParentContainer();

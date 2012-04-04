@@ -6,7 +6,7 @@ URL=http://regression.host/caldav.php/user1/addressbook/F06EC844-EACD-4ADF-8823-
 
 HEADER=User-Agent: DAViCalTester/public
 HEADER=Content-Type: text/vcard; charset=utf-8
-HEADER=If-None-Match: *
+HEADER=If-Match: "3419498c6e5eae71dc1704f1787faf1c"
 HEAD
 
 BEGINDATA
