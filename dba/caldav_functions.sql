@@ -1017,7 +1017,7 @@ BEGIN
     RETURN ~ out_conferred;
   END IF;
 
-  SELECT privileges INTO out_conferred FROM grants
+  SELECT bit_or(privileges) INTO out_conferred FROM grants
                    WHERE by_collection = grantor_collection
                      AND (to_principal=in_accessor OR to_principal IN (SELECT expand_memberships(in_accessor,in_depth)));
 
