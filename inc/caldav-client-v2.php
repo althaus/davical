@@ -82,6 +82,8 @@ class CalDAVClient {
   protected $httpResponseBody = "";  
 
   protected $parser; // our XML parser object
+  
+  private $debug = false; // Whether we are debugging
 
   /**
   * Constructor, initialises the class
@@ -115,6 +117,23 @@ class CalDAVClient {
     }
   }
 
+  
+  /**
+   * Call this to enable / disable debugging.  It will return the prior value of the debugging flag.
+   * @param boolean $new_value The new value for debugging.
+   * @return boolean The previous value, in case you want to restore it later.
+   */
+  function SetDebug( $new_value ) {
+    $old_value = $this->debug;
+    if ( $new_value )
+      $this->debug = true;
+    else
+      $this->debug = false;
+    return $old_value;
+  }
+
+  
+  
   /**
   * Adds an If-Match or If-None-Match header
   *
@@ -278,7 +297,7 @@ class CalDAVClient {
     list( $this->httpResponseHeaders, $this->httpResponseBody ) = preg_split( '{\r?\n\r?\n}s', $response, 2 );
     if ( preg_match( '{Transfer-Encoding: chunked}i', $this->httpResponseHeaders ) ) $this->Unchunk();
     if ( preg_match('/HTTP\/\d\.\d (\d{3})/', $this->httpResponseHeaders, $status) )
-      $this->httpResponseCode = intval($status);
+      $this->httpResponseCode = intval($status[1]);
     else
       $this->httpResponseCode = 0;
 
@@ -401,13 +420,13 @@ class CalDAVClient {
     $etag = null;
     if ( preg_match( '{^ETag:\s+"([^"]*)"\s*$}im', $this->httpResponseHeaders, $matches ) ) $etag = $matches[1];
     if ( !isset($etag) || $etag == '' ) {
-      printf( "No etag in:\n%s\n", $this->httpResponseHeaders );
+      if ( $this->debug ) printf( "No etag in:\n%s\n", $this->httpResponseHeaders );
       $save_request = $this->httpRequest;
       $save_response_headers = $this->httpResponseHeaders;
       $this->DoHEADRequest( $url );
       if ( preg_match( '{^Etag:\s+"([^"]*)"\s*$}im', $this->httpResponseHeaders, $matches ) ) $etag = $matches[1];
       if ( !isset($etag) || $etag == '' ) {
-        printf( "Still No etag in:\n%s\n", $this->httpResponseHeaders );
+        if ( $this->debug ) printf( "Still No etag in:\n%s\n", $this->httpResponseHeaders );
       }
       $this->httpRequest = $save_request;
       $this->httpResponseHeaders = $save_response_headers;
@@ -535,7 +554,7 @@ class CalDAVClient {
       }
     }
     else {
-      printf( "xmltags[$tagname] or xmltags[$tagname][$i] is not set\n");
+      if ( $this->debug ) printf( "xmltags[$tagname] or xmltags[$tagname][$i] is not set\n");
     }
     return null;
   }
