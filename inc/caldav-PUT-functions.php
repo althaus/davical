@@ -728,6 +728,7 @@ function import_calendar_collection( $ics_content, $user_no, $path, $caldav_cont
     $qry = new AwlQuery( $sql, array( ':displayname' => $displayname, ':dav_name' => $path) );
     if ( ! $qry->Exec('PUT',__LINE__,__FILE__) ) rollback_on_error( $caldav_context, $user_no, $path );
   }
+  
 
   $tz_ids    = array();
   foreach( $timezones AS $k => $tz ) {
@@ -762,20 +763,29 @@ function import_calendar_collection( $ics_content, $user_no, $path, $caldav_cont
     rollback_on_error( $caldav_context, $user_no, $path );
   }
   $collection = $qry->Fetch();
-
+  $collection_id = $collection->collection_id;
+  
+  // Fetch the current collection data
+  $qry->QDo('SELECT dav_name, caldav_data FROM caldav_data WHERE collection_id=:collection_id', array(
+          ':collection_id' => $collection_id
+      ));
+  $current_data = array();
+  while( $row = $qry->Fetch() )
+    $current_data[$row->dav_name] = $row->caldav_data;
+  
   if ( !(isset($c->skip_bad_event_on_import) && $c->skip_bad_event_on_import) ) $qry->Begin();
-  $base_params = array( ':collection_id' => $collection->collection_id );
-  if ( !$appending ) {
-    if ( !$qry->QDo('DELETE FROM calendar_item WHERE collection_id = :collection_id', $base_params)
-      || !$qry->QDo('DELETE FROM caldav_data WHERE collection_id = :collection_id', $base_params) )
-      rollback_on_error( $caldav_context, $user_no, $collection->collection_id );
-  }
+  $base_params = array( ':collection_id' => $collection_id );
 
   $dav_data_insert = <<<EOSQL
 INSERT INTO caldav_data ( user_no, dav_name, dav_etag, caldav_data, caldav_type, logged_user, created, modified, collection_id )
     VALUES( :user_no, :dav_name, :etag, :dav_data, :caldav_type, :session_user, current_timestamp, current_timestamp, :collection_id )
 EOSQL;
 
+  $dav_data_update = <<<EOSQL
+UPDATE caldav_data SET user_no=:user_no, caldav_data=:dav_data, dav_etag=:etag, caldav_type=:caldav_type, logged_user=:session_user,
+  modified=current_timestamp WHERE collection_id=:collection_id AND dav_name=:dav_name
+EOSQL;
+  
   $calitem_insert = <<<EOSQL
 INSERT INTO calendar_item (user_no, dav_name, dav_id, dav_etag, uid, dtstamp, dtstart, dtend, summary, location, class, transp,
                     description, rrule, tz_id, last_modified, url, priority, created, due, percent_complete, status, collection_id )
@@ -783,28 +793,54 @@ INSERT INTO calendar_item (user_no, dav_name, dav_id, dav_etag, uid, dtstamp, dt
                 :description, :rrule, :tzid, :modified, :url, :priority, :created, :due, :percent_complete, :status, :collection_id)
 EOSQL;
 
+  $calitem_update = <<<EOSQL
+UPDATE calendar_item SET user_no=:user_no, dav_etag=:etag, uid=:uid, dtstamp=:dtstamp,
+                dtstart=:dtstart, dtend=##dtend##, summary=:summary, location=:location,
+                class=:class, transp=:transp, description=:description, rrule=:rrule,
+                tz_id=:tzid, last_modified=:modified, url=:url, priority=:priority,
+                due=:due, percent_complete=:percent_complete, status=:status
+       WHERE collection_id=:collection_id AND dav_name=:dav_name
+EOSQL;
+  
   $last_olson = '';
   foreach( $resources AS $uid => $resource ) {
-    if ( isset($c->skip_bad_event_on_import) && $c->skip_bad_event_on_import ) $qry->Begin();
 
     /** Construct the VCALENDAR data */
     $vcal = new vCalendar();
     $vcal->SetComponents($resource);
     $icalendar = $vcal->Render();
+    $dav_name = sprintf( '%s%s.ics', $path, preg_replace('{[&?\\/@%+:]}','',$uid) );
 
+    /** Do we need to do anything? */
+    $inserting = true;
+    if ( isset($current_data[$dav_name]) ) {
+      if ( $icalendar == $current_data[$dav_name] ) {
+        unset($current_data[$dav_name]);
+        continue;
+      }
+      $sync_change = 200;
+      unset($current_data[$dav_name]);
+      $inserting = false;
+    }
+    else
+      $sync_change = 201;
+    
+    if ( isset($c->skip_bad_event_on_import) && $c->skip_bad_event_on_import ) $qry->Begin();
+    
     /** As ever, we mostly deal with the first resource component */
     $first = $resource[0];
 
     $dav_data_params = $base_params;
     $dav_data_params[':user_no'] = $user_no;
     // We don't allow any of &?\/@%+: in the UID to appear in the path, but anything else is fair game.
-    $dav_data_params[':dav_name'] = sprintf( '%s%s.ics', $path, preg_replace('{[&?\\/@%+:]}','',$uid) );
+    $dav_data_params[':dav_name'] = $dav_name;
     $dav_data_params[':etag'] = md5($icalendar);
     $calitem_params = $dav_data_params;
     $dav_data_params[':dav_data'] = $icalendar;
     $dav_data_params[':caldav_type'] = $first->GetType();
     $dav_data_params[':session_user'] = $session->user_no;
-    if ( !$qry->QDo($dav_data_insert,$dav_data_params) ) rollback_on_error( $caldav_context, $user_no, $path );
+    if ( !$qry->QDo( ($inserting ? $dav_data_insert : $dav_data_update), $dav_data_params) )
+      rollback_on_error( $caldav_context, $user_no, $path );
 
     $qry->QDo('SELECT dav_id FROM caldav_data WHERE dav_name = :dav_name ', array(':dav_name' => $dav_data_params[':dav_name']));
     if ( $qry->rows() == 1 && $row = $qry->Fetch() ) {
@@ -896,7 +932,7 @@ EOSQL;
       $tz = $olson = $tzid = null;
     }
 
-    $sql = str_replace( '##dtend##', $dtend, $calitem_insert );
+    $sql = str_replace( '##dtend##', $dtend, ($inserting ? $calitem_insert : $calitem_update) );
     $calitem_params[':tzid'] = $tzid;
     $calitem_params[':uid'] = $first->GetPValue('UID');
     $calitem_params[':summary'] = $first->GetPValue('SUMMARY');
@@ -910,19 +946,34 @@ EOSQL;
     $calitem_params[':percent_complete'] = $first->GetPValue('PERCENT-COMPLETE');
     $calitem_params[':status'] = $first->GetPValue('STATUS');
 
-    $created = $first->GetPValue('CREATED');
-    if ( $created == '00001231T000000Z' ) $created = '20001231T000000Z';
-    $calitem_params[':created'] = $created;
+    if ( $inserting ) {
+      $created = $first->GetPValue('CREATED');
+      if ( $created == '00001231T000000Z' ) $created = '20001231T000000Z';
+      $calitem_params[':created'] = $created;
+    }
 
     if ( !$qry->QDo($sql,$calitem_params) ) rollback_on_error( $caldav_context, $user_no, $path);
 
     write_alarms($dav_id, $first);
     write_attendees($dav_id, $vcal);
 
+    $qry->QDo("SELECT write_sync_change( $collection_id, $sync_change, :dav_name)", array(':dav_name' => $dav_name ) );
+    
     do_scheduling_requests( $vcal, true );
     if ( isset($c->skip_bad_event_on_import) && $c->skip_bad_event_on_import ) $qry->Commit();
   }
 
+  if ( !$appending && count($current_data) > 0 ) {
+    $params = array( ':collection_id' => $collection_id );
+    if ( isset($c->skip_bad_event_on_import) && $c->skip_bad_event_on_import ) $qry->Begin();
+    foreach( $current_data AS $dav_name => $data ) {
+      $params[':dav_name'] = $dav_name;
+      $qry->QDo('DELETE FROM caldav_data WHERE collection_id = :collection_id AND dav_name = :dav_name', $params);
+      $qry->QDo('SELECT write_sync_change(:collection_id, 404, :dav_name)', $params);
+    }
+    if ( isset($c->skip_bad_event_on_import) && $c->skip_bad_event_on_import ) $qry->Commit();
+  }
+  
   if ( !(isset($c->skip_bad_event_on_import) && $c->skip_bad_event_on_import) ) {
     if ( ! $qry->Commit() ) rollback_on_error( $caldav_context, $user_no, $path);
   }
