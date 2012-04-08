@@ -97,7 +97,7 @@ function IMAP_PAM_check($username, $password ){
                       'username' => $username,
                       'user_active' => true,
                       'email' => $username . "@" . $c->authenticate_hook['config']['email_base'],
-                      'modified' => date(),
+                      'modified' => date('c'),
                       'fullname' => $fullname
               ));
       if ( ! $principal->Exists() ) {
