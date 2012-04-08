@@ -11,6 +11,11 @@
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v2 or later
 */
 
+// The PHP interpreter will die quietly unless satisfied. This provides user feedback instead.
+if (!function_exists('imap_open')) {
+  die("drivers_imap_pam: php5-imap required.");
+}
+
 require_once("auth-functions.php");
 
 class imapPamDrivers
