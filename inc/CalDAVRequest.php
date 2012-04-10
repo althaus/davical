@@ -17,7 +17,7 @@
 require_once("AwlCache.php");
 require_once("XMLDocument.php");
 require_once("DAVPrincipal.php");
-include("DAVTicket.php");
+require_once("DAVTicket.php");
 
 define('DEPTH_INFINITY', 9999);
 
