@@ -84,12 +84,18 @@ else {
   if ( $qry->QDo("SELECT write_sync_change(collection_id, 404, caldav_data.dav_name) FROM caldav_data WHERE dav_id = :dav_id", $params )
     && $qry->QDo("DELETE FROM property WHERE dav_name = (SELECT dav_name FROM caldav_data WHERE dav_id = :dav_id)", $params )
     && $qry->QDo("DELETE FROM locks WHERE dav_name = (SELECT dav_name FROM caldav_data WHERE dav_id = :dav_id)", $params )
-    && $qry->QDo("DELETE FROM caldav_data WHERE dav_id = :dav_id", $params )
-    && $qry->Commit() ) {
-    @dbg_error_log( "DELETE", "DELETE: User: %d, ETag: %s, Path: %s", $session->user_no, $request->etag_if_match, $request->path);
+    && $qry->QDo("DELETE FROM caldav_data WHERE dav_id = :dav_id", $params ) ) {
     if ( function_exists('log_caldav_action') ) {
       log_caldav_action( 'DELETE', $dav_resource->GetProperty('uid'), $dav_resource->GetProperty('user_no'), $dav_resource->GetProperty('collection_id'), $request->path );
     }
+    
+    $qry->Commit();
+    @dbg_error_log( "DELETE", "DELETE: User: %d, ETag: %s, Path: %s", $session->user_no, $request->etag_if_match, $request->path);
+
+    if ( function_exists('post_commit_action') ) {
+      post_commit_action( 'DELETE', $dav_resource->GetProperty('uid'), $dav_resource->GetProperty('user_no'), $dav_resource->GetProperty('collection_id'), $request->path );
+    }
+
     $cache->delete( 'collection-'.$dav_resource->parent_path(), null );
     $cache->releaseLock($myLock);
     $request->DoResponse( 204 );

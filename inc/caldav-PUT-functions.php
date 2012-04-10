@@ -1358,6 +1358,10 @@ EOSQL;
   $qry->QDo("SELECT write_sync_change( $collection_id, $sync_change, :dav_name)", array(':dav_name' => $path ) );
   $qry->Commit();
 
+  if ( function_exists('post_commit_action') ) {
+    post_commit_action( $put_action_type, $first->GetPValue('UID'), $user_no, $collection_id, $path );
+  }
+  
   // Uncache anything to do with the collection
   $cache = getCacheInstance();
   $cache_ns = 'collection-'.preg_replace( '{/[^/]*$}', '/', $path);
