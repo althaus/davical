@@ -803,6 +803,9 @@ UPDATE calendar_item SET user_no=:user_no, dav_etag=:etag, uid=:uid, dtstamp=:dt
 EOSQL;
   
   $last_olson = '';
+  if ( count($resources) > 0 )
+    $qry->QDo('SELECT new_sync_token(0,'.$collection_id.')');
+  
   foreach( $resources AS $uid => $resource ) {
 
     /** Construct the VCALENDAR data */
@@ -1269,6 +1272,7 @@ function write_resource( DAVResource $resource, $caldav_data, DAVResource $colle
 
   }
 
+  $qry->QDo('SELECT new_sync_token(0,'.$collection_id.')');
 
   $calitem_params[':tzid'] = $tzid;
   $calitem_params[':uid'] = $first->GetPValue('UID');
