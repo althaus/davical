@@ -1242,7 +1242,8 @@ EOSQL;
     @header( sprintf("X-DAViCal-Version: DAViCal/%d.%d.%d; DB/%d.%d.%d", $c->code_major, $c->code_minor, $c->code_patch, $c->schema_major, $c->schema_minor, $c->schema_patch) );
     @header( "Content-type: ".$content_type );
 
-    if ( (isset($c->dbg['ALL']) && $c->dbg['ALL']) || (isset($c->dbg['response']) && $c->dbg['response']) || $status == 400 || $status > 401 ) {
+    if ( (isset($c->dbg['ALL']) && $c->dbg['ALL']) || (isset($c->dbg['response']) && $c->dbg['response'])
+         || $status == 400  || $status == 402 || $status == 403 || $status > 404 ) {
       @dbg_error_log( "LOG ", 'Response status %03d for %s %s', $status, $this->method, $_SERVER['REQUEST_URI'] );
       $lines = headers_list();
       dbg_error_log( "LOG ", "***************** Response Header ****************" );
