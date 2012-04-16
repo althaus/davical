@@ -9,6 +9,8 @@ PACKAGE=::package::
 
 case $1 in
   remove)
+    # This file might be hanging around in some cases.  Fixes Bug#668980
+    rm -f /var/log/davical-upgrade.log || true
     ;;
 esac
 
