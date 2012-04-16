@@ -4,8 +4,8 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, bind, addressbook, calendar-auto-schedule, calendar-proxy
-ETag: "efc67f060a8687c760af82549d8e83ae"
-Content-Length: 29703
+ETag: "bfb962d9c38d19e4ac04b8ced69de692"
+Content-Length: 29709
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -240,7 +240,7 @@ Content-Type: text/xml; charset="utf-8"
       </report>
      </supported-report>
     </supported-report-set>
-    <sync-token>data:,1</sync-token>
+    <sync-token>data:,42</sync-token>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -365,7 +365,7 @@ Content-Type: text/xml; charset="utf-8"
       </report>
      </supported-report>
     </supported-report-set>
-    <sync-token>data:,2</sync-token>
+    <sync-token>data:,43</sync-token>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -508,7 +508,7 @@ Content-Type: text/xml; charset="utf-8"
       </report>
      </supported-report>
     </supported-report-set>
-    <sync-token>data:,3</sync-token>
+    <sync-token>data:,44</sync-token>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -641,7 +641,7 @@ Content-Type: text/xml; charset="utf-8"
       </report>
      </supported-report>
     </supported-report-set>
-    <sync-token>data:,4</sync-token>
+    <sync-token>data:,39</sync-token>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -774,7 +774,7 @@ Content-Type: text/xml; charset="utf-8"
       </report>
      </supported-report>
     </supported-report-set>
-    <sync-token>data:,5</sync-token>
+    <sync-token>data:,45</sync-token>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -918,7 +918,7 @@ Content-Type: text/xml; charset="utf-8"
       </report>
      </supported-report>
     </supported-report-set>
-    <sync-token>data:,6</sync-token>
+    <sync-token>data:,36</sync-token>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
