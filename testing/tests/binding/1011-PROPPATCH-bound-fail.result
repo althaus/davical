@@ -2,7 +2,7 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, bind, addressbook, calendar-auto-schedule, calendar-proxy
-Content-Length: 623
+Content-Length: 608
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -13,12 +13,8 @@ Content-Type: text/xml; charset="utf-8"
    <prop>
     <urn:ietf:params:xml:ns:caldav:calendar-timezone/>
    </prop>
-   <status>HTTP/1.1 403 Forbidden</status>
-   <responsedescription>
-    <error>
-     <cannot-modify-protected-property/>
-    </error>
-   </responsedescription>
+   <status>HTTP/1.1 409 Conflict</status>
+   <responsedescription>calendar-timezone property is only valid for a calendar.</responsedescription>
   </propstat>
   <propstat>
    <prop>

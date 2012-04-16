@@ -45,6 +45,30 @@ $rmprops  = $xmltree->GetPath("/DAV::propertyupdate/DAV::remove/DAV::prop/*");
 $failure   = array();
 $success   = array();
 
+
+/**
+ * Small utility function to add propstat for one failure
+ * @param unknown_type $tag
+ * @param unknown_type $status
+ * @param unknown_type $description
+ * @param unknown_type $error_tag
+ */
+function add_failure( $type, $tag, $status, $description=null, $error_tag = null) {
+  global $failure;
+  $propstat = array(
+      new XMLElement( 'prop', new XMLElement($tag)),
+      new XMLElement( 'status', $status )
+  );
+
+  if ( isset($description))
+    $propstat[] = new XMLElement( 'responsedescription', $description );
+  if ( isset($error_tag) )
+    $propstat[] = new XMLElement( 'error', new XMLElement( $error_tag ) );
+
+  $failure[$type.'-'.$tag] = new XMLElement('propstat', $propstat ); 
+}
+
+
 /**
 * Not much for it but to process the incoming settings in a big loop, doing
 * the special-case stuff as needed and falling through to a default which
@@ -79,15 +103,8 @@ foreach( $setprops AS $k => $setting ) {
         $success[$tag] = 1;
       }
       else {
-        $failure['set-'.$tag] = new XMLElement( 'propstat', array(
-            new XMLElement( 'prop', new XMLElement($tag)),
-            new XMLElement( 'status', 'HTTP/1.1 403 Forbidden' ),
-            new XMLElement( 'responsedescription', array(
-                              new XMLElement( 'error', new XMLElement( 'cannot-modify-protected-property') ),
-                              translate("The displayname may only be set on collections, principals or bindings.") )
-                          )
-
-        ));
+        add_failure('set', $tag, 'HTTP/1.1 403 Forbidden',
+             translate("The displayname may only be set on collections, principals or bindings."), 'cannot-modify-protected-property');
       }
       break;
 
@@ -109,14 +126,8 @@ foreach( $setprops AS $k => $setting ) {
         $success[$tag] = 1;
       }
       else {
-        $failure['set-'.$tag] = new XMLElement( 'propstat', array(
-            new XMLElement( 'prop', new XMLElement($tag)),
-            new XMLElement( 'status', 'HTTP/1.1 403 Forbidden' ),
-            new XMLElement( 'responsedescription', array(
-                              new XMLElement( 'error', new XMLElement( 'cannot-modify-protected-property') ),
-                              translate("Resources may not be changed to / from collections.") )
-                          )
-        ));
+        add_failure('set', $tag, 'HTTP/1.1 403 Forbidden',
+             translate("Resources may not be changed to / from collections."), 'cannot-modify-protected-property');
       }
       break;
 
@@ -129,23 +140,14 @@ foreach( $setprops AS $k => $setting ) {
         $success[$tag] = 1;
       }
       else {
-        $failure['set-'.$tag] = new XMLElement( 'propstat', array(
-            new XMLElement( 'prop', new XMLElement($tag)),
-              new XMLElement( 'status', 'HTTP/1.1 403 Forbidden' ),
-              new XMLElement( 'responsedescription', array(
-                                new XMLElement( 'error', new XMLElement( 'cannot-modify-protected-property') ),
-                                translate("The CalDAV:schedule-calendar-transp property may only be set on calendars.") )
-                            )
-        ));
+        add_failure('set', $tag, 'HTTP/1.1 409 Conflict',
+              translate("The CalDAV:schedule-calendar-transp property may only be set on calendars."));
       }
       break;
 
     case 'urn:ietf:params:xml:ns:caldav:calendar-free-busy-set':
-      $failure['set-'.$tag] = new XMLElement( 'propstat', array(
-          new XMLElement( 'prop', new XMLElement($tag)),
-          new XMLElement( 'status', 'HTTP/1.1 409 Conflict' ),
-          new XMLElement( 'responsedescription', translate("The calendar-free-busy-set is superseded by the schedule-transp property of a calendar collection.") )
-      ));
+      add_failure('set', $tag, 'HTTP/1.1 409 Conflict',
+            translate("The calendar-free-busy-set is superseded by the  schedule-calendar-transp property of a calendar collection.") );
       break;
 
     case 'urn:ietf:params:xml:ns:caldav:calendar-timezone':
@@ -169,14 +171,7 @@ foreach( $setprops AS $k => $setting ) {
                                        array( ':tzid' => $tzid, ':dav_name' => $dav_resource->dav_name()) );
       }
       else {
-        $failure['set-'.$tag] = new XMLElement( 'propstat', array(
-            new XMLElement( 'prop', new XMLElement($tag)),
-            new XMLElement( 'status', 'HTTP/1.1 403 Forbidden' ),
-            new XMLElement( 'responsedescription', array(
-                              new XMLElement( 'error', new XMLElement( 'cannot-modify-protected-property') ),
-                              translate("calendar-timezone property is only valid for a calendar.") )
-                          )
-        ));
+        add_failure('set', $tag, 'HTTP/1.1 409 Conflict', translate("calendar-timezone property is only valid for a calendar."));
       }
       break;
 
@@ -196,14 +191,7 @@ foreach( $setprops AS $k => $setting ) {
     case 'DAV::creationdate':
     case 'DAV::lockdiscovery':
     case 'DAV::supportedlock':
-      $failure['set-'.$tag] = new XMLElement( 'propstat', array(
-          new XMLElement( 'prop', new XMLElement($tag)),
-          new XMLElement( 'status', 'HTTP/1.1 403 Forbidden' ),
-          new XMLElement( 'responsedescription', array(
-                               new XMLElement( 'error', new XMLElement( 'cannot-modify-protected-property') ),
-                               translate("Property is read-only") )
-                        )
-      ));
+      add_failure('set', $tag, 'HTTP/1.1 409 Conflict', translate("Property is read-only"), new XMLElement( 'cannot-modify-protected-property'));
       break;
 
     /**
@@ -217,8 +205,6 @@ foreach( $setprops AS $k => $setting ) {
   }
 }
 
-
-
 foreach( $rmprops AS $k => $setting ) {
   $tag = $setting->GetTag();
   $content = $setting->RenderContent();
@@ -226,14 +212,8 @@ foreach( $rmprops AS $k => $setting ) {
   switch( $tag ) {
 
     case 'DAV::resourcetype':
-      $failure['rm-'.$tag] = new XMLElement( 'propstat', array(
-          new XMLElement( 'prop', new XMLElement($tag)),
-            new XMLElement( 'status', 'HTTP/1.1 403 Forbidden' ),
-            new XMLElement( 'responsedescription', array(
-                              new XMLElement( 'error', new XMLElement( 'cannot-modify-protected-property') ),
-                              translate("DAV::resourcetype may only be set to a new value, it may not be removed.") )
-                          )
-      ));
+      add_failure('rm', $tag, 'HTTP/1.1 409 Conflict',
+            translate("DAV::resourcetype may only be set to a new value, it may not be removed."), 'cannot-modify-protected-property');
       break;
 
     case 'urn:ietf:params:xml:ns:caldav:calendar-timezone':
@@ -241,14 +221,8 @@ foreach( $rmprops AS $k => $setting ) {
         $qry->QDo('UPDATE collection SET timezone = NULL WHERE dav_name = :dav_name', array( ':dav_name' => $dav_resource->dav_name()) );
       }
       else {
-        $failure['set-'.$tag] = new XMLElement( 'propstat', array(
-            new XMLElement( 'prop', new XMLElement($tag)),
-            new XMLElement( 'status', 'HTTP/1.1 403 Forbidden' ),
-            new XMLElement( 'responsedescription', array(
-                              new XMLElement( 'error', new XMLElement( 'cannot-modify-protected-property') ),
-                              translate("calendar-timezone property is only valid for a calendar.") )
-                          )
-        ));
+        add_failure('rm', $tag, 'HTTP/1.1 409 Conflict',
+              translate("calendar-timezone property is only valid for a calendar."), 'cannot-modify-protected-property');
       }
       break;
 
@@ -269,11 +243,7 @@ foreach( $rmprops AS $k => $setting ) {
     case 'DAV::displayname':
     case 'DAV::lockdiscovery':
     case 'DAV::supportedlock':
-      $failure['rm-'.$tag] = new XMLElement( 'propstat', array(
-          new XMLElement( 'prop', new XMLElement($tag)),
-          new XMLElement( 'status', 'HTTP/1.1 409 Conflict' ),
-          new XMLElement('responsedescription', translate("Property is read-only") )
-      ));
+      add_failure('rm', $tag, 'HTTP/1.1 409 Conflict', translate("Property is read-only"));
       dbg_error_log( 'PROPPATCH', ' RMProperty %s is read only and cannot be removed', $tag);
       break;
 
