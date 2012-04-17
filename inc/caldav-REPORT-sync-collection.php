@@ -100,7 +100,7 @@ EOSQL;
                            LEFT JOIN calendar_item USING (collection_id,dav_id)
                            LEFT JOIN addressbook_resource USING (dav_id)
                            WHERE collection.collection_id = :collection_id
-         AND sync_time > (SELECT modification_time FROM sync_tokens WHERE sync_token = :sync_token)
+         AND sync_time >= (SELECT modification_time FROM sync_tokens WHERE sync_token = :sync_token)
 EOSQL;
     if ( isset($c->strict_result_ordering) && $c->strict_result_ordering ) {
       $sql .= " ORDER BY collection.collection_id, lower(sync_changes.dav_name), sync_changes.sync_time";

@@ -1210,25 +1210,42 @@ DECLARE
   in_old_sync_token ALIAS FOR $1;
   in_collection_id ALIAS FOR $2;
   tmp_int INT8;
+  new_token sync_tokens.sync_token%TYPE;
   old_modification_time sync_tokens.modification_time%TYPE;
 BEGIN
   IF in_old_sync_token > 0 THEN
-    SELECT modification_time INTO old_modification_time FROM sync_tokens WHERE sync_token = in_old_sync_token;
+    SELECT modification_time INTO old_modification_time FROM sync_tokens
+           WHERE sync_token = in_old_sync_token AND collection_id = in_collection_id;
     IF NOT FOUND THEN
       -- They are in an inconsistent state: we return NULL so they can re-start the process
       RETURN NULL;
     END IF;
+  END IF;
+  
+  -- Find the most recent sync_token
+  SELECT sync_token, modification_time INTO new_token, old_modification_time FROM sync_tokens
+         WHERE collection_id = in_collection_id ORDER BY modification_time DESC LIMIT 1;
+  IF FOUND THEN
     SELECT 1 INTO tmp_int FROM sync_changes WHERE collection_id = in_collection_id AND sync_time > old_modification_time LIMIT 1;
     IF NOT FOUND THEN
-      -- Ensure we return the latest sync_token we have for this collection, since there are
-      -- no changes.
-	  SELECT sync_token INTO tmp_int FROM sync_tokens WHERE collection_id = in_collection_id ORDER BY modification_time DESC LIMIT 1;
-      RETURN tmp_int;
+      -- Return the latest sync_token we have for this collection, since there are no changes.
+      RETURN new_token;
     END IF;
   END IF;
-  SELECT nextval('sync_tokens_sync_token_seq') INTO tmp_int;
-  INSERT INTO sync_tokens(collection_id, sync_token) VALUES( in_collection_id, tmp_int );
-  RETURN tmp_int;
+  
+  -- Looks like we need a new sync_token for this collection...
+  SELECT nextval('sync_tokens_sync_token_seq') INTO new_token;
+  INSERT INTO sync_tokens(collection_id, sync_token) VALUES( in_collection_id, new_token );
+  
+  -- Having created our new token we do some clean-up of old tokens
+  SELECT modification_time, sync_token INTO old_modification_time, tmp_int FROM sync_tokens
+  		WHERE collection_id = in_collection_id AND modification_time < (current_timestamp - '7 days'::interval)
+  		ORDER BY collection_id, modification_time DESC;
+  DELETE FROM sync_changes WHERE collection_id = in_collection_id AND sync_time < old_modification_time;
+  DELETE FROM sync_tokens WHERE collection_id = in_collection_id AND sync_token < tmp_int;
+  
+  -- Returning the new token
+  RETURN new_token;
 END
 $$ LANGUAGE 'PlPgSQL' STRICT;
 

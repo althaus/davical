@@ -1266,7 +1266,7 @@ EOQRY;
     if ( $this->IsPrincipal() ) return null;
     if ( $this->collection_id() == 0 ) return null;
     if ( !isset($this->sync_token) ) { 
-      $sql = 'SELECT sync_token FROM sync_tokens WHERE collection_id = :collection_id ORDER BY sync_token DESC LIMIT 1';
+      $sql = 'SELECT new_sync_token( 0, :collection_id) AS sync_token';
       $params = array( ':collection_id' => $this->collection_id());
       $qry = new AwlQuery($sql, $params );
       if ( !$qry->Exec() || !$row = $qry->Fetch() ) {
