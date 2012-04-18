@@ -532,12 +532,19 @@ class Principal {
     $sql_params = array();
     foreach( self::updateableFields() AS $k ) {
       if ( !isset($field_values->{$k}) && !isset($this->{$k}) ) continue;
+
       $param_name = ':'.$k;
       $sql_params[$param_name] = (isset($field_values->{$k}) ? $field_values->{$k} : $this->{$k});  
-      if ( $k == 'default_privileges' ) {
+      if ( $k  ==  'default_privileges' ) {
         $sql_params[$param_name] = sprintf('%024s',$sql_params[$param_name]);
         $param_name = 'cast('.$param_name.' as text)::BIT(24)';
       }
+      else if ( $k == 'modified'
+               && isset($field_values->{$k})
+               && preg_match('{^([23]\d\d\d[01]\d[0123])T?([012]\d[0-5]\d[0-5]\d)$}', $field_values->{$k}, $matches) ) {
+        $sql_params[$param_name] = $matches[1] . 'T' . $matches[2];
+      }
+
       if ( $inserting ) {
         $param_names[] = $param_name;
         $insert_fields[] = $k;
