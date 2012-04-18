@@ -371,7 +371,7 @@ EOTEMPLATE;
 
 function build_privileges_html( $ed, $fname ) {
   global $privilege_xlate, $privilege_names;
-
+  
   $btn_all = htmlspecialchars(translate('All'));             $btn_all_title = htmlspecialchars(translate('Toggle all privileges'));
   $btn_rw  = htmlspecialchars(translate('Read/Write'));      $btn_rw_title = htmlspecialchars(translate('Set read+write privileges'));
   $btn_read = htmlspecialchars(translate('Read'));           $btn_read_title = htmlspecialchars(translate('Set read privileges'));
@@ -611,14 +611,17 @@ function grant_row_editor() {
 
 function edit_grant_row( $row_data ) {
   global $id, $grantrow;
-
-  if ( $row_data->to_principal > -1 ) {
+  
+  $orig_to_id = intval($row_data->to_principal);
+  if ( $orig_to_id > -1 ) {
+    $grantrow->SetRecord( $row_data );
+  }
+  else {
     $grantrow->Initialise( $row_data );
   }
-
+  
   $privs_html = build_privileges_html( $grantrow, 'grant_privileges' );
 
-  $orig_to_id = $row_data->to_principal;
   $form_id = $grantrow->Id();
   $form_url = preg_replace( '#&(edit|delete)_grant=\d+#', '', $_SERVER['REQUEST_URI'] );
 
