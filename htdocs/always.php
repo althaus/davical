@@ -62,7 +62,7 @@ $c->images      = $c->base_url . '/images';
 $c->template_usr = array( 'active' => true,
                           'locale' => 'en_GB',
                           'date_format_type' => 'E',
-                          'email_ok' => @date('Y-m-d')
+                          'email_ok' => date('Y-m-d')
                         );
 
 $c->hide_TODO = true;                      // VTODO only visible to collection owner
@@ -167,8 +167,10 @@ else if ( isset($c->dbg['script_start']) && $c->dbg['script_start'] ) {
 * default site locale.  This may be overridden by each user.
 */
 putenv("LANG=". $c->default_locale);
-awl_set_locale($c->default_locale);
-init_gettext( 'davical', $c->locale_path );
+if ( function_exists('awl_set_locale') ) {
+  awl_set_locale($c->default_locale);
+  init_gettext( 'davical', $c->locale_path );
+}
 
 /**
 * Work out our version
@@ -183,7 +185,7 @@ if ( isset($c->version_string) && preg_match( '/(\d+)\.(\d+)\.(\d+)(.*)/', $c->v
   $c->code_patch = $matches[3];
   $c->code_version = (($c->code_major * 1000) + $c->code_minor).'.'.$c->code_patch;
   dbg_error_log('caldav', 'Version (%d.%d.%d) == %s', $c->code_major, $c->code_minor, $c->code_patch, $c->code_version);
-  header( sprintf('Server: %d.%d', $c->code_major, $c->code_minor) );
+  @header( sprintf('Server: %d.%d', $c->code_major, $c->code_minor) );
 }
 
 /**
