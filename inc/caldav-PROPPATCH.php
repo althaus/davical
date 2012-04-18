@@ -263,6 +263,9 @@ foreach( $rmprops AS $k => $setting ) {
 * If we have encountered any instances of failure, the whole damn thing fails.
 */
 if ( count($failure) > 0 ) {
+
+  $qry->Rollback();
+  
   foreach( $success AS $tag => $v ) {
     // Unfortunately although these succeeded, we failed overall, so they didn't happen...
     $failure[] = new XMLElement( 'propstat', array(
@@ -275,8 +278,6 @@ if ( count($failure) > 0 ) {
   array_unshift( $failure, new XMLElement('href', $url ) );
   $failure[] = new XMLElement('responsedescription', translate("Some properties were not able to be changed.") );
 
-  $qry->Rollback();
-
   $multistatus = new XMLElement( "multistatus", new XMLElement( 'response', $failure ), array('xmlns'=>'DAV:') );
   $request->DoResponse( 207, $multistatus->Render(0,'<?xml version="1.0" encoding="utf-8" ?>'), 'text/xml; charset="utf-8"' );
 
@@ -285,7 +286,6 @@ if ( count($failure) > 0 ) {
 /**
 * Otherwise we will try and do the SQL. This is inside a transaction, so PostgreSQL guarantees the atomicity
 */
-;
 if ( $qry->Commit() ) {
 
   $cache = getCacheInstance();
@@ -299,6 +299,10 @@ if ( $qry->Commit() ) {
   }
 
   if ( isset($cache_ns) ) $cache->delete( $cache_ns, null );
+
+  if ( $request->brief_response ) {
+    $request->DoResponse(200); // Does not return.  See: http://msdn.microsoft.com/en-us/library/aa142976%28v=exchg.65%29.aspx
+  }
   
   $url = ConstructURL($request->path);
   $href = new XMLElement('href', $url );
@@ -316,7 +320,7 @@ if ( $qry->Commit() ) {
   array_unshift( $failure, new XMLElement('href', $url ) );
   
   $multistatus = new XMLElement( "multistatus", new XMLElement( 'response', array( $href, $propstat, $desc ) ), array('xmlns'=>'DAV:') );
-  $request->DoResponse( 200, $multistatus->Render(0,'<?xml version="1.0" encoding="utf-8" ?>'), 'text/xml; charset="utf-8"' );
+  $request->DoResponse( 207, $multistatus->Render(0,'<?xml version="1.0" encoding="utf-8" ?>'), 'text/xml; charset="utf-8"' );
 }
 
 /**
