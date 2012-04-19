@@ -104,8 +104,8 @@ $cache_delete_list = array();
 $qry = new AwlQuery('BEGIN');
 $qry->Exec('ACL',__LINE__,__FILE__);
 
-function process_ace( $grantor, $by_principal, $by_collection, $ace ) {
-  global $cache_delete_list;
+function process_ace( $grantor, $by_principal, $by_collection, XMLElement $ace ) {
+  global $cache_delete_list, $request;
   
   $elements = $ace->GetContent();
   $principal_node = $elements[0];
