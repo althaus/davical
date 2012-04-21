@@ -47,6 +47,8 @@ require('Session.php');
 class DAViCalSession extends Session
 {
 
+  public $principal_id;
+  
   /**
   * Create a new DAViCalSession object.
   *
@@ -56,6 +58,7 @@ class DAViCalSession extends Session
   * @param string $sid A session identifier.
   */
   function __construct( $sid='' ) {
+    $this->principal_id = null;
     $this->Session($sid);
   }
 

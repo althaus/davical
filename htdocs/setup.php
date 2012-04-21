@@ -1,9 +1,45 @@
 <?php
 /** todo work out something more than true/false returns for dependency checks */
 
+
 function i18n($value) {
   return $value;  /* Just pass the value through */
 }
+
+function log_setup_error($errno , $errstr , $errfile , $errline) {
+  error_log('DAViCal setup.php: Informational: '.$errfile.'('.$errline.'): ['.$errno.'] '.$errstr);
+}
+
+function catch_setup_errors($errno , $errstr , $errfile , $errline , $errcontext ) {
+  if ( $errno == 2 ) {
+    // A working installation will regularly fail to include_once() for several files as it searches for the location
+    log_setup_error($errno , $errstr , $errfile , $errline);
+    return true;
+  }
+  if ( $errno == 8 ) {
+    // Yeah, OK, so we redundantly call ob_flash() without needing to...
+    log_setup_error($errno , $errstr , $errfile , $errline);
+    return true;
+  }
+  else if ( $errno == 256 ) {
+    // This will (probably) be a database connection error, which will throw an exception if we return.
+    log_setup_error($errno , $errstr , $errfile , $errline);
+    return true;
+  }
+  if ( !headers_sent() ) header("Content-type: text/plain"); else echo "<pre>\n";
+  while ( ob_get_level() > 0 ) ob_end_flush();
+  echo "Error [".$errno."] ".$errstr."\n";
+  echo "At line ", $errline, " of ", $errfile, "\n";
+
+  $e = new Exception();
+  $trace = array_reverse($e->getTrace());
+  echo "================= Stack Trace ===================\n";
+  foreach( $trace AS $k => $v ) {
+    printf( "%s[%d] %s%s%s()\n", $v['file'], $v['line'], (isset($v['class'])?$v['class']:''), (isset($v['type'])?$v['type']:''), (isset($v['function'])?$v['function']:'') );
+  }
+}
+
+set_error_handler('catch_setup_errors', E_ALL);
 
 class CheckResult {
   private $ok;
@@ -55,6 +91,13 @@ function check_pdo_pgsql() {
 
   if ( !check_pdo() ) return new CheckResult(false);
   return new CheckResult(isset($loaded_extensions['pdo_pgsql']));
+}
+
+function check_database_connection() {
+  global $c;
+
+  if ( !check_pdo_pgsql() ) return new CheckResult(false);
+  return new CheckResult( $c->schema_major != 0 || $c->schema_minor != 0 );
 }
 
 function check_gettext() {
@@ -127,6 +170,7 @@ if ( !check_gettext()->getOK() )   do_error("The GNU 'gettext' extension for PHP
 if ( !check_pgsql()->getOK() )     do_error("PHP 'pgsql' functions are not available");
 if ( !check_pdo()->getOK() )       do_error("PHP 'PDO' module is not available");
 if ( !check_pdo_pgsql()->getOK() ) do_error("The PDO drivers for PostgreSQL are not available");
+if ( !check_database_connection()->getOK() ) do_error("Unable to connect to database");
 if ( !check_iconv()->getOK() )     do_error("The 'iconv' extension for PHP is not available");
 
 function get_phpinfo() {
@@ -141,12 +185,17 @@ function get_phpinfo() {
 }
 $phpinfo = get_phpinfo();
 
-include("./always.php");
-include("DAViCalSession.php");
-
-
-if ( check_pgsql()->GetOK() ) {
-  $session->LoginRequired( (isset($c->restrict_setup_to_admin) && $c->restrict_setup_to_admin ? 'Admin' : null ) );
+try {
+  include("./always.php");
+  include("DAViCalSession.php");
+  if ( check_pgsql()->GetOK() ) {
+    $session->LoginRequired( (isset($c->restrict_setup_to_admin) && $c->restrict_setup_to_admin ? 'Admin' : null ) );
+  }
+}
+catch( Exception $e ) {
+  set_error_handler('catch_setup_errors', E_ALL);
+  include("DAViCalSession.php");
+//  $session = new FakeSession(1);
 }
 
 
@@ -228,7 +277,7 @@ function build_site_statistics() {
 </table>
 EOTABLE;
 
-  if ( !check_pdo_pgsql() ) {
+  if ( !check_database_connection() ) {
     return sprintf( $table, '<td colspan="3">'.translate('Site Statistics require the database to be available!').'</td>');
   }
   $sql = 'SELECT
@@ -250,12 +299,12 @@ function build_dependencies_table( ) {
   
   $dependencies = array(
     translate('Current DAViCal version ')         => 'check_davical_version',
-    translate('DAViCal DB Schema version ')       => 'check_schema_version',
     translate('AWL Library version ')             => 'check_awl_version',
     translate('PHP not using Apache Filter mode') => 'check_real_php',
     translate('PHP PDO module available')         => 'check_pdo',
     translate('PDO PostgreSQL drivers')           => 'check_pdo_pgsql',
-//    translate('PHP PostgreSQL available')         => 'check_pgsql',
+    translate('Database is Connected')            => 'check_database_connection',
+    translate('DAViCal DB Schema version ')       => 'check_schema_version',
     translate('GNU gettext support')              => 'check_gettext',
     translate('PHP iconv support')                => 'check_iconv',
     translate('PHP DateTime class')               => 'check_datetime',
@@ -311,8 +360,10 @@ $th_dependency = translate('Dependency');
 $th_status     = translate('Status');
 $dependencies_table = build_dependencies_table();
 
-$heading_site_statistics = translate('Site Statistics');
-$site_statistics_table = build_site_statistics();
+if ( check_database_connection()->GetOK() ) {
+  $heading_site_statistics = translate('Site Statistics');
+  $site_statistics_table = build_site_statistics();
+}
 
 $heading_config_clients = translate('Configuring Calendar Clients for DAViCal');
 $heading_config_davical = translate('Configuring DAViCal');

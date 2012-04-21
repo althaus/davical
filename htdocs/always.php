@@ -18,6 +18,8 @@ unset($session); unset($request); unset($dbconn); unset($_awl_dbconn); unset($in
 // An ultra-simple exception handler to catch errors that occur
 // before we get a more functional exception handler in place...
 function early_exception_handler($e) {
+  if ( !headers_sent() ) header("Content-type: text/plain"); else echo "<pre>\n";
+  while ( ob_get_level() > 0 ) ob_end_flush();
   echo "Exception [".$e->getCode()."] ".$e->getmessage()."\n";
   echo "At line ", $e->getLine(), " of ", $e->getFile(), "\n";
   echo "================= Stack Trace ===================\n";
@@ -26,7 +28,6 @@ function early_exception_handler($e) {
   foreach( $trace AS $k => $v ) {
     printf( "%s[%d] %s%s%s()\n", $v['file'], $v['line'], (isset($v['class'])?$v['class']:''), (isset($v['type'])?$v['type']:''), (isset($v['function'])?$v['function']:'') );
   }
-  @ob_flush();
 }
 set_exception_handler('early_exception_handler');
 
@@ -54,6 +55,8 @@ $c->base_directory = preg_replace('#/[^/]*$#', '', $_SERVER['DOCUMENT_ROOT']);
 $c->default_privileges = array('read-free-busy', 'schedule-deliver');
 
 $c->enable_auto_schedule = true;
+
+$c->schema_major = $c->schema_minor = $c->schema_patch = 0;
 
 $c->stylesheets = array( $c->base_url.'/davical.css' );
 $c->images      = $c->base_url . '/images';
@@ -159,7 +162,7 @@ if ( isset($_SERVER['HTTP_X_DAVICAL_TESTCASE']) ) {
 else if ( isset($c->dbg['script_start']) && $c->dbg['script_start'] ) {
   // Only log this if more than a little debugging of some sort is turned on, somewhere
   @dbg_error_log( 'LOG', '==========> method =%s= =%s= =%s= =%s= =%s=',
-         $_SERVER['REQUEST_METHOD'], $c->protocol_server_port_script, $_SERVER['PATH_INFO'], $c->base_url, $c->base_directory );
+         $_SERVER['REQUEST_METHOD'], $c->protocol_server_port_script, (isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : '$_SERVER[PATH_INFO] undefined'), $c->base_url, $c->base_directory );
 }
 
 /**
