@@ -31,7 +31,7 @@ else {
   $allprop    = $xmltree->GetPath('/DAV::propfind/*');
   $property_list = array();
   foreach( $allprop AS $k1 => $propwrap ) {
-    switch ( $propwrap->GetTag() ) {
+    switch ( $propwrap->GetNSTag() ) {
       case 'DAV::allprop':
         $property_list[] = 'DAV::allprop';
         break;
@@ -41,7 +41,7 @@ else {
       default:  // prop, include
         $subprop = $propwrap->GetElements();
         foreach( $subprop AS $k => $v ) {
-          if ( is_object($v) && method_exists($v,'GetTag') ) $property_list[] = $v->GetTag();
+          if ( is_object($v) && method_exists($v,'GetTag') ) $property_list[] = $v->GetNSTag();
         }
     }
   }

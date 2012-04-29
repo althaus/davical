@@ -31,23 +31,23 @@ $qry_content = $xmltree->GetContent('urn:ietf:params:xml:ns:caldav:calendar-quer
 $properties = array();
 while (list($idx, $qqq) = each($qry_content))
 {
-  $proptype = $qry_content[$idx]->GetTag();
+  $proptype = $qry_content[$idx]->GetNSTag();
   switch( $proptype ) {
     case 'DAV::prop':
       $qry_props = $xmltree->GetPath('/urn:ietf:params:xml:ns:caldav:calendar-query/'.$proptype.'/*');
       foreach( $qry_content[$idx]->GetElements() AS $k => $v ) {
-        $propertyname = preg_replace( '/^.*:/', '', $v->GetTag() );
+        $propertyname = $v->GetTag();
         $properties[$propertyname] = 1;
-        if ( $v->GetTag() == 'urn:ietf:params:xml:ns:caldav:calendar-data' ) check_for_expansion($v);
+        if ( $v->GetNSTag() == 'urn:ietf:params:xml:ns:caldav:calendar-data' ) check_for_expansion($v);
       }
       break;
   
     case 'DAV::allprop':
       $properties['allprop'] = 1;
-        if ( $qry_content[$idx]->GetTag() == 'DAV::include' ) {
+        if ( $qry_content[$idx]->GetNSTag() == 'DAV::include' ) {
         foreach( $qry_content[$idx]->GetElements() AS $k => $v ) {
-          $include_properties[] = $v->GetTag(); /** $include_properties is referenced in DAVResource where allprop is expanded */
-          if ( $v->GetTag() == 'urn:ietf:params:xml:ns:caldav:calendar-data' ) check_for_expansion($v);
+          $include_properties[] = $v->GetNSTag(); /** $include_properties is referenced in DAVResource where allprop is expanded */
+          if ( $v->GetNSTag() == 'urn:ietf:params:xml:ns:caldav:calendar-data' ) check_for_expansion($v);
         }
       }
       break;
@@ -97,7 +97,7 @@ function SqlFilterFragment( $filter, $components, $property = null, $parameter =
   }
 
   foreach( $filter AS $k => $v ) {
-    $tag = $v->GetTag();
+    $tag = $v->GetNSTag();
     dbg_error_log("calquery", "Processing $tag into SQL - %d, '%s', %d\n", count($components), $property, isset($parameter) );
 
     $not_defined = "";
@@ -274,10 +274,10 @@ function SqlFilterFragment( $filter, $components, $property = null, $parameter =
  */
 function BuildSqlFilter( $filter ) {
   $components = array();
-  if ( $filter->GetTag() == "urn:ietf:params:xml:ns:caldav:comp-filter" && $filter->GetAttribute("name") == "VCALENDAR" )
+  if ( $filter->GetNSTag() == "urn:ietf:params:xml:ns:caldav:comp-filter" && $filter->GetAttribute("name") == "VCALENDAR" )
     $filter = $filter->GetContent();  // Everything is inside a VCALENDAR AFAICS
   else {
-    dbg_error_log("calquery", "Got bizarre CALDAV:FILTER[%s=%s]] which does not contain comp-filter = VCALENDAR!!", $filter->GetTag(), $filter->GetAttribute("name") );
+    dbg_error_log("calquery", "Got bizarre CALDAV:FILTER[%s=%s]] which does not contain comp-filter = VCALENDAR!!", $filter->GetNSTag(), $filter->GetAttribute("name") );
   }
   return SqlFilterFragment( $filter, $components );
 }

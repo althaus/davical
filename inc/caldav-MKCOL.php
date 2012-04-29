@@ -54,17 +54,17 @@ if ( isset($request->xml_tags) ) {
   */
   $position = 0;
   $xmltree = BuildXMLTree( $request->xml_tags, $position);
-  if ( $xmltree->GetTag() == 'DAV::mkcol' ) $request_type = 'extended-mkcol';
+  if ( $xmltree->GetNSTag() == 'DAV::mkcol' ) $request_type = 'extended-mkcol';
 
-  if ( $xmltree->GetTag() != 'urn:ietf:params:xml:ns:caldav:mkcalendar' && $request_type != 'extended-mkcol' ) {
-    $request->DoResponse( 406, sprintf('The XML is not a "DAV::mkcol" or "urn:ietf:params:xml:ns:caldav:mkcalendar" document (%s)', $xmltree->GetTag()) );
+  if ( $xmltree->GetNSTag() != 'urn:ietf:params:xml:ns:caldav:mkcalendar' && $request_type != 'extended-mkcol' ) {
+    $request->DoResponse( 406, sprintf('The XML is not a "DAV::mkcol" or "urn:ietf:params:xml:ns:caldav:mkcalendar" document (%s)', $xmltree->GetNSTag()) );
   }
   $setprops = $xmltree->GetContent();   // <set>
   $setprops = $setprops[0]->GetContent();  // <prop>
   $setprops = $setprops[0]->GetContent();  // the array of properties.
 
   foreach( $setprops AS $k => $setting ) {
-    $tag = $setting->GetTag();
+    $tag = $setting->GetNSTag();
     $content = $setting->RenderContent();
 
     dbg_error_log( 'MKCOL', 'Processing tag "%s"', $tag);
@@ -85,7 +85,11 @@ if ( isset($request->xml_tags) ) {
         }
         else {
           $resourcetypes = $setting->GetPath('DAV::resourcetype/*');
-          $resourcetypes = str_replace( "\n", "", implode('',$resourcetypes));
+          $types = '';
+          foreach( $resourcetypes AS $k => $v ) {
+            $types .= '<'.$v->GetNSTag().'/>';
+          }
+          $resourcetypes = $types;
           $success[$tag] = 1;
         }
         break;

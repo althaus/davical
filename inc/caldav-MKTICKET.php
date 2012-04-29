@@ -35,8 +35,8 @@ if ( ! isset($request->xml_tags) ) {
 }
 
 $xmltree = BuildXMLTree( $request->xml_tags, $position);
-if ( $xmltree->GetTag() != 'http://www.xythos.com/namespaces/StorageServer:ticketinfo' &&
-     $xmltree->GetTag() != 'DAV::ticketinfo' ) {
+if ( $xmltree->GetNSTag() != 'http://www.xythos.com/namespaces/StorageServer:ticketinfo' &&
+     $xmltree->GetNSTag() != 'DAV::ticketinfo' ) {
   $request->XMLResponse( 400, new XMLElement( 'error', new XMLElement('invalid-xml-for-request'), $reply->GetXmlNsArray() ) );
 }
 
@@ -44,7 +44,7 @@ $ticket_timeout = 'Seconds-3600';
 $ticket_privs_array = array('read-free-busy');
 foreach( $xmltree->GetContent() AS $k => $v ) {
   // <!ELEMENT ticketinfo (id?, owner?, timeout, visits, privilege)>
-  switch( $v->GetTag() ) {
+  switch( $v->GetNSTag() ) {
     case 'DAV::timeout':
     case 'http://www.xythos.com/namespaces/StorageServer:timeout':
       $ticket_timeout = $v->GetContent();
@@ -55,7 +55,7 @@ foreach( $xmltree->GetContent() AS $k => $v ) {
       $ticket_privs_array = $v->GetElements(); // Ensure we always get an array back
       $ticket_privileges = 0;
       foreach( $ticket_privs_array AS $k1 => $v1 ) {
-        $ticket_privileges |= privilege_to_bits( $v1->GetTag() );
+        $ticket_privileges |= privilege_to_bits( $v1->GetNSTag() );
       }
       if ( $ticket_privileges & privilege_to_bits('write') )          $ticket_privileges |= privilege_to_bits( 'read' );
       if ( $ticket_privileges & privilege_to_bits('read') )           $ticket_privileges |= privilege_to_bits( array('read-free-busy', 'read-current-user-privilege-set') );

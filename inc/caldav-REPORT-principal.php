@@ -25,7 +25,7 @@ foreach( $searches AS $k => $search ) {
   $subwhere = "";
   foreach( $qry_props AS $k1 => $v1 ) {
     if ( $subwhere != "" ) $subwhere .= " OR ";
-    switch( $v1->GetTag() ) {
+    switch( $v1->GetNSTag() ) {
       case 'DAV::displayname':
         $subwhere .= ' displayname ILIKE :displayname_match ';
         $params[':displayname_match'] = '%'.$match.'%';
@@ -49,7 +49,7 @@ foreach( $searches AS $k => $search ) {
         * @todo We should handle a lot more properties here.  principal-URL seems a likely one to be used.
         * @todo We should catch the unsupported properties in the query and fire back an error indicating so.
         */
-        dbg_error_log("principal", "Unhandled tag '%s' to match '%s'\n", $v1->GetTag(), $match );
+        dbg_error_log("principal", "Unhandled tag '%s' to match '%s'\n", $v1->GetNSTag(), $match );
     }
   }
   if ( $subwhere != "" ) {
@@ -64,7 +64,7 @@ $qry = new AwlQuery($sql, $params);
 $get_props = $xmltree->GetPath('/DAV::principal-property-search/DAV::prop/*');
 $properties = array();
 foreach( $get_props AS $k1 => $v1 ) {
-  $properties[] = $v1->GetTag();
+  $properties[] = $v1->GetNSTag();
 }
 
 if ( $qry->Exec("REPORT",__LINE__,__FILE__) && $qry->rows() > 0 ) {

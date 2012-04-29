@@ -26,24 +26,24 @@ function check_for_expansion( $calendar_data_node ) {
  * Build the array of properties to include in the report output
  */
 
-$proptype = $qry_content[0]->GetTag();
+$proptype = $qry_content[0]->GetNSTag();
 $properties = array();
 switch( $proptype ) {
   case 'DAV::prop':
     $qry_props = $xmltree->GetPath('/*/'.$proptype.'/*');
     foreach( $qry_content[0]->GetElements() AS $k => $v ) {
-      $propertyname = preg_replace( '/^.*:/', '', $v->GetTag() );
+      $propertyname = preg_replace( '/^.*:/', '', $v->GetNSTag() );
       $properties[$propertyname] = 1;
-      if ( $v->GetTag() == 'urn:ietf:params:xml:ns:caldav:calendar-data' ) check_for_expansion($v);
+      if ( $v->GetNSTag() == 'urn:ietf:params:xml:ns:caldav:calendar-data' ) check_for_expansion($v);
     }
     break;
 
   case 'DAV::allprop':
     $properties['allprop'] = 1;
-    if ( $qry_content[1]->GetTag() == 'DAV::include' ) {
+    if ( $qry_content[1]->GetNSTag() == 'DAV::include' ) {
       foreach( $qry_content[1]->GetElements() AS $k => $v ) {
-        $include_properties[] = $v->GetTag(); /** $include_properties is referenced in DAVResource where allprop is expanded */
-        if ( $v->GetTag() == 'urn:ietf:params:xml:ns:caldav:calendar-data' ) check_for_expansion($v);
+        $include_properties[] = $v->GetNSTag(); /** $include_properties is referenced in DAVResource where allprop is expanded */
+        if ( $v->GetNSTag() == 'urn:ietf:params:xml:ns:caldav:calendar-data' ) check_for_expansion($v);
       }
     }
     break;

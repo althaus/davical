@@ -42,7 +42,7 @@ $v = $props[0];
 $props = $v->GetContent();
 $proplist = array();
 foreach( $props AS $k => $v ) {
-  $proplist[] = $v->GetTag();
+  $proplist[] = $v->GetNSTag();
 }
 
 function display_status( $status_code ) {

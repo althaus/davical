@@ -104,32 +104,32 @@ $cache_delete_list = array();
 $qry = new AwlQuery('BEGIN');
 $qry->Exec('ACL',__LINE__,__FILE__);
 
-function process_ace( $grantor, $by_principal, $by_collection, XMLElement $ace ) {
+function process_ace( $grantor, $by_principal, $by_collection, $ace ) {
   global $cache_delete_list, $request;
   
   $elements = $ace->GetContent();
   $principal_node = $elements[0];
   $grant = $elements[1];
-  if ( $principal_node->GetTag() != 'DAV::principal' ) $request->MalformedRequest('ACL request must contain a principal, not '.$principal->GetTag());
-  $grant_tag = $grant->GetTag();
+  if ( $principal_node->GetNSTag() != 'DAV::principal' ) $request->MalformedRequest('ACL request must contain a principal, not '.$principal->GetNSTag());
+  $grant_tag = $grant->GetNSTag();
   if ( $grant_tag == 'DAV::deny' )   $request->PreconditionFailed(403,'grant-only');
   if ( $grant_tag == 'DAV::invert' ) $request->PreconditionFailed(403,'no-invert');
-  if ( $grant->GetTag() != 'DAV::grant' ) $request->MalformedRequest('ACL request must contain a principal for each ACE');
+  if ( $grant->GetNSTag() != 'DAV::grant' ) $request->MalformedRequest('ACL request must contain a principal for each ACE');
 
   $privilege_names = array();
   $xml_privs = $grant->GetPath("/DAV::grant/DAV::privilege/*");
   foreach( $xml_privs AS $k => $priv ) {
-    $privilege_names[] = $priv->GetTag();
+    $privilege_names[] = $priv->GetNSTag();
   }
   $privileges = privilege_to_bits($privilege_names);
 
   $principal_content = $principal_node->GetContent();
   if ( count($principal_content) != 1 ) $request->MalformedRequest('ACL request must contain exactly one principal per ACE');
   $principal_content = $principal_content[0];
-  switch( $principal_content->GetTag() ) {
+  switch( $principal_content->GetNSTag() ) {
     case 'DAV::property':
       $principal_property = $principal_content->GetContent();
-      if ( $principal_property[0]->GetTag() != 'DAV::owner' ) $request->PreconditionFailed(403, 'recognized-principal' );
+      if ( $principal_property[0]->GetNSTag() != 'DAV::owner' ) $request->PreconditionFailed(403, 'recognized-principal' );
       if ( privilege_to_bits('all') != $privileges ) {
         $request->PreconditionFailed(403, 'no-protected-ace-conflict', 'Owner must always have all permissions' );
       }

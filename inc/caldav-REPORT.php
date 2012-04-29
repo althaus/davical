@@ -34,8 +34,8 @@ if ( !is_object($xmltree) ) {
 
 $target = new DAVResource($request->path);
 
-if ( $xmltree->GetTag() != 'DAV::principal-property-search'
-                && $xmltree->GetTag() != 'DAV::principal-property-search-set' ) {
+if ( $xmltree->GetNSTag() != 'DAV::principal-property-search'
+                && $xmltree->GetNSTag() != 'DAV::principal-property-search-set' ) {
   $target->NeedPrivilege( array('DAV::read', 'urn:ietf:params:xml:ns:caldav:read-free-busy'), true ); // They may have either
 }
 
@@ -47,13 +47,13 @@ $denied = array();
 $unsupported = array();
 if ( isset($prop_filter) ) unset($prop_filter);
 
-if ( $xmltree->GetTag() == 'urn:ietf:params:xml:ns:caldav:free-busy-query' ) {
+if ( $xmltree->GetNSTag() == 'urn:ietf:params:xml:ns:caldav:free-busy-query' ) {
   include("caldav-REPORT-freebusy.php");
   exit; // Not that the above include should return anyway
 }
 
 $reply = new XMLDocument( array( "DAV:" => "" ) );
-switch( $xmltree->GetTag() ) {
+switch( $xmltree->GetNSTag() ) {
   case 'DAV::principal-property-search':
     include("caldav-REPORT-principal.php");
     exit; // Not that it should return anyway.
@@ -219,26 +219,26 @@ if ( $target->IsExternal() ) {
 	update_external ( $target );
 }
 
-if ( $xmltree->GetTag() == "urn:ietf:params:xml:ns:caldav:calendar-query" ) {
+if ( $xmltree->GetNSTag() == "urn:ietf:params:xml:ns:caldav:calendar-query" ) {
   $calquery = $xmltree->GetPath("/urn:ietf:params:xml:ns:caldav:calendar-query/*");
   include("caldav-REPORT-calquery.php");
 }
-elseif ( $xmltree->GetTag() == "urn:ietf:params:xml:ns:caldav:calendar-multiget" ) {
+elseif ( $xmltree->GetNSTag() == "urn:ietf:params:xml:ns:caldav:calendar-multiget" ) {
   $mode = 'caldav';
   $qry_content = $xmltree->GetContent('urn:ietf:params:xml:ns:caldav:calendar-multiget');
   include("caldav-REPORT-multiget.php");
 }
-elseif ( $xmltree->GetTag() == "urn:ietf:params:xml:ns:carddav:addressbook-multiget" ) {
+elseif ( $xmltree->GetNSTag() == "urn:ietf:params:xml:ns:carddav:addressbook-multiget" ) {
   $mode = 'carddav';
   $qry_content = $xmltree->GetContent('urn:ietf:params:xml:ns:carddav:addressbook-multiget');
   include("caldav-REPORT-multiget.php");
 }
-elseif ( $xmltree->GetTag() == "urn:ietf:params:xml:ns:carddav:addressbook-query" ) {
+elseif ( $xmltree->GetNSTag() == "urn:ietf:params:xml:ns:carddav:addressbook-query" ) {
   $cardquery = $xmltree->GetPath("/urn:ietf:params:xml:ns:carddav:addressbook-query/*");
   include("caldav-REPORT-cardquery.php");
 }
 else {
-  dbg_error_log( 'ERROR', "Request for unsupported report type '%s'.", $xmltree->GetTag() );
-  $request->PreconditionFailed( 403, 'DAV::supported-report', sprintf( '"%s" is not a supported report type', $xmltree->GetTag()) );
+  dbg_error_log( 'ERROR', "Request for unsupported report type '%s'.", $xmltree->GetNSTag() );
+  $request->PreconditionFailed( 403, 'DAV::supported-report', sprintf( '"%s" is not a supported report type', $xmltree->GetNSTag()) );
 }
 

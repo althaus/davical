@@ -53,8 +53,8 @@ function expand_properties( $urls, $ptree, &$reply, $recurse_again = true ) {
     foreach( $ptree AS $n => $property ) {
       if ( ! is_object($property) ) continue;
       $pname = $property->GetAttribute('name');
-      $pns = $property->GetAttribute('namespace');
-      if ( !isset($pns) || $pns == '' ) $pns = 'DAV:';  // Not sure if this is the correct way to default this.
+      $pns = $property->GetNamespace('namespace');
+      if ( !isset($pns) || $pns == '' ) $pns = $property->GetNameSpace();
       $pname = $pns .':'. $pname;
       $props[] = $pname;
       $subtrees[$pname] = $property->GetElements();
@@ -66,10 +66,7 @@ function expand_properties( $urls, $ptree, &$reply, $recurse_again = true ) {
         if ( isset($href_containers) ) {
           foreach( $href_containers AS $h => $property ) {
             $hrefs = $property->GetElements();
-            $pname = $property->GetTag();
-            $pns = $property->GetAttribute('xmlns');
-            if ( !isset($pns) || $pns == '' ) $pns = 'DAV:';  // Not sure if this is the correct way to default this.
-            $pname = $pns .':'. $pname;
+            $pname = $property->GetNSTag();
             $paths = array();
             foreach( $hrefs AS $k => $v ) {
               $content = $v->GetContent();

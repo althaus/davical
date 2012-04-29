@@ -42,7 +42,7 @@ $qry = new AwlQuery($sql, $params);
 $get_props = $xmltree->GetPath('/DAV::principal-match/DAV::prop/*');
 $properties = array();
 foreach( $get_props AS $k1 => $v1 ) {
-  $properties[] = $v1->GetTag();
+  $properties[] = $v1->GetNSTag();
 }
 
 if ( $qry->Exec("REPORT",__LINE__,__FILE__) && $qry->rows() > 0 ) {
