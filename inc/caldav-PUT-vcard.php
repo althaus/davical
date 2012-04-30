@@ -67,6 +67,7 @@ else {
 
 $request->CheckEtagMatch( $dest->Exists(), $dest->unique_tag() );
 
+$user_no = $dest->GetProperty('user_no');
 $collection_id = $container->GetProperty('collection_id');
 
 $original_etag = md5($request->raw_post);
@@ -101,7 +102,7 @@ elseif( preg_match('{^(\d{8})(\d{6})Z?}', $last_modified, $matches) ) {
 $rendered_card = $vcard->Render(); 
 $etag = md5($rendered_card);
 $params = array(
-    ':user_no' => $dest->GetProperty('user_no'),
+    ':user_no' => $user_no,
     ':dav_name' => $dest->bound_from(),
     ':etag' => $etag,
     ':dav_data' => $rendered_card,
@@ -112,6 +113,7 @@ if ( $dest->Exists() ) {
   $sql = 'UPDATE caldav_data SET caldav_data=:dav_data, dav_etag=:etag, logged_user=:session_user,
           modified=:modified, user_no=:user_no, caldav_type=\'VCARD\' WHERE dav_name=:dav_name';
   $response_code = 200;
+  $put_action_type = 'UPDATE';
   $qry->QDo( $sql, $params );
 
   $qry->QDo("SELECT dav_id FROM caldav_data WHERE dav_name = :dav_name ", array(':dav_name' => $params[':dav_name']) );
@@ -122,7 +124,8 @@ else {
   $params[':collection_id'] = $collection_id;
   $response_code = 201;
   $qry->QDo( $sql, $params );
-
+  $put_action_type = 'INSERT';
+  
   $qry->QDo("SELECT currval('dav_id_seq') AS dav_id" );
 }
 $row = $qry->Fetch();
@@ -130,6 +133,15 @@ $row = $qry->Fetch();
 $vcard->Write( $row->dav_id, $dest->Exists() );
 
 $qry->QDo("SELECT write_sync_change( $collection_id, $response_code, :dav_name)", array(':dav_name' => $dest->bound_from() ) );
+
+if ( isset($log_action) && $log_action && function_exists('log_caldav_action') ) {
+  log_caldav_action( $put_action_type, $uid, $user_no, $collection_id, $request->path );
+}
+else if ( isset($log_action) && $log_action  ) {
+  dbg_error_log( 'PUT', 'No log_caldav_action( %s, %s, %s, %s, %s) can be called.',
+      $put_action_type, $uid, $user_no, $collection_id, $request->path );
+}
+
 
 if ( !$qry->Commit() ) {
    $qry->Rollback();
