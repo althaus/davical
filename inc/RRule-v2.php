@@ -1481,6 +1481,11 @@ function getVCalendarRange( $vResource ) {
       foreach ( rdate_expand($dtstart, 'EXDATE', $comp, $range_end) AS $k => $v ) {
         unset($instances[$k]);
       }
+      if ( count($instances) < 1 ) {
+        if ( empty($earliest_start) || $dtstart < $earliest_start ) $earliest_start = $dtstart;
+        $latest_end = null;
+        break;
+      }
       $instances = array_keys($instances);
       asort($instances);
       $first = new RepeatRuleDateTime($instances[0]);
