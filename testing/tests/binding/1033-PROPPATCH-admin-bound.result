@@ -1,16 +1,21 @@
-HTTP/1.1 200 OK
+HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, bind, addressbook, calendar-auto-schedule, calendar-proxy
-Content-Length: 230
+Content-Length: 358
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
-<multistatus xmlns="DAV:">
- <response>
-  <href>/caldav.php/user4/base/user3/</href>
-  <responsedescription>All requested changes were made.</responsedescription>
- </response>
+<multistatus xmlns="DAV:" xmlns:X="http://xmlns.dotcal.com/dotcal">
+ <href>/caldav.php/user4/base/user3/</href>
+ <responsedescription>All requested changes were made.</responsedescription>
+ <propstat>
+  <prop>
+   <displayname/>
+   <X:icon_uri/>
+  </prop>
+  <status>HTTP/1.1 200 OK</status>
+ </propstat>
 </multistatus>
 
   dav_displayname: >Updated user4-base-user3 displayname with PROPPATCH<

@@ -3,11 +3,11 @@ Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, bind, addressbook, calendar-auto-schedule, calendar-proxy
 ETag: "some valid etag"
-Content-Length: 6789
+Content-Length: 6796
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
-<multistatus xmlns="DAV:" xmlns:G="http://groupdav.org/" xmlns:C="urn:ietf:params:xml:ns:caldav" xmlns:C1="urn:ietf:params:xml:ns:carddav" xmlns:C2="http://calendarserver.org/ns/">
+<multistatus xmlns="DAV:" xmlns:C="http://calendarserver.org/ns/" xmlns:G="http://groupdav.org/" xmlns:C1="urn:ietf:params:xml:ns:caldav" xmlns:C2="urn:ietf:params:xml:ns:carddav">
  <response>
   <href>/caldav.php/</href>
   <propstat>
@@ -28,7 +28,7 @@ Content-Type: text/xml; charset="utf-8"
       <read-current-user-privilege-set/>
      </privilege>
     </current-user-privilege-set>
-    <C2:getctag/>
+    <C:getctag/>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -36,11 +36,11 @@ Content-Type: text/xml; charset="utf-8"
    <prop>
     <getetag/>
     <G:component-set/>
-    <C:supported-calendar-component-set/>
-    <C:supported-calendar-data/>
-    <C:calendar-description/>
-    <C1:supported-address-data/>
-    <C1:addressbook-description/>
+    <C1:supported-calendar-component-set/>
+    <C1:supported-calendar-data/>
+    <C1:calendar-description/>
+    <C2:supported-address-data/>
+    <C2:addressbook-description/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
@@ -90,7 +90,7 @@ Content-Type: text/xml; charset="utf-8"
       <unbind/>
      </privilege>
     </current-user-privilege-set>
-    <C2:getctag>some valid etag</C2:getctag>
+    <C:getctag>"d48d6c668e8410d0b51e3394358a8412"</C:getctag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -98,11 +98,11 @@ Content-Type: text/xml; charset="utf-8"
    <prop>
     <getetag/>
     <G:component-set/>
-    <C:supported-calendar-component-set/>
-    <C:supported-calendar-data/>
-    <C:calendar-description/>
-    <C1:supported-address-data/>
-    <C1:addressbook-description/>
+    <C1:supported-calendar-component-set/>
+    <C1:supported-calendar-data/>
+    <C1:calendar-description/>
+    <C2:supported-address-data/>
+    <C2:addressbook-description/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
@@ -117,7 +117,7 @@ Content-Type: text/xml; charset="utf-8"
      <principal/>
     </resourcetype>
     <getcontenttype>httpd/unix-directory</getcontenttype>
-    <C2:getctag>some valid etag</C2:getctag>
+    <C:getctag>"ab4a67c917e242e0989cd278c75a510e"</C:getctag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -131,11 +131,11 @@ Content-Type: text/xml; charset="utf-8"
    <prop>
     <getetag/>
     <G:component-set/>
-    <C:supported-calendar-component-set/>
-    <C:supported-calendar-data/>
-    <C:calendar-description/>
-    <C1:supported-address-data/>
-    <C1:addressbook-description/>
+    <C1:supported-calendar-component-set/>
+    <C1:supported-calendar-data/>
+    <C1:calendar-description/>
+    <C2:supported-address-data/>
+    <C2:addressbook-description/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
@@ -150,7 +150,7 @@ Content-Type: text/xml; charset="utf-8"
      <principal/>
     </resourcetype>
     <getcontenttype>httpd/unix-directory</getcontenttype>
-    <C2:getctag>some valid etag</C2:getctag>
+    <C:getctag>"4d470212545b8dd76f702fe2444accad"</C:getctag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -164,11 +164,11 @@ Content-Type: text/xml; charset="utf-8"
    <prop>
     <getetag/>
     <G:component-set/>
-    <C:supported-calendar-component-set/>
-    <C:supported-calendar-data/>
-    <C:calendar-description/>
-    <C1:supported-address-data/>
-    <C1:addressbook-description/>
+    <C1:supported-calendar-component-set/>
+    <C1:supported-calendar-data/>
+    <C1:calendar-description/>
+    <C2:supported-address-data/>
+    <C2:addressbook-description/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
@@ -218,7 +218,7 @@ Content-Type: text/xml; charset="utf-8"
       <unbind/>
      </privilege>
     </current-user-privilege-set>
-    <C2:getctag>some valid etag</C2:getctag>
+    <C:getctag>"c8ebc60237eb353a52e7278c96e50a74"</C:getctag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -226,11 +226,11 @@ Content-Type: text/xml; charset="utf-8"
    <prop>
     <getetag/>
     <G:component-set/>
-    <C:supported-calendar-component-set/>
-    <C:supported-calendar-data/>
-    <C:calendar-description/>
-    <C1:supported-address-data/>
-    <C1:addressbook-description/>
+    <C1:supported-calendar-component-set/>
+    <C1:supported-calendar-data/>
+    <C1:calendar-description/>
+    <C2:supported-address-data/>
+    <C2:addressbook-description/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
@@ -280,7 +280,7 @@ Content-Type: text/xml; charset="utf-8"
       <unbind/>
      </privilege>
     </current-user-privilege-set>
-    <C2:getctag>some valid etag</C2:getctag>
+    <C:getctag>"22a1e83f9f1b185fee3c792c15015af0"</C:getctag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -288,11 +288,11 @@ Content-Type: text/xml; charset="utf-8"
    <prop>
     <getetag/>
     <G:component-set/>
-    <C:supported-calendar-component-set/>
-    <C:supported-calendar-data/>
-    <C:calendar-description/>
-    <C1:supported-address-data/>
-    <C1:addressbook-description/>
+    <C1:supported-calendar-component-set/>
+    <C1:supported-calendar-data/>
+    <C1:calendar-description/>
+    <C2:supported-address-data/>
+    <C2:addressbook-description/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>

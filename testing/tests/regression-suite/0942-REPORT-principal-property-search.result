@@ -2,20 +2,20 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, bind, addressbook, calendar-auto-schedule, calendar-proxy
-ETag: "63123b75248ffab16849fec6c2e2846d"
-Content-Length: 3880
+ETag: "85e4975129afbf7f39b54da55ef16eb4"
+Content-Length: 3886
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
-<multistatus xmlns="DAV:" xmlns:C="http://calendarserver.org/ns/" xmlns:C1="urn:ietf:params:xml:ns:caldav">
+<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav" xmlns:C1="http://calendarserver.org/ns/">
  <response>
   <href>/caldav.php/user1/</href>
   <propstat>
    <prop>
-    <C1:calendar-user-address-set>
+    <C:calendar-user-address-set>
      <href>mailto:user1@example.net</href>
      <href>/caldav.php/user1/</href>
-    </C1:calendar-user-address-set>
+    </C:calendar-user-address-set>
     <displayname>User 1</displayname>
     <principal-URL>
      <href>/caldav.php/user1/</href>
@@ -25,11 +25,11 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
   <propstat>
    <prop>
-    <C:email-address-set/>
-    <C1:calendar-user-type/>
-    <C:last-name/>
-    <C:first-name/>
-    <C:record-type/>
+    <C1:email-address-set/>
+    <C:calendar-user-type/>
+    <C1:last-name/>
+    <C1:first-name/>
+    <C1:record-type/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
@@ -38,10 +38,10 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user2/</href>
   <propstat>
    <prop>
-    <C1:calendar-user-address-set>
+    <C:calendar-user-address-set>
      <href>mailto:user2@example.net</href>
      <href>/caldav.php/user2/</href>
-    </C1:calendar-user-address-set>
+    </C:calendar-user-address-set>
     <displayname>User 2</displayname>
     <principal-URL>
      <href>/caldav.php/user2/</href>
@@ -51,11 +51,11 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
   <propstat>
    <prop>
-    <C:email-address-set/>
-    <C1:calendar-user-type/>
-    <C:last-name/>
-    <C:first-name/>
-    <C:record-type/>
+    <C1:email-address-set/>
+    <C:calendar-user-type/>
+    <C1:last-name/>
+    <C1:first-name/>
+    <C1:record-type/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
@@ -64,10 +64,10 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user3/</href>
   <propstat>
    <prop>
-    <C1:calendar-user-address-set>
+    <C:calendar-user-address-set>
      <href>mailto:user3@example.net</href>
      <href>/caldav.php/user3/</href>
-    </C1:calendar-user-address-set>
+    </C:calendar-user-address-set>
     <displayname>User 3</displayname>
     <principal-URL>
      <href>/caldav.php/user3/</href>
@@ -77,11 +77,11 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
   <propstat>
    <prop>
-    <C:email-address-set/>
-    <C1:calendar-user-type/>
-    <C:last-name/>
-    <C:first-name/>
-    <C:record-type/>
+    <C1:email-address-set/>
+    <C:calendar-user-type/>
+    <C1:last-name/>
+    <C1:first-name/>
+    <C1:record-type/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
@@ -90,10 +90,10 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user4/</href>
   <propstat>
    <prop>
-    <C1:calendar-user-address-set>
+    <C:calendar-user-address-set>
      <href>mailto:user4@example.net</href>
      <href>/caldav.php/user4/</href>
-    </C1:calendar-user-address-set>
+    </C:calendar-user-address-set>
     <displayname>User 4</displayname>
     <principal-URL>
      <href>/caldav.php/user4/</href>
@@ -103,11 +103,11 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
   <propstat>
    <prop>
-    <C:email-address-set/>
-    <C1:calendar-user-type/>
-    <C:last-name/>
-    <C:first-name/>
-    <C:record-type/>
+    <C1:email-address-set/>
+    <C:calendar-user-type/>
+    <C1:last-name/>
+    <C1:first-name/>
+    <C1:record-type/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
@@ -116,10 +116,10 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user5/</href>
   <propstat>
    <prop>
-    <C1:calendar-user-address-set>
+    <C:calendar-user-address-set>
      <href>mailto:user5@example.net</href>
      <href>/caldav.php/user5/</href>
-    </C1:calendar-user-address-set>
+    </C:calendar-user-address-set>
     <displayname>User 5</displayname>
     <principal-URL>
      <href>/caldav.php/user5/</href>
@@ -129,11 +129,11 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
   <propstat>
    <prop>
-    <C:email-address-set/>
-    <C1:calendar-user-type/>
-    <C:last-name/>
-    <C:first-name/>
-    <C:record-type/>
+    <C1:email-address-set/>
+    <C:calendar-user-type/>
+    <C1:last-name/>
+    <C1:first-name/>
+    <C1:record-type/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
@@ -142,10 +142,10 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/User%20Six/</href>
   <propstat>
    <prop>
-    <C1:calendar-user-address-set>
+    <C:calendar-user-address-set>
      <href>mailto:user6@example.net</href>
      <href>/caldav.php/User%20Six/</href>
-    </C1:calendar-user-address-set>
+    </C:calendar-user-address-set>
     <displayname>User 6</displayname>
     <principal-URL>
      <href>/caldav.php/User%20Six/</href>
@@ -155,11 +155,11 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
   <propstat>
    <prop>
-    <C:email-address-set/>
-    <C1:calendar-user-type/>
-    <C:last-name/>
-    <C:first-name/>
-    <C:record-type/>
+    <C1:email-address-set/>
+    <C:calendar-user-type/>
+    <C1:last-name/>
+    <C1:first-name/>
+    <C1:record-type/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>

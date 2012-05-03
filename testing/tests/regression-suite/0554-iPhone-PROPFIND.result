@@ -2,18 +2,18 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, bind, addressbook, calendar-auto-schedule, calendar-proxy
-ETag: "6ef0b9c58af6fb12800d0ebd056e0e85"
-Content-Length: 12946
+ETag: "badcdb23956a17ef94ec1b98cd36f6fe"
+Content-Length: 12994
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
-<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav" xmlns:C1="http://calendarserver.org/ns/" xmlns:A="http://apple.com/ns/ical/" xmlns:C2="urn:ietf:params:xml:ns:carddav">
+<multistatus xmlns="DAV:" xmlns:C="http://calendarserver.org/ns/" xmlns:C1="urn:ietf:params:xml:ns:caldav" xmlns:A="http://apple.com/ns/ical/" xmlns:C2="urn:ietf:params:xml:ns:carddav">
  <response>
   <href>/caldav.php/user1/</href>
   <propstat>
    <prop>
     <displayname>User 1</displayname>
-    <C1:getctag>"89514106d00f37cc9ee71689c450d2ef"</C1:getctag>
+    <C:getctag>"89514106d00f37cc9ee71689c450d2ef"</C:getctag>
     <resourcetype>
      <collection/>
      <principal/>
@@ -58,9 +58,9 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
   <propstat>
    <prop>
-    <C:calendar-description/>
+    <C1:calendar-description/>
     <A:calendar-color/>
-    <C:supported-calendar-component-set/>
+    <C1:supported-calendar-component-set/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
@@ -70,20 +70,20 @@ Content-Type: text/xml; charset="utf-8"
   <propstat>
    <prop>
     <displayname>user1 home</displayname>
-    <C1:getctag>"243d78db0cc75a576d2603eef69efdc9"</C1:getctag>
+    <C:getctag>"243d78db0cc75a576d2603eef69efdc9"</C:getctag>
     <A:calendar-color>#0252D4FF</A:calendar-color>
-    <C:supported-calendar-component-set>
-     <C:comp name="VEVENT"/>
-     <C:comp name="VTODO"/>
-     <C:comp name="VJOURNAL"/>
-     <C:comp name="VTIMEZONE"/>
-     <C:comp name="VFREEBUSY"/>
-     <C:comp name="VPOLL"/>
-     <C:comp name="VAVAILABILITY"/>
-    </C:supported-calendar-component-set>
+    <C1:supported-calendar-component-set>
+     <C1:comp name="VEVENT"/>
+     <C1:comp name="VTODO"/>
+     <C1:comp name="VJOURNAL"/>
+     <C1:comp name="VTIMEZONE"/>
+     <C1:comp name="VFREEBUSY"/>
+     <C1:comp name="VPOLL"/>
+     <C1:comp name="VAVAILABILITY"/>
+    </C1:supported-calendar-component-set>
     <resourcetype>
      <collection/>
-     <C:calendar/>
+     <C1:calendar/>
     </resourcetype>
     <current-user-privilege-set>
      <privilege>
@@ -105,7 +105,7 @@ Content-Type: text/xml; charset="utf-8"
       <write-acl/>
      </privilege>
      <privilege>
-      <C:read-free-busy/>
+      <C1:read-free-busy/>
      </privilege>
      <privilege>
       <write/>
@@ -128,7 +128,7 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
   <propstat>
    <prop>
-    <C:calendar-description/>
+    <C1:calendar-description/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
@@ -138,7 +138,7 @@ Content-Type: text/xml; charset="utf-8"
   <propstat>
    <prop>
     <displayname>user1 addresses</displayname>
-    <C1:getctag>"24c9e15e52afc47c225b757e7bee1f9d"</C1:getctag>
+    <C:getctag>"24c9e15e52afc47c225b757e7bee1f9d"</C:getctag>
     <resourcetype>
      <collection/>
      <C2:addressbook/>
@@ -183,9 +183,9 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
   <propstat>
    <prop>
-    <C:calendar-description/>
+    <C1:calendar-description/>
     <A:calendar-color/>
-    <C:supported-calendar-component-set/>
+    <C1:supported-calendar-component-set/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
@@ -195,19 +195,19 @@ Content-Type: text/xml; charset="utf-8"
   <propstat>
    <prop>
     <displayname>created</displayname>
-    <C1:getctag>"bac273dae96780a3c8ed0c032266322c"</C1:getctag>
-    <C:supported-calendar-component-set>
-     <C:comp name="VEVENT"/>
-     <C:comp name="VTODO"/>
-     <C:comp name="VJOURNAL"/>
-     <C:comp name="VTIMEZONE"/>
-     <C:comp name="VFREEBUSY"/>
-     <C:comp name="VPOLL"/>
-     <C:comp name="VAVAILABILITY"/>
-    </C:supported-calendar-component-set>
+    <C:getctag>"bac273dae96780a3c8ed0c032266322c"</C:getctag>
+    <C1:supported-calendar-component-set>
+     <C1:comp name="VEVENT"/>
+     <C1:comp name="VTODO"/>
+     <C1:comp name="VJOURNAL"/>
+     <C1:comp name="VTIMEZONE"/>
+     <C1:comp name="VFREEBUSY"/>
+     <C1:comp name="VPOLL"/>
+     <C1:comp name="VAVAILABILITY"/>
+    </C1:supported-calendar-component-set>
     <resourcetype>
      <collection/>
-     <C:calendar/>
+     <C1:calendar/>
     </resourcetype>
     <current-user-privilege-set>
      <privilege>
@@ -229,7 +229,7 @@ Content-Type: text/xml; charset="utf-8"
       <write-acl/>
      </privilege>
      <privilege>
-      <C:read-free-busy/>
+      <C1:read-free-busy/>
      </privilege>
      <privilege>
       <write/>
@@ -252,7 +252,7 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
   <propstat>
    <prop>
-    <C:calendar-description/>
+    <C1:calendar-description/>
     <A:calendar-color/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
@@ -263,15 +263,15 @@ Content-Type: text/xml; charset="utf-8"
   <propstat>
    <prop>
     <displayname>User 1 Inbox</displayname>
-    <C1:getctag>"0389feae460444b4b5db3b16c94b1e43"</C1:getctag>
-    <C:supported-calendar-component-set>
-     <C:comp name="VEVENT"/>
-     <C:comp name="VTODO"/>
-     <C:comp name="VFREEBUSY"/>
-    </C:supported-calendar-component-set>
+    <C:getctag>"0389feae460444b4b5db3b16c94b1e43"</C:getctag>
+    <C1:supported-calendar-component-set>
+     <C1:comp name="VEVENT"/>
+     <C1:comp name="VTODO"/>
+     <C1:comp name="VFREEBUSY"/>
+    </C1:supported-calendar-component-set>
     <resourcetype>
      <collection/>
-     <C:schedule-inbox/>
+     <C1:schedule-inbox/>
     </resourcetype>
     <current-user-privilege-set>
      <privilege>
@@ -308,16 +308,16 @@ Content-Type: text/xml; charset="utf-8"
       <unbind/>
      </privilege>
      <privilege>
-      <C:schedule-deliver/>
+      <C1:schedule-deliver/>
      </privilege>
      <privilege>
-      <C:schedule-deliver-invite/>
+      <C1:schedule-deliver-invite/>
      </privilege>
      <privilege>
-      <C:schedule-deliver-reply/>
+      <C1:schedule-deliver-reply/>
      </privilege>
      <privilege>
-      <C:schedule-query-freebusy/>
+      <C1:schedule-query-freebusy/>
      </privilege>
     </current-user-privilege-set>
    </prop>
@@ -325,7 +325,7 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
   <propstat>
    <prop>
-    <C:calendar-description/>
+    <C1:calendar-description/>
     <A:calendar-color/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
@@ -336,15 +336,15 @@ Content-Type: text/xml; charset="utf-8"
   <propstat>
    <prop>
     <displayname>User 1 Outbox</displayname>
-    <C1:getctag>"1"</C1:getctag>
-    <C:supported-calendar-component-set>
-     <C:comp name="VEVENT"/>
-     <C:comp name="VTODO"/>
-     <C:comp name="VFREEBUSY"/>
-    </C:supported-calendar-component-set>
+    <C:getctag>"1"</C:getctag>
+    <C1:supported-calendar-component-set>
+     <C1:comp name="VEVENT"/>
+     <C1:comp name="VTODO"/>
+     <C1:comp name="VFREEBUSY"/>
+    </C1:supported-calendar-component-set>
     <resourcetype>
      <collection/>
-     <C:schedule-outbox/>
+     <C1:schedule-outbox/>
     </resourcetype>
     <current-user-privilege-set>
      <privilege>
@@ -381,16 +381,16 @@ Content-Type: text/xml; charset="utf-8"
       <unbind/>
      </privilege>
      <privilege>
-      <C:schedule-send/>
+      <C1:schedule-send/>
      </privilege>
      <privilege>
-      <C:schedule-send-invite/>
+      <C1:schedule-send-invite/>
      </privilege>
      <privilege>
-      <C:schedule-send-reply/>
+      <C1:schedule-send-reply/>
      </privilege>
      <privilege>
-      <C:schedule-send-freebusy/>
+      <C1:schedule-send-freebusy/>
      </privilege>
     </current-user-privilege-set>
    </prop>
@@ -398,7 +398,7 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
   <propstat>
    <prop>
-    <C:calendar-description/>
+    <C1:calendar-description/>
     <A:calendar-color/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
@@ -409,20 +409,20 @@ Content-Type: text/xml; charset="utf-8"
   <propstat>
    <prop>
     <displayname>iCal Calendar</displayname>
-    <C1:getctag>"ac192d10783fff90598af2facc8259df"</C1:getctag>
+    <C:getctag>"ac192d10783fff90598af2facc8259df"</C:getctag>
     <A:calendar-color>#391B71A0</A:calendar-color>
-    <C:supported-calendar-component-set>
-     <C:comp name="VEVENT"/>
-     <C:comp name="VTODO"/>
-     <C:comp name="VJOURNAL"/>
-     <C:comp name="VTIMEZONE"/>
-     <C:comp name="VFREEBUSY"/>
-     <C:comp name="VPOLL"/>
-     <C:comp name="VAVAILABILITY"/>
-    </C:supported-calendar-component-set>
+    <C1:supported-calendar-component-set>
+     <C1:comp name="VEVENT"/>
+     <C1:comp name="VTODO"/>
+     <C1:comp name="VJOURNAL"/>
+     <C1:comp name="VTIMEZONE"/>
+     <C1:comp name="VFREEBUSY"/>
+     <C1:comp name="VPOLL"/>
+     <C1:comp name="VAVAILABILITY"/>
+    </C1:supported-calendar-component-set>
     <resourcetype>
      <collection/>
-     <C:calendar/>
+     <C1:calendar/>
     </resourcetype>
     <current-user-privilege-set>
      <privilege>
@@ -444,7 +444,7 @@ Content-Type: text/xml; charset="utf-8"
       <write-acl/>
      </privilege>
      <privilege>
-      <C:read-free-busy/>
+      <C1:read-free-busy/>
      </privilege>
      <privilege>
       <write/>
@@ -467,7 +467,7 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
   <propstat>
    <prop>
-    <C:calendar-description/>
+    <C1:calendar-description/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
@@ -477,10 +477,10 @@ Content-Type: text/xml; charset="utf-8"
   <propstat>
    <prop>
     <displayname>/user1/calendar-proxy-read/</displayname>
-    <C1:getctag>"abad5538c4aa570cc54b6ff0d36a4565"</C1:getctag>
+    <C:getctag>"abad5538c4aa570cc54b6ff0d36a4565"</C:getctag>
     <resourcetype>
      <collection/>
-     <C1:calendar-proxy-read/>
+     <C:calendar-proxy-read/>
     </resourcetype>
     <current-user-privilege-set>
      <privilege>
@@ -502,7 +502,7 @@ Content-Type: text/xml; charset="utf-8"
       <write-acl/>
      </privilege>
      <privilege>
-      <C:read-free-busy/>
+      <C1:read-free-busy/>
      </privilege>
      <privilege>
       <write/>
@@ -525,9 +525,9 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
   <propstat>
    <prop>
-    <C:calendar-description/>
+    <C1:calendar-description/>
     <A:calendar-color/>
-    <C:supported-calendar-component-set/>
+    <C1:supported-calendar-component-set/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
@@ -537,10 +537,10 @@ Content-Type: text/xml; charset="utf-8"
   <propstat>
    <prop>
     <displayname>/user1/calendar-proxy-write/</displayname>
-    <C1:getctag>"04ba2c2164225fb5abce13f2c523b6c7"</C1:getctag>
+    <C:getctag>"04ba2c2164225fb5abce13f2c523b6c7"</C:getctag>
     <resourcetype>
      <collection/>
-     <C1:calendar-proxy-write/>
+     <C:calendar-proxy-write/>
     </resourcetype>
     <current-user-privilege-set>
      <privilege>
@@ -562,7 +562,7 @@ Content-Type: text/xml; charset="utf-8"
       <write-acl/>
      </privilege>
      <privilege>
-      <C:read-free-busy/>
+      <C1:read-free-busy/>
      </privilege>
      <privilege>
       <write/>
@@ -585,9 +585,9 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
   <propstat>
    <prop>
-    <C:calendar-description/>
+    <C1:calendar-description/>
     <A:calendar-color/>
-    <C:supported-calendar-component-set/>
+    <C1:supported-calendar-component-set/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>

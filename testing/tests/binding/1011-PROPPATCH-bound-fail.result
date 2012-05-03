@@ -2,27 +2,27 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, bind, addressbook, calendar-auto-schedule, calendar-proxy
-Content-Length: 608
+Content-Length: 615
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
-<multistatus xmlns="DAV:">
+<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
  <response>
   <href>/caldav.php/user4/user2/</href>
+  <responsedescription>Some properties were not able to be changed.</responsedescription>
   <propstat>
    <prop>
-    <urn:ietf:params:xml:ns:caldav:calendar-timezone/>
+    <C:calendar-timezone/>
    </prop>
    <status>HTTP/1.1 409 Conflict</status>
    <responsedescription>calendar-timezone property is only valid for a calendar.</responsedescription>
   </propstat>
   <propstat>
    <prop>
-    <DAV::displayname/>
+    <displayname/>
    </prop>
    <status>HTTP/1.1 424 Failed Dependency</status>
   </propstat>
-  <responsedescription>Some properties were not able to be changed.</responsedescription>
  </response>
 </multistatus>
 

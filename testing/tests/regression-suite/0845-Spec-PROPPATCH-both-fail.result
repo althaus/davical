@@ -2,16 +2,17 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, bind, addressbook, calendar-auto-schedule, calendar-proxy
-Content-Length: 513
+Content-Length: 508
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
 <multistatus xmlns="DAV:">
  <response>
   <href>/caldav.php/user1/home/</href>
+  <responsedescription>Some properties were not able to be changed.</responsedescription>
   <propstat>
    <prop>
-    <DAV::resourcetype/>
+    <resourcetype/>
    </prop>
    <status>HTTP/1.1 403 Forbidden</status>
    <responsedescription>Resources may not be changed to / from collections.</responsedescription>
@@ -19,7 +20,6 @@ Content-Type: text/xml; charset="utf-8"
     <cannot-modify-protected-property/>
    </error>
   </propstat>
-  <responsedescription>Some properties were not able to be changed.</responsedescription>
  </response>
 </multistatus>
 

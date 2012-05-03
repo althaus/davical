@@ -4,12 +4,12 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, bind, addressbook, calendar-auto-schedule, calendar-proxy
-ETag: "60916b1dd39825aaf565b74257f04c82"
-Content-Length: 29709
+ETag: "a96ee5986fc6ac00fe9ab7139329e7b9"
+Content-Length: 29691
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
-<multistatus xmlns="DAV:" xmlns:C="http://calendarserver.org/ns/" xmlns:M="http://me.com/_namespace/" xmlns:A="http://apple.com/ns/ical/" xmlns:C1="urn:ietf:params:xml:ns:caldav" xmlns:C2="urn:ietf:params:xml:ns:carddav">
+<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav" xmlns:C1="http://calendarserver.org/ns/" xmlns:M="http://me.com/_namespace/" xmlns:A="http://apple.com/ns/ical/" xmlns:C2="urn:ietf:params:xml:ns:carddav">
  <response>
   <href>/caldav.php/user1/</href>
   <propstat>
@@ -17,11 +17,11 @@ Content-Type: text/xml; charset="utf-8"
     <add-member>
      <href>/user1/?add-member</href>
     </add-member>
-    <C1:calendar-free-busy-set>
+    <C:calendar-free-busy-set>
      <href>/caldav.php/user1/home/</href>
      <href>/caldav.php/user1/created/</href>
      <href>/caldav.php/user1/6E20BB7C-EFD9-4F0F-9BDC-5335E04D47E0/</href>
-    </C1:calendar-free-busy-set>
+    </C:calendar-free-busy-set>
     <current-user-privilege-set>
      <privilege>
       <all/>
@@ -58,7 +58,7 @@ Content-Type: text/xml; charset="utf-8"
      </privilege>
     </current-user-privilege-set>
     <displayname>User 1</displayname>
-    <C:getctag>"89514106d00f37cc9ee71689c450d2ef"</C:getctag>
+    <C1:getctag>"89514106d00f37cc9ee71689c450d2ef"</C1:getctag>
     <owner>
      <href>/caldav.php/user1/</href>
     </owner>
@@ -69,9 +69,9 @@ Content-Type: text/xml; charset="utf-8"
      <collection/>
      <principal/>
     </resourcetype>
-    <C1:schedule-default-calendar-URL>
+    <C:schedule-default-calendar-URL>
      <href>/user1/home/</href>
-    </C1:schedule-default-calendar-URL>
+    </C:schedule-default-calendar-URL>
     <supported-report-set>
      <supported-report>
       <report>
@@ -99,30 +99,30 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
   <propstat>
    <prop>
-    <C:allowed-sharing-modes/>
+    <C1:allowed-sharing-modes/>
     <M:bulk-requests/>
     <A:calendar-color/>
-    <C1:calendar-description/>
+    <C:calendar-description/>
     <A:calendar-order/>
-    <C1:calendar-timezone/>
+    <C:calendar-timezone/>
     <C2:max-image-size/>
     <C2:max-resource-size/>
-    <C:me-card/>
-    <C:publish-url/>
-    <C:push-transports/>
-    <C:pushkey/>
+    <C1:me-card/>
+    <C1:publish-url/>
+    <C1:push-transports/>
+    <C1:pushkey/>
     <quota-available-bytes/>
     <quota-used-bytes/>
     <A:refreshrate/>
-    <C1:schedule-calendar-transp/>
-    <C:source/>
-    <C:subscribed-strip-alarms/>
-    <C:subscribed-strip-attachments/>
-    <C:subscribed-strip-todos/>
-    <C1:supported-calendar-component-set/>
+    <C:schedule-calendar-transp/>
+    <C1:source/>
+    <C1:subscribed-strip-alarms/>
+    <C1:subscribed-strip-attachments/>
+    <C1:subscribed-strip-todos/>
+    <C:supported-calendar-component-set/>
     <sync-token/>
-    <C:xmpp-server/>
-    <C:xmpp-uri/>
+    <C1:xmpp-server/>
+    <C1:xmpp-uri/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
@@ -135,11 +135,11 @@ Content-Type: text/xml; charset="utf-8"
      <href>/user1/home/?add-member</href>
     </add-member>
     <A:calendar-color>#0252D4FF</A:calendar-color>
-    <C1:calendar-free-busy-set>
+    <C:calendar-free-busy-set>
      <href>/caldav.php/user1/home/</href>
      <href>/caldav.php/user1/created/</href>
      <href>/caldav.php/user1/6E20BB7C-EFD9-4F0F-9BDC-5335E04D47E0/</href>
-    </C1:calendar-free-busy-set>
+    </C:calendar-free-busy-set>
     <A:calendar-order>1</A:calendar-order>
     <current-user-privilege-set>
      <privilege>
@@ -161,7 +161,7 @@ Content-Type: text/xml; charset="utf-8"
       <write-acl/>
      </privilege>
      <privilege>
-      <C1:read-free-busy/>
+      <C:read-free-busy/>
      </privilege>
      <privilege>
       <write/>
@@ -180,7 +180,7 @@ Content-Type: text/xml; charset="utf-8"
      </privilege>
     </current-user-privilege-set>
     <displayname>user1 home</displayname>
-    <C:getctag>"243d78db0cc75a576d2603eef69efdc9"</C:getctag>
+    <C1:getctag>"243d78db0cc75a576d2603eef69efdc9"</C1:getctag>
     <owner>
      <href>/caldav.php/user1/</href>
     </owner>
@@ -189,20 +189,20 @@ Content-Type: text/xml; charset="utf-8"
     </resource-id>
     <resourcetype>
      <collection/>
-     <C1:calendar/>
+     <C:calendar/>
     </resourcetype>
-    <C1:schedule-default-calendar-URL>
+    <C:schedule-default-calendar-URL>
      <href>/user1/home/</href>
-    </C1:schedule-default-calendar-URL>
-    <C1:supported-calendar-component-set>
-     <C1:comp name="VEVENT"/>
-     <C1:comp name="VTODO"/>
-     <C1:comp name="VJOURNAL"/>
-     <C1:comp name="VTIMEZONE"/>
-     <C1:comp name="VFREEBUSY"/>
-     <C1:comp name="VPOLL"/>
-     <C1:comp name="VAVAILABILITY"/>
-    </C1:supported-calendar-component-set>
+    </C:schedule-default-calendar-URL>
+    <C:supported-calendar-component-set>
+     <C:comp name="VEVENT"/>
+     <C:comp name="VTODO"/>
+     <C:comp name="VJOURNAL"/>
+     <C:comp name="VTIMEZONE"/>
+     <C:comp name="VFREEBUSY"/>
+     <C:comp name="VPOLL"/>
+     <C:comp name="VAVAILABILITY"/>
+    </C:supported-calendar-component-set>
     <supported-report-set>
      <supported-report>
       <report>
@@ -226,17 +226,17 @@ Content-Type: text/xml; charset="utf-8"
      </supported-report>
      <supported-report>
       <report>
-       <C1:calendar-query/>
+       <C:calendar-query/>
       </report>
      </supported-report>
      <supported-report>
       <report>
-       <C1:calendar-multiget/>
+       <C:calendar-multiget/>
       </report>
      </supported-report>
      <supported-report>
       <report>
-       <C1:free-busy-query/>
+       <C:free-busy-query/>
       </report>
      </supported-report>
     </supported-report-set>
@@ -246,26 +246,26 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
   <propstat>
    <prop>
-    <C:allowed-sharing-modes/>
+    <C1:allowed-sharing-modes/>
     <M:bulk-requests/>
-    <C1:calendar-description/>
-    <C1:calendar-timezone/>
+    <C:calendar-description/>
+    <C:calendar-timezone/>
     <C2:max-image-size/>
     <C2:max-resource-size/>
-    <C:me-card/>
-    <C:publish-url/>
-    <C:push-transports/>
-    <C:pushkey/>
+    <C1:me-card/>
+    <C1:publish-url/>
+    <C1:push-transports/>
+    <C1:pushkey/>
     <quota-available-bytes/>
     <quota-used-bytes/>
     <A:refreshrate/>
-    <C1:schedule-calendar-transp/>
-    <C:source/>
-    <C:subscribed-strip-alarms/>
-    <C:subscribed-strip-attachments/>
-    <C:subscribed-strip-todos/>
-    <C:xmpp-server/>
-    <C:xmpp-uri/>
+    <C:schedule-calendar-transp/>
+    <C1:source/>
+    <C1:subscribed-strip-alarms/>
+    <C1:subscribed-strip-attachments/>
+    <C1:subscribed-strip-todos/>
+    <C1:xmpp-server/>
+    <C1:xmpp-uri/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
@@ -277,11 +277,11 @@ Content-Type: text/xml; charset="utf-8"
     <add-member>
      <href>/user1/addresses/?add-member</href>
     </add-member>
-    <C1:calendar-free-busy-set>
+    <C:calendar-free-busy-set>
      <href>/caldav.php/user1/home/</href>
      <href>/caldav.php/user1/created/</href>
      <href>/caldav.php/user1/6E20BB7C-EFD9-4F0F-9BDC-5335E04D47E0/</href>
-    </C1:calendar-free-busy-set>
+    </C:calendar-free-busy-set>
     <current-user-privilege-set>
      <privilege>
       <all/>
@@ -318,7 +318,7 @@ Content-Type: text/xml; charset="utf-8"
      </privilege>
     </current-user-privilege-set>
     <displayname>user1 addresses</displayname>
-    <C:getctag>"24c9e15e52afc47c225b757e7bee1f9d"</C:getctag>
+    <C1:getctag>"24c9e15e52afc47c225b757e7bee1f9d"</C1:getctag>
     <C2:max-resource-size>65500</C2:max-resource-size>
     <owner>
      <href>/caldav.php/user1/</href>
@@ -330,9 +330,9 @@ Content-Type: text/xml; charset="utf-8"
      <collection/>
      <C2:addressbook/>
     </resourcetype>
-    <C1:schedule-default-calendar-URL>
+    <C:schedule-default-calendar-URL>
      <href>/user1/home/</href>
-    </C1:schedule-default-calendar-URL>
+    </C:schedule-default-calendar-URL>
     <supported-report-set>
      <supported-report>
       <report>
@@ -371,28 +371,28 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
   <propstat>
    <prop>
-    <C:allowed-sharing-modes/>
+    <C1:allowed-sharing-modes/>
     <M:bulk-requests/>
     <A:calendar-color/>
-    <C1:calendar-description/>
+    <C:calendar-description/>
     <A:calendar-order/>
-    <C1:calendar-timezone/>
+    <C:calendar-timezone/>
     <C2:max-image-size/>
-    <C:me-card/>
-    <C:publish-url/>
-    <C:push-transports/>
-    <C:pushkey/>
+    <C1:me-card/>
+    <C1:publish-url/>
+    <C1:push-transports/>
+    <C1:pushkey/>
     <quota-available-bytes/>
     <quota-used-bytes/>
     <A:refreshrate/>
-    <C1:schedule-calendar-transp/>
-    <C:source/>
-    <C:subscribed-strip-alarms/>
-    <C:subscribed-strip-attachments/>
-    <C:subscribed-strip-todos/>
-    <C1:supported-calendar-component-set/>
-    <C:xmpp-server/>
-    <C:xmpp-uri/>
+    <C:schedule-calendar-transp/>
+    <C1:source/>
+    <C1:subscribed-strip-alarms/>
+    <C1:subscribed-strip-attachments/>
+    <C1:subscribed-strip-todos/>
+    <C:supported-calendar-component-set/>
+    <C1:xmpp-server/>
+    <C1:xmpp-uri/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
@@ -404,11 +404,11 @@ Content-Type: text/xml; charset="utf-8"
     <add-member>
      <href>/user1/created/?add-member</href>
     </add-member>
-    <C1:calendar-free-busy-set>
+    <C:calendar-free-busy-set>
      <href>/caldav.php/user1/home/</href>
      <href>/caldav.php/user1/created/</href>
      <href>/caldav.php/user1/6E20BB7C-EFD9-4F0F-9BDC-5335E04D47E0/</href>
-    </C1:calendar-free-busy-set>
+    </C:calendar-free-busy-set>
     <current-user-privilege-set>
      <privilege>
       <all/>
@@ -429,7 +429,7 @@ Content-Type: text/xml; charset="utf-8"
       <write-acl/>
      </privilege>
      <privilege>
-      <C1:read-free-busy/>
+      <C:read-free-busy/>
      </privilege>
      <privilege>
       <write/>
@@ -448,7 +448,7 @@ Content-Type: text/xml; charset="utf-8"
      </privilege>
     </current-user-privilege-set>
     <displayname>created</displayname>
-    <C:getctag>"bac273dae96780a3c8ed0c032266322c"</C:getctag>
+    <C1:getctag>"bac273dae96780a3c8ed0c032266322c"</C1:getctag>
     <owner>
      <href>/caldav.php/user1/</href>
     </owner>
@@ -457,20 +457,20 @@ Content-Type: text/xml; charset="utf-8"
     </resource-id>
     <resourcetype>
      <collection/>
-     <C1:calendar/>
+     <C:calendar/>
     </resourcetype>
-    <C1:schedule-default-calendar-URL>
+    <C:schedule-default-calendar-URL>
      <href>/user1/home/</href>
-    </C1:schedule-default-calendar-URL>
-    <C1:supported-calendar-component-set>
-     <C1:comp name="VEVENT"/>
-     <C1:comp name="VTODO"/>
-     <C1:comp name="VJOURNAL"/>
-     <C1:comp name="VTIMEZONE"/>
-     <C1:comp name="VFREEBUSY"/>
-     <C1:comp name="VPOLL"/>
-     <C1:comp name="VAVAILABILITY"/>
-    </C1:supported-calendar-component-set>
+    </C:schedule-default-calendar-URL>
+    <C:supported-calendar-component-set>
+     <C:comp name="VEVENT"/>
+     <C:comp name="VTODO"/>
+     <C:comp name="VJOURNAL"/>
+     <C:comp name="VTIMEZONE"/>
+     <C:comp name="VFREEBUSY"/>
+     <C:comp name="VPOLL"/>
+     <C:comp name="VAVAILABILITY"/>
+    </C:supported-calendar-component-set>
     <supported-report-set>
      <supported-report>
       <report>
@@ -494,17 +494,17 @@ Content-Type: text/xml; charset="utf-8"
      </supported-report>
      <supported-report>
       <report>
-       <C1:calendar-query/>
+       <C:calendar-query/>
       </report>
      </supported-report>
      <supported-report>
       <report>
-       <C1:calendar-multiget/>
+       <C:calendar-multiget/>
       </report>
      </supported-report>
      <supported-report>
       <report>
-       <C1:free-busy-query/>
+       <C:free-busy-query/>
       </report>
      </supported-report>
     </supported-report-set>
@@ -514,28 +514,28 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
   <propstat>
    <prop>
-    <C:allowed-sharing-modes/>
+    <C1:allowed-sharing-modes/>
     <M:bulk-requests/>
     <A:calendar-color/>
-    <C1:calendar-description/>
+    <C:calendar-description/>
     <A:calendar-order/>
-    <C1:calendar-timezone/>
+    <C:calendar-timezone/>
     <C2:max-image-size/>
     <C2:max-resource-size/>
-    <C:me-card/>
-    <C:publish-url/>
-    <C:push-transports/>
-    <C:pushkey/>
+    <C1:me-card/>
+    <C1:publish-url/>
+    <C1:push-transports/>
+    <C1:pushkey/>
     <quota-available-bytes/>
     <quota-used-bytes/>
     <A:refreshrate/>
-    <C1:schedule-calendar-transp/>
-    <C:source/>
-    <C:subscribed-strip-alarms/>
-    <C:subscribed-strip-attachments/>
-    <C:subscribed-strip-todos/>
-    <C:xmpp-server/>
-    <C:xmpp-uri/>
+    <C:schedule-calendar-transp/>
+    <C1:source/>
+    <C1:subscribed-strip-alarms/>
+    <C1:subscribed-strip-attachments/>
+    <C1:subscribed-strip-todos/>
+    <C1:xmpp-server/>
+    <C1:xmpp-uri/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
@@ -547,11 +547,11 @@ Content-Type: text/xml; charset="utf-8"
     <add-member>
      <href>/user1/.in/?add-member</href>
     </add-member>
-    <C1:calendar-free-busy-set>
+    <C:calendar-free-busy-set>
      <href>/caldav.php/user1/home/</href>
      <href>/caldav.php/user1/created/</href>
      <href>/caldav.php/user1/6E20BB7C-EFD9-4F0F-9BDC-5335E04D47E0/</href>
-    </C1:calendar-free-busy-set>
+    </C:calendar-free-busy-set>
     <current-user-privilege-set>
      <privilege>
       <all/>
@@ -587,20 +587,20 @@ Content-Type: text/xml; charset="utf-8"
       <unbind/>
      </privilege>
      <privilege>
-      <C1:schedule-deliver/>
+      <C:schedule-deliver/>
      </privilege>
      <privilege>
-      <C1:schedule-deliver-invite/>
+      <C:schedule-deliver-invite/>
      </privilege>
      <privilege>
-      <C1:schedule-deliver-reply/>
+      <C:schedule-deliver-reply/>
      </privilege>
      <privilege>
-      <C1:schedule-query-freebusy/>
+      <C:schedule-query-freebusy/>
      </privilege>
     </current-user-privilege-set>
     <displayname>User 1 Inbox</displayname>
-    <C:getctag>"0389feae460444b4b5db3b16c94b1e43"</C:getctag>
+    <C1:getctag>"0389feae460444b4b5db3b16c94b1e43"</C1:getctag>
     <owner>
      <href>/caldav.php/user1/</href>
     </owner>
@@ -609,16 +609,16 @@ Content-Type: text/xml; charset="utf-8"
     </resource-id>
     <resourcetype>
      <collection/>
-     <C1:schedule-inbox/>
+     <C:schedule-inbox/>
     </resourcetype>
-    <C1:schedule-default-calendar-URL>
+    <C:schedule-default-calendar-URL>
      <href>/user1/home/</href>
-    </C1:schedule-default-calendar-URL>
-    <C1:supported-calendar-component-set>
-     <C1:comp name="VEVENT"/>
-     <C1:comp name="VTODO"/>
-     <C1:comp name="VFREEBUSY"/>
-    </C1:supported-calendar-component-set>
+    </C:schedule-default-calendar-URL>
+    <C:supported-calendar-component-set>
+     <C:comp name="VEVENT"/>
+     <C:comp name="VTODO"/>
+     <C:comp name="VFREEBUSY"/>
+    </C:supported-calendar-component-set>
     <supported-report-set>
      <supported-report>
       <report>
@@ -647,28 +647,28 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
   <propstat>
    <prop>
-    <C:allowed-sharing-modes/>
+    <C1:allowed-sharing-modes/>
     <M:bulk-requests/>
     <A:calendar-color/>
-    <C1:calendar-description/>
+    <C:calendar-description/>
     <A:calendar-order/>
-    <C1:calendar-timezone/>
+    <C:calendar-timezone/>
     <C2:max-image-size/>
     <C2:max-resource-size/>
-    <C:me-card/>
-    <C:publish-url/>
-    <C:push-transports/>
-    <C:pushkey/>
+    <C1:me-card/>
+    <C1:publish-url/>
+    <C1:push-transports/>
+    <C1:pushkey/>
     <quota-available-bytes/>
     <quota-used-bytes/>
     <A:refreshrate/>
-    <C1:schedule-calendar-transp/>
-    <C:source/>
-    <C:subscribed-strip-alarms/>
-    <C:subscribed-strip-attachments/>
-    <C:subscribed-strip-todos/>
-    <C:xmpp-server/>
-    <C:xmpp-uri/>
+    <C:schedule-calendar-transp/>
+    <C1:source/>
+    <C1:subscribed-strip-alarms/>
+    <C1:subscribed-strip-attachments/>
+    <C1:subscribed-strip-todos/>
+    <C1:xmpp-server/>
+    <C1:xmpp-uri/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
@@ -680,11 +680,11 @@ Content-Type: text/xml; charset="utf-8"
     <add-member>
      <href>/user1/.out/?add-member</href>
     </add-member>
-    <C1:calendar-free-busy-set>
+    <C:calendar-free-busy-set>
      <href>/caldav.php/user1/home/</href>
      <href>/caldav.php/user1/created/</href>
      <href>/caldav.php/user1/6E20BB7C-EFD9-4F0F-9BDC-5335E04D47E0/</href>
-    </C1:calendar-free-busy-set>
+    </C:calendar-free-busy-set>
     <current-user-privilege-set>
      <privilege>
       <all/>
@@ -720,20 +720,20 @@ Content-Type: text/xml; charset="utf-8"
       <unbind/>
      </privilege>
      <privilege>
-      <C1:schedule-send/>
+      <C:schedule-send/>
      </privilege>
      <privilege>
-      <C1:schedule-send-invite/>
+      <C:schedule-send-invite/>
      </privilege>
      <privilege>
-      <C1:schedule-send-reply/>
+      <C:schedule-send-reply/>
      </privilege>
      <privilege>
-      <C1:schedule-send-freebusy/>
+      <C:schedule-send-freebusy/>
      </privilege>
     </current-user-privilege-set>
     <displayname>User 1 Outbox</displayname>
-    <C:getctag>"1"</C:getctag>
+    <C1:getctag>"1"</C1:getctag>
     <owner>
      <href>/caldav.php/user1/</href>
     </owner>
@@ -742,16 +742,16 @@ Content-Type: text/xml; charset="utf-8"
     </resource-id>
     <resourcetype>
      <collection/>
-     <C1:schedule-outbox/>
+     <C:schedule-outbox/>
     </resourcetype>
-    <C1:schedule-default-calendar-URL>
+    <C:schedule-default-calendar-URL>
      <href>/user1/home/</href>
-    </C1:schedule-default-calendar-URL>
-    <C1:supported-calendar-component-set>
-     <C1:comp name="VEVENT"/>
-     <C1:comp name="VTODO"/>
-     <C1:comp name="VFREEBUSY"/>
-    </C1:supported-calendar-component-set>
+    </C:schedule-default-calendar-URL>
+    <C:supported-calendar-component-set>
+     <C:comp name="VEVENT"/>
+     <C:comp name="VTODO"/>
+     <C:comp name="VFREEBUSY"/>
+    </C:supported-calendar-component-set>
     <supported-report-set>
      <supported-report>
       <report>
@@ -780,28 +780,28 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
   <propstat>
    <prop>
-    <C:allowed-sharing-modes/>
+    <C1:allowed-sharing-modes/>
     <M:bulk-requests/>
     <A:calendar-color/>
-    <C1:calendar-description/>
+    <C:calendar-description/>
     <A:calendar-order/>
-    <C1:calendar-timezone/>
+    <C:calendar-timezone/>
     <C2:max-image-size/>
     <C2:max-resource-size/>
-    <C:me-card/>
-    <C:publish-url/>
-    <C:push-transports/>
-    <C:pushkey/>
+    <C1:me-card/>
+    <C1:publish-url/>
+    <C1:push-transports/>
+    <C1:pushkey/>
     <quota-available-bytes/>
     <quota-used-bytes/>
     <A:refreshrate/>
-    <C1:schedule-calendar-transp/>
-    <C:source/>
-    <C:subscribed-strip-alarms/>
-    <C:subscribed-strip-attachments/>
-    <C:subscribed-strip-todos/>
-    <C:xmpp-server/>
-    <C:xmpp-uri/>
+    <C:schedule-calendar-transp/>
+    <C1:source/>
+    <C1:subscribed-strip-alarms/>
+    <C1:subscribed-strip-attachments/>
+    <C1:subscribed-strip-todos/>
+    <C1:xmpp-server/>
+    <C1:xmpp-uri/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
@@ -814,11 +814,11 @@ Content-Type: text/xml; charset="utf-8"
      <href>/user1/6E20BB7C-EFD9-4F0F-9BDC-5335E04D47E0/?add-member</href>
     </add-member>
     <A:calendar-color>#391B71A0</A:calendar-color>
-    <C1:calendar-free-busy-set>
+    <C:calendar-free-busy-set>
      <href>/caldav.php/user1/home/</href>
      <href>/caldav.php/user1/created/</href>
      <href>/caldav.php/user1/6E20BB7C-EFD9-4F0F-9BDC-5335E04D47E0/</href>
-    </C1:calendar-free-busy-set>
+    </C:calendar-free-busy-set>
     <current-user-privilege-set>
      <privilege>
       <all/>
@@ -839,7 +839,7 @@ Content-Type: text/xml; charset="utf-8"
       <write-acl/>
      </privilege>
      <privilege>
-      <C1:read-free-busy/>
+      <C:read-free-busy/>
      </privilege>
      <privilege>
       <write/>
@@ -858,7 +858,7 @@ Content-Type: text/xml; charset="utf-8"
      </privilege>
     </current-user-privilege-set>
     <displayname>iCal Calendar</displayname>
-    <C:getctag>"ac192d10783fff90598af2facc8259df"</C:getctag>
+    <C1:getctag>"ac192d10783fff90598af2facc8259df"</C1:getctag>
     <owner>
      <href>/caldav.php/user1/</href>
     </owner>
@@ -867,20 +867,20 @@ Content-Type: text/xml; charset="utf-8"
     </resource-id>
     <resourcetype>
      <collection/>
-     <C1:calendar/>
+     <C:calendar/>
     </resourcetype>
-    <C1:schedule-default-calendar-URL>
+    <C:schedule-default-calendar-URL>
      <href>/user1/home/</href>
-    </C1:schedule-default-calendar-URL>
-    <C1:supported-calendar-component-set>
-     <C1:comp name="VEVENT"/>
-     <C1:comp name="VTODO"/>
-     <C1:comp name="VJOURNAL"/>
-     <C1:comp name="VTIMEZONE"/>
-     <C1:comp name="VFREEBUSY"/>
-     <C1:comp name="VPOLL"/>
-     <C1:comp name="VAVAILABILITY"/>
-    </C1:supported-calendar-component-set>
+    </C:schedule-default-calendar-URL>
+    <C:supported-calendar-component-set>
+     <C:comp name="VEVENT"/>
+     <C:comp name="VTODO"/>
+     <C:comp name="VJOURNAL"/>
+     <C:comp name="VTIMEZONE"/>
+     <C:comp name="VFREEBUSY"/>
+     <C:comp name="VPOLL"/>
+     <C:comp name="VAVAILABILITY"/>
+    </C:supported-calendar-component-set>
     <supported-report-set>
      <supported-report>
       <report>
@@ -904,17 +904,17 @@ Content-Type: text/xml; charset="utf-8"
      </supported-report>
      <supported-report>
       <report>
-       <C1:calendar-query/>
+       <C:calendar-query/>
       </report>
      </supported-report>
      <supported-report>
       <report>
-       <C1:calendar-multiget/>
+       <C:calendar-multiget/>
       </report>
      </supported-report>
      <supported-report>
       <report>
-       <C1:free-busy-query/>
+       <C:free-busy-query/>
       </report>
      </supported-report>
     </supported-report-set>
@@ -924,27 +924,27 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
   <propstat>
    <prop>
-    <C:allowed-sharing-modes/>
+    <C1:allowed-sharing-modes/>
     <M:bulk-requests/>
-    <C1:calendar-description/>
+    <C:calendar-description/>
     <A:calendar-order/>
-    <C1:calendar-timezone/>
+    <C:calendar-timezone/>
     <C2:max-image-size/>
     <C2:max-resource-size/>
-    <C:me-card/>
-    <C:publish-url/>
-    <C:push-transports/>
-    <C:pushkey/>
+    <C1:me-card/>
+    <C1:publish-url/>
+    <C1:push-transports/>
+    <C1:pushkey/>
     <quota-available-bytes/>
     <quota-used-bytes/>
     <A:refreshrate/>
-    <C1:schedule-calendar-transp/>
-    <C:source/>
-    <C:subscribed-strip-alarms/>
-    <C:subscribed-strip-attachments/>
-    <C:subscribed-strip-todos/>
-    <C:xmpp-server/>
-    <C:xmpp-uri/>
+    <C:schedule-calendar-transp/>
+    <C1:source/>
+    <C1:subscribed-strip-alarms/>
+    <C1:subscribed-strip-attachments/>
+    <C1:subscribed-strip-todos/>
+    <C1:xmpp-server/>
+    <C1:xmpp-uri/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
@@ -956,11 +956,11 @@ Content-Type: text/xml; charset="utf-8"
     <add-member>
      <href>/user1/calendar-proxy-read/?add-member</href>
     </add-member>
-    <C1:calendar-free-busy-set>
+    <C:calendar-free-busy-set>
      <href>/caldav.php/user1/home/</href>
      <href>/caldav.php/user1/created/</href>
      <href>/caldav.php/user1/6E20BB7C-EFD9-4F0F-9BDC-5335E04D47E0/</href>
-    </C1:calendar-free-busy-set>
+    </C:calendar-free-busy-set>
     <current-user-privilege-set>
      <privilege>
       <all/>
@@ -981,7 +981,7 @@ Content-Type: text/xml; charset="utf-8"
       <write-acl/>
      </privilege>
      <privilege>
-      <C1:read-free-busy/>
+      <C:read-free-busy/>
      </privilege>
      <privilege>
       <write/>
@@ -1000,17 +1000,17 @@ Content-Type: text/xml; charset="utf-8"
      </privilege>
     </current-user-privilege-set>
     <displayname>/user1/calendar-proxy-read/</displayname>
-    <C:getctag>"abad5538c4aa570cc54b6ff0d36a4565"</C:getctag>
+    <C1:getctag>"abad5538c4aa570cc54b6ff0d36a4565"</C1:getctag>
     <owner>
      <href>/caldav.php/user1/</href>
     </owner>
     <resourcetype>
      <collection/>
-     <C:calendar-proxy-read/>
+     <C1:calendar-proxy-read/>
     </resourcetype>
-    <C1:schedule-default-calendar-URL>
+    <C:schedule-default-calendar-URL>
      <href>/user1/home/</href>
-    </C1:schedule-default-calendar-URL>
+    </C:schedule-default-calendar-URL>
     <supported-report-set>
      <supported-report>
       <report>
@@ -1034,17 +1034,17 @@ Content-Type: text/xml; charset="utf-8"
      </supported-report>
      <supported-report>
       <report>
-       <C1:calendar-query/>
+       <C:calendar-query/>
       </report>
      </supported-report>
      <supported-report>
       <report>
-       <C1:calendar-multiget/>
+       <C:calendar-multiget/>
       </report>
      </supported-report>
      <supported-report>
       <report>
-       <C1:free-busy-query/>
+       <C:free-busy-query/>
       </report>
      </supported-report>
      <supported-report>
@@ -1063,31 +1063,31 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
   <propstat>
    <prop>
-    <C:allowed-sharing-modes/>
+    <C1:allowed-sharing-modes/>
     <M:bulk-requests/>
     <A:calendar-color/>
-    <C1:calendar-description/>
+    <C:calendar-description/>
     <A:calendar-order/>
-    <C1:calendar-timezone/>
+    <C:calendar-timezone/>
     <C2:max-image-size/>
     <C2:max-resource-size/>
-    <C:me-card/>
-    <C:publish-url/>
-    <C:push-transports/>
-    <C:pushkey/>
+    <C1:me-card/>
+    <C1:publish-url/>
+    <C1:push-transports/>
+    <C1:pushkey/>
     <quota-available-bytes/>
     <quota-used-bytes/>
     <A:refreshrate/>
     <resource-id/>
-    <C1:schedule-calendar-transp/>
-    <C:source/>
-    <C:subscribed-strip-alarms/>
-    <C:subscribed-strip-attachments/>
-    <C:subscribed-strip-todos/>
-    <C1:supported-calendar-component-set/>
+    <C:schedule-calendar-transp/>
+    <C1:source/>
+    <C1:subscribed-strip-alarms/>
+    <C1:subscribed-strip-attachments/>
+    <C1:subscribed-strip-todos/>
+    <C:supported-calendar-component-set/>
     <sync-token/>
-    <C:xmpp-server/>
-    <C:xmpp-uri/>
+    <C1:xmpp-server/>
+    <C1:xmpp-uri/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>
@@ -1099,11 +1099,11 @@ Content-Type: text/xml; charset="utf-8"
     <add-member>
      <href>/user1/calendar-proxy-write/?add-member</href>
     </add-member>
-    <C1:calendar-free-busy-set>
+    <C:calendar-free-busy-set>
      <href>/caldav.php/user1/home/</href>
      <href>/caldav.php/user1/created/</href>
      <href>/caldav.php/user1/6E20BB7C-EFD9-4F0F-9BDC-5335E04D47E0/</href>
-    </C1:calendar-free-busy-set>
+    </C:calendar-free-busy-set>
     <current-user-privilege-set>
      <privilege>
       <all/>
@@ -1124,7 +1124,7 @@ Content-Type: text/xml; charset="utf-8"
       <write-acl/>
      </privilege>
      <privilege>
-      <C1:read-free-busy/>
+      <C:read-free-busy/>
      </privilege>
      <privilege>
       <write/>
@@ -1143,17 +1143,17 @@ Content-Type: text/xml; charset="utf-8"
      </privilege>
     </current-user-privilege-set>
     <displayname>/user1/calendar-proxy-write/</displayname>
-    <C:getctag>"04ba2c2164225fb5abce13f2c523b6c7"</C:getctag>
+    <C1:getctag>"04ba2c2164225fb5abce13f2c523b6c7"</C1:getctag>
     <owner>
      <href>/caldav.php/user1/</href>
     </owner>
     <resourcetype>
      <collection/>
-     <C:calendar-proxy-write/>
+     <C1:calendar-proxy-write/>
     </resourcetype>
-    <C1:schedule-default-calendar-URL>
+    <C:schedule-default-calendar-URL>
      <href>/user1/home/</href>
-    </C1:schedule-default-calendar-URL>
+    </C:schedule-default-calendar-URL>
     <supported-report-set>
      <supported-report>
       <report>
@@ -1177,17 +1177,17 @@ Content-Type: text/xml; charset="utf-8"
      </supported-report>
      <supported-report>
       <report>
-       <C1:calendar-query/>
+       <C:calendar-query/>
       </report>
      </supported-report>
      <supported-report>
       <report>
-       <C1:calendar-multiget/>
+       <C:calendar-multiget/>
       </report>
      </supported-report>
      <supported-report>
       <report>
-       <C1:free-busy-query/>
+       <C:free-busy-query/>
       </report>
      </supported-report>
      <supported-report>
@@ -1206,31 +1206,31 @@ Content-Type: text/xml; charset="utf-8"
   </propstat>
   <propstat>
    <prop>
-    <C:allowed-sharing-modes/>
+    <C1:allowed-sharing-modes/>
     <M:bulk-requests/>
     <A:calendar-color/>
-    <C1:calendar-description/>
+    <C:calendar-description/>
     <A:calendar-order/>
-    <C1:calendar-timezone/>
+    <C:calendar-timezone/>
     <C2:max-image-size/>
     <C2:max-resource-size/>
-    <C:me-card/>
-    <C:publish-url/>
-    <C:push-transports/>
-    <C:pushkey/>
+    <C1:me-card/>
+    <C1:publish-url/>
+    <C1:push-transports/>
+    <C1:pushkey/>
     <quota-available-bytes/>
     <quota-used-bytes/>
     <A:refreshrate/>
     <resource-id/>
-    <C1:schedule-calendar-transp/>
-    <C:source/>
-    <C:subscribed-strip-alarms/>
-    <C:subscribed-strip-attachments/>
-    <C:subscribed-strip-todos/>
-    <C1:supported-calendar-component-set/>
+    <C:schedule-calendar-transp/>
+    <C1:source/>
+    <C1:subscribed-strip-alarms/>
+    <C1:subscribed-strip-attachments/>
+    <C1:subscribed-strip-todos/>
+    <C:supported-calendar-component-set/>
     <sync-token/>
-    <C:xmpp-server/>
-    <C:xmpp-uri/>
+    <C1:xmpp-server/>
+    <C1:xmpp-uri/>
    </prop>
    <status>HTTP/1.1 404 Not Found</status>
   </propstat>

@@ -2,12 +2,12 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, bind, addressbook, calendar-auto-schedule, calendar-proxy
-ETag: "c407a846b30b1e658173c72fab664629"
+ETag: "ef3df689151fd487c9a178ab6d110e89"
 Content-Length: 636
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
-<multistatus xmlns="DAV:" xmlns:A="http://apache.org/dav/props/" xmlns:C="urn:ietf:params:xml:ns:carddav">
+<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:carddav" xmlns:A="http://apache.org/dav/props/">
  <response>
   <href>/caldav.php/user3/addresses/</href>
   <propstat>
