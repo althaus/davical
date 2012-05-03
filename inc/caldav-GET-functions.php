@@ -45,8 +45,10 @@ function export_iCalendar( DAVResource $dav_resource ) {
   $sql = 'SELECT caldav_data, class, caldav_type, calendar_item.user_no, logged_user ';
   $sql .= 'FROM collection INNER JOIN caldav_data USING(collection_id) INNER JOIN calendar_item USING ( dav_id ) WHERE ';
   if ( isset($c->get_includes_subcollections) && $c->get_includes_subcollections ) {
-    $sql .= '(collection.dav_name ~ :path_match ';
-    $sql .= 'OR collection.collection_id IN (SELECT bound_source_id FROM dav_binding WHERE dav_binding.dav_name ~ :path_match)) ';
+    $sql .= 'caldav_data.collection_id IN ';
+    $sql .= '(SELECT bound_source_id FROM dav_binding WHERE dav_binding.dav_name ~ :path_match ';
+    $sql .= 'UNION ';
+    $sql .= 'SELECT collection_id FROM collection WHERE collection.dav_name ~ :path_match) ';
     $params = array( ':path_match' => '^'.$request->path );
   }
   else {
