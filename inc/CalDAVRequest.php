@@ -106,9 +106,10 @@ class CalDAVRequest
   public $ticket;
 
   /**
-   * Whether this request included the 'Brief: T' header.
+   * An array of values from the 'Prefer' header.  At present only 'return-minimal' is acted on in any way - you
+   * can test that value with the PreferMinimal() method.
    */
-  public $brief_response;
+  private $prefer;
   
   /**
   * Create a new CalDAVRequest object.
@@ -118,8 +119,15 @@ class CalDAVRequest
 
     $this->options = $options;
     if ( !isset($this->options['allow_by_email']) ) $this->options['allow_by_email'] = false;
-    
-    $this->brief_response = (isset($_SERVER['HTTP_BRIEF']) && (strtoupper($_SERVER['HTTP_BRIEF']) == 'T'));
+
+    if ( isset($_SERVER['HTTP_PREFER']) ) {
+      $this->prefer = explode( ',', $_SERVER['HTTP_PREFER']);
+    }
+    else if ( isset($_SERVER['HTTP_BRIEF']) && (strtoupper($_SERVER['HTTP_PREFER']) == 'T') ) {
+      $this->prefer = array( 'return-minimal');
+    }
+    else 
+      $this->prefer = array(); 
 
     /**
     * Our path is /<script name>/<user name>/<user controlled> if it ends in
@@ -899,6 +907,17 @@ EOSQL;
 
 
   /**
+   * Returns true if the 'Prefer: return-minimal' or 'Brief: t' were present in the request headers.
+   */
+  function PreferMinimal() {
+    if ( empty($this->prefer) ) return false;
+    foreach( $this->prefer AS $v ) {
+      if ( $v == 'return-minimal' ) return true;
+    }
+    return false;
+  }
+
+  /**
   * Returns true if the URL referenced by this request points at a collection.
   */
   function IsCollection( ) {
@@ -1224,7 +1243,7 @@ EOSQL;
   function XMLResponse( $status, $xmltree ) {
     $xmldoc = $xmltree->Render(0,'<?xml version="1.0" encoding="utf-8" ?>');
     $etag = md5($xmldoc);
-    header("ETag: \"$etag\"");
+    if ( !headers_sent() ) header("ETag: \"$etag\"");
     $this->DoResponse( $status, $xmldoc, 'text/xml; charset="utf-8"' );
     exit(0);  // Unecessary, but might clarify things
   }
@@ -1238,9 +1257,9 @@ EOSQL;
   */
   function DoResponse( $status, $message="", $content_type="text/plain; charset=\"utf-8\"" ) {
     global $session, $c;
-    @header( sprintf("HTTP/1.1 %d %s", $status, getStatusMessage($status)) );
-    @header( sprintf("X-DAViCal-Version: DAViCal/%d.%d.%d; DB/%d.%d.%d", $c->code_major, $c->code_minor, $c->code_patch, $c->schema_major, $c->schema_minor, $c->schema_patch) );
-    @header( "Content-type: ".$content_type );
+    if ( !headers_sent() ) @header( sprintf("HTTP/1.1 %d %s", $status, getStatusMessage($status)) );
+    if ( !headers_sent() ) @header( sprintf("X-DAViCal-Version: DAViCal/%d.%d.%d; DB/%d.%d.%d", $c->code_major, $c->code_minor, $c->code_patch, $c->schema_major, $c->schema_minor, $c->schema_patch) );
+    if ( !headers_sent() ) header( "Content-type: ".$content_type );
 
     if ( (isset($c->dbg['ALL']) && $c->dbg['ALL']) || (isset($c->dbg['response']) && $c->dbg['response'])
          || $status == 400  || $status == 402 || $status == 403 || $status > 404 ) {
@@ -1259,7 +1278,7 @@ EOSQL;
     }
 
     if ( $message != '' ) {
-      @header( "Content-Length: ".strlen($message) );
+      if ( !headers_sent() ) header( "Content-Length: ".strlen($message) );
       echo $message;
     }
 
@@ -1275,7 +1294,8 @@ EOSQL;
       @dbg_error_log("statistics", "Method: %s, Status: %d, Script: %5.3lfs, Queries: %5.3lfs, URL: %s",
                          $this->method, $status, $script_time, $c->total_query_time, $this->path);
     }
-    @ob_flush(); exit(0);
+    while ( ob_get_level() > 0 ) ob_end_flush();
+    exit(0);
   }
 
 }
