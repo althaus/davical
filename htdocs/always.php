@@ -31,6 +31,12 @@ function early_exception_handler($e) {
 }
 set_exception_handler('early_exception_handler');
 
+$c->default_timezone = ini_get('date.timezone');
+if ( empty($c->default_timezone) ) {
+  $c->default_timezone = 'UTC';
+  date_default_timezone_set('UTC');
+}
+
 // Default some of the configurable values
 $c->sysabbr     = 'davical';
 $c->admin_email = 'admin@davical.example.com';
