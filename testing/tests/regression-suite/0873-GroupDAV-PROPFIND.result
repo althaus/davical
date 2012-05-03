@@ -90,7 +90,7 @@ Content-Type: text/xml; charset="utf-8"
       <unbind/>
      </privilege>
     </current-user-privilege-set>
-    <C:getctag>"d48d6c668e8410d0b51e3394358a8412"</C:getctag>
+    <C:getctag>some valid etag</C:getctag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -117,7 +117,7 @@ Content-Type: text/xml; charset="utf-8"
      <principal/>
     </resourcetype>
     <getcontenttype>httpd/unix-directory</getcontenttype>
-    <C:getctag>"ab4a67c917e242e0989cd278c75a510e"</C:getctag>
+    <C:getctag>some valid etag</C:getctag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -150,7 +150,7 @@ Content-Type: text/xml; charset="utf-8"
      <principal/>
     </resourcetype>
     <getcontenttype>httpd/unix-directory</getcontenttype>
-    <C:getctag>"4d470212545b8dd76f702fe2444accad"</C:getctag>
+    <C:getctag>some valid etag</C:getctag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -218,7 +218,7 @@ Content-Type: text/xml; charset="utf-8"
       <unbind/>
      </privilege>
     </current-user-privilege-set>
-    <C:getctag>"c8ebc60237eb353a52e7278c96e50a74"</C:getctag>
+    <C:getctag>some valid etag</C:getctag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>
@@ -280,7 +280,7 @@ Content-Type: text/xml; charset="utf-8"
       <unbind/>
      </privilege>
     </current-user-privilege-set>
-    <C:getctag>"22a1e83f9f1b185fee3c792c15015af0"</C:getctag>
+    <C:getctag>some valid etag</C:getctag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>

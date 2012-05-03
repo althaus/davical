@@ -36,4 +36,4 @@ BEGINDATA
 ENDDATA
 
 REPLACE=/ETag: "\S+"/ETag: "some valid etag"/
-REPLACE=!C2:getctag>\S+</C2:getctag!C2:getctag>some valid etag</C2:getctag!
+REPLACE=!C:getctag>\S+</C:getctag!C:getctag>some valid etag</C:getctag!
