@@ -23,8 +23,7 @@ switch( $proptype ) {
   case 'DAV::prop':
     $qry_props = $xmltree->GetPath('/urn:ietf:params:xml:ns:carddav:addressbook-query/'.$proptype.'/*');
     foreach( $qry_content[0]->GetElements() AS $k => $v ) {
-      $propertyname = preg_replace( '/^.*:/', '', $v->GetNSTag() );
-      $properties[$propertyname] = 1;
+      $properties[$v->GetNSTag()] = 1;
       if ( $v->GetNSTag() == 'urn:ietf:params:xml:ns:carddav:address-data' ) get_address_properties($v);
     }
     break;
@@ -40,8 +39,7 @@ switch( $proptype ) {
     break;
 
   default:
-    $propertyname = preg_replace( '/^.*:/', '', $proptype );
-    $properties[$propertyname] = 1;
+    $properties[$proptype] = 1;
 }
 
 /**

@@ -1488,7 +1488,7 @@ EOQRY;
     global $c, $session, $request;
 
 //    dbg_error_log( 'DAVResource', 'Processing "%s" on "%s".', $tag, $this->dav_name );
-
+    
     if ( $reply === null ) $reply = $GLOBALS['reply'];
 
     switch( $tag ) {
@@ -1799,13 +1799,13 @@ EOQRY;
 
     dbg_error_log('DAVResource',':GetPropStat: propstat for href "%s"', $this->dav_name );
 
-    $prop = new XMLElement('prop');
+    $prop = new XMLElement('prop', null, null, 'DAV:');
     $denied = array();
     $not_found = array();
     foreach( $properties AS $k => $tag ) {
       if ( is_object($tag) ) {
         dbg_error_log( 'DAVResource', ':GetPropStat: "$properties" should be an array of text. Assuming this object is an XMLElement!.' );
-        $tag = $tag->GetTag();
+        $tag = $tag->GetNSTag();
       }
       $found = $this->ResourceProperty($tag, $prop, $reply, $denied );
       if ( !$found ) {
@@ -1814,31 +1814,31 @@ EOQRY;
       }
       if ( ! $found ) {
 //        dbg_error_log( 'DAVResource', 'Request for unsupported property "%s" of resource "%s".', $tag, $this->dav_name );
-        $not_found[] = $reply->Tag($tag);
+        $not_found[] = $tag;
       }
     }
     if ( $props_only ) return $prop;
 
-    $status = new XMLElement('status', 'HTTP/1.1 200 OK' );
+    $status = new XMLElement('status', 'HTTP/1.1 200 OK', null, 'DAV:' );
 
-    $elements = array( new XMLElement( 'propstat', array($prop,$status) ) );
+    $elements = array( new XMLElement( 'propstat', array($prop,$status), null, 'DAV:' ) );
 
     if ( count($denied) > 0 ) {
-      $status = new XMLElement('status', 'HTTP/1.1 403 Forbidden' );
-      $noprop = new XMLElement('prop');
+      $status = new XMLElement('status', 'HTTP/1.1 403 Forbidden', null, 'DAV:' );
+      $noprop = new XMLElement('prop', null, null, 'DAV:');
       foreach( $denied AS $k => $v ) {
         $reply->NSElement($noprop, $v);
       }
-      $elements[] = new XMLElement( 'propstat', array( $noprop, $status) );
+      $elements[] = new XMLElement( 'propstat', array( $noprop, $status), null, 'DAV:' );
     }
 
-    if ( !(isset($request->brief_response) && $request->brief_response) && count($not_found) > 0 ) {
-      $status = new XMLElement('status', 'HTTP/1.1 404 Not Found' );
-      $noprop = new XMLElement('prop');
+    if ( !$request->PreferMinimal() && count($not_found) > 0 ) {
+      $status = new XMLElement('status', 'HTTP/1.1 404 Not Found', null, 'DAV:' );
+      $noprop = new XMLElement('prop', null, null, 'DAV:');
       foreach( $not_found AS $k => $v ) {
-        $noprop->NewElement($v);
+        $reply->NSElement($noprop,$v);
       }
-      $elements[] = new XMLElement( 'propstat', array( $noprop, $status) );
+      $elements[] = new XMLElement( 'propstat', array( $noprop, $status), null, 'DAV:' );
     }
     return $elements;
   }
@@ -1869,7 +1869,7 @@ EOQRY;
 
     array_unshift( $elements, $reply->href(ConstructURL($dav_name)));
 
-    $response = new XMLElement( 'response', $elements );
+    $response = new XMLElement( 'response', $elements, null, 'DAV:' );
 
     return $response;
   }

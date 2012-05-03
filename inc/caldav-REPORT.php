@@ -142,47 +142,48 @@ function component_to_xml( $properties, $item ) {
   $url = ConstructURL($item->dav_name);
 
   $prop = new XMLElement("prop");
-  foreach( $properties AS $k => $v ) {
-    switch( $k ) {
-      case 'getcontentlength':
+  foreach( $properties AS $full_tag => $v ) {
+    $base_tag = preg_replace('{^.*:}', '', $full_tag );
+    switch( $full_tag ) {
+      case 'DAV::getcontentlength':
         $contentlength = strlen($caldav_data);
-        $prop->NewElement($k, $contentlength );
+        $prop->NewElement($base_tag, $contentlength );
         break;
-      case 'getlastmodified':
-        $prop->NewElement($k, ISODateToHTTPDate($item->modified) );
+      case 'DAV::getlastmodified':
+        $prop->NewElement($base_tag, ISODateToHTTPDate($item->modified) );
         break;
-      case 'calendar-data':
-        if ( $type == 'calendar' ) $reply->CalDAVElement($prop, $k, $caldav_data );
-        else $unsupported[] = $k;
+      case 'urn:ietf:params:xml:ns:caldav:calendar-data':
+        if ( $type == 'calendar' ) $reply->CalDAVElement($prop, $base_tag, $caldav_data );
+        else $unsupported[] = $base_tag;
         break;
-      case 'address-data':
-        if ( $type == 'vcard' ) $reply->CardDAVElement($prop, $k, $caldav_data );
-        else $unsupported[] = $k;
+      case 'urn:ietf:params:xml:ns:carddav:address-data':
+        if ( $type == 'vcard' ) $reply->CardDAVElement($prop, $base_tag, $caldav_data );
+        else $unsupported[] = $base_tag;
         break;
-      case 'getcontenttype':
-        $prop->NewElement($k, $contenttype );
+      case 'DAV::getcontenttype':
+        $prop->NewElement($base_tag, $contenttype );
         break;
-      case 'current-user-principal':
+      case 'DAV::current-user-principal':
         $prop->NewElement("current-user-principal", $request->current_user_principal_xml);
         break;
-      case 'displayname':
-        $prop->NewElement($k, $displayname );
+      case 'DAV::displayname':
+        $prop->NewElement($base_tag, $displayname );
         break;
-      case 'resourcetype':
-        $prop->NewElement($k); // Just an empty resourcetype for a non-collection.
+      case 'DAV::resourcetype':
+        $prop->NewElement($base_tag); // Just an empty resourcetype for a non-collection.
         break;
-      case 'getetag':
-        $prop->NewElement($k, '"'.$item->dav_etag.'"' );
+      case 'DAV::getetag':
+        $prop->NewElement($base_tag, '"'.$item->dav_etag.'"' );
         break;
       case '"current-user-privilege-set"':
-        $prop->NewElement($k, privileges($request->permissions) );
+        $prop->NewElement($base_tag, privileges($request->permissions) );
         break;
       case 'SOME-DENIED-PROPERTY':  /** indicating the style for future expansion */
-        $denied[] = $k;
+        $denied[] = $full_tag;
         break;
       default:
-        dbg_error_log( 'REPORT', "Request for unsupported property '%s' of calendar item.", $v );
-        $unsupported[] = $k;
+        dbg_error_log( 'REPORT', "Request for unsupported property '%s' of calendar item.", $full_tag );
+        $unsupported[] = $full_tag;
     }
   }
   $status = new XMLElement("status", "HTTP/1.1 200 OK" );
@@ -195,16 +196,16 @@ function component_to_xml( $properties, $item ) {
     $status = new XMLElement("status", "HTTP/1.1 403 Forbidden" );
     $noprop = new XMLElement("prop");
     foreach( $denied AS $k => $v ) {
-      $noprop->NewElement( strtolower($v) );
+      $reply->NSElement($noprop, $v);
     }
     $elements[] = new XMLElement( "propstat", array( $noprop, $status) );
   }
 
-  if ( !(isset($request->brief_response) && $request->brief_response) && count($unsupported) > 0 ) {
+  if ( ! $request->PreferMinimal() && count($unsupported) > 0 ) {
     $status = new XMLElement("status", "HTTP/1.1 404 Not Found" );
     $noprop = new XMLElement("prop");
     foreach( $unsupported AS $k => $v ) {
-      $noprop->NewElement( strtolower($v) );
+      $reply->NSElement($noprop, $v);
     }
     $elements[] = new XMLElement( "propstat", array( $noprop, $status) );
   }

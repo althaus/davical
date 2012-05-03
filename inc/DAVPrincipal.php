@@ -452,43 +452,43 @@ class DAVPrincipal extends Principal
     dbg_error_log('principal',': RenderAsXML: Principal Property "%s"', $tag );
     switch( $tag ) {
       case 'DAV::getcontenttype':
-        $prop->NewElement('getcontenttype', 'httpd/unix-directory' );
+        $reply->DAVElement( $prop, 'getcontenttype', 'httpd/unix-directory' );
         break;
 
       case 'DAV::resourcetype':
-        $prop->NewElement('resourcetype', array( new XMLElement('principal'), new XMLElement('collection')) );
+        $reply->DAVElement( $prop, 'resourcetype', array( new XMLElement('principal'), new XMLElement('collection')) );
         break;
 
       case 'DAV::displayname':
-        $prop->NewElement('displayname', $this->fullname );
+        $reply->DAVElement( $prop, 'displayname', $this->fullname );
         break;
 
       case 'DAV::principal-URL':
-        $prop->NewElement('principal-URL', $reply->href($this->url()) );
+        $reply->DAVElement( $prop, 'principal-URL', $reply->href($this->url()) );
         break;
 
       case 'DAV::getlastmodified':
-        $prop->NewElement('getlastmodified', ISODateToHTTPDate($this->modified) );
+        $reply->DAVElement( $prop, 'getlastmodified', ISODateToHTTPDate($this->modified) );
         break;
 
       case 'DAV::creationdate':
-        $prop->NewElement('creationdate', DateToISODate($this->created) );
+        $reply->DAVElement( $prop, 'creationdate', DateToISODate($this->created) );
         break;
 
       case 'DAV::getcontentlanguage':
         /** Use the principal's locale by preference, otherwise system default */
         $locale = (isset($c->current_locale) ? $c->current_locale : '');
         if ( isset($this->locale) && $this->locale != '' ) $locale = $this->locale;
-        $prop->NewElement('getcontentlanguage', $locale );
+        $reply->DAVElement( $prop, 'getcontentlanguage', $locale );
         break;
 
       case 'DAV::group-member-set':
         if ( ! $this->_is_group ) return false;
-        $prop->NewElement('group-member-set', $reply->href($this->group_member_set) );
+        $reply->DAVElement( $prop, 'group-member-set', $reply->href($this->group_member_set) );
         break;
 
       case 'DAV::group-membership':
-        $prop->NewElement('group-membership', $reply->href($this->GroupMembership()) );
+        $reply->DAVElement( $prop, 'group-membership', $reply->href($this->GroupMembership()) );
         break;
 
       case 'urn:ietf:params:xml:ns:caldav:schedule-inbox-URL':
@@ -518,11 +518,11 @@ class DAVPrincipal extends Principal
         break;
 
       case 'urn:ietf:params:xml:ns:carddav:addressbook-home-set':
-        $reply->NSElement($prop, $tag, $reply->href( $this->addressbook_home_set() ) );
+        $reply->CardDAVElement($prop, $tag, $reply->href( $this->addressbook_home_set() ) );
         break;
 
       case 'urn:ietf:params:xml:ns:caldav:calendar-home-set':
-        $reply->NSElement($prop, $tag, $reply->href( $this->calendar_home_set() ) );
+        $reply->CalDAVElement($prop, $tag, $reply->href( $this->calendar_home_set() ) );
         break;
 
       case 'urn:ietf:params:xml:ns:caldav:calendar-free-busy-set':
@@ -540,7 +540,7 @@ class DAVPrincipal extends Principal
 
       // Empty tag responses.
       case 'DAV::alternate-URI-set':
-        $prop->NewElement( $reply->Tag($tag));
+        $reply->DAVElement( $prop, $reply->Tag($tag));
         break;
 
       case 'SOME-DENIED-PROPERTY':  /** @todo indicating the style for future expansion */

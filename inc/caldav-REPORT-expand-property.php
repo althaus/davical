@@ -53,9 +53,10 @@ function expand_properties( $urls, $ptree, &$reply, $recurse_again = true ) {
     foreach( $ptree AS $n => $property ) {
       if ( ! is_object($property) ) continue;
       $pname = $property->GetAttribute('name');
-      $pns = $property->GetNamespace('namespace');
-      if ( !isset($pns) || $pns == '' ) $pns = $property->GetNameSpace();
-      $pname = $pns .':'. $pname;
+      $pns = $property->GetAttribute('namespace');
+      if ( empty($pns) ) $pns = $property->GetAttribute('xmlns');
+      if ( empty($pns) ) $pns = $reply->DefaultNamespace();
+      $pname = (empty($pns)?'':$pns .':'). $pname;
       $props[] = $pname;
       $subtrees[$pname] = $property->GetElements();
     }
@@ -72,7 +73,7 @@ function expand_properties( $urls, $ptree, &$reply, $recurse_again = true ) {
               $content = $v->GetContent();
               $paths[] = $content;
             }
-//            dbg_error_log('REPORT',' Found property "%s" contains hrefs "%s"', $pname, implode(', ',$paths) );
+            //            dbg_error_log('REPORT',' Found property "%s" contains hrefs "%s"', $pname, implode(', ',$paths) );
             $property->SetContent( expand_properties($paths, $subtrees[$pname], $reply, false) );
           }
         }

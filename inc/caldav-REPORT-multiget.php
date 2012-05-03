@@ -32,8 +32,7 @@ switch( $proptype ) {
   case 'DAV::prop':
     $qry_props = $xmltree->GetPath('/*/'.$proptype.'/*');
     foreach( $qry_content[0]->GetElements() AS $k => $v ) {
-      $propertyname = preg_replace( '/^.*:/', '', $v->GetNSTag() );
-      $properties[$propertyname] = 1;
+      $properties[$v->GetNSTag()] = 1;
       if ( $v->GetNSTag() == 'urn:ietf:params:xml:ns:caldav:calendar-data' ) check_for_expansion($v);
     }
     break;
@@ -49,8 +48,7 @@ switch( $proptype ) {
     break;
 
   default:
-    $propertyname = preg_replace( '/^.*:/', '', $proptype );
-    $properties[$propertyname] = 1;
+    $properties[$proptype] = 1;
 }
 
 $collection = new DAVResource($request->path);

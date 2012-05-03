@@ -26,7 +26,7 @@ $xmltree = BuildXMLTree( $request->xml_tags, $position);
 
 // echo $xmltree->Render();
 
-if ( $xmltree->GetTag() != "DAV::propertyupdate" ) {
+if ( $xmltree->GetNSTag() != "DAV::propertyupdate" ) {
   $request->PreconditionFailed( 403, 'DAV::propertyupdate', 'XML request did not contain a &lt;propertyupdate&gt; tag' );
 }
 
@@ -45,6 +45,7 @@ $rmprops  = $xmltree->GetPath("/DAV::propertyupdate/DAV::remove/DAV::prop/*");
 $failure   = array();
 $success   = array();
 
+$reply = new XMLDocument( array( 'DAV:' => '') );
 
 /**
  * Small utility function to add propstat for one failure
@@ -54,11 +55,10 @@ $success   = array();
  * @param unknown_type $error_tag
  */
 function add_failure( $type, $tag, $status, $description=null, $error_tag = null) {
-  global $failure;
-  $propstat = array(
-      new XMLElement( 'prop', new XMLElement($tag)),
-      new XMLElement( 'status', $status )
-  );
+  global $failure, $reply;
+  $prop = new XMLElement('prop');
+  $reply->NSElement($prop, $tag);
+  $propstat = array($prop,new XMLElement( 'status', $status ));
 
   if ( isset($description))
     $propstat[] = new XMLElement( 'responsedescription', $description );
@@ -78,7 +78,7 @@ $qry = new AwlQuery();
 $qry->Begin();
 $setcalendar = count($xmltree->GetPath('/DAV::propertyupdate/DAV::set/DAV::prop/DAV::resourcetype/urn:ietf:params:xml:ns:caldav:calendar'));
 foreach( $setprops AS $k => $setting ) {
-  $tag = $setting->GetTag();
+  $tag = $setting->GetNSTag();
   $content = $setting->RenderContent();
 
   switch( $tag ) {
@@ -134,7 +134,7 @@ foreach( $setprops AS $k => $setting ) {
     case 'urn:ietf:params:xml:ns:caldav:schedule-calendar-transp':
       if ( $dav_resource->IsCollection() && ( $dav_resource->IsCalendar() || $setcalendar ) && !$dav_resource->IsBinding() ) {
         $transparency = $setting->GetPath('urn:ietf:params:xml:ns:caldav:schedule-calendar-transp/*');
-        $transparency = preg_replace( '{^.*:}', '', $transparency[0]->GetTag());
+        $transparency = preg_replace( '{^.*:}', '', $transparency[0]->GetNSTag());
         $qry->QDo('UPDATE collection SET schedule_transp = :transparency WHERE dav_name = :dav_name',
                     array( ':dav_name' => $dav_resource->dav_name(), ':transparency' => $transparency ) );
         $success[$tag] = 1;
@@ -206,7 +206,7 @@ foreach( $setprops AS $k => $setting ) {
 }
 
 foreach( $rmprops AS $k => $setting ) {
-  $tag = $setting->GetTag();
+  $tag = $setting->GetNSTag();
   $content = $setting->RenderContent();
 
   switch( $tag ) {
@@ -266,20 +266,20 @@ if ( count($failure) > 0 ) {
 
   $qry->Rollback();
   
-  foreach( $success AS $tag => $v ) {
-    // Unfortunately although these succeeded, we failed overall, so they didn't happen...
-    $failure[] = new XMLElement( 'propstat', array(
-        new XMLElement( 'prop', new XMLElement($tag)),
-        new XMLElement( 'status', 'HTTP/1.1 424 Failed Dependency' ),
-    ));
-  }
-
   $url = ConstructURL($request->path);
-  array_unshift( $failure, new XMLElement('href', $url ) );
-  $failure[] = new XMLElement('responsedescription', translate("Some properties were not able to be changed.") );
-
-  $multistatus = new XMLElement( "multistatus", new XMLElement( 'response', $failure ), array('xmlns'=>'DAV:') );
-  $request->DoResponse( 207, $multistatus->Render(0,'<?xml version="1.0" encoding="utf-8" ?>'), 'text/xml; charset="utf-8"' );
+  $multistatus = new XMLElement('multistatus');
+  array_unshift($failure,new XMLElement('responsedescription', translate("Some properties were not able to be changed.") ));
+  array_unshift($failure,new XMLElement('href', $url));
+  $response = $reply->DAVElement($multistatus,'response', $failure);
+  
+  if ( !empty($success) ) { 
+    $prop = new XMLElement('prop');
+    foreach( $success AS $tag => $v ) {
+      $reply->NSElement($prop, $tag);
+    }
+    $reply->DAVElement($response, 'propstat', array( $prop, new XMLElement( 'status', 'HTTP/1.1 424 Failed Dependency' )) );
+  }  
+  $request->DoResponse( 207, $reply->Render($multistatus), 'text/xml; charset="utf-8"' );
 
 }
 
@@ -300,27 +300,25 @@ if ( $qry->Commit() ) {
 
   if ( isset($cache_ns) ) $cache->delete( $cache_ns, null );
 
-  if ( $request->brief_response ) {
-    $request->DoResponse(200); // Does not return.  See: http://msdn.microsoft.com/en-us/library/aa142976%28v=exchg.65%29.aspx
+  if ( $request->PreferMinimal() ) {
+    $request->DoResponse(200); // Does not return.
   }
-  
-  $url = ConstructURL($request->path);
-  $href = new XMLElement('href', $url );
-  $desc = new XMLElement('responsedescription', translate("All requested changes were made.") );
 
-  $propstat = array();
+  $url = ConstructURL($request->path);
+  $multistatus = new XMLElement('multistatus');
+  $reply->DAVElement($multistatus,'href', $url);
+  $reply->DAVElement($multistatus,'responsedescription', translate("All requested changes were made.") );
+
+  $prop = new XMLElement('prop');
   foreach( $success AS $tag => $v ) {
-    $propstat[] = new XMLElement( 'propstat', array(
-    new XMLElement( 'prop', new XMLElement($tag)),
-    new XMLElement( 'status', 'HTTP/1.1 200 OK' ),
-    ));
+    $reply->NSElement($prop, $tag);
   }
+  $reply->DAVElement($multistatus, 'propstat', array( $prop, new XMLElement( 'status', 'HTTP/1.1 200 OK' )) );
   
   $url = ConstructURL($request->path);
   array_unshift( $failure, new XMLElement('href', $url ) );
   
-  $multistatus = new XMLElement( "multistatus", new XMLElement( 'response', array( $href, $propstat, $desc ) ), array('xmlns'=>'DAV:') );
-  $request->DoResponse( 207, $multistatus->Render(0,'<?xml version="1.0" encoding="utf-8" ?>'), 'text/xml; charset="utf-8"' );
+  $request->DoResponse( 207, $reply->Render($multistatus), 'text/xml; charset="utf-8"' );
 }
 
 /**
