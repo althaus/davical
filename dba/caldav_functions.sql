@@ -1295,4 +1295,55 @@ BEGIN
   RETURN FALSE;
 END;
 $$ LANGUAGE plpgsql ;
-    
+
+
+
+CREATE or REPLACE FUNCTION collections_within( INT, INT ) RETURNS SETOF INT AS $$
+DECLARE
+    in_collection_id ALIAS FOR $1;
+    in_depth ALIAS FOR $2;
+    resource_id INT;
+    found_some BOOLEAN;
+BEGIN
+    in_depth := in_depth - 1;
+    found_some = FALSE;
+	FOR resource_id IN SELECT b.bound_source_id FROM dav_binding b
+                        JOIN collection pc ON (b.parent_container = pc.dav_name)
+                        WHERE pc.collection_id = in_collection_id
+    LOOP
+        found_some = TRUE;
+        RETURN NEXT resource_id;
+        IF in_depth > 0 THEN
+            FOR resource_id IN SELECT * FROM collections_within( resource_id, in_depth ) LOOP
+                RETURN NEXT resource_id;
+            END LOOP;
+        END IF;
+    END LOOP;
+    FOR resource_id IN SELECT c.collection_id FROM collection c
+                        JOIN collection pc ON (c.parent_container = pc.dav_name)
+                        WHERE pc.collection_id = in_collection_id
+    LOOP
+        found_some = TRUE;
+        RETURN NEXT resource_id;
+        IF in_depth > 0 THEN
+            FOR resource_id IN SELECT * FROM collections_within( resource_id, in_depth ) LOOP
+                RETURN NEXT resource_id;
+            END LOOP;
+        END IF;
+    END LOOP;
+    IF found_some THEN
+        RETURN;
+    END IF;
+    FOR resource_id IN SELECT c.collection_id FROM collection c
+                        JOIN dav_principal pc ON (c.parent_container = pc.dav_name)
+                        WHERE pc.principal_id = in_collection_id
+    LOOP
+        RETURN NEXT resource_id;
+        IF in_depth > 0 THEN
+            FOR resource_id IN SELECT * FROM collections_within( resource_id, in_depth ) LOOP
+                RETURN NEXT resource_id;
+            END LOOP;
+        END IF;
+    END LOOP;
+END;
+$$ LANGUAGE plpgsql ;
