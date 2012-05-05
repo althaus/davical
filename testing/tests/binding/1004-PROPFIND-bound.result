@@ -24,7 +24,7 @@
    <prop>
     <displayname>User 2's Calendar, as uploaded by Admin</displayname>
     <resource-id>
-     <href>/caldav.php/.resources/11</href>
+     <href>/caldav.php/.resources/161</href>
     </resource-id>
     <parent-set>
      <parent>
@@ -46,7 +46,7 @@
    <prop>
     <displayname>mir-test</displayname>
     <resource-id>
-     <href>/caldav.php/.resources/13</href>
+     <href>/caldav.php/.resources/163</href>
     </resource-id>
     <parent-set>
      <parent>
@@ -64,7 +64,7 @@
    <prop>
     <displayname>user4 addresses</displayname>
     <resource-id>
-     <href>/caldav.php/.resources/63</href>
+     <href>/caldav.php/.resources/463</href>
     </resource-id>
     <parent-set>
      <parent>

@@ -33,7 +33,7 @@ Content-Type: text/xml; charset="utf-8"
          dav_name: >/user3/home/<
      dav_owner_id: >1<
        privileges: >000000000001001011100111<
-target_collection: >12<
+target_collection: >162<
 target_resource_i: >NULL<
           timeout: >NULL<
 

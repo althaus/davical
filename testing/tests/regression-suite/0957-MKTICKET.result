@@ -32,13 +32,13 @@ Content-Type: text/xml; charset="utf-8"
 
      dav_owner_id: >1002<
        privileges: >000000000001001000100001<
-target_collection: >10<
+target_collection: >160<
 target_resource_i: >NULL<
           timeout: >01:00:00<
 
      dav_owner_id: >1003<
        privileges: >000000000001001011100111<
-target_collection: >11<
+target_collection: >161<
 target_resource_i: >NULL<
           timeout: >NULL<
 

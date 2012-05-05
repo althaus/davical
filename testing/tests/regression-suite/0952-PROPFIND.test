@@ -9,7 +9,7 @@ AUTH=user5:user5
 # Get the ticket we created earlier in 948...
 GETSQL=ticket
 SELECT ticket_id FROM access_ticket
-                WHERE target_collection_id = 10 AND target_resource_id is null;
+                WHERE target_collection_id = 160 AND target_resource_id is null;
 ENDSQL
 
 HEADER=User-Agent: Ticket Spec Tests

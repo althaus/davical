@@ -6,9 +6,9 @@ Content-Length: 37
 Content-Type: text/plain; charset="utf-8"
 
 Destination collection does not exist
-    cd_collection: >10<
+    cd_collection: >160<
        cd_user_no: >10<
-    ci_collection: >10<
+    ci_collection: >160<
        ci_user_no: >10<
         data_name: >/user1/home/DAYPARTY-77C6-4FB7-BDD3-6882E2F1BE74.ics<
         item_name: >/user1/home/DAYPARTY-77C6-4FB7-BDD3-6882E2F1BE74.ics<

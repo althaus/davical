@@ -28,7 +28,7 @@
    <prop>
     <displayname>User 1's Calendaranza</displayname>
     <resource-id>
-     <href>/caldav.php/.resources/10</href>
+     <href>/caldav.php/.resources/160</href>
     </resource-id>
     <parent-set>
      <parent>
@@ -64,7 +64,7 @@
    <prop>
     <displayname>User 2's Calendar, as uploaded by Admin</displayname>
     <resource-id>
-     <href>/caldav.php/.resources/11</href>
+     <href>/caldav.php/.resources/161</href>
     </resource-id>
     <parent-set>
      <parent>

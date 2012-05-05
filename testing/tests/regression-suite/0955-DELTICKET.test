@@ -9,7 +9,7 @@ HEAD
 # Get the ticket we created earlier in 950...
 GETSQL=ticket
 SELECT ticket_id FROM access_ticket
-                WHERE target_collection_id = 10 AND target_resource_id IS NOT NULL;
+                WHERE target_collection_id = 160 AND target_resource_id IS NOT NULL;
 ENDSQL
 
 HEADER=User-Agent: Ticket Spec Tests

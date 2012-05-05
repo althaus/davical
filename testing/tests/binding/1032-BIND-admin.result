@@ -9,61 +9,61 @@ Content-Type: text/plain; charset="utf-8"
 
           bind_id: >1602<
        bind_owner: >1005<
-  bound_source_id: >11<
+  bound_source_id: >161<
   dav_displayname: >Updated Displayname with PROPPATCH<
          dav_name: >/user4/user2/<
            length: >8<
  parent_container: >/user4/<
        privileges: >000000000001001011100111<
-target_collection: >11<
+target_collection: >161<
 target_resource_i: >NULL<
      ticket_owner: >1003<
 
           bind_id: >1603<
        bind_owner: >1005<
-  bound_source_id: >10<
+  bound_source_id: >160<
   dav_displayname: >User 1's Calendaranza<
          dav_name: >/user4/user1/<
            length: >8<
  parent_container: >/user4/<
        privileges: >000000000001001000100001<
-target_collection: >10<
+target_collection: >160<
 target_resource_i: >NULL<
      ticket_owner: >1002<
 
           bind_id: >1607<
        bind_owner: >1005<
-  bound_source_id: >10<
+  bound_source_id: >160<
   dav_displayname: >User 1's Calendaranza<
          dav_name: >/user4/base/user1/<
            length: >8<
  parent_container: >/user4/base/<
        privileges: >000000000001001000100001<
-target_collection: >10<
+target_collection: >160<
 target_resource_i: >NULL<
      ticket_owner: >1002<
 
           bind_id: >1608<
        bind_owner: >1005<
-  bound_source_id: >11<
+  bound_source_id: >161<
   dav_displayname: >User 2's Calendar, as uploaded by Admin<
          dav_name: >/user4/base/user2/<
            length: >8<
  parent_container: >/user4/base/<
        privileges: >000000000001001011100111<
-target_collection: >11<
+target_collection: >161<
 target_resource_i: >NULL<
      ticket_owner: >1003<
 
           bind_id: >1629<
        bind_owner: >1<
-  bound_source_id: >12<
+  bound_source_id: >162<
   dav_displayname: >user3 home<
          dav_name: >/user4/base/user3/<
            length: >8<
  parent_container: >/user4/base/<
        privileges: >000000000001001011100111<
-target_collection: >12<
+target_collection: >162<
 target_resource_i: >NULL<
      ticket_owner: >1<
 
