@@ -24,7 +24,11 @@ if ( ! $request->IsPublic() &&
            || $request->ticket->expired
            || ! $request->ticket->MatchesPath($request->path) ) ) {
   dbg_error_log( "caldav", 'Public: %d, Ticket: %d, Expired: %d, Matches(%s): %d',
-      $request->IsPublic(), isset($request->ticket), $request->ticket->expired, $request->path, $request->ticket->MatchesPath($request->path)
+      $request->IsPublic(),
+      isset($request->ticket),
+      (isset($request->ticket)?$request->ticket->expired:'--'),
+      $request->path,
+      (isset($request->ticket)?$request->ticket->MatchesPath($request->path):'--')
   );
   $request->DoResponse( 403, translate('Anonymous users may only access public calendars') );
 }
