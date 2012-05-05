@@ -51,7 +51,7 @@ INSERT INTO collection (user_no, parent_container, dav_name, dav_etag,
                  public_events_only, publicly_readable, collection_id, resourcetypes )
     SELECT user_no, '/' || username || '/',  '/' || username || '/home/', md5(username),
            username || ' home', TRUE, '2009-06-03', '2009-06-04',
-           FALSE, FALSE, user_no, '<DAV::collection/><urn:ietf:params:xml:ns:caldav:calendar/>'
+           FALSE, FALSE, user_no + 150, '<DAV::collection/><urn:ietf:params:xml:ns:caldav:calendar/>'
       FROM usr;
 
 INSERT INTO collection (user_no, parent_container, dav_name, dav_etag,
@@ -59,7 +59,7 @@ INSERT INTO collection (user_no, parent_container, dav_name, dav_etag,
                  public_events_only, publicly_readable, collection_id, resourcetypes )
     SELECT user_no, '/' || username || '/',  '/' || username || '/addresses/', md5(username),
            username || ' addresses', FALSE, TRUE, '1957-07-26', '1998-03-16',
-           FALSE, FALSE, user_no + 50, '<DAV::collection/><urn:ietf:params:xml:ns:carddav:addressbook/>'
+           FALSE, FALSE, user_no + 450, '<DAV::collection/><urn:ietf:params:xml:ns:carddav:addressbook/>'
       FROM usr;
 
 
