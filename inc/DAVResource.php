@@ -429,7 +429,7 @@ FROM dav_binding
 EOSQL;
       $params = array( ':raw_path' => $this->dav_name, ':session_principal' => $session->principal_id, ':scan_depth' => $c->permission_scan_depth );
       if ( !preg_match( '#/$#', $this->dav_name ) ) {
-        $sql .= ' OR dav_binding.dav_name = :up_to_slash OR collection.dav_name = :plus_slash ';
+        $sql .= ' OR dav_binding.dav_name = :up_to_slash OR collection.dav_name = :plus_slash OR dav_binding.dav_name = :plus_slash ';
         $params[':up_to_slash'] = preg_replace( '#[^/]*$#', '', $this->dav_name);
         $params[':plus_slash']  = $this->dav_name.'/';
       }
