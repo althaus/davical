@@ -98,7 +98,11 @@ else {
 	if ( $source->IsPrincipal() || !$source->IsCollection() ) {
 	  $request->PreconditionFailed(403,'DAV::binding-allowed',translate('DAViCal only allows BIND requests for collections at present.'));
 	}
-	
+
+	if ( $source->IsBinding() )
+	  $source = new DAVResource( $source->bound_from() );
+
+
 	/*
 	  bind_id INT8 DEFAULT nextval('dav_id_seq') PRIMARY KEY,
 	  bound_source_id INT8 REFERENCES collection(collection_id) ON UPDATE CASCADE ON DELETE CASCADE,
