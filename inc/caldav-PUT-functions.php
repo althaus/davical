@@ -395,6 +395,7 @@ function do_scheduling_reply( vCalendar $resource, vProperty $organizer ) {
   $resource->UpdateOrganizerStatus($organizer);
   $scheduling_actions = true;
   
+  $calling_attendee = clone($attendee);
   $attendees = $schedule_original->GetAttendees();
   foreach( $attendees AS $attendee ) {
     $email = preg_replace( '/^mailto:/i', '', $attendee->Value() );
@@ -405,10 +406,42 @@ function do_scheduling_reply( vCalendar $resource, vProperty $organizer ) {
       dbg_error_log( "PUT", "not delivering to %s, schedule agent set to value other than server", $email );
       continue;
     }
+
+    // an attendee's reply should modify only the PARTSTAT on other attendees' objects
+    // other properties (that might have been adjusted individually by those other
+    // attendees) should remain unmodified. Therefore, we have to make $schedule_original
+    // and $schedule_request be initialized by each attendee's object here.
+    $attendee_principal = new DAVPrincipal ( array ('email'=>$email, 'options'=> array ( 'allow_by_email' => true ) ) );
+    if ( $attendee_principal == false ){
+      dbg_error_log( 'PUT', 'Could not find attendee %s', $email);
+      continue;
+    }
+    $sql = 'SELECT caldav_data.dav_name, caldav_data.caldav_data, caldav_data.collection_id FROM caldav_data JOIN calendar_item USING(dav_id) ';
+    $sql .= 'WHERE caldav_data.collection_id IN (SELECT collection_id FROM collection WHERE is_calendar AND user_no =?) ';
+    $sql .= 'AND uid=? LIMIT 1';
+    $qry = new AwlQuery($sql,$attendee_principal->user_no(), $uid);
+    if ( !$qry->Exec('PUT',__LINE__,__FILE__) || $qry->rows() < 1 ) {
+      dbg_error_log( 'PUT', "Could not find attendee's event %s", $uid );
+    }
+    $row = $qry->Fetch();
+    $schedule_original = new vCalendar($row->caldav_data);
+    $schedule_original->UpdateAttendeeStatus($request->principal->email(), clone($calling_attendee) );
+    $schedule_request = clone($schedule_original);
+    $schedule_request->AddProperty('METHOD', 'REQUEST');
+
     $schedule_target = new Principal('email',$email);
     $response = '3.7'; // Attendee was not found on server.
     if ( $schedule_target->Exists() ) {
-      $attendee_calendar = new WritableCollection(array('path' => $schedule_target->internal_url('schedule-default-calendar')));
+      // Instead of always writing to schedule-default-calendar, we first try to
+      // find a calendar with an existing instance of the event in any calendar of this attendee.
+      $r = new DAVResource($row);
+      $attendee_calendar = new WritableCollection(array('path' => $r->parent_path()));
+      if ($attendee_calendar->IsCalendar()) {
+        dbg_error_log( 'XXX', "found the event in attendee's calendar %s", $attendee_calendar->dav_name() );
+      } else {
+        dbg_error_log( 'XXX', 'could not find the event in any calendar, using schedule-default-calendar');
+        $attendee_calendar = new WritableCollection(array('path' => $schedule_target->internal_url('schedule-default-calendar')));
+      }
       if ( !$attendee_calendar->Exists() ) {
         dbg_error_log('ERROR','Default calendar at "%s" does not exist for user "%s"',
         $attendee_calendar->dav_name(), $schedule_target->username());
@@ -488,6 +521,13 @@ function do_scheduling_requests( vCalendar $resource, $create, $old_data = null 
     $removed_attendees[$email] = $attendee;
   }
 
+  $uids = $resource->GetPropertiesByPath('/VCALENDAR/*/UID');
+  if ( count($uids) == 0 ) {
+    dbg_error_log( 'PUT', 'No UID in VCALENDAR - giving up on REPLY.' );
+    return false;
+  }
+  $uid = $uids[0]->Value();
+
   dbg_error_log( 'PUT', 'Writing scheduling resources for %d attendees', count($attendees) );
   $scheduling_actions = false;
   foreach( $attendees AS $attendee ) {
@@ -515,7 +555,26 @@ function do_scheduling_requests( vCalendar $resource, $create, $old_data = null 
     dbg_error_log( 'PUT', 'Handling scheduling resources for %s on %s which is %s', $email,
                      ($create?'create':'update'), ($attendee_is_new? 'new' : 'an update') );
     if ( $schedule_target->Exists() ) {
-      $attendee_calendar = new WritableCollection(array('path' => $schedule_target->internal_url('schedule-default-calendar')));
+      // Instead of always writing to schedule-default-calendar, we first try to
+      // find a calendar with an existing instance of the event.
+      $sql = 'SELECT caldav_data.dav_name, caldav_data.caldav_data, caldav_data.collection_id FROM caldav_data JOIN calendar_item USING(dav_id) ';
+      $sql .= 'WHERE caldav_data.collection_id IN (SELECT collection_id FROM collection WHERE is_calendar AND user_no =?) ';
+      $sql .= 'AND uid=? LIMIT 1';
+      $qry = new AwlQuery($sql,$schedule_target->user_no(), $uid);
+      if ( !$qry->Exec('PUT',__LINE__,__FILE__) || $qry->rows() < 1 ) {
+        dbg_error_log( 'PUT', "Could not find event in attendee's calendars" );
+        $attendee_calendar = new WritableCollection(array('path' => $schedule_target->internal_url('schedule-default-calendar')));
+      } else {
+        $row = $qry->Fetch();
+        $r = new DAVResource($row);
+        $attendee_calendar = new WritableCollection(array('path' => $r->parent_path()));
+        if ($attendee_calendar->IsCalendar()) {
+          dbg_error_log( 'XXX', "found the event in attendee's calendar %s", $attendee_calendar->dav_name() );
+        } else {
+          dbg_error_log( 'XXX', 'could not find the event in any calendar, using schedule-default-calendar');
+          $attendee_calendar = new WritableCollection(array('path' => $schedule_target->internal_url('schedule-default-calendar')));
+        }
+      }
       if ( !$attendee_calendar->Exists() ) {
         dbg_error_log('ERROR','Default calendar at "%s" does not exist for user "%s"',
                       $attendee_calendar->dav_name(), $schedule_target->username());
