@@ -18,7 +18,10 @@ unset($session); unset($request); unset($dbconn); unset($_awl_dbconn); unset($in
 // An ultra-simple exception handler to catch errors that occur
 // before we get a more functional exception handler in place...
 function early_exception_handler($e) {
-  if ( !headers_sent() ) header("Content-type: text/plain"); else echo "<pre>\n";
+  if ( !headers_sent() ) {
+    header("Content-type: text/plain"); else echo "<pre>\n";
+    header( sprintf("HTTP/1.1 %d %s", 500, getStatusMessage(500)) );
+  }
   while ( ob_get_level() > 0 ) ob_end_flush();
   echo "Exception [".$e->getCode()."] ".$e->getmessage()."\n";
   echo "At line ", $e->getLine(), " of ", $e->getFile(), "\n";
@@ -28,6 +31,7 @@ function early_exception_handler($e) {
   foreach( $trace AS $k => $v ) {
     printf( "%s[%d] %s%s%s()\n", $v['file'], $v['line'], (isset($v['class'])?$v['class']:''), (isset($v['type'])?$v['type']:''), (isset($v['function'])?$v['function']:'') );
   }
+  
 }
 set_exception_handler('early_exception_handler');
 
