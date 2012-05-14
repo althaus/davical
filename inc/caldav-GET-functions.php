@@ -42,20 +42,23 @@ function export_iCalendar( DAVResource $dav_resource ) {
   * The CalDAV specification does not define GET on a collection, but typically this is
   * used as a .ics download for the whole collection, which is what we do also.
   */
-  $sql = 'SELECT caldav_data, class, caldav_type, calendar_item.user_no, logged_user ';
-  $sql .= 'FROM collection INNER JOIN caldav_data USING(collection_id) INNER JOIN calendar_item USING ( dav_id ) WHERE ';
   if ( isset($c->get_includes_subcollections) && $c->get_includes_subcollections ) {
-    $sql .= 'caldav_data.collection_id IN ';
-    $sql .= '(SELECT bound_source_id FROM dav_binding WHERE dav_binding.dav_name ~ :path_match ';
-    $sql .= 'UNION ';
-    $sql .= 'SELECT collection_id FROM collection WHERE collection.dav_name ~ :path_match) ';
+    $where = 'caldav_data.collection_id IN ';
+    $where .= '(SELECT bound_source_id FROM dav_binding WHERE dav_binding.dav_name ~ :path_match ';
+    $where .= 'UNION ';
+    $where .= 'SELECT collection_id FROM collection WHERE collection.dav_name ~ :path_match) ';
     $params = array( ':path_match' => '^'.$request->path );
+    $distinct = 'DISTINCT ON (calendar_item.uid) ';
   }
   else {
-    $sql .= 'caldav_data.collection_id = :collection_id ';
+    $where = 'caldav_data.collection_id = :collection_id ';
     $params = array( ':collection_id' => $dav_resource->resource_id() );
+    $distinct = '';
   }
-  if ( isset($c->strict_result_ordering) && $c->strict_result_ordering ) $sql .= ' ORDER BY dav_id';
+  $sql = 'SELECT '.$distinct.' caldav_data, class, caldav_type, calendar_item.user_no, logged_user ';
+  $sql .= 'FROM collection INNER JOIN caldav_data USING(collection_id) ';
+  $sql .= 'INNER JOIN calendar_item USING ( dav_id ) WHERE '.$where;
+  if ( isset($c->strict_result_ordering) && $c->strict_result_ordering ) $sql .= ' ORDER BY calendar_item.uid, calendar_item.dav_id';
 
   $qry = new AwlQuery( $sql, $params );
   if ( !$qry->Exec("GET",__LINE__,__FILE__) ) {
