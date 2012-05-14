@@ -15,7 +15,8 @@ require("caldav-GET-functions.php");
 $dav_resource = new DAVResource($request->path);
 $dav_resource->NeedPrivilege( array('urn:ietf:params:xml:ns:caldav:read-free-busy','DAV::read') );
 if ( $dav_resource->IsExternal() ) {
-	update_external ( $dav_resource );
+  require_once("external-fetch.php");
+  update_external ( $dav_resource );
 }      
 
 if ( ! $dav_resource->Exists() ) {
