@@ -54,6 +54,15 @@ label, th.prompt {
   text-align: right;
 }
 
+label.entry {
+  font-family: Verdana, sans-serif;
+  font-weight: bolder;
+  margin:0.2em 1em 0.2em 0.1em;
+  padding:0 0.2em;
+  line-height:1.6em;
+  font-weight: bolder;
+}
+
 
 a.order, a.invisilink {
   text-decoration:none;

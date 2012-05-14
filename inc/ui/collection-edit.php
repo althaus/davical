@@ -16,7 +16,7 @@ $editor->AddAttribute('timezone', 'id', 'fld_timezone' );
 $editor->AddAttribute('schedule_transp', 'id', 'fld_schedule_transp' );
 $editor->AddAttribute('is_calendar', 'id', 'fld_is_calendar');
 $editor->AddAttribute('is_addressbook', 'id', 'fld_is_addressbook');
-$editor->AddAttribute('is_calendar', 'onclick', 'toggle_enabled(\'fld_is_calendar\',\'=fld_timezone\',\'=fld_schedule_transp\',\'!fld_is_addressbook\',\'=fld_ics_file\');');
+$editor->AddAttribute('is_calendar', 'onclick', 'toggle_enabled(\'fld_is_calendar\',\'=fld_timezone\',\'=fld_schedule_transp\',\'!fld_is_addressbook\');');
 $editor->AddAttribute('is_addressbook', 'onclick', 'toggle_enabled(\'fld_is_addressbook\',\'!fld_is_calendar\');');
 
 $editor->AddField('use_default_privs','default_privileges IS NULL');
@@ -24,8 +24,12 @@ $editor->AddAttribute('use_default_privs', 'id', 'fld_use_default_privs');
 $editor->AddAttribute('use_default_privs', 'onclick', 'toggle_visible(\'fld_use_default_privs\',\'!privileges_settings\');');
 
 $editor->AddField('ics_file', "''");
-$editor->AddAttribute('ics_file', 'title', translate('Upload a .ics calendar in iCalendar format to initialise or replace this calendar.'));
+$editor->AddAttribute('ics_file', 'title', translate('Upload an iCalendar file or VCard file to replace this collection.'));
 $editor->AddAttribute('ics_file', 'id', 'fld_ics_file');
+$editor->AddField('mode', 'FALSE');
+$editor->AddAttribute('mode', 'title', translate('Should the uploaded entries be appended to the collection?'));
+$editor->AddAttribute('mode', '_label', translate('Append'));
+$editor->AddAttribute('mode', 'id', 'fld_mode');
 
 $editor->SetWhere( 'collection_id='.$id );
 
@@ -327,8 +331,7 @@ label.privilege {
  <tr> <th class="right">$prompt_collection_id:</th>    <td class="left">$value_id</td> </tr>
  <tr> <th class="right">$prompt_dav_name:</th>         <td class="left">$value_dav_name</td> </tr>$external_bind
  <tr> <th class="right">$prompt_entries:</th>          <td class="left">$entries</td> </tr>
- <tr> <th class="right">$prompt_load_file:</th>        <td class="left">##ics_file.file.60##
-  <label class="privilege" title="Should the uploaded entries be appended to the calendar"><input type="checkbox" name="mode" value="append">Append</label>
+ <tr> <th class="right">$prompt_load_file:</th>        <td class="left">##ics_file.file.60## ##mode.checkbox##
  </td> </tr> 
  <tr> <th class="right">$prompt_displayname:</th>      <td class="left">##dav_displayname.input.50##</td> </tr>
  <tr> <th class="right">$prompt_public:</th>           <td class="left">##publicly_readable.checkbox##</td> </tr>
@@ -357,8 +360,8 @@ label.privilege {
 </table>
 </form>
 <script language="javascript">
-toggle_enabled('fld_is_calendar','=fld_timezone','=fld_schedule_transp','!fld_is_addressbook','=fld_ics_file');
-toggle_enabled('fld_is_addressbook','!fld_is_calendar','=fld_ics_file');
+toggle_enabled('fld_is_calendar','=fld_timezone','=fld_schedule_transp','!fld_is_addressbook');
+toggle_enabled('fld_is_addressbook','!fld_is_calendar');
 toggle_visible('fld_use_default_privs','!privileges_settings');
 </script>
 
