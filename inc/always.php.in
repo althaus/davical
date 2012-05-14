@@ -19,8 +19,12 @@ unset($session); unset($request); unset($dbconn); unset($_awl_dbconn); unset($in
 // before we get a more functional exception handler in place...
 function early_exception_handler($e) {
   if ( !headers_sent() ) {
-    header("Content-type: text/plain"); else echo "<pre>\n";
+    header("Content-type: text/plain");
     header( sprintf("HTTP/1.1 %d %s", 500, getStatusMessage(500)) );
+  }
+  else {
+    echo "<pre>\n";
+    // Too late to set resultcode :-(
   }
   while ( ob_get_level() > 0 ) ob_end_flush();
   echo "Exception [".$e->getCode()."] ".$e->getmessage()."\n";
