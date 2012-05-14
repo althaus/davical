@@ -1,0 +1,40 @@
+#
+# Here we are binding against a collection which is itself a binding
+# bindings, at the same level in the same collection.
+#
+# Before:
+#  /user4/boundbase a binding to a collection containing two bindings
+#                   and a real collection
+#
+# After:
+#  /user4/bind2bind is bound to /user4/boundbase, so it should also
+#                 appear to contain two bindings and a collection
+#
+TYPE=BIND
+URL=http://regression.host/caldav.php/user4/
+AUTH=user4:user4
+
+HEADER=User-Agent: Ticket Spec Tests
+HEADER=Content-Type: text/xml; charset="UTF-8"
+HEAD
+
+
+BEGINDATA
+<?xml version="1.0" encoding="utf-8"?>
+<bind xmlns="DAV:">
+   <segment>bind2bind-noslash</segment>
+   <href>/caldav.php/user4/boundbase</href>
+</bind>
+ENDDATA
+
+QUERY
+SELECT bind_id,
+       bound_source_id,
+       length(access_ticket_id),
+       parent_container,
+       dav_name,
+       dav_displayname
+  FROM dav_binding
+ ORDER BY bind_id
+ENDQUERY
+
