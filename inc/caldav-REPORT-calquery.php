@@ -295,18 +295,24 @@ if ( !$target_collection->Exists() ) {
 }
 
 $params = array();
-$where = ' WHERE caldav_data.collection_id = ' . $target_collection->resource_id();
 
 if ( ! ($target_collection->IsCalendar() || $target_collection->IsSchedulingCollection()) ) {
-  if ( !(isset($c->allow_recursive_report) && $c->allow_recursive_report) || $target_collection->IsSchedulingCollection() ) {
+  if ( !(isset($c->allow_recursive_report) && $c->allow_recursive_report) ) {
     $request->DoResponse( 403, translate('The calendar-query report must be run against a calendar or a scheduling collection') );
   }
   /**
    * We're here because they allow recursive reports, and this appears to be such a location.
    */
-  $where = 'WHERE (collection.dav_name ~ :path_match ';
-  $where .= 'OR collection.collection_id IN (SELECT bound_source_id FROM dav_binding WHERE dav_binding.dav_name ~ :path_match)) ';
-  $params = array( ':path_match' => '^'.$target_collection->bound_from() );
+  $where = 'WHERE caldav_data.collection_id IN ';
+  $where .= '(SELECT bound_source_id FROM dav_binding WHERE dav_binding.dav_name ~ :path_match ';
+  $where .= 'UNION ';
+  $where .= 'SELECT collection_id FROM collection WHERE collection.dav_name ~ :path_match) ';
+  $distinct = 'DISTINCT ON (calendar_item.uid) ';
+  $params[':path_match'] = '^'.$target_collection->bound_from();
+}
+else {
+  $where = ' WHERE caldav_data.collection_id = ' . $target_collection->resource_id();
+  $distinct = '';
 }
 
 if ( is_array($qry_filters) ) {
@@ -330,33 +336,38 @@ if ( isset($c->hide_older_than) && intval($c->hide_older_than > 0) ) {
   $where .= " AND calendar_item.dtstart > (now() - interval '".intval($c->hide_older_than)." days') ";
 }
 
-$sql = 'SELECT caldav_data.*,calendar_item.*  FROM collection INNER JOIN caldav_data USING(collection_id) INNER JOIN calendar_item USING(dav_id) '. $where;
+$sql = 'SELECT'.$distinct.' caldav_data.*,calendar_item.*  FROM collection INNER JOIN caldav_data USING(collection_id) INNER JOIN calendar_item USING(dav_id) '. $where;
 if ( isset($c->strict_result_ordering) && $c->strict_result_ordering ) $sql .= " ORDER BY caldav_data.dav_id";
 $qry = new AwlQuery( $sql, $params );
 if ( $qry->Exec("calquery",__LINE__,__FILE__) && $qry->rows() > 0 ) {
   while( $dav_object = $qry->Fetch() ) {
-    if ( !$need_post_filter || apply_filter( $qry_filters, $dav_object ) ) {
-      if ( $bound_from != $target_collection->dav_name() ) {
-        $dav_object->dav_name = str_replace( $bound_from, $target_collection->dav_name(), $dav_object->dav_name);
+    try {
+      if ( !$need_post_filter || apply_filter( $qry_filters, $dav_object ) ) {
+        if ( $bound_from != $target_collection->dav_name() ) {
+          $dav_object->dav_name = str_replace( $bound_from, $target_collection->dav_name(), $dav_object->dav_name);
+        }
+        if ( $need_expansion ) {
+          $vResource = new vComponent($dav_object->caldav_data);
+          $expanded = getVCalendarRange($vResource);
+          if ( !$expanded->overlaps($range_filter) ) continue;
+  
+          $expanded = expand_event_instances($vResource, $expand_range_start, $expand_range_end, $expand_as_floating );
+  
+          if ( $expanded->ComponentCount() == 0 ) continue;
+          if ( $need_expansion ) $dav_object->caldav_data = $expanded->Render();
+        }
+        else if ( isset($range_filter) ) {
+          $vResource = new vComponent($dav_object->caldav_data);
+          $expanded = getVCalendarRange($vResource);
+          dbg_error_log('calquery', 'Expanded to %s:%s which might overlap %s:%s',
+                         $expanded->from, $expanded->until, $range_filter->from, $range_filter->until );
+          if ( !$expanded->overlaps($range_filter) ) continue;
+        }
+        $responses[] = component_to_xml( $properties, $dav_object );
       }
-      if ( $need_expansion ) {
-        $vResource = new vComponent($dav_object->caldav_data);
-        $expanded = getVCalendarRange($vResource);
-        if ( !$expanded->overlaps($range_filter) ) continue;
-
-        $expanded = expand_event_instances($vResource, $expand_range_start, $expand_range_end, $expand_as_floating );
-
-        if ( $expanded->ComponentCount() == 0 ) continue;
-        if ( $need_expansion ) $dav_object->caldav_data = $expanded->Render();
-      }
-      else if ( isset($range_filter) ) {
-        $vResource = new vComponent($dav_object->caldav_data);
-        $expanded = getVCalendarRange($vResource);
-        dbg_error_log('calquery', 'Expanded to %s:%s which might overlap %s:%s',
-                       $expanded->from, $expanded->until, $range_filter->from, $range_filter->until );
-        if ( !$expanded->overlaps($range_filter) ) continue;
-      }
-      $responses[] = component_to_xml( $properties, $dav_object );
+    }
+    catch( Exception $e ) {
+      dbg_error_log( 'ERROR', 'Exception handling "%s" - skipping', $dav_object->dav_name);
     }
   }
 }
