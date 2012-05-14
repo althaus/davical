@@ -70,70 +70,60 @@ function getPrincipalByID( $principal_id, $use_cache = true ) {
 */
 function CreateHomeCollections( $username, $defult_timezone = null ) {
   global $session, $c;
-  if ( empty($c->home_calendar_name) && empty($c->home_addressbook_name) ) return true;
 
-  $principal = new Principal('username',$username);
-  
-  $sql = 'INSERT INTO collection (user_no, parent_container, dav_name, dav_etag, dav_displayname, is_calendar, is_addressbook, created, modified, resourcetypes) ';
-  $sql .= 'VALUES( :user_no, :parent_container, :collection_path, :dav_etag, :displayname, :is_calendar, :is_addressbook, current_timestamp, current_timestamp, :resourcetypes );';
-  if ( !empty($c->home_calendar_name) ) {
-    $params = array( ':collection_path' => $principal->dav_name().$c->home_calendar_name.'/' );
-    $qry = new AwlQuery( 'SELECT 1 FROM collection WHERE dav_name = :collection_path', $params );
-    if ( !$qry->Exec() ) {
-      $c->messages[] = i18n("There was an error reading from the database.");
-      return false;
-    }
-    if ( $qry->rows() > 0 ) {
-      $c->messages[] = i18n("Home calendar already exists.");
-      return true;
-    }
-    else {
-      $params = array(
-          ':user_no' => $principal->user_no(),
-          ':parent_container' => $principal->dav_name(),
-          ':collection_path' => $principal->dav_name().$c->home_calendar_name.'/',
-          ':dav_etag' => '-1',
-          ':is_calendar' => true,
-          ':is_addressbook' => false,
-          ':displayname' => $principal->fullname . " calendar",
-          ':resourcetypes' => '<DAV::collection/><urn:ietf:params:xml:ns:caldav:calendar/>'
-      );
-      $qry = new AwlQuery( $sql, $params );
-      if ( $qry->Exec() ) {
-        $c->messages[] = i18n("Home calendar added.");
-        dbg_error_log("User",":Write: Created user's home calendar at '%s'", $params[':collection_path'] );
-      }
-      else {
-        $c->messages[] = i18n("There was an error writing to the database.");
-        return false;
-      }
-    }
+  if ( !isset($c->default_collections) )
+  {
+    $c->default_collections = array();
+
+    if( !empty($c->home_calendar_name) )
+      $c->default_collections[] = array( 'type' => 'calendar', 'name' => $c->home_calendar_name );
+    if( !empty($c->home_addressbook_name) )
+      $c->default_collections[] = array( 'type' => 'addressbook', 'name' => $c->home_addressbook_name );
   }
 
-  if ( !empty($c->home_addressbook_name) ) {
-    $qry = new AwlQuery( 'SELECT 1 FROM collection WHERE dav_name = :dav_name', array( ':dav_name' => $principal->dav_name().$c->home_addressbook_name.'/') );
-    if ( !$qry->Exec() ) {
-      $c->messages[] = i18n("There was an error reading from the database.");
-      return false;
-    }
-    if ( $qry->rows() > 0 ) {
-      $c->messages[] = i18n("Home addressbook already exists.");
-      return true;
-    }
-    else {
-      $params[':collection_path'] = $principal->dav_name().$c->home_addressbook_name.'/';
-      $params[':displayname'] = $principal->fullname . " addressbook";
-      $params[':resourcetypes'] = '<DAV::collection/><urn:ietf:params:xml:ns:carddav:addressbook/>';
-      $params[':is_calendar'] = false;
-      $params[':is_addressbook'] = true;
-      $qry = new AwlQuery( $sql, $params );
-      if ( $qry->Exec() ) {
-        $c->messages[] = i18n("Home addressbook added.");
-        dbg_error_log("User",":Write: Created user's home addressbook at '%s'", $params[':collection_path'] );
-      }
-      else {
-        $c->messages[] = i18n("There was an error writing to the database.");
-        return false;
+  if ( !is_array($c->default_collections) || !count($c->default_collections) ) return true;
+
+  $principal = new Principal('username',$username);
+
+  $user_fullname = $principal->fullname;  // user fullname
+  $user_rfullname = implode(' ', array_reverse(explode(' ', $principal->fullname)));  // user fullname in reverse order
+
+  $sql = 'INSERT INTO collection (user_no, parent_container, dav_name, dav_etag, dav_displayname, is_calendar, is_addressbook, default_privileges, created, modified, resourcetypes) ';
+  $sql .= 'VALUES( :user_no, :parent_container, :collection_path, :dav_etag, :displayname, :is_calendar, :is_addressbook, :privileges::BIT(24), current_timestamp, current_timestamp, :resourcetypes );';
+
+  foreach( $c->default_collections as $v ) {
+    if ( $v['type'] == 'calendar' || $v['type']=='addressbook' ) {
+      if ( !empty($v['name']) ) {
+        $qry = new AwlQuery( 'SELECT 1 FROM collection WHERE dav_name = :dav_name', array( ':dav_name' => $principal->dav_name().$v['name'].'/') );
+        if ( !$qry->Exec() ) {
+          $c->messages[] = i18n('There was an error reading from the database.');
+          return false;
+        }
+        if ( $qry->rows() > 0 ) {
+          $c->messages[] = i18n('Home '.( $v['type']=='calendar' ? 'calendar' : 'addressbook' ).' already exists.');
+          return true;
+        }
+        else {
+          $params[':user_no'] = $principal->user_no();
+          $params[':parent_container'] = $principal->dav_name();
+          $params[':dav_etag'] = '-1';
+          $params[':collection_path'] = $principal->dav_name().$v['name'].'/';
+          $params[':displayname'] = ( !isset($v['displayname']) || empty($v['displayname']) ? $user_fullname.( $v['type']=='calendar' ? ' calendar' : ' addressbook' ) : str_replace(array('%fn', '%rfn'), array($user_fullname, $user_rfullname), $v['displayname']) );
+          $params[':resourcetypes'] = ( $v['type']=='calendar' ? '<DAV::collection/><urn:ietf:params:xml:ns:caldav:calendar/>' : '<DAV::collection/><urn:ietf:params:xml:ns:carddav:addressbook/>' );
+          $params[':is_calendar'] = ( $v['type']=='calendar' ? true : false );
+          $params[':is_addressbook'] = ( $v['type']=='addressbook' ? true : false );
+          $params[':privileges'] = ( !isset($v['privileges']) || $v['privileges']===null ? null : privilege_to_bits($v['privileges']) );
+
+          $qry = new AwlQuery( $sql, $params );
+          if ( $qry->Exec() ) {
+            $c->messages[] = i18n('Home '.( $v['type']=='calendar' ? 'calendar' : 'addressbook' ).' added.');
+            dbg_error_log("User",":Write: Created user's home ".( $v['type']=='calendar' ? 'calendar' : 'addressbook' )." at '%s'", $params[':collection_path'] );
+          }
+          else {
+            $c->messages[] = i18n("There was an error writing to the database.");
+            return false;
+          }
+        }
       }
     }
   }
