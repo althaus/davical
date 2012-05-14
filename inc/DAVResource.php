@@ -271,7 +271,7 @@ class DAVResource
     else {
       $this->resourcetypes = '';
       if ( isset($this->resource->caldav_data) ) {
-        $this->resource->displayname = $this->resource->summary;
+        if ( isset($this->resource->summary) )$this->resource->displayname = $this->resource->summary;
         if ( strtoupper(substr($this->resource->caldav_data,0,15)) == 'BEGIN:VCALENDAR' ) {
           $this->contenttype = 'text/calendar';
           if ( !$this->HavePrivilegeTo('read') && $this->HavePrivilegeTo('read-free-busy') ) {
@@ -292,6 +292,7 @@ class DAVResource
               $comp->ClearComponents('VALARM');
               $vcal2->AddComponent($comp);
             }
+            $this->resource->displayname = $this->resource->summary = $vcal2->GetPValue('SUMMARY');
             $this->resource->caldav_data = $vcal2->Render();
           }
         }
