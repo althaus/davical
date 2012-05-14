@@ -294,8 +294,13 @@ function LDAP_check($username, $password ){
 
   $ldapDriver = getStaticLdap();
   if ( !$ldapDriver->valid ) {
-    dbg_error_log( "ERROR", "Couldn't contact LDAP server for authentication" );
-    return false;
+    sleep(1);  // Sleep very briefly to try and survive intermittent issues
+    $ldapDriver = getStaticLdap();
+    if ( !$ldapDriver->valid ) {
+      dbg_error_log( "ERROR", "Couldn't contact LDAP server for authentication" );
+      header( sprintf("HTTP/1.1 %d %s", 503, translate("Authentication server unavailable.")) );
+      exit(0);
+    }
   }
 
   $mapping = $c->authenticate_hook['config']['mapping_field'];
