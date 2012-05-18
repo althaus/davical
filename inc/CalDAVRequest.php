@@ -123,7 +123,7 @@ class CalDAVRequest
     if ( isset($_SERVER['HTTP_PREFER']) ) {
       $this->prefer = explode( ',', $_SERVER['HTTP_PREFER']);
     }
-    else if ( isset($_SERVER['HTTP_BRIEF']) && (strtoupper($_SERVER['HTTP_PREFER']) == 'T') ) {
+    else if ( isset($_SERVER['HTTP_BRIEF']) && (strtoupper($_SERVER['HTTP_BRIEF']) == 'T') ) {
       $this->prefer = array( 'return-minimal');
     }
     else 
