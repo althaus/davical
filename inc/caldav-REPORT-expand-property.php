@@ -6,17 +6,17 @@
 * recurse into them, looking for the next deeper nesting of properties.
 */
 function get_href_containers( &$multistatus_response ) {
-  $propstat_set = $multistatus_response->GetElements('propstat');
+  $propstat_set = $multistatus_response->GetElements('DAV::propstat');
   $propstat_200 = null;
   foreach( $propstat_set AS $k => $v ) {
-    $status = $v->GetElements('status');
+    $status = $v->GetElements('DAV::status');
     if ( preg_match( '{^HTTP/\S+\s+200}', $status[0]->GetContent() ) ) {
       $propstat_200 = $v;
       break;
     }
   }
   if ( isset($propstat_200) ) {
-    $props = $propstat_200->GetElements('prop');
+    $props = $propstat_200->GetElements('DAV::prop');
     $properties = array();
     foreach( $props AS $k => $p ) {
       $properties = array_merge($properties,$p->GetElements());
@@ -25,7 +25,7 @@ function get_href_containers( &$multistatus_response ) {
     foreach( $properties AS $k => $property ) {
       if ( !is_object($property) ) continue;
 //      dbg_error_log('REPORT',' get_href_containers: Checking property "%s" for hrefs.', $property->GetNSTag() );
-      $hrefs = $property->GetElements('href');
+      $hrefs = $property->GetElements('DAV::href');
       if ( count($hrefs) > 0 ) {
         $href_containers[] = $property;
       }
