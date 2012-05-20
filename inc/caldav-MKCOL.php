@@ -65,8 +65,8 @@ if ( isset($request->xml_tags) ) {
 
   foreach( $setprops AS $k => $setting ) {
     $tag = $setting->GetNSTag();
-    $content = $setting->RenderContent();
-
+    $content = $setting->RenderContent(0,null,true);
+    
     dbg_error_log( 'MKCOL', 'Processing tag "%s"', $tag);
 
     switch( $tag ) {

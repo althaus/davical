@@ -79,7 +79,7 @@ $qry->Begin();
 $setcalendar = count($xmltree->GetPath('/DAV::propertyupdate/DAV::set/DAV::prop/DAV::resourcetype/urn:ietf:params:xml:ns:caldav:calendar'));
 foreach( $setprops AS $k => $setting ) {
   $tag = $setting->GetNSTag();
-  $content = $setting->RenderContent();
+  $content = $setting->RenderContent(0,null,true);
 
   switch( $tag ) {
 
@@ -113,17 +113,38 @@ foreach( $setprops AS $k => $setting ) {
       * We only allow resourcetype setting on a normal collection, and not on a resource, a principal or a bind.
       * Only collections may be CalDAV calendars or addressbooks, and they may not be both.
       */
-      $setcollection  = count($setting->GetPath('DAV::resourcetype/DAV::collection'));
-      $setaddressbook = count($setting->GetPath('DAV::resourcetype/urn:ietf:params:xml:ns:carddav:addressbook'));
-      if ( $dav_resource->IsCollection() && $setcollection && ! $dav_resource->IsPrincipal()
-                            && ! $dav_resource->IsBinding() && ! ($setaddressbook && $setcalendar) ) {
-        $resourcetypes = $setting->GetPath('DAV::resourcetype/*');
-        $resourcetypes = str_replace( "\n", "", implode('',$resourcetypes));
+      $resourcetypes = $setting->GetPath('DAV::resourcetype/*');
+      $setcollection = false;
+      $setcalendar = false;
+      $setaddressbook = false;
+      $setother = false;
+      foreach( $resourcetypes AS $xnode ) {
+        switch( $xnode->GetNSTag() ) {
+          case 'urn:ietf:params:xml:ns:caldav:calendar':      $setcalendar = true;      break;
+          case 'urn:ietf:params:xml:ns:carddav:addressbook':  $setaddressbook = true;   break;
+          case 'DAV::collection': $setcollection = true; break;
+          default:
+            $setother = true;
+        }
+      }
+      if ( $dav_resource->IsCollection() && $setcollection && ! $dav_resource->IsPrincipal() && ! $dav_resource->IsBinding()
+          && !($setcalendar && $setaddressbook) && !$setother ) {
+        $resourcetypes = '<collection xmlns="DAV:"/>';
+        if ( $setcalendar ) $resourcetypes .= '<calendar xmlns="urn:ietf:params:xml:ns:caldav"/>';
+        else if ( $setaddressbook ) $resourcetypes .= '<addressbook xmlns="urn:ietf:params:xml:ns:carddav"/>';
         $qry->QDo('UPDATE collection SET is_calendar = :is_calendar::boolean, is_addressbook = :is_addressbook::boolean,
                      resourcetypes = :resourcetypes WHERE dav_name = :dav_name',
                     array( ':dav_name' => $dav_resource->dav_name(), ':resourcetypes' => $resourcetypes,
                            ':is_calendar' => $setcalendar, ':is_addressbook' => $setaddressbook ) );
         $success[$tag] = 1;
+      }
+      else if ( $setcalendar && $setaddressbook ) {
+        add_failure('set', $tag, 'HTTP/1.1 409 Conflict',
+            translate("A collection may not be both a calendar and an addressbook."));
+      }
+      else if ( $setother ) {
+        add_failure('set', $tag, 'HTTP/1.1 403 Forbidden',
+             translate("Unsupported resourcetype modification."), 'cannot-modify-protected-property');
       }
       else {
         add_failure('set', $tag, 'HTTP/1.1 403 Forbidden',

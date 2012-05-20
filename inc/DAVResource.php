@@ -627,11 +627,37 @@ EOQRY;
     $qry = new AwlQuery('SELECT property_name, property_value FROM property WHERE dav_name= :dav_name', array(':dav_name' => $this->dav_name) );
     if ( $qry->Exec('DAVResource') ) {
       while ( $property = $qry->Fetch() ) {
-        $this->dead_properties[$property->property_name] = $property->property_value;
+        $this->dead_properties[$property->property_name] = self::BuildDeadPropertyXML($property->property_name,$property->property_value);
       }
     }
   }
 
+  public static function BuildDeadPropertyXML($property_name, $raw_string) {
+    if ( !preg_match('{^\s*<.*>\s*$}s', $raw_string) ) return $raw_string;
+    $xmlns = null;
+    if ( preg_match( '{^(.*):([^:]+)$}', $property_name, $matches) ) {
+      $xmlns = $matches[1];
+      $property_name = $matches[2];
+    }
+    $xml = sprintf('<%s%s>%s</%s>', $property_name, (isset($xmlns)?' xmlns="'.$xmlns.'"':''), $raw_string, $property_name);
+    $xml_parser = xml_parser_create_ns('UTF-8');
+    $xml_tags = array();
+    xml_parser_set_option ( $xml_parser, XML_OPTION_SKIP_WHITE, 1 );
+    xml_parser_set_option ( $xml_parser, XML_OPTION_CASE_FOLDING, 0 );
+    $rc = xml_parse_into_struct( $xml_parser, $xml, $xml_tags );
+    if ( $rc == false ) {
+      dbg_error_log( 'ERROR', 'XML parsing error: %s at line %d, column %d',
+                  xml_error_string(xml_get_error_code($xml_parser)),
+                  xml_get_current_line_number($xml_parser), xml_get_current_column_number($xml_parser) );
+      dbg_error_log( 'ERROR', "Error occurred in:\n%s\n",$xml);
+      return $raw_string;
+    }
+    xml_parser_free($xml_parser);
+    $position = 0;
+    $xmltree = BuildXMLTree( $xml_tags, $position);
+    $content = $xmltree->GetContent();
+    return $content[0];
+  }
 
   /**
   * Build permissions for this URL
