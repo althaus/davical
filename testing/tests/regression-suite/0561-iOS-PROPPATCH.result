@@ -1,0 +1,27 @@
+HTTP/1.1 200 OK
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
+DAV: extended-mkcol, bind, addressbook, calendar-auto-schedule, calendar-proxy
+Content-Length: 0
+Content-Type: text/plain; charset="utf-8"
+
+
+    property_name: >http://apple.com/ns/ical/:calendar-color<
+   property_value: >#0252D4FF<
+
+    property_name: >http://apple.com/ns/ical/:calendar-order<
+   property_value: >1<
+
+    property_name: >urn:ietf:params:xml:ns:caldav:schedule-default-calendar-URL<
+   property_value: >
+ <href xmlns="DAV:">/caldav.php/user1/home/</href>
+<
+
+    property_name: >urn:org:davical:outer<
+   property_value: >
+ <middle xmlns="urn:org:davical">
+  <inner xmlns="urn:org:davical">inside</inner>
+  <inner xmlns="urn:org:davical">inside2</inner>
+ </middle>
+<
+

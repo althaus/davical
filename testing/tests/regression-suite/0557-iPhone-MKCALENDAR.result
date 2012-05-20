@@ -20,6 +20,6 @@ public_events_onl: >0<
        changed_by: >10<
     property_name: >urn:ietf:params:xml:ns:caldav:supported-calendar-component-set<
    property_value: >
- <urn:ietf:params:xml:ns:caldav:comp name="VTODO"/>
+ <comp name="VTODO" xmlns="urn:ietf:params:xml:ns:caldav"/>
 <
 

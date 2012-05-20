@@ -2,11 +2,11 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, bind, addressbook, calendar-auto-schedule, calendar-proxy
-Content-Length: 448
+Content-Length: 386
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
-<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav" xmlns:D="urn:mcmillan:bogus:xml:ns:davical">
+<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
  <href>/caldav.php/user1/home/</href>
  <responsedescription>All requested changes were made.</responsedescription>
  <propstat>
@@ -14,16 +14,15 @@ Content-Type: text/xml; charset="utf-8"
    <resourcetype/>
    <displayname/>
    <C:schedule-calendar-transp/>
-   <D:arbitrary/>
   </prop>
   <status>HTTP/1.1 200 OK</status>
  </propstat>
 </multistatus>
 
   changed_last_5m: >1<
-  dav_displayname: >User One's Transparent Calendar<
+  dav_displayname: >User 1's Calendaranza<
    is_addressbook: >0<
       is_calendar: >1<
     resourcetypes: ><collection xmlns="DAV:"/><calendar xmlns="urn:ietf:params:xml:ns:caldav"/><
-  schedule_transp: >transparent<
+  schedule_transp: >opaque<
 

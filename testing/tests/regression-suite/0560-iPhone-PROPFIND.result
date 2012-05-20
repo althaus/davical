@@ -1,0 +1,34 @@
+HTTP/1.1 207 Multi-Status
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
+DAV: extended-mkcol, bind, addressbook, calendar-auto-schedule, calendar-proxy
+ETag: "2b2bbe0fd58f5dc4b170658721ef721f"
+Content-Length: 735
+Content-Type: text/xml; charset="utf-8"
+
+<?xml version="1.0" encoding="utf-8" ?>
+<multistatus xmlns="DAV:" xmlns:A="http://apple.com/ns/ical/" xmlns:C="urn:ietf:params:xml:ns:caldav">
+ <response>
+  <href>/caldav.php/user1/VTODO-EFD9-4F0F-9BDC-5335E04D47E0/</href>
+  <propstat>
+   <prop>
+    <displayname>Untitled</displayname>
+    <A:calendar-color>#391B71A0</A:calendar-color>
+    <C:supported-calendar-component-set>
+     <C:comp name="VTODO"/>
+    </C:supported-calendar-component-set>
+    <resourcetype>
+     <collection/>
+     <C:calendar/>
+    </resourcetype>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+  <propstat>
+   <prop>
+    <C:calendar-description/>
+   </prop>
+   <status>HTTP/1.1 404 Not Found</status>
+  </propstat>
+ </response>
+</multistatus>

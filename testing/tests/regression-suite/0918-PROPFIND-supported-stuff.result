@@ -2,12 +2,12 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, bind, addressbook, calendar-auto-schedule, calendar-proxy
-ETag: "6991cc83557b9ab4224fafebcb6e8565"
-Content-Length: 2220
+ETag: "d8ca6e096e4f41c01747fcc58a8e822f"
+Content-Length: 2155
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
-<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav" xmlns:X="http://xmlns.comical.net/birds">
+<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
  <response>
   <href>/caldav.php/user1/home/</href>
   <propstat>
@@ -16,7 +16,6 @@ Content-Type: text/xml; charset="utf-8"
     <resourcetype>
      <collection/>
      <C:calendar/>
-     <X:spotted-grebe/>
     </resourcetype>
     <supported-method-set>
      <supported-method name="OPTIONS"/>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<multistatus xmlns="DAV:" xmlns:X="http://xmlns.davical.org/davical" xmlns:C="urn:ietf:params:xml:ns:caldav" xmlns:X1="http://xmlns.comical.net/birds">
+<multistatus xmlns="DAV:" xmlns:X="http://xmlns.davical.org/davical" xmlns:C="urn:ietf:params:xml:ns:caldav">
  <response>
   <href>/caldav.php/user4/boundbase/</href>
   <propstat>
@@ -51,7 +51,6 @@
     <resourcetype>
      <collection/>
      <C:calendar/>
-     <X1:spotted-grebe/>
      <X:webdav-binding/>
     </resourcetype>
    </prop>

@@ -1,0 +1,42 @@
+HTTP/1.1 207 Multi-Status
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
+DAV: extended-mkcol, bind, addressbook, calendar-auto-schedule, calendar-proxy
+ETag: "ad7ec8d22f626f3c8f86c0a275847c93"
+Content-Length: 997
+Content-Type: text/xml; charset="utf-8"
+
+<?xml version="1.0" encoding="utf-8" ?>
+<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav" xmlns:A="http://apple.com/ns/ical/" xmlns:D="urn:org:davical">
+ <response>
+  <href>/caldav.php/user1/home/</href>
+  <propstat>
+   <prop>
+    <C:schedule-default-calendar-URL>
+     <href>/caldav.php/user1/home/</href>
+    </C:schedule-default-calendar-URL>
+    <A:calendar-order>1</A:calendar-order>
+    <C:supported-calendar-component-set>
+     <C:comp name="VEVENT"/>
+     <C:comp name="VTODO"/>
+     <C:comp name="VJOURNAL"/>
+     <C:comp name="VTIMEZONE"/>
+     <C:comp name="VFREEBUSY"/>
+     <C:comp name="VPOLL"/>
+     <C:comp name="VAVAILABILITY"/>
+    </C:supported-calendar-component-set>
+    <resourcetype>
+     <collection/>
+     <C:calendar/>
+    </resourcetype>
+    <D:outer>
+     <D:middle>
+      <D:inner>inside</D:inner>
+      <D:inner>inside2</D:inner>
+     </D:middle>
+    </D:outer>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+</multistatus>

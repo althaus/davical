@@ -22,5 +22,5 @@ Content-Type: text/xml; charset="utf-8"
   dav_displayname: >User One's addressbook<
    is_addressbook: >1<
       is_calendar: >0<
-    resourcetypes: ><DAV::collection/><urn:ietf:params:xml:ns:carddav:addressbook/><
+    resourcetypes: ><collection xmlns="DAV:"/><addressbook xmlns="urn:ietf:params:xml:ns:carddav"/><
 

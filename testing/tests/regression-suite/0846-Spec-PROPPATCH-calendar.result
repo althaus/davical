@@ -2,27 +2,38 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, bind, addressbook, calendar-auto-schedule, calendar-proxy
-Content-Length: 386
+Content-Length: 687
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
 <multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
- <href>/caldav.php/user1/home/</href>
- <responsedescription>All requested changes were made.</responsedescription>
- <propstat>
-  <prop>
-   <resourcetype/>
-   <displayname/>
-   <C:schedule-calendar-transp/>
-  </prop>
-  <status>HTTP/1.1 200 OK</status>
- </propstat>
+ <response>
+  <href>/caldav.php/user1/home/</href>
+  <responsedescription>Some properties were not able to be changed.</responsedescription>
+  <propstat>
+   <prop>
+    <resourcetype/>
+   </prop>
+   <status>HTTP/1.1 403 Forbidden</status>
+   <responsedescription>Unsupported resourcetype modification.</responsedescription>
+   <error>
+    <cannot-modify-protected-property/>
+   </error>
+  </propstat>
+  <propstat>
+   <prop>
+    <displayname/>
+    <C:schedule-calendar-transp/>
+   </prop>
+   <status>HTTP/1.1 424 Failed Dependency</status>
+  </propstat>
+ </response>
 </multistatus>
 
   changed_last_5m: >1<
-  dav_displayname: >User 1's Calendaranza<
-   is_addressbook: >0<
-      is_calendar: >1<
-    resourcetypes: ><DAV::collection/><urn:ietf:params:xml:ns:caldav:calendar/><http://xmlns.comical.net/birds:spotted-grebe/><
-  schedule_transp: >opaque<
+  dav_displayname: >User One's addressbook<
+   is_addressbook: >1<
+      is_calendar: >0<
+    resourcetypes: ><collection xmlns="DAV:"/><addressbook xmlns="urn:ietf:params:xml:ns:carddav"/><
+  schedule_transp: >transparent<
 

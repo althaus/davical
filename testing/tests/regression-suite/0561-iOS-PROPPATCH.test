@@ -1,0 +1,23 @@
+#
+# Testing the encoding of arbitrary XML into the database
+#
+TYPE=PROPPATCH
+URL=http://regression.host/caldav.php/user1/home/
+HEAD
+
+HEADER=DAVKit/4.0 (729); CalendarStore/4.0 (965); iCal/4.0 (1362); Mac OS X/10.6.1 (10B504)
+HEADER=Content-Type: text/xml
+HEADER=Prefer: return-minimal
+
+#
+#
+BEGINDATA
+<?xml version="1.0" encoding="utf-8" ?>
+<x0:propertyupdate xmlns:x0="DAV:" xmlns:x1="http://apple.com/ns/ical/" xmlns:C1="urn:ietf:params:xml:ns:caldav" xmlns:D="urn:org:davical"><x0:set><x0:prop><C1:schedule-default-calendar-URL><x0:href>/caldav.php/user1/home/</x0:href></C1:schedule-default-calendar-URL><x1:calendar-order>1</x1:calendar-order>
+<D:outer><D:middle><D:inner>inside</D:inner><D:inner>inside2</D:inner></D:middle></D:outer>
+</x0:prop></x0:set></x0:propertyupdate>
+ENDDATA
+
+QUERY
+SELECT property_name, property_value FROM property WHERE dav_name = '/user1/home/'
+ENDQUERY

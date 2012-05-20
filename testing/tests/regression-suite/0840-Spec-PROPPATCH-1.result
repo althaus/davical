@@ -47,3 +47,22 @@ Content-Type: text/xml; charset="utf-8"
     property_name: >http://apple.com/ns/ical/:calendar-order<
    property_value: >1<
 
+       changed_by: >10<
+ changed_recently: >1<
+         dav_name: >/user1/home/<
+    property_name: >urn:ietf:params:xml:ns:caldav:schedule-default-calendar-URL<
+   property_value: >
+ <href xmlns="DAV:">/caldav.php/user1/home/</href>
+<
+
+       changed_by: >10<
+ changed_recently: >1<
+         dav_name: >/user1/home/<
+    property_name: >urn:org:davical:outer<
+   property_value: >
+ <middle xmlns="urn:org:davical">
+  <inner xmlns="urn:org:davical">inside</inner>
+  <inner xmlns="urn:org:davical">inside2</inner>
+ </middle>
+<
+
