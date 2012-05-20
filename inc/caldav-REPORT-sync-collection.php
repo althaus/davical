@@ -36,13 +36,12 @@ if ( !isset($sync_token) ) $sync_token = 0;
 $sync_token = intval(str_ireplace('data:,', '', $sync_token ));
 dbg_error_log( 'sync', " sync-token: %s", $sync_token );
 
-
-$props = $xmltree->GetElements('DAV::prop');
-$v = $props[0];
-$props = $v->GetContent();
 $proplist = array();
-foreach( $props AS $k => $v ) {
-  $proplist[] = $v->GetNSTag();
+$props = $xmltree->GetPath('/DAV::sync-collection/DAV::prop/*');
+if ( !empty($props) ) {
+  foreach( $props AS $k => $v ) {
+    $proplist[] = $v->GetNSTag();
+  }
 }
 
 function display_status( $status_code ) {
