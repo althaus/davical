@@ -36,7 +36,7 @@ while (list($idx, $qqq) = each($qry_content))
     case 'DAV::prop':
       $qry_props = $xmltree->GetPath('/urn:ietf:params:xml:ns:caldav:calendar-query/'.$proptype.'/*');
       foreach( $qry_content[$idx]->GetElements() AS $k => $v ) {
-        $propertyname = $v->GetTag();
+        $propertyname = $v->GetNSTag();
         $properties[$propertyname] = 1;
         if ( $v->GetNSTag() == 'urn:ietf:params:xml:ns:caldav:calendar-data' ) check_for_expansion($v);
       }
