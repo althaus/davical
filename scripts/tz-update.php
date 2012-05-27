@@ -31,7 +31,7 @@ USAGE;
 }
 
 $_SERVER['SERVER_NAME'] = $argv[1];
-
+$original_dir = getcwd();
 chdir(str_replace('/scripts/tz-update.php','/htdocs',$script_file));
 
 require_once("./always.php");
@@ -43,6 +43,8 @@ if ( isset($argv[2]) ) {
 require_once('vCalendar.php');
 require_once('XMLDocument.php');
 require_once('RRule-v2.php');
+
+chdir($original_dir);
 
 $new_zones = 0;
 $modified_zones = 0;
