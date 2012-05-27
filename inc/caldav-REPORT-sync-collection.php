@@ -80,13 +80,17 @@ if ( $sync_token == $new_token ) {
   $responses[] = new XMLElement( 'sync-token', 'data:,'.$new_token );
 }
 else {
+  $hide_older = '';
+  if ( isset($c->hide_older_than) && intval($c->hide_older_than > 0) )
+    $hide_older = " AND (CASE WHEN caldav_data.caldav_type<>'VEVENT' THEN true ELSE calendar_item.dtstart > (now() - interval '".intval($c->hide_older_than)." days') END)";
+  
   if ( $sync_token == 0 ) {
     $sql = <<<EOSQL
   SELECT collection.*, calendar_item.*, caldav_data.*, addressbook_resource.*, 201 AS sync_status FROM collection
               LEFT JOIN caldav_data USING (collection_id)
               LEFT JOIN calendar_item USING (dav_id)
                            LEFT JOIN addressbook_resource USING (dav_id)
-              WHERE collection.collection_id = :collection_id
+              WHERE collection.collection_id = :collection_id $hide_older
      ORDER BY collection.collection_id, caldav_data.dav_id
 EOSQL;
     unset($params[':sync_token']);
@@ -98,7 +102,7 @@ EOSQL;
                            LEFT JOIN caldav_data USING (collection_id,dav_id)
                            LEFT JOIN calendar_item USING (collection_id,dav_id)
                            LEFT JOIN addressbook_resource USING (dav_id)
-                           WHERE collection.collection_id = :collection_id
+                           WHERE collection.collection_id = :collection_id $hide_older
          AND sync_time >= (SELECT modification_time FROM sync_tokens WHERE sync_token = :sync_token)
 EOSQL;
     if ( isset($c->strict_result_ordering) && $c->strict_result_ordering ) {
