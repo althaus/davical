@@ -61,7 +61,7 @@ function do_scheduling_for_delete(DAVResource $deleted_resource ) {
 /**
 * Do the scheduling adjustments for a REPLY when an ATTENDEE updates their status.
 * @param vCalendar $vcal The resource that the ATTENDEE is writing to their calendar
-* @param string $organizer The property which is the event ORGANIZER.
+* @param string $partstat The participant status being replied
 */
 //function do_scheduling_reply( vCalendar $vcal, vProperty $organizer ) {
 function doItipAttendeeReply( vCalendar $resource, $partstat ) {
@@ -122,9 +122,14 @@ function doItipAttendeeReply( vCalendar $resource, $partstat ) {
 
   $response = '3.7'; // Organizer was not found on server.
   if ( !$organizer_calendar->Exists() ) {
-    dbg_error_log('ERROR','Default calendar at "%s" does not exist for user "%s"',
-    $organizer_calendar->dav_name(), $schedule_target->username());
-    $response = '5.2'; // No scheduling support for user
+    if ( doImipMessage('REPLY', $organizer_principal->email(), $vcal) ) {
+      $response = '1.1'; // Scheduling whoosit 'Sent' 
+    }
+    else {
+      dbg_error_log('ERROR','Default calendar at "%s" does not exist for user "%s"',
+      $organizer_calendar->dav_name(), $schedule_target->username());
+      $response = '5.2'; // No scheduling support for user
+    }
   }
   else {
     if ( ! $organizer_inbox->HavePrivilegeTo('schedule-deliver-reply') ) {
@@ -232,7 +237,12 @@ function doItipOrganizerCancel( vCalendar $vcal ) {
     }
     $schedule_target = new Principal('email',$email);
     if ( !$schedule_target->Exists() ) {
-      $response = '3.7';
+      if ( doImipMessage('CANCEL', $email, $vcal) ) {
+        $response = '1.1'; // Scheduling whoosit 'Sent' 
+      }
+      else {
+        $response = '3.7';
+      }
     }
     else {
       $attendee_inbox = new WritableCollection(array('path' => $schedule_target->internal_url('schedule-inbox')));
@@ -263,12 +273,18 @@ function doItipOrganizerCancel( vCalendar $vcal ) {
  * @param WritableCollection $attendee_calendar
  */
 function processItipCancel( vCalendar $vcal, vProperty $attendee, WritableCollection $attendee_calendar, Principal $attendee_principal ) {
-
+  global $request;
+  
   dbg_error_log( 'schedule', 'Processing iTIP CANCEL to %s', $attendee->Value());
   if ( !$attendee_calendar->Exists() ) {
-    dbg_error_log('ERROR', 'Default calendar at "%s" does not exist for attendee "%s"',
-                                                $attendee_calendar->dav_name(), $attendee->Value());
-    return '5.2';  // No scheduling support for user
+    if ( doImipMessage('CANCEL', $attendee_principal->email(), $vcal) ) {
+      return '1.1'; // Scheduling whoosit 'Sent' 
+    }
+    else {
+      dbg_error_log('ERROR', 'Default calendar at "%s" does not exist for attendee "%s"',
+                                                  $attendee_calendar->dav_name(), $attendee->Value());
+      return '5.2';  // No scheduling support for user
+    }
   }
 
   $sql = 'SELECT caldav_data.dav_name FROM caldav_data JOIN calendar_item USING(dav_id) ';
@@ -313,3 +329,69 @@ function deliverItipCancel( vCalendar $iTIP, vProperty $attendee, WritableCollec
   $attendee_inbox->WriteCalendarMember($iTIP, false);
 }
 
+require_once('Multipart.php');
+
+/**
+ * Send an iMIP message since they look like a non-local user.
+ *  
+ * @param string $method The METHOD parameter from the iTIP
+ * @param string $to_email The e-mail address we're going to send to
+ * @param vCalendar $vcal The iTIP part of the message.
+ */
+function doImipMessage($method, $to_email, vCalendar $itip) {
+  global $c, $request;
+
+  $mime = new MultiPart();
+  $mime->addPart( $itip->Render(), 'text/calendar; charset=UTF-8; method='.$method );
+
+  $friendly_part = isset($c->iMIP->template[$method]) ? $c->iMIP->template[$method] : <<<EOTEMPLATE
+This is a meeting ##METHOD## which your e-mail program should be able to
+import into your calendar.  Alternatively you could save the attachment
+and load that into your calendar instead.
+EOTEMPLATE;
+
+  $components = $itip->GetComponents( 'VTIMEZONE',false);
+
+  $replaceable = array( 'METHOD', 'DTSTART', 'DTEND', 'SUMMARY', 'DESCRIPTION', 'URL' );
+  foreach( $replaceable AS $pname ) {
+    $search = '##'.$pname.'##';
+    if ( strstr($friendly_part,$search) !== false ) {
+      $property = $itip->GetProperty($pname);
+      if ( empty($property) )
+        $property = $components[0]->GetProperty($pname);
+
+      if ( empty($property) )
+         $replace = '';
+      else {
+        switch( $pname ) {
+          case 'DTSTART':
+          case 'DTEND':
+            $when = new RepeatRuleDateTime($property);
+            $replace = $when->format('c');
+            break;
+          default:
+            $replace = $property->GetValue();
+        }
+      }
+      $friendly_part  = str_replace($search, $replace, $friendly_part);
+    }
+  }
+  $mime->addPart( $friendly_part, 'text/plain' );
+  
+  $email = new EMail();
+  $email->SetFrom($request->principal->email());
+  $email->AddTo($to_email);
+
+  $email->SetSubject( $components[0]->GetPValue('SUMMARY') );
+  $email->SetBody($mime->getMimeParts());
+
+  if ( isset($c->iMIP->pretend_email) ) {
+    $email->Pretend($mime->getMimeHeaders());
+  }
+  else if ( !isset($c->iMIP->send_email) || !$c->iMIP->send_email) {
+    $email->PretendLog($mime->getMimeHeaders());
+  }
+  else {
+    $email->Send($mime->getMimeHeaders());
+  }
+}
