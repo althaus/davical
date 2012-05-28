@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DAViCal\n"
 "Report-Msgid-Bugs-To: http://repo.or.cz/w/davical.git/tree/HEAD:/issues\n"
-"POT-Creation-Date: 2012-03-12 13:00+1300\n"
-"PO-Revision-Date: 2012-03-12 00:05+0000\n"
+"POT-Creation-Date: 2012-05-28 21:24+1200\n"
+"PO-Revision-Date: 2012-05-28 09:26+0000\n"
 "Last-Translator: Andrew McMillan <andrew@mcmillan.net.nz>\n"
 "Language-Team: Spanish (Mexico) (http://www.transifex.net/projects/p/davical/language/es_MX/)\n"
 "MIME-Version: 1.0\n"
@@ -105,6 +105,9 @@ msgstr "Una colección principal de DAViCal solo puede contener colecciones"
 msgid "A collection already exists at that location."
 msgstr "Una colección ya existe en ese lugar."
 
+msgid "A collection may not be both a calendar and an addressbook."
+msgstr ""
+
 msgid "A resource already exists at the destination."
 msgstr "Un recurso ya existe en ese destino."
 
@@ -169,6 +172,9 @@ msgstr "Los usuarios anónimos no tienen permitido modificar calendarios"
 msgid "Anonymous users may only access public calendars"
 msgstr "Los usuarios anónimos solo pueden ver calendarios públicos"
 
+msgid "Append"
+msgstr ""
+
 msgid "Application DB User"
 msgstr "Usuario de Base de Datos de la Aplicación"
 
@@ -180,6 +186,9 @@ msgstr "Aplica Parches a la Base de Datos"
 
 msgid "Attachment"
 msgstr "Anexo"
+
+msgid "Authentication server unavailable."
+msgstr ""
 
 msgid "Binding deleted"
 msgstr "Enlace eliminado"
@@ -373,6 +382,9 @@ msgstr "Nombre de Usuario para la Base de Datos"
 
 msgid "Database error"
 msgstr "Error en la base de datos"
+
+msgid "Database is Connected"
+msgstr ""
 
 msgid "Date Format Style"
 msgstr "Estilo de Formato de Fecha"
@@ -587,20 +599,11 @@ msgstr "¡Ayuda! ¡Olvidé mi clave de acceso!"
 msgid "Home"
 msgstr "Principio"
 
+msgid "Home "
+msgstr ""
+
 msgid "Home Page"
 msgstr "Página Principal"
-
-msgid "Home addressbook added."
-msgstr "Lista de direcciones principal agregada."
-
-msgid "Home addressbook already exists."
-msgstr "La lista de direcciones principal ya existe."
-
-msgid "Home calendar added."
-msgstr "Calendario principal agregado."
-
-msgid "Home calendar already exists."
-msgstr "El calendario principal ya existe."
 
 msgid "ID"
 msgstr "ID"
@@ -725,6 +728,9 @@ msgstr "Calendario vacío"
 
 msgid "No collection found at that location."
 msgstr "No se encontró ninguna colección en esa localización."
+
+msgid "No resource exists at the destination."
+msgstr ""
 
 msgid "No summary"
 msgstr "Sin resumen"
@@ -1011,6 +1017,9 @@ msgstr "Configuración"
 msgid "Setup DAViCal"
 msgstr "Configurar DAViCal"
 
+msgid "Should the uploaded entries be appended to the collection?"
+msgstr ""
+
 msgid "Show help on"
 msgstr "Mostrar ayuda de "
 
@@ -1100,9 +1109,9 @@ msgid "The calendar path contains illegal characters."
 msgstr "La trayectoria del calendario contiene caracteres ilegales."
 
 msgid ""
-"The calendar-free-busy-set is superseded by the schedule-transp property of "
-"a calendar collection."
-msgstr "La propiedad calendar-free-busy-set es reemplazada por schedule-transp en unacolección de calendario."
+"The calendar-free-busy-set is superseded by the  schedule-calendar-transp "
+"property of a calendar collection."
+msgstr ""
 
 msgid ""
 "The calendar-query report must be run against a calendar or a scheduling "
@@ -1235,6 +1244,9 @@ msgstr "Usuario no Autentificado"
 msgid "United States of America (m/d/y)"
 msgstr "Estados Unidos de Norteamérica (m/d/y)"
 
+msgid "Unsupported resourcetype modification."
+msgstr ""
+
 msgid "Update"
 msgstr "Actualizar"
 
@@ -1259,10 +1271,8 @@ msgstr "Actualizar el esquema de base de datos de DAViCal"
 msgid "Upgrade Database"
 msgstr "Actualizar la Base de Datos"
 
-msgid ""
-"Upload a .ics calendar in iCalendar format to initialise or replace this "
-"calendar."
-msgstr "Subir un calendario .ics en formato iCalendar para inicializar o reemplazar este calendario."
+msgid "Upload an iCalendar file or VCard file to replace this collection."
+msgstr ""
 
 msgid "User Calendar Principals"
 msgstr "Principales Usuarios de Calendario"

@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DAViCal\n"
 "Report-Msgid-Bugs-To: http://repo.or.cz/w/davical.git/tree/HEAD:/issues\n"
-"POT-Creation-Date: 2012-03-12 13:00+1300\n"
-"PO-Revision-Date: 2012-03-12 00:05+0000\n"
+"POT-Creation-Date: 2012-05-28 21:24+1200\n"
+"PO-Revision-Date: 2012-05-28 09:26+0000\n"
 "Last-Translator: Andrew McMillan <andrew@mcmillan.net.nz>\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.net/projects/p/davical/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -106,6 +106,9 @@ msgstr "En DAViCal kontosamling kan bare inneholde samlinger"
 msgid "A collection already exists at that location."
 msgstr "En samling finnes allerede der"
 
+msgid "A collection may not be both a calendar and an addressbook."
+msgstr ""
+
 msgid "A resource already exists at the destination."
 msgstr "En ressurs finnes allerede der "
 
@@ -170,6 +173,9 @@ msgstr "Anonyme brukere har ikke tillatelse til endring av kalendre"
 msgid "Anonymous users may only access public calendars"
 msgstr "Anonyme brukere har kun tilgang til offentlige kalendre"
 
+msgid "Append"
+msgstr ""
+
 msgid "Application DB User"
 msgstr "Applikasjonens DB-bruker"
 
@@ -181,6 +187,9 @@ msgstr "Utfør DB-endringer"
 
 msgid "Attachment"
 msgstr "Vedlegg"
+
+msgid "Authentication server unavailable."
+msgstr ""
 
 msgid "Binding deleted"
 msgstr "Forbindelse slettet"
@@ -374,6 +383,9 @@ msgstr "Database Brukernavn"
 
 msgid "Database error"
 msgstr "Databasefeil"
+
+msgid "Database is Connected"
+msgstr ""
 
 msgid "Date Format Style"
 msgstr "Datoformat "
@@ -588,20 +600,11 @@ msgstr "Hjelp! Jeg har glemt passordet"
 msgid "Home"
 msgstr "Home"
 
+msgid "Home "
+msgstr ""
+
 msgid "Home Page"
 msgstr "Hjemmeside"
-
-msgid "Home addressbook added."
-msgstr "La til hovedadressebok."
-
-msgid "Home addressbook already exists."
-msgstr "Hovedadressebok finnes fra før."
-
-msgid "Home calendar added."
-msgstr "Hovedkalender lagt til"
-
-msgid "Home calendar already exists."
-msgstr "Hovedkalender eksisterer allerede"
 
 msgid "ID"
 msgstr "ID"
@@ -726,6 +729,9 @@ msgstr "Ikke noe kalenderinnhold"
 
 msgid "No collection found at that location."
 msgstr "Ingen samling funnet på den lokasjonen"
+
+msgid "No resource exists at the destination."
+msgstr ""
 
 msgid "No summary"
 msgstr "Ingen oppsummering"
@@ -1012,6 +1018,9 @@ msgstr "Oppsett"
 msgid "Setup DAViCal"
 msgstr "Sett opp DAViCal"
 
+msgid "Should the uploaded entries be appended to the collection?"
+msgstr ""
+
 msgid "Show help on"
 msgstr "Vis hjelp om"
 
@@ -1101,9 +1110,9 @@ msgid "The calendar path contains illegal characters."
 msgstr "Kalenderbanen inneholder ulovlige karakterer"
 
 msgid ""
-"The calendar-free-busy-set is superseded by the schedule-transp property of "
-"a calendar collection."
-msgstr "Kalenderens Ledig/Opptatt-sett er overstyrt av schedule-transp egenskapen til en kalendersamling"
+"The calendar-free-busy-set is superseded by the  schedule-calendar-transp "
+"property of a calendar collection."
+msgstr ""
 
 msgid ""
 "The calendar-query report must be run against a calendar or a scheduling "
@@ -1236,6 +1245,9 @@ msgstr "Ikke-autentisert bruker"
 msgid "United States of America (m/d/y)"
 msgstr "United States of America (m/d/y)"
 
+msgid "Unsupported resourcetype modification."
+msgstr ""
+
 msgid "Update"
 msgstr "Oppdater"
 
@@ -1260,10 +1272,8 @@ msgstr "Oppgrader DAViCal database schema"
 msgid "Upgrade Database"
 msgstr "Oppgrader database"
 
-msgid ""
-"Upload a .ics calendar in iCalendar format to initialise or replace this "
-"calendar."
-msgstr "Last opp en .ics-kalender i iCalender format for å sette opp eller erstatte denne kalenderen"
+msgid "Upload an iCalendar file or VCard file to replace this collection."
+msgstr ""
 
 msgid "User Calendar Principals"
 msgstr "Bruker kalenderkonto"

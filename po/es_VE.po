@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DAViCal\n"
 "Report-Msgid-Bugs-To: http://repo.or.cz/w/davical.git/tree/HEAD:/issues\n"
-"POT-Creation-Date: 2012-03-12 13:00+1300\n"
-"PO-Revision-Date: 2012-03-12 00:05+0000\n"
+"POT-Creation-Date: 2012-05-28 21:24+1200\n"
+"PO-Revision-Date: 2012-05-28 09:26+0000\n"
 "Last-Translator: Andrew McMillan <andrew@mcmillan.net.nz>\n"
 "Language-Team: Spanish (Venezuela) (http://www.transifex.net/projects/p/davical/language/es_VE/)\n"
 "MIME-Version: 1.0\n"
@@ -104,6 +104,9 @@ msgstr ""
 msgid "A collection already exists at that location."
 msgstr ""
 
+msgid "A collection may not be both a calendar and an addressbook."
+msgstr ""
+
 msgid "A resource already exists at the destination."
 msgstr ""
 
@@ -168,6 +171,9 @@ msgstr ""
 msgid "Anonymous users may only access public calendars"
 msgstr ""
 
+msgid "Append"
+msgstr ""
+
 msgid "Application DB User"
 msgstr ""
 
@@ -179,6 +185,9 @@ msgstr "Aplicar parche a la BD"
 
 msgid "Attachment"
 msgstr "Adjunto"
+
+msgid "Authentication server unavailable."
+msgstr ""
 
 msgid "Binding deleted"
 msgstr ""
@@ -371,6 +380,9 @@ msgid "Database Username"
 msgstr ""
 
 msgid "Database error"
+msgstr ""
+
+msgid "Database is Connected"
 msgstr ""
 
 msgid "Date Format Style"
@@ -586,19 +598,10 @@ msgstr ""
 msgid "Home"
 msgstr ""
 
+msgid "Home "
+msgstr ""
+
 msgid "Home Page"
-msgstr ""
-
-msgid "Home addressbook added."
-msgstr ""
-
-msgid "Home addressbook already exists."
-msgstr ""
-
-msgid "Home calendar added."
-msgstr ""
-
-msgid "Home calendar already exists."
 msgstr ""
 
 msgid "ID"
@@ -723,6 +726,9 @@ msgid "No calendar content"
 msgstr "No hay contenido en el calendario"
 
 msgid "No collection found at that location."
+msgstr ""
+
+msgid "No resource exists at the destination."
 msgstr ""
 
 msgid "No summary"
@@ -1010,6 +1016,9 @@ msgstr ""
 msgid "Setup DAViCal"
 msgstr ""
 
+msgid "Should the uploaded entries be appended to the collection?"
+msgstr ""
+
 msgid "Show help on"
 msgstr ""
 
@@ -1099,8 +1108,8 @@ msgid "The calendar path contains illegal characters."
 msgstr ""
 
 msgid ""
-"The calendar-free-busy-set is superseded by the schedule-transp property of "
-"a calendar collection."
+"The calendar-free-busy-set is superseded by the  schedule-calendar-transp "
+"property of a calendar collection."
 msgstr ""
 
 msgid ""
@@ -1234,6 +1243,9 @@ msgstr ""
 msgid "United States of America (m/d/y)"
 msgstr ""
 
+msgid "Unsupported resourcetype modification."
+msgstr ""
+
 msgid "Update"
 msgstr ""
 
@@ -1258,9 +1270,7 @@ msgstr ""
 msgid "Upgrade Database"
 msgstr ""
 
-msgid ""
-"Upload a .ics calendar in iCalendar format to initialise or replace this "
-"calendar."
+msgid "Upload an iCalendar file or VCard file to replace this collection."
 msgstr ""
 
 msgid "User Calendar Principals"

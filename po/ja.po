@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DAViCal\n"
 "Report-Msgid-Bugs-To: http://repo.or.cz/w/davical.git/tree/HEAD:/issues\n"
-"POT-Creation-Date: 2012-03-12 13:00+1300\n"
-"PO-Revision-Date: 2012-03-12 00:05+0000\n"
+"POT-Creation-Date: 2012-05-28 21:24+1200\n"
+"PO-Revision-Date: 2012-05-28 09:26+0000\n"
 "Last-Translator: Andrew McMillan <andrew@mcmillan.net.nz>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -104,6 +104,9 @@ msgstr ""
 msgid "A collection already exists at that location."
 msgstr "すでにその場所にコレクションが存在します。"
 
+msgid "A collection may not be both a calendar and an addressbook."
+msgstr ""
+
 msgid "A resource already exists at the destination."
 msgstr ""
 
@@ -168,6 +171,9 @@ msgstr "匿名ユーザーはカレンダーの修正を許されていません
 msgid "Anonymous users may only access public calendars"
 msgstr "匿名ユーザーは公開カレンダーにのみアクセスを許されます。"
 
+msgid "Append"
+msgstr ""
+
 msgid "Application DB User"
 msgstr ""
 
@@ -178,6 +184,9 @@ msgid "Apply DB Patches"
 msgstr ""
 
 msgid "Attachment"
+msgstr ""
+
+msgid "Authentication server unavailable."
 msgstr ""
 
 msgid "Binding deleted"
@@ -372,6 +381,9 @@ msgstr ""
 
 msgid "Database error"
 msgstr "データベースエラー"
+
+msgid "Database is Connected"
+msgstr ""
 
 msgid "Date Format Style"
 msgstr "日付形式スタイル"
@@ -586,20 +598,11 @@ msgstr "助けて！パスワードを忘れました！"
 msgid "Home"
 msgstr "ホーム"
 
+msgid "Home "
+msgstr ""
+
 msgid "Home Page"
 msgstr "ホームページ"
-
-msgid "Home addressbook added."
-msgstr ""
-
-msgid "Home addressbook already exists."
-msgstr ""
-
-msgid "Home calendar added."
-msgstr "ホームカレンダーが追加されました。"
-
-msgid "Home calendar already exists."
-msgstr ""
 
 msgid "ID"
 msgstr "ID"
@@ -724,6 +727,9 @@ msgstr "カレンダーの内容がありません"
 
 msgid "No collection found at that location."
 msgstr "その場所にはコレクションが見つかりませんでした。"
+
+msgid "No resource exists at the destination."
+msgstr ""
 
 msgid "No summary"
 msgstr ""
@@ -1010,6 +1016,9 @@ msgstr "セットアップ"
 msgid "Setup DAViCal"
 msgstr "DaViCalをセットアップする"
 
+msgid "Should the uploaded entries be appended to the collection?"
+msgstr ""
+
 msgid "Show help on"
 msgstr "ヘルプの表示"
 
@@ -1099,9 +1108,9 @@ msgid "The calendar path contains illegal characters."
 msgstr "カレンダーパスに不正な文字が使用されています。"
 
 msgid ""
-"The calendar-free-busy-set is superseded by the schedule-transp property of "
-"a calendar collection."
-msgstr "カレンダー予定有無設定よりも、カレンダーコレクションのスケジュール透過属性が優先します。"
+"The calendar-free-busy-set is superseded by the  schedule-calendar-transp "
+"property of a calendar collection."
+msgstr ""
 
 msgid ""
 "The calendar-query report must be run against a calendar or a scheduling "
@@ -1234,6 +1243,9 @@ msgstr ""
 msgid "United States of America (m/d/y)"
 msgstr "アメリカ合衆国 (m/d/y)"
 
+msgid "Unsupported resourcetype modification."
+msgstr ""
+
 msgid "Update"
 msgstr "更新"
 
@@ -1258,10 +1270,8 @@ msgstr "DAViCalデータベーススキーマをアップグレードする"
 msgid "Upgrade Database"
 msgstr "データベースのアップグレード"
 
-msgid ""
-"Upload a .ics calendar in iCalendar format to initialise or replace this "
-"calendar."
-msgstr "このカレンダーを初期化または置換するために、.icsカレンダーをiCalendar形式でアップロードする"
+msgid "Upload an iCalendar file or VCard file to replace this collection."
+msgstr ""
 
 msgid "User Calendar Principals"
 msgstr "ユーザーカレンダープリンシパル"

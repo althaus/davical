@@ -4,12 +4,13 @@
 # 
 # Translators:
 #   <aagaio@linwork.com.br>, 2011.
+#   <filhocf@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: DAViCal\n"
 "Report-Msgid-Bugs-To: http://repo.or.cz/w/davical.git/tree/HEAD:/issues\n"
-"POT-Creation-Date: 2012-03-12 13:00+1300\n"
-"PO-Revision-Date: 2012-03-12 00:05+0000\n"
+"POT-Creation-Date: 2012-05-28 21:24+1200\n"
+"PO-Revision-Date: 2012-05-28 09:26+0000\n"
 "Last-Translator: Andrew McMillan <andrew@mcmillan.net.nz>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.net/projects/p/davical/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -104,6 +105,9 @@ msgstr "Uma coleção principal do DAViCal só pode conter coleções"
 msgid "A collection already exists at that location."
 msgstr "A coleção já existe naquele local."
 
+msgid "A collection may not be both a calendar and an addressbook."
+msgstr ""
+
 msgid "A resource already exists at the destination."
 msgstr "Um recurso já existe no destino."
 
@@ -168,6 +172,9 @@ msgstr "Os usuários anônimos não têm permissão para modificar calendários"
 msgid "Anonymous users may only access public calendars"
 msgstr "Usuários anônimos podem acessar apenas calendários públicos"
 
+msgid "Append"
+msgstr ""
+
 msgid "Application DB User"
 msgstr "Aplicação do usuário DB"
 
@@ -179,6 +186,9 @@ msgstr "Aplicar Patches DB"
 
 msgid "Attachment"
 msgstr "Anexo"
+
+msgid "Authentication server unavailable."
+msgstr ""
 
 msgid "Binding deleted"
 msgstr "Vínculo excluído"
@@ -373,6 +383,9 @@ msgstr "Nome de usuário do banco de dados"
 msgid "Database error"
 msgstr "Erro de banco de dados"
 
+msgid "Database is Connected"
+msgstr ""
+
 msgid "Date Format Style"
 msgstr "Formato do estilo da Data"
 
@@ -444,7 +457,7 @@ msgid "Does the user have the right to perform this role?"
 msgstr "O usuário tem o direito de desempenhar este papel?"
 
 msgid "Domain"
-msgstr ""
+msgstr "Domínio"
 
 msgid "EMail"
 msgstr "EMail"
@@ -586,20 +599,11 @@ msgstr "Ajuda! Esqueci minha senha!"
 msgid "Home"
 msgstr "Início"
 
+msgid "Home "
+msgstr ""
+
 msgid "Home Page"
 msgstr "Página Inicial"
-
-msgid "Home addressbook added."
-msgstr "O Home da Agenda foi acrescentado."
-
-msgid "Home addressbook already exists."
-msgstr "O Home da Agenda já existe."
-
-msgid "Home calendar added."
-msgstr "Calendário acrescentado."
-
-msgid "Home calendar already exists."
-msgstr "Calendário já existe."
 
 msgid "ID"
 msgstr "ID"
@@ -725,6 +729,9 @@ msgstr "Nenhum conteúdo de calendário"
 msgid "No collection found at that location."
 msgstr "Nenhuma coleção encontrada no local."
 
+msgid "No resource exists at the destination."
+msgstr ""
+
 msgid "No summary"
 msgstr "Sem resumo"
 
@@ -748,7 +755,7 @@ msgid "Opaque"
 msgstr "Opaco"
 
 msgid "Organizer Missing"
-msgstr ""
+msgstr "Organizador faltando"
 
 msgid "Override a Lock"
 msgstr "Substituir um bloqueio"
@@ -775,7 +782,7 @@ msgid "PHP calendar extension available"
 msgstr "Extensão PHP calendar disponível"
 
 msgid "PHP curl support"
-msgstr ""
+msgstr "Suporte a PHP curl"
 
 msgid "PHP iconv support"
 msgstr "Suporte a PHP iconv"
@@ -784,7 +791,7 @@ msgid "PHP not using Apache Filter mode"
 msgstr "O PHP não está usando o modo de filtragem do Apache"
 
 msgid "PHP5 curl support is required for external binds"
-msgstr ""
+msgstr "Suporte do curl PHP5 é requerido para ligações externas"
 
 msgid ""
 "PUT on a collection is only allowed for text/calendar content against a "
@@ -942,7 +949,7 @@ msgid "Revoke"
 msgstr "Revogar"
 
 msgid "SRV Record"
-msgstr ""
+msgstr "Registro SRV"
 
 msgid "Schedule Deliver"
 msgstr "Entregar agenda"
@@ -1009,6 +1016,9 @@ msgstr "Configuração"
 
 msgid "Setup DAViCal"
 msgstr "Configurar DAViCal"
+
+msgid "Should the uploaded entries be appended to the collection?"
+msgstr ""
 
 msgid "Show help on"
 msgstr "Mostrar ajuda sobre"
@@ -1099,9 +1109,9 @@ msgid "The calendar path contains illegal characters."
 msgstr "O caminho do calendário contém caracteres ilegais."
 
 msgid ""
-"The calendar-free-busy-set is superseded by the schedule-transp property of "
-"a calendar collection."
-msgstr "O calendar-free-busy-set é substituída pela propriedade schedule-transp de uma coleção de calendário."
+"The calendar-free-busy-set is superseded by the  schedule-calendar-transp "
+"property of a calendar collection."
+msgstr ""
 
 msgid ""
 "The calendar-query report must be run against a calendar or a scheduling "
@@ -1234,6 +1244,9 @@ msgstr "Usuário não autenticado"
 msgid "United States of America (m/d/y)"
 msgstr "Estados Unidos da América (m/d/y)"
 
+msgid "Unsupported resourcetype modification."
+msgstr ""
+
 msgid "Update"
 msgstr "Atualizar"
 
@@ -1258,10 +1271,8 @@ msgstr "Atualização do esquema do banco de dados do DAViCal"
 msgid "Upgrade Database"
 msgstr "Atualização do Banco de dados"
 
-msgid ""
-"Upload a .ics calendar in iCalendar format to initialise or replace this "
-"calendar."
-msgstr "Carregar um arquivo de calendário .ics no formato iCalendar para inicializar ou substituir este calendário."
+msgid "Upload an iCalendar file or VCard file to replace this collection."
+msgstr ""
 
 msgid "User Calendar Principals"
 msgstr "Gerente de calendário de usuários"
@@ -1411,19 +1422,19 @@ msgid "from principal"
 msgstr "do principal"
 
 msgid "iSchedule Domains"
-msgstr ""
+msgstr "Domínios iSchedule"
 
 msgid "invalid request"
-msgstr ""
+msgstr "requisição inválida"
 
 msgid "path to store your ics"
 msgstr "caminho para armazenar seu ics"
 
 msgid "recipient must be organizer or attendee of event"
-msgstr ""
+msgstr "destinatário precisa ser organizador ou participante do evento"
 
 msgid "sender must be organizer or attendee of event"
-msgstr ""
+msgstr "remetente precisa ser organizador ou participante do evento"
 
 msgid "unauthenticated"
 msgstr "não autenticado"

@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DAViCal\n"
 "Report-Msgid-Bugs-To: http://repo.or.cz/w/davical.git/tree/HEAD:/issues\n"
-"POT-Creation-Date: 2012-03-12 13:00+1300\n"
-"PO-Revision-Date: 2012-03-12 00:05+0000\n"
+"POT-Creation-Date: 2012-05-28 21:24+1200\n"
+"PO-Revision-Date: 2012-05-28 09:26+0000\n"
 "Last-Translator: Andrew McMillan <andrew@mcmillan.net.nz>\n"
 "Language-Team: Russian (http://www.transifex.net/projects/p/davical/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -106,6 +106,9 @@ msgstr ""
 msgid "A collection already exists at that location."
 msgstr "Коллекция по данному адресу уже существует."
 
+msgid "A collection may not be both a calendar and an addressbook."
+msgstr ""
+
 msgid "A resource already exists at the destination."
 msgstr "Ресурс уже существует."
 
@@ -170,6 +173,9 @@ msgstr "Анонимным пользователям не разрешаетс�
 msgid "Anonymous users may only access public calendars"
 msgstr "Анонимные пользователи имеют доступ только к общедоступным календарям"
 
+msgid "Append"
+msgstr ""
+
 msgid "Application DB User"
 msgstr "Пользователь БД"
 
@@ -180,6 +186,9 @@ msgid "Apply DB Patches"
 msgstr "Применить обновления БД"
 
 msgid "Attachment"
+msgstr ""
+
+msgid "Authentication server unavailable."
 msgstr ""
 
 msgid "Binding deleted"
@@ -375,6 +384,9 @@ msgstr "Пользователь БД"
 msgid "Database error"
 msgstr "Ошибка базы данных"
 
+msgid "Database is Connected"
+msgstr ""
+
 msgid "Date Format Style"
 msgstr "Формат даты"
 
@@ -446,7 +458,7 @@ msgid "Does the user have the right to perform this role?"
 msgstr ""
 
 msgid "Domain"
-msgstr ""
+msgstr "Домен"
 
 msgid "EMail"
 msgstr "Электронная почта"
@@ -516,7 +528,7 @@ msgid "External Calendars"
 msgstr "Внешние календари"
 
 msgid "External Url"
-msgstr ""
+msgstr "Внешняя ссылка"
 
 msgid "Fail"
 msgstr ""
@@ -588,20 +600,11 @@ msgstr "Вспомнить пароль!"
 msgid "Home"
 msgstr "Домой"
 
+msgid "Home "
+msgstr ""
+
 msgid "Home Page"
 msgstr "Домой"
-
-msgid "Home addressbook added."
-msgstr ""
-
-msgid "Home addressbook already exists."
-msgstr ""
-
-msgid "Home calendar added."
-msgstr ""
-
-msgid "Home calendar already exists."
-msgstr ""
 
 msgid "ID"
 msgstr "ID"
@@ -727,6 +730,9 @@ msgstr ""
 msgid "No collection found at that location."
 msgstr ""
 
+msgid "No resource exists at the destination."
+msgstr ""
+
 msgid "No summary"
 msgstr ""
 
@@ -799,7 +805,7 @@ msgid ""
 msgstr ""
 
 msgid "Passed"
-msgstr ""
+msgstr "Успшно"
 
 msgid "Password"
 msgstr "Пароль"
@@ -1012,6 +1018,9 @@ msgstr "Параметры"
 msgid "Setup DAViCal"
 msgstr "Параметры DAViCal"
 
+msgid "Should the uploaded entries be appended to the collection?"
+msgstr ""
+
 msgid "Show help on"
 msgstr "Показывать помощь в"
 
@@ -1101,8 +1110,8 @@ msgid "The calendar path contains illegal characters."
 msgstr ""
 
 msgid ""
-"The calendar-free-busy-set is superseded by the schedule-transp property of "
-"a calendar collection."
+"The calendar-free-busy-set is superseded by the  schedule-calendar-transp "
+"property of a calendar collection."
 msgstr ""
 
 msgid ""
@@ -1207,7 +1216,7 @@ msgid "Ticket ID"
 msgstr "ID ключа"
 
 msgid "Time"
-msgstr ""
+msgstr "Время"
 
 msgid "To Collection"
 msgstr ""
@@ -1225,16 +1234,19 @@ msgid "Transparent"
 msgstr ""
 
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 msgid "US Format"
 msgstr "США"
 
 msgid "Unauthenticated User"
-msgstr ""
+msgstr "Не авторизованный пользователь"
 
 msgid "United States of America (m/d/y)"
 msgstr "США (m/d/y)"
+
+msgid "Unsupported resourcetype modification."
+msgstr ""
 
 msgid "Update"
 msgstr "Обновить"
@@ -1260,9 +1272,7 @@ msgstr "Обновление структуры БД"
 msgid "Upgrade Database"
 msgstr ""
 
-msgid ""
-"Upload a .ics calendar in iCalendar format to initialise or replace this "
-"calendar."
+msgid "Upload an iCalendar file or VCard file to replace this collection."
 msgstr ""
 
 msgid "User Calendar Principals"
@@ -1284,10 +1294,10 @@ msgid "User is active"
 msgstr ""
 
 msgid "User record written."
-msgstr ""
+msgstr "Не авторизованный пользователь"
 
 msgid "Username"
-msgstr ""
+msgstr "Имя пользователя"
 
 msgid "View My Details"
 msgstr "Мои данные"
@@ -1299,7 +1309,7 @@ msgid "View this user record"
 msgstr ""
 
 msgid "Visit the DAViCal Wiki"
-msgstr ""
+msgstr "Открыть DAViCal Wiki"
 
 #, php-format
 msgid "Want: %s, Currently: %s"
@@ -1323,31 +1333,31 @@ msgid "Write Access Controls"
 msgstr ""
 
 msgid "Write Data"
-msgstr ""
+msgstr "Сохранить Данные"
 
 msgid "Write Metadata"
-msgstr ""
+msgstr "Сохранить Метаданные"
 
 msgid "Write content"
-msgstr ""
+msgstr "Сохранить содержание"
 
 msgid "Write properties"
-msgstr ""
+msgstr "Сохранить свойство"
 
 msgid "Yes"
-msgstr ""
+msgstr "Да"
 
 msgid "You are editing"
-msgstr ""
+msgstr "Вы редактируете"
 
 msgid "You are not authorised to use this function."
 msgstr "Вы не авторизованы для использоования этой функции."
 
 msgid "You are viewing"
-msgstr ""
+msgstr "Вы просматриваете"
 
 msgid "You do not have permission to modify this record."
-msgstr ""
+msgstr "У вас нет прав, чтобы изменить эту запись"
 
 msgid "You may not PUT to a collection URL"
 msgstr ""
@@ -1416,7 +1426,7 @@ msgid "iSchedule Domains"
 msgstr ""
 
 msgid "invalid request"
-msgstr ""
+msgstr "неправильный запрос"
 
 msgid "path to store your ics"
 msgstr ""
@@ -1428,7 +1438,7 @@ msgid "sender must be organizer or attendee of event"
 msgstr ""
 
 msgid "unauthenticated"
-msgstr ""
+msgstr "не авторизован"
 
 msgid ""
 "you should log on with the username and password that have been issued to "

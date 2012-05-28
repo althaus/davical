@@ -6,13 +6,13 @@
 # Andrew McMillan <andrew@mcmillan.net.nz>, 2011.
 #   <cgiraud@free.fr>, 2011.
 # tikismoke <webmaster@tikijs.dyndns.org>, 2011.
-#   <webmaster@tikijs.dyndns.org>, 2011.
+#   <webmaster@tikijs.dyndns.org>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: DAViCal\n"
 "Report-Msgid-Bugs-To: http://repo.or.cz/w/davical.git/tree/HEAD:/issues\n"
-"POT-Creation-Date: 2012-03-12 13:00+1300\n"
-"PO-Revision-Date: 2012-03-12 00:05+0000\n"
+"POT-Creation-Date: 2012-05-28 21:24+1200\n"
+"PO-Revision-Date: 2012-05-28 09:26+0000\n"
 "Last-Translator: Andrew McMillan <andrew@mcmillan.net.nz>\n"
 "Language-Team: French (http://www.transifex.net/projects/p/davical/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -107,6 +107,9 @@ msgstr "Un compte collection DAViCal ne peut contenir que des collections"
 msgid "A collection already exists at that location."
 msgstr "Une collection existe déjà à cet emplacement."
 
+msgid "A collection may not be both a calendar and an addressbook."
+msgstr ""
+
 msgid "A resource already exists at the destination."
 msgstr "Une ressource existe déjà à cette destination."
 
@@ -171,6 +174,9 @@ msgstr "Mise à jour accorde par ce principal"
 msgid "Anonymous users may only access public calendars"
 msgstr "Les utilisateurs anonymes ne peuvent accéder qu'aux agendas publics"
 
+msgid "Append"
+msgstr ""
+
 msgid "Application DB User"
 msgstr "Utilisateur de BDD Application"
 
@@ -182,6 +188,9 @@ msgstr "Appliquer la rustine à la base"
 
 msgid "Attachment"
 msgstr "Pièce jointe"
+
+msgid "Authentication server unavailable."
+msgstr ""
 
 msgid "Binding deleted"
 msgstr "Liaison supprimée"
@@ -376,6 +385,9 @@ msgstr "Utilisateur de base de données"
 msgid "Database error"
 msgstr "Erreur de base de données"
 
+msgid "Database is Connected"
+msgstr ""
+
 msgid "Date Format Style"
 msgstr "Format des dates"
 
@@ -447,7 +459,7 @@ msgid "Does the user have the right to perform this role?"
 msgstr "L'utilisateur est-il autorisé à avoir ce rôle ?"
 
 msgid "Domain"
-msgstr ""
+msgstr "Domaine"
 
 msgid "EMail"
 msgstr "Courriel"
@@ -589,20 +601,11 @@ msgstr "Au secours ! J'ai oublié mon mot de passe !"
 msgid "Home"
 msgstr "Accueil"
 
+msgid "Home "
+msgstr ""
+
 msgid "Home Page"
 msgstr "Accueil"
-
-msgid "Home addressbook added."
-msgstr "Carnet d'adresses ajouté."
-
-msgid "Home addressbook already exists."
-msgstr "Carnet d'adresses déjà existant."
-
-msgid "Home calendar added."
-msgstr "Agenda Home ajouté."
-
-msgid "Home calendar already exists."
-msgstr "L'agenda Home existe déjà."
 
 msgid "ID"
 msgstr "ID."
@@ -728,6 +731,9 @@ msgstr "Pas de contenu dans cet agenda"
 msgid "No collection found at that location."
 msgstr "Pas de collection trouvée à cet endroit."
 
+msgid "No resource exists at the destination."
+msgstr ""
+
 msgid "No summary"
 msgstr "Aucun résumé"
 
@@ -751,7 +757,7 @@ msgid "Opaque"
 msgstr "Opaque"
 
 msgid "Organizer Missing"
-msgstr ""
+msgstr "Il manque un organisateur"
 
 msgid "Override a Lock"
 msgstr "Passer outre un verrou"
@@ -778,7 +784,7 @@ msgid "PHP calendar extension available"
 msgstr "Extension d'agenda PHP disponible"
 
 msgid "PHP curl support"
-msgstr ""
+msgstr "Support de PHP curl"
 
 msgid "PHP iconv support"
 msgstr "support PHP iconv"
@@ -787,7 +793,7 @@ msgid "PHP not using Apache Filter mode"
 msgstr "PHP n'utilise pas le mode Apache Filter"
 
 msgid "PHP5 curl support is required for external binds"
-msgstr ""
+msgstr "Le support de PHP5 curl est requis pour les liaisons externes"
 
 msgid ""
 "PUT on a collection is only allowed for text/calendar content against a "
@@ -945,7 +951,7 @@ msgid "Revoke"
 msgstr "Retirer"
 
 msgid "SRV Record"
-msgstr ""
+msgstr "Enregistrement srv"
 
 msgid "Schedule Deliver"
 msgstr "Planif: Invitations"
@@ -1012,6 +1018,9 @@ msgstr "Configuration"
 
 msgid "Setup DAViCal"
 msgstr "Configuration DAViCal"
+
+msgid "Should the uploaded entries be appended to the collection?"
+msgstr ""
 
 msgid "Show help on"
 msgstr "Afficher l'aide sur"
@@ -1102,9 +1111,9 @@ msgid "The calendar path contains illegal characters."
 msgstr "Le chemin vers l'agenda contient des caractères interdits."
 
 msgid ""
-"The calendar-free-busy-set is superseded by the schedule-transp property of "
-"a calendar collection."
-msgstr "La propriété calendar-free-busy-set est écrasée par la propriété schedule-transp d'une collection."
+"The calendar-free-busy-set is superseded by the  schedule-calendar-transp "
+"property of a calendar collection."
+msgstr ""
 
 msgid ""
 "The calendar-query report must be run against a calendar or a scheduling "
@@ -1237,6 +1246,9 @@ msgstr "Utilisateur non authentifié"
 msgid "United States of America (m/d/y)"
 msgstr "États-Unis d'Amérique (m / d / y)"
 
+msgid "Unsupported resourcetype modification."
+msgstr ""
+
 msgid "Update"
 msgstr "Enregistrer/Mettre à jour"
 
@@ -1261,10 +1273,8 @@ msgstr "Mise à jour le schéma de la base de données de DAViCal"
 msgid "Upgrade Database"
 msgstr "Mise à jour de la base"
 
-msgid ""
-"Upload a .ics calendar in iCalendar format to initialise or replace this "
-"calendar."
-msgstr "Envoyer un fichier .ics au format ical pour initialiser ou remplacer cet agenda"
+msgid "Upload an iCalendar file or VCard file to replace this collection."
+msgstr ""
 
 msgid "User Calendar Principals"
 msgstr "Liste des comptes utilisateurs"
@@ -1414,10 +1424,10 @@ msgid "from principal"
 msgstr "depuis le compte"
 
 msgid "iSchedule Domains"
-msgstr ""
+msgstr "Domaines ISchedule"
 
 msgid "invalid request"
-msgstr ""
+msgstr "Requête invalide"
 
 msgid "path to store your ics"
 msgstr "le chemin où stocker votre ics"

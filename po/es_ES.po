@@ -4,14 +4,14 @@
 # 
 # Translators:
 # Eugene Ciurana <transifex@cime.net>, 2011.
-# Jorge López <jorge@adobo.org>, 2011.
+# Jorge López <jorge@adobo.org>, 2011, 2012.
 # pr3d4t0r <transifex@ciurana.eu>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: DAViCal\n"
 "Report-Msgid-Bugs-To: http://repo.or.cz/w/davical.git/tree/HEAD:/issues\n"
-"POT-Creation-Date: 2012-03-12 13:00+1300\n"
-"PO-Revision-Date: 2012-03-12 00:05+0000\n"
+"POT-Creation-Date: 2012-05-28 21:24+1200\n"
+"PO-Revision-Date: 2012-05-28 09:26+0000\n"
 "Last-Translator: Andrew McMillan <andrew@mcmillan.net.nz>\n"
 "Language-Team: Spanish (Spain) (http://www.transifex.net/projects/p/davical/language/es_ES/)\n"
 "MIME-Version: 1.0\n"
@@ -101,10 +101,13 @@ msgid ""
 msgstr "<h1>Por favor, autentíquese</h1><p>Para acceder a %s debe identificarse con su nombre de usuario y su clave de acceso.</p><p>Escriba a %s si desea solicitar acceso."
 
 msgid "A DAViCal principal collection may only contain collections"
-msgstr "Una colección principal de DAViCal solo puede contener otras colecciones"
+msgstr "Una colección de un Principal de DAViCal solo puede contener otras colecciones"
 
 msgid "A collection already exists at that location."
 msgstr "Ya existe una colección en esa ruta."
+
+msgid "A collection may not be both a calendar and an addressbook."
+msgstr ""
 
 msgid "A resource already exists at the destination."
 msgstr "Ya existe un recurso en ese destino."
@@ -149,7 +152,7 @@ msgstr "Todos los eventos del usuario \"%s\" fueron eliminados y reemplazados po
 
 msgid ""
 "All of the principal's calendars and events will be unrecoverably deleted."
-msgstr "Todos los calendarios y eventos de este 'principal' serán eliminados permanentemente."
+msgstr "Todos los calendarios y eventos de este Principal serán eliminados permanentemente."
 
 msgid "All privileges"
 msgstr "Todos los privilegios"
@@ -170,6 +173,9 @@ msgstr "Los usuarios anónimos no tienen permiso para modificar calendarios"
 msgid "Anonymous users may only access public calendars"
 msgstr "Los usuarios anónimos solo pueden ver calendarios públicos"
 
+msgid "Append"
+msgstr ""
+
 msgid "Application DB User"
 msgstr "Usuario de la base de datos"
 
@@ -182,6 +188,9 @@ msgstr "Aplicar cambios a la base de datos"
 msgid "Attachment"
 msgstr "Adjunto"
 
+msgid "Authentication server unavailable."
+msgstr ""
+
 msgid "Binding deleted"
 msgstr "Enlace eliminado"
 
@@ -192,7 +201,7 @@ msgid "Bindings to this Collection"
 msgstr "Enlaces a esta colección"
 
 msgid "Bindings to this Principal's Collections"
-msgstr "Enlaces a las colecciones de este 'principal'"
+msgstr "Enlaces a las colecciones de este Principal"
 
 msgid "Body contains no XML data!"
 msgstr "¡El cuerpo no contiene datos XML!"
@@ -211,7 +220,7 @@ msgid "Calendar \"%s\" was loaded from file."
 msgstr "El calendario \"%s\" fue cargado desde un fichero."
 
 msgid "Calendar Principals"
-msgstr "'Principales' del calendario"
+msgstr "Principals del calendario"
 
 msgid "Calendar Timezone"
 msgstr "Zona horaria del calendario"
@@ -229,7 +238,7 @@ msgid "Click to display user details"
 msgstr "Haga click para ver los detalles del usuario"
 
 msgid "Click to edit principal details"
-msgstr "Haga click para ver los detalles del 'principal'"
+msgstr "Haga click para ver los detalles del Principal"
 
 msgid "Collection"
 msgstr "Colección"
@@ -264,7 +273,7 @@ msgid "Confirm Deletion of the Collection"
 msgstr "Confirmar eliminación de la colección"
 
 msgid "Confirm Deletion of the Principal"
-msgstr "Confirmar eliminación del 'principal'"
+msgstr "Confirmar eliminación del Principal"
 
 msgid "Confirm Deletion of the Ticket"
 msgstr "Confirmar eliminación del ticket"
@@ -291,13 +300,13 @@ msgid "Create New Collection"
 msgstr "Crear una colección nueva"
 
 msgid "Create New Principal"
-msgstr "Crear un 'principal' nuevo"
+msgstr "Crear un Principal nuevo"
 
 msgid "Create Principal"
-msgstr "Crear un 'principal'"
+msgstr "Crear un Principal"
 
 msgid "Create a new principal (i.e. a new user, resource or group)"
-msgstr "Crear un principal nuevo (i.e. un usuario, recurso, o grupo)"
+msgstr "Crear un Principal nuevo (i.e. un usuario, recurso, o grupo)"
 
 msgid "Create a resource or collection"
 msgstr "Crear un recurso o colección"
@@ -306,10 +315,10 @@ msgid "Creating new Collection."
 msgstr "Creando una colección nueva."
 
 msgid "Creating new Principal record."
-msgstr "Creando un registro nuevo de 'principal'."
+msgstr "Creando un registro nuevo de Principal."
 
 msgid "Creating new ticket granting privileges to this Principal"
-msgstr "Creando un ticket nuevo para dar privilegios a este 'principal'"
+msgstr "Creando un ticket nuevo para dar privilegios a este Principal"
 
 msgid "Current DAViCal version "
 msgstr "Versión actual de DAViCal"
@@ -375,6 +384,9 @@ msgstr "Nombre de usuario para la base de datos"
 msgid "Database error"
 msgstr "Error en la base de datos"
 
+msgid "Database is Connected"
+msgstr ""
+
 msgid "Date Format Style"
 msgstr "Estilo del formato de fecha"
 
@@ -394,13 +406,13 @@ msgid "Delete Events/Collections"
 msgstr "Eliminar eventos/colecciones"
 
 msgid "Delete Principal"
-msgstr "Eliminar el 'principal'"
+msgstr "Eliminar el Principal"
 
 msgid "Delete a resource or collection"
 msgstr "Eliminar un recurso o colección"
 
 msgid "Deleted a grant from this Principal"
-msgstr "Prilegio eliminado de este 'principal'"
+msgstr "Prilegio eliminado de este Principal"
 
 msgid "Deleting Binding:"
 msgstr "Eliminando enlace:"
@@ -409,7 +421,7 @@ msgid "Deleting Collection:"
 msgstr "Eliminando colección:"
 
 msgid "Deleting Principal:"
-msgstr "Eliminando 'principal':"
+msgstr "Eliminando Principal:"
 
 msgid "Deleting Ticket:"
 msgstr "Eliminando ticket:"
@@ -446,7 +458,7 @@ msgid "Does the user have the right to perform this role?"
 msgstr "¿El usuario tiene permiso para desempeñar este rol?"
 
 msgid "Domain"
-msgstr ""
+msgstr "Dominio"
 
 msgid "EMail"
 msgstr "Email"
@@ -558,7 +570,7 @@ msgid "Grant"
 msgstr "Permiso"
 
 msgid "Granting new privileges from this Principal"
-msgstr "Añadiendo nuevos permisos a este 'principal'"
+msgstr "Añadiendo nuevos permisos a este Principal"
 
 #. Translators: in the sense of a group of people
 msgid "Group"
@@ -571,7 +583,7 @@ msgid "Group Memberships"
 msgstr "Membresías de grupo"
 
 msgid "Group Principals"
-msgstr "'Principals' del grupo"
+msgstr "Principals del grupo"
 
 msgid "Has Members"
 msgstr "Tiene miembros"
@@ -588,20 +600,11 @@ msgstr "¡Ayuda! ¡He olvidado mi contraseña!"
 msgid "Home"
 msgstr "Inicio"
 
+msgid "Home "
+msgstr ""
+
 msgid "Home Page"
 msgstr "Página principal"
-
-msgid "Home addressbook added."
-msgstr "Libreta de direcciones inicial añadida."
-
-msgid "Home addressbook already exists."
-msgstr "La libreta de direcciones inicial ya existía."
-
-msgid "Home calendar added."
-msgstr "Calendario inicial añadido."
-
-msgid "Home calendar already exists."
-msgstr "El calendario inicial ya existe."
 
 msgid "ID"
 msgstr "ID"
@@ -629,7 +632,7 @@ msgid "Import calendars and Synchronise LDAP."
 msgstr "Importar calendarios y sincronizar con LDAP."
 
 msgid "Inactive Principals"
-msgstr "'Principals' inactivos"
+msgstr "Principals inactivos"
 
 msgid "Incorrect content type for addressbook: "
 msgstr "Tipo incorrecto para una libreta de direcciones: "
@@ -715,7 +718,7 @@ msgid "New Password"
 msgstr "Nueva contraseña"
 
 msgid "New Principal"
-msgstr "Nuevo 'principal'"
+msgstr "Nuevo Principal"
 
 #. Translators: not 'Yes'
 msgid "No"
@@ -726,6 +729,9 @@ msgstr "El calendario no tiene contenido"
 
 msgid "No collection found at that location."
 msgstr "No se encontró ninguna colección en esa ruta"
+
+msgid "No resource exists at the destination."
+msgstr ""
 
 msgid "No summary"
 msgstr "Sin resumen"
@@ -738,7 +744,7 @@ msgid "No. of Collections"
 msgstr "Núm. de colecciones"
 
 msgid "No. of Principals"
-msgstr "Núm. de 'principals'"
+msgstr "Núm. de Principals"
 
 msgid "No. of Resources"
 msgstr "Núm. de recursos"
@@ -750,7 +756,7 @@ msgid "Opaque"
 msgstr "Opaco"
 
 msgid "Organizer Missing"
-msgstr ""
+msgstr "Falta el organizador"
 
 msgid "Override a Lock"
 msgstr "Ignorar un bloqueo"
@@ -777,16 +783,16 @@ msgid "PHP calendar extension available"
 msgstr "Extensión de calendarios para PHP disponible"
 
 msgid "PHP curl support"
-msgstr ""
+msgstr "Soporte de cURL en PHP"
 
 msgid "PHP iconv support"
 msgstr "Soporte PHP iconv"
 
 msgid "PHP not using Apache Filter mode"
-msgstr ""
+msgstr "PHP sin usar el modo filtro de Apache"
 
 msgid "PHP5 curl support is required for external binds"
-msgstr ""
+msgstr "El soporte cURL para PHP5 se necesita para binds externos"
 
 msgid ""
 "PUT on a collection is only allowed for text/calendar content against a "
@@ -820,28 +826,28 @@ msgid "Please confirm deletion of collection - see below"
 msgstr "Por favor confirme la eliminación de la colección - véase más abajo"
 
 msgid "Please confirm deletion of the principal"
-msgstr "Por favor confirme la eliminación del 'principal'"
+msgstr "Por favor confirme la eliminación del Principal"
 
 msgid "Please note the time and advise the administrator of your system."
 msgstr "Por favor anote la hora y coméntelo a su administrador del sistema."
 
 msgid "Principal"
-msgstr "'Principal'"
+msgstr "Principal'"
 
 msgid "Principal Collections"
-msgstr "Colecciones del 'principal'"
+msgstr "Colecciones del Principal"
 
 msgid "Principal Grants"
-msgstr "Permisos del 'principal'"
+msgstr "Permisos del Principal"
 
 msgid "Principal ID"
-msgstr "ID del 'principal'"
+msgstr "ID del Principal"
 
 msgid "Principal Type"
-msgstr "Tipo de 'principal'"
+msgstr "Tipo de Principal"
 
 msgid "Principal deleted"
-msgstr "'Principal' eliminado"
+msgstr "Principal eliminado"
 
 msgid "Privileges"
 msgstr "Permisos"
@@ -850,10 +856,10 @@ msgid "Privileges granted to All Users"
 msgstr "Permisos dados a todos los usuarios"
 
 msgid "Privileges to allow delivery of scheduling messages"
-msgstr ""
+msgstr "Permisos para permitir el envío de mensajes de planificación de eventos"
 
 msgid "Privileges to delegate scheduling decisions"
-msgstr ""
+msgstr "Permisos para delegar decisiones de planificación de eventos"
 
 msgid "Property is read-only"
 msgstr "Esta propiedad es de sólo lectura"
@@ -929,7 +935,7 @@ msgid "Resource"
 msgstr "Recurso"
 
 msgid "Resource Calendar Principals"
-msgstr "'Principals' de tipo recurso con calendario"
+msgstr "Principals de tipo recurso con calendario"
 
 msgid "Resource Not Found."
 msgstr "Recurso no encontrado."
@@ -944,7 +950,7 @@ msgid "Revoke"
 msgstr "Revocar"
 
 msgid "SRV Record"
-msgstr ""
+msgstr "Registro SVR"
 
 msgid "Schedule Deliver"
 msgstr "Entrega de planificaciones"
@@ -1011,6 +1017,9 @@ msgstr "Configuración"
 
 msgid "Setup DAViCal"
 msgstr "Configurar DAViCal"
+
+msgid "Should the uploaded entries be appended to the collection?"
+msgstr ""
 
 msgid "Show help on"
 msgstr "Mostrar ayuda sobre"
@@ -1101,9 +1110,9 @@ msgid "The calendar path contains illegal characters."
 msgstr "La ruta al calendario contiene caracteres no permitidos."
 
 msgid ""
-"The calendar-free-busy-set is superseded by the schedule-transp property of "
-"a calendar collection."
-msgstr "La propiedad calendar-free-busy-set tiene menos prioridad que la propiedad schedule-transp en una colección de tipo calendario."
+"The calendar-free-busy-set is superseded by the  schedule-calendar-transp "
+"property of a calendar collection."
+msgstr ""
 
 msgid ""
 "The calendar-query report must be run against a calendar or a scheduling "
@@ -1118,7 +1127,7 @@ msgstr "La colección de destino no existe."
 
 msgid ""
 "The displayname may only be set on collections, principals or bindings."
-msgstr "El nombre mostrado puede asignarse sólo en colecciones, 'principals', o enlaces."
+msgstr "El nombre mostrado puede asignarse sólo en colecciones, Principals, o enlaces."
 
 msgid "The email address really should not be blank."
 msgstr "La dirección de correo electrónico no debería estar vacía."
@@ -1132,7 +1141,7 @@ msgid ""
 msgstr "El fichero no está codificado en UTF-8, por favor compruebe el log de errores para conocer más detalles"
 
 msgid "The full name for this person, group or other type of principal."
-msgstr "El nombre completo de esta persona, grupo, u otro tipo de 'principal'."
+msgstr "El nombre completo de esta persona, grupo, u otro tipo de Principal"
 
 msgid "The full name must not be blank."
 msgstr "El nombre completo no puede estar en blanco."
@@ -1148,7 +1157,7 @@ msgstr "El idioma preferido de esta persona."
 
 #, php-format
 msgid "The principal \"%s\" does not exist"
-msgstr "El 'principal' %s no existe"
+msgstr "El Principal %s no existe"
 
 msgid "The style of dates used for this person."
 msgstr "El formato de fecha usado por esta persona."
@@ -1236,6 +1245,9 @@ msgstr "Usuario no autenticado"
 msgid "United States of America (m/d/y)"
 msgstr "Estados Unidos de Norteamérica (m/d/y)"
 
+msgid "Unsupported resourcetype modification."
+msgstr ""
+
 msgid "Update"
 msgstr "Actualizar"
 
@@ -1249,10 +1261,10 @@ msgid "Updating Member of this Group Principal"
 msgstr "Actualizando un miembro de este grupo"
 
 msgid "Updating Principal record."
-msgstr "Actualizando el registro del 'principal'"
+msgstr "Actualizando el registro del Principal"
 
 msgid "Updating grants by this Principal"
-msgstr "Actualizando los permisos desde este 'principal'"
+msgstr "Actualizando los permisos desde este Principal"
 
 msgid "Upgrade DAViCal database schema"
 msgstr "Actualizar el esquema de la base de datos de DAViCal"
@@ -1260,13 +1272,11 @@ msgstr "Actualizar el esquema de la base de datos de DAViCal"
 msgid "Upgrade Database"
 msgstr "Actualizar la base de datos"
 
-msgid ""
-"Upload a .ics calendar in iCalendar format to initialise or replace this "
-"calendar."
-msgstr "Subir un fichero .ics en formato iCalendar para inicializar o reemplazar este calendario."
+msgid "Upload an iCalendar file or VCard file to replace this collection."
+msgstr ""
 
 msgid "User Calendar Principals"
-msgstr "'Principals' de tipo usuario"
+msgstr "Principals de tipo usuario"
 
 msgid "User Details"
 msgstr "Detalles del usuario"
@@ -1293,7 +1303,7 @@ msgid "View My Details"
 msgstr "Ver mis detalles"
 
 msgid "View my own principal record"
-msgstr "Ver el registro de mi propio 'principal'"
+msgstr "Ver el registro de mi propio Principal'"
 
 msgid "View this user record"
 msgstr "Ver el registro de este usuario"
@@ -1410,22 +1420,22 @@ msgid "forget me not"
 msgstr "recuérdame"
 
 msgid "from principal"
-msgstr "del 'principal'"
+msgstr "del Principal"
 
 msgid "iSchedule Domains"
-msgstr ""
+msgstr "Dominios para iSchedule"
 
 msgid "invalid request"
-msgstr ""
+msgstr "petición inválida"
 
 msgid "path to store your ics"
 msgstr "ruta para almacenar sus ics"
 
 msgid "recipient must be organizer or attendee of event"
-msgstr ""
+msgstr "el receptor debe ser organizador o asistente al evento"
 
 msgid "sender must be organizer or attendee of event"
-msgstr ""
+msgstr "el remitente debe ser organizador o asistente al evento"
 
 msgid "unauthenticated"
 msgstr "no autenticado"

@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DAViCal\n"
 "Report-Msgid-Bugs-To: http://repo.or.cz/w/davical.git/tree/HEAD:/issues\n"
-"POT-Creation-Date: 2012-03-12 13:00+1300\n"
-"PO-Revision-Date: 2012-03-12 00:05+0000\n"
+"POT-Creation-Date: 2012-05-28 21:24+1200\n"
+"PO-Revision-Date: 2012-05-28 09:26+0000\n"
 "Last-Translator: Andrew McMillan <andrew@mcmillan.net.nz>\n"
 "Language-Team: Dutch (http://www.transifex.net/projects/p/davical/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -105,6 +105,9 @@ msgstr "Een DAViCal principaalcollectie kan alleen collecties bevatten"
 msgid "A collection already exists at that location."
 msgstr "Er bestaat reeds een collectie op die locatie"
 
+msgid "A collection may not be both a calendar and an addressbook."
+msgstr ""
+
 msgid "A resource already exists at the destination."
 msgstr "Er bestaat reeds een bron op die bestemming."
 
@@ -169,6 +172,9 @@ msgstr "Anonieme gebruikers kunnen geen agenda's bewerken"
 msgid "Anonymous users may only access public calendars"
 msgstr "Anonieme gebruikers hebben enkel toegang tot openbare agenda's"
 
+msgid "Append"
+msgstr ""
+
 msgid "Application DB User"
 msgstr "'Application DB' gebruiker"
 
@@ -180,6 +186,9 @@ msgstr "DB patches toepassen"
 
 msgid "Attachment"
 msgstr "Bijlage"
+
+msgid "Authentication server unavailable."
+msgstr ""
 
 msgid "Binding deleted"
 msgstr "Associatie verwijderd"
@@ -373,6 +382,9 @@ msgstr "Database Gebruikersnaam"
 
 msgid "Database error"
 msgstr "Database fout"
+
+msgid "Database is Connected"
+msgstr ""
 
 msgid "Date Format Style"
 msgstr "Opmaakstijl datum"
@@ -587,20 +599,11 @@ msgstr "Help, ik ben mijn wachtwoord vergeten!"
 msgid "Home"
 msgstr "Thuis"
 
+msgid "Home "
+msgstr ""
+
 msgid "Home Page"
 msgstr "Website"
-
-msgid "Home addressbook added."
-msgstr "Home adresboek toegevoegd."
-
-msgid "Home addressbook already exists."
-msgstr "Home adresboek bestaat reeds."
-
-msgid "Home calendar added."
-msgstr "Thuis-agenda toegevoegd"
-
-msgid "Home calendar already exists."
-msgstr "Thuis-agenda bestaat reeds"
 
 msgid "ID"
 msgstr "ID"
@@ -725,6 +728,9 @@ msgstr "Geen agenda-inhoud"
 
 msgid "No collection found at that location."
 msgstr "Geen collectie gevonden op die plaats"
+
+msgid "No resource exists at the destination."
+msgstr ""
 
 msgid "No summary"
 msgstr "Geen samenvatting"
@@ -1011,6 +1017,9 @@ msgstr "Configureren"
 msgid "Setup DAViCal"
 msgstr "DAViCal instellen"
 
+msgid "Should the uploaded entries be appended to the collection?"
+msgstr ""
+
 msgid "Show help on"
 msgstr "Toon hulp over"
 
@@ -1100,9 +1109,9 @@ msgid "The calendar path contains illegal characters."
 msgstr "Het agenda-pad bevat niet-toegestane tekens."
 
 msgid ""
-"The calendar-free-busy-set is superseded by the schedule-transp property of "
-"a calendar collection."
-msgstr "De instructie 'calendar-free-busy-set' werd vervangen door de 'schedule-transp'-eigenschap van een collectie/agenda."
+"The calendar-free-busy-set is superseded by the  schedule-calendar-transp "
+"property of a calendar collection."
+msgstr ""
 
 msgid ""
 "The calendar-query report must be run against a calendar or a scheduling "
@@ -1235,6 +1244,9 @@ msgstr "Niet-geverifieerde gebruiker"
 msgid "United States of America (m/d/y)"
 msgstr "Verenigde Staten van Amerika (m/d/y)"
 
+msgid "Unsupported resourcetype modification."
+msgstr ""
+
 msgid "Update"
 msgstr "Bijwerken"
 
@@ -1259,10 +1271,8 @@ msgstr "DAViCal database schema bijwerken"
 msgid "Upgrade Database"
 msgstr "Database bijwerken"
 
-msgid ""
-"Upload a .ics calendar in iCalendar format to initialise or replace this "
-"calendar."
-msgstr "Upload een ics-bestand in iCalendar-formaat om deze Agenda te initialiseren of te vervangen."
+msgid "Upload an iCalendar file or VCard file to replace this collection."
+msgstr ""
 
 msgid "User Calendar Principals"
 msgstr "Principalen van de Agenda van deze Gebruiker"
