@@ -92,7 +92,9 @@ $c->dbg = array();
 
 
 // Utilities
+if ( isset($skip_errors) ) $skip_errors = true;
 if ( ! @include_once('AWLUtilities.php') ) {
+  if ( isset($skip_errors) ) $skip_errors = false;
   $try_paths = array(
         '../../awl/inc'
       , '/usr/share/awl/inc'        // Where it ends up on Debian
@@ -110,6 +112,7 @@ if ( ! @include_once('AWLUtilities.php') ) {
     @ob_flush(); exit(0);
   }
 }
+if ( isset($skip_errors) ) $skip_errors = false;
 
 // Ensure that ../inc is in our included paths as early as possible
 set_include_path( '../inc'. PATH_SEPARATOR. get_include_path());

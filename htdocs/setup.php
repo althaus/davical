@@ -6,7 +6,10 @@ function i18n($value) {
   return $value;  /* Just pass the value through */
 }
 
+$skip_errors = false; // We need to hide a couple of unsightly errors even here...
 function log_setup_error($errno , $errstr , $errfile , $errline) {
+  global $skip_errors;
+  if ( $skip_errors ) return; 
   error_log('DAViCal setup.php: Informational: '.$errfile.'('.$errline.'): ['.$errno.'] '.$errstr);
 }
 
@@ -97,7 +100,7 @@ function check_database_connection() {
   global $c;
 
   if ( !check_pdo_pgsql() ) return new CheckResult(false);
-  return new CheckResult( $c->schema_major != 0 || $c->schema_minor != 0 );
+  return new CheckResult( !( empty($c->schema_major) || $c->schema_major == 0 || empty($c->schema_minor) || $c->schema_minor == 0) );
 }
 
 function check_gettext() {
@@ -187,15 +190,19 @@ $phpinfo = get_phpinfo();
 
 try {
   include("./always.php");
+  set_error_handler('log_setup_error', E_ALL);
   include("DAViCalSession.php");
   if ( check_pgsql()->GetOK() ) {
     $session->LoginRequired( (isset($c->restrict_setup_to_admin) && $c->restrict_setup_to_admin ? 'Admin' : null ) );
   }
 }
 catch( Exception $e ) {
-  set_error_handler('catch_setup_errors', E_ALL);
-  include("DAViCalSession.php");
-//  $session = new FakeSession(1);
+  class FakeSession {
+    function AllowedTo() {
+      return true;
+    }
+  }
+  $session = new FakeSession(1);
 }
 
 
@@ -244,8 +251,13 @@ function check_davical_version() {
   fclose($version_file);
   $result = new CheckResult($c->version_string == $current_version);
   if ( ! $result->getOK() ) {
-    $result->setDescription( sprintf(i18n('Want: %s, Currently: %s'), $current_version, $c->version_string) );
-    if ( $c->version_string > $current_version ) $result->setClass('dep_warning');
+    if ( $c->version_string > $current_version ) {
+      $result->setClass('dep_ok');
+      $result->setDescription( sprintf(i18n('Stable: %s, We have: %s !'), $current_version, $c->version_string) );
+    }
+    else {
+      $result->setDescription( sprintf(i18n('Want: %s, Currently: %s'), $current_version, $c->version_string) );
+    }
   }
   return $result;
 }
@@ -360,9 +372,17 @@ $th_dependency = translate('Dependency');
 $th_status     = translate('Status');
 $dependencies_table = build_dependencies_table();
 
+$heading_site_statistics = translate('Site Statistics');
 if ( check_database_connection()->GetOK() ) {
-  $heading_site_statistics = translate('Site Statistics');
-  $site_statistics_table = build_site_statistics();
+  try {
+    $site_statistics_table = build_site_statistics();
+  }
+  catch( Exception $e ) {
+    $site_statistics_table = "Statistics unavailable";
+  }
+}
+else {
+  $site_statistics_table = "Statistics unavailable";
 }
 
 $heading_config_clients = translate('Configuring Calendar Clients for DAViCal');
