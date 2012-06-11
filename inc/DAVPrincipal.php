@@ -405,7 +405,7 @@ class DAVPrincipal extends Principal
     if ( !isset($this->privileges) ) $this->privileges = 0;
     if ( is_string($this->privileges) ) $this->privileges = bindec( $this->privileges );
     if ( $this->_is_group ) {
-      if ( in_array($session->principal->url(), $this->GroupMemberSet()) ) {
+      if ( isset($session->principal) && in_array($session->principal->url(), $this->GroupMemberSet()) ) {
         $this->privileges |=  privilege_to_bits( array('DAV::read', 'DAV::read-current-user-privilege-set') );
       } 
     }
