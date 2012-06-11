@@ -10,7 +10,7 @@ Homepage: http://davical.org/
 
 Package: davical
 Architecture: all
-Depends: ${misc:Depends}, debconf (>= 1.0.32), php5-pgsql, postgresql-client (>= 8.1), libawl-php (>= 0.51-1~), libawl-php (<< 0.52), libdbd-pg-perl, libyaml-perl
+Depends: ${misc:Depends}, debconf (>= 1.0.32), php5-pgsql, postgresql-client (>= 8.1), libawl-php (>= 0.52-1~), libawl-php (<< 0.53), libdbd-pg-perl, libyaml-perl
 Recommends: postgresql (>= 8.3)
 Description: The DAViCal CalDAV & CardDAV Server
  The DAViCal CalDAV Server is designed to store CalDAV calendars and
