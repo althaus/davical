@@ -755,7 +755,7 @@ EOQRY;
 
 
   /**
-  * Is the user has the privileges to do what is requested.
+  * Does the user have the privileges to do what is requested.
   * @param $do_what mixed The request privilege name, or array of privilege names, to be checked.
   * @param $any boolean Whether we accept any of the privileges. The default is true, unless the requested privilege is 'all', when it is false.
   * @return boolean Whether they do have one of those privileges against this resource.

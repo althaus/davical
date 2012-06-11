@@ -940,11 +940,12 @@ if ( isset($_GET['subaction']) ) {
   }
 }
 
-
-$can_write_principal = ($session->AllowedTo('Admin') || $session->principal_id == $id );
-
 $editor = principal_editor();
 $page_elements[] = $editor;
+
+$principal_path = '/'.$editor->Value('username').'/';
+$can_write_principal = ($session->AllowedTo('Admin') || $session->principal_id == $id
+     || $session->HavePrivilegeTo('DAV::write', $principal_path) );
 
 if ( isset($id) && $id > 0 ) {
   $c->stylesheets[] = 'css/browse.css';

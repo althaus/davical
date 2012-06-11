@@ -35,6 +35,7 @@ EOSQL;
 * We extend the AWL Session class.
 */
 require('Session.php');
+include_once('DAVResource.php');
 
 
 @Session::_CheckLogout();
@@ -48,6 +49,7 @@ class DAViCalSession extends Session
 {
 
   public $principal_id;
+  private $privilege_resources = array();
   
   /**
   * Create a new DAViCalSession object.
@@ -97,6 +99,27 @@ class DAViCalSession extends Session
       }
     }
   }
+
+
+  /**
+   * Does the user have the privileges to do what is requested.
+   * @param $do_what mixed The request privilege name, or array of privilege names, to be checked.
+   * @param $path string The path we want that permission for
+   * @param $any boolean Whether we accept any of the privileges. The default is true, unless the requested privilege is 'all', when it is false.
+   * @return boolean Whether they do have one of those privileges against the specified path.
+   */
+  function HavePrivilegeTo( $do_what, $path, $any = null ) {
+    if ( $this->AllowedTo('Admin') ) return true;
+    if ( !isset($this->privilege_resources[$path]) ) {
+      $this->privilege_resources[$path] = new DAVResource($path);
+    }
+    $resource = $this->privilege_resources[$path];
+    if ( isset($resource) && $resource->Exists() ) {
+      return $resource->HavePrivilegeTo($do_what,$any);
+    }
+    return false;
+  }
+
 
 
   /**
