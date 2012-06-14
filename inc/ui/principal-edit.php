@@ -28,6 +28,12 @@ $privilege_xlate = array(
   'schedule-send' => translate('Scheduling: Sending')
 );
 
+$can_write_principal = ($session->AllowedTo('Admin') || ($session->principal_id == $id));
+if ( !$can_write_principal && $id > 0 ) {
+  $target_principal = new Principal('principal_id', $id);
+  $can_write_principal = $session->HavePrivilegeTo('DAV::write', $target_principal->dav_name());
+}
+
 
 $delete_collection_confirmation_required = null;
 $delete_principal_confirmation_required = null;
@@ -942,10 +948,6 @@ if ( isset($_GET['subaction']) ) {
 
 $editor = principal_editor();
 $page_elements[] = $editor;
-
-$principal_path = '/'.$editor->Value('username').'/';
-$can_write_principal = ($session->AllowedTo('Admin') || $session->principal_id == $id
-     || $session->HavePrivilegeTo('DAV::write', $principal_path) );
 
 if ( isset($id) && $id > 0 ) {
   $c->stylesheets[] = 'css/browse.css';
