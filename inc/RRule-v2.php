@@ -756,6 +756,9 @@ class RepeatRule {
         return array( 'bymonth' => 'limit', 'bymonthday' => 'limit',
                         'byday' => 'limit', 'byhour' => 'limit', 'byminute' => 'limit', 'bysecond' => 'limit' );
     }
+    dbg_error_log('ERROR','Invalid frequency code "%s" - pretending it is "DAILY"', $freq);
+    return array( 'bymonth' => 'limit', 'bymonthday' => 'limit',
+                        'byday' => 'limit', 'byhour' => 'expand', 'byminute' => 'expand', 'bysecond' => 'expand' );
   }
   
   private function GetMoreInstances($return_floating_times=false) {
