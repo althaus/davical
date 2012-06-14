@@ -30,7 +30,10 @@ function catch_setup_errors($errno , $errstr , $errfile , $errline , $errcontext
     return true;
   }
   if ( !headers_sent() ) header("Content-type: text/plain"); else echo "<pre>\n";
-  while ( ob_get_level() > 0 ) ob_end_flush();
+  try {
+    @ob_flush(); // Seems like it should be better to do the following but is problematic on PHP5.3 at least: while ( ob_get_level() > 0 ) ob_end_flush();
+  }
+  catch( Exception $ignored ) {}
   echo "Error [".$errno."] ".$errstr."\n";
   echo "At line ", $errline, " of ", $errfile, "\n";
 

@@ -26,7 +26,10 @@ function early_exception_handler($e) {
     echo "<pre>\n";
     // Too late to set resultcode :-(
   }
-  while ( ob_get_level() > 0 ) ob_end_flush();
+  try {
+    @ob_flush(); // Seems like it should be better to do the following but is problematic on PHP5.3 at least: while ( ob_get_level() > 0 ) ob_end_flush();
+  }
+  catch( Exception $ignored ) {}
   echo "Exception [".$e->getCode()."] ".$e->getmessage()."\n";
   echo "At line ", $e->getLine(), " of ", $e->getFile(), "\n";
   echo "================= Stack Trace ===================\n";

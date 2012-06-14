@@ -1294,7 +1294,11 @@ EOSQL;
       @dbg_error_log("statistics", "Method: %s, Status: %d, Script: %5.3lfs, Queries: %5.3lfs, URL: %s",
                          $this->method, $status, $script_time, $c->total_query_time, $this->path);
     }
-    while ( ob_get_level() > 0 ) ob_end_flush();
+    try {
+      @ob_flush(); // Seems like it should be better to do the following but is problematic on PHP5.3 at least: while ( ob_get_level() > 0 ) ob_end_flush();
+    }
+    catch( Exception $ignored ) {}
+    
     exit(0);
   }
 
