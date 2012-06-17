@@ -150,6 +150,10 @@ class CalDAVRequest
       $this->path = $matches[1]. '/';
     }
 
+    if ( isset($c->replace_path) && isset($c->replace_path['from']) && isset($c->replace_path['to']) ) {
+      $this->path = preg_replace($c->replace_path['from'], $c->replace_path['to'], $this->path);
+    }
+
     // dbg_error_log( "caldav", "Sanitising path '%s'", $this->path );
     $bad_chars_regex = '/[\\^\\[\\(\\\\]/';
     if ( preg_match( $bad_chars_regex, $this->path ) ) {
