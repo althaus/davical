@@ -19,14 +19,18 @@
 	<div class="info-box-title">Description</div>
 	<div class="nav-bar">
 					<span class="disabled">Description</span> |
-													<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
-						|											<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+															<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
 						
 					</div>
 	<div class="info-box-body">
         		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">SqlToArray class for parsing a file of somewhat structured SQL statements into an array</p>
+<p class="description"><p>There are a number of limitations for this class, and it is expected that the SQL files are  constructed specifically to work within these limitations:</p><p>1) A statement is terminated by a semi-colon followed by whitespace.</p><p>2) A comment is a line starting with whitespace followed by two hyphens</p><p>3) If a line contains $somestring$ then rules (1) and (2) are suspended until the next     line after a line containing a matching $somestring$.  Where the 'somestring' can be     any sequence of letters, numbers and underscores, including the empty string.</p><p>Notable deficiency:</p><p>Any SQL quoting using ' or &quot; is ignored.  Consequently a semi-colon followed by     whitespace, a $somestring$ delimiter or a comment line will be processed in the     same way regardless of whether they are inside an SQL quoted string.</p></p>
+	<ul class="tags">
+				<li><span class="field">author:</span> karora</li>
+			</ul>
 		<p class="notes">
-			Located in <a class="field" href="_htdocs---SqlToArray.php.html">/htdocs/SqlToArray.php</a> (line <span class="field">3</span>)
+			Located in <a class="field" href="_htdocs---SqlToArray.php.html">/htdocs/SqlToArray.php</a> (line <span class="field">25</span>)
 		</p>
 		
 				
@@ -37,50 +41,23 @@
 
 
 
-	<a name="sec-var-summary"></a>
-	<div class="info-box">
-		<div class="info-box-title">Variable Summary</span></div>
-		<div class="nav-bar">
-			<a href="#sec-description">Description</a> |
-						<span class="disabled">Vars</span> (<a href="#sec-vars">details</a>)
-							| 
-									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
-							
-								</div>
-		<div class="info-box-body">
-			<div class="var-summary">
-																																								<div class="var-title">
-					<img src="../media/images/Variable.png" alt=" " />
-					<span class="var-type">mixed</span>
-					<a href="#$state" title="details" class="var-name">$state</a>
-				</div>
-																<div class="var-title">
-					<img src="../media/images/Variable.png" alt=" " />
-					<span class="var-type">mixed</span>
-					<a href="#$statement" title="details" class="var-name">$statement</a>
-				</div>
-																<div class="var-title">
-					<img src="../media/images/Variable.png" alt=" " />
-					<span class="var-type">mixed</span>
-					<a href="#$statements" title="details" class="var-name">$statements</a>
-				</div>
-											</div>
-		</div>
-	</div>
 
 	<a name="sec-method-summary"></a>
 	<div class="info-box">
 		<div class="info-box-title">Method Summary</span></div>
 		<div class="nav-bar">
 			<a href="#sec-description">Description</a> |
-																		<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
-				 
-				|
-						<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+												<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
 		</div>
 		<div class="info-box-body">			
 			<div class="method-summary">
-																																								<div class="method-definition">
+																																				<div class="method-definition">
+					<img src="../media/images/StaticMethod.png" alt=" "/>
+											static <span class="method-result">string</span>
+										<a href="#removeComment" title="details" class="method-name">removeComment</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$line</span>)
+									</div>
+																				<div class="method-definition">
 					<img src="../media/images/Constructor.png" alt=" "/>
 											<span class="method-result">SqlToArray</span>
 										<a href="#__construct" title="details" class="method-name">__construct</a>
@@ -90,110 +67,63 @@
 					<img src="../media/images/Method.png" alt=" "/>
 											<span class="method-result">void</span>
 										<a href="#doNormalLine" title="details" class="method-name">doNormalLine</a>
-											(<span class="var-type"></span>&nbsp;<span class="var-name">$s</span>)
+											(<span class="var-type">unknown_type</span>&nbsp;<span class="var-name">$s</span>)
 									</div>
 																<div class="method-definition">
 					<img src="../media/images/Method.png" alt=" "/>
-											<span class="method-result">void</span>
+											<span class="method-result">array</span>
 										<a href="#getStatements" title="details" class="method-name">getStatements</a>
 										()
 									</div>
-											</div>
+																			</div>
 		</div>
 	</div>		
 
-	<a name="sec-vars"></a>
-	<div class="info-box">
-		<div class="info-box-title">Variables</div>
-		<div class="nav-bar">
-			<a href="#sec-description">Description</a> |
-										<a href="#sec-var-summary">Vars</a> (<span class="disabled">details</span>)
-						
-			
-										| 
-									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
-							
-					</div>
-		<div class="info-box-body">
-			
-<a name="var$state" id="$state"><!-- --></A>
-<div class="oddrow">
-
-	<div class="var-header">
-		<img src="../media/images/Variable.png" />
-		<span class="var-title">
-			<span class="var-type">mixed</span>
-			<span class="var-name">$state</span>
-						(line <span class="line-number">6</span>)
-		</span>
-	</div>
-
-	<!-- ========== Info from phpDoc block ========= -->
-	
-	
-		
-		
-
-</div>
-<a name="var$statement" id="$statement"><!-- --></A>
-<div class="evenrow">
-
-	<div class="var-header">
-		<img src="../media/images/Variable.png" />
-		<span class="var-title">
-			<span class="var-type">mixed</span>
-			<span class="var-name">$statement</span>
-						(line <span class="line-number">5</span>)
-		</span>
-	</div>
-
-	<!-- ========== Info from phpDoc block ========= -->
-	
-	
-		
-		
-
-</div>
-<a name="var$statements" id="$statements"><!-- --></A>
-<div class="oddrow">
-
-	<div class="var-header">
-		<img src="../media/images/Variable.png" />
-		<span class="var-title">
-			<span class="var-type">mixed</span>
-			<span class="var-name">$statements</span>
-						(line <span class="line-number">4</span>)
-		</span>
-	</div>
-
-	<!-- ========== Info from phpDoc block ========= -->
-	
-	
-		
-		
-
-</div>
-						
-		</div>
-	</div>
 	
 	<a name="sec-methods"></a>
 	<div class="info-box">
 		<div class="info-box-title">Methods</div>
 		<div class="nav-bar">
 			<a href="#sec-description">Description</a> |
-															<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
-														<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+													<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
 						
 		</div>
 		<div class="info-box-body">
 			<A NAME='method_detail'></A>
+<a name="methodremoveComment" id="removeComment"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/StaticMethod.png" />
+		<span class="method-title">static removeComment</span> (line <span class="line-number">66</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Return the empty string if this line is an SQL comment</p>
+<p class="description"><p>Limitations: Does not recognize trailing comments.</p></p>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			removeComment
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$line</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$line</span>			</li>
+				</ul>
+		
+			
+	</div>
 <a name="method__construct" id="__construct"><!-- --></a>
 <div class="evenrow">
 	
 	<div class="method-header">
 		<img src="../media/images/Constructor.png" />
-		<span class="method-title">Constructor __construct</span> (line <span class="line-number">8</span>)
+		<span class="method-title">Constructor __construct</span> (line <span class="line-number">31</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -219,22 +149,24 @@
 	
 	<div class="method-header">
 		<img src="../media/images/Method.png" />
-		<span class="method-title">doNormalLine</span> (line <span class="line-number">32</span>)
+		<span class="method-title">doNormalLine</span> (line <span class="line-number">81</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Add this line onto the current statement, detecting the end of the statement.</p>
+<p class="description"><p>Limitations: Doesn't handle quoting very well at all, other than $delimiter$ for quoting function bodies.</p></p>
 	
 	<div class="method-signature">
 		<span class="method-result">void</span>
 		<span class="method-name">
 			doNormalLine
 		</span>
-					(<span class="var-type"></span>&nbsp;<span class="var-name">$s</span>)
+					(<span class="var-type">unknown_type</span>&nbsp;<span class="var-name">$s</span>)
 			</div>
 	
 			<ul class="parameters">
 					<li>
-				<span class="var-type"></span>
+				<span class="var-type">unknown_type</span>
 				<span class="var-name">$s</span>			</li>
 				</ul>
 		
@@ -245,13 +177,17 @@
 	
 	<div class="method-header">
 		<img src="../media/images/Method.png" />
-		<span class="method-title">getStatements</span> (line <span class="line-number">45</span>)
+		<span class="method-title">getStatements</span> (line <span class="line-number">102</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Accessor for the array of parsed statements.</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> of string</li>
+			</ul>
 	
 	<div class="method-signature">
-		<span class="method-result">void</span>
+		<span class="method-result">array</span>
 		<span class="method-name">
 			getStatements
 		</span>
@@ -267,7 +203,7 @@
 
 	
 	<p class="notes" id="credit">
-		Documentation generated on Fri, 13 Jan 2012 23:44:56 +1300 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+		Documentation generated on Sun, 17 Jun 2012 10:28:01 +0000 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
 	</p>
 	</div></body>
 </html>

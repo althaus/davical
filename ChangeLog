@@ -1,3 +1,246 @@
+2012-06-17  Andrew McMillan  <andrew@morphoss.com>
+	* Release 1.1.0
+
+2012-06-14  Andrew McMillan  <andrew@morphoss.com>
+	* Decide whether we can write the principal before we refer to it...
+	* When a VEVENT has an invalid repeat frequency we pretend it is DAILY.
+	  And log an error, just to be obnoxious.
+
+2012-06-11  Andrew McMillan  <andrew@morphoss.com>
+	* Allow a user delegated write access to the principal to maintain it.
+
+2012-05-30  Andrew McMillan  <andrew@morphoss.com>
+	* Fix some niggles with setup.php and spurious logged errors.
+
+2012-05-28  Andrew McMillan  <andrew@morphoss.com>
+	* Handle relative file references better,
+	* Add support for $c->hide_older_than to this report.
+
+2012-05-20  Andrew McMillan  <andrew@morphoss.com>
+	* Updated & new regression tests for various XML processing changes.
+	* Simplify using GetPath() method.
+	* Use fully namespaced tags.
+	* Fix storing / regurgitating of XML fragments in dead properties.
+	  Requires updated AWL to match.
+
+2012-05-15  Andrew McMillan  <andrew@morphoss.com>
+	* Add support by Ján Máté for arbitrary collections to create on user creation.
+	* Don't disable upload field. Use library to create 'append mode' field.
+
+2012-05-14  Andrew McMillan  <andrew@morphoss.com>
+	* Test result of PROPFIND on /
+	* Further tests for BIND, particular transitive BINDs.
+	* Retry contacting LDAP server and fail with 503 if unavailable.
+	* Reduce unnecessary logging.
+	* Bugfix replacing $row->dav_id with $row->collection_id.
+	* We should error 500 when we have an exception that isn't caught.
+
+2012-05-07  Frank Steinberg  <steinberg@ibr.cs.tu-bs.de>
+	* Attendees can only modify own event instance and own PARTSTAT
+
+2012-05-05  Andrew McMillan  <andrew@morphoss.com>
+	* A function which can expand collections inside collections.
+	* When a bind is made to an existing bind, bind to the target of that.
+	* When logging failed anonymous access, don't crash and burn.
+	* When matching a URL something missing a trailing slash could also be a binding.
+
+2012-05-03  Andrew McMillan  <andrew@morphoss.com>
+	* A more efficient query for GET including sub-collections.
+	* Fix getctag replacement in this test.
+	* Current regression test results.
+	* A default timezone if there is not one set in the PHP configuration.
+	* Changes to the way XML is created, and (to a lesser extent) parsed.
+	* Merge 'Brief' header support into support for "Prefer"
+	* Always default the timezone to something, even if the user did not.
+
+2012-04-30  Andrew McMillan  <andrew@morphoss.com>
+	* Simple changes for new XML processing.
+	* Add log_caldav_action() hook on addressbook writes.
+	* If there are no instances ensure earliest_start still gets a value.
+
+2012-04-22  Andrew McMillan  <andrew@morphoss.com>
+	* Make it possible to see output from /setup.php when DB is unavailable.
+
+2012-04-09  Daniel Aleksandersen  <code@daniel.priv.no>
+	* Fix failing principal creation for new users using IMAP PAM
+	* Provide user feedback when php5-imap is missing.
+
+2012-04-19  Andrew McMillan  <andrew@morphoss.com>
+	* Need $request globally in this function
+	* Correct response code for PROPPATCH and add support for Brief header.
+
+2012-04-18  Andrew McMillan  <andrew@morphoss.com>
+	* Handle modified which is just YYYYMMDDHHMMSS with no indication of datedness.
+	* Fix bug in "Edit" of existing grant.
+	* Don't try and initialize gettext unless it's installed.
+
+2012-04-17  Andrew McMillan  <andrew@morphoss.com>
+	* Further fixes to WebDAV synchronization.
+	* Remove davical upgrade log on debian package removal.
+
+2012-04-16  Andrew McMillan  <andrew@morphoss.com>
+	* Changes to the way PROPPATCH returns errors.
+
+2012-04-11  Andrew McMillan  <andrew@morphoss.com>
+	* Make sure we increment the sync-token on PUT / DELETE.
+	* Don't log response for a 404 to reduce log noise.
+
+2012-04-10  Andrew McMillan  <andrew@morphoss.com>
+	* Add another hook since sometimes we want the action hook to be post commit.
+
+2012-04-06  Andrew McMillan  <andrew@morphoss.com>
+	* Make it so that PUT of a calendar collection becomes a synchronisation.
+
+2012-04-05  Andrew McMillan  <andrew@morphoss.com>
+	* Do a bit_or() among multiple privilege settings.
+
+2012-04-04  Andrew McMillan  <andrew@morphoss.com>
+	* Fix default URL for FindPrincipal() ensure If-Match etag is quoted.
+	* Refactor checking of If-*-Match headers into a single place.
+
+2012-03-22  Andrew McMillan  <andrew@morphoss.com>
+	* Get rid of potential warning on early use of date()
+	* Basic support for RFC5995 - Using POST to add collection members.
+	* Better privilege checking on POST scheduling actions.
+	* Fix a bug in GET on collections.
+	* Slight header changes as a result of caldav proxy changes.
+	* Allow complete disabling of handling for Apple's old calendar-proxy.
+	* Changes to Depth handling.
+
+2012-03-19  Andrew McMillan  <andrew@morphoss.com>
+	* Fix for collections where sync_token does not compute.
+
+2012-03-17  Andrew McMillan  <andrew@morphoss.com>
+	* Principals don't (yet) have a sync-token.
+	* We should respond with sync-token if PROPFIND asks too.
+
+2012-03-16  Andrew McMillan  <andrew@morphoss.com>
+	* Correct HTTP date formatting function.
+	* Remove chance of unset variable warning.
+
+2012-03-13  Andrew McMillan  <andrew@morphoss.com>
+	* Don't log 401 response since it's so frequent.
+	* Add a basic status/method/uri in front of each logged error.
+
+2012-03-12  Rob Ostensen  <rob@boxacle.net>
+	* Add the ability to override dns for iSchedule using a global variable $icfg
+
+2012-03-12  Rob Ostensen  <rob@boxacle.net>
+	* Skip empty domains in iSchedule setup page
+
+2012-03-12  Andrew McMillan  <andrew@morphoss.com>
+	* Allow dav_test to be used against random SSL certs.
+	* Add $c->auto_refresh_duration option to set a auto refresh on any GET calendar.
+	* Handle HTTP date formatting for non-english locales (force English names).
+	* Silence the warning if this is not initialised.
+
+2012-03-11  Rob Ostensen  <rob@boxacle.net>
+	* verify required headers are signed
+	* add disallowed header check and some comments
+
+2012-03-07  Rob Ostensen  <rob@boxacle.net>
+	* fix a few external BIND import bugs
+
+2012-03-11  Andrew McMillan  <andrew@morphoss.com>
+	* iSchedule administration helper.
+
+2012-03-02  Andrew McMillan  <andrew@morphoss.com>
+	* Changed default Depth for PROPFIND.
+	* Changes due to responding that VPOLL/VAVAILABILITY are OK.
+	* Fix bug introduced with iSchedule support.
+	* Fix defaulting of Depth value for newer PHP versions.
+
+2012-02-24  Andrew McMillan  <andrew@morphoss.com>
+	* Add a command-line script to export a single calendar to stdout.
+	* Split major functionality out of GET into it's own include.
+	* Only send a Content-Length if the length is > 0
+
+2012-02-21  Andrew McMillan  <andrew@morphoss.com>
+	* Override the "don't PUT a whole calendar" option.
+	* A command-line script to load a calendar from an iCalendar file.
+
+2012-02-06  Andrew McMillan  <andrew@morphoss.com>
+	* Detect unsupported sync-level and return specified error.
+	* Force casting of user_no to integer.
+
+2012-02-02  Andrew McMillan  <andrew@morphoss.com>
+	* Work from new iana timezone registry.
+
+2012-02-01  Rob Ostensen  <rob@boxacle.net>
+	* ischedule: more correct error codes
+	* remove some of the debugging cruft
+	* ischedule: fake session info when writing scheduling collections
+
+2012-01-31  Rob Ostensen  <rob@boxacle.net>
+	* ischedule: correctly set the attendee value on freebusy replies
+	* ischedule: actually add attendee to freebusy reply ics
+
+2012-02-01  Andrew McMillan  <andrew@morphoss.com>
+	* Implement support for 'Brief' header.
+	  Also add VPOLL and VAVAILABILITY to list of supported components.
+	* Don't include the example .htaccess on Debian systems.
+
+2012-01-25  Andrew McMillan  <andrew@morphoss.com>
+	* Correct variable name used parsing RFC5545 duration.
+
+2012-01-23  Andrew McMillan  <andrew@morphoss.com>
+	* Fix problems calling import collection from external contexts.
+	* Allow specifying that this test will use Digest authentication.
+	* Clean up content-type checking so it's not so noisy on null content.
+
+2012-01-17  Andrew McMillan  <andrew@morphoss.com>
+	* Make the 'append' option work.
+
+2012-01-31  Rob Ostensen  <rob@boxacle.net>
+	* ischedule: make invites and replies work
+	* iSchedule: minor fix
+	* iSchedule changes: fix signed domain, better error handling, cleanups
+	* ischedule freebusy should work now
+	* closer to a working version
+
+2012-01-30  Rob Ostensen  <rob@boxacle.net>
+	* fix xml queries
+
+2012-01-27  Rob Ostensen  <rob@boxacle.net>
+	* debug logging and some typo fixes
+	* return calendar contents if present otherwise return status
+	* initial tests for remote iSchedule requests signed using test keys
+	* remote scheduling requests should work now, still need to handle ADD/CANCEL requests
+
+2012-01-25  Andrew McMillan  <andrew@morphoss.com>
+	* Correct variable name used parsing RFC5545 duration.
+
+2012-01-23  Andrew McMillan  <andrew@morphoss.com>
+	* Fix problems calling import collection from external contexts.
+	* Allow specifying that this test will use Digest authentication.
+	* Clean up content-type checking so it's not so noisy on null content.
+
+2012-01-17  Rob Ostensen  <rob@boxacle.net>
+	* iSchedule internal round trip with headers and body signing then verification working
+
+2012-01-17  Andrew McMillan  <andrew@morphoss.com>
+	* Make the 'append' option work.
+
+2012-01-16  Rob Ostensen  <rob@boxacle.net>
+	* reformatting to match the rest of DAViCal and a few code changes
+
+2012-01-15  Andrew McMillan  <andrew@morphoss.com>
+	* <?php should be in lower case.
+	* If an external source can supply a useful timezone name, we can use that.
+	* Allow user_no, created and modified to be set on create.
+
+2012-01-12  Philipp Matthias Hahn  <pmhahn@pmhahn.de>
+	* Use If-Modified-Since-HTTP-Header
+	* Fix remote time comparison
+	* Compute version only once
+	* Use automatic Makefile variables
+	* Make several targets .PHONY
+
+2012-01-14  Andrew McMillan  <andrew@morphoss.com>
+	* Probably a smidgin more efficient this way around.
+	* LDAP driver should not log password unless password logging is specifically on.
+	* Release 1.0.2
+
 2012-01-13  Andrew McMillan  <andrew@morphoss.com>
 	* Handle VCARD adr/tel/email which have multiple types.
 	* Set the default URL to the default calendar name rather than /home/
