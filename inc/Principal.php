@@ -398,7 +398,7 @@ class Principal {
     $qry = new AwlQuery('SELECT property_name, property_value FROM property WHERE dav_name= :dav_name', array(':dav_name' => $this->dav_name()) );
     if ( $qry->Exec('Principal') ) {
       while ( $property = $qry->Fetch() ) {
-        $this->dead_properties[$property->property_name] = DAVResource::BuildDeadPropertyXML($property->property_value);
+        $this->dead_properties[$property->property_name] = DAVResource::BuildDeadPropertyXML($property->property_name,$property->property_value);
       }
     }
   }
