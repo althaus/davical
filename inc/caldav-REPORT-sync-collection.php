@@ -81,9 +81,9 @@ if ( $sync_token == $new_token ) {
 }
 else {
   $hide_older = '';
-  if ( isset($c->hide_older_than) && intval($c->hide_older_than > 0) )
-    $hide_older = " AND (CASE WHEN caldav_data.caldav_type<>'VEVENT' THEN true ELSE calendar_item.dtstart > (now() - interval '".intval($c->hide_older_than)." days') END)";
-  
+  if ( isset($c->hide_older_than) && intval($c->hide_older_than) > 0 )
+    $hide_older = " AND (CASE WHEN caldav_data.caldav_type<>'VEVENT' OR calendar_item.dtstart IS NULL THEN true ELSE calendar_item.dtstart > (now() - interval '".intval($c->hide_older_than)." days') END)";
+
   if ( $sync_token == 0 ) {
     $sql = <<<EOSQL
   SELECT collection.*, calendar_item.*, caldav_data.*, addressbook_resource.*, 201 AS sync_status FROM collection
