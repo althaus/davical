@@ -944,6 +944,10 @@ EOSQL;
         *
         */
         $dtstart_prop = $first->GetProperty('DTSTART');
+        if ( empty($dtstart_prop) ) {
+          dbg_error_log('PUT','Invalid VEVENT without DTSTART, UID="%s" in collection %d', $uid, $collection_id);
+          continue;
+        } 
         $value_type = $dtstart_prop->GetParameterValue('VALUE');
         dbg_error_log('PUT','DTSTART without DTEND. DTSTART value type is %s', $value_type );
         if ( isset($value_type) && $value_type == 'DATE' )
