@@ -336,7 +336,7 @@ if ( isset($c->hide_older_than) && intval($c->hide_older_than > 0) ) {
   $where .= " AND calendar_item.dtstart > (now() - interval '".intval($c->hide_older_than)." days') ";
 }
 
-$sql = 'SELECT'.$distinct.' caldav_data.*,calendar_item.*  FROM collection INNER JOIN caldav_data USING(collection_id) INNER JOIN calendar_item USING(dav_id) '. $where;
+$sql = 'SELECT '.$distinct.' caldav_data.*,calendar_item.*  FROM collection INNER JOIN caldav_data USING(collection_id) INNER JOIN calendar_item USING(dav_id) '. $where;
 if ( isset($c->strict_result_ordering) && $c->strict_result_ordering ) $sql .= " ORDER BY caldav_data.dav_id";
 $qry = new AwlQuery( $sql, $params );
 if ( $qry->Exec("calquery",__LINE__,__FILE__) && $qry->rows() > 0 ) {
