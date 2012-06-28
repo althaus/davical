@@ -202,11 +202,16 @@ single virtual host.</p>
       Allow from all
   &lt;/Directory&gt;
   AcceptPathInfo On
-  php_value include_path /usr/share/awl/inc
-  php_value magic_quotes_gpc 0
-  php_value register_globals 0
-  php_value error_reporting "E_ALL &amp; ~E_NOTICE"
-  php_value default_charset "utf-8"
+  #
+  #  You probably don't need to enable any of these sorts of things other than in exceptional
+  #  circumstances.  Apart from the include path (which DAViCal will discover if it is anywhere
+  #  'normal') they are the default in newer PHP versions. 
+  #
+  # php_value include_path /usr/share/awl/inc
+  # php_value magic_quotes_gpc 0
+  # php_value register_globals 0
+  # php_value error_reporting "E_ALL &amp; ~E_NOTICE"
+  # php_value default_charset "utf-8"
 &lt;/VirtualHost&gt;
 </pre>
 
