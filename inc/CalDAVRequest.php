@@ -21,6 +21,7 @@ require_once("DAVTicket.php");
 
 define('DEPTH_INFINITY', 9999);
 
+
 /**
 * A class for collecting things to do with this request.
 *
@@ -1252,6 +1253,10 @@ EOSQL;
     exit(0);  // Unecessary, but might clarify things
   }
 
+  public static function kill_on_exit() {
+    posix_kill( getmypid(), 28 );
+  }
+  
   /**
   * Utility function we call when we have a simple status-based response to
   * return to the client.  Possibly
@@ -1295,13 +1300,23 @@ EOSQL;
     }
     if ( isset($c->dbg['statistics']) && $c->dbg['statistics'] ) {
       $script_time = microtime(true) - $c->script_start_time;
-      @dbg_error_log("statistics", "Method: %s, Status: %d, Script: %5.3lfs, Queries: %5.3lfs, URL: %s",
-                         $this->method, $status, $script_time, $c->total_query_time, $this->path);
+      $memory = '';
+      if ( function_exists('memory_get_usage') ) {
+        $memory = sprintf( ', Memory: %dk, Peak: %dk', memory_get_usage()/1024, memory_get_peak_usage(true)/1024);
+      }
+      @dbg_error_log("statistics", "Method: %s, Status: %d, Script: %5.3lfs, Queries: %5.3lfs, URL: %s%s",
+                         $this->method, $status, $script_time, $c->total_query_time, $this->path, $memory);
     }
     try {
       @ob_flush(); // Seems like it should be better to do the following but is problematic on PHP5.3 at least: while ( ob_get_level() > 0 ) ob_end_flush();
     }
     catch( Exception $ignored ) {}
+
+    if ( isset($c->exit_after_memory_exceeds) && function_exists('memory_get_peak_usage') && memory_get_peak_usage(true) > $c->exit_after_memory_exceeds ) { // 64M
+      @dbg_error_log("statistics", "Peak memory use exceeds %d bytes (%d) - killing process %d", $c->exit_after_memory_exceeds, memory_get_peak_usage(true), getmypid());
+      register_shutdown_function( 'CalDAVRequest::kill_on_exit' );
+    }
+    
     
     exit(0);
   }
