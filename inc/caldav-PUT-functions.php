@@ -20,6 +20,7 @@ require_once('vComponent.php');
 require_once('vCalendar.php');
 require_once('WritableCollection.php');
 include_once('iSchedule.php');
+include_once('RRule-v2.php');
 
 $bad_events = null;
 
@@ -1074,9 +1075,9 @@ function write_alarms( $dav_id, vComponent $ical ) {
     $trigger_type = $trigger->GetParameterValue('VALUE');
     if ( !isset($trigger_type) || $trigger_type == 'DURATION' ) {
       switch ( $trigger->GetParameterValue('RELATED') ) {
-        case 'DTEND':  $related = $ical->GetPValue('DTEND'); break;
-        case 'DUE':    $related = $ical->GetPValue('DUE');   break;
-        default:       $related = $ical->GetPValue('DTSTART');
+        case 'DTEND':  $related = $ical->GetProperty('DTEND'); break;
+        case 'DUE':    $related = $ical->GetProperty('DUE');   break;
+        default:       $related = $ical->GetProperty('DTSTART');
       }
       $duration = $trigger->Value();
       if ( !preg_match('{^-?P(:?\d+W)?(:?\d+D)?(:?T(:?\d+H)?(:?\d+M)?(:?\d+S)?)?$}', $duration ) ) continue;
@@ -1089,15 +1090,20 @@ function write_alarms( $dav_id, vComponent $ical ) {
         $related_trigger = preg_replace( '{(\d+[WDHMS])}', '$1 ', $related_trigger );
       }
     }
+    else if ( $trigger_type == 'DATE-TIME' ) {
+      $related = $trigger;
+    }
     else {
       if ( false === strtotime($trigger->Value()) ) continue; // Invalid date.
+      $related = $trigger;
     }
+    $related_date = new RepeatRuleDateTime($related);
     $qry->Bind(':action', $v->GetPValue('ACTION'));
     $qry->Bind(':trigger', $trigger->Render());
     $qry->Bind(':summary', $v->GetPValue('SUMMARY'));
     $qry->Bind(':description', $v->GetPValue('DESCRIPTION'));
     $qry->Bind(':component', $v->Render());
-    $qry->Bind(':related', $related );
+    $qry->Bind(':related', $related_date->UTC() );
     $qry->Bind(':related_trigger', $related_trigger );
     $qry->Exec('PUT',__LINE__,__FILE__);
   }
