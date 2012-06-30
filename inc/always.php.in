@@ -301,9 +301,6 @@ function getStatusMessage($status) {
 function ConstructURL( $partial_path, $force_script = false ) {
   global $c;
 
-  $partial_path = rawurlencode($partial_path);
-  $partial_path = str_replace( '%2F', '/', $partial_path);
-
   if ( ! isset($c->_url_script_path) ) {
     $c->protocol_server_port_script = str_replace( 'index.php', 'caldav.php', $c->protocol_server_port_script);
     $c->_url_script_path = (preg_match('#/$#', $c->protocol_server_port_script) ? 'caldav.php' : '');
@@ -314,9 +311,14 @@ function ConstructURL( $partial_path, $force_script = false ) {
   if ( $force_script ) {
     if ( ! preg_match( '#/caldav\.php$#', $url ) ) $url .= '/caldav.php';
   }
-  $url .= $partial_path;
+  $url .= str_replace( '%2F', '/', rawurlencode($partial_path));
   $url = preg_replace( '#^(https?://.+)//#', '$1/', $url );  // Ensure we don't double any '/'
   $url = preg_replace('#^https?://[^/]+#', '', $url );       // Remove any protocol + hostname portion
+
+  if ( strstr($url, 'caldav.php/caldav.php') ) {
+    trace_bug('Duplicated caldav.php/ in URL "%s" from partial_path=%s, force_script=%s', $url, $partial_path, ($force_script?'true':'false'));
+    $url = str_replace( 'caldav.php/caldav.php', 'caldav.php', $url );  // Ensure we don't double any 'caldav.php/'
+  }
 
   return $url;
 }
