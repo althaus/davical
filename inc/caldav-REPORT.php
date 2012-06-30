@@ -142,6 +142,7 @@ function component_to_xml( $properties, $item ) {
   $url = ConstructURL($item->dav_name);
 
   $prop = new XMLElement("prop");
+  $need_resource = false;
   foreach( $properties AS $full_tag => $v ) {
     $base_tag = preg_replace('{^.*:}', '', $full_tag );
     switch( $full_tag ) {
@@ -178,36 +179,39 @@ function component_to_xml( $properties, $item ) {
       case '"current-user-privilege-set"':
         $prop->NewElement($base_tag, privileges($request->permissions) );
         break;
-      case 'SOME-DENIED-PROPERTY':  /** indicating the style for future expansion */
-        $denied[] = $full_tag;
-        break;
       default:
-        dbg_error_log( 'REPORT', "Request for unsupported property '%s' of calendar item.", $full_tag );
-        $unsupported[] = $full_tag;
+        // It's harder.  We need the DAVResource() to get this one.
+        $need_resource = true;
     }
+    if ( $need_resource ) break;
   }
-  $status = new XMLElement("status", "HTTP/1.1 200 OK" );
-
-  $propstat = new XMLElement( "propstat", array( $prop, $status) );
   $href = new XMLElement("href", $url );
-  $elements = array($href,$propstat);
-
-  if ( count($denied) > 0 ) {
-    $status = new XMLElement("status", "HTTP/1.1 403 Forbidden" );
-    $noprop = new XMLElement("prop");
-    foreach( $denied AS $k => $v ) {
-      $reply->NSElement($noprop, $v);
-    }
-    $elements[] = new XMLElement( "propstat", array( $noprop, $status) );
+  if ( $need_resource ) {
+    if ( !isset($dav_resource) ) $dav_resource = new DAVResource($request->path);
+    $elements = $dav_resource->GetPropStat(array_keys($properties), $reply);
+    array_unshift($elements, $href);
   }
-
-  if ( ! $request->PreferMinimal() && count($unsupported) > 0 ) {
-    $status = new XMLElement("status", "HTTP/1.1 404 Not Found" );
-    $noprop = new XMLElement("prop");
-    foreach( $unsupported AS $k => $v ) {
-      $reply->NSElement($noprop, $v);
+  else {
+    $elements = array($href);
+    $status = new XMLElement("status", "HTTP/1.1 200 OK" );
+    $elements[] = new XMLElement( "propstat", array( $prop, $status) );
+    if ( count($denied) > 0 ) {
+      $status = new XMLElement("status", "HTTP/1.1 403 Forbidden" );
+      $noprop = new XMLElement("prop");
+      foreach( $denied AS $k => $v ) {
+        $reply->NSElement($noprop, $v);
+      }
+      $elements[] = new XMLElement( "propstat", array( $noprop, $status) );
     }
-    $elements[] = new XMLElement( "propstat", array( $noprop, $status) );
+  
+    if ( ! $request->PreferMinimal() && count($unsupported) > 0 ) {
+      $status = new XMLElement("status", "HTTP/1.1 404 Not Found" );
+      $noprop = new XMLElement("prop");
+      foreach( $unsupported AS $k => $v ) {
+        $reply->NSElement($noprop, $v);
+      }
+      $elements[] = new XMLElement( "propstat", array( $noprop, $status) );
+    }
   }
 
   $response = new XMLElement( "response", $elements );
