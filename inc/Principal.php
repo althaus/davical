@@ -541,7 +541,7 @@ class Principal {
       }
       else if ( $k == 'modified'
                && isset($field_values->{$k})
-               && preg_match('{^([23]\d\d\d[01]\d[0123])T?([012]\d[0-5]\d[0-5]\d)$}', $field_values->{$k}, $matches) ) {
+               && preg_match('{^([23]\d\d\d[01]\d[0123]\d)T?([012]\d[0-5]\d[0-5]\d)$}', $field_values->{$k}, $matches) ) {
         $sql_params[$param_name] = $matches[1] . 'T' . $matches[2];
       }
 
