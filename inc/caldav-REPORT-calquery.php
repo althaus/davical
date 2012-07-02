@@ -303,6 +303,9 @@ if ( ! ($target_collection->IsCalendar() || $target_collection->IsSchedulingColl
   if ( !(isset($c->allow_recursive_report) && $c->allow_recursive_report) ) {
     $request->DoResponse( 403, translate('The calendar-query report must be run against a calendar or a scheduling collection') );
   }
+  else if ( $request->path == '/' || $target_collection->IsPrincipal() || $target_collection->IsAddressbook() ) {
+    $request->DoResponse( 403, translate('The calendar-query report may not be run against that URL.') );
+  }
   /**
    * We're here because they allow recursive reports, and this appears to be such a location.
    */
