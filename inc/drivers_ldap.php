@@ -570,16 +570,19 @@ function sync_LDAP(){
   // deactivating all users
   $params = array();
   $i = 0;
+  $paramstring = '';
   foreach( $users_to_deactivate AS $v ) {
     if ( isset($c->do_not_sync_from_ldap) && isset($c->do_not_sync_from_ldap[$v]) ) continue;
+    if ( $i > 0 ) $paramstring .= ',';
+    $paramstring .= ':u'.$i.'::text';
     $params[':u'.$i++] = strtolower($v);
   }
   if ( count($params) > 0 ) {
     $c->messages[] = sprintf(i18n('- deactivating users : %s'),join(', ',$users_to_deactivate));
-    $qry = new AwlQuery( 'UPDATE usr SET active = FALSE WHERE lower(username) IN ('.implode(',',array_keys($params)).')', $params);
+    $qry = new AwlQuery( 'UPDATE usr SET active = FALSE WHERE lower(username) IN ('.$paramstring.')', $params);
     $qry->Exec('sync_LDAP',__LINE__,__FILE__);
 
-    Principal::cacheFlush('lower(username) IN ('.implode(',',array_keys($params)).')', $params);
+    Principal::cacheFlush('lower(username) IN ('.$paramstring.')', $params);
   }
 
   // updating all users
