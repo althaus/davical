@@ -148,7 +148,7 @@ class DAViCalSession extends Session
      * We allow basic auth to apply also, if present, though we check everything else first...
      */
     if ( isset($_SERVER['PHP_AUTH_USER']) && !$this->logged_in && $_SERVER['PHP_AUTH_USER'] != "" && $_SERVER['PHP_AUTH_PW'] != "" && ! $_COOKIE['NoAutoLogin'] ) {
-      if ( $this->Login($_SERVER['PHP_AUTH_USER'],$_SERVER['PHP_AUTH_PW'],true)) {
+      if ( $this->Login($_SERVER['PHP_AUTH_USER'],$_SERVER['PHP_AUTH_PW'],false)) {
         setcookie('NoAutoLogin',1,0);
         return;
       }
