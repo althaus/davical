@@ -1,5 +1,40 @@
+2012-07-04  Andrew McMillan  <andrew@morphoss.com>
+	* CalDAV client library: Handle multiple "Allow" header lines.
+	* Fix checking of Basic Auth headers.
+
+2012-07-03  Andrew McMillan  <andrew@morphoss.com>
+	* Fix ldap driver to handle numeric usernames correctly.
+
+2012-07-02  Andrew McMillan  <andrew@morphoss.com>
+	* Deny calendar-query report on root, principal or addressbook
+	  Even if recursive report is enabled.
+
+2012-06-30  Andrew McMillan  <andrew@morphoss.com>
+	* Handle allprop and ommission of prop tag in calendar-query.
+	* Better timezone handling for parsed alarm times.
+
+2012-06-28  Andrew McMillan  <andrew@morphoss.com>
+	* Include memory in statistics debug.
+	* Add an option to kill the current process after exceeding a memory limit.
+
+2012-06-27  Andrew McMillan  <andrew@morphoss.com>
+	* Fix DISTINCT clause where DAViCal is configured to allow recursive calendars.
+
+2012-06-26  Andrew McMillan  <andrew@morphoss.com>
+	* Fix debian bug #656392 - correct detection of suhosin.server_strip status.
+
+2012-06-25  Andrew McMillan  <andrew@morphoss.com>
+	* Catch 'events' without a DTSTART gracefully and ignore them.
+
+2012-06-21  Andrew McMillan  <andrew@morphoss.com>
+	* Fix notification of deletes when hide_older_than is set.
+
+2012-06-19  Andrew McMillan  <andrew@morphoss.com>
+	* Fix call to BuildDeadPropertyXML.
+
 2012-06-17  Andrew McMillan  <andrew@morphoss.com>
 	* Release 1.1.0
+	* Allow a configurable path replacement regex.
 
 2012-06-14  Andrew McMillan  <andrew@morphoss.com>
 	* Decide whether we can write the principal before we refer to it...
