@@ -13,11 +13,13 @@
 require_once('XMLDocument.php');
 
 /**
-* A class for holding basic calendar information
-* @package awl
-*/
+ * A class for holding basic calendar information
+ * @package awl
+ */
 class CalendarInfo {
-  public $url, $displayname, $getctag;
+  public $url;
+  public $displayname;
+  public $getctag;
 
   function __construct( $url, $displayname = null, $getctag = null ) {
     $this->url = $url;
@@ -30,6 +32,9 @@ class CalendarInfo {
   }
 }
 
+if(!defined("_FSOCK_TIMEOUT")){
+  define("_FSOCK_TIMEOUT", 10);
+}
 
 /**
 * A class for accessing DAViCal via CalDAV, as a client
@@ -79,6 +84,7 @@ class CalDAVClient {
   protected $xmlResponse = "";  // xml received
   protected $httpResponseCode = 0; // http response code
   protected $httpResponseHeaders = "";
+  protected $httpParsedHeaders;
   protected $httpResponseBody = "";  
 
   protected $parser; // our XML parser object
@@ -208,6 +214,31 @@ class CalDAVClient {
   }
 
   /**
+  * Split httpResponseHeaders into an array of headers
+  *
+  * @return array of arrays of header lines
+   */
+  function ParseResponseHeaders() {
+    if ( empty($this->httpResponseHeaders) ) return array();
+    if ( !isset($this->httpParsedHeaders) ) {
+      $this->httpParsedHeaders = array();
+      $headers = str_replace("\r\n", "\n", $this->httpResponseHeaders);
+      $ar_headers = explode("\n", $headers);
+      $last_header = '';
+      foreach ($ar_headers as $cur_headers) {
+        if( preg_match( '{^\s*\S}', $cur_headers) )  $header_name = $last_header;
+        else if ( preg_match( '{^(\S*):', $cur_headers, $matches) ) {
+          $header_name = $matches[1];
+          $last_header = $header_name;
+          if ( empty($this->httpParsedHeaders[$header_name]) ) $this->httpParsedHeaders[$header_name] = array();
+        }
+        $this->httpParsedHeaders[$header_name][] = $cur_headers;
+      }
+    }
+    return $this->httpParsedHeaders;
+  }
+
+  /**
    * Output http request headers
    *
    * @return HTTP headers
@@ -256,7 +287,6 @@ class CalDAVClient {
   * @return string The content of the response from the server
   */
   function DoRequest( $url = null ) {
-    if(!defined("_FSOCK_TIMEOUT")){ define("_FSOCK_TIMEOUT", 10); }
     $headers = array();
 
     if ( !isset($url) ) $url = $this->base_url;
@@ -348,9 +378,13 @@ class CalDAVClient {
   function DoOptionsRequest( $url = null ) {
     $this->requestMethod = "OPTIONS";
     $this->body = "";
-    $headers = $this->DoRequest($url);
-    $options_header = preg_replace( '/^.*Allow: ([a-z, ]+)\r?\n.*/is', '$1', $headers );
-    $options = array_flip( preg_split( '/[, ]+/', $options_header ));
+    $this->DoRequest($url);
+    $this->ParseResponseHeaders();
+    $allowed = '';
+    foreach( $this->httpParsedHeaders['Allow'] as $allow_header ) {
+      $allowed .= preg_replace( '/^(Allow:)?\s+([a-z, ]+)\r?\n.*/is', '$1,', $allow_header );
+    }
+    $options = array_flip( preg_split( '/[, ]+/', trim($allowed, ', ') ));
     return $options;
   }
 
@@ -982,75 +1016,3 @@ EOFILTER;
   }
 
 }
-
-/**
-* Usage example
-*
-* $cal = new CalDAVClient( "http://calendar.example.com/caldav.php/username/calendar/", "username", "password", "calendar" );
-* $options = $cal->DoOptionsRequest();
-* if ( isset($options["PROPFIND"]) ) {
-*   // Fetch some information about the events in that calendar
-*   $cal->SetDepth(1);
-*   $folder_xml = $cal->DoXMLRequest("PROPFIND", '<?xml version="1.0" encoding="utf-8" ?><propfind xmlns="DAV:"><prop><getcontentlength/><getcontenttype/><resourcetype/><getetag/></prop></propfind>' );
-* }
-* // Fetch all events for February
-* $events = $cal->GetEvents("20070101T000000Z","20070201T000000Z");
-* foreach ( $events AS $k => $event ) {
-*   do_something_with_event_data( $event['data'] );
-* }
-* $acc = array();
-* $acc["google"] = array(
-* "user"=>"kunsttherapie@gmail.com",
-* "pass"=>"xxxxx",
-* "server"=>"ssl://www.google.com",
-* "port"=>"443",
-* "uri"=>"https://www.google.com/calendar/dav/kunsttherapie@gmail.com/events/",
-* );
-*
-* $acc["davical"] = array(
-* "user"=>"some_user",
-* "pass"=>"big secret",
-* "server"=>"calendar.foo.bar",
-* "port"=>"80",
-* "uri"=>"http://calendar.foo.bar/caldav.php/some_user/home/",
-* );
-* //*******************************
-*
-* $account = $acc["davical"];
-*
-* //*******************************
-* $cal = new CalDAVClient( $account["uri"], $account["user"], $account["pass"], "", $account["server"], $account["port"] );
-* $options = $cal->DoOptionsRequest();
-* print_r($options);
-*
-* //*******************************
-* //*******************************
-*
-* $xmlC = <<<PROPP
-* <?xml version="1.0" encoding="utf-8" ?>
-* <D:propfind xmlns:D="DAV:" xmlns:C="http://calendarserver.org/ns/">
-*     <D:prop>
-*             <D:displayname />
-*             <C:getctag />
-*             <D:resourcetype />
-*
-*     </D:prop>
-* </D:propfind>
-* PROPP;
-* //if ( isset($options["PROPFIND"]) ) {
-*   // Fetch some information about the events in that calendar
-* //  $cal->SetDepth(1);
-* //  $folder_xml = $cal->DoXMLRequest("PROPFIND", $xmlC);
-* //  print_r( $folder_xml);
-* //}
-*
-* // Fetch all events for February
-* $events = $cal->GetEvents("20090201T000000Z","20090301T000000Z");
-* foreach ( $events as $k => $event ) {
-*     print_r($event['data']);
-*     print "\n---------------------------------------------\n";
-* }
-*
-* //*******************************
-* //*******************************
-*/
