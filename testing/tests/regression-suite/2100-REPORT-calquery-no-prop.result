@@ -1,0 +1,209 @@
+HTTP/1.1 207 Multi-Status
+Date: Dow, 01 Jan 2000 00:00:00 GMT
+DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
+DAV: extended-mkcol, bind, addressbook, calendar-auto-schedule, calendar-proxy
+ETag: "3fabba2925c92d52f5075920524c288b"
+Content-Length: 5300
+Content-Type: text/xml; charset="utf-8"
+
+<?xml version="1.0" encoding="utf-8" ?>
+<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
+ <response>
+  <href>/caldav.php/user1/home/4aaf8f37-f232-4c8e-a72e-e171d4c4fe54.ics</href>
+  <propstat>
+   <prop>
+    <getcontenttype>httpd/unix-directory</getcontenttype>
+    <resourcetype>
+     <collection/>
+     <C:calendar/>
+    </resourcetype>
+    <displayname>User 1's Calendaranza</displayname>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <creationdate>20090602T120000Z</creationdate>
+    <getcontentlanguage/>
+    <supportedlock>
+     <lockentry>
+      <lockscope>
+       <exclusive/>
+      </lockscope>
+      <locktype>
+       <write/>
+      </locktype>
+     </lockentry>
+    </supportedlock>
+    <owner>
+     <href>/caldav.php/user1/</href>
+    </owner>
+    <current-user-principal>
+     <href>/caldav.php/user1/</href>
+    </current-user-principal>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/home/9d050be7-8a02-4355-8ed3-02a9fc5f473f.ics</href>
+  <propstat>
+   <prop>
+    <getcontenttype>httpd/unix-directory</getcontenttype>
+    <resourcetype>
+     <collection/>
+     <C:calendar/>
+    </resourcetype>
+    <displayname>User 1's Calendaranza</displayname>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <creationdate>20090602T120000Z</creationdate>
+    <getcontentlanguage/>
+    <supportedlock>
+     <lockentry>
+      <lockscope>
+       <exclusive/>
+      </lockscope>
+      <locktype>
+       <write/>
+      </locktype>
+     </lockentry>
+    </supportedlock>
+    <owner>
+     <href>/caldav.php/user1/</href>
+    </owner>
+    <current-user-principal>
+     <href>/caldav.php/user1/</href>
+    </current-user-principal>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/home/1906b3ca-4890-468a-9b58-1de74bf2c716.ics</href>
+  <propstat>
+   <prop>
+    <getcontenttype>httpd/unix-directory</getcontenttype>
+    <resourcetype>
+     <collection/>
+     <C:calendar/>
+    </resourcetype>
+    <displayname>User 1's Calendaranza</displayname>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <creationdate>20090602T120000Z</creationdate>
+    <getcontentlanguage/>
+    <supportedlock>
+     <lockentry>
+      <lockscope>
+       <exclusive/>
+      </lockscope>
+      <locktype>
+       <write/>
+      </locktype>
+     </lockentry>
+    </supportedlock>
+    <owner>
+     <href>/caldav.php/user1/</href>
+    </owner>
+    <current-user-principal>
+     <href>/caldav.php/user1/</href>
+    </current-user-principal>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/home/fbd57454-d966-4a14-8341-abe1edb1ae66.ics</href>
+  <propstat>
+   <prop>
+    <getcontenttype>httpd/unix-directory</getcontenttype>
+    <resourcetype>
+     <collection/>
+     <C:calendar/>
+    </resourcetype>
+    <displayname>User 1's Calendaranza</displayname>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <creationdate>20090602T120000Z</creationdate>
+    <getcontentlanguage/>
+    <supportedlock>
+     <lockentry>
+      <lockscope>
+       <exclusive/>
+      </lockscope>
+      <locktype>
+       <write/>
+      </locktype>
+     </lockentry>
+    </supportedlock>
+    <owner>
+     <href>/caldav.php/user1/</href>
+    </owner>
+    <current-user-principal>
+     <href>/caldav.php/user1/</href>
+    </current-user-principal>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/home/71e2ae82-7870-11db-c6d6-f6927c144649.ics</href>
+  <propstat>
+   <prop>
+    <getcontenttype>httpd/unix-directory</getcontenttype>
+    <resourcetype>
+     <collection/>
+     <C:calendar/>
+    </resourcetype>
+    <displayname>User 1's Calendaranza</displayname>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <creationdate>20090602T120000Z</creationdate>
+    <getcontentlanguage/>
+    <supportedlock>
+     <lockentry>
+      <lockscope>
+       <exclusive/>
+      </lockscope>
+      <locktype>
+       <write/>
+      </locktype>
+     </lockentry>
+    </supportedlock>
+    <owner>
+     <href>/caldav.php/user1/</href>
+    </owner>
+    <current-user-principal>
+     <href>/caldav.php/user1/</href>
+    </current-user-principal>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/user1/home/da81c0ee-7871-11db-c6d6-f6927c144649.ics</href>
+  <propstat>
+   <prop>
+    <getcontenttype>httpd/unix-directory</getcontenttype>
+    <resourcetype>
+     <collection/>
+     <C:calendar/>
+    </resourcetype>
+    <displayname>User 1's Calendaranza</displayname>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <creationdate>20090602T120000Z</creationdate>
+    <getcontentlanguage/>
+    <supportedlock>
+     <lockentry>
+      <lockscope>
+       <exclusive/>
+      </lockscope>
+      <locktype>
+       <write/>
+      </locktype>
+     </lockentry>
+    </supportedlock>
+    <owner>
+     <href>/caldav.php/user1/</href>
+    </owner>
+    <current-user-principal>
+     <href>/caldav.php/user1/</href>
+    </current-user-principal>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+</multistatus>
