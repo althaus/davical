@@ -38,7 +38,7 @@ switch( $proptype ) {
     break;
 
   case 'DAV::allprop':
-    $properties['allprop'] = 1;
+    $properties['DAV::allprop'] = 1;
     if ( $qry_content[1]->GetNSTag() == 'DAV::include' ) {
       foreach( $qry_content[1]->GetElements() AS $k => $v ) {
         $include_properties[] = $v->GetNSTag(); /** $include_properties is referenced in DAVResource where allprop is expanded */
@@ -50,6 +50,7 @@ switch( $proptype ) {
   default:
     $properties[$proptype] = 1;
 }
+if ( empty($properties) ) $properties['DAV::allprop'] = 1;
 
 $collection = new DAVResource($request->path);
 $bound_from = $collection->bound_from();
