@@ -1419,7 +1419,7 @@ EOQRY;
 
     switch( $name ) {
       case 'collection_id':
-        return $this->collection->collection_id;
+        return $this->collection_id();
         break;
 
       case 'principal_id':
