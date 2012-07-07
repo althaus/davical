@@ -1630,17 +1630,16 @@ EOQRY;
       case 'DAV::owner':
         // The principal-URL of the owner
         if ( $this->IsExternal() ){
-          $reply->DAVElement( $prop, 'owner', $reply->href( $this->collection->bound_from ) );
+          $reply->DAVElement( $prop, 'owner', $reply->href( ConstructURL($this->collection->bound_from )) );
         }
         else {
-          if ( !isset($this->principal) ) $this->FetchPrincipal();
-          $reply->DAVElement( $prop, 'owner', $reply->href( $this->principal->url() ) );
+          $reply->DAVElement( $prop, 'owner', $reply->href( ConstructURL($this->principal_url()) ) );
         }
         break;
 
       case 'DAV::add-member':
         if ( ! $this->_is_collection ) return false;
-        $reply->DAVElement( $prop, 'add-member', $reply->href($this->collection->dav_name.'?add-member') );
+        $reply->DAVElement( $prop, 'add-member', $reply->href(ConstructURL($this->url()).'?add-member') );
         break;
 
       // Empty tag responses.
@@ -1671,6 +1670,7 @@ EOQRY;
       case 'http://calendarserver.org/ns/:calendar-proxy-write-for':
         if ( isset($c->disable_caldav_proxy) && $c->disable_caldav_proxy ) return false;
         if ( !isset($proxy_type) ) $proxy_type = 'write';
+        // ProxyFor is an already constructed URL
         $reply->CalendarserverElement($prop, 'calendar-proxy-'.$proxy_type.'-for', $reply->href( $this->principal->ProxyFor($proxy_type) ) );
         break;
 
@@ -1742,7 +1742,7 @@ EOQRY;
         break;
 
       case 'DAV::current-user-principal':
-        $prop->NewElement('current-user-principal', $reply->href( $request->principal->url() ) );
+        $prop->NewElement('current-user-principal', $reply->href( ConstructURL($request->principal_url()) ) );
         break;
 
       case 'SOME-DENIED-PROPERTY':  /** indicating the style for future expansion */
