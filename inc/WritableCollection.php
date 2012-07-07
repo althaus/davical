@@ -442,4 +442,46 @@ EOSQL;
     
   }
 
+
+  /**
+   *
+   * @param unknown_type $some_old_token
+   */
+  public function whatChangedSince( $some_old_token ) {
+    $params = array( ':collection_id' => $this->collection_id() );
+    if ( $some_old_token == 0 || empty($some_old_token) ) {
+      $sql = <<<EOSQL
+  SELECT calendar_item.*, caldav_data.*, addressbook_resource.*, 201 AS sync_status
+      FROM caldav_data
+      LEFT JOIN calendar_item USING (dav_id)
+      LEFT JOIN addressbook_resource USING (dav_id)
+      WHERE caldav_data.collection_id = :collection_id
+      ORDER BY caldav_data.collection_id, caldav_data.dav_id
+EOSQL;
+    }
+    else {
+      $params[':sync_token'] = $some_old_token;
+      $sql = <<<EOSQL
+  SELECT calendar_item.*, caldav_data.*, addressbook_resource.*, sync_changes.*
+      FROM sync_changes
+      LEFT JOIN caldav_data USING (collection_id,dav_id)
+      LEFT JOIN calendar_item USING (collection_id,dav_id)
+      LEFT JOIN addressbook_resource USING (dav_id)
+      WHERE sync_changes.collection_id = :collection_id
+            AND sync_time >= (SELECT modification_time FROM sync_tokens WHERE sync_token = :sync_token)
+      ORDER BY sync_changes.collection_id, sync_changes.dav_id, sync_changes.sync_time
+EOSQL;
+
+    }
+    $qry = new AwlQuery($sql, $params );
+
+    $changes = array();
+    if ( $qry->Exec() && $qry->rows() ) {
+      while( $change = $qry->Fetch() ) {
+        $changes[$change->uid] = $change;
+      }
+    }
+
+    return $changes;
+  }
 }
