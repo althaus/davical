@@ -315,7 +315,7 @@ function ConstructURL( $partial_path, $force_script = false ) {
   $url = preg_replace( '#^(https?://.+)//#', '$1/', $url );  // Ensure we don't double any '/'
   $url = preg_replace('#^https?://[^/]+#', '', $url );       // Remove any protocol + hostname portion
 
-  if ( strstr($url, 'caldav.php/caldav.php') ) {
+  if ( strstr($url, 'caldav.php/caldav.php') !== false ) {
     trace_bug('Duplicated caldav.php/ in URL "%s" from partial_path=%s, force_script=%s', $url, $partial_path, ($force_script?'true':'false'));
     $url = str_replace( 'caldav.php/caldav.php', 'caldav.php', $url );  // Ensure we don't double any 'caldav.php/'
   }
