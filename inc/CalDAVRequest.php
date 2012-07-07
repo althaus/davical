@@ -143,7 +143,21 @@ class CalDAVRequest
     *  4. otherwise we query the defined relationships between users and use
     *     the minimum privileges returned from that analysis.
     */
-    $this->path = (isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : "/");
+    if ( isset($_SERVER['PATH_INFO']) ) {
+      $this->path = $_SERVER['PATH_INFO'];
+    }
+    else {
+      $this->path = "/";
+      if ( isset($_SERVER['REQUEST_URI']) ) {
+        $path = preg_replace( '{^(.*?\.php/?)}', '/', $_SERVER['REQUEST_URI'], $matches );
+        if ( !empty($matches[1]) ) {
+          $this->path = $path;
+        }
+        else {
+          dbg_error_log('LOG', 'Server is not supplying PATH_INFO and REQUEST_URI does not include a PHP program.  Wildly guessing "/"!!!');
+        }
+      }
+    }
     $this->path = rawurldecode($this->path);
 
     /** Allow a request for .../calendar.ics to translate into the calendar URL */
