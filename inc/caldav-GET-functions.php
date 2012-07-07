@@ -78,6 +78,7 @@ function export_iCalendar( DAVResource $dav_resource ) {
   if ( !empty($c->auto_refresh_duration) ) {
     $vcal->AddProperty("X-APPLE-AUTO-REFRESH-INTERVAL", $c->auto_refresh_duration);
     $vcal->AddProperty("AUTO-REFRESH", $c->auto_refresh_duration);
+    $vcal->AddProperty("X-PUBLISHED-TTL", $c->auto_refresh_duration);
   }
   
   $need_zones = array();
