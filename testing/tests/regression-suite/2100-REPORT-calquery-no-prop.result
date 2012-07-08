@@ -3,23 +3,22 @@ Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, bind, addressbook, calendar-auto-schedule, calendar-proxy
 ETag: "looks like an etag"
-Content-Length: 5300
+Content-Length: 5464
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
-<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
+<multistatus xmlns="DAV:">
  <response>
   <href>/caldav.php/user1/home/4aaf8f37-f232-4c8e-a72e-e171d4c4fe54.ics</href>
   <propstat>
    <prop>
-    <getcontenttype>httpd/unix-directory</getcontenttype>
-    <resourcetype>
-     <collection/>
-     <C:calendar/>
-    </resourcetype>
-    <displayname>User 1's Calendaranza</displayname>
+    <getcontenttype>text/calendar</getcontenttype>
+    <resourcetype/>
+    <getcontentlength>999</getcontentlength>
+    <displayname>Weekly Project Meeting</displayname>
     <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <creationdate>20090602T120000Z</creationdate>
+    <creationdate>20061120T041336Z</creationdate>
+    <getetag>"a1c6404d61190f9574e2bfd69383f144"</getetag>
     <getcontentlanguage/>
     <supportedlock>
      <lockentry>
@@ -45,14 +44,13 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/home/9d050be7-8a02-4355-8ed3-02a9fc5f473f.ics</href>
   <propstat>
    <prop>
-    <getcontenttype>httpd/unix-directory</getcontenttype>
-    <resourcetype>
-     <collection/>
-     <C:calendar/>
-    </resourcetype>
-    <displayname>User 1's Calendaranza</displayname>
+    <getcontenttype>text/calendar</getcontenttype>
+    <resourcetype/>
+    <getcontentlength>956</getcontentlength>
+    <displayname>Confidential Event</displayname>
     <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <creationdate>20090602T120000Z</creationdate>
+    <creationdate>20061223T032350Z</creationdate>
+    <getetag>"08a435c2abaf38f4a50a997343c098a7"</getetag>
     <getcontentlanguage/>
     <supportedlock>
      <lockentry>
@@ -78,14 +76,13 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/home/1906b3ca-4890-468a-9b58-1de74bf2c716.ics</href>
   <propstat>
    <prop>
-    <getcontenttype>httpd/unix-directory</getcontenttype>
-    <resourcetype>
-     <collection/>
-     <C:calendar/>
-    </resourcetype>
-    <displayname>User 1's Calendaranza</displayname>
+    <getcontenttype>text/calendar</getcontenttype>
+    <resourcetype/>
+    <getcontentlength>970</getcontentlength>
+    <displayname>Private Event</displayname>
     <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <creationdate>20090602T120000Z</creationdate>
+    <creationdate>20061223T031415Z</creationdate>
+    <getetag>"5def8ae2b20893a1c7f4dbaeb008f2f1"</getetag>
     <getcontentlanguage/>
     <supportedlock>
      <lockentry>
@@ -111,14 +108,13 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/home/fbd57454-d966-4a14-8341-abe1edb1ae66.ics</href>
   <propstat>
    <prop>
-    <getcontenttype>httpd/unix-directory</getcontenttype>
-    <resourcetype>
-     <collection/>
-     <C:calendar/>
-    </resourcetype>
-    <displayname>User 1's Calendaranza</displayname>
+    <getcontenttype>text/calendar</getcontenttype>
+    <resourcetype/>
+    <getcontentlength>929</getcontentlength>
+    <displayname>Tentative Event</displayname>
     <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <creationdate>20090602T120000Z</creationdate>
+    <creationdate>20061223T051646Z</creationdate>
+    <getetag>"ac90acd649c25070b1a2a17fb31a105a"</getetag>
     <getcontentlanguage/>
     <supportedlock>
      <lockentry>
@@ -144,14 +140,13 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/home/71e2ae82-7870-11db-c6d6-f6927c144649.ics</href>
   <propstat>
    <prop>
-    <getcontenttype>httpd/unix-directory</getcontenttype>
-    <resourcetype>
-     <collection/>
-     <C:calendar/>
-    </resourcetype>
-    <displayname>User 1's Calendaranza</displayname>
+    <getcontenttype>text/calendar</getcontenttype>
+    <resourcetype/>
+    <getcontentlength>769</getcontentlength>
+    <displayname>Beer O'Clock</displayname>
     <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <creationdate>20090602T120000Z</creationdate>
+    <creationdate>20060511T043751Z</creationdate>
+    <getetag>"55f02f66966ee150320383803d1e0d34"</getetag>
     <getcontentlanguage/>
     <supportedlock>
      <lockentry>
@@ -177,14 +172,13 @@ Content-Type: text/xml; charset="utf-8"
   <href>/caldav.php/user1/home/da81c0ee-7871-11db-c6d6-f6927c144649.ics</href>
   <propstat>
    <prop>
-    <getcontenttype>httpd/unix-directory</getcontenttype>
-    <resourcetype>
-     <collection/>
-     <C:calendar/>
-    </resourcetype>
-    <displayname>User 1's Calendaranza</displayname>
+    <getcontenttype>text/calendar</getcontenttype>
+    <resourcetype/>
+    <getcontentlength>313</getcontentlength>
+    <displayname>Morning Mgmt Mtg</displayname>
     <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <creationdate>20090602T120000Z</creationdate>
+    <creationdate>20061024T115217Z</creationdate>
+    <getetag>"6f16959eee5c920b45548840b1e9ea19"</getetag>
     <getcontentlanguage/>
     <supportedlock>
      <lockentry>

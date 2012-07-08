@@ -1,16 +1,16 @@
-<br />
-<b>Notice</b>:  Undefined property: stdClass::$path in <b>/home/karora/projects/davical/inc/caldav-REPORT.php</b> on line <b>190</b><br />
 <?xml version="1.0" encoding="utf-8" ?>
 <multistatus xmlns="DAV:">
  <response>
   <href>/caldav.php/user1/addressbook/andrew_mcmillan.vcf</href>
   <propstat>
    <prop>
-    <getcontenttype/>
+    <getcontenttype>text/vcard</getcontenttype>
     <resourcetype/>
-    <getlastmodified>Thu, 01 Jan 1970 00:00:00 GMT</getlastmodified>
-    <creationdate>19700101T000000Z</creationdate>
-    <getetag/>
+    <getcontentlength>1286</getcontentlength>
+    <displayname>User 1</displayname>
+    <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
+    <creationdate>20120708T112830Z</creationdate>
+    <getetag>"24bae2a7f81c0a79413a656c06d8326b"</getetag>
     <getcontentlanguage/>
     <supportedlock>
      <lockentry>
@@ -23,7 +23,7 @@
      </lockentry>
     </supportedlock>
     <owner>
-     <href>/caldav.php</href>
+     <href>/caldav.php/user1/</href>
     </owner>
     <current-user-principal>
      <href>/caldav.php/user1/</href>
