@@ -1,16 +1,35 @@
+<br />
+<b>Notice</b>:  Undefined property: stdClass::$path in <b>/home/karora/projects/davical/inc/caldav-REPORT.php</b> on line <b>190</b><br />
 <?xml version="1.0" encoding="utf-8" ?>
 <multistatus xmlns="DAV:">
  <response>
   <href>/caldav.php/user1/addressbook/andrew_mcmillan.vcf</href>
   <propstat>
-   <prop/>
-   <status>HTTP/1.1 200 OK</status>
-  </propstat>
-  <propstat>
    <prop>
-    <allprop/>
+    <getcontenttype/>
+    <resourcetype/>
+    <getlastmodified>Thu, 01 Jan 1970 00:00:00 GMT</getlastmodified>
+    <creationdate>19700101T000000Z</creationdate>
+    <getetag/>
+    <getcontentlanguage/>
+    <supportedlock>
+     <lockentry>
+      <lockscope>
+       <exclusive/>
+      </lockscope>
+      <locktype>
+       <write/>
+      </locktype>
+     </lockentry>
+    </supportedlock>
+    <owner>
+     <href>/caldav.php</href>
+    </owner>
+    <current-user-principal>
+     <href>/caldav.php/user1/</href>
+    </current-user-principal>
    </prop>
-   <status>HTTP/1.1 404 Not Found</status>
+   <status>HTTP/1.1 200 OK</status>
   </propstat>
  </response>
 </multistatus>
