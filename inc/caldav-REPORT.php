@@ -129,7 +129,7 @@ function component_to_xml( $properties, $item ) {
     }
 
     if ( isset($c->hide_alarm) && $c->hide_alarm ) {
-      $dav_resource = new DAVResource($request->path);
+      $dav_resource = new DAVResource($item->path);
       if ( isset($properties['calendar-data']) && !$dav_resource->HavePrivilegeTo('write') ) {
         dbg_error_log("REPORT","Stripping event alarms for: %s", $item->dav_name );
         $vcal = new vCalendar($caldav_data);
@@ -187,7 +187,7 @@ function component_to_xml( $properties, $item ) {
   }
   $href = new XMLElement("href", $url );
   if ( $need_resource ) {
-    if ( !isset($dav_resource) ) $dav_resource = new DAVResource($request->path);
+    if ( !isset($dav_resource) ) $dav_resource = new DAVResource($item->path);
     $elements = $dav_resource->GetPropStat(array_keys($properties), $reply);
     array_unshift($elements, $href);
   }
