@@ -187,7 +187,7 @@ function component_to_xml( $properties, $item ) {
   }
   $href = new XMLElement("href", $url );
   if ( $need_resource ) {
-    if ( !isset($dav_resource) ) $dav_resource = new DAVResource($item->path);
+    if ( !isset($dav_resource) ) $dav_resource = new DAVResource($item->dav_name);
     $elements = $dav_resource->GetPropStat(array_keys($properties), $reply);
     array_unshift($elements, $href);
   }
