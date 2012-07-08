@@ -1742,7 +1742,7 @@ EOQRY;
         break;
 
       case 'DAV::current-user-principal':
-        $prop->NewElement('current-user-principal', $reply->href( ConstructURL($request->principal->url()) ) );
+        $prop->NewElement('current-user-principal', $reply->href( ConstructURL(rawurldecode($request->principal->url())) ) );
         break;
 
       case 'SOME-DENIED-PROPERTY':  /** indicating the style for future expansion */
