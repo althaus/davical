@@ -224,6 +224,9 @@ if ( $target->IsExternal() ) {
 	update_external ( $target );
 }
 
+// These reports are always allowed to see the resource_data because they are special
+$c->sync_resource_data_ok = true;
+
 if ( $xmltree->GetNSTag() == "urn:ietf:params:xml:ns:caldav:calendar-query" ) {
   $calquery = $xmltree->GetPath("/urn:ietf:params:xml:ns:caldav:calendar-query/*");
   include("caldav-REPORT-calquery.php");
