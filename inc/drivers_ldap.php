@@ -264,9 +264,19 @@ function sync_user_from_LDAP( Principal &$principal, $mapping, $ldap_values ) {
   $fields_to_set = array();
   $updateable_fields = Principal::updateableFields();
   foreach( $updateable_fields AS $field ) {
-    if ( isset($mapping[$field]) && isset($ldap_values[$mapping[$field]]) ) {
-      $fields_to_set[$field] = $ldap_values[$mapping[$field]];
-      dbg_error_log( "LDAP", "Setting usr->%s to %s from LDAP field %s", $field, $ldap_values[$mapping[$field]], $mapping[$field] );
+    if ( isset($mapping[$field]) ) {
+      $tab_part_fields = explode(',',$mapping[$field]);
+      foreach( $tab_part_fields as $part_field ) {
+        if ( isset($ldap_values[$part_field]) ) {
+          if (isset($fields_to_set[$field]) ) {
+            $fields_to_set[$field] .= ' '.$ldap_values[$part_field];
+          }
+          else {
+            $fields_to_set[$field] = $ldap_values[$part_field];
+          }
+        }
+      }
+      dbg_error_log( "LDAP", "Setting usr->%s to %s from LDAP field %s", $field, $fields_to_set[$field], $mapping[$field] );
     }
     else if ( isset($c->authenticate_hook['config']['default_value']) && is_array($c->authenticate_hook['config']['default_value'])
               && isset($c->authenticate_hook['config']['default_value'][$field] ) ) {
@@ -285,6 +295,19 @@ function sync_user_from_LDAP( Principal &$principal, $mapping, $ldap_values ) {
   }
 }
 
+/*
+* explode the multipart mapping
+*/
+function array_values_mapping($mapping){
+  $attributes=array();
+  foreach ( $mapping as $field ) {
+    $tab_part_field = explode(",",$field);
+    foreach( $tab_part_field as $part_field ) {
+      $attributes[] = $part_field;
+    }
+  }
+  return $attributes;
+}
 
 /**
 * Check the username / password against the LDAP server
@@ -314,7 +337,7 @@ function LDAP_check($username, $password ){
     $mapping['modified'] = $mapping['updated'];
     unset($mapping['updated']);
   }
-  $attributes = array_values($mapping);
+  $attributes = array_values_mapping($mapping);
 
   /**
   * If the config contains a filter that starts with a ( then believe
@@ -380,7 +403,7 @@ function sync_LDAP_groups(){
 
   $mapping = $c->authenticate_hook['config']['group_mapping_field'];
   //$attributes = array('cn','modifyTimestamp','memberUid');
-  $attributes = array_values($mapping);
+  $attributes = array_values_mapping($mapping);
   $ldap_groups_tmp = $ldapDriver->getAllGroups($attributes);
 
   if ( sizeof($ldap_groups_tmp) == 0 ) return;
@@ -513,7 +536,7 @@ function sync_LDAP(){
   if ( ! $ldapDriver->valid ) return;
 
   $mapping = $c->authenticate_hook['config']['mapping_field'];
-  $attributes = array_values($mapping);
+  $attributes = array_values_mapping($mapping);
   $ldap_users_tmp = $ldapDriver->getAllUsers($attributes);
 
   if ( sizeof($ldap_users_tmp) == 0 ) return;
