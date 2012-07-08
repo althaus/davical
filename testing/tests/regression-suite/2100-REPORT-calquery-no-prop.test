@@ -23,3 +23,5 @@ BEGINDATA
 </calendar-query>
 ENDDATA
 
+
+REPLACE=/ETag: "[a-z0-9]+"/ETag: "looks like an etag"/

@@ -4,8 +4,8 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, bind, addressbook, calendar-auto-schedule, calendar-proxy
-ETag: "0d402106016642ad338c60d037066e9d"
-Content-Length: 29693
+ETag: "91f890210bc3d193a74ff758a83f54ce"
+Content-Length: 29792
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -15,7 +15,7 @@ Content-Type: text/xml; charset="utf-8"
   <propstat>
    <prop>
     <add-member>
-     <href>/user1/?add-member</href>
+     <href>/caldav.php/user1/?add-member</href>
     </add-member>
     <C:calendar-free-busy-set>
      <href>/caldav.php/user1/home/</href>
@@ -132,7 +132,7 @@ Content-Type: text/xml; charset="utf-8"
   <propstat>
    <prop>
     <add-member>
-     <href>/user1/home/?add-member</href>
+     <href>/caldav.php/user1/home/?add-member</href>
     </add-member>
     <A:calendar-color>#0252D4FF</A:calendar-color>
     <C:calendar-free-busy-set>
@@ -275,7 +275,7 @@ Content-Type: text/xml; charset="utf-8"
   <propstat>
    <prop>
     <add-member>
-     <href>/user1/addresses/?add-member</href>
+     <href>/caldav.php/user1/addresses/?add-member</href>
     </add-member>
     <C:calendar-free-busy-set>
      <href>/caldav.php/user1/home/</href>
@@ -402,7 +402,7 @@ Content-Type: text/xml; charset="utf-8"
   <propstat>
    <prop>
     <add-member>
-     <href>/user1/created/?add-member</href>
+     <href>/caldav.php/user1/created/?add-member</href>
     </add-member>
     <C:calendar-free-busy-set>
      <href>/caldav.php/user1/home/</href>
@@ -545,7 +545,7 @@ Content-Type: text/xml; charset="utf-8"
   <propstat>
    <prop>
     <add-member>
-     <href>/user1/.in/?add-member</href>
+     <href>/caldav.php/user1/.in/?add-member</href>
     </add-member>
     <C:calendar-free-busy-set>
      <href>/caldav.php/user1/home/</href>
@@ -678,7 +678,7 @@ Content-Type: text/xml; charset="utf-8"
   <propstat>
    <prop>
     <add-member>
-     <href>/user1/.out/?add-member</href>
+     <href>/caldav.php/user1/.out/?add-member</href>
     </add-member>
     <C:calendar-free-busy-set>
      <href>/caldav.php/user1/home/</href>
@@ -811,7 +811,7 @@ Content-Type: text/xml; charset="utf-8"
   <propstat>
    <prop>
     <add-member>
-     <href>/user1/6E20BB7C-EFD9-4F0F-9BDC-5335E04D47E0/?add-member</href>
+     <href>/caldav.php/user1/6E20BB7C-EFD9-4F0F-9BDC-5335E04D47E0/?add-member</href>
     </add-member>
     <A:calendar-color>#391B71A0</A:calendar-color>
     <C:calendar-free-busy-set>
@@ -954,7 +954,7 @@ Content-Type: text/xml; charset="utf-8"
   <propstat>
    <prop>
     <add-member>
-     <href>/user1/calendar-proxy-read/?add-member</href>
+     <href>/caldav.php/user1/calendar-proxy-read/?add-member</href>
     </add-member>
     <C:calendar-free-busy-set>
      <href>/caldav.php/user1/home/</href>
@@ -1097,7 +1097,7 @@ Content-Type: text/xml; charset="utf-8"
   <propstat>
    <prop>
     <add-member>
-     <href>/user1/calendar-proxy-write/?add-member</href>
+     <href>/caldav.php/user1/calendar-proxy-write/?add-member</href>
     </add-member>
     <C:calendar-free-busy-set>
      <href>/caldav.php/user1/home/</href>
