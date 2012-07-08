@@ -129,7 +129,7 @@ function component_to_xml( $properties, $item ) {
     }
 
     if ( isset($c->hide_alarm) && $c->hide_alarm ) {
-      $dav_resource = new DAVResource($item->path);
+      $dav_resource = new DAVResource($item->dav_name);
       if ( isset($properties['calendar-data']) && !$dav_resource->HavePrivilegeTo('write') ) {
         dbg_error_log("REPORT","Stripping event alarms for: %s", $item->dav_name );
         $vcal = new vCalendar($caldav_data);
