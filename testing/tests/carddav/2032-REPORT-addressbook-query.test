@@ -25,3 +25,4 @@ BEGINDATA
 </C:addressbook-query>
 ENDDATA
 
+REPLACE=#<creationdate>\d{8}T\d{6}Z</creationdate>#<creationdate>yyyymmddThhmmssZ</creationdate>#

@@ -4,8 +4,8 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, bind, addressbook, calendar-auto-schedule, calendar-proxy
-ETag: "91f890210bc3d193a74ff758a83f54ce"
-Content-Length: 29792
+ETag: "908ab117a03a63e9f130ae222c0f3477"
+Content-Length: 29891
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -70,7 +70,7 @@ Content-Type: text/xml; charset="utf-8"
      <principal/>
     </resourcetype>
     <C:schedule-default-calendar-URL>
-     <href>/user1/home/</href>
+     <href>/caldav.php/user1/home/</href>
     </C:schedule-default-calendar-URL>
     <supported-report-set>
      <supported-report>
@@ -192,7 +192,7 @@ Content-Type: text/xml; charset="utf-8"
      <C:calendar/>
     </resourcetype>
     <C:schedule-default-calendar-URL>
-     <href>/user1/home/</href>
+     <href>/caldav.php/user1/home/</href>
     </C:schedule-default-calendar-URL>
     <C:supported-calendar-component-set>
      <C:comp name="VEVENT"/>
@@ -331,7 +331,7 @@ Content-Type: text/xml; charset="utf-8"
      <C2:addressbook/>
     </resourcetype>
     <C:schedule-default-calendar-URL>
-     <href>/user1/home/</href>
+     <href>/caldav.php/user1/home/</href>
     </C:schedule-default-calendar-URL>
     <supported-report-set>
      <supported-report>
@@ -460,7 +460,7 @@ Content-Type: text/xml; charset="utf-8"
      <C:calendar/>
     </resourcetype>
     <C:schedule-default-calendar-URL>
-     <href>/user1/home/</href>
+     <href>/caldav.php/user1/home/</href>
     </C:schedule-default-calendar-URL>
     <C:supported-calendar-component-set>
      <C:comp name="VEVENT"/>
@@ -612,7 +612,7 @@ Content-Type: text/xml; charset="utf-8"
      <C:schedule-inbox/>
     </resourcetype>
     <C:schedule-default-calendar-URL>
-     <href>/user1/home/</href>
+     <href>/caldav.php/user1/home/</href>
     </C:schedule-default-calendar-URL>
     <C:supported-calendar-component-set>
      <C:comp name="VEVENT"/>
@@ -745,7 +745,7 @@ Content-Type: text/xml; charset="utf-8"
      <C:schedule-outbox/>
     </resourcetype>
     <C:schedule-default-calendar-URL>
-     <href>/user1/home/</href>
+     <href>/caldav.php/user1/home/</href>
     </C:schedule-default-calendar-URL>
     <C:supported-calendar-component-set>
      <C:comp name="VEVENT"/>
@@ -870,7 +870,7 @@ Content-Type: text/xml; charset="utf-8"
      <C:calendar/>
     </resourcetype>
     <C:schedule-default-calendar-URL>
-     <href>/user1/home/</href>
+     <href>/caldav.php/user1/home/</href>
     </C:schedule-default-calendar-URL>
     <C:supported-calendar-component-set>
      <C:comp name="VEVENT"/>
@@ -1009,7 +1009,7 @@ Content-Type: text/xml; charset="utf-8"
      <C1:calendar-proxy-read/>
     </resourcetype>
     <C:schedule-default-calendar-URL>
-     <href>/user1/home/</href>
+     <href>/caldav.php/user1/home/</href>
     </C:schedule-default-calendar-URL>
     <supported-report-set>
      <supported-report>
@@ -1152,7 +1152,7 @@ Content-Type: text/xml; charset="utf-8"
      <C1:calendar-proxy-write/>
     </resourcetype>
     <C:schedule-default-calendar-URL>
-     <href>/user1/home/</href>
+     <href>/caldav.php/user1/home/</href>
     </C:schedule-default-calendar-URL>
     <supported-report-set>
      <supported-report>

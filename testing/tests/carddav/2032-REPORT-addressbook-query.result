@@ -9,7 +9,7 @@
     <getcontentlength>1286</getcontentlength>
     <displayname>User 1</displayname>
     <getlastmodified>Dow, 01 Jan 2000 00:00:00 GMT</getlastmodified>
-    <creationdate>20120708T112830Z</creationdate>
+    <creationdate>yyyymmddThhmmssZ</creationdate>
     <getetag>"24bae2a7f81c0a79413a656c06d8326b"</getetag>
     <getcontentlanguage/>
     <supportedlock>

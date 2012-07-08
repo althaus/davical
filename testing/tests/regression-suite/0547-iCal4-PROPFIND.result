@@ -2,8 +2,8 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, bind, addressbook, calendar-auto-schedule, calendar-proxy
-ETag: "b4c03d0f39542501b0fb1245d849bf8b"
-Content-Length: 20033
+ETag: "0c6e80ace8d360479d21cc6ebfcd3f6c"
+Content-Length: 20132
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -27,7 +27,7 @@ Content-Type: text/xml; charset="utf-8"
      <href>/caldav.php/user1/6E20BB7C-EFD9-4F0F-9BDC-5335E04D47E0/</href>
     </C1:calendar-free-busy-set>
     <C1:schedule-default-calendar-URL>
-     <href>/user1/home/</href>
+     <href>/caldav.php/user1/home/</href>
     </C1:schedule-default-calendar-URL>
     <current-user-privilege-set>
      <privilege>
@@ -121,7 +121,7 @@ Content-Type: text/xml; charset="utf-8"
      <href>/caldav.php/user1/6E20BB7C-EFD9-4F0F-9BDC-5335E04D47E0/</href>
     </C1:calendar-free-busy-set>
     <C1:schedule-default-calendar-URL>
-     <href>/user1/home/</href>
+     <href>/caldav.php/user1/home/</href>
     </C1:schedule-default-calendar-URL>
     <current-user-privilege-set>
      <privilege>
@@ -204,7 +204,7 @@ Content-Type: text/xml; charset="utf-8"
      <href>/caldav.php/user1/6E20BB7C-EFD9-4F0F-9BDC-5335E04D47E0/</href>
     </C1:calendar-free-busy-set>
     <C1:schedule-default-calendar-URL>
-     <href>/user1/home/</href>
+     <href>/caldav.php/user1/home/</href>
     </C1:schedule-default-calendar-URL>
     <current-user-privilege-set>
      <privilege>
@@ -296,7 +296,7 @@ Content-Type: text/xml; charset="utf-8"
      <href>/caldav.php/user1/6E20BB7C-EFD9-4F0F-9BDC-5335E04D47E0/</href>
     </C1:calendar-free-busy-set>
     <C1:schedule-default-calendar-URL>
-     <href>/user1/home/</href>
+     <href>/caldav.php/user1/home/</href>
     </C1:schedule-default-calendar-URL>
     <current-user-privilege-set>
      <privilege>
@@ -386,7 +386,7 @@ Content-Type: text/xml; charset="utf-8"
      <href>/caldav.php/user1/6E20BB7C-EFD9-4F0F-9BDC-5335E04D47E0/</href>
     </C1:calendar-free-busy-set>
     <C1:schedule-default-calendar-URL>
-     <href>/user1/home/</href>
+     <href>/caldav.php/user1/home/</href>
     </C1:schedule-default-calendar-URL>
     <current-user-privilege-set>
      <privilege>
@@ -485,7 +485,7 @@ Content-Type: text/xml; charset="utf-8"
      <href>/caldav.php/user1/6E20BB7C-EFD9-4F0F-9BDC-5335E04D47E0/</href>
     </C1:calendar-free-busy-set>
     <C1:schedule-default-calendar-URL>
-     <href>/user1/home/</href>
+     <href>/caldav.php/user1/home/</href>
     </C1:schedule-default-calendar-URL>
     <current-user-privilege-set>
      <privilege>
@@ -589,7 +589,7 @@ Content-Type: text/xml; charset="utf-8"
      <href>/caldav.php/user1/6E20BB7C-EFD9-4F0F-9BDC-5335E04D47E0/</href>
     </C1:calendar-free-busy-set>
     <C1:schedule-default-calendar-URL>
-     <href>/user1/home/</href>
+     <href>/caldav.php/user1/home/</href>
     </C1:schedule-default-calendar-URL>
     <current-user-privilege-set>
      <privilege>
@@ -673,7 +673,7 @@ Content-Type: text/xml; charset="utf-8"
      <href>/caldav.php/user1/6E20BB7C-EFD9-4F0F-9BDC-5335E04D47E0/</href>
     </C1:calendar-free-busy-set>
     <C1:schedule-default-calendar-URL>
-     <href>/user1/home/</href>
+     <href>/caldav.php/user1/home/</href>
     </C1:schedule-default-calendar-URL>
     <current-user-privilege-set>
      <privilege>
@@ -759,7 +759,7 @@ Content-Type: text/xml; charset="utf-8"
      <href>/caldav.php/user1/6E20BB7C-EFD9-4F0F-9BDC-5335E04D47E0/</href>
     </C1:calendar-free-busy-set>
     <C1:schedule-default-calendar-URL>
-     <href>/user1/home/</href>
+     <href>/caldav.php/user1/home/</href>
     </C1:schedule-default-calendar-URL>
     <current-user-privilege-set>
      <privilege>
