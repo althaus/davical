@@ -404,7 +404,7 @@ EOSQL;
       $this->collection_path = $this->path;
       $this->_is_principal = true;
     }
-    else if ( preg_match( '#^(/[^/]+)/?$#', $this->path, $matches) || preg_match( '#^(/principals/[^/]+/[^/]+)/?$#', $this->path, $matches) ) {
+    else if ( preg_match( '#^(/[^/?]+)/?$#', $this->path, $matches) || preg_match( '#^(/principals/[^/]+/[^/]+)/?$#', $this->path, $matches) ) {
       $this->collection_id = -1;
       $this->collection_path = $matches[1].'/';  // Enforce trailling '/'
       $this->collection_type = 'principal';
@@ -412,7 +412,7 @@ EOSQL;
       if ( $this->collection_path == $this->path."/" ) {
         $this->path .= '/';
         dbg_error_log( "caldav", "Path is actually a collection - sending Content-Location header." );
-        header( "Content-Location: ".ConstructURL($this->path) );
+        header( "Content-Loca3tion: ".ConstructURL($this->path) );
       }
       if ( preg_match( '#^(/principals/[^/]+/[^/]+)/?$#', $this->path, $matches) ) {
         // Force a depth of 0 on these, which are at the wrong URL.
