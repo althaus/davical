@@ -487,7 +487,7 @@ class Principal {
       default:
         fatal('Unknown internal URL type "'.$type.'"');
     }
-    return $result;
+    return ConstructURL(rawurldecode($result));
   }
 
   
