@@ -1633,13 +1633,13 @@ EOQRY;
           $reply->DAVElement( $prop, 'owner', $reply->href( ConstructURL($this->collection->bound_from )) );
         }
         else {
-          $reply->DAVElement( $prop, 'owner', $reply->href( ConstructURL(rawurldecode($this->principal_url())) ) );
+          $reply->DAVElement( $prop, 'owner', $reply->href( ConstructURL(DeconstructURL($this->principal_url())) ) );
         }
         break;
 
       case 'DAV::add-member':
         if ( ! $this->_is_collection ) return false;
-        $reply->DAVElement( $prop, 'add-member', $reply->href(ConstructURL(rawurldecode($this->url())).'?add-member') );
+        $reply->DAVElement( $prop, 'add-member', $reply->href(ConstructURL(DeconstructURL($this->url())).'?add-member') );
         break;
 
       // Empty tag responses.
@@ -1742,7 +1742,7 @@ EOQRY;
         break;
 
       case 'DAV::current-user-principal':
-        $prop->NewElement('current-user-principal', $reply->href( ConstructURL(rawurldecode($request->principal->url())) ) );
+        $prop->NewElement('current-user-principal', $reply->href( ConstructURL(DeconstructURL($request->principal->url())) ) );
         break;
 
       case 'SOME-DENIED-PROPERTY':  /** indicating the style for future expansion */
