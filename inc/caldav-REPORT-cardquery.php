@@ -183,7 +183,7 @@ $bound_from = $target_collection->bound_from();
 if ( !$target_collection->Exists() ) {
   $request->DoResponse( 404 );
 }
-if ( ! ($target_collection->IsAddressbook() || $target_collection->IsSchedulingCollection()) ) {
+if ( ! $target_collection->IsAddressbook() ) {
   $request->DoResponse( 403, translate('The addressbook-query report must be run against an addressbook collection') );
 }
 
