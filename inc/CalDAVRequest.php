@@ -147,13 +147,14 @@ class CalDAVRequest
       $this->path = $_SERVER['PATH_INFO'];
     }
     else {
-      $this->path = "/";
+      $this->path = '/';
       if ( isset($_SERVER['REQUEST_URI']) ) {
-        $path = preg_replace( '{^(.*?\.php/?)}', '/', $_SERVER['REQUEST_URI'], $matches );
-        if ( !empty($matches[1]) ) {
-          $this->path = $path;
+        if ( preg_match( '{^(.*?\.php)(.*)$}', $_SERVER['REQUEST_URI'], $matches ) ) {
+          $this->path = $matches[2];
+          if ( substr($this->path,0,1) != '/' )
+            $this->path = '/'.$this->path;
         }
-        else {
+        else if ( $_SERVER['REQUEST_URI'] != '/' ) {
           dbg_error_log('LOG', 'Server is not supplying PATH_INFO and REQUEST_URI does not include a PHP program.  Wildly guessing "/"!!!');
         }
       }
