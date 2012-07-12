@@ -655,8 +655,7 @@ EOQRY;
     xml_parser_free($xml_parser);
     $position = 0;
     $xmltree = BuildXMLTree( $xml_tags, $position);
-    $content = $xmltree->GetContent();
-    return $content[0];
+    return $xmltree->GetContent();
   }
 
   /**
