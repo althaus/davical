@@ -1692,9 +1692,12 @@ EOQRY;
         if ( $this->IsCalendar() ) {
           if ( !isset($this->dead_properties) ) $this->FetchDeadProperties();
           if ( isset($this->dead_properties[$tag]) ) {
-            $set_of_components = explode('"', $this->dead_properties[$tag]);
+            $set_of_components = $this->dead_properties[$tag];
             foreach( $set_of_components AS $k => $v ) {
-              if ( !preg_match('{(VEVENT|VTODO|VJOURNAL|VTIMEZONE|VFREEBUSY|VPOLL|VAVAILABILITY)}', $v) ) {
+              if ( preg_match('{(VEVENT|VTODO|VJOURNAL|VTIMEZONE|VFREEBUSY|VPOLL|VAVAILABILITY)}', $v, $matches) ) {
+                $set_of_components[$k] = $matches[1];
+              }
+              else {
                 unset( $set_of_components[$k] );
               }
             }
