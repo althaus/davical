@@ -1638,6 +1638,7 @@ EOQRY;
 
       case 'DAV::add-member':
         if ( ! $this->_is_collection ) return false;
+        if ( isset($c->post_add_member) && $c->post_add_member === false ) return false;
         $reply->DAVElement( $prop, 'add-member', $reply->href(ConstructURL(DeconstructURL($this->url())).'?add-member') );
         break;
 
