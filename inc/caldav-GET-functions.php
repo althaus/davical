@@ -47,7 +47,7 @@ function export_iCalendar( DAVResource $dav_resource ) {
     $where .= '(SELECT bound_source_id FROM dav_binding WHERE dav_binding.dav_name ~ :path_match ';
     $where .= 'UNION ';
     $where .= 'SELECT collection_id FROM collection WHERE collection.dav_name ~ :path_match) ';
-    $params = array( ':path_match' => '^'.$request->path );
+    $params = array( ':path_match' => '^'.$dav_resource->dav_name() );
     $distinct = 'DISTINCT ON (calendar_item.uid) ';
   }
   else {
