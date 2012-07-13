@@ -1,7 +1,7 @@
 #
 # Check for support of PROPPATCH method
 #
-# Try (and fail) to set the collection to be both an addressbook and a calendar.
+# Try to set some dead properties on the collection
 #
 TYPE=PROPPATCH
 URL=http://regression.host/caldav.php/user1/home/
@@ -11,18 +11,23 @@ HEAD
 
 BEGINDATA
 <?xml version="1.0" encoding="utf-8" ?> 
-<propertyupdate xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav"> 
+<propertyupdate xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav" xmlns:B="urn:example:cats">
   <set> 
     <prop> 
       <resourcetype> 
         <collection/>
         <calendar xmlns="urn:ietf:params:xml:ns:caldav"/>
-        <spotted-grebe xmlns="http://xmlns.comical.net/birds"/>
       </resourcetype> 
       <displayname>User 1's Calendaranza</displayname> 
       <C:schedule-calendar-transp>
        <C:opaque/>
       </C:schedule-calendar-transp>
+      <spotted-grebe xmlns="http://xmlns.comical.net/birds"/>
+      <C:cats>
+        <C:cat breed="persian">Coconut</C:cat>
+        <C:cat breed="tabby">Tigger</C:cat>
+        <C:cat breed="burmese">Simba</C:cat>
+      </C:cats>
     </prop> 
   </set> 
 </propertyupdate>
@@ -33,4 +38,9 @@ SELECT dav_displayname, is_addressbook, is_calendar, resourcetypes,
        modified > (current_timestamp - '5 minutes'::interval) AS changed_last_5m,
        schedule_transp
   FROM collection WHERE dav_name = '/user1/home/';
+ENDQUERY
+
+QUERY
+SELECT property_name, property_value, changed_by
+  FROM property WHERE dav_name = '/user1/home/'
 ENDQUERY

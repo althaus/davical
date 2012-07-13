@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<multistatus xmlns="DAV:" xmlns:X="http://xmlns.comical.net/birds" xmlns:C="urn:ietf:params:xml:ns:caldav">
+ <response>
+  <href>/caldav.php/user1/home/</href>
+  <propstat>
+   <prop>
+    <owner>
+     <href>/caldav.php/user1/</href>
+    </owner>
+    <displayname>User 1's Calendaranza</displayname>
+    <X:spotted-grebe/>
+    <C:cats>
+     <C:cat breed="persian">Coconut</C:cat>
+     <C:cat breed="tabby">Tigger</C:cat>
+     <C:cat breed="burmese">Simba</C:cat>
+    </C:cats>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+</multistatus>

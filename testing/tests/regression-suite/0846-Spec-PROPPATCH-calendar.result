@@ -2,38 +2,64 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, bind, addressbook, calendar-auto-schedule, calendar-proxy
-Content-Length: 687
+Content-Length: 462
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
-<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav">
- <response>
-  <href>/caldav.php/user1/home/</href>
-  <responsedescription>Some properties were not able to be changed.</responsedescription>
-  <propstat>
-   <prop>
-    <resourcetype/>
-   </prop>
-   <status>HTTP/1.1 403 Forbidden</status>
-   <responsedescription>Unsupported resourcetype modification.</responsedescription>
-   <error>
-    <cannot-modify-protected-property/>
-   </error>
-  </propstat>
-  <propstat>
-   <prop>
-    <displayname/>
-    <C:schedule-calendar-transp/>
-   </prop>
-   <status>HTTP/1.1 424 Failed Dependency</status>
-  </propstat>
- </response>
+<multistatus xmlns="DAV:" xmlns:C="urn:ietf:params:xml:ns:caldav" xmlns:X="http://xmlns.comical.net/birds">
+ <href>/caldav.php/user1/home/</href>
+ <responsedescription>All requested changes were made.</responsedescription>
+ <propstat>
+  <prop>
+   <resourcetype/>
+   <displayname/>
+   <C:schedule-calendar-transp/>
+   <X:spotted-grebe/>
+   <C:cats/>
+  </prop>
+  <status>HTTP/1.1 200 OK</status>
+ </propstat>
 </multistatus>
 
   changed_last_5m: >1<
-  dav_displayname: >User One's addressbook<
-   is_addressbook: >1<
-      is_calendar: >0<
-    resourcetypes: ><collection xmlns="DAV:"/><addressbook xmlns="urn:ietf:params:xml:ns:carddav"/><
-  schedule_transp: >transparent<
+  dav_displayname: >User 1's Calendaranza<
+   is_addressbook: >0<
+      is_calendar: >1<
+    resourcetypes: ><collection xmlns="DAV:"/><calendar xmlns="urn:ietf:params:xml:ns:caldav"/><
+  schedule_transp: >opaque<
+
+       changed_by: >10<
+    property_name: >http://apple.com/ns/ical/:calendar-color<
+   property_value: >#0252D4FF<
+
+       changed_by: >10<
+    property_name: >http://apple.com/ns/ical/:calendar-order<
+   property_value: >1<
+
+       changed_by: >10<
+    property_name: >urn:ietf:params:xml:ns:caldav:schedule-default-calendar-URL<
+   property_value: >
+ <href xmlns="DAV:">/caldav.php/user1/home/</href>
+<
+
+       changed_by: >10<
+    property_name: >urn:org:davical:outer<
+   property_value: >
+ <middle xmlns="urn:org:davical">
+  <inner xmlns="urn:org:davical">inside</inner>
+  <inner xmlns="urn:org:davical">inside2</inner>
+ </middle>
+<
+
+       changed_by: >10<
+    property_name: >http://xmlns.comical.net/birds:spotted-grebe<
+   property_value: ><
+
+       changed_by: >10<
+    property_name: >urn:ietf:params:xml:ns:caldav:cats<
+   property_value: >
+ <cat breed="persian" xmlns="urn:ietf:params:xml:ns:caldav">Coconut</cat>
+ <cat breed="tabby" xmlns="urn:ietf:params:xml:ns:caldav">Tigger</cat>
+ <cat breed="burmese" xmlns="urn:ietf:params:xml:ns:caldav">Simba</cat>
+<
 
