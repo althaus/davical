@@ -28,15 +28,6 @@ class imapPamDrivers
 
 
   /**
-  * Constructor.
-  * @param string $imap_url formated for imap_open()
-  */
-  function imapPamDrivers($imap_url){
-      $this->__construct($imap_url);
-  }
-
-
-  /**
   * The constructor
   *
   * @param string $imap_url formated for imap_open()
