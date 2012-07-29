@@ -519,7 +519,7 @@ function sync_LDAP_groups(){
   if ( sizeof ( $groups_to_deactivate ) ){
     $c->messages[] = sprintf(i18n('- deactivate groups : %s'),join(', ',$groups_to_deactivate));
     foreach ( $groups_to_deactivate as $group ){
-      $qry = new AwlQuery( 'UPDATE dav_principal set active=FALSE WHERE username=:group AND type_id = 3',array(':group'=>$group) );
+      $qry = new AwlQuery( 'UPDATE dav_principal SET user_active=FALSE WHERE username=:group AND type_id = 3',array(':group'=>$group) );
       $qry->Exec('sync_LDAP',__LINE__,__FILE__);
       Principal::cacheFlush('username=:group AND type_id = 3', array(':group'=>$group) );
     }
