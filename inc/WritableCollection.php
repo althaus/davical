@@ -52,7 +52,7 @@ class WritableCollection extends DAVResource {
       $resource_type = $first->GetType();
     }
   
-    $uid = $first->GetPValue('UID');
+    $uid = $vcal->GetUID();
     if ( empty($segment_name) ) {
       $segment_name = $uid.'.ics';
     }
