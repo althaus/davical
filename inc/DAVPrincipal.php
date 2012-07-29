@@ -482,11 +482,13 @@ class DAVPrincipal extends Principal
         $reply->DAVElement( $prop, 'getcontentlanguage', $locale );
         break;
 
+      case 'http://calendarserver.org/ns/:group-member-set':
       case 'DAV::group-member-set':
         if ( ! $this->_is_group ) return false;
         $reply->DAVElement( $prop, 'group-member-set', $reply->href($this->group_member_set) );
         break;
 
+      case 'http://calendarserver.org/ns/:group-membership':
       case 'DAV::group-membership':
         $reply->DAVElement( $prop, 'group-membership', $reply->href($this->GroupMembership()) );
         break;
