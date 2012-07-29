@@ -1288,10 +1288,11 @@ EOQRY;
   /**
    * Returns the current sync_token for this collection, or the containing collection
    */
-  function sync_token() {
+  function sync_token( $cachedOK = true ) {
+    printf("Request for a%scached sync-token\n", ($cachedOK ? ' ' : 'n un') );
     if ( $this->IsPrincipal() ) return null;
     if ( $this->collection_id() == 0 ) return null;
-    if ( !isset($this->sync_token) ) { 
+    if ( !isset($this->sync_token) || !$cachedOK ) { 
       $sql = 'SELECT new_sync_token( 0, :collection_id) AS sync_token';
       $params = array( ':collection_id' => $this->collection_id());
       $qry = new AwlQuery($sql, $params );
@@ -1301,6 +1302,7 @@ EOQRY;
       }
       $this->sync_token = 'data:,'.$row->sync_token;
     }
+    printf("Returning sync token of '%s'\n", $this->sync_token );
     return $this->sync_token;
   }
   
