@@ -104,9 +104,9 @@ class HTTPAuthSession {
     if ( !isset($_SERVER['AUTHORIZATION']) && isset($_SERVER['HTTP_AUTHORIZATION']) && !empty($_SERVER['HTTP_AUTHORIZATION']))
       $_SERVER['AUTHORIZATION'] = $_SERVER['HTTP_AUTHORIZATION'];
     if (isset($_SERVER['AUTHORIZATION']) && !empty($_SERVER['AUTHORIZATION'])) {
-      list ($type, $cred) = split (" ", $_SERVER['AUTHORIZATION']);
+      list ($type, $cred) = explode(" ", $_SERVER['AUTHORIZATION']);
       if ($type == 'Basic') {
-        list ($user, $pass) = explode (":", base64_decode($cred));
+        list ($user, $pass) = explode(":", base64_decode($cred));
         $_SERVER['PHP_AUTH_USER'] = $user;
         $_SERVER['PHP_AUTH_PW'] = $pass;
       }
