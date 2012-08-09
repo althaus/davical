@@ -41,7 +41,7 @@ usage() if ( $helpmeplease || ((!defined($suite) || !defined($case)) && !defined
 my $dbh;
 
 
-my @arguments = ( "--basic", "--proxy", "", "--insecure" );
+my @arguments = ( "--basic", "--proxy", "", "--insecure", "--raw" );
 push @arguments, "--silent"  unless ( $debug );
 push @arguments, "--verbose" if ( $debug );
 
