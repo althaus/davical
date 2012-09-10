@@ -1289,7 +1289,7 @@ EOQRY;
    * Returns the current sync_token for this collection, or the containing collection
    */
   function sync_token( $cachedOK = true ) {
-    printf("Request for a%scached sync-token\n", ($cachedOK ? ' ' : 'n un') );
+    dbg_error_log('DAVResource', 'Request for a%scached sync-token', ($cachedOK ? ' ' : 'n un') );
     if ( $this->IsPrincipal() ) return null;
     if ( $this->collection_id() == 0 ) return null;
     if ( !isset($this->sync_token) || !$cachedOK ) { 
@@ -1302,7 +1302,7 @@ EOQRY;
       }
       $this->sync_token = 'data:,'.$row->sync_token;
     }
-    printf("Returning sync token of '%s'\n", $this->sync_token );
+    dbg_error_log('DAVResource', 'Returning sync token of "%s"', $this->sync_token );
     return $this->sync_token;
   }
   
@@ -1450,6 +1450,7 @@ EOQRY;
 
       case 'dav-data':
         if ( !isset($this->resource) ) $this->FetchResource();
+        trace_bug("Exists ".($this->exists?"true":"false"));
         return $this->resource->caldav_data;
         break;
         
