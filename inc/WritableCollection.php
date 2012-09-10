@@ -451,7 +451,8 @@ EOSQL;
     $params = array( ':collection_id' => $this->collection_id() );
     if ( $some_old_token == 0 || empty($some_old_token) ) {
       $sql = <<<EOSQL
-  SELECT calendar_item.*, caldav_data.*, addressbook_resource.*, 201 AS sync_status
+  SELECT calendar_item.*, caldav_data.*, addressbook_resource.*, 201 AS sync_status,
+         COALESCE(addressbook_resource.uid,calendar_item.uid) AS uid
       FROM caldav_data
       LEFT JOIN calendar_item USING (dav_id)
       LEFT JOIN addressbook_resource USING (dav_id)
@@ -462,7 +463,8 @@ EOSQL;
     else {
       $params[':sync_token'] = $some_old_token;
       $sql = <<<EOSQL
-  SELECT calendar_item.*, caldav_data.*, addressbook_resource.*, sync_changes.*
+  SELECT calendar_item.*, caldav_data.*, addressbook_resource.*, sync_changes.*,
+         COALESCE(addressbook_resource.uid,calendar_item.uid) AS uid
       FROM sync_changes
       LEFT JOIN caldav_data USING (collection_id,dav_id)
       LEFT JOIN calendar_item USING (collection_id,dav_id)
@@ -476,7 +478,7 @@ EOSQL;
     $qry = new AwlQuery($sql, $params );
 
     $changes = array();
-    if ( $qry->Exec() && $qry->rows() ) {
+    if ( $qry->Exec('WritableCollection') && $qry->rows() ) {
       while( $change = $qry->Fetch() ) {
         $changes[$change->uid] = $change;
       }
