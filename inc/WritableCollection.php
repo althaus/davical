@@ -245,6 +245,7 @@ EOSQL;
     if ( !$this->IsSchedulingCollection() ) {
       $this->WriteCalendarAlarms($dav_id, $vcal);
       $this->WriteCalendarAttendees($dav_id, $vcal);
+      $put_action_type = ($create_resource ? 'INSERT' : 'UPDATE');
       if ( $log_action && function_exists('log_caldav_action') ) {
         log_caldav_action( $put_action_type, $first->GetPValue('UID'), $user_no, $collection_id, $path );
       }
