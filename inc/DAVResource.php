@@ -1706,8 +1706,11 @@ EOQRY;
               }
             }
           }
+          else if ( isset($c->default_calendar_components) && is_array($c->default_calendar_components) ) {
+            $set_of_components = $c->default_calendar_components;
+          }
           else {
-            $set_of_components = array( 'VEVENT', 'VTODO', 'VJOURNAL', 'VTIMEZONE', 'VFREEBUSY', 'VPOLL', 'VAVAILABILITY' );
+            $set_of_components = array( 'VEVENT', 'VTODO', 'VJOURNAL' );
           }
         }
         else if ( $this->IsSchedulingCollection() )
