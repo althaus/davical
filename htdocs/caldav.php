@@ -110,7 +110,7 @@ switch ( $request->method ) {
   case 'HEAD':       include('caldav-GET.php');            break;
   case 'PROPPATCH':  include('caldav-PROPPATCH.php');      break;
   case 'POST':
-    if ( !$add_member ) {
+    if ( $request->content_type != 'text/vcard' && !$add_member ) {
       include('caldav-POST.php');
       break;
     }
