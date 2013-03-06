@@ -36,7 +36,7 @@ BEGIN
           ELSE 0 END)::BIT(24);
 END
 $$
-LANGUAGE 'PlPgSQL' IMMUTABLE STRICT;
+LANGUAGE 'plpgsql' IMMUTABLE STRICT;
 
 -- Given an array of verbose DAV: or CalDAV: privilege names return the bitmask
 CREATE or REPLACE FUNCTION privilege_to_bits( TEXT[] ) RETURNS BIT(24) AS $$
@@ -62,7 +62,7 @@ BEGIN
   RETURN out_bits;
 END
 $$
-LANGUAGE 'PlPgSQL' IMMUTABLE STRICT;
+LANGUAGE 'plpgsql' IMMUTABLE STRICT;
 
 
 -- This sequence is used in a number of places so that any DAV resource will have a unique ID
