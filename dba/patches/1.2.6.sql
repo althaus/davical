@@ -50,7 +50,7 @@ BEGIN
   RETURN out_bits;
 END
 $$
-LANGUAGE 'PlPgSQL' IMMUTABLE STRICT;
+LANGUAGE 'plpgsql' IMMUTABLE STRICT;
 
 -- This legacy conversion function will eventually be removed, once all logic
 -- has been converted to use bitmaps, or to use the bits_to_priv() output.
@@ -103,7 +103,7 @@ BEGIN
   RETURN out_priv;
 END
 $$
-LANGUAGE 'PlPgSQL' IMMUTABLE STRICT;
+LANGUAGE 'plpgsql' IMMUTABLE STRICT;
 
 CREATE or REPLACE FUNCTION get_permissions( INT, INT ) RETURNS TEXT AS $$
 DECLARE
@@ -161,7 +161,7 @@ $$ LANGUAGE 'plpgsql' IMMUTABLE STRICT;
 
 CREATE or REPLACE FUNCTION get_group_role_no() RETURNS INT AS $$
   SELECT role_no FROM roles WHERE role_name = 'Group'
-$$ LANGUAGE 'SQL' IMMUTABLE;
+$$ LANGUAGE 'sql' IMMUTABLE;
 
 CREATE or REPLACE FUNCTION has_legacy_privilege( INT, TEXT, INT ) RETURNS BOOLEAN AS $$
 DECLARE
@@ -247,7 +247,7 @@ BEGIN
           ELSE 0 END)::BIT(24);
 END
 $$
-LANGUAGE 'PlPgSQL' IMMUTABLE STRICT;
+LANGUAGE 'plpgsql' IMMUTABLE STRICT;
 
 
 -- Given an array of verbose DAV: or CalDAV: privilege names return the bitmask
@@ -274,7 +274,7 @@ BEGIN
   RETURN out_bits;
 END
 $$
-LANGUAGE 'PlPgSQL' IMMUTABLE STRICT;
+LANGUAGE 'plpgsql' IMMUTABLE STRICT;
 
 
 -- This legacy conversion function will eventually be removed, once all logic
@@ -372,7 +372,7 @@ BEGIN
   RETURN out_priv;
 END
 $$
-LANGUAGE 'PlPgSQL' IMMUTABLE STRICT;
+LANGUAGE 'plpgsql' IMMUTABLE STRICT;
 
 
 
@@ -491,7 +491,7 @@ BEGIN
   RETURN out_bits;
 END
 $$
-LANGUAGE 'PlPgSQL' IMMUTABLE STRICT;
+LANGUAGE 'plpgsql' IMMUTABLE STRICT;
 
 
 ALTER TABLE relationship_type ADD COLUMN bit_confers BIT(24) DEFAULT privilege_to_bits(ARRAY['DAV::read','DAV::write']);

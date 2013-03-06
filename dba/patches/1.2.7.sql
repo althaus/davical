@@ -54,7 +54,7 @@ BEGIN
                      VALUES( in_collection_id, in_status, tmp_int, in_dav_name);
   RETURN TRUE;
 END
-$$ LANGUAGE 'PlPgSQL' VOLATILE STRICT;
+$$ LANGUAGE 'plpgsql' VOLATILE STRICT;
 
 
 CREATE or REPLACE FUNCTION new_sync_token( INT8, INT8 ) RETURNS INT8 AS $$
@@ -76,4 +76,4 @@ BEGIN
   INSERT INTO sync_tokens(collection_id, sync_token) VALUES( in_collection_id, tmp_int );
   RETURN tmp_int;
 END
-$$ LANGUAGE 'PlPgSQL' STRICT;
+$$ LANGUAGE 'plpgsql' STRICT;

@@ -1,5 +1,5 @@
 2013-03-06  Andrew McMillan  <andrew@morphoss.com>
-	* Fix capitalisation of 'plpgsql' for Postgres 9.2. (debbug #702403)
+	* Fix capitalisation of 'plpgsql' & 'sql' for Postgres 9.2. (debbug #702403)
 
 2013-02-16  Andrew McMillan  <andrew@morphoss.com>
 	* Content-Type header should be 'charset' not 'encoding'.
