@@ -1,4 +1,53 @@
+2013-03-06  Andrew McMillan  <andrew@morphoss.com>
+	* Fix capitalisation of 'plpgsql' for Postgres 9.2. (debbug #702403)
+
+2013-02-16  Andrew McMillan  <andrew@morphoss.com>
+	* Content-Type header should be 'charset' not 'encoding'.
+
+2012-09-20  Andrew McMillan  <andrew@morphoss.com>
+	* When we get here it is a Bad Request, not a Server Error.
+	* Quick workaround for iOS6 supported-calendar-component-set issue.
+	  Adds a $c->default_calendar_components array of (VEVENT,VTODO,...)
+	* Workaround client software with imperfect add-member implementations.
+
+2012-09-10  Andrew McMillan  <andrew@morphoss.com>
+	* Fix unassigned variable.
+	* Avoid unassigned variable warning.
+	* Fix UID handling.
+	* Fix debugging to error log.
+
+2012-08-09  Andrew McMillan  <andrew@morphoss.com>
+	* Ensure test responses are displayed in their unprocessed form.
+	* Some debugging messages.
+
+2012-07-31  Andrew McMillan  <andrew@morphoss.com>
+	* Replace deprecated split() with explode()
+
+2012-05-28  Andrew McMillan  <andrew@morphoss.com>
+	* First cut at iMIP implementation.  Still working on this.
+
+2012-07-30  Andrew McMillan  <andrew@morphoss.com>
+	* Fix SQL fieldname.
+
+2012-07-29  Andrew McMillan  <andrew@morphoss.com>
+	* Sometimes we want to retrieve the sync-token as a result of a change we just made.
+	  This allows a (default true) flag to indicate whether it's OK to use
+	  a previously cached value.
+	* On Apple devices these can sometimes appear in the Apple namespace. Odd.
+	* Let the VCalendar class handle how to get the UID from the calendar.
+
+2012-07-25  Andrew McMillan  <andrew@morphoss.com>
+	* Remove old redundant constructor.
+
+2012-07-13  Andrew McMillan  <andrew@morphoss.com>
+	* Add workaround for Apple's POST add-member trainwreck.
+	* We might not have a $request calling this so use the object's path instead.
+	* Testing for dead property XML which is a set of prop.
+	* supported-calendar-component-set uses dead properties too...
+	* Don't just return the first element in a dead property - there might be multiple!
+
 2012-07-04  Andrew McMillan  <andrew@morphoss.com>
+	* Release 1.1.1
 	* CalDAV client library: Handle multiple "Allow" header lines.
 	* Fix checking of Basic Auth headers.
 
