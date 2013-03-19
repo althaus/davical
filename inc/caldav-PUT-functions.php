@@ -890,6 +890,20 @@ EOSQL;
     $icalendar = $vcal->Render();
     $dav_name = sprintf( '%s%s.ics', $path, preg_replace('{[&?\\/@%+:]}','',$uid) );
 
+    /** Do we need to do anything? */
+    $inserting = true;
+    if ( isset($current_data[$dav_name]) ) {
+      if ( $icalendar == $current_data[$dav_name] ) {
+        unset($current_data[$dav_name]);
+        continue;
+      }
+      $sync_change = 200;
+      unset($current_data[$dav_name]);
+      $inserting = false;
+    }
+    else
+      $sync_change = 201;
+    
     if ( isset($c->skip_bad_event_on_import) && $c->skip_bad_event_on_import ) $qry->Begin();
     
     /** As ever, we mostly deal with the first resource component */
