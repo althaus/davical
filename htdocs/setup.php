@@ -252,7 +252,7 @@ function check_davical_version() {
   $url = 'http://www.davical.org/current_davical_version?v='.$c->version_string;
   $version_file = @fopen($url, 'r');
   if ( ! $version_file ) return new CheckResult( false, translate("Could not retrieve") . " '$url'", 'dep_warning' );
-  $current_version = trim(fread( $version_file,12));
+  $current_version = htmlentities( trim(fread( $version_file,12)) );
   fclose($version_file);
   $result = new CheckResult($c->version_string == $current_version);
   if ( ! $result->getOK() ) {
