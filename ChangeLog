@@ -5,6 +5,8 @@
 	* HTML escape the remotely retrieved version string printed to the HTML
 	  in order to prevent and attacks (if this would have been possible at
 	  all in 12 characters).
+	* Updated all addresses of the canonical git upstream repository and the
+	  issue tracker to the new ones.
 
 2013-03-06  Andrew McMillan  <andrew@morphoss.com>
 	* Fix capitalisation of 'plpgsql' & 'sql' for Postgres 9.2. (debbug #702403)
