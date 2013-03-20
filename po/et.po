@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: DAViCal\n"
-"Report-Msgid-Bugs-To: http://repo.or.cz/w/davical.git/tree/HEAD:/issues\n"
+"Report-Msgid-Bugs-To: https://github.com/DAViCal/davical/issues\n"
 "POT-Creation-Date: 2012-05-28 21:24+1200\n"
 "PO-Revision-Date: 2012-05-28 09:26+0000\n"
 "Last-Translator: Andrew McMillan <andrew@mcmillan.net.nz>\n"

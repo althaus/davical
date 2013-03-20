@@ -4,8 +4,8 @@ Priority: extra
 Maintainer: Andrew McMillan <awm@debian.org>
 Standards-Version: 3.9.2
 Build-Depends: debhelper (>= 7), libawl-php, gettext
-Vcs-git: git://repo.or.cz/davical.git
-Vcs-browser: http://repo.or.cz/w/davical.git
+Vcs-git: git://github.com/DAViCal/davical.git
+Vcs-browser: https://github.com/DAViCal/davical
 Homepage: http://davical.org/
 
 Package: davical

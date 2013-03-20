@@ -20,7 +20,7 @@ $help_menu = new MenuSet('submenu', 'submenu', 'submenu_active');
 $help_menu->AddOption(translate('DAViCal Homepage'),'http://www.davical.org/',translate('The DAViCal Home Page'), false, 6000, true );
 $help_menu->AddOption(translate('DAViCal Wiki'),'http://wiki.davical.org/'.$wiki_help,translate('Visit the DAViCal Wiki'), false, 7000, true );
 $help_menu->AddOption(translate('Request Feature'),'http://davical.uservoice.com/',translate('Go to the DAViCal Feature Requests'), false, 8000, true );
-$help_menu->AddOption(translate('Report Bug'),'http://sourceforge.net/tracker/?func=add&group_id=179845&atid=890785',translate('Report a bug in the system'), false, 9000, true );
+$help_menu->AddOption(translate('Report Bug'),'https://github.com/DAViCal/davical/issues',translate('Report a bug in the system'), false, 9000, true );
 
 $user_menu = new MenuSet('submenu', 'submenu', 'submenu_active');
 $user_menu->AddOption(translate('View My Details'),$c->base_url.'/admin.php?action=edit&t=principal&id='.$session->principal_id,translate('View my own principal record'));
