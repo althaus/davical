@@ -45,7 +45,7 @@ if ( ! $dav_resource->Exists() && ! $dav_resource->HavePrivilegeTo('DAV::bind') 
 }
 
 if ( ! ini_get('open_basedir') && (isset($c->dbg['ALL']) || (isset($c->dbg['put']) && $c->dbg['put'])) ) {
-  $fh = fopen('/tmp/PUT.txt','w');
+  $fh = fopen('/var/log/davical/PUT.debug','w');
   if ( $fh ) {
     fwrite($fh,$request->raw_post);
     fclose($fh);

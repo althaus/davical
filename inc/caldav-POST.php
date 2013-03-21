@@ -16,7 +16,7 @@ include_once('freebusy-functions.php');
 include_once('iSchedule.php');
 
 if ( ! ini_get('open_basedir') && (isset($c->dbg['ALL']) || isset($c->dbg['post'])) ) {
-  $fh = fopen('/tmp/POST.txt','w');
+  $fh = fopen('/var/log/davical/POST.debug','w');
   if ( $fh ) {
     fwrite($fh,$request->raw_post);
     fclose($fh);

@@ -15,7 +15,7 @@ require_once('DAVResource.php');
 $request->NeedPrivilege('DAV::unbind');
 
 if ( ! ini_get('open_basedir') && (isset($c->dbg['ALL']) || (isset($c->dbg['move']) && $c->dbg['move'])) ) {
-  $fh = fopen('/tmp/MOVE.txt','w');
+  $fh = fopen('/var/log/davical/MOVE.debug','w');
   if ( $fh ) {
     fwrite($fh,$request->raw_post);
     fclose($fh);

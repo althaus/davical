@@ -183,7 +183,7 @@ class CalDAVRequest
       @dbg_error_log('caldav', 'Content-Encoding: %s', $encoding );
       $encoding = preg_replace('{[^a-z0-9-]}i','',$encoding);
       if ( ! ini_get('open_basedir') && (isset($c->dbg['ALL']) || isset($c->dbg['caldav'])) ) {
-        $fh = fopen('/tmp/encoded_data.'.$encoding,'w');
+        $fh = fopen('/var/log/davical/encoded_data.debug'.$encoding,'w');
         if ( $fh ) {
           fwrite($fh,$c->raw_post);
           fclose($fh);
