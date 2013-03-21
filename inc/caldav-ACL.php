@@ -15,7 +15,7 @@ require_once('DAVResource.php');
 $request->NeedPrivilege('DAV::write-acl');
 
 if ( ! ini_get('open_basedir') && (isset($c->dbg['ALL']) || (isset($c->dbg['put']) && $c->dbg['put'])) ) {
-  $fh = fopen('/tmp/MOVE.txt','w');
+  $fh = fopen('/var/log/davical/MOVE.debug','w');
   if ( $fh ) {
     fwrite($fh,$request->raw_post);
     fclose($fh);

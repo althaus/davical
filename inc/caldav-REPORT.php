@@ -16,7 +16,7 @@ require_once('DAVResource.php');
 require_once('RRule-v2.php');
 
 if ( ! ini_get('open_basedir') && (isset($c->dbg['ALL']) || (isset($c->dbg['report']) && $c->dbg['report'])) ) {
-  $fh = fopen('/tmp/REPORT.txt','w');
+  $fh = fopen('/var/log/davical/REPORT.debug','w');
   if ( $fh ) {
     fwrite($fh,$request->raw_post);
     fclose($fh);

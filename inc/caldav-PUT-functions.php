@@ -647,7 +647,7 @@ function import_collection( $import_content, $user_no, $path, $caldav_context, $
   global $c;
   
   if ( ! ini_get('open_basedir') && (isset($c->dbg['ALL']) || isset($c->dbg['put'])) ) {
-    $fh = fopen('/tmp/PUT-2.txt','w');
+    $fh = fopen('/var/log/davical/PUT-2.debug','w');
     if ( $fh ) {
       fwrite($fh,$import_content);
       fclose($fh);
