@@ -109,7 +109,21 @@ function SqlFilterCardDAV( $filter, $components, $property = null, $parameter = 
             break;
         }
         $pname = ':text_match_'.$matchnum++;
-        $params[$pname] = '%'.$search.'%';
+        $match_type = $v->GetAttribute("match-type");
+        switch( strtolower($match_type) ) {
+          case 'starts-with':
+            $params[$pname] = $search.'%';
+            break;
+          case 'ends-with':
+            $params[$pname] = '%'.$search;
+            break;
+          case 'equals':
+            $params[$pname] = $search;
+          case 'contains':
+          default:
+            $params[$pname] = '%'.$search.'%';
+            break;
+        }
         dbg_error_log("cardquery", " text-match: (%s%s %s '%s') ", (isset($negate) && strtolower($negate) == "yes" ? "NOT ": ""),
                                           $property, $comparison, $params[$pname] );
         $sql .= sprintf( "AND (%s%s %s $pname) ", (isset($negate) && strtolower($negate) == "yes" ? "NOT ": ""),
