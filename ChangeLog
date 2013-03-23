@@ -1,3 +1,7 @@
+2013-03-23  Christoph Anton Mitterer <mail@christoph.anton.mitterer.name>
+	* Handle the content of the CGI AUTH_TYPE variable case-insensitively as
+	  defined by RFC 3875 Section 4.1.1.
+
 2013-03-21  Christoph Anton Mitterer <mail@christoph.anton.mitterer.name>
 	* Changed the pathnames of the debug files to be a bit more FHS
 	  compliant.
