@@ -1,3 +1,8 @@
+2013-03-25  Christoph Anton Mitterer <mail@christoph.anton.mitterer.name>
+	* In places where the CGI variable REMOTE_USER is read, support
+	  alternatively REDIRECT_REMOTE_USER, which is used by the Apache
+	  HTTPD Server instead, when a redirect was used.
+
 2013-03-23  Christoph Anton Mitterer <mail@christoph.anton.mitterer.name>
 	* Handle the content of the CGI AUTH_TYPE variable case-insensitively as
 	  defined by RFC 3875 Section 4.1.1.

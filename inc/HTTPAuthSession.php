@@ -112,7 +112,8 @@ class HTTPAuthSession {
       }
     }
     else if ( isset($c->authenticate_hook['server_auth_type'])
-              && isset($_SERVER['REMOTE_USER']) && !empty($_SERVER['REMOTE_USER'])) {
+              && (  ( isset($_SERVER["REMOTE_USER"]) && !empty($_SERVER["REMOTE_USER"]) )  ||
+                    ( isset($_SERVER["REDIRECT_REMOTE_USER"]) && !empty($_SERVER["REDIRECT_REMOTE_USER"]) )  )   ) {
       if ( ( is_array($c->authenticate_hook['server_auth_type'])
                     && in_array( strtolower($_SERVER['AUTH_TYPE']), array_map('strtolower', $c->authenticate_hook['server_auth_type'])) )
          ||
@@ -122,7 +123,10 @@ class HTTPAuthSession {
         /**
         * The authentication has happened in the server, and we should accept it.
         */
-        $_SERVER['PHP_AUTH_USER'] = $_SERVER['REMOTE_USER'];
+        if (isset($_SERVER["REMOTE_USER"]))
+          $_SERVER['PHP_AUTH_USER'] = $_SERVER['REMOTE_USER'];
+        else
+          $_SERVER['PHP_AUTH_USER'] = $_SERVER['REDIRECT_REMOTE_USER'];
         $_SERVER['PHP_AUTH_PW'] = 'Externally Authenticated';
         if ( ! isset($c->authenticate_hook['call']) ) {
           /**
