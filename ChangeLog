@@ -2,6 +2,8 @@
 	* In places where the CGI variable REMOTE_USER is read, support
 	  alternatively REDIRECT_REMOTE_USER, which is used by the Apache
 	  HTTPD Server instead, when a redirect was used.
+	* Removed debian/README.Debian which didn’t contain any useful
+	  information.
 
 2013-03-23  Christoph Anton Mitterer <mail@christoph.anton.mitterer.name>
 	* Handle the content of the CGI AUTH_TYPE variable case-insensitively as

@@ -3,6 +3,7 @@ davical (1.1.2-1) unstable; urgency=low
   * New upstream release (closes: #656395, #702403, #703290, #703383, #703387)
   * Updated the control file Vcs-* fields to the new addresses of the
     canonical git upstream repository.
+  * Removed README.Debian which didn’t contain any useful information.
 
  -- Andrew McMillan <awm@debian.org>  Wed, 06 Mar 2013 20:27:17 +1300
 
