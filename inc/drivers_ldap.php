@@ -205,9 +205,16 @@ class ldapDrivers
     $dnUser = ldap_get_dn($this->connect, ldap_first_entry($this->connect,$entry));
 
     if ( isset($c->authenticate_hook['config']['i_use_mode_kerberos']) && $c->authenticate_hook['config']['i_use_mode_kerberos'] == "i_know_what_i_am_doing") {
-    	dbg_error_log( "LDAP", "drivers_ldap : Skipping password Check for user %s which should be the same as %s",$username , $_SERVER["REMOTE_USER"]);
-      if ($username != $_SERVER["REMOTE_USER"]) {
-        return false;
+      if (isset($_SERVER["REMOTE_USER"])) {
+        dbg_error_log( "LOG", "drivers_ldap : Skipping password Check for user %s which should be the same as %s",$username , $_SERVER["REMOTE_USER"]);
+        if ($username != $_SERVER["REMOTE_USER"]) {
+          return false;
+        }
+      } else {
+        dbg_error_log( "LOG", "drivers_ldap : Skipping password Check for user %s which should be the same as %s",$username , $_SERVER["REDIRECT_REMOTE_USER"]);
+        if ($username != $_SERVER["REDIRECT_REMOTE_USER"]) {
+          return false;
+        }
       }
     }
     else if ( empty($passwd) || preg_match('/[\x00-\x19]/',$passwd) ) {
