@@ -221,7 +221,7 @@ function check_string($ics){
             return false;
         }
     } else {
-        dbg_error_log( "LOG check_string","the string is UTF8 compliant");
+//        dbg_error_log( "LOG check_string","the string is UTF8 compliant");
         return true;
     }
 }
