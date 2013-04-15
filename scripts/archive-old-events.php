@@ -159,7 +159,9 @@ if ( $qry->Exec(__CLASS__, __LINE__, __FILE__) ) {
   $archive_collection_id = $row->collection_id;
   
   $archive_sql = <<<EOSQL
-UPDATE caldav_data SET dav_name = replace( caldav_data.dav_name, :collection_dav_name, :archive_dav_name)
+UPDATE caldav_data
+   SET dav_name = replace( caldav_data.dav_name, :collection_dav_name, :archive_dav_name),
+       collection_id = :archive_collection_id
        FROM calendar_item
         WHERE caldav_data.collection_id = :source_collection_id
           AND caldav_data.caldav_type = 'VEVENT'
