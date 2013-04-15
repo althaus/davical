@@ -191,7 +191,7 @@ EOSQL;
   $qry->QDo($sql, $sqlargs);
 
   // Delete the sync tokens...
-  $sql = 'DELETE FROM sync_token WHERE collection_id IN (:source_id, :archive_id)';
+  $sql = 'DELETE FROM sync_tokens WHERE collection_id IN (:source_id, :archive_id)';
   $qry->QDo($sql, $sqlargs);
 
   // Delete the sync_changes...
