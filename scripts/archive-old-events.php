@@ -92,6 +92,7 @@ if ( $args->debug && is_array($debugging )) {
 
 require_once("./always.php");
 require_once('AwlQuery.php');
+require_once('AwlCache.php');
 require_once('RRule-v2.php');
 require_once('vCalendar.php');
 
@@ -142,10 +143,18 @@ $sqlargs = array(
 $qry = new AwlQuery($archive_collection_sql, $sqlargs);
 if ( $qry->Exec(__CLASS__, __LINE__, __FILE__) ) {
   $qry->QDo('SELECT collection_id FROM collection WHERE dav_name = ?', $collection_dav_name );
+  if ( $qry->rows() != 1 ) {
+    printf( "Could not find source collection '%s'\n", $collection_dav_name);
+    exit(1);
+  }
   $row = $qry->Fetch();
   $source_collection_id = $row->collection_id;
 
   $qry->QDo('SELECT collection_id FROM collection WHERE dav_name = ?', $collection_archive );
+  if ( $qry->rows() != 1 ) {
+    printf( "Could not create archive collection '%s'!\n", $collection_archive);
+    exit(2);
+  }
   $row = $qry->Fetch();
   $archive_collection_id = $row->collection_id;
   
@@ -167,4 +176,32 @@ EOSQL;
   $sqlargs[':source_collection_id'] = $source_collection_id;
   $sqlargs[':archive_collection_id'] = $archive_collection_id;
   $qry->QDo($archive_sql, $sqlargs);
+
+  /**
+   * At this point we've done all the work, we just have to inform the rest of the world that
+   * everything has changed underneath it.
+   */
+  
+  // Now ensure the collection tag changes...
+  $sql = 'UPDATE collection SET dav_etag = random(), modified = current_timestamp WHERE collection_id IN (:source_id, :archive_id)';
+  $sqlargs = array(
+        ':source_id' => $source_collection_id, 
+        ':archive_id' => $archive_collection_id
+        );
+  $qry->QDo($sql, $sqlargs);
+
+  // Delete the sync tokens...
+  $sql = 'DELETE FROM sync_token WHERE collection_id IN (:source_id, :archive_id)';
+  $qry->QDo($sql, $sqlargs);
+
+  // Delete the sync_changes...
+  $sql = 'DELETE FROM sync_changes WHERE collection_id IN (:source_id, :archive_id)';
+  $qry->QDo($sql, $sqlargs);
+  
+  // Uncache anything to do with the collection, or the archive
+  $cache = getCacheInstance();
+  $cache_ns = 'collection-'.preg_replace( '{/[^/]*$}', '/', $collection_dav_name);
+  $cache->delete( $cache_ns, null );
+  $cache_ns = 'collection-'.preg_replace( '{/[^/]*$}', '/', $collection_archive);
+  $cache->delete( $cache_ns, null );
 }
