@@ -141,6 +141,7 @@ $sqlargs = array(
       ':archive_dav_name' =>  $collection_archive
     );
 $qry = new AwlQuery($archive_collection_sql, $sqlargs);
+$qry->query_time_warning = 5;  // Don't warn on queries unless they take more than 5 seconds.
 if ( $qry->Exec(__CLASS__, __LINE__, __FILE__) ) {
   $qry->QDo('SELECT collection_id FROM collection WHERE dav_name = ?', $collection_dav_name );
   if ( $qry->rows() != 1 ) {
