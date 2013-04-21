@@ -115,7 +115,7 @@ if ( $can_write_collection && $editor->IsSubmit() ) {
       param_to_global('mode');
       include_once('caldav-PUT-functions.php');
       controlRequestContainer( $username, $user_no, $path, false, ($publicly_readable == 'on' ? true : false));
-      import_collection( $ics, $user_no, $path, $session->user_no, ($mode == 'append') );
+      import_collection( $ics, $user_no, $path, $session->user_no, ($mode == 'on') );
       $c->messages[] = sprintf(translate('Calendar "%s" was loaded from file.'), $path);
     }
     else {
