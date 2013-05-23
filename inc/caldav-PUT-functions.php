@@ -782,6 +782,20 @@ function import_calendar_collection( $ics_content, $user_no, $path, $caldav_cont
   $timezones = $calendar->GetComponents('VTIMEZONE',true);
   $components = $calendar->GetComponents('VTIMEZONE',false);
 
+  // Add a parameter to calendars on import so it will only load events 'after' @author karora
+  // date, or an RFC5545 duration format offset from the current date.
+  $after = '20000101T000000Z';
+  if ( isset($_GET['after']) ) $after = $_GET['after']; 
+  if ( strtoupper(substr($after, 0, 1)) == 'P' ) {
+    $duration = new Rfc5545Duration($after);
+    $duration = $duration->asSeconds();
+    $after = time() - (abs($duration));
+  }
+  else {
+    $after = new RepeatRuleDateTime($after);
+    $after = $after->epoch();
+  }
+
   $displayname = $calendar->GetPValue('X-WR-CALNAME');
   if ( !$appending && isset($displayname) ) {
     $sql = 'UPDATE collection SET dav_displayname = :displayname WHERE dav_name = :dav_name';
@@ -916,6 +930,11 @@ EOSQL;
       $dtstart = $first->GetPValue('DUE');
     }
 
+    $calitem_params[':rrule'] = $first->GetPValue('RRULE');
+    
+    // Skip it if it's after our start date for this import.
+    if ( $dtstart < $after && empty($calitem_params[':rrule']) ) continue;
+    
     $dtend = $first->GetPValue('DTEND');
     if ( isset($dtend) && $dtend != '' ) {
       dbg_error_log( 'PUT', ' DTEND: "%s", DTSTART: "%s", DURATION: "%s"', $dtend, $dtstart, $first->GetPValue('DURATION') );
@@ -1006,7 +1025,6 @@ EOSQL;
     $calitem_params[':location'] = $first->GetPValue('LOCATION');
     $calitem_params[':transp'] = $first->GetPValue('TRANSP');
     $calitem_params[':description'] = $first->GetPValue('DESCRIPTION');
-    $calitem_params[':rrule'] = $first->GetPValue('RRULE');
     $calitem_params[':url'] = $first->GetPValue('URL');
     $calitem_params[':priority'] = $first->GetPValue('PRIORITY');
     $calitem_params[':due'] = $first->GetPValue('DUE');
