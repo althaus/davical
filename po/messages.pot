@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-05-28 21:24+1200\n"
+"POT-Creation-Date: 2013-05-01 10:03+1200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1048,6 +1048,10 @@ msgstr ""
 msgid "Specific Privileges"
 msgstr ""
 
+#, php-format
+msgid "Stable: %s, We have: %s !"
+msgstr ""
+
 msgid "Status"
 msgstr ""
 
@@ -1114,6 +1118,9 @@ msgstr ""
 msgid ""
 "The calendar-free-busy-set is superseded by the  schedule-calendar-transp "
 "property of a calendar collection."
+msgstr ""
+
+msgid "The calendar-query report may not be run against that URL."
 msgstr ""
 
 msgid ""

@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # Andrew McMillan <andrew@mcmillan.net.nz>, 2011.
 #   <dziobak84@interia.pl>, 2011.
@@ -10,24 +10,22 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: DAViCal\n"
-"Report-Msgid-Bugs-To: http://repo.or.cz/w/davical.git/tree/HEAD:/issues\n"
-"POT-Creation-Date: 2012-05-28 21:24+1200\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-05-01 10:03+1200\n"
 "PO-Revision-Date: 2012-05-28 09:26+0000\n"
 "Last-Translator: Andrew McMillan <andrew@mcmillan.net.nz>\n"
 "Language-Team: Polish (http://www.transifex.net/projects/p/davical/language/pl/)\n"
+"Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: pl\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
-#. Translators: this is the formatting of a date with time. See
-#. http://php.net/manual/en/function.strftime.php
+#. Translators: this is the formatting of a date with time. See http://php.net/manual/en/function.strftime.php
 msgid "%F %T"
 msgstr "%F %T"
 
-#. Translators: his is the formatting of just the time. See
-#. http://php.net/manual/en/function.strftime.php
+#. Translators: his is the formatting of just the time. See http://php.net/manual/en/function.strftime.php
 msgid "%T"
 msgstr "%T"
 
@@ -77,29 +75,43 @@ msgstr "- aktualizacja grup: %s"
 msgid "- updating user records : %s"
 msgstr "- aktualizacja rekordów użytkownika: %s"
 
-msgid ""
-"<b>WARNING: all events in this path will be deleted before inserting allof "
-"the ics file</b>"
-msgstr "<b>OSTRZEŻENIE: wszystkie zdarzenia z tej ścieżki zostaną usunięte przed wstawieniem plików ICS</b>"
+msgid "<b>WARNING: all events in this path will be deleted before inserting allof the ics file</b>"
+msgstr ""
+"<b>OSTRZEŻENIE: wszystkie zdarzenia z tej ścieżki zostaną usunięte przed wstawieniem plików ICS</b>"
 
 #, php-format
 msgid ""
 "<h1>Help</h1>\n"
-"<p>For initial help you should visit the <a href=\"http://www.davical.org/\" target=\"_blank\">DAViCal Home Page</a> or take\n"
+"<p>For initial help you should visit the <a href=\"http://www.davical.org/\" target=\"_blank\">DAViCal "
+"Home Page</a> or take\n"
 "a look at the <a href=\"http://wiki.davical.org/%s\" target=\"_blank\">DAViCal Wiki</a>.</p>\n"
-"<p>If you can't find the answers there, visit us on <a href=\"http://wikipedia.org/wiki/Internet_Relay_Chat\" target=\"_blank\">IRC</a> in\n"
+"<p>If you can't find the answers there, visit us on <a href=\"http://wikipedia.org/wiki/"
+"Internet_Relay_Chat\" target=\"_blank\">IRC</a> in\n"
 "the <b>#davical</b> channel on <a href=\"http://www.oftc.net/\" target=\"_blank\">irc.oftc.net</a>,\n"
-"or send a question to the <a href=\"http://lists.sourceforge.net/mailman/listinfo/davical-general\" target=\"_blank\">DAViCal Users mailing list</a>.</p>\n"
-"<p>The <a href=\"http://sourceforge.net/mailarchive/forum.php?forum_id=8348\" title=\"DAViCal Users Mailing List\" target=\"_blank\">mailing list\n"
+"or send a question to the <a href=\"http://lists.sourceforge.net/mailman/listinfo/davical-general\" "
+"target=\"_blank\">DAViCal Users mailing list</a>.</p>\n"
+"<p>The <a href=\"http://sourceforge.net/mailarchive/forum.php?forum_id=8348\" title=\"DAViCal Users "
+"Mailing List\" target=\"_blank\">mailing list\n"
 "archives can be helpful too.</p>"
-msgstr "<h1>Pomoc</h1>\n<p>Aby uzyskać pomoc, odwiedź <a href=\"http://www.davical.org/\" target=\"_blank\">DAViCal Home Page</a> lub przeczytaj <a href=\"http://wiki.davical.org/%s\" target=\"_blank\">DAViCal Wiki</a>.</p>\n<p>Jeżeli nie znalazłeś odpowiedzi, odwiedź nas na <a href=\"http://wikipedia.org/wiki/Internet_Relay_Chat\" target=\"_blank\">IRCu</a> na kanale <b>#davical</b> na stronie <a href=\"http://www.oftc.net/\" target=\"_blank\">irc.oftc.net</a>,\nlub wyślij zapytanie na <a href=\"http://lists.sourceforge.net/mailman/listinfo/davical-general\" target=\"_blank\">DAViCal lista dyskusyjna Użytkowników</a>.</p>\n<p>Pomocną może też się okazać archiwum listy dyskusyjnej <a href=\"http://sourceforge.net/mailarchive/forum.php?forum_id=8348\" title=\"DAViCal lista dyskusyjna Użytkowników\" target=\"_blank\">.</p>"
+msgstr ""
+"<h1>Pomoc</h1>\n"
+"<p>Aby uzyskać pomoc, odwiedź <a href=\"http://www.davical.org/\" target=\"_blank\">DAViCal Home Page</"
+"a> lub przeczytaj <a href=\"http://wiki.davical.org/%s\" target=\"_blank\">DAViCal Wiki</a>.</p>\n"
+"<p>Jeżeli nie znalazłeś odpowiedzi, odwiedź nas na <a href=\"http://wikipedia.org/wiki/"
+"Internet_Relay_Chat\" target=\"_blank\">IRCu</a> na kanale <b>#davical</b> na stronie <a href=\"http://"
+"www.oftc.net/\" target=\"_blank\">irc.oftc.net</a>,\n"
+"lub wyślij zapytanie na <a href=\"http://lists.sourceforge.net/mailman/listinfo/davical-general\" "
+"target=\"_blank\">DAViCal lista dyskusyjna Użytkowników</a>.</p>\n"
+"<p>Pomocną może też się okazać archiwum listy dyskusyjnej <a href=\"http://sourceforge.net/mailarchive/"
+"forum.php?forum_id=8348\" title=\"DAViCal lista dyskusyjna Użytkowników\" target=\"_blank\">.</p>"
 
 #, php-format
 msgid ""
-"<h1>Log On Please</h1><p>For access to the %s you should log on withthe "
-"username and password that have been issued to you.</p><p>If you would like "
-"to request access, please e-mail %s.</p>"
-msgstr "<h1>Zaloguj się</h1><p>Aby uzyskać dostęp do %s powinieneś zalogować się swoją nazwą użytkownika i hasłem.</p><p>Jeśli chcesz uzyskać dostęp, wyślij e-mail do %s.</p>"
+"<h1>Log On Please</h1><p>For access to the %s you should log on withthe username and password that "
+"have been issued to you.</p><p>If you would like to request access, please e-mail %s.</p>"
+msgstr ""
+"<h1>Zaloguj się</h1><p>Aby uzyskać dostęp do %s powinieneś zalogować się swoją nazwą użytkownika i "
+"hasłem.</p><p>Jeśli chcesz uzyskać dostęp, wyślij e-mail do %s.</p>"
 
 msgid "A DAViCal principal collection may only contain collections"
 msgstr ""
@@ -151,8 +163,7 @@ msgstr "Wszystkie dane kolekcji zostaną nieodwracalnie usunięte."
 msgid "All events of user \"%s\" were deleted and replaced by those from file %s"
 msgstr ""
 
-msgid ""
-"All of the principal's calendars and events will be unrecoverably deleted."
+msgid "All of the principal's calendars and events will be unrecoverably deleted."
 msgstr ""
 
 msgid "All privileges"
@@ -161,8 +172,7 @@ msgstr "Wszystkie uprawnienia"
 msgid "All requested changes were made."
 msgstr "Wszystkie zażądane zmiany zostały wprowadzone"
 
-msgid ""
-"Allow free/busy enquiries targeted at the owner of this scheduling inbox"
+msgid "Allow free/busy enquiries targeted at the owner of this scheduling inbox"
 msgstr "Zezwól na pytania free/busy skierowane do właściciela tej skrzynki harmonogramu"
 
 msgid "An \"Administrator\" user has full rights to the whole DAViCal System"
@@ -253,9 +263,7 @@ msgstr "ID kolekcji"
 msgid "Collection deleted"
 msgstr "Kolekcja została usunięta"
 
-msgid ""
-"Collections may not be both CalDAV calendars and CardDAV addressbooks at the"
-" same time"
+msgid "Collections may not be both CalDAV calendars and CardDAV addressbooks at the same time"
 msgstr ""
 
 msgid "Configuring Calendar Clients for DAViCal"
@@ -327,8 +335,7 @@ msgstr "Atkualna wersja DAViCal"
 msgid "DAV Path"
 msgstr "Ścieżka DAV"
 
-msgid ""
-"DAV::resourcetype may only be set to a new value, it may not be removed."
+msgid "DAV::resourcetype may only be set to a new value, it may not be removed."
 msgstr ""
 
 msgid "DAViCal CalDAV Server"
@@ -427,8 +434,7 @@ msgstr ""
 msgid "Deleting Ticket:"
 msgstr ""
 
-msgid ""
-"Deliver scheduling invitations from an organiser to this scheduling inbox"
+msgid "Deliver scheduling invitations from an organiser to this scheduling inbox"
 msgstr ""
 
 msgid "Deliver scheduling replies from an attendee to this scheduling inbox"
@@ -485,9 +491,7 @@ msgstr "Zmień dane tego użytkownika "
 msgid "Email Address"
 msgstr "Adres Email"
 
-msgid ""
-"Enter a username, if you know it, and click here, to be e-mailed a temporary"
-" password."
+msgid "Enter a username, if you know it, and click here, to be e-mailed a temporary password."
 msgstr "Wpisz nazwę użytkownika (jeśli ją znasz) i naciśnij tutaj aby otrzymać emailem tymczasowe hasło."
 
 msgid "Enter your username and password then click here to log in."
@@ -704,9 +708,7 @@ msgstr "Wyloguj się"
 msgid "Member deleted from this Group Principal"
 msgstr ""
 
-msgid ""
-"Most of DAViCal will work but upgrading to PHP 5.2 or later is strongly "
-"recommended."
+msgid "Most of DAViCal will work but upgrading to PHP 5.2 or later is strongly recommended."
 msgstr ""
 
 msgid "Name"
@@ -795,14 +797,10 @@ msgstr ""
 msgid "PHP5 curl support is required for external binds"
 msgstr ""
 
-msgid ""
-"PUT on a collection is only allowed for text/calendar content against a "
-"calendar collection"
+msgid "PUT on a collection is only allowed for text/calendar content against a calendar collection"
 msgstr ""
 
-msgid ""
-"PUT on a collection is only allowed for text/vcard content against an "
-"addressbook collection"
+msgid "PUT on a collection is only allowed for text/vcard content against an addressbook collection"
 msgstr ""
 
 msgid "Passed"
@@ -896,8 +894,7 @@ msgstr ""
 msgid "Read the content of a resource or collection"
 msgstr ""
 
-msgid ""
-"Read the details of the current user's access control to this resource."
+msgid "Read the details of the current user's access control to this resource."
 msgstr ""
 
 msgid "Read the free/busy information for a calendar collection"
@@ -930,8 +927,7 @@ msgstr ""
 msgid "Request body is not valid XML data!"
 msgstr ""
 
-#. Translators a thing which might be booked: a room, a carpark, a
-#. projector...
+#. Translators a thing which might be booked: a room, a carpark, a projector...
 msgid "Resource"
 msgstr "Zasób"
 
@@ -989,14 +985,10 @@ msgstr ""
 msgid "Send free/busy enquiries"
 msgstr ""
 
-msgid ""
-"Send scheduling invitations as an organiser from the owner of this "
-"scheduling outbox."
+msgid "Send scheduling invitations as an organiser from the owner of this scheduling outbox."
 msgstr ""
 
-msgid ""
-"Send scheduling replies as an attendee from the owner of this scheduling "
-"outbox."
+msgid "Send scheduling replies as an attendee from the owner of this scheduling outbox."
 msgstr ""
 
 msgid "Set free/busy privileges"
@@ -1009,8 +1001,7 @@ msgid "Set read+write privileges"
 msgstr ""
 
 msgid ""
-"Set the path to store your ics e.g. 'calendar' will be referenced as "
-"/caldav.php/username/calendar/"
+"Set the path to store your ics e.g. 'calendar' will be referenced as /caldav.php/username/calendar/"
 msgstr ""
 
 msgid "Setup"
@@ -1040,11 +1031,14 @@ msgstr ""
 msgid "Source resource does not exist."
 msgstr ""
 
-msgid ""
-"Special collections may not contain a calendar or other special collection."
+msgid "Special collections may not contain a calendar or other special collection."
 msgstr ""
 
 msgid "Specific Privileges"
+msgstr ""
+
+#, php-format
+msgid "Stable: %s, We have: %s !"
 msgstr ""
 
 msgid "Status"
@@ -1084,8 +1078,7 @@ msgstr ""
 msgid "The BIND method is not allowed at that location."
 msgstr ""
 
-msgid ""
-"The CalDAV:schedule-calendar-transp property may only be set on calendars."
+msgid "The CalDAV:schedule-calendar-transp property may only be set on calendars."
 msgstr ""
 
 msgid "The DAViCal Home Page"
@@ -1094,8 +1087,7 @@ msgstr ""
 msgid "The access ticket will be deleted."
 msgstr ""
 
-msgid ""
-"The addressbook-query report must be run against an addressbook collection"
+msgid "The addressbook-query report must be run against an addressbook collection"
 msgstr ""
 
 msgid "The application failed to understand that request."
@@ -1111,13 +1103,14 @@ msgid "The calendar path contains illegal characters."
 msgstr "Ścieżka kalendarza zawiera nieakceptowalne znaki."
 
 msgid ""
-"The calendar-free-busy-set is superseded by the  schedule-calendar-transp "
-"property of a calendar collection."
+"The calendar-free-busy-set is superseded by the  schedule-calendar-transp property of a calendar "
+"collection."
 msgstr ""
 
-msgid ""
-"The calendar-query report must be run against a calendar or a scheduling "
-"collection"
+msgid "The calendar-query report may not be run against that URL."
+msgstr ""
+
+msgid "The calendar-query report must be run against a calendar or a scheduling collection"
 msgstr ""
 
 msgid "The collection name may not be blank."
@@ -1126,8 +1119,7 @@ msgstr ""
 msgid "The destination collection does not exist"
 msgstr ""
 
-msgid ""
-"The displayname may only be set on collections, principals or bindings."
+msgid "The displayname may only be set on collections, principals or bindings."
 msgstr ""
 
 msgid "The email address really should not be blank."
@@ -1137,8 +1129,7 @@ msgstr ""
 msgid "The file \"%s\" is not UTF-8 encoded, please check error for more details"
 msgstr ""
 
-msgid ""
-"The file is not UTF-8 encoded, please check the error for more details."
+msgid "The file is not UTF-8 encoded, please check the error for more details."
 msgstr ""
 
 msgid "The full name for this person, group or other type of principal."
@@ -1182,32 +1173,27 @@ msgid "There was an error writing to the database."
 msgstr "Wystąpił błąd zapisu do bazy danych."
 
 msgid ""
-"This operation does the following: <ul><li>check valid groups in LDAP "
-"directory</li> <li>check groups in DAViCal</li></ul> then <ul><li>if a group"
-" is present in DAViCal but not in LDAP set as inactive in DAViCal</li> "
-"<li>if a group is present in LDAP but not in DAViCal create the group in "
-"DAViCal</li> <li>if a group in present in LDAP and DAViCal then update "
-"information in DAViCal</li> </ul>"
+"This operation does the following: <ul><li>check valid groups in LDAP directory</li> <li>check groups "
+"in DAViCal</li></ul> then <ul><li>if a group is present in DAViCal but not in LDAP set as inactive in "
+"DAViCal</li> <li>if a group is present in LDAP but not in DAViCal create the group in DAViCal</li> "
+"<li>if a group in present in LDAP and DAViCal then update information in DAViCal</li> </ul>"
 msgstr ""
 
 msgid ""
-"This operation does the following: <ul><li>check valid users in LDAP "
-"directory</li> <li>check users in DAViCal</li></ul> then <ul><li>if a user "
-"is present in DAViCal but not in LDAP set him as inactive in DAViCal</li> "
-"<li>if a user is present in LDAP but not in DAViCal create the user in "
-"DAViCal</li> <li>if a user in present in LDAP and DAViCal then update "
-"information in DAViCal</li> </ul>"
+"This operation does the following: <ul><li>check valid users in LDAP directory</li> <li>check users in "
+"DAViCal</li></ul> then <ul><li>if a user is present in DAViCal but not in LDAP set him as inactive in "
+"DAViCal</li> <li>if a user is present in LDAP but not in DAViCal create the user in DAViCal</li> "
+"<li>if a user in present in LDAP and DAViCal then update information in DAViCal</li> </ul>"
 msgstr ""
 
 msgid ""
-"This page primarily checks the environment needed for DAViCal to work "
-"correctly.  Suggestions or patches to make it do more useful stuff will be "
-"gratefully received."
+"This page primarily checks the environment needed for DAViCal to work correctly.  Suggestions or "
+"patches to make it do more useful stuff will be gratefully received."
 msgstr ""
 
 msgid ""
-"This process will import each file in a directory named \"username.ics\" and"
-" create a user and calendar for each file to import."
+"This process will import each file in a directory named \"username.ics\" and create a user and "
+"calendar for each file to import."
 msgstr ""
 
 msgid "This server only supports the text/calendar format for freebusy URLs"
@@ -1317,8 +1303,8 @@ msgid "Want: %s, Currently: %s"
 msgstr "Potrzebuje: %s, Aktualnie: %s"
 
 msgid ""
-"Warning: there are no active admin users! You should fix this before logging"
-" out.  Consider using the $c->do_not_sync_from_ldap configuration setting."
+"Warning: there are no active admin users! You should fix this before logging out.  Consider using the "
+"$c->do_not_sync_from_ldap configuration setting."
 msgstr ""
 
 msgid "When the user's e-mail account was validated."
@@ -1376,35 +1362,29 @@ msgstr ""
 msgid "directory %s is not readable"
 msgstr "Katalog %s nie jest do odczytu"
 
-msgid ""
-"drivers_imap_pam : imap_url parameter not configured in "
-"/etc/davical/*-conf.php"
+msgid "drivers_imap_pam : imap_url parameter not configured in /etc/davical/*-conf.php"
 msgstr ""
 
 msgid "drivers_ldap : Could not start TLS: ldap_start_tls() failed"
 msgstr "drivers_ldap: Nie można uruchomić TLS: ldap_start_tls() spowodowało błąd"
 
 #, php-format
-msgid ""
-"drivers_ldap : Failed to bind to host %1$s on port %2$s with bindDN of %3$s"
+msgid "drivers_ldap : Failed to bind to host %1$s on port %2$s with bindDN of %3$s"
+msgstr ""
+
+msgid "drivers_ldap : Failed to set LDAP to use protocol version 3, TLS not supported"
 msgstr ""
 
 msgid ""
-"drivers_ldap : Failed to set LDAP to use protocol version 3, TLS not "
-"supported"
-msgstr ""
-
-msgid ""
-"drivers_ldap : Unable to bind to LDAP - check your configuration for bindDN "
-"and passDN, and that your LDAP server is reachable"
+"drivers_ldap : Unable to bind to LDAP - check your configuration for bindDN and passDN, and that your "
+"LDAP server is reachable"
 msgstr ""
 
 #, php-format
 msgid "drivers_ldap : Unable to connect to LDAP with port %s on host %s"
 msgstr ""
 
-msgid ""
-"drivers_ldap : function ldap_connect not defined, check your php_ldap module"
+msgid "drivers_ldap : function ldap_connect not defined, check your php_ldap module"
 msgstr ""
 
 #, php-format
@@ -1415,8 +1395,7 @@ msgstr "drivers_pwauth_pam: Nie można odnaleźć pliku %s "
 msgid "drivers_squid_pam : Unable to find %s file"
 msgstr "drivers_squid_pam: Nie można odnaleźć pliku %s "
 
-#. Translators: this is a colloquial phrase in english (the name of a flower)
-#. and is an option allowing people to log in automatically in future
+#. Translators: this is a colloquial phrase in english (the name of a flower) and is an option allowing people to log in automatically in future
 msgid "forget me not"
 msgstr "zapamiętaj mnie"
 
@@ -1441,7 +1420,5 @@ msgstr ""
 msgid "unauthenticated"
 msgstr ""
 
-msgid ""
-"you should log on with the username and password that have been issued to "
-"you."
+msgid "you should log on with the username and password that have been issued to you."
 msgstr "powinieneś zalogować się swoją nazwą użytkownika i hasłem."
