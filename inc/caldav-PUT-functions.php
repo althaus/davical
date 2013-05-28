@@ -279,7 +279,7 @@ function handle_schedule_reply ( vCalendar $ical ) {
   $etag = md5 ( $request->raw_post );
   $organizer = $ical->GetOrganizer();
   // for now we treat events with out organizers as an error
-  if ( count ( $organizer ) < 1 ) return false;
+  if ( empty( $organizer ) ) return false;
 
   $attendees = array_merge($organizer,$ical->GetAttendees());
   dbg_error_log( "PUT", "Attempting to deliver scheduling request for %d attendees", count($attendees) );
