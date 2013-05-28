@@ -1803,7 +1803,7 @@ EOQRY;
         break;
 
       default:
-        $property_value = $this->GetProperty(preg_replace('{^(DAV:urn:ietf:params:xml:ns:ca(rd|l)dav):}', '', $tag));
+        $property_value = $this->GetProperty(preg_replace('{^(DAV:|urn:ietf:params:xml:ns:ca(rd|l)dav):}', '', $tag));
         if ( isset($property_value) ) {
           $reply->NSElement($prop, $tag, $property_value );
         }
