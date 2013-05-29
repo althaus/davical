@@ -784,18 +784,20 @@ function import_calendar_collection( $ics_content, $user_no, $path, $caldav_cont
 
   // Add a parameter to calendars on import so it will only load events 'after' @author karora
   // date, or an RFC5545 duration format offset from the current date.
-  $after = '20000101T000000Z';
-  if ( isset($_GET['after']) ) $after = $_GET['after']; 
-  if ( strtoupper(substr($after, 0, 1)) == 'P' ) {
-    $duration = new Rfc5545Duration($after);
-    $duration = $duration->asSeconds();
-    $after = time() - (abs($duration));
+  $after = null;
+  if ( isset($_GET['after']) ) {
+    $after = $_GET['after'];
+    if ( strtoupper(substr($after, 0, 1)) == 'P' || strtoupper(substr($after, 0, 1)) == '-P' ) {
+      $duration = new Rfc5545Duration($after);
+      $duration = $duration->asSeconds();
+      $after = time() - (abs($duration));
+    }
+    else {
+      $after = new RepeatRuleDateTime($after);
+      $after = $after->epoch();
+    }
   }
-  else {
-    $after = new RepeatRuleDateTime($after);
-    $after = $after->epoch();
-  }
-
+  
   $displayname = $calendar->GetPValue('X-WR-CALNAME');
   if ( !$appending && isset($displayname) ) {
     $sql = 'UPDATE collection SET dav_displayname = :displayname WHERE dav_name = :dav_name';
@@ -888,20 +890,6 @@ EOSQL;
     $icalendar = $vcal->Render();
     $dav_name = sprintf( '%s%s.ics', $path, preg_replace('{[&?\\/@%+:]}','',$uid) );
 
-    /** Do we need to do anything? */
-    $inserting = true;
-    if ( isset($current_data[$dav_name]) ) {
-      if ( $icalendar == $current_data[$dav_name] ) {
-        unset($current_data[$dav_name]);
-        continue;
-      }
-      $sync_change = 200;
-      unset($current_data[$dav_name]);
-      $inserting = false;
-    }
-    else
-      $sync_change = 201;
-    
     if ( isset($c->skip_bad_event_on_import) && $c->skip_bad_event_on_import ) $qry->Begin();
     
     /** As ever, we mostly deal with the first resource component */
@@ -916,25 +904,48 @@ EOSQL;
     $dav_data_params[':dav_data'] = $icalendar;
     $dav_data_params[':caldav_type'] = $first->GetType();
     $dav_data_params[':session_user'] = $session->user_no;
-    if ( !$qry->QDo( ($inserting ? $dav_data_insert : $dav_data_update), $dav_data_params) )
-      rollback_on_error( $caldav_context, $user_no, $path );
-
-    $qry->QDo('SELECT dav_id FROM caldav_data WHERE dav_name = :dav_name ', array(':dav_name' => $dav_data_params[':dav_name']));
-    if ( $qry->rows() == 1 && $row = $qry->Fetch() ) {
-      $dav_id = $row->dav_id;
-    }
 
     $dtstart = $first->GetPValue('DTSTART');
     $calitem_params[':dtstart'] = $dtstart;
     if ( (!isset($dtstart) || $dtstart == '') && $first->GetPValue('DUE') != '' ) {
       $dtstart = $first->GetPValue('DUE');
+      if ( isset($after) ) $dtstart_date = new RepeatRuleDateTime($first->GetProperty('DUE'));
+    }
+    else if ( isset($after) ) {
+      $dtstart_date = new RepeatRuleDateTime($first->GetProperty('DTSTART'));
     }
 
     $calitem_params[':rrule'] = $first->GetPValue('RRULE');
-    
+
     // Skip it if it's after our start date for this import.
-    if ( $dtstart < $after && empty($calitem_params[':rrule']) ) continue;
-    
+    if ( isset($after) && empty($calitem_params[':rrule']) && $dtstart_date->epoch() < $after ) continue;
+
+    // Do we actually need to do anything?
+    $inserting = true;
+    if ( isset($current_data[$dav_name]) ) {
+      if ( $icalendar == $current_data[$dav_name] ) {
+        if ( $after == null ) {
+          unset($current_data[$dav_name]);
+          continue;
+        }
+      }
+      $sync_change = 200;
+      unset($current_data[$dav_name]);
+      $inserting = false;
+    }
+    else
+      $sync_change = 201;
+
+    // Write to the caldav_data table
+    if ( !$qry->QDo( ($inserting ? $dav_data_insert : $dav_data_update), $dav_data_params) )
+      rollback_on_error( $caldav_context, $user_no, $path );
+
+    // Get the dav_id for this row
+    $qry->QDo('SELECT dav_id FROM caldav_data WHERE dav_name = :dav_name ', array(':dav_name' => $dav_data_params[':dav_name']));
+    if ( $qry->rows() == 1 && $row = $qry->Fetch() ) {
+      $dav_id = $row->dav_id;
+    }
+
     $dtend = $first->GetPValue('DTEND');
     if ( isset($dtend) && $dtend != '' ) {
       dbg_error_log( 'PUT', ' DTEND: "%s", DTSTART: "%s", DURATION: "%s"', $dtend, $dtstart, $first->GetPValue('DURATION') );
@@ -1037,6 +1048,7 @@ EOSQL;
       $calitem_params[':created'] = $created;
     }
 
+    // Write the calendar_item row for this entry
     if ( !$qry->QDo($sql,$calitem_params) ) rollback_on_error( $caldav_context, $user_no, $path);
 
     write_alarms($dav_id, $first);
