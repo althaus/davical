@@ -194,7 +194,7 @@ class Principal {
     }
 
     $sql = 'SELECT *, ';
-    if ( isset($session->principal_id) ) {
+    if ( isset($session->principal_id) && $session->principal_id !== false ) {
       $sql .= 'pprivs(:session_principal::int8,principal_id,:scan_depth::int) AS privileges ';
       $params = array( ':session_principal' => $session->principal_id, ':scan_depth' => $c->permission_scan_depth );
     }
