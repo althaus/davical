@@ -3,7 +3,7 @@
 # - in this case we look for all principals
 #
 TYPE=REPORT
-URL=http://mycaldav/caldav.php/
+URL=http://regression.host/caldav.php/
 HEAD
 
 HEADER=User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.7) Gecko/20101013 Thunderbird/1.5.0.7

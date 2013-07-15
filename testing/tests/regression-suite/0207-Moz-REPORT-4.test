@@ -2,7 +2,7 @@
 # Request a REPORT which should only include an instance of the repeating event we just added
 #
 TYPE=REPORT
-URL=http://mycaldav/caldav.php/user1/home/
+URL=http://regression.host/caldav.php/user1/home/
 HEADER=User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9a1) Gecko/20101108 Calendar/0.4a1
 HEADER=Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
 HEADER=Accept-Language: en-us,en;q=0.5

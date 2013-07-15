@@ -4,7 +4,7 @@
 # There is no CalDAV defined behaviour for this.
 #
 TYPE=PUT
-URL=http://mycaldav/caldav.php/user1/home/PUT-eastern-time.ics
+URL=http://regression.host/caldav.php/user1/home/PUT-eastern-time.ics
 HEADER=User-Agent: DAViCal Testing/0.9.x
 HEADER=Content-Type: text/calendar; charset=utf-8
 

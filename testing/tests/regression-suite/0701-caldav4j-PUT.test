@@ -2,7 +2,7 @@
 # PUT an caldav4j regression testing event into the database
 #
 TYPE=PUT
-URL=http://mycaldav/caldav.php/user1/collection/Daily_NY_5pm.ics
+URL=http://regression.host/caldav.php/user1/collection/Daily_NY_5pm.ics
 HEADER=Content-Type: text/calendar
 HEADER=User-Agent: Jakarta Commons-HttpClient/3.0
 HEAD

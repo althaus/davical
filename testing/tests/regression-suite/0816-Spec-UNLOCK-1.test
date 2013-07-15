@@ -2,7 +2,7 @@
 # Test specification compliance for LOCK/UNLOCK request
 #
 TYPE=UNLOCK
-URL=http://mycaldav/caldav.php/user1/home/
+URL=http://regression.host/caldav.php/user1/home/
 
 # Get the lock token from the earlier lock
 GETSQL=locktoken

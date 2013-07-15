@@ -3,7 +3,7 @@
 #  - but this time supply the token so it succeeds
 #
 TYPE=PUT
-URL=http://mycaldav/caldav.php/user1/home/i1278618276.ics
+URL=http://regression.host/caldav.php/user1/home/i1278618276.ics
 
 # Get the lock token from the earlier lock
 GETSQL=locktoken

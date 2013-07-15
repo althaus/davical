@@ -2,7 +2,7 @@
 # Extended MKCOL test - Test failure
 #
 TYPE=MKCOL
-URL=http://mycaldav/caldav.php/User%20Six/failure%20%39Extended%20MKCOL%39/
+URL=http://regression.host/caldav.php/User%20Six/failure%20%39Extended%20MKCOL%39/
 HEADER=Content-Type: text/xml
 AUTH=User Six:user6
 HEAD

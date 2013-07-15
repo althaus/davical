@@ -2,7 +2,7 @@
 # PROPFIND on addressbook resource
 #
 TYPE=PROPFIND
-URL=http://mycaldav/caldav.php/user1/
+URL=http://regression.host/caldav.php/user1/
 HEADER=User-Agent: DAViCalTester/public
 HEADER=Content-Type: text/xml
 HEADER=Depth: 0

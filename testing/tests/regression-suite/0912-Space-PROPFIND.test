@@ -2,7 +2,7 @@
 # Testing username with a space, similar to iCal 10.5
 #
 TYPE=PROPFIND
-URL=http://mycaldav/caldav.php/User%20Six/
+URL=http://regression.host/caldav.php/User%20Six/
 AUTH=User Six:user6
 HEAD
 

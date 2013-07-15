@@ -4,7 +4,7 @@
 # Still Depth: 0 at this point...
 #
 TYPE=PROPFIND
-URL=http://mycaldav/caldav.php/user1/home/.chandler/
+URL=http://regression.host/caldav.php/user1/home/.chandler/
 HEADER=Depth: 0
 HEADER=Content-Type: text/xml; charset=utf-8
 HEAD

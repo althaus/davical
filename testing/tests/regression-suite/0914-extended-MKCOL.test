@@ -2,7 +2,7 @@
 # Extended MKCOL test - create an addressbook
 #
 TYPE=MKCOL
-URL=http://mycaldav/caldav.php/User%20Six/addressbook%20%22Extended%20MKCOL%22/
+URL=http://regression.host/caldav.php/User%20Six/addressbook%20%22Extended%20MKCOL%22/
 HEADER=Content-Type: text/xml
 AUTH=User Six:user6
 HEAD

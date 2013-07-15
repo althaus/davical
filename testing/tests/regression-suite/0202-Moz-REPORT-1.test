@@ -1,7 +1,7 @@
 #
 # Do a REPORT request (unauthenticated)
 TYPE=REPORT
-URL=http://mycaldav/caldav.php/user1/home/
+URL=http://regression.host/caldav.php/user1/home/
 HEAD
 NOAUTH
 

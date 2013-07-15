@@ -2,7 +2,7 @@
 # Doing a GET with cadaver
 #
 TYPE=GET
-URL=http://mycaldav/caldav.php/user1/home/20061101T073004Z.ics
+URL=http://regression.host/caldav.php/user1/home/20061101T073004Z.ics
 HEADER=User-Agent: cadaver/0.22.3 neon/0.25.5
 HEADER=Connection: TE
 HEADER=TE: trailers

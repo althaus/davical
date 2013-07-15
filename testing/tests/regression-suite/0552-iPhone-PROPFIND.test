@@ -2,7 +2,7 @@
 # Testing with a process similar to iPhone 3
 #
 TYPE=PROPFIND
-URL=http://mycaldav/principals/users/user1/
+URL=http://regression.host/principals/users/user1/
 HEAD
 
 AUTH=user1:user1

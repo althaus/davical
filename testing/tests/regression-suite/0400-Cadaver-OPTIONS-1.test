@@ -2,6 +2,6 @@
 # Basic testing with Cadaver DAV client
 #
 TYPE=OPTIONS
-URL=http://mycaldav/caldav.php/user1/home/
+URL=http://regression.host/caldav.php/user1/home/
 HEADER=User-Agent: cadaver/0.22.3 neon/0.25.5
 HEAD

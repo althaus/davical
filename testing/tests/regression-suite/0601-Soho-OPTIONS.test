@@ -1,7 +1,7 @@
 #
 # Do an initial OPTIONS request (authenticated)
 TYPE=OPTIONS
-URL=http://mycaldav/caldav.php/user1/
+URL=http://regression.host/caldav.php/user1/
 
 HEADER=User-Agent: SOHO Organizer/6.5.2 libcurl/7.17.0 OpenSSL/0.9.7l zlib/1.2.3 libssh2/0.17
 HEAD

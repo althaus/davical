@@ -6,7 +6,7 @@
 # which may not reference a timezone.
 #
 TYPE=PUT
-URL=http://mycaldav/caldav.php/user1/collection/All_Day_NY_JAN1.ics
+URL=http://regression.host/caldav.php/user1/collection/All_Day_NY_JAN1.ics
 HEADER=Content-Type: text/calendar
 HEADER=User-Agent: Jakarta Commons-HttpClient/3.0
 HEAD

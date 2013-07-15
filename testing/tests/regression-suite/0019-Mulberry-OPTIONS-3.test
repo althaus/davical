@@ -1,5 +1,5 @@
 #
 # Do an OPTIONS request for an illegal path
 TYPE=OPTIONS
-URL=http://mycaldav/caldav.php/(admin|user1)/
+URL=http://regression.host/caldav.php/(admin|user1)/
 HEAD

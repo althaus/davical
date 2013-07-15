@@ -4,7 +4,7 @@
 #    and should fail.
 #
 TYPE=LOCK
-URL=http://mycaldav/caldav.php/user1/home/
+URL=http://regression.host/caldav.php/user1/home/
 HEADER=Depth: 0
 HEADER=Timeout: Infinite,Second-4100000000
 HEADER=Content-type: text/xml; charset="utf-8"

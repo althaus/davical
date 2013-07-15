@@ -2,7 +2,7 @@
 # PUT a completed task in the calendar
 #
 TYPE=PUT
-URL=http://mycaldav/caldav.php/user1/home/0575d895-a006-4ed8-9be6-0d1b6b6b1f96.ics
+URL=http://regression.host/caldav.php/user1/home/0575d895-a006-4ed8-9be6-0d1b6b6b1f96.ics
 
 HEADER=User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.1.7pre) Gecko/20070805 Calendar/0.7pre
 HEADER=Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5

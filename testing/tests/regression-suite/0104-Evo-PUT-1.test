@@ -1,7 +1,7 @@
 #
 # We PUT an appointment with Evolution
 TYPE=PUT
-URL=http://mycaldav/caldav.php/user1/home/20061101T073004Z.ics
+URL=http://regression.host/caldav.php/user1/home/20061101T073004Z.ics
 HEADER=If-None-Match: *
 HEADER=User-Agent: Evolution/1.8.1
 HEADER=Content-Type: text/calendar
@@ -21,7 +21,7 @@ DTEND;TZID=/softwarestudio.org/Olson_20011030_5/Pacific/Auckland:
  20061101T110000
 SUMMARY:A Meeting
 X-EVOLUTION-CALDAV-HREF:http:
- //user1@mycaldav/caldav.php/user1/home/20061101T073004Z.ics
+ //user1@regression.host/caldav.php/user1/home/20061101T073004Z.ics
 BEGIN:VALARM
 X-EVOLUTION-ALARM-UID:20061101T073000Z-10480-1000-1-5@ubu
 ACTION:DISPLAY

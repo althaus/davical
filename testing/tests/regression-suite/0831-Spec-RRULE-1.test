@@ -3,7 +3,7 @@
 #
 #
 TYPE=TESTRRULE
-URL=http://mycaldav/caldav.php
+URL=http://regression.host/caldav.php
 
 HEAD
 

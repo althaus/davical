@@ -2,7 +2,7 @@
 # Request a freebusy report by URL
 #
 TYPE=GET
-URL=http://mycaldav/freebusy.php/user1/home/?start=20061001T000000&period=P4WT12H
+URL=http://regression.host/freebusy.php/user1/home/?start=20061001T000000&period=P4WT12H
 HEAD
 
 AUTH=manager1:manager1

@@ -2,7 +2,7 @@
 # PUT an event with attendees
 #
 TYPE=PUT
-URL=http://mycaldav/caldav.php/user1/home/PUT-attendees.ics
+URL=http://regression.host/caldav.php/user1/home/PUT-attendees.ics
 HEADER=Content-Type: text/calendar
 HEADER=User-Agent: DAVKit/2.0 (10.5.1; wrbt) iCal 3.0.1
 HEAD

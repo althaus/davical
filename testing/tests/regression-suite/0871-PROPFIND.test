@@ -4,7 +4,7 @@
 #
 TYPE=PROPFIND
 AUTH=user2:user2
-URL=http://mycaldav/caldav.php/user2/home/
+URL=http://regression.host/caldav.php/user2/home/
 HEADER=User-Agent: RFC2518 Spec Tests
 HEADER=Depth: 0
 HEADER=Content-Type: application/xml

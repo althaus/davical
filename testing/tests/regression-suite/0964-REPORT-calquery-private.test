@@ -2,7 +2,7 @@
 # REPORT on user1's calendar as a less privileged user
 #
 TYPE=REPORT
-URL=http://mycaldav/caldav.php/user1/anotherone/
+URL=http://regression.host/caldav.php/user1/anotherone/
 AUTH=user4:user4
 
 HEADER=User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.1.18pre) Gecko/20080917 Sunbird/0.9

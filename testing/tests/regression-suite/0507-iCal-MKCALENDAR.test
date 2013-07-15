@@ -2,7 +2,7 @@
 # MKCALENDAR test for iCal
 #
 TYPE=MKCALENDAR
-URL=http://mycaldav/caldav.php/user1/6E20BB7C-EFD9-4F0F-9BDC-5335E04D47E0/
+URL=http://regression.host/caldav.php/user1/6E20BB7C-EFD9-4F0F-9BDC-5335E04D47E0/
 HEADER=Content-Type: text/xml
 HEAD
 

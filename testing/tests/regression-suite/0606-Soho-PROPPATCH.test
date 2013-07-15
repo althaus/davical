@@ -6,7 +6,7 @@
 TYPE=PROPPATCH
 
 # Note the URL doesn't have a trailling '/'
-URL=http://mycaldav/caldav.php/user1/SOHO%20collection
+URL=http://regression.host/caldav.php/user1/SOHO%20collection
 
 HEADER=User-Agent: SOHO Organizer/6.5.2 libcurl/7.17.0 OpenSSL/0.9.7l zlib/1.2.3 libssh2/0.17
 HEADER=Content-Type: text/xml; charset=utf-8

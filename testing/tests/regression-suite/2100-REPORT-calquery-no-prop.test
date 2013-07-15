@@ -3,7 +3,7 @@
 # events from other calendars in the database.
 #
 TYPE=REPORT
-URL=http://mycaldav/caldav.php/user1/home/
+URL=http://regression.host/caldav.php/user1/home/
 HEADER=User-Agent: DAViCal/RegressionTest
 HEADER=Content-Type: text/xml
 HEADER=Depth: 1

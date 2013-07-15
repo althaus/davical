@@ -2,6 +2,6 @@
 # Now we GET the entry that was in the report.
 #
 TYPE=GET
-URL=http://mycaldav/caldav.php/user1/home/3F4CF6227300FD062D9EF3CDFB30D32D-0.ics
+URL=http://regression.host/caldav.php/user1/home/3F4CF6227300FD062D9EF3CDFB30D32D-0.ics
 HEADER=User-Agent: Evolution/1.8.1
 HEAD

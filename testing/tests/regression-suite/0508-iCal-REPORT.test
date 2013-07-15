@@ -2,7 +2,7 @@
 # iCal does a calendar-multiget REPORT to fetch new events
 #
 TYPE=REPORT
-URL=http://mycaldav/caldav.php/user1/home/
+URL=http://regression.host/caldav.php/user1/home/
 HEADER=Content-Type: text/xml
 HEADER=User-Agent: DAVKit/2.0 (10.5.1; wrbt) iCal 3.0.1
 HEAD

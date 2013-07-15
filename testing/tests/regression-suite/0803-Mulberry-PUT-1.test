@@ -2,7 +2,7 @@
 # Attempt to put this event into a location that is locked.
 #
 TYPE=PUT
-URL=http://mycaldav/caldav.php/user1/home/i1278618276.ics
+URL=http://regression.host/caldav.php/user1/home/i1278618276.ics
 
 HEADER=Content-Type: text/calendar; charset=utf-8
 HEAD

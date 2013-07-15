@@ -2,7 +2,7 @@
 # Request a REPORT which should report only freebusy
 #
 TYPE=REPORT
-URL=http://mycaldav/caldav.php/user1/home/
+URL=http://regression.host/caldav.php/user1/home/
 HEADER=User-Agent: CALDAV compliance testing
 HEADER=Accept: text/calendar
 HEADER=Content-Type: text/xml

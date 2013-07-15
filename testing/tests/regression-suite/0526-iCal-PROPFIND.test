@@ -2,7 +2,7 @@
 # Testing with a process similar to iCal 10.5
 #
 TYPE=PROPFIND
-URL=http://mycaldav/caldav.php/user1/
+URL=http://regression.host/caldav.php/user1/
 HEAD
 
 HEADER=User-Agent: DAVKit/3.0.4 (652); CalendarStore/3.0.5 (841); iCal/3.0.5 (1270); Mac OS X/10.5.5 (9F33)

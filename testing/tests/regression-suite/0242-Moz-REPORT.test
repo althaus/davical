@@ -2,7 +2,7 @@
 # REPORT on scheduling inbox for pending VEVENT on startup
 #
 TYPE=REPORT
-URL=http://mycaldav/caldav.php/user1/.in/
+URL=http://regression.host/caldav.php/user1/.in/
 HEADER=User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.1.18pre) Gecko/20080917 Sunbird/0.9
 HEADER=Accept: text/xml
 HEADER=Accept-Language: en-us,en;q=0.5

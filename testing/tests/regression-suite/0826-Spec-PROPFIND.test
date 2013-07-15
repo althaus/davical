@@ -2,7 +2,7 @@
 # Testing for Spec compliance.  PROPFIND on the root
 #
 TYPE=PROPFIND
-URL=http://mycaldav/
+URL=http://regression.host/
 HEADER=User-Agent: RFC2518 Spec Tests
 HEADER=Depth: 0
 HEADER=Content-Type: application/xml

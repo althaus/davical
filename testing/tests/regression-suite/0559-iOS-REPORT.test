@@ -2,7 +2,7 @@
 # Testing with a process similar to iPhone 5
 #
 TYPE=REPORT
-URL=http://mycaldav/caldav.php/user1/home/
+URL=http://regression.host/caldav.php/user1/home/
 HEAD
 
 AUTH=user1:user1
