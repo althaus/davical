@@ -2,7 +2,7 @@
 # Testing with a process similar to iPhone 3.1
 #
 TYPE=PROPFIND
-URL=http://mycaldav/caldav.php/user1/VTODO-EFD9-4F0F-9BDC-5335E04D47E0/
+URL=http://regression.host/caldav.php/user1/VTODO-EFD9-4F0F-9BDC-5335E04D47E0/
 HEAD
 
 AUTH=user1:user1

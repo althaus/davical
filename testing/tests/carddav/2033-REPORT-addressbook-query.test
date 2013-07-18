@@ -2,7 +2,7 @@
 # Request a REPORT 
 #
 TYPE=REPORT
-URL=http://mycaldav/caldav.php/user1/addressbook/
+URL=http://regression.host/caldav.php/user1/addressbook/
 
 HEADER=Accept: text/xml,application/xml
 HEADER=Content-Type: text/xml

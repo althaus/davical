@@ -2,7 +2,7 @@
 # After creating a calendar in Mulberry, we should be able
 # to do a PROPFIND and discover it.
 TYPE=PROPFIND
-URL=http://mycaldav/caldav.php/
+URL=http://regression.host/caldav.php/
 HEADER=Depth: 1
 HEADER=Content-Type: text/xml; charset=utf-8
 HEAD

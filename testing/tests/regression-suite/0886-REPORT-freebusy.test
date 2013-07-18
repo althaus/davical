@@ -2,7 +2,7 @@
 # Request a freebusy report by URL
 #
 TYPE=REPORT
-URL=http://mycaldav/caldav.php/user1/home/
+URL=http://regression.host/caldav.php/user1/home/
 HEADER=User-Agent: DAViCalTester/public
 HEADER=Content-Type: text/xml; charset="UTF-8"
 HEAD

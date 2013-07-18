@@ -2,7 +2,7 @@
 # PUT a new task in the calendar
 #
 TYPE=PUT
-URL=http://mycaldav/caldav.php/user1/home/2178279a-aec2-471f-832d-1f6df6203f2f.ics
+URL=http://regression.host/caldav.php/user1/home/2178279a-aec2-471f-832d-1f6df6203f2f.ics
 
 HEADER=User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.1.7pre) Gecko/20070805 Calendar/0.7pre
 HEADER=Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5

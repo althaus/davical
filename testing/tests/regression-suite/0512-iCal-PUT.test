@@ -2,7 +2,7 @@
 # PUT an iCal style event into the database
 #
 TYPE=PUT
-URL=http://mycaldav/caldav.php/user1/6E20BB7C-EFD9-4F0F-9BDC-5335E04D47E0/6C8A0D88-E1F9-4FC1-9EDD-DA258ABF2CFA.ics
+URL=http://regression.host/caldav.php/user1/6E20BB7C-EFD9-4F0F-9BDC-5335E04D47E0/6C8A0D88-E1F9-4FC1-9EDD-DA258ABF2CFA.ics
 HEADER=Content-Type: text/calendar
 HEADER=User-Agent: DAVKit/2.0 (10.5.1; wrbt) iCal 3.0.1
 HEAD

@@ -1,7 +1,7 @@
 #
 # We now have a calendar so we can PUT an event into it...
 TYPE=PUT
-URL=http://mycaldav/caldav.php/user1/home/F56B49B10FC923D20FE2DC92D6580340-0.ics
+URL=http://regression.host/caldav.php/user1/home/F56B49B10FC923D20FE2DC92D6580340-0.ics
 HEADER=Content-Type: text/calendar; charset=utf-8
 HEADER=If-Match: "b000d7defa19ccb7cd21e546b54155ee"
 HEAD

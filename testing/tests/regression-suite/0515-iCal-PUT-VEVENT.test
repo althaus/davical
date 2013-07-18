@@ -2,7 +2,7 @@
 # PUT an iCal style event with repeats and alarms
 #
 TYPE=PUT
-URL=http://mycaldav/caldav.php/resource2/home/3C1BF85D-3F28-413F-844F-80EBD33B8EE6.ics
+URL=http://regression.host/caldav.php/resource2/home/3C1BF85D-3F28-413F-844F-80EBD33B8EE6.ics
 HEADER=Content-Type: text/calendar
 HEADER=User-Agent: DAVKit/2.0 (10.5.1; wrbt) iCal 3.0.1
 HEAD

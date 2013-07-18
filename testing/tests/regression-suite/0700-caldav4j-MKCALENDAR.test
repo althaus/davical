@@ -2,7 +2,7 @@
 # MKCALENDAR test for caldav4j
 #
 TYPE=MKCALENDAR
-URL=http://mycaldav/caldav.php/user1/collection/
+URL=http://regression.host/caldav.php/user1/collection/
 HEADER=Content-Type: text/xml
 HEAD
 

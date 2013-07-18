@@ -1,7 +1,7 @@
 #
 # Do a DELETE with a correct etag which will succeed.
 TYPE=DELETE
-URL=http://mycaldav/caldav.php/user1/home/F56B49B10FC923D20FE2DC92D6580340-0.ics
+URL=http://regression.host/caldav.php/user1/home/F56B49B10FC923D20FE2DC92D6580340-0.ics
 HEADER=If-Match: "6cff373f55c3e8318ad1c0db93205d08"
 HEAD
 

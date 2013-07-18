@@ -3,5 +3,5 @@
 # just added with a PUT.
 #
 TYPE=GET
-URL=http://mycaldav/caldav.php/user1/anotherone/
+URL=http://regression.host/caldav.php/user1/anotherone/
 HEAD

@@ -2,7 +2,7 @@
 # Spec compliant test for all properties.  Depth infinity this time
 #
 TYPE=PROPFIND
-URL=http://mycaldav/caldav.php/user1/home/
+URL=http://regression.host/caldav.php/user1/home/
 HEADER=User-Agent: RFC2518 Spec Tests
 HEADER=Depth: infinity
 HEADER=Content-Type: application/xml

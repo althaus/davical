@@ -2,7 +2,7 @@
 # principal-match REPORT on a principal-property (displayname)
 #
 TYPE=REPORT
-URL=http://mycaldav/caldav.php/
+URL=http://regression.host/caldav.php/
 AUTH=user1:user1
 
 HEADER=User-Agent: DAViCal Testing

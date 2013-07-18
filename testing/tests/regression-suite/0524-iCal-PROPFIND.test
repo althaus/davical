@@ -2,7 +2,7 @@
 # Testing with a process similar to iCal 10.5
 #
 TYPE=PROPFIND
-URL=http://mycaldav/caldav.php/manager1/
+URL=http://regression.host/caldav.php/manager1/
 HEAD
 
 AUTH=assistant1:assistant1

@@ -2,7 +2,7 @@
 # Testing for how iCal does a POST for free/busy
 #
 TYPE=POST
-URL=http://mycaldav/caldav.php/user1/.out/
+URL=http://regression.host/caldav.php/user1/.out/
 
 HEADER=X-DAViCal-Flush-Cache: true
 HEADER=User-Agent: DAVKit/4.0.3 (732); CalendarStore/4.0.4 (997); iCal/4.0.4 (1395); Mac OS X/10.6.5 (10H574)

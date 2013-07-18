@@ -2,7 +2,7 @@
 # PUT a Mozilla style event into the database
 #
 TYPE=PUT
-URL=http://mycaldav/caldav.php/user1/home/e70576e9-c1e0-431e-a507-0386fd82f223.ics
+URL=http://regression.host/caldav.php/user1/home/e70576e9-c1e0-431e-a507-0386fd82f223.ics
 HEADER=User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.1.8pre) Gecko/20071023 Sunbird/0.7
 HEADER=Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
 HEADER=Accept-Language: en-us,en;q=0.5

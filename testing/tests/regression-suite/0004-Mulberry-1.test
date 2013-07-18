@@ -2,5 +2,5 @@
 # So we should now make a calendar that we will use for some
 # testing.
 TYPE=MKCALENDAR
-URL=http://mycaldav/caldav.php/user1/created/
+URL=http://regression.host/caldav.php/user1/created/
 HEAD

@@ -115,20 +115,24 @@ class Rfc5545Duration {
    */
   function asSeconds() {
     if ( !isset($this->epoch_seconds) ) {
-      if ( preg_match('{^(-?)P(\d+W)|((\d+D)?(T(\d+H)?(\d+M)?(\d+S)?)?)$}i', $this->as_text, $matches) ) {
-        if ( isset($matches[2]) ) $this->days = ($matches[2] * 7);
+      if ( preg_match('{^(-?)P(\d+W)|(?:(\d+)D?(?:T(\d+)H?(\d+)M?(\d+)S?)?)$}i', $this->as_text, $matches) ) {
+        // @printf("%s - %s - %s - %s - %s - %s\n", $matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6]);
+        $this->secs = 0;
+        if ( !empty($matches[2]) ) {
+          $this->days = (intval($matches[2]) * 7);
+        }
         else {
-          if ( isset($matches[4]) ) $this->days = $matches[4];
-          $this->secs = 0;
-          if ( isset($matches[6]) ) $this->secs += $matches[6] * 3600;
-          if ( isset($matches[7]) ) $this->days += $matches[7] * 60;
-          if ( isset($matches[8]) ) $this->days += $matches[8];
+          if ( !empty($matches[3]) ) $this->days = intval($matches[3]);
+          if ( !empty($matches[4]) ) $this->secs += intval($matches[4]) * 3600;
+          if ( !empty($matches[5]) ) $this->secs += intval($matches[5]) * 60;
+          if ( !empty($matches[6]) ) $this->secs += intval($matches[6]);
         }
         if ( $matches[1] == '-' ) {
           $this->days *= -1;
           $this->secs *= -1;
         }
         $this->epoch_seconds = ($this->days * 86400) + $this->secs;
+        // printf("Duration: %d days & %d seconds (%d epoch seconds)\n", $this->days, $this->secs, $this->epoch_seconds);
       }
       else {
         throw new Exception('Invalid epoch: "'+$this->as_text+"'");

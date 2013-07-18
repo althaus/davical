@@ -5,7 +5,7 @@ davical (1.1.2-1) unstable; urgency=low
     canonical git upstream repository.
   * Removed README.Debian which didn’t contain any useful information.
 
- -- Andrew McMillan <awm@debian.org>  Wed, 06 Mar 2013 20:27:17 +1300
+ -- Andrew McMillan <awm@debian.org>  Wed, 01 May 2013 10:05:33 +1200
 
 davical (1.1.1-1) unstable; urgency=high
 

@@ -4,7 +4,7 @@
 # No data is needed for a refresh
 #
 TYPE=LOCK
-URL=http://mycaldav/caldav.php/user1/home/i1278618276.ics
+URL=http://regression.host/caldav.php/user1/home/i1278618276.ics
 
 # Save the original lock time for later use
 GETSQL=oldlocktime

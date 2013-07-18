@@ -2,7 +2,7 @@
 # Test specification compliance for LOCK request
 #
 TYPE=LOCK
-URL=http://mycaldav/caldav.php/user1/home/i1278618276.ics
+URL=http://regression.host/caldav.php/user1/home/i1278618276.ics
 HEADER=Depth: 0
 HEADER=Timeout: Infinite,Second-4100000000
 HEADER=Content-type: text/xml; charset="utf-8"

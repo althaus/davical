@@ -2,7 +2,7 @@
 # POST to scheduling outbox for freebusy query on user2
 #
 TYPE=POST
-URL=http://mycaldav/caldav.php/user1/.out/
+URL=http://regression.host/caldav.php/user1/.out/
 HEADER=User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.1.18pre) Gecko/20080917 Sunbird/0.9
 HEADER=Accept: text/xml
 HEADER=Accept-Language: en-us,en;q=0.5

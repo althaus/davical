@@ -2,7 +2,7 @@
 # We should see an updated sync token here.
 #
 TYPE=REPORT
-URL=http://mycaldav/caldav.php/user1/addressbook/
+URL=http://regression.host/caldav.php/user1/addressbook/
 HEADER=User-agent: sync-collection changes REPORT
 HEADER=Content-type: text/xml
 HEAD

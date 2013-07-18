@@ -2,7 +2,7 @@
 # Testing with a process similar to iCal 10.5
 #
 TYPE=PROPFIND
-URL=http://mycaldav/
+URL=http://regression.host/
 HEAD
 
 HEADER=User-Agent: DAVKit/2.0 (10.5; wrbt) iCal 3.0

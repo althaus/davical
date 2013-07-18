@@ -4,7 +4,7 @@
 # There is no CalDAV defined behaviour for this.
 #
 TYPE=PUT
-URL=http://mycaldav/caldav.php/user4/us_holidays/
+URL=http://regression.host/caldav.php/user4/us_holidays/
 HEADER=User-Agent: RSCDS Testing/0.9.x
 HEADER=Content-Type: text/calendar; charset=utf-8
 AUTH=user4:user4

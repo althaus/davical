@@ -3,7 +3,7 @@
 # search for understanding
 #
 TYPE=MKCOL
-URL=http://mycaldav/caldav.php/user1/home/.ce7ad224-8288-11db-ec28-b49a13ab0e46.tmp/
+URL=http://regression.host/caldav.php/user1/home/.ce7ad224-8288-11db-ec28-b49a13ab0e46.tmp/
 
 HEADER=Chandler/0.7alpha4 (Linux)
 HEAD

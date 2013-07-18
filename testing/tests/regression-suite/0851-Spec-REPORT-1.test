@@ -2,7 +2,7 @@
 # Check for support of REPORT calendar-multiget
 #
 TYPE=REPORT
-URL=http://mycaldav/caldav.php/user1/home/
+URL=http://regression.host/caldav.php/user1/home/
 HEADER=User-agent: SpecTest REPORT
 HEADER=Content-type: text/xml
 HEAD

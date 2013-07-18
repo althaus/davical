@@ -2,7 +2,7 @@
 # Request a freebusy report by URL
 #
 TYPE=GET
-URL=http://mycaldav/freebusy.php/user1@example.net?start=20061001T000000&end=20070630T235959
+URL=http://regression.host/freebusy.php/user1@example.net?start=20061001T000000&end=20070630T235959
 HEAD
 
 REPLACE=/^DTSTAMP:\d{8}T\d{6}Z\r?$/DTSTAMP:yyyymmddThhmmssZ/

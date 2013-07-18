@@ -2,7 +2,7 @@
 # Testing for Spec compliance.  PROPFIND on a calendar collection.
 #
 TYPE=PROPFIND
-URL=http://mycaldav/caldav.php/user1/home/
+URL=http://regression.host/caldav.php/user1/home/
 HEADER=User-Agent: RFC2518 Spec Tests
 HEADER=Depth: 0
 HEADER=Content-Type: application/xml

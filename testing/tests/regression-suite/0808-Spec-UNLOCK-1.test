@@ -8,7 +8,7 @@
 # failed 'lock-token-matches-request-uri'
 #
 TYPE=UNLOCK
-URL=http://mycaldav/caldav.php/user1/home/i1278618276.ics
+URL=http://regression.host/caldav.php/user1/home/i1278618276.ics
 
 HEADER=Lock-Token: <opaquelocktoken:cafefeed-c001-b055-ea75-deadbeef4a11>
 HEAD

@@ -1,7 +1,7 @@
 #
 # Do an initial OPTIONS request (authenticated)
 TYPE=OPTIONS
-URL=http://mycaldav/caldav.php/user1/home/
+URL=http://regression.host/caldav.php/user1/home/
 
 HEADER=Chandler/0.7alpha4 (Linux)
 HEAD

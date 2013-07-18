@@ -2,7 +2,7 @@
 # Testing with a GroupDAV style request for a PROPFIND on the root with a Depth 1
 #
 TYPE=PROPFIND
-URL=http://mycaldav/caldav.php/
+URL=http://regression.host/caldav.php/
 HEAD
 
 AUTH=user1:user1

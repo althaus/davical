@@ -2,7 +2,7 @@
 # PUT a newer version of the event into the calendar.
 #
 TYPE=PUT
-URL=http://mycaldav/caldav.php/user1/home/AAA9318E-37D9-4319-8626-95ECD3D3B243.ics
+URL=http://regression.host/caldav.php/user1/home/AAA9318E-37D9-4319-8626-95ECD3D3B243.ics
 HEADER=Content-Type: text/calendar
 HEADER=User-Agent: DAVKit/2.0 (10.5.1; wrbt) iCal 3.0.1
 HEADER=If-Match: "b3e66a461ef178bd4791b2b6509bbb9d"

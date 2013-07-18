@@ -3,7 +3,7 @@
 # free/busy information
 #
 TYPE=POST
-URL=http://mycaldav/caldav.php/user1/.out/
+URL=http://regression.host/caldav.php/user1/.out/
 HEADER=User-Agent: draft-schedule-05 Spec Tests
 HEADER=Content-Type: text/calendar
 

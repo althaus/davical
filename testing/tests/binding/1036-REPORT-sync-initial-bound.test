@@ -3,7 +3,7 @@
 # on a bound resource
 #
 TYPE=REPORT
-URL=http://mycaldav/caldav.php/user4/user2/
+URL=http://regression.host/caldav.php/user4/user2/
 HEADER=User-agent: sync-collection initial REPORT
 HEADER=Content-type: text/xml
 HEAD

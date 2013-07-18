@@ -3,7 +3,7 @@
 # do not have read access to.
 #
 TYPE=OPTIONS
-URL=http://mycaldav/caldav.php/user3/
+URL=http://regression.host/caldav.php/user3/
 
 HEADER=User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.7) Gecko/20111013 Thunderbird/1.5.0.7
 

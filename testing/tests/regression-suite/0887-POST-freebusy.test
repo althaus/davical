@@ -4,7 +4,7 @@
 #
 TYPE=POST
 
-URL=http://mycaldav/caldav.php/user1/.out/
+URL=http://regression.host/caldav.php/user1/.out/
 
 HEADER=User-Agent: DAViCal Regression Testing
 HEADER=Accept: text/xml

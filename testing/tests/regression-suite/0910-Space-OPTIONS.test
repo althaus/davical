@@ -1,6 +1,6 @@
 #
 # Do an OPTIONS request on a URL with a space
 TYPE=OPTIONS
-URL=http://mycaldav/caldav.php/User%20Six/home/
+URL=http://regression.host/caldav.php/User%20Six/home/
 AUTH=User Six:user6
 HEAD

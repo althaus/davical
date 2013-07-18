@@ -2,7 +2,7 @@
 # PUT an "In Progress" task in the calendar
 #
 TYPE=PUT
-URL=http://mycaldav/caldav.php/user1/home/917b9e47-b748-4550-a566-657fbe672447.ics
+URL=http://regression.host/caldav.php/user1/home/917b9e47-b748-4550-a566-657fbe672447.ics
 
 HEADER=User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.1.7pre) Gecko/20070805 Calendar/0.7pre
 HEADER=Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5

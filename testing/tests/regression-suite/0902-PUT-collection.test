@@ -4,7 +4,7 @@
 # There is no CalDAV defined behaviour for this.
 #
 TYPE=PUT
-URL=http://mycaldav/caldav.php/user1/anotherone/
+URL=http://regression.host/caldav.php/user1/anotherone/
 HEADER=User-Agent: RSCDS Testing/0.7.x
 HEADER=Content-Type: text/calendar; charset=utf-8
 AUTH=admin:nimda
@@ -292,7 +292,7 @@ DTSTART;TZID=/softwarestudio.org/Olson_20011030_5/Pacific/Auckland:
 DTEND;TZID=/softwarestudio.org/Olson_20011030_5/Pacific/Auckland:
  20060918T150000
 SUMMARY:Donovan
-X-EVOLUTION-CALDAV-HREF:http://mycaldav:
+X-EVOLUTION-CALDAV-HREF:http://regression.host:
  80/caldav.php/andrew/20060914T212516Z.ics
 X-EVOLUTION-CALDAV-ETAG:"004c7b3de49835f714ae7962e8d06d3c"
 X-EVOLUTION-MOVE-CALENDAR:1
@@ -313,7 +313,7 @@ DTSTART;TZID=/softwarestudio.org/Olson_20011030_5/Pacific/Auckland:
 DTEND;TZID=/softwarestudio.org/Olson_20011030_5/Pacific/Auckland:
  20060911T120000
 SUMMARY:NGOP by-election readiness.
-X-EVOLUTION-CALDAV-HREF:http://mycaldav:
+X-EVOLUTION-CALDAV-HREF:http://regression.host:
  80/caldav.php/andrew/20060906T123515Z.ics
 X-EVOLUTION-CALDAV-ETAG:"9a39bedee743f397ebeeda78a4233c8b"
 X-EVOLUTION-MOVE-CALENDAR:1
@@ -352,7 +352,7 @@ DTEND;TZID=/softwarestudio.org/Olson_20011030_5/Pacific/Auckland:
  20060921T170000
 SUMMARY:Really Geeky Thoughts
 X-EVOLUTION-CALDAV-HREF:http:
- //andrew@mycaldav/caldav.php/andrew/20060920T052710Z.ics
+ //andrew@regression.host/caldav.php/andrew/20060920T052710Z.ics
 X-EVOLUTION-CALDAV-ETAG:"d9a4a80a3dbc76b947a3bf0f0672359c"
 X-EVOLUTION-MOVE-CALENDAR:1
 CREATED:20060920T052722
@@ -390,7 +390,7 @@ TRANSP:OPAQUE
 SEQUENCE:5
 SUMMARY:9:am - 2:30pm in Helsinki
 CLASS:PUBLIC
-X-EVOLUTION-CALDAV-HREF:http://mycaldav:
+X-EVOLUTION-CALDAV-HREF:http://regression.host:
  80/caldav.php/andrew/20060912T233500Z.ics
 X-EVOLUTION-CALDAV-ETAG:"8d8ca5e838b7e088bf17d9916032eec6"
 X-EVOLUTION-MOVE-CALENDAR:1
@@ -488,7 +488,7 @@ DTSTART;TZID=/softwarestudio.org/Olson_20011030_5/Pacific/Auckland:
 DTEND;TZID=/softwarestudio.org/Olson_20011030_5/Pacific/Auckland:
  20060919T120000
 SUMMARY:NGOP Meeting
-X-EVOLUTION-CALDAV-HREF:http://mycaldav:
+X-EVOLUTION-CALDAV-HREF:http://regression.host:
  80/caldav.php/andrew/20060905T231053Z.ics
 X-EVOLUTION-CALDAV-ETAG:"4d37ed48425acb9f4245539e2d2b726b"
 X-EVOLUTION-MOVE-CALENDAR:1

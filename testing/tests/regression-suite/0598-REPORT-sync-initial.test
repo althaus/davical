@@ -2,7 +2,7 @@
 # Check for support of REPORT sync-collection with no sync-token
 #
 TYPE=REPORT
-URL=http://mycaldav/caldav.php/user1/home/
+URL=http://regression.host/caldav.php/user1/home/
 HEADER=User-agent: sync-collection initial REPORT
 HEADER=Content-type: text/xml
 HEAD

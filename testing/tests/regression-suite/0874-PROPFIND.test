@@ -3,7 +3,7 @@
 # Depth: 0, looking for the supported-privilege-set response
 #
 TYPE=PROPFIND
-URL=http://mycaldav/caldav.php/user1/
+URL=http://regression.host/caldav.php/user1/
 HEADER=User-Agent: RFC3744 Spec Tests
 HEADER=Depth: 0
 HEADER=Content-Type: application/xml

@@ -4,7 +4,7 @@
 # An attempt to set an arbitrary property on a principal
 #
 TYPE=PROPPATCH
-URL=http://mycaldav/caldav.php/user1/
+URL=http://regression.host/caldav.php/user1/
 HEADER=User-agent: SpecTest PROPPATCH
 HEADER=Content-type: text/xml
 HEAD

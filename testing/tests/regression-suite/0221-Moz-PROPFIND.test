@@ -1,7 +1,7 @@
 #
 # Do a PROPFIND request
 TYPE=PROPFIND
-URL=http://mycaldav/caldav.php/user5/home/
+URL=http://regression.host/caldav.php/user5/home/
 HEAD
 AUTH=user5:user5
 

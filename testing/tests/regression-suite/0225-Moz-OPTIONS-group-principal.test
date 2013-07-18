@@ -2,7 +2,7 @@
 # Do an OPTIONS request against the principal-URL of a group we are a member of
 #
 TYPE=OPTIONS
-URL=http://mycaldav/caldav.php/teamclient1/
+URL=http://regression.host/caldav.php/teamclient1/
 
 HEADER=User-Agent: DAViCalTester/1.0
 

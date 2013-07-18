@@ -2,7 +2,7 @@
 # MKCALENDAR test for username with a space
 #
 TYPE=MKCALENDAR
-URL=http://mycaldav/caldav.php/User%20Six/DEADBEEF-EFD9-4F0F-9BDC-5335E04D47E0/
+URL=http://regression.host/caldav.php/User%20Six/DEADBEEF-EFD9-4F0F-9BDC-5335E04D47E0/
 HEADER=Content-Type: text/xml
 AUTH=User Six:user6
 HEAD

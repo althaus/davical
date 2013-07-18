@@ -2,7 +2,7 @@
 # addressbook-multiget REPORT on addressbook resource
 #
 TYPE=REPORT
-URL=http://mycaldav/caldav.php/user1/addressbook/
+URL=http://regression.host/caldav.php/user1/addressbook/
 HEADER=User-Agent: DAViCalTester/public
 HEADER=Content-Type: text/xml
 HEAD
