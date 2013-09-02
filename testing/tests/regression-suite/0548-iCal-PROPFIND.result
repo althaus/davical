@@ -4,8 +4,8 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, bind, addressbook, calendar-auto-schedule, calendar-proxy
-ETag: "908ab117a03a63e9f130ae222c0f3477"
-Content-Length: 29891
+ETag: "5e049d81fbde6fc41dea951c5b5061c9"
+Content-Length: 29507
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -198,10 +198,6 @@ Content-Type: text/xml; charset="utf-8"
      <C:comp name="VEVENT"/>
      <C:comp name="VTODO"/>
      <C:comp name="VJOURNAL"/>
-     <C:comp name="VTIMEZONE"/>
-     <C:comp name="VFREEBUSY"/>
-     <C:comp name="VPOLL"/>
-     <C:comp name="VAVAILABILITY"/>
     </C:supported-calendar-component-set>
     <supported-report-set>
      <supported-report>
@@ -466,10 +462,6 @@ Content-Type: text/xml; charset="utf-8"
      <C:comp name="VEVENT"/>
      <C:comp name="VTODO"/>
      <C:comp name="VJOURNAL"/>
-     <C:comp name="VTIMEZONE"/>
-     <C:comp name="VFREEBUSY"/>
-     <C:comp name="VPOLL"/>
-     <C:comp name="VAVAILABILITY"/>
     </C:supported-calendar-component-set>
     <supported-report-set>
      <supported-report>
@@ -600,7 +592,7 @@ Content-Type: text/xml; charset="utf-8"
      </privilege>
     </current-user-privilege-set>
     <displayname>User 1 Inbox</displayname>
-    <C1:getctag>"0389feae460444b4b5db3b16c94b1e43"</C1:getctag>
+    <C1:getctag>"21af9d4e6b2213058ebcbdcae1d922e5"</C1:getctag>
     <owner>
      <href>/caldav.php/user1/</href>
     </owner>
@@ -876,10 +868,6 @@ Content-Type: text/xml; charset="utf-8"
      <C:comp name="VEVENT"/>
      <C:comp name="VTODO"/>
      <C:comp name="VJOURNAL"/>
-     <C:comp name="VTIMEZONE"/>
-     <C:comp name="VFREEBUSY"/>
-     <C:comp name="VPOLL"/>
-     <C:comp name="VAVAILABILITY"/>
     </C:supported-calendar-component-set>
     <supported-report-set>
      <supported-report>
