@@ -2,8 +2,8 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, bind, addressbook, calendar-auto-schedule, calendar-proxy
-ETag: "29e2f219a0c62c391b207758292e7aef"
-Content-Length: 2362
+ETag: "76210f92f7ec88b1464ca3a5e2f4ae90"
+Content-Length: 2369
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -67,7 +67,7 @@ DTEND;TZID=/softwarestudio.org/Olson_20011030_5/Pacific/Auckland:
  20061101T110000
 SUMMARY:A Meeting
 X-EVOLUTION-CALDAV-HREF:http:
- //user1@mycaldav/caldav.php/user1/home/20061101T073004Z.ics
+ //user1@regression.host/caldav.php/user1/home/20061101T073004Z.ics
 BEGIN:VALARM
 X-EVOLUTION-ALARM-UID:20061101T073000Z-10480-1000-1-5@ubu
 ACTION:DISPLAY
