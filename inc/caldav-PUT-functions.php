@@ -482,7 +482,7 @@ function do_scheduling_reply( vCalendar $resource, vProperty $organizer ) {
 * @param boolean $create true if the scheduling requests are being created.
 * @return true If there was any scheduling action
 */
-function do_scheduling_requests( vCalendar $resource, $create, $old_data = null ) {
+function do_scheduling_requests( vCalendar $resource, $create, $old_data = null, $createNewPrincipal = false ) {
   global $request, $c;
   if ( !isset($request) || (isset($c->enable_auto_schedule) && !$c->enable_auto_schedule) ) return false;
   
@@ -551,7 +551,12 @@ function do_scheduling_requests( vCalendar $resource, $create, $old_data = null 
       dbg_error_log( "PUT", "not delivering to %s, schedule agent set to value other than server", $email );
       continue;
     }
+
     $schedule_target = new Principal('email',$email);
+    if($createNewPrincipal){
+      $schedule_target->createIfNotExists();
+    }
+
     $response = '3.7';  // Attendee was not found on server.
     dbg_error_log( 'PUT', 'Handling scheduling resources for %s on %s which is %s', $email,
                      ($create?'create':'update'), ($attendee_is_new? 'new' : 'an update') );
@@ -1400,7 +1405,7 @@ function write_resource( DAVResource $resource, $caldav_data, DAVResource $colle
   $calitem_params[':status'] = $first->GetPValue('STATUS');
 
   if ( !$collection->IsSchedulingCollection() ) {
-    if ( do_scheduling_requests($vcal, ($put_action_type == 'INSERT'), $old_dav_data ) ) {
+    if ( do_scheduling_requests($vcal, ($put_action_type == 'INSERT'), $old_dav_data, true ) ) {
       $dav_params[':dav_data'] = $vcal->Render(null, true);
       $etag = null;
     }

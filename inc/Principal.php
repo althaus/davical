@@ -252,6 +252,31 @@ class Principal {
     return $this->{$property};      
   }
 
+  public function createIfNotExists(){
+      if($this->Exists()){
+          return ;
+      }
+
+      if(!isset($this->username) || strlen($this->username) < 1){
+          $this->username = $this->email;
+      }
+
+      if(!isset($this->password) || strlen($this->password) < 1){
+          $this->password = $this->email;
+      }
+
+      $params = array(':username' => $this->username,
+          ':password' => $this->password,
+          ':email' => $this->email);
+
+      $sql = 'insert into dav_principal (username, password, email, type_id, user_active) values (:username,:password,:email, 1, FALSE)';
+
+      $qry = new AwlQuery( $sql, $params );
+      $result = $qry->Execute();
+
+      return $result;
+  }
+
   
   /**
    * This will allow protected properties to be examined for whether they are set
@@ -620,3 +645,7 @@ class Principal {
     $cache->delete('principal-'.$value, null);
   }  
 }
+
+
+//$test = new Principal('email', 'test2@ahoj.cz');
+//$test->createIfNotExists();
