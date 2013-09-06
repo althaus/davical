@@ -57,8 +57,10 @@ if ( !isset($c->raw_post) ) $c->raw_post = file_get_contents( 'php://input');
 if ( (isset($c->dbg['ALL']) && $c->dbg['ALL']) || (isset($c->dbg['request']) && $c->dbg['request']) )
   logRequestHeaders();
 
-// +100 $_SERVER['PHP_AUTH_USER'] = 'miuan';
-// +100 $_SERVER['PHP_AUTH_PW'] = 'a';
+// +100
+$_SERVER['PHP_AUTH_USER'] = 'miuan';
+// +100
+$_SERVER['PHP_AUTH_PW'] = 'a';
 require_once('HTTPAuthSession.php');
 $session = new HTTPAuthSession();
 
@@ -113,10 +115,11 @@ switch ( $request->method ) {
   case 'HEAD':       include('caldav-GET.php');            break;
   case 'PROPPATCH':  include('caldav-PROPPATCH.php');      break;
   case 'POST':
-    if ( false && $request->content_type != 'text/vcard' && !$add_member ) {
+    if ( $request->content_type != 'text/vcard' && !$add_member ) {
       include('caldav-POST.php');
       break;
     }
+        // fall through if POST add member
   case 'PUT':
     switch( $request->content_type ) {
       case 'text/calendar':

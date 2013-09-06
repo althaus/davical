@@ -252,9 +252,13 @@ class Principal {
     return $this->{$property};      
   }
 
-  public function createIfNotExists(){
+
+    /**
+     * @return bool - return true when the principal have been created
+     */
+    public function createIfNotExists(){
       if($this->Exists()){
-          return ;
+          return false;
       }
 
       if(!isset($this->username) || strlen($this->username) < 1){
@@ -273,6 +277,11 @@ class Principal {
 
       $qry = new AwlQuery( $sql, $params );
       $result = $qry->Execute();
+
+
+      if($result === true){
+          $this->exists = $result;
+      }
 
       return $result;
   }
