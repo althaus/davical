@@ -482,7 +482,7 @@ function do_scheduling_reply( vCalendar $resource, vProperty $organizer ) {
 * @param boolean $create true if the scheduling requests are being created.
 * @return true If there was any scheduling action
 */
-function do_scheduling_requests( vCalendar $resource, $create, $old_data = null, $createNewPrincipal = false ) {
+function do_scheduling_requests( vCalendar $resource, $create, $old_data = null, $remoteAttendee = false ) {
   global $request, $c;
   if ( !isset($request) || (isset($c->enable_auto_schedule) && !$c->enable_auto_schedule) ) return false;
   
@@ -553,9 +553,7 @@ function do_scheduling_requests( vCalendar $resource, $create, $old_data = null,
     }
 
     $schedule_target = new Principal('email',$email);
-    if($createNewPrincipal){
-      $schedule_target->createIfNotExists();
-    }
+
 
     $response = '3.7';  // Attendee was not found on server.
     dbg_error_log( 'PUT', 'Handling scheduling resources for %s on %s which is %s', $email,
@@ -600,6 +598,9 @@ function do_scheduling_requests( vCalendar $resource, $create, $old_data = null,
           }
         }
       }
+    }
+    else if($remoteAttendee){
+        $attendee->is_remote = true;
     }
     else {
       $remote = new iSchedule ();
@@ -1173,12 +1174,16 @@ function write_attendees( $dav_id, vCalendar $ical ) {
   $attendees = $ical->GetAttendees();
   if ( count($attendees) < 1 ) return;
 
-  $qry->SetSql('INSERT INTO calendar_attendee ( dav_id, status, partstat, cn, attendee, role, rsvp, property )
-          VALUES( '.$dav_id.', :status, :partstat, :cn, :attendee, :role, :rsvp, :property )' );
+  $qry->SetSql('INSERT INTO calendar_attendee ( dav_id, status, partstat, cn, attendee, role, rsvp, property, is_remote )
+          VALUES( '.$dav_id.', :status, :partstat, :cn, :attendee, :role, :rsvp, :property, :is_remote )' );
   $qry->Prepare();
   $processed = array();
   foreach( $attendees AS $v ) {
     $attendee = $v->Value();
+
+
+    $is_remote = isset($v->is_remote) && $v->is_remote;
+
     if ( isset($processed[$attendee]) ) {
       dbg_error_log( 'LOG', 'Duplicate attendee "%s" in resource "%d"', $attendee, $dav_id );
       dbg_error_log( 'LOG', 'Original:  "%s"', $processed[$attendee] );
@@ -1191,6 +1196,7 @@ function write_attendees( $dav_id, vCalendar $ical ) {
     $qry->Bind(':cn',       $v->GetParameterValue('CN') );
     $qry->Bind(':role',     $v->GetParameterValue('ROLE') );
     $qry->Bind(':rsvp',     $v->GetParameterValue('RSVP') );
+    $qry->Bind(':is_remote', $is_remote);
     $qry->Bind(':property', $v->Render() );
     $qry->Exec('PUT',__LINE__,__FILE__);
     $processed[$attendee] = $v->Render();
