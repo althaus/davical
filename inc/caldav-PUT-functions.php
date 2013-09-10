@@ -1176,8 +1176,8 @@ function write_attendees( $dav_id, vCalendar $ical ) {
   $attendees = $ical->GetAttendees();
   if ( count($attendees) < 1 ) return;
 
-  $qry->SetSql('INSERT INTO calendar_attendee ( dav_id, status, partstat, cn, attendee, role, rsvp, property, is_remote )
-          VALUES( '.$dav_id.', :status, :partstat, :cn, :attendee, :role, :rsvp, :property, :is_remote )' );
+  $qry->SetSql('INSERT INTO calendar_attendee ( dav_id, status, partstat, cn, attendee, role, rsvp, property, is_remote, email_status )
+          VALUES( '.$dav_id.', :status, :partstat, :cn, :attendee, :role, :rsvp, :property, :is_remote, :email_status )' );
   $qry->Prepare();
   $processed = array();
   foreach( $attendees AS $v ) {
@@ -1185,6 +1185,10 @@ function write_attendees( $dav_id, vCalendar $ical ) {
 
 
     $is_remote = isset($v->is_remote) && $v->is_remote;
+
+    // for remote attendee set status 2 - Waiting for email
+    // for normal attendee set status 1 - accepted
+    $email_status = $is_remote ? 2 : 1;
 
     if ( isset($processed[$attendee]) ) {
       dbg_error_log( 'LOG', 'Duplicate attendee "%s" in resource "%d"', $attendee, $dav_id );
@@ -1200,6 +1204,7 @@ function write_attendees( $dav_id, vCalendar $ical ) {
     $qry->Bind(':rsvp',     $v->GetParameterValue('RSVP') );
     $qry->Bind(':is_remote', $is_remote);
     $qry->Bind(':property', $v->Render() );
+    $qry->Bind(':email_status', $email_status);
     $qry->Exec('PUT',__LINE__,__FILE__);
     $processed[$attendee] = $v->Render();
   }
