@@ -601,6 +601,8 @@ function do_scheduling_requests( vCalendar $resource, $create, $old_data = null,
     }
     else if($remoteAttendee){
         $attendee->is_remote = true;
+        $remote = new iSchedule ();
+        $answer = $remote->sendRequest ( $email, 'VEVENT/REQUEST', $schedule_request->Render() );
     }
     else {
       $remote = new iSchedule ();
