@@ -6,7 +6,7 @@
 * @license   http://gnu.org/copyleft/gpl.html GNU GPL v2 or later
 */
 
-// +100 include_once('../inc/invitation.php');
+// +100 include_once('../inc/mail_handler.php');
 if ( preg_match('{/always.php$}', $_SERVER['SCRIPT_NAME'] ) ) header('Location: index.php');
 
 // Ensure the configuration starts out as an empty object.
