@@ -22,9 +22,9 @@ function create_external ( $path,$is_calendar,$is_addressbook )
   if ($is_calendar) $resourcetypes .= '<urn:ietf:params:xml:ns:caldav:calendar/>';
   $qry = new AwlQuery();
   if ( ! $qry->QDo( 'INSERT INTO collection ( user_no, parent_container, dav_name, dav_etag, dav_displayname,
-                                 is_calendar, is_addressbook, resourcetypes, created, modified )
+                                 is_calendar, is_addressbook, resourcetypes, created )
               VALUES( :user_no, :parent_container, :dav_name, :dav_etag, :dav_displayname,
-                      :is_calendar, :is_addressbook, :resourcetypes, current_timestamp, current_timestamp )',
+                      :is_calendar, :is_addressbook, :resourcetypes, current_timestamp )',
            array(
               ':user_no'          => $request->user_no,
               ':parent_container' => '/.external/',
@@ -55,26 +55,31 @@ function fetch_external ( $bind_id, $min_age = '1 hour' )
   $sql .= ' ORDER BY modified DESC LIMIT 1';
   $qry = new AwlQuery( $sql, $params );
   if ( $qry->Exec('DAVResource') && $qry->rows() > 0 && $row = $qry->Fetch() ) {
-    $local_ts = new DateTime($row->modified);
     $curl = curl_init ( $row->external_url );
     curl_setopt ( $curl, CURLOPT_RETURNTRANSFER, true );
-    curl_setopt ( $curl, CURLOPT_HEADER, true );
-    curl_setopt ( $curl, CURLOPT_FILETIME, true );
-    curl_setopt ( $curl, CURLOPT_NOBODY, true );
-    curl_setopt ( $curl, CURLOPT_TIMEVALUE, $local_ts->format("U") );
-    curl_setopt ( $curl, CURLOPT_TIMECONDITION, CURL_TIMECOND_IFMODSINCE );
-    dbg_error_log("external", "checking external resource for remote changes " . $row->external_url );
-    $ics = curl_exec ( $curl );
-    $info = curl_getinfo ( $curl );
-    if ( $info['http_code'] === 304 || isset($info['filetime']) && new DateTime("@" . $info['filetime']) <=  $local_ts ) { 
-      dbg_error_log("external", "external resource unchanged " . $info['filetime'] . '  < ' . $local_ts->getTimestamp() );
-      curl_close ( $curl );
-      // BUGlet: should track server-time instead of local-time
-      $qry = new AwlQuery( 'UPDATE collection SET modified=NOW() WHERE collection_id = :cid', array ( ':cid' => $row->collection_id ) );
-      $qry->Exec('DAVResource');  
-      return true;
+    if ( $row->modified ) {
+      $local_ts = new DateTime($row->modified);
+      curl_setopt ( $curl, CURLOPT_HEADER, true );
+      curl_setopt ( $curl, CURLOPT_FILETIME, true );
+      curl_setopt ( $curl, CURLOPT_NOBODY, true );
+      curl_setopt ( $curl, CURLOPT_TIMEVALUE, $local_ts->format("U") );
+      curl_setopt ( $curl, CURLOPT_TIMECONDITION, CURL_TIMECOND_IFMODSINCE );
+      dbg_error_log("external", "checking external resource for remote changes " . $row->external_url );
+      $ics = curl_exec ( $curl );
+      $info = curl_getinfo ( $curl );
+      if ( $info['http_code'] === 304 || (isset($info['filetime']) && $info['filetime'] != -1 && new DateTime("@" . $info['filetime']) <=  $local_ts )) {
+        dbg_error_log("external", "external resource unchanged " . $info['filetime'] . '  < ' . $local_ts->getTimestamp() . ' (' . $info['http_code'] . ')');
+        curl_close ( $curl );
+        // BUGlet: should track server-time instead of local-time
+        $qry = new AwlQuery( 'UPDATE collection SET modified=NOW() WHERE collection_id = :cid', array ( ':cid' => $row->collection_id ) );
+        $qry->Exec('DAVResource');
+        return true;
+      }
+      dbg_error_log("external", "external resource changed, re importing" . $info['filetime'] );
     }
-    dbg_error_log("external", "external resource changed, re importing" . $info['filetime'] );
+    else {
+      dbg_error_log("external", "fetching external resource for the first time " . $row->external_url );
+    }
     curl_setopt ( $curl, CURLOPT_NOBODY, false );
     curl_setopt ( $curl, CURLOPT_HEADER, false );
     $ics = curl_exec ( $curl );
