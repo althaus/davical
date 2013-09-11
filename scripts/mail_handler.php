@@ -27,9 +27,10 @@ class MailHandler {
 
 
         while(($row = $qry->Fetch())){
-            $sqlattendee = 'SELECT email as attendee, CONCAT(\'CN=\',usr.fullname) as property FROM usr WHERE usr.user_no = :user_no'
+            $sqlattendee = 'SELECT email as attendee, usr.fullname as property, TRUE as creator FROM usr WHERE usr.user_no = :user_no'
                 . ' UNION '
-                . 'SELECT attendee, property FROM calendar_attendee WHERE calendar_attendee.dav_id = :dav_id';
+                . 'SELECT attendee, property, FALSE as creator FROM calendar_attendee WHERE calendar_attendee.dav_id = :dav_id'
+                . ' ORDER BY creator DESC';
 
             $qryattendee = new AwlQuery($sqlattendee);
             $qryattendee->Bind(':user_no', $row->user_no);
@@ -41,25 +42,35 @@ class MailHandler {
                 $attendees[] = $rowattendee;
             }
 
-            $email = explode(':', $row->attendee)[1];
+
             dbg_error_log('mail for send invitation:' . $attendees);
-            $ctext = $this->renderRowToInvitation($row, $attendees[0], array_shift($attendees));
+
+            $creator = $attendees[0];
+            array_shift($attendees);
+
+            $ctext = $this->renderRowToInvitation($row, $creator, $attendees);
 
 
-            $headers = "From: Enrico <milan@sez.com>\n";
-            $headers .= "MIME-Version: 1.0\n";
-            $headers .= "Content-Type: text/calendar; method=REQUEST;\n";
-            $headers .= '        charset="UTF-8"';
-            $headers .= "\n";
-            $headers .= "Content-Transfer-Encoding: 7bit";
-
-            $result = mail("milan.medlik@gmail.com, milan@morphoss.com", 'invitation', $ctext, $headers);
-            if($result){
-
-            }
+            $this->sendInvitationEmail($row->attendee, $creator, $ctext);
 
         }
 
+    }
+
+    private function sendInvitationEmail($attendee, $creator, $renderInvitation){
+
+
+        $headers = sprintf("From: %s <%s>\n", $creator->property, $creator->attendee);
+        $headers .= "MIME-Version: 1.0\n";
+        $headers .= "Content-Type: text/calendar; method=REQUEST;\n";
+        $headers .= '        charset="UTF-8"';
+        $headers .= "\n";
+        $headers .= "Content-Transfer-Encoding: 7bit";
+
+        //$result = mail("milan.medlik@gmail.com, milan@morphoss.com", 'invitation', $ctext, $headers);
+//            if($result){
+//
+//            }
     }
 
     /**
@@ -99,7 +110,7 @@ class MailHandler {
 
         $organizerproperty = null;
         if(isset($organizer->property) && $organizer->property != null) {
-            $organizerproperty = explode(';', $organizer->property);
+            $organizerproperty = array( 'CN' => $organizer->property);
         }
 
         $event->AddProperty("ORGANIZER", $organizer->attendee, $organizerproperty);
@@ -108,12 +119,8 @@ class MailHandler {
         $event->AddProperty("STATUS", $status);
 
         foreach($attendees as $attendee){
-            $property = null;
-            if(isset($organizer->property) && $organizer->property != null) {
-                $property = explode(';', $organizer->property);
-            }
-
-            $event->AddProperty("ATTENDEE", $attendee, $property);
+            $property = $this->recoveryPropertyFromString($attendee->property);
+            $event->AddProperty("ATTENDEE", $attendee->attendee, $property);
         }
 
 
@@ -123,6 +130,27 @@ class MailHandler {
 
 
         return $result;
+    }
+
+    private function recoveryPropertyFromString(&$attendeeproperty){
+        $resultproperty = null;
+        if(isset($attendeeproperty) && $attendeeproperty != null) {
+            $propertyarray = explode(';', $attendeeproperty);
+            $resultproperty = array();
+            foreach($propertyarray as $property){
+                $keyproperty = explode('=', $property);
+                $key = $keyproperty[0];
+
+                if(count($keyproperty) > 1){
+                    $resultproperty[$key] = $keyproperty[1];
+                } else {
+                    $resultproperty[$key] = '';
+                }
+
+            }
+        }
+
+        return $resultproperty;
     }
 }
 
