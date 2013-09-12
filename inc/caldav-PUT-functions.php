@@ -1161,22 +1161,70 @@ function write_alarms( $dav_id, vComponent $ical ) {
   }
 }
 
-
 /**
-* Parse out the attendee property and write a row to the
-* calendar_attendee table for each one.
-* @param int $dav_id The dav_id of the caldav_data we're processing
-* @param vComponent The VEVENT or VTODO containing the ATTENDEEs
-* @return null
-*/
+ * Parse out the attendee property and write a row to the
+ * calendar_attendee table for each one.
+ * @param int $dav_id The dav_id of the caldav_data we're processing
+ * @param vComponent The VEVENT or VTODO containing the ATTENDEEs
+ * @return null
+ */
 function write_attendees( $dav_id, vCalendar $ical ) {
-  $qry = new AwlQuery('DELETE FROM calendar_attendee WHERE dav_id = '.$dav_id );
-  $qry->Exec('PUT',__LINE__,__FILE__);
+    $attendees_for_add = $ical->GetAttendees();
 
-  $attendees = $ical->GetAttendees();
+    $attendees_content = '';
+    foreach($attendees_for_add as $attforadd){
+        $content = $attforadd->Value();
+        $attendees_content[] = '\'' . $content . '\'';
+    }
+
+    if(count($attendees_content) > 0){
+        $attendee_content_text = implode(',', $attendees_content);
+        $params = array(':dav_id' => $dav_id, ':attendees' => $attendee_content_text);
+        $qry = new AwlQuery("SELECT attendee FROM calendar_attendee WHERE dav_id=:dav_id AND attendee IN (${attendee_content_text})", $params);
+        $qry->Execute();
+
+
+        $attendees_for_update = array();
+        while(($row = $qry->Fetch())){
+            $attendees_for_update[] = $row->attendee;
+
+            $idx = 0;
+            // remove from attendess
+            foreach($attendees_for_add as $may_to_remove_attendee){
+                $att = $may_to_remove_attendee->Value();
+                if($att == $row->attendee){
+                    unset($attendees_for_add[$idx]);
+                    break;
+                }
+                $idx ++;
+            }
+        }
+
+        update_attandees($attendees_for_update);
+    }
+
+
+    if(count($attendees_for_add)){
+        write_new_attendees($dav_id, $attendees_for_add);
+    }
+
+}
+
+function update_attendees( $dav_id, $attendees ) {
+
+}
+
+function write_new_attendees( $dav_id, $attendees ) {
+
+  // no remove all of attendee because we lost status about send invitation email
+  // and will be send new invitation
+  //$qry = new AwlQuery('DELETE FROM calendar_attendee WHERE dav_id = '.$dav_id );
+  //$qry->Exec('PUT',__LINE__,__FILE__);
+
+
   if ( count($attendees) < 1 ) return;
 
-  $qry->SetSql('INSERT INTO calendar_attendee ( dav_id, status, partstat, cn, attendee, role, rsvp, property, is_remote, email_status )
+  $qry = new AwlQuery('INSERT INTO calendar_attendee ( dav_id, status, partstat, cn, attendee, role, rsvp, property, is_remote, email_status )
           VALUES( '.$dav_id.', :status, :partstat, :cn, :attendee, :role, :rsvp, :property, :is_remote, :email_status )' );
   $qry->Prepare();
   $processed = array();

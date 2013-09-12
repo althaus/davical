@@ -57,7 +57,7 @@ class MailHandler {
             $sent = $this->sendInvitationEmail($currentAttendee, $creator, $ctext);
 
             if($sent){
-                $this->changeRemoteAttendeeStatrusTo($currentAttendee, $currentDavID, 1);
+                //$this->changeRemoteAttendeeStatrusTo($currentAttendee, $currentDavID, 1);
             }
         }
 
@@ -137,7 +137,7 @@ class MailHandler {
 
         foreach($attendees as $attendee){
             $property = $this->recoveryPropertyFromString($attendee->property);
-            $event->AddProperty("ATTENDEE", $attendee->attendee, $property);
+            $event->AddProperty("ATTENDEE", $attendee->attendee);
         }
 
 
