@@ -21,12 +21,15 @@ class MailHandler {
 
         $qry = new AwlQuery($sql);
         $qry->Exec('calendar_items');
-        $rows = $qry->rows();
+        //$rows = $qry->rows();
 
 
 
 
         while(($row = $qry->Fetch())){
+            $currentAttendee = $row->attendee;
+            $currentDavID = $row->dav_id;
+
             $sqlattendee = 'SELECT email as attendee, usr.fullname as property, TRUE as creator FROM usr WHERE usr.user_no = :user_no'
                 . ' UNION '
                 . 'SELECT attendee, property, FALSE as creator FROM calendar_attendee WHERE calendar_attendee.dav_id = :dav_id'
@@ -34,7 +37,7 @@ class MailHandler {
 
             $qryattendee = new AwlQuery($sqlattendee);
             $qryattendee->Bind(':user_no', $row->user_no);
-            $qryattendee->Bind(':dav_id', $row->dav_id);
+            $qryattendee->Bind(':dav_id', $currentDavID);
             $qryattendee->Exec('attendess');
 
             $attendees = array();
@@ -51,10 +54,23 @@ class MailHandler {
             $ctext = $this->renderRowToInvitation($row, $creator, $attendees);
 
 
-            $this->sendInvitationEmail($row->attendee, $creator, $ctext);
+            $sent = $this->sendInvitationEmail($currentAttendee, $creator, $ctext);
 
+            if($sent){
+                $this->changeRemoteAttendeeStatrusTo($currentAttendee, $currentDavID, 1);
+            }
         }
 
+    }
+
+    private function changeRemoteAttendeeStatrusTo($attendee, $dav_id, $statusTo){
+        $qry = new AwlQuery('UPDATE calendar_attendee SET email_status=:statusTo WHERE attendee=:attendee AND dav_id=:dav_id');
+        $qry->Bind(':statusTo', $statusTo);
+        $qry->Bind(':attendee', $attendee);
+        $qry->Bind(':dav_id', $dav_id);
+        $qry->Exec('changeStatusTo');
+
+        return true;
     }
 
     private function sendInvitationEmail($attendee, $creator, $renderInvitation){
@@ -67,10 +83,12 @@ class MailHandler {
         $headers .= "\n";
         $headers .= "Content-Transfer-Encoding: 7bit";
 
-        //$result = mail("milan.medlik@gmail.com, milan@morphoss.com", 'invitation', $ctext, $headers);
+        //$result = mail($attendee, 'invitation', $ctext, $headers);
 //            if($result){
 //
 //            }
+
+        return true;
     }
 
     /**
@@ -114,7 +132,6 @@ class MailHandler {
         }
 
         $event->AddProperty("ORGANIZER", $organizer->attendee, $organizerproperty);
-
 
         $event->AddProperty("STATUS", $status);
 
