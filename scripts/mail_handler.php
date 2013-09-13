@@ -83,7 +83,7 @@ class MailHandler {
         $headers .= "\n";
         $headers .= "Content-Transfer-Encoding: 7bit";
 
-        //$result = mail($attendee, 'invitation', $ctext, $headers);
+        $result = mail($attendee, 'invitation', $renderInvitation, $headers);
 //            if($result){
 //
 //            }
@@ -124,6 +124,8 @@ class MailHandler {
         $event->AddProperty("DTEND", $row->dtend);
         $event->AddProperty("UID", $row->uid);
 
+        // url
+        $event->AddProperty("URL", "http://127.0.0.1/public.php?XDEBUG_SESSION_START=14830");
 
 
         $organizerproperty = null;

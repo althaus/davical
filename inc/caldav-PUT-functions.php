@@ -267,6 +267,7 @@ function handle_schedule_request( $ical ) {
   $request->DoResponse( 201, 'Created' );
 }
 
+
 /**
 * Deliver scheduling replies to organizer and other attendees
 * @param vComponent $ical the VCALENDAR to deliver
@@ -281,7 +282,8 @@ function handle_schedule_reply ( vCalendar $ical ) {
   // for now we treat events with out organizers as an error
   if ( empty( $organizer ) ) return false;
 
-  $attendees = array_merge($organizer,$ical->GetAttendees());
+    $att = $ical->GetAttendees();
+  $attendees = array_merge($organizer, $att);
   dbg_error_log( "PUT", "Attempting to deliver scheduling request for %d attendees", count($attendees) );
 
   foreach( $attendees AS $k => $attendee ) {
@@ -1627,4 +1629,30 @@ function simple_write_resource( $path, $caldav_data, $put_action_type, $write_ac
     return write_resource( $dav_resource, $caldav_data, $collection, $session->user_no, $etag, $put_action_type, false, $write_action_log );
   }
   return false;
+}
+
+
+function handle_remote_attendee_reply(vCalendar $ical){
+    $attendees = $ical->GetAttendees();
+
+    // attendee reply have just one attendee
+    if(count($attendees) != 1){
+        return;
+    }
+
+
+    $attendee = $attendees[0];
+    $uidparam =  $ical->GetPropertiesByPath("VCALENDAR/*/UID");
+    $uid = $uidparam[0]->Value();
+
+    $qry = new AwlQuery('UPDATE calendar_attendee SET email_status=:statusTo WHERE attendee=:attendee AND dav_id = (SELECT dav_id FROM calendar_item WHERE uid = :uid)');
+    // user accepted
+    $qry->Bind(':statusTo', 1);
+    $qry->Bind(':attendee', $attendee->Value());
+    $qry->Bind(':uid', $uid);
+    $qry->Exec('changeStatusTo');
+
+    return true;
+
+
 }
