@@ -269,7 +269,6 @@ function handle_schedule_request( $ical ) {
   $request->DoResponse( 201, 'Created' );
 }
 
-
 /**
 * Deliver scheduling replies to organizer and other attendees
 * @param vComponent $ical the VCALENDAR to deliver
@@ -284,7 +283,7 @@ function handle_schedule_reply ( vCalendar $ical ) {
   // for now we treat events with out organizers as an error
   if ( empty( $organizer ) ) return false;
 
-    $att = $ical->GetAttendees();
+  $att = $ical->GetAttendees();
   $attendees = array_merge($organizer, $att);
   dbg_error_log( "PUT", "Attempting to deliver scheduling request for %d attendees", count($attendees) );
 
