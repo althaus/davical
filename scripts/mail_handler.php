@@ -6,18 +6,27 @@ error_reporting(E_ALL);
 require_once('../htdocs/always.php');
 require_once('/home/milan/projects/awl/inc/vCalendar.php');
 
+require_once('../inc/consts.php');
+
 class MailHandler {
+
+
+
     public function __construct(){
         dbg_error_log('MailHandler - construct');
     }
 
+
+
     public function sendInvitation(){
-        $sql = 'SELECT calendar_item.dav_id as dav_id, user_no, attendee, dtstamp, dtstart, dtend, summary, uid,'
+        $sql = 'SELECT calendar_item.dav_id as dav_id, user_no, attendee, dtstamp, dtstart, dtend, summary, uid, email_status'
                 // extra parameters
                 . ' location, transp, url, priority, class, description'
                 . ' FROM calendar_item LEFT JOIN calendar_attendee ON calendar_item.dav_id = calendar_attendee.dav_id'
                 // select calendar_items contained attendee who is remote, have email, and waiting for invitation (email_status=2)
-                . ' WHERE attendee LIKE \'mailto:%\' AND is_remote=TRUE AND email_status=2';
+                . ' WHERE attendee LIKE \'mailto:%\' AND is_remote=TRUE AND email_status IN ( '
+                . EMAIL_STATUS::WAITING_FOR_INVITATION_EMAIL . ','
+                . EMAIL_STATUS::WAITING_FOR_SCHEDULE_CHANGE_EMAIL . ')';
 
         $qry = new AwlQuery($sql);
         $qry->Exec('calendar_items');
@@ -46,7 +55,7 @@ class MailHandler {
             }
 
 
-            dbg_error_log('mail for send invitation:' . $attendees);
+            //dbg_error_log('mail for send invitation:' . $attendees);
 
             $creator = $attendees[0];
             array_shift($attendees);
@@ -54,10 +63,18 @@ class MailHandler {
             $ctext = $this->renderRowToInvitation($row, $creator, $attendees);
 
 
-            $sent = $this->sendInvitationEmail($currentAttendee, $creator, $ctext);
+            $sent = true; //$this->sendInvitationEmail($currentAttendee, $creator, $ctext);
 
             if($sent){
-                //$this->changeRemoteAttendeeStatrusTo($currentAttendee, $currentDavID, 1);
+                // waiting mail already sent
+                if($row->email_status == EMAIL_STATUS::WAITING_FOR_INVITATION_EMAIL){
+                    $new_status = EMAIL_STATUS::INVITATION_EMAIL_ALREADY_SENT; // invitation mail already sent
+                } else if($row->email_status == EMAIL_STATUS::WAITING_FOR_SCHEDULE_CHANGE_EMAIL){
+                    $new_status = EMAIL_STATUS::SCHEDULE_CHANGE_EMAIL_ALREADY_SENT; // invitation mail already sent
+                }
+
+
+                $this->changeRemoteAttendeeStatrusTo($currentAttendee, $currentDavID, $new_status);
             }
         }
 
