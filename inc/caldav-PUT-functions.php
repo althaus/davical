@@ -1169,7 +1169,7 @@ function write_alarms( $dav_id, vComponent $ical ) {
 * @param vComponent The VEVENT or VTODO containing the ATTENDEEs
 * @return null
 */
-function write_attendees( $dav_id, vCalendar $ical ) {
+function write_attendees( $dav_id, vCalendar $ical, $is_new = true ) {
   $qry = new AwlQuery('DELETE FROM calendar_attendee WHERE dav_id = '.$dav_id );
   $qry->Exec('PUT',__LINE__,__FILE__);
 
