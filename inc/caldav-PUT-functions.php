@@ -22,6 +22,8 @@ require_once('WritableCollection.php');
 include_once('iSchedule.php');
 include_once('RRule-v2.php');
 
+require_once('../inc/consts.php');
+
 $bad_events = null;
 
 /**
@@ -1285,7 +1287,15 @@ function write_new_or_update_attendees( $dav_id, $attendees, $add_new = true ) {
 
     // for remote attendee set status 2 - Waiting for email
     // for normal attendee set status 1 - accepted
-    $email_status = $is_remote ? 2 : 1;
+    $email_status = EMAIL_STATUS::NORMAL;
+    if($add_new === false && $is_remote){
+        // attendee is not new and remote
+        // sent email about changed apointment
+        $email_status = EMAIL_STATUS::WAITING_FOR_SCHEDULE_CHANGE_EMAIL; // wait for schedule changed sending
+    } else if($is_remote) {
+        // is_remote and new attendee -> send invitation email
+        $email_status = EMAIL_STATUS::WAITING_FOR_INVITATION_EMAIL; // wait for invitation sending
+    }
 
     if ( isset($processed[$attendee]) ) {
       dbg_error_log( 'LOG', 'Duplicate attendee "%s" in resource "%d"', $attendee, $dav_id );
@@ -1640,19 +1650,16 @@ function handle_remote_attendee_reply(vCalendar $ical){
         return;
     }
 
-
     $attendee = $attendees[0];
     $uidparam =  $ical->GetPropertiesByPath("VCALENDAR/*/UID");
     $uid = $uidparam[0]->Value();
 
     $qry = new AwlQuery('UPDATE calendar_attendee SET email_status=:statusTo WHERE attendee=:attendee AND dav_id = (SELECT dav_id FROM calendar_item WHERE uid = :uid)');
     // user accepted
-    $qry->Bind(':statusTo', 1);
+    $qry->Bind(':statusTo', EMAIL_STATUS::NORMAL);
     $qry->Bind(':attendee', $attendee->Value());
     $qry->Bind(':uid', $uid);
     $qry->Exec('changeStatusTo');
 
     return true;
-
-
 }
