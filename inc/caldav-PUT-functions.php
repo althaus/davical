@@ -22,6 +22,8 @@ require_once('WritableCollection.php');
 include_once('iSchedule.php');
 include_once('RRule-v2.php');
 
+require_once('Consts.php');
+
 $bad_events = null;
 
 /**
@@ -1170,13 +1172,17 @@ function write_alarms( $dav_id, vComponent $ical ) {
 * @return null
 */
 function write_attendees( $dav_id, vCalendar $ical, $is_new = true ) {
-  $qry = new AwlQuery('DELETE FROM calendar_attendee WHERE dav_id = '.$dav_id );
-  $qry->Exec('PUT',__LINE__,__FILE__);
 
   $attendees = $ical->GetAttendees();
-  if ( count($attendees) < 1 ) return;
 
-  $qry->SetSql('INSERT INTO calendar_attendee ( dav_id, status, partstat, cn, attendee, role, rsvp, property, is_remote, email_status )
+  if ( count($attendees) < 1 ) {
+      // no remove attendess when is just resheduling
+      $qry = new AwlQuery('DELETE FROM calendar_attendee WHERE dav_id = '.$dav_id );
+      $qry->Exec('PUT',__LINE__,__FILE__);
+      return;
+  }
+
+  $qry = new AwlQuery('INSERT INTO calendar_attendee ( dav_id, status, partstat, cn, attendee, role, rsvp, property, is_remote, email_status )
           VALUES( '.$dav_id.', :status, :partstat, :cn, :attendee, :role, :rsvp, :property, :is_remote, :email_status )' );
   $qry->Prepare();
   $processed = array();
@@ -1188,7 +1194,7 @@ function write_attendees( $dav_id, vCalendar $ical, $is_new = true ) {
 
     // for remote attendee set status 2 - Waiting for email
     // for normal attendee set status 1 - accepted
-    $email_status = $is_remote ? 2 : 1;
+    $email_status = $is_remote ? EMAIL_STATUS::WAITING_FOR_INVITATION_EMAIL : EMAIL_STATUS::NORMAL;
 
     if ( isset($processed[$attendee]) ) {
       dbg_error_log( 'LOG', 'Duplicate attendee "%s" in resource "%d"', $attendee, $dav_id );
