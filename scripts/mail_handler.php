@@ -19,12 +19,12 @@ class MailHandler {
 
 
     public function sendInvitation(){
-        $sql = 'SELECT calendar_item.dav_id as dav_id, user_no, attendee, dtstamp, dtstart, dtend, summary, uid, email_status'
+        $sql = 'SELECT calendar_item.dav_id as dav_id, user_no, attendee, dtstamp, dtstart, dtend, summary, uid, email_status,'
                 // extra parameters
                 . ' location, transp, url, priority, class, description'
                 . ' FROM calendar_item LEFT JOIN calendar_attendee ON calendar_item.dav_id = calendar_attendee.dav_id'
                 // select calendar_items contained attendee who is remote, have email, and waiting for invitation (email_status=2)
-                . ' WHERE attendee LIKE \'mailto:%\' AND is_remote=TRUE AND email_status IN ( '
+                . ' WHERE attendee LIKE \'mailto:%\' AND is_remote=TRUE AND email_status IN ('
                 . EMAIL_STATUS::WAITING_FOR_INVITATION_EMAIL . ','
                 . EMAIL_STATUS::WAITING_FOR_SCHEDULE_CHANGE_EMAIL . ')';
 
@@ -63,7 +63,7 @@ class MailHandler {
             $ctext = $this->renderRowToInvitation($row, $creator, $attendees);
 
 
-            $sent = true; //$this->sendInvitationEmail($currentAttendee, $creator, $ctext);
+            $sent = $this->sendInvitationEmail($currentAttendee, $creator, $ctext);
 
             if($sent){
                 // waiting mail already sent
@@ -74,7 +74,7 @@ class MailHandler {
                 }
 
 
-                $this->changeRemoteAttendeeStatrusTo($currentAttendee, $currentDavID, $new_status);
+                //$this->changeRemoteAttendeeStatrusTo($currentAttendee, $currentDavID, $new_status);
             }
         }
 
@@ -99,6 +99,11 @@ class MailHandler {
         $headers .= '        charset="UTF-8"';
         $headers .= "\n";
         $headers .= "Content-Transfer-Encoding: 7bit";
+
+        $attendeeWithoutMailTo = explode('mailto:', $attendee);
+        if(count($attendeeWithoutMailTo) > 1){
+            $attendee = $attendeeWithoutMailTo[1];
+        }
 
         $result = mail($attendee, 'invitation', $renderInvitation, $headers);
 //            if($result){
