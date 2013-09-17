@@ -1642,24 +1642,3 @@ function simple_write_resource( $path, $caldav_data, $put_action_type, $write_ac
 }
 
 
-function handle_remote_attendee_reply(vCalendar $ical){
-    $attendees = $ical->GetAttendees();
-
-    // attendee reply have just one attendee
-    if(count($attendees) != 1){
-        return;
-    }
-
-    $attendee = $attendees[0];
-    $uidparam =  $ical->GetPropertiesByPath("VCALENDAR/*/UID");
-    $uid = $uidparam[0]->Value();
-
-    $qry = new AwlQuery('UPDATE calendar_attendee SET email_status=:statusTo WHERE attendee=:attendee AND dav_id = (SELECT dav_id FROM calendar_item WHERE uid = :uid)');
-    // user accepted
-    $qry->Bind(':statusTo', EMAIL_STATUS::NORMAL);
-    $qry->Bind(':attendee', $attendee->Value());
-    $qry->Bind(':uid', $uid);
-    $qry->Exec('changeStatusTo');
-
-    return true;
-}
