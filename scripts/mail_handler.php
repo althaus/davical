@@ -5,8 +5,62 @@ error_reporting(E_ALL);
 // for config and awl library - require_once('/home/milan/projects/awl/inc/AwlQuery.php'); require_once('../config/config.php');
 require_once('../htdocs/always.php');
 require_once('/home/milan/projects/awl/inc/vCalendar.php');
-
+require_once('../inc/PlancakeEmailParser.php');
 require_once('../inc/Consts.php');
+
+// inspired by :
+// http://php.net/manual/en/features.commandline.php
+function options ( $args )
+{
+    array_shift( $args );
+    $endofoptions = false;
+
+    $ret = array
+    (
+
+        'options' => array(),
+    );
+
+    while ( $arg = array_shift($args) )
+    {
+
+        // if we have reached end of options,
+        //we cast all remaining argvs as arguments
+        if ($endofoptions)
+        {
+            $ret['arguments'][] = $arg;
+            continue;
+        }
+
+        // Is it a command? (prefixed with --)
+        if ( substr( $arg, 0, 2 ) === '--' )
+        {
+
+            // is it the end of options flag?
+            if (!isset ($arg[3]))
+            {
+                $endofoptions = true;; // end of options;
+                continue;
+            }
+
+            $value = "";
+            $com   = substr( $arg, 2 );
+
+            // is it the syntax '--option=argument'?
+            if (strpos($com,'=')){
+                list($com, $value) = explode("=", $com, 2);
+            }
+
+            $ret['options'][$com] = !empty($value) ? $value : true;
+            continue;
+        }
+
+        continue;
+    }
+
+    return $ret['options'];
+}
+
 
 class MailInviteHandler {
 
@@ -31,9 +85,6 @@ class MailInviteHandler {
         $qry = new AwlQuery($sql);
         $qry->Exec('calendar_items');
         //$rows = $qry->rows();
-
-
-
 
         while(($row = $qry->Fetch())){
             $currentAttendee = $row->attendee;
@@ -193,87 +244,44 @@ class MailInviteHandler {
 
         return $resultproperty;
     }
-}
 
-// inspired by :
-// http://php.net/manual/en/features.commandline.php
-function options ( $args )
-{
-    array_shift( $args );
-    $endofoptions = false;
-
-    $ret = array
-    (
-
-        'options' => array(),
-    );
-
-    while ( $arg = array_shift($args) )
-    {
-
-        // if we have reached end of options,
-        //we cast all remaining argvs as arguments
-        if ($endofoptions)
-        {
-            $ret['arguments'][] = $arg;
-            continue;
-        }
-
-        // Is it a command? (prefixed with --)
-        if ( substr( $arg, 0, 2 ) === '--' )
-        {
-
-            // is it the end of options flag?
-            if (!isset ($arg[3]))
-            {
-                $endofoptions = true;; // end of options;
-                continue;
-            }
-
-            $value = "";
-            $com   = substr( $arg, 2 );
-
-            // is it the syntax '--option=argument'?
-            if (strpos($com,'=')){
-                list($com, $value) = explode("=", $com, 2);
-            }
-
-            $ret['options'][$com] = !empty($value) ? $value : true;
-            continue;
-        }
-
-        continue;
+    public function handleIncomingMail($emailBuffer){
+        $pep = new PlancakeEmailParser($emailBuffer);
+        echo "subject: " . $pep->getSubject() . "\r\n";
+        echo "to:" . $pep->getTo()[0] . "\r\n";
+        echo "body: " . $pep->getBody() . "\r\n";
     }
-
-    return $ret['options'];
 }
 
 
 $options = options($argv);
-var_dump($options);
+//var_dump($options);
 
 
 if(count($options) > 0){
+    $mailHandler = new MailInviteHandler();
+
     if( isset($options['fmail'])){
         // is presed fmail option?
         // eg: --fmail=/home/email/invitation_reply_1.eml
         $file = fopen($options['fmail'], 'r');
-        echo stream_get_contents($file);
+        $mailHandler->handleIncomingMail(stream_get_contents($file));
         fclose($file);
     } else if(isset($options['stdin']) && $options['stdin']) {
         // or presed stdin flag eg: --stdin or --stdin=true
-        echo stream_get_contents(STDIN);
+        $mailHandler->handleIncomingMail(stream_get_contents(STDIN));
     }
 
     // or presed stdin flag eg: --stdin or --stdin=true
     if(isset($options['invite-all']) && $options['invite-all']){
-        $mailHandler = new MailInviteHandler();
+
         //$mailHandler->sendInvitationToAll();
     }
 
 }
 
-//
+
+
 
 
 
