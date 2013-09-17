@@ -256,10 +256,16 @@ $body = implode("\n", $this->rawBodyLines);
 // removing trailing new lines
 $body = preg_replace('/((\r?\n)*)$/', '', $body);
 
-if ($contentTransferEncoding == 'base64')
-$body = base64_decode($body);
-else if ($contentTransferEncoding == 'quoted-printable')
-$body = quoted_printable_decode($body);
+if ($contentTransferEncoding == 'base64') {
+    $tempBody = $body;
+    $body = base64_decode($body);
+    if(!$body) {
+        $body = &$tempBody;
+    }
+} else if ($contentTransferEncoding == 'quoted-printable') {
+    $body = quoted_printable_decode($body);
+}
+
 
 if($charset != 'UTF-8') {
 // FORMAT=FLOWED, despite being popular in emails, it is not
