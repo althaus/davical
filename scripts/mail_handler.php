@@ -244,12 +244,22 @@ class MailInviteHandler {
         $pep = new PlancakeEmailParser($emailBuffer);
 
         $body = $pep->getBody();
+        if(empty($body) || !$body){
+            $body = $pep->getHtmlBody();
+        }
+
+        $vcalendarStart = strpos($body, "BEGIN:VCALENDAR");
+        $vcalendarEnd = strpos($body, "END:VCALENDAR", $vcalendarStart);
+
+        $vcalendarBody = substr($body, $vcalendarStart, $vcalendarEnd - $vcalendarStart);
+
 
         echo "subject: " . $pep->getSubject() . "\r\n";
         echo "to:" . $pep->getTo()[0] . "\r\n";
         echo "body: " . $body . "\r\n";
+        echo "vcalendarBody: " . $vcalendarBody . "\r\n";
 
-        $ical = new vCalendar($body);
+        $ical = new vCalendar($vcalendarBody);
         $this->handle_remote_attendee_reply($ical);
     }
 
@@ -264,6 +274,8 @@ class MailInviteHandler {
         $attendee = $attendees[0];
         $uidparam =  $ical->GetPropertiesByPath("VCALENDAR/*/UID");
         $uid = $uidparam[0]->Value();
+
+        $partstat = $attendee->Parameters();
 
         $qry = new AwlQuery('UPDATE calendar_attendee SET email_status=:statusTo WHERE attendee=:attendee AND dav_id = (SELECT dav_id FROM calendar_item WHERE uid = :uid)');
         // user accepted
