@@ -8,7 +8,7 @@ require_once('/home/milan/projects/awl/inc/vCalendar.php');
 
 require_once('../inc/Consts.php');
 
-class MailHandler {
+class MailInviteHandler {
 
 
 
@@ -18,7 +18,7 @@ class MailHandler {
 
 
 
-    public function sendInvitation(){
+    public function sendInvitationToAll(){
         $sql = 'SELECT calendar_item.dav_id as dav_id, user_no, attendee, dtstamp, dtstart, dtend, summary, uid, email_status,'
                 // extra parameters
                 . ' location, transp, url, priority, class, description'
@@ -195,10 +195,85 @@ class MailHandler {
     }
 }
 
+// inspired by :
+// http://php.net/manual/en/features.commandline.php
+function options ( $args )
+{
+    array_shift( $args );
+    $endofoptions = false;
 
-$mailHandler = new MailHandler();
-$mailHandler->sendInvitation();
+    $ret = array
+    (
 
+        'options' => array(),
+    );
+
+    while ( $arg = array_shift($args) )
+    {
+
+        // if we have reached end of options,
+        //we cast all remaining argvs as arguments
+        if ($endofoptions)
+        {
+            $ret['arguments'][] = $arg;
+            continue;
+        }
+
+        // Is it a command? (prefixed with --)
+        if ( substr( $arg, 0, 2 ) === '--' )
+        {
+
+            // is it the end of options flag?
+            if (!isset ($arg[3]))
+            {
+                $endofoptions = true;; // end of options;
+                continue;
+            }
+
+            $value = "";
+            $com   = substr( $arg, 2 );
+
+            // is it the syntax '--option=argument'?
+            if (strpos($com,'=')){
+                list($com, $value) = explode("=", $com, 2);
+            }
+
+            $ret['options'][$com] = !empty($value) ? $value : true;
+            continue;
+        }
+
+        continue;
+    }
+
+    return $ret['options'];
+}
+
+
+$options = options($argv);
+var_dump($options);
+
+
+if(count($options) > 0){
+    if( isset($options['fmail'])){
+        // is presed fmail option?
+        // eg: --fmail=/home/email/invitation_reply_1.eml
+        $file = fopen($options['fmail'], 'r');
+        echo stream_get_contents($file);
+        fclose($file);
+    } else if(isset($options['stdin']) && $options['stdin']) {
+        // or presed stdin flag eg: --stdin or --stdin=true
+        echo stream_get_contents(STDIN);
+    }
+
+    // or presed stdin flag eg: --stdin or --stdin=true
+    if(isset($options['invite-all']) && $options['invite-all']){
+        $mailHandler = new MailInviteHandler();
+        //$mailHandler->sendInvitationToAll();
+    }
+
+}
+
+//
 
 
 
