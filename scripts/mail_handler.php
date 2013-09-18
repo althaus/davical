@@ -307,13 +307,24 @@ class MailInviteHandler {
         $uidparam =  $ical->GetPropertiesByPath("VCALENDAR/*/UID");
         $uid = $uidparam[0]->Value();
 
-        $partstat = $attendee->Parameters();
+        $parameters = $attendee->Parameters();
 
-        $qry = new AwlQuery('UPDATE calendar_attendee SET email_status=:statusTo WHERE attendee=:attendee AND dav_id = (SELECT dav_id FROM calendar_item WHERE uid = :uid)');
+        $propertyText = $attendee->Name() ;
+
+        foreach($parameters as $key => $param){
+            $propertyText .= ';' . $key . '=' . $param;
+        }
+
+        $propertyText .= ':' . $attendee->Value();
+
+        $qry = new AwlQuery('UPDATE calendar_attendee SET email_status=:statusTo, partstat=:partstat, property=:property WHERE attendee=:attendee AND dav_id = (SELECT dav_id FROM calendar_item WHERE uid = :uid)');
         // user accepted
         $qry->Bind(':statusTo', EMAIL_STATUS::NORMAL);
         $qry->Bind(':attendee', $attendee->Value());
         $qry->Bind(':uid', $uid);
+        $qry->Bind(':property', $propertyText);
+        $qry->Bind(':partstat', $parameters['PARTSTAT']);
+
         $qry->Exec('changeStatusTo');
 
         return true;
