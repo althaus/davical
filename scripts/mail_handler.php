@@ -111,18 +111,24 @@ class MailInviteHandler {
             $ctext = $this->renderRowToInvitation($row, $creator, $attendees);
 
 
-            $sent = $this->sendInvitationEmail($currentAttendee, $creator, $ctext);
+            $invitation = 'Invitation';
+            // waiting mail already sent
+            if($row->email_status == EMAIL_STATUS::WAITING_FOR_INVITATION_EMAIL){
+                $new_status = EMAIL_STATUS::INVITATION_EMAIL_ALREADY_SENT; // invitation mail already sent
+            } else if($row->email_status == EMAIL_STATUS::WAITING_FOR_SCHEDULE_CHANGE_EMAIL){
+                $invitation .= ' update';
+                $new_status = EMAIL_STATUS::SCHEDULE_CHANGE_EMAIL_ALREADY_SENT; // invitation mail already sent
+            }
+
+            $title =  $invitation . ': ' . $row->summary . ' - ' . $creator->property . ' (' . $creator->attendee . ')';
+
+            $sent = $this->sendInvitationEmail($currentAttendee, $creator, $ctext, $title);
 
             if($sent){
-                // waiting mail already sent
-                if($row->email_status == EMAIL_STATUS::WAITING_FOR_INVITATION_EMAIL){
-                    $new_status = EMAIL_STATUS::INVITATION_EMAIL_ALREADY_SENT; // invitation mail already sent
-                } else if($row->email_status == EMAIL_STATUS::WAITING_FOR_SCHEDULE_CHANGE_EMAIL){
-                    $new_status = EMAIL_STATUS::SCHEDULE_CHANGE_EMAIL_ALREADY_SENT; // invitation mail already sent
-                }
 
 
-                //$this->changeRemoteAttendeeStatrusTo($currentAttendee, $currentDavID, $new_status);
+
+                $this->changeRemoteAttendeeStatrusTo($currentAttendee, $currentDavID, $new_status);
             }
         }
 
@@ -138,7 +144,7 @@ class MailInviteHandler {
         return true;
     }
 
-    private function sendInvitationEmail($attendee, $creator, $renderInvitation){
+    private function sendInvitationEmail($attendee, $creator, $renderInvitation, $title){
 
 
         $headers = sprintf("From: %s <%s>\n", $creator->property, $creator->attendee);
@@ -153,9 +159,11 @@ class MailInviteHandler {
             $attendee = $attendeeWithoutMailTo[1];
         }
 
-//        $result = mail($attendee, 'invitation', $renderInvitation, $headers);
+
+
+        $result = mail($attendee, $title, $renderInvitation, $headers);
 //            if($result){
-//
+//              return true;
 //            }
 
         return true;
@@ -206,7 +214,7 @@ class MailInviteHandler {
             $organizerproperty = array( 'CN' => $organizer->property);
         }
 
-        $event->AddProperty("ORGANIZER", $organizer->attendee, $organizerproperty);
+        $event->AddProperty("ORGANIZER", 'mailto:'. $organizer->attendee, $organizerproperty);
 
         $event->AddProperty("STATUS", $status);
 
