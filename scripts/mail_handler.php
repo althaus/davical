@@ -69,13 +69,13 @@ class MailInviteHandler {
 
     public function sendInvitationToAll(){
         $sql = 'SELECT calendar_item.dav_id as dav_id, user_no, attendee, dtstamp, dtstart, dtend, summary, uid, email_status,'
-            // extra parameters
-            . ' location, transp, url, priority, class, description'
-            . ' FROM calendar_item LEFT JOIN calendar_attendee ON calendar_item.dav_id = calendar_attendee.dav_id'
-            // select calendar_items contained attendee who is remote, have email, and waiting for invitation (email_status=2)
-            . ' WHERE attendee LIKE \'mailto:%\' AND is_remote=TRUE AND email_status IN ('
-            . EMAIL_STATUS::WAITING_FOR_INVITATION_EMAIL . ','
-            . EMAIL_STATUS::WAITING_FOR_SCHEDULE_CHANGE_EMAIL . ')';
+                // extra parameters
+                . ' location, transp, url, priority, class, description, calendar_attendee.partstat as partstat'
+                . ' FROM calendar_item LEFT JOIN calendar_attendee ON calendar_item.dav_id = calendar_attendee.dav_id'
+                // select calendar_items contained attendee who is remote, have email, and waiting for invitation (email_status=2)
+                . ' WHERE attendee LIKE \'mailto:%\' AND is_remote=TRUE AND email_status IN ('
+                . EMAIL_STATUS::WAITING_FOR_INVITATION_EMAIL . ','
+                . EMAIL_STATUS::WAITING_FOR_SCHEDULE_CHANGE_EMAIL . ')';
 
         $qry = new AwlQuery($sql);
         $qry->Exec('calendar_items');
@@ -84,10 +84,12 @@ class MailInviteHandler {
         while(($row = $qry->Fetch())){
             $currentAttendee = $row->attendee;
             $currentDavID = $row->dav_id;
+            //$partstat = $row->partstat;
 
-            $sqlattendee = 'SELECT email as attendee, usr.fullname as property, TRUE as creator FROM usr WHERE usr.user_no = :user_no'
+
+            $sqlattendee = 'SELECT email as attendee, usr.fullname as property, NULL as partstat, TRUE as creator FROM usr WHERE usr.user_no = :user_no'
                 . ' UNION '
-                . 'SELECT attendee, property, FALSE as creator FROM calendar_attendee WHERE calendar_attendee.dav_id = :dav_id'
+                . 'SELECT attendee, property, partstat, FALSE as creator FROM calendar_attendee WHERE calendar_attendee.dav_id = :dav_id'
                 . ' ORDER BY creator DESC';
 
             $qryattendee = new AwlQuery($sqlattendee);
@@ -151,7 +153,7 @@ class MailInviteHandler {
             $attendee = $attendeeWithoutMailTo[1];
         }
 
-        $result = mail($attendee, 'invitation', $renderInvitation, $headers);
+//        $result = mail($attendee, 'invitation', $renderInvitation, $headers);
 //            if($result){
 //
 //            }
@@ -175,7 +177,9 @@ class MailInviteHandler {
      * @param $attendees - array of arrays with attendees (attendee, property)
      * @return string
      */
-    private function renderRowToInvitation($row, $organizer, $attendees, $status='TENTATIVE'){
+    private function renderRowToInvitation($row, $organizer, $attendees){
+
+        $status='TENTATIVE';
 
         $calendar = new vCalendar();
         $calendar->AddProperty("METHOD", "REQUEST");
@@ -193,7 +197,8 @@ class MailInviteHandler {
         $event->AddProperty("UID", $row->uid);
 
         // url
-        $event->AddProperty("URL", "http://127.0.0.1/public.php?XDEBUG_SESSION_START=14830");
+        //$event->AddProperty("URL", "http://127.0.0.1/public.php?XDEBUG_SESSION_START=14830");
+
 
 
         $organizerproperty = null;
@@ -205,9 +210,15 @@ class MailInviteHandler {
 
         $event->AddProperty("STATUS", $status);
 
+
         foreach($attendees as $attendee){
-            $property = $this->recoveryPropertyFromString($attendee->property);
-            $event->AddProperty("ATTENDEE", $attendee->attendee);
+            $partstat = $attendee->partstat;
+
+            $attendeePropertyArray = $this->extractParametersToArrayFromProperty($attendee->property);
+            // add partstat from DB
+            $attendeePropertyArray['PARTSTAT'] = $partstat;
+
+            $event->AddProperty("ATTENDEE", $attendee->attendee, $attendeePropertyArray );
         }
 
 
@@ -219,25 +230,46 @@ class MailInviteHandler {
         return $result;
     }
 
-    private function recoveryPropertyFromString(&$attendeeproperty){
-        $resultproperty = null;
+    /**
+     * @param $attendeeproperty - is not iCalendar property in string with param and name
+     * @return array|null
+     */
+    private function extractParametersToArrayFromProperty(&$attendeeproperty){
+        $parameters = null;
         if(isset($attendeeproperty) && $attendeeproperty != null) {
-            $propertyarray = explode(';', $attendeeproperty);
-            $resultproperty = array();
-            foreach($propertyarray as $property){
-                $keyproperty = explode('=', $property);
-                $key = $keyproperty[0];
+            // after symbol ":" -> value what we are not interest
+            $superProp = explode(":", $attendeeproperty);
 
-                if(count($keyproperty) > 1){
-                    $resultproperty[$key] = $keyproperty[1];
-                } else {
-                    $resultproperty[$key] = '';
-                }
-
+            if(count($superProp) > 0){
+                $superProp = $superProp[0];
+            } else {
+                $superProp = &$attendeeproperty;
             }
+
+            // explore parameters dividet by ";"
+            $propertyInArray = explode(';', $superProp);
+
+            // first is name of property -> no params
+            if(count($propertyInArray) > 1){
+                array_shift($propertyInArray);
+
+                $parameters = array();
+                foreach($propertyInArray as $property){
+                    $keyproperty = explode('=', $property);
+                    $key = strtoupper($keyproperty[0]);
+
+                    if(count($keyproperty) > 1){
+                        $parameters[$key] = $keyproperty[1];
+                    } else {
+                        $parameters[$key] = '';
+                    }
+
+                }
+            }
+
         }
 
-        return $resultproperty;
+        return $parameters;
     }
 
     public function handleIncomingMail($emailBuffer){
@@ -309,8 +341,7 @@ if(count($options) > 0){
 
     // or presed stdin flag eg: --stdin or --stdin=true
     if(isset($options['invite-all']) && $options['invite-all']){
-
-        //$mailHandler->sendInvitationToAll();
+        $mailHandler->sendInvitationToAll();
     }
 
 }
