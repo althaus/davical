@@ -335,6 +335,9 @@ function LDAP_check($username, $password ){
     $ldapDriver = getStaticLdap();
     if ( !$ldapDriver->valid ) {
       dbg_error_log( "ERROR", "Couldn't contact LDAP server for authentication" );
+      foreach($c->messages as $msg) {
+          dbg_error_log( "ERROR", "-> ".$msg );
+      }
       header( sprintf("HTTP/1.1 %d %s", 503, translate("Authentication server unavailable.")) );
       exit(0);
     }
