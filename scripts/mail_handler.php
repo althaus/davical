@@ -68,10 +68,13 @@ class MailInviteHandler {
     }
 
     public function sendInvitationToAll(){
-        $sql = 'SELECT calendar_item.dav_id as dav_id, user_no, attendee, dtstamp, dtstart, dtend, summary, uid, email_status,'
+        $sql = 'SELECT calendar_item.dav_id as dav_id, calendar_item.user_no as user_no, attendee, dtstamp, dtstart,'
+                . 'dtend, summary, uid, email_status,' // .'collection.collection_id,'
                 // extra parameters
-                . ' location, transp, url, priority, class, description, calendar_attendee.partstat as partstat'
-                . ' FROM calendar_item LEFT JOIN calendar_attendee ON calendar_item.dav_id = calendar_attendee.dav_id'
+                . ' location, transp, url, priority, class, calendar_item.description as description, calendar_attendee.partstat as partstat'
+                . ' FROM calendar_item'
+                . ' INNER JOIN calendar_attendee ON calendar_item.dav_id = calendar_attendee.dav_id'
+                //. ' INNER JOIN collection ON collection.user_no = calendar_item.user_no AND collection.is_calendar = TRUE'
                 // select calendar_items contained attendee who is remote, have email, and waiting for invitation (email_status=2)
                 . ' WHERE attendee LIKE \'mailto:%\' AND is_remote=TRUE AND email_status IN ('
                 . EMAIL_STATUS::WAITING_FOR_INVITATION_EMAIL . ','
@@ -122,14 +125,14 @@ class MailInviteHandler {
 
             $title =  $invitation . ': ' . $row->summary . ' - ' . $creator->property . ' (' . $creator->attendee . ')';
 
-            $sent = $this->sendInvitationEmail($currentAttendee, $creator, $ctext, $title);
-
-            if($sent){
-
-
-
-                $this->changeRemoteAttendeeStatrusTo($currentAttendee, $currentDavID, $new_status);
-            }
+//            $sent = $this->sendInvitationEmail($currentAttendee, $creator, $ctext, $title);
+//
+//            if($sent){
+//
+//
+//
+//                $this->changeRemoteAttendeeStatrusTo($currentAttendee, $currentDavID, $new_status);
+//            }
         }
 
     }
@@ -325,15 +328,30 @@ class MailInviteHandler {
 
         $propertyText .= ':' . $attendee->Value();
 
-        $qry = new AwlQuery('UPDATE calendar_attendee SET email_status=:statusTo, partstat=:partstat, property=:property WHERE attendee=:attendee AND dav_id = (SELECT dav_id FROM calendar_item WHERE uid = :uid)');
-        // user accepted
-        $qry->Bind(':statusTo', EMAIL_STATUS::NORMAL);
-        $qry->Bind(':attendee', $attendee->Value());
+        $qry = new AwlQuery('SELECT dav_id, collection_id, dav_name FROM calendar_item WHERE uid = :uid');
         $qry->Bind(':uid', $uid);
-        $qry->Bind(':property', $propertyText);
-        $qry->Bind(':partstat', $parameters['PARTSTAT']);
+        $qry->Exec('select dav_id, collection_id');
+        if(($row = $qry->Fetch())){
+            $qry = new AwlQuery('UPDATE calendar_attendee SET email_status=:statusTo, partstat=:partstat, property=:property WHERE attendee=:attendee AND dav_id = :dav_id');
+            // user accepted
+            $qry->Bind(':statusTo', EMAIL_STATUS::NORMAL);
+            $qry->Bind(':attendee', $attendee->Value());
+            $qry->Bind(':dav_id', $row->dav_id);
+            $qry->Bind(':property', $propertyText);
+            $qry->Bind(':partstat', $parameters['PARTSTAT']);
 
-        $qry->Exec('changeStatusTo');
+            $qry->Exec('changeStatusTo');
+
+            //'(SELECT dav_id FROM calendar_item WHERE uid = :uid)';
+
+            $collection_id = $row->collection_id;
+            $dav_name = $row->dav_name;
+            $qry->QDo("SELECT write_sync_change( $collection_id, 200, :dav_name)", array(':dav_name' => $dav_name ) );
+            //$qry->Execute();
+        }
+
+
+
 
         return true;
     }
