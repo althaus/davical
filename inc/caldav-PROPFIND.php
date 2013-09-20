@@ -192,7 +192,7 @@ function get_collection_contents( $depth, $collection, $parent_path = null ) {
       }
 
       if ( isset($c->hide_older_than) && intval($c->hide_older_than > 0) ) {
-        $time_limit_clause = " AND calendar_item.dtstart > (now() - interval '".intval($c->hide_older_than)." days') ";
+        $time_limit_clause = " AND (CASE WHEN caldav_data.caldav_type<>'VEVENT' OR calendar_item.dtstart IS NULL THEN true ELSE calendar_item.dtstart > (now() - interval '".intval($c->hide_older_than)." days') END) ";
       }
     }
 
