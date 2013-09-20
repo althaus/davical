@@ -128,17 +128,7 @@ if ( $qry->Exec('REPORT',__LINE__,__FILE__) && $qry->rows() > 0 ) {
          $attendeeParameters = $arow->params;
          $attendeeValue = $arow->attendee;
          // separe value
-         if(strpos($attendeeParameters, ':') > -1){
-             $apa = explode(':', $attendeeParameters);
-             $attendeeParameters = $apa[0];
-             $attendeeValue = $apa[1];
-
-             if(count($apa) > 2){
-                 $attendeeValue .= ':' . $apa[2];
-             }
-         }
-
-          $event->AddProperty($attendeeName, $attendeeValue, $attendeeParameters);
+         $event->AddProperty($attendeeName, $attendeeValue, $attendeeParameters);
       }
 
       $dav_object->caldav_data = $expanded->Render();

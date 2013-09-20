@@ -320,13 +320,18 @@ class MailInviteHandler {
 
         $parameters = $attendee->Parameters();
 
-        $propertyText = $attendee->Name() ;
+        $propertyText = '';
 
         foreach($parameters as $key => $param){
-            $propertyText .= ';' . $key . '=' . $param;
+
+            if(!empty($propertyText)){
+                $propertyText .= ';';
+            }
+
+            $propertyText .= $key . '=' . $param;
         }
 
-        $propertyText .= ':' . $attendee->Value();
+        //$propertyText .= ':' . $attendee->Value();
 
         $qry = new AwlQuery('SELECT dav_id, collection_id, dav_name FROM calendar_item WHERE uid = :uid');
         $qry->Bind(':uid', $uid);
