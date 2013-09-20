@@ -423,12 +423,19 @@ BEGIN
         SET dav_name = replace( dav_name, OLD.dav_name, NEW.dav_name),
             user_no = NEW.user_no
       WHERE substring(dav_name from 1 for char_length(OLD.dav_name)) = OLD.dav_name;
+
+      -- On rename we also need to rename all properties
+      UPDATE property SET dav_name=NEW.dav_name WHERE dav_name=OLD.dav_name;
     END IF;
+    RETURN NEW;
+  ELSIF TG_OP = 'DELETE' THEN
+    -- On delete we remove all properties for the collection
+    DELETE FROM property WHERE dav_name=OLD.dav_name;
+    RETURN OLD;
   END IF;
-  RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
-CREATE TRIGGER collection_modified AFTER UPDATE ON collection
+CREATE TRIGGER collection_modified AFTER UPDATE OR DELETE ON collection
     FOR EACH ROW EXECUTE PROCEDURE collection_modified();
 
 
