@@ -123,16 +123,20 @@ class MailInviteHandler {
                 $new_status = EMAIL_STATUS::SCHEDULE_CHANGE_EMAIL_ALREADY_SENT; // invitation mail already sent
             }
 
-            $title =  $invitation . ': ' . $row->summary . ' - ' . $creator->params . ' (' . $creator->attendee . ')';
+            $dtstart = strtotime($row->dtstart);
+            $dtend = strtotime($row->dtend);
 
-//            $sent = $this->sendInvitationEmail($currentAttendee, $creator, $ctext, $title);
-//
-//            if($sent){
-//
-//
-//
-//                $this->changeRemoteAttendeeStatrusTo($currentAttendee, $currentDavID, $new_status);
-//            }
+
+            $title =  $invitation . ': ' . $row->summary . ' ' . date("m/d/y H:i", $dtstart) . ' - ' . date("m/d/y H:i", $dtend)  . ' - ' . $creator->params . ' (' . $creator->attendee . ')';
+
+            $sent = $this->sendInvitationEmail($currentAttendee, $creator, $ctext, $title);
+
+            if($sent){
+
+
+
+                $this->changeRemoteAttendeeStatrusTo($currentAttendee, $currentDavID, $new_status);
+            }
         }
 
     }
