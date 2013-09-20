@@ -90,9 +90,9 @@ class MailInviteHandler {
             //$partstat = $row->partstat;
 
 
-            $sqlattendee = 'SELECT email as attendee, usr.fullname as property, NULL as partstat, TRUE as creator FROM usr WHERE usr.user_no = :user_no'
+            $sqlattendee = 'SELECT email as attendee, usr.fullname as params, NULL as partstat, TRUE as creator FROM usr WHERE usr.user_no = :user_no'
                 . ' UNION '
-                . 'SELECT attendee, property, partstat, FALSE as creator FROM calendar_attendee WHERE calendar_attendee.dav_id = :dav_id'
+                . 'SELECT attendee, params, partstat, FALSE as creator FROM calendar_attendee WHERE calendar_attendee.dav_id = :dav_id'
                 . ' ORDER BY creator DESC';
 
             $qryattendee = new AwlQuery($sqlattendee);
@@ -123,7 +123,7 @@ class MailInviteHandler {
                 $new_status = EMAIL_STATUS::SCHEDULE_CHANGE_EMAIL_ALREADY_SENT; // invitation mail already sent
             }
 
-            $title =  $invitation . ': ' . $row->summary . ' - ' . $creator->property . ' (' . $creator->attendee . ')';
+            $title =  $invitation . ': ' . $row->summary . ' - ' . $creator->params . ' (' . $creator->attendee . ')';
 
 //            $sent = $this->sendInvitationEmail($currentAttendee, $creator, $ctext, $title);
 //
@@ -213,8 +213,8 @@ class MailInviteHandler {
 
 
         $organizerproperty = null;
-        if(isset($organizer->property) && $organizer->property != null) {
-            $organizerproperty = array( 'CN' => $organizer->property);
+        if(isset($organizer->params) && $organizer->params != null) {
+            $organizerproperty = array( 'CN' => $organizer->params);
         }
 
         $event->AddProperty("ORGANIZER", 'mailto:'. $organizer->attendee, $organizerproperty);
@@ -225,7 +225,7 @@ class MailInviteHandler {
         foreach($attendees as $attendee){
             $partstat = $attendee->partstat;
 
-            $attendeePropertyArray = $this->extractParametersToArrayFromProperty($attendee->property);
+            $attendeePropertyArray = $this->extractParametersToArrayFromProperty($attendee->params);
             // add partstat from DB
             $attendeePropertyArray['PARTSTAT'] = $partstat;
 
@@ -249,7 +249,7 @@ class MailInviteHandler {
         $parameters = null;
         if(isset($attendeeproperty) && $attendeeproperty != null) {
             // after symbol ":" -> value what we are not interest
-            $superProp = explode(":", $attendeeproperty);
+            $superProp = $attendeeproperty;
 
             if(count($superProp) > 0){
                 $superProp = $superProp[0];

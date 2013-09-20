@@ -24,11 +24,11 @@ INSERT INTO calendar_attendee_email_status (description)
 ALTER TABLE calendar_attendee
   ADD COLUMN email_status INT REFERENCES calendar_attendee_email_status(email_status_id) DEFAULT 1 NOT NULL ;
 
+ALTER TABLE calendar_attendee
+  RENAME COLUMN property TO params;
 
 ALTER TABLE calendar_attendee
   ADD COLUMN is_remote BOOLEAN DEFAULT FALSE;
-
-
 
 SELECT new_db_revision(1,2,12, 'Septembre' );
 

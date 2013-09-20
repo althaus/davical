@@ -379,8 +379,8 @@ EOSQL;
     $attendees = $vcal->GetAttendees();
     if ( count($attendees) < 1 ) return;
   
-    $qry->SetSql('INSERT INTO calendar_attendee ( dav_id, status, partstat, cn, attendee, role, rsvp, property )
-            VALUES( '.$dav_id.', :status, :partstat, :cn, :attendee, :role, :rsvp, :property )' );
+    $qry->SetSql('INSERT INTO calendar_attendee ( dav_id, status, partstat, cn, attendee, role, rsvp, params )
+            VALUES( '.$dav_id.', :status, :partstat, :cn, :attendee, :role, :rsvp, :params )' );
     $qry->Prepare();
     $processed = array();
     foreach( $attendees AS $v ) {
@@ -397,7 +397,7 @@ EOSQL;
       $qry->Bind(':cn',       $v->GetParameterValue('CN') );
       $qry->Bind(':role',     $v->GetParameterValue('ROLE') );
       $qry->Bind(':rsvp',     $v->GetParameterValue('RSVP') );
-      $qry->Bind(':property', $v->Render() );
+      $qry->Bind(':params', $v->Parameters());
       $qry->Exec('PUT',__LINE__,__FILE__);
       $processed[$attendee] = $v->Render();
     }
