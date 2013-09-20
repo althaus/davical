@@ -118,6 +118,43 @@ function CreateHomeCollections( $username, $defult_timezone = null ) {
           if ( $qry->Exec() ) {
             $c->messages[] = i18n('Home '.( $v['type']=='calendar' ? 'calendar' : 'addressbook' ).' added.');
             dbg_error_log("User",":Write: Created user's home ".( $v['type']=='calendar' ? 'calendar' : 'addressbook' )." at '%s'", $params[':collection_path'] );
+
+            // create value for urn:ietf:params:xml:ns:caldav:supported-calendar-component-set property
+            if($v['type'] == 'calendar' && isset($v['calendar_components']) && $v['calendar_components'] != null && is_array($v['calendar_components']) && count($v['calendar_components'])) {
+                // convert the array to uppercase and allow only real calendar compontents
+                $components_clean=array_intersect(array_map("strtoupper", $v['calendar_components']), array('VEVENT', 'VTODO', 'VJOURNAL', 'VTIMEZONE', 'VFREEBUSY', 'VPOLL', 'VAVAILABILITY'));
+
+                // convert the $components_clean array to XML string
+                $result_xml='';
+                foreach($components_clean as $curr)
+                    $result_xml.=sprintf('<comp name="%s" xmlns="urn:ietf:params:xml:ns:caldav"/>', $curr);
+
+                // handle the components XML string as user defined property (see below)
+                if($result_xml!='')
+                    $v['default_properties']['urn:ietf:params:xml:ns:caldav:supported-calendar-component-set']=$result_xml;
+            }
+
+            // store all user defined properties (note: it also handles 'calendar_components' - see above)
+            if(isset($v['default_properties']) && $v['default_properties'] != null && is_array($v['default_properties']) && count($v['default_properties'])) {
+              $sql2='INSERT INTO property (dav_name, property_name, property_value, changed_on, changed_by) ';
+              $sql2.='VALUES (:collection_path, :property_name, :property_value, current_timestamp, :user_no);';
+              $params2[':user_no'] = $principal->user_no();
+              $params2[':collection_path'] = $principal->dav_name().$v['name'].'/';
+
+              foreach( $v['default_properties'] AS $key => $val ) {
+                $params2[':property_name'] = $key;
+                $params2[':property_value'] = $val;
+
+                $qry2 = new AwlQuery( $sql2, $params2 );
+                if ( $qry2->Exec() ) {
+                  dbg_error_log("User",":Write: Created property '%s' for ".( $v['type']=='calendar' ? 'calendar' : 'addressbook' )." at '%s'", $params2[':property_name'], $params2[':collection_path'] );
+                }
+                else {
+                  $c->messages[] = i18n("There was an error writing to the database.");
+                  return false;
+                }
+              }
+            }
           }
           else {
             $c->messages[] = i18n("There was an error writing to the database.");
