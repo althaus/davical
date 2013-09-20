@@ -334,7 +334,7 @@ if ( $target_collection->Privileges() != privilege_to_bits('DAV::all') ) {
   $where .= " AND (calendar_item.class != 'PRIVATE' OR calendar_item.class IS NULL) ";
 }
 
-if ( isset($c->hide_TODO) && $c->hide_TODO && ! $target_collection->HavePrivilegeTo('DAV::write-content') ) {
+if ( isset($c->hide_TODO) && ($c->hide_TODO === true || (is_string($c->hide_TODO) && preg_match($c->hide_TODO, $_SERVER['HTTP_USER_AGENT']))) && ! $target_collection->HavePrivilegeTo('all') ) {
   $where .= " AND caldav_data.caldav_type NOT IN ('VTODO') ";
 }
 
