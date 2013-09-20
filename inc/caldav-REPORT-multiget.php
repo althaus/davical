@@ -107,11 +107,44 @@ if ( $qry->Exec('REPORT',__LINE__,__FILE__) && $qry->rows() > 0 ) {
     if ( $bound_from != $collection->dav_name() ) {
       $dav_object->dav_name = str_replace( $bound_from, $collection->dav_name(), $dav_object->dav_name);
     }
-    if ( $need_expansion ) {
+    //if ( $need_expansion ) {
       $vResource = new vComponent($dav_object->caldav_data);
+
       $expanded = expand_event_instances($vResource, $expand_range_start, $expand_range_end);
+
+      $event = $expanded->GetComponents("VEVENT")[0];
+
+      $event->ClearProperties("ATTENDEE");
+
+      $attendeeQry = new AwlQuery("SELECT property FROM calendar_attendee WHERE dav_id = :dav_id", array(':dav_id' => $dav_object->dav_id));
+      $attendeeQry->Execute();
+
+      $attendeeName = "ATTENDEE";
+
+      while(($arow = $attendeeQry->Fetch())){
+         $attendeeParameters = $arow->property;
+         if(strpos($attendeeParameters, $attendeeName . ';') == 0) {
+             // +1 because we want remove also ';'
+             $attendeeParameters = substr($attendeeParameters, strlen($attendeeName) + 1);
+         }
+
+         $attendeeValue = '';
+         // separe value
+         if(strpos($attendeeParameters, ':') > -1){
+             $apa = explode(':', $attendeeParameters);
+             $attendeeParameters = $apa[0];
+             $attendeeValue = $apa[1];
+
+             if(count($apa) > 2){
+                 $attendeeValue .= ':' . $apa[2];
+             }
+         }
+
+          $event->AddProperty($attendeeName, $attendeeValue, $attendeeParameters);
+      }
+
       $dav_object->caldav_data = $expanded->Render();
-    }
+    //}
     $responses[] = component_to_xml( $properties, $dav_object );
   }
 }
