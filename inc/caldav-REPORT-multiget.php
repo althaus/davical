@@ -119,19 +119,14 @@ if ( $qry->Exec('REPORT',__LINE__,__FILE__) && $qry->rows() > 0 ) {
 
       $event->ClearProperties("ATTENDEE");
 
-      $attendeeQry = new AwlQuery("SELECT property FROM calendar_attendee WHERE dav_id = :dav_id", array(':dav_id' => $dav_object->dav_id));
+      $attendeeQry = new AwlQuery("SELECT params, attendee FROM calendar_attendee WHERE dav_id = :dav_id", array(':dav_id' => $dav_object->dav_id));
       $attendeeQry->Execute();
 
       $attendeeName = "ATTENDEE";
 
       while(($arow = $attendeeQry->Fetch())){
-         $attendeeParameters = $arow->property;
-         if(strpos($attendeeParameters, $attendeeName . ';') == 0) {
-             // +1 because we want remove also ';'
-             $attendeeParameters = substr($attendeeParameters, strlen($attendeeName) + 1);
-         }
-
-         $attendeeValue = '';
+         $attendeeParameters = $arow->params;
+         $attendeeValue = $arow->attendee;
          // separe value
          if(strpos($attendeeParameters, ':') > -1){
              $apa = explode(':', $attendeeParameters);

@@ -1246,16 +1246,16 @@ function remove_attendees($dav_id, $not_remove_attendees_sql_text = null){
 }
 
 
-function update_attendees( $dav_id, $attendees ) {
-    if ( count($attendees) < 1 ) return;
-
-    $qry = new AwlQuery('INSERT INTO calendar_attendee ( dav_id, status, partstat, cn, attendee, role, rsvp, property, is_remote, email_status )
-          VALUES( '.$dav_id.', :status, :partstat, :cn, :attendee, :role, :rsvp, :property, :is_remote, :email_status )' );
-    $qry->Prepare();
-    foreach( $attendees AS $attendee ) {
-
-    }
-}
+//function update_attendees( $dav_id, $attendees ) {
+//    if ( count($attendees) < 1 ) return;
+//
+//    $qry = new AwlQuery('INSERT INTO calendar_attendee ( dav_id, status, partstat, cn, attendee, role, rsvp, property, is_remote, email_status )
+//          VALUES( '.$dav_id.', :status, :partstat, :cn, :attendee, :role, :rsvp, :property, :is_remote, :email_status )' );
+//    $qry->Prepare();
+//    foreach( $attendees AS $attendee ) {
+//
+//    }
+//}
 
 function write_new_or_update_attendees( $dav_id, $attendees, $add_new = true ) {
 
@@ -1270,10 +1270,10 @@ function write_new_or_update_attendees( $dav_id, $attendees, $add_new = true ) {
   }
 
   // create query for insert or update
-  $sql = $add_new ? 'INSERT INTO calendar_attendee ( dav_id, status, partstat, cn, attendee, role, rsvp, property, is_remote, email_status )
-          VALUES( '.$dav_id.', :status, :partstat, :cn, :attendee, :role, :rsvp, :property, :is_remote, :email_status )'
+  $sql = $add_new ? 'INSERT INTO calendar_attendee ( dav_id, status, partstat, cn, attendee, role, rsvp, params, is_remote, email_status )
+          VALUES( '.$dav_id.', :status, :partstat, :cn, :attendee, :role, :rsvp, :params, :is_remote, :email_status )'
         : 'UPDATE calendar_attendee SET status = :status, partstat = :partstat, cn = :cn,'
-            .'role=:role, rsvp=:rsvp, property=:property, is_remote=:is_remote, email_status=:email_status'
+            .'role=:role, rsvp=:rsvp, params=:params, is_remote=:is_remote, email_status=:email_status'
             . ' WHERE dav_id = '.$dav_id.' AND attendee=:attendee';
 
   $qry = new AwlQuery($sql);
@@ -1310,7 +1310,7 @@ function write_new_or_update_attendees( $dav_id, $attendees, $add_new = true ) {
     $qry->Bind(':role',     $v->GetParameterValue('ROLE') );
     $qry->Bind(':rsvp',     $v->GetParameterValue('RSVP') );
     $qry->Bind(':is_remote', $is_remote);
-    $qry->Bind(':property', $v->Render() );
+    $qry->Bind(':params', $v->Parameters());
     $qry->Bind(':email_status', $email_status);
     $qry->Exec('PUT',__LINE__,__FILE__);
     $processed[$attendee] = $v->Render();
