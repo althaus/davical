@@ -84,13 +84,17 @@ else {
   if ( isset($c->hide_older_than) && intval($c->hide_older_than) > 0 )
     $hide_older = " AND (CASE WHEN caldav_data.caldav_type<>'VEVENT' OR calendar_item.dtstart IS NULL THEN true ELSE calendar_item.dtstart > (now() - interval '".intval($c->hide_older_than)." days') END)";
 
+  $hide_todo = '';
+  if ( isset($c->hide_TODO) && ($c->hide_TODO === true || (is_string($c->hide_TODO) && preg_match($c->hide_TODO, $_SERVER['HTTP_USER_AGENT']))) && ! $collection->HavePrivilegeTo('all') )
+    $hide_todo = " AND caldav_data.caldav_type NOT IN ('VTODO') ";
+
   if ( $sync_token == 0 ) {
     $sql = <<<EOSQL
   SELECT collection.*, calendar_item.*, caldav_data.*, addressbook_resource.*, 201 AS sync_status FROM collection
               LEFT JOIN caldav_data USING (collection_id)
               LEFT JOIN calendar_item USING (dav_id)
                            LEFT JOIN addressbook_resource USING (dav_id)
-              WHERE collection.collection_id = :collection_id $hide_older
+              WHERE collection.collection_id = :collection_id $hide_older $hide_todo
      ORDER BY collection.collection_id, caldav_data.dav_id
 EOSQL;
     unset($params[':sync_token']);
@@ -102,7 +106,7 @@ EOSQL;
                            LEFT JOIN caldav_data USING (collection_id,dav_id)
                            LEFT JOIN calendar_item USING (collection_id,dav_id)
                            LEFT JOIN addressbook_resource USING (dav_id)
-                           WHERE collection.collection_id = :collection_id $hide_older
+                           WHERE collection.collection_id = :collection_id $hide_older $hide_todo
          AND sync_time >= (SELECT modification_time FROM sync_tokens WHERE sync_token = :sync_token)
 EOSQL;
     if ( isset($c->strict_result_ordering) && $c->strict_result_ordering ) {
