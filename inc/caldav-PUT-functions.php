@@ -1302,6 +1302,18 @@ function write_new_or_update_attendees( $dav_id, $attendees, $add_new = true ) {
       dbg_error_log( 'LOG', 'Duplicate: "%s"', $v->Render() );
       continue; /** @todo work out why we get duplicate ATTENDEE on one VEVENT */
     }
+
+      $params = '';
+
+      foreach($v->Parameters() as $key => $param){
+
+          if(!empty($params)){
+              $params .= ';';
+          }
+
+          $params .= $key . '=' . $param;
+      }
+
     $qry->Bind(':attendee', $attendee );
     $qry->Bind(':status',   $v->GetParameterValue('STATUS') );
     $qry->Bind(':partstat', $v->GetParameterValue('PARTSTAT') );
@@ -1309,7 +1321,7 @@ function write_new_or_update_attendees( $dav_id, $attendees, $add_new = true ) {
     $qry->Bind(':role',     $v->GetParameterValue('ROLE') );
     $qry->Bind(':rsvp',     $v->GetParameterValue('RSVP') );
     $qry->Bind(':is_remote', $is_remote);
-    $qry->Bind(':params', $v->Parameters());
+    $qry->Bind(':params', $params);
     $qry->Bind(':email_status', $email_status);
     $qry->Exec('PUT',__LINE__,__FILE__);
     $processed[$attendee] = $v->Render();
