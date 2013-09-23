@@ -254,6 +254,13 @@ function getStaticLdap() {
   // If the instance is not there, create one
   if(!isset($instance)) {
     $ldapDrivers = new ldapDrivers($c->authenticate_hook['config']);
+
+    if ($ldapDrivers->valid) {
+        $instance = $ldapDrivers
+    }
+  }
+  else {
+      $ldapDrivers = $instance
   }
   return $ldapDrivers;
 }
