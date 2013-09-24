@@ -6,7 +6,7 @@
  * a freebusy GET request.
  */
 
-include_once('iCalendar.php');
+include_once('vCalendar.php');
 include_once('RRule-v2.php');
 
 
@@ -79,7 +79,7 @@ function get_freebusy( $path_match, $range_start, $range_end, $bin_privs = null 
     }
   }
 
-  $freebusy = new iCalComponent();
+  $freebusy = new vComponent();
   $freebusy->SetType('VFREEBUSY');
   $freebusy->AddProperty('DTSTAMP', date('Ymd\THis\Z'));
   $freebusy->AddProperty('DTSTART', $range_start->UTC());
