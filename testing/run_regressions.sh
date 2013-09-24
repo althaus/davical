@@ -27,19 +27,22 @@ ACCEPT_ALL=${2:-""}
 
 check_result() {
   TEST="$1"
+  SKIPDIFF="$2"
   if [ ! -f "${REGRESSION}/${TEST}.result" ] ; then
     touch "${REGRESSION}/${TEST}.result"
   fi
   diff --text -u "${REGRESSION}/${TEST}.result" "${RESULTS}/${TEST}" >"${REGRESSION}/diffs/${TEST}"
 
   if [ -s "${REGRESSION}/diffs/${TEST}" ] ; then
-    echo "======================================="
-    echo "Displaying diff for test ${TEST}"
-    echo "======================================="
-    cat "${REGRESSION}/diffs/${TEST}"
-    echo "======================================="
+    if [ -z "$SKIPDIFF" ]; then
+       echo "======================================="
+       echo "Displaying diff for test ${TEST}"
+       echo "======================================="
+       cat "${REGRESSION}/diffs/${TEST}"
+       echo "======================================="
+    fi
     if [ "${ACCEPT_ALL}" = "" ] ; then
-      read -p "[${TEST}] Accept new result [e/r/v/f/x/y/N]? " ACCEPT
+      read -p "[${TEST}] Accept new result [e/s/r/v/f/m/x/y/w/N]? " ACCEPT
     else
       ACCEPT=${ACCEPT_ALL}
     fi
@@ -52,16 +55,28 @@ check_result() {
       echo "Showing test $REGRESSION/${TEST}.test"
       cat "$REGRESSION/${TEST}.test"
       return 2
+    elif [ "${ACCEPT}" = "s" ]; then
+      echo "Displaying side-by-side diff of ${TEST} results"
+      sdiff --text "${REGRESSION}/${TEST}.result" "${RESULTS}/${TEST}" | less -R
+      return 3
+    elif [ "${ACCEPT}" = "w" ]; then
+      echo "Displaying colourized diff of ${TEST} results"
+      wdiff -n -w $'\033[30;41m' -x $'\033[0m' -y $'\033[30;42m' -z $'\033[0m' "${REGRESSION}/${TEST}.result" "${RESULTS}/${TEST}" | less -R
+      return 3
+    elif [ "${ACCEPT}" = "m" ]; then
+      echo "Displaying side-by-side 'meld' of ${TEST} results"
+      meld "${REGRESSION}/${TEST}.result" "${RESULTS}/${TEST}"
+      return 3
     elif [ "${ACCEPT}" = "f" ]; then
       echo "Showing full details of ${TEST}"
       cat "${REGRESSION}/${TEST}.test"
       echo "Showing full result of ${TEST}"
       cat "${RESULTS}/${TEST}"
-      return 2
+      return 3
     elif [ "${ACCEPT}" = "e" ]; then
       echo "Editing test $REGRESSION/${TEST}.test"
       vi "$REGRESSION/${TEST}.test"
-      return 2
+      return 3
     elif [ "${ACCEPT}" = "r" ]; then
       echo "Rerunning test ${TEST}"
       return 1
@@ -154,9 +169,12 @@ run_regression_suite() {
       # Fix Vim syntax highlighting by putting an esac here.  Silly, huh?
 
       RESULT=999
+      SKIPDIFF=""
       while [ "${RESULT}" -gt 1 ]; do
-        check_result "${TEST}"
+        check_result "${TEST}" "$SKIPDIFF"
         RESULT=$?
+        SKIPDIFF=""
+        [ "${RESULT}" -gt 2 ] && SKIPDIFF=1
       done
 
     done
