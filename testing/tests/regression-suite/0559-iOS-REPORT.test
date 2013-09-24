@@ -40,4 +40,5 @@ SELECT caldav_data.dav_name, dtstart, rrule
               OR dtend > '20110922T000000Z'
            )
        )
+   ORDER BY dav_id
 ENDQUERY
