@@ -2,8 +2,8 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, bind, addressbook, calendar-auto-schedule, calendar-proxy
-ETag: "bdfeddd69b3ba9e47d51a82fff8801cc"
-Content-Length: 3690
+ETag: "c2288f9e9383b012d0d4c17e0c07950a"
+Content-Length: 3622
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -65,14 +65,10 @@ CREATED:20061223T032350Z
 LAST-MODIFIED:20061223T033144Z
 DTSTAMP:20061223T033144Z
 UID:9d050be7-8a02-4355-8ed3-02a9fc5f473f
-SUMMARY:Confidential Event
-PRIORITY:0
-STATUS:CONFIRMED
 CLASS:CONFIDENTIAL
 DTSTART;TZID=/mozilla.org/20050126_1/Antarctica/McMurdo:20061223T160000
 DTEND;TZID=/mozilla.org/20050126_1/Antarctica/McMurdo:20061223T180000
-X-MOZ-LOCATIONPATH:9d050be7-8a02-4355-8ed3-02a9fc5f473f.ics
-LOCATION:In a confidential place
+SUMMARY:Busy
 END:VEVENT
 BEGIN:VTIMEZONE
 TZID:/mozilla.org/20050126_1/Antarctica/McMurdo
