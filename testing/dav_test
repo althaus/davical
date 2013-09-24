@@ -256,7 +256,7 @@ if ( defined($script) ) {
   }
 }
 
-if ( defined(@{$queries}) && @{$queries} ) {
+if ( defined($queries) && @{$queries} ) {
   opendb() unless defined($dbh);
   print "\n";
   print STDERR "Processing special queries\n" if ( $debug );
