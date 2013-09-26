@@ -1,7 +1,5 @@
 HTTP/1.1 400 Bad Request
 Date: Dow, 01 Jan 2000 00:00:00 GMT
-DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
-DAV: extended-mkcol, bind, addressbook, calendar-auto-schedule, calendar-proxy
 Content-Length: 46
 Content-Type: text/plain; charset="utf-8"
 
