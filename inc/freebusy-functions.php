@@ -11,11 +11,14 @@ include_once('RRule-v2.php');
 
 
 function get_freebusy( $path_match, $range_start, $range_end, $bin_privs = null ) {
-  global $request, $c;
+    global $request, $c;
 
-//  printf( "Path: %s\n", $path_match);
-//  print_r($range_start);
-//  print_r($range_end);
+    $debugging = false;
+//    if ( $debugging ) {
+//        printf( "Path: %s\n", $path_match );
+//        print_r( $range_start );
+//        print_r( $range_end );
+//    }
 
   if ( !isset($bin_privs) ) $bin_privs = $request->Privileges();
   if ( !isset($range_start) || !isset($range_end) ) {
@@ -33,11 +36,10 @@ function get_freebusy( $path_match, $range_start, $range_end, $bin_privs = null 
     $where .= "AND (calendar_item.class != 'PRIVATE' OR calendar_item.class IS NULL) ";
   }
 
-// $debugging = true;
   $fbtimes = array();
   $sql = 'SELECT caldav_data.caldav_data, calendar_item.rrule, calendar_item.transp, calendar_item.status, ';
-  $sql .= "to_char(calendar_item.dtstart at time zone 'GMT',".iCalendar::SqlUTCFormat().') AS start, ';
-  $sql .= "to_char(calendar_item.dtend at time zone 'GMT',".iCalendar::SqlUTCFormat().') AS finish, ';
+  $sql .= "to_char(calendar_item.dtstart at time zone 'GMT',".AWLDatabase::SqlUTCFormat.') AS start, ';
+  $sql .= "to_char(calendar_item.dtend at time zone 'GMT',".AWLDatabase::SqlUTCFormat.') AS finish, ';
   $sql .= "calendar_item.class, calendar_item.dav_id ";
   $sql .= 'FROM caldav_data INNER JOIN calendar_item USING(dav_id,user_no,dav_name,collection_id) ';
   $sql .= 'INNER JOIN collection USING(collection_id)';
@@ -53,26 +55,35 @@ function get_freebusy( $path_match, $range_start, $range_end, $bin_privs = null 
       else if ( isset($c->_workaround_client_freebusy_bug) && $c->_workaround_client_freebusy_bug ) {
         $extra = ';BUSY';
       }
-//      else if ( $debugging ) {
+//      if ( $debugging ) {
 //        $extra = ';'.$calendar_object->dav_id;
 //      }
-      dbg_error_log( "REPORT", " FreeBusy: Not transparent, tentative or cancelled: %s, %s, %s", $calendar_object->start, $calendar_object->finish, $calendar_object->class );
+//      dbg_error_log( "REPORT", " FreeBusy: Not transparent, tentative or cancelled: %s, %s, %s", $calendar_object->start, $calendar_object->finish, $calendar_object->class );
       $ics = new vComponent($calendar_object->caldav_data);
       $expanded = expand_event_instances($ics, $range_start, $range_end);
       $expansion = $expanded->GetComponents( array('VEVENT'=>true,'VTODO'=>true,'VJOURNAL'=>true) );
+//      if ( $debugging ) echo "===================   $calendar_object->dav_id   ========================\n";
+      $dtstart_type = 'DTSTART';
       foreach( $expansion AS $k => $v ) {
-//        echo "=====================================================\n";
-//        printf( "Type: %s\n", $v->GetType());
-//        print_r($v);
-//        echo "-----------------------------------------------------\n";
-        $start_date = $v->GetProperty('DTSTART');
-        if ( !isset($start_date) ) continue;
+//        if ( $debugging ) print $k."\n".$v->Render();
+        $start_date = $v->GetProperty($dtstart_type);
+        if ( !isset($start_date) && $v->GetType() != 'VTODO' ) {
+            $dtstart_type = 'DUE';
+            $start_date = $v->GetProperty($dtstart_type);
+        }
         $start_date = new RepeatRuleDateTime($start_date);
         $duration = $v->GetProperty('DURATION');
         $duration = ( !isset($duration) ? 'P1D' : $duration->Value());
         $end_date = clone($start_date);
         $end_date->modify( $duration );
-        if ( $end_date == $start_date || $end_date < $range_start || $start_date > $range_end ) continue;
+        if ( $end_date == $start_date || $end_date < $range_start || $start_date > $range_end ) {
+//            if ( $debugging )
+//              echo "-----------------------------------------------------\n";
+
+            continue;
+        }
+//        if ( $debugging )
+//            echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
         $thisfb = $start_date->UTC() .'/'. $end_date->UTC() . $extra;
         array_push( $fbtimes, $thisfb );
       }
@@ -80,7 +91,7 @@ function get_freebusy( $path_match, $range_start, $range_end, $bin_privs = null 
   }
 
   $freebusy = new vComponent();
-  $freebusy->SetType('VFREEBUSY');
+  $freebusy->setType('VFREEBUSY');
   $freebusy->AddProperty('DTSTAMP', date('Ymd\THis\Z'));
   $freebusy->AddProperty('DTSTART', $range_start->UTC());
   $freebusy->AddProperty('DTEND', $range_end->UTC());

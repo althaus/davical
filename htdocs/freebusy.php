@@ -69,8 +69,7 @@ switch ( $_SERVER['REQUEST_METHOD'] ) {
     }
     $freebusy = get_freebusy( $path_match, $range_start, $range_end );
 
-    $result = new iCalComponent();
-    $result->VCalendar();
+    $result = new vCalendar();
     $result->AddComponent($freebusy);
 
     $request->DoResponse( 200, $result->Render(), 'text/calendar' );
