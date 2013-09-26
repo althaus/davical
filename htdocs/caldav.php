@@ -81,10 +81,12 @@ function send_dav_header() {
     header( 'DAV: '.trim($v, ', '), false);
   }
 }
-send_dav_header();  // Avoid polluting global namespace
 
 require_once('CalDAVRequest.php');
 $request = new CalDAVRequest();
+
+//if ( $request->method == 'OPTIONS' || $c->always_send_dav_header )
+    send_dav_header();  // Avoid polluting global namespace
 
 $allowed = implode( ', ', array_keys($request->supported_methods) );
 // header( 'Allow: '.$allowed);
