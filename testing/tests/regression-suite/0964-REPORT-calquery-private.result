@@ -2,8 +2,8 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, bind, addressbook, calendar-auto-schedule, calendar-proxy
-ETag: "cdb4786ea5b91bf38b8f332da104965d"
-Content-Length: 1034
+ETag: "865f338c7ec05fb2917fb187a06b38a6"
+Content-Length: 1037
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -21,10 +21,11 @@ BEGIN:VEVENT
 UID:86203AFD481A6C42892013E6E0C4845D039A2543@AKEXBE02.telecom.tcnz.net
 DTSTAMP:20061005T230724Z
 DTSTART:20070120T093000
-SUMMARY:Reminder for Mark for Absolom Livasathan's PGP WF Services cost 
-  request
-DESCRIPTION:From Absolom.Livasathan@example.com Fri Oct  6 12:00:02 2006
- \n
+SUMMARY:
+ Reminder for Mark for Absolom Livasathan's PGP WF Services cost  reques
+ t
+DESCRIPTION:
+ From Absolom.Livasathan@example.com Fri Oct  6 12:00:02 2006\n
 ORGANIZER;CN=Absolom Livasathan:Absolom.Livasathan@example.com
 ATTENDEE;RSVP=FALSE;CN=:andrew@example.org
 CREATED:20061005T230724

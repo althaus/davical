@@ -2,8 +2,8 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, bind, addressbook, calendar-auto-schedule, calendar-proxy
-ETag: "d0ccb82b5692c5bb20f022b0973ff36c"
-Content-Length: 10328
+ETag: "ecbedf90dad1624571882ddccb7d3a66"
+Content-Length: 10338
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -304,7 +304,7 @@ BEGIN:VEVENT
 LAST-MODIFIED:20080303T015422Z
 SEQUENCE:5
 UID:7d729xc0-0895-012d-124e-002421a2359e
-SUMMARY:1st Monday, 2nd Tuesday, 3rd Thursday &amp; Last Friday
+SUMMARY:1st Monday\, 2nd Tuesday\, 3rd Thursday &amp; Last Friday
 DESCRIPTION:An all day event on various days.
 CREATED:20080303T015329Z
 DTSTAMP:20080303T015422Z
@@ -317,7 +317,7 @@ BEGIN:VEVENT
 LAST-MODIFIED:20080303T015422Z
 SEQUENCE:5
 UID:7d729xc0-0895-012d-124e-002421a2359e
-SUMMARY:1st Monday, 2nd Tuesday, 3rd Thursday &amp; Last Friday
+SUMMARY:1st Monday\, 2nd Tuesday\, 3rd Thursday &amp; Last Friday
 DESCRIPTION:An all day event on various days.
 CREATED:20080303T015329Z
 DTSTAMP:20080303T015422Z
@@ -330,7 +330,7 @@ BEGIN:VEVENT
 LAST-MODIFIED:20080303T015422Z
 SEQUENCE:5
 UID:7d729xc0-0895-012d-124e-002421a2359e
-SUMMARY:1st Monday, 2nd Tuesday, 3rd Thursday &amp; Last Friday
+SUMMARY:1st Monday\, 2nd Tuesday\, 3rd Thursday &amp; Last Friday
 DESCRIPTION:An all day event on various days.
 CREATED:20080303T015329Z
 DTSTAMP:20080303T015422Z
@@ -343,7 +343,7 @@ BEGIN:VEVENT
 LAST-MODIFIED:20080303T015422Z
 SEQUENCE:5
 UID:7d729xc0-0895-012d-124e-002421a2359e
-SUMMARY:1st Monday, 2nd Tuesday, 3rd Thursday &amp; Last Friday
+SUMMARY:1st Monday\, 2nd Tuesday\, 3rd Thursday &amp; Last Friday
 DESCRIPTION:An all day event on various days.
 CREATED:20080303T015329Z
 DTSTAMP:20080303T015422Z
@@ -356,7 +356,7 @@ BEGIN:VEVENT
 LAST-MODIFIED:20080303T015422Z
 SEQUENCE:5
 UID:7d729xc0-0895-012d-124e-002421a2359e
-SUMMARY:1st Monday, 2nd Tuesday, 3rd Thursday &amp; Last Friday
+SUMMARY:1st Monday\, 2nd Tuesday\, 3rd Thursday &amp; Last Friday
 DESCRIPTION:An all day event on various days.
 CREATED:20080303T015329Z
 DTSTAMP:20080303T015422Z
