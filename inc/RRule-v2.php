@@ -1184,9 +1184,22 @@ function rrule_expand( $dtstart, $property, $component, $range_end, $is_date=nul
 *
 * @return vComponent The original vComponent, with the instances of the internal components expanded.
 */
-function expand_event_instances( $vResource, $range_start = null, $range_end = null, $return_floating_times=false ) {
-  global $c;
-  $components = $vResource->GetComponents();
+function expand_event_instances( vComponent $vResource, $range_start = null, $range_end = null, $return_floating_times=false ) {
+    global $c;
+    $components = $vResource->GetComponents();
+
+    $clear_instance_props = array(
+            'DTSTART' => true,
+            'DUE' => true,
+            'DTEND' => true 
+    );
+    if ( empty( $c->expanded_instances_include_rrule ) ) {
+        $clear_instance_props += array(
+                'RRULE' => true,
+                'RDATE' => true,
+                'EXDATE' => true 
+        );
+    }
 
   if ( empty($range_start) ) { $range_start = new RepeatRuleDateTime(); $range_start->modify('-6 weeks'); }
   if ( empty($range_end) )   {
@@ -1194,7 +1207,6 @@ function expand_event_instances( $vResource, $range_start = null, $range_end = n
       $range_end->modify('+6 months');  
   }
 
-  $new_components = array();
   $instances = array();
   $expand = false;
   $dtstart = null;
@@ -1203,7 +1215,6 @@ function expand_event_instances( $vResource, $range_start = null, $range_end = n
   $dtstart_type = 'DTSTART';
   foreach( $components AS $k => $comp ) {
     if ( $comp->GetType() != 'VEVENT' && $comp->GetType() != 'VTODO' && $comp->GetType() != 'VJOURNAL' ) {
-      if ( $comp->GetType() != 'VTIMEZONE' ) $new_components[] = $comp;
       continue;
     }
     if ( !isset($dtstart) ) {
@@ -1246,7 +1257,7 @@ function expand_event_instances( $vResource, $range_start = null, $range_end = n
                  $summary, $uid, $dtstart->FloatOrUTC($return_floating_times) );      
       print( "Instances at start");
       foreach( $instances AS $k => $v ) {
-        print ' : '.$k;        
+        print ' : '.$k;
       }
       print "\n";
     }
@@ -1262,7 +1273,7 @@ function expand_event_instances( $vResource, $range_start = null, $range_end = n
     if ( DEBUG_RRULE ) {
       print( "After rdate_expand");
       foreach( $instances AS $k => $v ) {
-        print ' : '.$k;        
+        print ' : '.$k;
       }
       print "\n";
     }
@@ -1272,7 +1283,7 @@ function expand_event_instances( $vResource, $range_start = null, $range_end = n
     if ( DEBUG_RRULE ) {
       print( "After exdate_expand");
       foreach( $instances AS $k => $v ) {
-        print ' : '.$k;        
+        print ' : '.$k;
       }
       print "\n";
     }
@@ -1286,7 +1297,7 @@ function expand_event_instances( $vResource, $range_start = null, $range_end = n
   foreach( $instances AS $utc => $comp ) {
     if ( $utc > $end_utc ) {
       if ( DEBUG_RRULE ) printf( "We're done: $utc is out of the range.\n");
-      break;      
+      break;
     }
 
     $end_type = ($comp->GetType() == 'VTODO' ? 'DUE' : 'DTEND');
@@ -1333,14 +1344,8 @@ function expand_event_instances( $vResource, $range_start = null, $range_end = n
       }
     }
     $component = clone($comp);
-    if ( isset($c->expanded_instances_include_rrule) ) {
-      $component->ClearProperties( array('DTSTART'=> true, 'DUE' => true, 'DTEND' => true ) );
-    }
-    else {
-      $component->ClearProperties( array('DTSTART'=> true, 'DUE' => true, 'DTEND' => true,
-                                       'RRULE' => true, 'RDATE' => true, 'EXDATE' => true) );
-    }
-    $component->AddProperty('DTSTART', $utc, ($is_date ? array('VALUE' => 'DATE') : null) );
+    $component->ClearProperties( $clear_instance_props );
+    $component->AddProperty($dtstart_type, $utc, ($is_date ? array('VALUE' => 'DATE') : null) );
     $component->AddProperty('DURATION', $duration );
     if ( $has_repeats && $dtstart->FloatOrUTC($return_floating_times) != $utc )
       $component->AddProperty('RECURRENCE-ID', $utc, ($is_date ? array('VALUE' => 'DATE') : null) );
@@ -1351,7 +1356,8 @@ function expand_event_instances( $vResource, $range_start = null, $range_end = n
   foreach( $components AS $k => $comp ) {
     $p = $comp->GetProperty('RECURRENCE-ID');
     if ( isset($p) && $p->Value() != '') {
-      if ( !isset($new_components[$p->Value()]) ) {
+      $recurrence_id = $p->Value();
+      if ( !isset($new_components[$recurrence_id]) ) {
         // The component we're replacing is outside the range.  Unless the replacement
         // is *in* the range we will move along to the next one.
         $dtstart_prop = $comp->GetProperty($dtstart_type);
@@ -1381,11 +1387,11 @@ function expand_event_instances( $vResource, $range_start = null, $range_end = n
         }
         if ( $dtend < $start_utc ) continue; // End before start of range: skip that too.
       }
-      if ( DEBUG_RRULE ) printf( "Replacing overridden instance at %s\n", $p->Value());
-      $new_components[$p->Value()] = $comp;
+      if ( DEBUG_RRULE ) printf( "Replacing overridden instance at %s\n", $recurrence_id);
+      $new_components[$recurrence_id] = $comp;
     }
   }
-  
+
   $vResource->SetComponents($new_components);
 
   return $vResource;
