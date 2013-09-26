@@ -42,10 +42,13 @@ function early_exception_handler($e) {
 }
 set_exception_handler('early_exception_handler');
 
-$c->default_timezone = ini_get('date.timezone');
-if ( empty($c->default_timezone) ) {
-  $c->default_timezone = 'UTC';
-  date_default_timezone_set('UTC');
+$c->default_timezone = ini_get ( 'date.timezone' );
+if (empty ( $c->default_timezone )) {
+    if (isset ( $_SERVER ['HTTP_X_DAVICAL_TESTCASE'] )) {
+        $c->default_timezone = 'Pacific/Auckland';
+    }
+    $c->default_timezone = 'UTC';
+    date_default_timezone_set ( 'UTC' );
 }
 
 // Default some of the configurable values
@@ -231,7 +234,9 @@ if ( $qry->Exec('always',__LINE__,__FILE__) && $row = $qry->Fetch() ) {
     $c->messages[] = sprintf( 'Database schema needs upgrading. Current: %d.%d.%d, Desired: %d.%d.%d',
              $row->schema_major, $row->schema_minor, $row->schema_patch, $c->want_dbversion[0], $c->want_dbversion[1], $c->want_dbversion[2]);
   }
-  if ( isset($_SERVER['HTTP_X_DAVICAL_TESTCASE']) ) $qry->QDo('SET TIMEZONE TO \'Pacific/Auckland\'');
+  if ( isset($c->default_timezone) ) {
+    $qry->QDo('SET TIMEZONE TO ?', $c->default_timezone );
+  }
 }
 
 require_once('Principal.php');
