@@ -100,13 +100,34 @@ function component_to_xml( $properties, $item ) {
   $displayname = preg_replace( '{^.*/}', '', $item->dav_name );
   $type = 'unknown';
   $contenttype = 'text/plain';
-  switch( $item->caldav_type ) {
+  switch( strtoupper($item->caldav_type) ) {
     case 'VJOURNAL':
     case 'VEVENT':
     case 'VTODO':
       $displayname = $item->summary;
       $type = 'calendar';
       $contenttype = 'text/calendar';
+      if ( isset($properties['urn:ietf:params:xml:ns:caldav:calendar-data']) || isset($properties['DAV::displayname']) ) {
+        if ( !$request->AllowedTo('all') && $session->user_no != $item->user_no ) {
+          // the user is not admin / owner of this calendar looking at his calendar and can not admin the other cal
+          if ( $item->class == 'CONFIDENTIAL' || !$request->AllowedTo('read') ) {
+            dbg_error_log("REPORT","Anonymising confidential event for: %s", $item->dav_name );
+            $vcal = new vCalendar( $caldav_data );
+            $caldav_data = $vcal->Confidential()->Render();
+            $displayname = translate('Busy');
+          }
+        }
+      }
+
+      if ( isset($c->hide_alarm) && $c->hide_alarm ) {
+        $dav_resource = new DAVResource($item->dav_name);
+        if ( isset($properties['urn:ietf:params:xml:ns:caldav:calendar-data']) && !$dav_resource->HavePrivilegeTo('write') ) {
+          dbg_error_log("REPORT","Stripping event alarms for: %s", $item->dav_name );
+          $vcal = new vCalendar($caldav_data);
+          $vcal->ClearComponents('VALARM');
+          $caldav_data = $vcal->Render();
+        }
+      }
       break;
 
     case 'VCARD':
@@ -115,30 +136,7 @@ function component_to_xml( $properties, $item ) {
       $contenttype = 'text/vcard';
       break;
   }
-  if ( $type == 'calendar' ) {
-    if ( isset($properties['urn:ietf:params:xml:ns:caldav:calendar-data']) || isset($properties['DAV::displayname']) ) {
-      if ( !$request->AllowedTo('all') && $session->user_no != $item->user_no ) {
-        // the user is not admin / owner of this calendar looking at his calendar and can not admin the other cal
-        if ( $item->class == 'CONFIDENTIAL' || !$request->AllowedTo('read') ) {
-          dbg_error_log("REPORT","Anonymising confidential event for: %s", $item->dav_name );
-          $vcal = new vCalendar( $caldav_data );
-          $caldav_data = $vcal->Confidential()->Render();
-          $displayname = translate('Busy');
-        }
-      }
-    }
 
-    if ( isset($c->hide_alarm) && $c->hide_alarm ) {
-      $dav_resource = new DAVResource($item->dav_name);
-      if ( isset($properties['urn:ietf:params:xml:ns:caldav:calendar-data']) && !$dav_resource->HavePrivilegeTo('write') ) {
-        dbg_error_log("REPORT","Stripping event alarms for: %s", $item->dav_name );
-        $vcal = new vCalendar($caldav_data);
-        $vcal->ClearComponents('VALARM');
-        $caldav_data = $vcal->Render();
-      }
-    }
-  }
-  
   $url = ConstructURL($item->dav_name);
 
   $prop = new XMLElement("prop");
