@@ -115,21 +115,23 @@ if ( $qry->Exec('REPORT',__LINE__,__FILE__) && $qry->rows() > 0 ) {
 
       $expanded = expand_event_instances($vResource, $expand_range_start, $expand_range_end);
 
-      $event = $expanded->GetComponents("VEVENT")[0];
-
-      $event->ClearProperties("ATTENDEE");
-
-      $attendeeQry = new AwlQuery("SELECT params, attendee FROM calendar_attendee WHERE dav_id = :dav_id", array(':dav_id' => $dav_object->dav_id));
-      $attendeeQry->Execute();
-
-      $attendeeName = "ATTENDEE";
-
-      while(($arow = $attendeeQry->Fetch())){
-         $attendeeParameters = $arow->params;
-         $attendeeValue = $arow->attendee;
-         // separe value
-         $event->AddProperty($attendeeName, $attendeeValue, $attendeeParameters);
-      }
+//      $event = $expanded->GetComponents("VEVENT")[0];
+//
+//      $attendeeName = "ATTENDEE";
+//
+//      $event->ClearProperties($attendeeName);
+//
+//      $attendeeQry = new AwlQuery("SELECT params, attendee FROM calendar_attendee WHERE dav_id = :dav_id", array(':dav_id' => $dav_object->dav_id));
+//      $attendeeQry->Execute();
+//
+//
+//
+//      while(($arow = $attendeeQry->Fetch())){
+//         $attendeeParameters = $arow->params;
+//         $attendeeValue = $arow->attendee;
+//         // separe value
+//         $event->AddProperty($attendeeName, $attendeeValue, $attendeeParameters);
+//      }
 
       $dav_object->caldav_data = $expanded->Render();
     //}
