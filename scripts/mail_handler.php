@@ -211,6 +211,9 @@ class MailInviteHandler {
         $event->AddProperty("DTEND", $row->dtend);
         $event->AddProperty("UID", $row->uid);
 
+        $event->AddProperty("EMAIL", $organizer->attendee);
+
+
         // url
         //$event->AddProperty("URL", "http://127.0.0.1/public.php?XDEBUG_SESSION_START=14830");
 
@@ -310,6 +313,7 @@ class MailInviteHandler {
         $this->handle_remote_attendee_reply($ical);
     }
 
+
     function handle_remote_attendee_reply(vCalendar $ical){
         $attendees = $ical->GetAttendees();
 
@@ -337,16 +341,16 @@ class MailInviteHandler {
 
         //$propertyText .= ':' . $attendee->Value();
 
-        $qry = new AwlQuery('SELECT dav_id, collection_id, dav_name FROM calendar_item WHERE uid = :uid');
+        $qry = new AwlQuery('SELECT dav_id, calendar_item.collection_id AS collection_id, calendar_item.dav_name AS dav_name, caldav_data FROM calendar_item LEFT JOIN caldav_data USING(dav_id) WHERE uid = :uid');
         $qry->Bind(':uid', $uid);
         $qry->Exec('select dav_id, collection_id');
         if(($row = $qry->Fetch())){
-            $qry = new AwlQuery('UPDATE calendar_attendee SET email_status=:statusTo, partstat=:partstat, property=:property WHERE attendee=:attendee AND dav_id = :dav_id');
+            $qry = new AwlQuery('UPDATE calendar_attendee SET email_status=:statusTo, partstat=:partstat, params=:params WHERE attendee=:attendee AND dav_id = :dav_id');
             // user accepted
             $qry->Bind(':statusTo', EMAIL_STATUS::NORMAL);
             $qry->Bind(':attendee', $attendee->Value());
             $qry->Bind(':dav_id', $row->dav_id);
-            $qry->Bind(':property', $propertyText);
+            $qry->Bind(':params', $propertyText);
             $qry->Bind(':partstat', $parameters['PARTSTAT']);
 
             $qry->Exec('changeStatusTo');
@@ -355,15 +359,54 @@ class MailInviteHandler {
 
             $collection_id = $row->collection_id;
             $dav_name = $row->dav_name;
-            $qry->QDo("SELECT write_sync_change( $collection_id, 200, :dav_name)", array(':dav_name' => $dav_name ) );
+            //$qry->QDo("SELECT write_sync_change( $collection_id, 200, :dav_name)", array(':dav_name' => $dav_name ) );
             //$qry->Execute();
+
+
+            $this->update_caldav_data($row->caldav_data, $row->dav_id);
         }
-
-
-
 
         return true;
     }
+
+
+    function update_caldav_data($old_data, $dav_id){
+        $vResource = new vComponent($old_data);
+
+        //$expanded = expand_event_instances($vResource, $expand_range_start, $expand_range_end);
+
+        $event = $vResource->GetComponents("VEVENT")[0];
+
+        $attendeeName = "ATTENDEE";
+
+        $vResource->ClearProperties($attendeeName);
+
+        $davIdArray = array(':dav_id' => $dav_id);
+
+        $attendeeQry = new AwlQuery("SELECT params, attendee FROM calendar_attendee WHERE dav_id = :dav_id", $davIdArray);
+        $attendeeQry->Execute();
+
+
+
+        while(($arow = $attendeeQry->Fetch())){
+            $attendeeParameters = $arow->params;
+            $attendeeValue = $arow->attendee;
+            // separe value
+            $event->AddProperty($attendeeName, $attendeeValue, $attendeeParameters);
+        }
+
+        $rendered = $vResource->Render();
+
+        $sql = 'UPDATE caldav_data SET caldav_data=:dav_data, dav_etag=:etag WHERE dav_id=:dav_id';
+
+        $davIdArray[':etag'] = md5($rendered);
+        $davIdArray[':dav_data'] = $rendered;
+
+        $query = new AwlQuery($sql, $davIdArray);
+        $query->Execute();
+
+    }
+
 }
 
 
