@@ -161,7 +161,7 @@ BEGIN:VEVENT
 LAST-MODIFIED:20080303T015422Z
 SEQUENCE:5
 UID:7d729xc0-0895-012d-124e-002421a2359e
-SUMMARY:1st Monday, 2nd Tuesday, 3rd Thursday &amp; Last Friday
+SUMMARY:1st Monday\, 2nd Tuesday\, 3rd Thursday &amp; Last Friday
 DESCRIPTION:An all day event on various days.
 CREATED:20080303T015329Z
 DTSTAMP:20080303T015422Z
@@ -173,7 +173,7 @@ BEGIN:VEVENT
 LAST-MODIFIED:20080303T015422Z
 SEQUENCE:5
 UID:7d729xc0-0895-012d-124e-002421a2359e
-SUMMARY:1st Monday, 2nd Tuesday, 3rd Thursday &amp; Last Friday
+SUMMARY:1st Monday\, 2nd Tuesday\, 3rd Thursday &amp; Last Friday
 DESCRIPTION:An all day event on various days.
 CREATED:20080303T015329Z
 DTSTAMP:20080303T015422Z
@@ -186,7 +186,7 @@ BEGIN:VEVENT
 LAST-MODIFIED:20080303T015422Z
 SEQUENCE:5
 UID:7d729xc0-0895-012d-124e-002421a2359e
-SUMMARY:1st Monday, 2nd Tuesday, 3rd Thursday &amp; Last Friday
+SUMMARY:1st Monday\, 2nd Tuesday\, 3rd Thursday &amp; Last Friday
 DESCRIPTION:An all day event on various days.
 CREATED:20080303T015329Z
 DTSTAMP:20080303T015422Z
@@ -199,7 +199,7 @@ BEGIN:VEVENT
 LAST-MODIFIED:20080303T015422Z
 SEQUENCE:5
 UID:7d729xc0-0895-012d-124e-002421a2359e
-SUMMARY:1st Monday, 2nd Tuesday, 3rd Thursday &amp; Last Friday
+SUMMARY:1st Monday\, 2nd Tuesday\, 3rd Thursday &amp; Last Friday
 DESCRIPTION:An all day event on various days.
 CREATED:20080303T015329Z
 DTSTAMP:20080303T015422Z
