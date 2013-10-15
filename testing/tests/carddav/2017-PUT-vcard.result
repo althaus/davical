@@ -24,7 +24,7 @@ Content-Type: text/plain; charset="utf-8"
           country: >NULL<
          locality: >Irgendwo<
          postcode: >34332<
-         property: >ADR;TYPE=HOME;CHARSET=utf-8:;;Weisenstraße 13\r;Irgendwo;;34332<
+         property: >ADR;TYPE=HOME;CHARSET=utf-8:;;Weisenstraße 13\\r;Irgendwo;;34332<
            region: ><
    street_address: >Weisenstraße 13\r<
              type: >HOME<
@@ -61,6 +61,21 @@ Content-Type: text/plain; charset="utf-8"
    street_address: >Irgendwo<
              type: >X-OTHER<
           unit_no: ><
+
+              tel: >+49 7363 6363<
+             type: >voice<
+
+              tel: >+49 8383 73 723<
+             type: >voice<
+
+              tel: >+49 3377 37 373<
+             type: >voice<
+
+              tel: >+49 8378 33<
+             type: >voice<
+
+              tel: >13355<
+             type: >voice<
 
               tel: >+49 8292 38 383<
              type: >CAR,VOICE<
@@ -128,24 +143,11 @@ Content-Type: text/plain; charset="utf-8"
               tel: >+49 7722 88 28 282<
              type: >X-EVOLUTION-TELEX<
 
-              tel: >+49 7363 6363<
-             type: >voice<
-
-              tel: >+49 8383 73 723<
-             type: >voice<
-
-              tel: >+49 3377 37 373<
-             type: >voice<
-
-              tel: >+49 8378 33<
-             type: >voice<
-
-              tel: >13355<
-             type: >voice<
-
             email: >andresen@andresen.de<
+         property: >EMAIL;TYPE=INTERNET:andresen@andresen.de<
              type: >INTERNET<
 
             email: >sven@andresen.de<
+         property: >EMAIL;TYPE=INTERNET:sven@andresen.de<
              type: >INTERNET<
 

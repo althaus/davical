@@ -1,3 +1,6 @@
+SQL executed successfully.
+DELETE FROM caldav_data WHERE caldav_data.dav_name ~ '/user1/addressbook/donald_kelly.vcf'
+
 HTTP/1.1 201 Created
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
@@ -5,6 +8,24 @@ DAV: extended-mkcol, bind, addressbook, calendar-auto-schedule, calendar-proxy
 Content-Length: 0
 Content-Type: text/plain; charset="utf-8"
 
+
+      caldav_data: >BEGIN:VCARD
+FN:Donald Kelly
+N:Kelly;Donald;;;
+ORG:Esposo Designs Ltd
+ADR:;;25 Rintoul St;Newtown;Wellington;;New Zealand
+EMAIL;TYPE=internet:donald@example.co.nz
+TITLE:Proprietor
+TEL;TYPE=work:+64 4 347 4747
+TEL;TYPE=cell:+64 2 1234-4321
+X-MOZILLA-HTML:TRUE
+URL:www.example.co.nz
+VERSION:2.1
+UID:09e62b3e-656d-c4c4-a5f9-b73422a2f8eb
+REV:20130927T145926Z
+END:VCARD
+<
+           dav_id: >1636<
 
         caladruri: >NULL<
            caluri: >NULL<
@@ -24,7 +45,7 @@ Content-Type: text/plain; charset="utf-8"
           country: >New Zealand<
          locality: >Newtown<
          postcode: ><
-         property: >adr:;;25 Rintoul St;Newtown;Wellington;;New Zealand<
+         property: >ADR:;;25 Rintoul St;Newtown;Wellington;;New Zealand<
            region: >Wellington<
    street_address: >25 Rintoul St<
              type: >NULL<

@@ -59,17 +59,17 @@ END:VCARD
    <prop>
     <get?tag>"deadbeefcafef00ddeadbeefcafefeed"<.get?tag>
     <VC:address-data>BEGIN:VCARD
-fn:Donald Kelly
-n:Kelly;Donald;;;
-org:Esposo Designs Ltd
-adr:;;25 Rintoul St;Newtown;Wellington;;New Zealand
-email;type=internet:donald@example.co.nz
-title:Proprietor
-tel;type=work:+64 4 347 4747
-tel;type=cell:+64 2 1234-4321
-x-mozilla-html:TRUE
-url:www.example.co.nz
-version:2.1
+FN:Donald Kelly
+N:Kelly;Donald;;;
+ORG:Esposo Designs Ltd
+ADR:;;25 Rintoul St;Newtown;Wellington;;New Zealand
+EMAIL;TYPE=internet:donald@example.co.nz
+TITLE:Proprietor
+TEL;TYPE=work:+64 4 347 4747
+TEL;TYPE=cell:+64 2 1234-4321
+X-MOZILLA-HTML:TRUE
+URL:www.example.co.nz
+VERSION:2.1
 UID:excellent-looking-uid-string
 REV:YYYYMMDDTHHMMSSZ
 END:VCARD
