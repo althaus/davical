@@ -151,15 +151,17 @@ function get_collection_contents( $depth, $collection, $parent_path = null ) {
       $sql = 'SELECT principal.*, collection.*, \'collection\' AS type ';
       $sql .= 'FROM collection LEFT JOIN principal USING (user_no) ';
       $sql .= 'WHERE parent_container = :this_dav_name ';
-      $sql .= "AND (path_privs(:session_principal::int8,collection.dav_name,:scan_depth::int) & 1::BIT(24))::INT4::BOOLEAN ";
       $sql .= ' ORDER BY collection_id';
       $params[':this_dav_name'] = $bound_from;
+      unset($params[':session_principal']);
+      unset($params[':scan_depth']);
     }
     $qry = new AwlQuery($sql, $params);
 
     if( $qry->Exec('PROPFIND',__LINE__,__FILE__) && $qry->rows() > 0 ) {
       while( $subcollection = $qry->Fetch() ) {
         $resource = new DAVResource($subcollection);
+        if ( ! $resource->HavePrivilegeTo('DAV::read') ) continue;
         $resource->set_bind_location( str_replace($bound_from,$bound_to,$subcollection->dav_name));
         $responses[] = $resource->RenderAsXML($property_list, $reply);
         if ( $depth > 0 ) {

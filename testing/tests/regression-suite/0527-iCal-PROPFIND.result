@@ -2,14 +2,38 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, bind, addressbook, calendar-auto-schedule, calendar-proxy
-ETag: "1f0e016ecbd8566bc60b88a167178059"
-Content-Length: 1071
+ETag: "01b056983b4d191d66f3286a33260b0c"
+Content-Length: 1718
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
 <multistatus xmlns="DAV:">
  <response>
   <href>/caldav.php/resmgr1/</href>
+  <propstat>
+   <prop>
+    <group-membership>
+     <href>/caldav.php/resource1/calendar-proxy-write/</href>
+     <href>/caldav.php/resource2/calendar-proxy-write/</href>
+    </group-membership>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/resmgr1/home/</href>
+  <propstat>
+   <prop>
+    <group-membership>
+     <href>/caldav.php/resource1/calendar-proxy-write/</href>
+     <href>/caldav.php/resource2/calendar-proxy-write/</href>
+    </group-membership>
+   </prop>
+   <status>HTTP/1.1 200 OK</status>
+  </propstat>
+ </response>
+ <response>
+  <href>/caldav.php/resmgr1/addresses/</href>
   <propstat>
    <prop>
     <group-membership>
