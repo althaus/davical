@@ -1,3 +1,6 @@
+SQL executed successfully.
+DELETE FROM caldav_data WHERE caldav_data.caldav_data LIKE '%UID:70399cd7-50a4-4be4-a665-af593e19a7fd%';
+
 HTTP/1.1 201 Created
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
@@ -10,4 +13,32 @@ Content-Type: text/plain; charset="utf-8"
          dav_name: >/user4/base/calendar/anothergoodleopard.ics<
           dtstart: >2010-03-22 16:00:00+13<
           summary: >An invited event.  Black tie with pink polka dots is essential.  Do not bring a leopard.  Any leopards which do attend will be forcibly chained to a nearby fence.<
+
+          created: >2010-03-19 10:32:47<
+         dav_name: >/user4/base/calendar/anothergoodleopard.ics<
+          dtstamp: >2010-03-19 10:56:20<
+
+          created: >2010-03-19 10:32:47<
+         dav_name: >/user2/.in/70399cd7-50a4-4be4-a665-af593e19a7fd.ics<
+          dtstamp: >2010-03-19 10:56:20<
+
+          created: >2010-03-19 10:32:47<
+         dav_name: >/user2/home/70399cd7-50a4-4be4-a665-af593e19a7fd.ics<
+          dtstamp: >2010-03-19 10:56:20<
+
+          created: >2010-03-19 10:32:47<
+         dav_name: >/user3/.in/70399cd7-50a4-4be4-a665-af593e19a7fd.ics<
+          dtstamp: >2010-03-19 10:56:20<
+
+          created: >2010-03-19 10:32:47<
+         dav_name: >/user3/home/70399cd7-50a4-4be4-a665-af593e19a7fd.ics<
+          dtstamp: >2010-03-19 10:56:20<
+
+          created: >2010-03-19 10:32:47<
+         dav_name: >/user5/.in/70399cd7-50a4-4be4-a665-af593e19a7fd.ics<
+          dtstamp: >2010-03-19 10:56:20<
+
+          created: >2010-03-19 10:32:47<
+         dav_name: >/user5/home/70399cd7-50a4-4be4-a665-af593e19a7fd.ics<
+          dtstamp: >2010-03-19 10:56:20<
 
