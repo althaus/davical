@@ -14,9 +14,21 @@ ALLSUITES="regression-suite binding carddav scheduling timezone"
 
 . ./regression.conf
 
-[ -z "${DSN}" ] && DSN="${DBNAME}"
+if [ -z "${DSN}" ]; then
+  DSN="${DBNAME}"
+  [ -n "${PGPORT}" ] && DSN="${DSN};port=${PGPORT}"
+fi
 [ -n "${HOSTNAME}" ] && WEBHOST="--webhost ${HOSTNAME}"
 [ -n "${ALTHOST}"  ] && ALTHOST="--althost ${ALTHOST}"
+
+if [ -z "${PSQLOPTS}" ]; then
+  [ -n "${PGPORT}"  ] && PSQLOPTS="${PSQLOPTS} --port ${PGPORT}"
+  [ -n "${PGHOST}"  ] && PSQLOPTS="${PSQLOPTS} --host ${PGHOST}"
+  export PSQLOPTS
+  [ -n "${PGPORT}"  ] && DBAOPTS="${DBAOPTS} --dbport ${PGPORT}"
+  [ -n "${PGHOST}"  ] && DBAOPTS="${DBAOPTS} --dbhost ${PGHOST}"
+  export DBAOPTS
+fi
 
 
 SUITE=${1:-"regression-suite"}
@@ -24,6 +36,7 @@ ACCEPT_ALL=${2:-""}
 [ -z "${UNTIL}" ] && UNTIL=99999
 [ -z "${SUITE}" ] && SUITE="regression-suite"
 
+# psql ${PSQLOPTS} -l
 
 
 check_result() {
@@ -89,14 +102,14 @@ check_result() {
 }
 
 drop_database() {
-  dropdb $1
+  dropdb $PSQLOPTS $1
   if psql -ltA | cut -f1 -d'|' | grep "^$1$" >/dev/null ; then
     # Restart PGPool to ensure we can drop and recreate the database
     # FIXME: We should really drop everything *from* the database and create it
     # from that, so we don't need to do this.
     [ "${PGPOOL}" = "inactive" ] || sudo /etc/init.d/pgpool restart
-    dropdb $1
-    if psql -ltA | cut -f1 -d'|' | grep "^$1$" >/dev/null ; then
+    dropdb $PSQLOPTS $1
+    if psql -ltA $PSQLOPTS | cut -f1 -d'|' | grep "^$1$" >/dev/null ; then
       echo "Failed to drop $1 database"
       exit 1
     fi
@@ -108,15 +121,15 @@ restore_database() {
   drop_database ${DBNAME}
 
   TEST="Restore-Database"
-  createdb --owner davical_dba --encoding UTF8 ${DBNAME} >"${RESULTS}/${TEST}" 2>&1
-  psql ${DBNAME} -q -f "${REGRESSION}/initial.dbdump" >>"${RESULTS}/${TEST}" 2>&1
+  createdb --owner davical_dba --encoding UTF8 $PSQLOPTS ${DBNAME} >"${RESULTS}/${TEST}" 2>&1
+  psql $PSQLOPTS ${DBNAME} -q -f "${REGRESSION}/initial.dbdump" >>"${RESULTS}/${TEST}" 2>&1
   check_result "${TEST}"
 }
 
 
 dump_database() {
   TEST="Dump-Database"
-  pg_dump -Fp ${DBNAME} > "${REGRESSION}/initial.dbdump" 2>&1
+  pg_dump -Fp $PSQLOPTS ${DBNAME} > "${REGRESSION}/initial.dbdump" 2>&1
 }
 
 
@@ -128,17 +141,17 @@ initialise_regression() {
   check_result "${TEST}"
 
   TEST="Upgrade-Database"
-  ../dba/update-davical-database --dbname=${DBNAME} --nopatch --appuser davical_app --owner davical_dba >"${RESULTS}/${TEST}" 2>&1
+  ../dba/update-davical-database ${DBAOPTS} --dbname=${DBNAME} --nopatch --appuser davical_app --owner davical_dba >"${RESULTS}/${TEST}" 2>&1
   check_result "${TEST}"
 
   if [ -f "${REGRESSION}/sample-data.sql" ]; then
     TEST="Load-Sample-Data"
-    psql -q -f "${REGRESSION}/sample-data.sql" "${DBNAME}" >"${RESULTS}/${TEST}" 2>&1
+    psql -q -f "${REGRESSION}/sample-data.sql" $PSQLOPTS "${DBNAME}" >"${RESULTS}/${TEST}" 2>&1
     check_result "${TEST}"
   fi
 
   TEST="Really-Upgrade-Database"
-  ../dba/update-davical-database --dbname=${DBNAME} --appuser davical_app --owner davical_dba >"${RESULTS}/${TEST}" 2>&1
+  ../dba/update-davical-database ${DBAOPTS} --dbname=${DBNAME} --appuser davical_app --owner davical_dba >"${RESULTS}/${TEST}" 2>&1
   check_result "${TEST}"
 
 }
