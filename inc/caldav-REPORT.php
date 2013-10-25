@@ -152,11 +152,11 @@ function component_to_xml( $properties, $item ) {
         $prop->NewElement($base_tag, ISODateToHTTPDate($item->modified) );
         break;
       case 'urn:ietf:params:xml:ns:caldav:calendar-data':
-        if ( $type == 'calendar' ) $reply->CalDAVElement($prop, $base_tag, '<![CDATA['.$caldav_data.']]>' );
+        if ( $type == 'calendar' ) $reply->CalDAVElement($prop, $base_tag, $caldav_data );
         else $unsupported[] = $base_tag;
         break;
       case 'urn:ietf:params:xml:ns:carddav:address-data':
-        if ( $type == 'vcard' ) $reply->CardDAVElement($prop, $base_tag, '<![CDATA['.$caldav_data.']]>' );
+        if ( $type == 'vcard' ) $reply->CardDAVElement($prop, $base_tag, $caldav_data );
         else $unsupported[] = $base_tag;
         break;
       case 'DAV::getcontenttype':
