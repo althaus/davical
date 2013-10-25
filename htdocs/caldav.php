@@ -57,10 +57,6 @@ if ( !isset($c->raw_post) ) $c->raw_post = file_get_contents( 'php://input');
 if ( (isset($c->dbg['ALL']) && $c->dbg['ALL']) || (isset($c->dbg['request']) && $c->dbg['request']) )
   logRequestHeaders();
 
-// +100
-$_SERVER['PHP_AUTH_USER'] = 'miuan';
-// +100
-$_SERVER['PHP_AUTH_PW'] = 'a';
 require_once('HTTPAuthSession.php');
 $session = new HTTPAuthSession();
 
