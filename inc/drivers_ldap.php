@@ -256,11 +256,11 @@ function getStaticLdap() {
     $ldapDrivers = new ldapDrivers($c->authenticate_hook['config']);
 
     if ($ldapDrivers->valid) {
-        $instance = $ldapDrivers
+        $instance = $ldapDrivers;
     }
   }
   else {
-      $ldapDrivers = $instance
+      $ldapDrivers = $instance;
   }
   return $ldapDrivers;
 }
