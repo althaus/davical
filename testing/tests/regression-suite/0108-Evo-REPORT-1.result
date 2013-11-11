@@ -2,7 +2,7 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, bind, addressbook, calendar-auto-schedule, calendar-proxy
-ETag: "e68750266884dbc4ee9f96f85a8dc39c"
+ETag: "ed202b0bb2fb5fd4d423f1e995b56d1d"
 Content-Length: 568
 Content-Type: text/xml; charset="utf-8"
 
@@ -21,7 +21,7 @@ Content-Type: text/xml; charset="utf-8"
   <href>/davical/caldav.php/user1/home/20061101T073004Z.ics</href>
   <propstat>
    <prop>
-    <getetag>"c3658901fd4689d4a1e1d6f08601ef4f"</getetag>
+    <getetag>"fdcc61a1e0d76b177ad81cf7c8bdacaf"</getetag>
    </prop>
    <status>HTTP/1.1 200 OK</status>
   </propstat>

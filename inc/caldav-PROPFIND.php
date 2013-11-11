@@ -110,7 +110,7 @@ function get_collection_contents( $depth, $collection, $parent_path = null ) {
   dbg_error_log('PROPFIND','Getting collection contents: Depth %d, Path: %s, Bound from: %s, Bound to: %s',
                                                               $depth, $collection->dav_name(), $bound_from, $bound_to );
 
-  $date_format = iCalendar::HttpDateFormat();
+  $date_format = AwlDatabase::HttpDateFormat;
   $responses = array();
   if ( ! $collection->IsCalendar() &&  ! $collection->IsAddressbook() ) {
     /**
@@ -151,15 +151,17 @@ function get_collection_contents( $depth, $collection, $parent_path = null ) {
       $sql = 'SELECT principal.*, collection.*, \'collection\' AS type ';
       $sql .= 'FROM collection LEFT JOIN principal USING (user_no) ';
       $sql .= 'WHERE parent_container = :this_dav_name ';
-      $sql .= "AND (path_privs(:session_principal::int8,collection.dav_name,:scan_depth::int) & 1::BIT(24))::INT4::BOOLEAN ";
       $sql .= ' ORDER BY collection_id';
       $params[':this_dav_name'] = $bound_from;
+      unset($params[':session_principal']);
+      unset($params[':scan_depth']);
     }
     $qry = new AwlQuery($sql, $params);
 
     if( $qry->Exec('PROPFIND',__LINE__,__FILE__) && $qry->rows() > 0 ) {
       while( $subcollection = $qry->Fetch() ) {
         $resource = new DAVResource($subcollection);
+        if ( ! $resource->HavePrivilegeTo('DAV::read') ) continue;
         $resource->set_bind_location( str_replace($bound_from,$bound_to,$subcollection->dav_name));
         $responses[] = $resource->RenderAsXML($property_list, $reply);
         if ( $depth > 0 ) {
@@ -185,14 +187,19 @@ function get_collection_contents( $depth, $collection, $parent_path = null ) {
   if ( $collection->HavePrivilegeTo('DAV::read', false) ) {
     dbg_error_log('PROPFIND','Getting collection items: Depth %d, Path: %s', $depth, $bound_from );
     $privacy_clause = ' ';
+    $todo_clause = ' ';
     $time_limit_clause = ' ';
     if ( $collection->IsCalendar() ) {
       if ( ! $collection->HavePrivilegeTo('all', false) ) {
         $privacy_clause = " AND (calendar_item.class != 'PRIVATE' OR calendar_item.class IS NULL) ";
       }
 
+      if ( isset($c->hide_TODO) && ($c->hide_TODO === true || (is_string($c->hide_TODO) && preg_match($c->hide_TODO, $_SERVER['HTTP_USER_AGENT']))) && ! $collection->HavePrivilegeTo('all') ) {
+        $todo_clause = " AND caldav_data.caldav_type NOT IN ('VTODO') ";
+      }
+
       if ( isset($c->hide_older_than) && intval($c->hide_older_than > 0) ) {
-        $time_limit_clause = " AND calendar_item.dtstart > (now() - interval '".intval($c->hide_older_than)." days') ";
+        $time_limit_clause = " AND (CASE WHEN caldav_data.caldav_type<>'VEVENT' OR calendar_item.dtstart IS NULL THEN true ELSE calendar_item.dtstart > (now() - interval '".intval($c->hide_older_than)." days') END) ";
       }
     }
 
@@ -202,7 +209,7 @@ function get_collection_contents( $depth, $collection, $parent_path = null ) {
     $sql .= 'summary AS dav_displayname ';
     $sql .= 'FROM caldav_data LEFT JOIN calendar_item USING( dav_id, user_no, dav_name, collection_id) ';
     $sql .= 'LEFT JOIN collection USING(collection_id,user_no) LEFT JOIN principal USING(user_no) ';
-    $sql .= 'WHERE collection.dav_name = :collection_dav_name '.$time_limit_clause.' '.$privacy_clause;
+    $sql .= 'WHERE collection.dav_name = :collection_dav_name '.$time_limit_clause.' '.$todo_clause.' '.$privacy_clause;
     if ( isset($c->strict_result_ordering) && $c->strict_result_ordering ) $sql .= " ORDER BY caldav_data.dav_id";
     $qry = new AwlQuery( $sql, array( ':collection_dav_name' => $bound_from) );
     if( $qry->Exec('PROPFIND',__LINE__,__FILE__) && $qry->rows() > 0 ) {

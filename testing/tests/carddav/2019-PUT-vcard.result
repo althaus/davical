@@ -22,7 +22,7 @@ Content-Type: text/plain; charset="utf-8"
           country: >Deutschland<
          locality: >Hamburg<
          postcode: >22761<
-         property: >ADR;HOME:;;Gayens Weg 9;Hamburg;;22761;Deutschland<
+         property: >ADR;=OME:;;Gayens Weg 9;Hamburg;;22761;Deutschland<
            region: ><
    street_address: >Gayens Weg 9<
              type: >NULL<
@@ -32,7 +32,7 @@ Content-Type: text/plain; charset="utf-8"
           country: >Deutschland<
          locality: >Hamburg<
          postcode: >20357<
-         property: >ADR;WORK;CHARSET=UTF-8:;;abcStraße 58;Hamburg;;20357;Deutschland<
+         property: >ADR;=ORK;CHARSET=UTF-8:;;abcStraße 58;Hamburg;;20357;Deutschland<
            region: ><
    street_address: >abcStraße 58<
              type: >NULL<

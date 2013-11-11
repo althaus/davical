@@ -88,9 +88,6 @@ if ( $mode == 'caldav' ) {
   if ( $collection->Privileges() != privilege_to_bits('DAV::all') ) {
     $where .= " AND (calendar_item.class != 'PRIVATE' OR calendar_item.class IS NULL) ";
   }
-  if ( isset($c->hide_TODO) && $c->hide_TODO && ! $collection->HavePrivilegeTo('all') ) {
-    $where .= " AND caldav_data.caldav_type NOT IN ('VTODO') ";
-  }
 }
 $sql = 'SELECT calendar_item.*, addressbook_resource.*, caldav_data.* FROM caldav_data
                   LEFT JOIN calendar_item USING(dav_id, user_no, dav_name, collection_id)
@@ -110,11 +107,31 @@ if ( $qry->Exec('REPORT',__LINE__,__FILE__) && $qry->rows() > 0 ) {
     if ( $bound_from != $collection->dav_name() ) {
       $dav_object->dav_name = str_replace( $bound_from, $collection->dav_name(), $dav_object->dav_name);
     }
-    if ( $need_expansion ) {
+    //if ( $need_expansion ) {
       $vResource = new vComponent($dav_object->caldav_data);
+
       $expanded = expand_event_instances($vResource, $expand_range_start, $expand_range_end);
+
+//      $event = $expanded->GetComponents("VEVENT")[0];
+//
+//      $attendeeName = "ATTENDEE";
+//
+//      $event->ClearProperties($attendeeName);
+//
+//      $attendeeQry = new AwlQuery("SELECT params, attendee FROM calendar_attendee WHERE dav_id = :dav_id", array(':dav_id' => $dav_object->dav_id));
+//      $attendeeQry->Execute();
+//
+//
+//
+//      while(($arow = $attendeeQry->Fetch())){
+//         $attendeeParameters = $arow->params;
+//         $attendeeValue = $arow->attendee;
+//         // separe value
+//         $event->AddProperty($attendeeName, $attendeeValue, $attendeeParameters);
+//      }
+
       $dav_object->caldav_data = $expanded->Render();
-    }
+    //}
     $responses[] = component_to_xml( $properties, $dav_object );
   }
 }

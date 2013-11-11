@@ -2,8 +2,8 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, bind, addressbook, calendar-auto-schedule, calendar-proxy
-ETag: "6049c2ed7383e7a84ccf7f019f8e07f5"
-Content-Length: 2460
+ETag: "3b7f885820a60a5cd0639abcb620af80"
+Content-Length: 2464
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -27,7 +27,7 @@ CREATED:20091221T033228Z
 DTSTAMP:20100812T161339Z
 DURATION:PT3H
 LOCATION:
-X-VENUE:Tease Restaurant &amp; Bar, corner of 2nd &amp; Main
+X-VENUE:Tease Restaurant &amp; Bar\, corner of 2nd &amp; Main
 X-EMAIL-RSVP-UPDATES:true
 DTSTART:20100920T030000Z
 DURATION:PT3H
@@ -44,7 +44,7 @@ CREATED:20091221T033228Z
 DTSTAMP:20100812T161339Z
 DURATION:PT3H
 LOCATION:
-X-VENUE:Tease Restaurant &amp; Bar, corner of 2nd &amp; Main
+X-VENUE:Tease Restaurant &amp; Bar\, corner of 2nd &amp; Main
 X-EMAIL-RSVP-UPDATES:true
 DTSTART:20101018T030000Z
 DURATION:PT3H
@@ -61,7 +61,7 @@ CREATED:20091221T033228Z
 DTSTAMP:20100812T161339Z
 DURATION:PT3H
 LOCATION:
-X-VENUE:Tease Restaurant &amp; Bar, corner of 2nd &amp; Main
+X-VENUE:Tease Restaurant &amp; Bar\, corner of 2nd &amp; Main
 X-EMAIL-RSVP-UPDATES:true
 DTSTART:20101122T040000Z
 DURATION:PT3H
@@ -78,7 +78,7 @@ CREATED:20091221T033228Z
 DTSTAMP:20100812T161339Z
 DURATION:PT3H
 LOCATION:
-X-VENUE:Tease Restaurant &amp; Bar, corner of 2nd &amp; Main
+X-VENUE:Tease Restaurant &amp; Bar\, corner of 2nd &amp; Main
 X-EMAIL-RSVP-UPDATES:true
 DTSTART:20101220T040000Z
 DURATION:PT3H

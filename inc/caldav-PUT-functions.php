@@ -22,6 +22,8 @@ require_once('WritableCollection.php');
 include_once('iSchedule.php');
 include_once('RRule-v2.php');
 
+require_once('Consts.php');
+
 $bad_events = null;
 
 /**
@@ -281,7 +283,8 @@ function handle_schedule_reply ( vCalendar $ical ) {
   // for now we treat events with out organizers as an error
   if ( empty( $organizer ) ) return false;
 
-  $attendees = array_merge($organizer,$ical->GetAttendees());
+  $att = $ical->GetAttendees();
+  $attendees = array_merge($organizer, $att);
   dbg_error_log( "PUT", "Attempting to deliver scheduling request for %d attendees", count($attendees) );
 
   foreach( $attendees AS $k => $attendee ) {
@@ -482,7 +485,7 @@ function do_scheduling_reply( vCalendar $resource, vProperty $organizer ) {
 * @param boolean $create true if the scheduling requests are being created.
 * @return true If there was any scheduling action
 */
-function do_scheduling_requests( vCalendar $resource, $create, $old_data = null ) {
+function do_scheduling_requests( vCalendar $resource, $create, $old_data = null, $remoteAttendee = false ) {
   global $request, $c;
   if ( !isset($request) || (isset($c->enable_auto_schedule) && !$c->enable_auto_schedule) ) return false;
   
@@ -551,7 +554,10 @@ function do_scheduling_requests( vCalendar $resource, $create, $old_data = null 
       dbg_error_log( "PUT", "not delivering to %s, schedule agent set to value other than server", $email );
       continue;
     }
+
     $schedule_target = new Principal('email',$email);
+
+
     $response = '3.7';  // Attendee was not found on server.
     dbg_error_log( 'PUT', 'Handling scheduling resources for %s on %s which is %s', $email,
                      ($create?'create':'update'), ($attendee_is_new? 'new' : 'an update') );
@@ -595,6 +601,11 @@ function do_scheduling_requests( vCalendar $resource, $create, $old_data = null 
           }
         }
       }
+    }
+    else if($remoteAttendee){
+        $attendee->is_remote = true;
+        $remote = new iSchedule ();
+        $answer = $remote->sendRequest ( $email, 'VEVENT/REQUEST', $schedule_request->Render() );
     }
     else {
       $remote = new iSchedule ();
@@ -1153,40 +1164,165 @@ function write_alarms( $dav_id, vComponent $ical ) {
   }
 }
 
+/**
+ * Parse out the attendee property and write a row to the
+ * calendar_attendee table for each one.
+ * @param int $dav_id The dav_id of the caldav_data we're processing
+ * @param vComponent The VEVENT or VTODO containing the ATTENDEEs
+ * @return null
+ */
+function write_attendees( $dav_id, vCalendar $ical ) {
+    $attendees_for_add = $ical->GetAttendees();
+
+    if(count($attendees_for_add) < 1){
+        // no attendees for update or add
+        // remove posible old added attendees
+        remove_attendees($dav_id);
+
+        // no job for add or update
+        return;
+    }
+
+    $attendees_content = array();
+    foreach($attendees_for_add as $attforadd){
+        $content = $attforadd->Value();
+        $attendees_content[] = '\'' . $content . '\'';
+    }
+
+
+    if(count($attendees_content) > 0){
+        $attendee_content_text = implode(',', $attendees_content);
+        $params = array(':dav_id' => $dav_id, ':attendees' => $attendee_content_text);
+        $qry = new AwlQuery("SELECT attendee FROM calendar_attendee WHERE dav_id=:dav_id AND attendee IN (${attendee_content_text})", $params);
+        $qry->Execute();
+
+
+        $attendees_for_update = array();
+        while(($row = $qry->Fetch())){
+
+            $idx = 0;
+            // remove from attendess
+            foreach($attendees_for_add as $may_to_remove_attendee){
+                $att = $may_to_remove_attendee->Value();
+                if($att == $row->attendee){
+                    $attendees_for_update[] = $attendees_for_add[$idx];
+                    unset($attendees_for_add[$idx]);
+                    break;
+                }
+                $idx ++;
+            }
+        }
+
+        write_new_or_update_attendees($dav_id, $attendees_for_update, false);
+        // dont remove attendess which was already updated
+        remove_attendees($dav_id, $attendee_content_text);
+    }
+
+
+    if(count($attendees_for_add)){
+        write_new_or_update_attendees($dav_id, $attendees_for_add);
+    }
+
+}
 
 /**
-* Parse out the attendee property and write a row to the
-* calendar_attendee table for each one.
-* @param int $dav_id The dav_id of the caldav_data we're processing
-* @param vComponent The VEVENT or VTODO containing the ATTENDEEs
-* @return null
-*/
-function write_attendees( $dav_id, vCalendar $ical ) {
-  $qry = new AwlQuery('DELETE FROM calendar_attendee WHERE dav_id = '.$dav_id );
-  $qry->Exec('PUT',__LINE__,__FILE__);
+ * remove attendees by dav_id and (or) by dav_id and not attendee in list
+ * @param $dav_id
+ * @param null $not_remove_attendees_sql_text - 'email1@davical.org','email2@davical.org', ...
+ * @return bool - remove success
+ */
+function remove_attendees($dav_id, $not_remove_attendees_sql_text = null){
 
-  $attendees = $ical->GetAttendees();
-  if ( count($attendees) < 1 ) return;
+    $sql = 'DELETE FROM calendar_attendee WHERE dav_id=' . $dav_id;
 
-  $qry->SetSql('INSERT INTO calendar_attendee ( dav_id, status, partstat, cn, attendee, role, rsvp, property )
-          VALUES( '.$dav_id.', :status, :partstat, :cn, :attendee, :role, :rsvp, :property )' );
+    if($not_remove_attendees_sql_text != null){
+        $sql .= ' AND attendee NOT IN (' . $not_remove_attendees_sql_text . ')';
+    }
+
+    $qry = new AwlQuery($sql);
+    $result = $qry->Execute();
+    return $result;
+}
+
+
+//function update_attendees( $dav_id, $attendees ) {
+//    if ( count($attendees) < 1 ) return;
+//
+//    $qry = new AwlQuery('INSERT INTO calendar_attendee ( dav_id, status, partstat, cn, attendee, role, rsvp, property, is_remote, email_status )
+//          VALUES( '.$dav_id.', :status, :partstat, :cn, :attendee, :role, :rsvp, :property, :is_remote, :email_status )' );
+//    $qry->Prepare();
+//    foreach( $attendees AS $attendee ) {
+//
+//    }
+//}
+
+function write_new_or_update_attendees( $dav_id, $attendees, $add_new = true ) {
+
+  // no remove all of attendee because we lost status about send invitation email
+  // and will be send new invitation
+  //$qry = new AwlQuery('DELETE FROM calendar_attendee WHERE dav_id = '.$dav_id );
+  //$qry->Exec('PUT',__LINE__,__FILE__);
+
+
+  if ( count($attendees) < 1 ) {
+      return;
+  }
+
+  // create query for insert or update
+  $sql = $add_new ? 'INSERT INTO calendar_attendee ( dav_id, status, partstat, cn, attendee, role, rsvp, params, is_remote, email_status )
+          VALUES( '.$dav_id.', :status, :partstat, :cn, :attendee, :role, :rsvp, :params, :is_remote, :email_status )'
+        : 'UPDATE calendar_attendee SET status = :status, partstat = :partstat, cn = :cn,'
+            .'role=:role, rsvp=:rsvp, params=:params, is_remote=:is_remote, email_status=:email_status'
+            . ' WHERE dav_id = '.$dav_id.' AND attendee=:attendee';
+
+  $qry = new AwlQuery($sql);
   $qry->Prepare();
   $processed = array();
   foreach( $attendees AS $v ) {
     $attendee = $v->Value();
+
+
+    $is_remote = isset($v->is_remote) && $v->is_remote;
+
+    // for remote attendee set status 2 - Waiting for email
+    // for normal attendee set status 1 - accepted
+    $email_status = EMAIL_STATUS::NORMAL;
+    if($add_new === false && $is_remote){
+        // attendee is not new and remote
+        // sent email about changed apointment
+        $email_status = EMAIL_STATUS::WAITING_FOR_SCHEDULE_CHANGE_EMAIL; // wait for schedule changed sending
+    } else if($is_remote) {
+        // is_remote and new attendee -> send invitation email
+        $email_status = EMAIL_STATUS::WAITING_FOR_INVITATION_EMAIL; // wait for invitation sending
+    }
+
     if ( isset($processed[$attendee]) ) {
       dbg_error_log( 'LOG', 'Duplicate attendee "%s" in resource "%d"', $attendee, $dav_id );
       dbg_error_log( 'LOG', 'Original:  "%s"', $processed[$attendee] );
       dbg_error_log( 'LOG', 'Duplicate: "%s"', $v->Render() );
       continue; /** @todo work out why we get duplicate ATTENDEE on one VEVENT */
     }
+
+      $params = '';
+
+      foreach($v->Parameters() as $key => $param){
+
+          if(!empty($params)){
+              $params .= ';';
+          }
+
+          $params .= $key . '=' . $param;
+      }
+
     $qry->Bind(':attendee', $attendee );
     $qry->Bind(':status',   $v->GetParameterValue('STATUS') );
     $qry->Bind(':partstat', $v->GetParameterValue('PARTSTAT') );
     $qry->Bind(':cn',       $v->GetParameterValue('CN') );
     $qry->Bind(':role',     $v->GetParameterValue('ROLE') );
     $qry->Bind(':rsvp',     $v->GetParameterValue('RSVP') );
-    $qry->Bind(':property', $v->Render() );
+    $qry->Bind(':is_remote', $is_remote);
+    $qry->Bind(':params', $params);
+    $qry->Bind(':email_status', $email_status);
     $qry->Exec('PUT',__LINE__,__FILE__);
     $processed[$attendee] = $v->Render();
   }
@@ -1400,7 +1536,7 @@ function write_resource( DAVResource $resource, $caldav_data, DAVResource $colle
   $calitem_params[':status'] = $first->GetPValue('STATUS');
 
   if ( !$collection->IsSchedulingCollection() ) {
-    if ( do_scheduling_requests($vcal, ($put_action_type == 'INSERT'), $old_dav_data ) ) {
+    if ( do_scheduling_requests($vcal, ($put_action_type == 'INSERT'), $old_dav_data, true ) ) {
       $dav_params[':dav_data'] = $vcal->Render(null, true);
       $etag = null;
     }
@@ -1514,4 +1650,27 @@ function simple_write_resource( $path, $caldav_data, $put_action_type, $write_ac
     return write_resource( $dav_resource, $caldav_data, $collection, $session->user_no, $etag, $put_action_type, false, $write_action_log );
   }
   return false;
+}
+
+
+function handle_remote_attendee_reply(vCalendar $ical){
+    $attendees = $ical->GetAttendees();
+
+    // attendee reply have just one attendee
+    if(count($attendees) != 1){
+        return;
+    }
+
+    $attendee = $attendees[0];
+    $uidparam =  $ical->GetPropertiesByPath("VCALENDAR/*/UID");
+    $uid = $uidparam[0]->Value();
+
+    $qry = new AwlQuery('UPDATE calendar_attendee SET email_status=:statusTo WHERE attendee=:attendee AND dav_id = (SELECT dav_id FROM calendar_item WHERE uid = :uid)');
+    // user accepted
+    $qry->Bind(':statusTo', EMAIL_STATUS::NORMAL);
+    $qry->Bind(':attendee', $attendee->Value());
+    $qry->Bind(':uid', $uid);
+    $qry->Exec('changeStatusTo');
+
+    return true;
 }

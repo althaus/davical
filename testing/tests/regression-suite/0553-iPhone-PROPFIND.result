@@ -2,8 +2,8 @@ HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, bind, addressbook, calendar-auto-schedule, calendar-proxy
-ETag: "badcdb23956a17ef94ec1b98cd36f6fe"
-Content-Length: 12994
+ETag: "7513417f3b7f77337d0ae47039f47f5a"
+Content-Length: 12598
 Content-Type: text/xml; charset="utf-8"
 
 <?xml version="1.0" encoding="utf-8" ?>
@@ -76,10 +76,6 @@ Content-Type: text/xml; charset="utf-8"
      <C1:comp name="VEVENT"/>
      <C1:comp name="VTODO"/>
      <C1:comp name="VJOURNAL"/>
-     <C1:comp name="VTIMEZONE"/>
-     <C1:comp name="VFREEBUSY"/>
-     <C1:comp name="VPOLL"/>
-     <C1:comp name="VAVAILABILITY"/>
     </C1:supported-calendar-component-set>
     <resourcetype>
      <collection/>
@@ -200,10 +196,6 @@ Content-Type: text/xml; charset="utf-8"
      <C1:comp name="VEVENT"/>
      <C1:comp name="VTODO"/>
      <C1:comp name="VJOURNAL"/>
-     <C1:comp name="VTIMEZONE"/>
-     <C1:comp name="VFREEBUSY"/>
-     <C1:comp name="VPOLL"/>
-     <C1:comp name="VAVAILABILITY"/>
     </C1:supported-calendar-component-set>
     <resourcetype>
      <collection/>
@@ -263,7 +255,7 @@ Content-Type: text/xml; charset="utf-8"
   <propstat>
    <prop>
     <displayname>User 1 Inbox</displayname>
-    <C:getctag>"0389feae460444b4b5db3b16c94b1e43"</C:getctag>
+    <C:getctag>"435712d0457c874316eb9cdd41cf92bc"</C:getctag>
     <C1:supported-calendar-component-set>
      <C1:comp name="VEVENT"/>
      <C1:comp name="VTODO"/>
@@ -415,10 +407,6 @@ Content-Type: text/xml; charset="utf-8"
      <C1:comp name="VEVENT"/>
      <C1:comp name="VTODO"/>
      <C1:comp name="VJOURNAL"/>
-     <C1:comp name="VTIMEZONE"/>
-     <C1:comp name="VFREEBUSY"/>
-     <C1:comp name="VPOLL"/>
-     <C1:comp name="VAVAILABILITY"/>
     </C1:supported-calendar-component-set>
     <resourcetype>
      <collection/>

@@ -31,20 +31,22 @@ fi
 export AWL_DBAUSER=davical_dba
 export AWL_APPUSER=davical_app
 
+# set -x
+
 # Get the major version for PostgreSQL
-export DBVERSION="`psql -qXAt -c "SELECT version();" template1 | cut -f2 -d' ' | cut -f1-2 -d'.'`"
+export DBVERSION="`psql -qXAt ${PSQLOPTS} -c "SELECT version();" template1 | cut -f2 -d' ' | cut -f1-2 -d'.'`"
 
 install_note() {
   cat >>"${INSTALL_NOTE_FN}"
 }
 
 db_users() {
-  psql -qXAt -c "SELECT usename FROM pg_user;" template1
+  psql -qXAt ${PSQLOPTS} -c "SELECT usename FROM pg_user;" template1
 }
 
 create_db_user() {
   if ! db_users | grep "^${1}$" >/dev/null ; then
-    psql -qXAt -c "CREATE USER ${1} NOCREATEDB NOCREATEROLE;" template1
+    psql -qXAt ${PSQLOPTS} -c "CREATE USER ${1} NOCREATEDB NOCREATEROLE;" template1
     cat <<EONOTE | install_note
 *  You will need to edit the PostgreSQL pg_hba.conf to allow the
    '${1}' database user access to the 'davical' database.
@@ -54,13 +56,13 @@ EONOTE
 }
 
 create_plpgsql_language() {
-  if ! psql ${DBA} -qXAt -c "SELECT lanname FROM pg_language;" "${DBNAME}" | grep "^plpgsql$" >/dev/null; then
-    createlang plpgsql "${DBNAME}"
+  if ! psql ${DBA} -qXAt ${PSQLOPTS} -c "SELECT lanname FROM pg_language;" "${DBNAME}" | grep "^plpgsql$" >/dev/null; then
+    createlang ${PSQLOPTS} plpgsql "${DBNAME}"
   fi
 }
 
 try_db_user() {
-  [ "XtestX`psql -U "${1}" -qXAt -c \"SELECT usename FROM pg_user;\" \"${DBNAME}\" 2>/dev/null`" != "XtestX" ]
+  [ "XtestX`psql -U "${1}" -qXAt ${PSQLOPTS} -c \"SELECT usename FROM pg_user;\" \"${DBNAME}\" 2>/dev/null`" != "XtestX" ]
 }
 
 # Hide all the annoying NOTICE... messages
@@ -70,7 +72,7 @@ create_db_user "${AWL_DBAUSER}"
 create_db_user "${AWL_APPUSER}"
 
 # FIXME: Need to check that the database was actually created.
-if ! createdb --encoding UTF8 --template template0 --owner "${AWL_DBAUSER}" "${DBNAME}" ; then
+if ! createdb --encoding UTF8 --template template0 --owner "${AWL_DBAUSER}" ${PSQLOPTS} "${DBNAME}" ; then
   echo "Unable to create database"
   exit 1
 fi
@@ -115,16 +117,16 @@ create_plpgsql_language
 
 #
 # Load the AWL base tables and schema management tables
-psql -qXAt ${DBA} -f "${AWLDIR}/dba/awl-tables.sql" "${DBNAME}" 2>&1
-psql -qXAt ${DBA} -f "${AWLDIR}/dba/schema-management.sql" "${DBNAME}" 2>&1
+psql -qXAt ${PSQLOPTS} ${DBA} -f "${AWLDIR}/dba/awl-tables.sql" "${DBNAME}" 2>&1
+psql -qXAt ${PSQLOPTS} ${DBA} -f "${AWLDIR}/dba/schema-management.sql" "${DBNAME}" 2>&1
 
 #
 # Load the DAViCal tables
-psql -qXAt ${DBA} -f "${DBADIR}/davical.sql" "${DBNAME}" 2>&1
+psql -qXAt ${PSQLOPTS} ${DBA} -f "${DBADIR}/davical.sql" "${DBNAME}" 2>&1
 
 #
 # Set permissions for the application DB user on the database
-if ! ${DBADIR}/update-davical-database --dbname "${DBNAME}" --appuser "${AWL_APPUSER}" --nopatch --owner "${AWL_DBAUSER}" ; then
+if ! ${DBADIR}/update-davical-database ${DBAOPTS} --dbname "${DBNAME}" --appuser "${AWL_APPUSER}" --nopatch --owner "${AWL_DBAUSER}" ; then
         cat <<EOFAILURE
 * * * * ERROR * * * *
 The database administration utility failed.  This may be due to database
@@ -141,7 +143,7 @@ EOFAILURE
 fi
 #
 # Load the required base data
-psql -qXAt ${DBA} -f "${DBADIR}/base-data.sql" "${DBNAME}" | egrep -v '^10'
+psql -qXAt ${PSQLOPTS} ${DBA} -f "${DBADIR}/base-data.sql" "${DBNAME}" | egrep -v '^10'
 
 #
 # We can override the admin password generation for regression testing predictability
@@ -165,7 +167,7 @@ if [ "$ADMINPW" = "" ] ; then
   ADMINPW="please change this password"
 fi
 
-psql -qX ${DBA} -c "UPDATE usr SET password = '**${ADMINPW}' WHERE user_no = 1;" "${DBNAME}"
+psql -qX ${PSQLOPTS} ${DBA} -c "UPDATE usr SET password = '**${ADMINPW}' WHERE user_no = 1;" "${DBNAME}"
 
 echo "NOTE"
 echo "===="

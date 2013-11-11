@@ -163,7 +163,8 @@ switch ( $method ) {
   case 'REPLY':
     dbg_error_log('POST', 'Handling iTIP "REPLY" with "%s" component.', $first->GetType() );
     $request->NeedPrivilege('CALDAV:schedule-send-reply');
-    handle_schedule_reply ( $ical );
+      handle_schedule_reply ( $ical );
+
     break;
 
   case 'CANCEL':

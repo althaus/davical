@@ -163,7 +163,7 @@ class DAVPrincipal extends Principal
 
     if ( $this->_is_group ) {
       $this->group_member_set = array();
-      $qry = new AwlQuery('SELECT usr.username FROM group_member JOIN principal ON (principal_id=member_id) JOIN usr USING(user_no) WHERE group_id = :group_id ORDER BY principal.principal_id ', array( ':group_id' => $this->principal_id) );
+      $qry = new AwlQuery('SELECT usr.username FROM group_member JOIN principal ON (principal_id=member_id) JOIN usr USING(user_no) WHERE usr.active=true AND group_id = :group_id ORDER BY principal.principal_id ', array( ':group_id' => $this->principal_id) );
       if ( $qry->Exec('DAVPrincipal') && $qry->rows() > 0 ) {
         while( $member = $qry->Fetch() ) {
           $this->group_member_set[] = ConstructURL( '/'. $member->username . '/', true);
@@ -172,7 +172,7 @@ class DAVPrincipal extends Principal
     }
 
     $this->group_membership = array();
-    $qry = new AwlQuery('SELECT usr.username FROM group_member JOIN principal ON (principal_id=group_id) JOIN usr USING(user_no) WHERE member_id = :member_id UNION SELECT usr.username FROM group_member LEFT JOIN grants ON (to_principal=group_id) JOIN principal ON (principal_id=by_principal) JOIN usr USING(user_no) WHERE member_id = :member_id and by_principal != member_id ORDER BY 1', array( ':member_id' => $this->principal_id ) );
+    $qry = new AwlQuery('SELECT usr.username FROM group_member JOIN principal ON (principal_id=group_id) JOIN usr USING(user_no) WHERE usr.active=true AND member_id = :member_id UNION SELECT usr.username FROM group_member LEFT JOIN grants ON (to_principal=group_id) JOIN principal ON (principal_id=by_principal) JOIN usr USING(user_no) WHERE usr.active=true AND member_id = :member_id and by_principal != member_id ORDER BY 1', array( ':member_id' => $this->principal_id ) );
     if ( $qry->Exec('DAVPrincipal') && $qry->rows() > 0 ) {
       while( $group = $qry->Fetch() ) {
         $this->group_membership[] = ConstructURL( '/'. $group->username . '/', true);
@@ -204,7 +204,7 @@ class DAVPrincipal extends Principal
     $write_priv = privilege_to_bits(array('write'));
     // whom are we a proxy for? who is a proxy for us?
     // (as per Caldav Proxy section 5.1 Paragraph 7 and 5)
-    $sql = 'SELECT principal_id, username, pprivs(:request_principal::int8,principal_id,:scan_depth::int) FROM principal JOIN usr USING(user_no) WHERE principal_id IN (SELECT * from p_has_proxy_access_to(:request_principal,:scan_depth))';
+    $sql = 'SELECT principal_id, username, pprivs(:request_principal::int8,principal_id,:scan_depth::int) FROM principal JOIN usr USING(user_no) WHERE usr.active=true AND principal_id IN (SELECT * from p_has_proxy_access_to(:request_principal,:scan_depth))';
     $params = array( ':request_principal' => $this->principal_id, ':scan_depth' => $c->permission_scan_depth );
     $qry = new AwlQuery($sql, $params);
     if ( $qry->Exec('DAVPrincipal') && $qry->rows() > 0 ) {
@@ -220,7 +220,7 @@ class DAVPrincipal extends Principal
       }
     }
 
-    $sql = 'SELECT principal_id, username, pprivs(:request_principal::int8,principal_id,:scan_depth::int) FROM principal JOIN usr USING(user_no) WHERE principal_id IN (SELECT * from grants_proxy_access_from_p(:request_principal,:scan_depth))';
+    $sql = 'SELECT principal_id, username, pprivs(:request_principal::int8,principal_id,:scan_depth::int) FROM principal JOIN usr USING(user_no) WHERE usr.active=true AND principal_id IN (SELECT * from grants_proxy_access_from_p(:request_principal,:scan_depth))';
     $qry = new AwlQuery($sql, $params ); // reuse $params assigned for earlier query
     if ( $qry->Exec('DAVPrincipal') && $qry->rows() > 0 ) {
       while( $relationship = $qry->Fetch() ) {

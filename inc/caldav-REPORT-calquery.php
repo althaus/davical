@@ -334,12 +334,12 @@ if ( $target_collection->Privileges() != privilege_to_bits('DAV::all') ) {
   $where .= " AND (calendar_item.class != 'PRIVATE' OR calendar_item.class IS NULL) ";
 }
 
-if ( isset($c->hide_TODO) && $c->hide_TODO && ! $target_collection->HavePrivilegeTo('DAV::write-content') ) {
+if ( isset($c->hide_TODO) && ($c->hide_TODO === true || (is_string($c->hide_TODO) && preg_match($c->hide_TODO, $_SERVER['HTTP_USER_AGENT']))) && ! $target_collection->HavePrivilegeTo('all') ) {
   $where .= " AND caldav_data.caldav_type NOT IN ('VTODO') ";
 }
 
 if ( isset($c->hide_older_than) && intval($c->hide_older_than > 0) ) {
-  $where .= " AND calendar_item.dtstart > (now() - interval '".intval($c->hide_older_than)." days') ";
+  $where .= " AND (CASE WHEN caldav_data.caldav_type<>'VEVENT' OR calendar_item.dtstart IS NULL THEN true ELSE calendar_item.dtstart > (now() - interval '".intval($c->hide_older_than)." days') END) ";
 }
 
 $sql = 'SELECT '.$distinct.' caldav_data.*,calendar_item.*  FROM collection INNER JOIN caldav_data USING(collection_id) INNER JOIN calendar_item USING(dav_id) '. $where;

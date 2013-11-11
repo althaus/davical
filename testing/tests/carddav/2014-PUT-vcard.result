@@ -4,14 +4,13 @@ HTTP/1.1 204 No Content
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, bind, addressbook, calendar-auto-schedule, calendar-proxy
-ETag: "0ea4d7759e103090c6494505b5da0f11"
 Content-Length: 0
 Content-Type: text/plain; charset="utf-8"
 
 
         caladruri: >NULL<
            caluri: >NULL<
-         dav_etag: >0ea4d7759e103090c6494505b5da0f11<
+         dav_etag: >1a8abbb93e4ed5f770986687343de804<
          dav_name: >/user1/addressbook/F06EC844-EACD-4ADF-8823-588603991E04-ABSPlugin.vcf<
             fburl: >NULL<
                fn: >Morphoss Ltd<

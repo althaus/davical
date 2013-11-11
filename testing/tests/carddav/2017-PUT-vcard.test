@@ -437,7 +437,7 @@ ENDQUERY
 
 QUERY
 SELECT 
-        addressbook_address_email.type, addressbook_address_email.email
+        addressbook_address_email.type, addressbook_address_email.email, addressbook_address_email.property
   FROM caldav_data
         LEFT JOIN addressbook_address_email USING(dav_id)
   WHERE caldav_data.dav_name ~ '/user1/addressbook/andresenesq.vcf'

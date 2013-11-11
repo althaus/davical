@@ -188,5 +188,6 @@ QUERY
 SELECT caldav_data.dav_name, caldav_data.dav_etag, dtstart, summary
   FROM caldav_data JOIN calendar_item USING(dav_name)
   WHERE caldav_data.dav_name ~ '/user4/base/newcalendar/'
+  ORDER BY caldav_data.dav_name
 ENDQUERY
 

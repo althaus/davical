@@ -256,7 +256,7 @@ if ( defined($script) ) {
   }
 }
 
-if ( defined(@{$queries}) && @{$queries} ) {
+if ( defined($queries) && @{$queries} ) {
   opendb() unless defined($dbh);
   print "\n";
   print STDERR "Processing special queries\n" if ( $debug );
@@ -330,6 +330,7 @@ with DBD::Pg.
 sub opendb {
   $dsn = "dbi:Pg:dbname=$dsn";
   $dbh = DBI->connect($dsn, $dbuser, $dbpass, { AutoCommit => 1 } ) or die "Can't connect to database $dsn";
+  $dbh->do("SET TIMEZONE TO 'Pacific/Auckland'");
 }
 
 

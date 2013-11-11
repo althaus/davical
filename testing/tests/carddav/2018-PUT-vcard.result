@@ -9,6 +9,124 @@ Content-Type: text/plain; charset="utf-8"
 
 
         caladruri: >http://davical.hadi-schmist.home/access<
+      caldav_data: >BEGIN:VCARD
+VERSION:4.0
+PRODID:-//ALAB//NOSGML Version 0.9//DE
+UID:uid=schmidt.1208717693\,ou=Contacts\,dc=andresen\,dc=de
+X-ABUID:A93F52CB-C15F-1F34-2C49-7A67-0971277F:ABPerson
+FN:Hans Dieter Schmidt
+SORT-STRING:Schmidt\, Hans Dieter
+N:Schmidt;Hans Dieter;;Dr.;Esq.
+X-DISPLAYNAME:HaDi Schmidt
+X-INITIALS:HW
+NICKNAME:HaWe
+X-SPOUSE:Maja Schultze
+X-EVOLUTION-SPOUSE:Maja Schultze
+ITEM1.X-ABRELATEDNAMES:Maja Schultze
+ITEM1.X-ABLABEL:_$!<Spouse>!$_
+ITEM2.X-ABRELATEDNAMES:Barbara Jonas
+ITEM2.X-ABLABEL:_$!<Assistant>!$_
+ITEM3.X-ABRELATEDNAMES:Klaus Timm
+ITEM3.X-ABLABEL:_$!<Assistant>!$_
+ROLE:Projektleiter
+X-ASSISTANT:Barbara Jonas
+X-ASSISTANT:Klaus Timm
+X-EVOLUTION-ASSISTANT:Barbara Jonas
+X-EVOLUTION-ASSISTANT:Klaus Timm
+BDAY;VALUE=date:1977-12-10
+BDAY;VALUE=date:1975-11-11
+DDAY;VALUE=date:2007-01-02
+X-DDAY;VALUE=date:2007-01-02
+X-ANNIVERSARY:2000-02-01\,
+X-ANNIVERSARY:2001-02-02\,
+X-EVOLUTION-ANNIVERSARY:2000-02-01\,
+X-EVOLUTION-ANNIVERSARY:2001-02-02\,
+X-EVOLUTION-BLOG-URL:blog.diesistmeineip.de
+ITEM4.URL:blog.diesistmeineip.de
+ITEM4.X-ABLABEL:_$!<Other>!$_
+URL;TYPE=WORK:http://www.tu-hh.de
+URL;TYPE=WORK:http://www.telekom.de
+ITEM5.URL;TYPE=HOME:http://www.hadi-schmidt.de
+ITEM5.X-ABLABEL:_$!<HomePage>!$_
+IMPP:aim:477826262
+IMPP:aim:aaab3ttebb3
+IMPP:icq:972398472394
+IMPP:icq:8972364872634
+IMPP:ymsgr:mailaddr@yahoo.co.uk
+IMPP:ymsgr:yahoo@yahootar.bla
+IMPP:xmpp:jabjab187383
+IMPP:xmpp:jabberwookie@starwahrs.co.com
+IMPP:msn:blablubb@langedomain.org
+IMPP:msn:738246832746
+IMPP:skype:hadi.schmidt-skype
+IMPP:skype:askjdhasd
+IMPP:ichat:ichatichat
+IMPP:ichat:second-ichat
+IMPP:nm:netnetmeetings
+IMPP:nm:vielleicht@eine.email.de
+IMPP:gtalk:gooogletalk
+IMPP:gtalk:googletalk2
+IMPP:sip:ipphon-addr.woauchimmer.de
+X-AIM:balbala
+X-AIM:hakunamatata
+X-AIM;TYPE=WORK:972398472394
+X-AIM;TYPE=WORK:8972364872634
+X-ICQ:972398472394
+X-ICQ:8972364872634
+X-JABBER:jabjab187383
+X-JABBER:jabberwookie@starwahrs.co.com
+X-MSN:blablubb@langedomain.org
+X-MSN:738246832746
+X-SKYPE-USERNAME:hadi.schmidt-skype
+X-SKYPE-USERNAME:askjdhasd
+EMAIL;TYPE=INTERNET:ich@hadi-schmidt.de
+EMAIL;TYPE=INTERNET:hadi@telekom-d.de
+TEL;TYPE=WORK,VOICE:+49 9823 9084
+TEL;TYPE=WORK,VOICE:+49 234 234 234
+TEL;TYPE=WORK,FAX:+49 7373 73
+TEL;TYPE=PAGER:+49 2626 26
+TEL;TYPE=CELL,VOICE:+49 7272 722
+TEL;TYPE=PREF,VOICE:+49 12 34 567
+TEL;TYPE=CAR,VOICE:+49 8292 38 383
+TEL;TYPE=HOME,VOICE:+49 7327 272 727
+TEL;TYPE=HOME,FAX:+49 40 812 387 21
+ITEM6.TEL;TYPE=VOICE:+49 8373 6262
+ITEM6.X-ABLABEL:_$!<Other>!$_
+ITEM7.TEL;TYPE=VOICE:+49 7272 72
+ITEM7.X-ABLABEL:_$!<Other>!$_
+TEL;TYPE=ISDN:4234234235
+TEL;TYPE=ISDN:98732947234
+TEL;TYPE=X-EVOLUTION-RADIO:+49 9872 349 832
+TEL;TYPE=X-EVOLUTION-RADIO:+49 9872 394 872 34
+TEL;TYPE=X-EVOLUTION-TELEX:+49 38 288 228 82
+TEL;TYPE=X-EVOLUTION-TELEX:+49 7722 88 28 282
+TEL;TYPE=MAIN:+49 6237 623 723 84 76
+TEL;TYPE=MAIN:+49 9324 32 479 234234
+TEL;=-EVOLUTION-CALLBACK:+49 8383 73 723
+TEL;TYPE=MODEM:+49 8383 73 723
+TEL;=-EVOLUTION-TTYTDD:+49 7373 73
+TEL;=-EVOLUTION-TTYTDD:+49 8378 33
+ADR;TYPE=WORK;CHARSET=utf-8:
+ ;Uni Harburg\, -;Innstraße 71;Hamburg-Harburg;Hamburg;21373;Deutschland
+ 
+ADR;TYPE=HOME;CHARSET=utf-8:;;Weisestraße 13\\r;Irgendwo;;33443
+ADR;TYPE=X-OTHER:;;Nirgendwo
+ORG:Uni Harburg\;\;\;033
+X-ROOM;TYPE=WORK:033
+LABEL;TYPE=WORK:1. Stock\, links
+LABEL;TYPE=WORK:oder rechts
+X-BUSINESS-CATEGORY:IT
+X-BUSINESS-CATEGORY:Development
+CALURI:http://davical.hadi-schmist.home/hadi
+FBURL:http://davical.hadi-schmist.home/freebusy
+CAPURI:http://davical.hadi-schmist.home/cap
+CALADRURI:http://davical.hadi-schmist.home/access
+X-DESCRIPTION:Beschreibung
+X-DESCRIPTION;CHARSET=utf-8:außerdem
+CATEGORIES:uni
+REV:20090124T123353Z
+END:VCARD
+<
            caluri: >http://davical.hadi-schmist.home/hadi<
          dav_name: >/user1/addressbook/hans_dieter.vcf<
             fburl: >http://davical.hadi-schmist.home/freebusy<
@@ -25,7 +143,7 @@ Content-Type: text/plain; charset="utf-8"
           country: >NULL<
          locality: >Irgendwo<
          postcode: >33443<
-         property: >ADR;TYPE=HOME;CHARSET=utf-8:;;Weisestraße 13\r;Irgendwo;;33443<
+         property: >ADR;TYPE=HOME;CHARSET=utf-8:;;Weisestraße 13\\r;Irgendwo;;33443<
            region: ><
    street_address: >Weisestraße 13\r<
              type: >HOME<
@@ -51,6 +169,15 @@ Content-Type: text/plain; charset="utf-8"
    street_address: >Nirgendwo<
              type: >X-OTHER<
           unit_no: ><
+
+              tel: >+49 8383 73 723<
+             type: >voice<
+
+              tel: >+49 7373 73<
+             type: >voice<
+
+              tel: >+49 8378 33<
+             type: >voice<
 
               tel: >+49 8292 38 383<
              type: >CAR,VOICE<
@@ -105,15 +232,6 @@ Content-Type: text/plain; charset="utf-8"
 
               tel: >+49 7722 88 28 282<
              type: >X-EVOLUTION-TELEX<
-
-              tel: >+49 8383 73 723<
-             type: >voice<
-
-              tel: >+49 7373 73<
-             type: >voice<
-
-              tel: >+49 8378 33<
-             type: >voice<
 
             email: >hadi@telekom-d.de<
              type: >INTERNET<

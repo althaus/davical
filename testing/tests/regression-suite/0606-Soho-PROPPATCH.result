@@ -1,8 +1,8 @@
 HTTP/1.1 207 Multi-Status
 Date: Dow, 01 Jan 2000 00:00:00 GMT
+Content-Location: /caldav.php/user1/SOHO%20collection/
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, bind, addressbook, calendar-auto-schedule, calendar-proxy
-Content-Location: /caldav.php/user1/SOHO%20collection/
 Content-Length: 424
 Content-Type: text/xml; charset="utf-8"
 

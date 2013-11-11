@@ -1,4 +1,6 @@
 <?php
+// +100 ini_set('display_errors', 'On');
+// +100 error_reporting(E_ALL);
 require_once('./always.php');
 require_once('classEditor.php');
 require_once('classBrowser.php');

@@ -2,8 +2,8 @@ HTTP/1.1 200 OK
 Date: Dow, 01 Jan 2000 00:00:00 GMT
 DAV: 1, 2, 3, access-control, calendar-access, calendar-schedule
 DAV: extended-mkcol, bind, addressbook, calendar-auto-schedule, calendar-proxy
-Etag: "c3658901fd4689d4a1e1d6f08601ef4f"
-Content-Length: 1099
+Etag: "fdcc61a1e0d76b177ad81cf7c8bdacaf"
+Content-Length: 1106
 Content-Type: text/calendar; charset="utf-8"
 
 BEGIN:VCALENDAR
@@ -19,7 +19,7 @@ DTEND;TZID=/softwarestudio.org/Olson_20011030_5/Pacific/Auckland:
  20061101T110000
 SUMMARY:A Meeting
 X-EVOLUTION-CALDAV-HREF:http:
- //user1@mycaldav/caldav.php/user1/home/20061101T073004Z.ics
+ //user1@regression.host/caldav.php/user1/home/20061101T073004Z.ics
 BEGIN:VALARM
 X-EVOLUTION-ALARM-UID:20061101T073000Z-10480-1000-1-5@ubu
 ACTION:DISPLAY

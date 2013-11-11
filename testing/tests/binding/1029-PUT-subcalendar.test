@@ -1,6 +1,5 @@
 #
-# Attempt to put an event into a bound location, where
-# the binding does confer write privileges
+# Attempt to put an event into a calendar within a collection in their normal home
 #
 TYPE=PUT
 URL=http://regression.host/caldav.php/user4/base/calendar/anothergoodleopard.ics
@@ -8,6 +7,11 @@ URL=http://regression.host/caldav.php/user4/base/calendar/anothergoodleopard.ics
 HEADER=Content-Type: text/calendar; charset=utf-8
 AUTH=user4:user4
 HEAD
+
+DOSQL
+DELETE FROM caldav_data WHERE caldav_data.caldav_data LIKE '%UID:70399cd7-50a4-4be4-a665-af593e19a7fd%';
+ENDDOSQL
+
 
 BEGINDATA
 BEGIN:VCALENDAR
@@ -47,4 +51,9 @@ SELECT caldav_data.dav_name, caldav_data.dav_etag, dtstart, summary
   WHERE caldav_data.dav_name ~ '/user4/base/calendar/'
 ENDQUERY
 
-
+QUERY
+SELECT dav_name, dtstamp, created
+  FROM calendar_item
+ WHERE uid = '70399cd7-50a4-4be4-a665-af593e19a7fd'
+ ORDER BY dav_id
+ENDQUERY

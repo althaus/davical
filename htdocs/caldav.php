@@ -57,7 +57,6 @@ if ( !isset($c->raw_post) ) $c->raw_post = file_get_contents( 'php://input');
 if ( (isset($c->dbg['ALL']) && $c->dbg['ALL']) || (isset($c->dbg['request']) && $c->dbg['request']) )
   logRequestHeaders();
 
-
 require_once('HTTPAuthSession.php');
 $session = new HTTPAuthSession();
 
@@ -81,10 +80,12 @@ function send_dav_header() {
     header( 'DAV: '.trim($v, ', '), false);
   }
 }
-send_dav_header();  // Avoid polluting global namespace
 
 require_once('CalDAVRequest.php');
 $request = new CalDAVRequest();
+
+//if ( $request->method == 'OPTIONS' || $c->always_send_dav_header )
+    send_dav_header();  // Avoid polluting global namespace
 
 $allowed = implode( ', ', array_keys($request->supported_methods) );
 // header( 'Allow: '.$allowed);
@@ -114,6 +115,7 @@ switch ( $request->method ) {
       include('caldav-POST.php');
       break;
     }
+        // fall through if POST add member
   case 'PUT':
     switch( $request->content_type ) {
       case 'text/calendar':
