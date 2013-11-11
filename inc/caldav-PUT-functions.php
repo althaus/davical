@@ -27,7 +27,7 @@ $bad_events = null;
 /**
 * A regex which will match most reasonable timezones acceptable to PostgreSQL.
 */
-$tz_regex = ':^(Africa|America|Antarctica|Arctic|Asia|Atlantic|Australia|Brazil|Canada|Chile|Etc|Europe|Indian|Mexico|Mideast|Pacific|US)/[a-z_]+$:i';
+$GLOBALS['tz_regex'] = ':^(Africa|America|Antarctica|Arctic|Asia|Atlantic|Australia|Brazil|Canada|Chile|Etc|Europe|Indian|Mexico|Mideast|Pacific|US)/[a-z_]+$:i';
 
 /**
 * This function launches an error
