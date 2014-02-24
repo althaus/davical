@@ -116,7 +116,7 @@ function component_to_xml( $properties, $item ) {
       break;
   }
   if ( $type == 'calendar' ) {
-    if ( isset($properties['calendar-data']) || isset($properties['displayname']) ) {
+    if ( isset($properties['urn:ietf:params:xml:ns:caldav:calendar-data']) || isset($properties['DAV::displayname']) ) {
       if ( !$request->AllowedTo('all') && $session->user_no != $item->user_no ) {
         // the user is not admin / owner of this calendar looking at his calendar and can not admin the other cal
         if ( $item->class == 'CONFIDENTIAL' || !$request->AllowedTo('read') ) {
@@ -130,7 +130,7 @@ function component_to_xml( $properties, $item ) {
 
     if ( isset($c->hide_alarm) && $c->hide_alarm ) {
       $dav_resource = new DAVResource($item->dav_name);
-      if ( isset($properties['calendar-data']) && !$dav_resource->HavePrivilegeTo('write') ) {
+      if ( isset($properties['urn:ietf:params:xml:ns:caldav:calendar-data']) && !$dav_resource->HavePrivilegeTo('write') ) {
         dbg_error_log("REPORT","Stripping event alarms for: %s", $item->dav_name );
         $vcal = new vCalendar($caldav_data);
         $vcal->ClearComponents('VALARM');
